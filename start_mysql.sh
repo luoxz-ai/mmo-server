@@ -1,0 +1,1 @@
+sudo docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=3Killyou -v e:\mmo-server\data\mysql:/var/lib/mysql --name mysql mysql:5.7

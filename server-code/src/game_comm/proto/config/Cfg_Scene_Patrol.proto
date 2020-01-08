@@ -1,0 +1,26 @@
+syntax="proto3";
+option optimize_for = CODE_SIZE;
+
+message Cfg_Scene_Patrol
+{
+	
+	
+	message Row
+	{
+		
+		uint32 idmap = 1;
+		uint32 patrol_idx = 2;
+		uint32 patrol_type = 4;   //0=单次 1=环形 2=往返
+		message patrol_data
+		{
+			float x = 1;
+			float y = 2;
+			uint32 wait_ms_min=3;
+			uint32 wait_ms_max=4;
+		}
+		repeated patrol_data data=5;
+	}
+	
+	repeated Row rows=1;
+  
+}

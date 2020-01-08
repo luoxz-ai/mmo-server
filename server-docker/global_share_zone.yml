@@ -1,0 +1,20 @@
+share-zone1:
+  restart: always
+  ports:
+    - '17016:17016/tcp'
+  environment:
+    - LC_CTYPE=zh_CN.UTF-8
+    - GlobalMYSQL_HOST=192.168.1.166
+    - GlobalMYSQL_USER=root
+    - GlobalMYSQL_PASSWD=123456
+    - GlobalMYSQL_PORT=3306
+    - GlobalMYSQL_DBNAME=global
+  command:
+    - ./service_loader
+    - '--worldid=0'
+    - '--start=16,26'
+    - '--config'
+    - '--logpath=shared_zone_1'
+  image: 'registry.cn-hangzhou.aliyuncs.com/yanwei1983/mmo-server:0.1'
+  volumes:
+    - '/log/mmo-server/shared_zone_1:/data/mmorpg/server/log:rw'

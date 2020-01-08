@@ -1,0 +1,18 @@
+syntax="proto3";
+option optimize_for = CODE_SIZE;
+
+message Cfg_TargetFAM
+{
+    message Row 
+	{
+        uint32 idmonster = 1;
+        uint32 dis = 2;				//0=near 1=mid 2=far
+		uint32 hp = 3;				//0=low 1=ok 2=lots
+        uint32 target_hp = 4;		//0=low 1=ok 2=lots
+		uint32 oper_type = 5;		//0=AND 1=OR
+		uint32 like = 6;			//0=unlike 1=like 2=verylike
+		
+    }
+
+    repeated Row rows = 1;
+}

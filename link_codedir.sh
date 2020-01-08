@@ -1,0 +1,1 @@
+sudo docker run -v e:\mmo-server\server-code:/data/mmorpg/server-code --name mmo-server-code mmo-server-depends

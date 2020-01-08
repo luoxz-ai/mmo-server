@@ -1,0 +1,11 @@
+mysql-global:
+  restart: always
+  ports:
+    - '3306:3306/tcp'
+  environment:
+    - MYSQL_MAJOR=5.7
+    - MYSQL_ROOT_PASSWORD=123456
+    - MYSQL_DATABASE=global
+  image: 'mysql:5.7'
+  volumes:
+    - '/var/lib/mysql/global:/var/lib/mysql:rw'

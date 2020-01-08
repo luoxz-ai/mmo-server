@@ -1,0 +1,40 @@
+server-ctrl:
+  restart: always
+  ports:
+    - '17060:17060/tcp'
+  environment:
+    - LC_CTYPE=zh_CN.UTF-8
+    - GlobalMYSQL_HOST=192.168.1.166
+    - GlobalMYSQL_USER=root
+    - GlobalMYSQL_PASSWD=123456
+    - GlobalMYSQL_PORT=3306
+    - GlobalMYSQL_DBNAME=global
+  command:
+    - ./service_loader
+    - '--worldid=0'
+    - '--start=60'
+    - '--config'
+    - '--logpath=server_ctrl'
+  image: 'registry.cn-hangzhou.aliyuncs.com/yanwei1983/mmo-server:0.1'
+  volumes:
+    - '/log/mmo-server/global/server_ctrl:/data/mmorpg/server/log/server_ctrl:rw'
+global-route1:
+  restart: always
+  ports:
+    - '17041:17041/tcp'
+  environment:
+    - LC_CTYPE=zh_CN.UTF-8
+    - GlobalMYSQL_HOST=192.168.1.166
+    - GlobalMYSQL_USER=root
+    - GlobalMYSQL_PASSWD=123456
+    - GlobalMYSQL_PORT=3306
+    - GlobalMYSQL_DBNAME=global
+  command:
+    - ./service_loader
+    - '--worldid=0'
+    - '--start=41'
+    - '--config'
+    - '--logpath=global_route1'
+  image: 'registry.cn-hangzhou.aliyuncs.com/yanwei1983/mmo-server:0.1'
+  volumes:
+    - '/log/mmo-server/global/global_route1:/data/mmorpg/server/log/global_route1:rw'

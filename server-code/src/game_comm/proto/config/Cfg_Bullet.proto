@@ -1,0 +1,24 @@
+syntax="proto3";
+option optimize_for = CODE_SIZE;
+
+message Cfg_Bullet
+{
+    message Row 
+	{
+        uint32 id = 1;
+		uint32 num =2;			//数量
+		uint32 emit_type=3;		//发射类型 0=数量个 1=每个目标1个 2=每个目标数量个
+		uint32 target_type=4;	//追击类型 0=target 1=pos
+		uint32 move_type=5;		//移动类型 0=直线 1=sin
+		uint32 move_param=6;	//移动参数
+		uint32 move_spd=7;		//移动速度万分比
+		uint32 apply_times=9;	//作用次数
+		uint32 apply_ms=10;		//单次作用间隔时间=apply_ms + apply_adj_ms*times
+		uint32 apply_adj_ms=11;	//每次作用后对单次作用间隔时间的修改, 
+		uint32 expire_type=12;	//消失类型 0=抵达 1=作用1次 2=到达时间
+		uint32 expire_ms=13;	//消失时间
+		uint32 skill_id=14;		//作用的技能id
+    }
+
+    repeated Row rows = 1;
+}

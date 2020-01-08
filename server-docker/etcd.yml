@@ -1,0 +1,14 @@
+etcd:
+  restart: always
+  ports:
+    - '4001:4001/tcp'
+    - '2379:2379/tcp'
+    - '2380:2380/tcp'
+  environment:
+    - NAME=etcd0
+    - HostIP=192.168.141.195
+    - 'ETCD_INITIAL_CLUSTER=etcd0=http://192.168.141.195:2380'
+  image: 'registry.cn-hangzhou.aliyuncs.com/yanwei1983/etcd:v3.2.18'
+  volumes:
+    - '/data:/data:rw'
+  net: host

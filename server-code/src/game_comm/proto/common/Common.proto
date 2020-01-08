@@ -1,0 +1,78 @@
+syntax="proto3";
+option optimize_for = CODE_SIZE;
+
+//玩家的各种属性, 计算完就不会变的
+enum ACTOR_ATTRIB
+{
+	ATTRIB_NONE = 0;
+	ATTRIB_HP_MAX = 1;				//血量上限
+	ATTRIB_MP_MAX = 2;
+	ATTRIB_FP_MAX = 3;
+	ATTRIB_NP_MAX = 4;
+
+	ATTRIB_MOVESPD = 5;				//移动速度修正率
+
+	ATTRIB_MIN_ATK = 6;				//最小物理攻击
+	ATTRIB_MAX_ATK = 7;				//最大物理攻击
+	ATTRIB_MIN_DEF = 8;				//最小物理防御
+	ATTRIB_MAX_DEF = 9;				//最大物理防御
+	ATTRIB_MIN_MATK = 10;
+	ATTRIB_MAX_MATK = 11;
+	ATTRIB_MIN_MDEF = 12;
+	ATTRIB_MAX_MDEF = 13;
+
+	ATTRIB_HIT = 14;				//命中
+	ATTRIB_DODGE = 15;				//闪避
+	ATTRIB_DAMAGE_ADJ =16;			//伤害调整万分比
+	ATTRIB_DAMAGE_REFLECT_RATE=17;	//伤害反弹几率万分比
+	ATTRIB_DAMAGE_REFLECT_ADJ=18;   //伤害反弹万分比
+
+	ATTRIB_EXP_ADJ=19;				//经验加成万分比
+	ATTRIB_MAX=20;
+};
+
+//玩家的数值, 一直都在变的, 数值存储在uin32_t中, 有些是不存储但是要通知周围的玩家的
+enum ACTOR_PROPERTY
+{
+	PROP_NONE	= 0;
+	PROP_EXP	= 1;
+	PROP_LEVEL	= 2;
+	PROP_HP		= 3;
+	PROP_MP		= 4;
+	PROP_FP		= 5;
+	PROP_NP		= 6;
+	PROP_MONEY		= 10;
+	PROP_MONEYBIND	= 11;
+	PROP_GOLD		= 12;
+	PROP_GOLDBIND	= 13;
+	PROP_PKVAL		= 14;	
+	PROP_HONOR		= 15;
+
+	PROP_CAMP		= 16;
+	PROP_ACHIPOINT	= 17;
+	PROP_VIPLEV		= 18;
+	
+	PROP_HP_MAX			= 50;	//通知周围的玩家，血量上限变化了
+	PROP_WEAPON_CHANGE  = 51;
+	PROP_ARMOR_CHANGE   = 52;
+	PROP_MOUNT_CHANGE   = 53;
+};
+
+enum MONEY_TYPE
+{
+	MT_NONE = 0;
+	MT_MONEY = 1;
+	MT_MONEYBIND=2;
+	MT_GOLD=3;
+	MT_GOLDBIND=4;
+};
+
+enum PK_MODE
+{
+	PKMODE_PEACE = 0;
+	PKMODE_REDNAME = 1;
+	PKMODE_TEAM = 2;
+	PKMODE_GUILD =3;
+	PKMODE_CAMP=4;
+	PKMODE_ALL=5;
+};

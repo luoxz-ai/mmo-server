@@ -1,0 +1,316 @@
+syntax = "proto3";
+package ServerMSG;
+
+
+enum OMsgID
+{
+	OMSGID_NONE=0;
+
+	//内部消息id
+	MsgID_ServiceCmd=20000;
+	MsgID_ServiceHttpRequest=20001;
+	MsgID_ServiceHttpResponse=20002;
+	MsgID_ServiceReady=20010;
+	
+	MsgID_PlayerEnterZone=20021;
+	MsgID_PlayerChangeZone=20022;
+	MsgID_PlayerChangeZone_Data=20023;
+	MsgID_PlayerLogout=20024;
+	
+	MsgID_SystemVarChange=20030;
+	MsgID_SceneCreate=20031;
+	MsgID_SceneDestory=20032;
+	MsgID_MonsterGen=20033;
+	MsgID_MonsterDestory=20034;
+	MsgID_ActiveGen=20035;
+	MsgID_KillGen=20036;
+	
+	
+	MsgID_ActorCreate=20100;
+	MsgID_ActorDestory=20101;
+	MsgID_ActorMove=20102;
+	MsgID_ActorCastSkill=20103;
+	MsgID_ActorCastSkill_Fail=20104;
+	MsgID_ActorSetHide=20105;
+
+	MsgID_TeamCreate=20110;
+	MsgID_TeamDestory=20111;
+	MsgID_TeamQuit=20112;
+	MsgID_TeamKickMember=20113;
+	MsgID_TeamInviteMember=20114;
+	MsgID_TeamAcceptInvite=20115;
+	MsgID_TeamApplyMember=20116;
+	MsgID_TeamAcceptApply=20117;
+	MsgID_TeamNewLeader=20118;
+	MsgID_TeamMemberInfo=20119;
+	MsgID_TeamAddMember=20120;
+	MsgID_TeamDelMember=20121;
+	
+};
+
+
+message ServiceCmd
+{
+	repeated string cmds=1;
+};
+
+message ServiceHttpRequest
+{
+	uint64 uid=1;
+	map<string, string> kvmap= 2;
+};
+
+message ServiceHttpResponse
+{
+	uint64 uid=1;
+	int32 response_code=2;
+	string response_reason=3;
+	bytes response_txt=4;
+};
+
+message ServiceReady
+{
+	uint32 serverport=1;
+};
+
+
+message PlayerEnterZone
+{
+	uint64 idplayer=1;
+	uint64 socket=2;
+	uint64 idscene=3;
+	float posx=4;
+	float posy=5;
+    float face=6;
+
+}
+
+message PlayerChangeZone
+{
+	uint64 idplayer=1;
+	uint64 socket=2;
+	uint32 idzone=3;
+	uint64 idscene=4;
+	float posx=5;
+	float posy=6;
+	float range=7;
+	float face=8;
+
+}
+
+message PlayerChangeZone_Data
+{
+	uint64 idplayer=1;
+	uint64 socket=2;
+	//其他的内存数据
+}
+
+message PlayerLogout
+{
+	uint64 idplayer=1; 
+	uint64 socket=2;	
+}
+
+
+message SystemVarChange
+{
+	uint32 keyidx=1; 
+	uint32 idx=2;	
+	uint32 val=3;
+	string str=4;
+	enum SystemVarChangeType
+	{
+	   SVCT_CREATE=0;
+	   SVCT_SET_DATA=1;
+	   SVCT_ADD_DATA=2;
+	   SVCT_SET_STR=3;
+	};
+	SystemVarChangeType type=5;
+	
+}
+
+message SceneCreate
+{
+	uint64 scene_id=1;
+};
+
+
+message SceneDestory
+{
+	uint64 scene_id=1;
+};
+
+
+
+message MonsterGen
+{
+	uint64 scene_id=1;
+	uint32 gen_id=2;
+	uint32 monster_type=3;
+	float posx=4;
+	float posy=5;
+	uint32 camp_id=6;
+	uint32 monster_id=7;
+};
+
+message MonsterDestory
+{
+	repeated uint64 monster_id =1;
+};
+
+message ActiveGen
+{
+	uint64 scene_id=1;
+	uint32 gen_id=2;
+	bool active=3;
+};
+
+message KillGen
+{
+	uint64 scene_id=1;
+	uint32 gen_id=2;
+};
+
+
+message ActorCreate
+{
+	uint64 actor_id=1;
+	uint64 scene_id=2;
+	string name =4;
+	uint32 actortype = 5;		//1=怪,2=npc,3=pet,4=player
+	uint32 baselook=6;			//基本外观数据
+	uint32 prof = 7;			//玩家代表职业, 怪物/宠物/NPC代表类型ID
+	uint32 lev = 8;
+	uint32 campid = 9;
+	uint32 hp = 10;
+	uint32 hpmax = 11;
+	uint32 mp = 12;
+	uint32 mpmax = 13;
+	uint32 movespd = 14;
+	uint64 ownerid=15;
+	
+	float  posx=16;
+	float  posy=17;	
+	float  face=18;	
+	
+	
+	uint32 monster_gen_id=20;
+	
+
+};
+
+message ActorDestory
+{
+	uint64 actor_id=1;
+};
+
+message ActorMove
+{
+	uint64 actor_id = 1;
+	float x = 2;
+	float y = 3;
+};
+
+
+message ActorCastSkill
+{
+	uint64 actor_id = 1;
+	uint64 target_id = 2;
+	uint32 skill_id = 3;
+	
+};
+
+message ActorCastSkill_Fail
+{
+	uint64 actor_id = 1;	
+};
+
+message ActorSetHide
+{
+	uint64 actor_id = 1;
+	int32 hide_count=2;
+};
+
+
+message TeamCreate
+{
+	uint64 team_id = 1;	
+	uint64 leader_id=2;
+};
+
+message TeamDestory
+{
+	uint64 team_id = 1;	
+};
+
+message TeamQuit
+{
+	uint64 team_id = 1;	
+	uint64 operator_id=2;
+};
+message TeamKickMember
+{
+	uint64 team_id = 1;	
+	uint64 operator_id=2;
+	uint64 kick_id=3;
+};
+
+message TeamInviteMember
+{
+	uint64 team_id = 1;	
+	uint64 operator_id=2;
+	uint64 invitee_id=3;
+
+};
+message TeamAcceptInvite
+{
+	uint64 team_id = 1;	
+	uint64 inviter_id=2;
+	uint64 invitee_id=3;
+	bool   result=4;
+};
+
+message TeamApplyMember
+{
+	uint64 applicant_id = 1;	
+	uint64 respondent_id=2;
+};
+message TeamAcceptApply
+{
+	uint64 applicant_id=1;
+	uint64 respondent_id=2;
+	bool   result=3;
+};
+
+message TeamNewLeader
+{
+	uint64 team_id = 1;	
+	uint64 operator_id=2;
+	uint64 new_leader_id=3;
+};
+
+message TeamAddMember
+{
+	uint64 team_id = 1;	
+	uint64 member_id=2;
+};
+
+message TeamDelMember
+{
+	uint64 team_id = 1;	
+	uint64 member_id=2;
+};
+
+message TeamMemberInfo
+{
+	message Info
+	{
+		uint64 member_id=1;
+		uint32 member_lev=2;
+		bool member_online=3;
+		string member_name=4; 
+		
+	}
+	repeated Info member_list=1;
+}
+

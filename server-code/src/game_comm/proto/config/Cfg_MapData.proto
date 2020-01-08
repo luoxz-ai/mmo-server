@@ -1,0 +1,45 @@
+syntax="proto3";
+option optimize_for = CODE_SIZE;
+
+
+//struct MapGridData
+//{
+//	union
+//	{
+//		struct 
+//		{
+//			uint32_t bPassDisable:1;	//是否可行走
+//			uint32_t bPvPDisable:1;		//是否允许PK
+//			uint32_t bStallDisable:1;	//是否允许摆摊
+//			uint32_t bPlaceDisable:1;	//是否允许放置地面物品
+
+//			uint32_t bRecordDisbale:1;	//是否禁止记录下线点
+//			uint32_t bDropDisable:1;	//不允许丢弃物品到地面
+//			uint32_t bPvPFree:1;		//是否pk不增加PK值
+//			uint32_t bDeadNoDrop:1;		//死亡是否无掉落
+
+//			uint32_t reserver0:1;
+//			uint32_t reserver1:1;
+//			uint32_t reserver2:1;
+//			uint32_t reserver3:1;
+
+//			uint32_t nSPRegionIdx:4;//0~16  特殊区域编号
+//			uint32_t nHigh:8;		//0~255 地面高度
+
+//		};
+//		uint32_t data;
+//	};
+//};
+
+
+
+message Cfg_MapData
+{
+	uint32 idmaptemplate = 1;		// 地图数据ID
+	uint32 width=2;					// 地图宽格子数
+	uint32 height=3;				// 地图高格子数
+	repeated uint32 griddata=6;		// 地图掩码信息   (包括阻挡,区域等)
+	float grid_high_factor=7;		// 地形高度缩放系数， 实际高度=地形高度值/255*地形高度缩放系数
+	repeated uint32 collision=8;	// uint32_t collision[actor_type]; 每个值都代表该种类型的物体与其他物体间的碰撞关系
+}
+

@@ -1,0 +1,30 @@
+syntax="proto3";
+option optimize_for = CODE_SIZE;
+
+import "common/Common.proto";
+
+message AttribDataProto
+{
+		int32 hp_max = 6;
+		int32 mp_max = 7;
+		int32 movespd = 8;
+		int32 min_atk = 9;
+		int32 max_atk = 10;
+		int32 min_def = 11;
+		int32 max_def = 12;
+		int32 min_matk = 13;
+		int32 max_matk = 14;
+		int32 min_mdef = 15;
+		int32 max_mdef = 16;
+		int32 hit = 17;
+		int32 dodge = 18;
+};
+
+
+message AttribChangeDataProto
+{
+	ACTOR_ATTRIB attrib = 1;
+	uint32 oplev=2;
+	int32 val=3;
+	int32 factor=4;
+};

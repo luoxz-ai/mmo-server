@@ -1,0 +1,58 @@
+syntax="proto2";
+package Game;
+
+option cc_generic_services = true;
+
+
+
+service GM_Service {
+  rpc SetGM(SetGMRequest) returns (SetGMResponse);
+  rpc BlockLogin(BlockLoginRequest) returns (BlockLoginResponse);
+  rpc MuteChat(MuteChatRequest) returns (MuteChatResponse);
+  
+};
+
+message EmptyRequest 
+{};
+message EmptyResponse
+{};
+
+message SetGMRequest 
+{
+	required string open_id = 1;
+	optional uint32 gm_level = 2;
+	required string sign = 3;
+};
+message SetGMResponse 
+{
+	required uint32 result = 1;
+	optional string detail = 2;
+};
+
+message BlockLoginRequest 
+{
+	required uint32 server_id=1;
+	optional string open_id=2;
+	optional uint32 actor_id=3;
+	optional uint32 block_timestamp=4;
+	required string sign = 5;
+};
+message BlockLoginResponse 
+{
+	required uint32 result = 1;
+	optional string detail = 2;
+};
+
+message MuteChatRequest 
+{
+	required uint32 server_id=1;
+	optional string open_id=2;
+	optional uint32 actor_id=3;
+	optional uint32 mute_timestamp=4;
+	required string sign = 5;
+};
+message MuteChatResponse 
+{
+	required uint32 result = 1;
+	optional string detail = 2;
+};

@@ -1,0 +1,22 @@
+#!/bin/bash
+cd `dirname $0`
+DIR_file=`pwd`
+
+
+
+serverid=$1
+if [ ! -n "$1" ] ;then  
+    serverid=1001
+fi 
+
+${DIR_file}/z${serverid}_world --worldid=${serverid} --stop=1,3,4 --logpath=zone_${serverid}/world
+${DIR_file}/z${serverid}_zone1 --worldid=${serverid} --stop=11,21 --logpath=zone_${serverid}/zone1
+${DIR_file}/z${serverid}_zone2 --worldid=${serverid} --stop=12,22 --logpath=zone_${serverid}/zone2
+${DIR_file}/z${serverid}_zone3 --worldid=${serverid} --stop=13,23 --logpath=zone_${serverid}/zone3
+${DIR_file}/z${serverid}_zone4 --worldid=${serverid} --stop=14,24 --logpath=zone_${serverid}/zone4
+${DIR_file}/z${serverid}_zone5 --worldid=${serverid} --stop=15,25 --logpath=zone_${serverid}/zone5
+${DIR_file}/z${serverid}_socket1 --worldid=${serverid} --stop=31 --logpath=zone_${serverid}/socket1
+${DIR_file}/z${serverid}_socket2 --worldid=${serverid} --stop=32 --logpath=zone_${serverid}/socket2
+${DIR_file}/z${serverid}_socket3 --worldid=${serverid} --stop=33 --logpath=zone_${serverid}/socket3
+${DIR_file}/z${serverid}_socket4 --worldid=${serverid} --stop=34 --logpath=zone_${serverid}/socket4
+${DIR_file}/z${serverid}_socket5 --worldid=${serverid} --stop=35 --logpath=zone_${serverid}/socket5

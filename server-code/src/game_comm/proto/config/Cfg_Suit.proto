@@ -1,0 +1,16 @@
+syntax="proto3";
+option optimize_for = CODE_SIZE;
+import "common/AttribChangeDataProto.proto";
+
+message Cfg_Suit
+{
+    message Row 
+	{
+        uint32 id = 1;			//套装类型id								
+		uint32 num=2;			//套装数量
+			
+		repeated AttribChangeDataProto attrib_change_list=12;
+    }
+
+    repeated Row rows = 1;
+}

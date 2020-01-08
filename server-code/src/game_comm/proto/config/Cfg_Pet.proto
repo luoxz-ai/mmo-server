@@ -1,0 +1,25 @@
+syntax="proto3";
+option optimize_for = CODE_SIZE;
+
+import "common/AttribChangeDataProto.proto";
+
+message Cfg_Pet
+{
+    message Row 
+	{
+        uint32 id = 1;					//宠物类型编号
+        string name = 3;				//名字
+        uint32 pet_type=4;				//类型
+		uint32 pet_flag=5;				//掩码
+		float  high=6;					//高度
+		float  volume=7;				//体积
+		
+		
+		uint64 scriptid=9;				//脚本编号
+		uint32 aitype=10;				//ai编号
+		AttribDataProto attr_data = 11;
+		
+    }
+
+    repeated Row rows = 1;
+}

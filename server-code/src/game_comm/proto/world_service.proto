@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+message SC_KEY
+{
+	uint32 key=1;
+};
+
+//登录消息
+message CS_LOGIN
+{
+	string openid = 1;			//openid
+	string auth = 2;			//sdk发下来的校验串
+	string last_succ_key = 3;	//上一次成功登陆后服务器发下来的校验串(一次登陆成功后,可以凭此串无限次登陆任意服务器)
+	string prog_ver = 4;		//程序版本号
+	
+};
+
+//登录反馈
+message SC_LOGIN
+{
+	enum ErrorCode
+	{
+		EC_SUCC=0;
+		EC_PROG_VER=1;	//程序版本号错误
+		EC_LAST_KEY=2;  //2次校验串错误
+		EC_AUTH=3;		//sdk校验错误
+		EC_WAIT_AUTH=4;	//等待sdk校验
+	};
+	
+	ErrorCode result_code = 1;		//校验结果
+	string detail = 2;			//校验结果细节
+	string last_succ_key = 3;	//校验成功key
+};
+
+//等待列表
+message SC_WAITINFO
+{
+};
+
+//角色列表
+message SC_ACTORINFOLIST
+{
+	message SC_ACTOR_INFO
+	{
+		string name = 1;	//名字
+		uint32 prof = 2;	//职业
+		uint32 baselook = 3;	//显示
+		uint32 lev = 4; //等级
+			//其他细节
+	};
+	repeated SC_ACTOR_INFO list = 1;
+};
+
+//创建角色
+message CS_CREATEACTOR
+{
+	string name = 1;	//名字
+	uint32 prof = 2;	//职业
+	uint32 baselook = 3;	//显示
+					//其他细节
+};
+
+//创建角色反馈
+message SC_CREATEACTOR
+{
+	enum ErrorCode
+	{
+		EC_SUCC=0;
+		EC_SAME_NAME=1;
+		EC_NAME_TOO_LONG=2;
+		EC_NAME_TOO_SHORT=3;
+		EC_NAME_ILLEGAL=4;
+		EC_MAX_ACTOR=5;
+	};
+	ErrorCode result_code = 1;		//创建结果
+};
+
+//选择角色进入游戏
+message CS_SELECTACTOR
+{
+	uint32 actor_idx = 1;		//选择第几个角色从0开始
+};
+
+//进入游戏反馈
+message SC_SELECTACTOR
+{
+	enum ErrorCode
+	{
+		EC_SUCC=0;
+	};
+	ErrorCode result_code = 1;		//进入游戏结果
+};
+
+
+
+
+
+

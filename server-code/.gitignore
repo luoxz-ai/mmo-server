@@ -1,0 +1,56 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+*.Plo
+
+# Precompiled Headers
+*.gch
+*.pch
+config.status
+*.pc
+*.po
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+/obj
+*.suo
+*.tlog
+*.idb
+*.log
+*.user
+*.ipch
+*.opendb
+*.db
+*.iobj
+*.ipdb
+*.pdb
+build
+vs
+.vcproject
+depends/src/libevent/test/
+depends/src/libevent/sample/
+depends/src/libevent/.libs/
+depends/bin/
+depends/lib/
+depends/src/brpc/include/brpc/*.pb.h
+depends/src/brpc/include/brpc/policy/*.pb.h
+depends/src/brpc/src/butil/config.h
+

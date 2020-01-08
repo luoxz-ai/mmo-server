@@ -1,0 +1,18 @@
+syntax="proto3";
+option optimize_for = CODE_SIZE;
+
+message Cfg_Scene_LeavePoint 
+{
+	message Row
+	{
+		uint32 idmap = 1;
+		uint32 idx = 2;
+		float x = 3;
+		float y = 4;
+		float range = 5;
+		uint32 dest_map_id = 6;				//目标地图
+		uint32 dest_enter_point_idx = 7;	//目标地图入口编号
+	};
+	repeated Row rows=1;
+}
+	
