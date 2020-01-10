@@ -30,7 +30,6 @@ config.status
 *.exe
 *.out
 *.app
-/obj
 *.suo
 *.tlog
 *.idb
@@ -42,9 +41,15 @@ config.status
 *.iobj
 *.ipdb
 *.pdb
+
+
+obj
 build
+bin/libs
+bin/depends
 vs
 .vcproject
+.vscode
 depends/src/libevent/test/
 depends/src/libevent/sample/
 depends/src/libevent/.libs/

@@ -1,0 +1,8 @@
+depends/src/libevent/test/
+depends/src/libevent/sample/
+depends/src/libevent/.libs/
+depends/bin/
+depends/lib/
+depends/src/brpc/include/brpc/*.pb.h
+depends/src/brpc/include/brpc/policy/*.pb.h
+depends/src/brpc/src/butil/config.h
