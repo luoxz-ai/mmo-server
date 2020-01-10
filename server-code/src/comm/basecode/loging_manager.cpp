@@ -59,7 +59,7 @@ void BaseCode::MyLogMsgX(const char* pszName, const char* pszBuffer)
 		return;
 
 	std::strftime(mbstr, sizeof(mbstr), "%H:%M:%S", localtime_c);
-	fmt::fprintf(fp, "{} [{}] {}\n", mbstr, getpid(), pszBuffer);
+	fmt::fprintf(fp, "%s [%d] %s\n", mbstr, getpid(), pszBuffer);
 
 
 	fclose(fp);

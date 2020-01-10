@@ -7,7 +7,10 @@ if [ ! -n "$1" ] ;then
     serverid=1001
 fi 
 
+mkdir -p binary
+mkdir -p /data/log
+cd binary
+ln -sf ../service_loader zone_${serverid}
+cd -
 
-ln -sf service_loader zone_${serverid}
-
-${DIR_file}/zone_${serverid} --worldid=$serverid --start -d --logpath=zone_$serverid
+${DIR_file}/binary/zone_${serverid} --worldid=$serverid --start -d --logpath=/data/log/zone_$serverid

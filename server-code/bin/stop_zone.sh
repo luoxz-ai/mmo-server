@@ -10,6 +10,6 @@ if [ ! -n "$1" ] ;then
 fi 
 
 
-ln -sf service_loader zone_${serverid}
+ln -sf service_loader binary/zone_${serverid}
 
-${DIR_file}/zone_${serverid} --worldid=$serverid --stop --logpath=zone_$serverid
+${DIR_file}/binary/zone_${serverid} --worldid=$serverid --stop --logpath=/data/log/zone_$serverid

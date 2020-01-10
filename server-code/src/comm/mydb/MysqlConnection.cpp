@@ -27,12 +27,17 @@ CMysqlConnection::~CMysqlConnection()
 
 	if(m_pAsyncHandle.get())
 	{
-		LOGDBDEBUG("MysqlClose:{}", mysql_get_host_info(m_pAsyncHandle.get()));
+		auto host_info = mysql_get_host_info(m_pAsyncHandle.get());
+		if(host_info)
+			LOGDBDEBUG("MysqlClose:{}", host_info );
 		m_pAsyncHandle.reset();
 	}
 	if(m_pHandle.get())
 	{
-		LOGDBDEBUG("MysqlClose:{}", mysql_get_host_info(m_pHandle.get()));
+		auto host_info = mysql_get_host_info(m_pHandle.get());
+		if(host_info)
+			LOGDBDEBUG("MysqlClose:{}", host_info );
+		
 		m_pHandle.reset();
 	}
 

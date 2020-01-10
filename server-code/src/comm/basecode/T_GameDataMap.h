@@ -21,15 +21,27 @@
 namespace details
 {
 	CAT_CLASS_HAS_MEMBER(GetIDFromPBRow);
+	CAT_CLASS_HAS_MEMBER(mergeFrom);
 };
 template <typename T>
-struct has_GetIDFromPBRow
+struct hasFunc_GetIDFromPBRow
 	: bool_type<details::has_GetIDFromPBRow<T>::value>
+{ };
+
+
+template <typename T>
+struct hasFunc_mergeFrom
+	: bool_type<details::has_mergeFrom<T>::value>
 { };
 
 template< class T >
 class CGameDataMap 
 {
+	constexpr std::string_view GET_NAME()
+	{
+		return typeid(T).name();
+	}
+
 	CGameDataMap() {}
 public:	
 	using KEY_T = typename std::result_of< decltype(&T::GetID)(T) >::type;
@@ -78,14 +90,27 @@ public:
 	
 
 	template<class _T, class ManagerT, class PBRow_T>
-	static auto _LoadFromPB(const PBRow_T& row, ManagerT* pThis)->
-		typename std::enable_if<has_GetIDFromPBRow<_T>::value, bool>::type
+	static auto _LoadFromPB(const PBRow_T& row, ManagerT* pThis)
 	{
-		KEY_T key = T::GetIDFromPBRow(row);
-		T* pData = pThis->QueryObj(key);
-		if(pData)
+		if constexpr(hasFunc_GetIDFromPBRow<_T>)
 		{
-			pData->Init(row);
+			KEY_T key = T::GetIDFromPBRow(row);
+			T* pData = pThis->QueryObj(key);
+			if(pData)
+			{
+				pData->Init(row);
+			}
+			else
+			{
+				T* pData = T::CreateNew(row);
+				if (pData == nullptr)
+				{
+					return false;
+				}
+
+				pThis->AddObj(pData);
+			}
+			return true;
 		}
 		else
 		{
@@ -96,22 +121,11 @@ public:
 			}
 
 			pThis->AddObj(pData);
+			return true;
 		}
-		return true;
+		
 	}
-	template<class _T, class ManagerT, class PBRow_T>
-	static auto _LoadFromPB(const PBRow_T& row, ManagerT* pThis)->
-		typename std::enable_if<!has_GetIDFromPBRow<_T>::value, bool>::type
-	{
-		T* pData = T::CreateNew(row);
-		if (pData == nullptr)
-		{
-			return false;
-		}
-
-		pThis->AddObj(pData);
-		return true;
-	}
+	
 
 	auto Init(const char* szFileName)	
 	{
@@ -140,25 +154,25 @@ public:
 
 	void AddObj(T* pData)
 	{
-#ifdef _DEBUG
+
 		auto it_find = m_setData.find(pData->GetID());
 		if (it_find != m_setData.end())
 		{
 			//log error
-#define GET_NAME(T) #T
-			if constexpr(std::is_same<decltype(pData->GetID()), unsigned int>::value)
+			if constexpr(hasFunc_mergeFrom<_T>)
 			{
-				LOGWARNING("AddObj twice {}, id:{}", GET_NAME(T), pData->GetID());
+				it_find->merge(pData);		
+				SAFE_DELETE(pData);
 			}
 			else
 			{
-				LOGWARNING("AddObj twice {}, id:{}", GET_NAME(T), pData->GetID());
+				LOGWARNING("AddObj twice {}, id:{}", GET_NAME(), pData->GetID());	
 			}
-			
-#undef GET_NAME
 		}
-#endif
-		m_setData[pData->GetID()] = pData;
+		else
+		{
+			m_setData[pData->GetID()] = pData;	
+		}		
 	}
 
 	T* QueryObj(KEY_T id)

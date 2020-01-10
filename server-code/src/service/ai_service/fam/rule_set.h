@@ -97,6 +97,11 @@ namespace fuzzy {
             _rules.push_back(std::move(r));
         }
 
+        void merge(RuleSet& rht)
+        {
+            _rules.reserve(_rules.size() + rht._rules.size());
+            _rules.insert(_rules.end(), rht._rules.begin(), rht._rules.end());
+        }
         /**
          Given a collection of inputs, calculate the ruleset's result. This means,
          fire all the rules to calculate each rule's µ ; choosing the highest µ
