@@ -1,0 +1,7 @@
+/.pid
+/binary
+/libs
+/depends
+/tools_bin
+/log
+/service_loader
