@@ -40,7 +40,7 @@ namespace Game
         
 			brpc::Controller* cntl = static_cast<brpc::Controller*>(cntl_base);
 
-			LOGMESSAGE_NOFMT(fmt::format("Received SetGM[log_id={}]: open_id={} gm_level={} sign={}", 
+			LOGMESSAGE_NOFMT(fmt::format(FMT_STRING("Received SetGM[log_id={}]: open_id={} gm_level={} sign={}"), 
 					   cntl->log_id(), 
 					   request->open_id(), 
 					   request->gm_level(), 
@@ -57,7 +57,7 @@ namespace Game
         
 			brpc::Controller* cntl = static_cast<brpc::Controller*>(cntl_base);
 
-			LOGMESSAGE_NOFMT(fmt::format("Received BlockLogin[log_id={}]: server_id={} open_id={} actor_id={} block_timestamp={} sign={}", 
+			LOGMESSAGE_NOFMT(fmt::format(FMT_STRING("Received BlockLogin[log_id={}]: server_id={} open_id={} actor_id={} block_timestamp={} sign={}"), 
 					   cntl->log_id(), 
 					   request->server_id(), 
 					   request->open_id(), 
@@ -82,7 +82,7 @@ namespace Game
         
 			brpc::Controller* cntl = static_cast<brpc::Controller*>(cntl_base);
 
-			LOGMESSAGE_NOFMT(fmt::format("Received MuteChat[log_id={}]: server_id={} open_id={} actor_id={} mute_timestamp={} sign={}", 
+			LOGMESSAGE_NOFMT(fmt::format(FMT_STRING("Received MuteChat[log_id={}]: server_id={} open_id={} actor_id={} mute_timestamp={} sign={}"), 
 					   cntl->log_id(), 
 					   request->server_id(), 
 					   request->open_id(), 

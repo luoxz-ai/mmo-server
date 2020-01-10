@@ -179,7 +179,7 @@ __ENTER_FUNCTION
 
 	auto pDB = ZoneService()->GetGameDB(m_pOwner->GetWorldID());
 	CHECKF(pDB);
-	auto pResult = pDB->Query(TBLD_ITEM::table_name, fmt::format("SELECT * FROM {} WHERE userid={}", TBLD_TASK::table_name, m_pOwner->GetID()));
+	auto pResult = pDB->Query(TBLD_ITEM::table_name, fmt::format(FMT_STRING("SELECT * FROM {} WHERE userid={}"), TBLD_TASK::table_name, m_pOwner->GetID()));
 	if (pResult)
 	{
 		for (size_t i = 0; i < pResult->get_num_row(); i++)

@@ -107,7 +107,7 @@ public:
 			return RVal();
 			
 
-		return lua_tinker::call<RVal>(m_pLua, fmt::format("x{}_{}", idScript, pszFuncName).c_str(), std::forward<Args>(args)...);
+		return lua_tinker::call<RVal>(m_pLua, fmt::format(FMT_STRING("x{}_{}"), idScript, pszFuncName).c_str(), std::forward<Args>(args)...);
 	__LEAVE_FUNCTION
 		return RVal();
 	}

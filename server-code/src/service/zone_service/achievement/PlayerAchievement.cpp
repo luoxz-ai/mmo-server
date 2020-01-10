@@ -20,7 +20,7 @@ __ENTER_FUNCTION
 	m_pOwner = pPlayer;
 	auto pDB = ZoneService()->GetGameDB(m_pOwner->GetWorldID());
 	CHECKF(pDB);
-	auto pResult = pDB->Query(TBLD_ACHIEVEMENT::table_name, fmt::format("SELECT * FROM {} WHERE {}={}", TBLD_ACHIEVEMENT::table_name,
+	auto pResult = pDB->Query(TBLD_ACHIEVEMENT::table_name, fmt::format(FMT_STRING("SELECT * FROM {} WHERE {}={}"), TBLD_ACHIEVEMENT::table_name,
 															TBLD_ACHIEVEMENT::field_name[TBLD_ACHIEVEMENT::USERID], m_pOwner->GetID()));
 	if(pResult)
 	{

@@ -484,9 +484,9 @@ void CSocketService::OnLogicThreadProc()
 	if(m_tLastDisplayTime.ToNextTime())
 	{
 		std::string buf = std::string("\n======================================================================")+
-		fmt::format("\nMessageProcess:{}\tSocketMsg:{}", GetMessageProcess(), m_nSocketMessageProcess)+
-		fmt::format("\nRecvTotal:{}\tRecvAvg:{}", GetNetworkService()->GetRecvBPS().GetTotal(), GetNetworkService()->GetRecvBPS().GetAvgBPS())+
-		fmt::format("\nSendTotal:{}\tSendAvg:{}", GetNetworkService()->GetSendBPS().GetTotal(), GetNetworkService()->GetSendBPS().GetAvgBPS());
+		fmt::format(FMT_STRING("\nMessageProcess:{}\tSocketMsg:{}"), GetMessageProcess(), m_nSocketMessageProcess)+
+		fmt::format(FMT_STRING("\nRecvTotal:{}\tRecvAvg:{}"), GetNetworkService()->GetRecvBPS().GetTotal(), GetNetworkService()->GetRecvBPS().GetAvgBPS())+
+		fmt::format(FMT_STRING("\nSendTotal:{}\tSendAvg:{}"), GetNetworkService()->GetSendBPS().GetTotal(), GetNetworkService()->GetSendBPS().GetAvgBPS());
 		static const uint16_t ServiceID[]=
 		{
 			1,11,12,13,14,15,16,17,18,19,20
@@ -497,7 +497,7 @@ void CSocketService::OnLogicThreadProc()
 			auto pMessagePort = GetMessageRoute()->QueryMessagePort(ServerPort(GetWorldID(),ServiceID[i]), false);
 			if(pMessagePort)
 			{
-				buf += fmt::format("\nMsgPort:{}\tSendBuff:{}", ServiceID[i], pMessagePort->GetWriteBufferSize());
+				buf += fmt::format(FMT_STRING("\nMsgPort:{}\tSendBuff:{}"), ServiceID[i], pMessagePort->GetWriteBufferSize());
 			}
 		}
 

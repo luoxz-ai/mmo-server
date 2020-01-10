@@ -173,7 +173,7 @@ __ENTER_FUNCTION
 		if(GetWorldID() == 0)
 			SQL = "SELECT * FROM tbld_servicedetail";
 		else
-			SQL = fmt::format("SELECT * FROM tbld_servicedetail WHERE worldid={} OR worldid=0", GetWorldID());
+			SQL = fmt::format(FMT_STRING("SELECT * FROM tbld_servicedetail WHERE worldid={} OR worldid=0"), GetWorldID());
 		auto result = m_pGlobalDB->Query(TBLD_SERVICEDETAIL::table_name, SQL);
 		for(size_t i = 0; i < result->get_num_row(); i++)
 		{

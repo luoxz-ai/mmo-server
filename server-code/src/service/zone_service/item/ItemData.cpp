@@ -42,7 +42,7 @@ __ENTER_FUNCTION
 	CHECKF(idItem);
 	
 	
-	auto pResult = pDB->Query(fmt::format("SELECT * FROM {} WHERE id={} LIMIT 1", TBLD_ITEM::table_name, idItem));
+	auto pResult = pDB->Query(fmt::format(FMT_STRING("SELECT * FROM {} WHERE id={} LIMIT 1"), TBLD_ITEM::table_name, idItem));
 	if(pResult == nullptr)
 		return false;
 
@@ -147,7 +147,7 @@ bool CItemData::DelRecordStatic(CMysqlConnection* pDB,OBJID idItem)
 {
 __ENTER_FUNCTION
 	CHECKF(pDB);
-	pDB->SyncExec(fmt::format("DELETE FROM {} WHERE id={}", TBLD_ITEM::table_name, idItem));
+	pDB->SyncExec(fmt::format(FMT_STRING("DELETE FROM {} WHERE id={}"), TBLD_ITEM::table_name, idItem));
 __LEAVE_FUNCTION
 	return false;
 }

@@ -281,7 +281,7 @@ __ENTER_FUNCTION
 			for(size_t i = 0; i < m_nLastCMDSize; i++)
 			{
 				unsigned char v = m_ReadBuff[i];
-				data += fmt::format("{0:x} ", v);
+				data += fmt::format(FMT_STRING("{0:x} "), v);
 			}
 			LOGNETDEBUG("{}", data.c_str());
 			_OnClose(0);

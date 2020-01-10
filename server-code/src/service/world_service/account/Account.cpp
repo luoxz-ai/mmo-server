@@ -64,7 +64,7 @@ __ENTER_FUNCTION
 	m_setActorInfo.clear();
 
 	auto pDB = WorldService()->GetGameDB();
-	auto result_ptr = pDB->Query(TBLD_PLAYER::table_name, fmt::format("SELECT * FROM {} WHERE openid=\'{}\' and del_time=0", TBLD_PLAYER::table_name, m_openid));
+	auto result_ptr = pDB->Query(TBLD_PLAYER::table_name, fmt::format(FMT_STRING("SELECT * FROM {} WHERE openid=\'{}\' and del_time=0"), TBLD_PLAYER::table_name, m_openid));
 	if (result_ptr)
 	{
 		for (size_t i = 0; i < result_ptr->get_num_row(); i++)
@@ -269,7 +269,7 @@ __ENTER_FUNCTION
 		{
 			//强行设定伴侣的MateID = 0;
 			auto pDB = WorldService()->GetGameDB();
-			pDB->AsyncExec(fmt::format("UPDATE {} SET mate_id=0,mate_name='' WHERE id={}",TBLD_PLAYER::table_name, idMate));
+			pDB->AsyncExec(fmt::format(FMT_STRING("UPDATE {} SET mate_id=0,mate_name='' WHERE id={}"),TBLD_PLAYER::table_name, idMate));
 		}
 		//发送邮件
 	}

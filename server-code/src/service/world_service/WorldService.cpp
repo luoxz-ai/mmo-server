@@ -105,7 +105,7 @@ __ENTER_FUNCTION
 
 		//通过globaldb查询localdb
 
-		auto result = m_pGlobalDB->Query(TBLD_DBINFO::table_name, fmt::format("SELECT * FROM {} WHERE worldid={} LIMIT 1", TBLD_DBINFO::table_name, GetWorldID()));
+		auto result = m_pGlobalDB->Query(TBLD_DBINFO::table_name, fmt::format(FMT_STRING("SELECT * FROM {} WHERE worldid={} LIMIT 1"), TBLD_DBINFO::table_name, GetWorldID()));
 		if (result == nullptr || result->get_num_row() == 0)
 		{
 			LOGFATAL("CWorldService::Create fail:gamedb info error");
@@ -147,7 +147,7 @@ __ENTER_FUNCTION
 
 
 			m_nCurPlayerMaxID = GetDefaultPlayerID(GetWorldID());
-			auto result_playercount = m_pGameDB->UnionQuery(fmt::format("SELECT ifnull(max(id),{}) as id FROM tbld_player", m_nCurPlayerMaxID));
+			auto result_playercount = m_pGameDB->UnionQuery(fmt::format(FMT_STRING("SELECT ifnull(max(id),{}) as id FROM tbld_player"), m_nCurPlayerMaxID));
 			if(result_playercount && result_playercount->get_num_row() == 1)
 			{
 				auto row_result = result_playercount->fetch_row(false);
@@ -340,9 +340,9 @@ __ENTER_FUNCTION
 	if(m_tLastDisplayTime.ToNextTime())
 	{
 		std::string buf = std::string("\n======================================================================")+
-		fmt::format("\nMessageProcess:{}", GetMessageProcess())+
-		fmt::format("\nEvent:{}\t", EventManager()->GetEventCount())+
-		fmt::format("\nAccount:{}\tWait:{}", AccountManager()->GetAccountSize(), AccountManager()->GetWaitAccountSize());
+		fmt::format(FMT_STRING("\nMessageProcess:{}"), GetMessageProcess())+
+		fmt::format(FMT_STRING("\nEvent:{}\t"), EventManager()->GetEventCount())+
+		fmt::format(FMT_STRING("\nAccount:{}\tWait:{}"), AccountManager()->GetAccountSize(), AccountManager()->GetWaitAccountSize());
 		static const uint16_t ServiceID[]=
 		{
 			11,12,13,14,15, 31,32,33,34,35
@@ -353,7 +353,7 @@ __ENTER_FUNCTION
 			auto pMessagePort = GetMessageRoute()->QueryMessagePort(ServerPort(GetWorldID(),ServiceID[i]), false);
 			if(pMessagePort)
 			{
-				buf += fmt::format("\nMsgPort:{}\tSendBuff:{}", ServiceID[i], pMessagePort->GetWriteBufferSize());
+				buf += fmt::format(FMT_STRING("\nMsgPort:{}\tSendBuff:{}"), ServiceID[i], pMessagePort->GetWriteBufferSize());
 			}
 		}
 

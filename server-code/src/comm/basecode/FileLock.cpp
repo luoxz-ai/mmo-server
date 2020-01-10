@@ -11,7 +11,7 @@
 
 file_lock::file_lock(const std::string& programname)
 {
-	m_pid_file = "./" + programname + ".pid";
+	m_pid_file = "./.pid/" + programname + ".pid";
 	m_fd = -1;
 }
 

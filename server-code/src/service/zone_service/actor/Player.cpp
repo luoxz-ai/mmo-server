@@ -36,7 +36,7 @@ __ENTER_FUNCTION
 
 	auto pDB = ZoneService()->GetGameDB(GetWorldIDFromPlayerID(idPlayer));
 	CHECKF(pDB);
-	auto result_ptr = pDB->Query(TBLD_PLAYER::table_name, fmt::format("SELECT * FROM {} WHERE id={} LIMIT 1", TBLD_PLAYER::table_name, idPlayer));
+	auto result_ptr = pDB->Query(TBLD_PLAYER::table_name, fmt::format(FMT_STRING("SELECT * FROM {} WHERE id={} LIMIT 1"), TBLD_PLAYER::table_name, idPlayer));
 	CHECKF(result_ptr);
 	
 	m_pRecord  = result_ptr->fetch_row(true);
@@ -352,7 +352,7 @@ bool CPlayer::TryChangeMap(uint32_t nLeavePointIdx)
 __ENTER_FUNCTION
 	auto pLeaveData = GetCurrentScene()->GetMap()->GetLeavePoint(nLeavePointIdx);
 	CHECKF_M(pLeaveData,
-		   fmt::format("Can't Find LeaveMap {} On Map {}",
+		   fmt::format(FMT_STRING("Can't Find LeaveMap {} On Map {}"),
 						GetMapID(),
 						nLeavePointIdx).c_str());
 
@@ -360,7 +360,7 @@ __ENTER_FUNCTION
 	    
 	auto pGameMap = MapManager()->QueryMap(pLeaveData->dest_map_id());
 	CHECKF_M(pGameMap,
-			 fmt::format("Can't Find Map {} When LeaveMap {} On Map {}",
+			 fmt::format(FMT_STRING("Can't Find Map {} When LeaveMap {} On Map {}"),
 						pLeaveData->dest_map_id(),
 						GetMapID(),
 						nLeavePointIdx).c_str());
@@ -368,7 +368,7 @@ __ENTER_FUNCTION
 	//检查所有通行检查
 	auto pEnterData = pGameMap->GetEnterPoint(pLeaveData->dest_enter_point_idx());
 	CHECKF_M(pEnterData,
-		   fmt::format("Can't Find EnterPoint {} On Map {} When LeaveMap {} On Map {}",
+		   fmt::format(FMT_STRING("Can't Find EnterPoint {} On Map {} When LeaveMap {} On Map {}"),
 						pLeaveData->dest_enter_point_idx(),
 						pLeaveData->dest_map_id(),
 						GetMapID(),

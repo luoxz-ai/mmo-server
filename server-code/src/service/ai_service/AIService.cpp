@@ -278,11 +278,11 @@ __ENTER_FUNCTION
 	if(m_tLastDisplayTime.ToNextTime())
 	{
 		std::string buf = std::string("\n======================================================================")+
-		fmt::format("\nEvent:{}", EventManager()->GetEventCount());
+		fmt::format(FMT_STRING("\nEvent:{}"), EventManager()->GetEventCount());
 		auto pMessagePort = GetMessageRoute()->QueryMessagePort(GetZoneServiceVirtualSocket().GetServerPort(), false);
 		if(pMessagePort)
 		{
-			buf += fmt::format("\nMsgPort:{}\tSendBuff:{}", GetZoneID(), pMessagePort->GetWriteBufferSize());
+			buf += fmt::format(FMT_STRING("\nMsgPort:{}\tSendBuff:{}"), GetZoneID(), pMessagePort->GetWriteBufferSize());
 		}
 		LOGMONITOR("{}", buf.c_str());
 	}

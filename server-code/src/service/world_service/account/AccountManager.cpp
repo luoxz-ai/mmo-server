@@ -156,7 +156,7 @@ __ENTER_FUNCTION
 	brpc::Controller* cntl = new brpc::Controller;;
 	cntl->http_request().uri() = AUTH_URL;
 	cntl->http_request().set_method(brpc::HTTP_METHOD_POST);
-	std::string post_data = fmt::format("open_id={}&auth={}", msg.openid(), msg.auth());
+	std::string post_data = fmt::format(FMT_STRING("open_id={}&auth={}"), msg.openid(), msg.auth());
 	cntl->request_attachment().append(post_data);
 	auto call_id = cntl->call_id().value;
 	m_AuthList[msg.openid()] = call_id;

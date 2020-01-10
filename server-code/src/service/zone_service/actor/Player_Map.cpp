@@ -35,7 +35,7 @@ __ENTER_FUNCTION
 	{
 		//通过原始Mapid查找所在Zone
 		CGameMap* pMap = MapManager()->QueryMap(idMap);
-		CHECKF_M(pMap, fmt::format("can't find map {}", idMap).c_str())
+		CHECKF_M(pMap, fmt::format(FMT_STRING("can't find map {}"), idMap).c_str())
 
 		uint16_t idZone = pMap->GetZoneID();
 		if (idZone != ZoneService()->GetServiceID())
@@ -327,7 +327,7 @@ __ENTER_FUNCTION
 				return false;
 
 			const auto& pRebornData = GetCurrentScene()->GetMap()->GetRebornData(GetCampID());
-			CHECKF_M(pRebornData, fmt::format("can't find RebornData In Map {} WithCamp:{}", GetMapID(), GetCampID()).c_str());
+			CHECKF_M(pRebornData, fmt::format(FMT_STRING("can't find RebornData In Map {} WithCamp:{}"), GetMapID(), GetCampID()).c_str());
 
 			GetStatus()->DetachStatusByType(STATUSTYPE_DEAD);
 			SetProperty(PROP_HP, MulDiv(GetHPMax(), 2, 3), SYNC_ALL_DELAY);

@@ -167,7 +167,7 @@ int main(int argc, char *argv[])
 	std::string logpath = "./log/";
 	if (opt.has("--logpath"))
 	{
-		logpath += opt["--logpath"];
+		logpath = opt["--logpath"];
 	}
 
 

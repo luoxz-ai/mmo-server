@@ -25,7 +25,7 @@ __ENTER_FUNCTION
 	m_pOwner = pPlayer;
 	auto pDB = ZoneService()->GetGameDB(m_pOwner->GetWorldID());
 	CHECKF(pDB);
-	auto pResult = pDB->Query(TBLD_ITEM::table_name, fmt::format("SELECT * FROM {} WHERE {}={} AND {}={}", TBLD_ITEM::table_name, 
+	auto pResult = pDB->Query(TBLD_ITEM::table_name, fmt::format(FMT_STRING("SELECT * FROM {} WHERE {}={} AND {}={}"), TBLD_ITEM::table_name, 
 																	TBLD_ITEM::field_name[TBLD_ITEM::OWNER_ID], pPlayer->GetID(), 
 																	TBLD_ITEM::field_name[TBLD_ITEM::POSITION], ITEMPOSITION_EQUIP));
 

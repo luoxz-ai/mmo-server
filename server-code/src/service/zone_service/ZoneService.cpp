@@ -478,7 +478,7 @@ __ENTER_FUNCTION
 	else
 	{
 		//通过globaldb查询localdb
-		auto result = m_pGlobalDB->Query(TBLD_DBINFO::table_name, fmt::format("SELECT * FROM {} WHERE worldid={} LIMIT 1", TBLD_DBINFO::table_name,nWorldID));
+		auto result = m_pGlobalDB->Query(TBLD_DBINFO::table_name, fmt::format(FMT_STRING("SELECT * FROM {} WHERE worldid={} LIMIT 1"), TBLD_DBINFO::table_name,nWorldID));
 		if (result)
 		{
 			auto row = result->fetch_row(false);
@@ -525,16 +525,16 @@ __ENTER_FUNCTION
 	if(m_tLastDisplayTime.ToNextTime())
 	{
 		std::string buf = std::string("\n======================================================================")+
-		fmt::format("\nMessageProcess:{}", GetMessageProcess())+
-		fmt::format("\nEvent:{}\t", EventManager()->GetEventCount())+
-		fmt::format("\nUser:{}\tMonster:{}", ActorManager()->GetUserCount(), ActorManager()->GetMonsterCount())+
-		fmt::format("\nLoading:{}\tSaveing:{}\tReady:{}", GetLoadingThread()->GetLoadingCount(),GetLoadingThread()->GetSaveingCount(), GetLoadingThread()->GetReadyCount())+
-		fmt::format("\nScene:{}\tDynaScene:{}", SceneManager()->GetSceneCount(), SceneManager()->GetDynaSceneCount());
+		fmt::format(FMT_STRING("\nMessageProcess:{}"), GetMessageProcess())+
+		fmt::format(FMT_STRING("\nEvent:{}\t"), EventManager()->GetEventCount())+
+		fmt::format(FMT_STRING("\nUser:{}\tMonster:{}"), ActorManager()->GetUserCount(), ActorManager()->GetMonsterCount())+
+		fmt::format(FMT_STRING("\nLoading:{}\tSaveing:{}\tReady:{}"), GetLoadingThread()->GetLoadingCount(),GetLoadingThread()->GetSaveingCount(), GetLoadingThread()->GetReadyCount())+
+		fmt::format(FMT_STRING("\nScene:{}\tDynaScene:{}"), SceneManager()->GetSceneCount(), SceneManager()->GetDynaSceneCount());
 		SceneManager()->ForEach([&buf](CScene* pScene)
 		{
 			if(pScene->IsDynaScene() == false)
 			{
-				buf += fmt::format("\nScene{}\tPlayer:{}\tActor:{}", pScene->GetMapID(), pScene->GetPlayerCount(), pScene->GetActorCount());
+				buf += fmt::format(FMT_STRING("\nScene{}\tPlayer:{}\tActor:{}"), pScene->GetMapID(), pScene->GetPlayerCount(), pScene->GetActorCount());
 			}
 		});
 		static const uint16_t ServiceID[]=
@@ -547,7 +547,7 @@ __ENTER_FUNCTION
 			auto pMessagePort = GetMessageRoute()->QueryMessagePort(ServerPort(GetWorldID(),ServiceID[i]), false);
 			if(pMessagePort)
 			{
-				buf += fmt::format("\nMsgPort:{}\tSendBuff:{}", ServiceID[i], pMessagePort->GetWriteBufferSize());
+				buf += fmt::format(FMT_STRING("\nMsgPort:{}\tSendBuff:{}"), ServiceID[i], pMessagePort->GetWriteBufferSize());
 			}
 		}
 
