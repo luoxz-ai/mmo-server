@@ -1,1 +1,2 @@
-sudo docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=3Killyou -v e:\mmo-server\data\mysql:/var/lib/mysql --name mysql mysql:5.7
+docker run -d --network=network-mmo --ip=172.28.1.2 -e MYSQL_ROOT_PASSWORD=3Killyou -v e:\mmo-server\data\mysql-global:/var/lib/mysql --name mysql-global mysql:5.7
+docker run -d --network=network-mmo --ip=172.28.2.2 -e MYSQL_ROOT_PASSWORD=3Killyou -v e:\mmo-server\data\mysql-zone1:/var/lib/mysql --name mysql-zone-1 mysql:5.7

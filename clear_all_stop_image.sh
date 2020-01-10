@@ -1,2 +1,2 @@
-sudo docker rm $(sudo docker ps --all -q -f status=exited) 
-sudo docker rm $(sudo docker ps --all -q -f status=created)
+docker rm $(sudo docker ps --all -q -f status=exited) 
+docker rm $(sudo docker ps --all -q -f status=created)

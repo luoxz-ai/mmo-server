@@ -49,7 +49,7 @@ void BaseCode::MyLogMsgX(const char* pszName, const char* pszBuffer)
 	std::time_t now_c = std::chrono::system_clock::to_time_t(curTime);
 	auto localtime_c = std::localtime(&now_c);
 	char mbstr[100] = {'\0'};
-	std::strftime(mbstr, sizeof(mbstr), "%Y-%m-{}", localtime_c);
+	std::strftime(mbstr, sizeof(mbstr), "%Y-%m-%d", localtime_c);
 
 
 	std::string szLogName = fmt::format("{}_{}.log", pszName, mbstr);

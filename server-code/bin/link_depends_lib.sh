@@ -1,5 +1,5 @@
-mkdir -p libs
-cd libs
+mkdir -p depends
+cd depends
 ln -s ../../depends/lib/*.so* .
 
 cp /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.24 .

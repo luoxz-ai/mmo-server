@@ -1,1 +1,2 @@
-sudo docker build --rm -f "server-docker\mmo-server-depends.Dockerfile" -t mmo-server-depends "."
+docker build --rm -f "server-docker\mmo-server-depends-base.Dockerfile" -t mmo-server-depends:base "."
+docker build --rm -f "server-docker\mmo-server-depends.Dockerfile" -t mmo-server-depends "server-docker"

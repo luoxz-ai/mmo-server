@@ -1,1 +1,1 @@
-sudo docker rmi -f $(sudo docker images | grep "<none>" | awk "{print \$3}")
+docker rmi -f $(sudo docker images | grep "<none>" | awk "{print \$3}")

@@ -1,8 +1,4 @@
-FROM mmo-server-base:1804
-
-USER ubuntu
-ADD --chown=ubuntu server-depends/ /data/mmorpg/server-depends
-WORKDIR /data/mmorpg/server-depends/src
+FROM mmo-server-depends:base
 
 RUN /data/mmorpg/server-depends/src/build_depends.sh base;
 RUN /data/mmorpg/server-depends/src/build_depends.sh jemalloc;

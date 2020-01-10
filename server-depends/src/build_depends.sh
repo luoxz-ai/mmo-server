@@ -2,7 +2,7 @@ set -e
 
 base()
 {
-    mkdir -p ../lib
+mkdir -p ../lib
 mkdir -p ../bin
 
 #sudo autoreconf -ivf 
@@ -25,7 +25,7 @@ protobuf()
 cd protobuf/
 mkdir -p build
 cd build
-CC=gcc-7 CXX=g++-7 CXXFLAGS="-fPIC -g" cmake ../cmake -Dprotobuf_BUILD_TESTS=OFF -DCMAKE_BUILD_TYPE=RELWITHDEBINFO
+CC=gcc-7 CXX=g++-7 CXXFLAGS="-fPIC -g" cmake ../cmake -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_BUILD_EXAMPLES=OFF -DCMAKE_BUILD_TYPE=RELWITHDEBINFO
 make -j4
 cp protoc ../../../bin/ -rp
 cp *.a ../../../lib/ -rp

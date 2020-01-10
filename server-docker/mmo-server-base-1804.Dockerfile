@@ -2,8 +2,10 @@ FROM ubuntu:18.04
 
 ADD mirror.list /root/mirror.list
 RUN cp /root/mirror.list /etc/apt/sources.list
-RUN apt-get update -y \
+RUN apt-get update -y --fix-missing \
  && apt-get install -y \
+ vim \
+ less \
  autoconf \
  binutils-dev \
  build-essential \
@@ -20,12 +22,17 @@ RUN apt-get update -y \
  gcc-7 \
  g++-7 \
  subversion \
+ git \
+ gdb \
  sudo 
  
 ENV LC_CTYPE=zh_CN.UTF-8 
- 
+
 RUN useradd --create-home --no-log-init --shell /bin/bash ubuntu
 RUN adduser ubuntu sudo
 RUN passwd -d ubuntu
 USER ubuntu
 WORKDIR /home/ubuntu
+
+
+

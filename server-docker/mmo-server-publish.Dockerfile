@@ -1,4 +1,4 @@
-FROM mmo-server-base:1804
+FROM mmo-server-base:18.04
 
 
 ADD release/ /data/mmorpg/server/

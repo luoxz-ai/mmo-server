@@ -1,1 +1,1 @@
-sudo docker run -v e:\mmo-server\server-code:/data/mmorpg/server-code --name mmo-server-code mmo-server-depends
+docker run --network=network-mmo --ip=172.28.1.3 -v e:/mmo-server/server-code:/data/mmorpg/server-code --name mmo-server-code  --ulimit core=-1 --security-opt seccomp=unconfined mmo-server-depends

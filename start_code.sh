@@ -1,2 +1,1 @@
-sudo docker start -ia mmo-server-build
-sudo docker run -it --name mmo-server-build --volumes-from mmo-server-code mmo-server-depends bash
+docker run -it --network=network-mmo --ip=172.28.1.3 --name mmo-server-build --volumes-from mmo-server-code --ulimit core=-1 --security-opt seccomp=unconfined mmo-server-depends bash

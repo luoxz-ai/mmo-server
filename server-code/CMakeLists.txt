@@ -64,12 +64,13 @@ include(FindProtobuf)
 set (MY_CLANG_TIDY_STR "clang-tidy-4.0;-style=file;-checks=-*,clang-analyzer-core*,clang-analyzer-cplusplus*,clang-analyzer-nullability*")
 
 
-
-SET(CMAKE_BUILD_RPATH ".:./libs")
+SET(CMAKE_SKIP_RPATH  FALSE)
 SET(CMAKE_SKIP_BUILD_RPATH  FALSE)
 SET(CMAKE_SKIP_INSTALL_RPATH  FALSE)
+
+SET(CMAKE_BUILD_RPATH "./:./libs:../libs:./depends:../depends")
 SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE) 
-SET(CMAKE_INSTALL_RPATH ".:./libs")
+SET(CMAKE_INSTALL_RPATH "./:./libs:../libs:./depends:../depends")
 SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH FALSE) 
 
 include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/depends/src/jemalloc/include)
