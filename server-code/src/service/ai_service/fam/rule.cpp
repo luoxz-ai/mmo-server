@@ -17,7 +17,7 @@
 
 //#include <iostream>
 
-fuzzy::Rule::Rule(const std::vector<Trapezoid>antecedents, const Conjunction conjunction, const Trapezoid& consequent, std::string naturalLanguage) :
+fuzzy::Rule::Rule(const std::vector<Trapezoid>&antecedents,const Conjunction& conjunction, const Trapezoid& consequent,std::string naturalLanguage) :
     _antecedents(antecedents),
     _conjunction(conjunction),
     _consequent(consequent),

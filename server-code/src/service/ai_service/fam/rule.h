@@ -30,15 +30,15 @@ enum class Conjunction : char {AND, OR};
 class Rule {
 private:
     // A rule has one or more antecedent FuzzySets
-    const std::vector<Trapezoid> _antecedents;
+    std::vector<Trapezoid> _antecedents;
 
     // The conjunction joins the antecedents together
-    const Conjunction _conjunction;
+    Conjunction _conjunction;
 
 
     // When a rule fires, it returns the degree-of-fit of this consequent
     // If you know another object is going to outlive you and you want to observe it, use a (non-owning) raw pointer.
-    const Trapezoid _consequent;
+    Trapezoid _consequent;
 
     // This is just a human-readable summary of what this rule does
     std::string _naturalLanguage;
@@ -52,7 +52,7 @@ public:
      @param consequent a FuzzySet that is the result of this Rule
      @param naturalLanguage an optional human-readable summary of this rule
      */
-    Rule(const std::vector<Trapezoid>antecedents, const Conjunction conjunction, const Trapezoid& consequent, std::string naturalLanguage = "");
+    Rule(const std::vector<Trapezoid>&antecedents, const Conjunction& conjunction, const Trapezoid& consequent, std::string naturalLanguage = "");
 
     /**
      Retrieve this rule's consequent.
@@ -74,6 +74,8 @@ public:
      @return this rule's degree-of-fit (µ) as a range of 0 (no fit) to 1 (perfect fit)
      */
     double fire(const std::vector<double>& values)const;
+    
+    
 };
 }
 

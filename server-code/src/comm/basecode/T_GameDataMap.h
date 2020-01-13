@@ -89,10 +89,10 @@ public:
 
 	
 
-	template<class _T, class ManagerT, class PBRow_T>
+	template<class ManagerT, class PBRow_T>
 	static auto _LoadFromPB(const PBRow_T& row, ManagerT* pThis)
 	{
-		if constexpr(hasFunc_GetIDFromPBRow<_T>)
+		if constexpr(hasFunc_GetIDFromPBRow<T>::value)
 		{
 			KEY_T key = T::GetIDFromPBRow(row);
 			T* pData = pThis->QueryObj(key);
@@ -138,7 +138,7 @@ public:
 		}
 		for (const auto &iter : cfg.rows())
 		{
-			_LoadFromPB<T>(iter, this);
+			_LoadFromPB(iter, this);
 		}
 		
 		
@@ -159,7 +159,7 @@ public:
 		if (it_find != m_setData.end())
 		{
 			//log error
-			if constexpr(hasFunc_mergeFrom<_T>)
+			if constexpr(hasFunc_mergeFrom<T>::value)
 			{
 				it_find->merge(pData);		
 				SAFE_DELETE(pData);
