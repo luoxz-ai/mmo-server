@@ -24,6 +24,7 @@ RUN apt-get update -y --fix-missing \
  subversion \
  git \
  gdb \
+ linux-tools-common \
  sudo 
  
 ENV LC_CTYPE=zh_CN.UTF-8 

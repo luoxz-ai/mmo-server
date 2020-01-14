@@ -37,9 +37,9 @@ struct hasFunc_mergeFrom
 template< class T >
 class CGameDataMap 
 {
-	constexpr std::string_view GET_NAME()
+	constexpr std::string GET_NAME()
 	{
-		return typeid(T).name();
+		return demangle(typeid(T).name());
 	}
 
 	CGameDataMap() {}

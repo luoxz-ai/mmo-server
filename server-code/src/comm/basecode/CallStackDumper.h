@@ -6,6 +6,7 @@
 #include<deque>
 #include<algorithm>
 
+extern std::string demangle(const char* name);
 
 struct CallFrameMap
 {

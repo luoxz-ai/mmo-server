@@ -119,7 +119,7 @@ public:
 	CREATE_NEW_IMPL(TargetFAM);
 	using PB_T = Cfg_TargetFAM;
 
-	void merge(TargetFAM* pData)
+	void mergeFrom(TargetFAM* pData)
 	{
 		m_rule_set.merge(pData->m_rule_set);
 	}
