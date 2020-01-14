@@ -85,18 +85,24 @@ struct lws_pt_role_ws {
 #endif
 
 struct _lws_websocket_related {
-	char *rx_ubuf;
+	unsigned char *rx_ubuf;
 #if !defined(LWS_WITHOUT_EXTENSIONS)
 	const struct lws_extension *active_extensions[LWS_MAX_EXTENSIONS_ACTIVE];
 	void *act_ext_user[LWS_MAX_EXTENSIONS_ACTIVE];
 	struct lws *rx_draining_ext_list;
 	struct lws *tx_draining_ext_list;
 #endif
+
+#if defined(LWS_WITH_HTTP_PROXY)
+	struct lws_dll2_owner proxy_owner;
+	char actual_protocol[16];
+	size_t proxy_buffered;
+#endif
+
 	/* Also used for close content... control opcode == < 128 */
 	uint8_t ping_payload_buf[128 - 3 + LWS_PRE];
 	uint8_t mask[4];
 
-	time_t time_next_ping_check;
 	size_t rx_packet_length;
 	uint32_t rx_ubuf_head;
 	uint32_t rx_ubuf_alloc;
@@ -129,13 +135,25 @@ struct _lws_websocket_related {
 	unsigned int send_check_ping:1;
 	unsigned int first_fragment:1;
 	unsigned int peer_has_sent_close:1;
+	unsigned int await_pong;
 #if !defined(LWS_WITHOUT_EXTENSIONS)
 	unsigned int extension_data_pending:1;
 	unsigned int rx_draining_ext:1;
 	unsigned int tx_draining_ext:1;
+	unsigned int pmd_trailer_application:1;
 
 	uint8_t count_act_ext;
 #endif
+};
+
+/*
+ * we need to separately track what's happening with both compressed rx in
+ * and with inflated rx out that will be passed to the user code
+ */
+
+struct lws_ext_pm_deflate_rx_ebufs {
+	struct lws_tokens eb_in;
+	struct lws_tokens eb_out;
 };
 
 int
@@ -160,5 +178,14 @@ int
 handshake_0405(struct lws_context *context, struct lws *wsi);
 int
 lws_process_ws_upgrade(struct lws *wsi);
+
+int
+lws_process_ws_upgrade2(struct lws *wsi);
+
+extern const struct lws_protocols lws_ws_proxy;
+
 int
 lws_server_init_wsi_for_ws(struct lws *wsi);
+
+void
+lws_sul_wsping_cb(lws_sorted_usec_list_t *sul);

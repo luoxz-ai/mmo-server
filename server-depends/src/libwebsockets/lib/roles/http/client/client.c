@@ -36,19 +36,12 @@ lws_client_http_body_pending(struct lws *wsi, int something_left_to_send)
 struct lws *
 lws_client_wsi_effective(struct lws *wsi)
 {
-	struct lws_dll_lws *tail = NULL;
+	struct lws_dll2 *tail = lws_dll2_get_tail(&wsi->dll2_cli_txn_queue_owner);
 
-	if (!wsi->transaction_from_pipeline_queue ||
-	    !wsi->dll_client_transaction_queue_head.next)
+	if (!wsi->transaction_from_pipeline_queue || !tail)
 		return wsi;
 
-	lws_start_foreach_dll_safe(struct lws_dll_lws *, d, d1,
-				   wsi->dll_client_transaction_queue_head.next) {
-		tail = d;
-	} lws_end_foreach_dll_safe(d, d1);
-
-	return lws_container_of(tail, struct lws,
-				dll_client_transaction_queue);
+	return lws_container_of(tail, struct lws, dll2_cli_txn_queue);
 }
 
 /*
@@ -60,18 +53,12 @@ lws_client_wsi_effective(struct lws *wsi)
 static struct lws *
 _lws_client_wsi_master(struct lws *wsi)
 {
-	struct lws *wsi_eff = wsi;
-	struct lws_dll_lws *d;
+	struct lws_dll2_owner *o = wsi->dll2_cli_txn_queue.owner;
 
-	d = wsi->dll_client_transaction_queue.prev;
-	while (d) {
-		wsi_eff = lws_container_of(d, struct lws,
-					   dll_client_transaction_queue_head);
+	if (!o)
+		return wsi;
 
-		d = d->prev;
-	}
-
-	return wsi_eff;
+	return lws_container_of(o, struct lws, dll2_cli_txn_queue_owner);
 }
 
 int
@@ -98,7 +85,7 @@ lws_client_socket_service(struct lws *wsi, struct lws_pollfd *pollfd,
 
 	if ((pollfd->revents & LWS_POLLOUT) &&
 	     wsi->keepalive_active &&
-	     wsi->dll_client_transaction_queue_head.next) {
+	     wsi->dll2_cli_txn_queue_owner.head) {
 		struct lws *wfound = NULL;
 
 		lwsl_debug("%s: pollout HANDSHAKE2\n", __func__);
@@ -110,13 +97,13 @@ lws_client_socket_service(struct lws *wsi, struct lws_pollfd *pollfd,
 		 * that it was queued, ie, tail-first.
 		 */
 		lws_vhost_lock(wsi->vhost);
-		lws_start_foreach_dll_safe(struct lws_dll_lws *, d, d1,
-				  wsi->dll_client_transaction_queue_head.next) {
+		lws_start_foreach_dll_safe(struct lws_dll2 *, d, d1,
+				  wsi->dll2_cli_txn_queue_owner.head) {
 			struct lws *w = lws_container_of(d, struct lws,
-						  dll_client_transaction_queue);
+						  dll2_cli_txn_queue);
 
-			lwsl_debug("%s: %p states 0x%x\n", __func__, w,
-				   w->wsistate);
+			lwsl_debug("%s: %p states 0x%lx\n", __func__, w,
+				   (unsigned long)w->wsistate);
 			if (lwsi_state(w) == LRS_H1C_ISSUE_HANDSHAKE2)
 				wfound = w;
 		} lws_end_foreach_dll_safe(d, d1);
@@ -127,7 +114,14 @@ lws_client_socket_service(struct lws *wsi, struct lws_pollfd *pollfd,
 			 * need to use that in HANDSHAKE2 to understand
 			 * which wsi to actually write on
 			 */
-			lws_client_socket_service(wfound, pollfd, wsi);
+			if (lws_client_socket_service(wfound, pollfd, wsi) < 0) {
+				/* closed */
+
+				lws_vhost_unlock(wsi->vhost);
+
+				return -1;
+			}
+
 			lws_callback_on_writable(wsi);
 		} else
 			lwsl_debug("%s: didn't find anything in txn q in HS2\n",
@@ -167,6 +161,7 @@ lws_client_socket_service(struct lws *wsi, struct lws_pollfd *pollfd,
 		if (pollfd->revents & LWS_POLLHUP) {
 			lwsl_warn("SOCKS connection %p (fd=%d) dead\n",
 				  (void *)wsi, pollfd->fd);
+			cce = "socks conn dead";
 			goto bail3;
 		}
 
@@ -177,6 +172,7 @@ lws_client_socket_service(struct lws *wsi, struct lws_pollfd *pollfd,
 				return 0;
 			}
 			lwsl_err("ERROR reading from SOCKS socket\n");
+			cce = "socks recv fail";
 			goto bail3;
 		}
 
@@ -188,7 +184,8 @@ lws_client_socket_service(struct lws *wsi, struct lws_pollfd *pollfd,
 
 			if (pt->serv_buf[1] == SOCKS_AUTH_NO_AUTH) {
 				lwsl_client("SOCKS GR: No Auth Method\n");
-				socks_generate_msg(wsi, SOCKS_MSG_CONNECT, &len);
+				if (socks_generate_msg(wsi, SOCKS_MSG_CONNECT, &len))
+					goto socks_send_msg_fail;
 				conn_mode = LRS_WAITING_SOCKS_CONNECT_REPLY;
 				pending_timeout =
 				   PENDING_TIMEOUT_AWAITING_SOCKS_CONNECT_REPLY;
@@ -197,9 +194,10 @@ lws_client_socket_service(struct lws *wsi, struct lws_pollfd *pollfd,
 
 			if (pt->serv_buf[1] == SOCKS_AUTH_USERNAME_PASSWORD) {
 				lwsl_client("SOCKS GR: User/Pw Method\n");
-				socks_generate_msg(wsi,
+				if (socks_generate_msg(wsi,
 						   SOCKS_MSG_USERNAME_PASSWORD,
-						   &len);
+						   &len))
+					goto socks_send_msg_fail;
 				conn_mode = LRS_WAITING_SOCKS_AUTH_REPLY;
 				pending_timeout =
 				      PENDING_TIMEOUT_AWAITING_SOCKS_AUTH_REPLY;
@@ -214,7 +212,11 @@ lws_client_socket_service(struct lws *wsi, struct lws_pollfd *pollfd,
 				goto socks_reply_fail;
 
 			lwsl_client("SOCKS password OK, sending connect\n");
-			socks_generate_msg(wsi, SOCKS_MSG_CONNECT, &len);
+			if (socks_generate_msg(wsi, SOCKS_MSG_CONNECT, &len)) {
+socks_send_msg_fail:
+				cce = "socks gen msg fail";
+				goto bail3;
+			}
 			conn_mode = LRS_WAITING_SOCKS_CONNECT_REPLY;
 			pending_timeout =
 				   PENDING_TIMEOUT_AWAITING_SOCKS_CONNECT_REPLY;
@@ -223,6 +225,7 @@ socks_send:
 				 MSG_NOSIGNAL);
 			if (n < 0) {
 				lwsl_debug("ERROR writing to socks proxy\n");
+				cce = "socks write fail";
 				goto bail3;
 			}
 
@@ -233,6 +236,7 @@ socks_send:
 socks_reply_fail:
 			lwsl_notice("socks reply: v%d, err %d\n",
 				    pt->serv_buf[0], pt->serv_buf[1]);
+			cce = "socks reply fail";
 			goto bail3;
 
 		case LRS_WAITING_SOCKS_CONNECT_REPLY:
@@ -246,8 +250,10 @@ socks_reply_fail:
 			lws_client_stash_destroy(wsi);
 			if (lws_hdr_simple_create(wsi,
 						 _WSI_TOKEN_CLIENT_PEER_ADDRESS,
-					       wsi->vhost->socks_proxy_address))
+					       wsi->vhost->socks_proxy_address)) {
+				cce = "socks connect fail";
 				goto bail3;
+			}
 
 			wsi->c_port = wsi->vhost->socks_proxy_port;
 
@@ -269,6 +275,7 @@ socks_reply_fail:
 			lwsl_warn("Proxy connection %p (fd=%d) dead\n",
 				  (void *)wsi, pollfd->fd);
 
+			cce = "proxy conn dead";
 			goto bail3;
 		}
 
@@ -279,15 +286,21 @@ socks_reply_fail:
 				return 0;
 			}
 			lwsl_err("ERROR reading from proxy socket\n");
+			cce = "proxy read err";
 			goto bail3;
 		}
 
 		pt->serv_buf[13] = '\0';
-		if (strcmp(sb, "HTTP/1.0 200 ") &&
-		    strcmp(sb, "HTTP/1.1 200 ")) {
-			lwsl_err("ERROR proxy: %s\n", sb);
+		if (n < 13 || (strncmp(sb, "HTTP/1.0 200 ", 13) &&
+		    strncmp(sb, "HTTP/1.1 200 ", 13))) {
+			lwsl_err("%s: ERROR proxy did not reply with h1\n",
+					__func__);
+			/* lwsl_hexdump_notice(sb, n); */
+			cce = "proxy not h1";
 			goto bail3;
 		}
+
+		lwsl_info("%s: proxy connection extablished\n", __func__);
 
 		/* clear his proxy connection timeout */
 
@@ -391,8 +404,10 @@ start_ws_handshake:
 
 		w = _lws_client_wsi_master(wsi);
 		lwsl_info("%s: HANDSHAKE2: %p: sending headers on %p "
-			  "(wsistate 0x%x 0x%x)\n", __func__, wsi, w,
-			  wsi->wsistate, w->wsistate);
+			  "(wsistate 0x%lx 0x%lx), w sock %d, wsi sock %d\n",
+			  __func__, wsi, w, (unsigned long)wsi->wsistate,
+			  (unsigned long)w->wsistate, w->desc.sockfd,
+			  wsi->desc.sockfd);
 
 		n = lws_ssl_capable_write(w, (unsigned char *)sb, (int)(p - sb));
 		lws_latency(context, wsi, "send lws_issue_raw", n,
@@ -409,10 +424,15 @@ start_ws_handshake:
 		}
 
 		if (wsi->client_http_body_pending) {
+			lwsl_debug("body pending\n");
 			lwsi_set_state(wsi, LRS_ISSUE_HTTP_BODY);
 			lws_set_timeout(wsi,
 					PENDING_TIMEOUT_CLIENT_ISSUE_PAYLOAD,
 					context->timeout_secs);
+#if defined(LWS_WITH_HTTP_PROXY)
+			if (wsi->http.proxy_clientside)
+				lws_callback_on_writable(wsi);
+#endif
 			/* user code must ask for writable callback */
 			break;
 		}
@@ -426,6 +446,9 @@ start_ws_handshake:
 #if defined(LWS_ROLE_H1) || defined(LWS_ROLE_H2)
 			w->http.ah->parser_state = WSI_TOKEN_NAME_PART;
 			w->http.ah->lextable_pos = 0;
+#if defined(LWS_WITH_CUSTOM_HEADERS)
+			w->http.ah->unk_pos = 0;
+#endif
 			/* If we're (re)starting on hdr, need other implied init */
 			wsi->http.ah->ues = URIES_IDLE;
 #endif
@@ -439,6 +462,12 @@ start_ws_handshake:
 		goto client_http_body_sent;
 
 	case LRS_ISSUE_HTTP_BODY:
+#if defined(LWS_WITH_HTTP_PROXY)
+			if (wsi->http.proxy_clientside) {
+				lws_callback_on_writable(wsi);
+				break;
+			}
+#endif
 		if (wsi->client_http_body_pending) {
 			//lws_set_timeout(wsi,
 			//		PENDING_TIMEOUT_CLIENT_ISSUE_PAYLOAD,
@@ -451,6 +480,9 @@ client_http_body_sent:
 		/* prepare ourselves to do the parsing */
 		wsi->http.ah->parser_state = WSI_TOKEN_NAME_PART;
 		wsi->http.ah->lextable_pos = 0;
+#if defined(LWS_WITH_CUSTOM_HEADERS)
+		wsi->http.ah->unk_pos = 0;
+#endif
 #endif
 		lwsi_set_state(wsi, LRS_WAITING_SERVER_REPLY);
 		lws_set_timeout(wsi, PENDING_TIMEOUT_AWAITING_SERVER_RESPONSE,
@@ -510,6 +542,7 @@ client_http_body_sent:
 
 			if (lws_parse(wsi, &c, &plen)) {
 				lwsl_warn("problems parsing header\n");
+				cce = "problems parsing header";
 				goto bail3;
 			}
 		}
@@ -535,10 +568,8 @@ bail3:
 		lwsl_info("closing conn at LWS_CONNMODE...SERVER_REPLY\n");
 		if (cce)
 			lwsl_info("reason: %s\n", cce);
-		wsi->protocol->callback(wsi,
-			LWS_CALLBACK_CLIENT_CONNECTION_ERROR,
-			wsi->user_space, (void *)cce, cce ? strlen(cce) : 0);
-		wsi->already_did_cce = 1;
+		lws_inform_client_conn_fail(wsi, (void *)cce, strlen(cce));
+
 		lws_close_free_wsi(wsi, LWS_CLOSE_STATUS_NOSTATUS, "cbail3");
 		return -1;
 
@@ -562,8 +593,8 @@ lws_http_transaction_completed_client(struct lws *wsi)
 	if (user_callback_handle_rxflow(wsi_eff->protocol->callback, wsi_eff,
 					LWS_CALLBACK_COMPLETED_CLIENT_HTTP,
 					wsi_eff->user_space, NULL, 0)) {
-		lwsl_debug("%s: Completed call returned nonzero (role 0x%x)\n",
-						__func__, lwsi_role(wsi_eff));
+		lwsl_debug("%s: Completed call returned nonzero (role 0x%lx)\n",
+			   __func__, (unsigned long)lwsi_role(wsi_eff));
 		return -1;
 	}
 
@@ -574,7 +605,7 @@ lws_http_transaction_completed_client(struct lws *wsi)
 	 * If not, that's it for us.
 	 */
 
-	if (lws_dll_is_null(&wsi->dll_active_client_conns))
+	if (lws_dll2_is_detached(&wsi->dll_cli_active_conns))
 		return -1;
 
 	/* if this was a queued guy, close him and remove from queue */
@@ -627,6 +658,9 @@ lws_http_transaction_completed_client(struct lws *wsi)
 
 	wsi->http.ah->parser_state = WSI_TOKEN_NAME_PART;
 	wsi->http.ah->lextable_pos = 0;
+#if defined(LWS_WITH_CUSTOM_HEADERS)
+	wsi->http.ah->unk_pos = 0;
+#endif
 
 	lws_set_timeout(wsi, PENDING_TIMEOUT_AWAITING_SERVER_RESPONSE,
 			wsi->context->timeout_secs);
@@ -657,21 +691,6 @@ lws_http_client_http_response(struct lws *_wsi)
 
 	return resp;
 }
-#endif
-#if defined(LWS_PLAT_OPTEE)
-char *
-strrchr(const char *s, int c)
-{
-	char *hit = NULL;
-
-	while (*s)
-		if (*(s++) == (char)c)
-		       hit = (char *)s - 1;
-
-	return hit;
-}
-
-#define atoll atoi
 #endif
 
 #if defined(LWS_ROLE_H1) || defined(LWS_ROLE_H2)
@@ -759,7 +778,11 @@ lws_client_interpret_server_handshake(struct lws *wsi)
 	if (ah)
 		ah->http_response = n;
 
-	if (n == 301 || n == 302 || n == 303 || n == 307 || n == 308) {
+	if (
+#if defined(LWS_WITH_HTTP_PROXY)
+	    !wsi->http.proxy_clientside &&
+#endif
+	    (n == 301 || n == 302 || n == 303 || n == 307 || n == 308)) {
 		p = lws_hdr_simple_ptr(wsi, WSI_TOKEN_HTTP_LOCATION);
 		if (!p) {
 			cce = "HS: Redirect code but no Location";
@@ -799,8 +822,13 @@ lws_client_interpret_server_handshake(struct lws *wsi)
 			port = wsi->c_port;
 			/* +1 as lws_client_reset expects leading / omitted */
 			path = new_path + 1;
-			lws_strncpy(new_path, lws_hdr_simple_ptr(wsi,
+			if (lws_hdr_simple_ptr(wsi,_WSI_TOKEN_CLIENT_URI))
+				lws_strncpy(new_path, lws_hdr_simple_ptr(wsi,
 				   _WSI_TOKEN_CLIENT_URI), sizeof(new_path));
+			else {
+				new_path[0] = '/';
+				new_path[1] = '\0';
+			}
 			q = strrchr(new_path, '/');
 			if (q)
 				lws_strncpy(q + 1, p, sizeof(new_path) -
@@ -815,6 +843,11 @@ lws_client_interpret_server_handshake(struct lws *wsi)
 			goto bail3;
 		}
 #endif
+
+		if (!ads) /* make coverity happy */ {
+			cce = "no ads";
+			goto bail3;
+		}
 
 		if (!lws_client_reset(&wsi, ssl, ads, port, path, ads)) {
 			/* there are two ways to fail out with NULL return...
@@ -859,16 +892,15 @@ lws_client_interpret_server_handshake(struct lws *wsi)
 				wsi->keepalive_rejected = 1;
 
 				lws_vhost_lock(wsi->vhost);
-				lws_start_foreach_dll_safe(struct lws_dll_lws *,
+				lws_start_foreach_dll_safe(struct lws_dll2 *,
 							   d, d1,
-				  wsi->dll_client_transaction_queue_head.next) {
+				  wsi->dll2_cli_txn_queue_owner.head) {
 					struct lws *ww = lws_container_of(d,
 						struct lws,
-						dll_client_transaction_queue);
+						dll2_cli_txn_queue);
 
 					/* remove him from our queue */
-					lws_dll_lws_remove(
-					     &ww->dll_client_transaction_queue);
+					lws_dll2_remove(&ww->dll2_cli_txn_queue);
 					/* give up on pipelining */
 					ww->client_pipeline = 0;
 
@@ -999,12 +1031,9 @@ bail2:
 		n = 0;
 		if (cce)
 			n = (int)strlen(cce);
-		w->protocol->callback(w,
-				LWS_CALLBACK_CLIENT_CONNECTION_ERROR,
-				w->user_space, (void *)cce,
-				(unsigned int)n);
+
+		lws_inform_client_conn_fail(wsi, (void *)cce, (unsigned int)n);
 	}
-	wsi->already_did_cce = 1;
 
 	lwsl_info("closing connection (prot %s) "
 		  "due to bail2 connection error: %s\n", wsi->protocol ?
@@ -1055,7 +1084,8 @@ lws_generate_client_handshake(struct lws *wsi, char *pkt)
 					      wsi->user_space, NULL, 0))
 			return NULL;
 
-		lws_role_transition(wsi, 0, LRS_ESTABLISHED, &role_ops_raw_skt);
+		lws_role_transition(wsi, LWSIFR_CLIENT, LRS_ESTABLISHED,
+				    &role_ops_raw_skt);
 		lws_header_table_detach(wsi, 1);
 
 		return NULL;
@@ -1074,36 +1104,59 @@ lws_generate_client_handshake(struct lws *wsi, char *pkt)
 	 * Sec-WebSocket-Version: 4
 	 */
 
-	p += sprintf(p, "%s %s HTTP/1.1\x0d\x0a", meth,
+	p += lws_snprintf(p, 2048, "%s %s HTTP/1.1\x0d\x0a", meth,
 		     lws_hdr_simple_ptr(wsi, _WSI_TOKEN_CLIENT_URI));
 
-	p += sprintf(p, "Pragma: no-cache\x0d\x0a"
+	p += lws_snprintf(p, 64, "Pragma: no-cache\x0d\x0a"
 			"Cache-Control: no-cache\x0d\x0a");
 
-	p += sprintf(p, "Host: %s\x0d\x0a",
+	p += lws_snprintf(p, 128, "Host: %s\x0d\x0a",
 		     lws_hdr_simple_ptr(wsi, _WSI_TOKEN_CLIENT_HOST));
 
 	if (lws_hdr_simple_ptr(wsi, _WSI_TOKEN_CLIENT_ORIGIN)) {
 		if (lws_check_opt(wsi->context->options,
 				  LWS_SERVER_OPTION_JUST_USE_RAW_ORIGIN))
-			p += sprintf(p, "Origin: %s\x0d\x0a",
+			p += lws_snprintf(p, 128, "Origin: %s\x0d\x0a",
 				     lws_hdr_simple_ptr(wsi,
 						     _WSI_TOKEN_CLIENT_ORIGIN));
 		else
-			p += sprintf(p, "Origin: http://%s\x0d\x0a",
+			p += lws_snprintf(p, 128, "Origin: http://%s\x0d\x0a",
 				     lws_hdr_simple_ptr(wsi,
 						     _WSI_TOKEN_CLIENT_ORIGIN));
 	}
+
+#if defined(LWS_WITH_HTTP_PROXY)
+	if (wsi->parent &&
+	    lws_hdr_total_length(wsi->parent, WSI_TOKEN_HTTP_CONTENT_LENGTH)) {
+		p += lws_snprintf(p, 128, "Content-Length: %s\x0d\x0a",
+			lws_hdr_simple_ptr(wsi->parent, WSI_TOKEN_HTTP_CONTENT_LENGTH));
+		if (atoi(lws_hdr_simple_ptr(wsi->parent, WSI_TOKEN_HTTP_CONTENT_LENGTH)))
+			wsi->client_http_body_pending = 1;
+	}
+	if (wsi->parent &&
+	    lws_hdr_total_length(wsi->parent, WSI_TOKEN_HTTP_AUTHORIZATION)) {
+		p += lws_snprintf(p, 128, "Authorization: %s\x0d\x0a",
+			lws_hdr_simple_ptr(wsi->parent, WSI_TOKEN_HTTP_AUTHORIZATION));
+	}
+	if (wsi->parent &&
+	    lws_hdr_total_length(wsi->parent, WSI_TOKEN_HTTP_CONTENT_TYPE)) {
+		p += lws_snprintf(p, 128, "Content-Type: %s\x0d\x0a",
+			lws_hdr_simple_ptr(wsi->parent, WSI_TOKEN_HTTP_CONTENT_TYPE));
+	}
+#endif
+
 #if defined(LWS_ROLE_WS)
 	if (wsi->do_ws) {
 		const char *conn1 = "";
-		if (!wsi->client_pipeline)
-			conn1 = "close, ";
+	//	if (!wsi->client_pipeline)
+	//		conn1 = "close, ";
 		p = lws_generate_client_ws_handshake(wsi, p, conn1);
 	} else
 #endif
+	{
 		if (!wsi->client_pipeline)
-			p += sprintf(p, "connection: close\x0d\x0a");
+			p += lws_snprintf(p, 64, "connection: close\x0d\x0a");
+	}
 
 	/* give userland a chance to append, eg, cookies */
 
@@ -1113,7 +1166,9 @@ lws_generate_client_handshake(struct lws *wsi, char *pkt)
 			(pkt + wsi->context->pt_serv_buf_size) - p - 12))
 		return NULL;
 
-	p += sprintf(p, "\x0d\x0a");
+	p += lws_snprintf(p, 4, "\x0d\x0a");
+
+	// puts(pkt);
 
 	return p;
 }
@@ -1131,7 +1186,8 @@ lws_http_client_read(struct lws *wsi, char **buf, int *len)
 	// lwsl_notice("%s: rlen %d\n", __func__, rlen);
 
 	/* allow the source to signal he has data again next time */
-	lws_change_pollfd(wsi, 0, LWS_POLLIN);
+	if (lws_change_pollfd(wsi, 0, LWS_POLLIN))
+		return -1;
 
 	if (rlen == LWS_SSL_CAPABLE_ERROR) {
 		lwsl_debug("%s: SSL capable error\n", __func__);
@@ -1226,7 +1282,14 @@ spin_chunks:
 	{
 		struct lws *wsi_eff = lws_client_wsi_effective(wsi);
 
-		if (user_callback_handle_rxflow(wsi_eff->protocol->callback,
+		if (
+#if defined(LWS_WITH_HTTP_PROXY)
+		    !wsi_eff->protocol_bind_balance ==
+		    !!wsi_eff->http.proxy_clientside &&
+#else
+		    !!wsi_eff->protocol_bind_balance &&
+#endif
+		    user_callback_handle_rxflow(wsi_eff->protocol->callback,
 				wsi_eff, LWS_CALLBACK_RECEIVE_CLIENT_HTTP_READ,
 				wsi_eff->user_space, *buf, n)) {
 			lwsl_info("%s: RECEIVE_CLIENT_HTTP_READ returned -1\n",

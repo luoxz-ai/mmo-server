@@ -29,10 +29,10 @@ lws_event_hrtimer_cb(int fd, short event, void *p)
 	lws_usec_t us;
 
 	lws_pt_lock(pt, __func__);
-	us =  __lws_hrtimer_service(pt);
-	if (us != LWS_HRTIMER_NOWAIT) {
-		tv.tv_sec = us / 1000000;
-		tv.tv_usec = us - (tv.tv_sec * 1000000);
+	us = __lws_sul_service_ripe(&pt->pt_sul_owner, lws_now_usecs());
+	if (us) {
+		tv.tv_sec = us / LWS_US_PER_SEC;
+		tv.tv_usec = us - (tv.tv_sec * LWS_US_PER_SEC);
 		evtimer_add(pt->event.hrtimer, &tv);
 	}
 	lws_pt_unlock(pt);
@@ -52,7 +52,7 @@ lws_event_idle_timer_cb(int fd, short event, void *p)
 	 */
 	if (!lws_service_adjust_timeout(pt->context, 1, pt->tid)) {
 		/* -1 timeout means just do forced service */
-		_lws_plat_service_tsi(pt->context, -1, pt->tid);
+		_lws_plat_service_forced_tsi(pt->context, pt->tid);
 		/* still somebody left who wants forced service? */
 		if (!lws_service_adjust_timeout(pt->context, 1, pt->tid)) {
 			/* yes... come back again later */
@@ -65,13 +65,15 @@ lws_event_idle_timer_cb(int fd, short event, void *p)
 		}
 	}
 
+	lwsl_debug("%s: wait\n", __func__);
+
 	/* account for hrtimer */
 
 	lws_pt_lock(pt, __func__);
-	us =  __lws_hrtimer_service(pt);
-	if (us != LWS_HRTIMER_NOWAIT) {
-		tv.tv_sec = us / 1000000;
-		tv.tv_usec = us - (tv.tv_sec * 1000000);
+	us = __lws_sul_service_ripe(&pt->pt_sul_owner, lws_now_usecs());
+	if (us) {
+		tv.tv_sec = us / LWS_US_PER_SEC;
+		tv.tv_usec = us - (tv.tv_sec * LWS_US_PER_SEC);
 		evtimer_add(pt->event.hrtimer, &tv);
 	}
 	lws_pt_unlock(pt);
@@ -112,6 +114,9 @@ lws_event_cb(evutil_socket_t sock_fd, short revents, void *ctx)
 	}
 
 	wsi = wsi_from_fd(context, sock_fd);
+	if (!wsi) {
+		return;
+	}
 	pt = &context->pt[(int)wsi->tsi];
 
 	lws_service_fd_tsi(context, &eventfd, wsi->tsi);
@@ -184,8 +189,8 @@ elops_init_pt_event(struct lws_context *context, void *_loop, int tsi)
 	pt->event.hrtimer = event_new(loop, -1, EV_PERSIST,
 				      lws_event_hrtimer_cb, pt);
 
-	pt->event.idle_timer = event_new(loop, -1, EV_PERSIST,
-				      lws_event_idle_timer_cb, pt);
+	pt->event.idle_timer = event_new(loop, -1, 0,
+					 lws_event_idle_timer_cb, pt);
 
 	/* Register the signal watcher unless it's a foreign loop */
 
@@ -360,7 +365,7 @@ elops_destroy_context2_event(struct lws_context *context)
 	struct lws_context_per_thread *pt;
 	int n, m;
 
-	lwsl_debug("%s\n", __func__);
+	lwsl_debug("%s: in\n", __func__);
 
 	for (n = 0; n < context->count_threads; n++) {
 		int budget = 1000;
@@ -390,6 +395,8 @@ elops_destroy_context2_event(struct lws_context *context)
 		event_base_free(pt->event.io_loop);
 
 	}
+
+	lwsl_debug("%s: out\n", __func__);
 
 	return 0;
 }

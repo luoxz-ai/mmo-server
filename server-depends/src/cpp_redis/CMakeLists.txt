@@ -25,6 +25,7 @@
 ###
 cmake_minimum_required(VERSION 2.8.7)
 set(CMAKE_MACOSX_RPATH 1)
+include(${CMAKE_ROOT}/Modules/ExternalProject.cmake)
 
 
 ###
@@ -43,58 +44,65 @@ project(${PROJECT} CXX)
 ###
 # compilation options
 ###
-IF (WIN32)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W3 /O2")
+if(WIN32)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W3 /O2 /bigobj")
 
   # was causing conflics with gtest build
   string(REPLACE "/RTC1" "" CMAKE_CXX_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})
 
-  IF ("${MSVC_RUNTIME_LIBRARY_CONFIG}" STREQUAL "")
+  if("${MSVC_RUNTIME_LIBRARY_CONFIG}" STREQUAL "")
     set(MSVC_RUNTIME_LIBRARY_CONFIG "/MT")
-  ENDIF() 
+  endif()
 
-  foreach (flag_var CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE)
-    IF ("${MSVC_RUNTIME_LIBRARY_CONFIG}" STREQUAL "/MT")
+  foreach(flag_var CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE)
+    if("${MSVC_RUNTIME_LIBRARY_CONFIG}" STREQUAL "/MT")
       string(REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
-    ELSEIF ("${MSVC_RUNTIME_LIBRARY_CONFIG}" STREQUAL "/MD")
+    elseif("${MSVC_RUNTIME_LIBRARY_CONFIG}" STREQUAL "/MD")
       string(REPLACE "/MT" "/MD" ${flag_var} "${${flag_var}}")
-    ELSE ()
+    else()
       string(REPLACE "/MD" "${MSVC_RUNTIME_LIBRARY_CONFIG}" ${flag_var} "${${flag_var}}")
       string(REPLACE "/MT" "${MSVC_RUNTIME_LIBRARY_CONFIG}" ${flag_var} "${${flag_var}}")
-    ENDIF()
+    endif()
   endforeach()
 
   add_definitions(-D_UNICODE)
   add_definitions(-DUNICODE)
   add_definitions(-DWIN32_LEAN_AND_MEAN)
-ELSE ()
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -W -Wall -Wextra -O3 -fPIC")
-ENDIF (WIN32)
+else()
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -W -Wall -Wextra -O3")
+endif(WIN32)
 
 
 ###
 # variables
 ###
-# gtest
-set(GTEST_INCLUDES ${PROJECT_SOURCE_DIR}/deps/src/googletest/googletest/include)
-# cpp_redis
+find_path(TACOPIE_INCLUDE_DIR tacopie/tacopie PATHS ${PROJECT_SOURCE_DIR}/tacopie/includes/)
+find_library(TACOPIE_LIBRARY tacopie)
 set(CPP_REDIS_INCLUDES ${PROJECT_SOURCE_DIR}/includes)
-# tacopie
-set(TACOPIE_FOLDER ${PROJECT_SOURCE_DIR}/tacopie)
-set(TACOPIE_INCLUDES ${TACOPIE_FOLDER}/includes)
+set(DEPS_INCLUDES ${PROJECT_SOURCE_DIR}/deps/include ${TACOPIE_INCLUDE_DIR})
+set(DEPS_LIBRARIES ${PROJECT_SOURCE_DIR}/deps/lib)
 
 
 ###
 # includes
 ###
-include_directories(${CPP_REDIS_INCLUDES}
-                    ${TACOPIE_INCLUDES})
+include_directories(${CPP_REDIS_INCLUDES} ${DEPS_INCLUDES})
 
 
 ###
 # sources
 ###
-set(SRC_DIRS "sources" "sources/network" "sources/builders" "includes/cpp_redis" "includes/cpp_redis/builders" "includes/cpp_redis/network")
+set(SRC_DIRS "sources"
+             "sources/builders"
+             "sources/core"
+             "sources/misc"
+             "sources/network"
+             "includes/cpp_redis"
+             "includes/cpp_redis/builders"
+             "includes/cpp_redis/core"
+             "includes/cpp_redis/misc"
+             "includes/cpp_redis/network")
+
 foreach(dir ${SRC_DIRS})
   # get directory sources and headers
   file(GLOB s_${dir} "${dir}/*.cpp")
@@ -104,6 +112,12 @@ foreach(dir ${SRC_DIRS})
   # set sources
   set(SOURCES ${SOURCES} ${s_${dir}} ${h_${dir}} ${i_${dir}})
 endforeach()
+# filter tcp_client if no tacopie
+if(USE_CUSTOM_TCP_CLIENT)
+  file(GLOB tacopie_cpp "sources/network/tcp_client.cpp")
+  file(GLOB tacopie_h "includes/cpp_redis/network/tcp_client.hpp")
+  list(REMOVE_ITEM SOURCES ${tacopie_cpp} ${tacopie_h})
+endif(USE_CUSTOM_TCP_CLIENT)
 
 
 ###
@@ -122,56 +136,82 @@ configure_file("cpp_redis.pc.in" "${CMAKE_PKGCONFIG_OUTPUT_DIRECTORY}/cpp_redis.
 ###
 # executable
 ###
-add_library(${PROJECT} STATIC ${SOURCES})
+add_library(${PROJECT} ${SOURCES})
+set_property(TARGET ${PROJECT} PROPERTY POSITION_INDEPENDENT_CODE ON)
 
-IF (WIN32)
-  target_link_libraries(${PROJECT} ws2_32 tacopie)
-ELSE ()
-  target_link_libraries(${PROJECT} pthread tacopie)
-ENDIF (WIN32)
+if(WIN32)
+  set_target_properties(${PROJECT}
+                        PROPERTIES COMPILE_PDB_NAME ${PROJECT}
+                        COMPILE_PDB_OUTPUT_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+endif(WIN32)
+
+if(WIN32)
+  target_link_libraries(${PROJECT} ws2_32)
+else()
+  target_link_libraries(${PROJECT} pthread)
+endif(WIN32)
+
+if(TACOPIE_LIBRARY)
+  target_link_libraries(${PROJECT} ${TACOPIE_LIBRARY})
+else()
+  target_link_libraries(${PROJECT} tacopie)
+endif(TACOPIE_LIBRARY)
+
 
 # __CPP_REDIS_READ_SIZE
-IF (READ_SIZE)
+if(READ_SIZE)
   set_target_properties(${PROJECT} PROPERTIES COMPILE_DEFINITIONS "__CPP_REDIS_READ_SIZE=${READ_SIZE}")
-ENDIF (READ_SIZE)
+endif(READ_SIZE)
 
 # __CPP_REDIS_LOGGING_ENABLED
-IF (LOGGING_ENABLED)
+if(LOGGING_ENABLED)
   set_target_properties(${PROJECT} PROPERTIES COMPILE_DEFINITIONS "__CPP_REDIS_LOGGING_ENABLED=${LOGGING_ENABLED}")
-ENDIF (LOGGING_ENABLED)
+endif(LOGGING_ENABLED)
+
+# __CPP_REDIS_USE_CUSTOM_TCP_CLIENT
+if(USE_CUSTOM_TCP_CLIENT)
+  set_target_properties(${PROJECT} PROPERTIES COMPILE_DEFINITIONS "__CPP_REDIS_USE_CUSTOM_TCP_CLIENT=${USE_CUSTOM_TCP_CLIENT}")
+endif(USE_CUSTOM_TCP_CLIENT)
 
 
 ###
 # install
 ###
 # ensure lib and bin directories exist
-install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/lib/)
-install(DIRECTORY DESTINATION ${CMAKE_BINARY_DIR}/bin/)
+install(DIRECTORY DESTINATION ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+install(DIRECTORY DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 # install cpp_redis
-install (DIRECTORY ${CMAKE_BINARY_DIR}/lib/ DESTINATION lib USE_SOURCE_PERMISSIONS)
-install (DIRECTORY ${CMAKE_BINARY_DIR}/bin/ DESTINATION bin USE_SOURCE_PERMISSIONS)
-install (DIRECTORY ${CPP_REDIS_INCLUDES}/ DESTINATION include USE_SOURCE_PERMISSIONS)
-
-
-###
-# tacopie
-###
-add_subdirectory(tacopie)
+install(DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/ DESTINATION lib USE_SOURCE_PERMISSIONS)
+install(DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ DESTINATION bin USE_SOURCE_PERMISSIONS)
+install(DIRECTORY ${CPP_REDIS_INCLUDES}/ DESTINATION include USE_SOURCE_PERMISSIONS)
 
 
 ###
 # examples
 ###
-IF (BUILD_EXAMPLES)
+if(BUILD_EXAMPLES)
   add_subdirectory(examples)
-ENDIF(BUILD_EXAMPLES)
+  # Reset variable to false to ensure tacopie does no build examples
+  set(BUILD_EXAMPLES false)
+endif(BUILD_EXAMPLES)
 
 ###
 # tests
 ###
-IF (BUILD_TESTS)
+if(BUILD_TESTS)
+  enable_testing()
   add_subdirectory(tests)
-  IF (EXISTS ${PROJECT_SOURCE_DIR}/deps/src/googletest)
-    add_subdirectory(${PROJECT_SOURCE_DIR}/deps/src/googletest)
-  ENDIF ()
-ENDIF(BUILD_TESTS)
+  ExternalProject_Add("googletest"
+                      GIT_REPOSITORY "https://github.com/google/googletest.git"
+                      CMAKE_ARGS "-DCMAKE_INSTALL_PREFIX=${PROJECT_SOURCE_DIR}/deps")
+  # Reset variable to false to ensure tacopie does no build tests
+  set(BUILD_TESTS false)
+endif(BUILD_TESTS)
+
+
+###
+# tacopie
+###
+if(NOT TACOPIE_LIBRARY AND NOT USE_CUSTOM_TCP_CLIENT)
+  add_subdirectory(tacopie)
+endif(NOT TACOPIE_LIBRARY AND NOT USE_CUSTOM_TCP_CLIENT)

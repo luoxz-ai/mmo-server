@@ -1,16 +1,19 @@
-// Copyright (c) 2015 Baidu, Inc.
-// 
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-// 
-//     http://www.apache.org/licenses/LICENSE-2.0
-// 
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
+// Licensed to the Apache Software Foundation (ASF) under one
+// or more contributor license agreements.  See the NOTICE file
+// distributed with this work for additional information
+// regarding copyright ownership.  The ASF licenses this file
+// to you under the Apache License, Version 2.0 (the
+// "License"); you may not use this file except in compliance
+// with the License.  You may obtain a copy of the License at
+//
+//   http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
 
 // Authors: Ge,Jun (gejun@baidu.com)
 
@@ -18,7 +21,8 @@
 #include <gflags/gflags.h>
 #include "butil/files/file_enumerator.h"
 #include "butil/file_util.h"                     // butil::FilePath
-#include "butil/popen.h"                        // butil::read_command_output
+#include "butil/popen.h"                         // butil::read_command_output
+#include "butil/fd_guard.h"                      // butil::fd_guard
 #include "brpc/log.h"
 #include "brpc/controller.h"
 #include "brpc/server.h"
@@ -308,6 +312,25 @@ static void NotifyWaiters(ProfilingType type, const Controller* cur_cntl,
     }
 }
 
+#if defined(OS_MACOSX)
+static bool check_GOOGLE_PPROF_BINARY_PATH() {
+    char* str = getenv("GOOGLE_PPROF_BINARY_PATH");
+    if (str == NULL) {
+        return false;
+    }
+    butil::fd_guard fd(open(str, O_RDONLY));
+    if (fd < 0) {
+        return false;
+    }
+    return true;
+}
+
+static bool has_GOOGLE_PPROF_BINARY_PATH() {
+    static bool val = check_GOOGLE_PPROF_BINARY_PATH();
+    return val;
+}
+#endif
+
 static void DisplayResult(Controller* cntl,
                           google::protobuf::Closure* done,
                           const char* prof_name,
@@ -383,6 +406,7 @@ static void DisplayResult(Controller* cntl,
     pprof_tool.push_back('/');
     pprof_tool += PPROF_FILENAME;
     
+#if defined(OS_LINUX)
     cmd_builder << "perl " << pprof_tool
                 << (use_text ? " --text " : " --dot ")
                 << (show_ccount ? " --contention " : "");
@@ -390,6 +414,16 @@ static void DisplayResult(Controller* cntl,
         cmd_builder << "--base " << *base_name << ' ';
     }
     cmd_builder << GetProgramName() << " " << prof_name << " 2>&1 ";
+#elif defined(OS_MACOSX)
+    cmd_builder << getenv("GOOGLE_PPROF_BINARY_PATH") << " "
+                << (use_text ? " -text " : " -dot ")
+                << (show_ccount ? " -contentions " : "");
+    if (base_name) {
+        cmd_builder << "-base " << *base_name << ' ';
+    }
+    cmd_builder << prof_name << " 2>&1 ";
+#endif
+
     const std::string cmd = cmd_builder.str();
     for (int ntry = 0; ntry < 2; ++ntry) {
         if (!g_written_pprof_perl) {
@@ -601,6 +635,16 @@ static void DoProfiling(ProfilingType type,
         cntl->http_response().set_status_code(HTTP_STATUS_INTERNAL_SERVER_ERROR);
         return NotifyWaiters(type, cntl, view);
     }
+
+#if defined(OS_MACOSX)
+    if (!has_GOOGLE_PPROF_BINARY_PATH()) {
+        os << "no GOOGLE_PPROF_BINARY_PATH in env"
+           << (use_html ? "</body></html>" : "\n");
+        os.move_to(resp);
+        cntl->http_response().set_status_code(HTTP_STATUS_FORBIDDEN);
+        return NotifyWaiters(type, cntl, view);
+    }
+#endif
     if (type == PROFILING_CPU) {
         if ((void*)ProfilerStart == NULL || (void*)ProfilerStop == NULL) {
             os << "CPU profiler is not enabled"
@@ -713,6 +757,7 @@ static void StartProfiling(ProfilingType type,
     butil::IOBufBuilder os;
     bool enabled = false;
     const char* extra_desc = "";
+
     if (type == PROFILING_CPU) {
         enabled = cpu_profiler_enabled;
     } else if (type == PROFILING_CONTENTION) {
@@ -727,6 +772,13 @@ static void StartProfiling(ProfilingType type,
         enabled = IsHeapProfilerEnabled();
     }
     const char* const type_str = ProfilingType2String(type);
+
+#if defined(OS_MACOSX)
+    if (!has_GOOGLE_PPROF_BINARY_PATH()) {
+        enabled = false;
+        extra_desc = "(no GOOGLE_PPROF_BINARY_PATH in env)";
+    }
+#endif
     
     if (!use_html) {
         if (!enabled) {

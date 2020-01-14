@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2017 Thomas Fussell
+// Copyright (c) 2014-2018 Thomas Fussell
 // Copyright (c) 2010-2015 openpyxl
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,6 +22,7 @@
 // @license: http://www.opensource.org/licenses/mit-license.php
 // @author: see AUTHORS file
 #include <xlnt/worksheet/page_margins.hpp>
+#include <xlnt/utils/numeric.hpp>
 
 namespace xlnt {
 
@@ -87,6 +88,15 @@ double page_margins::footer() const
 void page_margins::footer(double footer)
 {
     footer_ = footer;
+}
+
+bool page_margins::operator==(const page_margins &rhs) const
+{
+    return detail::float_equals(top_, rhs.top_)
+        && detail::float_equals(left_,rhs.left_)
+        && detail::float_equals(right_, rhs.right_)
+        && detail::float_equals(header_, rhs.header_)
+        && detail::float_equals(footer_, rhs.footer_);
 }
 
 } // namespace xlnt

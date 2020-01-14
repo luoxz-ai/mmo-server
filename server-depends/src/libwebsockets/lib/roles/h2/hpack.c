@@ -1,7 +1,7 @@
 /*
  * lib/hpack.c
  *
- * Copyright (C) 2014-2018 Andy Green <andy@warmcat.com>
+ * Copyright (C) 2014-2019 Andy Green <andy@warmcat.com>
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
@@ -597,6 +597,11 @@ lws_hpack_dynamic_size(struct lws *wsi, int size)
 		  (int)dyn->num_entries, size,
 		  nwsi->vhost->h2.set.s[H2SET_HEADER_TABLE_SIZE]);
 
+	if (!size) {
+		size = dyn->num_entries * 8;
+		lws_hpack_destroy_dynamic_header(wsi);
+	}
+
 	if (size > (int)nwsi->vhost->h2.set.s[H2SET_HEADER_TABLE_SIZE]) {
 		lwsl_info("rejecting hpack dyn size %u vs %u\n", size,
 				nwsi->vhost->h2.set.s[H2SET_HEADER_TABLE_SIZE]);
@@ -1190,6 +1195,9 @@ swallow:
 			}
 
 			if (ah->parser_state == WSI_TOKEN_NAME_PART ||
+#if defined(LWS_WITH_CUSTOM_HEADERS)
+			    ah->parser_state == WSI_TOKEN_UNKNOWN_VALUE_PART ||
+#endif
 			    ah->parser_state == WSI_TOKEN_SKIPPING) {
 				h2n->unknown_header = 1;
 				ah->parser_state = -1;

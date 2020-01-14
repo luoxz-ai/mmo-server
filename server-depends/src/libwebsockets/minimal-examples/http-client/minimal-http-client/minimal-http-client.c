@@ -1,7 +1,7 @@
 /*
  * lws-minimal-http-client
  *
- * Copyright (C) 2018 Andy Green <andy@warmcat.com>
+ * Written in 2010-2019 by Andy Green <andy@warmcat.com>
  *
  * This file is made available under the Creative Commons CC0 1.0
  * Universal Public Domain Dedication.
@@ -130,6 +130,15 @@ int main(int argc, const char **argv)
 	info.port = CONTEXT_PORT_NO_LISTEN; /* we do not run any server */
 	info.protocols = protocols;
 
+	/*
+	 * since we know this lws context is only ever going to be used with
+	 * one client wsis / fds / sockets at a time, let lws know it doesn't
+	 * have to use the default allocations for fd tables up to ulimit -n.
+	 * It will just allocate for 1 internal and 1 (+ 1 http2 nwsi) that we
+	 * will use.
+	 */
+	info.fd_limit_per_thread = 1 + 1 + 1;
+
 #if defined(LWS_WITH_MBEDTLS)
 	/*
 	 * OpenSSL uses the system trust store.  mbedTLS has to be told which
@@ -146,7 +155,8 @@ int main(int argc, const char **argv)
 
 	memset(&i, 0, sizeof i); /* otherwise uninitialized garbage */
 	i.context = context;
-	i.ssl_connection = LCCSCF_USE_SSL;
+	if (!lws_cmdline_option(argc, argv, "-n"))
+		i.ssl_connection = LCCSCF_USE_SSL;
 
 	if (lws_cmdline_option(argc, argv, "-l")) {
 		i.port = 7681;
@@ -160,6 +170,24 @@ int main(int argc, const char **argv)
 	if (lws_cmdline_option(argc, argv, "--h1"))
 		i.alpn = "http/1.1";
 
+	if ((p = lws_cmdline_option(argc, argv, "-p")))
+		i.port = atoi(p);
+
+	if (lws_cmdline_option(argc, argv, "-j"))
+		i.ssl_connection |= LCCSCF_ALLOW_SELFSIGNED;
+
+	if (lws_cmdline_option(argc, argv, "-k"))
+		i.ssl_connection |= LCCSCF_ALLOW_INSECURE;
+
+	if (lws_cmdline_option(argc, argv, "-m"))
+		i.ssl_connection |= LCCSCF_SKIP_SERVER_CERT_HOSTNAME_CHECK;
+
+	if (lws_cmdline_option(argc, argv, "-e"))
+		i.ssl_connection |= LCCSCF_ALLOW_EXPIRED;
+
+	if ((p = lws_cmdline_option(argc, argv, "--server")))
+		i.address = p;
+
 	i.path = "/";
 	i.host = i.address;
 	i.origin = i.address;
@@ -170,7 +198,7 @@ int main(int argc, const char **argv)
 	lws_client_connect_via_info(&i);
 
 	while (n >= 0 && client_wsi && !interrupted)
-		n = lws_service(context, 1000);
+		n = lws_service(context, 0);
 
 	lws_context_destroy(context);
 	lwsl_user("Completed: %s\n", bad ? "failed" : "OK");

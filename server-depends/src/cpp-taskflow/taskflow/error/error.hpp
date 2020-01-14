@@ -20,7 +20,7 @@ struct Error : public std::error_category {
   */
   enum Code : int {
     SUCCESS = 0,
-    FLOW_BUILDER,
+    TASKFLOW,
     EXECUTOR
   };
   
@@ -58,8 +58,8 @@ inline std::string Error::message(int code) const {
       return "success";
     break;
 
-    case FLOW_BUILDER:
-      return "flow builder error";
+    case TASKFLOW:
+      return "taskflow error";
     break;
 
     case EXECUTOR:
@@ -78,13 +78,13 @@ inline std::error_code make_error_code(Error::Code e) {
   return std::error_code(static_cast<int>(e), Error::get());
 }
 
-};  // end of namespace tf ----------------------------------------------------
+}  // end of namespace tf ----------------------------------------------------
 
 // Register for implicit conversion  
 namespace std {
   template <>
   struct is_error_code_enum<tf::Error::Code> : true_type {};
-};
+}
 
 // ----------------------------------------------------------------------------
 
@@ -100,7 +100,7 @@ void throw_se(const char* fname, const size_t line, Error::Code c, ArgsT&&... ar
   throw std::system_error(c, oss.str());
 }
 
-};  // ------------------------------------------------------------------------
+}  // ------------------------------------------------------------------------
 
 #define TF_THROW(...) tf::throw_se(__FILE__, __LINE__, __VA_ARGS__);
 

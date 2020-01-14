@@ -344,19 +344,23 @@ enum lws_callback_reasons {
 	 * one callback. */
 
 	LWS_CALLBACK_RECEIVE_CLIENT_HTTP			= 46,
-	/**< This simply indicates data was received on the HTTP client
-	 * connection.  It does NOT drain or provide the data.
-	 * This exists to neatly allow a proxying type situation,
-	 * where this incoming data will go out on another connection.
-	 * If the outgoing connection stalls, we should stall processing
-	 * the incoming data.  So a handler for this in that case should
-	 * simply set a flag to indicate there is incoming data ready
-	 * and ask for a writeable callback on the outgoing connection.
-	 * In the writable callback he can check the flag and then get
-	 * and drain the waiting incoming data using lws_http_client_read().
-	 * This will use callbacks to LWS_CALLBACK_RECEIVE_CLIENT_HTTP_READ
-	 * to get and drain the incoming data, where it should be sent
-	 * back out on the outgoing connection. */
+	/**< This indicates data was received on the HTTP client connection.  It
+	 * does NOT actually drain or provide the data, so if you are doing
+	 * http client, you MUST handle this and call lws_http_client_read().
+	 * Failure to deal with it as in the minimal examples may cause spinning
+	 * around the event loop as it's continuously signalled the same data
+	 * is available for read.  The related minimal examples show how to
+	 * handle it.
+	 *
+	 * It's possible to defer calling lws_http_client_read() if you use
+	 * rx flow control to stop further rx handling on the connection until
+	 * you did deal with it.  But normally you would call it in the handler.
+	 *
+	 * lws_http_client_read() strips any chunked framing and calls back
+	 * with only payload data to LWS_CALLBACK_RECEIVE_CLIENT_HTTP_READ.  The
+	 * chunking is the reason this is not just all done in one callback for
+	 * http.
+	 */
 	LWS_CALLBACK_COMPLETED_CLIENT_HTTP			= 47,
 	/**< The client transaction completed... at the moment this
 	 * is the same as closing since transaction pipelining on
@@ -683,6 +687,42 @@ enum lws_callback_reasons {
 	 */
 
 	/* ---------------------------------------------------------------------
+	 * ----- Callbacks related to RAW PROXY -----
+	 */
+
+	LWS_CALLBACK_RAW_PROXY_CLI_RX				= 89,
+	/**< RAW mode client (outgoing) RX */
+
+	LWS_CALLBACK_RAW_PROXY_SRV_RX				= 90,
+	/**< RAW mode server (listening) RX */
+
+	LWS_CALLBACK_RAW_PROXY_CLI_CLOSE			= 91,
+	/**< RAW mode client (outgoing) is closing */
+
+	LWS_CALLBACK_RAW_PROXY_SRV_CLOSE			= 92,
+	/**< RAW mode server (listening) is closing */
+
+	LWS_CALLBACK_RAW_PROXY_CLI_WRITEABLE			= 93,
+	/**< RAW mode client (outgoing) may be written */
+
+	LWS_CALLBACK_RAW_PROXY_SRV_WRITEABLE			= 94,
+	/**< RAW mode server (listening) may be written */
+
+	LWS_CALLBACK_RAW_PROXY_CLI_ADOPT			= 95,
+	/**< RAW mode client (onward) accepted socket was adopted
+	 *   (equivalent to 'wsi created') */
+
+	LWS_CALLBACK_RAW_PROXY_SRV_ADOPT			= 96,
+	/**< RAW mode server (listening) accepted socket was adopted
+	 *   (equivalent to 'wsi created') */
+
+	LWS_CALLBACK_RAW_PROXY_CLI_BIND_PROTOCOL		= 97,
+	LWS_CALLBACK_RAW_PROXY_SRV_BIND_PROTOCOL		= 98,
+	LWS_CALLBACK_RAW_PROXY_CLI_DROP_PROTOCOL		= 99,
+	LWS_CALLBACK_RAW_PROXY_SRV_DROP_PROTOCOL		= 100,
+
+
+	/* ---------------------------------------------------------------------
 	 * ----- Callbacks related to RAW sockets -----
 	 */
 
@@ -697,6 +737,9 @@ enum lws_callback_reasons {
 
 	LWS_CALLBACK_RAW_ADOPT					= 62,
 	/**< RAW mode connection was adopted (equivalent to 'wsi created') */
+
+	LWS_CALLBACK_RAW_CONNECTED				= 101,
+	/**< outgoing client RAW mode connection was connected */
 
 	LWS_CALLBACK_RAW_SKT_BIND_PROTOCOL			= 81,
 	LWS_CALLBACK_RAW_SKT_DROP_PROTOCOL			= 82,

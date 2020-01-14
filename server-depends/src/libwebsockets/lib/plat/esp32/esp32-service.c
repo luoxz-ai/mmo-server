@@ -26,8 +26,9 @@ lws_plat_service(struct lws_context *context, int timeout_ms)
 {
 	int n = _lws_plat_service_tsi(context, timeout_ms, 0);
 
-	lws_service_fd_tsi(context, NULL, 0);
+#if !defined(LWS_AMAZON_RTOS)
 	esp_task_wdt_reset();
+#endif
 
 	return n;
 }
@@ -37,7 +38,8 @@ LWS_EXTERN int
 _lws_plat_service_tsi(struct lws_context *context, int timeout_ms, int tsi)
 {
 	struct lws_context_per_thread *pt;
-	int n = -1, m, c;
+	lws_usec_t timeout_us;
+	int n = -1, m, c, a = 0;
 
 	/* stay dead once we are dead */
 
@@ -45,32 +47,47 @@ _lws_plat_service_tsi(struct lws_context *context, int timeout_ms, int tsi)
 		return 1;
 
 	pt = &context->pt[tsi];
-	lws_stats_atomic_bump(context, pt, LWSSTATS_C_SERVICE_ENTRY, 1);
+	lws_stats_bump(pt, LWSSTATS_C_SERVICE_ENTRY, 1);
 
 	{
 		unsigned long m = lws_now_secs();
 
 		if (m > context->time_last_state_dump) {
 			context->time_last_state_dump = m;
+#if defined(LWS_AMAZON_RTOS)
+			n = xPortGetFreeHeapSize();
+#else
 			n = esp_get_free_heap_size();
-			if (n != context->last_free_heap) {
-				if (n > context->last_free_heap)
-					lwsl_notice(" heap :%d (+%d)\n", n,
-						    n - context->last_free_heap);
+#endif
+			if ((unsigned int)n != context->last_free_heap) {
+				if ((unsigned int)n > context->last_free_heap)
+					lwsl_notice(" heap :%ld (+%ld)\n",
+						    (unsigned long)n,
+						    (unsigned long)(n -
+						      context->last_free_heap));
 				else
-					lwsl_notice(" heap :%d (-%d)\n", n,
-						    context->last_free_heap - n);
+					lwsl_notice(" heap :%ld (-%ld)\n",
+						    (unsigned long)n,
+						    (unsigned long)(
+						      context->last_free_heap -
+						      n));
 				context->last_free_heap = n;
 			}
 		}
 	}
 
 	if (timeout_ms < 0)
-		goto faked_service;
+		timeout_ms = 0;
+	else
+		/* force a default timeout of 23 days */
+		timeout_ms = 2000000000;
+	timeout_us = ((lws_usec_t)timeout_ms) * LWS_US_PER_MS;
 
 	if (!pt->service_tid_detected) {
 		struct lws *_lws = lws_zalloc(sizeof(*_lws), "tid probe");
 
+		if (!_lws)
+			return 1;
 		_lws->context = context;
 
 		pt->service_tid = context->vhost_list->protocols[0].callback(
@@ -82,86 +99,91 @@ _lws_plat_service_tsi(struct lws_context *context, int timeout_ms, int tsi)
 	/*
 	 * is there anybody with pending stuff that needs service forcing?
 	 */
-	if (!lws_service_adjust_timeout(context, 1, tsi)) {
-		/* -1 timeout means just do forced service */
-		_lws_plat_service_tsi(context, -1, pt->tid);
-		/* still somebody left who wants forced service? */
-		if (!lws_service_adjust_timeout(context, 1, pt->tid))
-			/* yes... come back again quickly */
-			timeout_ms = 0;
-	}
+	if (lws_service_adjust_timeout(context, 1, tsi)) {
 
-	if (timeout_ms) {
-		lws_pt_lock(pt, __func__);
-		/* don't stay in poll wait longer than next hr timeout */
-		lws_usec_t t =  __lws_hrtimer_service(pt);
+again:
+		a = 0;
+		if (timeout_us) {
+			lws_usec_t us;
 
-		if ((lws_usec_t)timeout_ms * 1000 > t)
-			timeout_ms = t / 1000;
-		lws_pt_unlock(pt);
-	}
+			lws_pt_lock(pt, __func__);
+			/* don't stay in poll wait longer than next hr timeout */
+			us = __lws_sul_service_ripe(&pt->pt_sul_owner, lws_now_usecs());
+			if (us && us < timeout_us)
+				timeout_us = us;
 
-//	n = poll(pt->fds, pt->fds_count, timeout_ms);
-	{
-		fd_set readfds, writefds, errfds;
-		struct timeval tv = { timeout_ms / 1000,
-				      (timeout_ms % 1000) * 1000 }, *ptv = &tv;
-		int max_fd = 0;
-		FD_ZERO(&readfds);
-		FD_ZERO(&writefds);
-		FD_ZERO(&errfds);
-
-		for (n = 0; n < pt->fds_count; n++) {
-			pt->fds[n].revents = 0;
-			if (pt->fds[n].fd >= max_fd)
-				max_fd = pt->fds[n].fd;
-			if (pt->fds[n].events & LWS_POLLIN)
-				FD_SET(pt->fds[n].fd, &readfds);
-			if (pt->fds[n].events & LWS_POLLOUT)
-				FD_SET(pt->fds[n].fd, &writefds);
-			FD_SET(pt->fds[n].fd, &errfds);
+			lws_pt_unlock(pt);
 		}
 
-		n = select(max_fd + 1, &readfds, &writefds, &errfds, ptv);
-		n = 0;
-		for (m = 0; m < pt->fds_count; m++) {
-			c = 0;
-			if (FD_ISSET(pt->fds[m].fd, &readfds)) {
-				pt->fds[m].revents |= LWS_POLLIN;
-				c = 1;
-			}
-			if (FD_ISSET(pt->fds[m].fd, &writefds)) {
-				pt->fds[m].revents |= LWS_POLLOUT;
-				c = 1;
-			}
-			if (FD_ISSET(pt->fds[m].fd, &errfds)) {
-				// lwsl_notice("errfds %d\n", pt->fds[m].fd);
-				pt->fds[m].revents |= LWS_POLLHUP;
-				c = 1;
+	//	n = poll(pt->fds, pt->fds_count, timeout_ms);
+		{
+			fd_set readfds, writefds, errfds;
+			struct timeval tv = { timeout_us / LWS_US_PER_SEC,
+					      timeout_us % LWS_US_PER_SEC }, *ptv = &tv;
+			int max_fd = 0;
+			FD_ZERO(&readfds);
+			FD_ZERO(&writefds);
+			FD_ZERO(&errfds);
+
+			for (n = 0; n < (int)pt->fds_count; n++) {
+				pt->fds[n].revents = 0;
+				if (pt->fds[n].fd >= max_fd)
+					max_fd = pt->fds[n].fd;
+				if (pt->fds[n].events & LWS_POLLIN)
+					FD_SET(pt->fds[n].fd, &readfds);
+				if (pt->fds[n].events & LWS_POLLOUT)
+					FD_SET(pt->fds[n].fd, &writefds);
+				FD_SET(pt->fds[n].fd, &errfds);
 			}
 
-			if (c)
-				n++;
+			n = select(max_fd + 1, &readfds, &writefds, &errfds, ptv);
+			n = 0;
+
+	#if defined(LWS_WITH_DETAILED_LATENCY)
+			/*
+			 * so we can track how long it took before we actually read a POLLIN
+			 * that was signalled when we last exited poll()
+			 */
+			if (context->detailed_latency_cb)
+				pt->ust_left_poll = lws_now_usecs();
+	#endif
+
+			for (m = 0; m < (int)pt->fds_count; m++) {
+				c = 0;
+				if (FD_ISSET(pt->fds[m].fd, &readfds)) {
+					pt->fds[m].revents |= LWS_POLLIN;
+					c = 1;
+				}
+				if (FD_ISSET(pt->fds[m].fd, &writefds)) {
+					pt->fds[m].revents |= LWS_POLLOUT;
+					c = 1;
+				}
+				if (FD_ISSET(pt->fds[m].fd, &errfds)) {
+					// lwsl_notice("errfds %d\n", pt->fds[m].fd);
+					pt->fds[m].revents |= LWS_POLLHUP;
+					c = 1;
+				}
+
+				if (c)
+					n++;
+			}
 		}
-	}
 
-	m = 0;
+		m = 0;
 
-#if defined(LWS_ROLE_WS) && !defined(LWS_WITHOUT_EXTENSIONS)
-	m |= !!pt->ws.rx_draining_ext_list;
-#endif
+	#if defined(LWS_ROLE_WS) && !defined(LWS_WITHOUT_EXTENSIONS)
+		m |= !!pt->ws.rx_draining_ext_list;
+	#endif
 
-	if (pt->context->tls_ops &&
-	    pt->context->tls_ops->fake_POLLIN_for_buffered)
-		m |= pt->context->tls_ops->fake_POLLIN_for_buffered(pt);
+		if (pt->context->tls_ops &&
+		    pt->context->tls_ops->fake_POLLIN_for_buffered)
+			m |= pt->context->tls_ops->fake_POLLIN_for_buffered(pt);
 
-	if (!m && !n) {
-		lws_service_fd_tsi(context, NULL, tsi);
-		return 0;
-	}
+		if (!m && !n)
+			return 0;
+	} else
+		a = 1;
 
-
-faked_service:
 	m = lws_service_flag_pending(context, tsi);
 	if (m)
 		c = -1; /* unknown limit */
@@ -174,7 +196,7 @@ faked_service:
 			c = n;
 
 	/* any socket with events to service? */
-	for (n = 0; n < pt->fds_count && c; n++) {
+	for (n = 0; n < (int)pt->fds_count && c; n++) {
 		if (!pt->fds[n].revents)
 			continue;
 
@@ -188,12 +210,8 @@ faked_service:
 			n--;
 	}
 
+	if (a)
+		goto again;
+
 	return 0;
 }
-
-
-void
-lws_plat_service_periodic(struct lws_context *context)
-{
-}
-

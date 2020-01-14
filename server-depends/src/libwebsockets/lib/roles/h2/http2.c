@@ -390,17 +390,19 @@ lws_h2_rst_stream(struct lws *wsi, uint32_t err, const char *reason)
 	if (!h2n)
 		return 0;
 
-	if (h2n->type == LWS_H2_FRAME_TYPE_COUNT)
+	if (!wsi->h2_stream_carries_ws && h2n->type == LWS_H2_FRAME_TYPE_COUNT)
 		return 0;
 
 	pps = lws_h2_new_pps(LWS_H2_PPS_RST_STREAM);
 	if (!pps)
 		return 1;
 
-	lwsl_info("%s: RST_STREAM 0x%x, REASON '%s'\n", __func__, err, reason);
+	lwsl_info("%s: RST_STREAM 0x%x, sid %d, REASON '%s'\n", __func__, err,
+			wsi->h2.my_sid, reason);
 
-	pps->u.rs.sid = h2n->sid;
+	pps->u.rs.sid = wsi->h2.my_sid;
 	pps->u.rs.err = err;
+
 	lws_pps_schedule(wsi, pps);
 
 	h2n->type = LWS_H2_FRAME_TYPE_COUNT; /* ie, IGNORE */
@@ -446,6 +448,17 @@ lws_h2_settings(struct lws *wsi, struct http2_settings *settings,
 					      "Inital Window beyond max");
 				return 1;
 			}
+
+#if defined(LWS_AMAZON_RTOS) || defined(LWS_AMAZON_LINUX)
+			//FIXME: Workaround for FIRMWARE-4632 until cloud-side issue is fixed.
+			if (b == 0x7fffffff) {
+				b = 65535;
+				lwsl_info("init window size 0x7fffffff\n");
+				break;
+			}
+			//FIXME: end of FIRMWARE-4632 workaround
+#endif
+
 			/*
 			 * In addition to changing the flow-control window for
 			 * streams that are not yet active, a SETTINGS frame
@@ -479,7 +492,7 @@ lws_h2_settings(struct lws *wsi, struct http2_settings *settings,
 					      "Frame size < initial");
 				return 1;
 			}
-			if (b > 0x007fffff) {
+			if (b > 0x00ffffff) {
 				lws_h2_goaway(nwsi, H2_ERR_PROTOCOL_ERROR,
 					      "Settings Frame size above max");
 				return 1;
@@ -822,8 +835,13 @@ lws_h2_parse_frame_header(struct lws *wsi)
 	}
 
 	/* let the network wsi live a bit longer if subs are active */
-	if (!wsi->ws_over_h2_count)
+
+	if (!wsi->immortal_substream_count)
+#if defined(LWS_AMAZON_RTOS) || defined(LWS_AMAZON_LINUX)
+		lws_set_timeout(wsi, PENDING_TIMEOUT_HTTP_KEEPALIVE_IDLE, wsi->vhost->keepalive_timeout);
+#else
 		lws_set_timeout(wsi, PENDING_TIMEOUT_HTTP_KEEPALIVE_IDLE, 31);
+#endif
 
 	if (h2n->sid)
 		h2n->swsi = lws_h2_wsi_from_id(wsi, h2n->sid);
@@ -1186,6 +1204,20 @@ cleanup_wsi:
 	return 0;
 }
 
+static const char * const method_names[] = {
+	"GET", "POST", "OPTIONS", "PUT", "PATCH", "DELETE", "CONNECT", "HEAD"
+};
+static unsigned char method_index[] = {
+	WSI_TOKEN_GET_URI,
+	WSI_TOKEN_POST_URI,
+	WSI_TOKEN_OPTIONS_URI,
+	WSI_TOKEN_PUT_URI,
+	WSI_TOKEN_PATCH_URI,
+	WSI_TOKEN_DELETE_URI,
+	WSI_TOKEN_CONNECT,
+	WSI_TOKEN_HEAD_URI,
+};
+
 /*
  * The last byte of the whole frame has been handled.
  * Perform actions for frame completion.
@@ -1264,9 +1296,13 @@ lws_h2_parse_end_of_frame(struct lws *wsi)
 			h2n->swsi->client_h2_substream = 1;
 
 			h2n->swsi->protocol = wsi->protocol;
+			if (h2n->swsi->user_space && !h2n->swsi->user_space_externally_allocated)
+				lws_free(h2n->swsi->user_space);
 			h2n->swsi->user_space = wsi->user_space;
 			h2n->swsi->user_space_externally_allocated =
 					wsi->user_space_externally_allocated;
+			h2n->swsi->opaque_user_data = wsi->opaque_user_data;
+			wsi->opaque_user_data = NULL;
 
 			wsi->user_space = NULL;
 
@@ -1294,17 +1330,16 @@ lws_h2_parse_end_of_frame(struct lws *wsi)
 
 			/* we have a transaction queue that wants to pipeline */
 			lws_vhost_lock(wsi->vhost);
-			lws_start_foreach_dll_safe(struct lws_dll_lws *, d, d1,
-				  wsi->dll_client_transaction_queue_head.next) {
+			lws_start_foreach_dll_safe(struct lws_dll2 *, d, d1,
+				  wsi->dll2_cli_txn_queue_owner.head) {
 				struct lws *w = lws_container_of(d, struct lws,
-						dll_client_transaction_queue);
+						dll2_cli_txn_queue);
 
 				if (lwsi_state(w) == LRS_H1C_ISSUE_HANDSHAKE2) {
 					lwsl_info("%s: cli pipeq %p to be h2\n",
 							__func__, w);
 					/* remove ourselves from client queue */
-					lws_dll_lws_remove(
-					      &w->dll_client_transaction_queue);
+					lws_dll2_remove(&w->dll2_cli_txn_queue);
 
 					/* attach ourselves as an h2 stream */
 					lws_wsi_h2_adopt(wsi, w);
@@ -1467,10 +1502,17 @@ lws_h2_parse_end_of_frame(struct lws *wsi)
 
 		wsi->vhost->conn_stats.h2_trans++;
 		p = lws_hdr_simple_ptr(h2n->swsi, WSI_TOKEN_HTTP_COLON_METHOD);
-		if (!strcmp(p, "POST"))
-			h2n->swsi->http.ah->frag_index[WSI_TOKEN_POST_URI] =
-				h2n->swsi->http.ah->frag_index[
+		/*
+		 * duplicate :path into the individual method uri header
+		 * index, so that it looks the same as h1 in the ah
+		 */
+		for (n = 0; n < (int)LWS_ARRAY_SIZE(method_names); n++)
+			if (!strcasecmp(p, method_names[n])) {
+				h2n->swsi->http.ah->frag_index[method_index[n]] =
+						h2n->swsi->http.ah->frag_index[
 				                     WSI_TOKEN_HTTP_COLON_PATH];
+				break;
+			}
 
 		lwsl_debug("%s: setting DEF_ACT from 0x%x\n", __func__,
 			   h2n->swsi->wsistate);
@@ -1566,6 +1608,12 @@ lws_h2_parse_end_of_frame(struct lws *wsi)
 					      "alien sid");
 			break; /* ignore */
 		}
+
+		if (eff_wsi->vhost->options &
+		        LWS_SERVER_OPTION_H2_JUST_FIX_WINDOW_UPDATE_OVERFLOW &&
+		    (uint64_t)eff_wsi->h2.tx_cr + (uint64_t)h2n->hpack_e_dep >
+		    (uint64_t)0x7fffffff)
+			h2n->hpack_e_dep = 0x7fffffff - eff_wsi->h2.tx_cr;
 
 		if ((uint64_t)eff_wsi->h2.tx_cr + (uint64_t)h2n->hpack_e_dep >
 		    (uint64_t)0x7fffffff) {
@@ -1804,10 +1852,14 @@ lws_h2_parser(struct lws *wsi, unsigned char *in, lws_filepos_t inlen,
 				 * subs are active... our frame may take a long
 				 * time to chew through
 				 */
-				if (!wsi->ws_over_h2_count)
+				if (!wsi->immortal_substream_count)
 					lws_set_timeout(wsi,
 					  PENDING_TIMEOUT_HTTP_KEEPALIVE_IDLE,
+#if defined(LWS_AMAZON_RTOS) || defined(LWS_AMAZON_LINUX)
+					  wsi->vhost->keepalive_timeout);
+#else
 					  31);
+#endif
 
 				if (!h2n->swsi)
 					break;
@@ -1883,7 +1935,7 @@ lws_h2_parser(struct lws *wsi, unsigned char *in, lws_filepos_t inlen,
 						if (m) {
 							struct lws_context_per_thread *pt = &wsi->context->pt[(int)wsi->tsi];
 							lwsl_debug("%s: added %p to rxflow list\n", __func__, wsi);
-							lws_dll_lws_add_front(&h2n->swsi->dll_buflist, &pt->dll_head_buflist);
+							lws_dll2_add_head(&h2n->swsi->dll_buflist, &pt->dll_buflist_owner);
 						}
 						in += n - 1;
 						h2n->inside += n;
@@ -2212,22 +2264,36 @@ lws_h2_ws_handshake(struct lws *wsi)
 	if (lws_hdr_total_length(wsi, WSI_TOKEN_PROTOCOL) > 64)
 		return -1;
 
-	/* we can only return the protocol header if:
-	 *  - one came in, and ... */
-	if (lws_hdr_total_length(wsi, WSI_TOKEN_PROTOCOL) &&
-	    /*  - it is not an empty string */
-	    wsi->protocol->name && wsi->protocol->name[0]) {
-		if (lws_add_http_header_by_token(wsi, WSI_TOKEN_PROTOCOL,
-					 (unsigned char *)wsi->protocol->name,
-					 (int)strlen(wsi->protocol->name),
-					 &p, end))
-		return -1;
+	if (wsi->proxied_ws_parent && wsi->child_list) {
+		if (lws_hdr_simple_ptr(wsi, WSI_TOKEN_PROTOCOL)) {
+			if (lws_add_http_header_by_token(wsi, WSI_TOKEN_PROTOCOL,
+				(uint8_t *)lws_hdr_simple_ptr(wsi,
+							   WSI_TOKEN_PROTOCOL),
+				(int)strlen(lws_hdr_simple_ptr(wsi,
+							   WSI_TOKEN_PROTOCOL)),
+						 &p, end))
+			return -1;
+		}
+	} else {
+
+		/* we can only return the protocol header if:
+		 *  - one came in, and ... */
+		if (lws_hdr_total_length(wsi, WSI_TOKEN_PROTOCOL) &&
+		    /*  - it is not an empty string */
+		    wsi->protocol->name && wsi->protocol->name[0]) {
+			if (lws_add_http_header_by_token(wsi, WSI_TOKEN_PROTOCOL,
+						 (unsigned char *)wsi->protocol->name,
+						 (int)strlen(wsi->protocol->name),
+						 &p, end))
+			return -1;
+		}
 	}
 
 	if (lws_finalize_http_header(wsi, &p, end))
 		return -1;
 
 	m = lws_ptr_diff(p, start);
+	// lwsl_hexdump_notice(start, m);
 	n = lws_write(wsi, start, m, LWS_WRITE_HTTP_HEADERS);
 	if (n != m) {
 		lwsl_err("_write returned %d from %d\n", n, m);

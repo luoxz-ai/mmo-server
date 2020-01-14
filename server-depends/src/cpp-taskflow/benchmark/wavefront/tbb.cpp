@@ -39,14 +39,17 @@ void wavefront_tbb(unsigned num_threads) {
     for(int j=0; j<NB; ++j) {
      delete node[i][j];
     }
+    delete [] node[i];
   }
+
+  delete [] node;
 }
 
 std::chrono::microseconds measure_time_tbb(unsigned num_threads) {
   auto beg = std::chrono::high_resolution_clock::now();
   wavefront_tbb(num_threads);
   auto end = std::chrono::high_resolution_clock::now();
-  return std::chrono::duration_cast<std::chrono::milliseconds>(end - beg);
+  return std::chrono::duration_cast<std::chrono::microseconds>(end - beg);
 }
 
 

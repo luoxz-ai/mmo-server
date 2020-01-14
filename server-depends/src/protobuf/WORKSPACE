@@ -1,16 +1,20 @@
-new_git_repository(
-    name = "googletest",
-    build_file = "gmock.BUILD",
-    remote = "https://github.com/google/googletest",
-    tag = "release-1.8.0",
+workspace(name = "com_google_protobuf")
+
+local_repository(
+    name = "com_google_protobuf_examples",
+    path = "examples",
 )
 
-new_http_archive(
-    name = "six_archive",
-    build_file = "six.BUILD",
-    sha256 = "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a",
-    url = "https://pypi.python.org/packages/source/s/six/six-1.10.0.tar.gz#md5=34eed507548117b2ab523ab14b2f8b55",
+local_repository(
+    name = "submodule_gmock",
+    path = "third_party/googletest",
 )
+
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("//:protobuf_deps.bzl", "protobuf_deps")
+
+# Load common dependencies.
+protobuf_deps()
 
 bind(
     name = "python_headers",
@@ -19,17 +23,12 @@ bind(
 
 bind(
     name = "gtest",
-    actual = "@googletest//:gtest",
+    actual = "@submodule_gmock//:gtest",
 )
 
 bind(
     name = "gtest_main",
-    actual = "@googletest//:gtest_main",
-)
-
-bind(
-    name = "six",
-    actual = "@six_archive//:six",
+    actual = "@submodule_gmock//:gtest_main",
 )
 
 maven_jar(
@@ -50,4 +49,14 @@ maven_jar(
 bind(
     name = "gson",
     actual = "@gson_maven//jar",
+)
+
+maven_jar(
+    name = "error_prone_annotations_maven",
+    artifact = "com.google.errorprone:error_prone_annotations:2.3.2",
+)
+
+bind(
+    name = "error_prone_annotations",
+    actual = "@error_prone_annotations_maven//jar",
 )

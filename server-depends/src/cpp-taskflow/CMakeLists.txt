@@ -3,7 +3,7 @@ cmake_minimum_required (VERSION 3.9)
 MESSAGE(STATUS "CMAKE_ROOT: " ${CMAKE_ROOT})
 
 # Project name
-project(Cpp-Taskflow VERSION 2.0.0 LANGUAGES CXX)
+project(Cpp-Taskflow VERSION 2.2.0 LANGUAGES CXX)
 
 # Turn on the verbose
 set(CMAKE_VERBOSE_MAKEFILE ON)
@@ -43,8 +43,8 @@ endif()
 #set(CMAKE_CXX_EXTENSIONS OFF)
 
 # build options
-option(TF_BUILD_EXAMPLES "Enables build of examples" OFF)
-option(TF_BUILD_TESTS "Enables build of tests" OFF)
+option(TF_BUILD_EXAMPLES "Enables build of examples" ON)
+option(TF_BUILD_TESTS "Enables build of tests" ON)
 option(TF_BUILD_BENCHMARKS "Enables build of benchmarks" OFF)
 
 # installation path
@@ -113,42 +113,35 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${TF_EXAMPLE_DIR})
 add_executable(simple ${TF_EXAMPLE_DIR}/simple.cpp)
 target_link_libraries(simple ${PROJECT_NAME} Threads::Threads)
 
+add_executable(observer ${TF_EXAMPLE_DIR}/observer.cpp)
+target_link_libraries(observer ${PROJECT_NAME} Threads::Threads)
+
 add_executable(subflow ${TF_EXAMPLE_DIR}/subflow.cpp)
 target_link_libraries(subflow ${PROJECT_NAME} Threads::Threads)
 
 add_executable(debug ${TF_EXAMPLE_DIR}/debug.cpp)
 target_link_libraries(debug ${PROJECT_NAME} Threads::Threads)
 
-add_executable(emplace ${TF_EXAMPLE_DIR}/emplace.cpp)
-target_link_libraries(emplace ${PROJECT_NAME} Threads::Threads)
-
 add_executable(reduce ${TF_EXAMPLE_DIR}/reduce.cpp)
 target_link_libraries(reduce ${PROJECT_NAME} Threads::Threads)
-
-add_executable(threadpool ${TF_EXAMPLE_DIR}/threadpool.cpp)
-target_link_libraries(threadpool ${PROJECT_NAME} Threads::Threads)
-
-add_executable(taskflow ${TF_EXAMPLE_DIR}/taskflow.cpp)
-target_link_libraries(taskflow ${PROJECT_NAME} Threads::Threads)
-
-add_executable(matrix ${TF_EXAMPLE_DIR}/matrix.cpp)
-target_link_libraries(matrix ${PROJECT_NAME} Threads::Threads)
 
 add_executable(parallel_for ${TF_EXAMPLE_DIR}/parallel_for.cpp)
 target_link_libraries(parallel_for ${PROJECT_NAME} Threads::Threads)
 
-add_executable(threadpool_cxx14 ${TF_EXAMPLE_DIR}/threadpool_cxx14.cpp)
-set_property(TARGET threadpool_cxx14 PROPERTY CXX_STANDARD 14)
-target_link_libraries(threadpool_cxx14 Threads::Threads)
+add_executable(dynamic_traversal ${TF_EXAMPLE_DIR}/dynamic_traversal.cpp)
+target_link_libraries(dynamic_traversal ${PROJECT_NAME} Threads::Threads) 
 
-add_executable(multiple_dispatch ${TF_EXAMPLE_DIR}/multiple_dispatch.cpp)
-target_link_libraries(multiple_dispatch ${PROJECT_NAME} Threads::Threads)
+add_executable(run_variants ${TF_EXAMPLE_DIR}/run_variants.cpp)
+target_link_libraries(run_variants ${PROJECT_NAME} Threads::Threads) 
 
-add_executable(dispatch ${TF_EXAMPLE_DIR}/dispatch.cpp)
-target_link_libraries(dispatch ${PROJECT_NAME} Threads::Threads)
+add_executable(composition ${TF_EXAMPLE_DIR}/composition.cpp)
+target_link_libraries(composition ${PROJECT_NAME} Threads::Threads) 
 
-add_executable(executor ${TF_EXAMPLE_DIR}/executor.cpp)
-target_link_libraries(executor ${PROJECT_NAME} Threads::Threads)
+#add_executable(dice_pools ${TF_EXAMPLE_DIR}/dice_pools.cpp)
+#target_link_libraries(dice_pools ${PROJECT_NAME} Threads::Threads)  
+#
+#add_executable(get_best_dice ${TF_EXAMPLE_DIR}/get_best_dice.cpp)
+#target_link_libraries(get_best_dice ${PROJECT_NAME} Threads::Threads)  
 
 endif()
 
@@ -156,12 +149,19 @@ endif()
 # Unittest
 # -----------------------------------------------------------------------------
 
-
 if(${TF_BUILD_TESTS})
  
 enable_testing()
 message(STATUS "Building unit tests ...")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${TF_UTEST_DIR})
+
+# unittest for utility
+add_executable(utility unittest/utility.cpp)
+target_link_libraries(utility ${PROJECT_NAME} Threads::Threads)
+target_include_directories(utility PRIVATE ${PROJECT_SOURCE_DIR}/doctest)
+add_test(passive_vector ${TF_UTEST_DIR}/utility -tc=PassiveVector)
+add_test(object_pool    ${TF_UTEST_DIR}/utility -tc=ObjectPool)
+add_test(singular_alloc ${TF_UTEST_DIR}/utility -tc=SingularAllocator)
 
 # unittest for taskflow
 add_executable(taskflow_test_tmp unittest/taskflow.cpp)
@@ -169,8 +169,9 @@ target_link_libraries(taskflow_test_tmp ${PROJECT_NAME} Threads::Threads)
 target_include_directories(taskflow_test_tmp PRIVATE ${PROJECT_SOURCE_DIR}/doctest)
 set_target_properties(taskflow_test_tmp PROPERTIES OUTPUT_NAME "taskflow")
 add_test(builder          ${TF_UTEST_DIR}/taskflow -tc=Builder)
+add_test(creation         ${TF_UTEST_DIR}/taskflow -tc=Creation)
 add_test(dispatch         ${TF_UTEST_DIR}/taskflow -tc=Dispatch)
-add_test(executor         ${TF_UTEST_DIR}/taskflow -tc=Executor)
+add_test(multiple_runs    ${TF_UTEST_DIR}/taskflow -tc=MultipleRuns)
 add_test(parallel_for     ${TF_UTEST_DIR}/taskflow -tc=ParallelFor)
 add_test(parallel_for_idx ${TF_UTEST_DIR}/taskflow -tc=ParallelForOnIndex)
 add_test(reduce           ${TF_UTEST_DIR}/taskflow -tc=Reduce)
@@ -178,33 +179,20 @@ add_test(reduce_min       ${TF_UTEST_DIR}/taskflow -tc=ReduceMin)
 add_test(reduce_max       ${TF_UTEST_DIR}/taskflow -tc=ReduceMax)
 add_test(joined_subflow   ${TF_UTEST_DIR}/taskflow -tc=JoinedSubflow)
 add_test(detached_subflow ${TF_UTEST_DIR}/taskflow -tc=DetachedSubflow)
+add_test(composition-1    ${TF_UTEST_DIR}/taskflow -tc=Composition-1)
+add_test(composition-2    ${TF_UTEST_DIR}/taskflow -tc=Composition-2)
+add_test(composition-3    ${TF_UTEST_DIR}/taskflow -tc=Composition-3)
+add_test(observer         ${TF_UTEST_DIR}/taskflow -tc=Observer)
 
-# unittest for threadpool 
-add_executable(threadpool_test_tmp unittest/threadpool.cpp)
-target_link_libraries(threadpool_test_tmp ${PROJECT_NAME} Threads::Threads)
-target_include_directories(threadpool_test_tmp PRIVATE ${PROJECT_SOURCE_DIR}/doctest)
-set_target_properties(threadpool_test_tmp PROPERTIES OUTPUT_NAME "threadpool")
-add_test(WorkStealingQueue.Owner  ${TF_UTEST_DIR}/threadpool -tc=WSQ.Owner)
-add_test(WorkStealingQueue.1Thief ${TF_UTEST_DIR}/threadpool -tc=WSQ.1Thief)
-add_test(WorkStealingQueue.2Thieves ${TF_UTEST_DIR}/threadpool -tc=WSQ.2Thieves)
-add_test(WorkStealingQueue.3Thieves ${TF_UTEST_DIR}/threadpool -tc=WSQ.3Thieves)
-add_test(WorkStealingQueue.4Thieves ${TF_UTEST_DIR}/threadpool -tc=WSQ.4Thieves)
-add_test(simple_threadpool      ${TF_UTEST_DIR}/threadpool -tc=SimpleThreadpool)
-add_test(proactive_threadpool   ${TF_UTEST_DIR}/threadpool -tc=ProactiveThreadpool)
-add_test(speculative_threadpool ${TF_UTEST_DIR}/threadpool -tc=SpeculativeThreadpool)
-add_test(work_stealing_threadpool  ${TF_UTEST_DIR}/threadpool -tc=WorkStealingThreadpool)
-
-# threadpool_cxx14 unittest (contributed by Glen Fraser)
-add_executable(threadpool_cxx14_tmp unittest/threadpool_cxx14.cpp)
-set_target_properties(threadpool_cxx14_tmp PROPERTIES CXX_STANDARD 14)
-target_link_libraries(threadpool_cxx14_tmp Threads::Threads)
-target_include_directories(threadpool_cxx14_tmp PRIVATE ${PROJECT_SOURCE_DIR}/doctest)
-set_target_properties(threadpool_cxx14_tmp PROPERTIES OUTPUT_NAME "threadpool_cxx14")
-add_test(threadpool_cxx14_basic        ${TF_UTEST_DIR}/threadpool_cxx14 -tc=Threadpool.Basic)
-add_test(threadpool_cxx14_wait_for_all ${TF_UTEST_DIR}/threadpool_cxx14 -tc=Threadpool.WaitForAll)
-
-# run all examples
-#add_test(inttest.simple )
+# unittest for WorkStealingQueue 
+add_executable(spmc_queue unittest/spmc_queue.cpp)
+target_link_libraries(spmc_queue ${PROJECT_NAME} Threads::Threads)
+target_include_directories(spmc_queue PRIVATE ${PROJECT_SOURCE_DIR}/doctest)
+add_test(WorkStealingQueue.Owner  ${TF_UTEST_DIR}/spmc_queue -tc=WSQ.Owner)
+add_test(WorkStealingQueue.1Thief ${TF_UTEST_DIR}/spmc_queue -tc=WSQ.1Thief)
+add_test(WorkStealingQueue.2Thieves ${TF_UTEST_DIR}/spmc_queue -tc=WSQ.2Thieves)
+add_test(WorkStealingQueue.3Thieves ${TF_UTEST_DIR}/spmc_queue -tc=WSQ.3Thieves)
+add_test(WorkStealingQueue.4Thieves ${TF_UTEST_DIR}/spmc_queue -tc=WSQ.4Thieves)
 
 endif()
 
@@ -213,6 +201,12 @@ endif()
 # -----------------------------------------------------------------------------
 
 if(${TF_BUILD_BENCHMARKS})
+
+# eigen package 
+if(NOT DEFINED EIGEN_ROOT)
+  set(EIGEN_ROOT ${PROJECT_SOURCE_DIR}/3rd-party/eigen-3.3.7)
+endif()
+include_directories(${EIGEN_ROOT})
 
 # find OpenMP package
 include(FindOpenMP)
@@ -247,6 +241,7 @@ add_executable(
   ${TF_BENCHMARK_DIR}/wavefront/seq.cpp
   ${TF_BENCHMARK_DIR}/wavefront/taskflow.cpp
 )
+target_include_directories(wavefront PRIVATE ${PROJECT_SOURCE_DIR}/3rd-party/CLI11)
 target_link_libraries(
   wavefront 
   ${PROJECT_NAME} Threads::Threads ${TBB_IMPORTED_TARGETS} ${OpenMP_CXX_LIBRARIES}
@@ -264,12 +259,66 @@ add_executable(
   ${TF_BENCHMARK_DIR}/graph_traversal/seq.cpp
   ${TF_BENCHMARK_DIR}/graph_traversal/taskflow.cpp
 )
+target_include_directories(graph_traversal PRIVATE ${PROJECT_SOURCE_DIR}/3rd-party/CLI11)
 target_link_libraries(
   graph_traversal 
   ${PROJECT_NAME} Threads::Threads ${TBB_IMPORTED_TARGETS} ${OpenMP_CXX_LIBRARIES}
 )
 set_target_properties(graph_traversal PROPERTIES COMPILE_FLAGS ${OpenMP_CXX_FLAGS})
 
+## benchmark 3: binary_tree
+message(STATUS "benchmark 3: binary tree")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${TF_BENCHMARK_DIR}/binary_tree)
+add_executable(
+  binary_tree 
+  ${TF_BENCHMARK_DIR}/binary_tree/main.cpp
+  ${TF_BENCHMARK_DIR}/binary_tree/tbb.cpp
+  ${TF_BENCHMARK_DIR}/binary_tree/taskflow.cpp
+)
+target_include_directories(binary_tree PRIVATE ${PROJECT_SOURCE_DIR}/3rd-party/CLI11)
+target_link_libraries(
+  binary_tree 
+  ${PROJECT_NAME} Threads::Threads ${TBB_IMPORTED_TARGETS} ${OpenMP_CXX_LIBRARIES}
+)
+set_target_properties(binary_tree PROPERTIES COMPILE_FLAGS ${OpenMP_CXX_FLAGS})
+
+## benchmark 4: MNIST
+message(STATUS "benchmark 4: mnist")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${TF_BENCHMARK_DIR}/mnist)
+add_executable(
+  mnist 
+  ${TF_BENCHMARK_DIR}/mnist/main.cpp
+  ${TF_BENCHMARK_DIR}/mnist/omp.cpp
+  ${TF_BENCHMARK_DIR}/mnist/tbb.cpp
+  ${TF_BENCHMARK_DIR}/mnist/seq.cpp
+  ${TF_BENCHMARK_DIR}/mnist/taskflow.cpp
+)
+target_include_directories(mnist PRIVATE ${PROJECT_SOURCE_DIR}/3rd-party/CLI11)
+target_link_libraries(
+  mnist 
+  ${PROJECT_NAME} Threads::Threads ${TBB_IMPORTED_TARGETS}
+  ${OpenMP_CXX_LIBRARIES} stdc++fs
+)
+set_target_properties(mnist PROPERTIES COMPILE_FLAGS ${OpenMP_CXX_FLAGS})
+
+## benchmark 5: Parallel DNN
+message(STATUS "benchmark 5: Parallel DNN")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${TF_BENCHMARK_DIR}/parallel_dnn)
+add_executable(
+  parallel_dnn 
+  ${TF_BENCHMARK_DIR}/parallel_dnn/main.cpp
+  ${TF_BENCHMARK_DIR}/parallel_dnn/omp.cpp
+  ${TF_BENCHMARK_DIR}/parallel_dnn/tbb.cpp
+  ${TF_BENCHMARK_DIR}/parallel_dnn/seq.cpp
+  ${TF_BENCHMARK_DIR}/parallel_dnn/taskflow.cpp
+)
+target_include_directories(parallel_dnn PRIVATE ${PROJECT_SOURCE_DIR}/3rd-party/CLI11)
+target_link_libraries(
+  parallel_dnn 
+  ${PROJECT_NAME} Threads::Threads ${TBB_IMPORTED_TARGETS}
+  ${OpenMP_CXX_LIBRARIES} stdc++fs
+)
+set_target_properties(parallel_dnn PROPERTIES COMPILE_FLAGS ${OpenMP_CXX_FLAGS})
 
 endif()
 

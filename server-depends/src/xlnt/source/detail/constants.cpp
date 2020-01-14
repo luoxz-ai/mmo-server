@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2017 Thomas Fussell
+// Copyright (c) 2014-2018 Thomas Fussell
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -151,6 +151,9 @@ const std::unordered_map<std::string, std::string> &constants::namespaces()
             {"x15ac", "http://schemas.microsoft.com/office/spreadsheetml/2010/11/ac"},
             {"xml", "http://www.w3.org/XML/1998/namespace"},
             {"xsi", "http://www.w3.org/2001/XMLSchema-instance"},
+
+            {"a", "http://schemas.openxmlformats.org/drawingml/2006/main"},
+            {"xdr", "http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing"},
 
             {"loext", "http://schemas.libreoffice.org/"}
         };

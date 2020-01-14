@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2017 Thomas Fussell
+// Copyright (c) 2014-2018 Thomas Fussell
 // Copyright (c) 2010-2015 openpyxl
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -38,7 +38,7 @@ comment::comment(const rich_text &text, const std::string &author)
 comment::comment(const std::string &text, const std::string &author)
     : text_(), author_(author)
 {
-    text_.plain_text(text);
+    text_.plain_text(text, false);
 }
 
 rich_text comment::text() const
@@ -105,7 +105,11 @@ int comment::height() const
 
 bool comment::operator==(const comment &other) const
 {
-    return text_ == other.text_ && author_ == other.author_;
+    // not comparing top/left as this is set on a per cell basis
+    return text_ == other.text_ 
+        && author_ == other.author_
+        && width_ == other.width_
+        && height_ == other.height_;
 }
 
 bool comment::operator!=(const comment &other) const

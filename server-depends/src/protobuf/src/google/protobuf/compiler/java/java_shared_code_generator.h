@@ -36,9 +36,6 @@
 #define GOOGLE_PROTOBUF_COMPILER_JAVA_SHARED_CODE_GENERATOR_H__
 
 #include <memory>
-#ifndef _SHARED_PTR_H
-#include <google/protobuf/stubs/shared_ptr.h>
-#endif
 #include <string>
 #include <vector>
 
@@ -47,18 +44,20 @@
 
 namespace google {
 namespace protobuf {
-  class FileDescriptor;        // descriptor.h
-  namespace compiler {
-    class GeneratorContext;    // code_generator.h
-    namespace java {
-      class ClassNameResolver;       // name_resolver.h
-    }
-  }
-  namespace io {
-    class Printer;             // printer.h
-  }
+class FileDescriptor;  // descriptor.h
+namespace compiler {
+class GeneratorContext;  // code_generator.h
+namespace java {
+class ClassNameResolver;  // name_resolver.h
 }
+}  // namespace compiler
+namespace io {
+class Printer;  // printer.h
+}
+}  // namespace protobuf
+}  // namespace google
 
+namespace google {
 namespace protobuf {
 namespace compiler {
 namespace java {
@@ -70,27 +69,22 @@ class SharedCodeGenerator {
   SharedCodeGenerator(const FileDescriptor* file, const Options& options);
   ~SharedCodeGenerator();
 
-  void Generate(GeneratorContext* generator_context, vector<string>* file_list,
-                vector<string>* annotation_file_list);
+  void Generate(GeneratorContext* generator_context,
+                std::vector<std::string>* file_list,
+                std::vector<std::string>* annotation_file_list);
 
   void GenerateDescriptors(io::Printer* printer);
 
  private:
-  // Returns whether the dependency should be included in the output file.
-  // Always returns true for opensource, but used internally at Google to help
-  // improve compatibility with version 1 of protocol buffers.
-  bool ShouldIncludeDependency(const FileDescriptor* descriptor);
-
-  google::protobuf::scoped_ptr<ClassNameResolver> name_resolver_;
+  std::unique_ptr<ClassNameResolver> name_resolver_;
   const FileDescriptor* file_;
   const Options options_;
   GOOGLE_DISALLOW_EVIL_CONSTRUCTORS(SharedCodeGenerator);
 };
 
-
 }  // namespace java
 }  // namespace compiler
 }  // namespace protobuf
-
 }  // namespace google
+
 #endif  // GOOGLE_PROTOBUF_COMPILER_JAVA_SHARED_CODE_GENERATOR_H__

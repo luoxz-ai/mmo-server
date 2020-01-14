@@ -57,8 +57,7 @@ rops_handle_POLLIN_pipe(struct lws_context_per_thread *pt, struct lws *wsi,
 	 * protocol that may be interested in the pipe event know that
 	 * it happened.
 	 */
-	if (lws_broadcast(wsi->context, LWS_CALLBACK_EVENT_WAIT_CANCELLED,
-			  NULL, 0)) {
+	if (lws_broadcast(pt, LWS_CALLBACK_EVENT_WAIT_CANCELLED, NULL, 0)) {
 		lwsl_info("closed in event cancel\n");
 		return LWS_HPI_RET_PLEASE_CLOSE_ME;
 	}
@@ -89,6 +88,8 @@ struct lws_role_ops role_ops_pipe = {
 	/* destroy_role */		NULL,
 	/* adoption_bind */		NULL,
 	/* client_bind */		NULL,
+	/* adoption_cb clnt, srv */	{ 0, 0 },
+	/* rx_cb clnt, srv */		{ 0, 0 },
 	/* writeable cb clnt, srv */	{ 0, 0 },
 	/* close cb clnt, srv */	{ 0, 0 },
 	/* protocol_bind_cb c,s */	{ 0, 0 },

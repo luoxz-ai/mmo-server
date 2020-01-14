@@ -20,13 +20,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <cpp_redis/redis_client.hpp>
-#include <cpp_redis/redis_error.hpp>
-#include <cpp_redis/redis_subscriber.hpp>
+#include <thread>
+
+#include <cpp_redis/core/client.hpp>
+#include <cpp_redis/core/subscriber.hpp>
+#include <cpp_redis/misc/error.hpp>
+
 #include <gtest/gtest.h>
 
 TEST(RedisSubscriber, ValidConnectionDefaultParams) {
-  cpp_redis::redis_subscriber client;
+  cpp_redis::subscriber client;
 
   EXPECT_FALSE(client.is_connected());
   //! should connect to 127.0.0.1:6379
@@ -35,7 +38,7 @@ TEST(RedisSubscriber, ValidConnectionDefaultParams) {
 }
 
 TEST(RedisSubscriber, ValidConnectionDefinedHost) {
-  cpp_redis::redis_subscriber client;
+  cpp_redis::subscriber client;
 
   EXPECT_FALSE(client.is_connected());
   //! should connect to 127.0.0.1:6379
@@ -44,15 +47,15 @@ TEST(RedisSubscriber, ValidConnectionDefinedHost) {
 }
 
 TEST(RedisSubscriber, InvalidConnection) {
-  cpp_redis::redis_subscriber client;
+  cpp_redis::subscriber client;
 
   EXPECT_FALSE(client.is_connected());
-  EXPECT_THROW(client.connect("invalid.url", 1234), cpp_redis::redis_error);
+  EXPECT_THROW(client.connect("invalid url", 1234), cpp_redis::redis_error);
   EXPECT_FALSE(client.is_connected());
 }
 
 TEST(RedisSubscriber, AlreadyConnected) {
-  cpp_redis::redis_subscriber client;
+  cpp_redis::subscriber client;
 
   EXPECT_FALSE(client.is_connected());
   //! should connect to 127.0.0.1:6379
@@ -63,7 +66,7 @@ TEST(RedisSubscriber, AlreadyConnected) {
 }
 
 TEST(RedisSubscriber, Disconnection) {
-  cpp_redis::redis_subscriber client;
+  cpp_redis::subscriber client;
 
   client.connect();
   EXPECT_TRUE(client.is_connected());
@@ -72,7 +75,7 @@ TEST(RedisSubscriber, Disconnection) {
 }
 
 TEST(RedisSubscriber, DisconnectionNotConnected) {
-  cpp_redis::redis_subscriber client;
+  cpp_redis::subscriber client;
 
   EXPECT_FALSE(client.is_connected());
   EXPECT_NO_THROW(client.disconnect());
@@ -80,73 +83,73 @@ TEST(RedisSubscriber, DisconnectionNotConnected) {
 }
 
 TEST(RedisSubscriber, CommitConnected) {
-  cpp_redis::redis_subscriber client;
+  cpp_redis::subscriber client;
 
   client.connect();
   EXPECT_NO_THROW(client.commit());
 }
 
 TEST(RedisSubscriber, CommitNotConnected) {
-  cpp_redis::redis_subscriber client;
+  cpp_redis::subscriber client;
 
   EXPECT_THROW(client.commit(), cpp_redis::redis_error);
 }
 
 TEST(RedisSubscriber, SubscribeConnected) {
-  cpp_redis::redis_subscriber client;
+  cpp_redis::subscriber client;
 
   client.connect();
   EXPECT_NO_THROW(client.subscribe("/chan", [](const std::string&, const std::string&) {}));
 }
 
 TEST(RedisSubscriber, PSubscribeConnected) {
-  cpp_redis::redis_subscriber client;
+  cpp_redis::subscriber client;
 
   client.connect();
   EXPECT_NO_THROW(client.subscribe("/chan/*", [](const std::string&, const std::string&) {}));
 }
 
 TEST(RedisSubscriber, UnsubscribeConnected) {
-  cpp_redis::redis_subscriber client;
+  cpp_redis::subscriber client;
 
   client.connect();
   EXPECT_NO_THROW(client.unsubscribe("/chan"));
 }
 
 TEST(RedisSubscriber, PUnsubscribeConnected) {
-  cpp_redis::redis_subscriber client;
+  cpp_redis::subscriber client;
 
   client.connect();
   EXPECT_NO_THROW(client.punsubscribe("/chan/*"));
 }
 
 TEST(RedisSubscriber, SubscribeNotConnected) {
-  cpp_redis::redis_subscriber client;
+  cpp_redis::subscriber client;
 
   EXPECT_NO_THROW(client.subscribe("/chan", [](const std::string&, const std::string&) {}));
 }
 
 TEST(RedisSubscriber, PSubscribeNotConnected) {
-  cpp_redis::redis_subscriber client;
+  cpp_redis::subscriber client;
 
   EXPECT_NO_THROW(client.subscribe("/chan/*", [](const std::string&, const std::string&) {}));
 }
 
 TEST(RedisSubscriber, UnsubscribeNotConnected) {
-  cpp_redis::redis_subscriber client;
+  cpp_redis::subscriber client;
 
   EXPECT_NO_THROW(client.unsubscribe("/chan"));
 }
 
 TEST(RedisSubscriber, PUnsubscribeNotConnected) {
-  cpp_redis::redis_subscriber client;
+  cpp_redis::subscriber client;
 
   EXPECT_NO_THROW(client.punsubscribe("/chan/*"));
 }
 
 TEST(RedisSubscriber, SubConnectedCommitConnected) {
-  cpp_redis::redis_subscriber sub;
-  cpp_redis::redis_client client;
+  cpp_redis::subscriber sub;
+  cpp_redis::client client;
   std::condition_variable cv;
 
   sub.connect();
@@ -173,8 +176,8 @@ TEST(RedisSubscriber, SubConnectedCommitConnected) {
 }
 
 TEST(RedisSubscriber, SubNotConnectedCommitConnected) {
-  cpp_redis::redis_subscriber sub;
-  cpp_redis::redis_client client;
+  cpp_redis::subscriber sub;
+  cpp_redis::client client;
   std::condition_variable cv;
 
   client.connect();
@@ -201,8 +204,8 @@ TEST(RedisSubscriber, SubNotConnectedCommitConnected) {
 }
 
 TEST(RedisSubscriber, SubNotConnectedCommitNotConnectedCommitConnected) {
-  cpp_redis::redis_subscriber sub;
-  cpp_redis::redis_client client;
+  cpp_redis::subscriber sub;
+  cpp_redis::client client;
 
   client.connect();
 
@@ -222,12 +225,13 @@ TEST(RedisSubscriber, SubNotConnectedCommitNotConnectedCommitConnected) {
 
   std::this_thread::sleep_for(std::chrono::seconds(2));
 
+  //! all commands that failed to be sent with the first commit should not be resent on 2nd commit
   EXPECT_FALSE(callback_run);
 }
 
 TEST(RedisSubscriber, SubscribeSomethingPublished) {
-  cpp_redis::redis_subscriber sub;
-  cpp_redis::redis_client client;
+  cpp_redis::subscriber sub;
+  cpp_redis::client client;
   std::condition_variable cv;
 
   sub.connect();
@@ -256,8 +260,8 @@ TEST(RedisSubscriber, SubscribeSomethingPublished) {
 }
 
 TEST(RedisSubscriber, SubscribeMultiplePublished) {
-  cpp_redis::redis_subscriber sub;
-  cpp_redis::redis_client client;
+  cpp_redis::subscriber sub;
+  cpp_redis::client client;
   std::condition_variable cv;
 
   sub.connect();
@@ -290,8 +294,8 @@ TEST(RedisSubscriber, SubscribeMultiplePublished) {
 }
 
 TEST(RedisSubscriber, SubscribeNothingPublished) {
-  cpp_redis::redis_subscriber sub;
-  cpp_redis::redis_client client;
+  cpp_redis::subscriber sub;
+  cpp_redis::client client;
 
   sub.connect();
   client.connect();
@@ -314,8 +318,8 @@ TEST(RedisSubscriber, SubscribeNothingPublished) {
 }
 
 TEST(RedisSubscriber, MultipleSubscribeSomethingPublished) {
-  cpp_redis::redis_subscriber sub;
-  cpp_redis::redis_client client;
+  cpp_redis::subscriber sub;
+  cpp_redis::client client;
   std::condition_variable cv;
 
   sub.connect();
@@ -363,8 +367,8 @@ TEST(RedisSubscriber, MultipleSubscribeSomethingPublished) {
 }
 
 TEST(RedisSubscriber, PSubscribeSomethingPublished) {
-  cpp_redis::redis_subscriber sub;
-  cpp_redis::redis_client client;
+  cpp_redis::subscriber sub;
+  cpp_redis::client client;
   std::condition_variable cv;
 
   sub.connect();
@@ -393,8 +397,8 @@ TEST(RedisSubscriber, PSubscribeSomethingPublished) {
 }
 
 TEST(RedisSubscriber, PSubscribeMultiplePublished) {
-  cpp_redis::redis_subscriber sub;
-  cpp_redis::redis_client client;
+  cpp_redis::subscriber sub;
+  cpp_redis::client client;
   std::condition_variable cv;
 
   sub.connect();
@@ -434,8 +438,8 @@ TEST(RedisSubscriber, PSubscribeMultiplePublished) {
 }
 
 TEST(RedisSubscriber, PSubscribeNothingPublished) {
-  cpp_redis::redis_subscriber sub;
-  cpp_redis::redis_client client;
+  cpp_redis::subscriber sub;
+  cpp_redis::client client;
 
   sub.connect();
   client.connect();
@@ -458,8 +462,8 @@ TEST(RedisSubscriber, PSubscribeNothingPublished) {
 }
 
 TEST(RedisSubscriber, MultiplePSubscribeSomethingPublished) {
-  cpp_redis::redis_subscriber sub;
-  cpp_redis::redis_client client;
+  cpp_redis::subscriber sub;
+  cpp_redis::client client;
   std::condition_variable cv;
 
   sub.connect();
@@ -507,8 +511,8 @@ TEST(RedisSubscriber, MultiplePSubscribeSomethingPublished) {
 }
 
 TEST(RedisSubscriber, Unsubscribe) {
-  cpp_redis::redis_subscriber sub;
-  cpp_redis::redis_client client;
+  cpp_redis::subscriber sub;
+  cpp_redis::client client;
   std::condition_variable cv;
 
   sub.connect();
@@ -548,8 +552,8 @@ TEST(RedisSubscriber, Unsubscribe) {
 }
 
 TEST(RedisSubscriber, PUnsubscribe) {
-  cpp_redis::redis_subscriber sub;
-  cpp_redis::redis_client client;
+  cpp_redis::subscriber sub;
+  cpp_redis::client client;
   std::condition_variable cv;
 
   sub.connect();

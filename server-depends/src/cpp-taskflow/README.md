@@ -1,26 +1,26 @@
 # Cpp-Taskflow <img align="right" width="10%" src="image/cpp-taskflow_logo.png">
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/bb04cb8e4aca401b8206c054e79fd5e3)](https://app.codacy.com/app/tsung-wei-huang/cpp-taskflow?utm_source=github.com&utm_medium=referral&utm_content=cpp-taskflow/cpp-taskflow&utm_campaign=Badge_Grade_Dashboard)
 [![Linux Build Status](https://travis-ci.com/cpp-taskflow/cpp-taskflow.svg?branch=master)](https://travis-ci.com/cpp-taskflow/cpp-taskflow)
 [![Windows Build status](https://ci.appveyor.com/api/projects/status/te9bjp4yfhq7f8hq?svg=true)](https://ci.appveyor.com/project/TsungWeiHuang/cpp-taskflow)
 [![Standard](image/cpp17.svg)](https://en.wikipedia.org/wiki/C%2B%2B#Standardization)
 [![Download](image/download.svg)](https://github.com/cpp-taskflow/cpp-taskflow/archive/master.zip)
-[![Wiki](image/doc-wiki.svg)][wiki]
-[![Insights](image/maintained.svg)][GitHub insights]
-[![License: MIT](./image/license_badge.svg)](./LICENSE)
+[![Wiki](image/api-doc.svg)][wiki]
+[![Resources](image/awesome-resources.svg)](./awesome-parallel-computing.md)
 
-A fast C++ header-only library to help you quickly write parallel programs with complex task dependencies
+A fast C++ *header-only* library to help you quickly write parallel programs with complex task dependencies
 
 # Why Cpp-Taskflow?
 
-Cpp-Taskflow is by far faster, more expressive, fewer lines of code, and easier for drop-in integration
-than existing parallel task programming libraries such as [OpenMP Tasking][OpenMP Tasking] and Intel [TBB FlowGraph][TBB FlowGraph].
+Cpp-Taskflow is by far faster, more expressive, and easier for drop-in integration
+than existing parallel task programming libraries such as [OpenMP Tasking][OpenMP Tasking] 
+and Intel [TBB FlowGraph][TBB FlowGraph] in handling complex parallel workloads.
 
 ![](image/performance.jpg)
 
-Cpp-Taskflow enables you to implement efficient task decomposition strategies
-that incorporate both regular loop-based parallelism 
-and irregular compute patterns to optimize multicore performance.
-
+Cpp-Taskflow lets you quickly implement task decomposition strategies
+that incorporate both regular and irregular compute patterns,
+together with an efficient *work-stealing* scheduler to optimize your multithreaded performance.
 
 | Without Cpp-Taskflow | With Cpp-Taskflow |
 | -------------------- | ----------------- |
@@ -31,17 +31,55 @@ allowing users to quickly master our parallel task programming model in a natura
 
 | Static Tasking | Dynamic Tasking |
 | :------------: | :-------------: |
-| ![](image/static_graph.png) | ![](image/dynamic_graph.png) |
+| ![](image/static_graph.png) | <img align="right" src="image/dynamic_graph.png" width="100%"> |
 
-Cpp-Taskflow is committed to support both academic and industry research projects,
-making it reliable and cost-effective for long-term and large-scale developments.
+Cpp-Taskflow provides a composable task dependency graph interface 
+to enable high performance and high developer productivity at the same time.
+
+![](image/framework.png)
+
+Cpp-Taskflow let users easily monitor the thread activities and analyze their programs' performance through [chrome://tracing][ChromeTracing].
+
+![](image/timeline.png)
+
+Cpp-Taskflow is part of the [DARPA IDEA research program][DARPA IDEA]. We are committed to support trustworthy developments for both academic and industrial research projects in parallel computing. Check out [Who is Using Cpp-Taskflow](#who-is-using-cpp-taskflow) and what our users say:
 
 + *"Cpp-Taskflow is the cleanest Task API I've ever seen." [damienhocking][damienhocking]*
 + *"Cpp-Taskflow has a very simple and elegant tasking interface. The performance also scales very well." [totalgee][totalgee]*
++ *"Cpp-Taskflow lets me handle parallel processing in a smart way." [Hayabusa](https://cpp-learning.com/cpp-taskflow/)*
 + *"Best poster award for open-source parallel programming library." [Cpp Conference 2018][Cpp Conference 2018]*
 
 See a quick [presentation][Presentation] and 
 visit the [documentation][wiki] to learn more about Cpp-Taskflow.
+Technical details can be referred to our [IEEE IPDPS19 paper][IPDPS19].
+
+:exclamation: Notice that starting at v2.2.0 (including this master branch) 
+we isolated the executor interface from Taskflow to improve the programming model and performance.
+This caused a few breaks in using Cpp-Taskflow.
+Please refer to [release-notes](https://cpp-taskflow.github.io/cpp-taskflow/release-2-2-0.html)
+for adapting to this new change.
+
+# Table of Contents
+
+* [Get Started with Cpp-Taskflow](#get-started-with-cpp-taskflow)
+* [Create a Taskflow Graph](#create-a-taskflow-graph)
+   * [Step 1: Create a Task](#step-1-create-a-task)
+   * [Step 2: Define Task Dependencies](#step-2-define-task-dependencies)
+   * [Step 3: Execute a Taskflow](#step-3-execute-a-taskflow)
+* [Dynamic Tasking](#dynamic-tasking)
+   * [Step 1: Create a Subflow](#step-1-create-a-subflow)
+   * [Step 2: Detach or Join a Subflow](#step-2-detach-or-join-a-subflow)
+* [Taskflow Composition](#taskflow-composition)
+* [Debug a Taskflow Graph](#debug-a-taskflow-graph)
+* [Monitor Thread Activities](#monitor-thread-activities)
+* [API Reference](#api-reference)
+* [Caveats](#caveats)
+* [System Requirements](#system-requirements)
+* [Compile Unit Tests and Examples](#compile-unit-tests-and-examples)
+* [Get Involved](#get-involved)
+* [Who is Using Cpp-Taskflow?](#who-is-using-cpp-taskflow)
+* [Contributors](#contributors)
+
 
 # Get Started with Cpp-Taskflow
 
@@ -53,9 +91,10 @@ you need in most applications.
 
 int main(){
   
-  tf::Taskflow tf;
+  tf::Executor executor;
+  tf::Taskflow taskflow;
 
-  auto [A, B, C, D] = tf.silent_emplace(
+  auto [A, B, C, D] = taskflow.emplace(
     [] () { std::cout << "TaskA\n"; },               //  task dependency graph
     [] () { std::cout << "TaskB\n"; },               // 
     [] () { std::cout << "TaskC\n"; },               //          +---+          
@@ -67,7 +106,7 @@ int main(){
   B.precede(D);  // B runs before D                  //    |     +---+     |    
   C.precede(D);  // C runs before D                  //    +---->| C |-----+    
                                                      //          +---+          
-  tf.wait_for_all();  // block until finish
+  executor.run(taskflow);
 
   return 0;
 }
@@ -117,29 +156,28 @@ b3.precede(T);    // b3 runs before T
 
 # Create a Taskflow Graph
 
-Cpp-Taskflow has very expressive and neat methods to create dependency graphs.
+Cpp-Taskflow defines a very expressive API to create task dependency graphs.
 Most applications are developed through the following three steps.
 
 ## Step 1: Create a Task
 
+Create a taskflow object to build a task dependency graph:
+
+```cpp
+tf::Taskflow taskflow;
+```
+
 A task is a callable object for which [std::invoke][std::invoke] is applicable.
-Create a taskflow object to start a task dependency graph.
+Use the method `emplace` to create a task:
 
 ```cpp
-tf::Taskflow tf;
+tf::Task A = taskflow.emplace([](){ std::cout << "Task A\n"; });
 ```
 
-Create a task from a callable object via the method `silent_emplace`
-to get a task handle.
+You can create multiple tasks at one time:
 
 ```cpp
-auto A = tf.silent_emplace([](){ std::cout << "Task A\n"; });
-```
-
-You can create multiple tasks at one time.
-
-```cpp
-auto [A, B, C, D] = tf.silent_emplace(
+auto [A, B, C, D] = taskflow.emplace(
   [] () { std::cout << "Task A\n"; },
   [] () { std::cout << "Task B\n"; },
   [] () { std::cout << "Task C\n"; },
@@ -149,62 +187,84 @@ auto [A, B, C, D] = tf.silent_emplace(
 
 ## Step 2: Define Task Dependencies
 
-Once tasks are created in the pool, you need to specify task dependencies in a 
-[Directed Acyclic Graph (DAG)](https://en.wikipedia.org/wiki/Directed_acyclic_graph) fashion.
+You can add dependency links between tasks to enforce one task run after another.
+The dependency links must be specified in a
+[Directed Acyclic Graph (DAG)](https://en.wikipedia.org/wiki/Directed_acyclic_graph).
 The handle `Task` supports different methods for you to describe task dependencies.
 
-**Precede**: Adding a preceding link forces one task to run ahead of one another.
+**Precede**: Adding a preceding link forces one task to run before another.
 ```cpp
 A.precede(B);  // A runs before B.
 ```
 
-**Gather**: Adding a gathering link forces one task to run after other(s).
+**Gather**: Adding a gathering link forces one task to run after another.
 ```cpp
 A.gather(B);  // A runs after B
 ```
 
-## Step 3: Execute the Tasks
+## Step 3: Execute a Taskflow
 
-There are three methods to execute a task dependency graph, 
-`dispatch`, `silent_dispatch`, and `wait_for_all`.
-
-```cpp
-auto future = tf.dispatch();  // non-blocking, returns with a future immediately.
-tf.silent_dispatch();         // non-blocking, no return
-```
-
-Calling `wait_for_all` will block until all tasks complete.
+To execute a taskflow, you need to create an *executor*.
+An executor manages a set of worker threads to execute a taskflow
+through an efficient *work-stealing* algorithm.
 
 ```cpp
-tf.wait_for_all();
+tf::Executor executor; 
 ```
 
-Each of these methods dispatches the current graph to threads for execution
-and create a data structure called *topology* to store the execution status.
+The executor provides a rich set of methods to run a taskflow. 
+You can run a taskflow one or multiple times, or until a stopping criteria is met.
+These methods are non-blocking and all return a [std::future][std::future] 
+to let you query the execution status.
 
+```cpp 
+executor.run(taskflow);                                              // run the taskflow once
+executor.run(taskflow, [](){ std::cout << "done 1 run\n"; } );       // run once with a callback
+executor.run_n(taskflow, 4);                                         // run four times
+executor.run_n(taskflow, 4, [](){ std::cout << "done 4 runs\n"; });  // run 4 times with a callback
+
+// run n times until the predicate becomes true
+executor.run_until(taskflow, [counter=4](){ return --counter == 0; } );
+
+// run n times until the predicate becomes true and invoke the callback on completion
+executor.run_until(taskflow, [counter=4](){ return --counter == 0; }, 
+                             [](){ std::cout << "Execution finishes\n"; } );
+```
+
+
+You can call `wait_for_all` to block the executor until all associated taskflows complete.
+
+```cpp
+executor.wait_for_all();  // block until all associated tasks finish
+```
+
+Notice that executor does not own any taskflow. 
+It is your responsibility to keep a taskflow alive during its execution,
+or it can result in undefined behavior.
+In most applications, you need only one executor to run multiple taskflows
+each representing a specific part of your parallel decomposition.
 
 # Dynamic Tasking
 
 Another powerful feature of Taskflow is *dynamic* tasking.
-A dynamic task is created during the execution of a dispatched taskflow graph, i.e.,
-topology.
+Dynamic tasks are those created during the execution of a taskflow.
 These tasks are spawned by a parent task and are grouped together to a *subflow* graph.
 The example below demonstrates how to create a subflow
-that spawns three tasks during its execution.
+that spawns three tasks at runtime.
 
-<img align="right" src="image/subflow_join.png" width="40%">
+<img align="right" src="image/subflow_join.png" width="30%">
 
 ```cpp
 // create three regular tasks
-auto A = tf.silent_emplace([](){}).name("A");
-auto C = tf.silent_emplace([](){}).name("C");
-auto D = tf.silent_emplace([](){}).name("D");
+tf::Task A = tf.emplace([](){}).name("A");
+tf::Task C = tf.emplace([](){}).name("C");
+tf::Task D = tf.emplace([](){}).name("D");
 
 // create a subflow graph (dynamic tasking)
-auto B = tf.silent_emplace([] (auto& subflow) {
-  auto B1 = subflow.silent_emplace([](){}).name("B1");
-  auto B2 = subflow.silent_emplace([](){}).name("B2");
-  auto B3 = subflow.silent_emplace([](){}).name("B3");
+tf::Task B = tf.emplace([] (tf::Subflow& subflow) {
+  tf::Task B1 = subflow.emplace([](){}).name("B1");
+  tf::Task B2 = subflow.emplace([](){}).name("B2");
+  tf::Task B3 = subflow.emplace([](){}).name("B3");
   B1.precede(B3);
   B2.precede(B3);
 }).name("B");
@@ -213,57 +273,49 @@ A.precede(B);  // B runs after A
 A.precede(C);  // C runs after A 
 B.precede(D);  // D runs after B 
 C.precede(D);  // D runs after C 
-
-// execute the graph without cleanning up topologies
-tf.dispatch().get();
-std::cout << tf.dump_topologies();
 ```
 
 By default, a subflow graph joins to its parent node. 
 This guarantees a subflow graph to finish before the successors of 
 its parent node.
 You can disable this feature by calling `subflow.detach()`.
-Detaching the above subflow will result in the following execution flow.
+For example, detaching the above subflow will result in the following execution flow:
 
-<img align="right" src="image/subflow_detach.png" width="65%">
+<img align="right" src="image/subflow_detach.png" width="35%">
 
 ```cpp
-// detach a subflow graph
-[] (auto& subflow) {
-  ...
+// create a "detached" subflow graph (dynamic tasking)
+tf::Task B = tf.emplace([] (tf::Subflow& subflow) {
+  tf::Task B1 = subflow.emplace([](){}).name("B1");
+  tf::Task B2 = subflow.emplace([](){}).name("B2");
+  tf::Task B3 = subflow.emplace([](){}).name("B3");
   B1.precede(B3);
   B2.precede(B3);
 
-  // detach from B 
+  // detach this subflow from task B
   subflow.detach();
-}).name("TaskB");
+}).name("B");
 ```
 
 ## Step 1: Create a Subflow
 
 Cpp-Taskflow has an unified interface for static and dynamic tasking.
 To create a subflow for dynamic tasking, 
-emplace a callable on one argument of type `tf::SubflowBuilder`.
+emplace a callable with one argument of type `tf::Subflow`.
 
 ```cpp
-auto A = tf.silent_emplace([] (tf::SubflowBuilder& subflow) {});
+tf::Task A = tf.emplace([] (tf::Subflow& subflow) {});
 ```
 
-Similarly, you can get a [std::future][std::future] object to the execution status of the subflow.
-
-```cpp
-auto [A, fu] = tf.emplace([] (tf::SubflowBuilder& subflow) {});
-```
-
-A subflow builder is a lightweight object that allows you to create 
-arbitrary dependency graphs on the fly.
+A subflow is a lightweight object that allows you to create 
+arbitrary dependency graphs at runtime.
 All graph building methods defined in taskflow
-can be used in a subflow builder.
+can be used in the subflow.
 
 ```cpp
-auto A = tf.silent_emplace([] (tf::SubflowBuilder& subflow) {
+tf::Task A = tf.emplace([] (tf::Subflow& subflow) {
   std::cout << "Task A is spawning two subtasks A1 and A2" << '\n';
-  auto [A1, A2] = subflow.silent_emplace(
+  auto [A1, A2] = subflow.emplace(
     [] () { std::cout << "subtask A1" << '\n'; },
     [] () { std::cout << "subtask A2" << '\n'; }
     A1.precede(A2);
@@ -271,69 +323,67 @@ auto A = tf.silent_emplace([] (tf::SubflowBuilder& subflow) {
 });
 ```
 
-A subflow can also be nested or recursive. You can create another subflow from
+A subflow can be nested or recursive. You can create another subflow from
 the execution of a subflow and so on.
 
-<img align="right" src="image/nested_subflow.png" width="45%">
+<img align="right" src="image/nested_subflow.png" width="25%">
 
 ```cpp
-auto A = tf.silent_emplace([] (auto& sbf){
+tf::Task A = tf.emplace([] (tf::Subflow& sbf) {
   std::cout << "A spawns A1 & subflow A2\n";
-  auto A1 = sbf.silent_emplace([] () { 
+  tf::Task A1 = sbf.emplace([] () { 
     std::cout << "subtask A1\n"; 
   }).name("A1");
 
-  auto A2 = sbf.silent_emplace([] (auto& sbf2){
+  tf::Task A2 = sbf.emplace([] (tf::Subflow& sbf2) {
     std::cout << "A2 spawns A2_1 & A2_2\n";
-    auto A2_1 = sbf2.silent_emplace([] () { 
+    tf::Task A2_1 = sbf2.emplace([] () { 
       std::cout << "subtask A2_1\n"; 
     }).name("A2_1");
-    auto A2_2 = sbf2.silent_emplace([] () { 
+    tf::Task A2_2 = sbf2.emplace([] () { 
       std::cout << "subtask A2_2\n"; 
     }).name("A2_2");
     A2_1.precede(A2_2);
   }).name("A2");
+
   A1.precede(A2);
 }).name("A");
 ```
 
 ## Step 2: Detach or Join a Subflow
 
-A subflow has no methods to dispatch its tasks.
-Instead, a subflow will be executed after leaving the context of the callable.
+A subflow will run after leaving the execution context of its parent task.
 By default, a subflow joins to its parent task.
 Depending on applications, you can detach a subflow to enable more parallelism.
 
 ```cpp
-auto A = tf.silent_emplace([] (tf::SubflowBuilder& subflow) {
+tf::Task A = tf.emplace([] (tf::Subflow& subflow) {
   subflow.detach();  // detach this subflow from its parent task A
 });  // subflow starts to run after the callable scope
 ```
 
-Detaching or Joining a subflow has different meaning in the ready status of 
-the future object referred to it.
+Detaching or joining a subflow has different meaning in the completion status of 
+its parent node.
 In a joined subflow, 
 the completion of its parent node is defined as when all tasks
 inside the subflow (possibly nested) finish.
 
-<img align="right" src="image/joined_subflow_future.png" width="40%">
+<img align="right" src="image/joined_subflow_future.png" width="15%">
 
 ```cpp
 int value {0};
 
 // create a joined subflow
-auto [A, fuA] = tf.emplace([&] (auto& subflow) {
-  subflow.silent_emplace([&]() { 
+tf::Task A = tf.emplace([&] (tf::Subflow& subflow) {
+  subflow.emplace([&]() { 
     value = 10; 
-  });
-  return 100;   // some arbitrary value
-});
+  }).name("A1");
+}).name("A");
 
 // create a task B after A
-auto B = tf.silent_emplace([&] () { 
+tf::Task B = tf.emplace([&] () { 
   assert(value == 10); 
-  assert(fuA.wait_for(0s) == std::future_status::ready);
-});
+}).name("B");
 
 // A1 must finish before A and therefore before B
 A.precede(B);
@@ -341,26 +391,65 @@ A.precede(B);
 
 When a subflow is detached from its parent task, it becomes a parallel
 execution line to the current flow graph and will eventually
-join to the same topology.
+join to the same taskflow.
 
-<img align="right" src="image/detached_subflow_future.png" width="40%">
+<img align="right" src="image/detached_subflow_future.png" width="25%">
 
 ```cpp
 int value {0};
 
 // create a detached subflow
-auto [A, fuA] = tf.emplace([&] (auto& subflow) {
-  subflow.silent_emplace([&]() { value = 10; });
+tf::Task A = tf.emplace([&] (tf::Subflow& subflow) {
+  subflow.emplace([&]() { value = 10; }).name("A1");
   subflow.detach();
-  return 100;   // some arbitrary value
-});
+}).name("A");
 
 // create a task B after A
-auto B = tf.silent_emplace([&] () { 
-  // no guarantee for value to be 10 nor fuA ready
-});
+tf::Task B = tf.emplace([&] () { 
+  // no guarantee for value to be 10
+}).name("B");
+
 A.precede(B);
 ```
+
+# Taskflow Composition
+
+A powerful feature of `tf::Taskflow` is its composability. 
+You can create multiple task graphs from different parts of your workload
+and use them to compose a large graph through the `composed_of` method. 
+
+
+<img align="right" src="image/composition.png" width="50%">
+
+```cpp 
+tf::Taskflow f1, f2;
+
+// Add two tasks 
+auto [f1A, f1B] = f1.emplace( 
+  []() { std::cout << "Task f1A\n"; },
+  []() { std::cout << "Task f1B\n"; }
+);
+
+// Add two tasks 
+auto [f2A, f2B, f2C] = f2.emplace( 
+  []() { std::cout << "Task f2A\n"; },
+  []() { std::cout << "Task f2B\n"; },
+  []() { std::cout << "Task f2C\n"; }
+);
+
+// Use f1 to compose f2
+auto f1_module_task = f2.composed_of(f1);
+
+f2A.precede(f1_module_task);
+f2B.precede(f1_module_task);
+f1_module_task.precede(f2C);
+```
+
+Similarly, `composed_of` returns a task handle and you can use the same methods 
+`precede` and `gather` to create dependencies. 
+You can compose a taskflow from multiple taskflows and use the result
+to compose another taskflow and so on.
+
 
 
 # Debug a Taskflow Graph
@@ -372,26 +461,27 @@ To debug a taskflow graph,
 (2) start with one thread before going multiple.
 Currently, Cpp-Taskflow supports [GraphViz][GraphViz] format.
 
-## Dump the Present Taskflow Graph
+## Dump a Taskflow Graph
 
 Each time you create a task or add a dependency, 
-it adds a node or an edge to the present taskflow graph.
-The graph is not dispatched yet and you can dump it to a GraphViz format.
+it adds a node or an edge to the taskflow graph.
+You can dump it to a GraphViz format using the method `dump`.
 
 ```cpp
 // debug.cpp
-tf::Taskflow tf(0);  // use only the master thread
-auto A = tf.silent_emplace([] () {}).name("A");
-auto B = tf.silent_emplace([] () {}).name("B");
-auto C = tf.silent_emplace([] () {}).name("C");
-auto D = tf.silent_emplace([] () {}).name("D");
-auto E = tf.silent_emplace([] () {}).name("E");
+tf::Taskflow taskflow;
+
+tf::Task A = taskflow.emplace([] () {}).name("A");
+tf::Task B = taskflow.emplace([] () {}).name("B");
+tf::Task C = taskflow.emplace([] () {}).name("C");
+tf::Task D = taskflow.emplace([] () {}).name("D");
+tf::Task E = taskflow.emplace([] () {}).name("E");
 
 A.precede(B, C, E); 
 C.precede(D);
 B.precede(D, E); 
 
-std::cout << tf.dump();
+taskflow.dump(std::cout);
 ```
 
 Run the program and inspect whether dependencies are expressed in the right way. 
@@ -414,107 +504,108 @@ digraph Taskflow {
 }
 ```
 
-## Dump the Dispatched Graphs
+## Dump a Subflow Graph
 
 When you have dynamic tasks (subflows),
 you cannot simply use the `dump` method because it displays only the static portion.
-Instead, you need to execute the graph first to include dynamic tasks
-and then use the `dump_topologies` method.
+Instead, you need to execute the graph to spawn dynamic tasks first.
 
-<img align="right" src="image/debug_subflow.png" width="40%">
+<img align="right" src="image/debug_subflow.png" width="25%">
 
 ```cpp
-tf::Taskflow tf(0);  // use only the master thread
+tf::Executor executor;
+tf::Taskflow taskflow;
 
-auto A = tf.silent_emplace([](){}).name("A");
+tf::Task A = taskflow.emplace([](){}).name("A");
 
 // create a subflow of two tasks B1->B2
-auto B = tf.silent_emplace([] (auto& subflow) {
-  auto B1 = subflow.silent_emplace([](){}).name("B1");
-  auto B2 = subflow.silent_emplace([](){}).name("B2");
+tf::Task B = taskflow.emplace([] (tf::Subflow& subflow) {
+  tf::Task B1 = subflow.emplace([](){}).name("B1");
+  tf::Task B2 = subflow.emplace([](){}).name("B2");
   B1.precede(B2);
 }).name("B");
 
 A.precede(B);
 
-// dispatch the graph without cleanning up topologies
-tf.dispatch().get();
-
-// dump the entire graph (including dynamic tasks)
-std::cout << tf.dump_topologies();
+executor.run(tf).get();  // run the taskflow
+tf.dump(std::cout);      // dump the graph including dynamic tasks
 ```
+
+# Monitor Thread Activities 
+
+Understanding thread activities is very important for performance analysis. 
+Cpp-Taskflow provides a default *observer* of type `tf::ExecutorObserver` 
+that lets users observe when a thread starts or stops participating in task scheduling.
+
+```cpp 
+tf::executor executor;
+auto observer = executor.make_observer<tf::ExecutorObserver>();
+```
+
+When you are running a task dependency graph,
+the observer will automatically record the start and end timestamps of each executed task.
+You can dump the entire execution timelines into a JSON file.
+
+```cpp 
+executor.run(taskflow1);               // run a task dependency graph 1
+executor.run(taskflow2);               // run a task dependency graph 2
+executor.wait_for_all();               // block until all tasks finish
+
+std::ofstream ofs("timestamps.json");
+observer->dump(ofs);                   // dump the timeline to a JSON file
+```
+
+You can open the chrome browser to visualize the execution timelines through the 
+[chrome://tracing][ChromeTracing] developer tool. 
+In the tracing view, click the `Load` button to read the JSON file. 
+You shall see the tracing graph.
+
+![](image/timeline.png)
+
+Each task is given a name of `i_j` where `i` is the thread id and `j` is the task number.
+You can pan or zoom in/out the timeline to get into a detailed view.
 
 # API Reference
 
+The official [documentation][wiki] explains a complete list of 
+Cpp-Taskflow API. 
+In this section, we highlight a short list of commonly used methods.
+
 ## Taskflow API
 
-The class `tf::Taskflow` is the main place to create and execute task dependency graph.
+The class `tf::Taskflow` is the main place to create a task dependency graph.
 The table below summarizes a list of commonly used methods.
-Visit [documentation][wiki] to see the complete list.
 
 | Method   | Argument  | Return  | Description |
 | -------- | --------- | ------- | ----------- |
-| Taskflow | none      | none    | construct a taskflow with the worker count equal to max hardware concurrency |
-| Taskflow | size      | none    | construct a taskflow with a given number of workers |
-| emplace  | callables | tasks, futures | insert nodes to execute the given callables; results can be retrieved from the returned futures |
-| silent_emplace  | callables | tasks         | insert nodes to execute the given callables |
+| emplace  | callables | tasks   | create a task with a given callable(s) |
 | placeholder     | none        | task         | insert a node without any work; work can be assigned later |
-| linearize       | task list   | none         | create a linear dependency in the given task list |
 | parallel_for    | beg, end, callable, group | task pair | apply the callable in parallel and group-by-group to the result of dereferencing every iterator in the range | 
 | parallel_for    | beg, end, step, callable, group | task pair | apply the callable in parallel and group-by-group to a index-based range | 
 | reduce | beg, end, res, bop | task pair | reduce a range of elements to a single result through a binary operator | 
 | transform_reduce | beg, end, res, bop, uop | task pair | apply a unary operator to each element in the range and reduce them to a single result through a binary operator | 
-| dispatch        | none        | future | dispatch the current graph and return a shared future to block on completion |
-| silent_dispatch | none        | none | dispatch the current graph | 
-| wait_for_all    | none        | none | dispatch the current graph and block until all graphs finish, including all previously dispatched ones, and then clear all graphs |
-| wait_for_topologies | none    | none | block until all dispatched graphs (topologies) finish, and then clear these graphs |
-| num_nodes       | none        | size | return the number of nodes in the current graph |  
-| num_workers     | size        | none | set the number of worker threads in the pool |  
-| num_workers     | none        | size | return the number of working threads in the pool |  
-| num_topologies  | none        | size | return the number of dispatched graphs |
-| dump            | none        | string | dump the current graph to a string of GraphViz format |
-| dump_topologies | none        | string | dump dispatched topologies to a string of GraphViz format |
+| num_workers     | none        | size | query the number of working threads in the pool |  
+| dump            | ostream     | none | dump the taskflow to an output stream in GraphViz format |
 
-### *emplace/silent_emplace/placeholder*
+### *emplace/placeholder*
 
-The main different between `emplace` and `silent_emplace` is the return value.
-The method `emplace` gives you a [std::future][std::future] object to retrieve the result of the callable 
-when the task completes.
+You can use `emplace` to create a task from a target callable.
 
 ```cpp
 // create a task through emplace
-auto [task, future] = tf.emplace([](){ return 1; });
-tf.wait_for_all();
-assert(future.get() == 1);
-```
-
-If you don't care the return result, using `silent_emplace` to create a task can give you slightly better performance.
-```cpp
-// create a task through silent_emplace
-auto task = tf.emplace([](){ return; });
-tf.wait_for_all();
+tf::Task task = tf.emplace([] () { std::cout << "my task\n"; });
 ```
 
 When task cannot be determined beforehand, you can create a placeholder and assign the calalble later.
+
 ```cpp
 // create a placeholder and use it to build dependency
-auto A = tf.silent_emplace([](){});
-auto B = tf.placeholder();
+tf::Task A = tf.emplace([](){});
+tf::Task B = tf.placeholder();
 A.precede(B);
 
 // assign the callable later in the control flow
 B.work([](){ /* do something */ });
-```
-
-### *linearize*
-
-The method `linearize` lets you add a linear dependency between each adjacent pair of a task sequence.
-
-<img align="right" width="40%" src="image/linearize.png">
-
-```cpp
-// linearize five tasks
-tf.linearize(A, B, C, D);
 ```
 
 ### *parallel_for*
@@ -559,7 +650,7 @@ auto [S, T] = tf.parallel_for(
 By default, taskflow performs an even partition over worker threads
 if the group size is not specified (or equal to 0).
 
-In addition to range-based iterator, parallel\_for has another overload on an index-based loop.
+In addition to range-based iterator, `parallel_for` has another overload of index-based loop.
 The first three argument to this overload indicates 
 starting index, ending index (exclusive), and step size.
 
@@ -593,7 +684,7 @@ auto [S, T] = tf.parallel_for(
 
 The method `reduce` creates a subgraph that applies a binary operator to a range of items.
 The result will be stored in the referenced `res` object passed to the method. 
-It is your responsibility to assign it a correct initial value to reduce.
+It is your responsibility to assign a correct initial value to the reduce call.
 
 <img align="right" width="45%" src="image/reduce.png">
 
@@ -617,38 +708,7 @@ auto [S, T] = tf.transform_reduce(v.begin(), v.end(), min,
 );
 ```
 
-By default, all reduce methods distribute the workload evenly across threads.
-
-### *dispatch/silent_dispatch/wait_for_topologies/wait_for_all*
-
-Dispatching a taskflow graph will schedule threads to execute the current graph and return immediately.
-The method `dispatch` gives you a [std::future][std::future] object to probe the execution progress while
-`silent_dispatch` doesn't.
-
-```cpp
-auto future = tf.dispatch();
-// do something else to overlap with the execution 
-// ...
-std::cout << "now I need to block on completion" << '\n';
-future.get();
-std::cout << "all tasks complete" << '\n';
-```
-
-If you need to block your program flow until all tasks finish 
-(including the present taskflow graph), use `wait_for_all` instead.
-
-```cpp
-tf.wait_for_all();
-std::cout << "all tasks complete" << '\n';
-```
-
-If you only need to block your program flow until all dispatched taskflow graphs finish,
-use `wait_for_topologies`.
-
-```cpp
-tf.wait_for_topologies();
-std::cout << "all topologies complete" << '\n';
-```
+By default, all reduce methods distribute the workload evenly across `std::thread::hardware_concurrency`.
 
 ## Task API
 
@@ -656,14 +716,13 @@ Each time you create a task, the taskflow object adds a node to the present task
 and return a *task handle* to you.
 A task handle is a lightweight object that defines a set of methods for users to
 access and modify the attributes of the associated task.
-The table below summarizes the list of commonly used methods.
-Visit [documentation][wiki] to see the complete list.
+The table below summarizes a list of commonly used methods.
 
 | Method         | Argument    | Return | Description |
 | -------------- | ----------- | ------ | ----------- |
 | name           | string      | self   | assign a human-readable name to the task |
 | work           | callable    | self   | assign a work of a callable object to the task |
-| precede        | task        | self   | enable this task to run *before* the given task |
+| precede        | task list   | self   | enable this task to run *before* the given tasks |
 | gather         | task list   | self   | enable this task to run *after* the given tasks |
 | num_dependents | none        | size   | return the number of dependents (inputs) of this task |
 | num_successors | none        | size   | return the number of successors (outputs) of this task |
@@ -686,7 +745,7 @@ A.work([] () { std::cout << "hello world!"; });
 
 ### *precede*
 
-The method `precede` is the basic building block to add a precedence between two tasks.
+The method `precede` lets you add a preceding link from self to a task.
 
 <img align="right" width="20%" src="image/precede.png">
 
@@ -707,7 +766,7 @@ A.precede(B, C, D, E);
 
 ### *gather*
 
-The method `gather` lets you add multiple precedences to a task.
+The method `gather` lets you add a preceding link from a task to self.
 
 <img align="right" width="30%" src="image/gather.png">
 
@@ -717,14 +776,53 @@ The method `gather` lets you add multiple precedences to a task.
 A.gather(B, C, D, E);
 ```
 
+## Executor API
+
+The class `tf::Executor` is used for execution of one or multiple taskflow objects.
+The table below summarizes a list of commonly used methods. 
+
+| Method    | Argument       | Return        | Description              |
+| --------- | -------------- | ------------- | ------------------------ |
+| Executor  | N              | none          | construct an executor with N worker threads |
+| run       | taskflow       | future | run the taskflow once    |
+| run_n     | taskflow, N    | future | run the taskflow N times |
+| run_until | taskflow, binary predicate | future | keep running the task until the predicate returns true |
+| make_observer | arguments to forward to user-derived constructor | pointer to the observer | create an observer to monitor the thread activities of the executor |
+
+### *Executor*
+
+The constructor of tf::Executor takes an unsigned integer to 
+initialize the executor with `N` worker threads.
+
+```cpp
+tf::Executor executor(8);  // create an executor of 8 worker threads
+```
+
+The default value uses `std::thread::hardware_concurrency` 
+to decide the number of worker threads.
+
+### *run/run_n/run_until*
+
+The run series are non-blocking call to execute a taskflow graph.
+Issuing multiple runs on the same taskflow will automatically synchronize 
+to a sequential chain of executions.
+
+```cpp
+executor.run(taskflow);             // run a graph once
+executor.run_n(taskflow, 5);        // run a graph five times
+executor.run_n(taskflow, my_pred);  // keep running a graph until the predicate becomes true
+```
+
+The first run finishes before the second run, and the second run finishes before the third run.
+
 # Caveats
 
 While Cpp-Taskflow enables the expression of very complex task dependency graph that might contain 
 thousands of task nodes and links, there are a few amateur pitfalls and mistakes to be aware of.
 
 + Having a cycle in a graph may result in running forever
-+ Trying to modify a dispatched task can result in undefined behavior
-+ Touching a taskflow from multiple threads are not safe
++ Destructing a taskflow while it is running in one execution results in undefined behavior
++ Trying to modify a running task can result in undefined behavior
 
 Cpp-Taskflow is known to work on Linux distributions, MAC OSX, and Microsoft Visual Studio.
 Please [let me know][email me] if you found any issues in a particular platform.
@@ -772,24 +870,21 @@ The folder `example/` contains several examples and is a great place to learn to
 | ------- |  ----------- | 
 | [simple.cpp](./example/simple.cpp) | uses basic task building blocks to create a trivial taskflow  graph |
 | [debug.cpp](./example/debug.cpp)| inspects a taskflow through the dump method |
-| [emplace.cpp](./example/emplace.cpp)| demonstrates the difference between the emplace method and the silent_emplace method |
-| [matrix.cpp](./example/matrix.cpp) | creates two set of matrices and multiply each individually in parallel |
-| [dispatch.cpp](./example/dispatch.cpp) | demonstrates how to dispatch a task dependency graph and assign a callback to execute |
-| [multiple_dispatch.cpp](./example/multiple_dispatch.cpp) | illustrates dispatching multiple taskflow graphs as independent batches (which all run on the same threadpool) |
 | [parallel_for.cpp](./example/parallel_for.cpp)| parallelizes a for loop with unbalanced workload |
 | [reduce.cpp](./example/reduce.cpp)| performs reduce operations over linear containers |
 | [subflow.cpp](./example/subflow.cpp)| demonstrates how to create a subflow graph that spawns three dynamic tasks |
-| [threadpool.cpp](./example/threadpool.cpp)| benchmarks different threadpool implementations |
-| [threadpool_cxx14.cpp](./example/threadpool_cxx14.cpp)| shows use of the C++14-compatible threadpool implementation, which may be used when you have no inter-task (taskflow) dependencies to express |
-| [taskflow.cpp](./example/taskflow.cpp)| benchmarks taskflow on different task dependency graphs |
-| [executor.cpp](./example/executor.cpp)| shows how to create multiple taskflow objects sharing one executor to avoid the thread over-subscription problem |
+| [run_variants.cpp](./example/run_variants.cpp)| shows multiple ways to run a taskflow graph |
+| [composition.cpp](./example/composition.cpp)| demonstrates the decomposable interface of taskflow |
+| [observer.cpp](./example/observer.cpp)| demonstrates how to monitor the thread activities in scheduling and running tasks |
 
 # Get Involved
 
 + Report bugs/issues by submitting a [GitHub issue][GitHub issues]
 + Submit contributions using [pull requests][GitHub pull requests]
 + Learn more about Cpp-Taskflow by reading the [documentation][wiki]
-+ Find a solution to your question at [Frequently Asked Questions][FAQ]
++ Release notes are highlighted [here][release notes]
++ Read and cite our [IPDPS19][IPDPS19] paper
++ Visit a curated list of [awesome parallel computing resources](awesome-parallel-computing.md)
 
 # Who is Using Cpp-Taskflow?
 
@@ -800,8 +895,10 @@ that incorporate complex task dependencies.
 - [DtCraft][DtCraft]: A General-purpose Distributed Programming Systems using Data-parallel Streams
 - [Firestorm][Firestorm]: Fighting Game Engine with Asynchronous Resource Loaders (developed by [ForgeMistress][ForgeMistress])
 - [Shiva][Shiva]: An extensible engine via an entity component system through scripts, DLLs, and header-only (C++)
+- [PID Framework][PID Framework]: A Global Development Methodology Supported by a CMake API and Dedicated C++ Projects 
+- [NovusCore][NovusCore]: An emulating project for World of Warcraft (Wrath of the Lich King 3.3.5a 12340 client build)
 
-Please [let me know][email me] if I forgot your project!
+[More...](https://github.com/search?q=cpp-taskflow&type=Code)
 
 # Contributors
 
@@ -819,6 +916,9 @@ Cpp-Taskflow is being actively developed and contributed by the following people
 - [Patrik Huber][Patrik Huber] helped fixed typos in the documentation
 - [ForgeMistress][ForgeMistress] provided API ideas about sharing the executor to avoid thread over-subscriptiong issues
 - [Alexander Neumann](https://github.com/Neumann-A) helped modify the cmake build to make Cpp-Taskflow importable from external cmake projects
+- [Paolo Bolzoni](https://github.com/paolobolzoni) helped remove extraneous semicolons to suppress extra warning during compilation and contributed to a dataflow example
+- [Pursche](https://github.com/Pursche) fixed compilation warning on Microsoft Visual Studio
+- [KingDuckZ][KingDuckZ] helped discover the memory leak in the memory allocator used in graph and topology
 
 Meanwhile, we appreciate the support from many organizations for our development on Cpp-Taskflow.
 Please [let me know][email me] if I forgot someone!
@@ -834,7 +934,7 @@ Cpp-Taskflow is licensed under the [MIT License](./LICENSE).
 
 * * *
 
-[Tsung-Wei Huang]:       https://twhuang.ece.illinois.edu/
+[Tsung-Wei Huang]:       https://tsung-wei-huang.github.io/
 [Chun-Xun Lin]:          https://github.com/clin99
 [Martin Wong]:           https://ece.illinois.edu/directory/profile/mdfwong
 [Andreas Olofsson]:      https://github.com/aolofsson
@@ -849,28 +949,34 @@ Cpp-Taskflow is licensed under the [MIT License](./LICENSE).
 [OpenMP Tasking]:        http://www.nersc.gov/users/software/programming-models/openmp/openmp-tasking/
 [TBB FlowGraph]:         https://www.threadingbuildingblocks.org/tutorial-intel-tbb-flow-graph
 [OpenTimer]:             https://github.com/OpenTimer/OpenTimer
-[DtCraft]:               http://dtcraft.web.engr.illinois.edu/
+[DtCraft]:               https://github.com/tsung-wei-huang/DtCraft
 [totalgee]:              https://github.com/totalgee
 [damienhocking]:         https://github.com/damienhocking
 [ForgeMistress]:         https://github.com/ForgeMistress
 [Patrik Huber]:          https://github.com/patrikhuber
 [DARPA IDEA]:            https://www.darpa.mil/news-events/2017-09-13
+[KingDuckZ]:             https://github.com/KingDuckZ
 [NSF]:                   https://www.nsf.gov/
 [UIUC]:                  https://illinois.edu/
 [CSL]:                   https://csl.illinois.edu/
-[FAQ]:                   ./doc/faq.md
-[wiki]:                  https://cpp-taskflow.github.io/cpp-taskflow-documentation.github.io/
+[wiki]:                  https://cpp-taskflow.github.io/cpp-taskflow/index.html
+[release notes]:         https://cpp-taskflow.github.io/cpp-taskflow/Releases.html
 [PayMe]:                 https://www.paypal.me/twhuang/10
 [C++17]:                 https://en.wikipedia.org/wiki/C%2B%2B17
 [email me]:              mailto:twh760812@gmail.com
 [Cpp Conference 2018]:   https://github.com/CppCon/CppCon2018
+[ChromeTracing]:         https://www.chromium.org/developers/how-tos/trace-event-profiling-tool
+[IPDPS19]:               doxygen/reference/ipdps19.pdf
+[WorkStealing Wiki]:     https://en.wikipedia.org/wiki/Work_stealing
 
 [std::invoke]:           https://en.cppreference.com/w/cpp/utility/functional/invoke
 [std::future]:           https://en.cppreference.com/w/cpp/thread/future
 
 [Firestorm]:             https://github.com/ForgeMistress/Firestorm
 [Shiva]:                 https://shiva.gitbook.io/project/shiva
+[PID Framework]:         http://pid.lirmm.net/pid-framework/index.html
+[NovusCore]:             https://github.com/novuscore/NovusCore
 
 [Presentation]:          https://cpp-taskflow.github.io/
-
+[chrome://tracing]:      chrome://tracing
 

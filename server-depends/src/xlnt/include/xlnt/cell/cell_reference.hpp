@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2017 Thomas Fussell
+// Copyright (c) 2014-2018 Thomas Fussell
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@
 #include <cstdint>
 #include <string>
 #include <utility>
-
+#include <tuple>
 #include <xlnt/xlnt_config.hpp>
 #include <xlnt/cell/index_types.hpp>
 
@@ -255,3 +255,17 @@ private:
 };
 
 } // namespace xlnt
+
+namespace std
+{
+template <>
+struct hash<xlnt::cell_reference>
+{
+    size_t operator()(const xlnt::cell_reference &x) const
+    {
+        static_assert(std::is_same<decltype(x.row()), std::uint32_t>::value, "this hash function expects both row and column to be 32-bit numbers");
+        static_assert(std::is_same<decltype(x.column_index()), std::uint32_t>::value, "this hash function expects both row and column to be 32-bit numbers");
+        return hash<std::uint64_t>{}(x.row() | static_cast<std::uint64_t>(x.column_index()) << 32);
+    }
+};
+}

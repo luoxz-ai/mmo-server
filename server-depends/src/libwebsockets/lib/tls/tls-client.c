@@ -39,10 +39,9 @@ lws_ssl_client_connect1(struct lws *wsi)
 	case LWS_SSL_CAPABLE_MORE_SERVICE_WRITE:
 		lws_callback_on_writable(wsi);
 		/* fallthru */
+	case LWS_SSL_CAPABLE_MORE_SERVICE:
 	case LWS_SSL_CAPABLE_MORE_SERVICE_READ:
 		lwsi_set_state(wsi, LRS_WAITING_SSL);
-		break;
-	case LWS_SSL_CAPABLE_MORE_SERVICE:
 		break;
 	}
 
@@ -95,8 +94,14 @@ int lws_context_init_client_ssl(const struct lws_context_creation_info *info,
 	const char *cipher_list = info->ssl_cipher_list;
 	struct lws wsi;
 
-	if (vhost->options & LWS_SERVER_OPTION_ONLY_RAW)
+	if (vhost->options & LWS_SERVER_OPTION_ADOPT_APPLY_LISTEN_ACCEPT_CONFIG)
 		return 0;
+
+	if (vhost->tls.ssl_ctx) {
+		cert_filepath = NULL;
+		private_key_filepath = NULL;
+		ca_filepath = NULL;
+	}
 
 	/*
 	 *  for backwards-compatibility default to using ssl_... members, but
@@ -132,10 +137,12 @@ int lws_context_init_client_ssl(const struct lws_context_creation_info *info,
 						info->client_ssl_ca_mem,
 						info->client_ssl_ca_mem_len,
 						cert_filepath,
+						info->client_ssl_cert_mem,
+						info->client_ssl_cert_mem_len,
 						private_key_filepath))
 		return 1;
 
-	lwsl_notice("created client ssl context for %s\n", vhost->name);
+	lwsl_info("created client ssl context for %s\n", vhost->name);
 
 	/*
 	 * give him a fake wsi with context set, so he can use

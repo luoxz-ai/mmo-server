@@ -19,6 +19,8 @@
  *  MA  02110-1301  USA
  */
 
+#define  _GNU_SOURCE
+
 #include "core/private.h"
 
 #if defined(WIN32) || defined(_WIN32)
@@ -135,6 +137,11 @@ lws_cgi(struct lws *wsi, const char * const *exec_array,
 	sum = cgi->summary;
 	sumend = sum + strlen(cgi->summary) - 1;
 
+	for (n = 0; n < 3; n++) {
+		cgi->pipe_fds[n][0] = -1;
+		cgi->pipe_fds[n][1] = -1;
+	}
+
 	/* create pipes for [stdin|stdout] and [stderr] */
 
 	for (n = 0; n < 3; n++)
@@ -145,12 +152,14 @@ lws_cgi(struct lws *wsi, const char * const *exec_array,
 
 	for (n = 0; n < 3; n++) {
 		cgi->stdwsi[n] = lws_create_basic_wsi(wsi->context, wsi->tsi);
-		if (!cgi->stdwsi[n])
+		if (!cgi->stdwsi[n]) {
+			lwsl_err("%s: unable to create cgi stdwsi\n", __func__);
 			goto bail2;
+		}
 		cgi->stdwsi[n]->cgi_channel = n;
 		lws_vhost_bind_wsi(wsi->vhost, cgi->stdwsi[n]);
 
-		lwsl_debug("%s: cgi %p: pipe fd %d -> fd %d / %d\n", __func__,
+		lwsl_debug("%s: cgi stdwsi %p: pipe idx %d -> fd %d / %d\n", __func__,
 			   cgi->stdwsi[n], n, cgi->pipe_fds[n][!!(n == 0)],
 			   cgi->pipe_fds[n][!(n == 0)]);
 
@@ -175,9 +184,12 @@ lws_cgi(struct lws *wsi, const char * const *exec_array,
 		wsi->child_list = cgi->stdwsi[n];
 	}
 
-	lws_change_pollfd(cgi->stdwsi[LWS_STDIN], LWS_POLLIN, LWS_POLLOUT);
-	lws_change_pollfd(cgi->stdwsi[LWS_STDOUT], LWS_POLLOUT, LWS_POLLIN);
-	lws_change_pollfd(cgi->stdwsi[LWS_STDERR], LWS_POLLOUT, LWS_POLLIN);
+	if (lws_change_pollfd(cgi->stdwsi[LWS_STDIN], LWS_POLLIN, LWS_POLLOUT))
+		goto bail3;
+	if (lws_change_pollfd(cgi->stdwsi[LWS_STDOUT], LWS_POLLOUT, LWS_POLLIN))
+		goto bail3;
+	if (lws_change_pollfd(cgi->stdwsi[LWS_STDERR], LWS_POLLOUT, LWS_POLLIN))
+		goto bail3;
 
 	lwsl_debug("%s: fds in %d, out %d, err %d\n", __func__,
 		   cgi->stdwsi[LWS_STDIN]->desc.sockfd,
@@ -209,8 +221,12 @@ lws_cgi(struct lws *wsi, const char * const *exec_array,
 
 	n = 0;
 
-	if (lws_is_ssl(wsi))
-		env_array[n++] = "HTTPS=ON";
+	if (lws_is_ssl(wsi)) {
+		env_array[n++] = p;
+		p += lws_snprintf(p, end - p, "HTTPS=ON");
+		p++;
+	}
+
 	if (wsi->http.ah) {
 		static const unsigned char meths[] = {
 			WSI_TOKEN_GET_URI,
@@ -386,10 +402,13 @@ lws_cgi(struct lws *wsi, const char * const *exec_array,
 	}
 
 
-	env_array[n++] = "PATH=/bin:/usr/bin:/usr/local/bin:/var/www/cgi-bin";
+	env_array[n++] = p;
+	p += lws_snprintf(p, end - p, "PATH=/bin:/usr/bin:/usr/local/bin:/var/www/cgi-bin");
+	p++;
 
 	env_array[n++] = p;
-	p += lws_snprintf(p, end - p, "SCRIPT_PATH=%s", exec_array[0]) + 1;
+	p += lws_snprintf(p, end - p, "SCRIPT_PATH=%s", exec_array[0]);
+	p++;
 
 	while (mp_cgienv) {
 		env_array[n++] = p;
@@ -405,7 +424,10 @@ lws_cgi(struct lws *wsi, const char * const *exec_array,
 		mp_cgienv = mp_cgienv->next;
 	}
 
-	env_array[n++] = "SERVER_SOFTWARE=libwebsockets";
+	env_array[n++] = p;
+	p += lws_snprintf(p, end - p, "SERVER_SOFTWARE=libwebsockets");
+	p++;
+
 	env_array[n] = NULL;
 
 #if 0
@@ -474,13 +496,13 @@ lws_cgi(struct lws *wsi, const char * const *exec_array,
 	 * process is OK.  Stuff that happens after the execvpe() is OK.
 	 */
 
-	for (n = 0; n < 3; n++) {
-		if (dup2(cgi->pipe_fds[n][!(n == 0)], n) < 0) {
+	for (m = 0; m < 3; m++) {
+		if (dup2(cgi->pipe_fds[m][!(m == 0)], m) < 0) {
 			lwsl_err("%s: stdin dup2 failed\n", __func__);
 			goto bail3;
 		}
-		close(cgi->pipe_fds[n][0]);
-		close(cgi->pipe_fds[n][1]);
+		close(cgi->pipe_fds[m][0]);
+		close(cgi->pipe_fds[m][1]);
 	}
 
 #if !defined(LWS_HAVE_VFORK) || !defined(LWS_HAVE_EXECVPE)
@@ -504,14 +526,14 @@ bail3:
 		__remove_wsi_socket_from_fds(wsi->http.cgi->stdwsi[n]);
 bail2:
 	for (n = 0; n < 3; n++)
-		if (wsi->http.cgi->stdwsi[n] > 0)
+		if (wsi->http.cgi->stdwsi[n])
 			__lws_free_wsi(cgi->stdwsi[n]);
 
 bail1:
 	for (n = 0; n < 3; n++) {
-		if (cgi->pipe_fds[n][0] > 0)
+		if (cgi->pipe_fds[n][0] >= 0)
 			close(cgi->pipe_fds[n][0]);
-		if (cgi->pipe_fds[n][1] > 0)
+		if (cgi->pipe_fds[n][1] >= 0)
 			close(cgi->pipe_fds[n][1]);
 	}
 
@@ -543,7 +565,7 @@ LWS_VISIBLE LWS_EXTERN int
 lws_cgi_write_split_stdout_headers(struct lws *wsi)
 {
 	int n, m, cmd;
-	unsigned char buf[LWS_PRE + 1024], *start = &buf[LWS_PRE], *p = start,
+	unsigned char buf[LWS_PRE + 4096], *start = &buf[LWS_PRE], *p = start,
 			*end = &buf[sizeof(buf) - 1 - LWS_PRE], *name,
 			*value = NULL;
 	char c, hrs;
@@ -934,6 +956,20 @@ agin:
 			n += m + 2;
 		}
 		*/
+
+#if defined(LWS_WITH_HTTP2)
+		if (wsi->http2_substream) {
+			struct lws *nwsi = lws_get_network_wsi(wsi);
+
+			__lws_set_timeout(wsi,
+				PENDING_TIMEOUT_HTTP_KEEPALIVE_IDLE, 31);
+
+			if (!nwsi->immortal_substream_count)
+				__lws_set_timeout(nwsi,
+					PENDING_TIMEOUT_HTTP_KEEPALIVE_IDLE, 31);
+		}
+#endif
+
 		cmd = LWS_WRITE_HTTP;
 		if (wsi->http.cgi->content_length_seen + n ==
 						wsi->http.cgi->content_length)
@@ -952,6 +988,8 @@ agin:
 			if (wsi->http2_substream)
 				m = lws_write(wsi, (unsigned char *)start, 0,
 					      LWS_WRITE_HTTP_FINAL);
+			else
+				return -1;
 			return 1;
 		}
 		wsi->cgi_stdout_zero_length = 1;

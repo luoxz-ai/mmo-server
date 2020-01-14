@@ -124,7 +124,7 @@ lws_add_http_header_content_length(struct lws *wsi,
 	char b[24];
 	int n;
 
-	n = sprintf(b, "%llu", (unsigned long long)content_length);
+	n = lws_snprintf(b, sizeof(b) - 1, "%llu", (unsigned long long)content_length);
 	if (lws_add_http_header_by_token(wsi, WSI_TOKEN_HTTP_CONTENT_LENGTH,
 					 (unsigned char *)b, n, p, end))
 		return 1;
@@ -309,7 +309,7 @@ lws_add_http_header_status(struct lws *wsi, unsigned int _code,
 		else
 			p1 = hver[0];
 
-		n = sprintf((char *)code_and_desc, "%s %u %s", p1, code,
+		n = lws_snprintf((char *)code_and_desc, sizeof(code_and_desc) - 1, "%s %u %s", p1, code,
 			    description);
 
 		if (lws_add_http_header_by_name(wsi, NULL, code_and_desc, n, p,
@@ -417,7 +417,7 @@ lws_return_http_status(struct lws *wsi, unsigned int code,
 		"</head><body><h1>%u</h1>%s</body></html>", code, html_body);
 
 
-	n = sprintf(slen, "%d", len);
+	n = lws_snprintf(slen, 12, "%d", len);
 	if (lws_add_http_header_by_token(wsi, WSI_TOKEN_HTTP_CONTENT_LENGTH,
 					 (unsigned char *)slen, n, &p, end))
 		return 1;
@@ -526,4 +526,91 @@ lws_http_compression_apply(struct lws *wsi, const char *name,
 }
 #endif
 
+int
+lws_http_headers_detach(struct lws *wsi)
+{
+	return lws_header_table_detach(wsi, 0);
+}
 
+void
+lws_sul_http_ah_lifecheck(lws_sorted_usec_list_t *sul)
+{
+	struct allocated_headers *ah;
+	struct lws_context_per_thread *pt = lws_container_of(sul,
+			struct lws_context_per_thread, sul_ah_lifecheck);
+	struct lws *wsi;
+	time_t now;
+	int m;
+
+	now = time(NULL);
+
+	lws_pt_lock(pt, __func__);
+
+	ah = pt->http.ah_list;
+	while (ah) {
+		int len;
+		char buf[256];
+		const unsigned char *c;
+
+		if (!ah->in_use || !ah->wsi || !ah->assigned ||
+		    (ah->wsi->vhost &&
+		     (now - ah->assigned) <
+		     ah->wsi->vhost->timeout_secs_ah_idle + 360)) {
+			ah = ah->next;
+			continue;
+		}
+
+		/*
+		 * a single ah session somehow got held for
+		 * an unreasonable amount of time.
+		 *
+		 * Dump info on the connection...
+		 */
+		wsi = ah->wsi;
+		buf[0] = '\0';
+#if !defined(LWS_PLAT_OPTEE)
+		lws_get_peer_simple(wsi, buf, sizeof(buf));
+#else
+		buf[0] = '\0';
+#endif
+		lwsl_notice("ah excessive hold: wsi %p\n"
+			    "  peer address: %s\n"
+			    "  ah pos %lu\n",
+			    wsi, buf, (unsigned long)ah->pos);
+		buf[0] = '\0';
+		m = 0;
+		do {
+			c = lws_token_to_string(m);
+			if (!c)
+				break;
+			if (!(*c))
+				break;
+
+			len = lws_hdr_total_length(wsi, m);
+			if (!len || len > (int)sizeof(buf) - 1) {
+				m++;
+				continue;
+			}
+
+			if (lws_hdr_copy(wsi, buf, sizeof buf, m) > 0) {
+				buf[sizeof(buf) - 1] = '\0';
+
+				lwsl_notice("   %s = %s\n",
+					    (const char *)c, buf);
+			}
+			m++;
+		} while (1);
+
+		/* explicitly detach the ah */
+		lws_header_table_detach(wsi, 0);
+
+		/* ... and then drop the connection */
+
+		__lws_close_free_wsi(wsi, LWS_CLOSE_STATUS_NOSTATUS,
+					     "excessive ah");
+
+		ah = pt->http.ah_list;
+	}
+
+	lws_pt_unlock(pt);
+}

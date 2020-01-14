@@ -106,8 +106,13 @@
 
 #endif
 
-#if defined (__sun) || defined(__HAIKU__) || defined(__QNX__)
+#if defined (__sun) || defined(__HAIKU__) || defined(__QNX__) || defined(__ANDROID__)
 #include <syslog.h>
+
+#if defined(__ANDROID__)
+#include <sys/resource.h>
+#endif
+
 #else
 #include <sys/syslog.h>
 #endif
@@ -131,22 +136,21 @@
 #define lws_set_blocking_send(wsi)
 #define LWS_SOCK_INVALID (-1)
 
-#define wsi_from_fd(A,B)  A->lws_lookup[B - lws_plat_socket_offset()]
-#define insert_wsi(A,B)   assert(A->lws_lookup[B->desc.sockfd - \
-				  lws_plat_socket_offset()] == 0); \
-				 A->lws_lookup[B->desc.sockfd - \
-				  lws_plat_socket_offset()] = B
-#define delete_from_fd(A,B) A->lws_lookup[B - lws_plat_socket_offset()] = 0
+struct lws_context;
+
+struct lws *
+wsi_from_fd(const struct lws_context *context, int fd);
+
+int
+insert_wsi(const struct lws_context *context, struct lws *wsi);
+
+void
+delete_from_fd(const struct lws_context *context, int fd);
 
 #ifndef LWS_NO_FORK
 #ifdef LWS_HAVE_SYS_PRCTL_H
 #include <sys/prctl.h>
 #endif
-#endif
-
-#if defined (__ANDROID__)
- #include <syslog.h>
- #include <sys/resource.h>
 #endif
 
 #define compatible_close(x) close(x)
@@ -164,6 +168,6 @@
  * Solaris 11.X only supports POSIX 2001, MSG_NOSIGNAL appears in
  * POSIX 2008.
  */
-#ifdef __sun
+#if defined(__sun) && !defined(MSG_NOSIGNAL)
  #define MSG_NOSIGNAL 0
 #endif

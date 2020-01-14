@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2017 Thomas Fussell
+// Copyright (c) 2014-2018 Thomas Fussell
 // Copyright (c) 2010-2015 openpyxl
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,9 +21,10 @@
 //
 // @license: http://www.opensource.org/licenses/mit-license.php
 // @author: see AUTHORS file
+
 #include <xlnt/worksheet/worksheet.hpp>
 
-#include "cell_impl.hpp"
+#include <detail/implementations/cell_impl.hpp>
 
 namespace xlnt {
 namespace detail {
@@ -34,6 +35,7 @@ cell_impl::cell_impl()
       column_(1),
       row_(1),
       is_merged_(false),
+      phonetics_visible_(false),
       value_numeric_(0)
 {
 }

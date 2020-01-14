@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.1)
 project(xlnt.test)
 
-# Require C++11 compiler
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD ${XLNT_CXX_LANG})
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CXX_EXTENSIONS OFF)
 
 if(NOT COMBINED_PROJECT)
   add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../source ${CMAKE_CURRENT_BINARY_DIR}/source)
@@ -14,15 +14,19 @@ if(STATIC_CRT)
   ucm_set_runtime(STATIC)
 endif()
 
-file(GLOB CELL_TESTS ${CMAKE_CURRENT_SOURCE_DIR}/cell/*.hpp)
-file(GLOB PACKAGING_TESTS ${CMAKE_CURRENT_SOURCE_DIR}/packaging/*.hpp)
-file(GLOB STYLES_TESTS ${CMAKE_CURRENT_SOURCE_DIR}/styles/*.hpp)
-file(GLOB UTILS_TESTS ${CMAKE_CURRENT_SOURCE_DIR}/utils/*.hpp)
-file(GLOB WORKBOOK_TESTS ${CMAKE_CURRENT_SOURCE_DIR}/workbook/*.hpp)
-file(GLOB WORKSHEET_TESTS ${CMAKE_CURRENT_SOURCE_DIR}/worksheet/*.hpp)
+file(GLOB CELL_TESTS ${CMAKE_CURRENT_SOURCE_DIR}/cell/*.cpp)
+file(GLOB DRAWING_TESTS ${CMAKE_CURRENT_SOURCE_DIR}/drawing/*.cpp)
+file(GLOB DETAIL_TESTS ${CMAKE_CURRENT_SOURCE_DIR}/detail/*.cpp)
+file(GLOB PACKAGING_TESTS ${CMAKE_CURRENT_SOURCE_DIR}/packaging/*.cpp)
+file(GLOB STYLES_TESTS ${CMAKE_CURRENT_SOURCE_DIR}/styles/*.cpp)
+file(GLOB UTILS_TESTS ${CMAKE_CURRENT_SOURCE_DIR}/utils/*.cpp)
+file(GLOB WORKBOOK_TESTS ${CMAKE_CURRENT_SOURCE_DIR}/workbook/*.cpp)
+file(GLOB WORKSHEET_TESTS ${CMAKE_CURRENT_SOURCE_DIR}/worksheet/*.cpp)
 
 set(TESTS
   ${CELL_TESTS}
+  ${DRAWING_TESTS}
+  ${DETAIL_TESTS}
   ${PACKAGING_TESTS}
   ${STYLES_TESTS}
   ${UTILS_TESTS}
@@ -48,6 +52,8 @@ target_include_directories(xlnt.test
 
 set(XLNT_TEST_DATA_DIR ${CMAKE_CURRENT_SOURCE_DIR}/data)
 target_compile_definitions(xlnt.test PRIVATE XLNT_TEST_DATA_DIR=${XLNT_TEST_DATA_DIR})
+# requires cmake 3.8+
+#target_compile_features(xlnt.test PRIVATE cxx_std_${XLNT_CXX_LANG})
 
 if(MSVC)
   # bigobj because there are so many headers in one source file
@@ -57,6 +63,7 @@ endif()
 source_group(helpers FILES ${HELPERS})
 source_group(runner FILES ${RUNNER})
 source_group(tests\\cell FILES ${CELL_TESTS})
+source_group(tests\\detail FILES ${DETAIL_TESTS})
 source_group(tests\\packaging FILES ${PACKAGING_TESTS})
 source_group(tests\\serialization FILES ${SERIALIZATION_TESTS})
 source_group(tests\\styles FILES ${STYLES_TESTS})
@@ -71,3 +78,6 @@ if(MSVC AND NOT STATIC)
     $<TARGET_FILE:xlnt>
     $<TARGET_FILE_DIR:xlnt.test>)
 endif()
+
+# Use add_test() for CTest support
+add_test(NAME xlnt_test COMMAND xlnt.test)

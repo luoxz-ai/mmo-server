@@ -28,10 +28,10 @@
 
 #include "core/private.h"
 
-unsigned int pid_daemon;
+pid_t pid_daemon;
 static char *lock_path;
 
-int get_daemonize_pid()
+pid_t get_daemonize_pid()
 {
 	return pid_daemon;
 }
@@ -62,7 +62,7 @@ child_handler(int signum)
 				lock_path, errno, strerror(errno));
 			exit(0);
 		}
-		len = sprintf(sz, "%u", pid_daemon);
+		len = sprintf(sz, "%u", (unsigned int)pid_daemon);
 		sent = write(fd, sz, len);
 		if (sent != len)
 			fprintf(stderr,

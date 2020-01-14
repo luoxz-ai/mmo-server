@@ -1,13 +1,12 @@
 #pragma once
 
-#include "threadpool/threadpool.hpp"
-#include "graph/basic_taskflow.hpp"
+#include "core/executor.hpp"
 
 namespace tf {
 
-using Taskflow = BasicTaskflow<WorkStealingThreadpool>;
 
-};  // end of namespace tf. ---------------------------------------------------
+
+}  // end of namespace tf. ---------------------------------------------------
 
 
 
