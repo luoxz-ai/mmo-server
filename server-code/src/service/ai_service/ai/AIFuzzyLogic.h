@@ -22,8 +22,7 @@ enum mp_fuzzy_type
 	mpft_ok,
 	mpft_lots,
 };
-const fuzzy::Trapezoid mp_fuzzy[] = {
-	fuzzy::Trapezoid(0, 0, 0.10, 0.20), fuzzy::Trapezoid(0, 0.20, 0.40, 0.60), fuzzy::Trapezoid(0.20, 0.60, 1, 1)};
+const fuzzy::Trapezoid mp_fuzzy[] = {fuzzy::Trapezoid(0, 0, 0.10, 0.20), fuzzy::Trapezoid(0, 0.20, 0.40, 0.60), fuzzy::Trapezoid(0.20, 0.60, 1, 1)};
 
 enum hp_fuzzy_type
 {
@@ -31,8 +30,7 @@ enum hp_fuzzy_type
 	hpft_ok,
 	hpft_lots,
 };
-const fuzzy::Trapezoid hp_fuzzy[] = {
-	fuzzy::Trapezoid(0, 0, 0.10, 0.20), fuzzy::Trapezoid(0, 0.20, 0.40, 0.60), fuzzy::Trapezoid(0.20, 0.60, 1, 1)};
+const fuzzy::Trapezoid hp_fuzzy[] = {fuzzy::Trapezoid(0, 0, 0.10, 0.20), fuzzy::Trapezoid(0, 0.20, 0.40, 0.60), fuzzy::Trapezoid(0.20, 0.60, 1, 1)};
 
 enum like_fuzzy_type
 {
@@ -40,8 +38,7 @@ enum like_fuzzy_type
 	likeft_like,
 	likeft_verylike,
 };
-const fuzzy::Trapezoid like_fuzzy[] = {
-	fuzzy::Trapezoid(0, 0, 20, 50), fuzzy::Trapezoid(30, 50, 70, 90), fuzzy::Trapezoid(50, 80, 100, 100)};
+const fuzzy::Trapezoid like_fuzzy[] = {fuzzy::Trapezoid(0, 0, 20, 50), fuzzy::Trapezoid(30, 50, 70, 90), fuzzy::Trapezoid(50, 80, 100, 100)};
 
 class SkillFAM
 {
@@ -50,7 +47,7 @@ class SkillFAM
 	{
 	}
 
-  public:
+public:
 	~SkillFAM() {}
 	CREATE_NEW_IMPL(SkillFAM);
 	using PB_T = Cfg_SkillFAM;
@@ -67,11 +64,8 @@ class SkillFAM
 		uint32_t		   target_hp_idx = row.target_hp();
 		uint32_t		   like_idx		 = row.like();
 		fuzzy::Conjunction oper_type	 = (fuzzy::Conjunction)(row.oper_type());
-		m_rule_set.add(
-			fuzzy::Rule{std::vector<fuzzy::Trapezoid>{
-							distance_fuzzy[dis_idx], hp_fuzzy[hp_idx], mp_fuzzy[mp_idx], hp_fuzzy[target_hp_idx]},
-						oper_type,
-						like_fuzzy[like_idx]});
+		m_rule_set.add(fuzzy::Rule{std::vector<fuzzy::Trapezoid>{distance_fuzzy[dis_idx], hp_fuzzy[hp_idx], mp_fuzzy[mp_idx], hp_fuzzy[target_hp_idx]}, oper_type,
+								   like_fuzzy[like_idx]});
 
 		return true;
 	}
@@ -83,7 +77,7 @@ class SkillFAM
 		return m_rule_set.calculate(std::vector<double>{dist, self_hp, self_mp, target_hp});
 	}
 
-  private:
+private:
 	uint32_t m_ID;
 
 	// The rules that will tie the logic together
@@ -98,7 +92,7 @@ class TargetFAM
 	{
 	}
 
-  public:
+public:
 	~TargetFAM() {}
 	CREATE_NEW_IMPL(TargetFAM);
 	using PB_T = Cfg_TargetFAM;
@@ -115,22 +109,16 @@ class TargetFAM
 		uint32_t like_idx	   = row.like();
 
 		fuzzy::Conjunction oper_type = (fuzzy::Conjunction)(row.oper_type());
-		m_rule_set.add(fuzzy::Rule{
-			std::vector<fuzzy::Trapezoid>{distance_fuzzy[dis_idx], hp_fuzzy[hp_idx], hp_fuzzy[target_hp_idx]},
-			oper_type,
-			like_fuzzy[like_idx]});
+		m_rule_set.add(fuzzy::Rule{std::vector<fuzzy::Trapezoid>{distance_fuzzy[dis_idx], hp_fuzzy[hp_idx], hp_fuzzy[target_hp_idx]}, oper_type, like_fuzzy[like_idx]});
 
 		return true;
 	}
 	static uint32_t GetIDFromPBRow(const Cfg_TargetFAM_Row& row) { return row.idmonster(); }
 	uint32_t		GetID() { return m_ID; }
 
-	double calculate(double dist, double self_hp, double target_hp)
-	{
-		return m_rule_set.calculate(std::vector<double>{dist, self_hp, target_hp});
-	}
+	double calculate(double dist, double self_hp, double target_hp) { return m_rule_set.calculate(std::vector<double>{dist, self_hp, target_hp}); }
 
-  private:
+private:
 	uint32_t m_ID;
 	// The rules that will tie the logic together
 	fuzzy::RuleSet m_rule_set;

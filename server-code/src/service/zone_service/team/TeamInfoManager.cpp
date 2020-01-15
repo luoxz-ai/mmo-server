@@ -160,10 +160,8 @@ void ProcessTeamMsg(CNetworkMessage* pMsg, Func func)
 
 void CTeamInfoManager::RegisterMessageHandler()
 {
-#define REG_CMD(msg_t)                           \
-	ZoneService()->GetNetMsgProcess()->Register( \
-		MsgID_##msg_t,                           \
-		std::bind(&ProcessTeamMsg<msg_t, decltype(OnMsg_##msg_t)>, std::placeholders::_1, &OnMsg_##msg_t));
+#define REG_CMD(msg_t) \
+	ZoneService()->GetNetMsgProcess()->Register(MsgID_##msg_t, std::bind(&ProcessTeamMsg<msg_t, decltype(OnMsg_##msg_t)>, std::placeholders::_1, &OnMsg_##msg_t));
 
 	using namespace ServerMSG;
 

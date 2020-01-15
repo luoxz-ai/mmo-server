@@ -13,11 +13,11 @@ class CNetMSGProcess;
 class RobotClient;
 class RobotClientManager : public CNetworkService
 {
-  public:
+public:
 	RobotClientManager(uint32_t nRobStart, uint32_t nRobAmount);
 	~RobotClientManager();
 
-  public:
+public:
 	RobotClient*	ConnectServer(const char* addr, int port);
 	void			DelClient(RobotClient* pClient);
 	CNetMSGProcess* GetNetMessageProcess() const { return m_pNetMsgProcess; }
@@ -45,7 +45,7 @@ class RobotClientManager : public CNetworkService
 		return it->second;
 	}
 
-  private:
+private:
 	CNetMSGProcess*		   m_pNetMsgProcess;
 	CEventManager*		   m_pEventManager;
 	std::set<RobotClient*> m_setClient;

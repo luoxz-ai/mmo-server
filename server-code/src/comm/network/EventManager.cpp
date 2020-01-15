@@ -25,9 +25,7 @@ bool CEventManager::Init(event_base* base)
 		m_pBase					   = base;
 		const uint32_t time_out_ms = 200;
 		m_DefaultEvent			   = event_new(
-			m_pBase,
-			-1,
-			EV_PERSIST,
+			m_pBase, -1, EV_PERSIST,
 			[](int, short int, void* ctx) {
 				CEventManager* pThis = (CEventManager*)ctx;
 				pThis->ScheduleWait();
@@ -121,13 +119,11 @@ void CEventManager::DeleteEntry(CEventEntry*& pEntry)
 	SAFE_DELETE(pEntry);
 }
 
-bool CEventManager::ScheduleEvent(
-	uint32_t evType, EventCallBackFunc&& cb, time_t tWaitTime, bool bPersist, CEventEntryPtr& refEntry)
+bool CEventManager::ScheduleEvent(uint32_t evType, EventCallBackFunc&& cb, time_t tWaitTime, bool bPersist, CEventEntryPtr& refEntry)
 {
 	if(cb == nullptr)
 		return false;
-	CEventEntry* pEntry =
-		ScheduleEvent(evType, std::forward<EventCallBackFunc>(cb), tWaitTime, bPersist, refEntry.GetRef());
+	CEventEntry* pEntry = ScheduleEvent(evType, std::forward<EventCallBackFunc>(cb), tWaitTime, bPersist, refEntry.GetRef());
 	if(pEntry)
 	{
 		pEntry->SetManagerType(EMT_ENTRY_PTR);
@@ -137,8 +133,7 @@ bool CEventManager::ScheduleEvent(
 		return false;
 }
 
-bool CEventManager::ScheduleEvent(
-	uint32_t evType, EventCallBackFunc&& cb, time_t tWaitTime, bool bPersist, CEventEntryQueue& refEntryQueue)
+bool CEventManager::ScheduleEvent(uint32_t evType, EventCallBackFunc&& cb, time_t tWaitTime, bool bPersist, CEventEntryQueue& refEntryQueue)
 {
 	if(cb == nullptr)
 		return false;
@@ -152,13 +147,11 @@ bool CEventManager::ScheduleEvent(
 		return false;
 }
 
-bool CEventManager::ScheduleEvent(
-	uint32_t evType, EventCallBackFunc&& cb, time_t tWaitTime, bool bPersist, CEventEntryMap& refEntryMap)
+bool CEventManager::ScheduleEvent(uint32_t evType, EventCallBackFunc&& cb, time_t tWaitTime, bool bPersist, CEventEntryMap& refEntryMap)
 {
 	if(cb == nullptr)
 		return false;
-	CEventEntry* pEntry =
-		ScheduleEvent(evType, std::forward<EventCallBackFunc>(cb), tWaitTime, bPersist, refEntryMap.GetRef(evType));
+	CEventEntry* pEntry = ScheduleEvent(evType, std::forward<EventCallBackFunc>(cb), tWaitTime, bPersist, refEntryMap.GetRef(evType));
 	if(pEntry)
 	{
 		pEntry->SetManagerType(EMT_ENTRY_MAP);
@@ -185,8 +178,7 @@ bool CEventManager::ScheduleEvent(uint32_t evType, EventCallBackFunc&& cb, time_
 	return true;
 }
 
-CEventEntry* CEventManager::ScheduleEvent(
-	uint32_t evType, EventCallBackFunc&& cb, time_t tWaitTime, bool bPersist, CEventEntry* pEntry)
+CEventEntry* CEventManager::ScheduleEvent(uint32_t evType, EventCallBackFunc&& cb, time_t tWaitTime, bool bPersist, CEventEntry* pEntry)
 {
 	if(tWaitTime < 0)
 	{
@@ -212,10 +204,7 @@ CEventEntry* CEventManager::ScheduleEvent(
 	return pEntry;
 }
 
-CEventEntry* CEventManager::CreateEntry(uint32_t			evType,
-										EventCallBackFunc&& cb /*= nullptr*/,
-										time_t				tWaitTime /*= 0*/,
-										bool				bPersist)
+CEventEntry* CEventManager::CreateEntry(uint32_t evType, EventCallBackFunc&& cb /*= nullptr*/, time_t tWaitTime /*= 0*/, bool bPersist)
 {
 	CEventEntry* pEntry = new CEventEntry(this, evType, std::forward<EventCallBackFunc>(cb), tWaitTime, bPersist);
 	if(pEntry)

@@ -26,13 +26,13 @@ struct UID_TYPE
 
 class CUIDFactory
 {
-  public:
+public:
 	void Init(uint64_t world_id, uint64_t func_id);
 	void Uninit() {}
 
 	uint64_t CreateID();
 
-  private:
+private:
 	uint64_t world_id_;	 //大区ID
 	uint64_t func_id_;	 //功能ID
 	time_t	 self_time_; //自适应时间

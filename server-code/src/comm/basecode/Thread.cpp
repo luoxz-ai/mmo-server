@@ -30,12 +30,9 @@ CNormalThread::CNormalThread(int32_t					nWorkIntervalMS,
 	, m_bIsReady(false)
 	, m_bStop(false)
 {
-	m_Thread =
-		std::unique_ptr<std::thread>(new std::thread([pThis					  = this,
-													  _on_thread_create_func  = std::move(on_thread_create_func),
-													  _on_thread_process_func = std::move(on_thread_process_func),
-													  _on_thread_finish_func  = std::move(on_thread_finish_func),
-													  _thread_name			  = thread_name]() {
+	m_Thread = std::unique_ptr<std::thread>(
+		new std::thread([pThis = this, _on_thread_create_func = std::move(on_thread_create_func), _on_thread_process_func = std::move(on_thread_process_func),
+						 _on_thread_finish_func = std::move(on_thread_finish_func), _thread_name = thread_name]() {
 			__ENTER_FUNCTION
 			pThis->SetTid(pthread_self());
 			struct sigaction sa;
@@ -69,8 +66,7 @@ CNormalThread::CNormalThread(int32_t					nWorkIntervalMS,
 				_on_thread_process_func();
 				auto endTime = std::chrono::high_resolution_clock::now();
 
-				std::chrono::milliseconds costTime =
-					std::chrono::duration_cast<std::chrono::milliseconds>(endTime - beginTime);
+				std::chrono::milliseconds costTime = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - beginTime);
 				if(pThis->m_nWorkIntervalMS > 0)
 				{
 					std::chrono::milliseconds waitTime = std::chrono::milliseconds(pThis->m_nWorkIntervalMS) - costTime;
@@ -137,41 +133,38 @@ CWorkerThread::CWorkerThread(const std::string&			thread_name /*= std::string()*
 	: m_bIsReady(false)
 	, m_bStop(false)
 {
-	m_Thread =
-		std::unique_ptr<std::thread>(new std::thread([pThis					 = this,
-													  _thread_name			 = thread_name,
-													  _on_thread_create_func = std::move(on_thread_create_func),
-													  _on_thread_finish_func = std::move(on_thread_finish_func)]() {
+	m_Thread = std::unique_ptr<std::thread>(new std::thread([pThis = this, _thread_name = thread_name, _on_thread_create_func = std::move(on_thread_create_func),
+															 _on_thread_finish_func = std::move(on_thread_finish_func)]() {
+		__ENTER_FUNCTION
+		if(_thread_name.empty() == false)
+		{
+			pthread_setname_np(pthread_self(), _thread_name.c_str());
+		}
+
+		if(_on_thread_create_func)
+			_on_thread_create_func();
+		pThis->m_bIsReady = true;
+		while(pThis->m_bStop.load() == false)
+		{
 			__ENTER_FUNCTION
-			if(_thread_name.empty() == false)
+			std::function<void()> job_func;
+			while(pThis->m_JobList.get(job_func))
 			{
-				pthread_setname_np(pthread_self(), _thread_name.c_str());
+				job_func();
 			}
-
-			if(_on_thread_create_func)
-				_on_thread_create_func();
-			pThis->m_bIsReady = true;
-			while(pThis->m_bStop.load() == false)
+			if(pThis->m_bStop)
 			{
-				__ENTER_FUNCTION
-				std::function<void()> job_func;
-				while(pThis->m_JobList.get(job_func))
-				{
-					job_func();
-				}
-				if(pThis->m_bStop)
-				{
-					break;
-				}
-				std::unique_lock<std::mutex> lk(pThis->m_csCV);
-				pThis->m_cv.wait(lk);
-				__LEAVE_FUNCTION
+				break;
 			}
-
-			if(_on_thread_finish_func)
-				_on_thread_finish_func();
+			std::unique_lock<std::mutex> lk(pThis->m_csCV);
+			pThis->m_cv.wait(lk);
 			__LEAVE_FUNCTION
-		}));
+		}
+
+		if(_on_thread_finish_func)
+			_on_thread_finish_func();
+		__LEAVE_FUNCTION
+	}));
 }
 
 CWorkerThread::~CWorkerThread()

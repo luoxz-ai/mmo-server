@@ -30,7 +30,7 @@ struct bufferevent;
 struct event;
 class CNetSocket
 {
-  public:
+public:
 	CNetSocket(CNetworkService* pService, CNetEventHandler* pEventHandler, bool bPassive, bool bReconnect = false);
 	virtual ~CNetSocket();
 	// init by accept
@@ -63,7 +63,7 @@ class CNetSocket
 		m_pEncryptor->Init(seed);
 	}
 
-  public:
+public:
 	void OnConnected();
 	void OnConnectFailed();
 	void OnDisconnected();
@@ -71,7 +71,7 @@ class CNetSocket
 	void OnRecvData(byte* pBuffer, size_t len);
 	void OnRecvTimeout(bool& bReconnect);
 
-  public:
+public:
 	void _SetTimeout();
 	void _OnReceive(bufferevent* b);
 	void _OnClose(short what);
@@ -82,7 +82,7 @@ class CNetSocket
 	static void _OnSocketEvent(bufferevent*, short, void* ctx);
 	static void _OnSocketConnectorEvent(bufferevent*, short what, void* ctx);
 
-  public:
+public:
 	CNetworkService* GetService() const { return m_pService; }
 	bufferevent*	 GetBufferevent() const { return m_pBufferevent; }
 	std::mutex&		 GetSendMutex() { return m_mutexSend; }
@@ -111,10 +111,10 @@ class CNetSocket
 	size_t		GetPacketSizeMax() const { return m_nPacketSizeMax; }
 	void		SetPacketSizeMax(size_t val);
 
-  public:
+public:
 	MEMORYHEAP_DECLARATION(s_Heap);
 
-  protected:
+protected:
 	CNetworkService*  m_pService;
 	CNetEventHandler* m_pEventHandler;
 	bufferevent*	  m_pBufferevent;

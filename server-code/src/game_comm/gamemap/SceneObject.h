@@ -15,13 +15,13 @@ typedef std::unordered_map<OBJID, CSceneObject*>				ACTOR_MAP;
 
 class CSceneObject
 {
-  protected:
+protected:
 	CSceneObject();
 
-  public:
+public:
 	virtual ~CSceneObject();
 
-  public:
+public:
 	template<typename T>
 	T* ConvertToDerived()
 	{
@@ -59,12 +59,12 @@ class CSceneObject
 	}
 	export_lua void FaceTo(const Vector2& pos);
 
-  public:
+public:
 	// AOI
 	export_lua virtual bool UpdateViewList();
 	export_lua virtual void ClearViewList(bool bSendMsgToSelf) = 0;
 
-  public:
+public:
 	// AOI
 	export_lua virtual bool IsEnemy(CSceneObject* pTarget) const;
 
@@ -78,20 +78,17 @@ class CSceneObject
 	export_lua const BROADCAST_SET_BYTYPE& _GetViewListByType() const { return m_ViewActorsByType; }
 	export_lua void						   ForeachViewActorList(const std::function<void(OBJID)>& func);
 
-  protected:
+protected:
 	// AOI
 	virtual void RemoveFromViewList(CSceneObject* pActor, OBJID idActor, bool bErase);
 	virtual void AddToViewList(CSceneObject* pActor, bool bChkDuplicate, bool bSendShow);
-	virtual void AOIProcessActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_MAP& mapAllViewActor) = 0;
-	virtual void AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
-											  BROADCAST_SET&	   setBCActor,
-											  int				   nCanReserveDelCount,
-											  uint32_t			   view_range_out_square)							 = 0;
+	virtual void AOIProcessActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_MAP& mapAllViewActor)															  = 0;
+	virtual void AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel, BROADCAST_SET& setBCActor, int nCanReserveDelCount, uint32_t view_range_out_square) = 0;
 	virtual void AOIProcessPosUpdate(){};
 	virtual bool IsNeedAddToBroadCastSet(CSceneObject* pActor) { return false; }
 	virtual bool IsMustAddToBroadCastSet(CSceneObject* pActor) { return false; }
 
-  public:
+public:
 	virtual void OnEnterMap(CSceneBase* pScene);
 	virtual void OnLeaveMap(uint64_t idTargetScene);
 
@@ -99,7 +96,7 @@ class CSceneObject
 	export_lua virtual void AddHide();
 	export_lua virtual void RemoveHide();
 
-  protected:
+protected:
 	OBJID				 m_ID			  = 0;		 // id
 	CSceneBase*			 m_pScene		  = nullptr; //����
 	CSceneNode*			 m_pSceneNode	  = nullptr;

@@ -1,14 +1,13 @@
 #ifndef TEAMINFOMANAGER_H
 #define TEAMINFOMANAGER_H
 
-
 #include "BaseCode.h"
 
 export_lua class CTeamInfo
 {
 	CTeamInfo() {}
 
-  public:
+public:
 	~CTeamInfo() {}
 	CREATE_NEW_IMPL(CTeamInfo);
 	bool Init(OBJID idTeam, uint64_t idLeader);
@@ -18,25 +17,25 @@ export_lua class CTeamInfo
 	void OnDelMember(OBJID idMember);
 	void OnDestory();
 
-  public:
+public:
 	export_lua size_t GetMemeberAmount() const;
 	export_lua OBJID  GetMemberIDByIdx(uint32_t idx);
 	export_lua bool	  IsTeamMember(OBJID idActor) const;
 	export_lua bool	  IsTeamLeader(OBJID idActor) const;
 	export_lua OBJID  GetTeamLeaderID() const;
 
-  private:
+private:
 	OBJID			   m_idTeam	  = 0;
 	OBJID			   m_idLeader = 0;
 	std::vector<OBJID> m_setMemberID;
 
-  public:
+public:
 	MEMORYHEAP_DECLARATION(s_heap);
 };
 
 export_lua class CTeamInfoManager
 {
-  public:
+public:
 	CTeamInfoManager() {}
 	~CTeamInfoManager() {}
 
@@ -46,7 +45,7 @@ export_lua class CTeamInfoManager
 
 	export_lua CTeamInfo* QueryTeam(uint64_t idTeam);
 
-  private:
+private:
 	std::map<uint64_t, CTeamInfo*> m_setTeam;
 };
 #endif /* TEAMINFOMANAGER_H */

@@ -150,8 +150,7 @@ std::string& ltrim(std::string& ss)
 
 std::string& rtrim(std::string& ss)
 {
-	std::string::reverse_iterator p =
-		std::find_if(ss.rbegin(), ss.rend(), std::not1(std::ptr_fun<int, int>(std::isspace)));
+	std::string::reverse_iterator p = std::find_if(ss.rbegin(), ss.rend(), std::not1(std::ptr_fun<int, int>(std::isspace)));
 	ss.erase(p.base(), ss.end());
 	return ss;
 }
@@ -265,7 +264,7 @@ int CompareFileName(const std::string& szFile1, const std::string& szFile2)
 
 class IllegalWordNode
 {
-  public:
+public:
 	IllegalWordNode(IllegalWordNode* pParent)
 		: m_pParent(pParent)
 		, m_bEnd(false)
@@ -317,7 +316,7 @@ class IllegalWordNode
 	IllegalWordNode* GetParent() const { return m_pParent; }
 	bool			 IsRoot() const { return m_pParent == NULL; }
 
-  private:
+private:
 	IllegalWordNode*							m_pParent;
 	typedef std::map<wchar_t, IllegalWordNode*> NODE_SET;
 	NODE_SET									setNodes;
@@ -326,7 +325,7 @@ class IllegalWordNode
 
 class IllegalWordRoot : public IllegalWordNode
 {
-  public:
+public:
 	IllegalWordRoot(const char* filename)
 		: IllegalWordNode(NULL)
 	{
@@ -355,12 +354,7 @@ class IllegalWordRoot : public IllegalWordNode
 				{
 					wchar_t wszLine[2048] = {0};
 
-					if(0 == ConvertEnc("UTF-8",
-									   "UTF-32LE//IGNORE",
-									   (char*)szLine,
-									   nLineSize,
-									   (char*)wszLine,
-									   2048 * sizeof(wchar_t)))
+					if(0 == ConvertEnc("UTF-8", "UTF-32LE//IGNORE", (char*)szLine, nLineSize, (char*)wszLine, 2048 * sizeof(wchar_t)))
 					{
 					}
 					else
@@ -673,7 +667,7 @@ bool ReplaceIllegaWords(std::wstring& wstr)
 
 class CRegexIllegalStr
 {
-  public:
+public:
 	CRegexIllegalStr() { Init(); }
 	virtual ~CRegexIllegalStr() { Destroy(); }
 	//////////////////////////////////////////////////////////////////////////
@@ -740,7 +734,7 @@ class CRegexIllegalStr
 		return false;
 	}
 
-  protected:
+protected:
 	std::deque<regex_t> m_setRegex;
 };
 

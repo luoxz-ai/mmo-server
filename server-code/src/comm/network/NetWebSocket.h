@@ -63,11 +63,11 @@ struct WebSocketFrame
 
 class CNetWebSocket
 {
-  public:
+public:
 	CNetWebSocket(CNetworkService* pService, CWebSocketEventHandler* pEventHandler);
 	~CNetWebSocket();
 
-  public:
+public:
 	bool Init(struct lws* wsi);
 
 	void InitDecryptor(uint32_t seed)
@@ -103,7 +103,7 @@ class CNetWebSocket
 	size_t GetPacketSizeMax() const { return m_nPacketSizeMax; }
 	void   SetPacketSizeMax(size_t val);
 
-  public:
+public:
 	void RealSend();
 
 	void SendTestData();
@@ -118,14 +118,14 @@ class CNetWebSocket
 
 	void OnWsRecvData(byte* pBuffer, size_t len);
 
-  private:
+private:
 	bool _AddRecvBuffer(byte* pBuffer, size_t len);
 
 	bool _GetEntirePackage(byte* pBuffer, size_t& len);
 
 	void _ConsumeBuffer(size_t len);
 
-  private:
+private:
 	NET_WEBSOCKET_STATUS m_WebSocketStatus;
 
 	CNetworkService*		m_pService;

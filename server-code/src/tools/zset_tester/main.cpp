@@ -20,12 +20,8 @@ int main()
 		uint32_t nRank28 = test_set.zRank(28);
 		if(nRank28 != nTestMemberRank)
 			return 0;
-		test_set.zRange(1, 99, [](uint32_t nRank, uint64_t member, uint32_t score) {
-			printf("rank:{} member:%ld score:{}\n", nRank, member, score);
-		});
-		test_set.zRevRange(1, 99, [](uint32_t nRank, uint64_t member, uint32_t score) {
-			printf("rank:{} member:%ld score:{}\n", nRank, member, score);
-		});
+		test_set.zRange(1, 99, [](uint32_t nRank, uint64_t member, uint32_t score) { printf("rank:{} member:%ld score:{}\n", nRank, member, score); });
+		test_set.zRevRange(1, 99, [](uint32_t nRank, uint64_t member, uint32_t score) { printf("rank:{} member:%ld score:{}\n", nRank, member, score); });
 	}
 	{
 		CZset test_set;
@@ -35,9 +31,7 @@ int main()
 		uint32_t nRank1 = test_set.zRank(1);
 		uint32_t nRank3 = test_set.zRank(3);
 		uint32_t nRank2 = test_set.zRank(2);
-		test_set.zRevRange(1, 99, [](uint32_t nRank, uint64_t member, uint32_t score) {
-			printf("rank:{} member:%ld score:{}\n", nRank, member, score);
-		});
+		test_set.zRevRange(1, 99, [](uint32_t nRank, uint64_t member, uint32_t score) { printf("rank:{} member:%ld score:{}\n", nRank, member, score); });
 	}
 
 	__LEAVE_FUNCTION

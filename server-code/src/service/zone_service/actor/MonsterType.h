@@ -1,7 +1,6 @@
 #ifndef MONSTERTYPE_H
 #define MONSTERTYPE_H
 
-
 #include "ActorAttrib.h"
 #include "config/Cfg_Monster.pb.h"
 
@@ -16,7 +15,7 @@ class CMonsterType
 {
 	CMonsterType() {}
 
-  public:
+public:
 	~CMonsterType() {}
 	CREATE_NEW_IMPL(CMonsterType);
 	bool Init(const Cfg_Monster_Row& row)
@@ -40,7 +39,7 @@ class CMonsterType
 	OBJID				GetScirptID() const { return m_Data.scriptid(); }
 	const CActorAttrib& GetAbility() const { return m_ability; }
 
-  private:
+private:
 	Cfg_Monster_Row m_Data;
 	CActorAttrib	m_ability;
 };

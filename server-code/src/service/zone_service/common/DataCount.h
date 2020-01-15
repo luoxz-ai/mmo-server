@@ -29,12 +29,12 @@ class CDataCountLimit
 {
 	CDataCountLimit() {}
 
-  public:
+public:
 	using PB_T = Cfg_DataCountLimit;
 	virtual ~CDataCountLimit() {}
 	CREATE_NEW_IMPL(CDataCountLimit);
 
-  public:
+public:
 	bool Init(const Cfg_DataCountLimit_Row& row)
 	{
 		m_nType		 = row.type();
@@ -50,10 +50,10 @@ class CDataCountLimit
 	uint32_t GetMaxCount() const { return m_nMaxCount; }
 	uint32_t GetResetTime() const { return m_nResetTime; }
 
-  public:
+public:
 	static uint64_t MakeID(uint32_t nType, uint32_t nKeyIdx) { return ((uint64_t)(nType) << 32) | (uint64_t)(nKeyIdx); }
 
-  protected:
+protected:
 	uint32_t m_nType;
 	uint32_t m_nKeyIdx;
 	uint32_t m_nMaxCount;
@@ -65,7 +65,7 @@ class CPlayer;
 
 export_lua class CDataCount
 {
-  public:
+public:
 	CDataCount(CPlayer* pPlayer, CDBRecordPtr&& pRecord);
 	~CDataCount();
 
@@ -81,7 +81,7 @@ export_lua class CDataCount
 	export_lua void Save();
 	export_lua void DeleteRecord();
 
-  private:
+private:
 	CPlayer*	 m_pOwner = nullptr;
 	CDBRecordPtr m_pRecord;
 
@@ -92,7 +92,7 @@ export_lua class CDataCountSet
 {
 	CDataCountSet();
 
-  public:
+public:
 	~CDataCountSet();
 	CREATE_NEW_IMPL(CDataCountSet);
 
@@ -107,10 +107,10 @@ export_lua class CDataCountSet
 	export_lua uint64_t SetCount(uint32_t nType, uint32_t nIdx, uint32_t nVal, bool bUpdate = false);
 	export_lua void		DeleteCount(uint32_t nType, uint32_t nIdx);
 
-  private:
+private:
 	CDataCount* CreateData(uint32_t nType, uint32_t nIdx, uint32_t nVal);
 
-  private:
+private:
 	CPlayer*								  m_pOwner = nullptr;
 	std::unordered_map<uint64_t, CDataCount*> m_setDataMap;
 };

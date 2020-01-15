@@ -63,8 +63,7 @@ static void* sender(void* arg)
 		}
 		else
 		{
-			CHECK(brpc::IsAskedToQuit() || !FLAGS_dont_fail)
-				<< "error=" << cntl.ErrorText() << " latency=" << cntl.latency_us();
+			CHECK(brpc::IsAskedToQuit() || !FLAGS_dont_fail) << "error=" << cntl.ErrorText() << " latency=" << cntl.latency_us();
 			// We can't connect to the server, sleep a while. Notice that this
 			// is a specific sleeping to prevent this thread from spinning too
 			// fast. You should continue the business logic in a production
@@ -128,8 +127,7 @@ int main(int argc, char* argv[])
 	while(!brpc::IsAskedToQuit())
 	{
 		sleep(1);
-		LOG(INFO) << "Sending " << FLAGS_protocol << " requests at qps=" << g_latency_recorder.qps(1)
-				  << " latency=" << g_latency_recorder.latency(1);
+		LOG(INFO) << "Sending " << FLAGS_protocol << " requests at qps=" << g_latency_recorder.qps(1) << " latency=" << g_latency_recorder.latency(1);
 	}
 
 	LOG(INFO) << "benchmark_http is going to quit";

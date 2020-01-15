@@ -11,13 +11,13 @@ struct event;
 class CNetMSGProcess;
 class CServiceCtrlService : public IService, public CServiceCommon, public CMessagePortEventHandler
 {
-  public:
+public:
 	CServiceCtrlService(const ServerPort& nServerPort);
 	virtual ~CServiceCtrlService();
 	void Release() { delete this; }
 	bool Create();
 
-  public:
+public:
 	// connect to other server succ
 	virtual void OnPortConnected(CNetSocket*) override;
 	// connect to other server failed, can set CNetSocket::setReconnectTimes = 0 to stop reconnect

@@ -41,13 +41,10 @@ namespace example
 // Service with static path.
 class HttpServiceImpl : public HttpService
 {
-  public:
+public:
 	HttpServiceImpl(){};
 	virtual ~HttpServiceImpl(){};
-	void Echo(google::protobuf::RpcController* cntl_base,
-			  const HttpRequest*,
-			  HttpResponse*,
-			  google::protobuf::Closure* done)
+	void Echo(google::protobuf::RpcController* cntl_base, const HttpRequest*, HttpResponse*, google::protobuf::Closure* done)
 	{
 		// This object helps you to call done->Run() in RAII style. If you need
 		// to process the request asynchronously, pass done_guard.release().
@@ -58,9 +55,7 @@ class HttpServiceImpl : public HttpService
 		cntl->http_response().set_content_type("text/plain");
 		butil::IOBufBuilder os;
 		os << "queries:";
-		for(brpc::URI::QueryIterator it = cntl->http_request().uri().QueryBegin();
-			it != cntl->http_request().uri().QueryEnd();
-			++it)
+		for(brpc::URI::QueryIterator it = cntl->http_request().uri().QueryBegin(); it != cntl->http_request().uri().QueryEnd(); ++it)
 		{
 			os << ' ' << it->first << '=' << it->second;
 		}
@@ -72,7 +67,7 @@ class HttpServiceImpl : public HttpService
 // Service with dynamic path.
 class FileServiceImpl : public FileService
 {
-  public:
+public:
 	FileServiceImpl(){};
 	virtual ~FileServiceImpl(){};
 
@@ -96,10 +91,7 @@ class FileServiceImpl : public FileService
 		return NULL;
 	}
 
-	void default_method(google::protobuf::RpcController* cntl_base,
-						const HttpRequest*,
-						HttpResponse*,
-						google::protobuf::Closure* done)
+	void default_method(google::protobuf::RpcController* cntl_base, const HttpRequest*, HttpResponse*, google::protobuf::Closure* done)
 	{
 		brpc::ClosureGuard done_guard(done);
 		brpc::Controller*  cntl		= static_cast<brpc::Controller*>(cntl_base);
@@ -123,31 +115,22 @@ class FileServiceImpl : public FileService
 // when adding the service into server).
 class QueueServiceImpl : public example::QueueService
 {
-  public:
+public:
 	QueueServiceImpl(){};
 	virtual ~QueueServiceImpl(){};
-	void start(google::protobuf::RpcController* cntl_base,
-			   const HttpRequest*,
-			   HttpResponse*,
-			   google::protobuf::Closure* done)
+	void start(google::protobuf::RpcController* cntl_base, const HttpRequest*, HttpResponse*, google::protobuf::Closure* done)
 	{
 		brpc::ClosureGuard done_guard(done);
 		brpc::Controller*  cntl = static_cast<brpc::Controller*>(cntl_base);
 		cntl->response_attachment().append("queue started");
 	}
-	void stop(google::protobuf::RpcController* cntl_base,
-			  const HttpRequest*,
-			  HttpResponse*,
-			  google::protobuf::Closure* done)
+	void stop(google::protobuf::RpcController* cntl_base, const HttpRequest*, HttpResponse*, google::protobuf::Closure* done)
 	{
 		brpc::ClosureGuard done_guard(done);
 		brpc::Controller*  cntl = static_cast<brpc::Controller*>(cntl_base);
 		cntl->response_attachment().append("queue stopped");
 	}
-	void getstats(google::protobuf::RpcController* cntl_base,
-				  const HttpRequest*,
-				  HttpResponse*,
-				  google::protobuf::Closure* done)
+	void getstats(google::protobuf::RpcController* cntl_base, const HttpRequest*, HttpResponse*, google::protobuf::Closure* done)
 	{
 		brpc::ClosureGuard done_guard(done);
 		brpc::Controller*  cntl			   = static_cast<brpc::Controller*>(cntl_base);
@@ -191,8 +174,7 @@ int main(int argc, char* argv[])
 		LOG(ERROR) << "Fail to add file_svc";
 		return -1;
 	}
-	if(server.AddService(&queue_svc,
-						 brpc::SERVER_DOESNT_OWN_SERVICE,
+	if(server.AddService(&queue_svc, brpc::SERVER_DOESNT_OWN_SERVICE,
 						 "/v1/queue/start   => start,"
 						 "/v1/queue/stop    => stop,"
 						 "/v1/queue/stats/* => getstats") != 0)

@@ -23,11 +23,7 @@ void On_CMD_SC_AOI_UPDATE(CNetworkMessage* pNetworkMsg)
 
 	pActor->SetPos(Vector2(msg.posx(), msg.posy()));
 	pActor->UpdateViewList();
-	LOGDEBUG("Actor:{} MoveTo {} %.2f, %.2f",
-			 pActor->GetID(),
-			 pActor->GetCurrentScene()->GetMapID(),
-			 pActor->GetPosX(),
-			 pActor->GetPosY());
+	LOGDEBUG("Actor:{} MoveTo {} %.2f, %.2f", pActor->GetID(), pActor->GetCurrentScene()->GetMapID(), pActor->GetPosX(), pActor->GetPosY());
 }
 
 void On_CMD_SC_ATTRIB_CHANGE(CNetworkMessage* pNetworkMsg)

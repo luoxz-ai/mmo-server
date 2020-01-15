@@ -9,11 +9,11 @@ class CAIMonster;
 class CAIPlayer;
 class CAIActor : public CSceneObject
 {
-  public:
+public:
 	CAIActor();
 	virtual ~CAIActor();
 
-  public:
+public:
 	export_lua bool IsDead() const { return GetHP() == 0; }
 
 	export_lua uint32_t GetLastMoveTime() const { return m_LastMoveTime; }
@@ -45,23 +45,23 @@ class CAIActor : public CSceneObject
 
 	export_lua void SetProperty(uint32_t nType, uint32_t nVal);
 
-  public:
+public:
 	export_lua void			MoveToTarget(const Vector2& posTarget);
 	export_lua void			CastSkill(uint32_t idSkill, OBJID idTarget);
 	export_lua virtual void OnCastSkillFinish(uint32_t stun_ms = 0) {}
 
-  public:
+public:
 	virtual void OnDead() {}
 	virtual void OnBorn() {}
 	virtual void OnUnderAttack(OBJID idTarget, int32_t nDamage) {}
 
 	void OnCastSkill(uint32_t idSkill);
 
-  public:
+public:
 	export_lua virtual bool IsEnemy(CSceneObject* pTarget) const override { return false; }
 	virtual void			ClearViewList(bool bSendMsgToSelf) override;
 
-  protected:
+protected:
 	virtual void AddToViewList(CSceneObject* pActor, bool bChkDuplicate, bool bSendShow) override;
 	virtual void AOIProcessActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_MAP& mapAllViewActor) override;
 	virtual void AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
@@ -70,7 +70,7 @@ class CAIActor : public CSceneObject
 											  uint32_t			   view_range_out_square) override;
 	virtual bool IsNeedAddToBroadCastSet(CSceneObject* pActor) override;
 
-  protected:
+protected:
 	uint32_t m_idCamp = 0; //阵营ID
 
 	uint32_t m_LastMoveTime = 0;

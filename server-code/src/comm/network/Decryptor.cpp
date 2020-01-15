@@ -2,7 +2,7 @@
 
 class CDecryptorImpl
 {
-  public:
+public:
 	CDecryptorImpl() {}
 	~CDecryptorImpl() {}
 
@@ -10,7 +10,7 @@ class CDecryptorImpl
 
 	void Decryptor(byte* in_buffer, size_t in_len, byte* out_buffer, size_t out_len) {}
 
-  private:
+private:
 };
 
 CDecryptor::CDecryptor()

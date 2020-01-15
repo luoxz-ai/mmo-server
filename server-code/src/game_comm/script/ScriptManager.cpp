@@ -81,11 +81,7 @@ void LogLuaDebug(const char* txt)
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
-bool CLUAScriptManager::Init(const std::string& name,
-							 InitRegisterFunc	func,
-							 void*				pInitParam,
-							 const char*		search_path /*= "script"*/,
-							 bool				bExecMain)
+bool CLUAScriptManager::Init(const std::string& name, InitRegisterFunc func, void* pInitParam, const char* search_path /*= "script"*/, bool bExecMain)
 {
 	m_pInitRegisterFunc = func;
 	m_pInitParam		= pInitParam;

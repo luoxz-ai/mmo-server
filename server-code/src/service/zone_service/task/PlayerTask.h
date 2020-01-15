@@ -1,7 +1,6 @@
 #ifndef PLAYERTASK_H
 #define PLAYERTASK_H
 
-
 #include "BaseCode.h"
 #include "DBRecord.h"
 #include "TaskType.h"
@@ -10,28 +9,25 @@
 
 const uint32_t MAX_TASKDATA_NUM = 4;
 
-export_lua constexpr const char* STR_TASK_ACCEPT   = "接受任务";
-export_lua constexpr const char* STR_TASK_SUBMIT[] = {"领取奖励", "一倍奖励", "两倍奖励", "三倍奖励"};
+export_lua constexpr const char* STR_TASK_ACCEPT	   = "接受任务";
+export_lua constexpr const char* STR_TASK_SUBMIT[]	   = {"领取奖励", "一倍奖励", "两倍奖励", "三倍奖励"};
 export_lua constexpr const char* STR_TASK_QUICK_FINISH = "快速完成";
 
 //每一条未完成的任务占据一条数据
 class CPlayer;
 export_lua class CPlayerTaskData
 {
-  public:
+public:
 	CPlayerTaskData();
 	~CPlayerTaskData();
 
-  public:
+public:
 	CREATE_NEW_IMPL(CPlayerTaskData);
 	bool				Init(CDBRecordPtr&& pRow);
 	bool				Init(CPlayer* pPlayer, uint32_t idTask);
 	void				DelRecord();
 	export_lua uint32_t GetTaskID() const { return m_pData->Field(TBLD_TASK::TASKID); }
-	export_lua uint32_t GetNum(uint32_t nIdx) const
-	{
-		CHECKF(nIdx < MAX_TASKDATA_NUM) return m_pData->Field(TBLD_TASK::NUM0 + nIdx);
-	}
+	export_lua uint32_t GetNum(uint32_t nIdx) const { CHECKF(nIdx < MAX_TASKDATA_NUM) return m_pData->Field(TBLD_TASK::NUM0 + nIdx); }
 	export_lua uint32_t GetAcceptUserLev() const { return m_pData->Field(TBLD_TASK::ACCEPT_USERLEV); }
 	export_lua uint32_t GetAcceptTime() const { return m_pData->Field(TBLD_TASK::ACCEPT_TIME); }
 	export_lua uint32_t GetFinishTime() const { return m_pData->Field(TBLD_TASK::FINISH_TIME); }
@@ -54,7 +50,7 @@ export_lua class CPlayerTaskData
 	export_lua bool IsTaskDoing() const { return GetState() == TASKSTATE_ACCEPTED; }
 	export_lua bool IsExpire() const { return GetExpireTime() != 0 && GetExpireTime() < TimeGetSecond(); }
 
-  private:
+private:
 	CDBRecordPtr m_pData;
 };
 
@@ -64,7 +60,7 @@ export_lua class CPlayerTask
 {
 	CPlayerTask();
 
-  public:
+public:
 	~CPlayerTask();
 	CREATE_NEW_IMPL(CPlayerTask);
 	bool Init(CPlayer* pPlayer);
@@ -95,7 +91,7 @@ export_lua class CPlayerTask
 	void OnDelTaskItem(uint32_t idItemType, uint32_t nNum);
 	void OnFinishAchi(uint32_t idAchi);
 
-  private:
+private:
 	CPlayer*							 m_pOwner = nullptr;
 	std::set<uint32_t>					 m_setFinishedTaskID;
 	std::map<uint32_t, CPlayerTaskData*> m_setTask;

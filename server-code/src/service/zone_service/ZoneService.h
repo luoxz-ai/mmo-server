@@ -40,20 +40,20 @@ struct event;
 class CNetMSGProcess;
 export_lua class CZoneService : public IService, public CServiceCommon
 {
-  public:
+public:
 	CZoneService(const ServerPort& nServerPort);
 	virtual ~CZoneService();
 	void Release() { delete this; }
 	bool Create();
 
-  public:
+public:
 	virtual void OnLogicThreadProc() override;
 	virtual void OnLogicThreadCreate() override;
 	virtual void OnLogicThreadExit() override;
 
 	virtual void OnProcessMessage(CNetworkMessage*) override;
 
-  public:
+public:
 	void						  CreateSocketMessagePool(const VirtualSocket& vs);
 	void						  DelSocketMessagePool(const VirtualSocket& vs);
 	void						  PushMsgToMessagePool(const VirtualSocket& vs, CNetworkMessage* pMsg);
@@ -62,10 +62,7 @@ export_lua class CZoneService : public IService, public CServiceCommon
 	//发送消息给World
 	export_lua bool SendMsgToWorld(uint16_t idWorld, uint16_t nCmd, const google::protobuf::Message& msg);
 	//通过World转发消息
-	export_lua bool TransmiteMsgFromWorldToOther(uint16_t						  idWorld,
-												 uint16_t						  idService,
-												 uint16_t						  nCmd,
-												 const google::protobuf::Message& msg);
+	export_lua bool TransmiteMsgFromWorldToOther(uint16_t idWorld, uint16_t idService, uint16_t nCmd, const google::protobuf::Message& msg);
 	//转发消息给其他的zone
 	export_lua bool BroadcastToZone(uint16_t nCmd, const google::protobuf::Message& msg);
 	//广播消息给所有的玩家
@@ -79,10 +76,7 @@ export_lua class CZoneService : public IService, public CServiceCommon
 	using VSMap_t = std::unordered_map<ServerPort, std::vector<VirtualSocket>>;
 	void _ID2VS(OBJID id, VSMap_t& VSMap);
 	template<class T>
-	bool BroadcastMessageToPlayer(T&&							   idList,
-								  uint16_t						   nCmd,
-								  const google::protobuf::Message& msg,
-								  OBJID							   idExtInclude = 0)
+	bool BroadcastMessageToPlayer(T&& idList, uint16_t nCmd, const google::protobuf::Message& msg, OBJID idExtInclude = 0)
 	{
 		VSMap_t setSocketMap;
 		if constexpr(is_container<base_type<T>>::value)
@@ -133,7 +127,7 @@ export_lua class CZoneService : public IService, public CServiceCommon
 		return true;
 	}
 
-  public:
+public:
 	export_lua CMysqlConnection* GetGlobalDB() const { return m_pGlobalDB.get(); }
 	export_lua CMysqlConnection* GetGameDB(uint16_t nWorldID);
 	void						 ReleaseGameDB(uint16_t nWorldID);
@@ -149,7 +143,7 @@ export_lua class CZoneService : public IService, public CServiceCommon
 	export_lua CGMManager* GetGMManager() { return m_pGMManager.get(); }
 	export_lua CTeamInfoManager* GetTeamInfoManager() { return &m_TeamInfoManager; }
 
-  public:
+public:
 	void OnMsgPlayerEnterZone(CNetworkMessage* pMsg);
 	void OnMsgPlayerChangeZone(CNetworkMessage* pMsg);
 
@@ -157,10 +151,10 @@ export_lua class CZoneService : public IService, public CServiceCommon
 	void OnMsgMonsterCreate(CNetworkMessage* pMsg);
 	void OnMsgPlayerLogout(CNetworkMessage* pMsg);
 
-  private:
+private:
 	void ProcessPortMessage();
 
-  private:
+private:
 	std::unique_ptr<CMysqlConnection>								m_pGlobalDB = nullptr;
 	std::unordered_map<uint16_t, std::unique_ptr<CMysqlConnection>> m_GameDBMap;
 
@@ -180,14 +174,14 @@ export_lua class CZoneService : public IService, public CServiceCommon
 	CMonitorMgr						   m_MonitorMgr;
 	CTeamInfoManager				   m_TeamInfoManager;
 
-  public:
+public:
 	//配置文件
 
 #define DEFINE_CONFIG_SET(T)                   \
-  public:                                      \
+public:                                        \
 	T* Get##T() const { return m_p##T.get(); } \
                                                \
-  private:                                     \
+private:                                       \
 	std::unique_ptr<T> m_p##T;
 
 	DEFINE_CONFIG_SET(CStatusTypeSet);

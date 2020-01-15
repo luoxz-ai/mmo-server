@@ -15,7 +15,7 @@ class CMonsterType
 {
 	CMonsterType() {}
 
-  public:
+public:
 	~CMonsterType() {}
 	CREATE_NEW_IMPL(CMonsterType);
 	bool Init(const Cfg_Monster_Row& row)
@@ -37,7 +37,7 @@ class CMonsterType
 	uint32_t			GetAITypeID() const { return m_Data.aitype(); }
 	const CActorAttrib& GetAbility() const { return m_ability; }
 
-  private:
+private:
 	Cfg_Monster_Row m_Data;
 	CActorAttrib	m_ability;
 };

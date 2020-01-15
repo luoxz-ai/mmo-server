@@ -138,9 +138,7 @@ bool CDataCountSet::Init(CPlayer* pPlayer)
 	__ENTER_FUNCTION
 	m_pOwner	 = pPlayer;
 	auto* pDB	 = ZoneService()->GetGameDB(pPlayer->GetWorldID());
-	auto  result = pDB->Query(
-		 TBLD_DATACOUNT::table_name,
-		 fmt::format(FMT_STRING("SELECT * FROM {} WHERE playerid={}"), TBLD_DATACOUNT::table_name, pPlayer->GetID()));
+	auto  result = pDB->Query(TBLD_DATACOUNT::table_name, fmt::format(FMT_STRING("SELECT * FROM {} WHERE playerid={}"), TBLD_DATACOUNT::table_name, pPlayer->GetID()));
 	if(result)
 	{
 		for(size_t i = 0; i < result->get_num_row(); i++)

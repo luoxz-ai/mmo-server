@@ -6,7 +6,7 @@ class CGMManager
 {
 	CGMManager();
 
-  public:
+public:
 	~CGMManager();
 	CREATE_NEW_IMPL(CGMManager);
 	bool Init();
@@ -15,7 +15,7 @@ class CGMManager
 
 	uint32_t GetGMLevel(const std::string& openid) const;
 
-  private:
+private:
 	std::map<std::string, uint32_t> m_GMList;
 };
 #endif /* GMMANAGER_H */

@@ -6,11 +6,11 @@
 class CAIActor;
 class CAIPathFinder
 {
-  public:
+public:
 	CAIPathFinder(CAIActor* pActor);
 	Vector2 SearchStep(const Vector2& dest, float move_spd);
 
-  private:
+private:
 	CAIActor*			m_pActor;
 	std::deque<Vector2> m_LastSearchList;
 };

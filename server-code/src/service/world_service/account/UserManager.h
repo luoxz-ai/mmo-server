@@ -10,7 +10,7 @@ class CNetworkMessage;
 
 class CUserManager
 {
-  public:
+public:
 	CUserManager();
 	~CUserManager();
 
@@ -20,8 +20,8 @@ class CUserManager
 	void   RemoveUser(CUser*& pRemoveUser);
 	void   Destory();
 
-  public:
-  private:
+public:
+private:
 	std::unordered_map<OBJID, CUser*>		  m_setUser;
 	std::unordered_map<VirtualSocket, CUser*> m_setUserBySocket;
 };

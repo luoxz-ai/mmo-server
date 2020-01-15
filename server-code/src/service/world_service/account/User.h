@@ -12,7 +12,7 @@ class CUser
 {
 	CUser();
 
-  public:
+public:
 	~CUser();
 	CREATE_NEW_IMPL(CUser);
 	bool Init(CAccount* pAccount, ST_ROLE_INFO* pInfo);
@@ -37,14 +37,14 @@ class CUser
 	void SetGuildID(uint64_t v);
 	void ClearMate();
 
-  public:
+public:
 	OBJID	 GetID() const;
 	uint16_t GetZoneID() const;
 
-  public:
+public:
 	MEMORYHEAP_DECLARATION(s_heap);
 
-  private:
+private:
 	CAccount*	  m_pAccount = nullptr;
 	ST_ROLE_INFO* m_pInfo	 = nullptr;
 	//所在zone服务器

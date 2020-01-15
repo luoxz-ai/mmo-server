@@ -21,19 +21,16 @@ struct event;
 class CNetMSGProcess;
 class CAIService : public IService, public CServiceCommon
 {
-  public:
+public:
 	CAIService(const ServerPort& nServerPort);
 	virtual ~CAIService();
 	void Release() { delete this; }
 	bool Create();
 
-	VirtualSocket GetZoneServiceVirtualSocket() const
-	{
-		return VirtualSocket(ServerPort(GetWorldID(), GetZoneID()), 0);
-	}
-	uint16_t GetZoneID() const { return GetServiceID() - 10; }
+	VirtualSocket GetZoneServiceVirtualSocket() const { return VirtualSocket(ServerPort(GetWorldID(), GetZoneID()), 0); }
+	uint16_t	  GetZoneID() const { return GetServiceID() - 10; }
 
-  public:
+public:
 	virtual void OnLogicThreadProc() override;
 	virtual void OnLogicThreadCreate() override;
 	virtual void OnLogicThreadExit() override;
@@ -43,7 +40,7 @@ class CAIService : public IService, public CServiceCommon
 	//发送消息给AIService
 	bool SendMsgToZone(uint16_t nCmd, const google::protobuf::Message& msg);
 
-  public:
+public:
 	CLUAScriptManager* GetScriptManager() const { return m_pScriptManager.get(); }
 	CTargetFAMSet*	   GetTargetFAMSet() const { return m_pTargetFAMSet.get(); }
 	CSkillFAMSet*	   GetSkillFAMSet() const { return m_pSkillFAMSet.get(); }
@@ -55,7 +52,7 @@ class CAIService : public IService, public CServiceCommon
 
 	CMapManager* GetMapManager() const { return m_pMapManager.get(); }
 
-  private:
+private:
 	CMyTimer m_tLastDisplayTime;
 
 	std::unique_ptr<CLUAScriptManager> m_pScriptManager;

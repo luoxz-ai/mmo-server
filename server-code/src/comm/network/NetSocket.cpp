@@ -139,8 +139,7 @@ bool CNetSocket::_SendMsg(byte* pBuffer, size_t len, bool bFlush)
 
 	if(m_pEncryptor)
 	{
-		m_pEncryptor->Encryptor(
-			pBuffer + sizeof(MSG_HEAD), len - sizeof(MSG_HEAD), pBuffer + sizeof(MSG_HEAD), len - sizeof(MSG_HEAD));
+		m_pEncryptor->Encryptor(pBuffer + sizeof(MSG_HEAD), len - sizeof(MSG_HEAD), pBuffer + sizeof(MSG_HEAD), len - sizeof(MSG_HEAD));
 	}
 
 	if(GetStatus() == NSS_CONNECTING || GetStatus() == NSS_WAIT_RECONNECT)
@@ -267,10 +266,7 @@ void CNetSocket::_OnReceive(bufferevent* b)
 		MSG_HEAD* pHeader = (MSG_HEAD*)evbuffer_pullup(input, sizeof(MSG_HEAD));
 		if(pHeader->usSize < sizeof(MSG_HEAD) || pHeader->usSize > GetPacketSizeMax())
 		{
-			LOGNETDEBUG("CNetSocket _OnReceive Msg:{} size:{} > MaxSize:{}, LastProcessCMD:{}",
-						pHeader->usCmd,
-						pHeader->usSize,
-						GetPacketSizeMax(),
+			LOGNETDEBUG("CNetSocket _OnReceive Msg:{} size:{} > MaxSize:{}, LastProcessCMD:{}", pHeader->usCmd, pHeader->usSize, GetPacketSizeMax(),
 						m_nLastProcessMsgCMD);
 			std::string data;
 			for(size_t i = 0; i < m_nLastCMDSize; i++)
@@ -351,13 +347,11 @@ void CNetSocket::_OnSocketEvent(bufferevent* b, short what, void* ctx)
 		const char* errstr = evutil_socket_error_to_string(err);
 		if(err == 10054 || err == 104 || err == 32)
 		{
-			LOGNETDEBUG(
-				"CNetSocket error{}: {}, {}:{}", err, errstr, pSocket->GetAddrString().c_str(), pSocket->GetPort());
+			LOGNETDEBUG("CNetSocket error{}: {}, {}:{}", err, errstr, pSocket->GetAddrString().c_str(), pSocket->GetPort());
 		}
 		else
 		{
-			LOGERROR(
-				"CNetSocket error{}: {}, {}:{}", err, errstr, pSocket->GetAddrString().c_str(), pSocket->GetPort());
+			LOGERROR("CNetSocket error{}: {}, {}:{}", err, errstr, pSocket->GetAddrString().c_str(), pSocket->GetPort());
 		}
 		bClose = true;
 	}
@@ -399,8 +393,7 @@ void CNetSocket::_OnSocketConnectorEvent(bufferevent* b, short what, void* ctx)
 	{
 		int			err	   = evutil_socket_geterror(bufferevent_getfd(b));
 		const char* errstr = evutil_socket_error_to_string(err);
-		LOGNETDEBUG(
-			"CNetSocket::SocketConnectFail:{}:{} {}", pSocket->GetAddrString().c_str(), pSocket->GetPort(), errstr);
+		LOGNETDEBUG("CNetSocket::SocketConnectFail:{}:{} {}", pSocket->GetAddrString().c_str(), pSocket->GetPort(), errstr);
 
 		pSocket->OnConnectFailed();
 	}

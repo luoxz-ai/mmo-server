@@ -73,9 +73,7 @@ bool LoadFromBinaryFile(const std::string& filename, google::protobuf::Message& 
 	return rv;
 }
 
-bool FindFieldInMessage(const std::string&						  field_name,
-						google::protobuf::Message*&				  pThisRow,
-						const google::protobuf::FieldDescriptor*& pFieldDesc)
+bool FindFieldInMessage(const std::string& field_name, google::protobuf::Message*& pThisRow, const google::protobuf::FieldDescriptor*& pFieldDesc)
 {
 	__ENTER_FUNCTION
 	auto vecName = split_string(field_name, ".");
@@ -102,9 +100,7 @@ bool FindFieldInMessage(const std::string&						  field_name,
 	return false;
 }
 
-void AddFieldData(google::protobuf::Message*			   pThisRow,
-				  const google::protobuf::FieldDescriptor* pFieldDesc,
-				  const std::string&					   data)
+void AddFieldData(google::protobuf::Message* pThisRow, const google::protobuf::FieldDescriptor* pFieldDesc, const std::string& data)
 {
 	using namespace google::protobuf;
 	switch(pFieldDesc->type())

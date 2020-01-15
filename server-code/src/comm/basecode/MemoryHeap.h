@@ -34,7 +34,7 @@ void stop_jemalloc_backgroud_thread();
 
 class CMemoryHeap
 {
-  public:
+public:
 	CMemoryHeap(const std::string& szClassName);
 	virtual ~CMemoryHeap();
 
@@ -43,7 +43,7 @@ class CMemoryHeap
 	void   Free(void* ptr);
 	size_t GetAllocedSize();
 
-  protected:
+protected:
 	std::string			  m_strName;
 	std::atomic<uint32_t> m_lNumAllocsInHeap;
 	std::atomic<uint32_t> m_lMaxAllocsInHeap;
@@ -56,16 +56,16 @@ class CMemoryHeap
 };
 
 #define MEMORYHEAP_DECLARATION(VAR)                               \
-  public:                                                         \
+public:                                                           \
 	void  operator delete(void* p) { VAR.Free(p); }               \
 	void* operator new(size_t size) { return VAR.Alloc(size); }   \
 	void  operator delete[](void* p) { VAR.Free(p); }             \
 	void* operator new[](size_t size) { return VAR.Alloc(size); } \
                                                                   \
-  public:                                                         \
+public:                                                           \
 	static bool IsValidPt(void* p) { return VAR.IsValidPt(p); }   \
                                                                   \
-  public:                                                         \
+public:                                                           \
 	static CMemoryHeap VAR;
 
 #define MEMORYHEAP_IMPLEMENTATION(T, VAR) CMemoryHeap T::VAR(#T);

@@ -7,24 +7,24 @@
 
 class CAIScene : public CSceneBase
 {
-  protected:
+protected:
 	CAIScene();
 
-  public:
+public:
 	virtual ~CAIScene();
 	CREATE_NEW_IMPL(CAIScene);
 
-  public:
+public:
 	bool			   Init(const SceneID& idScene);
 	CMonsterGenerator& GetMonsterGen() { return m_MonsterGen; }
 
-  private:
+private:
 	CMonsterGenerator m_MonsterGen;
 };
 
 class CAISceneManager
 {
-  public:
+public:
 	CAISceneManager();
 	~CAISceneManager();
 
@@ -38,8 +38,8 @@ class CAISceneManager
 	CAIScene* QueryScene(const SceneID& idScene);
 	void	  OnTimer();
 
-  protected:
-  private:
+protected:
+private:
 	std::unordered_map<SceneID, CAIScene*> m_mapScene;
 	size_t								   m_nStaticScene;
 };

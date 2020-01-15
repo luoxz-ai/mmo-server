@@ -90,10 +90,7 @@ bool CMessageRoute::LoadServiceSetting(const std::string& filename, uint16_t nWo
 	//读取全服IP表
 	{
 		const auto& settingGlobalDB = m_setDataMap["GlobalMYSQL"][0];
-		if(ConnectGlobalDB(settingGlobalDB.Query("host"),
-						   settingGlobalDB.Query("user"),
-						   settingGlobalDB.Query("passwd"),
-						   settingGlobalDB.Query("dbname"),
+		if(ConnectGlobalDB(settingGlobalDB.Query("host"), settingGlobalDB.Query("user"), settingGlobalDB.Query("passwd"), settingGlobalDB.Query("dbname"),
 						   settingGlobalDB.QueryULong("port")) == false)
 		{
 			LOGFATAL("CMessageRoute::LoadServiceSetting ConnectGlobalDB fail");
@@ -106,11 +103,7 @@ bool CMessageRoute::LoadServiceSetting(const std::string& filename, uint16_t nWo
 	return false;
 }
 
-bool CMessageRoute::ConnectGlobalDB(const std::string& host,
-									const std::string& user,
-									const std::string& password,
-									const std::string& db,
-									unsigned int	   port)
+bool CMessageRoute::ConnectGlobalDB(const std::string& host, const std::string& user, const std::string& password, const std::string& db, unsigned int port)
 {
 	__ENTER_FUNCTION
 	// connect db
@@ -174,8 +167,7 @@ void CMessageRoute::ReloadServiceInfo(uint32_t update_time)
 		if(GetWorldID() == 0)
 			SQL = "SELECT * FROM tbld_servicedetail";
 		else
-			SQL =
-				fmt::format(FMT_STRING("SELECT * FROM tbld_servicedetail WHERE worldid={} OR worldid=0"), GetWorldID());
+			SQL = fmt::format(FMT_STRING("SELECT * FROM tbld_servicedetail WHERE worldid={} OR worldid=0"), GetWorldID());
 		auto result = m_pGlobalDB->Query(TBLD_SERVICEDETAIL::table_name, SQL);
 		for(size_t i = 0; i < result->get_num_row(); i++)
 		{
@@ -284,9 +276,7 @@ void CMessageRoute::SetWorldReady(uint16_t idWorld, bool bReady)
 	__LEAVE_FUNCTION
 }
 
-void CMessageRoute::ForeachServiceInfoByWorldID(uint16_t									 idWorld,
-												bool										 bIncludeShare,
-												std::function<bool(const ServerAddrInfo*)>&& func)
+void CMessageRoute::ForeachServiceInfoByWorldID(uint16_t idWorld, bool bIncludeShare, std::function<bool(const ServerAddrInfo*)>&& func)
 {
 	__ENTER_FUNCTION
 	std::unique_lock<std::mutex> locker(m_mutex);
@@ -385,12 +375,10 @@ CMessagePort* CMessageRoute::_ConnectRemoteServer(const ServerPort& nServerPort,
 		if(pMessagePort->GetLocalPort() == true)
 			return pMessagePort;
 	}
-	CNetSocket* pRemoteSocket =
-		m_pNetworkService->AsyncConnectTo(info.route_addr.c_str(), info.route_port, pMessagePort);
+	CNetSocket* pRemoteSocket = m_pNetworkService->AsyncConnectTo(info.route_addr.c_str(), info.route_port, pMessagePort);
 	if(pRemoteSocket == nullptr)
 	{
-		LOGFATAL(
-			"CMessageRoute::ConnectRemoteServer AsyncConnectTo {}:{} fail", info.route_addr.c_str(), info.route_port);
+		LOGFATAL("CMessageRoute::ConnectRemoteServer AsyncConnectTo {}:{} fail", info.route_addr.c_str(), info.route_port);
 		SAFE_DELETE(pMessagePort);
 		return nullptr;
 	}
@@ -398,10 +386,7 @@ CMessagePort* CMessageRoute::_ConnectRemoteServer(const ServerPort& nServerPort,
 	pRemoteSocket->SetLogWriteHighWateMark(100 * 1024 * 1024);
 	pMessagePort->SetRemoteSocket(pRemoteSocket);
 
-	LOGMESSAGE("CMessageRoute::ConnectRemoteServer:{}, {}:{}",
-			   nServerPort.GetServiceID(),
-			   info.route_addr.c_str(),
-			   info.route_port);
+	LOGMESSAGE("CMessageRoute::ConnectRemoteServer:{}, {}:{}", nServerPort.GetServiceID(), info.route_addr.c_str(), info.route_port);
 
 	return pMessagePort;
 	__LEAVE_FUNCTION
@@ -518,11 +503,7 @@ CMessagePort* CMessageRoute::_ListenMessagePort(const ServerPort& nServerPort, c
 		SAFE_DELETE(pMessagePort);
 		return nullptr;
 	}
-	LOGMESSAGE("CMessageRoute::ListenMessagePort:{}-{}, {}:{}",
-			   nServerPort.GetWorldID(),
-			   nServerPort.GetServiceID(),
-			   info.route_addr.c_str(),
-			   info.route_port);
+	LOGMESSAGE("CMessageRoute::ListenMessagePort:{}-{}, {}:{}", nServerPort.GetWorldID(), nServerPort.GetServiceID(), info.route_addr.c_str(), info.route_port);
 
 	return pMessagePort;
 	__LEAVE_FUNCTION

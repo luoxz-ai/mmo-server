@@ -11,7 +11,7 @@
 class CSocketService;
 class CGameClient
 {
-  public:
+public:
 	CGameClient();
 	~CGameClient();
 
@@ -41,7 +41,7 @@ class CGameClient
 	bool			IsAuth() const { return m_bAuth; }
 	void			SetAuth(bool val) { m_bAuth = val; }
 
-  private:
+private:
 	VirtualSocket m_VirtualSocket;
 	ServerPort	  m_nDestServerPort;
 	uint16_t	  m_nMessageAllowBegin;
@@ -58,13 +58,13 @@ struct event;
 class CNetMSGProcess;
 class CSocketService : public IService, public CServiceCommon, public CNetEventHandler, public CWebSocketEventHandler
 {
-  public:
+public:
 	CSocketService(const ServerPort& nServerPort);
 	virtual ~CSocketService();
 	void Release() { delete this; }
 	bool Create();
 
-  public:
+public:
 	virtual void OnConnected(CNetSocket* pSocket) override;
 	virtual void OnConnectFailed(CNetSocket*) override;
 	virtual void OnDisconnected(CNetSocket* pSocket) override;
@@ -92,7 +92,7 @@ class CSocketService : public IService, public CServiceCommon, public CNetEventH
 	CGameClient* QueryClientByUserID(OBJID idUser);
 	bool		 DelClientByUserID(OBJID idUser);
 
-  private:
+private:
 	std::mutex							  m_mutex;
 	std::map<VirtualSocket, CGameClient*> m_setVirtualSocket;
 	std::map<OBJID, CGameClient*>		  m_mapClientByUserID;

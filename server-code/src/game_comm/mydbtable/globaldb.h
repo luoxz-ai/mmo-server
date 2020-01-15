@@ -18,14 +18,10 @@ struct TBLD_DBINFO
 		DB_PASSWD, //'游戏数据mysql密码'
 
 	};
-	static constexpr const char* field_name[] = {"worldid", "db_ip", "db_port", "db_name", "db_user", "db_passwd"};
-	using field_type_t = type_list<uint16_t, char[255], uint32_t, char[255], char[255], char[255]>;
-	static constexpr DB_FIELD_TYPES field_type_enum_list[] = {DB_FIELD_TYPE_SHORT_UNSIGNED,
-															  DB_FIELD_TYPE_VARCHAR,
-															  DB_FIELD_TYPE_LONG_UNSIGNED,
-															  DB_FIELD_TYPE_VARCHAR,
-															  DB_FIELD_TYPE_VARCHAR,
-															  DB_FIELD_TYPE_VARCHAR};
+	static constexpr const char* field_name[]			   = {"worldid", "db_ip", "db_port", "db_name", "db_user", "db_passwd"};
+	using field_type_t									   = type_list<uint16_t, char[255], uint32_t, char[255], char[255], char[255]>;
+	static constexpr DB_FIELD_TYPES field_type_enum_list[] = {DB_FIELD_TYPE_SHORT_UNSIGNED, DB_FIELD_TYPE_VARCHAR, DB_FIELD_TYPE_LONG_UNSIGNED,
+															  DB_FIELD_TYPE_VARCHAR,		DB_FIELD_TYPE_VARCHAR, DB_FIELD_TYPE_VARCHAR};
 	static constexpr bool			pri_key_idx[]		   = {true, false, false, false, false, false};
 };
 
@@ -42,9 +38,8 @@ struct TBLD_GLOBALVAR
 	};
 	static constexpr const char* field_name[]			   = {"id", "key", "value", "value_str"};
 	using field_type_t									   = type_list<uint64_t, char[255], uint32_t, char[1024]>;
-	static constexpr DB_FIELD_TYPES field_type_enum_list[] = {
-		DB_FIELD_TYPE_LONGLONG_UNSIGNED, DB_FIELD_TYPE_VARCHAR, DB_FIELD_TYPE_LONG_UNSIGNED, DB_FIELD_TYPE_VARCHAR};
-	static constexpr bool pri_key_idx[] = {true, false, false, false};
+	static constexpr DB_FIELD_TYPES field_type_enum_list[] = {DB_FIELD_TYPE_LONGLONG_UNSIGNED, DB_FIELD_TYPE_VARCHAR, DB_FIELD_TYPE_LONG_UNSIGNED, DB_FIELD_TYPE_VARCHAR};
+	static constexpr bool			pri_key_idx[]		   = {true, false, false, false};
 };
 
 struct TBLD_GMLIST
@@ -59,9 +54,8 @@ struct TBLD_GMLIST
 	};
 	static constexpr const char* field_name[]			   = {"id", "openid", "gmlev"};
 	using field_type_t									   = type_list<uint64_t, char[255], uint32_t>;
-	static constexpr DB_FIELD_TYPES field_type_enum_list[] = {
-		DB_FIELD_TYPE_LONGLONG_UNSIGNED, DB_FIELD_TYPE_VARCHAR, DB_FIELD_TYPE_LONG_UNSIGNED};
-	static constexpr bool pri_key_idx[] = {true, false, false};
+	static constexpr DB_FIELD_TYPES field_type_enum_list[] = {DB_FIELD_TYPE_LONGLONG_UNSIGNED, DB_FIELD_TYPE_VARCHAR, DB_FIELD_TYPE_LONG_UNSIGNED};
+	static constexpr bool			pri_key_idx[]		   = {true, false, false};
 };
 
 struct TBLD_SERVERLIST
@@ -77,15 +71,10 @@ struct TBLD_SERVERLIST
 		MERGETO,	  //'已经被合服到哪个服了'
 
 	};
-	static constexpr const char* field_name[] = {
-		"worldid", "server_name", "open_time", "open_status", "publish_addr", "mergeto"};
-	using field_type_t = type_list<uint16_t, char[255], int64_t, uint32_t, char[1024], uint16_t>;
-	static constexpr DB_FIELD_TYPES field_type_enum_list[] = {DB_FIELD_TYPE_SHORT_UNSIGNED,
-															  DB_FIELD_TYPE_VARCHAR,
-															  DB_FIELD_TYPE_LONGLONG,
-															  DB_FIELD_TYPE_LONG_UNSIGNED,
-															  DB_FIELD_TYPE_VARCHAR,
-															  DB_FIELD_TYPE_SHORT_UNSIGNED};
+	static constexpr const char* field_name[]			   = {"worldid", "server_name", "open_time", "open_status", "publish_addr", "mergeto"};
+	using field_type_t									   = type_list<uint16_t, char[255], int64_t, uint32_t, char[1024], uint16_t>;
+	static constexpr DB_FIELD_TYPES field_type_enum_list[] = {DB_FIELD_TYPE_SHORT_UNSIGNED, DB_FIELD_TYPE_VARCHAR, DB_FIELD_TYPE_LONGLONG,
+															  DB_FIELD_TYPE_LONG_UNSIGNED,	DB_FIELD_TYPE_VARCHAR, DB_FIELD_TYPE_SHORT_UNSIGNED};
 	static constexpr bool			pri_key_idx[]		   = {true, false, false, false, false, false};
 };
 
@@ -105,27 +94,13 @@ struct TBLD_SERVICEDETAIL
 		BIND_ADDR,	  //'监听绑定地址'
 
 	};
-	static constexpr const char* field_name[] = {"worldid",
-												 "serviceid",
-												 "service_type",
-												 "route_addr",
-												 "route_port",
-												 "publish_addr",
-												 "publish_port",
-												 "debug_port",
-												 "bind_addr"};
-	using field_type_t =
-		type_list<uint16_t, uint16_t, char[255], char[255], uint16_t, char[255], uint16_t, uint16_t, char[255]>;
-	static constexpr DB_FIELD_TYPES field_type_enum_list[] = {DB_FIELD_TYPE_SHORT_UNSIGNED,
-															  DB_FIELD_TYPE_SHORT_UNSIGNED,
-															  DB_FIELD_TYPE_VARCHAR,
-															  DB_FIELD_TYPE_VARCHAR,
-															  DB_FIELD_TYPE_SHORT_UNSIGNED,
-															  DB_FIELD_TYPE_VARCHAR,
-															  DB_FIELD_TYPE_SHORT_UNSIGNED,
-															  DB_FIELD_TYPE_SHORT_UNSIGNED,
-															  DB_FIELD_TYPE_VARCHAR};
-	static constexpr bool			pri_key_idx[] = {true, true, false, false, false, false, false, false, false};
+	static constexpr const char* field_name[]			   = {"worldid",	  "serviceid",	  "service_type", "route_addr", "route_port",
+												  "publish_addr", "publish_port", "debug_port",	  "bind_addr"};
+	using field_type_t									   = type_list<uint16_t, uint16_t, char[255], char[255], uint16_t, char[255], uint16_t, uint16_t, char[255]>;
+	static constexpr DB_FIELD_TYPES field_type_enum_list[] = {DB_FIELD_TYPE_SHORT_UNSIGNED, DB_FIELD_TYPE_SHORT_UNSIGNED, DB_FIELD_TYPE_VARCHAR,
+															  DB_FIELD_TYPE_VARCHAR,		DB_FIELD_TYPE_SHORT_UNSIGNED, DB_FIELD_TYPE_VARCHAR,
+															  DB_FIELD_TYPE_SHORT_UNSIGNED, DB_FIELD_TYPE_SHORT_UNSIGNED, DB_FIELD_TYPE_VARCHAR};
+	static constexpr bool			pri_key_idx[]		   = {true, true, false, false, false, false, false, false, false};
 };
 
 #endif /* GLOBALDB_H */

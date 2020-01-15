@@ -74,8 +74,7 @@ std::string DemangleSymbol(const char* input_symbol)
 		std::string mangled_symbol = symbol.substr(mangled_start, mangled_end - mangled_start);
 		// Try to demangle the mangled symbol candidate
 		int									   status = -4; // some arbitrary value to eliminate the compiler warning
-		std::unique_ptr<char, void (*)(void*)> demangled_symbol(
-			abi::__cxa_demangle(mangled_symbol.c_str(), nullptr, 0, &status), std::free);
+		std::unique_ptr<char, void (*)(void*)> demangled_symbol(abi::__cxa_demangle(mangled_symbol.c_str(), nullptr, 0, &status), std::free);
 		// 0 Demangling is success
 		if(0 == status)
 		{
@@ -143,8 +142,7 @@ void process_section(bfd* abfd, asection* section, void* _data)
 	// Finds the line corresponding to the offset
 
 	const char *filename = NULL, *function_name = NULL;
-	data->line_found =
-		bfd_find_nearest_line(abfd, section, data->symbol_table, offset, &filename, &function_name, &data->line);
+	data->line_found = bfd_find_nearest_line(abfd, section, data->symbol_table, offset, &filename, &function_name, &data->line);
 
 	if(filename == NULL)
 		data->filename = "";
@@ -239,12 +237,7 @@ std::string GetStackTraceString(const CallFrameMap& data)
 			if((size_t)dlinfo.dli_fbase == 0x400000)
 				addr = (size_t)(pair_v.first);
 			char buff[2048];
-			fmt::format_to_n(buff,
-							 2048,
-							 "TRACE:{}\n \033[44;37m{}[{:X}]\033[0m \n",
-							 addr2str(dlinfo.dli_fname, addr).c_str(),
-							 symbol.c_str(),
-							 addr);
+			fmt::format_to_n(buff, 2048, "TRACE:{}\n \033[44;37m{}[{:X}]\033[0m \n", addr2str(dlinfo.dli_fname, addr).c_str(), symbol.c_str(), addr);
 			result += buff;
 		}
 		else
@@ -280,12 +273,7 @@ std::string GetStackTraceString(const CALLFRAME_NODE* pFrame)
 			if((size_t)dlinfo.dli_fbase == 0x400000)
 				addr = (size_t)(pFrame->m_pCallFunc);
 			char buff[2048];
-			fmt::format_to_n(buff,
-							 2048,
-							 "TRACE:{}\n \033[44;37m{}[{:X}]\033[0m \n",
-							 addr2str(dlinfo.dli_fname, addr).c_str(),
-							 symbol.c_str(),
-							 addr);
+			fmt::format_to_n(buff, 2048, "TRACE:{}\n \033[44;37m{}[{:X}]\033[0m \n", addr2str(dlinfo.dli_fname, addr).c_str(), symbol.c_str(), addr);
 			result += buff;
 		}
 		else

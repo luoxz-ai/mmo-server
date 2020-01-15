@@ -63,21 +63,17 @@ export_lua enum ScriptCallBack {
 
 class CLUAScriptManager
 {
-  public:
+public:
 	//每个lua被创建时都会调用一下该函数来向lua注册一些必备的c++函数,比如类注册函数等
 	typedef void (*InitRegisterFunc)(lua_State* pL, void* pInitParam);
 
-  private:
+private:
 	CLUAScriptManager();
 
-  public:
+public:
 	~CLUAScriptManager();
 	CREATE_NEW_IMPL(CLUAScriptManager);
-	bool Init(const std::string& name,
-			  InitRegisterFunc	 func,
-			  void*				 pInitParam,
-			  const char*		 search_path = "script",
-			  bool				 bExecMain	 = true);
+	bool Init(const std::string& name, InitRegisterFunc func, void* pInitParam, const char* search_path = "script", bool bExecMain = true);
 
 	void Destory();
 	void Reload(const std::string& name, bool bExecMain);
@@ -89,13 +85,13 @@ class CLUAScriptManager
 	void OnTimer(time_t tTick);
 	void FullGC();
 
-  public:
+public:
 	int	 GetLuaGCStep() const { return m_nLuaGCStep; }
 	void SetLuaGCStep(int val) { m_nLuaGCStep = val; }
 	int	 GetLuaGCStepTick() const { return m_nLuaGCStepTick; }
 	void SetLuaGCStepTick(int val) { m_nLuaGCStepTick = val; }
 
-  public:
+public:
 	template<typename RVal, typename... Args>
 	RVal ExecScript(uint64_t idScript, const char* pszFuncName, Args&&... args)
 	{
@@ -107,17 +103,13 @@ class CLUAScriptManager
 		if(itFindMap == m_Data.end())
 			return RVal();
 
-		return lua_tinker::call<RVal>(
-			m_pLua, fmt::format(FMT_STRING("x{}_{}"), idScript, pszFuncName).c_str(), std::forward<Args>(args)...);
+		return lua_tinker::call<RVal>(m_pLua, fmt::format(FMT_STRING("x{}_{}"), idScript, pszFuncName).c_str(), std::forward<Args>(args)...);
 		__LEAVE_FUNCTION
 		return RVal();
 	}
 
 	//注册一个函数回调名
-	export_lua void RegistFucName(uint64_t idScript, uint32_t idxCallBackType, const std::string& FuncName)
-	{
-		m_Data[idScript].CallBackData[idxCallBackType] = FuncName;
-	}
+	export_lua void RegistFucName(uint64_t idScript, uint32_t idxCallBackType, const std::string& FuncName) { m_Data[idScript].CallBackData[idxCallBackType] = FuncName; }
 	export_lua const std::string& QueryFunc(uint64_t idScript, uint32_t idxCallBackType) const
 	{
 		static const std::string s_Empty;
@@ -143,7 +135,7 @@ class CLUAScriptManager
 		return _ExecScript<RVal>(funcName.c_str(), std::forward<Args>(args)...);
 	}
 
-  public:
+public:
 	template<typename RVal, typename... Args>
 	RVal _ExecScript(const char* pszFuncName, Args&&... args)
 	{
@@ -156,11 +148,11 @@ class CLUAScriptManager
 		return RVal();
 	}
 
-  public:
+public:
 	operator lua_State*() const { return m_pLua; }
 	operator lua_State*() { return m_pLua; }
 
-  private:
+private:
 	lua_State* m_pLua;
 	int		   m_nLuaGCStep;	  //每次GCStep执行几步GC
 	int		   m_nLuaGCStepTick;  //每多少Tick执行1次GCStep
@@ -170,7 +162,7 @@ class CLUAScriptManager
 	InitRegisterFunc m_pInitRegisterFunc;
 	void*			 m_pInitParam;
 
-  private:
+private:
 	struct ScriptFileData
 	{
 		std::string								  FileName;

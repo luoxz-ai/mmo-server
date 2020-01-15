@@ -1,19 +1,18 @@
 #ifndef DYNASCENE_H
 #define DYNASCENE_H
 
-
 #include "EventManager.h"
 #include "Scene.h"
 class CDynaScene : public CScene
 {
-  protected:
+protected:
 	CDynaScene();
 
-  public:
+public:
 	virtual ~CDynaScene();
 	CREATE_NEW_IMPL(CDynaScene);
 
-  public:
+public:
 	bool Init(const SceneID& idScene);
 	void AddOwnerID(OBJID idOwner);
 	void SetOwnerID(const std::vector<OBJID>& setPlayerID);
@@ -25,7 +24,7 @@ class CDynaScene : public CScene
 	virtual void EnterMap(CSceneObject* pActor, float fPosX, float fPosY, float fFace) override;
 	virtual void LeaveMap(CSceneObject* pActor, uint64_t idTargetScene = 0) override;
 
-  protected:
+protected:
 	std::map<OBJID, bool> m_OwnerIDSet;
 	CEventEntryPtr		  m_DelEvent;
 };

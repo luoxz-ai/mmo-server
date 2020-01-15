@@ -16,9 +16,8 @@ export_lua enum SERVICE_TYPE {
 	MARKET_SERVICE = 5, //单服单个, 拍卖行
 	GM_SERVICE	   = 6, //单服单个, 无状态, 后台调用, 充值调用
 
-	SERVICECTRL_SERVICE = 8, //全局单个, 无状态, 所有服务均会连接该服务,用来同步特殊的消息
-	GLOBAL_ROUTE_SERVICE =
-		9, //全局多个, 无状态, 充值回调, 后台回调, http服务, 收到后进行验证,验证后,转发给对应服的GM_SERVICE
+	SERVICECTRL_SERVICE	 = 8, //全局单个, 无状态, 所有服务均会连接该服务,用来同步特殊的消息
+	GLOBAL_ROUTE_SERVICE = 9, //全局多个, 无状态, 充值回调, 后台回调, http服务, 收到后进行验证,验证后,转发给对应服的GM_SERVICE
 };
 
 export_lua enum {
@@ -46,7 +45,7 @@ export_lua enum {
 
 export_lua class ServerPort
 {
-  public:
+public:
 	export_lua ServerPort(uint32_t nServerPort = 0)
 		: m_Data32(nServerPort)
 	{
@@ -76,7 +75,7 @@ export_lua class ServerPort
 	export_lua uint32_t GetData() const { return m_Data32; }
 	export_lua void		SetData(uint32_t _Data32) { m_Data32 = _Data32; }
 
-  private:
+private:
 	struct ST_SERVERPORT
 	{
 		uint16_t idWorld;	//实际取值范围0~0x1FFF 8191
@@ -106,7 +105,7 @@ struct hash<ServerPort>
 
 export_lua class VirtualSocket
 {
-  public:
+public:
 	export_lua VirtualSocket(uint64_t nVirtualSocket = 0)
 		: m_Data64(nVirtualSocket)
 	{
@@ -126,10 +125,7 @@ export_lua class VirtualSocket
 	{
 	}
 
-	export_lua static VirtualSocket CreateVirtualSocket(const ServerPort& nServerPort, uint16_t nSocketIdx)
-	{
-		return VirtualSocket{nServerPort, nSocketIdx};
-	}
+	export_lua static VirtualSocket CreateVirtualSocket(const ServerPort& nServerPort, uint16_t nSocketIdx) { return VirtualSocket{nServerPort, nSocketIdx}; }
 
 	export_lua bool IsVaild() const { return m_Data64 != 0; }
 
@@ -149,7 +145,7 @@ export_lua class VirtualSocket
 	export_lua void		SetSocketIdx(uint16_t val) { m_Data.m_nSocketIdx = val; }
 	export_lua uint64_t GetData64() const { return m_Data64; }
 
-  private:
+private:
 	struct ST_VIRTUALSOCKET
 	{
 		uint16_t m_idWorld;	   //实际取值范围0~0x1FFF 8191
@@ -248,20 +244,18 @@ struct MSG_INTERNAL_FORWARD_MSG_HEAD : public MSG_HEAD
 	VirtualSocket nForward;
 };
 
-static const size_t BROCAST_MSG_MAX_SOCKET =
-	(_MAX_MSGSIZE - sizeof(MSG_HEAD) - sizeof(uint32_t) - sizeof(VirtualSocket)) / sizeof(VirtualSocket);
+static const size_t BROCAST_MSG_MAX_SOCKET = (_MAX_MSGSIZE - sizeof(MSG_HEAD) - sizeof(uint32_t) - sizeof(VirtualSocket)) / sizeof(VirtualSocket);
 struct MSG_INTERNAL_BROCAST_MSG_HEAD : public MSG_HEAD
 {
 	uint32_t	  nAmount = 0;
 	VirtualSocket nFrom;
 	VirtualSocket setTo[BROCAST_MSG_MAX_SOCKET];
 
-	uint16_t GetSize() { return sizeof(MSG_HEAD) + sizeof(nFrom) + sizeof(nAmount) + nAmount * sizeof(VirtualSocket); }
+	uint16_t	  GetSize() { return sizeof(MSG_HEAD) + sizeof(nFrom) + sizeof(nAmount) + nAmount * sizeof(VirtualSocket); }
 	static size_t GetMaxAmount() { return BROCAST_MSG_MAX_SOCKET; }
 };
 
-static const size_t BROCAST_BYID_MSG_MAX_ID =
-	(_MAX_MSGSIZE - sizeof(MSG_HEAD) - sizeof(uint32_t) - sizeof(VirtualSocket)) / sizeof(OBJID);
+static const size_t BROCAST_BYID_MSG_MAX_ID = (_MAX_MSGSIZE - sizeof(MSG_HEAD) - sizeof(uint32_t) - sizeof(VirtualSocket)) / sizeof(OBJID);
 struct MSG_INTERNAL_BROCAST_BYID_MSG_HEAD : public MSG_HEAD
 {
 	uint32_t	  nAmount = 0;
@@ -272,8 +266,7 @@ struct MSG_INTERNAL_BROCAST_BYID_MSG_HEAD : public MSG_HEAD
 	static size_t GetMaxAmount() { return BROCAST_BYID_MSG_MAX_ID; }
 };
 
-static const size_t BROCAST_BYGROUPID_MSG_MAX_ID =
-	(_MAX_MSGSIZE - sizeof(MSG_HEAD) - sizeof(uint32_t) - sizeof(VirtualSocket)) / sizeof(OBJID);
+static const size_t BROCAST_BYGROUPID_MSG_MAX_ID = (_MAX_MSGSIZE - sizeof(MSG_HEAD) - sizeof(uint32_t) - sizeof(VirtualSocket)) / sizeof(OBJID);
 struct MSG_INTERNAL_BROCAST_BYGROUPID_MSG_HEAD : public MSG_HEAD
 {
 	uint32_t	  nAmount = 0;

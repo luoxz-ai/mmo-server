@@ -9,13 +9,7 @@ CStatus::CStatus() {}
 
 CStatus::~CStatus() {}
 
-bool CStatus::Init(CActor*	pOwner,
-				   uint16_t idStatusType,
-				   UCHAR	ucLevel,
-				   OBJID	idCaster,
-				   uint32_t nPower,
-				   uint32_t nSecs,
-				   uint32_t nTimes)
+bool CStatus::Init(CActor* pOwner, uint16_t idStatusType, UCHAR ucLevel, OBJID idCaster, uint32_t nPower, uint32_t nSecs, uint32_t nTimes)
 {
 	__ENTER_FUNCTION
 	CStatusType* pStatusType = StatusTypeSet()->QueryObj(CStatusType::MakeID(idStatusType, ucLevel));
@@ -226,7 +220,7 @@ void CStatus::SaveInfo()
 	else
 	{
 		//创建
-		m_pRecord = ZoneService()->GetGameDB(m_pOwner->GetWorldID())->MakeRecord(TBLD_STATUS::table_name);
+		m_pRecord								 = ZoneService()->GetGameDB(m_pOwner->GetWorldID())->MakeRecord(TBLD_STATUS::table_name);
 		m_pRecord->Field(TBLD_STATUS::ID)		 = ZoneService()->CreateUID();
 		m_pRecord->Field(TBLD_STATUS::USERID)	 = m_pOwner->GetID();
 		m_pRecord->Field(TBLD_STATUS::TYPEID)	 = m_info.idStatusType;
@@ -381,8 +375,7 @@ bool CStatus::OnAttack(CActor* pTarget, uint32_t idSkill, int32_t nDamage)
 	//执行脚本
 	bool bNeedDestory = false;
 	if(m_pType->GetScirptID() != 0)
-		bNeedDestory = ScriptManager()->TryExecScript<bool>(
-			m_pType->GetScirptID(), SCB_STATUS_ONATTACK, this, pTarget, idSkill, nDamage);
+		bNeedDestory = ScriptManager()->TryExecScript<bool>(m_pType->GetScirptID(), SCB_STATUS_ONATTACK, this, pTarget, idSkill, nDamage);
 
 	return bNeedDestory;
 
@@ -396,8 +389,7 @@ bool CStatus::OnBeAttack(CActor* pAttacker, int32_t nDamage)
 	//执行脚本
 	bool bNeedDestory = false;
 	if(m_pType->GetScirptID() != 0)
-		bNeedDestory = ScriptManager()->TryExecScript<bool>(
-			m_pType->GetScirptID(), SCB_STATUS_ONBEATTACK, this, pAttacker, nDamage);
+		bNeedDestory = ScriptManager()->TryExecScript<bool>(m_pType->GetScirptID(), SCB_STATUS_ONBEATTACK, this, pAttacker, nDamage);
 
 	return bNeedDestory;
 	__LEAVE_FUNCTION

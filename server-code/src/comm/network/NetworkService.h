@@ -31,11 +31,11 @@ class CEventManager;
 
 class CNetEventHandler
 {
-  public:
+public:
 	CNetEventHandler() {}
 	virtual ~CNetEventHandler() {}
 
-  public:
+public:
 	// connect to other server succ
 	virtual void OnConnected(CNetSocket*) = 0;
 	// connect to other server failed, can set CNetSocket::setReconnectTimes = 0 to stop reconnect
@@ -52,11 +52,11 @@ class CNetEventHandler
 
 class CWebSocketEventHandler
 {
-  public:
+public:
 	CWebSocketEventHandler() {}
 	virtual ~CWebSocketEventHandler() {}
 
-  public:
+public:
 	// new client
 	virtual void OnWsAccepted(CNetWebSocket* ws) = 0;
 	// notice: 暂时不会回调，没实现connect
@@ -71,7 +71,7 @@ class CWebSocketEventHandler
 
 class CNetworkService
 {
-  public:
+public:
 	CNetworkService();
 	virtual ~CNetworkService();
 
@@ -107,14 +107,14 @@ class CNetworkService
 	void						 SetIPCheckNum(size_t val) { m_nIPCheckNum = val; }
 	MPSCQueue<CNetworkMessage*>& _GetMessageQueue() { return m_MessageQueue; }
 
-  public:
+public:
 	static void accept_conn_cb(evconnlistener*, int fd, struct sockaddr* addr, int socklen, void* arg);
 	static void accept_error_cb(struct evconnlistener*, void* arg);
 	static void http_process_cb(struct evhttp_request* req, void* arg);
 
 	void OnAccept(int fd, struct sockaddr* addr, int, evconnlistener* listener);
 
-  public:
+public:
 	event_base* GetEVBase() const { return m_pBase; }
 
 	size_t GetSocketAmount();
@@ -131,7 +131,7 @@ class CNetworkService
 	BytePerSecondCount& GetRecvBPS() { return m_RecvBPS; }
 	BytePerSecondCount& GetSendBPS() { return m_SendBPS; }
 
-  public:
+public:
 	void _AddSocket(CNetSocket* pSocket);
 	void _CloseSocket(uint32_t nSocketIdx);
 	void _AddConnectingSocket(CNetSocket* pSocket);
@@ -139,10 +139,10 @@ class CNetworkService
 	void _AddCloseingSocket(CNetSocket* pSocket);
 	void JoinIOThread();
 
-  private:
+private:
 	void _ProceseCloseingSocket();
 
-  public:
+public:
 	///////////////////////////////////////////////////////////////////
 	// websocket
 	bool ListenWebSocket(int port, CWebSocketEventHandler* pEventHandler);
@@ -157,12 +157,12 @@ class CNetworkService
 	uint16_t _GetWebSocketIndex();
 	void	 _PushWebSocketIndexBack(uint16_t index);
 
-	void	   StartWebSocketIOThread();
-	static int OnWebSocketCallback(struct lws* wsi, enum lws_callback_reasons reason, void* user, void* in, size_t len);
+	void				  StartWebSocketIOThread();
+	static int			  OnWebSocketCallback(struct lws* wsi, enum lws_callback_reasons reason, void* user, void* in, size_t len);
 	static CNetWebSocket* _GetWebSocketFromLWS(struct lws* wsi);
 	static void			  _SetWebSocketToLWS(struct lws* wsi, CNetWebSocket* pWebSocket);
 
-  protected:
+protected:
 	event_base*										m_pBase;
 	std::map<evconnlistener*, CNetEventHandler*>	m_setListener;
 	struct evhttp*									m_pHttpHandle;

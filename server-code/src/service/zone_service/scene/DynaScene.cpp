@@ -15,8 +15,7 @@ bool CDynaScene::Init(const SceneID& idScene)
 	CScene::Init(idScene);
 
 	SetSceneState(SCENESTATE_WAIT_LOADING);
-	EventManager()->ScheduleEvent(
-		0, std::bind(&CDynaScene::_DestoryThisScene, this), WAIT_PLAYER_LOADING_MS, false, m_DelEvent);
+	EventManager()->ScheduleEvent(0, std::bind(&CDynaScene::_DestoryThisScene, this), WAIT_PLAYER_LOADING_MS, false, m_DelEvent);
 	return false;
 }
 
@@ -69,8 +68,7 @@ void CDynaScene::LeaveMap(CSceneObject* pActor, uint64_t idTargetScene /*= 0*/)
 		{
 			//等待玩家短线重连
 			SetSceneState(SCENESTATE_WAIT_LOADING);
-			EventManager()->ScheduleEvent(
-				0, std::bind(&CDynaScene::_DestoryThisScene, this), WAIT_DESTORY_MS, false, m_DelEvent);
+			EventManager()->ScheduleEvent(0, std::bind(&CDynaScene::_DestoryThisScene, this), WAIT_DESTORY_MS, false, m_DelEvent);
 		}
 		else
 		{

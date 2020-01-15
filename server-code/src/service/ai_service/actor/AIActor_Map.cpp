@@ -50,10 +50,7 @@ bool CAIActor::IsNeedAddToBroadCastSet(CSceneObject* pActor)
 	}
 }
 
-void CAIActor::AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
-											BROADCAST_SET&		 setBCActor,
-											int					 nCanReserveDelCount,
-											uint32_t			 view_range_out_square)
+void CAIActor::AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel, BROADCAST_SET& setBCActor, int nCanReserveDelCount, uint32_t view_range_out_square)
 {
 	for(auto it = setBCActorDel.begin(); it != setBCActorDel.end(); it++)
 	{

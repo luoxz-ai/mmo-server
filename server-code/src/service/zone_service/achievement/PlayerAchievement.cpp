@@ -17,11 +17,8 @@ bool CPlayerAchievement::Init(CPlayer* pPlayer)
 	m_pOwner = pPlayer;
 	auto pDB = ZoneService()->GetGameDB(m_pOwner->GetWorldID());
 	CHECKF(pDB);
-	auto pResult = pDB->Query(TBLD_ACHIEVEMENT::table_name,
-							  fmt::format(FMT_STRING("SELECT * FROM {} WHERE {}={}"),
-										  TBLD_ACHIEVEMENT::table_name,
-										  TBLD_ACHIEVEMENT::field_name[TBLD_ACHIEVEMENT::USERID],
-										  m_pOwner->GetID()));
+	auto pResult = pDB->Query(TBLD_ACHIEVEMENT::table_name, fmt::format(FMT_STRING("SELECT * FROM {} WHERE {}={}"), TBLD_ACHIEVEMENT::table_name,
+																		TBLD_ACHIEVEMENT::field_name[TBLD_ACHIEVEMENT::USERID], m_pOwner->GetID()));
 	if(pResult)
 	{
 		for(size_t i = 0; i < pResult->get_num_row(); i++)
@@ -280,7 +277,7 @@ bool CPlayerAchievement::_CheckAchiCondition(CAchievementType* pType, uint32_t n
 			return nVal1 >= pType->GetCheckData().val1();
 		}
 		break;
-		case CONDITION_EQUIPMENT_QUILITY: //装备上一件品质>=val0的装备,在装备位置val1(为0=任意)位置
+		case CONDITION_EQUIPMENT_QUILITY:  //装备上一件品质>=val0的装备,在装备位置val1(为0=任意)位置
 		case CONDITION_EQUIPMENT_ADDITION: //装备上一件强化等级>=val0的装备,在装备位置val1(为0=任意)位置
 		{
 			if(pType->GetCheckData().val1() == 0)

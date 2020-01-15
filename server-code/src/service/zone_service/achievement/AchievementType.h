@@ -9,7 +9,7 @@ class CAchievementType
 {
 	CAchievementType() {}
 
-  public:
+public:
 	~CAchievementType() {}
 	CREATE_NEW_IMPL(CAchievementType);
 	bool Init(const Cfg_Achievement_Row& row)
@@ -33,10 +33,10 @@ class CAchievementType
 	uint32_t	   GetAwardAchiPoint() const { return m_Data.award_achipoint(); }
 	decltype(auto) GetAwardItemList() const { return m_Data.award_list(); }
 
-  public:
+public:
 	const Cfg_Achievement_Row& GetDataRef() const { return m_Data; }
 
-  private:
+private:
 	Cfg_Achievement_Row m_Data;
 };
 
@@ -45,10 +45,10 @@ class CAchievementTypeSet
 {
 	CAchievementTypeSet();
 
-  public:
+public:
 	virtual ~CAchievementTypeSet();
 
-  public:
+public:
 	CREATE_NEW_IMPL(CAchievementTypeSet);
 	bool Init(const char* szFileName);
 	bool Reload(const char* szFileName);
@@ -59,11 +59,11 @@ class CAchievementTypeSet
 	const std::vector<CAchievementType*>*		 QueryAchiemenetByGroupID(uint32_t idGroup) const;
 	const std::vector<CAchievementType*>*		 QueryAchiemenetByCheckType(uint32_t idType) const;
 
-  public:
+public:
 	typedef std::unordered_map<uint32_t, std::vector<CAchievementType*>> DATA_MAP_BY_CHECKTYPE;
 	typedef std::unordered_map<uint32_t, std::vector<CAchievementType*>> DATA_MAP_BY_GROUPID;
 
-  protected:
+protected:
 	std::map<uint32_t, CAchievementType*> m_setData;
 	DATA_MAP_BY_GROUPID					  m_setDataByGroupID;
 	DATA_MAP_BY_CHECKTYPE				  m_setDataByCheckType;

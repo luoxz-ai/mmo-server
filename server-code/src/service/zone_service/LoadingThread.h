@@ -33,21 +33,14 @@ struct ST_LOADINGTHREAD_PROCESS_DATA
 class CZoneService;
 class CLoadingThread
 {
-  public:
+public:
 	CLoadingThread(CZoneService* pZoneRef);
 	~CLoadingThread();
 
 	void Destory();
 
 	//添加玩家到等待登陆队列
-	bool AddLoginPlayer(OBJID				 idPlayer,
-						const VirtualSocket& socket,
-						bool				 bChangeZone,
-						uint64_t			 idScene,
-						float				 fPosX,
-						float				 fPosY,
-						float				 fRange,
-						float				 fFace);
+	bool AddLoginPlayer(OBJID idPlayer, const VirtualSocket& socket, bool bChangeZone, uint64_t idScene, float fPosX, float fPosY, float fRange, float fFace);
 	//添加玩家到等待删除队列
 	bool AddClosePlayer(CPlayer* pPlayer, uint64_t idScene, float fPosX, float fPosY, float fRange, float fFace);
 	//从等待登陆队列，等待删除队列，Ready队列中移除该玩家的处理
@@ -61,7 +54,7 @@ class CLoadingThread
 	uint64_t GetSaveingCount() const { return m_nSaveingCount; }
 	size_t	 GetReadyCount();
 
-  private:
+private:
 	CZoneService* m_pZone;
 	CNormalThread m_Thread;
 

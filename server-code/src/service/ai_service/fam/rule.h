@@ -13,7 +13,6 @@
 //  the terms found in the "LICENSE" file included with the library.
 //
 
-
 #include <string>
 #include <vector>
 
@@ -35,7 +34,7 @@ enum class Conjunction : char
  */
 class Rule
 {
-  private:
+private:
 	// A rule has one or more antecedent FuzzySets
 	std::vector<Trapezoid> _antecedents;
 
@@ -49,7 +48,7 @@ class Rule
 	// This is just a human-readable summary of what this rule does
 	std::string _naturalLanguage;
 
-  public:
+public:
 	/**
 	 Construct a rule.
 	 The conjunction is always required, but is ignored for single-element antecedents.
@@ -58,10 +57,7 @@ class Rule
 	 @param consequent a FuzzySet that is the result of this Rule
 	 @param naturalLanguage an optional human-readable summary of this rule
 	 */
-	Rule(const std::vector<Trapezoid>& antecedents,
-		 const Conjunction&			   conjunction,
-		 const Trapezoid&			   consequent,
-		 std::string				   naturalLanguage = "");
+	Rule(const std::vector<Trapezoid>& antecedents, const Conjunction& conjunction, const Trapezoid& consequent, std::string naturalLanguage = "");
 
 	/**
 	 Retrieve this rule's consequent.

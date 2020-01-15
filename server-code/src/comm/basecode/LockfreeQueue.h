@@ -8,7 +8,7 @@
 template<class T>
 class MPSCQueue
 {
-  public:
+public:
 	MPSCQueue();
 	~MPSCQueue();
 
@@ -56,7 +56,7 @@ class MPSCQueue
 		}
 	}
 
-  private:
+private:
 	struct Node
 	{
 		template<class _T>

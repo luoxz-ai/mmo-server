@@ -190,8 +190,7 @@ void CSceneObject::AddToViewList(CSceneObject* pActor, bool bChkDuplicate, bool 
 		{
 			return;
 		}
-		m_ViewActors.insert(std::lower_bound(m_ViewActors.begin(), m_ViewActors.end(), pActor->GetID()),
-							pActor->GetID());
+		m_ViewActors.insert(std::lower_bound(m_ViewActors.begin(), m_ViewActors.end(), pActor->GetID()), pActor->GetID());
 	}
 
 	m_ViewActorsByType[pActor->GetActorType()].insert(pActor->GetID());
@@ -223,14 +222,8 @@ bool CSceneObject::UpdateViewList()
 	// step1: 获取当前广播集范围内的对象
 	{
 		GetCurrentScene()->foreach_SceneNodeInSight(
-			GetPosX(),
-			GetPosY(),
-			[thisActor = this,
-			 &setBCActor,
-			 &mapAllViewActor,
-			 &sortedAllViewActorByDist,
-			 view_range_in_square,
-			 viewcount_max](CSceneNode* pSceneNode) {
+			GetPosX(), GetPosY(),
+			[thisActor = this, &setBCActor, &mapAllViewActor, &sortedAllViewActorByDist, view_range_in_square, viewcount_max](CSceneNode* pSceneNode) {
 				const auto& actor_list = *pSceneNode;
 				for(CSceneObject* pActor: actor_list)
 				{
@@ -293,19 +286,12 @@ bool CSceneObject::UpdateViewList()
 
 				bool operator()(uint32_t lft, const ACTOR_MAP_BY_DIS_DATA& rht) const { return lft < rht.dis; }
 
-				bool operator()(const ACTOR_MAP_BY_DIS_DATA& lft, const ACTOR_MAP_BY_DIS_DATA& rht) const
-				{
-					return lft.dis < rht.dis;
-				}
+				bool operator()(const ACTOR_MAP_BY_DIS_DATA& lft, const ACTOR_MAP_BY_DIS_DATA& rht) const { return lft.dis < rht.dis; }
 			};
-			std::nth_element(sortedAllViewActorByDist.begin(),
-							 sortedAllViewActorByDist.begin() + nCanInsert - 1,
-							 sortedAllViewActorByDist.end(),
-							 comp());
+			std::nth_element(sortedAllViewActorByDist.begin(), sortedAllViewActorByDist.begin() + nCanInsert - 1, sortedAllViewActorByDist.end(), comp());
 
 			int i = 0;
-			for(auto it = sortedAllViewActorByDist.begin(); i < nCanInsert && it != sortedAllViewActorByDist.end();
-				it++, i++)
+			for(auto it = sortedAllViewActorByDist.begin(); i < nCanInsert && it != sortedAllViewActorByDist.end(); it++, i++)
 			{
 				CSceneObject* pActor = it->pActor;
 				uint64_t	  id	 = pActor->GetID();
@@ -322,15 +308,13 @@ bool CSceneObject::UpdateViewList()
 	BROADCAST_SET::iterator result;
 
 	BROADCAST_SET setBCActorAdd(setBCActor.size(), 0);
-	result = set_difference(
-		setBCActor.begin(), setBCActor.end(), m_ViewActors.begin(), m_ViewActors.end(), setBCActorAdd.begin());
+	result = set_difference(setBCActor.begin(), setBCActor.end(), m_ViewActors.begin(), m_ViewActors.end(), setBCActorAdd.begin());
 	setBCActorAdd.erase(result, setBCActorAdd.end());
 
 	//////////////////////////////////////////////////////////////////////////
 	// step3: 计算旧广播集与当前广播集的差集——这部分是可能需要离开视野的
 	BROADCAST_SET setBCActorDel(m_ViewActors.size(), 0);
-	result = set_difference(
-		m_ViewActors.begin(), m_ViewActors.end(), setBCActor.begin(), setBCActor.end(), setBCActorDel.begin());
+	result = set_difference(m_ViewActors.begin(), m_ViewActors.end(), setBCActor.begin(), setBCActor.end(), setBCActorDel.begin());
 	setBCActorDel.erase(result, setBCActorDel.end());
 
 	//计算待删除列表还可以保留多少个

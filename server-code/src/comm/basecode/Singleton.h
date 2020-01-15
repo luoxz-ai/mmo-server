@@ -1,7 +1,6 @@
 #ifndef SINGLETON_H
 #define SINGLETON_H
 
-
 // thread unsafe
 
 template<class T>
@@ -9,7 +8,7 @@ class Singleton
 {
 	Singleton() {}
 
-  public:
+public:
 	virtual ~Singleton() {}
 
 	T* Instance()
@@ -31,7 +30,7 @@ class Singleton
 		m_ptr = nullptr;
 	}
 
-  private:
+private:
 	T*	 m_ptr		 = nullptr;
 	bool m_bReleased = false;
 };

@@ -75,12 +75,14 @@ PB_NS_BEGIN
 	X(VARINT, "varint", 0) \
 	X(64BIT, "64bit", 1) X(BYTES, "bytes", 2) X(GSTART, "gstart", 3) X(GEND, "gend", 4) X(32BIT, "32bit", 5)
 
-#define PB_TYPES(X)                                                                                         \
-	X(double, 1)                                                                                            \
-	X(float, 2)                                                                                             \
-	X(int64, 3) X(uint64, 4) X(int32, 5) X(fixed64, 6) X(fixed32, 7) X(bool, 8) X(string, 9) X(group, 10)   \
-		X(message, 11) X(bytes, 12) X(uint32, 13) X(enum, 14) X(sfixed32, 15) X(sfixed64, 16) X(sint32, 17) \
-			X(sint64, 18)
+#define PB_TYPES(X) \
+	X(double, 1)    \
+	X(float, 2)     \
+	X(int64, 3)     \
+	X(uint64, 4)    \
+	X(int32, 5)     \
+	X(fixed64, 6)   \
+	X(fixed32, 7) X(bool, 8) X(string, 9) X(group, 10) X(message, 11) X(bytes, 12) X(uint32, 13) X(enum, 14) X(sfixed32, 15) X(sfixed64, 16) X(sint32, 17) X(sint64, 18)
 
 /* decode */
 
@@ -138,8 +140,7 @@ typedef struct pb_Buffer
 #define pb_buffer(b)	  ((b)->buff)
 #define pb_bufflen(b)	  ((b)->size)
 #define pb_addsize(b, sz) ((b)->size += (sz))
-#define pb_addchar(b, ch) \
-	((void)((b)->size < (b)->capacity || pb_prepbuffsize((b), 1)), ((b)->buff[(b)->size++] = (ch)))
+#define pb_addchar(b, ch) ((void)((b)->size < (b)->capacity || pb_prepbuffsize((b), 1)), ((b)->buff[(b)->size++] = (ch)))
 
 PB_API void	  pb_initbuffer(pb_Buffer* b);
 PB_API void	  pb_resetbuffer(pb_Buffer* b);

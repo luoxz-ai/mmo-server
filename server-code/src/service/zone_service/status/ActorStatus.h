@@ -1,7 +1,6 @@
 #ifndef ACTORSTATUS_H
 #define ACTORSTATUS_H
 
-
 #include "BaseCode.h"
 #include "IStatus.h"
 #include "msg/zone_service.pb.h"
@@ -11,20 +10,19 @@ export_lua class CActorStatus
 {
 	CActorStatus();
 
-  public:
+public:
 	~CActorStatus();
 	CREATE_NEW_IMPL(CActorStatus);
 	bool Init(CActor* pActor);
 	void ProcessAttrib(CActorAttrib& attrib);
 
 	export_lua CStatus* QueryStatus(uint16_t idStatusType) const;
-	export_lua bool		AttachStatus(
-			uint16_t idStatusType, UCHAR ucLev, OBJID idCaster, uint32_t nPower, uint32_t nSecs, uint32_t nTimes);
-	export_lua bool DetachStatus(uint16_t idStatusType);
-	export_lua bool DetachStatusByType(uint32_t nStatusType);
-	export_lua bool DetachStatusByFlag(uint32_t nStatusFlag, bool bHave = true);
-	export_lua bool TestStatusByType(uint32_t nStatusType) const;
-	export_lua bool TestStatusByFlag(uint32_t nFlag) const;
+	export_lua bool		AttachStatus(uint16_t idStatusType, UCHAR ucLev, OBJID idCaster, uint32_t nPower, uint32_t nSecs, uint32_t nTimes);
+	export_lua bool		DetachStatus(uint16_t idStatusType);
+	export_lua bool		DetachStatusByType(uint32_t nStatusType);
+	export_lua bool		DetachStatusByFlag(uint32_t nStatusFlag, bool bHave = true);
+	export_lua bool		TestStatusByType(uint32_t nStatusType) const;
+	export_lua bool		TestStatusByFlag(uint32_t nFlag) const;
 	template<typename Func>
 	void for_each(Func func) const
 	{
@@ -40,7 +38,7 @@ export_lua class CActorStatus
 	void			  Stop();
 	export_lua size_t size() const { return m_setStatus.size(); }
 
-  public:
+public:
 	export_lua void OnMove();
 	export_lua void OnSkill(uint32_t idSkill);
 	export_lua void OnAttack(CActor* pTarget, uint32_t idSkill, int32_t nDamage);
@@ -50,12 +48,12 @@ export_lua class CActorStatus
 	export_lua void OnLogin();
 	export_lua void OnLogout();
 
-  private:
+private:
 	void _AddStatus(CStatus* pStatus);
 
 	void _RemoveStatus(CStatus* pStatus);
 
-  private:
+private:
 	CActor*								   m_pOwner;
 	std::unordered_map<uint16_t, CStatus*> m_setStatus;
 };

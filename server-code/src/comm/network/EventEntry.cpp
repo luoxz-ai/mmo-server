@@ -5,8 +5,7 @@
 
 MEMORYHEAP_IMPLEMENTATION(CEventEntry, s_heap);
 
-CEventEntry::CEventEntry(
-	CEventManager* pManager, uint32_t evType, EventCallBackFunc&& cb, time_t tWaitTime, bool bPersisit)
+CEventEntry::CEventEntry(CEventManager* pManager, uint32_t evType, EventCallBackFunc&& cb, time_t tWaitTime, bool bPersisit)
 	: m_pManager(pManager)
 	, m_bRunning(true)
 	, m_tWaitTime(tWaitTime)
@@ -115,9 +114,7 @@ bool CEventEntry::CreateEvTimer(event_base* base)
 	if(m_pevTimer == nullptr)
 	{
 		m_pevTimer = event_new(
-			base,
-			-1,
-			(m_bPersist) ? EV_PERSIST : 0,
+			base, -1, (m_bPersist) ? EV_PERSIST : 0,
 			[](int, short, void* ctx) {
 				CEventEntry* pEntry = (CEventEntry*)ctx;
 				if(pEntry == nullptr || pEntry->m_pCallBack == nullptr)

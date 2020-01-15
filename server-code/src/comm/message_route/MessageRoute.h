@@ -24,14 +24,14 @@ class CEventManager;
 
 class CMessageRoute
 {
-  public:
+public:
 	CMessageRoute();
 	~CMessageRoute();
 
 	uint16_t GetWorldID() const { return m_nWorldID; }
 	void	 SetWorldID(uint16_t val) { m_nWorldID = val; }
 
-  public:
+public:
 	//从配置文件读取数据库地址,并重读配置
 	bool LoadServiceSetting(const std::string& filename, uint16_t nWorldID);
 	//创建所有本地端口
@@ -41,9 +41,7 @@ class CMessageRoute
 	//查询服务地址
 	const ServerAddrInfo* QueryServiceInfo(const ServerPort& nServerPort);
 	//遍历服务
-	void ForeachServiceInfoByWorldID(uint16_t									  idWorld,
-									 bool										  bIncludeShare,
-									 std::function<bool(const ServerAddrInfo*)>&& func);
+	void ForeachServiceInfoByWorldID(uint16_t idWorld, bool bIncludeShare, std::function<bool(const ServerAddrInfo*)>&& func);
 	//判断是否连接
 	bool IsConnected(const ServerPort& nServerPort);
 	//返回服务器被合并到哪里了
@@ -62,7 +60,7 @@ class CMessageRoute
 	void _CloseRemoteServerByWorldID(uint16_t idWorld);
 	void _CloseRemoteServer(const ServerPort& nServerPort);
 
-  public:
+public:
 	bool		   IsWorldReady(uint16_t idWorld);
 	void		   SetWorldReady(uint16_t idWorld, bool bReady);
 	decltype(auto) GetWorldReadyList()
@@ -71,23 +69,19 @@ class CMessageRoute
 		return m_WorldReadyList;
 	}
 
-  public:
+public:
 	CSettingMap&	   GetSettingMap() { return m_setDataMap; }
 	const CSettingMap& GetSettingMap() const { return m_setDataMap; }
 	CEventManager*	   GetEventManager() const { return m_pEventManager; }
 
-  private:
-	bool		  ConnectGlobalDB(const std::string& host,
-								  const std::string& user,
-								  const std::string& password,
-								  const std::string& db,
-								  unsigned int		 port);
+private:
+	bool		  ConnectGlobalDB(const std::string& host, const std::string& user, const std::string& password, const std::string& db, unsigned int port);
 	CMessagePort* _ConnectRemoteServer(const ServerPort& nServerPort, const ServerAddrInfo& info);
 	//监听本地,一般无需手动调用, CreateAllMessagePort时已经调用了
 	CMessagePort*		  _ListenMessagePort(const ServerPort& nServerPort, const ServerAddrInfo& info);
 	const ServerAddrInfo* _QueryServiceInfo(const ServerPort& nServerPort);
 
-  private:
+private:
 	CSettingMap m_setDataMap;
 	uint16_t	m_nWorldID;
 

@@ -57,7 +57,7 @@ struct hash<SceneID>
 
 class CMapManager
 {
-  public:
+public:
 	CMapManager();
 	~CMapManager();
 
@@ -66,7 +66,7 @@ class CMapManager
 	CGameMap* QueryMap(uint16_t idMap);
 	CMapData* QueryMapData(uint16_t idMapTemplate);
 
-  private:
+private:
 	std::unordered_map<uint16_t, CGameMap*> m_vecMap;
 	std::unordered_map<uint16_t, CMapData*> m_vecMapData;
 };

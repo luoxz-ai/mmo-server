@@ -7,10 +7,10 @@
 
 export_lua class CNpc : public CActor
 {
-  protected:
+protected:
 	CNpc();
 
-  public:
+public:
 	virtual ~CNpc();
 
 	CREATE_NEW_IMPL(CNpc);
@@ -19,7 +19,7 @@ export_lua class CNpc : public CActor
 	export_lua virtual uint32_t			  GetLev() const override { return m_pType->GetLevel(); }
 	export_lua virtual const std::string& GetName() const override { return m_pType->GetName(); }
 
-  public:
+public:
 	export_lua virtual ActorType GetActorType() const { return ActorType::ACT_NPC; }
 	export_lua static ActorType	 GetActorTypeStatic() { return ActorType::ACT_NPC; }
 	virtual void				 MakeShowData(SC_AOI_NEW& msg) override;
@@ -29,12 +29,12 @@ export_lua class CNpc : public CActor
 	export_lua virtual uint32_t GetHP() const override { return m_nHP; };
 	export_lua virtual void		_SetHP(uint32_t v) override { m_nHP = v; };
 
-  public:
+public:
 	MEMORYHEAP_DECLARATION(s_heap);
 	export_lua void ActiveNpc(CPlayer* pPlayer);
 	export_lua void _ActiveNpc(CPlayer* pPlayer);
 
-  private:
+private:
 	uint32_t m_idType = 0;
 	uint32_t m_nHP	  = 0;
 

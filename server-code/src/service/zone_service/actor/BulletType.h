@@ -33,7 +33,7 @@ class CBulletType
 {
 	CBulletType() {}
 
-  public:
+public:
 	~CBulletType() {}
 	CREATE_NEW_IMPL(CBulletType);
 	bool Init(const Cfg_Bullet_Row& row)
@@ -57,7 +57,7 @@ class CBulletType
 	uint32_t GetExpireMS() const { return m_Data.expire_ms(); }
 	uint32_t GetSkillID() const { return m_Data.skill_id(); }
 
-  private:
+private:
 	Cfg_Bullet_Row m_Data;
 };
 

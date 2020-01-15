@@ -275,10 +275,7 @@ bool CNetWebSocket::_GetEntirePackage(byte* pBuffer, size_t& len)
 	MSG_HEAD* pHeader = (MSG_HEAD*)m_RecvBuffer;
 	if(pHeader->usSize < sizeof(MSG_HEAD) || pHeader->usSize > GetPacketSizeMax())
 	{
-		LOGNETDEBUG("CNetWebSocket OnWsRecvData Msg:{} size:{} > MaxSize:{}, LastProcessCMD:{}",
-					pHeader->usCmd,
-					pHeader->usSize,
-					GetPacketSizeMax(),
+		LOGNETDEBUG("CNetWebSocket OnWsRecvData Msg:{} size:{} > MaxSize:{}, LastProcessCMD:{}", pHeader->usCmd, pHeader->usSize, GetPacketSizeMax(),
 					m_nLastProcessMsgCMD);
 		Close();
 		return false;

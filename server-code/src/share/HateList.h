@@ -1,7 +1,6 @@
 #ifndef HATELIST_H
 #define HATELIST_H
 
-
 #include <functional>
 #include <unordered_map>
 #include <vector>
@@ -17,7 +16,7 @@ struct ST_HATE_DATA
 
 class CHateList
 {
-  public:
+public:
 	CHateList() {}
 	~CHateList() {}
 
@@ -54,16 +53,11 @@ class CHateList
 	void FindIF(std::function<bool(ST_HATE_DATA*)> func)
 	{
 		//将失效数据分离
-		auto it_end = std::stable_partition(
-			m_HateListOrderByHate.begin(),
-			m_HateListOrderByHate.end(),
-			[timeNow = TimeGetSecond()](const ST_HATE_DATA* left) -> bool { return left->tNextInvaildTime < timeNow; });
+		auto it_end = std::stable_partition(m_HateListOrderByHate.begin(), m_HateListOrderByHate.end(),
+											[timeNow = TimeGetSecond()](const ST_HATE_DATA* left) -> bool { return left->tNextInvaildTime < timeNow; });
 
 		//排序Hate列表
-		std::stable_sort(
-			m_HateListOrderByHate.begin(), it_end, [](const ST_HATE_DATA* left, const ST_HATE_DATA* right) -> bool {
-				return left->fHate < right->fHate;
-			});
+		std::stable_sort(m_HateListOrderByHate.begin(), it_end, [](const ST_HATE_DATA* left, const ST_HATE_DATA* right) -> bool { return left->fHate < right->fHate; });
 
 		//找到第一个在范围内的敌人
 		for(auto it = m_HateListOrderByHate.begin(); it != it_end; it++)
@@ -76,7 +70,7 @@ class CHateList
 		}
 	}
 
-  public:
+public:
 	std::unordered_map<OBJID, ST_HATE_DATA*> m_HateList;
 	std::vector<ST_HATE_DATA*>				 m_HateListOrderByHate;
 };

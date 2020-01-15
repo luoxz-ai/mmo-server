@@ -14,7 +14,7 @@ class CAIType
 {
 	CAIType() {}
 
-  public:
+public:
 	~CAIType() {}
 	CREATE_NEW_IMPL(CAIType);
 	bool Init(const Cfg_AIType_Row& row);
@@ -24,10 +24,10 @@ class CAIType
 
 	TargetFAM* GetTargetFAM() { return m_pTargetFAM; }
 
-  public:
+public:
 	const Cfg_AIType_Row& GetDataRef() const { return m_Data; }
 
-  private:
+private:
 	Cfg_AIType_Row m_Data;
 
 	TargetFAM* m_pTargetFAM;

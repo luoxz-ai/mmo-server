@@ -127,9 +127,7 @@ void RegisterWorldMessageHandler()
 	using namespace std::placeholders;
 	WorldService()->GetNetMsgProcess()->Register(ServerMSG::MsgID_ServiceCmd, std::bind(&OnMsgServiceCmd, _1));
 	WorldService()->GetNetMsgProcess()->Register(ServerMSG::MsgID_ServiceReady, std::bind(&OnMsgServiceReady, _1));
-	WorldService()->GetNetMsgProcess()->Register(ServerMSG::MsgID_PlayerChangeZone,
-												 std::bind(&OnMsgPlayerChangeZone, _1));
-	WorldService()->GetNetMsgProcess()->Register(ServerMSG::MsgID_PlayerChangeZone_Data,
-												 std::bind(&OnMsgPlayerChangeZone_Data, _1));
+	WorldService()->GetNetMsgProcess()->Register(ServerMSG::MsgID_PlayerChangeZone, std::bind(&OnMsgPlayerChangeZone, _1));
+	WorldService()->GetNetMsgProcess()->Register(ServerMSG::MsgID_PlayerChangeZone_Data, std::bind(&OnMsgPlayerChangeZone_Data, _1));
 	WorldService()->GetNetMsgProcess()->Register(CMD_SC_TALK, std::bind(&OnMsg_CMD_SC_TALK, _1));
 }

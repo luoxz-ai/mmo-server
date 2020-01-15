@@ -61,7 +61,7 @@ void ProtobufLogHandler(google::protobuf::LogLevel level, const char* file, int 
 
 struct PB_Initer
 {
-  public:
+public:
 	PB_Initer()
 	{
 		GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -72,8 +72,7 @@ struct PB_Initer
 
 void print_help()
 {
-	std::cout << " [-h|--help] [--config=service.xml] [--worldid=0] [--start] [--start=1,2,3,4,5,6] [--stop] [--daemon]"
-			  << std::endl;
+	std::cout << " [-h|--help] [--config=service.xml] [--worldid=0] [--start] [--start=1,2,3,4,5,6] [--stop] [--daemon]" << std::endl;
 }
 
 ServiceLoader*			   g_pLoader;
@@ -242,13 +241,8 @@ int main(int argc, char* argv[])
 		auto result = get_memory_status();
 		LOGMONITOR("Allocated: %.2f, active: %.2f, metadata: %.2f, resident: %.2f, mapped: %.2f, retained: %.2f, "
 				   "num_threads: {}",
-				   result.allocted / 1024.0f / 1024.0f,
-				   result.active / 1024.0f / 1024.0f,
-				   result.metadata / 1024.0f / 1024.0f,
-				   result.resident / 1024.0f / 1024.0f,
-				   result.mapped / 1024.0f / 1024.0f,
-				   result.retained / 1024.0f / 1024.0f,
-				   result.num_threads);
+				   result.allocted / 1024.0f / 1024.0f, result.active / 1024.0f / 1024.0f, result.metadata / 1024.0f / 1024.0f, result.resident / 1024.0f / 1024.0f,
+				   result.mapped / 1024.0f / 1024.0f, result.retained / 1024.0f / 1024.0f, result.num_threads);
 
 		sleep(60);
 		__LEAVE_FUNCTION

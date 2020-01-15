@@ -1,7 +1,6 @@
 #ifndef DYNAREGION_H
 #define DYNAREGION_H
 
-
 struct CDynaRegion
 {
 	void AddDynaRegion(const FloatRect& rect)

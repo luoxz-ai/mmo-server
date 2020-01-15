@@ -43,12 +43,9 @@ CZoneService::CZoneService(const ServerPort& nServerPort)
 {
 	m_MessagePoolBySocket.reserve(GUESS_MAX_PLAYER_COUNT);
 	using namespace std::placeholders;
-	m_pNetMsgProcess->Register(ServerMSG::MsgID_PlayerEnterZone,
-							   std::bind(&CZoneService::OnMsgPlayerEnterZone, this, _1));
-	m_pNetMsgProcess->Register(ServerMSG::MsgID_PlayerChangeZone,
-							   std::bind(&CZoneService::OnMsgPlayerChangeZone, this, _1));
-	m_pNetMsgProcess->Register(ServerMSG::MsgID_PlayerChangeZone_Data,
-							   std::bind(&CZoneService::OnMsgPlayerChangeZone_Data, this, _1));
+	m_pNetMsgProcess->Register(ServerMSG::MsgID_PlayerEnterZone, std::bind(&CZoneService::OnMsgPlayerEnterZone, this, _1));
+	m_pNetMsgProcess->Register(ServerMSG::MsgID_PlayerChangeZone, std::bind(&CZoneService::OnMsgPlayerChangeZone, this, _1));
+	m_pNetMsgProcess->Register(ServerMSG::MsgID_PlayerChangeZone_Data, std::bind(&CZoneService::OnMsgPlayerChangeZone_Data, this, _1));
 	m_pNetMsgProcess->Register(ServerMSG::MsgID_PlayerLogout, std::bind(&CZoneService::OnMsgPlayerLogout, this, _1));
 
 	m_tLastDisplayTime.Startup(20);
@@ -103,10 +100,7 @@ bool CZoneService::Create()
 
 		auto pDB = new CMysqlConnection();
 
-		if(pDB->Connect(settingGlobalDB.Query("host"),
-						settingGlobalDB.Query("user"),
-						settingGlobalDB.Query("passwd"),
-						settingGlobalDB.Query("dbname"),
+		if(pDB->Connect(settingGlobalDB.Query("host"), settingGlobalDB.Query("user"), settingGlobalDB.Query("passwd"), settingGlobalDB.Query("dbname"),
 						settingGlobalDB.QueryULong("port")) == false)
 		{
 			SAFE_DELETE(pDB);
@@ -151,10 +145,7 @@ bool CZoneService::Create()
 	//脚本加载
 	extern void export_to_lua(lua_State*, void*);
 	m_pScriptManager.reset(
-		CLUAScriptManager::CreateNew(std::string("ZoneScript") + std::to_string(GetServerPort().GetServiceID()),
-									 &export_to_lua,
-									 (void*)this,
-									 "res/script"));
+		CLUAScriptManager::CreateNew(std::string("ZoneScript") + std::to_string(GetServerPort().GetServiceID()), &export_to_lua, (void*)this, "res/script"));
 
 	CHECKF(m_SceneManager.Init(GetServerPort().GetServiceID()));
 
@@ -226,12 +217,7 @@ void CZoneService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 
 			CScene* pScene = SceneManager()->QueryScene(msg.scene_id());
 			CHECK(pScene);
-			CMonster* pMonster = pScene->CreateMonster(msg.monster_type(),
-													   msg.gen_id(),
-													   msg.camp_id(),
-													   0,
-													   Vector2(msg.posx(), msg.posy()),
-													   random_float(0.0f, 1.0f));
+			CMonster* pMonster = pScene->CreateMonster(msg.monster_type(), msg.gen_id(), msg.camp_id(), 0, Vector2(msg.posx(), msg.posy()), random_float(0.0f, 1.0f));
 			CHECK(pMonster);
 		}
 		break;
@@ -370,16 +356,9 @@ bool CZoneService::SendMsgToWorld(uint16_t idWorld, uint16_t nCmd, const google:
 	return SendMsg(_msg);
 }
 
-bool CZoneService::TransmiteMsgFromWorldToOther(uint16_t						 idWorld,
-												uint16_t						 idService,
-												uint16_t						 nCmd,
-												const google::protobuf::Message& msg)
+bool CZoneService::TransmiteMsgFromWorldToOther(uint16_t idWorld, uint16_t idService, uint16_t nCmd, const google::protobuf::Message& msg)
 {
-	CNetworkMessage _msg(nCmd,
-						 msg,
-						 GetServerVirtualSocket(),
-						 ServerPort(idWorld, WORLD_SERVICE_ID),
-						 ServerPort(GetWorldID(), idService));
+	CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), ServerPort(idWorld, WORLD_SERVICE_ID), ServerPort(GetWorldID(), idService));
 	return SendMsg(_msg);
 }
 
@@ -479,9 +458,8 @@ CMysqlConnection* CZoneService::GetGameDB(uint16_t nWorldID)
 	else
 	{
 		//通过globaldb查询localdb
-		auto result = m_pGlobalDB->Query(
-			TBLD_DBINFO::table_name,
-			fmt::format(FMT_STRING("SELECT * FROM {} WHERE worldid={} LIMIT 1"), TBLD_DBINFO::table_name, nWorldID));
+		auto result =
+			m_pGlobalDB->Query(TBLD_DBINFO::table_name, fmt::format(FMT_STRING("SELECT * FROM {} WHERE worldid={} LIMIT 1"), TBLD_DBINFO::table_name, nWorldID));
 		if(result)
 		{
 			auto row = result->fetch_row(false);
@@ -524,25 +502,15 @@ void CZoneService::OnLogicThreadProc()
 	if(m_tLastDisplayTime.ToNextTime())
 	{
 		std::string buf = std::string("\n======================================================================") +
-						  fmt::format(FMT_STRING("\nMessageProcess:{}"), GetMessageProcess()) +
-						  fmt::format(FMT_STRING("\nEvent:{}\t"), EventManager()->GetEventCount()) +
-						  fmt::format(FMT_STRING("\nUser:{}\tMonster:{}"),
-									  ActorManager()->GetUserCount(),
-									  ActorManager()->GetMonsterCount()) +
-						  fmt::format(FMT_STRING("\nLoading:{}\tSaveing:{}\tReady:{}"),
-									  GetLoadingThread()->GetLoadingCount(),
-									  GetLoadingThread()->GetSaveingCount(),
+						  fmt::format(FMT_STRING("\nMessageProcess:{}"), GetMessageProcess()) + fmt::format(FMT_STRING("\nEvent:{}\t"), EventManager()->GetEventCount()) +
+						  fmt::format(FMT_STRING("\nUser:{}\tMonster:{}"), ActorManager()->GetUserCount(), ActorManager()->GetMonsterCount()) +
+						  fmt::format(FMT_STRING("\nLoading:{}\tSaveing:{}\tReady:{}"), GetLoadingThread()->GetLoadingCount(), GetLoadingThread()->GetSaveingCount(),
 									  GetLoadingThread()->GetReadyCount()) +
-						  fmt::format(FMT_STRING("\nScene:{}\tDynaScene:{}"),
-									  SceneManager()->GetSceneCount(),
-									  SceneManager()->GetDynaSceneCount());
+						  fmt::format(FMT_STRING("\nScene:{}\tDynaScene:{}"), SceneManager()->GetSceneCount(), SceneManager()->GetDynaSceneCount());
 		SceneManager()->ForEach([&buf](CScene* pScene) {
 			if(pScene->IsDynaScene() == false)
 			{
-				buf += fmt::format(FMT_STRING("\nScene{}\tPlayer:{}\tActor:{}"),
-								   pScene->GetMapID(),
-								   pScene->GetPlayerCount(),
-								   pScene->GetActorCount());
+				buf += fmt::format(FMT_STRING("\nScene{}\tPlayer:{}\tActor:{}"), pScene->GetMapID(), pScene->GetPlayerCount(), pScene->GetActorCount());
 			}
 		});
 		static const uint16_t ServiceID[] = {WORLD_SERVICE_ID, uint16_t(GetServiceID() + 10), 31, 32, 33, 34, 35};
@@ -552,8 +520,7 @@ void CZoneService::OnLogicThreadProc()
 			auto pMessagePort = GetMessageRoute()->QueryMessagePort(ServerPort(GetWorldID(), ServiceID[i]), false);
 			if(pMessagePort)
 			{
-				buf += fmt::format(
-					FMT_STRING("\nMsgPort:{}\tSendBuff:{}"), ServiceID[i], pMessagePort->GetWriteBufferSize());
+				buf += fmt::format(FMT_STRING("\nMsgPort:{}\tSendBuff:{}"), ServiceID[i], pMessagePort->GetWriteBufferSize());
 			}
 		}
 

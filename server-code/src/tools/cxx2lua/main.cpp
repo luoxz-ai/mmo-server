@@ -173,26 +173,13 @@ std::string get_default_params(CXCursor cursor, int params_idx)
 std::string function_name_conver(const std::string& name)
 {
 	static std::map<std::string, std::string> map_name = {
-		{"operator==", "__eq"},
-		{"operator<=", "__le"},
-		{"operator<", "__lt"},
-		{"operator/", "__idiv"},
-		{"operator-", "__sub"},
-		{"operator+", "__add"},
-		{"operator*", "__mul"},
-		{"operator&", "__band"},
-		{"operator|", "__bor"},
-		{"operator^", "__bxor"},
-		{"operator!", "__bnot"},
-		{"operator<<", "__shl"},
-		{"operator>>", "__shr"},
+		{"operator==", "__eq"},	 {"operator<=", "__le"},  {"operator<", "__lt"},   {"operator/", "__idiv"}, {"operator-", "__sub"},
+		{"operator+", "__add"},	 {"operator*", "__mul"},  {"operator&", "__band"}, {"operator|", "__bor"},	{"operator^", "__bxor"},
+		{"operator!", "__bnot"}, {"operator<<", "__shl"}, {"operator>>", "__shr"},
 	};
 
 	std::string remove_space_name = name;
-	remove_space_name.erase(std::remove_if(remove_space_name.begin(),
-										   remove_space_name.end(),
-										   [](unsigned char x) { return std::isspace(x); }),
-							remove_space_name.end());
+	remove_space_name.erase(std::remove_if(remove_space_name.begin(), remove_space_name.end(), [](unsigned char x) { return std::isspace(x); }), remove_space_name.end());
 
 	auto itfind = map_name.find(remove_space_name);
 	if(itfind != map_name.end())
@@ -218,8 +205,7 @@ void visit_function(CXCursor cursor, Visitor_Content* pContent)
 		return;
 	auto& overload_data = refMap[typestr];
 	{
-		overload_data.funcptr_type =
-			getClangString(clang_getTypeSpelling(clang_getResultType(clang_getCursorType(cursor))));
+		overload_data.funcptr_type = getClangString(clang_getTypeSpelling(clang_getResultType(clang_getCursorType(cursor))));
 
 		if(pContent->bClass == true)
 		{
@@ -533,15 +519,13 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 
 			std::string nsname = getClangString(clang_getCursorSpelling(cursor));
 
-			if(g_strExportNamespaceName.empty() == false &&
-			   g_strExportNamespaceName.find(nsname) == g_strExportNamespaceName.end())
+			if(g_strExportNamespaceName.empty() == false && g_strExportNamespaceName.find(nsname) == g_strExportNamespaceName.end())
 				return CXChildVisit_Continue;
 			// reg class
 			if(pContent->hasChild(nsname) == false)
 			{
-				Visitor_Content* pNewContent =
-					new Visitor_Content(nsname, pContent, pContent->getAccessPrifix() + nsname);
-				pNewContent->bNameSpace = true;
+				Visitor_Content* pNewContent = new Visitor_Content(nsname, pContent, pContent->getAccessPrifix() + nsname);
+				pNewContent->bNameSpace		 = true;
 				clang_visitChildren(cursor, &TU_visitor, pNewContent);
 			}
 			else
@@ -963,9 +947,8 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 			{
 				std::string nsname = getClangString(clang_getCursorSpelling(cursor));
 
-				Visitor_Content* pNewContent =
-					new Visitor_Content(nsname, pContent, pContent->getAccessPrifix() + nsname);
-				pNewContent->bNameSpace = true;
+				Visitor_Content* pNewContent = new Visitor_Content(nsname, pContent, pContent->getAccessPrifix() + nsname);
+				pNewContent->bNameSpace		 = true;
 				clang_visitChildren(cursor, &visit_enum, pNewContent);
 			}
 			else
@@ -1100,15 +1083,13 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 	if(pContent->bClass)
 	{
 		// should export this?
-		if(g_strExportClassName.empty() == false &&
-		   g_strExportClassName.find(pContent->m_name) == g_strExportClassName.end())
+		if(g_strExportClassName.empty() == false && g_strExportClassName.find(pContent->m_name) == g_strExportClassName.end())
 			return;
 	}
 	else if(pContent->bNameSpace)
 	{
 		// should export this
-		if(g_strExportNamespaceName.empty() == false &&
-		   g_strExportNamespaceName.find(pContent->m_name) == g_strExportNamespaceName.end())
+		if(g_strExportNamespaceName.empty() == false && g_strExportNamespaceName.find(pContent->m_name) == g_strExportNamespaceName.end())
 			return;
 	}
 	else if(pContent->m_pParent == NULL)
@@ -1137,17 +1118,13 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 	// class add
 	if(pContent->bClass)
 	{
-		snprintf(szBuf,
-				 4096,
-				 "lua_tinker::class_add<%s>(L, \"%s\",true);\n",
-				 pContent->getAccessName().c_str(),
+		snprintf(szBuf, 4096, "lua_tinker::class_add<%s>(L, \"%s\",true);\n", pContent->getAccessName().c_str(),
 				 pContent->getAccessName().c_str()); // class_add
 		os += szBuf;
 	}
 	else if(pContent->bNameSpace)
 	{
-		snprintf(
-			szBuf, 4096, "lua_tinker::namespace_add(L, \"%s\");\n", pContent->getAccessName().c_str()); // namespace_add
+		snprintf(szBuf, 4096, "lua_tinker::namespace_add(L, \"%s\");\n", pContent->getAccessName().c_str()); // namespace_add
 		os += szBuf;
 	}
 
@@ -1180,21 +1157,11 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 				}
 
 				if(refData.is_static)
-					snprintf(szBuf,
-							 4096,
-							 "lua_tinker::class_def_static<%s>(L, \"%s\",&%s%s);\n",
-							 pContent->getAccessName().c_str(),
-							 v.first.c_str(),
-							 (pContent->getAccessPrifix() + v.first).c_str(),
-							 def_params.c_str());
+					snprintf(szBuf, 4096, "lua_tinker::class_def_static<%s>(L, \"%s\",&%s%s);\n", pContent->getAccessName().c_str(), v.first.c_str(),
+							 (pContent->getAccessPrifix() + v.first).c_str(), def_params.c_str());
 				else
-					snprintf(szBuf,
-							 4096,
-							 "lua_tinker::class_def<%s>(L, \"%s\",&%s%s);\n",
-							 pContent->getAccessName().c_str(),
-							 function_name_conver(v.first).c_str(),
-							 (pContent->getAccessPrifix() + v.first).c_str(),
-							 def_params.c_str());
+					snprintf(szBuf, 4096, "lua_tinker::class_def<%s>(L, \"%s\",&%s%s);\n", pContent->getAccessName().c_str(), function_name_conver(v.first).c_str(),
+							 (pContent->getAccessPrifix() + v.first).c_str(), def_params.c_str());
 				os += szBuf;
 			}
 			else
@@ -1214,33 +1181,20 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 					}
 					if(refData.default_val.empty() == false)
 					{
-						snprintf(szBuf,
-								 4096,
-								 ",%lu /*default_args_count*/, %lu /*default_args_start*/ ",
-								 refData.default_val.size(),
-								 nDefaultParamsStart);
+						snprintf(szBuf, 4096, ",%lu /*default_args_count*/, %lu /*default_args_start*/ ", refData.default_val.size(), nDefaultParamsStart);
 						nDefaultParamsStart += refData.default_val.size();
 						def_params_decl = szBuf;
 					}
 
 					if(overload_params.empty() == false)
 						overload_params += ", ";
-					snprintf(szBuf,
-							 4096,
-							 "\n\tlua_tinker::make_member_functor_ptr((%s)(&%s)%s)",
-							 refData.funcptr_type.c_str(),
-							 (pContent->getAccessPrifix() + v.first).c_str(),
-							 def_params_decl.c_str());
+					snprintf(szBuf, 4096, "\n\tlua_tinker::make_member_functor_ptr((%s)(&%s)%s)", refData.funcptr_type.c_str(),
+							 (pContent->getAccessPrifix() + v.first).c_str(), def_params_decl.c_str());
 					overload_params += szBuf;
 				}
 
-				snprintf(szBuf,
-						 4096,
-						 "lua_tinker::class_def<%s>(L, \"%s\", lua_tinker::args_type_overload_member_functor(%s)%s);\n",
-						 pContent->getAccessName().c_str(),
-						 v.first.c_str(),
-						 overload_params.c_str(),
-						 def_params.c_str());
+				snprintf(szBuf, 4096, "lua_tinker::class_def<%s>(L, \"%s\", lua_tinker::args_type_overload_member_functor(%s)%s);\n", pContent->getAccessName().c_str(),
+						 v.first.c_str(), overload_params.c_str(), def_params.c_str());
 
 				os += szBuf;
 			}
@@ -1261,13 +1215,8 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 					def_params += dv;
 				}
 
-				snprintf(szBuf,
-						 4096,
-						 "lua_tinker::namespace_def(L, \"%s\", \"%s\",&%s%s);\n",
-						 pContent->getAccessName().c_str(),
-						 v.first.c_str(),
-						 (pContent->getAccessPrifix() + v.first).c_str(),
-						 def_params.c_str());
+				snprintf(szBuf, 4096, "lua_tinker::namespace_def(L, \"%s\", \"%s\",&%s%s);\n", pContent->getAccessName().c_str(), v.first.c_str(),
+						 (pContent->getAccessPrifix() + v.first).c_str(), def_params.c_str());
 				os += szBuf;
 			}
 			else
@@ -1287,34 +1236,20 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 					}
 					if(refData.default_val.empty() == false)
 					{
-						snprintf(szBuf,
-								 4096,
-								 ",%lu /*default_args_count*/, %lu /*default_args_start*/ ",
-								 refData.default_val.size(),
-								 nDefaultParamsStart);
+						snprintf(szBuf, 4096, ",%lu /*default_args_count*/, %lu /*default_args_start*/ ", refData.default_val.size(), nDefaultParamsStart);
 						nDefaultParamsStart += refData.default_val.size();
 						def_params_decl = szBuf;
 					}
 
 					if(overload_params.empty() == false)
 						overload_params += ", ";
-					snprintf(szBuf,
-							 4096,
-							 "\n\tlua_tinker::make_functor_ptr((%s)(&%s)%s)",
-							 refData.funcptr_type.c_str(),
-							 (pContent->getAccessPrifix() + v.first).c_str(),
+					snprintf(szBuf, 4096, "\n\tlua_tinker::make_functor_ptr((%s)(&%s)%s)", refData.funcptr_type.c_str(), (pContent->getAccessPrifix() + v.first).c_str(),
 							 def_params_decl.c_str());
 					overload_params += szBuf;
 				}
 
-				snprintf(
-					szBuf,
-					4096,
-					"lua_tinker::namespace_def(L, \"%s\", \"%s\", lua_tinker::args_type_overload_functor(%s)%s);\n",
-					pContent->getAccessName().c_str(),
-					v.first.c_str(),
-					overload_params.c_str(),
-					def_params.c_str());
+				snprintf(szBuf, 4096, "lua_tinker::namespace_def(L, \"%s\", \"%s\", lua_tinker::args_type_overload_functor(%s)%s);\n", pContent->getAccessName().c_str(),
+						 v.first.c_str(), overload_params.c_str(), def_params.c_str());
 				os += szBuf;
 			}
 		}
@@ -1334,12 +1269,7 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 					def_params += dv;
 				}
 
-				snprintf(szBuf,
-						 4096,
-						 "lua_tinker::def(L, \"%s\",&%s%s);\n",
-						 v.first.c_str(),
-						 (pContent->getAccessPrifix() + v.first).c_str(),
-						 def_params.c_str());
+				snprintf(szBuf, 4096, "lua_tinker::def(L, \"%s\",&%s%s);\n", v.first.c_str(), (pContent->getAccessPrifix() + v.first).c_str(), def_params.c_str());
 				os += szBuf;
 			}
 			else
@@ -1359,31 +1289,19 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 					}
 					if(refData.default_val.empty() == false)
 					{
-						snprintf(szBuf,
-								 4096,
-								 ",%lu /*default_args_count*/, %lu /*default_args_start*/ ",
-								 refData.default_val.size(),
-								 nDefaultParamsStart);
+						snprintf(szBuf, 4096, ",%lu /*default_args_count*/, %lu /*default_args_start*/ ", refData.default_val.size(), nDefaultParamsStart);
 						nDefaultParamsStart += refData.default_val.size();
 						def_params_decl = szBuf;
 					}
 
 					if(overload_params.empty() == false)
 						overload_params += ", ";
-					snprintf(szBuf,
-							 4096,
-							 "\n\tlua_tinker::make_functor_ptr((%s)(&%s)%s)",
-							 refData.funcptr_type.c_str(),
-							 (pContent->getAccessPrifix() + v.first).c_str(),
+					snprintf(szBuf, 4096, "\n\tlua_tinker::make_functor_ptr((%s)(&%s)%s)", refData.funcptr_type.c_str(), (pContent->getAccessPrifix() + v.first).c_str(),
 							 def_params_decl.c_str());
 					overload_params += szBuf;
 				}
 
-				snprintf(szBuf,
-						 4096,
-						 "lua_tinker::def(L, \"%s\", lua_tinker::args_type_overload_functor(%s)%s);\n",
-						 v.first.c_str(),
-						 overload_params.c_str(),
+				snprintf(szBuf, 4096, "lua_tinker::def(L, \"%s\", lua_tinker::args_type_overload_functor(%s)%s);\n", v.first.c_str(), overload_params.c_str(),
 						 def_params.c_str());
 				os += szBuf;
 			}
@@ -1404,12 +1322,8 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 				def_params += ", ";
 				def_params += dv;
 			}
-			snprintf(szBuf,
-					 4096,
-					 "lua_tinker::class_con<%s>(L, lua_tinker::constructor<%s%s>::invoke%s);\n",
-					 pContent->getAccessName().c_str(),
-					 pContent->getAccessName().c_str(),
-					 refData.func_type.c_str(),
+			snprintf(szBuf, 4096, "lua_tinker::class_con<%s>(L, lua_tinker::constructor<%s%s>::invoke%s);\n", pContent->getAccessName().c_str(),
+					 pContent->getAccessName().c_str(), refData.func_type.c_str(),
 					 def_params.c_str()); // normal
 			os += szBuf;
 		}
@@ -1430,31 +1344,19 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 				}
 				if(refData.default_val.empty() == false)
 				{
-					snprintf(szBuf,
-							 4096,
-							 "%lu /*default_args_count*/, %lu /*default_args_start*/ ",
-							 refData.default_val.size(),
-							 nDefaultParamsStart);
+					snprintf(szBuf, 4096, "%lu /*default_args_count*/, %lu /*default_args_start*/ ", refData.default_val.size(), nDefaultParamsStart);
 					nDefaultParamsStart += refData.default_val.size();
 					def_params_decl = szBuf;
 				}
-				snprintf(szBuf,
-						 4096,
-						 "\n\tnew lua_tinker::constructor<%s%s>(%s)",
-						 pContent->getAccessName().c_str(),
-						 refData.func_type.c_str(),
+				snprintf(szBuf, 4096, "\n\tnew lua_tinker::constructor<%s%s>(%s)", pContent->getAccessName().c_str(), refData.func_type.c_str(),
 						 def_params_decl.c_str()); // normal
 				if(overload_params.empty() == false)
 					overload_params += ", ";
 				overload_params += szBuf;
 			}
 
-			snprintf(szBuf,
-					 4096,
-					 "lua_tinker::class_con<%s>(L,lua_tinker::args_type_overload_constructor(%s)%s);\n",
-					 pContent->getAccessName().c_str(),
-					 overload_params.c_str(),
-					 def_params.c_str());
+			snprintf(szBuf, 4096, "lua_tinker::class_con<%s>(L,lua_tinker::args_type_overload_constructor(%s)%s);\n", pContent->getAccessName().c_str(),
+					 overload_params.c_str(), def_params.c_str());
 			os += szBuf;
 		}
 	}
@@ -1463,11 +1365,7 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 	{
 		for(const auto& v: pContent->m_vecValName)
 		{
-			snprintf(szBuf,
-					 4096,
-					 "lua_tinker::namespace_set(L,\"%s\",\"%s\",%s);\n",
-					 pContent->getAccessName().c_str(),
-					 v.first.c_str(),
+			snprintf(szBuf, 4096, "lua_tinker::namespace_set(L,\"%s\",\"%s\",%s);\n", pContent->getAccessName().c_str(), v.first.c_str(),
 					 (pContent->getAccessPrifix() + v.first).c_str());
 			os += szBuf;
 		}
@@ -1479,35 +1377,19 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 			if(v.second.bIsStatic == true)
 			{
 				if(v.second.bIsConst == true)
-					snprintf(szBuf,
-							 4096,
-							 "lua_tinker::class_mem_static_readonly<%s>(L,\"%s\",&%s);\n",
-							 pContent->getAccessName().c_str(),
-							 v.first.c_str(),
+					snprintf(szBuf, 4096, "lua_tinker::class_mem_static_readonly<%s>(L,\"%s\",&%s);\n", pContent->getAccessName().c_str(), v.first.c_str(),
 							 (pContent->getAccessPrifix() + v.first).c_str());
 				else
-					snprintf(szBuf,
-							 4096,
-							 "lua_tinker::class_mem_static<%s>(L,\"%s\",&%s);\n",
-							 pContent->getAccessName().c_str(),
-							 v.first.c_str(),
+					snprintf(szBuf, 4096, "lua_tinker::class_mem_static<%s>(L,\"%s\",&%s);\n", pContent->getAccessName().c_str(), v.first.c_str(),
 							 (pContent->getAccessPrifix() + v.first).c_str());
 			}
 			else
 			{
 				if(v.second.bIsConst == true)
-					snprintf(szBuf,
-							 4096,
-							 "lua_tinker::class_mem_readonly<%s>(L,\"%s\",&%s);\n",
-							 pContent->getAccessName().c_str(),
-							 v.first.c_str(),
+					snprintf(szBuf, 4096, "lua_tinker::class_mem_readonly<%s>(L,\"%s\",&%s);\n", pContent->getAccessName().c_str(), v.first.c_str(),
 							 (pContent->getAccessPrifix() + v.first).c_str());
 				else
-					snprintf(szBuf,
-							 4096,
-							 "lua_tinker::class_mem<%s>(L,\"%s\",&%s);\n",
-							 pContent->getAccessName().c_str(),
-							 v.first.c_str(),
+					snprintf(szBuf, 4096, "lua_tinker::class_mem<%s>(L,\"%s\",&%s);\n", pContent->getAccessName().c_str(), v.first.c_str(),
 							 (pContent->getAccessPrifix() + v.first).c_str());
 			}
 			os += szBuf;
@@ -1518,11 +1400,7 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 
 		for(const auto& v: pContent->m_vecValName)
 		{
-			snprintf(szBuf,
-					 4096,
-					 "lua_tinker::set(L,\"%s\",%s);\n",
-					 v.first.c_str(),
-					 (pContent->getAccessPrifix() + v.first).c_str());
+			snprintf(szBuf, 4096, "lua_tinker::set(L,\"%s\",%s);\n", v.first.c_str(), (pContent->getAccessPrifix() + v.first).c_str());
 			os += szBuf;
 		}
 	}
@@ -1531,11 +1409,7 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 	{
 		for(const auto& v: pContent->m_vecEnumName)
 		{
-			snprintf(szBuf,
-					 4096,
-					 "lua_tinker::namespace_set(L, \"%s\",\"%s\",%s);\n",
-					 pContent->getAccessName().c_str(),
-					 v.c_str(),
+			snprintf(szBuf, 4096, "lua_tinker::namespace_set(L, \"%s\",\"%s\",%s);\n", pContent->getAccessName().c_str(), v.c_str(),
 					 (pContent->getAccessPrifix() + v).c_str());
 			os += szBuf;
 		}
@@ -1544,11 +1418,7 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 	{
 		for(const auto& v: pContent->m_vecEnumName)
 		{
-			snprintf(szBuf,
-					 4096,
-					 "lua_tinker::class_var_static<%s>(L, \"%s\",%s);\n",
-					 pContent->getAccessName().c_str(),
-					 v.c_str(),
+			snprintf(szBuf, 4096, "lua_tinker::class_var_static<%s>(L, \"%s\",%s);\n", pContent->getAccessName().c_str(), v.c_str(),
 					 (pContent->getAccessPrifix() + v).c_str());
 			os += szBuf;
 		}
@@ -1557,8 +1427,7 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 	{
 		for(const auto& v: pContent->m_vecEnumName)
 		{
-			snprintf(
-				szBuf, 4096, "lua_tinker::set(L, \"%s\",%s);\n", v.c_str(), (pContent->getAccessPrifix() + v).c_str());
+			snprintf(szBuf, 4096, "lua_tinker::set(L, \"%s\",%s);\n", v.c_str(), (pContent->getAccessPrifix() + v).c_str());
 			os += szBuf;
 		}
 	}
@@ -1568,11 +1437,7 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 		visit_contnet(v.second, os, os_second);
 		if(pContent->bClass || pContent->bNameSpace)
 		{
-			snprintf(szBuf,
-					 4096,
-					 "lua_tinker::scope_inner(L, \"%s\", \"%s\", \"%s\");\n",
-					 pContent->getAccessName().c_str(),
-					 v.second->m_name.c_str(),
+			snprintf(szBuf, 4096, "lua_tinker::scope_inner(L, \"%s\", \"%s\", \"%s\");\n", pContent->getAccessName().c_str(), v.second->m_name.c_str(),
 					 v.second->getAccessName().c_str());
 			os += szBuf;
 		}
@@ -1596,10 +1461,7 @@ void Tokenize(const std::string& str, std::vector<std::string>& tokens, const st
 	}
 }
 
-void visit_includes(CXFile			  included_file,
-					CXSourceLocation* inclusion_stack,
-					unsigned		  include_len,
-					CXClientData	  client_data)
+void visit_includes(CXFile included_file, CXSourceLocation* inclusion_stack, unsigned include_len, CXClientData client_data)
 {
 	CXFileUniqueID id;
 	clang_getFileUniqueID(included_file, &id);
@@ -1795,12 +1657,12 @@ int main(int argc, char** argv)
 	{
 		std::chrono::high_resolution_clock clock;
 		auto							   _startTime = clock.now();
-		unsigned flag = CXTranslationUnit_SkipFunctionBodies | CXTranslationUnit_KeepGoing | g_extTUFlag;
+		unsigned						   flag		  = CXTranslationUnit_SkipFunctionBodies | CXTranslationUnit_KeepGoing | g_extTUFlag;
 		if(g_strKeyword.empty() == false)
 		{
 			flag |= CXTranslationUnit_DetailedPreprocessingRecord;
 		}
-		TU = clang_parseTranslationUnit(Index, temp_filename.c_str(), szParams.data(), szParams.size(), 0, 0, flag);
+		TU				= clang_parseTranslationUnit(Index, temp_filename.c_str(), szParams.data(), szParams.size(), 0, 0, flag);
 		auto _stopTime1 = clock.now();
 
 		CXCursor C = clang_getTranslationUnitCursor(TU);
@@ -1823,9 +1685,7 @@ int main(int argc, char** argv)
 		auto _stopTime2 = clock.now();
 		if(temp_filename.empty() == false)
 		{
-			printf("file:%s processed use %ld %ld\n",
-				   temp_filename.c_str(),
-				   std::chrono::duration_cast<std::chrono::milliseconds>(_stopTime1 - _startTime).count(),
+			printf("file:%s processed use %ld %ld\n", temp_filename.c_str(), std::chrono::duration_cast<std::chrono::milliseconds>(_stopTime1 - _startTime).count(),
 				   std::chrono::duration_cast<std::chrono::milliseconds>(_stopTime2 - _stopTime1).count());
 		}
 	}

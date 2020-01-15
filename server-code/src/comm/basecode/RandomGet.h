@@ -1,7 +1,6 @@
 #ifndef RANDOMGET_H
 #define RANDOMGET_H
 
-
 #include "BaseType.h"
 #include "export_lua.h"
 export_lua uint32_t random_uint32();

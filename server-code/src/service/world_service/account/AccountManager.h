@@ -19,7 +19,7 @@ class CMysqlConnection;
 class CAccount;
 class CAccountManager
 {
-  public:
+public:
 	CAccountManager();
 	~CAccountManager();
 
@@ -42,14 +42,14 @@ class CAccountManager
 
 	void OnTimer();
 
-  public:
+public:
 	bool   OnMsgCreateActor(CNetworkMessage* pMsg);
 	bool   OnMsgSelectActor(CNetworkMessage* pMsg);
 	size_t GetAccountSize() const;
 	size_t GetWaitAccountSize() const;
 	void   Destory();
 
-  private:
+private:
 	//等待认证列表
 	std::unordered_map<std::string, uint64_t> m_AuthList;
 	struct ST_AUTH_DATA

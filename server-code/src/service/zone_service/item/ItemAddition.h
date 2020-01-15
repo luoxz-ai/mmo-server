@@ -1,7 +1,6 @@
 #ifndef ITEMADDITION_H
 #define ITEMADDITION_H
 
-
 #include "ActorAttrib.h"
 #include "BaseCode.h"
 #include "Cfg_ItemAddition.pb.h"
@@ -10,7 +9,7 @@ class CItemAdditionData
 {
 	CItemAdditionData() {}
 
-  public:
+public:
 	~CItemAdditionData() {}
 	CREATE_NEW_IMPL(CItemAdditionData);
 	bool Init(const Cfg_ItemAddition_Row& row)
@@ -22,10 +21,10 @@ class CItemAdditionData
 		return true;
 	}
 
-  public:
+public:
 	const std::vector<CActorAttribChange>& GetAttrib() const { return m_AttribChangeList; }
 
-  private:
+private:
 	std::vector<CActorAttribChange> m_AttribChangeList;
 };
 
@@ -34,10 +33,10 @@ class CItemAdditionSet
 {
 	CItemAdditionSet();
 
-  public:
+public:
 	virtual ~CItemAdditionSet();
 
-  public:
+public:
 	CREATE_NEW_IMPL(CItemAdditionSet);
 	bool Init(const char* szFileName);
 	bool Reload(const char* szFileName);
@@ -45,11 +44,11 @@ class CItemAdditionSet
 	// 根据itemtype, 追加等级，查询对应的追加数据
 	const CItemAdditionData* QueryItemAddition(uint32_t idType, int nLevel);
 
-  public:
+public:
 	typedef std::vector<CItemAdditionData*>		 LEVEL_SET;
 	typedef std::unordered_map<OBJID, LEVEL_SET> TYPE_SET;
 
-  protected:
+protected:
 	TYPE_SET m_setAddition;
 };
 #endif /* ITEMADDITION_H */

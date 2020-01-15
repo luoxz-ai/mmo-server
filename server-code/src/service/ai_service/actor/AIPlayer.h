@@ -5,7 +5,7 @@
 
 class CAIPlayer : public CAIActor
 {
-  public:
+public:
 	CAIPlayer();
 	~CAIPlayer();
 	CREATE_NEW_IMPL(CAIPlayer);
@@ -14,9 +14,9 @@ class CAIPlayer : public CAIActor
 	virtual ActorType GetActorType() const { return ActorType::ACT_PLAYER; }
 	static ActorType  GetActorTypeStatic() { return ActorType::ACT_PLAYER; }
 
-  public:
+public:
 	MEMORYHEAP_DECLARATION(s_heap);
 
-  private:
+private:
 };
 #endif /* AIPLAYER_H */

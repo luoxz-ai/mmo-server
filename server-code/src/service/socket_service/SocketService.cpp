@@ -7,9 +7,9 @@
 #include "MessageRoute.h"
 #include "NetSocket.h"
 #include "SettingMap.h"
-#include "tinyxml2/tinyxml2.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/world_service.pb.h"
+#include "tinyxml2/tinyxml2.h"
 
 extern "C" IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
@@ -237,8 +237,7 @@ void CSocketService::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
 	MSG_HEAD* pHead = (MSG_HEAD*)pBuffer;
 	if(pHead->usCmd < pClient->GetMessageAllowBegin() || pHead->usCmd > pClient->GetMessageAllowEnd())
 	{
-		LOGWARNING(
-			"RECV ClientMsg:{} not Allow {}.{}", pHead->usCmd, pSocket->GetAddrString().c_str(), pSocket->GetPort());
+		LOGWARNING("RECV ClientMsg:{} not Allow {}.{}", pHead->usCmd, pSocket->GetAddrString().c_str(), pSocket->GetPort());
 		pSocket->Close();
 		return;
 	}
@@ -250,8 +249,7 @@ void CSocketService::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
 			if(pClient->GetDestServerPort().IsVaild() == false)
 				return;
 			// send to other server
-			CNetworkMessage msg(
-				pBuffer, len, pClient->GetVirtualSocket(), VirtualSocket(pClient->GetDestServerPort(), 0));
+			CNetworkMessage msg(pBuffer, len, pClient->GetVirtualSocket(), VirtualSocket(pClient->GetDestServerPort(), 0));
 			SendMsg(msg);
 		}
 		break;
@@ -310,10 +308,7 @@ void CSocketService::OnWsRecvData(CNetWebSocket* pWebSocket, byte* pBuffer, size
 	MSG_HEAD* pHead = (MSG_HEAD*)pBuffer;
 	if(pHead->usCmd < pClient->GetMessageAllowBegin() || pHead->usCmd > pClient->GetMessageAllowEnd())
 	{
-		LOGWARNING("RECV ClientMsg:{} not Allow {}.{}",
-				   pHead->usCmd,
-				   pWebSocket->GetAddrString().c_str(),
-				   pWebSocket->GetPort());
+		LOGWARNING("RECV ClientMsg:{} not Allow {}.{}", pHead->usCmd, pWebSocket->GetAddrString().c_str(), pWebSocket->GetPort());
 		pWebSocket->Close();
 		return;
 	}
@@ -325,8 +320,7 @@ void CSocketService::OnWsRecvData(CNetWebSocket* pWebSocket, byte* pBuffer, size
 			if(pClient->GetDestServerPort().IsVaild() == false)
 				return;
 			// send to other server
-			CNetworkMessage msg(
-				pBuffer, len, pClient->GetVirtualSocket(), VirtualSocket(pClient->GetDestServerPort(), 0));
+			CNetworkMessage msg(pBuffer, len, pClient->GetVirtualSocket(), VirtualSocket(pClient->GetDestServerPort(), 0));
 			SendMsg(msg);
 		}
 		break;
@@ -362,10 +356,7 @@ void CSocketService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 			if(pClient && pClient->IsVaild())
 			{
 				pClient->SetDestServerPort(ServerPort(GetWorldID(), pMsg->idService));
-				LOGNETDEBUG("SCK_CHG_DEST {}:{} To Service:{}",
-							pClient->GetSocketAddr().c_str(),
-							pClient->GetSocketPort(),
-							pMsg->idService);
+				LOGNETDEBUG("SCK_CHG_DEST {}:{} To Service:{}", pClient->GetSocketAddr().c_str(), pClient->GetSocketPort(), pMsg->idService);
 			}
 		}
 		break;
@@ -375,9 +366,7 @@ void CSocketService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 			CGameClient*   pClient = QueryClient(pMsg->vs);
 			if(pClient && pClient->IsVaild())
 			{
-				LOGDEBUG("CLOSE CLIENT BYVS:{}:{} FROM OTHER SERVER",
-						 pClient->GetSocketAddr().c_str(),
-						 pClient->GetSocketPort());
+				LOGDEBUG("CLOSE CLIENT BYVS:{}:{} FROM OTHER SERVER", pClient->GetSocketAddr().c_str(), pClient->GetSocketPort());
 				//主动关闭客户端连接，需要通知客户端不要重连
 				pClient->Close();
 			}
@@ -469,12 +458,8 @@ void CSocketService::OnLogicThreadProc()
 		std::string buf =
 			std::string("\n======================================================================") +
 			fmt::format(FMT_STRING("\nMessageProcess:{}\tSocketMsg:{}"), GetMessageProcess(), m_nSocketMessageProcess) +
-			fmt::format(FMT_STRING("\nRecvTotal:{}\tRecvAvg:{}"),
-						GetNetworkService()->GetRecvBPS().GetTotal(),
-						GetNetworkService()->GetRecvBPS().GetAvgBPS()) +
-			fmt::format(FMT_STRING("\nSendTotal:{}\tSendAvg:{}"),
-						GetNetworkService()->GetSendBPS().GetTotal(),
-						GetNetworkService()->GetSendBPS().GetAvgBPS());
+			fmt::format(FMT_STRING("\nRecvTotal:{}\tRecvAvg:{}"), GetNetworkService()->GetRecvBPS().GetTotal(), GetNetworkService()->GetRecvBPS().GetAvgBPS()) +
+			fmt::format(FMT_STRING("\nSendTotal:{}\tSendAvg:{}"), GetNetworkService()->GetSendBPS().GetTotal(), GetNetworkService()->GetSendBPS().GetAvgBPS());
 		static const uint16_t ServiceID[] = {1, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
 
 		for(size_t i = 0; i < sizeOfArray(ServiceID); i++)
@@ -482,8 +467,7 @@ void CSocketService::OnLogicThreadProc()
 			auto pMessagePort = GetMessageRoute()->QueryMessagePort(ServerPort(GetWorldID(), ServiceID[i]), false);
 			if(pMessagePort)
 			{
-				buf += fmt::format(
-					FMT_STRING("\nMsgPort:{}\tSendBuff:{}"), ServiceID[i], pMessagePort->GetWriteBufferSize());
+				buf += fmt::format(FMT_STRING("\nMsgPort:{}\tSendBuff:{}"), ServiceID[i], pMessagePort->GetWriteBufferSize());
 			}
 		}
 

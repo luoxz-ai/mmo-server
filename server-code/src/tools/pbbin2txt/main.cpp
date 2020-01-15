@@ -85,11 +85,9 @@ bool LoadFromBinaryFile(const std::string& filename, google::protobuf::Message& 
 int main(int argc, char** argv)
 {
 	get_opt opt(argc, (const char**)argv);
-	if(opt.has("--input") == false || opt.has("--pbdir") == false || opt.has("--pb") == false ||
-	   opt.has("--help") == true)
+	if(opt.has("--input") == false || opt.has("--pbdir") == false || opt.has("--pb") == false || opt.has("--help") == true)
 	{
-		std::cout << "pbbin2txt [--input=xxx.bytes] [--pbdir=xxxxx] [--pb=xxx.proto] [--output=output.txt]"
-				  << std::endl;
+		std::cout << "pbbin2txt [--input=xxx.bytes] [--pbdir=xxxxx] [--pb=xxx.proto] [--output=output.txt]" << std::endl;
 		return 0;
 	}
 

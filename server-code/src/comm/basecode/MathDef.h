@@ -16,7 +16,7 @@ constexpr float TWO_PI = 2 * PI;
 
 export_lua class Math
 {
-  public:
+public:
 	export_lua static inline bool isNaN(float f)
 	{
 		// std::isnan() is C99, not supported by all compilers
@@ -61,7 +61,7 @@ export_lua class Math
 	template<size_t nTrigTableSize>
 	class CTrigTable
 	{
-	  public:
+	public:
 		CTrigTable()
 		{
 			for(int i = 0; i < nTrigTableSize; ++i)
@@ -94,7 +94,7 @@ export_lua class Math
 			return m_TanTable[idx];
 		}
 
-	  private:
+	private:
 		static constexpr int			  m_TrigTableFactor = nTrigTableSize / TWO_PI;
 		std::array<float, nTrigTableSize> m_SinTable;
 		std::array<float, nTrigTableSize> m_TanTable;

@@ -51,11 +51,7 @@ bool file_lock::kill(int sig)
 	// 这里暂时写死，Kill, unblockable (POSIX).
 	if(::kill(lock.l_pid, sig) == -1)
 	{
-		BaseCode::PrintfError("file_lock::kill ::kill(lock.l_pid, sig) == -1, pid = {}, sig = {}, errno = {}, {}, {}",
-							  lock.l_pid,
-							  sig,
-							  strerror(errno),
-							  errno,
+		BaseCode::PrintfError("file_lock::kill ::kill(lock.l_pid, sig) == -1, pid = {}, sig = {}, errno = {}, {}, {}", lock.l_pid, sig, strerror(errno), errno,
 							  m_pid_file.c_str());
 		return false;
 	}
@@ -70,8 +66,7 @@ bool file_lock::lock()
 	m_fd = open(m_pid_file.c_str(), O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR);
 	if(m_fd < 0)
 	{
-		BaseCode::PrintfError(
-			"file_lock::lock fail m_fd = {},{}({}), {}", m_fd, strerror(errno), errno, m_pid_file.c_str());
+		BaseCode::PrintfError("file_lock::lock fail m_fd = {},{}({}), {}", m_fd, strerror(errno), errno, m_pid_file.c_str());
 		return false;
 	}
 	int lock_result = lockf(m_fd, F_TLOCK, 0);

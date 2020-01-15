@@ -12,7 +12,7 @@
 class IService;
 class ServiceLoader
 {
-  public:
+public:
 	ServiceLoader();
 	~ServiceLoader();
 
@@ -20,7 +20,7 @@ class ServiceLoader
 	void Destory();
 	bool _StartService(const std::string& dll_name, uint16_t idWorld, uint16_t idService);
 
-  private:
+private:
 	std::vector<IService*>		   m_setService;
 	std::map<std::string, HMODULE> m_setModule;
 };

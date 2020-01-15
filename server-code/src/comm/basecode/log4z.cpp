@@ -90,27 +90,15 @@ _ZSUMMER_LOG4Z_BEGIN
 MEMORYHEAP_IMPLEMENTATION(LogData, s_heap);
 
 static const char* const LOG_STRING[] = {
-	"LOG_TRACE",
-	"LOG_DEBUG",
-	"LOG_INFO ",
-	"LOG_WARN ",
-	"LOG_ERROR",
-	"LOG_ALARM",
-	"LOG_FATAL",
+	"LOG_TRACE", "LOG_DEBUG", "LOG_INFO ", "LOG_WARN ", "LOG_ERROR", "LOG_ALARM", "LOG_FATAL",
 };
 
 #ifdef WIN32
-const static WORD LOG_COLOR[LOG_LEVEL_FATAL + 1] = {0,
-													0,
-													FOREGROUND_BLUE | FOREGROUND_GREEN,
-													FOREGROUND_GREEN | FOREGROUND_RED,
-													FOREGROUND_RED,
-													FOREGROUND_GREEN,
-													FOREGROUND_RED | FOREGROUND_BLUE};
+const static WORD LOG_COLOR[LOG_LEVEL_FATAL + 1] = {
+	0, 0, FOREGROUND_BLUE | FOREGROUND_GREEN, FOREGROUND_GREEN | FOREGROUND_RED, FOREGROUND_RED, FOREGROUND_GREEN, FOREGROUND_RED | FOREGROUND_BLUE};
 #else
 
-const static char LOG_COLOR[LOG_LEVEL_FATAL + 1][50] = {"\e[0m",
-														"\e[0m",
+const static char LOG_COLOR[LOG_LEVEL_FATAL + 1][50] = {"\e[0m",	   "\e[0m",
 														"\e[34m\e[1m", // hight blue
 														"\e[33m",	   // yellow
 														"\e[31m",	   // red
@@ -123,7 +111,7 @@ const static char LOG_COLOR[LOG_LEVEL_FATAL + 1][50] = {"\e[0m",
 //////////////////////////////////////////////////////////////////////////
 class Log4zFileHandler
 {
-  public:
+public:
 	Log4zFileHandler() { _file = NULL; }
 	~Log4zFileHandler() { close(); }
 	inline bool isOpen() { return _file != NULL; }
@@ -173,7 +161,7 @@ class Log4zFileHandler
 	inline const std::string readContent();
 	inline bool				 removeFile(const std::string& path) { return ::remove(path.c_str()) == 0; }
 
-  public:
+public:
 	FILE* _file;
 };
 
@@ -198,15 +186,15 @@ static std::string getProcessName();
 //////////////////////////////////////////////////////////////////////////
 class LockHelper
 {
-  public:
+public:
 	LockHelper();
 	virtual ~LockHelper();
 
-  public:
+public:
 	void lock();
 	void unLock();
 
-  private:
+private:
 #ifdef WIN32
 	CRITICAL_SECTION _crit;
 #else
@@ -219,7 +207,7 @@ class LockHelper
 //////////////////////////////////////////////////////////////////////////
 class AutoLock
 {
-  public:
+public:
 	explicit AutoLock(LockHelper& lk)
 		: _lock(lk)
 	{
@@ -227,7 +215,7 @@ class AutoLock
 	}
 	~AutoLock() { _lock.unLock(); }
 
-  private:
+private:
 	LockHelper& _lock;
 };
 
@@ -236,16 +224,16 @@ class AutoLock
 //////////////////////////////////////////////////////////////////////////
 class SemHelper
 {
-  public:
+public:
 	SemHelper();
 	virtual ~SemHelper();
 
-  public:
+public:
 	bool create(int initcount);
 	bool wait(int timeout = 0);
 	bool post();
 
-  private:
+private:
 #ifdef WIN32
 	HANDLE _hSem;
 #elif defined(__APPLE__)
@@ -267,16 +255,16 @@ static void* threadProc(void* pParam);
 
 class ThreadHelper
 {
-  public:
+public:
 	ThreadHelper() { _hThreadID = 0; }
 	virtual ~ThreadHelper() {}
 
-  public:
+public:
 	bool		 start();
 	bool		 wait();
 	virtual void run() = 0;
 
-  private:
+private:
 	unsigned long long _hThreadID;
 #ifndef WIN32
 	pthread_t _phtreadID;
@@ -367,7 +355,7 @@ struct LoggerInfo
 //////////////////////////////////////////////////////////////////////////
 class LogerManager : public ThreadHelper, public ILog4zManager
 {
-  public:
+public:
 	LogerManager();
 	virtual ~LogerManager();
 
@@ -404,7 +392,7 @@ class LogerManager : public ThreadHelper, public ILog4zManager
 	virtual unsigned long long getStatusTotalPopQueue() { return _ullStatusTotalPopLog; }
 	virtual unsigned int	   getStatusActiveLoggers();
 
-  protected:
+protected:
 	virtual LogData* makeLogData(LoggerId id, int level);
 	virtual void	 freeLogData(LogData* log);
 	void			 showColorText(const char* text, int level = LOG_LEVEL_DEBUG);
@@ -414,7 +402,7 @@ class LogerManager : public ThreadHelper, public ILog4zManager
 	bool			 popLog(LogData*& log);
 	virtual void	 run();
 
-  private:
+private:
 	//! thread status.
 	bool _runing;
 	//! wait thread started.
@@ -549,8 +537,7 @@ static void trimLogConfig(std::string& str, std::string extIgnore)
 	int posEnd	 = 0;
 
 	// trim utf8 file bom
-	if(str.length() >= 3 && (unsigned char)str[0] == 0xef && (unsigned char)str[1] == 0xbb &&
-	   (unsigned char)str[2] == 0xbf)
+	if(str.length() >= 3 && (unsigned char)str[0] == 0xef && (unsigned char)str[1] == 0xbb && (unsigned char)str[2] == 0xbf)
 	{
 		posBegin = 3;
 	}
@@ -599,10 +586,7 @@ static std::pair<std::string, std::string> splitPairString(const std::string& st
 	return std::make_pair(str.substr(0, pos), str.substr(pos + delimiter.length()));
 }
 
-static bool parseConfigLine(const std::string&				   line,
-							int								   curLineNum,
-							std::string&					   key,
-							std::map<std::string, LoggerInfo>& outInfo)
+static bool parseConfigLine(const std::string& line, int curLineNum, std::string& key, std::map<std::string, LoggerInfo>& outInfo)
 {
 	std::pair<std::string, std::string> kv = splitPairString(line, "=");
 	if(kv.first.empty())
@@ -649,10 +633,7 @@ static bool parseConfigLine(const std::string&				   line,
 	std::map<std::string, LoggerInfo>::iterator iter = outInfo.find(key);
 	if(iter == outInfo.end())
 	{
-		fmt::printf("log4z configure warning: not found current logger name:[%s] at line:%d, key=%s, value=%s \r\n",
-					key.c_str(),
-					curLineNum,
-					kv.first.c_str(),
+		fmt::printf("log4z configure warning: not found current logger name:[%s] at line:%d, key=%s, value=%s \r\n", key.c_str(), curLineNum, kv.first.c_str(),
 					kv.second.c_str());
 		return true;
 	}
@@ -1218,17 +1199,8 @@ LogData* LogerManager::makeLogData(LoggerId id, int level)
 		tm	 tt	  = timeToTm(pLog->_time);
 		NDC* pNdc = MyTLSTypePtr<NDC>::get();
 
-		pLog->_contentLen = sprintf(pLog->_content,
-									"%d-%02d-%02d %02d:%02d:%02d.%03u %s[%s] ",
-									tt.tm_year + 1900,
-									tt.tm_mon + 1,
-									tt.tm_mday,
-									tt.tm_hour,
-									tt.tm_min,
-									tt.tm_sec,
-									pLog->_precise,
-									LOG_STRING[pLog->_level],
-									(pNdc) ? pNdc->ndc.c_str() : "");
+		pLog->_contentLen = sprintf(pLog->_content, "%d-%02d-%02d %02d:%02d:%02d.%03u %s[%s] ", tt.tm_year + 1900, tt.tm_mon + 1, tt.tm_mday, tt.tm_hour, tt.tm_min,
+									tt.tm_sec, pLog->_precise, LOG_STRING[pLog->_level], (pNdc) ? pNdc->ndc.c_str() : "");
 		if(pLog->_contentLen < 0)
 		{
 			pLog->_contentLen = 0;
@@ -1354,8 +1326,7 @@ bool LogerManager::config(const char* configPath)
 		fmt::printf(" !!! !!! !!! !!!\r\n");
 		fmt::printf(" !!! !!! log4z configure error: too many calls to Config. the old config file=%s,  the new config "
 					"file=%s !!! !!! \r\n",
-					_configFile.c_str(),
-					configPath);
+					_configFile.c_str(), configPath);
 		fmt::printf(" !!! !!! !!! !!!\r\n");
 		return false;
 	}
@@ -1402,8 +1373,7 @@ LoggerId LogerManager::createLogger(const char* key)
 	{
 		if(_lastId + 1 >= LOG4Z_LOGGER_MAX)
 		{
-			showColorText("log4z: CreateLogger can not create|writeover, because loggerid need < LOGGER_MAX! \r\n",
-						  LOG_LEVEL_FATAL);
+			showColorText("log4z: CreateLogger can not create|writeover, because loggerid need < LOGGER_MAX! \r\n", LOG_LEVEL_FATAL);
 			return LOG4Z_INVALID_LOGGER_ID;
 		}
 		newID					= ++_lastId;
@@ -1797,13 +1767,7 @@ bool LogerManager::openLogger(LogData* pLog)
 		// sprintf(buf, "%s_%s_%04d%02d%02d%02d%02d_%s_%03u.log",
 		//    _proName.c_str(), name.c_str(), t.tm_year + 1900, t.tm_mon + 1, t.tm_mday,
 		//    t.tm_hour, t.tm_min, _pid.c_str(), pLogger->_curFileIndex);
-		sprintf(buf,
-				"%s_%04d%02d%02d_%03u.log",
-				name.c_str(),
-				t.tm_year + 1900,
-				t.tm_mon + 1,
-				t.tm_mday,
-				pLogger->_curFileIndex);
+		sprintf(buf, "%s_%04d%02d%02d_%03u.log", name.c_str(), t.tm_year + 1900, t.tm_mon + 1, t.tm_mday, pLogger->_curFileIndex);
 		path += buf;
 		pLogger->_handle.open(path.c_str(), "ab");
 		if(!pLogger->_handle.isOpen())
@@ -1819,8 +1783,7 @@ bool LogerManager::openLogger(LogData* pLog)
 		{
 			if(pLogger->_historyLogs.size() > LOG4Z_FORCE_RESERVE_FILE_COUNT)
 			{
-				while(!pLogger->_historyLogs.empty() &&
-					  pLogger->_historyLogs.front().first < time(NULL) - pLogger->_logReserveTime)
+				while(!pLogger->_historyLogs.empty() && pLogger->_historyLogs.front().first < time(NULL) - pLogger->_logReserveTime)
 				{
 					pLogger->_handle.removeFile(pLogger->_historyLogs.front().second.c_str());
 					pLogger->_historyLogs.pop_front();
@@ -1867,8 +1830,7 @@ void LogerManager::run()
 	{
 		if(_loggers[i]._enable)
 		{
-			ZLOGA("logger id=" << i << " key=" << _loggers[i]._key << " name=" << _loggers[i]._name
-							   << " path=" << _loggers[i]._path << " level=" << _loggers[i]._level
+			ZLOGA("logger id=" << i << " key=" << _loggers[i]._key << " name=" << _loggers[i]._name << " path=" << _loggers[i]._path << " level=" << _loggers[i]._level
 							   << " display=" << _loggers[i]._display);
 		}
 	}
@@ -1891,10 +1853,7 @@ void LogerManager::run()
 
 			if(pLog->_type != LDT_GENERAL)
 			{
-				onHotChange(pLog->_id,
-							(LogDataType)pLog->_type,
-							pLog->_typeval,
-							std::string(pLog->_content, pLog->_contentLen));
+				onHotChange(pLog->_id, (LogDataType)pLog->_type, pLog->_typeval, std::string(pLog->_content, pLog->_contentLen));
 				curLogger._handle.close();
 				freeLogData(pLog);
 				continue;

@@ -1,7 +1,6 @@
 #ifndef SKIPLIST_H
 #define SKIPLIST_H
 
-
 #include "BaseCode.h"
 #include "RandomGet.h"
 
@@ -10,7 +9,7 @@ constexpr double SKIPLIST_P		   = 0.25;
 
 class CSkipList
 {
-  public:
+public:
 	struct CSkipListNode
 	{
 		uint64_t			  m_member	 = 0;
@@ -31,7 +30,7 @@ class CSkipList
 	unsigned long		  m_length = 0;
 	int					  m_level  = 1;
 
-  public:
+public:
 	CSkipList()
 	{
 		m_header			 = CreateNode(SKIPLIST_MAXLEVEL, 0.0, 0);
@@ -65,8 +64,7 @@ class CSkipList
 			/* store rank that is crossed to reach the insert position */
 			rank[i] = i == (m_level - 1) ? 0 : rank[i + 1];
 			while(x->m_level[i].m_forward && (x->m_level[i].m_forward->m_score > score ||
-											  (x->m_level[i].m_forward->m_score == score &&
-											   compareslObj(x->m_level[i].m_forward->m_member, member) > 0)))
+											  (x->m_level[i].m_forward->m_score == score && compareslObj(x->m_level[i].m_forward->m_member, member) > 0)))
 			{
 				rank[i] += x->m_level[i].m_span;
 				x = x->m_level[i].m_forward;
@@ -121,8 +119,7 @@ class CSkipList
 		for(int i = m_level - 1; i >= 0; i--)
 		{
 			while(x->m_level[i].m_forward && (x->m_level[i].m_forward->m_score > score ||
-											  (x->m_level[i].m_forward->m_score == score &&
-											   compareslObj(x->m_level[i].m_forward->m_member, member) > 0)))
+											  (x->m_level[i].m_forward->m_score == score && compareslObj(x->m_level[i].m_forward->m_member, member) > 0)))
 				x = x->m_level[i].m_forward;
 			update[i] = x;
 		}
@@ -144,9 +141,7 @@ class CSkipList
 
 	/* Delete all the elements with rank between start and end from the skiplist.
 	 * Start and end are inclusive. Note that start and end need to be 1-based */
-	unsigned long DeleteByRank(unsigned int											start,
-							   unsigned int											end,
-							   std::function<void(uint64_t member, uint64_t score)> cb)
+	unsigned long DeleteByRank(unsigned int start, unsigned int end, std::function<void(uint64_t member, uint64_t score)> cb)
 	{
 		CSkipListNode* update[SKIPLIST_MAXLEVEL];
 		unsigned long  traversed = 0, removed = 0;
@@ -187,8 +182,7 @@ class CSkipList
 		for(int i = m_level - 1; i >= 0; i--)
 		{
 			while(x->m_level[i].m_forward && (x->m_level[i].m_forward->m_score > score ||
-											  (x->m_level[i].m_forward->m_score == score &&
-											   compareslObj(x->m_level[i].m_forward->m_member, member) >= 0)))
+											  (x->m_level[i].m_forward->m_score == score && compareslObj(x->m_level[i].m_forward->m_member, member) >= 0)))
 			{
 				rank += x->m_level[i].m_span;
 				x = x->m_level[i].m_forward;
@@ -302,7 +296,7 @@ class CSkipList
 		}
 	}
 
-  private:
+private:
 	static int compareslObj(uint64_t a, uint64_t b)
 	{
 		if(a == b)

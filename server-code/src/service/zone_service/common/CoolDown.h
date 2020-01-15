@@ -16,20 +16,20 @@ export_lua enum COOLDOWN_TYPE {
 
 export_lua class ICoolDown
 {
-  public:
+public:
 	ICoolDown() {}
 	virtual ~ICoolDown() {}
 	export_lua virtual uint64_t GetExpireTime() const												   = 0;
 	export_lua virtual bool		StartCoolDown(uint32_t nMSec, bool bUpdate = false, bool bSync = true) = 0;
 	export_lua virtual bool		ClearCoolDown(bool bUpdate = false, bool bSync = true)				   = 0;
 
-  public:
+public:
 	MEMORYHEAP_DECLARATION(s_heap);
 };
 
 export_lua class CCoolDown : public ICoolDown
 {
-  public:
+public:
 	CCoolDown() {}
 	virtual ~CCoolDown() {}
 	virtual uint64_t GetExpireTime() const { return m_nTimeStamp; }
@@ -44,14 +44,14 @@ export_lua class CCoolDown : public ICoolDown
 		return true;
 	}
 
-  private:
+private:
 	uint64_t m_nTimeStamp;
 };
 
 class CPlayer;
 export_lua class CPlayerCoolDown : public ICoolDown
 {
-  public:
+public:
 	CPlayerCoolDown(CPlayer* pPlayer, CDBRecordPtr&& pRecord);
 	virtual ~CPlayerCoolDown();
 
@@ -65,17 +65,17 @@ export_lua class CPlayerCoolDown : public ICoolDown
 	void Save();
 	void DeleteRecord();
 
-  private:
+private:
 	CPlayer*	 m_pOwner = nullptr;
 	CDBRecordPtr m_pRecord;
 };
 
 export_lua class CCoolDownSet
 {
-  protected:
+protected:
 	CCoolDownSet();
 
-  public:
+public:
 	virtual ~CCoolDownSet();
 	CREATE_NEW_IMPL(CCoolDownSet);
 
@@ -85,14 +85,13 @@ export_lua class CCoolDownSet
 
 	export_lua virtual bool IsCoolDown(uint32_t nType, uint32_t nIdx);
 	export_lua virtual bool IsCoolDown(uint32_t nType, uint32_t nIdx, uint32_t now);
-	export_lua virtual bool StartCoolDown(
-		uint32_t nType, uint32_t nIdx, uint32_t nMSec, bool bUpdate = false, bool bSync = true);
+	export_lua virtual bool StartCoolDown(uint32_t nType, uint32_t nIdx, uint32_t nMSec, bool bUpdate = false, bool bSync = true);
 	export_lua virtual bool ClearCoolDown(uint32_t nType, uint32_t nIdx, bool bUpdate = false, bool bSync = true);
 
-  protected:
+protected:
 	virtual ICoolDown* CreateData(uint32_t nType, uint32_t nIdx, uint32_t nMSec);
 
-  protected:
+protected:
 	std::unordered_map<uint64_t, ICoolDown*> m_setDataMap;
 
 	MEMORYHEAP_DECLARATION(s_heap);
@@ -102,7 +101,7 @@ export_lua class CPlayerCoolDownSet : public CCoolDownSet
 {
 	CPlayerCoolDownSet();
 
-  public:
+public:
 	~CPlayerCoolDownSet();
 	CREATE_NEW_IMPL(CPlayerCoolDownSet);
 
@@ -110,10 +109,10 @@ export_lua class CPlayerCoolDownSet : public CCoolDownSet
 	virtual void SyncAll() override;
 	virtual void Save() override;
 
-  protected:
+protected:
 	virtual ICoolDown* CreateData(uint32_t nType, uint32_t nIdx, uint32_t nMSec) override;
 
-  protected:
+protected:
 	CPlayer* m_pOwner = nullptr;
 };
 #endif /* COOLDOWN_H */

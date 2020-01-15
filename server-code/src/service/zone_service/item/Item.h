@@ -1,21 +1,20 @@
 #ifndef ITEM_H
 #define ITEM_H
 
-
 #include "ItemData.h"
 
 class CActor;
 class SC_ITEM_INFO;
 export_lua class CItem : public CItemData
 {
-  private:
+private:
 	CItem();
 
-  public:
+public:
 	virtual ~CItem();
 	CREATE_NEW_IMPL(CItem);
 
-  public:
+public:
 	//! 直接发送物品信息给pRole
 	export_lua void FillItemInfo(SC_ITEM_INFO* pMsg);
 	export_lua void SendItemInfo(CActor* pActor);
@@ -27,12 +26,9 @@ export_lua class CItem : public CItemData
 	export_lua void SyncGridData(CActor* pActor);
 	export_lua void SendDeleteMsg(CActor* pActor);
 
-  public:
+public:
 	// 是否可叠加的
-	export_lua bool IsPileEnable()
-	{
-		return ItemTypePtr()->IsPileEnable() && GetPileNum() < ItemTypePtr()->GetPileLimit();
-	}
+	export_lua bool IsPileEnable() { return ItemTypePtr()->IsPileEnable() && GetPileNum() < ItemTypePtr()->GetPileLimit(); }
 	// 是否过期
 	export_lua bool IsExpire();
 	// 是否可交易
@@ -63,7 +59,7 @@ export_lua class CItem : public CItemData
 	export_lua bool IsCombineEnable(OBJID idItemType, DWORD dwFlag);
 	export_lua bool IsCombineEnable(CItem* pItem);
 
-  public:
+public:
 	//! 改变物品类型——主要用于装备品质变化
 	export_lua bool ChangeType(uint32_t idType, bool bUpdate = true);
 	//! 改变物品的追加等级

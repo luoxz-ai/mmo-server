@@ -1,8 +1,5 @@
 #ifndef NPCTYPE_H
 #define NPCTYPE_H
-#ifndef NPCTYPE_H
-#define NPCTYPE_H
-
 
 #include "ActorAttrib.h"
 #include "config/Cfg_Npc.pb.h"
@@ -18,7 +15,7 @@ class CNpcType
 {
 	CNpcType() {}
 
-  public:
+public:
 	~CNpcType() {}
 	CREATE_NEW_IMPL(CNpcType);
 	bool Init(const Cfg_Npc_Row& row)
@@ -47,7 +44,7 @@ class CNpcType
 	float	 GetPosY() const { return m_Data.posy(); }
 	float	 GetFace() const { return m_Data.face(); }
 
-  private:
+private:
 	Cfg_Npc_Row m_Data;
 };
 
@@ -56,10 +53,10 @@ class CNpcTypeSet
 {
 	CNpcTypeSet();
 
-  public:
+public:
 	virtual ~CNpcTypeSet();
 
-  public:
+public:
 	CREATE_NEW_IMPL(CNpcTypeSet);
 	bool Init(const char* szFileName);
 	bool Reload(const char* szFileName);
@@ -68,11 +65,9 @@ class CNpcTypeSet
 	CNpcType*					  QueryObj(uint32_t idType);
 	const std::vector<CNpcType*>* QueryObjByMapID(uint32_t idMap);
 
-  protected:
+protected:
 	std::unordered_map<uint32_t, CNpcType*>				 m_setData;
 	std::unordered_map<uint32_t, std::vector<CNpcType*>> m_setDataByMapID;
 };
-
-#endif /* NPCTYPE_H */
 
 #endif /* NPCTYPE_H */

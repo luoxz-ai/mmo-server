@@ -5,10 +5,10 @@
 
 export_lua class CDynaMonster : public CMonster
 {
-  protected:
+protected:
 	CDynaMonster();
 
-  public:
+public:
 	virtual ~CDynaMonster();
 
 	CREATE_NEW_IMPL(CDynaMonster);

@@ -10,13 +10,13 @@ class CSceneObject;
 
 class CSceneBase : public CSceneTree
 {
-  protected:
+protected:
 	CSceneBase();
 
-  public:
+public:
 	virtual ~CSceneBase();
 
-  public:
+public:
 	bool					_Init(const SceneID& idScene, CMapManager* pMapManager);
 	export_lua virtual bool IsDynaScene() const { return false; }
 
@@ -46,7 +46,7 @@ class CSceneBase : public CSceneTree
 	export_lua virtual void AddDynaRegion(uint32_t nRegionType, const FloatRect& rect);
 	export_lua virtual void ClearDynaRegion(uint32_t nRegionType);
 
-  protected:
+protected:
 	SceneID m_idScene;
 
 	std::unordered_map<OBJID, CSceneObject*> m_setPlayer;

@@ -1,7 +1,6 @@
 #ifndef COMMONDATA_H
 #define COMMONDATA_H
 
-
 #include "BaseCode.h"
 #include "DBRecord.h"
 #include "gamedb.h"
@@ -26,7 +25,7 @@ class CPlayer;
 
 export_lua class CCommonData
 {
-  public:
+public:
 	CCommonData(CPlayer* pPlayer);
 	CCommonData(CPlayer* pPlayer, CDBRecordPtr&& pRecord);
 	~CCommonData();
@@ -40,7 +39,7 @@ export_lua class CCommonData
 	export_lua void		Save();
 	export_lua void		DeleteRecord();
 
-  private:
+private:
 	CPlayer*	 m_pOwner = nullptr;
 	CDBRecordPtr m_pRecord;
 
@@ -51,7 +50,7 @@ export_lua class CCommonDataSet
 {
 	CCommonDataSet();
 
-  public:
+public:
 	~CCommonDataSet();
 	CREATE_NEW_IMPL(CCommonDataSet);
 
@@ -62,7 +61,7 @@ export_lua class CCommonDataSet
 	export_lua CCommonData* CreateData(uint32_t nIdx);
 	export_lua void			DeleteData(uint32_t nIdx);
 
-  private:
+private:
 	CPlayer*								   m_pOwner = nullptr;
 	std::unordered_map<uint32_t, CCommonData*> m_setData;
 };

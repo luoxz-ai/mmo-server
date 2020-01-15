@@ -7,12 +7,8 @@
 bool CPlayer::EnterDynaScene(CDynaScene* pScene, float fPosX, float fPosY, float fRange, float fFace)
 {
 	__ENTER_FUNCTION
-	return EventManager()->ScheduleEvent(
-		EVENTID_FLYMAP,
-		std::bind(&CPlayer::_FlyMap, this, pScene->GetSceneID(), fPosX, fPosY, fRange, fFace),
-		0,
-		false,
-		GetEventMapRef());
+	return EventManager()->ScheduleEvent(EVENTID_FLYMAP, std::bind(&CPlayer::_FlyMap, this, pScene->GetSceneID(), fPosX, fPosY, fRange, fFace), 0, false,
+										 GetEventMapRef());
 	__LEAVE_FUNCTION
 	return false;
 }
@@ -30,12 +26,7 @@ bool CPlayer::FlyMap(uint32_t idMap, float fPosX, float fPosY, float fRange, flo
 	{
 		//场景在本地
 		//延迟调用真正的FlyMap
-		EventManager()->ScheduleEvent(
-			EVENTID_FLYMAP,
-			std::bind(&CPlayer::_FlyMap, this, pScene->GetSceneID(), fPosX, fPosY, fRange, fFace),
-			0,
-			false,
-			GetEventMapRef());
+		EventManager()->ScheduleEvent(EVENTID_FLYMAP, std::bind(&CPlayer::_FlyMap, this, pScene->GetSceneID(), fPosX, fPosY, fRange, fFace), 0, false, GetEventMapRef());
 
 		return true;
 	}
@@ -49,12 +40,8 @@ bool CPlayer::FlyMap(uint32_t idMap, float fPosX, float fPosY, float fRange, flo
 		if(idZone != ZoneService()->GetServiceID())
 		{
 			//切换zone
-			EventManager()->ScheduleEvent(
-				EVENTID_FLYMAP,
-				std::bind(&CPlayer::_ChangeZone, this, SceneID(idZone, idMap, 0), fPosX, fPosY, fRange, fFace),
-				0,
-				false,
-				GetEventMapRef());
+			EventManager()->ScheduleEvent(EVENTID_FLYMAP, std::bind(&CPlayer::_ChangeZone, this, SceneID(idZone, idMap, 0), fPosX, fPosY, fRange, fFace), 0, false,
+										  GetEventMapRef());
 
 			return true;
 		}
@@ -317,17 +304,11 @@ bool CPlayer::Reborn(uint32_t nRebornType)
 				return false;
 
 			const auto& pRebornData = GetCurrentScene()->GetMap()->GetRebornDataByIdx(GetCampID());
-			CHECKF_M(pRebornData,
-					 fmt::format(FMT_STRING("can't find RebornData In Map {} WithCamp:{}"), GetMapID(), GetCampID())
-						 .c_str());
+			CHECKF_M(pRebornData, fmt::format(FMT_STRING("can't find RebornData In Map {} WithCamp:{}"), GetMapID(), GetCampID()).c_str());
 
 			GetStatus()->DetachStatusByType(STATUSTYPE_DEAD);
 			SetProperty(PROP_HP, MulDiv(GetHPMax(), 2, 3), SYNC_ALL_DELAY);
-			FlyMap(pRebornData->reborn_map(),
-				   pRebornData->reborn_x(),
-				   pRebornData->reborn_y(),
-				   pRebornData->reborn_range(),
-				   pRebornData->reborn_face());
+			FlyMap(pRebornData->reborn_map(), pRebornData->reborn_x(), pRebornData->reborn_y(), pRebornData->reborn_range(), pRebornData->reborn_face());
 		}
 		break;
 		case REBORN_STANDPOS: //原地复活

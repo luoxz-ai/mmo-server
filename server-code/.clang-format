@@ -1,5 +1,6 @@
 ---
 BasedOnStyle: Microsoft
+AccessModifierOffset: '-4'
 AlignConsecutiveMacros: 'true'
 AlignConsecutiveAssignments: 'true'
 AlignConsecutiveDeclarations: 'true'
@@ -12,10 +13,11 @@ AllowShortFunctionsOnASingleLine: Inline
 AllowShortLambdasOnASingleLine: Inline
 AlwaysBreakBeforeMultilineStrings: 'false'
 AlwaysBreakTemplateDeclarations: 'Yes'
-BinPackArguments: 'false'
+BinPackArguments: 'true'
 BinPackParameters: 'false'
 BreakBeforeBraces: Allman
 BreakConstructorInitializers: BeforeComma
+ColumnLimit: '170'
 IncludeBlocks: Regroup
 IncludeCategories:
   - Regex: "^<.*[.]h"

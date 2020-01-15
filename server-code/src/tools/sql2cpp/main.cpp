@@ -243,15 +243,8 @@ struct {}
 			char		szBuf[4096]	  = {};
 			std::string table_name_UP = table_name;
 			std::transform(table_name_UP.begin(), table_name_UP.end(), table_name_UP.begin(), ::toupper);
-			sprintf(szBuf,
-					output_format.c_str(),
-					table_name_UP.c_str(),
-					table_name.c_str(),
-					fields_enum_list.c_str(),
-					fields_name.c_str(),
-					fields_type.c_str(),
-					fields_type_enum.c_str(),
-					is_pri_key_list.c_str());
+			sprintf(szBuf, output_format.c_str(), table_name_UP.c_str(), table_name.c_str(), fields_enum_list.c_str(), fields_name.c_str(), fields_type.c_str(),
+					fields_type_enum.c_str(), is_pri_key_list.c_str());
 
 			output_header += szBuf;
 			printf("%s", szBuf);
@@ -267,12 +260,7 @@ constexpr bool {}::pri_key_idx[];
 				char		szBuf[4096]	  = {};
 				std::string table_name_UP = table_name;
 				std::transform(table_name_UP.begin(), table_name_UP.end(), table_name_UP.begin(), ::toupper);
-				sprintf(szBuf,
-						output_format.c_str(),
-						table_name_UP.c_str(),
-						table_name_UP.c_str(),
-						table_name_UP.c_str(),
-						table_name_UP.c_str());
+				sprintf(szBuf, output_format.c_str(), table_name_UP.c_str(), table_name_UP.c_str(), table_name_UP.c_str(), table_name_UP.c_str());
 
 				output_cpp += szBuf;
 				printf("%s", szBuf);

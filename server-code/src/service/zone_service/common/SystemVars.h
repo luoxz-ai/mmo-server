@@ -1,7 +1,6 @@
 #ifndef SYSTEMVARS_H
 #define SYSTEMVARS_H
 
-
 #include "BaseCode.h"
 #include "DBRecord.h"
 #include "gamedb.h"
@@ -20,7 +19,7 @@ export_lua enum SYSTEMVAR_KEYIDX {
 class CPlayer;
 export_lua class CSystemVar
 {
-  public:
+public:
 	CSystemVar();
 	explicit CSystemVar(CDBRecordPtr&& pRecord);
 	~CSystemVar();
@@ -30,14 +29,14 @@ export_lua class CSystemVar
 	export_lua const std::string& GetStr(uint32_t nIdx) const;
 	export_lua void				  AddData(uint32_t nIdx, int64_t nVal, bool bUpdate = false, bool bSync = false);
 	export_lua void				  SetData(uint32_t nIdx, uint64_t nVal, bool bUpdate = false, bool bSync = false);
-	export_lua void SetStr(uint32_t nIdx, const std::string& strVal, bool bUpdate = false, bool bSync = false);
-	export_lua void Broadcast();
-	export_lua void SendToPlayer(CPlayer* pPlayer);
-	export_lua void Save();
-	export_lua void ClearModify();
-	export_lua void DeleteRecord();
+	export_lua void				  SetStr(uint32_t nIdx, const std::string& strVal, bool bUpdate = false, bool bSync = false);
+	export_lua void				  Broadcast();
+	export_lua void				  SendToPlayer(CPlayer* pPlayer);
+	export_lua void				  Save();
+	export_lua void				  ClearModify();
+	export_lua void				  DeleteRecord();
 
-  private:
+private:
 	uint32_t	m_nIdx	  = 0;
 	uint64_t	m_Data[4] = {0, 0, 0, 0};
 	std::string m_szStrData[4];
@@ -50,7 +49,7 @@ export_lua class CSystemVarSet
 {
 	CSystemVarSet();
 
-  public:
+public:
 	~CSystemVarSet();
 	CREATE_NEW_IMPL(CSystemVarSet);
 
@@ -62,7 +61,7 @@ export_lua class CSystemVarSet
 	void			OnSystemVarChange(class CNetworkMessage* pMsg);
 	export_lua void SyncToClient(CPlayer* pPlayer);
 
-  private:
+private:
 	std::unordered_map<uint32_t, CSystemVar*> m_setData;
 };
 #endif /* SYSTEMVARS_H */

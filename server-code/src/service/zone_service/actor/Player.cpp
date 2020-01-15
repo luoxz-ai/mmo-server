@@ -36,9 +36,7 @@ bool CPlayer::Init(OBJID idPlayer, const VirtualSocket& socket)
 
 	auto pDB = ZoneService()->GetGameDB(GetWorldIDFromPlayerID(idPlayer));
 	CHECKF(pDB);
-	auto result_ptr =
-		pDB->Query(TBLD_PLAYER::table_name,
-				   fmt::format(FMT_STRING("SELECT * FROM {} WHERE id={} LIMIT 1"), TBLD_PLAYER::table_name, idPlayer));
+	auto result_ptr = pDB->Query(TBLD_PLAYER::table_name, fmt::format(FMT_STRING("SELECT * FROM {} WHERE id={} LIMIT 1"), TBLD_PLAYER::table_name, idPlayer));
 	CHECKF(result_ptr);
 
 	m_pRecord = result_ptr->fetch_row(true);
@@ -327,28 +325,18 @@ bool CPlayer::TryChangeMap(uint32_t nLeavePointIdx)
 {
 	__ENTER_FUNCTION
 	auto pLeaveData = GetCurrentScene()->GetMap()->GetLeavePointByIdx(nLeavePointIdx);
-	CHECKF_M(pLeaveData,
-			 fmt::format(FMT_STRING("Can't Find LeaveMap {} On Map {}"), GetMapID(), nLeavePointIdx).c_str());
+	CHECKF_M(pLeaveData, fmt::format(FMT_STRING("Can't Find LeaveMap {} On Map {}"), GetMapID(), nLeavePointIdx).c_str());
 
 	CHECKF(GetPos().distance(Vector2(pLeaveData->x(), pLeaveData->y())) > pLeaveData->range());
 
 	auto pGameMap = MapManager()->QueryMap(pLeaveData->dest_map_id());
-	CHECKF_M(pGameMap,
-			 fmt::format(FMT_STRING("Can't Find Map {} When LeaveMap {} On Map {}"),
-						 pLeaveData->dest_map_id(),
-						 GetMapID(),
-						 nLeavePointIdx)
-				 .c_str());
+	CHECKF_M(pGameMap, fmt::format(FMT_STRING("Can't Find Map {} When LeaveMap {} On Map {}"), pLeaveData->dest_map_id(), GetMapID(), nLeavePointIdx).c_str());
 
 	//检查所有通行检查
 	auto pEnterData = pGameMap->GetEnterPointByIdx(pLeaveData->dest_enter_point_idx());
-	CHECKF_M(pEnterData,
-			 fmt::format(FMT_STRING("Can't Find EnterPoint {} On Map {} When LeaveMap {} On Map {}"),
-						 pLeaveData->dest_enter_point_idx(),
-						 pLeaveData->dest_map_id(),
-						 GetMapID(),
-						 nLeavePointIdx)
-				 .c_str());
+	CHECKF_M(pEnterData, fmt::format(FMT_STRING("Can't Find EnterPoint {} On Map {} When LeaveMap {} On Map {}"), pLeaveData->dest_enter_point_idx(),
+									 pLeaveData->dest_map_id(), GetMapID(), nLeavePointIdx)
+							 .c_str());
 
 	if(GetTeamMemberCount() < pEnterData->team_req())
 	{
@@ -652,8 +640,7 @@ bool CPlayer::CanDamage(CActor* pTarget) const
 
 		//新手保护
 		static const uint32_t NEWIBLE_PK_PROTECTED_LEV = 40;
-		if(GetCurrentScene()->GetMap()->HasMapFlag(MAPFLAG_DISABLE_PKPROTECTED) == false &&
-		   pTargetPlayer->GetLev() < NEWIBLE_PK_PROTECTED_LEV)
+		if(GetCurrentScene()->GetMap()->HasMapFlag(MAPFLAG_DISABLE_PKPROTECTED) == false && pTargetPlayer->GetLev() < NEWIBLE_PK_PROTECTED_LEV)
 			return false;
 
 		switch(GetPKMode())
@@ -665,8 +652,7 @@ bool CPlayer::CanDamage(CActor* pTarget) const
 			break;
 			case PKMODE_REDNAME:
 			{
-				return pTargetPlayer->GetStatus()->TestStatusByType(STATUSTYPE_CRIME) ||
-					   pTargetPlayer->GetPKVal() >= RED_NAME_PKVAL;
+				return pTargetPlayer->GetStatus()->TestStatusByType(STATUSTYPE_CRIME) || pTargetPlayer->GetPKVal() >= RED_NAME_PKVAL;
 			}
 			break;
 			case PKMODE_TEAM:
@@ -1024,12 +1010,7 @@ bool CPlayer::DialogAddText(const std::string& txt)
 	return false;
 }
 
-bool CPlayer::DialogAddLink(uint32_t		   nLinkType,
-							const std::string& link_txt,
-							uint32_t		   idFuncType,
-							uint64_t		   idData,
-							const std::string& callback_func,
-							uint64_t		   idNpc)
+bool CPlayer::DialogAddLink(uint32_t nLinkType, const std::string& link_txt, uint32_t idFuncType, uint64_t idData, const std::string& callback_func, uint64_t idNpc)
 {
 	__ENTER_FUNCTION
 	m_dialog_callback[m_dialog_msg.dialog_id()].push_back({idFuncType, idData, callback_func, idNpc});

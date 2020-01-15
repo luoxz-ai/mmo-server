@@ -9,7 +9,7 @@
 
 class CSettingNode
 {
-  public:
+public:
 	CSettingNode() = default;
 
 	std::vector<CSettingNode>& operator[](const std::string& name) { return m_setChild[name]; }
@@ -162,7 +162,7 @@ class CSettingNode
 		if(it != m_setAttrib.end())
 		{
 			const std::string& result = it->second;
-			val = (result == std::string("TRUE") || result == std::string("true") || result == std::string("1"));
+			val						  = (result == std::string("TRUE") || result == std::string("true") || result == std::string("1"));
 			return true;
 		}
 		return false;
@@ -259,7 +259,7 @@ class CSettingNode
 		if(it != m_setAttrib.end() && it->second.empty() == false)
 		{
 			const std::string& result = it->second;
-			val = (result == std::string("TRUE") || result == std::string("true") || result == std::string("1"));
+			val						  = (result == std::string("TRUE") || result == std::string("true") || result == std::string("1"));
 			return val;
 		}
 		return val;
@@ -274,14 +274,14 @@ class CSettingNode
 		m_setAttrib[AttName] = AttVal;
 	}
 
-  protected:
+protected:
 	std::map<std::string, std::vector<CSettingNode>> m_setChild;
 	std::map<std::string, std::string>				 m_setAttrib;
 	friend class CSettingMap;
 };
 class CSettingMap
 {
-  public:
+public:
 	CSettingMap() = default;
 
 	void Prase(tinyxml2::XMLElement* pRootE)
@@ -318,7 +318,7 @@ class CSettingMap
 	std::vector<CSettingNode>&		 operator[](const std::string& name) { return m_RootNode[name]; }
 	const std::vector<CSettingNode>& operator[](const std::string& name) const { return m_RootNode[name]; }
 
-  private:
+private:
 	CSettingNode m_RootNode;
 };
 #endif // SettingMap_h__

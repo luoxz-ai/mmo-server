@@ -143,8 +143,7 @@ bool CCoolDownSet::IsCoolDown(uint32_t nType, uint32_t nIdx, uint32_t now)
 	return false;
 }
 
-bool CCoolDownSet::StartCoolDown(
-	uint32_t nType, uint32_t nIdx, uint32_t nMSec, bool bUpdate /*= false*/, bool bSync /* = true*/)
+bool CCoolDownSet::StartCoolDown(uint32_t nType, uint32_t nIdx, uint32_t nMSec, bool bUpdate /*= false*/, bool bSync /* = true*/)
 {
 	__ENTER_FUNCTION
 	uint64_t key = MAKE64(nType, nIdx);
@@ -202,9 +201,7 @@ bool CPlayerCoolDownSet::Init(CPlayer* pPlayer)
 	CHECKF(pPlayer);
 	m_pOwner	 = pPlayer;
 	auto* pDB	 = ZoneService()->GetGameDB(pPlayer->GetWorldID());
-	auto  result = pDB->Query(
-		 TBLD_COOLDOWN::table_name,
-		 fmt::format(FMT_STRING("SELECT * FROM {} WHERE playerid={}"), TBLD_COOLDOWN::table_name, pPlayer->GetID()));
+	auto  result = pDB->Query(TBLD_COOLDOWN::table_name, fmt::format(FMT_STRING("SELECT * FROM {} WHERE playerid={}"), TBLD_COOLDOWN::table_name, pPlayer->GetID()));
 	if(result)
 	{
 		for(size_t i = 0; i < result->get_num_row(); i++)

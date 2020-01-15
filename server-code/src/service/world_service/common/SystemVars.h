@@ -19,7 +19,7 @@ enum SYSTEMVAR_KEYIDX
 };
 class CSystemVar
 {
-  public:
+public:
 	CSystemVar();
 	explicit CSystemVar(CDBRecordPtr&& pRecord);
 	~CSystemVar();
@@ -34,10 +34,10 @@ class CSystemVar
 	void			   Save();
 	void			   DeleteRecord();
 
-  public:
+public:
 	MEMORYHEAP_DECLARATION(s_heap);
 
-  private:
+private:
 	uint32_t	m_nIdx	  = 0;
 	uint64_t	m_Data[4] = {0, 0, 0, 0};
 	std::string m_szStrData[4];
@@ -49,7 +49,7 @@ class CSystemVarSet
 {
 	CSystemVarSet();
 
-  public:
+public:
 	~CSystemVarSet();
 	CREATE_NEW_IMPL(CSystemVarSet);
 
@@ -60,7 +60,7 @@ class CSystemVarSet
 
 	void OnSystemVarChange(class CNetworkMessage* pMsg);
 
-  private:
+private:
 	std::unordered_map<uint32_t, CSystemVar*> m_setData;
 };
 #endif /* SYSTEMVARS_H */

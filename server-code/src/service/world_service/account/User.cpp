@@ -46,10 +46,7 @@ void CUser::EnterZone()
 		msg.set_posy(m_pInfo->GetRecordPosY());
 		msg.set_face(m_pInfo->GetRecordFace());
 
-		CNetworkMessage _msg(ServerMSG::MsgID_PlayerEnterZone,
-							 msg,
-							 WorldService()->GetServerPort(),
-							 ServerPort(WorldService()->GetWorldID(), idZone));
+		CNetworkMessage _msg(ServerMSG::MsgID_PlayerEnterZone, msg, WorldService()->GetServerPort(), ServerPort(WorldService()->GetWorldID(), idZone));
 		WorldService()->SendMsg(_msg);
 	}
 
@@ -95,10 +92,7 @@ void CUser::Logout()
 		ServerMSG::PlayerLogout msg;
 		msg.set_idplayer(GetID());
 		msg.set_socket(GetSocket());
-		CNetworkMessage _msg(ServerMSG::MsgID_PlayerLogout,
-							 msg,
-							 WorldService()->GetServerPort(),
-							 ServerPort(WorldService()->GetWorldID(), m_idZone));
+		CNetworkMessage _msg(ServerMSG::MsgID_PlayerLogout, msg, WorldService()->GetServerPort(), ServerPort(WorldService()->GetWorldID(), m_idZone));
 		WorldService()->SendMsg(_msg);
 	}
 	//通知Socket， 玩家消息指向回World

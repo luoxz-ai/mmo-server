@@ -28,11 +28,11 @@ struct MonsterGenData
 class CAIScene;
 class CMonsterGenerator
 {
-  public:
+public:
 	CMonsterGenerator();
 	~CMonsterGenerator();
 
-  public:
+public:
 	void			Init(CAIScene* pScene);
 	void			Generator();
 	void			ActiveAll(bool bActive);
@@ -44,14 +44,14 @@ class CMonsterGenerator
 	void			OnMonsterBorn(CAIMonster* pMonster);
 	void			OnMonsterDead(CAIMonster* pMonster);
 
-  private:
+private:
 	void OnGenTimer(MonsterGenData* pData);
 	void _GenMonster(MonsterGenData* pData);
 
 	void StartGen(MonsterGenData* pData, bool bCheckRunning = true);
 	void StopGen(MonsterGenData* pData);
 
-  private:
+private:
 	SceneID										  m_idScene;
 	CGameMap*									  m_pMap;
 	std::unordered_map<uint32_t, MonsterGenData*> m_setGen;

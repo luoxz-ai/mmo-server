@@ -10,7 +10,7 @@
 
 class BytePerSecondCount
 {
-  public:
+public:
 	BytePerSecondCount()
 		: m_nTotal(0)
 		, m_nCur(0)
@@ -47,7 +47,7 @@ class BytePerSecondCount
 		m_nCur += nCount;
 	}
 
-  private:
+private:
 	std::atomic<size_t> m_nTotal;
 	std::atomic<size_t> m_nCur;
 

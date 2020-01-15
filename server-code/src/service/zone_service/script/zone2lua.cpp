@@ -389,7 +389,6 @@ lua_tinker::set(L, "TASKFLAG_SUBMIT_DELITEM",TASKFLAG_SUBMIT_DELITEM);
 lua_tinker::set(L, "WORLD_SERVICE",WORLD_SERVICE);
 lua_tinker::set(L, "WORLD_SERVICE_ID",WORLD_SERVICE_ID);
 lua_tinker::set(L, "ZONE_SERVICE",ZONE_SERVICE);
-lua_tinker::class_add<(anonymous class at /data/mmorpg/server-code/src/service/zone_service/skill/SkillState.h:14:18)>(L, "(anonymous class at /data/mmorpg/server-code/src/service/zone_service/skill/SkillState.h:14:18)",true);
 lua_tinker::class_add<CActor>(L, "CActor",true);
 lua_tinker::class_def<CActor>(L, "AddDelayAttribChange",&CActor::AddDelayAttribChange);
 lua_tinker::class_def<CActor>(L, "AddDelaySendShowToAllViewPlayer",&CActor::AddDelaySendShowToAllViewPlayer);

@@ -10,13 +10,13 @@ struct event;
 class CNetMSGProcess;
 class CGlobalRouteService : public IService, public CServiceCommon
 {
-  public:
+public:
 	CGlobalRouteService(const ServerPort& nServerPort);
 	virtual ~CGlobalRouteService();
 	void Release() { delete this; }
 	bool Create();
 
-  public:
+public:
 	virtual void OnLogicThreadProc() override;
 	virtual void OnLogicThreadCreate() override;
 	virtual void OnLogicThreadExit() override;
@@ -27,7 +27,7 @@ class CGlobalRouteService : public IService, public CServiceCommon
 	void				   AddDelayResponse(uint64_t uid, struct evhttp_request* req);
 	struct evhttp_request* FindDelayResponse(uint64_t uid);
 
-  private:
+private:
 	std::map<uint64_t, struct evhttp_request*> m_RequestMap;
 };
 

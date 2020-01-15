@@ -29,8 +29,7 @@ bool CBullet::Init(OBJID idOwner, CBulletType* pType, OBJID idTarget, const Vect
 
 	if(m_pType->GetMoveSPD() != 0)
 	{
-		EventManager()->ScheduleEvent(
-			EVENTID_BULLET_MOVESTEP, std::bind(&CBullet::MoveStep, this), 500, false, GetEventMapRef());
+		EventManager()->ScheduleEvent(EVENTID_BULLET_MOVESTEP, std::bind(&CBullet::MoveStep, this), 500, false, GetEventMapRef());
 	}
 	_SetHP(1);
 	m_ActorAttrib.get_base(ATTRIB_HP_MAX) = 1;
@@ -110,8 +109,7 @@ void CBullet::ScheduleApply()
 	if(m_nApplyTimes < m_pType->GetApplyTimes())
 	{
 		uint32_t next_apply_time = m_pType->GetApplyMS() + m_pType->GetApplyAdjMS() * m_nApplyTimes;
-		EventManager()->ScheduleEvent(
-			EVENTID_BULLET_APPLY, std::bind(&CBullet::DoApply, this), next_apply_time, false, GetEventMapRef());
+		EventManager()->ScheduleEvent(EVENTID_BULLET_APPLY, std::bind(&CBullet::DoApply, this), next_apply_time, false, GetEventMapRef());
 		m_nApplyTimes++;
 	}
 	else

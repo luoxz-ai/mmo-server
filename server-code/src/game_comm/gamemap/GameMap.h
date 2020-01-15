@@ -31,8 +31,8 @@ enum MAP_FLAG
 	MAPFLAG_DISABLE_PKPROTECTED = 0x00040000, // 禁止PK保护
 	MAPFLAG_DISABLE_PK			= 0x00080000, // 禁止PK
 
-	MAPFLAG_DISABLE_LEAVE = 0x00100000, // 禁止使用直接离开副本的按钮
-	MAPFLAG_LEVAE_TO_HOME = 0x00200000, // 点击离开副本按钮会回到安全区而不是回来进入副本前最后的记录点
+	MAPFLAG_DISABLE_LEAVE			= 0x00100000, // 禁止使用直接离开副本的按钮
+	MAPFLAG_LEVAE_TO_HOME			= 0x00200000, // 点击离开副本按钮会回到安全区而不是回来进入副本前最后的记录点
 	MAPFLAG_DISABLE_REBORN_MAPPOS	= 0x00400000, // 禁止在副本复活点复活
 	MAPFLAG_DISABLE_REBORN_STANDPOS = 0x00800000, // 禁止原地复活
 
@@ -66,7 +66,7 @@ enum REBORN_TYPE
 class CMapManager;
 export_lua class CGameMap
 {
-  public:
+public:
 	CGameMap(CMapManager* pManager, const Cfg_Scene_Row& data, CMapData* pMapData);
 	~CGameMap();
 
@@ -82,8 +82,7 @@ export_lua class CGameMap
 	export_lua bool		IsDynaMap() const { return HasFlag(GetMapFlag(), MAPFLAG_DYNAMAP); }
 
 	export_lua bool IsNearLeavePoint(float x, float y, uint32_t& destMapID, uint32_t& destEnterPointIdx);
-	export_lua bool IsNearLeavePointX(
-		uint32_t nLeavePointIdx, float x, float y, uint32_t& destMapID, uint32_t& destEnterPointIdx);
+	export_lua bool IsNearLeavePointX(uint32_t nLeavePointIdx, float x, float y, uint32_t& destMapID, uint32_t& destEnterPointIdx);
 
 	export_lua bool IsPassDisable(float x, float y) const;
 	export_lua bool IsJumpDisable(float x, float y) const;
@@ -102,7 +101,7 @@ export_lua class CGameMap
 	export_lua Vector2 LineFindCanStand(const Vector2& src, const Vector2& dest) const;
 	export_lua Vector2 LineFindCanJump(const Vector2& src, const Vector2& dest) const;
 
-  public:
+public:
 	export_lua const CMapData* GetMapData() const { return m_pMapData; }
 
 	export_lua const Cfg_Scene_EnterPoint_Row* GetEnterPointByIdx(uint32_t idx) const;
@@ -135,7 +134,7 @@ export_lua class CGameMap
 	}
 	void _AddPatrol(const Cfg_Scene_Patrol_Row& iter);
 
-  private:
+private:
 	CMapManager* m_pManager = nullptr;
 	uint32_t	 m_idMap	= 0;
 	std::string	 m_MapName;

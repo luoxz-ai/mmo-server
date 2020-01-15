@@ -82,12 +82,12 @@ struct ST_ROLE_INFO
 class CUser;
 class CAccount
 {
-  private:
+private:
 	CAccount();
 	size_t				GetRoleAmount() const;
 	const ST_ROLE_INFO* QueryRoleByIndex(size_t nIdx);
 
-  public:
+public:
 	CREATE_NEW_IMPL(CAccount);
 	~CAccount();
 
@@ -107,7 +107,7 @@ class CAccount
 	void SendActorInfo();
 	void SendWaitInfo();
 
-  public:
+public:
 	void SetWait(bool bWait);
 	bool IsWait();
 
@@ -116,10 +116,10 @@ class CAccount
 	const VirtualSocket& GetSocket() const { return m_Socket; }
 	void				 SetSocket(const VirtualSocket& val) { m_Socket = val; }
 
-  public:
+public:
 	MEMORYHEAP_DECLARATION(s_heap);
 
-  private:
+private:
 	VirtualSocket			   m_Socket;
 	char					   m_openid[2048];
 	std::vector<ST_ROLE_INFO*> m_setActorInfo;

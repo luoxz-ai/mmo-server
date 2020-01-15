@@ -19,14 +19,12 @@
 #include "event2/keyvalq_struct.h"
 #include "loging_manager.h"
 #include "md5.h"
-#include "proxy_service.pb.h"
 #include "msg/server_side.pb.h"
+#include "proxy_service.pb.h"
 #include "tinyxml2/tinyxml2.h"
 
 // handle HTTP response of accessing builtin services of the target server.
-static void handle_response(brpc::Controller*		   client_cntl,
-							brpc::Controller*		   server_cntl,
-							google::protobuf::Closure* server_done)
+static void handle_response(brpc::Controller* client_cntl, brpc::Controller* server_cntl, google::protobuf::Closure* server_done)
 {
 	// Copy all headers. The "Content-Length" will be overwriteen.
 	server_cntl->http_response() = client_cntl->http_response();
@@ -49,7 +47,7 @@ class ProxyServiceImpl : public ProxyService
 	CGlobalRouteService* m_pService;
 	int					 m_internal_port;
 
-  public:
+public:
 	ProxyServiceImpl(CGlobalRouteService* pService, int internal_port)
 		: m_pService(pService)
 		, m_internal_port(internal_port)
@@ -57,10 +55,7 @@ class ProxyServiceImpl : public ProxyService
 	}
 	virtual ~ProxyServiceImpl(){};
 
-	bool TransToTarget(const char*				  server_addr,
-					   int						  port,
-					   brpc::Controller*		  server_cntl,
-					   google::protobuf::Closure* done)
+	bool TransToTarget(const char* server_addr, int port, brpc::Controller* server_cntl, google::protobuf::Closure* done)
 	{
 		if(server_addr == nullptr)
 			return false;
@@ -109,15 +104,11 @@ class ProxyServiceImpl : public ProxyService
 		// Keep content as it is.
 		client_cntl->request_attachment() = server_cntl->request_attachment();
 
-		http_chan.CallMethod(
-			NULL, client_cntl, NULL, NULL, brpc::NewCallback(&handle_response, client_cntl, server_cntl, done));
+		http_chan.CallMethod(NULL, client_cntl, NULL, NULL, brpc::NewCallback(&handle_response, client_cntl, server_cntl, done));
 		return true;
 	}
 
-	virtual void default_method(google::protobuf::RpcController* cntl_base,
-								const HttpRequest*,
-								HttpResponse*,
-								google::protobuf::Closure* done)
+	virtual void default_method(google::protobuf::RpcController* cntl_base, const HttpRequest*, HttpResponse*, google::protobuf::Closure* done)
 	{
 		brpc::ClosureGuard done_guard(done);
 		brpc::Controller*  server_cntl = static_cast<brpc::Controller*>(cntl_base);
@@ -216,8 +207,7 @@ bool CGlobalRouteService::Create()
 			return false;
 		}
 		CreateRPCServer();
-		CHECKF(StartRPCServer(
-			pAddrInfo->publish_port, pAddrInfo->debug_port, true, new ProxyServiceImpl(this, pAddrInfo->debug_port)));
+		CHECKF(StartRPCServer(pAddrInfo->publish_port, pAddrInfo->debug_port, true, new ProxyServiceImpl(this, pAddrInfo->debug_port)));
 	}
 
 	return true;
@@ -279,11 +269,7 @@ void CGlobalRouteService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 					evbuffer_free(pbuf);
 			}
 
-			LOGMESSAGE("response_send:{} code:{} res:{} tt:{}",
-					   msg.uid(),
-					   msg.response_code(),
-					   msg.response_reason().c_str(),
-					   msg.response_txt().c_str());
+			LOGMESSAGE("response_send:{} code:{} res:{} tt:{}", msg.uid(), msg.response_code(), msg.response_reason().c_str(), msg.response_txt().c_str());
 		}
 		break;
 		default:

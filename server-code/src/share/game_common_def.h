@@ -1,7 +1,6 @@
 #ifndef GAME_COMMON_DEF_H
 #define GAME_COMMON_DEF_H
 
-
 #include "Common.pb.h"
 
 const char GMCMD_PREFIX = '@';

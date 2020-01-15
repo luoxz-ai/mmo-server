@@ -100,9 +100,7 @@ bool ServiceLoader::_StartService(const std::string& dll_name, uint16_t idWorld,
 	return false;
 }
 
-bool ServiceLoader::Load(const std::string&		   setting_filename,
-						 uint16_t				   nWorldID,
-						 const std::set<uint16_t>& create_service_set)
+bool ServiceLoader::Load(const std::string& setting_filename, uint16_t nWorldID, const std::set<uint16_t>& create_service_set)
 {
 
 	//先将所有的Service存储到MessagePort中，这样当Service开启后，收到的ServiceMsg:service_addr如果没有收录就是新Service
@@ -119,13 +117,12 @@ bool ServiceLoader::Load(const std::string&		   setting_filename,
 		{
 			//全部启动在本loader上
 			bool bSucc = false;
-			GetMessageRoute()->ForeachServiceInfoByWorldID(
-				nWorldID, false, [&bSucc, nWorldID, pThis = this](const ServerAddrInfo* pServerAddrInfo) {
-					bSucc = pThis->_StartService(pServerAddrInfo->lib_name, nWorldID, pServerAddrInfo->idService);
-					if(bSucc == false)
-						return false;
-					return true;
-				});
+			GetMessageRoute()->ForeachServiceInfoByWorldID(nWorldID, false, [&bSucc, nWorldID, pThis = this](const ServerAddrInfo* pServerAddrInfo) {
+				bSucc = pThis->_StartService(pServerAddrInfo->lib_name, nWorldID, pServerAddrInfo->idService);
+				if(bSucc == false)
+					return false;
+				return true;
+			});
 			if(bSucc == false)
 				return false;
 		}

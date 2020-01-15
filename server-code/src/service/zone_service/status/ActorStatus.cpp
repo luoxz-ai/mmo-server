@@ -25,9 +25,7 @@ bool CActorStatus::Init(CActor* pActor)
 		return true;
 	auto pDB = ZoneService()->GetGameDB(m_pOwner->GetWorldID());
 	CHECKF(pDB);
-	auto pResult = pDB->Query(
-		TBLD_STATUS::table_name,
-		fmt::format(FMT_STRING("SELECT * FROM {} WHERE userid={}"), TBLD_STATUS::table_name, m_pOwner->GetID()));
+	auto pResult = pDB->Query(TBLD_STATUS::table_name, fmt::format(FMT_STRING("SELECT * FROM {} WHERE userid={}"), TBLD_STATUS::table_name, m_pOwner->GetID()));
 	if(pResult)
 	{
 		for(size_t i = 0; i < pResult->get_num_row(); i++)
@@ -122,8 +120,7 @@ void CActorStatus::FillStatusMsg(SC_STATUS_LIST& status_msg)
 	__LEAVE_FUNCTION
 }
 
-bool CActorStatus::AttachStatus(
-	uint16_t idStatusType, UCHAR ucLev, OBJID idCaster, uint32_t nPower, uint32_t nSecs, uint32_t nTimes)
+bool CActorStatus::AttachStatus(uint16_t idStatusType, UCHAR ucLev, OBJID idCaster, uint32_t nPower, uint32_t nSecs, uint32_t nTimes)
 {
 	__ENTER_FUNCTION
 	CStatusType* pNewStatusType = StatusTypeSet()->QueryObj(CStatusType::MakeID(idStatusType, ucLev));
@@ -247,11 +244,8 @@ bool CActorStatus::DetachStatusByFlag(uint32_t nStatusFlag, bool bHave)
 bool CActorStatus::TestStatusByType(uint32_t nStatusType) const
 {
 	__ENTER_FUNCTION
-	auto it = std::find_if(m_setStatus.begin(),
-						   m_setStatus.end(),
-						   [nStatusType](const std::pair<const short unsigned int, CStatus*>& pair_val) -> bool {
-							   return pair_val.second->GetType() == nStatusType;
-						   });
+	auto it = std::find_if(m_setStatus.begin(), m_setStatus.end(),
+						   [nStatusType](const std::pair<const short unsigned int, CStatus*>& pair_val) -> bool { return pair_val.second->GetType() == nStatusType; });
 	return it != m_setStatus.end();
 	__LEAVE_FUNCTION
 	return false;
@@ -260,11 +254,8 @@ bool CActorStatus::TestStatusByType(uint32_t nStatusType) const
 bool CActorStatus::TestStatusByFlag(uint32_t nFlag) const
 {
 	__ENTER_FUNCTION
-	auto it = std::find_if(m_setStatus.begin(),
-						   m_setStatus.end(),
-						   [nFlag](const std::pair<const short unsigned int, CStatus*>& pair_val) -> bool {
-							   return HasFlag(pair_val.second->GetFlag(), nFlag);
-						   });
+	auto it = std::find_if(m_setStatus.begin(), m_setStatus.end(),
+						   [nFlag](const std::pair<const short unsigned int, CStatus*>& pair_val) -> bool { return HasFlag(pair_val.second->GetFlag(), nFlag); });
 	return it != m_setStatus.end();
 	__LEAVE_FUNCTION
 	return false;
@@ -356,8 +347,7 @@ void CActorStatus::OnBeAttack(CActor* pAttacker, int32_t nDamage)
 	for(auto it = m_setStatus.begin(); it != m_setStatus.end();)
 	{
 		CStatus* pStatus = it->second;
-		if(HasFlag(pStatus->GetFlag(), STATUSFLAG_DEATCH_BEATTACK) == true ||
-		   it->second->OnBeAttack(pAttacker, nDamage))
+		if(HasFlag(pStatus->GetFlag(), STATUSFLAG_DEATCH_BEATTACK) == true || it->second->OnBeAttack(pAttacker, nDamage))
 		{
 			pStatus->OnDeatch();
 			SAFE_DELETE(pStatus);

@@ -10,13 +10,13 @@ struct event;
 class CNetMSGProcess;
 class CMarketService : public IService, public CServiceCommon
 {
-  public:
+public:
 	CMarketService(const ServerPort& nServerPort);
 	virtual ~CMarketService();
 	void Release() { delete this; }
 	bool Create();
 
-  public:
+public:
 	virtual void OnLogicThreadProc() override;
 	virtual void OnLogicThreadCreate() override;
 	virtual void OnLogicThreadExit() override;

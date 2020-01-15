@@ -6,17 +6,17 @@
 
 export_lua class CBullet : public CActor
 {
-  protected:
+protected:
 	CBullet();
 
-  public:
+public:
 	virtual ~CBullet();
 
 	CREATE_NEW_IMPL(CBullet);
 	bool	 Init(OBJID idOwner, CBulletType* pType, OBJID idTarget, const Vector2& posTarget);
 	uint32_t GetTypeID() const { return m_idType; }
 
-  public:
+public:
 	export_lua virtual ActorType GetActorType() const { return ActorType::ACT_BULLET; }
 	export_lua static ActorType	 GetActorTypeStatic() { return ActorType::ACT_BULLET; }
 	virtual void				 MakeShowData(SC_AOI_NEW& msg) override;
@@ -32,10 +32,10 @@ export_lua class CBullet : public CActor
 	void DoApply();
 	void MoveStep();
 
-  public:
+public:
 	MEMORYHEAP_DECLARATION(s_heap);
 
-  private:
+private:
 	OBJID		 m_idOwner	   = 0;
 	uint32_t	 m_idType	   = 0;
 	CBulletType* m_pType	   = nullptr;

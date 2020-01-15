@@ -73,15 +73,10 @@ fuzzy::Trapezoid fuzzy::Trapezoid::larsen(const double ratio) const
 
 fuzzy::Trapezoid fuzzy::Trapezoid::mamdami(const double clip_height) const
 {
-	return Trapezoid(_left,
-					 _left + (clip_height * (_top_left - _left)),
-					 _right - (clip_height * (_right - _top_right)),
-					 _right,
-					 clip_height);
+	return Trapezoid(_left, _left + (clip_height * (_top_left - _left)), _right - (clip_height * (_right - _top_right)), _right, clip_height);
 }
 
 bool fuzzy::Trapezoid::operator==(const Trapezoid& other) const
 {
-	return (_left == other._left && _top_left == other._top_left && _top_right == other._top_right &&
-			_right == other._right && _height == other._height);
+	return (_left == other._left && _top_left == other._top_left && _top_right == other._top_right && _right == other._right && _height == other._height);
 }

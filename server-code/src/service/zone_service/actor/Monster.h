@@ -1,23 +1,22 @@
 #ifndef MONSTER_H
 #define MONSTER_H
 
-
 #include "Actor.h"
 #include "HateList.h"
 #include "MonsterType.h"
 
 export_lua class CMonster : public CActor
 {
-  protected:
+protected:
 	CMonster();
 
-  public:
+public:
 	virtual ~CMonster();
 
 	CREATE_NEW_IMPL(CMonster);
 	bool Init(uint32_t idMonsterType, OBJID idOwner, uint32_t idGen, uint32_t idCamp);
 
-  public:
+public:
 	export_lua virtual bool SendMessage(uint16_t cmd, const google::protobuf::Message& msg) const override;
 
 	export_lua virtual ActorType GetActorType() const { return ActorType::ACT_MONSTER; }
@@ -52,14 +51,13 @@ export_lua class CMonster : public CActor
 		if(m_pType->GetScirptID() == 0)
 			return RVal();
 		else
-			return ScriptManager()->TryExecScript<RVal>(
-				m_pType->GetScirptID(), idxCallBackType, std::forward<Args>(args)...);
+			return ScriptManager()->TryExecScript<RVal>(m_pType->GetScirptID(), idxCallBackType, std::forward<Args>(args)...);
 	}
 
-  public:
+public:
 	MEMORYHEAP_DECLARATION(s_heap);
 
-  private:
+private:
 	uint32_t m_nHP = 0;
 	uint32_t m_nMP = 0;
 

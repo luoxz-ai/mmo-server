@@ -27,7 +27,7 @@ class CPlayer;
 
 class CActorManager
 {
-  public:
+public:
 	CActorManager();
 	~CActorManager();
 
@@ -55,13 +55,10 @@ class CActorManager
 		std::for_each(m_PlayerRefMap.begin(), m_PlayerRefMap.end(), func);
 	}
 
-	void foreach_actor(std::function<void(const std::unordered_map<OBJID, CActor*>::value_type&)>&& func)
-	{
-		std::for_each(m_ActorMap.begin(), m_ActorMap.end(), func);
-	}
+	void foreach_actor(std::function<void(const std::unordered_map<OBJID, CActor*>::value_type&)>&& func) { std::for_each(m_ActorMap.begin(), m_ActorMap.end(), func); }
 
-  protected:
-  private:
+protected:
+private:
 	std::array<size_t, ACT_MAX>					m_ActorCount;
 	std::unordered_map<OBJID, CActor*>			m_ActorMap;
 	std::unordered_map<VirtualSocket, CPlayer*> m_PlayerRefMap;

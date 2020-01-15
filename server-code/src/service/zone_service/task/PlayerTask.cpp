@@ -165,9 +165,7 @@ bool CPlayerTask::Init(CPlayer* pPlayer)
 
 	auto pDB = ZoneService()->GetGameDB(m_pOwner->GetWorldID());
 	CHECKF(pDB);
-	auto pResult = pDB->Query(
-		TBLD_ITEM::table_name,
-		fmt::format(FMT_STRING("SELECT * FROM {} WHERE userid={}"), TBLD_TASK::table_name, m_pOwner->GetID()));
+	auto pResult = pDB->Query(TBLD_ITEM::table_name, fmt::format(FMT_STRING("SELECT * FROM {} WHERE userid={}"), TBLD_TASK::table_name, m_pOwner->GetID()));
 	if(pResult)
 	{
 		for(size_t i = 0; i < pResult->get_num_row(); i++)
@@ -410,8 +408,7 @@ bool CPlayerTask::SubmitTask(uint32_t idTask, uint32_t nSubmitMultiple)
 	}
 
 	if(pType->GetScriptID() != 0)
-		ScriptManager()->TryExecScript<void>(
-			pType->GetScriptID(), SCB_TASK_ON_COMMIT, m_pOwner, pData, nSubmitMultiple);
+		ScriptManager()->TryExecScript<void>(pType->GetScriptID(), SCB_TASK_ON_COMMIT, m_pOwner, pData, nSubmitMultiple);
 
 	//给予奖励
 	if(pType->GetAwardExp() > 0)
@@ -758,8 +755,7 @@ void CPlayerTask::OnKillMonster(uint32_t idMonster, bool bKillBySelf)
 		for(int i = 0; i < pType->GetDataRef().finish_data_list_size(); i++)
 		{
 			const auto& v = pType->GetDataRef().finish_data_list(i);
-			if(v.finish_type() == TFTYPE_MONSTER && v.finish_data() == idMonster &&
-			   (bKillBySelf == true || (bKillBySelf == false && v.share() == false)) &&
+			if(v.finish_type() == TFTYPE_MONSTER && v.finish_data() == idMonster && (bKillBySelf == true || (bKillBySelf == false && v.share() == false)) &&
 			   (v.rate() != 0 && random_hit(v.rate()) == true))
 			{
 				pTaskData->SetNum(i, pTaskData->GetNum(i) + 1, UPDATE_TRUE);
@@ -818,11 +814,7 @@ bool CPlayerTask::ShowTaskDialog(uint32_t idTask, OBJID idNpc)
 		m_pOwner->DialogBegin(pTaskType->GetName());
 		m_pOwner->DialogAddText(pTaskType->GetAcceptText());
 
-		m_pOwner->DialogAddLink(DIALOGLINK_TYPE_BUTTON,
-								STR_TASK_ACCEPT,
-								DIALOG_FUNC_ACCEPTTASK,
-								MAKE64(0, idTask),
-								"",
+		m_pOwner->DialogAddLink(DIALOGLINK_TYPE_BUTTON, STR_TASK_ACCEPT, DIALOG_FUNC_ACCEPTTASK, MAKE64(0, idTask), "",
 								(pTaskType->HasFlag(TASKFLAG_AUTO_ACITVE_NPC) ? idNpc : 0));
 		m_pOwner->DialogSend(DIALOGTYPE_ACCEPT_TASK);
 		return true;
@@ -837,11 +829,7 @@ bool CPlayerTask::ShowTaskDialog(uint32_t idTask, OBJID idNpc)
 		if(pTaskType->GetQuickSubmitCost() > 0)
 		{
 			//快速提交
-			m_pOwner->DialogAddLink(DIALOGLINK_TYPE_BUTTON,
-									STR_TASK_QUICK_FINISH,
-									DIALOG_FUNC_QUICKFINISHTASK,
-									MAKE64(0, idTask),
-									"",
+			m_pOwner->DialogAddLink(DIALOGLINK_TYPE_BUTTON, STR_TASK_QUICK_FINISH, DIALOG_FUNC_QUICKFINISHTASK, MAKE64(0, idTask), "",
 									(pTaskType->HasFlag(TASKFLAG_AUTO_ACITVE_NPC) ? idNpc : 0));
 		}
 
@@ -856,11 +844,7 @@ bool CPlayerTask::ShowTaskDialog(uint32_t idTask, OBJID idNpc)
 		//多倍提交
 		for(uint32_t i = 0; i <= pTaskType->GetSubmitMultipleMax(); i++)
 		{
-			m_pOwner->DialogAddLink(DIALOGLINK_TYPE_BUTTON,
-									STR_TASK_SUBMIT[i],
-									DIALOG_FUNC_SUBMITTASK,
-									MAKE64(i, idTask),
-									"",
+			m_pOwner->DialogAddLink(DIALOGLINK_TYPE_BUTTON, STR_TASK_SUBMIT[i], DIALOG_FUNC_SUBMITTASK, MAKE64(i, idTask), "",
 									(pTaskType->HasFlag(TASKFLAG_AUTO_ACITVE_NPC) ? idNpc : 0));
 		}
 		m_pOwner->DialogSend(DIALOGTYPE_SUBMIT_TASK);

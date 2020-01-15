@@ -57,12 +57,9 @@ bool CAccountManager::Init(class CWorldService* pWorld)
 
 void CAccountManager::RegisterMessageHandler()
 {
-	WorldService()->GetNetMsgProcess()->Register(CMD_CS_LOGIN,
-												 std::bind(&CAccountManager::Auth, this, std::placeholders::_1));
-	WorldService()->GetNetMsgProcess()->Register(
-		CMD_CS_CREATEACTOR, std::bind(&CAccountManager::OnMsgCreateActor, this, std::placeholders::_1));
-	WorldService()->GetNetMsgProcess()->Register(
-		CMD_CS_SELECTACTOR, std::bind(&CAccountManager::OnMsgSelectActor, this, std::placeholders::_1));
+	WorldService()->GetNetMsgProcess()->Register(CMD_CS_LOGIN, std::bind(&CAccountManager::Auth, this, std::placeholders::_1));
+	WorldService()->GetNetMsgProcess()->Register(CMD_CS_CREATEACTOR, std::bind(&CAccountManager::OnMsgCreateActor, this, std::placeholders::_1));
+	WorldService()->GetNetMsgProcess()->Register(CMD_CS_SELECTACTOR, std::bind(&CAccountManager::OnMsgSelectActor, this, std::placeholders::_1));
 }
 
 bool CAccountManager::Auth(CNetworkMessage* pMsg)
@@ -102,8 +99,7 @@ bool CAccountManager::Auth(CNetworkMessage* pMsg)
 		if(msg.last_succ_key().empty() == false)
 		{
 			//曾经验证成功过， 检查2次校验串
-			std::string md5str =
-				md5(msg.openid() + std::to_string(TimeGetSecond() / AUTH_KEY_CANUSE_SECS) + AUTH_SERVER_SIGNATURE);
+			std::string md5str = md5(msg.openid() + std::to_string(TimeGetSecond() / AUTH_KEY_CANUSE_SECS) + AUTH_SERVER_SIGNATURE);
 			if(nGMLev == 0 && msg.last_succ_key() != md5str)
 			{
 				//发送错误给前端
@@ -242,8 +238,7 @@ void CAccountManager::_OnAuthSucc(uint64_t call_id)
 
 	SC_LOGIN result_msg;
 	result_msg.set_result_code(SC_LOGIN::EC_SUCC);
-	std::string md5str =
-		md5(auth_data.open_id + std::to_string(TimeGetSecond() / AUTH_KEY_CANUSE_SECS) + AUTH_SERVER_SIGNATURE);
+	std::string md5str = md5(auth_data.open_id + std::to_string(TimeGetSecond() / AUTH_KEY_CANUSE_SECS) + AUTH_SERVER_SIGNATURE);
 	result_msg.set_last_succ_key(md5str);
 	WorldService()->SendToVirtualSocket(pAccount->GetSocket(), CMD_SC_LOGIN, result_msg);
 
@@ -281,8 +276,7 @@ void CAccountManager::Login(const std::string& openid, CAccount* pAccount)
 	m_setAccount[pAccount->GetOpenID()]			= pAccount;
 	m_setAccountBySocket[pAccount->GetSocket()] = pAccount;
 
-	if(bKicked || GMManager()->GetGMLevel(pAccount->GetOpenID()) > 0 ||
-	   m_setAccount.size() - m_setWaitAccount.size() < _START_WAITING_ACCOUNT_COUNT)
+	if(bKicked || GMManager()->GetGMLevel(pAccount->GetOpenID()) > 0 || m_setAccount.size() - m_setWaitAccount.size() < _START_WAITING_ACCOUNT_COUNT)
 	{
 		//通知前端，登陆成功
 		LOGLOGIN("ActorSucc:{}.", pAccount->GetOpenID().c_str());

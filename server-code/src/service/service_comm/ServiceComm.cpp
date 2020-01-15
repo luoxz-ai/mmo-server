@@ -9,7 +9,7 @@
 #include "butil/logging.h"
 class BRPCLogSink : public logging::LogSink
 {
-  public:
+public:
 	BRPCLogSink() {}
 	virtual ~BRPCLogSink() {}
 	// Called when a log is ready to be written out.
@@ -155,10 +155,7 @@ void CServiceCommon::StopRPCServer()
 	}
 }
 
-bool CServiceCommon::StartRPCServer(uint16_t				   publish_port,
-									uint16_t				   internal_port,
-									bool					   bEnableSSL,
-									google::protobuf::Service* pHttpMasterService)
+bool CServiceCommon::StartRPCServer(uint16_t publish_port, uint16_t internal_port, bool bEnableSSL, google::protobuf::Service* pHttpMasterService)
 {
 	if(m_pBRPCServer == nullptr)
 		return false;
@@ -199,8 +196,7 @@ bool CServiceCommon::CreateNetworkService()
 	return true;
 }
 
-bool CServiceCommon::CreateService(int32_t						   nWorkInterval /*= 100*/,
-								   class CMessagePortEventHandler* pEventHandler /*= nullptr*/)
+bool CServiceCommon::CreateService(int32_t nWorkInterval /*= 100*/, class CMessagePortEventHandler* pEventHandler /*= nullptr*/)
 {
 	__ENTER_FUNCTION
 	m_UIDFactory.Init(GetServerPort().GetWorldID(), GetServerPort().GetServiceID());
@@ -213,8 +209,7 @@ bool CServiceCommon::CreateService(int32_t						   nWorkInterval /*= 100*/,
 	return true;
 }
 
-bool CServiceCommon::ListenMessagePort(const std::string&		 service_name,
-									   CMessagePortEventHandler* pEventHandler /*= nullptr*/)
+bool CServiceCommon::ListenMessagePort(const std::string& service_name, CMessagePortEventHandler* pEventHandler /*= nullptr*/)
 {
 	__ENTER_FUNCTION
 	m_pMessagePort = GetMessageRoute()->QueryMessagePort(GetServerPort(), false);
@@ -232,11 +227,8 @@ void CServiceCommon::StartLogicThread(int32_t nWorkInterval, const std::string& 
 		return;
 	}
 	m_pLogicThread =
-		std::unique_ptr<CNormalThread>(new CNormalThread(nWorkInterval,
-														 name,
-														 std::bind(&CServiceCommon::OnLogicThreadProc, this),
-														 std::bind(&CServiceCommon::OnLogicThreadCreate, this),
-														 std::bind(&CServiceCommon::OnLogicThreadExit, this)));
+		std::unique_ptr<CNormalThread>(new CNormalThread(nWorkInterval, name, std::bind(&CServiceCommon::OnLogicThreadProc, this),
+														 std::bind(&CServiceCommon::OnLogicThreadCreate, this), std::bind(&CServiceCommon::OnLogicThreadExit, this)));
 }
 
 void CServiceCommon::StopLogicThread()
@@ -323,9 +315,7 @@ bool CServiceCommon::SendPortBroadcastMsg(const ServerPort& nServerPort, byte* b
 	return false;
 }
 
-bool CServiceCommon::SendPortBroadcastMsg(const ServerPort&				   nServerPort,
-										  uint16_t						   usCmd,
-										  const google::protobuf::Message& msg)
+bool CServiceCommon::SendPortBroadcastMsg(const ServerPort& nServerPort, uint16_t usCmd, const google::protobuf::Message& msg)
 {
 	__ENTER_FUNCTION
 	if(GetMessageRoute() && nServerPort.IsVaild())
@@ -346,9 +336,7 @@ bool CServiceCommon::SendPortBroadcastMsg(const ServerPort&				   nServerPort,
 	return false;
 }
 
-bool CServiceCommon::SendPortMultiMsg(const ServerPort&					nServerPort,
-									  const std::vector<VirtualSocket>& setVS,
-									  const CNetworkMessage&			msg)
+bool CServiceCommon::SendPortMultiMsg(const ServerPort& nServerPort, const std::vector<VirtualSocket>& setVS, const CNetworkMessage& msg)
 {
 	__ENTER_FUNCTION
 	if(GetMessageRoute() && nServerPort.IsVaild())
@@ -367,9 +355,7 @@ bool CServiceCommon::SendPortMultiMsg(const ServerPort&					nServerPort,
 	return false;
 }
 
-bool CServiceCommon::SendPortMultiIDMsg(const ServerPort&		  nServerPort,
-										const std::vector<OBJID>& setVS,
-										const CNetworkMessage&	  msg)
+bool CServiceCommon::SendPortMultiIDMsg(const ServerPort& nServerPort, const std::vector<OBJID>& setVS, const CNetworkMessage& msg)
 {
 	__ENTER_FUNCTION
 	if(GetMessageRoute() && nServerPort.IsVaild())
@@ -414,9 +400,7 @@ bool CServiceCommon::SendPortMsg(const ServerPort& nServerPort, uint16_t usCmd, 
 	return SendMsg(_msg);
 }
 
-bool CServiceCommon::SendToVirtualSocket(const VirtualSocket&			  vsTo,
-										 uint16_t						  usCmd,
-										 const google::protobuf::Message& msg)
+bool CServiceCommon::SendToVirtualSocket(const VirtualSocket& vsTo, uint16_t usCmd, const google::protobuf::Message& msg)
 {
 	CNetworkMessage _msg(usCmd, msg, GetServerVirtualSocket(), vsTo);
 	return SendMsg(_msg);
@@ -435,10 +419,7 @@ bool CServiceCommon::SendMsg(const CNetworkMessage& msg)
 		}
 		else
 		{
-			LOGWARNING("SendMsg To ServerPort:{} {} {}, not find",
-					   vs.GetServerPort().GetWorldID(),
-					   vs.GetServerPort().GetServiceID(),
-					   vs.GetSocketIdx());
+			LOGWARNING("SendMsg To ServerPort:{} {} {}, not find", vs.GetServerPort().GetWorldID(), vs.GetServerPort().GetServiceID(), vs.GetSocketIdx());
 		}
 		return false;
 	}
@@ -451,9 +432,7 @@ bool CServiceCommon::SendMsg(const CNetworkMessage& msg)
 	}
 	else
 	{
-		LOGWARNING("Message Want Send To Worng: {} {} {}",
-				   msg.GetTo().GetServerPort().GetWorldID(),
-				   msg.GetTo().GetServerPort().GetServiceID(),
+		LOGWARNING("Message Want Send To Worng: {} {} {}", msg.GetTo().GetServerPort().GetWorldID(), msg.GetTo().GetServerPort().GetServiceID(),
 				   msg.GetTo().GetSocketIdx());
 #ifdef DEBUG
 		DumpStack(CallFrameMap(1));
@@ -477,10 +456,7 @@ bool CServiceCommon::SendBroadcastMsg(const CNetworkMessage& msg)
 		}
 		else
 		{
-			LOGWARNING("SendBroadcastMsg:{} {} {}, not find",
-					   vs.GetServerPort().GetWorldID(),
-					   vs.GetServerPort().GetServiceID(),
-					   vs.GetSocketIdx());
+			LOGWARNING("SendBroadcastMsg:{} {} {}, not find", vs.GetServerPort().GetWorldID(), vs.GetServerPort().GetServiceID(), vs.GetSocketIdx());
 		}
 		return false;
 	}
@@ -496,9 +472,7 @@ bool CServiceCommon::SendBroadcastMsg(const CNetworkMessage& msg)
 	}
 	else
 	{
-		LOGWARNING("Message Want Send To Worng: {} {} {}",
-				   msg.GetTo().GetServerPort().GetWorldID(),
-				   msg.GetTo().GetServerPort().GetServiceID(),
+		LOGWARNING("Message Want Send To Worng: {} {} {}", msg.GetTo().GetServerPort().GetWorldID(), msg.GetTo().GetServerPort().GetServiceID(),
 				   msg.GetTo().GetSocketIdx());
 		return false;
 	}

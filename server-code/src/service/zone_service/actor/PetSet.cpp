@@ -27,10 +27,8 @@ bool CPetSet::Init(CPlayer* pOwner)
 
 	auto* pDB = ZoneService()->GetGameDB(m_pOwner->GetWorldID());
 	CHECKF(pDB);
-	auto result_ptr = pDB->Query(TBLD_PET::table_name,
-								 fmt::format(FMT_STRING("SELECT * FROM {} WHERE ownerid={} LIMIT 1"),
-											 TBLD_PET::table_name,
-											 m_pOwner->GetOwnerID()));
+	auto result_ptr =
+		pDB->Query(TBLD_PET::table_name, fmt::format(FMT_STRING("SELECT * FROM {} WHERE ownerid={} LIMIT 1"), TBLD_PET::table_name, m_pOwner->GetOwnerID()));
 	if(result_ptr)
 	{
 		for(size_t i = 0; i < result_ptr->get_num_row(); i++)

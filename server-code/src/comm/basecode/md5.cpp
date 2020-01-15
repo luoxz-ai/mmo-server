@@ -12,40 +12,10 @@ typedef struct
 } MD5Context;
 
 static char HEX[16] = {
-	'0',
-	'1',
-	'2',
-	'3',
-	'4',
-	'5',
-	'6',
-	'7',
-	'8',
-	'9',
-	'a',
-	'b',
-	'c',
-	'd',
-	'e',
-	'f',
+	'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f',
 };
 static char HEX_BIG[16] = {
-	'0',
-	'1',
-	'2',
-	'3',
-	'4',
-	'5',
-	'6',
-	'7',
-	'8',
-	'9',
-	'A',
-	'B',
-	'C',
-	'D',
-	'E',
-	'F',
+	'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
 };
 
 #define S11 7
@@ -65,9 +35,8 @@ static char HEX_BIG[16] = {
 #define S43 15
 #define S44 21
 
-static unsigned char PADDING[64] = {0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-									0,	  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-									0,	  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+static unsigned char PADDING[64] = {0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+									0,	  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 #define F(x, y, z) (((x) & (y)) | ((~x) & (z)))
 #define G(x, y, z) (((x) & (z)) | ((y) & (~z)))
@@ -123,8 +92,7 @@ static void MD5_Decode(unsigned int* output, unsigned char* input, int len)
 
 	for(i = 0, j = 0; j < (unsigned int)len; i++, j += 4)
 	{
-		output[i] = ((unsigned int)input[j]) | (((unsigned int)input[j + 1]) << 8) |
-					(((unsigned int)input[j + 2]) << 16) | (((unsigned int)input[j + 3]) << 24);
+		output[i] = ((unsigned int)input[j]) | (((unsigned int)input[j + 1]) << 8) | (((unsigned int)input[j + 2]) << 16) | (((unsigned int)input[j + 3]) << 24);
 	}
 }
 

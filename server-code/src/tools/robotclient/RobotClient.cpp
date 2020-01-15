@@ -3,10 +3,10 @@
 #include "NetMSGProcess.h"
 #include "ProtobuffUtil.h"
 #include "RobotClientManager.h"
-#include "pb_luahelper.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/world_service.pb.h"
 #include "msg/zone_service.pb.h"
+#include "pb_luahelper.h"
 RobotClient::RobotClient(RobotClientManager* pManager)
 	: m_pManager(pManager)
 	, m_pServerSocket(nullptr)
@@ -87,8 +87,7 @@ void RobotClient::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
 			if(func_name.empty() == false)
 			{
 				LOGDEBUG("process net_msg:{}", pHeader->usCmd);
-				m_pManager->ExecScript<void>(
-					func_name.c_str(), this, pBuffer + sizeof(MSG_HEAD), len - sizeof(MSG_HEAD));
+				m_pManager->ExecScript<void>(func_name.c_str(), this, pBuffer + sizeof(MSG_HEAD), len - sizeof(MSG_HEAD));
 				// m_pManager->GetScriptManager()->FullGC();
 			}
 			else
@@ -108,11 +107,7 @@ void RobotClient::OnRecvTimeout(CNetSocket*) {}
 void RobotClient::AddEventCallBack(uint32_t nWaitMs, const std::string& func_name, bool bPersist)
 {
 	m_pManager->GetEventManager()->ScheduleEvent(
-		0,
-		[func_name, pThis = this]() { pThis->m_pManager->ExecScript<void>(func_name.c_str(), pThis); },
-		nWaitMs,
-		bPersist,
-		m_Event);
+		0, [func_name, pThis = this]() { pThis->m_pManager->ExecScript<void>(func_name.c_str(), pThis); }, nWaitMs, bPersist, m_Event);
 }
 
 bool RobotClient::IsConnectServer()

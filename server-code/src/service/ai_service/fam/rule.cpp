@@ -17,10 +17,7 @@
 
 //#include <iostream>
 
-fuzzy::Rule::Rule(const std::vector<Trapezoid>& antecedents,
-				  const Conjunction&			conjunction,
-				  const Trapezoid&				consequent,
-				  std::string					naturalLanguage)
+fuzzy::Rule::Rule(const std::vector<Trapezoid>& antecedents, const Conjunction& conjunction, const Trapezoid& consequent, std::string naturalLanguage)
 	: _antecedents(antecedents)
 	, _conjunction(conjunction)
 	, _consequent(consequent)
@@ -36,8 +33,7 @@ double fuzzy::Rule::fire(const std::vector<double>& values) const
 
 	if(_antecedents.size() != values.size())
 	{
-		throw std::out_of_range(
-			"The size of the input vector to Rule::fire() must equal the size of its antecedent vector.");
+		throw std::out_of_range("The size of the input vector to Rule::fire() must equal the size of its antecedent vector.");
 	}
 
 	for(size_t i = 0; i < _antecedents.size(); ++i)

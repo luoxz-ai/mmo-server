@@ -1,7 +1,6 @@
 #ifndef THREAD_H
 #define THREAD_H
 
-
 #include <atomic>
 #include <condition_variable>
 #include <memory>
@@ -14,10 +13,10 @@
 //普通的按照时间间隔运行的Thread
 class CNormalThread
 {
-  public:
+public:
 	typedef std::function<void()> on_thread_event_function_t;
 
-  public:
+public:
 	CNormalThread(int32_t					 nWorkIntervalMS,
 				  const std::string&		 thread_name			= std::string(),
 				  on_thread_event_function_t on_thread_process_func = on_thread_event_function_t(),
@@ -34,7 +33,7 @@ class CNormalThread
 
 	bool IsReady() const;
 
-  private:
+private:
 	std::unique_ptr<std::thread> m_Thread;
 	int32_t						 m_nWorkIntervalMS;
 	std::atomic<bool>			 m_bStop;
@@ -45,12 +44,12 @@ class CNormalThread
 //放入Job进行Process的Thread
 class CWorkerThread
 {
-  public:
+public:
 	typedef std::function<void()> on_thread_event_function_t;
 	typedef std::function<void()> job_function_t;
 	typedef std::function<void()> result_function_t;
 
-  public:
+public:
 	CWorkerThread(const std::string&		 thread_name		   = std::string(),
 				  on_thread_event_function_t on_thread_create_func = on_thread_event_function_t(),
 				  on_thread_event_function_t on_thread_finish_func = on_thread_event_function_t());
@@ -68,7 +67,7 @@ class CWorkerThread
 
 	bool IsReady() const;
 
-  private:
+private:
 	std::unique_ptr<std::thread> m_Thread;
 	MPSCQueue<job_function_t>	 m_JobList;
 	MPSCQueue<result_function_t> m_ResultList;
@@ -82,7 +81,7 @@ class CWorkerThread
 template<typename T>
 class MyTLSTypePtr
 {
-  public:
+public:
 	static void set(T* pPtr) { m_pPtr = pPtr; }
 
 	static T* get() { return m_pPtr; }

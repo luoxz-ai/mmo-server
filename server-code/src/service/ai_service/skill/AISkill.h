@@ -1,7 +1,6 @@
 #ifndef AISKILL_H
 #define AISKILL_H
 
-
 #include "AIFuzzyLogic.h"
 #include "SkillType.h"
 
@@ -9,12 +8,12 @@ class CAISkillData
 {
 	CAISkillData();
 
-  public:
+public:
 	~CAISkillData();
 	CREATE_NEW_IMPL(CAISkillData);
 	bool Init(uint32_t idSkill);
 
-  public:
+public:
 	void StartCoolDown();
 	bool IsCoolDown();
 
@@ -23,7 +22,7 @@ class CAISkillData
 	SkillFAM*	GetSkillFAM() const;
 	uint32_t	GetSkillTypeID() const;
 
-  private:
+private:
 	uint32_t	m_idSkill	 = 0;
 	CSkillType* m_pSkillType = nullptr;
 	SkillFAM*	m_pSkillFAM	 = nullptr;
@@ -33,7 +32,7 @@ class CAISkillData
 class CAIMonster;
 class CAISkillSet
 {
-  public:
+public:
 	CAISkillSet();
 	~CAISkillSet();
 
@@ -44,7 +43,7 @@ class CAISkillSet
 	CAISkillData* ChooseSkill(double dist, double self_hp, double self_mp, double target_hp);
 	void		  OnCastSkill(uint32_t idSkill);
 
-  private:
+private:
 	CAIMonster*									m_pMonster;
 	std::unordered_map<uint32_t, CAISkillData*> m_setSkill;
 };

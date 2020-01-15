@@ -13,11 +13,11 @@ class CBornPos
 {
 	CBornPos() {}
 
-  public:
+public:
 	~CBornPos() {}
 	CREATE_NEW_IMPL(CBornPos);
 
-  public:
+public:
 	bool Init(const Cfg_BornPos_Row& row)
 	{
 		m_row = row;
@@ -32,7 +32,7 @@ class CBornPos
 	float	 GetRange() const { return m_row.range(); }
 	float	 GetFace() const { return m_row.face(); }
 
-  protected:
+protected:
 	Cfg_BornPos::Row m_row;
 };
 
@@ -40,11 +40,11 @@ class CBornPosSet
 {
 	CBornPosSet() {}
 
-  public:
+public:
 	CREATE_NEW_IMPL(CBornPosSet);
 	~CBornPosSet() { Clear(); }
 
-  public:
+public:
 	void Clear()
 	{
 		for(auto& refMap: m_vecData)
@@ -90,7 +90,7 @@ class CBornPosSet
 		return refVecData[random_uint32_range(0, refVecData.size() - 1)];
 	}
 
-  private:
+private:
 	std::unordered_map<uint32_t, std::vector<CBornPos*>> m_vecData;
 };
 

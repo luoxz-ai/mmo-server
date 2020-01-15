@@ -11,7 +11,7 @@ class CAIPlayer;
 
 class CAIActorManager
 {
-  public:
+public:
 	CAIActorManager();
 	~CAIActorManager();
 
@@ -25,8 +25,8 @@ class CAIActorManager
 
 	void OnTimer();
 
-  protected:
-  private:
+protected:
+private:
 	std::unordered_map<OBJID, CAIActor*> m_ActorMap;
 };
 #endif /* AIACTORMANAGER_H */

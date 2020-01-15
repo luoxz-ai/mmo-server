@@ -1,7 +1,6 @@
 #ifndef CALLSTACKDUMPER_H
 #define CALLSTACKDUMPER_H
 
-
 #include <algorithm>
 #include <deque>
 #include <string>
@@ -18,7 +17,7 @@ struct CallFrameMap
 
 class CALLFRAME_NODE
 {
-  public:
+public:
 	CALLFRAME_NODE(CALLFRAME_NODE* pParent = NULL, void* p = NULL);
 	~CALLFRAME_NODE();
 
@@ -35,7 +34,7 @@ class CALLFRAME_NODE
 
 	CALLFRAME_NODE* MakeCallFrame(int skip_calldepth);
 
-  public:
+public:
 	bool  m_bClear;
 	void* m_pCallFunc;
 

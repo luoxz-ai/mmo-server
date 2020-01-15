@@ -70,11 +70,7 @@ bool CAIService::Create()
 
 	extern void export_to_lua(lua_State*, void*);
 	m_pScriptManager.reset(
-		CLUAScriptManager::CreateNew(std::string("AIScript") + std::to_string(GetServerPort().GetServiceID()),
-									 &export_to_lua,
-									 (void*)this,
-									 "res/script",
-									 false));
+		CLUAScriptManager::CreateNew(std::string("AIScript") + std::to_string(GetServerPort().GetServiceID()), &export_to_lua, (void*)this, "res/script", false));
 	m_pScriptManager->LoadFilesInDir("ai", false);
 
 	m_pMapManager.reset(new CMapManager);
@@ -269,8 +265,7 @@ void CAIService::OnLogicThreadProc()
 		auto pMessagePort = GetMessageRoute()->QueryMessagePort(GetZoneServiceVirtualSocket().GetServerPort(), false);
 		if(pMessagePort)
 		{
-			buf +=
-				fmt::format(FMT_STRING("\nMsgPort:{}\tSendBuff:{}"), GetZoneID(), pMessagePort->GetWriteBufferSize());
+			buf += fmt::format(FMT_STRING("\nMsgPort:{}\tSendBuff:{}"), GetZoneID(), pMessagePort->GetWriteBufferSize());
 		}
 		LOGMONITOR("{}", buf.c_str());
 	}

@@ -1,7 +1,6 @@
 #ifndef PETTYPE_H
 #define PETTYPE_H
 
-
 #include "ActorAttrib.h"
 #include "config/Cfg_Pet.pb.h"
 
@@ -14,7 +13,7 @@ class CPetType
 {
 	CPetType() {}
 
-  public:
+public:
 	~CPetType() {}
 	CREATE_NEW_IMPL(CPetType);
 	bool Init(const Cfg_Pet_Row& row)
@@ -35,7 +34,7 @@ class CPetType
 	OBJID				GetScirptID() const { return m_Data.scriptid(); }
 	const CActorAttrib& GetAbility() const { return m_ability; }
 
-  private:
+private:
 	Cfg_Pet_Row	 m_Data;
 	CActorAttrib m_ability;
 };

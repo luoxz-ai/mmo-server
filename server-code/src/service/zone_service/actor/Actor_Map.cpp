@@ -131,8 +131,7 @@ void CActor::AddDelaySendShowTo(OBJID id)
 		auto pEntry = GetEventMapRef().Query(EVENTID_BROCAST_SHOW);
 		if(pEntry == nullptr || pEntry->IsCanceled() || pEntry->IsRunning() == false)
 		{
-			EventManager()->ScheduleEvent(
-				EVENTID_BROCAST_SHOW, std::bind(&CActor::SendShowToDealyList, this), 0, false, GetEventMapRef());
+			EventManager()->ScheduleEvent(EVENTID_BROCAST_SHOW, std::bind(&CActor::SendShowToDealyList, this), 0, false, GetEventMapRef());
 		}
 	}
 	m_setDealySendShow.insert(id);
@@ -145,8 +144,7 @@ void CActor::AddDelaySendShowToAllViewPlayer()
 		auto pEntry = GetEventMapRef().Query(EVENTID_BROCAST_SHOW);
 		if(pEntry == nullptr || pEntry->IsCanceled() || pEntry->IsRunning() == false)
 		{
-			EventManager()->ScheduleEvent(
-				EVENTID_BROCAST_SHOW, std::bind(&CActor::SendShowToDealyList, this), 0, false, GetEventMapRef());
+			EventManager()->ScheduleEvent(EVENTID_BROCAST_SHOW, std::bind(&CActor::SendShowToDealyList, this), 0, false, GetEventMapRef());
 		}
 	}
 	m_setDealySendShow.insert(m_ViewActorsByType[ACT_PLAYER].begin(), m_ViewActorsByType[ACT_PLAYER].end());
@@ -185,7 +183,7 @@ void CActor::SendShowTo(CPlayer* pPlayer)
 
 class NEED_ADD_TO_BROADCASTSET_T
 {
-  public:
+public:
 	NEED_ADD_TO_BROADCASTSET_T()
 	{
 		m_DataMap[ACT_PLAYER][ACT_PLAYER] = [](CSceneObject*, CSceneObject*) {
@@ -246,7 +244,7 @@ class NEED_ADD_TO_BROADCASTSET_T
 			return false;
 	}
 
-  private:
+private:
 	std::function<bool(CSceneObject*, CSceneObject*)> m_DataMap[ACT_MAX][ACT_MAX];
 } const NEED_ADD_TO_BROADCASTSET;
 
@@ -294,10 +292,7 @@ uint64_t CActor::GetSceneID() const
 	return 0;
 }
 
-void CActor::AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
-										  BROADCAST_SET&	   setBCActor,
-										  int				   nCanReserveDelCount,
-										  uint32_t			   view_range_out_square)
+void CActor::AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel, BROADCAST_SET& setBCActor, int nCanReserveDelCount, uint32_t view_range_out_square)
 {
 	SC_AOI_REMOVE hold_info;
 	hold_info.set_mapid(GetMapID());

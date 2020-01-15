@@ -9,25 +9,25 @@
 #include "SceneObject.h"
 #include "SkillState.h"
 #include "ZoneService.h"
-#include "share/game_common_def.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"
+#include "share/game_common_def.h"
 
 class CMonster;
 class CPlayer;
 export_lua class CActor : public CSceneObject
 {
-  public:
+public:
 	CActor();
 	virtual ~CActor();
 
-  public:
+public:
 	bool Init();
 
 	export_lua bool IsDelThis() const { return m_bDelThis; }
 	export_lua void DelThis();
 
-  public:
+public:
 	export_lua bool IsDead() const { return GetHP() == 0; }
 
 	export_lua uint32_t GetLastMoveTime() const { return m_tLastMoveTime; }
@@ -85,10 +85,10 @@ export_lua class CActor : public CSceneObject
 	export_lua void SendDelayAttribChage();
 	export_lua void AddDelayAttribChange(uint32_t nType, uint32_t nVal);
 
-  public:
+public:
 	// AOI相关
-	export_lua void SendRoomMessage(uint16_t cmd, const google::protobuf::Message& msg, bool bIncludeSelf = true);
-	export_lua void SendWorldMessage(uint16_t cmd, const google::protobuf::Message& msg);
+	export_lua void			SendRoomMessage(uint16_t cmd, const google::protobuf::Message& msg, bool bIncludeSelf = true);
+	export_lua void			SendWorldMessage(uint16_t cmd, const google::protobuf::Message& msg);
 	export_lua virtual bool SendMessage(uint16_t cmd, const google::protobuf::Message& msg) const { return false; }
 
 	template<class T>
@@ -105,12 +105,12 @@ export_lua class CActor : public CSceneObject
 	export_lua void SendShowTo(CPlayer* pPlayer);
 	export_lua void AddDelaySendShowToAllViewPlayer();
 
-  public:
+public:
 	// AOI相关
 	export_lua virtual bool IsEnemy(CSceneObject* pTarget) const override { return false; }
 	export_lua virtual void ClearViewList(bool bSendMsgToSelf) override;
 
-  protected:
+protected:
 	void		 _AddToAOIRemoveMessage(SC_AOI_REMOVE& removeMsg, OBJID id);
 	void		 _TrySendAOIRemoveMessage(const SC_AOI_REMOVE& removeMsg);
 	void		 AddDelaySendShowTo(OBJID id);
@@ -127,7 +127,7 @@ export_lua class CActor : public CSceneObject
 											  uint32_t			   view_range_out_square) override;
 	virtual void AOIProcessPosUpdate() override;
 
-  private:
+private:
 	template<class T>
 	void BrodacastShowTo(T&& container)
 	{
@@ -142,7 +142,7 @@ export_lua class CActor : public CSceneObject
 		}
 	}
 
-  public:
+public:
 	export_lua CActorAttrib& GetAttrib() { return m_ActorAttrib; }
 	export_lua const CActorAttrib& GetAttrib() const { return m_ActorAttrib; }
 
@@ -152,15 +152,15 @@ export_lua class CActor : public CSceneObject
 	export_lua CEventEntryQueue& GetEventQueueRef() { return m_EventQueue; }
 	export_lua CCoolDownSet* GetCDSet() const { return m_pCDSet.get(); }
 
-  public:
+public:
 	//重新计算属性
 	export_lua virtual void RecalcAttrib(bool bClearCache = false);
 
-  public:
+public:
 	virtual void OnEnterMap(CSceneBase* pScene) override;
 	virtual void OnLeaveMap(uint64_t idTargetScene) override;
 
-  public:
+public:
 	export_lua int32_t BeAttack(CActor*	 pAttacker,
 								uint32_t idSkill,
 								uint32_t nHitType,
@@ -178,16 +178,16 @@ export_lua class CActor : public CSceneObject
 	export_lua virtual bool CanDamage(CActor* pTarget) const { return false; }
 	export_lua virtual void BeKillBy(CActor* pAttacker);
 
-  public:
+public:
 	export_lua bool MoveTo(const Vector2& posTarget, bool bCheckMove = true);
 	export_lua bool CheckCanMove(const Vector2& posTarget, bool bSet = true);
 	export_lua bool CanMove();
 
 	export_lua bool _CastSkill(uint32_t idSkill, OBJID idTarget, const Vector2& targetPos);
 
-  public:
-  protected:
-  protected:
+public:
+protected:
+protected:
 	uint32_t m_idCamp	= 0; //阵营ID
 	bool	 m_bDelThis = false;
 

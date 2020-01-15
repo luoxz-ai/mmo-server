@@ -84,11 +84,7 @@ void CMonsterGenerator::StartGen(MonsterGenData* pData, bool bCheckRunning)
 	{
 		if(bCheckRunning == false || pData->m_pEvent.IsRunning() == false)
 		{
-			EventManager()->ScheduleEvent(0,
-										  std::bind(&CMonsterGenerator::OnGenTimer, this, pData),
-										  pData->gen_data.wait_time(),
-										  false,
-										  pData->m_pEvent);
+			EventManager()->ScheduleEvent(0, std::bind(&CMonsterGenerator::OnGenTimer, this, pData), pData->gen_data.wait_time(), false, pData->m_pEvent);
 		}
 	}
 	else

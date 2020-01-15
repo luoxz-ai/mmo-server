@@ -1,7 +1,6 @@
 #ifndef ITEMUPGRADE_H
 #define ITEMUPGRADE_H
 
-
 #include "BaseCode.h"
 #include "Cfg_ItemUpgrade.pb.h"
 #include "T_GameDataMap.h"
@@ -11,7 +10,7 @@ class CItemUpgradeData
 {
 	CItemUpgradeData() {}
 
-  public:
+public:
 	virtual ~CItemUpgradeData() {}
 	using PB_T = Cfg_ItemUpgrade;
 	CREATE_NEW_IMPL(CItemUpgradeData);
@@ -22,7 +21,7 @@ class CItemUpgradeData
 	}
 	static uint32_t getIDFromPBRow(const Cfg_Item_Row& row) { return row.id(); }
 
-  public:
+public:
 	uint32_t	   GetID() const { return m_Data.id(); }
 	uint32_t	   GetSort() const { return m_Data.sort(); }
 	uint32_t	   GetMainType() const { return m_Data.main_itemtype(); }
@@ -31,7 +30,7 @@ class CItemUpgradeData
 	uint32_t	   GetRumor() const { return m_Data.rumor(); }
 	decltype(auto) GetReqData() const { return m_Data.req_data_list(); } // 需要材料itemtypeid
 
-  public:
+public:
 	Cfg_ItemUpgrade_Row m_Data;
 };
 

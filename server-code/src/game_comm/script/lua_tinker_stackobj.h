@@ -192,7 +192,7 @@ namespace detail
 
 	class table_iterator
 	{
-	  public:
+	public:
 		table_iterator(const stack_obj& table)
 			: m_table(table)
 			, m_hasNext(false)
@@ -232,7 +232,7 @@ namespace detail
 			m_hasNext		   = false;
 		}
 
-	  private:
+	private:
 		void	  do_next() { m_hasNext = !!lua_next(m_table.L, m_table._stack_pos); }
 		stack_obj m_table;
 		int		  m_key;

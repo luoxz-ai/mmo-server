@@ -25,14 +25,11 @@ class GM_ServiceImpl : public GM_Service
 {
 	CGMService* m_pService;
 
-  public:
+public:
 	GM_ServiceImpl(CGMService* pService)
 		: m_pService(pService){};
 	virtual ~GM_ServiceImpl(){};
-	virtual void SetGM(google::protobuf::RpcController* cntl_base,
-					   const SetGMRequest*				request,
-					   SetGMResponse*					response,
-					   google::protobuf::Closure*		done) override
+	virtual void SetGM(google::protobuf::RpcController* cntl_base, const SetGMRequest* request, SetGMResponse* response, google::protobuf::Closure* done) override
 	{
 		// This object helps you to call done->Run() in RAII style. If you need
 		// to process the request asynchronously, pass done_guard.release().
@@ -40,10 +37,7 @@ class GM_ServiceImpl : public GM_Service
 
 		brpc::Controller* cntl = static_cast<brpc::Controller*>(cntl_base);
 
-		LOGMESSAGE_NOFMT(fmt::format(FMT_STRING("Received SetGM[log_id={}]: open_id={} gm_level={} sign={}"),
-									 cntl->log_id(),
-									 request->open_id(),
-									 request->gm_level(),
+		LOGMESSAGE_NOFMT(fmt::format(FMT_STRING("Received SetGM[log_id={}]: open_id={} gm_level={} sign={}"), cntl->log_id(), request->open_id(), request->gm_level(),
 									 request->sign()));
 	}
 	virtual void BlockLogin(google::protobuf::RpcController* cntl_base,
@@ -57,15 +51,8 @@ class GM_ServiceImpl : public GM_Service
 
 		brpc::Controller* cntl = static_cast<brpc::Controller*>(cntl_base);
 
-		LOGMESSAGE_NOFMT(fmt::format(
-			FMT_STRING(
-				"Received BlockLogin[log_id={}]: server_id={} open_id={} actor_id={} block_timestamp={} sign={}"),
-			cntl->log_id(),
-			request->server_id(),
-			request->open_id(),
-			request->actor_id(),
-			request->block_timestamp(),
-			request->sign()));
+		LOGMESSAGE_NOFMT(fmt::format(FMT_STRING("Received BlockLogin[log_id={}]: server_id={} open_id={} actor_id={} block_timestamp={} sign={}"), cntl->log_id(),
+									 request->server_id(), request->open_id(), request->actor_id(), request->block_timestamp(), request->sign()));
 
 		// send to server_x:gm_service
 
@@ -82,14 +69,8 @@ class GM_ServiceImpl : public GM_Service
 
 		brpc::Controller* cntl = static_cast<brpc::Controller*>(cntl_base);
 
-		LOGMESSAGE_NOFMT(fmt::format(
-			FMT_STRING("Received MuteChat[log_id={}]: server_id={} open_id={} actor_id={} mute_timestamp={} sign={}"),
-			cntl->log_id(),
-			request->server_id(),
-			request->open_id(),
-			request->actor_id(),
-			request->mute_timestamp(),
-			request->sign()));
+		LOGMESSAGE_NOFMT(fmt::format(FMT_STRING("Received MuteChat[log_id={}]: server_id={} open_id={} actor_id={} mute_timestamp={} sign={}"), cntl->log_id(),
+									 request->server_id(), request->open_id(), request->actor_id(), request->mute_timestamp(), request->sign()));
 	}
 };
 } // namespace Game

@@ -1,7 +1,6 @@
 #ifndef DBRECORD_H
 #define DBRECORD_H
 
-
 #include <memory>
 #include <string>
 #include <type_traits>
@@ -18,12 +17,8 @@ class CMysqlConnection;
 
 class CDBRecord
 {
-  public:
-	CDBRecord(CMysqlConnection*	  pMysqlConnection,
-			  CDBFieldInfoListPtr pMysqlFieldInfo,
-			  bool				  bCanModify,
-			  MYSQL_ROW			  row,
-			  unsigned long*	  lengths);
+public:
+	CDBRecord(CMysqlConnection* pMysqlConnection, CDBFieldInfoListPtr pMysqlFieldInfo, bool bCanModify, MYSQL_ROW row, unsigned long* lengths);
 	~CDBRecord();
 
 	CDBField& Field(size_t n)
@@ -58,15 +53,15 @@ class CDBRecord
 	bool			  GetModified() const { return m_bModified; }
 	void			  SetModified(bool val) { m_bModified = val; }
 
-  private:
+private:
 	std::string BuildDeleteSQL();
 	std::string BuildUpdateSQL();
 	std::string BuildInsertSQL();
 
-  public:
+public:
 	MEMORYHEAP_DECLARATION(s_Heap);
 
-  private:
+private:
 	CMysqlConnection*						   m_pMysqlConnection;
 	CDBFieldInfoListPtr						   m_pDBFieldInfo;
 	bool									   m_bCanModify;

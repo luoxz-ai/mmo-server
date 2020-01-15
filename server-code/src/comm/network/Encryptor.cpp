@@ -2,7 +2,7 @@
 
 class CEncryptorImpl
 {
-  public:
+public:
 	CEncryptorImpl() {}
 	~CEncryptorImpl() {}
 
@@ -10,7 +10,7 @@ class CEncryptorImpl
 
 	void Encryptor(byte* in_buffer, size_t in_len, byte* out_buffer, size_t out_len) {}
 
-  private:
+private:
 };
 
 CEncryptor::CEncryptor()

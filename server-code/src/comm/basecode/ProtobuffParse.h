@@ -1,7 +1,6 @@
 #ifndef PROTOBUFFPARSE_H
 #define PROTOBUFFPARSE_H
 
-
 #include <unordered_map>
 
 #include <google/protobuf/compiler/importer.h>
@@ -14,7 +13,7 @@
 
 class ProtoBufParser
 {
-  public:
+public:
 	ProtoBufParser() {}
 	~ProtoBufParser() {}
 
@@ -36,8 +35,7 @@ class ProtoBufParser
 
 	void RegisterCMD(const std::string& cmd_enum_typename)
 	{
-		const ::google::protobuf::EnumDescriptor* pEnumDesc =
-			m_pImporter->pool()->FindEnumTypeByName(cmd_enum_typename);
+		const ::google::protobuf::EnumDescriptor* pEnumDesc = m_pImporter->pool()->FindEnumTypeByName(cmd_enum_typename);
 		if(pEnumDesc == nullptr)
 			return;
 
@@ -52,10 +50,7 @@ class ProtoBufParser
 		}
 	}
 
-	const google::protobuf::Descriptor* FindDescByName(const std::string& msg_name)
-	{
-		return m_pImporter->pool()->FindMessageTypeByName(msg_name);
-	}
+	const google::protobuf::Descriptor* FindDescByName(const std::string& msg_name) { return m_pImporter->pool()->FindMessageTypeByName(msg_name); }
 
 	google::protobuf::Message* NewMessage(const std::string& msg_name)
 	{
@@ -79,7 +74,7 @@ class ProtoBufParser
 		return NewMessage(itName->second);
 	}
 
-  private:
+private:
 	google::protobuf::compiler::DiskSourceTree			  m_sourceTree;
 	std::unique_ptr<google::protobuf::compiler::Importer> m_pImporter;
 	google::protobuf::DynamicMessageFactory				  m_factory;

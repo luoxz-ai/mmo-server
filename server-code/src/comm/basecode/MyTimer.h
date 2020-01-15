@@ -9,7 +9,7 @@
 // 超时类，以“秒”为单位
 export_lua class CMyTimer
 {
-  public:
+public:
 	export_lua CMyTimer(int nIntervalSecs = 0)
 	{
 		m_tInterval	  = nIntervalSecs;
@@ -17,7 +17,7 @@ export_lua class CMyTimer
 	} // =0 : 用于数组初始化
 	  //	virtual ~CMyTimer() {}
 
-  public:
+public:
 	// 设置时间标签
 	export_lua void Update() { m_tUpdateTime = ::TimeGetSecond(); /*time(NULL);*/ }
 	// 检查是否超时
@@ -70,16 +70,11 @@ export_lua class CMyTimer
 	//	void	AppendInterval	(int nSecs)			{ if(ToNextTime()) m_nInterval=nSecs; else m_nInterval+=nSecs; }
 	//// ToNextTime(): 保证至少有nSecs秒
 
-  public: // get
+public: // get
 	/**
 	 * 返回剩余时间
 	 */
-	export_lua int GetRemain()
-	{
-		return (int)(m_tUpdateTime
-						 ? __min(__max(m_tInterval - (::TimeGetSecond() - (int)m_tUpdateTime), 0), m_tInterval)
-						 : 0);
-	}
+	export_lua int GetRemain() { return (int)(m_tUpdateTime ? __min(__max(m_tInterval - (::TimeGetSecond() - (int)m_tUpdateTime), 0), m_tInterval) : 0); }
 	/**
 	 * 返回timeout时刻时间戳
 	 */
@@ -90,7 +85,7 @@ export_lua class CMyTimer
 		return 0;
 	}
 
-  protected:
+protected:
 	time_t m_tInterval;
 	time_t m_tUpdateTime;
 };
@@ -99,7 +94,7 @@ export_lua class CMyTimer
 // 超时类，以“毫秒”为单位
 class CMyTimerMS
 {
-  public:
+public:
 	CMyTimerMS(int nIntervalSecs = 0)
 	{
 		m_tInterval	  = nIntervalSecs;
@@ -107,7 +102,7 @@ class CMyTimerMS
 	} // =0 : 用于数组初始化
 	  //	virtual ~CMyTimerMS() {}
 
-  public:
+public:
 	void Update() { m_tUpdateTime = ::TimeGetMonotonic(); }
 	bool IsTimeOut() { return ::TimeGetMonotonic() >= m_tUpdateTime + m_tInterval; }
 	bool ToNextTime()
@@ -153,14 +148,10 @@ class CMyTimerMS
 	//	void	AppendInterval	(int nMilliSecs)	{ if(ToNextTime()) m_nInterval=nMilliSecs; else
 	// m_nInterval+=nMilliSecs; }	// ToNextTime(): 保证至少有nSecs秒
 
-  public: // get
+public: // get
 	int	   GetInterval() { return (int)m_tInterval; }
 	time_t GetUpdateTime() { return m_tUpdateTime; }
-	DWORD  GetRemain()
-	{
-		return DWORD(m_tUpdateTime ? __min(__max(m_tInterval - (::TimeGetMonotonic() - m_tUpdateTime), 0), m_tInterval)
-								   : 0);
-	}
+	DWORD  GetRemain() { return DWORD(m_tUpdateTime ? __min(__max(m_tInterval - (::TimeGetMonotonic() - m_tUpdateTime), 0), m_tInterval) : 0); }
 	time_t GetTimeOut()
 	{
 		if(m_tUpdateTime)
@@ -168,7 +159,7 @@ class CMyTimerMS
 		return 0;
 	}
 
-  protected:
+protected:
 	time_t m_tInterval;
 	time_t m_tUpdateTime;
 };

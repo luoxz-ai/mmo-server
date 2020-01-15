@@ -17,23 +17,13 @@ export_lua enum MultiType {
 };
 export_lua class CNetworkMessage
 {
-  public:
+public:
 	CNetworkMessage();
 	~CNetworkMessage();
 	export_lua CNetworkMessage(const CNetworkMessage& rht);
-	export_lua CNetworkMessage(
-		byte* buf, size_t len, VirtualSocket from = 0, VirtualSocket to = 0, VirtualSocket forward = 0);
-	export_lua CNetworkMessage(uint16_t		 usCmd,
-							   byte*		 body,
-							   size_t		 body_len,
-							   VirtualSocket from	 = 0,
-							   VirtualSocket to		 = 0,
-							   VirtualSocket forward = 0);
-	export_lua CNetworkMessage(uint16_t							  usCmd,
-							   const ::google::protobuf::Message& msg,
-							   VirtualSocket					  from	  = 0,
-							   VirtualSocket					  to	  = 0,
-							   VirtualSocket					  forward = 0);
+	export_lua CNetworkMessage(byte* buf, size_t len, VirtualSocket from = 0, VirtualSocket to = 0, VirtualSocket forward = 0);
+	export_lua CNetworkMessage(uint16_t usCmd, byte* body, size_t body_len, VirtualSocket from = 0, VirtualSocket to = 0, VirtualSocket forward = 0);
+	export_lua CNetworkMessage(uint16_t usCmd, const ::google::protobuf::Message& msg, VirtualSocket from = 0, VirtualSocket to = 0, VirtualSocket forward = 0);
 
 	export_lua uint16_t GetSize() const { return GetMsgHead()->usSize; }
 	export_lua uint16_t GetCmd() const { return GetMsgHead()->usCmd; }
@@ -68,13 +58,13 @@ export_lua class CNetworkMessage
 
 	export_lua void CopyBuffer();
 
-  private:
+private:
 	void AllocBuffer(size_t len);
 
-  public:
+public:
 	MEMORYHEAP_DECLARATION(s_Heap);
 
-  private:
+private:
 	VirtualSocket			   m_nFrom;
 	VirtualSocket			   m_nTo;
 	VirtualSocket			   m_nForward;

@@ -1,7 +1,6 @@
 #ifndef ROBOTCLIENT_H
 #define ROBOTCLIENT_H
 
-
 #include <deque>
 #include <functional>
 #include <vector>
@@ -14,13 +13,13 @@ class CNetSocket;
 
 class RobotClient : public CNetEventHandler
 {
-  public:
+public:
 	RobotClient(RobotClientManager* pManager);
 	~RobotClient();
 
 	static void initInLua(struct lua_State* L);
 
-  public:
+public:
 	virtual void OnConnected(CNetSocket* pSocket);
 	virtual void OnConnectFailed(CNetSocket*);
 	virtual void OnDisconnected(CNetSocket*);
@@ -33,17 +32,17 @@ class RobotClient : public CNetEventHandler
 	bool IsConnectServer();
 	void DisconnectServer();
 
-  public:
+public:
 	uint32_t GetClientID() const { return m_idClient; }
 	void	 SetClientID(uint32_t val) { m_idClient = val; }
 
 	void SendProtobufToServer(uint16_t cmd, google::protobuf::Message* pMsg);
 
-  private:
+private:
 	void SendToServer(byte* buf, size_t len);
 	void SendToServer(CNetworkMessage& msg);
 
-  private:
+private:
 	RobotClientManager* m_pManager;
 	CNetSocket*			m_pServerSocket;
 	uint32_t			m_idClient;

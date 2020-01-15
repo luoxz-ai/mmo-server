@@ -91,8 +91,7 @@ export_lua namespace GameMath
 {
 	export_lua inline bool isIntersect(const FloatRect& rect, const Vector2& pos, float vDis)
 	{
-		return (rect.left - vDis <= pos.x && pos.x <= rect.right + vDis && rect.top - vDis <= pos.y &&
-				pos.y <= rect.bottom + vDis);
+		return (rect.left - vDis <= pos.x && pos.x <= rect.right + vDis && rect.top - vDis <= pos.y && pos.y <= rect.bottom + vDis);
 	}
 
 	export_lua inline float simpleDistance(const Vector2& src, const Vector2& dest)
@@ -102,25 +101,13 @@ export_lua namespace GameMath
 		return x * x + y * y;
 	}
 
-	export_lua inline float distance(const Vector2& src, const Vector2& dest)
-	{
-		return sqrt(simpleDistance(src, dest));
-	}
+	export_lua inline float distance(const Vector2& src, const Vector2& dest) { return sqrt(simpleDistance(src, dest)); }
 
-	export_lua inline float distance2D(const Vector3& src, const Vector3& dest)
-	{
-		return distance(Vector2(src.x, src.z), Vector2(dest.x, dest.z));
-	}
+	export_lua inline float distance2D(const Vector3& src, const Vector3& dest) { return distance(Vector2(src.x, src.z), Vector2(dest.x, dest.z)); }
 
-	export_lua inline float manhattanDistance(const Vector2& src, const Vector2& dest)
-	{
-		return fabs(src.x - dest.x) + fabs(src.y - dest.y);
-	}
+	export_lua inline float manhattanDistance(const Vector2& src, const Vector2& dest) { return fabs(src.x - dest.x) + fabs(src.y - dest.y); }
 
-	export_lua inline Vector2 random_vector2(float _min, float _max)
-	{
-		return Vector2::UNIT_X.randomDeviant(1.0f) * random_float(_min, _max);
-	}
+	export_lua inline Vector2 random_vector2(float _min, float _max) { return Vector2::UNIT_X.randomDeviant(1.0f) * random_float(_min, _max); }
 
 	export_lua inline Vector2 rotateByRadian(const Vector2& vec, float radian)
 	{
@@ -153,8 +140,7 @@ export_lua namespace GameMath
 		return acos(vec.dotProduct(Dir)) / PI * 180.0f;
 	}
 
-	export_lua inline float getDirectAngleFrom(
-		const Vector2& vec, const Vector2& Dir = GameMath::VECTOR2_NORTH, bool clockwise = true)
+	export_lua inline float getDirectAngleFrom(const Vector2& vec, const Vector2& Dir = GameMath::VECTOR2_NORTH, bool clockwise = true)
 	{
 		if(vec.isNaN() || vec == Vector2::ZERO)
 			return 0.0f;
@@ -165,8 +151,7 @@ export_lua namespace GameMath
 			return (vec.crossProduct(Dir) > 0) ? angle : -angle;
 	}
 
-	export_lua inline float getDirectRadianFrom(
-		const Vector2& vec, const Vector2& Dir = GameMath::VECTOR2_NORTH, bool clockwise = true)
+	export_lua inline float getDirectRadianFrom(const Vector2& vec, const Vector2& Dir = GameMath::VECTOR2_NORTH, bool clockwise = true)
 	{
 		if(vec.isNaN() || vec == Vector2::ZERO)
 			return 0.0f;
@@ -290,8 +275,7 @@ export_lua namespace GameMath
 	//相交判定
 	export_lua namespace Intersection
 	{
-		export_lua inline bool isInFOV(
-			const Vector2& posFirst, const Vector2& facingFirst, const Vector2& posSecond, float fov)
+		export_lua inline bool isInFOV(const Vector2& posFirst, const Vector2& facingFirst, const Vector2& posSecond, float fov)
 		{
 			Vector2 toTarget = Vector2(posSecond - posFirst).normalisedCopy();
 
@@ -302,12 +286,8 @@ export_lua namespace GameMath
 			return (dp > cs) || (Math::FloatEqual(dp, cs));
 		}
 
-		export_lua inline bool isInABBox(const Vector2& posFirst,
-										 const Vector2& facingFirst,
-										 const Vector2& posSecond,
-										 const Vector2& facingNormal,
-										 float			halfWidth,
-										 float			height)
+		export_lua inline bool isInABBox(const Vector2& posFirst, const Vector2& facingFirst, const Vector2& posSecond, const Vector2& facingNormal, float halfWidth,
+										 float height)
 		{
 			Vector2 toTarget = posSecond - posFirst;
 			float	dp		 = facingFirst.dotProduct(toTarget);
@@ -328,8 +308,7 @@ export_lua namespace GameMath
 		//
 		//-----------------------------------------------------------------
 
-		export_lua inline bool lineIntersection2D(
-			const Vector2& A, const Vector2& B, const Vector2& C, const Vector2& D)
+		export_lua inline bool lineIntersection2D(const Vector2& A, const Vector2& B, const Vector2& C, const Vector2& D)
 		{
 			float rTop = (A.y - C.y) * (D.x - C.x) - (A.x - C.x) * (D.y - C.y);
 			float sTop = (A.y - C.y) * (B.x - A.x) - (A.x - C.x) * (B.y - A.y);
@@ -362,8 +341,7 @@ export_lua namespace GameMath
 		//  occurs along AB. Also sets the 2d vector point to the point of
 		//  intersection
 		//-----------------------------------------------------------------
-		export_lua inline bool LineIntersection2D(
-			const Vector2& A, const Vector2& B, const Vector2& C, const Vector2& D, float& dist, Vector2& point)
+		export_lua inline bool LineIntersection2D(const Vector2& A, const Vector2& B, const Vector2& C, const Vector2& D, float& dist, Vector2& point)
 		{
 
 			float rTop = (A.y - C.y) * (D.x - C.x) - (A.x - C.x) * (D.y - C.y);

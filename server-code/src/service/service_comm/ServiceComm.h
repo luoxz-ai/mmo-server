@@ -22,16 +22,13 @@ namespace protobuf
 
 export_lua class CServiceCommon
 {
-  public:
+public:
 	CServiceCommon(const ServerPort& nServerPort, const std::string& service_name);
 	virtual ~CServiceCommon();
 
-  public:
+public:
 	export_lua VirtualSocket GetServerVirtualSocket() const { return VirtualSocket(m_nServerPort, 0); }
-	export_lua VirtualSocket GetAIServerVirtualSocket() const
-	{
-		return VirtualSocket(ServerPort(GetWorldID(), GetServiceID() + 10), 0);
-	}
+	export_lua VirtualSocket GetAIServerVirtualSocket() const { return VirtualSocket(ServerPort(GetWorldID(), GetServiceID() + 10), 0); }
 	export_lua const ServerPort& GetServerPort() const { return m_nServerPort; }
 	export_lua void				 SetServerPort(const ServerPort& val) { m_nServerPort = val; }
 	export_lua uint16_t			 GetWorldID() const { return m_nServerPort.GetWorldID(); }
@@ -45,21 +42,18 @@ export_lua class CServiceCommon
 
 	export_lua uint64_t CreateUID();
 
-  public:
+public:
 	bool CreateNetworkService();
 	bool CreateService(int32_t nWorkInterval /*= 100*/, class CMessagePortEventHandler* pEventHandler = nullptr);
 
-  public:
-	bool CreateRPCServer();
-	bool AddRPCService(google::protobuf::Service* pService, const std::string& restful_map = std::string());
+public:
+	bool					   CreateRPCServer();
+	bool					   AddRPCService(google::protobuf::Service* pService, const std::string& restful_map = std::string());
 	google::protobuf::Service* RemoveRPCService(const std::string& name);
 	void					   StopRPCServer();
-	bool					   StartRPCServer(uint16_t					 publish_port,
-											  uint16_t					 internal_port		= 0,
-											  bool						 bEnableSSL			= true,
-											  google::protobuf::Service* pHttpMasterService = nullptr);
+	bool StartRPCServer(uint16_t publish_port, uint16_t internal_port = 0, bool bEnableSSL = true, google::protobuf::Service* pHttpMasterService = nullptr);
 
-  public:
+public:
 	//开启逻辑线程，如果没有开启IO线程，也会每一个循环触发一次RunOnce
 	void		 StartLogicThread(int32_t nWorkInterval = 100, const std::string& name = std::string());
 	void		 StopLogicThread();
@@ -68,10 +62,10 @@ export_lua class CServiceCommon
 	virtual void OnLogicThreadCreate();
 	virtual void OnLogicThreadExit();
 
-  public:
+public:
 	bool ListenMessagePort(const std::string& service_name, class CMessagePortEventHandler* pEventHandler = nullptr);
 
-  public:
+public:
 	bool SendMsg(const CNetworkMessage& msg);
 	bool SendToVirtualSocket(const VirtualSocket& vsTo, uint16_t usCmd, const google::protobuf::Message& msg);
 	bool SendBroadcastMsg(const CNetworkMessage& msg);
@@ -81,16 +75,14 @@ export_lua class CServiceCommon
 	bool SendPortBroadcastMsg(const ServerPort& nServerPort, byte* buf, size_t len);
 	bool SendPortBroadcastMsg(const ServerPort& nServerPort, uint16_t usCmd, const google::protobuf::Message& msg);
 	//发送多播的消息给MessagePort
-	bool SendPortMultiMsg(const ServerPort&					nServerPort,
-						  const std::vector<VirtualSocket>& setVS,
-						  const CNetworkMessage&			msg);
+	bool SendPortMultiMsg(const ServerPort& nServerPort, const std::vector<VirtualSocket>& setVS, const CNetworkMessage& msg);
 	bool SendPortMultiIDMsg(const ServerPort& nServerPort, const std::vector<OBJID>& setVS, const CNetworkMessage& msg);
 
-  public:
+public:
 	export_lua CEventManager* GetEventManager() const { return m_pEventManager.get(); }
 	export_lua CNetMSGProcess* GetNetMsgProcess() const { return m_pNetMsgProcess.get(); }
 
-  protected:
+protected:
 	CNetworkService* m_pNetworkService;
 	CMessagePort*	 m_pMessagePort;
 	ServerPort		 m_nServerPort;

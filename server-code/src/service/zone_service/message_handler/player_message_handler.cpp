@@ -363,8 +363,7 @@ void OnMsg_CS_TALK(CPlayer* pPlayer, const CS_TALK& msg)
 		case CHANNEL_PRIVATE: //私聊
 		{
 			//发送给reciver所在的world， 由world转发
-			ZoneService()->SendPortMsg(
-				ServerPort(GetWorldIDFromPlayerID(msg.reciver_id()), WORLD_SERVICE_ID), CMD_SC_TALK, send_msg);
+			ZoneService()->SendPortMsg(ServerPort(GetWorldIDFromPlayerID(msg.reciver_id()), WORLD_SERVICE_ID), CMD_SC_TALK, send_msg);
 		}
 		break;
 		case CHANNEL_TEAM: //组队
@@ -566,8 +565,7 @@ void PlayerMessageHandlerRegister()
 {
 	auto pNetMsgProcess = ZoneService()->GetNetMsgProcess();
 	using namespace std::placeholders;
-#define REGISTER_MSG_PROCESS(msg) \
-	pNetMsgProcess->Register(CMD_##msg, std::bind(&OnPlayerMsgProcess<msg>, _1, &OnMsg_##msg));
+#define REGISTER_MSG_PROCESS(msg) pNetMsgProcess->Register(CMD_##msg, std::bind(&OnPlayerMsgProcess<msg>, _1, &OnMsg_##msg));
 	REGISTER_MSG_PROCESS(CS_LOADMAP_SUCC);
 	REGISTER_MSG_PROCESS(CS_MOVE);
 	REGISTER_MSG_PROCESS(CS_CHANGEMAP);

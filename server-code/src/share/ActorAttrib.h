@@ -1,7 +1,6 @@
 #ifndef ACTORATTRIB_H
 #define ACTORATTRIB_H
 
-
 #include <unordered_map>
 
 #include "AttribChangeDataProto.pb.h"
@@ -13,7 +12,7 @@
 //将属性变化储存在一个uint64中， 前32位代表数值的增删, 后32位代表数值的变化系数(万分比)
 struct CActorAttribChangeVal
 {
-  public:
+public:
 	CActorAttribChangeVal(int32_t nValModify, int32_t nValFactor)
 		: m_Data{nValModify, nValFactor}
 	{
@@ -32,7 +31,7 @@ struct CActorAttribChangeVal
 //计算过程中的临时变量
 struct CActorAttribChangeValTmp
 {
-  public:
+public:
 	CActorAttribChangeValTmp& operator+=(const CActorAttribChangeVal& rht)
 	{
 		nValModify += rht.m_Data.nValModify;
@@ -56,7 +55,7 @@ struct CActorAttribChangeValTmp
 
 struct CActorAttribChange
 {
-  public:
+public:
 	CActorAttribChange(uint32_t nAttribIdx = 0, uint32_t nOpLev = 0, int16_t nValModify = 0, int16_t nValFactor = 0)
 		: m_nAttribIdx(nAttribIdx)
 		, m_nOpLev(nOpLev)
@@ -78,7 +77,7 @@ struct CActorAttribChange
 // RoleAttr计算过程中的数据缓存
 class CActorAttribCalc
 {
-  public:
+public:
 	typedef std::unordered_map<size_t, CActorAttribChangeValTmp> CHANGE_VAL_MAP;
 	CActorAttribCalc() {}
 	~CActorAttribCalc() {}
@@ -111,14 +110,14 @@ class CActorAttribCalc
 	std::map<uint32_t, CHANGE_VAL_MAP>&		  _GetDataSet() { return m_setData; }
 	const std::map<uint32_t, CHANGE_VAL_MAP>& _GetDataSet() const { return m_setData; }
 
-  private:
+private:
 	std::map<uint32_t, CHANGE_VAL_MAP> m_setData;
 };
 
 //最终数据
 class CActorAttrib
 {
-  public:
+public:
 	~CActorAttrib() {}
 	CActorAttrib()
 	{
@@ -207,7 +206,7 @@ class CActorAttrib
 		get_base(ATTRIB_DODGE)	  = row.dodge();
 	}
 
-  private:
+private:
 	std::array<uint32_t, ATTRIB_MAX> m_setAttribBase;
 	std::array<uint32_t, ATTRIB_MAX> m_setAttrib;
 	CActorAttribCalc				 m_Calc;

@@ -102,7 +102,7 @@ struct type_list
 
 class scope_guards
 {
-  public:
+public:
 	scope_guards()					  = default;
 	scope_guards(const scope_guards&) = delete;
 	void operator=(const scope_guards&) = delete;
@@ -132,7 +132,7 @@ class scope_guards
 
 	void dismiss() noexcept { m_data.clear(); }
 
-  private:
+private:
 	std::deque<std::function<void()>> m_data;
 };
 

@@ -267,11 +267,7 @@ void CActor::AddDelayAttribChange(uint32_t nType, uint32_t nVal)
 	{
 		// 200毫秒后一次性发送
 		EventManager()->ScheduleEvent(
-			EVENTID_SEND_ATTRIB_CHANGE,
-			[pThis = this]() { pThis->SendDelayAttribChage(); },
-			200,
-			false,
-			GetEventMapRef());
+			EVENTID_SEND_ATTRIB_CHANGE, [pThis = this]() { pThis->SendDelayAttribChage(); }, 200, false, GetEventMapRef());
 	}
 	__LEAVE_FUNCTION
 }

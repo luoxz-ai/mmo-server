@@ -9,7 +9,7 @@
 class CActorAI;
 class CAIMonster : public CAIActor
 {
-  public:
+public:
 	CAIMonster();
 	~CAIMonster();
 	CREATE_NEW_IMPL(CAIMonster);
@@ -32,10 +32,10 @@ class CAIMonster : public CAIActor
 	OBJID GetOwnerID() const { return m_idOwner; }
 	void  SetOwnerID(OBJID val) { m_idOwner = val; }
 
-  public:
+public:
 	MEMORYHEAP_DECLARATION(s_heap);
 
-  private:
+private:
 	uint32_t	  m_idGen;
 	OBJID		  m_idOwner;
 	CMonsterType* m_pType;

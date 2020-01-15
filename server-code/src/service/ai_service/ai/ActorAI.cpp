@@ -151,13 +151,11 @@ bool CActorAI::ToRandMove()
 	float dis = GameMath::distance(m_posBorn, GetActor()->GetPos());
 	if(dis < GetAIData().idle_randomwalk_range())
 	{
-		m_posTarget = GetActor()->GetPos() + GameMath::random_vector2(GetAIData().idle_randomwalk_step_min(),
-																	  GetAIData().idle_randomwalk_step_max());
+		m_posTarget = GetActor()->GetPos() + GameMath::random_vector2(GetAIData().idle_randomwalk_step_min(), GetAIData().idle_randomwalk_step_max());
 	}
 	else
 	{
-		m_posTarget = m_posBorn + GameMath::random_vector2(GetAIData().idle_randomwalk_step_min(),
-														   GetAIData().idle_randomwalk_step_max());
+		m_posTarget = m_posBorn + GameMath::random_vector2(GetAIData().idle_randomwalk_step_min(), GetAIData().idle_randomwalk_step_max());
 	}
 
 	AddNextCall(MOVE_PER_WAIT_MS);
@@ -258,11 +256,7 @@ bool CActorAI::ToSkill()
 		return ToApproach();
 	}
 
-	LOGAIDEBUG(GetAIData().ai_debug(),
-			   "AI: {} castSkill: {} Target:{}",
-			   GetActor()->GetID(),
-			   pCurSkillType->GetSkillID(),
-			   m_idTarget);
+	LOGAIDEBUG(GetAIData().ai_debug(), "AI: {} castSkill: {} Target:{}", GetActor()->GetID(), pCurSkillType->GetSkillID(), m_idTarget);
 
 	//可以释放
 	GetActor()->CastSkill(pCurSkillType->GetSkillID(), m_idTarget);
@@ -359,8 +353,7 @@ void CActorAI::ProcessAttack()
 		return;
 	}
 
-	LOGAIDEBUG(
-		GetAIData().ai_debug(), "AI: {} SelectSkill: {}", GetActor()->GetID(), pSkillData->GetSkillType()->GetID());
+	LOGAIDEBUG(GetAIData().ai_debug(), "AI: {} SelectSkill: {}", GetActor()->GetID(), pSkillData->GetSkillType()->GetID());
 	SetCurSkillTypeID(pSkillData->GetSkillType()->GetID());
 	ToSkill();
 }
@@ -580,8 +573,7 @@ bool CActorAI::FindEnemyInHateList()
 			return false;
 		if(pActor->IsDead())
 			return false;
-		if(GameMath::distance(pActor->GetPos(), pThis->GetActor()->GetPos()) >=
-		   pThis->GetAIData().attack_target_range())
+		if(GameMath::distance(pActor->GetPos(), pThis->GetActor()->GetPos()) >= pThis->GetAIData().attack_target_range())
 			return false;
 
 		//设置目标
@@ -597,8 +589,7 @@ bool CActorAI::ForEachInHateList(std::function<bool(ST_HATE_DATA*)> func)
 		CAIActor* pActor = AIActorManager()->QueryActor(pHateData->idTarget);
 		if(pActor == nullptr)
 			return false;
-		if(GameMath::distance(pActor->GetPos(), pThis->GetActor()->GetPos()) >=
-		   pThis->GetAIData().attack_target_range())
+		if(GameMath::distance(pActor->GetPos(), pThis->GetActor()->GetPos()) >= pThis->GetAIData().attack_target_range())
 			return false;
 
 		//设置目标
@@ -707,8 +698,7 @@ void CActorAI::SetAutoSearchEnemy()
 		return;
 
 	m_SearchEnemyEvent.Cancel();
-	uint32_t ms = random_uint32_range(GetAIType()->GetDataRef().search_enemy_ms_min(),
-									  GetAIType()->GetDataRef().search_enemy_ms_max());
+	uint32_t ms = random_uint32_range(GetAIType()->GetDataRef().search_enemy_ms_min(), GetAIType()->GetDataRef().search_enemy_ms_max());
 	EventManager()->ScheduleEvent(0, std::bind(&CActorAI::_SearchEnemy_CallBack, this), ms, false, m_SearchEnemyEvent);
 }
 

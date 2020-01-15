@@ -1,7 +1,6 @@
 #ifndef STRINGALGO_H
 #define STRINGALGO_H
 
-
 #include <algorithm>
 #include <string>
 #include <vector>
@@ -12,8 +11,7 @@ export_lua void skip_utf8_bom(FILE* fp);
 //获取utf8文字长度
 export_lua size_t utf8_length(const char* pUTF8, size_t nLen = 0);
 //编码转换
-export_lua char* ConvertEnc(
-	const char* encFrom, const char* encTo, char* pszBuffIn, size_t lenin, char* pszBuffout, size_t lenout);
+export_lua char* ConvertEnc(const char* encFrom, const char* encTo, char* pszBuffIn, size_t lenin, char* pszBuffout, size_t lenout);
 //检查控制字符
 export_lua bool IsUTF8_NoneControl(const char* pszString, long nSize);
 

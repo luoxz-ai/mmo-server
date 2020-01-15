@@ -192,8 +192,7 @@ std::string CDBField::GetValString() const
 		{
 			std::string				tmp = std::get<std::string>(m_Val);
 			std::unique_ptr<char[]> szBuff(new char[tmp.size() * 2 + 1]);
-			mysql_real_escape_string(
-				m_pDBRecord->_GetMysqlConnection()->_GetHandle(), szBuff.get(), tmp.c_str(), tmp.size());
+			mysql_real_escape_string(m_pDBRecord->_GetMysqlConnection()->_GetHandle(), szBuff.get(), tmp.c_str(), tmp.size());
 
 			return "'" + std::string(szBuff.get()) + "'";
 		}

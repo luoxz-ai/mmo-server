@@ -39,14 +39,14 @@ class CGameDataMap
 
 	CGameDataMap() {}
 
-  public:
+public:
 	using KEY_T		 = typename std::result_of<decltype (&T::GetID)(T)>::type;
 	using MAP_SET_T	 = std::unordered_map<KEY_T, T*>;
 	using MAP_ITER_T = typename MAP_SET_T::const_iterator;
 	CREATE_NEW_IMPL(CGameDataMap<T>);
 	~CGameDataMap() { Clear(); }
 
-  public:
+public:
 	void Clear()
 	{
 		for(auto& pair_val: m_setData)
@@ -175,14 +175,14 @@ class CGameDataMap
 
 	class Iterator
 	{
-	  private: // create by parent class
+	private: // create by parent class
 		Iterator(const MAP_SET_T& refSet)
 			: m_refSet(refSet)
 			, m_iter(m_refSet.begin())
 		{
 		}
 
-	  public: // application
+	public: // application
 		Iterator()				  = delete;
 		Iterator(const Iterator&) = default;
 		void MoveNext() { m_iter++; }
@@ -193,13 +193,13 @@ class CGameDataMap
 
 		friend class CGameDataMap<T>;
 
-	  protected:
+	protected:
 		const MAP_SET_T& m_refSet;
 		MAP_ITER_T		 m_iter;
 	};
 	Iterator GetIter() const { return Iterator(m_setData); }
 
-  private:
+private:
 	MAP_SET_T m_setData;
 };
 
@@ -208,14 +208,14 @@ class CGameMultiDataMap
 {
 	CGameMultiDataMap() {}
 
-  public:
+public:
 	using KEY_T		 = typename std::result_of<decltype (&T::GetID)(T)>::type;
 	using MAP_SET_T	 = std::unordered_multimap<KEY_T, T*>;
 	using MAP_ITER_T = typename MAP_SET_T::const_iterator;
 
 	class Iterator
 	{
-	  private: // create by parent class
+	private: // create by parent class
 		Iterator(const MAP_SET_T& refSet)
 			: m_itBeg(refSet.begin())
 			, m_itEnd(refSet.end()())
@@ -227,7 +227,7 @@ class CGameMultiDataMap
 		{
 		}
 
-	  public: // application
+	public: // application
 		Iterator()				  = delete;
 		Iterator(const Iterator&) = default;
 		void MoveNext() { m_itBeg++; }
@@ -238,16 +238,16 @@ class CGameMultiDataMap
 
 		friend class CGameMultiDataMap<T>;
 
-	  protected:
+	protected:
 		MAP_ITER_T m_itBeg;
 		MAP_ITER_T m_itEnd;
 	};
 
-  public:
+public:
 	CREATE_NEW_IMPL(CGameMultiDataMap<T>);
 	~CGameMultiDataMap() { Clear(); }
 
-  public:
+public:
 	void Clear()
 	{
 		for(auto& pair_val: m_setData)
@@ -324,7 +324,7 @@ class CGameMultiDataMap
 
 	Iterator GetIter() const { return Iterator(m_setData); }
 
-  private:
+private:
 	MAP_SET_T m_setData;
 };
 

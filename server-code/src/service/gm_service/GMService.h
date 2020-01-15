@@ -14,7 +14,7 @@ struct event;
 class CNetMSGProcess;
 class CGMService : public IService, public CServiceCommon
 {
-  public:
+public:
 	CGMService(const ServerPort& nServerPort);
 	virtual ~CGMService();
 	void Release() { delete this; }
@@ -23,13 +23,13 @@ class CGMService : public IService, public CServiceCommon
 	void SendServiceReady();
 	void SendServiceUnReady();
 
-  public:
+public:
 	virtual void OnLogicThreadProc() override;
 	virtual void OnLogicThreadCreate() override;
 	virtual void OnLogicThreadExit() override;
 	virtual void OnProcessMessage(CNetworkMessage*) override;
 
-  public:
+public:
 	using HttpRequestHandleFunc = std::function<void(const ServerPort&, const ServerMSG::ServiceHttpRequest&)>;
 	std::unordered_map<std::string, HttpRequestHandleFunc> m_HttpRequestHandle;
 };

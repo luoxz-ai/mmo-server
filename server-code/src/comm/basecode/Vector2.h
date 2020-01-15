@@ -7,11 +7,11 @@
 #include "export_lua.h"
 export_lua class Vector2
 {
-  public:
+public:
 	export_lua float x;
 	export_lua float y;
 
-  public:
+public:
 	export_lua inline Vector2()
 		: x(0)
 		, y(0)
@@ -124,15 +124,9 @@ export_lua class Vector2
 	inline Vector2 operator-() const { return Vector2(-x, -y); }
 
 	// overloaded operators to help Vector2
-	inline friend Vector2 operator*(const float fScalar, const Vector2& rkVector)
-	{
-		return Vector2(fScalar * rkVector.x, fScalar * rkVector.y);
-	}
+	inline friend Vector2 operator*(const float fScalar, const Vector2& rkVector) { return Vector2(fScalar * rkVector.x, fScalar * rkVector.y); }
 
-	inline friend Vector2 operator/(const float fScalar, const Vector2& rkVector)
-	{
-		return Vector2(fScalar / rkVector.x, fScalar / rkVector.y);
-	}
+	inline friend Vector2 operator/(const float fScalar, const Vector2& rkVector) { return Vector2(fScalar / rkVector.x, fScalar / rkVector.y); }
 
 	inline friend Vector2 operator+(const Vector2& lhs, const float rhs) { return Vector2(lhs.x + rhs, lhs.y + rhs); }
 
@@ -294,10 +288,7 @@ export_lua class Vector2
 	/** Returns a vector at a point half way between this and the passed
 		in vector.
 	*/
-	export_lua inline Vector2 midPoint(const Vector2& vec) const
-	{
-		return Vector2((x + vec.x) * 0.5f, (y + vec.y) * 0.5f);
-	}
+	export_lua inline Vector2 midPoint(const Vector2& vec) const { return Vector2((x + vec.x) * 0.5f, (y + vec.y) * 0.5f); }
 
 	/** Returns true if the vector's scalar components are all greater
 		that the ones of the vector it is compared against.
@@ -408,10 +399,7 @@ export_lua class Vector2
 	/** Calculates a reflection vector to the plane with the given normal .
 	@remarks NB assumes 'this' is pointing AWAY FROM the plane, invert if it is not.
 	*/
-	export_lua inline Vector2 reflect(const Vector2& normal) const
-	{
-		return Vector2(*this - (2 * this->dotProduct(normal) * normal));
-	}
+	export_lua inline Vector2 reflect(const Vector2& normal) const { return Vector2(*this - (2 * this->dotProduct(normal) * normal)); }
 	/// Check whether this vector contains valid values
 	export_lua inline bool isNaN() const { return Math::isNaN(x) || Math::isNaN(y); }
 

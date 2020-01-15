@@ -1,7 +1,6 @@
 #ifndef SCENE_H
 #define SCENE_H
 
-
 #include "EventEntry.h"
 #include "SceneBase.h"
 #include "ZoneService.h"
@@ -18,14 +17,14 @@ class CMonster;
 class CNpc;
 export_lua class CScene : public CSceneBase
 {
-  protected:
+protected:
 	CScene();
 
-  public:
+public:
 	virtual ~CScene();
 	CREATE_NEW_IMPL(CScene);
 
-  public:
+public:
 	bool			Init(const SceneID& idScene);
 	void			Destory();
 	export_lua bool NeedDestory() const;
@@ -40,7 +39,7 @@ export_lua class CScene : public CSceneBase
 	export_lua virtual void AddDynaRegion(uint32_t nRegionType, const FloatRect& rect) override;
 	export_lua virtual void ClearDynaRegion(uint32_t nRegionType) override;
 
-  public:
+public:
 	export_lua bool SendSceneMessage(uint16_t cmd, const google::protobuf::Message& msg);
 
 	//发送所有mapval以及和该玩家id一样的mapuserval 给玩家
@@ -74,19 +73,16 @@ export_lua class CScene : public CSceneBase
 		if(m_pMap->GetScriptID() == 0)
 			return RVal();
 		else
-			return ScriptManager()->TryExecScript<RVal>(
-				m_pMap->GetScriptID(), idxCallBackType, std::forward<Args>(args)...);
+			return ScriptManager()->TryExecScript<RVal>(m_pMap->GetScriptID(), idxCallBackType, std::forward<Args>(args)...);
 		__LEAVE_FUNCTION
 		return RVal();
 	}
 
 	export_lua CNpc* CreateNpc(uint32_t idNpcType, const CPos2D& pos, float face);
-	export_lua CMonster* CreateMonster(
-		uint32_t idMonsterType, uint32_t idGen, uint32_t idCamp, OBJID idOwner, const CPos2D& pos, float face);
-	export_lua bool CreateMultiMonster(
-		uint32_t idMonsterType, uint32_t nNum, uint32_t idCamp, OBJID idOwner, const CPos2D& pos, float range);
+	export_lua CMonster* CreateMonster(uint32_t idMonsterType, uint32_t idGen, uint32_t idCamp, OBJID idOwner, const CPos2D& pos, float face);
+	export_lua bool		 CreateMultiMonster(uint32_t idMonsterType, uint32_t nNum, uint32_t idCamp, OBJID idOwner, const CPos2D& pos, float range);
 
-  private:
+private:
 	uint32_t m_curSceneState;
 	bool	 m_bDelThis = false;
 

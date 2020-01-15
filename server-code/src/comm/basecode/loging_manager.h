@@ -1,7 +1,6 @@
 #ifndef LOGING_MANAGER_H
 #define LOGING_MANAGER_H
 
-
 #include <iostream>
 
 #include "BaseType.h"

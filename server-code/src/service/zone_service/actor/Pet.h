@@ -1,23 +1,22 @@
 #ifndef PET_H
 #define PET_H
 
-
 #include "Actor.h"
 #include "PetType.h"
 
 class CPetSet;
 export_lua class CPet : public CActor
 {
-  protected:
+protected:
 	CPet();
 
-  public:
+public:
 	virtual ~CPet();
 
 	CREATE_NEW_IMPL(CPet);
 	bool Init(CPetSet* pPetSet, CDBRecordPtr&& pRecord);
 
-  public:
+public:
 	export_lua virtual ActorType GetActorType() const { return ActorType::ACT_PET; }
 	export_lua static ActorType	 GetActorTypeStatic() { return ActorType::ACT_PET; }
 	export_lua virtual uint32_t	 GetHP() const override { return m_nHP; };
@@ -44,10 +43,10 @@ export_lua class CPet : public CActor
 
 	void Save();
 
-  public:
+public:
 	MEMORYHEAP_DECLARATION(s_heap);
 
-  private:
+private:
 	CPetSet*	 m_pPetSet;
 	CPetType*	 m_pType;
 	uint32_t	 m_nHP = 0;

@@ -107,20 +107,10 @@ void CNpc::_ActiveNpc(CPlayer* pPlayer)
 		pPlayer->DialogBegin(m_pType->GetName());
 		pPlayer->DialogAddText(m_pType->GetDialogText());
 		if(HasFlag(m_pType->GetTypeFlag(), NPC_TYPE_FLAG_SHOP))
-			pPlayer->DialogAddLink(DIALOGLINK_TYPE_LIST,
-								   m_pType->GetShopLinkName(),
-								   DIALOG_FUNC_OPENSHOP,
-								   m_pType->GetShopID(),
-								   "",
-								   GetID());
+			pPlayer->DialogAddLink(DIALOGLINK_TYPE_LIST, m_pType->GetShopLinkName(), DIALOG_FUNC_OPENSHOP, m_pType->GetShopID(), "", GetID());
 		for(auto pTaskType: setShowTask)
 		{
-			pPlayer->DialogAddLink(DIALOGLINK_TYPE_LIST,
-								   pTaskType->GetName(),
-								   DIALOG_FUNC_SHOWTASK,
-								   pTaskType->GetScriptID(),
-								   "",
-								   GetID());
+			pPlayer->DialogAddLink(DIALOGLINK_TYPE_LIST, pTaskType->GetName(), DIALOG_FUNC_SHOWTASK, pTaskType->GetScriptID(), "", GetID());
 		}
 
 		pPlayer->DialogSend(DIALOGTYPE_NORMAL);

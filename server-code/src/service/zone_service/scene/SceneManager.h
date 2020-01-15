@@ -7,7 +7,7 @@
 class CScene;
 export_lua class CSceneManager
 {
-  public:
+public:
 	CSceneManager();
 	~CSceneManager();
 
@@ -25,8 +25,8 @@ export_lua class CSceneManager
 	export_lua void ForEach(const std::function<void(CScene*)>& func);
 	void			OnTimer();
 
-  protected:
-  private:
+protected:
+private:
 	std::unordered_map<SceneID, CScene*> m_mapScene;
 	struct DynaSceneIDPool
 	{

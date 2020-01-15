@@ -1,8 +1,8 @@
 #include "Common.pb.h"
 #include "ScriptManager.h"
-#include "pb_luahelper.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"
+#include "pb_luahelper.h"
 extern void zone2lua(lua_State* L);
 
 std::atomic<uint32_t> pb_luahelper::ProtobufMessageWarp::s_nCount{0};

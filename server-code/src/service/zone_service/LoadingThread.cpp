@@ -46,28 +46,18 @@ void CLoadingThread::Destory()
 	m_ReadyList.clear();
 }
 
-bool CLoadingThread::AddLoginPlayer(OBJID				 idPlayer,
-									const VirtualSocket& socket,
-									bool				 bChangeZone,
-									uint64_t			 idScene,
-									float				 fPosX,
-									float				 fPosY,
-									float				 fRange,
-									float				 fFace)
+bool CLoadingThread::AddLoginPlayer(OBJID idPlayer, const VirtualSocket& socket, bool bChangeZone, uint64_t idScene, float fPosX, float fPosY, float fRange, float fFace)
 {
-	auto pData = new ST_LOADINGTHREAD_PROCESS_DATA{
-		LPT_LOADING, idPlayer, bChangeZone, socket, idScene, fPosX, fPosY, fRange, fFace, nullptr};
+	auto pData = new ST_LOADINGTHREAD_PROCESS_DATA{LPT_LOADING, idPlayer, bChangeZone, socket, idScene, fPosX, fPosY, fRange, fFace, nullptr};
 	m_nLoadingCount++;
 	std::lock_guard<std::mutex> lock(m_MutexWait);
 	m_WaitingList.push_back(pData);
 	return true;
 }
 
-bool CLoadingThread::AddClosePlayer(
-	CPlayer* pPlayer, uint64_t idScene, float fPosX, float fPosY, float fRange, float fFace)
+bool CLoadingThread::AddClosePlayer(CPlayer* pPlayer, uint64_t idScene, float fPosX, float fPosY, float fRange, float fFace)
 {
-	auto pData = new ST_LOADINGTHREAD_PROCESS_DATA{
-		LPT_SAVE, pPlayer->GetID(), idScene != 0, pPlayer->GetSocket(), idScene, fPosX, fPosY, fRange, fFace, pPlayer};
+	auto pData = new ST_LOADINGTHREAD_PROCESS_DATA{LPT_SAVE, pPlayer->GetID(), idScene != 0, pPlayer->GetSocket(), idScene, fPosX, fPosY, fRange, fFace, pPlayer};
 	m_nSaveingCount++;
 	std::lock_guard<std::mutex> lock(m_MutexWait);
 	m_WaitingList.push_back(pData);
@@ -299,14 +289,12 @@ void CLoadingThread::OnMainThreadExec()
 			if(pData->pPlayer)
 			{
 				ActorManager()->AddActor(pData->pPlayer);
-				pData->pPlayer->OnLogin(
-					!pData->bChangeZone, pData->idScene, pData->fPosX, pData->fPosY, pData->fRange, pData->fFace);
+				pData->pPlayer->OnLogin(!pData->bChangeZone, pData->idScene, pData->fPosX, pData->fPosY, pData->fRange, pData->fFace);
 			}
 		}
 		else // save ready
 		{
-			pData->pPlayer->OnChangeZoneSaveFinish(
-				pData->idScene, pData->fPosX, pData->fPosY, pData->fRange, pData->fFace);
+			pData->pPlayer->OnChangeZoneSaveFinish(pData->idScene, pData->fPosX, pData->fPosY, pData->fRange, pData->fFace);
 			SAFE_DELETE(pData->pPlayer);
 		}
 

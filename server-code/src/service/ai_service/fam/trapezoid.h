@@ -13,7 +13,6 @@
 //  the terms found in the "LICENSE" file included with the library.
 //
 
-
 #include <cmath>
 #include <ostream>
 #include <vector>
@@ -37,7 +36,7 @@ struct TrapezoidHasher;
  */
 class Trapezoid
 {
-  private:
+private:
 	double _left;
 	double _top_left;
 	double _top_right;
@@ -46,11 +45,10 @@ class Trapezoid
 
 	void print(std::ostream& strm) const
 	{
-		strm << "Trapezoid {" << this << ", " << this->_left << "/" << this->_top_left << "/" << this->_top_right << "/"
-			 << this->_right << " (" << this->_height << ")}";
+		strm << "Trapezoid {" << this << ", " << this->_left << "/" << this->_top_left << "/" << this->_top_right << "/" << this->_right << " (" << this->_height << ")}";
 	}
 
-  public:
+public:
 	Trapezoid();
 
 	/**
@@ -125,8 +123,8 @@ struct TrapezoidHasher
 {
 	std::size_t operator()(const Trapezoid& k) const
 	{
-		return std::hash<double>()(k._left) + std::hash<double>()(k._top_left) + std::hash<double>()(k._top_right) +
-			   std::hash<double>()(k._right) + std::hash<double>()(k._height);
+		return std::hash<double>()(k._left) + std::hash<double>()(k._top_left) + std::hash<double>()(k._top_right) + std::hash<double>()(k._right) +
+			   std::hash<double>()(k._height);
 	}
 };
 } // namespace fuzzy

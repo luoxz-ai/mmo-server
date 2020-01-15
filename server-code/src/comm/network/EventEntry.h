@@ -22,11 +22,11 @@ enum EVENT_MANAGER_TYPE
 class CEventManager;
 class CEventEntry
 {
-  public:
+public:
 	CEventEntry(CEventManager* pManager, uint32_t evType, EventCallBackFunc&& cb, time_t tWaitTime, bool bPersisit);
 	~CEventEntry();
 
-  public:
+public:
 	void Destory();
 	void Cancel();
 	void Clear();
@@ -43,10 +43,10 @@ class CEventEntry
 	bool	 IsRunning() const;
 	bool	 IsVaild() const;
 
-  public:
+public:
 	MEMORYHEAP_DECLARATION(s_heap);
 
-  private:
+private:
 	CEventManager*	  m_pManager;
 	EventCallBackFunc m_pCallBack;
 	time_t			  m_tWaitTime;
@@ -60,62 +60,62 @@ class CEventEntry
 
 class CEventEntryMap
 {
-  public:
+public:
 	CEventEntryMap();
 	~CEventEntryMap();
 
-  public:
+public:
 	void			   Clear();
 	bool			   Cancel(uint32_t evType);
 	void			   ClearByType(uint32_t evType);
 	const CEventEntry* Query(uint32_t evType) const;
 
-  protected:
+protected:
 	CEventEntry*& GetRef(uint32_t evType);
 	CEventEntry*& operator[](uint32_t evType);
 	bool		  Set(CEventEntry* pEntry);
 
-  protected:
+protected:
 	std::map<uint32_t, CEventEntry*> m_setEntry;
 	friend class CEventManager;
 };
 
 class CEventEntryQueue
 {
-  public:
+public:
 	CEventEntryQueue();
 	~CEventEntryQueue();
 
-  public:
+public:
 	void Clear();
 	void ClearByType(uint32_t evType);
 	void Clear_IF(std::function<bool(CEventEntry*)> func);
 
-  protected:
+protected:
 	bool Add(CEventEntry* pEntry);
 
-  protected:
+protected:
 	std::set<CEventEntry*> m_setEntry;
 	friend class CEventManager;
 };
 
 class CEventEntryPtr
 {
-  public:
+public:
 	CEventEntryPtr();
 	~CEventEntryPtr();
 
-  public:
+public:
 	bool Cancel();
 	void Clear();
 	bool IsRunning();
 
-  protected:
+protected:
 	CEventEntry*  Query() const;
 	CEventEntry*& GetRef();
 	bool		  Set(CEventEntry* pEntry);
 
-  protected:
+protected:
 	CEventEntry* m_pEntry;
 	friend class CEventManager;
 };

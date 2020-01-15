@@ -44,10 +44,7 @@ void CMessagePort::OnConnected(CNetSocket* pSocket)
 	msg.usSize = sizeof(MSG_HEAD);
 	pSocket->SendMsg((byte*)&msg, sizeof(msg));
 	pSocket->SetPacketSizeMax(_MAX_MSGSIZE * 2);
-	LOGNETDEBUG("MessagePort:{} OnConnected {}:{}",
-				GetServerPort().GetServiceID(),
-				pSocket->GetAddrString().c_str(),
-				pSocket->GetPort());
+	LOGNETDEBUG("MessagePort:{} OnConnected {}:{}", GetServerPort().GetServiceID(), pSocket->GetAddrString().c_str(), pSocket->GetPort());
 	if(auto pHandler = m_pPortEventHandler.load())
 		pHandler->OnPortConnected(pSocket);
 	__LEAVE_FUNCTION
@@ -56,10 +53,7 @@ void CMessagePort::OnConnected(CNetSocket* pSocket)
 void CMessagePort::OnConnectFailed(CNetSocket* pSocket)
 {
 	__ENTER_FUNCTION
-	LOGNETDEBUG("MessagePort:{} OnConnectFailed {}:{}",
-				GetServerPort().GetServiceID(),
-				pSocket->GetAddrString().c_str(),
-				pSocket->GetPort());
+	LOGNETDEBUG("MessagePort:{} OnConnectFailed {}:{}", GetServerPort().GetServiceID(), pSocket->GetAddrString().c_str(), pSocket->GetPort());
 	if(auto pHandler = m_pPortEventHandler.load())
 		pHandler->OnPortConnectFailed(pSocket);
 	__LEAVE_FUNCTION
@@ -68,10 +62,7 @@ void CMessagePort::OnConnectFailed(CNetSocket* pSocket)
 void CMessagePort::OnDisconnected(CNetSocket* pSocket)
 {
 	__ENTER_FUNCTION
-	LOGNETDEBUG("MessagePort:{} OnDisconnected {}:{}",
-				GetServerPort().GetServiceID(),
-				pSocket->GetAddrString().c_str(),
-				pSocket->GetPort());
+	LOGNETDEBUG("MessagePort:{} OnDisconnected {}:{}", GetServerPort().GetServiceID(), pSocket->GetAddrString().c_str(), pSocket->GetPort());
 	if(auto pHandler = m_pPortEventHandler.load())
 		pHandler->OnPortDisconnected(pSocket);
 
@@ -81,10 +72,7 @@ void CMessagePort::OnDisconnected(CNetSocket* pSocket)
 void CMessagePort::OnAccepted(CNetSocket* pSocket)
 {
 	__ENTER_FUNCTION
-	LOGNETDEBUG("MessagePort:{} OnAccpet {}:{}",
-				GetServerPort().GetServiceID(),
-				pSocket->GetAddrString().c_str(),
-				pSocket->GetPort());
+	LOGNETDEBUG("MessagePort:{} OnAccpet {}:{}", GetServerPort().GetServiceID(), pSocket->GetAddrString().c_str(), pSocket->GetPort());
 	pSocket->SetPacketSizeMax(_MAX_MSGSIZE * 2);
 	if(auto pHandler = m_pPortEventHandler.load())
 		pHandler->OnPortAccepted(pSocket);
@@ -108,9 +96,7 @@ void CMessagePort::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
 		case NETMSG_INTERNAL:
 		{
 			MSG_INTERNAL_MSG_HEAD* pInternal_msg_head = (MSG_INTERNAL_MSG_HEAD*)pBuffer;
-			CNetworkMessage*	   pMsg				  = new CNetworkMessage(pBuffer + sizeof(MSG_INTERNAL_MSG_HEAD),
-														pHead->usSize - sizeof(MSG_INTERNAL_MSG_HEAD),
-														pInternal_msg_head->nFrom,
+			CNetworkMessage* pMsg = new CNetworkMessage(pBuffer + sizeof(MSG_INTERNAL_MSG_HEAD), pHead->usSize - sizeof(MSG_INTERNAL_MSG_HEAD), pInternal_msg_head->nFrom,
 														pInternal_msg_head->nTo);
 			pMsg->CopyBuffer();
 			m_RecvMsgQueue.push(pMsg);
@@ -119,11 +105,8 @@ void CMessagePort::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
 		case NETMSG_INTERNAL_FORWARD:
 		{
 			MSG_INTERNAL_FORWARD_MSG_HEAD* pInternal_msg_head = (MSG_INTERNAL_FORWARD_MSG_HEAD*)pBuffer;
-			CNetworkMessage*			   pMsg = new CNetworkMessage(pBuffer + sizeof(MSG_INTERNAL_FORWARD_MSG_HEAD),
-														  pHead->usSize - sizeof(MSG_INTERNAL_FORWARD_MSG_HEAD),
-														  pInternal_msg_head->nFrom,
-														  pInternal_msg_head->nTo,
-														  pInternal_msg_head->nForward);
+			CNetworkMessage* pMsg = new CNetworkMessage(pBuffer + sizeof(MSG_INTERNAL_FORWARD_MSG_HEAD), pHead->usSize - sizeof(MSG_INTERNAL_FORWARD_MSG_HEAD),
+														pInternal_msg_head->nFrom, pInternal_msg_head->nTo, pInternal_msg_head->nForward);
 			pMsg->CopyBuffer();
 			m_RecvMsgQueue.push(pMsg);
 		}
@@ -131,9 +114,7 @@ void CMessagePort::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
 		case NETMSG_INTERNAL_BROCAST_ALL:
 		{
 			MSG_INTERNAL_MSG_HEAD* pInternal_msg_head = (MSG_INTERNAL_MSG_HEAD*)pBuffer;
-			CNetworkMessage*	   pMsg				  = new CNetworkMessage(pBuffer + sizeof(MSG_INTERNAL_MSG_HEAD),
-														pHead->usSize - sizeof(MSG_INTERNAL_MSG_HEAD),
-														pInternal_msg_head->nFrom,
+			CNetworkMessage* pMsg = new CNetworkMessage(pBuffer + sizeof(MSG_INTERNAL_MSG_HEAD), pHead->usSize - sizeof(MSG_INTERNAL_MSG_HEAD), pInternal_msg_head->nFrom,
 														pInternal_msg_head->nTo);
 			pMsg->SetBroadcast();
 			pMsg->CopyBuffer();
@@ -143,9 +124,7 @@ void CMessagePort::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
 		case NETMSG_INTERNAL_BROCAST_BYVS:
 		{
 			MSG_INTERNAL_BROCAST_MSG_HEAD* pBrocast_msg_head = (MSG_INTERNAL_BROCAST_MSG_HEAD*)pBuffer;
-			CNetworkMessage*			   pMsg = new CNetworkMessage(pBuffer + pBrocast_msg_head->GetSize(),
-														  pHead->usSize - pBrocast_msg_head->GetSize(),
-														  pBrocast_msg_head->nFrom);
+			CNetworkMessage* pMsg = new CNetworkMessage(pBuffer + pBrocast_msg_head->GetSize(), pHead->usSize - pBrocast_msg_head->GetSize(), pBrocast_msg_head->nFrom);
 			pMsg->SetMultiTo(&pBrocast_msg_head->setTo[0], pBrocast_msg_head->nAmount);
 			pMsg->SetMultiType(MULTITYPE_VIRTUALSOCKET);
 			pMsg->CopyBuffer();
@@ -155,9 +134,7 @@ void CMessagePort::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
 		case NETMSG_INTERNAL_BROCAST_BYID:
 		{
 			MSG_INTERNAL_BROCAST_BYID_MSG_HEAD* pBrocast_msg_head = (MSG_INTERNAL_BROCAST_BYID_MSG_HEAD*)pBuffer;
-			CNetworkMessage*					pMsg = new CNetworkMessage(pBuffer + pBrocast_msg_head->GetSize(),
-														   pHead->usSize - pBrocast_msg_head->GetSize(),
-														   pBrocast_msg_head->nFrom);
+			CNetworkMessage* pMsg = new CNetworkMessage(pBuffer + pBrocast_msg_head->GetSize(), pHead->usSize - pBrocast_msg_head->GetSize(), pBrocast_msg_head->nFrom);
 			pMsg->SetMultiIDTo(&pBrocast_msg_head->setTo[0], pBrocast_msg_head->nAmount);
 			pMsg->SetMultiType(MULTITYPE_USERID);
 			pMsg->CopyBuffer();
@@ -166,11 +143,8 @@ void CMessagePort::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
 		break;
 		case NETMSG_INTERNAL_BROCAST_BYGROUPID:
 		{
-			MSG_INTERNAL_BROCAST_BYGROUPID_MSG_HEAD* pBrocast_msg_head =
-				(MSG_INTERNAL_BROCAST_BYGROUPID_MSG_HEAD*)pBuffer;
-			CNetworkMessage* pMsg = new CNetworkMessage(pBuffer + pBrocast_msg_head->GetSize(),
-														pHead->usSize - pBrocast_msg_head->GetSize(),
-														pBrocast_msg_head->nFrom);
+			MSG_INTERNAL_BROCAST_BYGROUPID_MSG_HEAD* pBrocast_msg_head = (MSG_INTERNAL_BROCAST_BYGROUPID_MSG_HEAD*)pBuffer;
+			CNetworkMessage* pMsg = new CNetworkMessage(pBuffer + pBrocast_msg_head->GetSize(), pHead->usSize - pBrocast_msg_head->GetSize(), pBrocast_msg_head->nFrom);
 			pMsg->SetMultiIDTo(&pBrocast_msg_head->setTo[0], pBrocast_msg_head->nAmount);
 			pMsg->SetMultiType(MULTITYPE_GROUPID);
 			pMsg->CopyBuffer();
@@ -179,10 +153,7 @@ void CMessagePort::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
 		break;
 		default:
 		{
-			LOGNETERROR("MessagePort:{} Recv a unknow cmd:{} size:{}",
-						GetServerPort().GetServiceID(),
-						pHead->usCmd,
-						pHead->usSize);
+			LOGNETERROR("MessagePort:{} Recv a unknow cmd:{} size:{}", GetServerPort().GetServiceID(), pHead->usCmd, pHead->usSize);
 		}
 		break;
 	}

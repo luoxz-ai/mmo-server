@@ -1,7 +1,6 @@
 #ifndef TASKTYPE_H
 #define TASKTYPE_H
 
-
 #include "BaseCode.h"
 #include "T_GameDataMap.h"
 #include "config/Cfg_Task.pb.h"
@@ -23,7 +22,7 @@ class CTaskType
 {
 	CTaskType() {}
 
-  public:
+public:
 	~CTaskType() {}
 	CREATE_NEW_IMPL(CTaskType);
 	bool Init(const Cfg_Task_Row& row)
@@ -62,10 +61,10 @@ class CTaskType
 
 	bool HasFlag(uint32_t flag) const { return ::HasFlag(flag, GetFlag()); }
 
-  public:
+public:
 	const Cfg_Task_Row& GetDataRef() const { return m_Data; }
 
-  private:
+private:
 	Cfg_Task_Row m_Data;
 };
 
@@ -74,10 +73,10 @@ class CTaskTypeSet
 {
 	CTaskTypeSet();
 
-  public:
+public:
 	virtual ~CTaskTypeSet();
 
-  public:
+public:
 	CREATE_NEW_IMPL(CTaskTypeSet);
 	bool Init(const char* szFileName);
 	bool Reload(const char* szFileName);
@@ -87,7 +86,7 @@ class CTaskTypeSet
 	const std::vector<CTaskType*>* QueryTaskByAcceptNpcID(uint32_t idNpc) const;
 	const std::vector<CTaskType*>* QueryTaskBySubmitNpcID(uint32_t idNpc) const;
 
-  protected:
+protected:
 	std::unordered_map<uint32_t, CTaskType*>			  m_setData;
 	std::unordered_map<uint32_t, std::vector<CTaskType*>> m_setDataByAcceptNPCID;
 	std::unordered_map<uint32_t, std::vector<CTaskType*>> m_setDataBySubmitNPCID;

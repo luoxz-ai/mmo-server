@@ -1,7 +1,6 @@
 #ifndef ISTATUS_H
 #define ISTATUS_H
 
-
 #include "ActorAttrib.h"
 #include "BaseCode.h"
 #include "DBRecord.h"
@@ -40,7 +39,7 @@ export_lua enum StatusExpireType {
 export_lua enum StatusFlag {
 	STATUSFLAG_NONE			= 0x0000, //默认不可叠加,不可覆盖
 	STATUSFLAG_OVERRIDE_LEV = 0x0001, //高等级可以覆盖低等级
-	STATUSFLAG_OVERLAP = 0x0002, //不考虑等级, 直接叠加， 时间形的叠加时间， 数值型的叠加数值
+	STATUSFLAG_OVERLAP		= 0x0002, //不考虑等级, 直接叠加， 时间形的叠加时间， 数值型的叠加数值
 	STATUSFLAG_PAUSE_ATTACH = 0x0008, //附加时默认暂停
 
 	STATUSFLAG_DISABLE_MOVE		= 0x0010, //禁止移动
@@ -65,7 +64,7 @@ class CStatusType
 {
 	CStatusType() {}
 
-  public:
+public:
 	~CStatusType() {}
 	CREATE_NEW_IMPL(CStatusType);
 	bool Init(const Cfg_Status_Row& row)
@@ -100,7 +99,7 @@ class CStatusType
 	OBJID								   GetScirptID() const { return m_Data.scriptid(); }
 	const std::vector<CActorAttribChange>& GetAttribChangeList() const { return m_AttribChangeList; }
 
-  private:
+private:
 	Cfg_Status_Row					m_Data;
 	std::vector<CActorAttribChange> m_AttribChangeList;
 };
@@ -110,22 +109,16 @@ typedef CGameDataMap<CStatusType> CStatusTypeSet;
 class CActor;
 export_lua class CStatus
 {
-  public:
+public:
 	CStatus();
 	virtual ~CStatus();
 
-  public:
+public:
 	CREATE_NEW_IMPL(CStatus);
 	bool Init(CActor* pOwner, CDBRecordPtr&& pRow);
-	bool Init(CActor*  pOwner,
-			  uint16_t idStatusType,
-			  UCHAR	   ucLevel,
-			  OBJID	   idCaster,
-			  uint32_t nPower,
-			  uint32_t nSecs,
-			  uint32_t nTimes);
+	bool Init(CActor* pOwner, uint16_t idStatusType, UCHAR ucLevel, OBJID idCaster, uint32_t nPower, uint32_t nSecs, uint32_t nTimes);
 
-  public:
+public:
 	unsigned long Release()
 	{
 		delete this;
@@ -157,13 +150,13 @@ export_lua class CStatus
 	export_lua void SaveInfo();
 	export_lua void SendStatus();
 
-  public:
+public:
 	export_lua bool ScheduleEvent(time_t tIntervalMS = 0);
 	export_lua void CancelEvent();
 	export_lua void ClearEvent();
 	export_lua void ProcessEvent();
 
-  public:
+public:
 	export_lua void OnAttach();
 	export_lua void OnDeatch();
 	export_lua bool OnMove();
@@ -175,10 +168,10 @@ export_lua class CStatus
 	void			OnLogin();
 	void			OnLogout();
 
-  private:
+private:
 	void OnEffect();
 
-  protected:
+protected:
 	CActor*		   m_pOwner = nullptr;
 	CStatusType*   m_pType	= nullptr;
 	ST_STATUS_INFO m_info;
@@ -186,7 +179,7 @@ export_lua class CStatus
 
 	CEventEntryPtr m_StatusEvent;
 
-  public:
+public:
 	MEMORYHEAP_DECLARATION(s_heap)
 };
 #endif /* ISTATUS_H */

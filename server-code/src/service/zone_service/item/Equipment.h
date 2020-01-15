@@ -1,7 +1,6 @@
 #ifndef EQUIPMENT_H
 #define EQUIPMENT_H
 
-
 #include <map>
 
 #include "ActorAttrib.h"
@@ -12,24 +11,21 @@ class CItemType;
 class CPlayer;
 export_lua class CEquipment
 {
-  protected:
+protected:
 	CEquipment();
 
-  public:
+public:
 	virtual ~CEquipment();
 	CREATE_NEW_IMPL(CEquipment);
 	bool Init(CPlayer* pPlayer);
 
-  public:
-  public:
+public:
+public:
 	export_lua CItem* QueryEquipment(uint32_t nGrid);
 	export_lua CItem* QueryEquipmentById(OBJID idItem);
 
 	export_lua bool EquipItem(uint32_t nGridInPackage, uint32_t nGrid, bool bSync = true);
-	export_lua CItem* UnequipItem(uint32_t nGrid,
-								  bool	   bSync			 = true,
-								  bool	   bRecalcAbility	 = true,
-								  bool	   bRemoveItemExpire = true);
+	export_lua CItem* UnequipItem(uint32_t nGrid, bool bSync = true, bool bRecalcAbility = true, bool bRemoveItemExpire = true);
 
 	export_lua uint32_t GetWeaponTypeID();
 	export_lua uint32_t GetArmorTypeID();
@@ -49,7 +45,7 @@ export_lua class CEquipment
 	void OnRecalcAttrib(CActorAttribCalc& calc) const;
 	void CheckItemExpire(uint32_t dwTimeNow);
 
-  protected:
+protected:
 	void RemoveItemExpireCallBack(uint32_t nGrid, uint32_t dwExpireData);
 	void AddItemExpireCallBack(uint32_t nGrid, uint32_t dwExpireData);
 	void OnItemEquiped(CItem* pItem, bool bRepair);
@@ -57,12 +53,12 @@ export_lua class CEquipment
 	void AddSuitNum(CItemType* pItemType);
 	void DecSuitNum(CItemType* pItemType);
 
-  protected:
+protected:
 	bool CheckEquipPosition(CItem* pItem, uint32_t nGrid);
 	bool SetEquipment(uint32_t nPosition, CItem* pItem);
 	void NotifyEquip(USHORT usAction, CItem* pItem, uint32_t nGrid);
 
-  protected:
+protected:
 	CPlayer*				   m_pOwner = nullptr;
 	std::map<uint32_t, CItem*> m_setItem; // 装备物品指针
 

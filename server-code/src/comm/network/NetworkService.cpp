@@ -173,13 +173,8 @@ evconnlistener* CNetworkService::Listen(const char* addr, int port, CNetEventHan
 	}
 	std::unique_ptr<addrinfo, decltype(evutil_freeaddrinfo)*> answer_ptr(answer, evutil_freeaddrinfo);
 
-	evconnlistener* pListener = evconnlistener_new_bind(m_pBase,
-														accept_conn_cb,
-														this,
-														LEV_OPT_CLOSE_ON_FREE | LEV_OPT_REUSEABLE | LEV_OPT_THREADSAFE,
-														-1,
-														answer_ptr->ai_addr,
-														answer_ptr->ai_addrlen);
+	evconnlistener* pListener = evconnlistener_new_bind(m_pBase, accept_conn_cb, this, LEV_OPT_CLOSE_ON_FREE | LEV_OPT_REUSEABLE | LEV_OPT_THREADSAFE, -1,
+														answer_ptr->ai_addr, answer_ptr->ai_addrlen);
 	if(pListener == nullptr)
 	{
 		LOGERROR("CNetworkService::Listen:{}:{} evconnlistener_new_bind fail:{}", addr, port, strerror(errno));
@@ -257,12 +252,9 @@ bool CNetworkService::_Reconnect(CNetSocket* pSocket)
 	hits.ai_protocol = IPPROTO_TCP;
 	hits.ai_flags	 = EVUTIL_AI_ADDRCONFIG;
 
-	if(evutil_getaddrinfo(
-		   pSocket->GetAddrString().c_str(), std::to_string(pSocket->GetPort()).c_str(), &hits, &answer) != 0)
+	if(evutil_getaddrinfo(pSocket->GetAddrString().c_str(), std::to_string(pSocket->GetPort()).c_str(), &hits, &answer) != 0)
 	{
-		LOGERROR("CNetworkService::_Reconnect:{}:{} evutil_getaddrinfo fail",
-				 pSocket->GetAddrString().c_str(),
-				 pSocket->GetPort());
+		LOGERROR("CNetworkService::_Reconnect:{}:{} evutil_getaddrinfo fail", pSocket->GetAddrString().c_str(), pSocket->GetPort());
 		return false;
 	}
 	std::unique_ptr<addrinfo, decltype(evutil_freeaddrinfo)*> answer_ptr(answer, evutil_freeaddrinfo);
@@ -276,8 +268,7 @@ bool CNetworkService::_Reconnect(CNetSocket* pSocket)
 	}
 	if(connect(fd, answer_ptr->ai_addr, answer_ptr->ai_addrlen))
 	{
-		LOGERROR(
-			"CNetworkService::_Reconnect:{}:{} connect fail", pSocket->GetAddrString().c_str(), pSocket->GetPort());
+		LOGERROR("CNetworkService::_Reconnect:{}:{} connect fail", pSocket->GetAddrString().c_str(), pSocket->GetPort());
 
 		evutil_closesocket(fd);
 		return false;
@@ -352,12 +343,9 @@ bool CNetworkService::_AsyncReconnect(CNetSocket* pSocket)
 	hits.ai_protocol = IPPROTO_TCP;
 	hits.ai_flags	 = EVUTIL_AI_ADDRCONFIG;
 
-	if(evutil_getaddrinfo(
-		   pSocket->GetAddrString().c_str(), std::to_string(pSocket->GetPort()).c_str(), &hits, &answer) != 0)
+	if(evutil_getaddrinfo(pSocket->GetAddrString().c_str(), std::to_string(pSocket->GetPort()).c_str(), &hits, &answer) != 0)
 	{
-		LOGERROR("CNetworkService::_AsyncReconnect:{}:{} evutil_getaddrinfo fail",
-				 pSocket->GetAddrString().c_str(),
-				 pSocket->GetPort());
+		LOGERROR("CNetworkService::_AsyncReconnect:{}:{} evutil_getaddrinfo fail", pSocket->GetAddrString().c_str(), pSocket->GetPort());
 
 		return false;
 	}
@@ -368,10 +356,7 @@ bool CNetworkService::_AsyncReconnect(CNetSocket* pSocket)
 		int			err	   = EVUTIL_SOCKET_ERROR();
 		const char* errstr = evutil_socket_error_to_string(err);
 
-		LOGERROR("CNetworkService::_AsyncReconnect:{}:{} bufferevent_socket_connect fail:{}",
-				 pSocket->GetAddrString().c_str(),
-				 pSocket->GetPort(),
-				 errstr);
+		LOGERROR("CNetworkService::_AsyncReconnect:{}:{} bufferevent_socket_connect fail:{}", pSocket->GetAddrString().c_str(), pSocket->GetPort(), errstr);
 		return false;
 	}
 	LOGNETDEBUG("CNetworkService::_AsyncReconnect:{}:{}", pSocket->GetAddrString().c_str(), pSocket->GetPort());
@@ -404,10 +389,7 @@ void CNetworkService::OnIOThreadTimeOut()
 	__LEAVE_FUNCTION
 }
 
-void CNetworkService::StartIOThread(const std::string&	  thread_name,
-									std::function<void()> time_out_func,
-									uint32_t			  time_out_ms,
-									uint16_t			  idService)
+void CNetworkService::StartIOThread(const std::string& thread_name, std::function<void()> time_out_func, uint32_t time_out_ms, uint16_t idService)
 {
 	__ENTER_FUNCTION
 	if(m_pIOThread)
@@ -421,28 +403,27 @@ void CNetworkService::StartIOThread(const std::string&	  thread_name,
 		time_out_ms / 1000, time_out_ms % 1000
 	};
 	event_add(m_pIOTimeOutEvent, &tv);
-	m_pIOThread =
-		std::unique_ptr<std::thread>(new std::thread([pBase = m_pBase, _thread_name = thread_name, idService]() {
-			__ENTER_FUNCTION
-			pthread_setname_np(pthread_self(), _thread_name.c_str());
+	m_pIOThread = std::unique_ptr<std::thread>(new std::thread([pBase = m_pBase, _thread_name = thread_name, idService]() {
+		__ENTER_FUNCTION
+		pthread_setname_np(pthread_self(), _thread_name.c_str());
 
-			LOGMESSAGE("ThreadID:{}", get_cur_thread_id());
-			int result = 0;
-			do
-			{
-				result = event_base_dispatch(pBase);
-				if(event_base_got_break(pBase) || event_base_got_exit(pBase))
-					break;
-			} while(result != -1);
-			if(result == -1)
-			{
-				// showerror
+		LOGMESSAGE("ThreadID:{}", get_cur_thread_id());
+		int result = 0;
+		do
+		{
+			result = event_base_dispatch(pBase);
+			if(event_base_got_break(pBase) || event_base_got_exit(pBase))
+				break;
+		} while(result != -1);
+		if(result == -1)
+		{
+			// showerror
 
-				LOGERROR("CNetworkService {} IOThread Close with ERROR:", idService);
-			}
-			LOGNETDEBUG("CNetworkService IOThread Close:{}", idService);
-			__LEAVE_FUNCTION
-		}));
+			LOGERROR("CNetworkService {} IOThread Close with ERROR:", idService);
+		}
+		LOGNETDEBUG("CNetworkService IOThread Close:{}", idService);
+		__LEAVE_FUNCTION
+	}));
 
 	__LEAVE_FUNCTION
 }
@@ -897,8 +878,7 @@ void CNetworkService::_SetWebSocketToLWS(struct lws* wsi, CNetWebSocket* pWebSoc
 
 void CNetworkService::StartWebSocketIOThread() {}
 
-int CNetworkService::OnWebSocketCallback(
-	struct lws* wsi, enum lws_callback_reasons reason, void* user, void* in, size_t len)
+int CNetworkService::OnWebSocketCallback(struct lws* wsi, enum lws_callback_reasons reason, void* user, void* in, size_t len)
 {
 	__ENTER_FUNCTION
 

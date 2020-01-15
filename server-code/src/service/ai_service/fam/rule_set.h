@@ -13,7 +13,6 @@
 //  the terms found in the "LICENSE" file included with the library.
 //
 
-
 // To support Google Test for private members
 #ifndef TEST_FRIENDS
 #define TEST_FRIENDS
@@ -41,7 +40,7 @@ enum class Implication : char
 class RuleSet
 {
 
-  private:
+private:
 	std::string		  _name;
 	Implication		  _implication;
 	std::vector<Rule> _rules;
@@ -81,7 +80,7 @@ class RuleSet
 	 */
 	double scale_and_defuzzify(const mu_map& _consequents_to_mus) const;
 
-  public:
+public:
 	RuleSet();											// default constructor
 	RuleSet(std::string name, Implication implication); // constructor
 

@@ -20,8 +20,7 @@ void CZoneService::OnMsgPlayerEnterZone(CNetworkMessage* pMsg)
 	m_pLoadingThread->CancleWaiting(msg.idplayer());
 
 	LOGLOGIN("AddLoginPlayer: {}", msg.idplayer());
-	m_pLoadingThread->AddLoginPlayer(
-		msg.idplayer(), msg.socket(), false, msg.idscene(), msg.posx(), msg.posy(), 0.0f, msg.face());
+	m_pLoadingThread->AddLoginPlayer(msg.idplayer(), msg.socket(), false, msg.idscene(), msg.posx(), msg.posy(), 0.0f, msg.face());
 
 	CreateSocketMessagePool(msg.socket());
 }
@@ -44,8 +43,7 @@ void CZoneService::OnMsgPlayerChangeZone(CNetworkMessage* pMsg)
 
 	m_pLoadingThread->CancleWaiting(msg.idplayer());
 
-	m_pLoadingThread->AddLoginPlayer(
-		msg.idplayer(), msg.socket(), true, msg.idscene(), msg.posx(), msg.posy(), msg.range(), msg.face());
+	m_pLoadingThread->AddLoginPlayer(msg.idplayer(), msg.socket(), true, msg.idscene(), msg.posx(), msg.posy(), msg.range(), msg.face());
 
 	CreateSocketMessagePool(msg.socket());
 

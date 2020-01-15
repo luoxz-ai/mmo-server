@@ -1,7 +1,6 @@
 #ifndef SKILL_H
 #define SKILL_H
 
-
 #include "BaseCode.h"
 #include "DBRecord.h"
 #include "SkillType.h"
@@ -9,11 +8,11 @@
 //每一条技能记录
 export_lua class CUserSkillData
 {
-  public:
+public:
 	CUserSkillData();
 	~CUserSkillData();
 
-  public:
+public:
 	CREATE_NEW_IMPL(CUserSkillData);
 	bool Init(CActor* pOwner, uint32_t idSkillSort, uint32_t nLev);
 	bool Init(CActor* pOwner, CDBRecordPtr&& pRow);
@@ -23,7 +22,7 @@ export_lua class CUserSkillData
 	export_lua void		SetSkillLev(uint32_t nLev, bool bUpdate = true);
 	export_lua void		Update();
 
-  private:
+private:
 	CDBRecordPtr m_pData;
 };
 
@@ -31,11 +30,11 @@ export_lua class CUserSkillData
 class CPlayer;
 export_lua class CUserSkillManager
 {
-  public:
+public:
 	CUserSkillManager();
 	~CUserSkillManager();
 
-  public:
+public:
 	CREATE_NEW_IMPL(CUserSkillManager);
 	bool Init(CPlayer* pOwner);
 
@@ -45,7 +44,7 @@ export_lua class CUserSkillManager
 	export_lua CUserSkillData* _QuerySkill(uint32_t idSkillSort) const;
 	void					   OnRecalcAttrib(CActorAttribCalc& calc) const;
 
-  private:
+private:
 	CPlayer*							m_pOwner = nullptr;
 	std::map<uint32_t, CUserSkillData*> m_setSkillData;
 };

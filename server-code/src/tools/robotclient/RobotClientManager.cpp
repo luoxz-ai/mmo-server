@@ -5,8 +5,8 @@
 #include "NetMSGProcess.h"
 #include "NetworkMessage.h"
 #include "RobotClient.h"
-#include "pb_luahelper.h"
 #include "msg/ts_cmd.pb.h"
+#include "pb_luahelper.h"
 
 void export_to_lua(lua_State* L, void* pManager)
 {
@@ -35,9 +35,7 @@ RobotClientManager::RobotClientManager(uint32_t nRobStart, uint32_t nRobAmount)
 			// pScriptManager->OnTimer(TimeGetMonotonic());
 			pScriptManager->FullGC();
 		},
-		200,
-		true,
-		m_Event);
+		200, true, m_Event);
 }
 
 RobotClientManager::~RobotClientManager()

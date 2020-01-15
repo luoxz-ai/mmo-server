@@ -1,7 +1,6 @@
 #ifndef GAMEEVENTDEF_H
 #define GAMEEVENTDEF_H
 
-
 enum GameEventType
 {
 	EVENTID_DELACTOR		   = 100,

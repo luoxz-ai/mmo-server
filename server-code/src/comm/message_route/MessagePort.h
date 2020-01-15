@@ -10,11 +10,11 @@ class CNetSocket;
 class CMessageRoute;
 class CMessagePortEventHandler
 {
-  public:
+public:
 	CMessagePortEventHandler() {}
 	virtual ~CMessagePortEventHandler() {}
 
-  public:
+public:
 	// connect to other server succ
 	virtual void OnPortConnected(CNetSocket*) {}
 	// connect to other server failed, can set CNetSocket::setReconnectTimes = 0 to stop reconnect
@@ -30,11 +30,11 @@ class CMessagePortEventHandler
 };
 class CMessagePort : public CNetEventHandler
 {
-  public:
+public:
 	CMessagePort(const ServerPort& nServerPort, CMessageRoute* pRoute);
 	virtual ~CMessagePort();
 
-  public:
+public:
 	virtual void OnConnected(CNetSocket* pSocket);
 	virtual void OnConnectFailed(CNetSocket*);
 	virtual void OnDisconnected(CNetSocket*);
@@ -56,11 +56,11 @@ class CMessagePort : public CNetEventHandler
 	bool   SendMultiIDMsg(const std::vector<OBJID>& setID, const CNetworkMessage& msg);
 	size_t GetWriteBufferSize();
 
-  private:
+private:
 	void PostSend();
 	void _SendAllMsg();
 
-  private:
+private:
 	CMessageRoute*						   m_pRoute = nullptr;
 	MPSCQueue<CNetworkMessage*>			   m_RecvMsgQueue;
 	MPSCQueue<CNetworkMessage*>			   m_SendMsgQueue;

@@ -1,18 +1,16 @@
 #ifndef MONITOR_MGR_H
 #define MONITOR_MGR_H
 
-
 #include <chrono>
 #include <map>
 
-#define TICK_EVAL(Func)                                                                 \
-	({                                                                                  \
-		auto beginTime = std::chrono::high_resolution_clock::now();                     \
-		Func;                                                                           \
-		auto					  endTime = std::chrono::high_resolution_clock::now();  \
-		std::chrono::microseconds costTime =                                            \
-			std::chrono::duration_cast<std::chrono::microseconds>(endTime - beginTime); \
-		MonitorMgr()->Add(#Func, costTime.count());                                     \
+#define TICK_EVAL(Func)                                                                                                  \
+	({                                                                                                                   \
+		auto beginTime = std::chrono::high_resolution_clock::now();                                                      \
+		Func;                                                                                                            \
+		auto					  endTime  = std::chrono::high_resolution_clock::now();                                  \
+		std::chrono::microseconds costTime = std::chrono::duration_cast<std::chrono::microseconds>(endTime - beginTime); \
+		MonitorMgr()->Add(#Func, costTime.count());                                                                      \
 	})
 
 struct RecvMsgNode
@@ -38,7 +36,7 @@ struct SendToClientMsgNode
 
 class CMonitorMgr
 {
-  public:
+public:
 	CMonitorMgr() {}
 	~CMonitorMgr() { Uninit(); }
 	void Init() {}
@@ -63,10 +61,10 @@ class CMonitorMgr
 	void Add(const char* name, int32_t uTime);
 	void Tick10s();
 
-  private:
+private:
 	void PrintSendInfo(); //打印下发消息信息
 
-  private:
+private:
 	typedef std::map<int, RecvMsgNode>			 RecvMsgMap;
 	typedef std::map<int, RecvMsgNode>::iterator RecvMsgIter;
 	typedef std::map<int, SendToClientMsgNode>	 SendToClientMsgMap;

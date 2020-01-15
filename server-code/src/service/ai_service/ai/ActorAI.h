@@ -41,7 +41,7 @@ class CActorAI
 {
 	CActorAI();
 
-  public:
+public:
 	~CActorAI();
 	CREATE_NEW_IMPL(CActorAI);
 	bool Init(CAIActor* pActor, CAIType* pAIType);
@@ -67,7 +67,7 @@ class CActorAI
 	uint32_t GetCurSkillTypeID() const { return m_nCurSkillTypeID; }
 	void	 SetCurSkillTypeID(uint32_t val) { m_nCurSkillTypeID = val; }
 
-  public:
+public:
 	// 随机移动
 	bool ToRandMove();
 	// 巡逻路径
@@ -90,7 +90,7 @@ class CActorAI
 	// 巡逻等待
 	bool ToPatrolWait(uint32_t wait_min, uint32_t wait_max);
 
-  protected:
+protected:
 	void ProcessAttack();
 	void ProcessRandMove();
 	//! 空闲状态处理
@@ -108,8 +108,8 @@ class CActorAI
 	void ProcessPatrol();
 	void ProcessPatrolWait();
 
-  public:
-  public:
+public:
+public:
 	OBJID		   GetMainTarget() const;
 	void		   SetMainTarget(OBJID val);
 	CAIActor*	   GetActor() const;
@@ -119,7 +119,7 @@ class CActorAI
 	const Cfg_AIType_Row&					  GetAIData() const;
 	const ::Cfg_Scene_Patrol_Row_patrol_data& GetCurPratolData();
 
-  private:
+private:
 	void AddNextCall(uint32_t ms);
 
 	void SetAutoSearchEnemy();
@@ -129,12 +129,11 @@ class CActorAI
 	bool TryExecScript(uint32_t idxCallBackType, Args... args)
 	{
 		if(GetAIData().script_id() != 0)
-			return ScriptManager()->TryExecScript<bool>(
-				GetAIData().script_id(), idxCallBackType, std::forward<Args>(args)...);
+			return ScriptManager()->TryExecScript<bool>(GetAIData().script_id(), idxCallBackType, std::forward<Args>(args)...);
 		return false;
 	}
 
-  private:
+private:
 	uint32_t	   m_nState	 = 0;
 	CAIActor*	   m_pActor	 = nullptr;
 	CAIType*	   m_pAIType = nullptr;

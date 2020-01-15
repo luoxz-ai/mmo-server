@@ -25,7 +25,7 @@ void ProtobufLogHandler(google::protobuf::LogLevel level, const char* file, int 
 }
 struct PB_Initer
 {
-  public:
+public:
 	PB_Initer()
 	{
 		GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -38,11 +38,9 @@ int main(int argc, char** argv)
 {
 	get_opt opt(argc, (const char**)argv);
 
-	if(opt.has("--excel") == false || opt.has("--inputpbdir") == false || opt.has("--inputpb") == false ||
-	   opt.has("--out") == false || opt.has("--help") == true)
+	if(opt.has("--excel") == false || opt.has("--inputpbdir") == false || opt.has("--inputpb") == false || opt.has("--out") == false || opt.has("--help") == true)
 	{
-		std::cout << "execl2pb [--excel=xxx.xlsx] [--inputpbdir=input.pb] [--inputpb=input.pb] [--out=output.txt]"
-				  << std::endl;
+		std::cout << "execl2pb [--excel=xxx.xlsx] [--inputpbdir=input.pb] [--inputpb=input.pb] [--out=output.txt]" << std::endl;
 		return 0;
 	}
 

@@ -289,11 +289,9 @@ static void call_stack(lua_State* L, int n)
 		}
 
 		if(ar.name)
-			lua_tinker::print_error(
-				L, "{}{}() : line {} [{} : line {}]", indent, ar.name, ar.currentline, ar.source, ar.linedefined);
+			lua_tinker::print_error(L, "{}{}() : line {} [{} : line {}]", indent, ar.name, ar.currentline, ar.source, ar.linedefined);
 		else
-			lua_tinker::print_error(
-				L, "{}unknown : line {} [{} : line {}]", indent, ar.currentline, ar.source, ar.linedefined);
+			lua_tinker::print_error(L, "{}unknown : line {} [{} : line {}]", indent, ar.currentline, ar.source, ar.linedefined);
 
 		call_stack(L, n + 1);
 	}
@@ -364,8 +362,7 @@ void lua_tinker::enum_stack(lua_State* L)
 				{
 					name.assign(lua_tostring(L, -1));
 					lua_remove(L, -1);
-					print_error(
-						L, "\t{}    0x%08p [{}]", lua_typename(L, lua_type(L, i)), lua_topointer(L, i), name.c_str());
+					print_error(L, "\t{}    0x%08p [{}]", lua_typename(L, lua_type(L, i)), lua_topointer(L, i), name.c_str());
 				}
 				else
 				{
@@ -438,8 +435,7 @@ lua_tinker::table_onstack lua_tinker::detail::_stack_help<lua_tinker::table_onst
 	return lua_tinker::table_onstack(L, index);
 }
 
-void lua_tinker::detail::_stack_help<lua_tinker::table_onstack>::_push(lua_State*						L,
-																	   const lua_tinker::table_onstack& ret)
+void lua_tinker::detail::_stack_help<lua_tinker::table_onstack>::_push(lua_State* L, const lua_tinker::table_onstack& ret)
 {
 	lua_pushvalue(L, ret.m_obj->m_index);
 }
@@ -589,9 +585,7 @@ int lua_tinker::detail::meta_get(lua_State* L)
 		}
 		else if(val_obj.is_nil())
 		{
-			lua_pushfstring(L,
-							"can't find '{}' class variable. (forgot registering class variable ?)",
-							read_nocheck<const char*>(L, key_obj._stack_pos));
+			lua_pushfstring(L, "can't find '{}' class variable. (forgot registering class variable ?)", read_nocheck<const char*>(L, key_obj._stack_pos));
 			lua_error(L);
 		}
 	}
@@ -625,9 +619,7 @@ int lua_tinker::detail::meta_set(lua_State* L)
 		}
 		else if(val_obj.is_nil())
 		{
-			lua_pushfstring(L,
-							"can't find '{}' class variable. (forgot registering class variable ?)",
-							read_nocheck<const char*>(L, key_obj._stack_pos));
+			lua_pushfstring(L, "can't find '{}' class variable. (forgot registering class variable ?)", read_nocheck<const char*>(L, key_obj._stack_pos));
 			lua_error(L);
 		}
 	}
@@ -689,8 +681,7 @@ bool lua_tinker::detail::push_upval_to_stack(lua_State* L, int nArgsCount, int n
 	return true;
 }
 
-bool lua_tinker::detail::push_upval_to_stack(
-	lua_State* L, int nArgsCount, int nArgsNeed, int nUpvalCount, int UpvalStart)
+bool lua_tinker::detail::push_upval_to_stack(lua_State* L, int nArgsCount, int nArgsNeed, int nUpvalCount, int UpvalStart)
 {
 	if(nArgsCount < nArgsNeed)
 	{

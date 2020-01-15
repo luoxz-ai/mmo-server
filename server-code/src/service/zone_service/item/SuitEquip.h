@@ -1,7 +1,6 @@
 #ifndef SUITEQUIP_H
 #define SUITEQUIP_H
 
-
 #include "ActorAttrib.h"
 #include "BaseCode.h"
 #include "Cfg_Suit.pb.h"
@@ -9,7 +8,7 @@ class CSuitEquipData
 {
 	CSuitEquipData() {}
 
-  public:
+public:
 	~CSuitEquipData() {}
 	CREATE_NEW_IMPL(CSuitEquipData);
 	bool Init(const Cfg_Suit_Row& row)
@@ -24,10 +23,10 @@ class CSuitEquipData
 
 	uint32_t GetEquipNum() const { return m_nEquipNum; }
 
-  public:
+public:
 	const std::vector<CActorAttribChange>& GetAttribChangeList() const { return m_AttribChangeList; }
 
-  private:
+private:
 	uint32_t						m_nEquipNum;
 	std::vector<CActorAttribChange> m_AttribChangeList;
 };
@@ -37,10 +36,10 @@ class CSuitEquipSet
 {
 	CSuitEquipSet();
 
-  public:
+public:
 	virtual ~CSuitEquipSet();
 
-  public:
+public:
 	CREATE_NEW_IMPL(CSuitEquipSet);
 	bool Init(const char* szFileName);
 	bool Reload(const char* szFileName);
@@ -48,11 +47,11 @@ class CSuitEquipSet
 	// 根据itemtype, 追加等级，查询对应的追加数据
 	const CSuitEquipData* QuerySuitEquip(uint32_t idSuit, uint32_t nEquipNum);
 
-  public:
+public:
 	typedef std::vector<CSuitEquipData*>			LEVEL_SET;
 	typedef std::unordered_map<uint32_t, LEVEL_SET> TYPE_SET;
 
-  protected:
+protected:
 	TYPE_SET m_setSuitType;
 };
 #endif /* SUITEQUIP_H */

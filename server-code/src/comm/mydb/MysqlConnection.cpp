@@ -41,13 +41,8 @@ CMysqlConnection::~CMysqlConnection()
 	}
 }
 
-bool CMysqlConnection::Connect(const std::string& host,
-							   const std::string& user,
-							   const std::string& password,
-							   const std::string& db,
-							   unsigned int		  port,
-							   unsigned long	  client_flag,
-							   bool				  bCreateAsync)
+bool CMysqlConnection::Connect(
+	const std::string& host, const std::string& user, const std::string& password, const std::string& db, unsigned int port, unsigned long client_flag, bool bCreateAsync)
 {
 	__ENTER_FUNCTION
 
@@ -69,14 +64,7 @@ bool CMysqlConnection::Connect(const std::string& host,
 		const char* error_str = mysql_error(m_pHandle.get());
 		LOGDBERROR("mysql_error:{} when set_options.", error_str);
 	}
-	MYSQL* h = mysql_real_connect(m_pHandle.get(),
-								  host.c_str(),
-								  user.c_str(),
-								  password.c_str(),
-								  db.c_str(),
-								  port,
-								  nullptr,
-								  client_flag | CLIENT_REMEMBER_OPTIONS);
+	MYSQL* h = mysql_real_connect(m_pHandle.get(), host.c_str(), user.c_str(), password.c_str(), db.c_str(), port, nullptr, client_flag | CLIENT_REMEMBER_OPTIONS);
 	if(h == nullptr || h != m_pHandle.get())
 	{
 		// log error
@@ -123,13 +111,7 @@ bool CMysqlConnection::Connect(const std::string& host,
 					LOGDBERROR("mysql_error:{} when set_options.", error_str);
 				}
 
-				MYSQL* h = mysql_real_connect(m_pAsyncHandle.get(),
-											  host.c_str(),
-											  user.c_str(),
-											  password.c_str(),
-											  db.c_str(),
-											  port,
-											  nullptr,
+				MYSQL* h = mysql_real_connect(m_pAsyncHandle.get(), host.c_str(), user.c_str(), password.c_str(), db.c_str(), port, nullptr,
 											  client_flag | CLIENT_REMEMBER_OPTIONS);
 				if(h == nullptr || h != m_pAsyncHandle.get())
 				{
@@ -554,8 +536,7 @@ CDBRecordPtr CMysqlResult::fetch_row(bool bModify /*= true*/)
 		if(row != nullptr)
 		{
 			//将row转换为Record
-			return std::make_unique<CDBRecord>(
-				m_pMysqlConnection, m_pFieldInfoList, bModify, row, mysql_fetch_lengths(m_MySqlResult.get()));
+			return std::make_unique<CDBRecord>(m_pMysqlConnection, m_pFieldInfoList, bModify, row, mysql_fetch_lengths(m_MySqlResult.get()));
 		}
 	}
 	__LEAVE_FUNCTION

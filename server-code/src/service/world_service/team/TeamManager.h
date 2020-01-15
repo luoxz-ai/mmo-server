@@ -11,7 +11,7 @@ class CTeam
 {
 	CTeam();
 
-  public:
+public:
 	~CTeam();
 	CREATE_NEW_IMPL(CTeam);
 	bool Init(uint64_t idTeam, OBJID idLeader);
@@ -19,7 +19,7 @@ class CTeam
 	void SendTeamMemberInfo(const SC_TEAMMEMBER_INFO::MemberInfo& info);
 	void SendAllTeamMemberInfo(CUser* pUser);
 
-  public:
+public:
 	void SetLeader(OBJID idOperator, OBJID idLeader);
 	void AddMember(OBJID idMember);
 	void _AddMember(CUser* pUser);
@@ -30,7 +30,7 @@ class CTeam
 	void ApplyMember(OBJID idApplicant);
 	void AcceptApply(OBJID idApplicant, OBJID idRespondent, bool bResult);
 
-  public:
+public:
 	bool IsLeader(OBJID idActor);
 	bool IsMember(OBJID idActor);
 	void OnUserOnline(OBJID idActor, bool bOnline);
@@ -38,21 +38,21 @@ class CTeam
 	void OnUserNameChg(OBJID idActor, const std::string& name);
 	bool IsFull() const { return m_setMember.size() > _MAX_TEAM_MEMBER; }
 
-  private:
+private:
 	uint64_t									m_idTeam;
 	uint64_t									m_idLeader;
 	std::vector<SC_TEAMMEMBER_INFO::MemberInfo> m_setMember;
 	std::unordered_set<uint64_t>				m_setInvite;
 	std::unordered_set<uint64_t>				m_setApply;
 
-  public:
+public:
 	MEMORYHEAP_DECLARATION(s_heap);
 };
 
 class CNetworkMessage;
 class CTeamManager
 {
-  public:
+public:
 	CTeamManager();
 	~CTeamManager();
 	void   Destory();
@@ -62,7 +62,7 @@ class CTeamManager
 
 	void RegisterMessageHandler();
 
-  private:
+private:
 	std::map<uint64_t, CTeam*> m_setTeam;
 };
 #endif /* TEAMMANAGER_H */

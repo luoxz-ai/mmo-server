@@ -1,7 +1,6 @@
 #ifndef MYSQLCONNECTION_H
 #define MYSQLCONNECTION_H
 
-
 #include <memory>
 #include <unordered_map>
 
@@ -19,7 +18,7 @@ using MYSQL_RES_PTR	 = std::unique_ptr<MYSQL_RES, decltype(&mysql_free_result)>;
 
 class CMysqlResult
 {
-  public:
+public:
 	CMysqlResult(CMysqlConnection* pMysqlConnection, MYSQL_RES* res, CDBFieldInfoListPtr infolist_ptr);
 	~CMysqlResult();
 
@@ -28,7 +27,7 @@ class CMysqlResult
 
 	CDBRecordPtr fetch_row(bool bModify = true);
 
-  private:
+private:
 	CMysqlConnection*	m_pMysqlConnection;
 	MYSQL_RES_PTR		m_MySqlResult;
 	CDBFieldInfoListPtr m_pFieldInfoList;
@@ -38,7 +37,7 @@ using CMysqlResultPtr = std::unique_ptr<CMysqlResult>;
 // not thread safe
 class CMysqlConnection
 {
-  public:
+public:
 	CMysqlConnection();
 
 	~CMysqlConnection();
@@ -81,11 +80,9 @@ class CMysqlConnection
 		{
 			const CDBFieldInfo* pInfo_DDL	= pFieldInfo_DDL->get(i);
 			const CDBFieldInfo* pInfo_MYSQL = pFieldInfo_MYSQL->get(i);
-			if(pFieldInfo_MYSQL == nullptr || pInfo_DDL == nullptr || pInfo_MYSQL == nullptr ||
-			   pInfo_DDL->GetFieldType() != pInfo_MYSQL->GetFieldType())
+			if(pFieldInfo_MYSQL == nullptr || pInfo_DDL == nullptr || pInfo_MYSQL == nullptr || pInfo_DDL->GetFieldType() != pInfo_MYSQL->GetFieldType())
 			{
-				LOGFATAL(
-					"GameDB Check Error, table:{}, field:{} fieldname:{}", T::table_name, i, pInfo_DDL->GetFieldName());
+				LOGFATAL("GameDB Check Error, table:{}, field:{} fieldname:{}", T::table_name, i, pInfo_DDL->GetFieldName());
 				return false;
 			}
 		}
@@ -94,14 +91,14 @@ class CMysqlConnection
 		return false;
 	}
 
-  private:
+private:
 	uint64_t		GetInsertID();
 	uint64_t		GetAffectedRows();
 	bool			MoreResults();
 	bool			NextResult();
 	CMysqlResultPtr UseResult(const std::string& s);
 
-  private:
+private:
 	MYSQL_PTR											 m_pHandle;
 	MYSQL_PTR											 m_pAsyncHandle;
 	std::unordered_map<std::string, CDBFieldInfoListPtr> m_MysqlFieldInfoCache{};
@@ -113,7 +110,7 @@ class CMysqlConnection
 
 class CMysqlStmt
 {
-  public:
+public:
 	CMysqlStmt()
 		: m_pMysqlStmt(nullptr, mysql_stmt_close)
 		, m_ParamsCount(0)
@@ -136,15 +133,10 @@ class CMysqlStmt
 
 	~CMysqlStmt() {}
 
-  public:
+public:
 	operator bool() { return !!m_pMysqlStmt; }
 
-	void _BindParam(int				   i,
-					enum_field_types   buffer_type,
-					void*			   buffer,
-					int				   buffer_length,
-					my_bool*		   is_null,
-					long unsigned int* length)
+	void _BindParam(int i, enum_field_types buffer_type, void* buffer, int buffer_length, my_bool* is_null, long unsigned int* length)
 	{
 		MYSQL_BIND& b	= m_Params[i];
 		b.buffer_type	= buffer_type;
@@ -158,10 +150,7 @@ class CMysqlStmt
 
 	void BindParam(int i, const long long& x) { _BindParam(i, MYSQL_TYPE_LONGLONG, (char*)&x, 0, 0, 0); }
 
-	void BindParam(int i, const std::string& x)
-	{
-		_BindParam(i, MYSQL_TYPE_STRING, (char*)x.c_str(), x.size(), 0, &(m_Params[i].buffer_length));
-	}
+	void BindParam(int i, const std::string& x) { _BindParam(i, MYSQL_TYPE_STRING, (char*)x.c_str(), x.size(), 0, &(m_Params[i].buffer_length)); }
 
 	template<class... Args>
 	void Execute(Args&&... args)
@@ -193,7 +182,7 @@ class CMysqlStmt
 	// base case
 	void _Execute(int n) {}
 
-  private:
+private:
 	MYSQL_STMT_PTR				  m_pMysqlStmt;
 	size_t						  m_ParamsCount;
 	std::unique_ptr<MYSQL_BIND[]> m_Params;

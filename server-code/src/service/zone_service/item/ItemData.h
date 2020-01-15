@@ -1,7 +1,6 @@
 #ifndef ITEMDATA_H
 #define ITEMDATA_H
 
-
 #include "DBRecord.h"
 #include "ItemType.h"
 //////////////////////////////////////////////////////////////////////
@@ -20,27 +19,22 @@ export_lua struct ST_ITEMINFO
 class CItemAdditionData;
 export_lua class CItemData
 {
-  protected:
+protected:
 	CItemData();
 
-  public:
+public:
 	virtual ~CItemData();
 	CREATE_NEW_IMPL(CItemData);
 	bool Init(CDBRecordPtr&& pRes);
 	bool Init(CMysqlConnection* pDB, OBJID idItem);
 	bool Init(CMysqlConnection* pDB, ST_ITEMINFO& info);
-	bool Init(CMysqlConnection* pDB,
-			  uint64_t			idPlayer,
-			  uint32_t			idItemType,
-			  uint32_t			nNum,
-			  uint32_t			dwFlag,
-			  uint32_t			nPosition);
+	bool Init(CMysqlConnection* pDB, uint64_t idPlayer, uint32_t idItemType, uint32_t nNum, uint32_t dwFlag, uint32_t nPosition);
 
-  public:
+public:
 	export_lua bool DelRecord();
 	static bool		DelRecordStatic(CMysqlConnection* pDB, OBJID idItem);
 
-  public: // get attr
+public: // get attr
 	export_lua OBJID	GetID() const { return m_pRecord->Field(TBLD_ITEM::ID); }
 	export_lua uint32_t GetType() const { return m_pRecord->Field(TBLD_ITEM::ITEMTYPE); }
 	export_lua OBJID	GetOwnerID() const { return m_pRecord->Field(TBLD_ITEM::OWNER_ID); }
@@ -66,12 +60,9 @@ export_lua class CItemData
 	export_lua uint32_t					GetMainType() const { return GetMainTypeByID(GetType()); }
 	export_lua static uint32_t			GetMainTypeByID(uint32_t idType) { return idType / ITEM_MAINTYPE_MASK; }
 	export_lua uint32_t					GetSubType() const { return GetSubTypeByID(GetType()); }
-	export_lua static uint32_t			GetSubTypeByID(uint32_t idType)
-	{
-		return (idType % ITEM_MAINTYPE_MASK) / ITEM_SUBTYPE_MASK;
-	}
+	export_lua static uint32_t			GetSubTypeByID(uint32_t idType) { return (idType % ITEM_MAINTYPE_MASK) / ITEM_SUBTYPE_MASK; }
 
-  public: // set attr
+public: // set attr
 	export_lua void SetOwnerID(OBJID idOwner, bool bUpdate = true);
 	export_lua void SetTypeID(OBJID idType, bool bUpdate = true);
 	export_lua void SetPosition(UCHAR ucPosition, bool bUpdate = true);
@@ -89,10 +80,10 @@ export_lua class CItemData
 
 	export_lua void SaveInfo() { m_pRecord->Update(); }
 
-  public:
+public:
 	MEMORYHEAP_DECLARATION(s_heap);
 
-  protected:
+protected:
 	CDBRecordPtr			 m_pRecord;				// 物品数据
 	CItemType*				 m_pType	 = nullptr; // 物品类型数据
 	const CItemAdditionData* m_pAddition = nullptr; // 强化数据

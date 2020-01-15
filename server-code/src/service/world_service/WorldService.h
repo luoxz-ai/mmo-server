@@ -25,20 +25,20 @@ class CNetMSGProcess;
 
 class CWorldService : public IService, public CServiceCommon
 {
-  public:
+public:
 	CWorldService(const ServerPort& nServerPort);
 	virtual ~CWorldService();
 	void Release() { delete this; }
 	bool Create();
 
-  public:
+public:
 	virtual void OnLogicThreadProc() override;
 	virtual void OnLogicThreadCreate() override;
 	virtual void OnLogicThreadExit() override;
 
 	virtual void OnProcessMessage(CNetworkMessage*) override;
 
-  public:
+public:
 	uint64_t CreatePlayerID();
 	void	 RecyclePlayerID(OBJID idPlayer);
 	void	 SetServiceReady(uint16_t idService);
@@ -50,10 +50,7 @@ class CWorldService : public IService, public CServiceCommon
 	using VSMap_t = std::unordered_map<ServerPort, std::vector<VirtualSocket>>;
 	void _ID2VS(OBJID id, VSMap_t& VSMap);
 	template<class T>
-	bool BroadcastMessageToPlayer(const T&						   idList,
-								  uint16_t						   nCmd,
-								  const google::protobuf::Message& msg,
-								  OBJID							   idExtInclude = 0)
+	bool BroadcastMessageToPlayer(const T& idList, uint16_t nCmd, const google::protobuf::Message& msg, OBJID idExtInclude = 0)
 	{
 		VSMap_t setSocketMap;
 		if constexpr(std::is_same<typename T::value_type, OBJID>::value)
@@ -94,7 +91,7 @@ class CWorldService : public IService, public CServiceCommon
 		return true;
 	}
 
-  public:
+public:
 	CAccountManager*  GetAccountManager() const { return m_pAccountManager.get(); }
 	CUserManager*	  GetUserManager() const { return m_pUserManager.get(); }
 	CUserAttrSet*	  GetUserAttrSet() const { return m_pUserAttrSet.get(); }
@@ -106,7 +103,7 @@ class CWorldService : public IService, public CServiceCommon
 	CGMManager*		  GetGMManager() const { return m_pGMManager.get(); }
 	CTeamManager*	  GetTeamManager() const { return m_pTeamManager.get(); }
 
-  private:
+private:
 	uint64_t					 m_nCurPlayerMaxID;
 	std::deque<OBJID>			 m_setPlayerIDPool;
 	std::unordered_set<uint16_t> m_setServiceNeedReady;

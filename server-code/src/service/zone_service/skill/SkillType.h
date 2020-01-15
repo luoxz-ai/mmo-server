@@ -1,7 +1,6 @@
 #ifndef SKILLTYPE_H
 #define SKILLTYPE_H
 
-
 #include "ActorAttrib.h"
 #include "BaseCode.h"
 #include "T_GameDataMap.h"
@@ -38,8 +37,8 @@ export_lua enum SkillDamageTargetFlag {
 
 //伤害目标选取范围
 export_lua enum SkillDamageShapeType {
-	STF_TARGET_SINGLE = 0, //单体
-	STF_TARGET_RECT = 1, //矩形 以目标/目标点为中心,range为长,width为宽, 垂直于地图坐标系的矩形
+	STF_TARGET_SINGLE	= 0, //单体
+	STF_TARGET_RECT		= 1, //矩形 以目标/目标点为中心,range为长,width为宽, 垂直于地图坐标系的矩形
 	STF_TARGET_RECT_DIR = 2, //矩形 已自己为中心，面向目标点,range为长,width为宽
 	STF_TARGET_ROUND	= 3, //圆形 以目标/目标点为中心,range为半径的圆
 	STF_TARGET_FAN		= 4, //根据目标点计算朝向, 以自身为中心, range为半径, width为(0-360)的扇形
@@ -54,8 +53,8 @@ export_lua enum SkillFlag {
 	SKILLFLAG_INTONE_CANMOVE	= 0x0004, // 吟唱时是否可移动
 	SKILLFLAG_LAUNCH_CANMOVE	= 0x0008, // 释放时是否可移动
 
-	SKILLFLAG_DAMAGE_BY_DIST = 0x0010, // 根据距离调整伤害(当前距离/range)
-	SKILLFLAG_SPENDITEM = 0x0020, // 消耗useitem字段指定的物品类型（不消耗则仅仅表示需要有这个道具）
+	SKILLFLAG_DAMAGE_BY_DIST	   = 0x0010, // 根据距离调整伤害(当前距离/range)
+	SKILLFLAG_SPENDITEM			   = 0x0020, // 消耗useitem字段指定的物品类型（不消耗则仅仅表示需要有这个道具）
 	SKILLFLAG_DAMAGE_BEFORE_LAUNCH = 0x0040, // 该技能在launch开始的时候强行apply1次
 	SKILLFLAG_DAMAGE_AFTER_LAUNCH  = 0x0080, // 该技能在launch结束的时候强行apply1次
 
@@ -82,7 +81,7 @@ class CSkillType
 {
 	CSkillType() {}
 
-  public:
+public:
 	~CSkillType() {}
 	CREATE_NEW_IMPL(CSkillType);
 	bool Init(const Cfg_Skill_Row& row)
@@ -138,11 +137,11 @@ class CSkillType
 	bool	 IsDebug() const { return m_Data.isdebug(); }
 	bool	 CanAttackActor(class CActor* pAttacker, class CActor* pTarget) const;
 
-  public:
+public:
 	const Cfg_Skill_Row&				   GetDataRef() const { return m_Data; }
 	const std::vector<CActorAttribChange>& GetAttrib() const { return m_AttribChangeList; }
 
-  private:
+private:
 	Cfg_Skill_Row					m_Data;
 	std::vector<CActorAttribChange> m_AttribChangeList;
 };
@@ -153,7 +152,7 @@ class CSkillAttachStatusData
 {
 	CSkillAttachStatusData() {}
 
-  public:
+public:
 	~CSkillAttachStatusData() {}
 	CREATE_NEW_IMPL(CSkillAttachStatusData);
 	bool Init(const Cfg_SkillAttachStatus_Row& row)
@@ -173,10 +172,10 @@ class CSkillAttachStatusData
 	uint32_t GetSecs() const { return m_Data.status_secs(); }
 	uint32_t GetTimes() const { return m_Data.status_times(); }
 
-  public:
+public:
 	const Cfg_SkillAttachStatus_Row& GetDataRef() const { return m_Data; }
 
-  private:
+private:
 	Cfg_SkillAttachStatus_Row m_Data;
 };
 
@@ -186,7 +185,7 @@ class CSkillDetachStatusData
 {
 	CSkillDetachStatusData() {}
 
-  public:
+public:
 	~CSkillDetachStatusData() {}
 	CREATE_NEW_IMPL(CSkillDetachStatusData);
 	bool Init(const Cfg_SkillDetachStatus_Row& row)
@@ -203,10 +202,10 @@ class CSkillDetachStatusData
 	uint32_t GetStatusType() const { return m_Data.status_type(); }
 	uint32_t GetStatusFlag() const { return m_Data.status_flag(); }
 
-  public:
+public:
 	const Cfg_SkillDetachStatus_Row& GetDataRef() const { return m_Data; }
 
-  private:
+private:
 	Cfg_SkillDetachStatus_Row m_Data;
 };
 

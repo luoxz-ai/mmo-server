@@ -1,4 +1,5 @@
-
+#ifndef SKILLSTATE_H
+#define SKILLSTATE_H
 
 #include "EventManager.h"
 #include "SkillType.h"
@@ -13,7 +14,7 @@ enum SkillState
 
 export_lua class CSkillFSM
 {
-  public:
+public:
 	CSkillFSM(CActor* pOwner);
 	~CSkillFSM();
 
@@ -41,30 +42,16 @@ export_lua class CSkillFSM
 	export_lua void ClearSkillCoolDown(uint32_t cdType);
 	export_lua bool IsSkillCoolDown(uint32_t cdType) const;
 
-	export_lua static void SkillEffectInRange(
-		OBJID idCaster, uint32_t idSkillType, OBJID idTarget, const Vector2& posTarget, uint32_t nApplyTimes);
-	export_lua static void FindTarget(CActor*				pOwner,
-									  CSkillType*			pSkillType,
-									  OBJID					idTarget,
-									  const Vector2&		posTarget,
-									  std::vector<CActor*>& vecTarget);
-	export_lua static void DoMultiDamage(CActor*					 pOwner,
-										 CSkillType*				 pSkillType,
-										 OBJID						 idTarget,
-										 const Vector2&				 posTarget,
-										 const std::vector<CActor*>& vecTarget);
+	export_lua static void SkillEffectInRange(OBJID idCaster, uint32_t idSkillType, OBJID idTarget, const Vector2& posTarget, uint32_t nApplyTimes);
+	export_lua static void FindTarget(CActor* pOwner, CSkillType* pSkillType, OBJID idTarget, const Vector2& posTarget, std::vector<CActor*>& vecTarget);
+	export_lua static void DoMultiDamage(CActor* pOwner, CSkillType* pSkillType, OBJID idTarget, const Vector2& posTarget, const std::vector<CActor*>& vecTarget);
 
-	export_lua static int32_t DoDamage(
-		CActor* pOwner, CSkillType* pSkillType, CActor* pTarget, OBJID idTarget, const Vector2& posTarget);
-	export_lua static void AttachStatus(CActor* pOwner, CSkillType* pSkillType, const std::vector<CActor*>& vecTarget);
-	export_lua static void AddBullet(CActor*					 pOwner,
-									 uint32_t					 idBulletType,
-									 OBJID						 idTarget,
-									 const Vector2&				 posTarget,
-									 const std::vector<CActor*>& vecTarget);
-	void				   Stop();
+	export_lua static int32_t DoDamage(CActor* pOwner, CSkillType* pSkillType, CActor* pTarget, OBJID idTarget, const Vector2& posTarget);
+	export_lua static void	  AttachStatus(CActor* pOwner, CSkillType* pSkillType, const std::vector<CActor*>& vecTarget);
+	export_lua static void	  AddBullet(CActor* pOwner, uint32_t idBulletType, OBJID idTarget, const Vector2& posTarget, const std::vector<CActor*>& vecTarget);
+	void					  Stop();
 
-  private:
+private:
 	CActor*		   m_pOwner;
 	CEventEntryPtr m_pEvent;
 	CSkillType*	   m_pCurSkillType = nullptr;
@@ -75,3 +62,4 @@ export_lua class CSkillFSM
 	SkillState					 m_curState	   = SKILLSTATE_IDLE;
 	std::map<uint32_t, uint32_t> m_SkillCD;
 };
+#endif /* SKILLSTATE_H */

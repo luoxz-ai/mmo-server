@@ -1,7 +1,6 @@
 #ifndef ZSET_H
 #define ZSET_H
 
-
 #include <map>
 #include <vector>
 
@@ -9,11 +8,11 @@
 
 class CZset
 {
-  private:
+private:
 	CSkipList					 m_SkipList;
 	std::map<uint64_t, uint64_t> m_MemScoreMap;
 
-  public:
+public:
 	CZset() {}
 	~CZset() {}
 

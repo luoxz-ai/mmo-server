@@ -1,7 +1,6 @@
 #ifndef DBFIELD_H
 #define DBFIELD_H
 
-
 #include <memory>
 #include <string>
 #include <unordered_map>
@@ -43,7 +42,7 @@ struct CDBFieldInfo
 
 class CDBFieldInfoList
 {
-  public:
+public:
 	CDBFieldInfoList() {}
 	virtual ~CDBFieldInfoList() {}
 	virtual const CDBFieldInfo* operator[](size_t idx) const = 0;
@@ -146,7 +145,7 @@ struct MYSQL_FIELD_COPY : public CDBFieldInfo
 
 class CMysqlFieldInfoList : public CDBFieldInfoList
 {
-  public:
+public:
 	CMysqlFieldInfoList(MYSQL_RES* res);
 	~CMysqlFieldInfoList();
 
@@ -154,7 +153,7 @@ class CMysqlFieldInfoList : public CDBFieldInfoList
 	virtual const CDBFieldInfo* get(size_t idx) const { return m_FieldInfos[idx]; }
 	virtual size_t				size() const { return m_FieldInfos.size(); }
 
-  protected:
+protected:
 	std::vector<CDBFieldInfo*> m_FieldInfos;
 };
 
@@ -170,7 +169,7 @@ struct CDDLFieldInfo : public CDBFieldInfo
 template<typename T>
 class CDDLFieldInfoList : public CDBFieldInfoList
 {
-  public:
+public:
 	static constexpr const size_t size_fields = sizeOfArray(T::field_name);
 	CDDLFieldInfoList()
 		: CDDLFieldInfoList(std::make_index_sequence<size_fields>())
@@ -194,7 +193,7 @@ class CDDLFieldInfoList : public CDBFieldInfoList
 	virtual const CDBFieldInfo* get(size_t idx) const { return m_FieldInfos[idx]; }
 	virtual size_t				size() const { return size_fields; }
 
-  protected:
+protected:
 	CDBFieldInfo* m_FieldInfos[size_fields];
 };
 
@@ -203,7 +202,7 @@ const char* const EMPTY_STR = "";
 class CDBRecord;
 class CDBField
 {
-  public:
+public:
 	CDBField();
 	CDBField(CDBRecord* pDBRecord, const CDBFieldInfo* pFieldInfo, char* pVal, unsigned long len);
 
@@ -213,7 +212,7 @@ class CDBField
 	bool IsString() const;
 	void ClearModify();
 
-  public:
+public:
 	operator const std::string&() const
 	{
 		if(CheckType<std::string>())
@@ -376,8 +375,7 @@ class CDBField
 			break;
 			case DB_FIELD_TYPE_VARCHAR:
 			{
-				if(std::is_same<typename std::decay<T>::type, std::string>::value ||
-				   std::is_same<typename std::decay<T>::type, const char*>::value ||
+				if(std::is_same<typename std::decay<T>::type, std::string>::value || std::is_same<typename std::decay<T>::type, const char*>::value ||
 				   std::is_same<typename std::decay<T>::type, char*>::value)
 					return true;
 			}
@@ -404,15 +402,14 @@ class CDBField
 	void				SetModified();
 	const CDBFieldInfo* GetFieldInfo() const { return m_pFieldInfo; }
 
-  public:
+public:
 	MEMORYHEAP_DECLARATION(s_Heap);
 
-  private:
-	CDBRecord*			m_pDBRecord;
-	const CDBFieldInfo* m_pFieldInfo;
-	std::variant<int8_t, uint8_t, int16_t, uint16_t, int32_t, uint32_t, int64_t, uint64_t, float, double, std::string>
-		 m_Val;
-	bool m_bModify;
+private:
+	CDBRecord*																										   m_pDBRecord;
+	const CDBFieldInfo*																								   m_pFieldInfo;
+	std::variant<int8_t, uint8_t, int16_t, uint16_t, int32_t, uint32_t, int64_t, uint64_t, float, double, std::string> m_Val;
+	bool																											   m_bModify;
 };
 
 #endif /* DBFIELD_H */

@@ -1,7 +1,6 @@
 #ifndef GAMELOG_H
 #define GAMELOG_H
 
-
 enum ItemLogType
 {
 	LOGITEM_SKILL,

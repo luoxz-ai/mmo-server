@@ -7,7 +7,7 @@ class CSceneObject;
 
 class CSceneNode : public std::unordered_set<CSceneObject*>
 {
-  public:
+public:
 	CSceneNode() = default;
 
 	void AddActor(CSceneObject* pActor) { this->insert(pActor); }
@@ -16,7 +16,7 @@ class CSceneNode : public std::unordered_set<CSceneObject*>
 
 class CSceneCollisionNode
 {
-  public:
+public:
 	CSceneCollisionNode() = default;
 
 	void								 AddActor(CSceneObject* pActor);
@@ -29,10 +29,10 @@ class CSceneCollisionNode
 class CGameMap;
 class CSceneTree
 {
-  protected:
+protected:
 	CSceneTree();
 
-  public:
+public:
 	virtual ~CSceneTree();
 
 	bool InitSceneTree(uint32_t nNodeGridRange = 0);
@@ -71,10 +71,10 @@ class CSceneTree
 	export_lua CSceneCollisionNode* GetCollisionNodeByPos(float x, float y, uint32_t actor_type);
 	export_lua bool					CollisionTest(float x, float y, uint32_t actor_type) const;
 
-  private:
+private:
 	void _SetSceneNodeGridRange(uint32_t v);
 
-  protected:
+protected:
 	std::deque<CSceneNode>			m_setNode;
 	std::deque<CSceneCollisionNode> m_setCollision;
 

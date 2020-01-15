@@ -189,12 +189,7 @@ void CScene::AddTimedCallback(uint32_t tIntervalMS, const std::string& func_name
 		return;
 
 	EventManager()->ScheduleEvent(
-		0,
-		[pThis = this, _func_name = func_name]() {
-			ScriptManager()->ExecScript<void>(pThis->m_pMap->GetScriptID(), _func_name.c_str(), pThis);
-		},
-		tIntervalMS,
-		false,
+		0, [pThis = this, _func_name = func_name]() { ScriptManager()->ExecScript<void>(pThis->m_pMap->GetScriptID(), _func_name.c_str(), pThis); }, tIntervalMS, false,
 		m_StatusEventList);
 	__LEAVE_FUNCTION
 }
@@ -219,8 +214,7 @@ CNpc* CScene::CreateNpc(uint32_t idNpcType, const CPos2D& pos, float face)
 	return nullptr;
 }
 
-CMonster* CScene::CreateMonster(
-	uint32_t idMonsterType, uint32_t idGen, uint32_t idCamp, OBJID idOwner, const CPos2D& pos, float face)
+CMonster* CScene::CreateMonster(uint32_t idMonsterType, uint32_t idGen, uint32_t idCamp, OBJID idOwner, const CPos2D& pos, float face)
 {
 	__ENTER_FUNCTION
 	CMonster* pMonster = CMonster::CreateNew(idMonsterType, idOwner, idGen, idCamp);
@@ -235,8 +229,7 @@ CMonster* CScene::CreateMonster(
 	return nullptr;
 }
 
-bool CScene::CreateMultiMonster(
-	uint32_t idMonsterType, uint32_t nNum, uint32_t idCamp, OBJID idOwner, const CPos2D& pos, float range)
+bool CScene::CreateMultiMonster(uint32_t idMonsterType, uint32_t nNum, uint32_t idCamp, OBJID idOwner, const CPos2D& pos, float range)
 {
 	__ENTER_FUNCTION
 	for(size_t i = 0; i < nNum; i++)
@@ -283,38 +276,25 @@ void CScene::_KickPlayer(const char* pszReason, CPlayer* pPlayer)
 		uint16_t idNewMap = refRebornData.reborn_map();
 		if(idNewMap != 0 && idNewMap != GetID())
 		{
-			pPlayer->FlyMap(idNewMap,
-							refRebornData.reborn_x(),
-							refRebornData.reborn_y(),
-							refRebornData.reborn_range(),
-							refRebornData.reborn_face());
+			pPlayer->FlyMap(idNewMap, refRebornData.reborn_x(), refRebornData.reborn_y(), refRebornData.reborn_range(), refRebornData.reborn_face());
 			return;
 		}
 	}
 	if(pPlayer->GetHomeSceneID() != GetSceneID())
 	{
 		//如果Home记录点不是本地图
-		pPlayer->FlyMap(SceneID(pPlayer->GetHomeSceneID()).GetMapID(),
-						pPlayer->GetHomePosX(),
-						pPlayer->GetHomePosY(),
-						0.0f,
-						pPlayer->GetHomeFace());
+		pPlayer->FlyMap(SceneID(pPlayer->GetHomeSceneID()).GetMapID(), pPlayer->GetHomePosX(), pPlayer->GetHomePosY(), 0.0f, pPlayer->GetHomeFace());
 		return;
 	}
 	else if(pPlayer->GetRecordSceneID() != GetSceneID())
 	{
 		//如果Home记录点不是本地图
-		pPlayer->FlyMap(SceneID(pPlayer->GetRecordSceneID()).GetMapID(),
-						pPlayer->GetRecordPosX(),
-						pPlayer->GetRecordPosY(),
-						0.0f,
-						pPlayer->GetRecordFace());
+		pPlayer->FlyMap(SceneID(pPlayer->GetRecordSceneID()).GetMapID(), pPlayer->GetRecordPosX(), pPlayer->GetRecordPosY(), 0.0f, pPlayer->GetRecordFace());
 		return;
 	}
 	else
 	{
-		LOGWARNING(
-			"Error User:{} HomeMap/RebornMap is ThisMap{}. In CScene::KickAllPlayer", pPlayer->GetID(), GetMapID());
+		LOGWARNING("Error User:{} HomeMap/RebornMap is ThisMap{}. In CScene::KickAllPlayer", pPlayer->GetID(), GetMapID());
 		pPlayer->OnLogout();
 	}
 }

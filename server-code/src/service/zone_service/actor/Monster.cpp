@@ -57,8 +57,7 @@ bool CMonster::SendMessage(uint16_t cmd, const google::protobuf::Message& msg) c
 	__ENTER_FUNCTION
 	if(cmd == CMD_SC_SKILL_STUN || cmd == CMD_SC_AOI_UPDATE || cmd == CMD_SC_ATTRIB_CHANGE)
 	{
-		CNetworkMessage _msg(
-			cmd, msg, ZoneService()->GetServerVirtualSocket(), ZoneService()->GetAIServerVirtualSocket());
+		CNetworkMessage _msg(cmd, msg, ZoneService()->GetServerVirtualSocket(), ZoneService()->GetAIServerVirtualSocket());
 		return ZoneService()->SendMsg(_msg);
 	}
 	return true;
@@ -149,13 +148,7 @@ void CMonster::BeKillBy(CActor* pAttacker)
 				}
 
 				constexpr uint32_t TEAM_EXP_ADJ[] = {
-					100,
-					100,
-					102,
-					104,
-					106,
-					108,
-					110,
+					100, 100, 102, 104, 106, 108, 110,
 				};
 				//组队加成
 				//组队分享
