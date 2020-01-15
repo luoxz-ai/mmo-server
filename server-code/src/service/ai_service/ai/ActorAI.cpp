@@ -22,7 +22,7 @@ bool CActorAI::Init(CAIActor* pActor, CAIType* pAIType)
 	m_pAIPathFinder = new CAIPathFinder(pActor);
 	if(GetAIData().follow_path() != 0)
 	{
-		m_pPathData = GetActor()->GetCurrentScene()->GetMap()->GetPatrolData(GetAIData().follow_path());
+		m_pPathData = GetActor()->GetCurrentScene()->GetMap()->GetPatrolDataByIdx(GetAIData().follow_path());
 	}
 
 

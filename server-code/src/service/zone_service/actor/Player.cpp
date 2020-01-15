@@ -350,7 +350,7 @@ __LEAVE_FUNCTION
 bool CPlayer::TryChangeMap(uint32_t nLeavePointIdx)
 {
 __ENTER_FUNCTION
-	auto pLeaveData = GetCurrentScene()->GetMap()->GetLeavePoint(nLeavePointIdx);
+	auto pLeaveData = GetCurrentScene()->GetMap()->GetLeavePointByIdx(nLeavePointIdx);
 	CHECKF_M(pLeaveData,
 		   fmt::format(FMT_STRING("Can't Find LeaveMap {} On Map {}"),
 						GetMapID(),
@@ -366,7 +366,7 @@ __ENTER_FUNCTION
 						nLeavePointIdx).c_str());
 
 	//检查所有通行检查
-	auto pEnterData = pGameMap->GetEnterPoint(pLeaveData->dest_enter_point_idx());
+	auto pEnterData = pGameMap->GetEnterPointByIdx(pLeaveData->dest_enter_point_idx());
 	CHECKF_M(pEnterData,
 		   fmt::format(FMT_STRING("Can't Find EnterPoint {} On Map {} When LeaveMap {} On Map {}"),
 						pLeaveData->dest_enter_point_idx(),

@@ -52,7 +52,7 @@ CNetworkMessage::CNetworkMessage(uint16_t usCmd, const ::google::protobuf::Messa
 ,m_pBuf(nullptr)
 ,m_nBufSize(0)
 {
-	int nDataSize = msg.ByteSize();
+	int nDataSize = msg.ByteSizeLong();
 	AllocBuffer(nDataSize + sizeof(MSG_HEAD));
 	msg.SerializeToArray(GetMsgBody(), nDataSize);
 	

@@ -33,6 +33,7 @@ TARGET_LINK_LIBRARIES(service_loader
  libmyproto.so
  libwebsockets.so
  fmt
+ tinyxml2
  pthread
  rt
  dl

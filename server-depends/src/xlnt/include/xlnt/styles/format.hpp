@@ -26,6 +26,7 @@
 #include <cstddef>
 #include <string>
 
+#include "xlnt/utils/optional.hpp"
 #include <xlnt/xlnt_config.hpp>
 
 namespace xlnt {
@@ -44,6 +45,7 @@ namespace detail {
 struct format_impl;
 struct stylesheet;
 class xlsx_producer;
+class xlsx_consumer;
 
 } // namespace detail
 

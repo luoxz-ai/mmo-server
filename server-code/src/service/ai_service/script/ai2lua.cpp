@@ -208,21 +208,19 @@ lua_tinker::set(L, "WORLD_SERVICE_ID",WORLD_SERVICE_ID);
 lua_tinker::set(L, "ZONE_SERVICE",ZONE_SERVICE);
 lua_tinker::class_add<CGameMap>(L, "CGameMap",true);
 lua_tinker::class_def<CGameMap>(L, "FindPosNearby",&CGameMap::FindPosNearby);
-lua_tinker::class_def<CGameMap>(L, "GetEnterPoint",&CGameMap::GetEnterPoint);
+lua_tinker::class_def<CGameMap>(L, "GetEnterPointByIdx",&CGameMap::GetEnterPointByIdx);
 lua_tinker::class_def<CGameMap>(L, "GetGeneratorData",&CGameMap::GetGeneratorData);
 lua_tinker::class_def<CGameMap>(L, "GetHigh",&CGameMap::GetHigh);
-lua_tinker::class_def<CGameMap>(L, "GetLeavePoint",&CGameMap::GetLeavePoint);
+lua_tinker::class_def<CGameMap>(L, "GetLeavePointByIdx",&CGameMap::GetLeavePointByIdx);
 lua_tinker::class_def<CGameMap>(L, "GetMapData",&CGameMap::GetMapData);
 lua_tinker::class_def<CGameMap>(L, "GetMapFlag",&CGameMap::GetMapFlag);
 lua_tinker::class_def<CGameMap>(L, "GetMapID",&CGameMap::GetMapID);
 lua_tinker::class_def<CGameMap>(L, "GetMapTemplateID",&CGameMap::GetMapTemplateID);
 lua_tinker::class_def<CGameMap>(L, "GetMapType",&CGameMap::GetMapType);
-lua_tinker::class_def<CGameMap>(L, "GetPatrolData", lua_tinker::args_type_overload_member_functor(
-	lua_tinker::make_member_functor_ptr((const Cfg_Scene_Patrol_Row *(CGameMap::*)(uint32_t)const)(&CGameMap::GetPatrolData)), 
-	lua_tinker::make_member_functor_ptr((std::unordered_map<unsigned int, Cfg_Scene_Patrol_Row, std::hash<unsigned int>, std::equal_to<unsigned int>, std::allocator<std::pair<const unsigned int, Cfg_Scene_Patrol_Row> > >(CGameMap::*)()const)(&CGameMap::GetPatrolData))));
-lua_tinker::class_def<CGameMap>(L, "GetRebornData", lua_tinker::args_type_overload_member_functor(
-	lua_tinker::make_member_functor_ptr((const Cfg_Scene_Reborn_Row *(CGameMap::*)(uint32_t)const)(&CGameMap::GetRebornData)), 
-	lua_tinker::make_member_functor_ptr((std::unordered_map<unsigned int, Cfg_Scene_Reborn_Row, std::hash<unsigned int>, std::equal_to<unsigned int>, std::allocator<std::pair<const unsigned int, Cfg_Scene_Reborn_Row> > >(CGameMap::*)()const)(&CGameMap::GetRebornData))));
+lua_tinker::class_def<CGameMap>(L, "GetPatrolData",&CGameMap::GetPatrolData);
+lua_tinker::class_def<CGameMap>(L, "GetPatrolDataByIdx",&CGameMap::GetPatrolDataByIdx);
+lua_tinker::class_def<CGameMap>(L, "GetRebornData",&CGameMap::GetRebornData);
+lua_tinker::class_def<CGameMap>(L, "GetRebornDataByIdx",&CGameMap::GetRebornDataByIdx);
 lua_tinker::class_def<CGameMap>(L, "GetSPRegionIdx",&CGameMap::GetSPRegionIdx);
 lua_tinker::class_def<CGameMap>(L, "GetScriptID",&CGameMap::GetScriptID);
 lua_tinker::class_def<CGameMap>(L, "GetZoneID",&CGameMap::GetZoneID);

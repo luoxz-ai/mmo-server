@@ -13,7 +13,7 @@ option(STATIC "Set to ON to build xlnt as a static library instead of a shared l
 
 # c++ language standard to use
 set(XLNT_VALID_LANGS 11 14 17)
-set(XLNT_CXX_LANG "14" CACHE STRING "c++ language features to compile with")
+set(XLNT_CXX_LANG "17" CACHE STRING "c++ language features to compile with")
 # enumerate allowed values for cmake gui
 set_property(CACHE XLNT_CXX_LANG PROPERTY STRINGS ${XLNT_VALID_LANGS})
 # validate value is in XLNT_VALID_LANGS
@@ -24,7 +24,7 @@ endif()
 
 
 # Optional components
-option(TESTS "Set to OFF to skip building test executable (in ./tests)" ON)
+option(TESTS "Set to OFF to skip building test executable (in ./tests)" OFF)
 option(SAMPLES "Set to ON to build executable code samples (in ./samples)" OFF)
 option(BENCHMARKS "Set to ON to build performance benchmarks (in ./benchmarks)" OFF)
 option(PYTHON "Set to ON to build Arrow conversion functions (in ./python)" OFF)

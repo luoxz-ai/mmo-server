@@ -56,7 +56,7 @@ __LEAVE_FUNCTION
 bool CGameMap::IsNearLeavePointX(uint32_t nLeavePointIdx, float x, float y, uint32_t& destMapID, uint32_t& destEnterPointIdx)
 {
 __ENTER_FUNCTION
-	auto pLeavePoint = GetLeavePoint(nLeavePointIdx);
+	auto pLeavePoint = GetLeavePointByIdx(nLeavePointIdx);
 	CHECKF(pLeavePoint);
 
 	const auto& leave_point = *pLeavePoint;
@@ -174,7 +174,7 @@ __LEAVE_FUNCTION
 	return false;
 }
 
-const Cfg_Scene_EnterPoint_Row* CGameMap::GetEnterPoint(uint32_t idx) const
+const Cfg_Scene_EnterPoint_Row* CGameMap::GetEnterPointByIdx(uint32_t idx) const
 {
 __ENTER_FUNCTION
 	auto it = m_EnterPointSet.find(idx);
@@ -190,7 +190,7 @@ void CGameMap::_setEnterPoint(const Cfg_Scene_EnterPoint_Row& iter)
 	m_EnterPointSet[iter.idx()] = iter;
 }
 
-const Cfg_Scene_LeavePoint_Row* CGameMap::GetLeavePoint(uint32_t idx) const
+const Cfg_Scene_LeavePoint_Row* CGameMap::GetLeavePointByIdx(uint32_t idx) const
 {
 __ENTER_FUNCTION
 	auto it = m_LeavePointSet.find(idx);

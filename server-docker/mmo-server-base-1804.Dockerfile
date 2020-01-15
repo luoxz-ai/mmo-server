@@ -24,6 +24,7 @@ RUN apt-get update -y --fix-missing \
  subversion \
  git \
  gdb \
+ python \
  linux-tools-common \
  sudo 
  

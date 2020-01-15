@@ -326,7 +326,7 @@ __ENTER_FUNCTION
 			if(GetCurrentScene()->GetMap()->HasMapFlag(MAPFLAG_DISABLE_REBORN_MAPPOS) == true)
 				return false;
 
-			const auto& pRebornData = GetCurrentScene()->GetMap()->GetRebornData(GetCampID());
+			const auto& pRebornData = GetCurrentScene()->GetMap()->GetRebornDataByIdx(GetCampID());
 			CHECKF_M(pRebornData, fmt::format(FMT_STRING("can't find RebornData In Map {} WithCamp:{}"), GetMapID(), GetCampID()).c_str());
 
 			GetStatus()->DetachStatusByType(STATUSTYPE_DEAD);

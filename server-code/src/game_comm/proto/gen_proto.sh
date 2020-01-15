@@ -15,9 +15,9 @@ t1=`date -d "$date1" +%s`
 t2=`date -d "$date2" +%s`
 
 if [ ! "$date2" ]; then
-   ../../depends/bin/protoc --proto_path=${include_dir} --cpp_out=${out_dir} ${proto_name}.proto 
+   ../../../depends/bin/protoc --proto_path=${include_dir} --cpp_out=${out_dir} ${proto_name}.proto 
 elif  [ $t1 -gt $t2 ]; then
-   ../../depends/bin/protoc --proto_path=${include_dir} --cpp_out=${out_dir} ${proto_name}.proto 
+   ../../../depends/bin/protoc --proto_path=${include_dir} --cpp_out=${out_dir} ${proto_name}.proto 
 fi
 
 

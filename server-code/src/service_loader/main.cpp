@@ -14,6 +14,7 @@
 #include "segvcatch.h"
 #include "fmt/format.h"
 #include <google/protobuf/stubs/common.h>
+#include <google/protobuf/stubs/logging.h>
 #ifdef USE_JEMALLOC
 extern "C" {
 #define JEMALLOC_MANGLE

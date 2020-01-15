@@ -176,9 +176,9 @@ bool CServiceCommon::StartRPCServer(uint16_t publish_port, uint16_t internal_por
 		options.internal_port = internal_port;
 	if(bEnableSSL)
 	{
-		options.ssl_options.default_cert.certificate = "cert.pem";
-		options.ssl_options.default_cert.private_key = "key.pem";
-		options.ssl_options.ciphers = "";
+		options.mutable_ssl_options()->default_cert.certificate = "cert.pem";
+		options.mutable_ssl_options()->default_cert.private_key = "key.pem";
+		options.mutable_ssl_options()->ciphers = "";
 	}
 	if(pHttpMasterService)
 		options.http_master_service = pHttpMasterService;

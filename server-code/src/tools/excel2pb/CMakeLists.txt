@@ -15,6 +15,7 @@ ADD_DEPENDENCIES(excel2pb basecode)
 TARGET_LINK_LIBRARIES(excel2pb
  xlnt
  protobuf
+ libfmt.a
  basecode
  dl
  pthread
