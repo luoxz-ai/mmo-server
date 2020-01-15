@@ -1,13 +1,14 @@
 #include "ActorManager.h"
+
 #include "Actor.h"
 #include "Player.h"
 
-static const OBJID ID_GEN_FACTOR= 100000000000000ull;
+static const OBJID ID_GEN_FACTOR = 100000000000000ull;
 CActorManager::CActorManager()
-: m_nNpcIDGen(ACT_NPC * ID_GEN_FACTOR)
-, m_nMonsterIDGen(ACT_MONSTER * ID_GEN_FACTOR)
-, m_nMapItemIDGen(ACT_MAPITEM * ID_GEN_FACTOR)
-, m_nBulletIDGen(ACT_BULLET * ID_GEN_FACTOR)
+	: m_nNpcIDGen(ACT_NPC * ID_GEN_FACTOR)
+	, m_nMonsterIDGen(ACT_MONSTER * ID_GEN_FACTOR)
+	, m_nMapItemIDGen(ACT_MAPITEM * ID_GEN_FACTOR)
+	, m_nBulletIDGen(ACT_BULLET * ID_GEN_FACTOR)
 {
 	std::fill(m_ActorCount.begin(), m_ActorCount.end(), 0);
 	m_ActorMap.reserve(GUESS_MAX_ACTOR_COUNT);
@@ -21,12 +22,12 @@ CActorManager::~CActorManager()
 
 void CActorManager::Destory()
 {
-	for (auto it = m_PlayerRefMap.begin(); it != m_PlayerRefMap.end(); it++)
+	for(auto it = m_PlayerRefMap.begin(); it != m_PlayerRefMap.end(); it++)
 	{
 		CPlayer* pPlayer = it->second;
 		pPlayer->SaveInfo();
 	}
-	for (auto it = m_ActorMap.begin(); it != m_ActorMap.end(); it++)
+	for(auto it = m_ActorMap.begin(); it != m_ActorMap.end(); it++)
 	{
 		CActor* pActor = it->second;
 		SAFE_DELETE(pActor);
@@ -38,7 +39,7 @@ void CActorManager::Destory()
 CActor* CActorManager::QueryActor(OBJID id) const
 {
 	auto itFind = m_ActorMap.find(id);
-	if (itFind == m_ActorMap.end())
+	if(itFind == m_ActorMap.end())
 		return nullptr;
 
 	if(itFind->second->IsDelThis())
@@ -49,7 +50,7 @@ CActor* CActorManager::QueryActor(OBJID id) const
 CPlayer* CActorManager::QueryPlayer(const VirtualSocket& vs) const
 {
 	auto it = m_PlayerRefMap.find(vs);
-	if (it == m_PlayerRefMap.end())
+	if(it == m_PlayerRefMap.end())
 		return nullptr;
 	return it->second;
 }
@@ -57,78 +58,72 @@ CPlayer* CActorManager::QueryPlayer(const VirtualSocket& vs) const
 bool CActorManager::AddActor(CActor* pActor)
 {
 	auto itFind = m_ActorMap.find(pActor->GetID());
-	if (itFind != m_ActorMap.end())
+	if(itFind != m_ActorMap.end())
 	{
-		//log error
-
+		// log error
 
 		CActor* pOldActor = itFind->second;
-		if (pOldActor == pActor)
+		if(pOldActor == pActor)
 		{
 			return true;
 		}
 		else
 		{
 			LOGERROR("Add Actor twice!!!!!!! {} {}", pOldActor->GetID(), pOldActor->GetName().c_str());
-			if (pOldActor->GetActorType() == ACT_PLAYER)
+			if(pOldActor->GetActorType() == ACT_PLAYER)
 			{
-				
-				//log error twice
+
+				// log error twice
 				CPlayer* pOldPlayer = pOldActor->ConvertToDerived<CPlayer>();
-				auto it = m_PlayerRefMap.find(pOldPlayer->GetSocket());
-				if (it != m_PlayerRefMap.end())
+				auto	 it			= m_PlayerRefMap.find(pOldPlayer->GetSocket());
+				if(it != m_PlayerRefMap.end())
 				{
 					m_PlayerRefMap.erase(it);
 				}
-
 			}
 
 			SAFE_DELETE(pOldActor);
 		}
 	}
-		
-
-
 
 	m_ActorMap[pActor->GetID()] = pActor;
 	m_ActorCount[pActor->GetActorType()]++;
 	switch(pActor->GetActorType())
 	{
-	case ACT_MONSTER:
+		case ACT_MONSTER:
 		{
 		}
 		break;
-	case ACT_PET:
+		case ACT_PET:
 		{
 		}
 		break;
-	case ACT_NPC:
+		case ACT_NPC:
 		{
 		}
 		break;
-	case ACT_PLAYER:
+		case ACT_PLAYER:
 		{
-			CPlayer* pPlayer = pActor->ConvertToDerived<CPlayer>();
+			CPlayer* pPlayer					 = pActor->ConvertToDerived<CPlayer>();
 			m_PlayerRefMap[pPlayer->GetSocket()] = pPlayer;
 		}
 		break;
-	default:
-		break;
+		default:
+			break;
 	}
-
 
 	return true;
 }
 
-bool CActorManager::DelActor(CActor* pActor, bool bDelete/* = true*/)
+bool CActorManager::DelActor(CActor* pActor, bool bDelete /* = true*/)
 {
 	return DelActorByID(pActor->GetID(), bDelete);
 }
 
-bool CActorManager::DelActorByID(OBJID id, bool bDelete/* = true*/)
+bool CActorManager::DelActorByID(OBJID id, bool bDelete /* = true*/)
 {
 	auto itFind = m_ActorMap.find(id);
-	if (itFind == m_ActorMap.end())
+	if(itFind == m_ActorMap.end())
 		return false;
 
 	CActor* pActor = itFind->second;
@@ -136,43 +131,40 @@ bool CActorManager::DelActorByID(OBJID id, bool bDelete/* = true*/)
 
 	switch(pActor->GetActorType())
 	{
-	case ACT_MONSTER:
+		case ACT_MONSTER:
 		{
 			m_idMonsterPool.push_back(id);
 		}
 		break;
-	case ACT_PET:
+		case ACT_PET:
 		{
 		}
 		break;
-	case ACT_NPC:
+		case ACT_NPC:
 		{
 			m_idNpcPool.push_back(id);
 		}
 		break;
-	case ACT_PLAYER:
+		case ACT_PLAYER:
 		{
-			CPlayer* pPlayer = pActor->ConvertToDerived<CPlayer>();
-			auto itFindPlayer = m_PlayerRefMap.find(pPlayer->GetSocket());
-			if (itFindPlayer != m_PlayerRefMap.end())
+			CPlayer* pPlayer	  = pActor->ConvertToDerived<CPlayer>();
+			auto	 itFindPlayer = m_PlayerRefMap.find(pPlayer->GetSocket());
+			if(itFindPlayer != m_PlayerRefMap.end())
 			{
 				m_PlayerRefMap.erase(itFindPlayer);
 			}
 		}
 		break;
-	default:
-		break;
+		default:
+			break;
 	}
 	m_ActorCount[pActor->GetActorType()]--;
-	
 
-	if (bDelete)
+	if(bDelete)
 		SAFE_DELETE(pActor);
 
 	return true;
-
 }
-
 
 OBJID CActorManager::GenNpcID()
 {
@@ -229,4 +221,3 @@ OBJID CActorManager::GenBulletID()
 		return id;
 	}
 }
-

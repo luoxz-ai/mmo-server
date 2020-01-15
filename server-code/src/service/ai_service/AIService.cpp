@@ -1,29 +1,29 @@
 #include "AIService.h"
-#include "NetSocket.h"
-#include "tinyxml2/tinyxml2.h"
-#include "MessageRoute.h"
-#include "EventManager.h"
-#include "SettingMap.h"
-#include "NetMSGProcess.h"
-#include "NetworkMessage.h"
-#include "MessageRoute.h"
-#include "MessagePort.h"
-#include "NetMSGProcess.h"
+
+#include <functional>
+
 #include "AIMonster.h"
 #include "AIPlayer.h"
-#include <functional>
+#include "EventManager.h"
+#include "MessagePort.h"
+#include "MessageRoute.h"
+#include "NetMSGProcess.h"
+#include "NetSocket.h"
+#include "NetworkMessage.h"
+#include "SettingMap.h"
+#include "tinyxml2/tinyxml2.h"
 
 template<>
 thread_local CAIService* MyTLSTypePtr<CAIService>::m_pPtr = nullptr;
 
-extern "C" IService* ServiceCreate(uint16_t  idWorld, uint16_t  idService)
+extern "C" IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
 
-	CAIService* pService = new CAIService(ServerPort{ idWorld, idService });
-	if (pService == nullptr)
+	CAIService* pService = new CAIService(ServerPort{idWorld, idService});
+	if(pService == nullptr)
 		return nullptr;
 
-	if (pService->Create() == false)
+	if(pService->Create() == false)
 	{
 		pService->Release();
 		return nullptr;
@@ -31,12 +31,11 @@ extern "C" IService* ServiceCreate(uint16_t  idWorld, uint16_t  idService)
 
 	return pService;
 }
-__attribute__((visibility("default"))) IService* ServiceCreate(uint16_t  idWorld, uint16_t  idService);
-
+__attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService);
 
 //////////////////////////////////////////////////////////////////////////
 CAIService::CAIService(const ServerPort& nServerPort)
-	:CServiceCommon(nServerPort,std::string("AI") + std::to_string(nServerPort.GetServiceID())  )
+	: CServiceCommon(nServerPort, std::string("AI") + std::to_string(nServerPort.GetServiceID()))
 {
 	m_tLastDisplayTime.Startup(20);
 }
@@ -45,10 +44,11 @@ CAIService::~CAIService()
 {
 	MyTLSTypePtr<CAIService>::set(this);
 	scope_guards scope_exit;
-	scope_exit += []() {MyTLSTypePtr<CAIService>::set(nullptr); };
+	scope_exit += []() {
+		MyTLSTypePtr<CAIService>::set(nullptr);
+	};
 	StopLogicThread();
 
-	
 	m_pAISceneManager->Destory();
 	m_pAIActorManager->Destroy();
 }
@@ -58,17 +58,24 @@ bool CAIService::Create()
 	//各种初始化
 	scope_guards scope_exit;
 	MyTLSTypePtr<CAIService>::set(this);
-	scope_exit += []() {MyTLSTypePtr<CAIService>::set(nullptr); };
+	scope_exit += []() {
+		MyTLSTypePtr<CAIService>::set(nullptr);
+	};
 
-	BaseCode::SetNdc(GetServiceName() );
+	BaseCode::SetNdc(GetServiceName());
 
-	scope_exit += []() {BaseCode::SetNdc(std::string()); };
+	scope_exit += []() {
+		BaseCode::SetNdc(std::string());
+	};
 
 	extern void export_to_lua(lua_State*, void*);
-	m_pScriptManager.reset(CLUAScriptManager::CreateNew(std::string("AIScript") + std::to_string(GetServerPort().GetServiceID()), &export_to_lua, (void*)this, "res/script", false));
+	m_pScriptManager.reset(
+		CLUAScriptManager::CreateNew(std::string("AIScript") + std::to_string(GetServerPort().GetServiceID()),
+									 &export_to_lua,
+									 (void*)this,
+									 "res/script",
+									 false));
 	m_pScriptManager->LoadFilesInDir("ai", false);
-
-
 
 	m_pMapManager.reset(new CMapManager);
 	CHECKF(m_pMapManager->Init(GetZoneID()));
@@ -91,23 +98,10 @@ bool CAIService::Create()
 	CHECKF(m_pAISceneManager->Init(GetServerPort().GetServiceID()));
 	m_pAIActorManager.reset(new CAIActorManager);
 
-
-
-
-
-
-
-
 	extern void AIServiceMessageHandlerRegister();
 	AIServiceMessageHandlerRegister();
 
-
-
-
-
-
-
-	if (CreateService(20) == false)
+	if(CreateService(20) == false)
 		return false;
 
 	return true;
@@ -115,28 +109,27 @@ bool CAIService::Create()
 
 void CAIService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 {
-	switch (pNetworkMsg->GetMsgHead()->usCmd)
+	switch(pNetworkMsg->GetMsgHead()->usCmd)
 	{
-	case NETMSG_SCK_CLOSE:
+		case NETMSG_SCK_CLOSE:
 		{
 			MSG_SCK_CLOSE* pMsg = (MSG_SCK_CLOSE*)pNetworkMsg->GetBuf();
-
 		}
 		break;
-	case ServerMSG::MsgID_SceneCreate:
+		case ServerMSG::MsgID_SceneCreate:
 		{
 			AISceneManager()->CreateScene(pNetworkMsg);
 		}
 		break;
-	case ServerMSG::MsgID_SceneDestory:
+		case ServerMSG::MsgID_SceneDestory:
 		{
 			AISceneManager()->DestoryDynaScene(pNetworkMsg);
 		}
 		break;
-	case ServerMSG::MsgID_ActiveGen:
+		case ServerMSG::MsgID_ActiveGen:
 		{
 			ServerMSG::ActiveGen msg;
-			if (msg.ParseFromArray(pNetworkMsg->GetMsgBody(), pNetworkMsg->GetBodySize()) == false)
+			if(msg.ParseFromArray(pNetworkMsg->GetMsgBody(), pNetworkMsg->GetBodySize()) == false)
 			{
 				return;
 			}
@@ -145,13 +138,12 @@ void CAIService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 			{
 				pScene->GetMonsterGen().ActiveGen(msg.gen_id(), msg.active());
 			}
-
 		}
 		break;
-	case ServerMSG::MsgID_KillGen:
+		case ServerMSG::MsgID_KillGen:
 		{
 			ServerMSG::ActiveGen msg;
-			if (msg.ParseFromArray(pNetworkMsg->GetMsgBody(), pNetworkMsg->GetBodySize()) == false)
+			if(msg.ParseFromArray(pNetworkMsg->GetMsgBody(), pNetworkMsg->GetBodySize()) == false)
 			{
 				return;
 			}
@@ -162,10 +154,10 @@ void CAIService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 			}
 		}
 		break;
-	case ServerMSG::MsgID_ActorCreate:
+		case ServerMSG::MsgID_ActorCreate:
 		{
 			ServerMSG::ActorCreate msg;
-			if (msg.ParseFromArray(pNetworkMsg->GetMsgBody(), pNetworkMsg->GetBodySize()) == false)
+			if(msg.ParseFromArray(pNetworkMsg->GetMsgBody(), pNetworkMsg->GetBodySize()) == false)
 			{
 				return;
 			}
@@ -175,40 +167,38 @@ void CAIService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 			CAIActor* pActor = nullptr;
 			switch(msg.actortype())
 			{
-			case ACT_MONSTER:
+				case ACT_MONSTER:
 				{
 					pActor = CAIMonster::CreateNew(msg);
 				}
 				break;
-			case ACT_PLAYER:
+				case ACT_PLAYER:
 				{
 					pActor = CAIPlayer::CreateNew(msg);
 				}
 				break;
-			case ACT_PET:
+				case ACT_PET:
 				{
-
 				}
 				break;
-			case ACT_NPC:
+				case ACT_NPC:
 				{
-
 				}
 				break;
 			}
-				   
+
 			if(pActor)
 			{
-				pScene->EnterMap(pActor, msg.posx(),  msg.posy(), msg.face());
+				pScene->EnterMap(pActor, msg.posx(), msg.posy(), msg.face());
 				AIActorManager()->AddActor(pActor);
 				pActor->OnBorn();
 			}
 		}
 		break;
-	case ServerMSG::MsgID_ActorDestory:
+		case ServerMSG::MsgID_ActorDestory:
 		{
 			ServerMSG::ActorDestory msg;
-			if (msg.ParseFromArray(pNetworkMsg->GetMsgBody(), pNetworkMsg->GetBodySize()) == false)
+			if(msg.ParseFromArray(pNetworkMsg->GetMsgBody(), pNetworkMsg->GetBodySize()) == false)
 			{
 				return;
 			}
@@ -218,15 +208,15 @@ void CAIService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 				pActor->OnDead();
 				if(pActor->GetCurrentScene())
 					pActor->GetCurrentScene()->LeaveMap(pActor);
-				
+
 				AIActorManager()->DelActor(pActor);
 			}
 		}
 		break;
-	case ServerMSG::MsgID_ActorCastSkill_Fail:
+		case ServerMSG::MsgID_ActorCastSkill_Fail:
 		{
 			ServerMSG::ActorCastSkill_Fail msg;
-			if (msg.ParseFromArray(pNetworkMsg->GetMsgBody(), pNetworkMsg->GetBodySize()) == false)
+			if(msg.ParseFromArray(pNetworkMsg->GetMsgBody(), pNetworkMsg->GetBodySize()) == false)
 			{
 				return;
 			}
@@ -237,10 +227,10 @@ void CAIService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 			}
 		}
 		break;
-	case ServerMSG::MsgID_ActorSetHide:
+		case ServerMSG::MsgID_ActorSetHide:
 		{
 			ServerMSG::ActorSetHide msg;
-			if (msg.ParseFromArray(pNetworkMsg->GetMsgBody(), pNetworkMsg->GetBodySize()) == false)
+			if(msg.ParseFromArray(pNetworkMsg->GetMsgBody(), pNetworkMsg->GetBodySize()) == false)
 			{
 				return;
 			}
@@ -251,14 +241,13 @@ void CAIService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 			}
 		}
 		break;
-	default:
+		default:
 		{
 			m_pNetMsgProcess->Process(pNetworkMsg);
 		}
 		break;
 	}
 }
-
 
 bool CAIService::SendMsgToZone(uint16_t nCmd, const google::protobuf::Message& msg)
 {
@@ -268,35 +257,30 @@ bool CAIService::SendMsgToZone(uint16_t nCmd, const google::protobuf::Message& m
 
 void CAIService::OnLogicThreadProc()
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	CServiceCommon::OnLogicThreadProc();
-
 
 	AISceneManager()->OnTimer();
 
-
 	if(m_tLastDisplayTime.ToNextTime())
 	{
-		std::string buf = std::string("\n======================================================================")+
-		fmt::format(FMT_STRING("\nEvent:{}"), EventManager()->GetEventCount());
+		std::string buf = std::string("\n======================================================================") +
+						  fmt::format(FMT_STRING("\nEvent:{}"), EventManager()->GetEventCount());
 		auto pMessagePort = GetMessageRoute()->QueryMessagePort(GetZoneServiceVirtualSocket().GetServerPort(), false);
 		if(pMessagePort)
 		{
-			buf += fmt::format(FMT_STRING("\nMsgPort:{}\tSendBuff:{}"), GetZoneID(), pMessagePort->GetWriteBufferSize());
+			buf +=
+				fmt::format(FMT_STRING("\nMsgPort:{}\tSendBuff:{}"), GetZoneID(), pMessagePort->GetWriteBufferSize());
 		}
 		LOGMONITOR("{}", buf.c_str());
 	}
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 }
 
 void CAIService::OnLogicThreadCreate()
 {
 	MyTLSTypePtr<CAIService>::set(this);
 	CServiceCommon::OnLogicThreadCreate();
-
 }
 
-void CAIService::OnLogicThreadExit()
-{
-
-}
+void CAIService::OnLogicThreadExit() {}

@@ -1,190 +1,178 @@
 #include "PlayerTask.h"
-#include "ZoneService.h"
-#include "Player.h"
+
 #include "Package.h"
+#include "Player.h"
 #include "ScriptManager.h"
+#include "ZoneService.h"
 
-CPlayerTaskData::CPlayerTaskData()
-{
+CPlayerTaskData::CPlayerTaskData() {}
 
-}
-
-CPlayerTaskData::~CPlayerTaskData()
-{
-
-}
+CPlayerTaskData::~CPlayerTaskData() {}
 
 bool CPlayerTaskData::Init(CDBRecordPtr&& pRow)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	m_pData.reset(pRow.release());
 	CHECKF(m_pData.get());
 	return true;
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
 }
 
 bool CPlayerTaskData::Init(CPlayer* pPlayer, uint32_t idTask)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	CHECKF(pPlayer);
 	auto pDB = ZoneService()->GetGameDB(pPlayer->GetWorldID());
 	CHECKF(pDB);
 	auto row = pDB->MakeRecord(TBLD_TASK::table_name);
 	m_pData.reset(row.release());
 	CHECKF(m_pData.get());
-	m_pData->Field(TBLD_TASK::ID) = ZoneService()->CreateUID();
+	m_pData->Field(TBLD_TASK::ID)	  = ZoneService()->CreateUID();
 	m_pData->Field(TBLD_TASK::TASKID) = idTask;
 	m_pData->Field(TBLD_TASK::USERID) = pPlayer->GetID();
 
 	CHECKF(m_pData->Update());
 	return true;
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
 }
 
 void CPlayerTaskData::DelRecord()
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	m_pData->DeleteRecord();
 	m_pData.reset();
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 }
 
-bool CPlayerTaskData::SetNum(uint32_t nIdx, uint32_t v, bool bUpdate/*= true*/)
+bool CPlayerTaskData::SetNum(uint32_t nIdx, uint32_t v, bool bUpdate /*= true*/)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	CHECKF(nIdx < MAX_TASKDATA_NUM);
-	m_pData->Field(TBLD_TASK::NUM0+nIdx) = v;
+	m_pData->Field(TBLD_TASK::NUM0 + nIdx) = v;
 	if(bUpdate)
 		m_pData->Update();
 	return true;
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
 }
 
-bool CPlayerTaskData::SetAcceptUserLev(uint32_t v, bool bUpdate/*= true*/)
+bool CPlayerTaskData::SetAcceptUserLev(uint32_t v, bool bUpdate /*= true*/)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	m_pData->Field(TBLD_TASK::ACCEPT_USERLEV) = v;
 	if(bUpdate)
 		m_pData->Update();
 	return true;
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
 }
 
-bool CPlayerTaskData::SetAcceptTime(uint32_t v, bool bUpdate/*= true*/)
+bool CPlayerTaskData::SetAcceptTime(uint32_t v, bool bUpdate /*= true*/)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	m_pData->Field(TBLD_TASK::ACCEPT_TIME) = v;
 	if(bUpdate)
 		m_pData->Update();
 	return true;
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
 }
 
-bool CPlayerTaskData::SetFinishTime(uint32_t v, bool bUpdate/*= true*/)
+bool CPlayerTaskData::SetFinishTime(uint32_t v, bool bUpdate /*= true*/)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	m_pData->Field(TBLD_TASK::FINISH_TIME) = v;
 	if(bUpdate)
 		m_pData->Update();
 	return true;
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
 }
 
-bool CPlayerTaskData::SetExpireTime(uint32_t v, bool bUpdate/*= true*/)
+bool CPlayerTaskData::SetExpireTime(uint32_t v, bool bUpdate /*= true*/)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	m_pData->Field(TBLD_TASK::EXPIRE_TIME) = v;
 	if(bUpdate)
 		m_pData->Update();
 	return true;
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
 }
 
-bool CPlayerTaskData::SetDayCount(uint32_t v, bool bUpdate/*= true*/)
+bool CPlayerTaskData::SetDayCount(uint32_t v, bool bUpdate /*= true*/)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	m_pData->Field(TBLD_TASK::DAYCOUNT) = v;
 	if(bUpdate)
 		m_pData->Update();
 	return true;
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
 }
 
-bool CPlayerTaskData::SetDayCountMax(uint32_t v, bool bUpdate/*= true*/)
+bool CPlayerTaskData::SetDayCountMax(uint32_t v, bool bUpdate /*= true*/)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	m_pData->Field(TBLD_TASK::DAYCOUNT_MAX) = v;
 	if(bUpdate)
 		m_pData->Update();
 	return true;
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
 }
 
-bool CPlayerTaskData::SetState(uint32_t v, bool bUpdate/*= true*/)
+bool CPlayerTaskData::SetState(uint32_t v, bool bUpdate /*= true*/)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	m_pData->Field(TBLD_TASK::STATE) = v;
 	if(bUpdate)
 		m_pData->Update();
 	return true;
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
 }
 
 void CPlayerTaskData::SaveInfo()
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	m_pData->Update();
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 }
-
-
-
-
-
 
 //////////////////////////////////////////////////////////////////////////
 
-
-CPlayerTask::CPlayerTask()
-{
-
-}
+CPlayerTask::CPlayerTask() {}
 
 CPlayerTask::~CPlayerTask()
 {
-__ENTER_FUNCTION
-	for(auto& [k,v] : m_setTask)
+	__ENTER_FUNCTION
+	for(auto& [k, v]: m_setTask)
 	{
 		SAFE_DELETE(v);
 	}
 	m_setTask.clear();
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 }
 
 bool CPlayerTask::Init(CPlayer* pPlayer)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	CHECKF(pPlayer);
 	m_pOwner = pPlayer;
 
 	auto pDB = ZoneService()->GetGameDB(m_pOwner->GetWorldID());
 	CHECKF(pDB);
-	auto pResult = pDB->Query(TBLD_ITEM::table_name, fmt::format(FMT_STRING("SELECT * FROM {} WHERE userid={}"), TBLD_TASK::table_name, m_pOwner->GetID()));
-	if (pResult)
+	auto pResult = pDB->Query(
+		TBLD_ITEM::table_name,
+		fmt::format(FMT_STRING("SELECT * FROM {} WHERE userid={}"), TBLD_TASK::table_name, m_pOwner->GetID()));
+	if(pResult)
 	{
-		for (size_t i = 0; i < pResult->get_num_row(); i++)
+		for(size_t i = 0; i < pResult->get_num_row(); i++)
 		{
-			auto row = pResult->fetch_row(true);
+			auto			 row	   = pResult->fetch_row(true);
 			CPlayerTaskData* pTaskData = CPlayerTaskData::CreateNew(std::move(row));
 			if(pTaskData == nullptr)
 			{
@@ -195,7 +183,7 @@ __ENTER_FUNCTION
 			auto it = m_setTask.find(pTaskData->GetTaskID());
 			if(it != m_setTask.end())
 			{
-				LOGERROR("load player {} taskid:{} twice!!!!", m_pOwner->GetID(),pTaskData->GetTaskID());
+				LOGERROR("load player {} taskid:{} twice!!!!", m_pOwner->GetID(), pTaskData->GetTaskID());
 				auto pOldTaskData = it->second;
 				pOldTaskData->DelRecord();
 				if(pTaskData->IsTaskDoing())
@@ -206,31 +194,29 @@ __ENTER_FUNCTION
 			m_setTask[pTaskData->GetTaskID()] = pTaskData;
 			if(pTaskData->IsTaskDoing())
 				++m_nCurAcceptNum;
-
 		}
 	}
 
-
 	return true;
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
 }
 
 CPlayerTaskData* CPlayerTask::QueryTaskData(uint32_t idTask)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	auto it = m_setTask.find(idTask);
 	if(it != m_setTask.end())
 	{
 		return it->second;
 	}
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return nullptr;
 }
 
 bool CPlayerTask::AcceptTask(uint32_t idTask, bool bChkCondition /*= true*/, bool bIgnoreChkNum /*= false*/)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	CTaskType* pType = TaskTypeSet()->QueryObj(idTask);
 	CHECKF(pType);
 
@@ -245,18 +231,18 @@ __ENTER_FUNCTION
 	{
 		if(pData->GetState() == TASKSTATE_FINISHED)
 		{
-			if (pType->HasFlag(TASKFLAG_REPEATABLE) == false)
+			if(pType->HasFlag(TASKFLAG_REPEATABLE) == false)
 				return false;
 		}
 		else
 		{
 			// 进行中的任务，不能重复接
-			if ( pData->IsExpire() == false && pData->GetState() != TASKSTATE_GIVEUP )
+			if(pData->IsExpire() == false && pData->GetState() != TASKSTATE_GIVEUP)
 				return false;
 		}
 
 		uint32_t now = TimeGetSecond();
-		if (CheckSameDay(pData->GetFinishTime(), now) == false)
+		if(CheckSameDay(pData->GetFinishTime(), now) == false)
 		{
 			// 重置完成次数
 			pData->SetDayCount(0, UPDATE_FALSE);
@@ -265,77 +251,72 @@ __ENTER_FUNCTION
 				SendTaskInfo(pData);
 		}
 
-
 		if(pData->GetDayCount() >= pData->GetDayCountMax())
 		{
 			return false;
 		}
-
-
-		
 	}
 	else
 	{
 		// 任务条件检测
-		if (bChkCondition)
+		if(bChkCondition)
 		{
-			if (!CanAccept(pType))
+			if(!CanAccept(pType))
 				return false;
 		}
 
 		// 创建新任务记录
 		pData = CPlayerTaskData::CreateNew(m_pOwner, idTask);
-		CHECKF (pData);
+		CHECKF(pData);
 		m_setTask[idTask] = pData;
 	}
 
 	if(pType->HasFlag(TASKFLAG_ACCEPT_ADDCOUNT))
 	{
-		pData->SetDayCount(pData->GetDayCount()+1, UPDATE_FALSE);
+		pData->SetDayCount(pData->GetDayCount() + 1, UPDATE_FALSE);
 	}
 	uint32_t now = TimeGetSecond();
-	pData->SetAcceptTime(now,UPDATE_FALSE);
+	pData->SetAcceptTime(now, UPDATE_FALSE);
 	pData->SetFinishTime(0, UPDATE_FALSE);
 	pData->SetAcceptUserLev(m_pOwner->GetLev(), UPDATE_FALSE);
-	if (pType->GetExpireSec() > 0)
+	if(pType->GetExpireSec() > 0)
 		pData->SetExpireTime(pType->GetExpireSec() + now, UPDATE_FALSE);
-	else if (pType->HasFlag(TASKFLAG_NEXTDAY_EXPIRE ))
+	else if(pType->HasFlag(TASKFLAG_NEXTDAY_EXPIRE))
 		pData->SetExpireTime(GetNextDayBeginTime(), UPDATE_FALSE);
 
 	pData->SetState(TASKSTATE_ACCEPTED);
-	for (uint32_t i=0; i<MAX_TASKDATA_NUM; i++)
+	for(uint32_t i = 0; i < MAX_TASKDATA_NUM; i++)
 		pData->SetNum(i, 0, UPDATE_FALSE);
 	++m_nCurAcceptNum;
 
 	if(pType->GetScriptID() != 0)
 		ScriptManager()->TryExecScript<void>(pType->GetScriptID(), SCB_TASK_ON_ACCEPT, m_pOwner, pData);
 
-
-	for (int i = 0; i < pType->GetDataRef().finish_data_list_size(); i++)
+	for(int i = 0; i < pType->GetDataRef().finish_data_list_size(); i++)
 	{
 		const auto& v = pType->GetDataRef().finish_data_list(i);
 		switch(v.finish_type())
 		{
-		case TFTYPE_ITEM:
+			case TFTYPE_ITEM:
 			{
 				uint32_t nCount = m_pOwner->GetBag()->GetItemTypeAmount(v.finish_data());
 				pData->SetNum(i, nCount, UPDATE_FALSE);
 			}
 			break;
-		case TFTYPE_ACHI:
+			case TFTYPE_ACHI:
 			{
-				//if(m_pOwner->GetAchievement()->TestFinish(v.finish_data()) == true)
+				// if(m_pOwner->GetAchievement()->TestFinish(v.finish_data()) == true)
 				//	pData->SetNum(i, 1, false);
 			}
 			break;
-		case TFTYPE_FINISHTASK:
+			case TFTYPE_FINISHTASK:
 			{
 				//本任务不能是循环任务，才可以把以前的数据统计进来
 				if(pType->HasFlag(TASKFLAG_REPEATABLE) == false)
-				{	
+				{
 					//检查是否曾经已经完成了
-					uint32_t idTargetTask = v.finish_data();
-					CPlayerTaskData* pTargetTask = QueryTaskData(idTargetTask);
+					uint32_t		 idTargetTask = v.finish_data();
+					CPlayerTaskData* pTargetTask  = QueryTaskData(idTargetTask);
 					if(pTargetTask)
 					{
 						CTaskType* pTargetTaskType = TaskTypeSet()->QueryObj(idTargetTask);
@@ -353,18 +334,12 @@ __ENTER_FUNCTION
 							pData->SetNum(i, 1, UPDATE_FALSE);
 						}
 					}
-					
-					
 				}
 			}
 			break;
-			
 		}
-
 	}
 	pData->SaveInfo();
-
-
 
 	if(pType->HasFlag(TASKFLAG_HIDE) == false)
 		SendTaskInfo(pData);
@@ -372,23 +347,23 @@ __ENTER_FUNCTION
 	if(pType->GetNextAuotAcceptTaskID() != 0)
 		return AcceptTask(pType->GetNextAuotAcceptTaskID(), true, false);
 	return true;
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
 }
 bool CPlayerTask::SubmitTaskByMessage(uint32_t idTask, uint32_t nSubmitMultiple)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	CTaskType* pType = TaskTypeSet()->QueryObj(idTask);
 	CHECKF(pType);
 	if(pType->HasFlag(TASKFLAG_MSGSUBMIT) == false)
 		return false;
 	return SubmitTask(idTask, nSubmitMultiple);
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
 }
-bool CPlayerTask::SubmitTask(uint32_t idTask,uint32_t nSubmitMultiple)
+bool CPlayerTask::SubmitTask(uint32_t idTask, uint32_t nSubmitMultiple)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	CPlayerTaskData* pData = QueryTaskData(idTask);
 	CHECKF(pData);
 	CTaskType* pType = TaskTypeSet()->QueryObj(idTask);
@@ -396,26 +371,23 @@ __ENTER_FUNCTION
 
 	CHECKF(pData->GetState() == TASKSTATE_ACCEPTED);
 
-
 	if(CanSubmit(idTask) == false)
-		return false; 
-
+		return false;
 
 	if(pType->HasFlag(TASKFLAG_REPEATABLE))
 	{
 		uint32_t now = TimeGetSecond();
-		if (CheckSameDay(pData->GetAcceptTime(), now) == false)
+		if(CheckSameDay(pData->GetAcceptTime(), now) == false)
 		{
 			// 重置完成次数
 			pData->SetDayCount(0, UPDATE_FALSE);
 			pData->SetDayCountMax(pType->GetDayTimes(), UPDATE_TRUE);
-		
 		}
 	}
 
 	if(pType->HasFlag(TASKFLAG_SUBMIT_ADDCOUNT))
 	{
-		pData->SetDayCount(pData->GetDayCount()+1, UPDATE_FALSE);
+		pData->SetDayCount(pData->GetDayCount() + 1, UPDATE_FALSE);
 	}
 	pData->SetFinishTime(TimeGetSecond(), UPDATE_FALSE);
 	pData->SetState(TASKSTATE_FINISHED, UPDATE_TRUE);
@@ -424,7 +396,6 @@ __ENTER_FUNCTION
 		m_nCurAcceptNum--;
 		SendTaskInfo(pData);
 	}
-	
 
 	if(nSubmitMultiple > 0 && nSubmitMultiple <= pType->GetSubmitMultipleMax() && pType->GetSubmitMultipleCost() > 0)
 	{
@@ -439,30 +410,29 @@ __ENTER_FUNCTION
 	}
 
 	if(pType->GetScriptID() != 0)
-		ScriptManager()->TryExecScript<void>(pType->GetScriptID(), SCB_TASK_ON_COMMIT, m_pOwner, pData, nSubmitMultiple);
-
+		ScriptManager()->TryExecScript<void>(
+			pType->GetScriptID(), SCB_TASK_ON_COMMIT, m_pOwner, pData, nSubmitMultiple);
 
 	//给予奖励
 	if(pType->GetAwardExp() > 0)
-		m_pOwner->AwardExp(pType->GetAwardExp() * (1+nSubmitMultiple) );
+		m_pOwner->AwardExp(pType->GetAwardExp() * (1 + nSubmitMultiple));
 	//物品
-	for (int i = 0; i < pType->GetDataRef().award_item_list_size(); i++)
+	for(int i = 0; i < pType->GetDataRef().award_item_list_size(); i++)
 	{
 		const auto& v = pType->GetDataRef().award_item_list(i);
-		m_pOwner->AwardItem(0, v.itemtype(), v.itemamount() * (1+nSubmitMultiple) , v.itemflag());
+		m_pOwner->AwardItem(0, v.itemtype(), v.itemamount() * (1 + nSubmitMultiple), v.itemflag());
 	}
 
 	m_pOwner->GetAchievement()->CheckAchiCondition(CONDITION_TASK, idTask);
 
 	return true;
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
-
 }
 
 bool CPlayerTask::QuickFinish(uint32_t idTask)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	CPlayerTaskData* pData = QueryTaskData(idTask);
 	CHECKF(pData);
 	CTaskType* pType = TaskTypeSet()->QueryObj(idTask);
@@ -472,32 +442,27 @@ __ENTER_FUNCTION
 
 	CHECKF(pType->GetQuickSubmitCost() > 0);
 
-	
 	if(m_pOwner->SpendMoney(MONEY_TYPE::MT_GOLD, pType->GetQuickSubmitCost()) == false)
 	{
-		return false; 
+		return false;
 	}
 
-
-	for (int i = 0; i < pType->GetDataRef().finish_data_list_size(); i++)
+	for(int i = 0; i < pType->GetDataRef().finish_data_list_size(); i++)
 	{
 		const auto& v = pType->GetDataRef().finish_data_list(i);
 		pData->SetNum(i, v.finish_num(), UPDATE_FALSE);
 		SendTaskDataChange(pData, i);
 	}
 	pData->SaveInfo();
-	
-
 
 	return true;
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
-
 }
 
 bool CPlayerTask::GiveupTask(uint32_t idTask)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 
 	CPlayerTaskData* pData = QueryTaskData(idTask);
 	CHECKF(pData);
@@ -513,37 +478,35 @@ __ENTER_FUNCTION
 	if(pTaskType->GetScriptID() != 0)
 		ScriptManager()->TryExecScript<void>(pTaskType->GetScriptID(), SCB_TASK_ON_GIVEUP, m_pOwner, pData);
 	return true;
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
-
 }
 
 bool CPlayerTask::CanAccept(uint32_t idTask)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 
 	CTaskType* pTaskType = TaskTypeSet()->QueryObj(idTask);
 	CHECKF(pTaskType);
 	return CanAccept(pTaskType);
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
 }
 
 bool CPlayerTask::CanAccept(CTaskType* pType)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	if(m_pOwner->GetLev() < pType->GetLevReq())
 		return false;
 
 	if(HasFlag(pType->GetProfReq(), m_pOwner->GetProf()) == false)
 		return false;
 
-	for(uint32_t idTaskReq : pType->GetTaskReqList())
+	for(uint32_t idTaskReq: pType->GetTaskReqList())
 	{
 		if(IsFinished(idTaskReq) == false)
 			return false;
 	}
-	
 
 	if(pType->GetScriptID() != 0)
 	{
@@ -555,15 +518,14 @@ __ENTER_FUNCTION
 	}
 
 	return true;
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
 }
 
-
 void CPlayerTask::OnFinishAchi(uint32_t idAchi)
 {
-__ENTER_FUNCTION
-	for(auto&[k, pTaskData] : m_setTask)
+	__ENTER_FUNCTION
+	for(auto& [k, pTaskData]: m_setTask)
 	{
 		if(pTaskData->IsTaskDoing() == false)
 			continue;
@@ -572,7 +534,7 @@ __ENTER_FUNCTION
 		if(pType == nullptr)
 			continue;
 
-		for (int i = 0; i < pType->GetDataRef().finish_data_list_size(); i++)
+		for(int i = 0; i < pType->GetDataRef().finish_data_list_size(); i++)
 		{
 			const auto& v = pType->GetDataRef().finish_data_list(i);
 			if(v.finish_type() == TFTYPE_ACHI && v.finish_data() == idAchi)
@@ -581,16 +543,13 @@ __ENTER_FUNCTION
 				SendTaskDataChange(pTaskData, i);
 			}
 		}
-
-		
 	}
-__LEAVE_FUNCTION
-	
+	__LEAVE_FUNCTION
 }
 
 bool CPlayerTask::CanSubmit(CTaskType* pTaskType)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	CPlayerTaskData* pData = QueryTaskData(pTaskType->GetID());
 	CHECKF(pData);
 
@@ -600,39 +559,39 @@ __ENTER_FUNCTION
 	if(pData->IsExpire())
 		return false;
 	//先检查
-	for (int i = 0; i < pTaskType->GetDataRef().finish_data_list_size(); i++)
+	for(int i = 0; i < pTaskType->GetDataRef().finish_data_list_size(); i++)
 	{
 		const auto& v = pTaskType->GetDataRef().finish_data_list(i);
 		if(pData->GetNum(i) < v.finish_num())
 			return false;
 		switch(v.finish_type())
 		{
-		case TFTYPE_ITEM:
+			case TFTYPE_ITEM:
 			{
 				CHECKF(m_pOwner->GetBag()->GetItemTypeAmount(v.finish_data(), 0) >= v.finish_num());
 			}
 			break;
-		default:
-			break;
+			default:
+				break;
 		}
 	}
 
 	//额外的扣物品
-	if(pTaskType->HasFlag(TASKFLAG_SUBMIT_DELITEM) )
-	for (int i = 0; i < pTaskType->GetDataRef().finish_data_list_size(); i++)
-	{
-		const auto& v = pTaskType->GetDataRef().finish_data_list(i);
-		switch(v.finish_type())
+	if(pTaskType->HasFlag(TASKFLAG_SUBMIT_DELITEM))
+		for(int i = 0; i < pTaskType->GetDataRef().finish_data_list_size(); i++)
 		{
-		case TFTYPE_ITEM:
+			const auto& v = pTaskType->GetDataRef().finish_data_list(i);
+			switch(v.finish_type())
 			{
-				CHECKF(m_pOwner->GetBag()->DelItemByType(v.finish_data(), v.finish_num(), 0, true));
+				case TFTYPE_ITEM:
+				{
+					CHECKF(m_pOwner->GetBag()->DelItemByType(v.finish_data(), v.finish_num(), 0, true));
+				}
+				break;
+				default:
+					break;
 			}
-			break;
-		default:
-			break;
 		}
-	}
 
 	if(pTaskType->GetScriptID() != 0)
 	{
@@ -644,23 +603,23 @@ __ENTER_FUNCTION
 	}
 
 	return true;
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
 }
 bool CPlayerTask::CanSubmit(uint32_t idTask)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	CTaskType* pType = TaskTypeSet()->QueryObj(idTask);
 	CHECKF(pType);
 	return CanSubmit(pType);
-	
-__LEAVE_FUNCTION
+
+	__LEAVE_FUNCTION
 	return false;
 }
 
 int CPlayerTask::GetLeftTimes(uint32_t idTask)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	CPlayerTaskData* pData = QueryTaskData(idTask);
 	CHECKF(pData);
 	CTaskType* pType = TaskTypeSet()->QueryObj(idTask);
@@ -678,32 +637,32 @@ __ENTER_FUNCTION
 	}
 
 	return pData->GetDayCountMax() - pData->GetDayCount();
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return 0;
 }
 
 void CPlayerTask::SaveInfo()
 {
-__ENTER_FUNCTION
-	for(auto& [k,pTaskData] : m_setTask)
+	__ENTER_FUNCTION
+	for(auto& [k, pTaskData]: m_setTask)
 	{
 		if(pTaskData)
 			pTaskData->SaveInfo();
 	}
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 }
 
 void CPlayerTask::SendTaskInfo()
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	SC_TASK_INFO msg;
-	for(auto& [k,pTaskData] : m_setTask)
+	for(auto& [k, pTaskData]: m_setTask)
 	{
 		if(pTaskData)
 		{
 			auto pData = msg.add_task_info_list();
 			pData->set_task_id(pTaskData->GetTaskID());
-			pData->set_state(pTaskData->GetState());	
+			pData->set_state(pTaskData->GetState());
 			pData->set_accept_time(pTaskData->GetAcceptTime());
 			pData->set_finish_time(pTaskData->GetFinishTime());
 			pData->set_expire_time(pTaskData->GetExpireTime());
@@ -723,28 +682,27 @@ __ENTER_FUNCTION
 
 	if(msg.task_info_list_size() > 0)
 		m_pOwner->SendMessage(CMD_SC_TASK_INFO, msg);
-__LEAVE_FUNCTION
-
+	__LEAVE_FUNCTION
 }
 
 void CPlayerTask::SendTaskDataChange(CPlayerTaskData* pTaskData, uint32_t i)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	SC_TASK_DATA msg;
 	msg.set_task_id(pTaskData->GetTaskID());
 	msg.set_idx(i);
 	msg.set_num(pTaskData->GetNum(i));
 	m_pOwner->SendMessage(CMD_SC_TASK_DATA, msg);
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 }
 
 void CPlayerTask::SendTaskInfo(CPlayerTaskData* pTaskData)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	SC_TASK_INFO msg;
-	auto pData = msg.add_task_info_list();
+	auto		 pData = msg.add_task_info_list();
 	pData->set_task_id(pTaskData->GetTaskID());
-	pData->set_state(pTaskData->GetState());	
+	pData->set_state(pTaskData->GetState());
 	pData->set_accept_time(pTaskData->GetAcceptTime());
 	pData->set_finish_time(pTaskData->GetFinishTime());
 	pData->set_expire_time(pTaskData->GetExpireTime());
@@ -755,15 +713,14 @@ __ENTER_FUNCTION
 	pData->set_num3(pTaskData->GetNum(2));
 	pData->set_num4(pTaskData->GetNum(3));
 	m_pOwner->SendMessage(CMD_SC_TASK_INFO, msg);
-__LEAVE_FUNCTION
-
+	__LEAVE_FUNCTION
 }
 
 void CPlayerTask::OnAwardTaskItem(uint32_t idItemType, uint32_t nNum)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 
-	for(auto&[k, pTaskData] : m_setTask)
+	for(auto& [k, pTaskData]: m_setTask)
 	{
 		if(pTaskData->IsTaskDoing() == false)
 			continue;
@@ -772,7 +729,7 @@ __ENTER_FUNCTION
 		if(pType == nullptr)
 			continue;
 
-		for (int i = 0; i < pType->GetDataRef().finish_data_list_size(); i++)
+		for(int i = 0; i < pType->GetDataRef().finish_data_list_size(); i++)
 		{
 			const auto& v = pType->GetDataRef().finish_data_list(i);
 			if(v.finish_type() == TFTYPE_ITEM && v.finish_data() == idItemType)
@@ -781,17 +738,15 @@ __ENTER_FUNCTION
 				SendTaskDataChange(pTaskData, i);
 			}
 		}
-
-		
 	}
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 }
 
 void CPlayerTask::OnKillMonster(uint32_t idMonster, bool bKillBySelf)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 
-	for(auto&[k, pTaskData] : m_setTask)
+	for(auto& [k, pTaskData]: m_setTask)
 	{
 		if(pTaskData->IsTaskDoing() == false)
 			continue;
@@ -800,28 +755,26 @@ __ENTER_FUNCTION
 		if(pType == nullptr)
 			continue;
 
-		for (int i = 0; i < pType->GetDataRef().finish_data_list_size(); i++)
+		for(int i = 0; i < pType->GetDataRef().finish_data_list_size(); i++)
 		{
 			const auto& v = pType->GetDataRef().finish_data_list(i);
 			if(v.finish_type() == TFTYPE_MONSTER && v.finish_data() == idMonster &&
 			   (bKillBySelf == true || (bKillBySelf == false && v.share() == false)) &&
-			   (v.rate() != 0 && random_hit(v.rate()) == true) )
+			   (v.rate() != 0 && random_hit(v.rate()) == true))
 			{
 				pTaskData->SetNum(i, pTaskData->GetNum(i) + 1, UPDATE_TRUE);
 				SendTaskDataChange(pTaskData, i);
 			}
 		}
-
-		
 	}
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 }
 
 void CPlayerTask::OnDelTaskItem(uint32_t idItemType, uint32_t nNum)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 
-	for(auto&[k, pTaskData] : m_setTask)
+	for(auto& [k, pTaskData]: m_setTask)
 	{
 		if(pTaskData->IsTaskDoing() == false)
 			continue;
@@ -830,7 +783,7 @@ __ENTER_FUNCTION
 		if(pType == nullptr)
 			continue;
 
-		for (int i = 0; i < pType->GetDataRef().finish_data_list_size(); i++)
+		for(int i = 0; i < pType->GetDataRef().finish_data_list_size(); i++)
 		{
 			const auto& v = pType->GetDataRef().finish_data_list(i);
 			if(v.finish_type() == TFTYPE_ITEM && v.finish_data() == idItemType)
@@ -839,18 +792,14 @@ __ENTER_FUNCTION
 				SendTaskDataChange(pTaskData, i);
 			}
 		}
-
-		
 	}
 
-__LEAVE_FUNCTION
-
+	__LEAVE_FUNCTION
 }
-
 
 bool CPlayerTask::ShowTaskDialog(uint32_t idTask, OBJID idNpc)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	auto pTaskType = TaskTypeSet()->QueryObj(idTask);
 	if(pTaskType->GetScriptID() != 0)
 	{
@@ -862,32 +811,40 @@ __ENTER_FUNCTION
 		}
 	}
 
-
 	auto pTaskData = QueryTaskData(idTask);
 	if(pTaskData == nullptr)
 	{
 		//接任务对话框
 		m_pOwner->DialogBegin(pTaskType->GetName());
 		m_pOwner->DialogAddText(pTaskType->GetAcceptText());
-					
-		
-		m_pOwner->DialogAddLink(DIALOGLINK_TYPE_BUTTON, STR_TASK_ACCEPT, DIALOG_FUNC_ACCEPTTASK, MAKE64(0,idTask),  "", (pTaskType->HasFlag(TASKFLAG_AUTO_ACITVE_NPC) ? idNpc: 0));
+
+		m_pOwner->DialogAddLink(DIALOGLINK_TYPE_BUTTON,
+								STR_TASK_ACCEPT,
+								DIALOG_FUNC_ACCEPTTASK,
+								MAKE64(0, idTask),
+								"",
+								(pTaskType->HasFlag(TASKFLAG_AUTO_ACITVE_NPC) ? idNpc : 0));
 		m_pOwner->DialogSend(DIALOGTYPE_ACCEPT_TASK);
 		return true;
 	}
-		
+
 	if(CanSubmit(idTask) == false)
 	{
 		//还没完成对话框
 		m_pOwner->DialogBegin(pTaskType->GetName());
 		m_pOwner->DialogAddText(pTaskType->GetDoingText());
 		//允许快速提交
-		if( pTaskType->GetQuickSubmitCost() > 0)
+		if(pTaskType->GetQuickSubmitCost() > 0)
 		{
 			//快速提交
-			m_pOwner->DialogAddLink(DIALOGLINK_TYPE_BUTTON, STR_TASK_QUICK_FINISH, DIALOG_FUNC_QUICKFINISHTASK, MAKE64(0,idTask),  "", (pTaskType->HasFlag(TASKFLAG_AUTO_ACITVE_NPC) ? idNpc: 0));
+			m_pOwner->DialogAddLink(DIALOGLINK_TYPE_BUTTON,
+									STR_TASK_QUICK_FINISH,
+									DIALOG_FUNC_QUICKFINISHTASK,
+									MAKE64(0, idTask),
+									"",
+									(pTaskType->HasFlag(TASKFLAG_AUTO_ACITVE_NPC) ? idNpc : 0));
 		}
-		
+
 		m_pOwner->DialogSend(DIALOGTYPE_WAITFINISH_TASK);
 		return true;
 	}
@@ -897,32 +854,32 @@ __ENTER_FUNCTION
 		m_pOwner->DialogBegin(pTaskType->GetName());
 		m_pOwner->DialogAddText(pTaskType->GetSubmitText());
 		//多倍提交
-		for(uint32_t i=0 ; i <= pTaskType->GetSubmitMultipleMax(); i++)
+		for(uint32_t i = 0; i <= pTaskType->GetSubmitMultipleMax(); i++)
 		{
-			m_pOwner->DialogAddLink(DIALOGLINK_TYPE_BUTTON, STR_TASK_SUBMIT[i], DIALOG_FUNC_SUBMITTASK, MAKE64(i,idTask),  "", (pTaskType->HasFlag(TASKFLAG_AUTO_ACITVE_NPC) ? idNpc: 0));
+			m_pOwner->DialogAddLink(DIALOGLINK_TYPE_BUTTON,
+									STR_TASK_SUBMIT[i],
+									DIALOG_FUNC_SUBMITTASK,
+									MAKE64(i, idTask),
+									"",
+									(pTaskType->HasFlag(TASKFLAG_AUTO_ACITVE_NPC) ? idNpc : 0));
 		}
 		m_pOwner->DialogSend(DIALOGTYPE_SUBMIT_TASK);
 		return true;
 	}
-	
-__LEAVE_FUNCTION
-	return false;
 
+	__LEAVE_FUNCTION
+	return false;
 }
 
 bool CPlayerTask::IsFinished(uint32_t idTask)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	CPlayerTaskData* pTaskData = QueryTaskData(idTask);
 	if(pTaskData)
 	{
 		return pTaskData->GetState() == TASKSTATE_FINISHED;
 	}
 	return false;
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
 }
-
-
-
-

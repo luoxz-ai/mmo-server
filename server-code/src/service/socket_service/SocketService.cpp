@@ -1,24 +1,24 @@
 #include "SocketService.h"
-#include "NetSocket.h"
-#include "tinyxml2/tinyxml2.h"
-#include "MessageRoute.h"
-#include "EventManager.h"
-#include "SettingMap.h"
-#include "MessageRoute.h"
-#include "MessagePort.h"
-#include "ts_cmd.pb.h"
-#include "world_service.pb.h"
+
 #include <functional>
 
+#include "EventManager.h"
+#include "MessagePort.h"
+#include "MessageRoute.h"
+#include "NetSocket.h"
+#include "SettingMap.h"
+#include "tinyxml2/tinyxml2.h"
+#include "msg/ts_cmd.pb.h"
+#include "msg/world_service.pb.h"
 
-extern "C" IService* ServiceCreate(uint16_t  idWorld, uint16_t  idService)
+extern "C" IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
 
-	CSocketService* pService = new CSocketService(ServerPort{ idWorld, idService });
-	if (pService == nullptr)
+	CSocketService* pService = new CSocketService(ServerPort{idWorld, idService});
+	if(pService == nullptr)
 		return nullptr;
 
-	if (pService->Create() == false)
+	if(pService->Create() == false)
 	{
 		pService->Release();
 		return nullptr;
@@ -26,23 +26,17 @@ extern "C" IService* ServiceCreate(uint16_t  idWorld, uint16_t  idService)
 
 	return pService;
 }
-__attribute__((visibility("default"))) IService* ServiceCreate(uint16_t  idWorld, uint16_t  idService);
-
-
+__attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService);
 
 CGameClient::CGameClient()
-: m_nDestServerPort(0)
-, m_nMessageAllowBegin(CMD_CS_LOGIN) //only accept CS_AUTH
-, m_nMessageAllowEnd(CMD_CS_LOGIN)   //only accept CS_AUTH
-, m_idUser(0)
-{
-
-}
-
-
-CGameClient::~CGameClient()
+	: m_nDestServerPort(0)
+	, m_nMessageAllowBegin(CMD_CS_LOGIN) // only accept CS_AUTH
+	, m_nMessageAllowEnd(CMD_CS_LOGIN)	 // only accept CS_AUTH
+	, m_idUser(0)
 {
 }
+
+CGameClient::~CGameClient() {}
 
 void CGameClient::Close()
 {
@@ -53,13 +47,11 @@ void CGameClient::Close()
 	m_VirtualSocket.SetSocketIdx(0);
 }
 
-
 bool CGameClient::SendMsg(byte* pBuffer, size_t len)
 {
 	CHECKF(m_pService);
 	return m_pService->GetNetworkService()->SendSocketMsgByIdx(m_VirtualSocket.GetSocketIdx(), pBuffer, len);
 }
-
 
 bool CGameClient::IsVaild() const
 {
@@ -69,10 +61,9 @@ bool CGameClient::IsVaild() const
 template<>
 thread_local CSocketService* MyTLSTypePtr<CSocketService>::m_pPtr = nullptr;
 
-
 //////////////////////////////////////////////////////////////////////////
 CSocketService::CSocketService(const ServerPort& nServerPort)
-	:CServiceCommon(nServerPort,std::string("Socket") + std::to_string(nServerPort.GetServiceID()))
+	: CServiceCommon(nServerPort, std::string("Socket") + std::to_string(nServerPort.GetServiceID()))
 {
 	m_tLastDisplayTime.Startup(10);
 }
@@ -81,8 +72,9 @@ CSocketService::~CSocketService()
 {
 	MyTLSTypePtr<CSocketService>::set(this);
 	scope_guards scope_exit;
-	scope_exit += []() {MyTLSTypePtr<CSocketService>::set(nullptr); };
-
+	scope_exit += []() {
+		MyTLSTypePtr<CSocketService>::set(nullptr);
+	};
 }
 
 bool CSocketService::Create()
@@ -90,11 +82,13 @@ bool CSocketService::Create()
 	MyTLSTypePtr<CSocketService>::set(this);
 	scope_guards scope_exit;
 	BaseCode::SetNdc(GetServiceName());
-	scope_exit += []() {BaseCode::SetNdc(std::string()); };
+	scope_exit += []() {
+		BaseCode::SetNdc(std::string());
+	};
 
 	{
 		const ServerAddrInfo* pAddrInfo = GetMessageRoute()->QueryServiceInfo(GetServerPort());
-		if (pAddrInfo == nullptr)
+		if(pAddrInfo == nullptr)
 		{
 			LOGFATAL("CSocketService::Create QueryServerInfo {} fail", GetServerPort().GetServiceID());
 			return false;
@@ -110,41 +104,36 @@ bool CSocketService::Create()
 		GetNetworkService()->EnableListener(nullptr, false);
 
 		// websocket监听
-//		if (!GetNetworkService()->ListenWebSocket(9555, this))
-//		{
-//			return false;
-//		}
+		//		if (!GetNetworkService()->ListenWebSocket(9555, this))
+		//		{
+		//			return false;
+		//		}
 
-		if (CreateService(20) == false)
+		if(CreateService(20) == false)
 			return false;
 
-		
-		//SetIPCheck(true);
+		// SetIPCheck(true);
 
 		return true;
-			
-			
 	}
 
 	return false;
 }
 
-
 void CSocketService::MapClientByUserID(OBJID idUser, CGameClient* pClient)
 {
-	if (idUser == 0)
+	if(idUser == 0)
 		return;
 
 	m_mapClientByUserID[idUser] = pClient;
 }
 
-
 CGameClient* CSocketService::QueryClientByUserID(OBJID idUser)
 {
-	if (idUser == 0)
+	if(idUser == 0)
 		return nullptr;
 	auto it = m_mapClientByUserID.find(idUser);
-	if (it != m_mapClientByUserID.end())
+	if(it != m_mapClientByUserID.end())
 		return it->second;
 	else
 		return nullptr;
@@ -152,11 +141,11 @@ CGameClient* CSocketService::QueryClientByUserID(OBJID idUser)
 
 bool CSocketService::DelClientByUserID(OBJID idUser)
 {
-	if (idUser == 0)
+	if(idUser == 0)
 		return false;
 
 	auto it = m_mapClientByUserID.find(idUser);
-	if (it != m_mapClientByUserID.end())
+	if(it != m_mapClientByUserID.end())
 	{
 		m_mapClientByUserID.erase(it);
 		return true;
@@ -181,7 +170,6 @@ CGameClient* CSocketService::QueryClient(const VirtualSocket& vs)
 void CSocketService::AddClient(const VirtualSocket& vs, CGameClient* pClient)
 {
 	m_setVirtualSocket[vs] = pClient;
-
 }
 
 void CSocketService::RemoveClient(const VirtualSocket& vs)
@@ -201,24 +189,20 @@ void CSocketService::RemoveClient(const VirtualSocket& vs)
 	}
 }
 
-void CSocketService::OnConnected(CNetSocket* pSocket)
-{
-}
+void CSocketService::OnConnected(CNetSocket* pSocket) {}
 
-void CSocketService::OnConnectFailed(CNetSocket*)
-{
-}
+void CSocketService::OnConnectFailed(CNetSocket*) {}
 
 void CSocketService::OnDisconnected(CNetSocket* pSocket)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	RemoveClient(VirtualSocket::CreateVirtualSocket(GetServerPort(), pSocket->GetSocketIdx()));
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 }
 
 void CSocketService::OnAccepted(CNetSocket* pSocket)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 
 	CGameClient* pClient = new CGameClient();
 	pClient->SetService(this);
@@ -228,55 +212,56 @@ __ENTER_FUNCTION
 	pClient->SetSocketPort(pSocket->GetPort());
 	AddClient(pClient->GetVirtualSocket(), pClient);
 
-	//send crypto key to client
+	// send crypto key to client
 	uint32_t seed = TimeGetSecond();
 	pSocket->InitDecryptor(seed);
 	SC_KEY msg;
 	msg.set_key(seed);
-	CNetworkMessage _msg(CMD_SC_KEY,msg);
-	pSocket->SendMsg(_msg.GetBuf(),_msg.GetSize());
-__LEAVE_FUNCTION
+	CNetworkMessage _msg(CMD_SC_KEY, msg);
+	pSocket->SendMsg(_msg.GetBuf(), _msg.GetSize());
+	__LEAVE_FUNCTION
 }
 
 void CSocketService::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	m_nSocketMessageProcess++;
-	CGameClient* pClient = QueryClient(VirtualSocket::CreateVirtualSocket(GetServerPort(), pSocket->GetSocketIdx()) );
+	CGameClient* pClient = QueryClient(VirtualSocket::CreateVirtualSocket(GetServerPort(), pSocket->GetSocketIdx()));
 	if(pClient == nullptr)
 		return;
 	if(pClient->IsVaild() == false)
 	{
 		return;
 	}
-	//recv msg from client
+	// recv msg from client
 	MSG_HEAD* pHead = (MSG_HEAD*)pBuffer;
-	if (pHead->usCmd < pClient->GetMessageAllowBegin() || pHead->usCmd > pClient->GetMessageAllowEnd())
+	if(pHead->usCmd < pClient->GetMessageAllowBegin() || pHead->usCmd > pClient->GetMessageAllowEnd())
 	{
-		LOGWARNING("RECV ClientMsg:{} not Allow {}.{}", pHead->usCmd, pSocket->GetAddrString().c_str(), pSocket->GetPort());
+		LOGWARNING(
+			"RECV ClientMsg:{} not Allow {}.{}", pHead->usCmd, pSocket->GetAddrString().c_str(), pSocket->GetPort());
 		pSocket->Close();
 		return;
 	}
 
-
-	switch (pHead->usCmd)
+	switch(pHead->usCmd)
 	{
-	default:
+		default:
 		{
-			if (pClient->GetDestServerPort().IsVaild() == false)
+			if(pClient->GetDestServerPort().IsVaild() == false)
 				return;
-			//send to other server
-			CNetworkMessage msg(pBuffer, len, pClient->GetVirtualSocket(), VirtualSocket(pClient->GetDestServerPort(), 0));
+			// send to other server
+			CNetworkMessage msg(
+				pBuffer, len, pClient->GetVirtualSocket(), VirtualSocket(pClient->GetDestServerPort(), 0));
 			SendMsg(msg);
 		}
 		break;
 	}
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 }
 
-void CSocketService::OnWsAccepted(CNetWebSocket *pWebSocket)
+void CSocketService::OnWsAccepted(CNetWebSocket* pWebSocket)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 
 	CGameClient* pClient = new CGameClient();
 	pClient->SetService(this);
@@ -286,118 +271,122 @@ __ENTER_FUNCTION
 	pClient->SetSocketPort(pWebSocket->GetPort());
 	AddClient(pClient->GetVirtualSocket(), pClient);
 
-	//send crypto key to client
+	// send crypto key to client
 	uint32_t seed = TimeGetSecond();
 	pWebSocket->InitDecryptor(seed);
 	SC_KEY msg;
 	msg.set_key(seed);
 
-	CNetworkMessage _msg(CMD_SC_KEY,msg);
-	pWebSocket->SendMsg(_msg.GetBuf(),_msg.GetSize());
-__LEAVE_FUNCTION
+	CNetworkMessage _msg(CMD_SC_KEY, msg);
+	pWebSocket->SendMsg(_msg.GetBuf(), _msg.GetSize());
+	__LEAVE_FUNCTION
 }
 
-void CSocketService::OnWsConnected(CNetWebSocket *pWebSocket)
+void CSocketService::OnWsConnected(CNetWebSocket* pWebSocket)
 {
 	// not implemented
 }
 
-void CSocketService::OnWsConnectFailed(CNetWebSocket *pWebSocket)
+void CSocketService::OnWsConnectFailed(CNetWebSocket* pWebSocket)
 {
 	// not implemented
 }
 
-void CSocketService::OnWsDisconnected(CNetWebSocket *pWebSocket)
-{
+void CSocketService::OnWsDisconnected(CNetWebSocket* pWebSocket) {}
 
-}
-
-void CSocketService::OnWsRecvData(CNetWebSocket *pWebSocket, byte* pBuffer, size_t len)
+void CSocketService::OnWsRecvData(CNetWebSocket* pWebSocket, byte* pBuffer, size_t len)
 {
 	// as same as OnRecvData()
 	__ENTER_FUNCTION
 	m_nWebSocketMessageProcess++;
-	CGameClient* pClient = QueryClient(VirtualSocket::CreateVirtualSocket(GetServerPort(), pWebSocket->GetSocketIdx()) );
+	CGameClient* pClient = QueryClient(VirtualSocket::CreateVirtualSocket(GetServerPort(), pWebSocket->GetSocketIdx()));
 	if(pClient == nullptr)
 		return;
 	if(pClient->IsVaild() == false)
 	{
 		return;
 	}
-	//recv msg from client
+	// recv msg from client
 	MSG_HEAD* pHead = (MSG_HEAD*)pBuffer;
-	if (pHead->usCmd < pClient->GetMessageAllowBegin() || pHead->usCmd > pClient->GetMessageAllowEnd())
+	if(pHead->usCmd < pClient->GetMessageAllowBegin() || pHead->usCmd > pClient->GetMessageAllowEnd())
 	{
-		LOGWARNING("RECV ClientMsg:{} not Allow {}.{}", pHead->usCmd, pWebSocket->GetAddrString().c_str(), pWebSocket->GetPort());
+		LOGWARNING("RECV ClientMsg:{} not Allow {}.{}",
+				   pHead->usCmd,
+				   pWebSocket->GetAddrString().c_str(),
+				   pWebSocket->GetPort());
 		pWebSocket->Close();
 		return;
 	}
 
-
-	switch (pHead->usCmd)
+	switch(pHead->usCmd)
 	{
-	default:
+		default:
 		{
-			if (pClient->GetDestServerPort().IsVaild() == false)
+			if(pClient->GetDestServerPort().IsVaild() == false)
 				return;
-			//send to other server
-			CNetworkMessage msg(pBuffer, len, pClient->GetVirtualSocket(), VirtualSocket(pClient->GetDestServerPort(), 0));
+			// send to other server
+			CNetworkMessage msg(
+				pBuffer, len, pClient->GetVirtualSocket(), VirtualSocket(pClient->GetDestServerPort(), 0));
 			SendMsg(msg);
 		}
 		break;
 	}
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 }
 
 void CSocketService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 
 	//只需要处理来自其他服务器的消息
 	//来自客户端的消息已经直接发往对应服务器了
 	MSG_HEAD* pHead = pNetworkMsg->GetMsgHead();
 	switch(pHead->usCmd)
 	{
-	case NETMSG_SERVICE_READY:
+		case NETMSG_SERVICE_READY:
 		{
 			LOGMESSAGE("START_ACCEPT");
 			GetNetworkService()->EnableListener(nullptr, true);
 		}
 		break;
-	case NETMSG_SCK_STOP_ACCEPT:
+		case NETMSG_SCK_STOP_ACCEPT:
 		{
 			LOGMESSAGE("STOP_ACCEPT");
 			GetNetworkService()->EnableListener(nullptr, false);
 		}
 		break;
-	case NETMSG_SCK_CHG_DEST:
+		case NETMSG_SCK_CHG_DEST:
 		{
-			MSG_SCK_CHG_DEST* pMsg = (MSG_SCK_CHG_DEST*)pNetworkMsg->GetBuf();
-			CGameClient* pClient = QueryClient(pMsg->vs);
+			MSG_SCK_CHG_DEST* pMsg	  = (MSG_SCK_CHG_DEST*)pNetworkMsg->GetBuf();
+			CGameClient*	  pClient = QueryClient(pMsg->vs);
 			if(pClient && pClient->IsVaild())
 			{
 				pClient->SetDestServerPort(ServerPort(GetWorldID(), pMsg->idService));
-				LOGNETDEBUG("SCK_CHG_DEST {}:{} To Service:{}", pClient->GetSocketAddr().c_str(), pClient->GetSocketPort(), pMsg->idService);
-
+				LOGNETDEBUG("SCK_CHG_DEST {}:{} To Service:{}",
+							pClient->GetSocketAddr().c_str(),
+							pClient->GetSocketPort(),
+							pMsg->idService);
 			}
 		}
 		break;
-	case NETMSG_SCK_CLOSE:
+		case NETMSG_SCK_CLOSE:
 		{
-			MSG_SCK_CLOSE* pMsg = (MSG_SCK_CLOSE*)pNetworkMsg->GetBuf();
-			CGameClient* pClient = QueryClient(pMsg->vs);
+			MSG_SCK_CLOSE* pMsg	   = (MSG_SCK_CLOSE*)pNetworkMsg->GetBuf();
+			CGameClient*   pClient = QueryClient(pMsg->vs);
 			if(pClient && pClient->IsVaild())
 			{
-				LOGDEBUG("CLOSE CLIENT BYVS:{}:{} FROM OTHER SERVER", pClient->GetSocketAddr().c_str(), pClient->GetSocketPort());
+				LOGDEBUG("CLOSE CLIENT BYVS:{}:{} FROM OTHER SERVER",
+						 pClient->GetSocketAddr().c_str(),
+						 pClient->GetSocketPort());
 				//主动关闭客户端连接，需要通知客户端不要重连
 				pClient->Close();
 			}
 		}
 		break;
-	case NETMSG_SCK_AUTH:
+		case NETMSG_SCK_AUTH:
 		{
-			MSG_SCK_AUTH* pMsg = (MSG_SCK_AUTH*)pNetworkMsg->GetBuf();
-			CGameClient* pClient = QueryClient(pMsg->vs);
+			MSG_SCK_AUTH* pMsg	  = (MSG_SCK_AUTH*)pNetworkMsg->GetBuf();
+			CGameClient*  pClient = QueryClient(pMsg->vs);
 			if(pClient && pClient->IsVaild())
 			{
 				pClient->SetAuth(true);
@@ -405,62 +394,59 @@ __ENTER_FUNCTION
 			}
 		}
 		break;
-	default:
+		default:
 		{
-			//send to socket
+			// send to socket
 			switch(pNetworkMsg->GetMultiType())
 			{
-			case MULTITYPE_NONE:
+				case MULTITYPE_NONE:
 				{
 					CGameClient* pClient = QueryClient(pNetworkMsg->GetTo());
-					if (pClient && pClient->IsVaild())
+					if(pClient && pClient->IsVaild())
 					{
 						pClient->SendMsg(pNetworkMsg->GetBuf(), pNetworkMsg->GetSize());
 					}
 				}
 				break;
-			case MULTITYPE_BROADCAST:
+				case MULTITYPE_BROADCAST:
 				{
-					for (const auto& v : m_setVirtualSocket)
+					for(const auto& v: m_setVirtualSocket)
 					{
 						CGameClient* pClient = v.second;
-						if (pClient && pClient->IsVaild() && pClient->IsAuth())
+						if(pClient && pClient->IsVaild() && pClient->IsAuth())
 						{
 							pClient->SendMsg(pNetworkMsg->GetBuf(), pNetworkMsg->GetSize());
 						}
 					}
 				}
 				break;
-			case MULTITYPE_VIRTUALSOCKET:
+				case MULTITYPE_VIRTUALSOCKET:
 				{
 					const auto& refSet = pNetworkMsg->GetMultiTo();
-					for (auto it = refSet.begin(); it != refSet.end(); it++)
+					for(auto it = refSet.begin(); it != refSet.end(); it++)
 					{
 						CGameClient* pClient = QueryClient(*it);
-						if (pClient && pClient->IsVaild())
+						if(pClient && pClient->IsVaild())
 						{
 							pClient->SendMsg(pNetworkMsg->GetBuf(), pNetworkMsg->GetSize());
 						}
 					}
 				}
 				break;
-			case MULTITYPE_USERID:
+				case MULTITYPE_USERID:
 				{
 				}
 				break;
-			case MULTITYPE_GROUPID:
+				case MULTITYPE_GROUPID:
 				{
 				}
 				break;
 			}
-			
-		
 		}
 		break;
 	}
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 }
-
 
 void CSocketService::OnLogicThreadCreate()
 {
@@ -468,50 +454,45 @@ void CSocketService::OnLogicThreadCreate()
 	CServiceCommon::OnLogicThreadCreate();
 }
 
-
 void CSocketService::OnLogicThreadExit()
-{	
+{
 	CServiceCommon::OnLogicThreadExit();
-
 }
-
 
 void CSocketService::OnLogicThreadProc()
 {
 	__ENTER_FUNCTION
 	CServiceCommon::OnLogicThreadProc();
-	
+
 	if(m_tLastDisplayTime.ToNextTime())
 	{
-		std::string buf = std::string("\n======================================================================")+
-		fmt::format(FMT_STRING("\nMessageProcess:{}\tSocketMsg:{}"), GetMessageProcess(), m_nSocketMessageProcess)+
-		fmt::format(FMT_STRING("\nRecvTotal:{}\tRecvAvg:{}"), GetNetworkService()->GetRecvBPS().GetTotal(), GetNetworkService()->GetRecvBPS().GetAvgBPS())+
-		fmt::format(FMT_STRING("\nSendTotal:{}\tSendAvg:{}"), GetNetworkService()->GetSendBPS().GetTotal(), GetNetworkService()->GetSendBPS().GetAvgBPS());
-		static const uint16_t ServiceID[]=
-		{
-			1,11,12,13,14,15,16,17,18,19,20
-		};
+		std::string buf =
+			std::string("\n======================================================================") +
+			fmt::format(FMT_STRING("\nMessageProcess:{}\tSocketMsg:{}"), GetMessageProcess(), m_nSocketMessageProcess) +
+			fmt::format(FMT_STRING("\nRecvTotal:{}\tRecvAvg:{}"),
+						GetNetworkService()->GetRecvBPS().GetTotal(),
+						GetNetworkService()->GetRecvBPS().GetAvgBPS()) +
+			fmt::format(FMT_STRING("\nSendTotal:{}\tSendAvg:{}"),
+						GetNetworkService()->GetSendBPS().GetTotal(),
+						GetNetworkService()->GetSendBPS().GetAvgBPS());
+		static const uint16_t ServiceID[] = {1, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
 
-		for(size_t i  =0 ;i < sizeOfArray(ServiceID); i++)
+		for(size_t i = 0; i < sizeOfArray(ServiceID); i++)
 		{
-			auto pMessagePort = GetMessageRoute()->QueryMessagePort(ServerPort(GetWorldID(),ServiceID[i]), false);
+			auto pMessagePort = GetMessageRoute()->QueryMessagePort(ServerPort(GetWorldID(), ServiceID[i]), false);
 			if(pMessagePort)
 			{
-				buf += fmt::format(FMT_STRING("\nMsgPort:{}\tSendBuff:{}"), ServiceID[i], pMessagePort->GetWriteBufferSize());
+				buf += fmt::format(
+					FMT_STRING("\nMsgPort:{}\tSendBuff:{}"), ServiceID[i], pMessagePort->GetWriteBufferSize());
 			}
 		}
-
 
 		LOGMONITOR("{}", buf.c_str());
 		SetMessageProcess(0);
 		m_nSocketMessageProcess = 0;
 	}
 
-__LEAVE_FUNCTION
-
+	__LEAVE_FUNCTION
 }
 
-void CSocketService::OnRecvTimeout(CNetSocket* pSocket)
-{
-}
-
+void CSocketService::OnRecvTimeout(CNetSocket* pSocket) {}

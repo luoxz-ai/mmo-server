@@ -5,7 +5,7 @@
 #include "GameMath.h"
 #include "INILoader.h"
 #include "LockfreeQueue.h"
-#include "Math.h"
+#include "MathDef.h"
 #include "MemoryHeap.h"
 #include "MyTimer.h"
 #include "ProtobuffParse.h"

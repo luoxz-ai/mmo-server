@@ -1,20 +1,22 @@
-#pragma once
+#ifndef AIPLAYER_H
+#define AIPLAYER_H
 #include "AIActor.h"
-#include "server_side.pb.h"
+#include "msg/server_side.pb.h"
 
 class CAIPlayer : public CAIActor
 {
-public:
+  public:
 	CAIPlayer();
 	~CAIPlayer();
 	CREATE_NEW_IMPL(CAIPlayer);
 	bool Init(const ServerMSG::ActorCreate& msg);
 
 	virtual ActorType GetActorType() const { return ActorType::ACT_PLAYER; }
-	static  ActorType GetActorTypeStatic() { return ActorType::ACT_PLAYER; }
+	static ActorType  GetActorTypeStatic() { return ActorType::ACT_PLAYER; }
 
-public:
+  public:
 	MEMORYHEAP_DECLARATION(s_heap);
 
-private:
+  private:
 };
+#endif /* AIPLAYER_H */

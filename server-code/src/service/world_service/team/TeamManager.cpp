@@ -1,23 +1,18 @@
 #include "TeamManager.h"
-#include "WorldService.h"
+
 #include "User.h"
-#include "zone_service.pb.h"
+#include "WorldService.h"
+#include "msg/zone_service.pb.h"
 
 MEMORYHEAP_IMPLEMENTATION(CTeam, s_heap);
 
-CTeam::CTeam()
-{
+CTeam::CTeam() {}
 
-}
-
-CTeam::~CTeam()
-{
-
-}
+CTeam::~CTeam() {}
 
 bool CTeam::Init(uint64_t idTeam, OBJID idLeader)
 {
-	m_idTeam = idTeam;
+	m_idTeam   = idTeam;
 	m_idLeader = idLeader;
 	return true;
 }
@@ -28,7 +23,7 @@ void CTeam::SendTeamAction(uint32_t nAction, OBJID idOperator, OBJID idMember)
 	msg.set_action(SC_TEAMMEMBER_ACTION_Action(nAction));
 	msg.set_operator_id(idOperator);
 	msg.set_member_id(idMember);
-	for(const auto& v : m_setMember)
+	for(const auto& v: m_setMember)
 	{
 		CUser* pUser = UserManager()->QueryUser(v.member_id());
 		if(pUser)
@@ -41,10 +36,10 @@ void CTeam::SendTeamAction(uint32_t nAction, OBJID idOperator, OBJID idMember)
 void CTeam::SendTeamMemberInfo(const SC_TEAMMEMBER_INFO::MemberInfo& info)
 {
 	SC_TEAMMEMBER_INFO msg;
-	auto pInfo = msg.add_member_list();
+	auto			   pInfo = msg.add_member_list();
 	pInfo->CopyFrom(info);
 
-	for(const auto& v : m_setMember)
+	for(const auto& v: m_setMember)
 	{
 		CUser* pUser = UserManager()->QueryUser(v.member_id());
 		if(pUser)
@@ -58,7 +53,7 @@ void CTeam::SendAllTeamMemberInfo(CUser* pUser)
 {
 	SC_TEAMMEMBER_INFO msg;
 
-	for(const auto& v : m_setMember)
+	for(const auto& v: m_setMember)
 	{
 		auto pInfo = msg.add_member_list();
 		pInfo->CopyFrom(v);
@@ -67,7 +62,6 @@ void CTeam::SendAllTeamMemberInfo(CUser* pUser)
 	pUser->SendMsg(CMD_SC_TEAMMEMBER_INFO, msg);
 }
 
-
 void CTeam::SetLeader(OBJID idOperator, OBJID idLeader)
 {
 	if(IsLeader(idOperator) == false)
@@ -75,7 +69,6 @@ void CTeam::SetLeader(OBJID idOperator, OBJID idLeader)
 
 	if(IsMember(idLeader) == false)
 		return;
-
 
 	m_idLeader = idLeader;
 	ServerMSG::TeamNewLeader msg;
@@ -102,14 +95,14 @@ void CTeam::_AddMember(CUser* pUser)
 	info.set_member_id(pUser->GetID());
 	info.set_member_lev(pUser->GetLev());
 	info.set_member_name(pUser->GetName());
-	//send msg to all zone
+	// send msg to all zone
 	ServerMSG::TeamAddMember msg;
 	msg.set_team_id(m_idTeam);
 	msg.set_team_id(pUser->GetID());
 	WorldService()->BroadcastToZone(ServerMSG::MsgID_TeamAddMember, msg);
-	//send to all member,exclude pUser;
+	// send to all member,exclude pUser;
 	SendTeamMemberInfo(info);
-	//send all member info to pUser
+	// send all member info to pUser
 	SendAllTeamMemberInfo(pUser);
 	m_setMember.push_back(std::move(info));
 }
@@ -140,7 +133,6 @@ void CTeam::KickMember(OBJID idOperator, OBJID idMember)
 				pUser->SetTeamID(0);
 			}
 
-			
 			SendTeamAction(SC_TEAMMEMBER_ACTION::TEAM_KICKMEMBER, idOperator, idMember);
 
 			m_setMember.erase(it);
@@ -196,14 +188,13 @@ void CTeam::QuitTeam(OBJID idOperator)
 			}
 		}
 	}
-	
 }
 
 void CTeam::InviteMember(OBJID idInviter, OBJID idInvitee)
 {
 	if(IsMember(idInviter) == false)
 		return;
-	if(IsFull() )
+	if(IsFull())
 		return;
 
 	CUser* pInviter = UserManager()->QueryUser(idInviter);
@@ -222,7 +213,7 @@ void CTeam::InviteMember(OBJID idInviter, OBJID idInvitee)
 		return;
 	}
 
-	if( m_setInvite.find(idInvitee) != m_setInvite.end())
+	if(m_setInvite.find(idInvitee) != m_setInvite.end())
 	{
 		//已经邀请过了
 		return;
@@ -269,12 +260,11 @@ void CTeam::AcceptInvite(OBJID idInviter, OBJID idInvitee, bool bResult)
 	}
 
 	AddMember(idInvitee);
-
 }
 
 void CTeam::ApplyMember(OBJID idApplicant)
 {
-	if(IsFull() )
+	if(IsFull())
 	{
 		//通知申请者,对方队伍已满
 		return;
@@ -297,7 +287,7 @@ void CTeam::ApplyMember(OBJID idApplicant)
 		return;
 	}
 
-	if( m_setApply.find(idApplicant) != m_setApply.end())
+	if(m_setApply.find(idApplicant) != m_setApply.end())
 	{
 		//已经申请过了
 		return;
@@ -315,7 +305,6 @@ void CTeam::ApplyMember(OBJID idApplicant)
 void CTeam::AcceptApply(OBJID idApplicant, OBJID idRespondent, bool bResult)
 {
 	m_setApply.erase(idApplicant);
-	
 
 	if(bResult == false)
 	{
@@ -334,7 +323,7 @@ void CTeam::AcceptApply(OBJID idApplicant, OBJID idRespondent, bool bResult)
 		return;
 	}
 
-	if(IsFull() )
+	if(IsFull())
 	{
 		//通知申请者,对方队伍已满
 		return;
@@ -359,36 +348,19 @@ bool CTeam::IsMember(OBJID idActor)
 	return false;
 }
 
+void CTeam::OnUserOnline(OBJID idActor, bool bOnline) {}
 
+void CTeam::OnUserLevChg(OBJID idActor, uint32_t nLev) {}
 
-void CTeam::OnUserOnline(OBJID idActor, bool bOnline)
-{
+void CTeam::OnUserNameChg(OBJID idActor, const std::string& name) {}
 
-}
+CTeamManager::CTeamManager() {}
 
-void CTeam::OnUserLevChg(OBJID idActor, uint32_t nLev)
-{
-
-}
-
-void CTeam::OnUserNameChg(OBJID idActor, const std::string& name)
-{
-
-}
-
-CTeamManager::CTeamManager()
-{
-
-}
-
-CTeamManager::~CTeamManager()
-{
-
-}
+CTeamManager::~CTeamManager() {}
 
 void CTeamManager::Destory()
 {
-	for(auto&[k, v] : m_setTeam)
+	for(auto& [k, v]: m_setTeam)
 	{
 		SAFE_DELETE(v);
 	}
@@ -401,20 +373,16 @@ CTeam* CTeamManager::CreateTeam(uint64_t idTeam, OBJID idLeader)
 	CHECKF(pUser);
 	CHECKF(pUser->GetTeamID() == 0);
 
-
 	CHECKF(QueryTeam(idTeam) == nullptr);
 	CTeam* pTeam = CTeam::CreateNew(idTeam, idLeader);
 	CHECKF(pTeam);
 	m_setTeam[idTeam] = pTeam;
 
-
-	//send msg to all zone
+	// send msg to all zone
 	ServerMSG::TeamCreate msg;
 	msg.set_team_id(idTeam);
 	msg.set_leader_id(idLeader);
 	WorldService()->BroadcastToZone(ServerMSG::MsgID_TeamCreate, msg);
-
-
 
 	pTeam->_AddMember(pUser);
 	return pTeam;
@@ -448,7 +416,6 @@ bool CTeamManager::DestoryTeam(uint64_t idTeam)
 void OnMsg_TeamCreate(const ServerMSG::TeamCreate& msg)
 {
 	TeamManager()->CreateTeam(msg.team_id(), msg.leader_id());
-
 }
 
 void OnMsg_TeamQuit(const ServerMSG::TeamQuit& msg)
@@ -489,7 +456,7 @@ void OnMsg_TeamApplyMember(const ServerMSG::TeamApplyMember& msg)
 	CUser* pUser = UserManager()->QueryUser(msg.respondent_id());
 	if(pUser == nullptr)
 	{
-		//send err msg to sender
+		// send err msg to sender
 		return;
 	}
 
@@ -520,16 +487,14 @@ void OnMsg_TeamAcceptApply(const ServerMSG::TeamAcceptApply& msg)
 	CUser* pApplicant = UserManager()->QueryUser(msg.applicant_id());
 	if(pApplicant == nullptr)
 	{
-		//send err msg to sender
+		// send err msg to sender
 		return;
 	}
 	if(pApplicant->GetTeamID() != 0)
 	{
-		//send err msg to sender
+		// send err msg to sender
 		return;
 	}
-
-
 
 	if(pUser->GetTeamID() != 0)
 	{
@@ -541,15 +506,13 @@ void OnMsg_TeamAcceptApply(const ServerMSG::TeamAcceptApply& msg)
 	{
 		if(msg.result() == false)
 		{
-			//send err msg to sender
+			// send err msg to sender
 			return;
 		}
 		CTeam* pTeam = TeamManager()->CreateTeam(WorldService()->CreateUID(), pUser->GetID());
 		CHECK(pTeam);
 		pTeam->AddMember(msg.applicant_id());
 	}
-	
-
 }
 
 void OnMsg_TeamNewLeader(const ServerMSG::TeamNewLeader& msg)
@@ -558,7 +521,6 @@ void OnMsg_TeamNewLeader(const ServerMSG::TeamNewLeader& msg)
 	CHECK(pTeam);
 	pTeam->SetLeader(msg.operator_id(), msg.new_leader_id());
 }
-
 
 template<class T, class Func>
 void ProcessTeamMsg(CNetworkMessage* pMsg, Func func)
@@ -569,12 +531,12 @@ void ProcessTeamMsg(CNetworkMessage* pMsg, Func func)
 	func(msg);
 }
 
-
 void CTeamManager::RegisterMessageHandler()
 {
-#define REG_CMD(msg_t) WorldService()->GetNetMsgProcess()->Register(MsgID_##msg_t, std::bind(&ProcessTeamMsg<msg_t,decltype(OnMsg_##msg_t)>, std::placeholders::_1, &OnMsg_##msg_t));
-
-
+#define REG_CMD(msg_t)                            \
+	WorldService()->GetNetMsgProcess()->Register( \
+		MsgID_##msg_t,                            \
+		std::bind(&ProcessTeamMsg<msg_t, decltype(OnMsg_##msg_t)>, std::placeholders::_1, &OnMsg_##msg_t));
 
 	using namespace ServerMSG;
 	REG_CMD(TeamCreate);

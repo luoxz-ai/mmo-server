@@ -1,28 +1,31 @@
-#include "ServiceLoader.h"
 #include <iostream>
+#include <set>
+#include <thread>
+
+#include <google/protobuf/stubs/common.h>
+#include <google/protobuf/stubs/logging.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <thread>
-#include <set>
-#include "get_opt.h"
-#include "FileLock.h"
-#include "loging_manager.h"
-#include "StringAlgo.h"
-#include "MemoryHeap.h"
+
 #include "BaseCode.h"
-#include "segvcatch.h"
+#include "FileLock.h"
+#include "MemoryHeap.h"
+#include "ServiceLoader.h"
+#include "StringAlgo.h"
 #include "fmt/format.h"
-#include <google/protobuf/stubs/common.h>
-#include <google/protobuf/stubs/logging.h>
+#include "get_opt.h"
+#include "loging_manager.h"
+#include "segvcatch.h"
 #ifdef USE_JEMALLOC
-extern "C" {
+extern "C"
+{
 #define JEMALLOC_MANGLE
 #include <jemalloc/jemalloc.h>
 }
 #endif
-//std::atomic<uint64_t> g_GlobalAllocSize(0);
-//inline void   operator delete	(void* p)
+// std::atomic<uint64_t> g_GlobalAllocSize(0);
+// inline void   operator delete	(void* p)
 //{
 //	if(p)
 //	{
@@ -32,57 +35,55 @@ extern "C" {
 //	}
 //}
 //
-//inline void*  operator new	(size_t size)
+// inline void*  operator new	(size_t size)
 //{
 //	g_GlobalAllocSize += size;
 //	return je_malloc(size);
 //}
 //
-//inline void   operator delete[](void* p)
+// inline void   operator delete[](void* p)
 //{
 //	size_t size_mem = je_sallocx(p, 0);
 //	g_GlobalAllocSize -= size_mem;
 //	je_free(p);
 //}
 //
-//inline void*  operator new[](size_t size)
+// inline void*  operator new[](size_t size)
 //{
 //	g_GlobalAllocSize += size;
 //	return je_malloc(size);
 //}
 
-
-void ProtobufLogHandler(google::protobuf::LogLevel level, const char* file, int line, const std::string& msg) 
+void ProtobufLogHandler(google::protobuf::LogLevel level, const char* file, int line, const std::string& msg)
 {
 	LOGERROR("PBError: {} in {}:{}", msg.c_str(), file, line);
 }
 
 struct PB_Initer
 {
-public:
+  public:
 	PB_Initer()
 	{
 		GOOGLE_PROTOBUF_VERIFY_VERSION;
 		google::protobuf::SetLogHandler(ProtobufLogHandler);
 	}
-	~PB_Initer()
-	{
-	}
-}const s_PB_Initer;
+	~PB_Initer() {}
+} const s_PB_Initer;
 
 void print_help()
 {
-	std::cout << " [-h|--help] [--config=service.xml] [--worldid=0] [--start] [--start=1,2,3,4,5,6] [--stop] [--daemon]" << std::endl;
+	std::cout << " [-h|--help] [--config=service.xml] [--worldid=0] [--start] [--start=1,2,3,4,5,6] [--stop] [--daemon]"
+			  << std::endl;
 }
 
-ServiceLoader* g_pLoader;
+ServiceLoader*			   g_pLoader;
 std::unique_ptr<file_lock> plock;
-std::mutex g_tem_mutex;
+std::mutex				   g_tem_mutex;
 //////////////////////////////////////////////////////////////////////////
 void sig_term(int signo)
 {
-__ENTER_FUNCTION
-	std::unique_lock<std::mutex> lock(g_tem_mutex,std::try_to_lock);
+	__ENTER_FUNCTION
+	std::unique_lock<std::mutex> lock(g_tem_mutex, std::try_to_lock);
 	if(lock.owns_lock() == false)
 	{
 		return;
@@ -97,14 +98,12 @@ __ENTER_FUNCTION
 		BaseCode::StopLog();
 		SAFE_DELETE(g_pLoader);
 	}
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	exit(1);
-	//std::quick_exit(1);
+	// std::quick_exit(1);
 }
 
-
-
-//int daemon_init()
+// int daemon_init()
 //{
 //	int		i;
 //	pid_t	pid;
@@ -137,96 +136,89 @@ __LEAVE_FUNCTION
 void PurgeJemalloc()
 {
 #ifdef USE_JEMALLOC
-   mallctl("arenas.4096.purge", 0, 0, 0, 0);
+	mallctl("arenas.4096.purge", 0, 0, 0, 0);
 #endif
 }
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
 	get_opt opt(argc, (const char**)argv);
 	//请小心使用daemon/fork,这样会导致在main函数之前创建的线程被干掉
-	if (opt.has("--daemon") || opt.has("-d"))
+	if(opt.has("--daemon") || opt.has("-d"))
 	{
 		daemon(1, 1);
-		//daemon_init();
+		// daemon_init();
 	}
 
 	G_INITSEGV();
 	setlocale(LC_ALL, "en_US.UTF-8");
 	tzset();
 	std::string setting_filename = "res/service.xml";
-	if (opt.has("--config"))
+	if(opt.has("--config"))
 	{
 		setting_filename = opt["--config"];
 	}
 	uint16_t nWorldID = 0;
-	if (opt.has("--worldid"))
+	if(opt.has("--worldid"))
 	{
 		nWorldID = std::atoi(opt["--worldid"].c_str());
 	}
 
 	std::string logpath = "./log/";
-	if (opt.has("--logpath"))
+	if(opt.has("--logpath"))
 	{
 		logpath = opt["--logpath"];
 	}
 
-
-	if (opt.has("--stop"))
+	if(opt.has("--stop"))
 	{
-		file_lock lock("service_loader_" +std::to_string(nWorldID)+"_"+ opt["--stop"]);
+		file_lock lock("service_loader_" + std::to_string(nWorldID) + "_" + opt["--stop"]);
 		lock.kill(SIGQUIT);
 		exit(0);
 	}
-	else if (opt.has("--start") == false)
+	else if(opt.has("--start") == false)
 	{
 		print_help();
 		exit(0);
 	}
-	
 
 	BaseCode::InitLog(logpath);
 	g_pLoader = new ServiceLoader();
 	std::string start_service_set;
 	if(opt.has("--start"))
 		start_service_set = opt["--start"];
-	
 
-	plock.reset(new file_lock("service_loader_"+std::to_string(nWorldID)+"_"+ start_service_set));
-	if (plock->lock() == false)
+	plock.reset(new file_lock("service_loader_" + std::to_string(nWorldID) + "_" + start_service_set));
+	if(plock->lock() == false)
 	{
 		std::cerr << "only can start one instance." << std::endl;
 		exit(-1);
 	}
 
-	
-
-	auto vec_start_service = split_string(start_service_set, ",");
+	auto			   vec_start_service = split_string(start_service_set, ",");
 	std::set<uint16_t> create_service_set;
-	for (const auto& v : vec_start_service)
+	for(const auto& v: vec_start_service)
 	{
 		if(v.empty() == false && v != "" && v != "\001")
 			create_service_set.insert(std::stol(v));
 	}
 
-
-
-	if (g_pLoader->Load(setting_filename, nWorldID, create_service_set) == false)
+	if(g_pLoader->Load(setting_filename, nWorldID, create_service_set) == false)
 	{
 		std::cerr << "service load fail." << std::endl;
 		exit(-1);
 	}
-	std::cout << fmt::format("service {} load succ.",start_service_set) << std::endl;
+	std::cout << fmt::format("service {} load succ.", start_service_set) << std::endl;
 
 #ifndef STDIN_FILENO
 	/* Standard file descriptors. */
-#define STDIN_FILENO 0 /* Standard input. */
+#define STDIN_FILENO  0 /* Standard input. */
 #define STDOUT_FILENO 1 /* Standard output. */
 #define STDERR_FILENO 2 /* Standard error output. */
 #endif
 
-	FILE*	pStdOutFile = fopen("stdout.log", "w+");
-	if (pStdOutFile == NULL)
+	FILE* pStdOutFile = fopen("stdout.log", "w+");
+	if(pStdOutFile == NULL)
 	{
 		exit(-1);
 	}
@@ -235,7 +227,6 @@ int main(int argc, char *argv[])
 	fclose(pStdOutFile);
 	pStdOutFile = NULL;
 
-	
 	signal(SIGTERM, sig_term);
 	signal(SIGINT, sig_term);
 	signal(SIGQUIT, sig_term);
@@ -243,24 +234,23 @@ int main(int argc, char *argv[])
 	start_jemalloc_backgroud_thread();
 
 	BaseCode::InitMonitorLog("comm");
-	while (true)
+	while(true)
 	{
-	__ENTER_FUNCTION
-		//std::this_thread::yield();
-		//PurgeJemalloc();
+		__ENTER_FUNCTION
+		// std::this_thread::yield();
+		// PurgeJemalloc();
 		auto result = get_memory_status();
-		LOGMONITOR("Allocated: %.2f, active: %.2f, metadata: %.2f, resident: %.2f, mapped: %.2f, retained: %.2f, num_threads: {}", 
-					 result.allocted/1024.0f/1024.0f, 
-					 result.active/1024.0f/1024.0f, 
-					 result.metadata/1024.0f/1024.0f, 
-					 result.resident/1024.0f/1024.0f,
-					 result.mapped/1024.0f/1024.0f, 
-					 result.retained/1024.0f/1024.0f, 
-					 result.num_threads);
+		LOGMONITOR("Allocated: %.2f, active: %.2f, metadata: %.2f, resident: %.2f, mapped: %.2f, retained: %.2f, "
+				   "num_threads: {}",
+				   result.allocted / 1024.0f / 1024.0f,
+				   result.active / 1024.0f / 1024.0f,
+				   result.metadata / 1024.0f / 1024.0f,
+				   result.resident / 1024.0f / 1024.0f,
+				   result.mapped / 1024.0f / 1024.0f,
+				   result.retained / 1024.0f / 1024.0f,
+				   result.num_threads);
 
 		sleep(60);
-	__LEAVE_FUNCTION
-	
+		__LEAVE_FUNCTION
 	}
-
 }

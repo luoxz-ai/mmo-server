@@ -1,16 +1,14 @@
 /** \file BaseType.h
-*
-*	filename: 	BaseType.h
-*	purpose:	Definition
-*	created:	2012-3-20  20:41
-*	author:		zlong
-*	purpose:	
-*	
-*	(c)2006 - 2010 All Rights Reserved
-****************************************************************************/
+ *
+ *	filename: 	BaseType.h
+ *	purpose:	Definition
+ *	created:	2012-3-20  20:41
+ *	author:		zlong
+ *	purpose:
+ *
+ *	(c)2006 - 2010 All Rights Reserved
+ ****************************************************************************/
 
-
- 
 #ifndef __BASETYPE_H__
 #define __BASETYPE_H__
 
@@ -19,23 +17,22 @@
 //当前包含的系统头文件引用
 /////////////////////////////////////////////////////////////////////////////////
 
-#include <stdio.h>
-#include <string>
-#include <time.h>
-#include <math.h>
+#include <cmath>
 #include <cstddef>
+#include <cstdint>
+#include <cstdio>
+#include <ctime>
+#include <exception>
+#include <string>
 
-#include <sys/types.h>
+#include <execinfo.h>
 #include <pthread.h>
 #include <semaphore.h>
-#include <execinfo.h>
-#include <signal.h>
-#include <exception>
 #include <setjmp.h>
+#include <signal.h>
 #include <sys/epoll.h>
 #include <sys/time.h>
-#include <cstdint>
-
+#include <sys/types.h>
 
 typedef long unsigned int size_t;
 
@@ -44,19 +41,19 @@ using float64_t = double;
 
 using byte = unsigned char;
 
-using VOID = void;
-using UCHAR = unsigned char;
-using CHAR = char;
-using UINT = unsigned int;
-using INT = int;
+using VOID	 = void;
+using UCHAR	 = unsigned char;
+using CHAR	 = char;
+using UINT	 = unsigned int;
+using INT	 = int;
 using USHORT = unsigned short;
-using SHORT = short;
-using ULONG = unsigned long;
-using LONG = long;
-using FLOAT = float;
+using SHORT	 = short;
+using ULONG	 = unsigned long;
+using LONG	 = long;
+using FLOAT	 = float;
 
-using BYTE = uint8_t;
-using WORD = uint16_t;
+using BYTE	= uint8_t;
+using WORD	= uint16_t;
 using DWORD = uint32_t;
 
 using OBJID = uint64_t;
@@ -64,34 +61,30 @@ using OBJID = uint64_t;
 using BOOL = int;
 
 using HMODULE = void*;
-using HANDLE = void*;
+using HANDLE  = void*;
 
 #ifndef SOCKET
-	using SOCKET = unsigned int;
+using SOCKET = unsigned int;
 #endif
-
 
 ///////////////////////////////////////////////////////////////////////
 const OBJID ID_NONE = static_cast<OBJID>(0);
 
 ///////////////////////////////////////////////////////////////////////
-#define TRUE				1
-#define FALSE				0
-#define INFINITE            0xFFFFFFFF  // Infinite timeout
+#define TRUE	 1
+#define FALSE	 0
+#define INFINITE 0xFFFFFFFF // Infinite timeout
 
-#define INVALID_SOCKET		static_cast<SOCKET>(-1)
-#define	SOCKET_ERROR		static_cast<SOCKET>(-1)
+#define INVALID_SOCKET static_cast<SOCKET>(-1)
+#define SOCKET_ERROR   static_cast<SOCKET>(-1)
 
-#define	LINEEND				"\n"
-
-
+#define LINEEND "\n"
 
 #define FAR
 #define NEAR
 #define STDCALL
 
-#define __max(a,b) (((a) > (b)) ? (a) : (b))
-#define __min(a,b) (((a) < (b)) ? (a) : (b))
-
+#define __max(a, b) (((a) > (b)) ? (a) : (b))
+#define __min(a, b) (((a) < (b)) ? (a) : (b))
 
 #endif //__BASETYPE_H__

@@ -1,26 +1,22 @@
 #include "Actor.h"
+#include "ActorManager.h"
+#include "Monster.h"
+#include "Player.h"
 #include "Scene.h"
 #include "SceneTree.h"
-#include "Player.h"
-#include "Monster.h"
-#include "ActorManager.h"
 #include "ZoneService.h"
-
-
 
 void CActor::OnEnterMap(CSceneBase* pScene)
 {
 	CHECK(pScene);
 	CSceneObject::OnEnterMap(pScene);
-	
-	static_cast<CScene*>(pScene)->TryExecScript<void>(SCB_MAP_ONENTERMAP, this);
 
+	static_cast<CScene*>(pScene)->TryExecScript<void>(SCB_MAP_ONENTERMAP, this);
 }
 
 void CActor::OnLeaveMap(uint64_t idTargetScene)
 {
 	SendDelayAttribChage();
-
 
 	ServerMSG::ActorDestory ai_msg;
 	ai_msg.set_actor_id(GetID());
@@ -31,14 +27,11 @@ void CActor::OnLeaveMap(uint64_t idTargetScene)
 
 	CSceneObject::OnLeaveMap(idTargetScene);
 
-
 	m_EventMap.Clear();
 	m_EventQueue.Clear();
 }
 
-
-
-void  CActor::_AddToAOIRemoveMessage(SC_AOI_REMOVE& removeMsg, OBJID id)
+void CActor::_AddToAOIRemoveMessage(SC_AOI_REMOVE& removeMsg, OBJID id)
 {
 	if(GetActorType() == ACT_PLAYER)
 	{
@@ -52,7 +45,6 @@ void  CActor::_AddToAOIRemoveMessage(SC_AOI_REMOVE& removeMsg, OBJID id)
 		}
 	}
 }
-
 
 void CActor::_TrySendAOIRemoveMessage(const SC_AOI_REMOVE& removeMsg)
 {
@@ -102,7 +94,7 @@ void CActor::AddToViewList(CSceneObject* pActor, bool bChkDuplicate, bool bSendS
 void CActor::ClearViewList(bool bSendMsgToSelf)
 {
 	SC_AOI_REMOVE hold_info;
-	for(uint64_t id : m_ViewActors)
+	for(uint64_t id: m_ViewActors)
 	{
 		// 通知对方自己消失
 		CActor* pActor = ActorManager()->QueryActor(id);
@@ -119,7 +111,6 @@ void CActor::ClearViewList(bool bSendMsgToSelf)
 	ntc_aoiInfo.set_mapid(GetMapID());
 	ntc_aoiInfo.add_idlist(GetID());
 	SendRoomMessage(CMD_SC_AOI_REMOVE, ntc_aoiInfo, false);
-
 
 	if(bSendMsgToSelf)
 		_TrySendAOIRemoveMessage(hold_info);
@@ -140,7 +131,8 @@ void CActor::AddDelaySendShowTo(OBJID id)
 		auto pEntry = GetEventMapRef().Query(EVENTID_BROCAST_SHOW);
 		if(pEntry == nullptr || pEntry->IsCanceled() || pEntry->IsRunning() == false)
 		{
-			EventManager()->ScheduleEvent(EVENTID_BROCAST_SHOW, std::bind(&CActor::SendShowToDealyList, this), 0, false, GetEventMapRef());
+			EventManager()->ScheduleEvent(
+				EVENTID_BROCAST_SHOW, std::bind(&CActor::SendShowToDealyList, this), 0, false, GetEventMapRef());
 		}
 	}
 	m_setDealySendShow.insert(id);
@@ -153,7 +145,8 @@ void CActor::AddDelaySendShowToAllViewPlayer()
 		auto pEntry = GetEventMapRef().Query(EVENTID_BROCAST_SHOW);
 		if(pEntry == nullptr || pEntry->IsCanceled() || pEntry->IsRunning() == false)
 		{
-			EventManager()->ScheduleEvent(EVENTID_BROCAST_SHOW, std::bind(&CActor::SendShowToDealyList, this), 0, false, GetEventMapRef());
+			EventManager()->ScheduleEvent(
+				EVENTID_BROCAST_SHOW, std::bind(&CActor::SendShowToDealyList, this), 0, false, GetEventMapRef());
 		}
 	}
 	m_setDealySendShow.insert(m_ViewActorsByType[ACT_PLAYER].begin(), m_ViewActorsByType[ACT_PLAYER].end());
@@ -188,35 +181,61 @@ void CActor::SendShowTo(CPlayer* pPlayer)
 	SC_AOI_NEW msg;
 	MakeShowData(msg);
 	pPlayer->SendMessage(CMD_SC_AOI_NEW, msg);
-
 }
-
 
 class NEED_ADD_TO_BROADCASTSET_T
 {
-public:
+  public:
 	NEED_ADD_TO_BROADCASTSET_T()
 	{
-		m_DataMap[ACT_PLAYER][ACT_PLAYER] = [](CSceneObject*, CSceneObject*){return true; };
-		m_DataMap[ACT_PLAYER][ACT_MONSTER] = [](CSceneObject*, CSceneObject*){return true; };
-		m_DataMap[ACT_PLAYER][ACT_PET] = [](CSceneObject*, CSceneObject*){return true; };
-		m_DataMap[ACT_PLAYER][ACT_NPC] = [](CSceneObject*, CSceneObject*){return true; };
-		m_DataMap[ACT_PLAYER][ACT_BULLET] = [](CSceneObject*, CSceneObject*){return true; };
-		m_DataMap[ACT_PLAYER][ACT_MAPITEM] = [](CSceneObject*, CSceneObject*){return true; };
+		m_DataMap[ACT_PLAYER][ACT_PLAYER] = [](CSceneObject*, CSceneObject*) {
+			return true;
+		};
+		m_DataMap[ACT_PLAYER][ACT_MONSTER] = [](CSceneObject*, CSceneObject*) {
+			return true;
+		};
+		m_DataMap[ACT_PLAYER][ACT_PET] = [](CSceneObject*, CSceneObject*) {
+			return true;
+		};
+		m_DataMap[ACT_PLAYER][ACT_NPC] = [](CSceneObject*, CSceneObject*) {
+			return true;
+		};
+		m_DataMap[ACT_PLAYER][ACT_BULLET] = [](CSceneObject*, CSceneObject*) {
+			return true;
+		};
+		m_DataMap[ACT_PLAYER][ACT_MAPITEM] = [](CSceneObject*, CSceneObject*) {
+			return true;
+		};
 
-		m_DataMap[ACT_MONSTER][ACT_PLAYER] = [](CSceneObject*, CSceneObject*){return true; };
-		m_DataMap[ACT_MONSTER][ACT_MONSTER] = [](auto self, auto target){return self->IsEnemy(target); };
-		m_DataMap[ACT_MONSTER][ACT_PET] = [](CSceneObject*, CSceneObject*){return true; };
+		m_DataMap[ACT_MONSTER][ACT_PLAYER] = [](CSceneObject*, CSceneObject*) {
+			return true;
+		};
+		m_DataMap[ACT_MONSTER][ACT_MONSTER] = [](auto self, auto target) {
+			return self->IsEnemy(target);
+		};
+		m_DataMap[ACT_MONSTER][ACT_PET] = [](CSceneObject*, CSceneObject*) {
+			return true;
+		};
 
+		m_DataMap[ACT_PET][ACT_PLAYER] = [](CSceneObject*, CSceneObject*) {
+			return true;
+		};
+		m_DataMap[ACT_PET][ACT_MONSTER] = [](CSceneObject*, CSceneObject*) {
+			return true;
+		};
+		m_DataMap[ACT_PET][ACT_PET] = [](CSceneObject*, CSceneObject*) {
+			return true;
+		};
 
-		m_DataMap[ACT_PET][ACT_PLAYER] = [](CSceneObject*, CSceneObject*){return true; };
-		m_DataMap[ACT_PET][ACT_MONSTER] = [](CSceneObject*, CSceneObject*){return true; };
-		m_DataMap[ACT_PET][ACT_PET] = [](CSceneObject*, CSceneObject*){return true; };
-
-		m_DataMap[ACT_BULLET][ACT_PLAYER] = [](CSceneObject*, CSceneObject*){return true; };
-		m_DataMap[ACT_BULLET][ACT_MONSTER] = [](CSceneObject*, CSceneObject*){return true; };
-		m_DataMap[ACT_BULLET][ACT_PET] = [](CSceneObject*, CSceneObject*){return true; };
-
+		m_DataMap[ACT_BULLET][ACT_PLAYER] = [](CSceneObject*, CSceneObject*) {
+			return true;
+		};
+		m_DataMap[ACT_BULLET][ACT_MONSTER] = [](CSceneObject*, CSceneObject*) {
+			return true;
+		};
+		m_DataMap[ACT_BULLET][ACT_PET] = [](CSceneObject*, CSceneObject*) {
+			return true;
+		};
 	}
 	bool test(CSceneObject* pSelfActor, CSceneObject* pTargetActor) const
 	{
@@ -226,9 +245,10 @@ public:
 		else
 			return false;
 	}
-private:
+
+  private:
 	std::function<bool(CSceneObject*, CSceneObject*)> m_DataMap[ACT_MAX][ACT_MAX];
-}const NEED_ADD_TO_BROADCASTSET;
+} const NEED_ADD_TO_BROADCASTSET;
 
 bool CActor::IsNeedAddToBroadCastSet(CSceneObject* pActor)
 {
@@ -245,9 +265,8 @@ bool CActor::IsMustAddToBroadCastSet(CSceneObject* pActor)
 		if(pMonster == nullptr)
 			return false;
 
-
 		//除了普通怪,其他的怪优先放入视野
-		//return pMonster->GetViewPriority() != 0;
+		// return pMonster->GetViewPriority() != 0;
 		return true;
 	}
 	else
@@ -256,11 +275,10 @@ bool CActor::IsMustAddToBroadCastSet(CSceneObject* pActor)
 		if(pPlayer == nullptr)
 			return false;
 
-		//return (GetTeamID() != 0 && pPlayer->GetTeamID() == GetTeamID());
+		// return (GetTeamID() != 0 && pPlayer->GetTeamID() == GetTeamID());
 		return true;
 	}
 }
-
 
 uint32_t CActor::GetMapID() const
 {
@@ -276,8 +294,10 @@ uint64_t CActor::GetSceneID() const
 	return 0;
 }
 
-
-void CActor::AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel, BROADCAST_SET& setBCActor, int nCanReserveDelCount, uint32_t view_range_out_square)
+void CActor::AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
+										  BROADCAST_SET&	   setBCActor,
+										  int				   nCanReserveDelCount,
+										  uint32_t			   view_range_out_square)
 {
 	SC_AOI_REMOVE hold_info;
 	hold_info.set_mapid(GetMapID());
@@ -286,11 +306,11 @@ void CActor::AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel, BR
 	// step4: 需要离开视野的角色Remove
 	{
 		BROADCAST_SET setBCActorDelPlayer;
-		for(auto it = setBCActorDel.begin(); it != setBCActorDel.end();it++)
+		for(auto it = setBCActorDel.begin(); it != setBCActorDel.end(); it++)
 		{
 			// 如果对方还在脱离视野范围内，则不删除
-			uint64_t id = *it;
-			CActor* pActor = ActorManager()->QueryActor(id);
+			uint64_t id		= *it;
+			CActor*	 pActor = ActorManager()->QueryActor(id);
 			if(pActor == nullptr)
 			{
 				//如果对方已经消失,则移除
@@ -303,7 +323,7 @@ void CActor::AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel, BR
 				if(view_range_out_square > 0)
 				{
 					uint32_t distance_square = GameMath::simpleDistance(GetPos(), pActor->GetPos());
-					if(distance_square < view_range_out_square)	// 在脱离视野半径内的，不需要离开广播区域)
+					if(distance_square < view_range_out_square) // 在脱离视野半径内的，不需要离开广播区域)
 					{
 						nCanReserveDelCount--;
 						setBCActor.insert(std::lower_bound(setBCActor.begin(), setBCActor.end(), id), id);
@@ -315,7 +335,7 @@ void CActor::AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel, BR
 			// 对方已脱离视野
 
 			// 通知自己对方消失
-			//不需要从自己的m_ViewActors移除,因为等下会一次性移除, 
+			//不需要从自己的m_ViewActors移除,因为等下会一次性移除,
 			//为了减少发送次数,发送给自己的移除消息一次性发送
 			RemoveFromViewList(pActor, id, false);
 			_AddToAOIRemoveMessage(hold_info, pActor->GetID());
@@ -336,7 +356,6 @@ void CActor::AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel, BR
 			ntc_aoiInfo.set_mapid(GetMapID());
 			ntc_aoiInfo.add_idlist(GetID());
 			BroadcastMessageTo(setBCActorDelPlayer, CMD_SC_AOI_REMOVE, ntc_aoiInfo, 0);
-
 		}
 	}
 
@@ -345,7 +364,7 @@ void CActor::AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel, BR
 
 void CActor::AOIProcessPosUpdate()
 //////////////////////////////////////////////////////////////////////////
-	// 
+//
 {
 
 	//发送移动同步
@@ -356,8 +375,6 @@ void CActor::AOIProcessPosUpdate()
 	ntc.set_posy(GetPosY());
 
 	SendRoomMessage(CMD_SC_AOI_UPDATE, ntc);
-
-
 }
 
 void CActor::AOIProcessActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_MAP& mapAllViewActor)
@@ -389,7 +406,6 @@ void CActor::AOIProcessActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_M
 		{
 			it = setBCActorAdd.erase(it);
 		}
-
 	}
 
 	//合并延迟发送Show的队列一起发送
@@ -415,9 +431,6 @@ void CActor::AOIProcessActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_M
 	}
 }
 
-
-
-
 void CActor::SendRoomMessage(uint16_t cmd, const google::protobuf::Message& msg, bool bIncludeSelf /*= true*/)
 {
 	SendShowToDealyList();
@@ -427,7 +440,7 @@ void CActor::SendRoomMessage(uint16_t cmd, const google::protobuf::Message& msg,
 	else
 		ZoneService()->BroadcastMessageToPlayer(m_ViewActorsByType[ACT_PLAYER], cmd, msg, 0);
 
-	//send message to ai_service
+	// send message to ai_service
 	if(cmd == CMD_SC_AOI_UPDATE || cmd == CMD_SC_CASTSKILL || cmd == CMD_SC_ATTRIB_CHANGE)
 		ZoneService()->SendMsgToAIService(cmd, msg);
 }
@@ -437,5 +450,3 @@ void CActor::SendWorldMessage(uint16_t cmd, const google::protobuf::Message& msg
 	if(GetWorldID() != 0)
 		ZoneService()->SendPortMsg(ServerPort(GetWorldID(), WORLD_SERVICE_ID), cmd, msg);
 }
-
-

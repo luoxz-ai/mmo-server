@@ -1,22 +1,22 @@
-#pragma once
+#ifndef MATHDEF_H
+#define MATHDEF_H
 
-#include <valarray>
 #include <array>
+#include <cmath>
+#include <valarray>
+
 #include "export_lua.h"
 
 #ifndef PI
-constexpr float PI = 3.1415926f;
+constexpr float PI	   = 3.1415926f;
+constexpr float TWO_PI = 2 * PI;
 #endif
 
-constexpr float TWO_PI = 2 * PI;
-#include <math.h>
 #include "RandomGet.h"
-
 
 export_lua class Math
 {
-public:
-
+  public:
 	export_lua static inline bool isNaN(float f)
 	{
 		// std::isnan() is C99, not supported by all compilers
@@ -24,17 +24,14 @@ public:
 		return f != f;
 	}
 
-	export_lua static inline bool is2Pow(unsigned int target)
-	{
-		return (!(target & (target - 1)));
-	}
+	export_lua static inline bool is2Pow(unsigned int target) { return (!(target & (target - 1))); }
 
 	export_lua static inline int get2Pow(unsigned int target)
 	{
 		int result = -1;
-		if (is2Pow(target) == true)
+		if(is2Pow(target) == true)
 		{
-			while (target != 0)
+			while(target != 0)
 			{
 				target >>= 1;
 				result++;
@@ -42,19 +39,19 @@ public:
 		}
 		return result;
 
-		//return log10(target) / log10(2);
+		// return log10(target) / log10(2);
 	}
 
 	static inline bool FloatEqual(float a, float b, float tolerance = std::numeric_limits<float>::epsilon())
 	{
-		if (fabs(b - a) <= tolerance)
+		if(fabs(b - a) <= tolerance)
 			return true;
 		else
 			return false;
 	}
 
 	/** Clamp a value within an inclusive range. */
-	template <typename T>
+	template<typename T>
 	static T Clamp(T val, T minval, T maxval)
 	{
 		assert(minval < maxval && "Invalid clamp range");
@@ -64,12 +61,12 @@ public:
 	template<size_t nTrigTableSize>
 	class CTrigTable
 	{
-	public:
+	  public:
 		CTrigTable()
 		{
-			for (int i = 0; i < nTrigTableSize; ++i)
+			for(int i = 0; i < nTrigTableSize; ++i)
 			{
-				float angle = TWO_PI * i / nTrigTableSize;
+				float angle	  = TWO_PI * i / nTrigTableSize;
 				m_SinTable[i] = sin(angle);
 				m_TanTable[i] = tan(angle);
 			}
@@ -78,7 +75,7 @@ public:
 		float SinTable(float fValue)
 		{
 			int idx;
-			if (fValue >= 0)
+			if(fValue >= 0)
 			{
 				idx = int(fValue * m_TrigTableFactor) % nTrigTableSize;
 			}
@@ -97,10 +94,11 @@ public:
 			return m_TanTable[idx];
 		}
 
-	private:
-		static constexpr int m_TrigTableFactor = nTrigTableSize / TWO_PI;
+	  private:
+		static constexpr int			  m_TrigTableFactor = nTrigTableSize / TWO_PI;
 		std::array<float, nTrigTableSize> m_SinTable;
 		std::array<float, nTrigTableSize> m_TanTable;
 	};
 	const CTrigTable<360> TRIG_TABLE;
 };
+#endif /* MATHDEF_H */

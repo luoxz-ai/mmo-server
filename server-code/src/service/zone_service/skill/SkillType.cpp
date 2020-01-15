@@ -1,4 +1,5 @@
 #include "SkillType.h"
+
 #include "Actor.h"
 bool CSkillType::CanAttackActor(CActor* pAttacker, CActor* pTarget) const
 {
@@ -9,7 +10,7 @@ bool CSkillType::CanAttackActor(CActor* pAttacker, CActor* pTarget) const
 		return false;
 	if(pTarget->IsPet() && HasFlag(GetDamageFlag(), STF_TARGET_PET) == false)
 		return false;
-	if(pTarget->IsDead() && HasFlag(GetDamageFlag(), STF_TARGET_DEAD) == false )
+	if(pTarget->IsDead() && HasFlag(GetDamageFlag(), STF_TARGET_DEAD) == false)
 		return false;
 
 	if(pAttacker)
@@ -19,7 +20,6 @@ bool CSkillType::CanAttackActor(CActor* pAttacker, CActor* pTarget) const
 		if(pAttacker->IsEnemy(pTarget) == false && HasFlag(GetDamageFlag(), STF_TARGET_FRIEND) == false)
 			return false;
 	}
-
 
 	return true;
 }

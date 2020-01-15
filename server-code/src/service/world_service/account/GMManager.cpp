@@ -1,15 +1,10 @@
 #include "GMManager.h"
+
 #include "WorldService.h"
 
-CGMManager::CGMManager()
-{
+CGMManager::CGMManager() {}
 
-}
-
-CGMManager::~CGMManager()
-{
-
-}
+CGMManager::~CGMManager() {}
 
 bool CGMManager::Init()
 {
@@ -22,8 +17,8 @@ bool CGMManager::Init()
 			if(row)
 			{
 				std::string openid = row->Field(TBLD_GMLIST::OPENID);
-				uint32_t lev = row->Field(TBLD_GMLIST::GMLEV);
-				m_GMList[openid] = lev;
+				uint32_t	lev	   = row->Field(TBLD_GMLIST::GMLEV);
+				m_GMList[openid]   = lev;
 			}
 		}
 	}
@@ -53,6 +48,6 @@ uint32_t CGMManager::GetGMLevel(const std::string& openid) const
 		struct stat _stat_data;
 		if(stat("GM_TAG", &_stat_data) == 0)
 			return 1;
-		return  0;
+		return 0;
 	}
 }

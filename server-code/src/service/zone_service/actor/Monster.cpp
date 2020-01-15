@@ -1,34 +1,30 @@
 #include "Monster.h"
-#include "ZoneService.h"
-#include "Scene.h"
+
 #include "Player.h"
+#include "Scene.h"
+#include "ZoneService.h"
 MEMORYHEAP_IMPLEMENTATION(CMonster, s_heap);
 
-CMonster::CMonster()
-{
-	
-}
+CMonster::CMonster() {}
 
 CMonster::~CMonster()
 {
-	if(	GetCurrentScene() != nullptr)
-			GetCurrentScene()->LeaveMap(this);
-
+	if(GetCurrentScene() != nullptr)
+		GetCurrentScene()->LeaveMap(this);
 }
 
 bool CMonster::Init(uint32_t idMonsterType, OBJID idOwner, uint32_t idGen, uint32_t idCamp)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	CMonsterType* pType = MonsterTypeSet()->QueryObj(idMonsterType);
 	CHECKF(pType);
 
 	m_idOwner = idOwner;
-	m_idGen = idGen;
-	m_pType = pType;
+	m_idGen	  = idGen;
+	m_pType	  = pType;
 	SetID(ActorManager()->GenMonsterID());
 	SetCampID(idCamp);
 	CHECKF(CActor::Init());
-
 
 	m_ActorAttrib = m_pType->GetAbility();
 
@@ -39,8 +35,6 @@ __ENTER_FUNCTION
 		{
 			//是否需要根据玩家的属性,放大怪物的属性
 
-
-
 			m_idOwner = idOwner;
 		}
 	}
@@ -48,29 +42,28 @@ __ENTER_FUNCTION
 	_SetHP(GetHPMax());
 	_SetMP(GetMPMax());
 
-
 	TryExecScript<void>(SCB_MONSTER_ONBORN, this);
-
 
 	m_pCDSet.reset(CCoolDownSet::CreateNew());
 	CHECKF(m_pCDSet.get());
 
 	return true;
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
 }
 
 bool CMonster::SendMessage(uint16_t cmd, const google::protobuf::Message& msg) const
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	if(cmd == CMD_SC_SKILL_STUN || cmd == CMD_SC_AOI_UPDATE || cmd == CMD_SC_ATTRIB_CHANGE)
 	{
-		CNetworkMessage _msg(cmd, msg, ZoneService()->GetServerVirtualSocket(), ZoneService()->GetAIServerVirtualSocket());
+		CNetworkMessage _msg(
+			cmd, msg, ZoneService()->GetServerVirtualSocket(), ZoneService()->GetAIServerVirtualSocket());
 		return ZoneService()->SendMsg(_msg);
 	}
 	return true;
-__LEAVE_FUNCTION
-	return	false;
+	__LEAVE_FUNCTION
+	return false;
 }
 
 bool CMonster::CanDamage(CActor* pTarget) const
@@ -79,26 +72,23 @@ bool CMonster::CanDamage(CActor* pTarget) const
 	{
 		CActor* pOwner = ActorManager()->QueryActor(m_idOwner);
 		if(pOwner)
-			return pOwner->CanDamage(pTarget);	
+			return pOwner->CanDamage(pTarget);
 	}
 
 	return GetCampID() != pTarget->GetCampID();
 }
 
-
-
 void CMonster::BeKillBy(CActor* pAttacker)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	CActor::BeKillBy(pAttacker);
-	TryExecScript<void>(SCB_MONSTER_ONBEKILL, this);	
+	TryExecScript<void>(SCB_MONSTER_ONBEKILL, this);
 
 	CPlayer* pKillerPlayer = nullptr;
 	if(pAttacker == nullptr)
 	{
 		//从HateList取得最高的
-		m_HateList.FindIF([this, &pAttacker](ST_HATE_DATA* pHateData)
-		{
+		m_HateList.FindIF([this, &pAttacker](ST_HATE_DATA* pHateData) {
 			CActor* pActor = ActorManager()->QueryActor(pHateData->idTarget);
 			if(pActor == nullptr)
 				return false;
@@ -125,15 +115,13 @@ __ENTER_FUNCTION
 		}
 	}
 
-	
-
 	if(pKillerPlayer)
 	{
 		//产生经验
 		uint32_t kill_exp = m_pType->GetKillExp();
 		if(pKillerPlayer->GetTeamID() == 0)
 		{
-			pKillerPlayer->AwardBattleExp(kill_exp,true);
+			pKillerPlayer->AwardBattleExp(kill_exp, true);
 			pKillerPlayer->GetTaskSet()->OnKillMonster(GetTypeID(), true);
 		}
 		else
@@ -143,7 +131,7 @@ __ENTER_FUNCTION
 			if(pTeam)
 			{
 				std::vector<CPlayer*> setMember{pKillerPlayer};
-				uint32_t nTotalMemberLev = pKillerPlayer->GetLev();
+				uint32_t			  nTotalMemberLev = pKillerPlayer->GetLev();
 				for(uint32_t i = 0; i < pTeam->GetMemeberAmount(); i++)
 				{
 					OBJID idMember = pTeam->GetMemberIDByIdx(i);
@@ -151,7 +139,8 @@ __ENTER_FUNCTION
 						continue;
 					CActor* pMember = ActorManager()->QueryActor(idMember);
 					if(pMember == nullptr)
-						continue;;
+						continue;
+					;
 					if(GameMath::distance(pMember->GetPos(), GetPos()) <= MIN_EXP_SHARED_DIS)
 					{
 						setMember.push_back(pMember->ConvertToDerived<CPlayer>());
@@ -159,8 +148,7 @@ __ENTER_FUNCTION
 					}
 				}
 
-				constexpr uint32_t TEAM_EXP_ADJ[]=
-				{
+				constexpr uint32_t TEAM_EXP_ADJ[] = {
 					100,
 					100,
 					102,
@@ -172,52 +160,44 @@ __ENTER_FUNCTION
 				//组队加成
 				//组队分享
 				kill_exp = MulDiv(kill_exp, TEAM_EXP_ADJ[setMember.size()], 100);
-				for(CPlayer* pMember : setMember)
+				for(CPlayer* pMember: setMember)
 				{
 					uint32_t nExp = MulDiv(kill_exp, pMember->GetLev(), nTotalMemberLev);
-					pMember->AwardBattleExp(nExp, pMember==pKillerPlayer);
-					pKillerPlayer->GetTaskSet()->OnKillMonster(GetTypeID(), pMember==pKillerPlayer);
+					pMember->AwardBattleExp(nExp, pMember == pKillerPlayer);
+					pKillerPlayer->GetTaskSet()->OnKillMonster(GetTypeID(), pMember == pKillerPlayer);
 				}
-
 			}
-			
-
 		}
-		
 
-
-		pKillerPlayer->GetDataCountSet()->AddCount(DATA_ACC_MONSTERKILL,GetTypeID(),1, UPDATE_FALSE);
-		pKillerPlayer->GetDataCountSet()->AddCount(DATA_ACC_SYSTEM,DATA_ACC_SYSTEM_KILL_MONSTER,1, UPDATE_FALSE);
+		pKillerPlayer->GetDataCountSet()->AddCount(DATA_ACC_MONSTERKILL, GetTypeID(), 1, UPDATE_FALSE);
+		pKillerPlayer->GetDataCountSet()->AddCount(DATA_ACC_SYSTEM, DATA_ACC_SYSTEM_KILL_MONSTER, 1, UPDATE_FALSE);
 		if(IsBoss())
-			pKillerPlayer->GetDataCountSet()->AddCount(DATA_ACC_SYSTEM,DATA_ACC_SYSTEM_KILL_BOSS,1, UPDATE_FALSE);
+			pKillerPlayer->GetDataCountSet()->AddCount(DATA_ACC_SYSTEM, DATA_ACC_SYSTEM_KILL_BOSS, 1, UPDATE_FALSE);
 	}
-
-
 
 	//前端尸体保留N秒
 	GetCurrentScene()->LeaveMap(this);
 	DelThis();
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 }
 
 void CMonster::OnBeAttack(CActor* pAttacker, int nRealDamage)
 {
-__ENTER_FUNCTION
-	
+	__ENTER_FUNCTION
+
 	if(pAttacker)
 		m_HateList.AddHate(pAttacker->GetID(), nRealDamage);
 
 	CActor::OnBeAttack(pAttacker, nRealDamage);
-	TryExecScript<void>(SCB_MONSTER_ONBEATTACK, this, pAttacker, nRealDamage);	
-__LEAVE_FUNCTION
+	TryExecScript<void>(SCB_MONSTER_ONBEATTACK, this, pAttacker, nRealDamage);
+	__LEAVE_FUNCTION
 }
-
 
 void CMonster::OnEnterMap(CSceneBase* pScene)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	CActor::OnEnterMap(pScene);
-	
+
 	ServerMSG::ActorCreate ai_msg;
 	ai_msg.set_actor_id(GetID());
 	ai_msg.set_scene_id(GetSceneID());
@@ -237,26 +217,24 @@ __ENTER_FUNCTION
 	ai_msg.set_ownerid(GetOwnerID());
 
 	ZoneService()->SendMsgToAIService(ServerMSG::MsgID_ActorCreate, ai_msg);
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 }
-
 
 void CMonster::OnLeaveMap(uint64_t idTargetScene)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	CActor::OnLeaveMap(idTargetScene);
 
-__LEAVE_FUNCTION
-
+	__LEAVE_FUNCTION
 }
 
 bool CMonster::IsEnemy(CSceneObject* pActor) const
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	CHECKF(pActor);
 	if(this == pActor)
 		return false;
-		 
+
 	if(m_idOwner != 0)
 	{
 		CActor* pOwner = ActorManager()->QueryActor(m_idOwner);
@@ -265,14 +243,13 @@ __ENTER_FUNCTION
 	}
 
 	return GetCampID() != static_cast<CActor*>(pActor)->GetCampID();
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
 }
 
-
 void CMonster::MakeShowData(SC_AOI_NEW& msg)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	msg.set_mapid(GetMapID());
 	msg.set_actor_id(GetID());
 	msg.set_actortype(ACT_MONSTER);
@@ -283,7 +260,5 @@ __ENTER_FUNCTION
 	msg.set_name(GetName());
 	msg.set_hp(GetHP());
 	msg.set_hpmax(GetHPMax());
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 }
-
-

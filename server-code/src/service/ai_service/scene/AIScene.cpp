@@ -1,11 +1,9 @@
-#include "AIService.h"
 #include "AIScene.h"
-#include "AIActor.h"
-#include "NetMSGProcess.h"
-CAIScene::CAIScene()
-{
 
-}
+#include "AIActor.h"
+#include "AIService.h"
+#include "NetMSGProcess.h"
+CAIScene::CAIScene() {}
 
 CAIScene::~CAIScene()
 {
@@ -24,10 +22,7 @@ bool CAIScene::Init(const SceneID& idScene)
 	return true;
 }
 
-CAISceneManager::CAISceneManager()
-{
-
-}
+CAISceneManager::CAISceneManager() {}
 
 CAISceneManager::~CAISceneManager()
 {
@@ -41,7 +36,7 @@ bool CAISceneManager::Init(uint32_t idZone)
 
 void CAISceneManager::Destory()
 {
-	for (auto& pair_val : m_mapScene)
+	for(auto& pair_val: m_mapScene)
 	{
 		LOGDEBUG("AIScene {} Destroy", pair_val.first.GetMapID());
 		SAFE_DELETE(pair_val.second);
@@ -52,14 +47,14 @@ void CAISceneManager::Destory()
 CAIScene* CAISceneManager::CreateScene(CNetworkMessage* pMsg)
 {
 	ServerMSG::SceneCreate msg;
-	if (msg.ParseFromArray(pMsg->GetMsgBody(), pMsg->GetBodySize()) == false)
+	if(msg.ParseFromArray(pMsg->GetMsgBody(), pMsg->GetBodySize()) == false)
 	{
 		return nullptr;
 	}
 	const SceneID& idScene = msg.scene_id();
-	CGameMap* pMap = MapManager()->QueryMap(idScene.GetMapID());
+	CGameMap*	   pMap	   = MapManager()->QueryMap(idScene.GetMapID());
 	CHECKF(pMap);
-	
+
 	CAIScene* pScene = CAIScene::CreateNew(idScene);
 	CHECKF(pScene);
 
@@ -73,18 +68,18 @@ CAIScene* CAISceneManager::CreateScene(CNetworkMessage* pMsg)
 void CAISceneManager::DestoryDynaScene(CNetworkMessage* pMsg)
 {
 	ServerMSG::SceneDestory msg;
-	if (msg.ParseFromArray(pMsg->GetMsgBody(), pMsg->GetBodySize()) == false)
+	if(msg.ParseFromArray(pMsg->GetMsgBody(), pMsg->GetBodySize()) == false)
 	{
 		return;
 	}
 	const SceneID& idScene = msg.scene_id();
 
 	auto itFind = m_mapScene.find(idScene);
-	if (itFind == m_mapScene.end())
+	if(itFind == m_mapScene.end())
 		return;
 
 	CAIScene* pScene = itFind->second;
-	
+
 	LOGDEBUG("AIScene {} Destroy", itFind->first.GetMapID());
 
 	m_mapScene.erase(itFind);
@@ -94,13 +89,11 @@ void CAISceneManager::DestoryDynaScene(CNetworkMessage* pMsg)
 CAIScene* CAISceneManager::QueryScene(const SceneID& idScene)
 {
 	auto itFind = m_mapScene.find(idScene);
-	if (itFind == m_mapScene.end())
+	if(itFind == m_mapScene.end())
 		return nullptr;
-	
+
 	CAIScene* pScene = itFind->second;
 	return pScene;
 }
 
-void CAISceneManager::OnTimer()
-{
-}
+void CAISceneManager::OnTimer() {}

@@ -17,47 +17,52 @@
 
 //#include <iostream>
 
-fuzzy::Rule::Rule(const std::vector<Trapezoid>&antecedents,const Conjunction& conjunction, const Trapezoid& consequent,std::string naturalLanguage) :
-    _antecedents(antecedents),
-    _conjunction(conjunction),
-    _consequent(consequent),
-    _naturalLanguage(naturalLanguage) {
-    //nop
+fuzzy::Rule::Rule(const std::vector<Trapezoid>& antecedents,
+				  const Conjunction&			conjunction,
+				  const Trapezoid&				consequent,
+				  std::string					naturalLanguage)
+	: _antecedents(antecedents)
+	, _conjunction(conjunction)
+	, _consequent(consequent)
+	, _naturalLanguage(naturalLanguage)
+{
+	// nop
 }
 
 double fuzzy::Rule::fire(const std::vector<double>& values) const
 {
-    // Holds the calculated mu values for each antecedent upon firing
-    std::vector<double> _mus;
+	// Holds the calculated mu values for each antecedent upon firing
+	std::vector<double> _mus;
 
-    if (_antecedents.size() != values.size())
-    { 
-		throw std::out_of_range("The size of the input vector to Rule::fire() must equal the size of its antecedent vector.");
-	}
-
-    for (size_t i = 0; i < _antecedents.size(); ++i) 
+	if(_antecedents.size() != values.size())
 	{
-        _mus.push_back(_antecedents[i].calculateMu(values[i]));
-    }
-
-    if (_conjunction == Conjunction::AND)  // AND == intersection == minimum
-    { 
-		return *std::min_element(begin(_mus), end(_mus)); 
-	}
-    else // OR == union == maximum
-    { 
-		return *std::max_element(begin(_mus), end(_mus)); 
+		throw std::out_of_range(
+			"The size of the input vector to Rule::fire() must equal the size of its antecedent vector.");
 	}
 
-//    std::cout << "Fired rule '" << _naturalLanguage << "' with inputs [";
-//    for (const auto &v: values) {
-//        std::cout << v << ", ";
-//    }
-//    std::cout << "], µ choices are [";
-//    for (const auto &m: _mus) {
-//        std::cout << m << ", ";
-//    }
-//    std::cout << "], final µ for this rule is " << mu << std::endl;
+	for(size_t i = 0; i < _antecedents.size(); ++i)
+	{
+		_mus.push_back(_antecedents[i].calculateMu(values[i]));
+	}
 
-//    return mu;
+	if(_conjunction == Conjunction::AND) // AND == intersection == minimum
+	{
+		return *std::min_element(begin(_mus), end(_mus));
+	}
+	else // OR == union == maximum
+	{
+		return *std::max_element(begin(_mus), end(_mus));
+	}
+
+	//    std::cout << "Fired rule '" << _naturalLanguage << "' with inputs [";
+	//    for (const auto &v: values) {
+	//        std::cout << v << ", ";
+	//    }
+	//    std::cout << "], µ choices are [";
+	//    for (const auto &m: _mus) {
+	//        std::cout << m << ", ";
+	//    }
+	//    std::cout << "], final µ for this rule is " << mu << std::endl;
+
+	//    return mu;
 }

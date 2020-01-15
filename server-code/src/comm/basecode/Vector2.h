@@ -1,34 +1,38 @@
 #ifndef VECTOR2_H__
 #define VECTOR2_H__
 
-#include "Math.h"
 #include <assert.h>
+
+#include "MathDef.h"
 #include "export_lua.h"
 export_lua class Vector2
 {
-public:
+  public:
 	export_lua float x;
 	export_lua float y;
 
-public:
+  public:
 	export_lua inline Vector2()
-		:x(0), y(0)
+		: x(0)
+		, y(0)
 	{
 	}
 
 	export_lua inline Vector2(const float fX, const float fY)
-		: x(fX), y(fY)
+		: x(fX)
+		, y(fY)
 	{
 	}
 
 	export_lua inline explicit Vector2(const float scaler)
-		: x(scaler), y(scaler)
+		: x(scaler)
+		, y(scaler)
 	{
 	}
 
 	inline explicit Vector2(const float afCoordinate[2])
-		: x(afCoordinate[0]),
-		y(afCoordinate[1])
+		: x(afCoordinate[0])
+		, y(afCoordinate[1])
 	{
 	}
 
@@ -39,26 +43,27 @@ public:
 	}
 
 	inline explicit Vector2(float* const r)
-		: x(r[0]), y(r[1])
+		: x(r[0])
+		, y(r[1])
 	{
 	}
 
 	/** Exchange the contents of this vector with another.
-	*/
+	 */
 	export_lua inline void swap(Vector2& other)
 	{
 		std::swap(x, other.x);
 		std::swap(y, other.y);
 	}
 
-	inline float operator[] (const size_t i) const
+	inline float operator[](const size_t i) const
 	{
 		assert(i < 2);
 
 		return *(&x + i);
 	}
 
-	inline float& operator[] (const size_t i)
+	inline float& operator[](const size_t i)
 	{
 		assert(i < 2);
 
@@ -66,21 +71,15 @@ public:
 	}
 
 	/// Pointer accessor for direct copying
-	inline float* ptr()
-	{
-		return &x;
-	}
+	inline float* ptr() { return &x; }
 	/// Pointer accessor for direct copying
-	inline const float* ptr() const
-	{
-		return &x;
-	}
+	inline const float* ptr() const { return &x; }
 
 	/** Assigns the value of the other vector.
 		@param
 			rkVector The other vector
 	*/
-	inline Vector2& operator= (const Vector2& rkVector)
+	inline Vector2& operator=(const Vector2& rkVector)
 	{
 		x = rkVector.x;
 		y = rkVector.y;
@@ -88,7 +87,7 @@ public:
 		return *this;
 	}
 
-	inline Vector2& operator= (const float fScalar)
+	inline Vector2& operator=(const float fScalar)
 	{
 		x = fScalar;
 		y = fScalar;
@@ -96,117 +95,54 @@ public:
 		return *this;
 	}
 
-	export_lua inline bool operator== (const Vector2& rkVector) const
-	{
-		return (x == rkVector.x && y == rkVector.y);
-	}
+	export_lua inline bool operator==(const Vector2& rkVector) const { return (x == rkVector.x && y == rkVector.y); }
 
-	export_lua inline bool operator!= (const Vector2& rkVector) const
-	{
-		return (x != rkVector.x || y != rkVector.y);
-	}
+	export_lua inline bool operator!=(const Vector2& rkVector) const { return (x != rkVector.x || y != rkVector.y); }
 
 	// arithmetic operations
-	inline Vector2 operator+ (const Vector2& rkVector) const
-	{
-		return Vector2(
-			x + rkVector.x,
-			y + rkVector.y);
-	}
+	inline Vector2 operator+(const Vector2& rkVector) const { return Vector2(x + rkVector.x, y + rkVector.y); }
 
-	inline Vector2 operator- (const Vector2& rkVector) const
-	{
-		return Vector2(
-			x - rkVector.x,
-			y - rkVector.y);
-	}
+	inline Vector2 operator-(const Vector2& rkVector) const { return Vector2(x - rkVector.x, y - rkVector.y); }
 
-	inline Vector2 operator* (const float fScalar) const
-	{
-		return Vector2(
-			x * fScalar,
-			y * fScalar);
-	}
+	inline Vector2 operator*(const float fScalar) const { return Vector2(x * fScalar, y * fScalar); }
 
-	inline Vector2 operator* (const Vector2& rhs) const
-	{
-		return Vector2(
-			x * rhs.x,
-			y * rhs.y);
-	}
+	inline Vector2 operator*(const Vector2& rhs) const { return Vector2(x * rhs.x, y * rhs.y); }
 
-	inline Vector2 operator/ (const float fScalar) const
+	inline Vector2 operator/(const float fScalar) const
 	{
 		assert(fScalar != 0.0);
 
 		float fInv = 1.0f / fScalar;
 
-		return Vector2(
-			x * fInv,
-			y * fInv);
+		return Vector2(x * fInv, y * fInv);
 	}
 
-	inline Vector2 operator/ (const Vector2& rhs) const
-	{
-		return Vector2(
-			x / rhs.x,
-			y / rhs.y);
-	}
+	inline Vector2 operator/(const Vector2& rhs) const { return Vector2(x / rhs.x, y / rhs.y); }
 
-	inline const Vector2& operator+ () const
-	{
-		return *this;
-	}
+	inline const Vector2& operator+() const { return *this; }
 
-	inline Vector2 operator- () const
-	{
-		return Vector2(-x, -y);
-	}
+	inline Vector2 operator-() const { return Vector2(-x, -y); }
 
 	// overloaded operators to help Vector2
-	inline friend Vector2 operator* (const float fScalar, const Vector2& rkVector)
+	inline friend Vector2 operator*(const float fScalar, const Vector2& rkVector)
 	{
-		return Vector2(
-			fScalar * rkVector.x,
-			fScalar * rkVector.y);
+		return Vector2(fScalar * rkVector.x, fScalar * rkVector.y);
 	}
 
-	inline friend Vector2 operator/ (const float fScalar, const Vector2& rkVector)
+	inline friend Vector2 operator/(const float fScalar, const Vector2& rkVector)
 	{
-		return Vector2(
-			fScalar / rkVector.x,
-			fScalar / rkVector.y);
+		return Vector2(fScalar / rkVector.x, fScalar / rkVector.y);
 	}
 
-	inline friend Vector2 operator+ (const Vector2& lhs, const float rhs)
-	{
-		return Vector2(
-			lhs.x + rhs,
-			lhs.y + rhs);
-	}
+	inline friend Vector2 operator+(const Vector2& lhs, const float rhs) { return Vector2(lhs.x + rhs, lhs.y + rhs); }
 
-	inline friend Vector2 operator+ (const float lhs, const Vector2& rhs)
-	{
-		return Vector2(
-			lhs + rhs.x,
-			lhs + rhs.y);
-	}
+	inline friend Vector2 operator+(const float lhs, const Vector2& rhs) { return Vector2(lhs + rhs.x, lhs + rhs.y); }
 
-	inline friend Vector2 operator- (const Vector2& lhs, const float rhs)
-	{
-		return Vector2(
-			lhs.x - rhs,
-			lhs.y - rhs);
-	}
+	inline friend Vector2 operator-(const Vector2& lhs, const float rhs) { return Vector2(lhs.x - rhs, lhs.y - rhs); }
 
-	inline friend Vector2 operator- (const float lhs, const Vector2& rhs)
-	{
-		return Vector2(
-			lhs - rhs.x,
-			lhs - rhs.y);
-	}
+	inline friend Vector2 operator-(const float lhs, const Vector2& rhs) { return Vector2(lhs - rhs.x, lhs - rhs.y); }
 	// arithmetic updates
-	inline Vector2& operator+= (const Vector2& rkVector)
+	inline Vector2& operator+=(const Vector2& rkVector)
 	{
 		x += rkVector.x;
 		y += rkVector.y;
@@ -214,7 +150,7 @@ public:
 		return *this;
 	}
 
-	inline Vector2& operator+= (const float fScaler)
+	inline Vector2& operator+=(const float fScaler)
 	{
 		x += fScaler;
 		y += fScaler;
@@ -222,7 +158,7 @@ public:
 		return *this;
 	}
 
-	inline Vector2& operator-= (const Vector2& rkVector)
+	inline Vector2& operator-=(const Vector2& rkVector)
 	{
 		x -= rkVector.x;
 		y -= rkVector.y;
@@ -230,7 +166,7 @@ public:
 		return *this;
 	}
 
-	inline Vector2& operator-= (const float fScaler)
+	inline Vector2& operator-=(const float fScaler)
 	{
 		x -= fScaler;
 		y -= fScaler;
@@ -238,7 +174,7 @@ public:
 		return *this;
 	}
 
-	inline Vector2& operator*= (const float fScalar)
+	inline Vector2& operator*=(const float fScalar)
 	{
 		x *= fScalar;
 		y *= fScalar;
@@ -246,7 +182,7 @@ public:
 		return *this;
 	}
 
-	inline Vector2& operator*= (const Vector2& rkVector)
+	inline Vector2& operator*=(const Vector2& rkVector)
 	{
 		x *= rkVector.x;
 		y *= rkVector.y;
@@ -254,7 +190,7 @@ public:
 		return *this;
 	}
 
-	inline Vector2& operator/= (const float fScalar)
+	inline Vector2& operator/=(const float fScalar)
 	{
 		assert(fScalar != 0.0);
 
@@ -266,7 +202,7 @@ public:
 		return *this;
 	}
 
-	inline Vector2& operator/= (const Vector2& rkVector)
+	inline Vector2& operator/=(const Vector2& rkVector)
 	{
 		x /= rkVector.x;
 		y /= rkVector.y;
@@ -281,10 +217,7 @@ public:
 			length (e.g. for just comparing lengths) use squaredLength()
 			instead.
 	*/
-	export_lua inline float length() const
-	{
-		return sqrt(x * x + y * y);
-	}
+	export_lua inline float length() const { return sqrt(x * x + y * y); }
 
 	/** Returns the square of the length(magnitude) of the vector.
 		@remarks
@@ -296,10 +229,7 @@ public:
 			want to find the longest / shortest vector without incurring
 			the square root.
 	*/
-	export_lua inline float squaredLength() const
-	{
-		return x * x + y * y;
-	}
+	export_lua inline float squaredLength() const { return x * x + y * y; }
 	/** Returns the distance to another vector.
 		@warning
 			This operation requires a square root and is expensive in
@@ -307,10 +237,7 @@ public:
 			distance (e.g. for just comparing distances) use squaredDistance()
 			instead.
 	*/
-	export_lua inline float distance(const Vector2& rhs) const
-	{
-		return (*this - rhs).length();
-	}
+	export_lua inline float distance(const Vector2& rhs) const { return (*this - rhs).length(); }
 
 	/** Returns the square of the distance to another vector.
 		@remarks
@@ -322,10 +249,7 @@ public:
 			Use this if you want to find the longest / shortest distance
 			without incurring the square root.
 	*/
-	export_lua inline float squaredDistance(const Vector2& rhs) const
-	{
-		return (*this - rhs).squaredLength();
-	}
+	export_lua inline float squaredDistance(const Vector2& rhs) const { return (*this - rhs).squaredLength(); }
 
 	/** Calculates the dot (scalar) product of this vector with another.
 		@remarks
@@ -341,10 +265,7 @@ public:
 		@returns
 			A float representing the dot product value.
 	*/
-	export_lua inline float dotProduct(const Vector2& vec) const
-	{
-		return x * vec.x + y * vec.y;
-	}
+	export_lua inline float dotProduct(const Vector2& vec) const { return x * vec.x + y * vec.y; }
 
 	/** Normalises the vector.
 		@remarks
@@ -360,7 +281,7 @@ public:
 		float fLength = sqrt(x * x + y * y);
 
 		// Will also work for zero-sized vectors, but will change nothing
-		if (fLength > 1e-08)
+		if(fLength > 1e-08)
 		{
 			float fInvLength = 1.0f / fLength;
 			x *= fInvLength;
@@ -370,24 +291,20 @@ public:
 		return fLength;
 	}
 
-
-
 	/** Returns a vector at a point half way between this and the passed
 		in vector.
 	*/
 	export_lua inline Vector2 midPoint(const Vector2& vec) const
 	{
-		return Vector2(
-			(x + vec.x) * 0.5f,
-			(y + vec.y) * 0.5f);
+		return Vector2((x + vec.x) * 0.5f, (y + vec.y) * 0.5f);
 	}
 
 	/** Returns true if the vector's scalar components are all greater
 		that the ones of the vector it is compared against.
 	*/
-	export_lua inline bool operator< (const Vector2& rhs) const
+	export_lua inline bool operator<(const Vector2& rhs) const
 	{
-		if (x < rhs.x && y < rhs.y)
+		if(x < rhs.x && y < rhs.y)
 			return true;
 		return false;
 	}
@@ -395,9 +312,9 @@ public:
 	/** Returns true if the vector's scalar components are all smaller
 		that the ones of the vector it is compared against.
 	*/
-	export_lua inline bool operator> (const Vector2& rhs) const
+	export_lua inline bool operator>(const Vector2& rhs) const
 	{
-		if (x > rhs.x && y > rhs.y)
+		if(x > rhs.x && y > rhs.y)
 			return true;
 		return false;
 	}
@@ -411,8 +328,10 @@ public:
 	*/
 	export_lua inline void makeFloor(const Vector2& cmp)
 	{
-		if (cmp.x < x) x = cmp.x;
-		if (cmp.y < y) y = cmp.y;
+		if(cmp.x < x)
+			x = cmp.x;
+		if(cmp.y < y)
+			y = cmp.y;
 	}
 
 	/** Sets this vector's components to the maximum of its own and the
@@ -424,8 +343,10 @@ public:
 	*/
 	export_lua inline void makeCeil(const Vector2& cmp)
 	{
-		if (cmp.x > x) x = cmp.x;
-		if (cmp.y > y) y = cmp.y;
+		if(cmp.x > x)
+			x = cmp.x;
+		if(cmp.y > y)
+			y = cmp.y;
 	}
 
 	/** Generates a vector perpendicular to this vector (eg an 'up' vector).
@@ -435,17 +356,11 @@ public:
 			method will guarantee to generate one of them. If you need more
 			control you should use the Quaternion class.
 	*/
-	export_lua inline Vector2 perpendicular(void) const
-	{
-		return Vector2(-y, x);
-	}
+	export_lua inline Vector2 perpendicular(void) const { return Vector2(-y, x); }
 	/** Calculates the 2 dimensional cross-product of 2 vectors, which results
 		in a single floating point value which is 2 times the area of the triangle.
 	*/
-	export_lua inline float crossProduct(const Vector2& rkVector) const
-	{
-		return x * rkVector.y - y * rkVector.x;
-	}
+	export_lua inline float crossProduct(const Vector2& rkVector) const { return x * rkVector.y - y * rkVector.x; }
 	/** Generates a new random vector which deviates from this vector by a
 		given angle in a random direction.
 		@remarks
@@ -465,15 +380,13 @@ public:
 			vector will not be normalised, normalise it if you wish
 			afterwards.
 	*/
-	export_lua inline Vector2 randomDeviant(
-		float angle) const
+	export_lua inline Vector2 randomDeviant(float angle) const
 	{
 
 		angle *= random_float() * TWO_PI;
 		float cosa = cos(angle);
 		float sina = sin(angle);
-		return  Vector2(cosa * x - sina * y,
-			sina * x + cosa * y);
+		return Vector2(cosa * x - sina * y, sina * x + cosa * y);
 	}
 
 	/** Returns true if this vector is zero length. */
@@ -481,7 +394,6 @@ public:
 	{
 		float sqlen = (x * x) + (y * y);
 		return (sqlen < (1e-06 * 1e-06));
-
 	}
 
 	/** As normalise, except that this vector is unaffected and the
@@ -501,10 +413,7 @@ public:
 		return Vector2(*this - (2 * this->dotProduct(normal) * normal));
 	}
 	/// Check whether this vector contains valid values
-	export_lua inline bool isNaN() const
-	{
-		return Math::isNaN(x) || Math::isNaN(y);
-	}
+	export_lua inline bool isNaN() const { return Math::isNaN(x) || Math::isNaN(y); }
 
 	// special points
 	export_lua static const Vector2 ZERO;
@@ -513,9 +422,8 @@ public:
 	export_lua static const Vector2 NEGATIVE_UNIT_X;
 	export_lua static const Vector2 NEGATIVE_UNIT_Y;
 	export_lua static const Vector2 UNIT_SCALE;
-
 };
 
 using CPos2D = Vector2;
 
-#endif//VECTOR2_H__
+#endif // VECTOR2_H__

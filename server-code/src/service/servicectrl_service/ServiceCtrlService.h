@@ -1,49 +1,44 @@
 #ifndef ServiceCtrlService_h__
 #define ServiceCtrlService_h__
 
-
 #include "IService.h"
-#include "ServiceComm.h"
-#include "NetSocket.h"
-#include "UIDFactory.h"
 #include "MessagePort.h"
+#include "NetSocket.h"
+#include "ServiceComm.h"
+#include "UIDFactory.h"
 
 struct event;
 class CNetMSGProcess;
 class CServiceCtrlService : public IService, public CServiceCommon, public CMessagePortEventHandler
 {
-public:
+  public:
 	CServiceCtrlService(const ServerPort& nServerPort);
 	virtual ~CServiceCtrlService();
 	void Release() { delete this; }
 	bool Create();
-	
-public:
-	//connect to other server succ
-	virtual void OnPortConnected(CNetSocket*)override;
-	//connect to other server failed, can set CNetSocket::setReconnectTimes = 0 to stop reconnect
-	virtual void OnPortConnectFailed(CNetSocket*)override;
-	//lost connect
+
+  public:
+	// connect to other server succ
+	virtual void OnPortConnected(CNetSocket*) override;
+	// connect to other server failed, can set CNetSocket::setReconnectTimes = 0 to stop reconnect
+	virtual void OnPortConnectFailed(CNetSocket*) override;
+	// lost connect
 	virtual void OnPortDisconnected(CNetSocket*) override;
-	//accept a new client
+	// accept a new client
 	virtual void OnPortAccepted(CNetSocket*) override;
-	//receive data
+	// receive data
 	virtual void OnPortRecvData(CNetSocket*, byte* pBuffer, size_t len) override;
-	//recv over time
+	// recv over time
 	virtual void OnPortRecvTimeout(CNetSocket*) override;
 	virtual void OnLogicThreadProc() override;
 	virtual void OnLogicThreadCreate() override;
 	virtual void OnLogicThreadExit() override;
 
 	virtual void OnProcessMessage(CNetworkMessage*) override;
-
-
-
 };
 
-
 #define ServiceCtrlService() MyTLSTypePtr<CServiceCtrlService>::get()
-#define EventManager() ServiceCtrlService()->GetEventManager()
-#define NetMsgProcess() ServiceCtrlService()->GetNetMsgProcess()
+#define EventManager()		 ServiceCtrlService()->GetEventManager()
+#define NetMsgProcess()		 ServiceCtrlService()->GetNetMsgProcess()
 
 #endif // ServiceCtrlService_h__

@@ -1,4 +1,5 @@
 #include "MapItem.h"
+
 #include "Scene.h"
 MEMORYHEAP_IMPLEMENTATION(CMapItem, s_heap);
 CMapItem::CMapItem()
@@ -8,9 +9,8 @@ CMapItem::CMapItem()
 
 CMapItem::~CMapItem()
 {
-	if(	GetCurrentScene() != nullptr)
+	if(GetCurrentScene() != nullptr)
 		GetCurrentScene()->LeaveMap(this);
-
 }
 
 bool CMapItem::Init(uint32_t idType)
@@ -39,7 +39,7 @@ void CMapItem::MakeShowData(SC_AOI_NEW& msg)
 void CMapItem::OnEnterMap(CSceneBase* pScene)
 {
 	CActor::OnEnterMap(pScene);
-	
+
 	ServerMSG::ActorCreate ai_msg;
 	ai_msg.set_actor_id(GetID());
 	ai_msg.set_scene_id(GetSceneID());
@@ -64,4 +64,3 @@ void CMapItem::OnLeaveMap(uint64_t idTargetScene)
 {
 	CActor::OnLeaveMap(idTargetScene);
 }
-

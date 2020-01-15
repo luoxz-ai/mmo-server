@@ -1,18 +1,19 @@
 #include "ServiceLoader.h"
-#include "IService.h"
-#include "BaseCode.h"
-#include "MessageRoute.h"
-#include "SettingMap.h"
+
 #include <dlfcn.h>
-#include "loging_manager.h"
+
+#include "BaseCode.h"
+#include "IService.h"
 #include "MemoryHeap.h"
 #include "MessageRoute.h"
+#include "SettingMap.h"
 #include "event2/event.h"
 #include "event2/thread.h"
+#include "loging_manager.h"
 //#include "brpc/global.h"
-void log_cb(int severity, const char *msg)
+void log_cb(int severity, const char* msg)
 {
-	LOGNETERROR("{}",msg);
+	LOGNETERROR("{}", msg);
 }
 
 ServiceLoader::ServiceLoader()
@@ -22,7 +23,6 @@ ServiceLoader::ServiceLoader()
 	event_set_log_callback(log_cb);
 
 	CreateMessageRoute();
-
 }
 
 ServiceLoader::~ServiceLoader()
@@ -32,13 +32,12 @@ ServiceLoader::~ServiceLoader()
 
 void ServiceLoader::Destory()
 {
-__ENTER_FUNCTION
-	for (auto it = m_setService.rbegin();
-		it != m_setService.rend(); it++)
+	__ENTER_FUNCTION
+	for(auto it = m_setService.rbegin(); it != m_setService.rend(); it++)
 	{
 		__ENTER_FUNCTION
-			IService* pService = *it;
-			pService->Release();
+		IService* pService = *it;
+		pService->Release();
 		__LEAVE_FUNCTION
 	}
 	m_setService.clear();
@@ -49,27 +48,27 @@ __ENTER_FUNCTION
 	m_setModule.clear();
 	LOGMESSAGE("service_loader end:{}", getpid());
 	ReleaseMessageRoute();
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 }
 
 bool ServiceLoader::_StartService(const std::string& dll_name, uint16_t idWorld, uint16_t idService)
 {
-__ENTER_FUNCTION
-	if (dll_name.empty())
+	__ENTER_FUNCTION
+	if(dll_name.empty())
 	{
-		//log error
+		// log error
 		LOGFATAL("Service In service.xml Need ServiceLib=xxx ");
 		return false;
 	}
-	//load dll/so
-	HMODULE hService = nullptr;
-	auto it_moudle = m_setModule.find(dll_name);
-	if (it_moudle == m_setModule.end())
+	// load dll/so
+	HMODULE hService  = nullptr;
+	auto	it_moudle = m_setModule.find(dll_name);
+	if(it_moudle == m_setModule.end())
 	{
-		hService = dlopen(dll_name.c_str(), RTLD_LOCAL|RTLD_NOW);//RTLD_GLOBAL|RTLD_LAZY);
-		if (hService == nullptr)
+		hService = dlopen(dll_name.c_str(), RTLD_LOCAL | RTLD_NOW); // RTLD_GLOBAL|RTLD_LAZY);
+		if(hService == nullptr)
 		{
-			//log err
+			// log err
 			LOGFATAL("dlopen fail:{}:{}", dll_name.c_str(), dlerror());
 			return false;
 		}
@@ -80,31 +79,31 @@ __ENTER_FUNCTION
 		hService = it_moudle->second;
 	}
 
-	typedef IService* (*ServiceCreateFunc)(uint16_t , uint16_t);
+	typedef IService* (*ServiceCreateFunc)(uint16_t, uint16_t);
 
-	ServiceCreateFunc func = (ServiceCreateFunc)dlsym(hService, "ServiceCreate");
-	IService* pService = func(idWorld, idService);
-	if (pService)
+	ServiceCreateFunc func	   = (ServiceCreateFunc)dlsym(hService, "ServiceCreate");
+	IService*		  pService = func(idWorld, idService);
+	if(pService)
 	{
 		m_setService.push_back(pService);
 	}
 	else
 	{
-		//log err
+		// log err
 		LOGFATAL("ServiceCreate {} fail:{}", idService, dll_name.c_str());
 		return false;
 	}
 
-
-	LOGDEBUG("after {}[{}] memory allocated: {}",  dll_name.c_str(), idService, get_memory_status().allocted);
+	LOGDEBUG("after {}[{}] memory allocated: {}", dll_name.c_str(), idService, get_memory_status().allocted);
 	return true;
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
 }
 
-bool ServiceLoader::Load(const std::string& setting_filename, uint16_t nWorldID, const std::set<uint16_t>& create_service_set)
+bool ServiceLoader::Load(const std::string&		   setting_filename,
+						 uint16_t				   nWorldID,
+						 const std::set<uint16_t>& create_service_set)
 {
-	
 
 	//先将所有的Service存储到MessagePort中，这样当Service开启后，收到的ServiceMsg:service_addr如果没有收录就是新Service
 	if(GetMessageRoute()->LoadServiceSetting(setting_filename, nWorldID) == false)
@@ -120,21 +119,21 @@ bool ServiceLoader::Load(const std::string& setting_filename, uint16_t nWorldID,
 		{
 			//全部启动在本loader上
 			bool bSucc = false;
-			GetMessageRoute()->ForeachServiceInfoByWorldID(nWorldID, false, [&bSucc,nWorldID,pThis = this](const ServerAddrInfo* pServerAddrInfo)
-			{
-				bSucc = pThis->_StartService(pServerAddrInfo->lib_name, nWorldID, pServerAddrInfo->idService);
-				if(bSucc == false)
-					return false;
-				return true;
-			});
+			GetMessageRoute()->ForeachServiceInfoByWorldID(
+				nWorldID, false, [&bSucc, nWorldID, pThis = this](const ServerAddrInfo* pServerAddrInfo) {
+					bSucc = pThis->_StartService(pServerAddrInfo->lib_name, nWorldID, pServerAddrInfo->idService);
+					if(bSucc == false)
+						return false;
+					return true;
+				});
 			if(bSucc == false)
 				return false;
 		}
 		else
 		{
-			for(uint16_t idService : create_service_set)
+			for(uint16_t idService: create_service_set)
 			{
-				auto pServerAddrInfo = GetMessageRoute()->QueryServiceInfo(ServerPort(nWorldID, idService) );
+				auto pServerAddrInfo = GetMessageRoute()->QueryServiceInfo(ServerPort(nWorldID, idService));
 				if(pServerAddrInfo == nullptr)
 				{
 					LOGFATAL("World:{} Service:{} QueryServiceInfo Error", nWorldID, idService);
@@ -154,4 +153,3 @@ bool ServiceLoader::Load(const std::string& setting_filename, uint16_t nWorldID,
 	}
 	return true;
 }
-

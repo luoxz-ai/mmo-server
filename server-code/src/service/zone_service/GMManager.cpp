@@ -1,15 +1,10 @@
 #include "GMManager.h"
+
 #include "ZoneService.h"
 
-CGMManager::CGMManager()
-{
+CGMManager::CGMManager() {}
 
-}
-
-CGMManager::~CGMManager()
-{
-
-}
+CGMManager::~CGMManager() {}
 
 bool CGMManager::Init()
 {
@@ -22,8 +17,8 @@ bool CGMManager::Init()
 			if(row)
 			{
 				std::string openid = row->Field(TBLD_GMLIST::OPENID);
-				uint32_t lev = row->Field(TBLD_GMLIST::GMLEV);
-				m_GMList[openid] = lev;
+				uint32_t	lev	   = row->Field(TBLD_GMLIST::GMLEV);
+				m_GMList[openid]   = lev;
 			}
 		}
 	}
@@ -54,15 +49,15 @@ uint32_t CGMManager::GetGMLevel(const std::string& openid) const
 		struct stat _stat_data;
 		if(stat("GM_TAG", &_stat_data) == 0)
 			return 1;
-		return  0;
+		return 0;
 	}
 }
 
 void CGMManager::ProcessGMCmd(CPlayer* pPlayer, const std::string& cmd)
 {
-	std::string _cmd = cmd.substr(1);
-	auto vecCmd = split_string(_cmd, " ");
-	auto it = m_GMCmdHandle.find(vecCmd[0]);
+	std::string _cmd   = cmd.substr(1);
+	auto		vecCmd = split_string(_cmd, " ");
+	auto		it	   = m_GMCmdHandle.find(vecCmd[0]);
 	if(it == m_GMCmdHandle.end())
 		return;
 

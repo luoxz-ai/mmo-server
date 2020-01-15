@@ -1,6 +1,7 @@
 #include "Bullet.h"
-#include "SkillState.h"
+
 #include "Scene.h"
+#include "SkillState.h"
 
 MEMORYHEAP_IMPLEMENTATION(CBullet, s_heap);
 CBullet::CBullet()
@@ -10,9 +11,8 @@ CBullet::CBullet()
 
 CBullet::~CBullet()
 {
-	if(	GetCurrentScene() != nullptr)
+	if(GetCurrentScene() != nullptr)
 		GetCurrentScene()->LeaveMap(this);
-
 }
 
 bool CBullet::Init(OBJID idOwner, CBulletType* pType, OBJID idTarget, const Vector2& posTarget)
@@ -20,16 +20,17 @@ bool CBullet::Init(OBJID idOwner, CBulletType* pType, OBJID idTarget, const Vect
 	CHECKF(pType);
 	CHECKF(idOwner);
 	m_idOwner = idOwner;
-	m_pType = pType;
+	m_pType	  = pType;
 
 	SetID(ActorManager()->GenBulletID());
 	CHECKF(CActor::Init());
-	m_idTarget = idTarget;
+	m_idTarget	= idTarget;
 	m_posTarget = posTarget;
 
 	if(m_pType->GetMoveSPD() != 0)
 	{
-		EventManager()->ScheduleEvent(EVENTID_BULLET_MOVESTEP, std::bind(&CBullet::MoveStep, this), 500, false, GetEventMapRef());
+		EventManager()->ScheduleEvent(
+			EVENTID_BULLET_MOVESTEP, std::bind(&CBullet::MoveStep, this), 500, false, GetEventMapRef());
 	}
 	_SetHP(1);
 	m_ActorAttrib.get_base(ATTRIB_HP_MAX) = 1;
@@ -57,7 +58,7 @@ void CBullet::MakeShowData(SC_AOI_NEW& msg)
 void CBullet::OnEnterMap(CSceneBase* pScene)
 {
 	CActor::OnEnterMap(pScene);
-	
+
 	ServerMSG::ActorCreate ai_msg;
 	ai_msg.set_actor_id(GetID());
 	ai_msg.set_scene_id(GetSceneID());
@@ -91,10 +92,7 @@ bool CBullet::CanDamage(CActor* pTarget) const
 	return false;
 }
 
-void CBullet::BeKillBy(CActor* pAttacker)
-{
-
-}
+void CBullet::BeKillBy(CActor* pAttacker) {}
 
 bool CBullet::IsEnemy(CSceneObject* pTarget) const
 {
@@ -112,7 +110,8 @@ void CBullet::ScheduleApply()
 	if(m_nApplyTimes < m_pType->GetApplyTimes())
 	{
 		uint32_t next_apply_time = m_pType->GetApplyMS() + m_pType->GetApplyAdjMS() * m_nApplyTimes;
-		EventManager()->ScheduleEvent(EVENTID_BULLET_APPLY, std::bind(&CBullet::DoApply, this), next_apply_time, false, GetEventMapRef());
+		EventManager()->ScheduleEvent(
+			EVENTID_BULLET_APPLY, std::bind(&CBullet::DoApply, this), next_apply_time, false, GetEventMapRef());
 		m_nApplyTimes++;
 	}
 	else
@@ -138,13 +137,13 @@ void CBullet::MoveStep()
 		CActor* pTarget = ActorManager()->QueryActor(m_idTarget);
 		if(pTarget != nullptr)
 		{
-			m_posTarget = pTarget->GetPos();	
+			m_posTarget = pTarget->GetPos();
 		}
 	}
 
-	Vector2 dir = m_posTarget - GetPos();
-	float fDis = dir.normalise();
-	if(fDis < GetMoveSpeed()* 0.5f)
+	Vector2 dir	 = m_posTarget - GetPos();
+	float	fDis = dir.normalise();
+	if(fDis < GetMoveSpeed() * 0.5f)
 	{
 		MoveTo(m_posTarget, false);
 		DoApply();
@@ -155,4 +154,3 @@ void CBullet::MoveStep()
 		MoveTo(newPos, false);
 	}
 }
-

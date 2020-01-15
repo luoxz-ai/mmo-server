@@ -1,35 +1,17 @@
 #include "Encryptor.h"
 
-
 class CEncryptorImpl
 {
-public:
-	CEncryptorImpl()
-	{
+  public:
+	CEncryptorImpl() {}
+	~CEncryptorImpl() {}
 
-	}
-	~CEncryptorImpl()
-	{
+	void Init(uint32_t key) {}
 
-	}
+	void Encryptor(byte* in_buffer, size_t in_len, byte* out_buffer, size_t out_len) {}
 
-	void Init(uint32_t key)
-	{
-
-	}
-
-	void Encryptor(byte* in_buffer, size_t in_len, byte* out_buffer, size_t out_len)
-	{
-
-	}
-private:
-
+  private:
 };
-
-
-
-
-
 
 CEncryptor::CEncryptor()
 {
@@ -43,14 +25,14 @@ CEncryptor::~CEncryptor()
 
 void CEncryptor::Init(uint32_t key)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	m_pImpl->Init(key);
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 }
 
 void CEncryptor::Encryptor(byte* in_buffer, size_t in_len, byte* out_buffer, size_t out_len)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	m_pImpl->Encryptor(in_buffer, in_len, out_buffer, out_len);
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 }

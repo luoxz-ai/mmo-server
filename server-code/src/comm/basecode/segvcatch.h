@@ -5,7 +5,7 @@
  ***************************************************************************/
 
 #ifndef _SEGVCATCH_H
-#define	_SEGVCATCH_H
+#define _SEGVCATCH_H
 
 /*! \brief segvcatch namespace
 
@@ -18,21 +18,17 @@ namespace segvcatch
 typedef void (*handler)();
 
 /*! Initialize segmentation violation handler.
-    \param h (optional) - optional user's signal handler. By default used an internal signal handler to throw
+	\param h (optional) - optional user's signal handler. By default used an internal signal handler to throw
  std::runtime_error.
    */
 void init_segv(handler h = 0);
 
 /*! Initialize floating point error handler.
-    \param h - optional user's signal handler. By default used an internal signal handler to throw
+	\param h - optional user's signal handler. By default used an internal signal handler to throw
  std::runtime_error.*/
 void init_fpe(handler h = 0);
 
-
-
-}
+} // namespace segvcatch
 void G_INITSEGV();
 
-
-
-#endif	/* _SEGVCATCH_H */
+#endif /* _SEGVCATCH_H */

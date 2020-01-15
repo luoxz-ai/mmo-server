@@ -3,11 +3,10 @@
 
 class IService
 {
-public:
+  public:
 	IService() {}
 	virtual ~IService() {}
 	virtual void Release() = 0;
 };
-
 
 #endif // IService_h__

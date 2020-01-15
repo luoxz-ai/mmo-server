@@ -1,19 +1,14 @@
 #include "StoragePackage.h"
-#include "Player.h"
+
 #include "Item.h"
-CStoragePackage::CStoragePackage()
-{
+#include "Player.h"
+CStoragePackage::CStoragePackage() {}
 
-}
-
-CStoragePackage::~CStoragePackage()
-{
-
-}
+CStoragePackage::~CStoragePackage() {}
 
 void CStoragePackage::CheckIn(uint32_t nGridInPackage)
 {
-	CItem* pItem = m_pOwner->GetBag()->PopItemByGrid(nGridInPackage,true);
+	CItem* pItem = m_pOwner->GetBag()->PopItemByGrid(nGridInPackage, true);
 	if(pItem == nullptr)
 		return;
 	//先尝试能不能直接合并入
@@ -32,7 +27,7 @@ void CStoragePackage::CheckIn(uint32_t nGridInPackage)
 
 void CStoragePackage::CheckOut(uint32_t nGridInStorage)
 {
-	CItem* pItem = PopItemByGrid(nGridInStorage,true);
+	CItem* pItem = PopItemByGrid(nGridInStorage, true);
 	if(pItem == nullptr)
 		return;
 	m_pOwner->GetBag()->CombineAddItem(pItem);
@@ -47,4 +42,3 @@ void CStoragePackage::CheckOut(uint32_t nGridInStorage)
 		SAFE_DELETE(pItem);
 	}
 }
-

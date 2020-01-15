@@ -1,13 +1,11 @@
 #include "AIMonster.h"
+
 #include "AIService.h"
-#include "ActorAI.h"
 #include "AIType.h"
+#include "ActorAI.h"
 
 MEMORYHEAP_IMPLEMENTATION(CAIMonster, s_heap);
-CAIMonster::CAIMonster()
-{
-
-}
+CAIMonster::CAIMonster() {}
 
 CAIMonster::~CAIMonster()
 {
@@ -27,13 +25,8 @@ bool CAIMonster::Init(const ServerMSG::ActorCreate& msg)
 	SetHPMax(msg.hpmax());
 	SetMP(msg.mp());
 	SetMPMax(msg.mpmax());
-	SetPos(Vector2(msg.posx(),msg.posy() ));
+	SetPos(Vector2(msg.posx(), msg.posy()));
 	SetOwnerID(msg.ownerid());
-
-
-
-
-
 
 	m_pType = MonsterTypeSet()->QueryObj(msg.prof());
 
@@ -47,13 +40,11 @@ bool CAIMonster::Init(const ServerMSG::ActorCreate& msg)
 			{
 				m_SkillSet.AddSkill(m_pAIType->GetDataRef().skill_id(i));
 			}
-	
 		}
 	}
 
 	return true;
 }
-
 
 void CAIMonster::SetIsAISleep(bool bSleep)
 {
@@ -63,7 +54,7 @@ void CAIMonster::SetIsAISleep(bool bSleep)
 
 void CAIMonster::OnBorn()
 {
-	//create ai
+	// create ai
 	static_cast<CAIScene*>(GetCurrentScene())->GetMonsterGen().OnMonsterBorn(this);
 	if(m_pAIType)
 	{
@@ -71,12 +62,10 @@ void CAIMonster::OnBorn()
 	}
 }
 
-
-
 void CAIMonster::OnUnderAttack(OBJID idTarget, int32_t nDamage)
 {
 	if(m_pAI)
-		m_pAI->OnUnderAttack(idTarget,nDamage);
+		m_pAI->OnUnderAttack(idTarget, nDamage);
 }
 
 void CAIMonster::OnDead()
@@ -102,7 +91,4 @@ void CAIMonster::OnCastSkillFinish(uint32_t stun_ms)
 	{
 		m_pAI->ToSkillFinish(stun_ms);
 	}
-	
-
 }
-

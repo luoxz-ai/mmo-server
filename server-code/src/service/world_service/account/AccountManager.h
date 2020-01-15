@@ -1,30 +1,30 @@
-#pragma once
+#ifndef ACCOUNTMANAGER_H
+#define ACCOUNTMANAGER_H
 
+#include <queue>
 #include <unordered_map>
 #include <unordered_set>
-#include <queue>
+
 #include "BaseCode.h"
-#include "Thread.h"
-#include "NetworkDefine.h"
 #include "MysqlConnection.h"
+#include "NetworkDefine.h"
+#include "Thread.h"
 
 namespace brpc
 {
-	class Channel;
+class Channel;
 };
 class CNetworkMessage;
 class CMysqlConnection;
 class CAccount;
 class CAccountManager
 {
-public:
+  public:
 	CAccountManager();
 	~CAccountManager();
 
 	CREATE_NEW_IMPL(CAccountManager);
 	bool Init(class CWorldService* pWorld);
-
-
 
 	void RegisterMessageHandler();
 	//验证
@@ -39,33 +39,34 @@ public:
 
 	void OnAuthThreadCreate();
 	void OnAuthThreadFinish();
-	
-	
+
 	void OnTimer();
-public:
-	bool OnMsgCreateActor(CNetworkMessage* pMsg);
-	bool OnMsgSelectActor(CNetworkMessage* pMsg);
+
+  public:
+	bool   OnMsgCreateActor(CNetworkMessage* pMsg);
+	bool   OnMsgSelectActor(CNetworkMessage* pMsg);
 	size_t GetAccountSize() const;
 	size_t GetWaitAccountSize() const;
-	void Destory();
-private:
+	void   Destory();
+
+  private:
 	//等待认证列表
 	std::unordered_map<std::string, uint64_t> m_AuthList;
 	struct ST_AUTH_DATA
 	{
-		std::string open_id;
+		std::string	  open_id;
 		VirtualSocket from;
 	};
 	std::unordered_map<uint64_t, ST_AUTH_DATA> m_AuthDataList;
-	MPSCQueue<std::function<void()>> m_ResultList;
-	uint64_t m_CallIdx = 0;
+	MPSCQueue<std::function<void()>>		   m_ResultList;
+	uint64_t								   m_CallIdx = 0;
 
 	//已经认证的Account
-	std::unordered_map<std::string, CAccount*> m_setAccount;
+	std::unordered_map<std::string, CAccount*>	 m_setAccount;
 	std::unordered_map<VirtualSocket, CAccount*> m_setAccountBySocket;
-	std::deque<CAccount*> m_setWaitAccount;
-	std::unique_ptr<CWorkerThread> m_threadAuth;
+	std::deque<CAccount*>						 m_setWaitAccount;
+	std::unique_ptr<CWorkerThread>				 m_threadAuth;
 
-	
 	brpc::Channel* m_pAuthChannel = nullptr;
 };
+#endif /* ACCOUNTMANAGER_H */

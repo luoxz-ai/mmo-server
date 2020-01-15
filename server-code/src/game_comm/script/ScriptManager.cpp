@@ -1,11 +1,11 @@
-#include "BaseCode.h"
 #include "ScriptManager.h"
+
+#include "BaseCode.h"
 #include "lua_tinker.h"
 #include "md5.h"
-#include "BaseCode.h"
 
 //////////////////////////////////////////////////////////////////////////////////////
-//static void *my_l_alloc (void *ud, void *ptr, size_t osize, size_t nsize)
+// static void *my_l_alloc (void *ud, void *ptr, size_t osize, size_t nsize)
 //{
 //    (void)osize;
 //    if (nsize == 0)
@@ -21,22 +21,22 @@
 //	}
 //}
 
-
 ///////////////////////////////////////////////////////////////////////////////////////
-static int my_panic (lua_State *L)
+static int my_panic(lua_State* L)
 {
-    (void)L;  /* to avoid warnings */
-    LOGERROR("PANIC: unprotected error in call to Lua API ({})",lua_tostring(L, -1));
-    return 0;
+	(void)L; /* to avoid warnings */
+	LOGERROR("PANIC: unprotected error in call to Lua API ({})", lua_tostring(L, -1));
+	return 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
-LUALIB_API lua_State * my_luaL_newstate ()
+LUALIB_API lua_State* my_luaL_newstate()
 {
-	//lua_State *L = lua_newstate(my_l_alloc, (void*)pManager);
-	lua_State *L = luaL_newstate();
-    if (L) lua_atpanic(L, &my_panic);
-    return L;
+	// lua_State *L = lua_newstate(my_l_alloc, (void*)pManager);
+	lua_State* L = luaL_newstate();
+	if(L)
+		lua_atpanic(L, &my_panic);
+	return L;
 }
 
 //为decoda打开lua调试函数
@@ -47,11 +47,12 @@ LUALIB_API lua_State * my_luaL_newstate ()
 #pragma comment(linker, "/include:_lua_cpcall")
 #endif
 
-
-
 ///////////////////////////////////////////////////////////////////////////////////////
 CLUAScriptManager::CLUAScriptManager()
-    :m_pLua(nullptr),m_nLuaGCStep(1),m_nLuaGCStepTick(100),m_tNextGCStepTime(0)
+	: m_pLua(nullptr)
+	, m_nLuaGCStep(1)
+	, m_nLuaGCStepTick(100)
+	, m_tNextGCStepTime(0)
 {
 }
 
@@ -63,13 +64,13 @@ CLUAScriptManager::~CLUAScriptManager()
 
 void InitBaseCodeInLua(lua_State* L)
 {
-	extern void basecode2lua(lua_State* );
+	extern void basecode2lua(lua_State*);
 	basecode2lua(L);
 }
 
 void LogLuaError(const char* txt)
 {
-	LOGLUAERROR("{}",txt);
+	LOGLUAERROR("{}", txt);
 }
 
 void LogLuaDebug(const char* txt)
@@ -79,14 +80,17 @@ void LogLuaDebug(const char* txt)
 #endif
 }
 
-
 ///////////////////////////////////////////////////////////////////////////////////////
-bool CLUAScriptManager::Init(const std::string& name, InitRegisterFunc func, void* pInitParam, const char* search_path /*= "script"*/, bool bExecMain)
+bool CLUAScriptManager::Init(const std::string& name,
+							 InitRegisterFunc	func,
+							 void*				pInitParam,
+							 const char*		search_path /*= "script"*/,
+							 bool				bExecMain)
 {
 	m_pInitRegisterFunc = func;
-	m_pInitParam = pInitParam;
+	m_pInitParam		= pInitParam;
 
-	if (m_pLua == nullptr)
+	if(m_pLua == nullptr)
 	{
 		m_pLua = my_luaL_newstate();
 		CHECKF(m_pLua);
@@ -105,12 +109,12 @@ bool CLUAScriptManager::Init(const std::string& name, InitRegisterFunc func, voi
 		lua_tinker::def(m_pLua, "InitBaseCodeInLua", &InitBaseCodeInLua);
 		lua_tinker::def(m_pLua, "_ALERT", &LogLuaError);
 		lua_tinker::def(m_pLua, "logdebug", &LogLuaDebug);
-	
+
 		lua_tinker::set(m_pLua, "script_manager", this);
 	}
 	CHECKF(m_pLua);
 
-    if(m_pInitRegisterFunc)
+	if(m_pInitRegisterFunc)
 	{
 		m_pInitRegisterFunc(m_pLua, m_pInitParam);
 	}
@@ -118,16 +122,15 @@ bool CLUAScriptManager::Init(const std::string& name, InitRegisterFunc func, voi
 	if(search_path)
 	{
 		lua_tinker::table_onstack table(m_pLua, "package");
-		std::string load_path = table.get<std::string>("path");
-		table.set("path",  load_path+";./"+ search_path+"/?.lua");
-		
-		lua_tinker::dofile(m_pLua, (std::string(search_path)+"/main.lua").c_str());
-		m_search_path = std::string("./")+search_path;
+		std::string				  load_path = table.get<std::string>("path");
+		table.set("path", load_path + ";./" + search_path + "/?.lua");
+
+		lua_tinker::dofile(m_pLua, (std::string(search_path) + "/main.lua").c_str());
+		m_search_path = std::string("./") + search_path;
 	}
 	else
 	{
 		lua_tinker::dofile(m_pLua, "main.lua");
-
 	}
 	// 调用初始化函数
 	if(bExecMain)
@@ -146,7 +149,7 @@ void CLUAScriptManager::Destory()
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
-void	CLUAScriptManager::Reload(const std::string& name,bool bExecMain)
+void CLUAScriptManager::Reload(const std::string& name, bool bExecMain)
 {
 	Init(name, m_pInitRegisterFunc, m_pInitParam, m_search_path.c_str(), bExecMain);
 }
@@ -160,19 +163,18 @@ void CLUAScriptManager::LoadFile(uint64_t idScript, const std::string& filename)
 void CLUAScriptManager::LoadFilesInDir(const std::string& dir, bool bRecursive)
 {
 	//遍历文件夹
-	scan_dir(m_search_path,dir, bRecursive, [pThis = this](const std::string& dirname, const std::string& filename)
-	{
+	scan_dir(m_search_path, dir, bRecursive, [pThis = this](const std::string& dirname, const std::string& filename) {
 		if(GetFileExt(filename) != "lua")
 			return;
 		try
 		{
 			uint64_t id = std::stoull(GetFileNameWithoutExt(filename));
-			pThis->LoadFile(id, dirname+"/"+filename);
+			pThis->LoadFile(id, dirname + "/" + filename);
 		}
-		catch (...)
-		{}
+		catch(...)
+		{
+		}
 	});
-
 }
 
 void CLUAScriptManager::RegistFile(uint64_t idScript, const std::string& filename)
@@ -186,7 +188,7 @@ void CLUAScriptManager::OnTimer(time_t tTick)
 {
 	if(m_pLua)
 	{
-		if(tTick > m_tNextGCStepTime )
+		if(tTick > m_tNextGCStepTime)
 		{
 			m_tNextGCStepTime = tTick + m_nLuaGCStepTick;
 			lua_gc(m_pLua, LUA_GCSTEP, m_nLuaGCStep);
@@ -198,5 +200,3 @@ void CLUAScriptManager::FullGC()
 {
 	lua_gc(m_pLua, LUA_GCCOLLECT, 0);
 }
-
-

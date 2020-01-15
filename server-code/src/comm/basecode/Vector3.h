@@ -1,30 +1,31 @@
 #ifndef Vector3_h__
 #define Vector3_h__
-#include "Math.h"
 #include <assert.h>
+
+#include "MathDef.h"
 #include "export_lua.h"
 
 export_lua class Vector3
 {
-public:
+  public:
 	export_lua float x;
 	export_lua float y;
 	export_lua float z;
 
-public:
-	export_lua inline Vector3()
-	{
-	}
+  public:
+	export_lua inline Vector3() {}
 
 	export_lua inline Vector3(const float fX, const float fY, const float fZ)
-		: x(fX), y(fY), z(fZ)
+		: x(fX)
+		, y(fY)
+		, z(fZ)
 	{
 	}
 
 	inline explicit Vector3(const float afCoordinate[3])
-		: x(afCoordinate[0]),
-		y(afCoordinate[1]),
-		z(afCoordinate[2])
+		: x(afCoordinate[0])
+		, y(afCoordinate[1])
+		, z(afCoordinate[2])
 	{
 	}
 
@@ -36,7 +37,9 @@ public:
 	}
 
 	inline explicit Vector3(float* const r)
-		: x(r[0]), y(r[1]), z(r[2])
+		: x(r[0])
+		, y(r[1])
+		, z(r[2])
 	{
 	}
 
@@ -47,9 +50,8 @@ public:
 	{
 	}
 
-
 	/** Exchange the contents of this vector with another.
-	*/
+	 */
 	export_lua inline void swap(Vector3& other)
 	{
 		std::swap(x, other.x);
@@ -57,35 +59,29 @@ public:
 		std::swap(z, other.z);
 	}
 
-	inline float operator[] (const size_t i) const
+	inline float operator[](const size_t i) const
 	{
 		assert(i < 3);
 
 		return *(&x + i);
 	}
 
-	inline float& operator[] (const size_t i)
+	inline float& operator[](const size_t i)
 	{
 		assert(i < 3);
 
 		return *(&x + i);
 	}
 	/// Pointer accessor for direct copying
-	inline float* ptr()
-	{
-		return &x;
-	}
+	inline float* ptr() { return &x; }
 	/// Pointer accessor for direct copying
-	inline const float* ptr() const
-	{
-		return &x;
-	}
+	inline const float* ptr() const { return &x; }
 
 	/** Assigns the value of the other vector.
 		@param
 			rkVector The other vector
 	*/
-	inline Vector3& operator= (const Vector3& rkVector)
+	inline Vector3& operator=(const Vector3& rkVector)
 	{
 		x = rkVector.x;
 		y = rkVector.y;
@@ -94,7 +90,7 @@ public:
 		return *this;
 	}
 
-	inline Vector3& operator= (const float fScaler)
+	inline Vector3& operator=(const float fScaler)
 	{
 		x = fScaler;
 		y = fScaler;
@@ -103,130 +99,79 @@ public:
 		return *this;
 	}
 
-	export_lua inline bool operator== (const Vector3& rkVector) const
+	export_lua inline bool operator==(const Vector3& rkVector) const
 	{
 		return (x == rkVector.x && y == rkVector.y && z == rkVector.z);
 	}
 
-	export_lua inline bool operator!= (const Vector3& rkVector) const
+	export_lua inline bool operator!=(const Vector3& rkVector) const
 	{
 		return (x != rkVector.x || y != rkVector.y || z != rkVector.z);
 	}
 
 	// arithmetic operations
-	inline Vector3 operator+ (const Vector3& rkVector) const
+	inline Vector3 operator+(const Vector3& rkVector) const
 	{
-		return Vector3(
-			x + rkVector.x,
-			y + rkVector.y,
-			z + rkVector.z);
+		return Vector3(x + rkVector.x, y + rkVector.y, z + rkVector.z);
 	}
 
-	inline Vector3 operator- (const Vector3& rkVector) const
+	inline Vector3 operator-(const Vector3& rkVector) const
 	{
-		return Vector3(
-			x - rkVector.x,
-			y - rkVector.y,
-			z - rkVector.z);
+		return Vector3(x - rkVector.x, y - rkVector.y, z - rkVector.z);
 	}
 
-	inline Vector3 operator* (const float fScalar) const
-	{
-		return Vector3(
-			x * fScalar,
-			y * fScalar,
-			z * fScalar);
-	}
+	inline Vector3 operator*(const float fScalar) const { return Vector3(x * fScalar, y * fScalar, z * fScalar); }
 
-	inline Vector3 operator* (const Vector3& rhs) const
-	{
-		return Vector3(
-			x * rhs.x,
-			y * rhs.y,
-			z * rhs.z);
-	}
+	inline Vector3 operator*(const Vector3& rhs) const { return Vector3(x * rhs.x, y * rhs.y, z * rhs.z); }
 
-	inline Vector3 operator/ (const float fScalar) const
+	inline Vector3 operator/(const float fScalar) const
 	{
 		assert(fScalar != 0.0);
 
 		float fInv = 1.0f / fScalar;
 
-		return Vector3(
-			x * fInv,
-			y * fInv,
-			z * fInv);
+		return Vector3(x * fInv, y * fInv, z * fInv);
 	}
 
-	inline Vector3 operator/ (const Vector3& rhs) const
-	{
-		return Vector3(
-			x / rhs.x,
-			y / rhs.y,
-			z / rhs.z);
-	}
+	inline Vector3 operator/(const Vector3& rhs) const { return Vector3(x / rhs.x, y / rhs.y, z / rhs.z); }
 
-	inline const Vector3& operator+ () const
-	{
-		return *this;
-	}
+	inline const Vector3& operator+() const { return *this; }
 
-	inline Vector3 operator- () const
-	{
-		return Vector3(-x, -y, -z);
-	}
+	inline Vector3 operator-() const { return Vector3(-x, -y, -z); }
 
 	// overloaded operators to help Vector3
-	inline friend Vector3 operator* (const float fScalar, const Vector3& rkVector)
+	inline friend Vector3 operator*(const float fScalar, const Vector3& rkVector)
 	{
-		return Vector3(
-			fScalar * rkVector.x,
-			fScalar * rkVector.y,
-			fScalar * rkVector.z);
+		return Vector3(fScalar * rkVector.x, fScalar * rkVector.y, fScalar * rkVector.z);
 	}
 
-	inline friend Vector3 operator/ (const float fScalar, const Vector3& rkVector)
+	inline friend Vector3 operator/(const float fScalar, const Vector3& rkVector)
 	{
-		return Vector3(
-			fScalar / rkVector.x,
-			fScalar / rkVector.y,
-			fScalar / rkVector.z);
+		return Vector3(fScalar / rkVector.x, fScalar / rkVector.y, fScalar / rkVector.z);
 	}
 
-	inline friend Vector3 operator+ (const Vector3& lhs, const float rhs)
+	inline friend Vector3 operator+(const Vector3& lhs, const float rhs)
 	{
-		return Vector3(
-			lhs.x + rhs,
-			lhs.y + rhs,
-			lhs.z + rhs);
+		return Vector3(lhs.x + rhs, lhs.y + rhs, lhs.z + rhs);
 	}
 
-	inline friend Vector3 operator+ (const float lhs, const Vector3& rhs)
+	inline friend Vector3 operator+(const float lhs, const Vector3& rhs)
 	{
-		return Vector3(
-			lhs + rhs.x,
-			lhs + rhs.y,
-			lhs + rhs.z);
+		return Vector3(lhs + rhs.x, lhs + rhs.y, lhs + rhs.z);
 	}
 
-	inline friend Vector3 operator- (const Vector3& lhs, const float rhs)
+	inline friend Vector3 operator-(const Vector3& lhs, const float rhs)
 	{
-		return Vector3(
-			lhs.x - rhs,
-			lhs.y - rhs,
-			lhs.z - rhs);
+		return Vector3(lhs.x - rhs, lhs.y - rhs, lhs.z - rhs);
 	}
 
-	inline friend Vector3 operator- (const float lhs, const Vector3& rhs)
+	inline friend Vector3 operator-(const float lhs, const Vector3& rhs)
 	{
-		return Vector3(
-			lhs - rhs.x,
-			lhs - rhs.y,
-			lhs - rhs.z);
+		return Vector3(lhs - rhs.x, lhs - rhs.y, lhs - rhs.z);
 	}
 
 	// arithmetic updates
-	inline Vector3& operator+= (const Vector3& rkVector)
+	inline Vector3& operator+=(const Vector3& rkVector)
 	{
 		x += rkVector.x;
 		y += rkVector.y;
@@ -235,7 +180,7 @@ public:
 		return *this;
 	}
 
-	inline Vector3& operator+= (const float fScalar)
+	inline Vector3& operator+=(const float fScalar)
 	{
 		x += fScalar;
 		y += fScalar;
@@ -243,7 +188,7 @@ public:
 		return *this;
 	}
 
-	inline Vector3& operator-= (const Vector3& rkVector)
+	inline Vector3& operator-=(const Vector3& rkVector)
 	{
 		x -= rkVector.x;
 		y -= rkVector.y;
@@ -252,7 +197,7 @@ public:
 		return *this;
 	}
 
-	inline Vector3& operator-= (const float fScalar)
+	inline Vector3& operator-=(const float fScalar)
 	{
 		x -= fScalar;
 		y -= fScalar;
@@ -260,7 +205,7 @@ public:
 		return *this;
 	}
 
-	inline Vector3& operator*= (const float fScalar)
+	inline Vector3& operator*=(const float fScalar)
 	{
 		x *= fScalar;
 		y *= fScalar;
@@ -268,7 +213,7 @@ public:
 		return *this;
 	}
 
-	inline Vector3& operator*= (const Vector3& rkVector)
+	inline Vector3& operator*=(const Vector3& rkVector)
 	{
 		x *= rkVector.x;
 		y *= rkVector.y;
@@ -277,7 +222,7 @@ public:
 		return *this;
 	}
 
-	inline Vector3& operator/= (const float fScalar)
+	inline Vector3& operator/=(const float fScalar)
 	{
 		assert(fScalar != 0.0);
 
@@ -290,7 +235,7 @@ public:
 		return *this;
 	}
 
-	inline Vector3& operator/= (const Vector3& rkVector)
+	inline Vector3& operator/=(const Vector3& rkVector)
 	{
 		x /= rkVector.x;
 		y /= rkVector.y;
@@ -299,7 +244,6 @@ public:
 		return *this;
 	}
 
-
 	/** Returns the length (magnitude) of the vector.
 		@warning
 			This operation requires a square root and is expensive in
@@ -307,10 +251,7 @@ public:
 			length (e.g. for just comparing lengths) use squaredLength()
 			instead.
 	*/
-	export_lua inline float length() const
-	{
-		return sqrt(x * x + y * y + z * z);
-	}
+	export_lua inline float length() const { return sqrt(x * x + y * y + z * z); }
 
 	/** Returns the square of the length(magnitude) of the vector.
 		@remarks
@@ -322,10 +263,7 @@ public:
 			want to find the longest / shortest vector without incurring
 			the square root.
 	*/
-	export_lua inline float squaredLength() const
-	{
-		return x * x + y * y + z * z;
-	}
+	export_lua inline float squaredLength() const { return x * x + y * y + z * z; }
 
 	/** Returns the distance to another vector.
 		@warning
@@ -334,10 +272,7 @@ public:
 			distance (e.g. for just comparing distances) use squaredDistance()
 			instead.
 	*/
-	export_lua inline float distance(const Vector3& rhs) const
-	{
-		return (*this - rhs).length();
-	}
+	export_lua inline float distance(const Vector3& rhs) const { return (*this - rhs).length(); }
 
 	/** Returns the square of the distance to another vector.
 		@remarks
@@ -349,10 +284,7 @@ public:
 			Use this if you want to find the longest / shortest distance
 			without incurring the square root.
 	*/
-	export_lua inline float squaredDistance(const Vector3& rhs) const
-	{
-		return (*this - rhs).squaredLength();
-	}
+	export_lua inline float squaredDistance(const Vector3& rhs) const { return (*this - rhs).squaredLength(); }
 
 	/** Calculates the dot (scalar) product of this vector with another.
 		@remarks
@@ -368,10 +300,7 @@ public:
 		@returns
 			A float representing the dot product value.
 	*/
-	export_lua inline float dotProduct(const Vector3& vec) const
-	{
-		return x * vec.x + y * vec.y + z * vec.z;
-	}
+	export_lua inline float dotProduct(const Vector3& vec) const { return x * vec.x + y * vec.y + z * vec.z; }
 
 	/** Calculates the absolute dot (scalar) product of this vector with another.
 		@remarks
@@ -402,7 +331,7 @@ public:
 		float fLength = sqrt(x * x + y * y + z * z);
 
 		// Will also work for zero-sized vectors, but will change nothing
-		if (fLength > 1e-08)
+		if(fLength > 1e-08)
 		{
 			float fInvLength = 1.0f / fLength;
 			x *= fInvLength;
@@ -444,9 +373,7 @@ public:
 	export_lua inline Vector3 crossProduct(const Vector3& rkVector) const
 	{
 		return Vector3(
-			y * rkVector.z - z * rkVector.y,
-			z * rkVector.x - x * rkVector.z,
-			x * rkVector.y - y * rkVector.x);
+			y * rkVector.z - z * rkVector.y, z * rkVector.x - x * rkVector.z, x * rkVector.y - y * rkVector.x);
 	}
 
 	/** Returns a vector at a point half way between this and the passed
@@ -454,18 +381,15 @@ public:
 	*/
 	export_lua inline Vector3 midPoint(const Vector3& vec) const
 	{
-		return Vector3(
-			(x + vec.x) * 0.5f,
-			(y + vec.y) * 0.5f,
-			(z + vec.z) * 0.5f);
+		return Vector3((x + vec.x) * 0.5f, (y + vec.y) * 0.5f, (z + vec.z) * 0.5f);
 	}
 
 	/** Returns true if the vector's scalar components are all greater
 		that the ones of the vector it is compared against.
 	*/
-	export_lua inline bool operator< (const Vector3& rhs) const
+	export_lua inline bool operator<(const Vector3& rhs) const
 	{
-		if (x < rhs.x && y < rhs.y && z < rhs.z)
+		if(x < rhs.x && y < rhs.y && z < rhs.z)
 			return true;
 		return false;
 	}
@@ -473,9 +397,9 @@ public:
 	/** Returns true if the vector's scalar components are all smaller
 		that the ones of the vector it is compared against.
 	*/
-	export_lua inline bool operator> (const Vector3& rhs) const
+	export_lua inline bool operator>(const Vector3& rhs) const
 	{
-		if (x > rhs.x && y > rhs.y && z > rhs.z)
+		if(x > rhs.x && y > rhs.y && z > rhs.z)
 			return true;
 		return false;
 	}
@@ -489,9 +413,12 @@ public:
 	*/
 	export_lua inline void makeFloor(const Vector3& cmp)
 	{
-		if (cmp.x < x) x = cmp.x;
-		if (cmp.y < y) y = cmp.y;
-		if (cmp.z < z) z = cmp.z;
+		if(cmp.x < x)
+			x = cmp.x;
+		if(cmp.y < y)
+			y = cmp.y;
+		if(cmp.z < z)
+			z = cmp.z;
 	}
 
 	/** Sets this vector's components to the maximum of its own and the
@@ -503,9 +430,12 @@ public:
 	*/
 	export_lua inline void makeCeil(const Vector3& cmp)
 	{
-		if (cmp.x > x) x = cmp.x;
-		if (cmp.y > y) y = cmp.y;
-		if (cmp.z > z) z = cmp.z;
+		if(cmp.x > x)
+			x = cmp.x;
+		if(cmp.y > y)
+			y = cmp.y;
+		if(cmp.z > z)
+			z = cmp.z;
 	}
 
 	/** Generates a vector perpendicular to this vector (eg an 'up' vector).
@@ -522,7 +452,7 @@ public:
 		Vector3 perp = this->crossProduct(Vector3::UNIT_X);
 
 		// Check length
-		if (perp.squaredLength() < fSquareZero)
+		if(perp.squaredLength() < fSquareZero)
 		{
 			/* This vector is the Y axis multiplied by a scalar, so we have
 			   to use another axis.
@@ -533,13 +463,12 @@ public:
 
 		return perp;
 	}
-	
+
 	/** Returns true if this vector is zero length. */
 	export_lua inline bool isZeroLength(void) const
 	{
 		float sqlen = (x * x) + (y * y) + (z * z);
 		return (sqlen < (1e-06 * 1e-06));
-
 	}
 
 	/** As normalise, except that this vector is unaffected and the
@@ -567,10 +496,8 @@ public:
 	*/
 	export_lua inline bool positionEquals(const Vector3& rhs, float tolerance = 1e-03) const
 	{
-		return Math::FloatEqual(x, rhs.x, tolerance) &&
-			Math::FloatEqual(y, rhs.y, tolerance) &&
-			Math::FloatEqual(z, rhs.z, tolerance);
-
+		return Math::FloatEqual(x, rhs.x, tolerance) && Math::FloatEqual(y, rhs.y, tolerance) &&
+			   Math::FloatEqual(z, rhs.z, tolerance);
 	}
 
 	/** Returns whether this vector is within a positional tolerance
@@ -581,15 +508,11 @@ public:
 	*/
 	export_lua inline bool positionCloses(const Vector3& rhs, float tolerance = 1e-03f) const
 	{
-		return squaredDistance(rhs) <=
-			(squaredLength() + rhs.squaredLength()) * tolerance;
+		return squaredDistance(rhs) <= (squaredLength() + rhs.squaredLength()) * tolerance;
 	}
 
 	/// Check whether this vector contains valid values
-	export_lua inline bool isNaN() const
-	{
-		return Math::isNaN(x) || Math::isNaN(y) || Math::isNaN(z);
-	}
+	export_lua inline bool isNaN() const { return Math::isNaN(x) || Math::isNaN(y) || Math::isNaN(z); }
 
 	/// Extract the primary (dominant) axis from this direction vector
 	export_lua inline Vector3 primaryAxis() const
@@ -597,18 +520,16 @@ public:
 		float absx = fabs(x);
 		float absy = fabs(y);
 		float absz = fabs(z);
-		if (absx > absy)
-			if (absx > absz)
+		if(absx > absy)
+			if(absx > absz)
 				return x > 0 ? Vector3::UNIT_X : Vector3::NEGATIVE_UNIT_X;
 			else
 				return z > 0 ? Vector3::UNIT_Z : Vector3::NEGATIVE_UNIT_Z;
 		else // absx <= absy
-			if (absy > absz)
-				return y > 0 ? Vector3::UNIT_Y : Vector3::NEGATIVE_UNIT_Y;
-			else
-				return z > 0 ? Vector3::UNIT_Z : Vector3::NEGATIVE_UNIT_Z;
-
-
+			if(absy > absz)
+			return y > 0 ? Vector3::UNIT_Y : Vector3::NEGATIVE_UNIT_Y;
+		else
+			return z > 0 ? Vector3::UNIT_Z : Vector3::NEGATIVE_UNIT_Z;
 	}
 
 	// special points
@@ -620,7 +541,6 @@ public:
 	export_lua static const Vector3 NEGATIVE_UNIT_Y;
 	export_lua static const Vector3 NEGATIVE_UNIT_Z;
 	export_lua static const Vector3 UNIT_SCALE;
-
 };
 
 #endif // Vector3_h__

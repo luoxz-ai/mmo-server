@@ -1,15 +1,9 @@
 #include "AIPlayer.h"
 
 MEMORYHEAP_IMPLEMENTATION(CAIPlayer, s_heap);
-CAIPlayer::CAIPlayer()
-{
+CAIPlayer::CAIPlayer() {}
 
-}
-
-CAIPlayer::~CAIPlayer()
-{
-
-}
+CAIPlayer::~CAIPlayer() {}
 
 bool CAIPlayer::Init(const ServerMSG::ActorCreate& msg)
 {
@@ -22,8 +16,7 @@ bool CAIPlayer::Init(const ServerMSG::ActorCreate& msg)
 	SetHPMax(msg.hpmax());
 	SetMP(msg.mp());
 	SetMPMax(msg.mpmax());
-	SetPos(Vector2(msg.posx(),msg.posy() ));
+	SetPos(Vector2(msg.posx(), msg.posy()));
 
 	return true;
 }
-

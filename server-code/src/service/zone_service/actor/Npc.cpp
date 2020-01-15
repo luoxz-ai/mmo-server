@@ -1,6 +1,7 @@
 #include "Npc.h"
-#include "Scene.h"
+
 #include "Player.h"
+#include "Scene.h"
 
 MEMORYHEAP_IMPLEMENTATION(CNpc, s_heap);
 CNpc::CNpc()
@@ -10,17 +11,16 @@ CNpc::CNpc()
 
 CNpc::~CNpc()
 {
-	if(	GetCurrentScene() != nullptr)
+	if(GetCurrentScene() != nullptr)
 		GetCurrentScene()->LeaveMap(this);
-
 }
 
 bool CNpc::Init(uint32_t idType)
 {
 	m_idType = idType;
-	m_pType = NpcTypeSet()->QueryObj(idType);
+	m_pType	 = NpcTypeSet()->QueryObj(idType);
 	CHECKF(m_pType);
-	
+
 	SetID(ActorManager()->GenNpcID());
 	SetCampID(m_pType->GetCampID());
 	CHECKF(CActor::Init());
@@ -53,7 +53,6 @@ void CNpc::OnEnterMap(CSceneBase* pScene)
 	{
 		ScriptManager()->TryExecScript<void>(m_pType->GetScriptID(), SCB_NPC_ONBORN, this);
 	}
-	
 }
 
 void CNpc::OnLeaveMap(uint64_t idTargetScene)
@@ -63,7 +62,7 @@ void CNpc::OnLeaveMap(uint64_t idTargetScene)
 
 void CNpc::_ActiveNpc(CPlayer* pPlayer)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 
 	//检查挂在改NPC身上有多少个任务
 	auto pVecAccept = TaskTypeSet()->QueryTaskByAcceptNpcID(GetTypeID());
@@ -72,7 +71,7 @@ __ENTER_FUNCTION
 	std::vector<CTaskType*> setShowTask;
 	if(pVecSubmit)
 	{
-		for(auto pTaskType : *pVecSubmit)
+		for(auto pTaskType: *pVecSubmit)
 		{
 			if(pPlayer->GetTaskSet()->CanSubmit(pTaskType) == true)
 			{
@@ -82,7 +81,7 @@ __ENTER_FUNCTION
 	}
 	if(pVecAccept)
 	{
-		for(auto pTaskType : *pVecAccept)
+		for(auto pTaskType: *pVecAccept)
 		{
 			if(pPlayer->GetTaskSet()->CanAccept(pTaskType) == true)
 			{
@@ -108,20 +107,29 @@ __ENTER_FUNCTION
 		pPlayer->DialogBegin(m_pType->GetName());
 		pPlayer->DialogAddText(m_pType->GetDialogText());
 		if(HasFlag(m_pType->GetTypeFlag(), NPC_TYPE_FLAG_SHOP))
-			pPlayer->DialogAddLink(DIALOGLINK_TYPE_LIST, m_pType->GetShopLinkName(), DIALOG_FUNC_OPENSHOP, m_pType->GetShopID(),"", GetID());
-		for(auto pTaskType : setShowTask)
+			pPlayer->DialogAddLink(DIALOGLINK_TYPE_LIST,
+								   m_pType->GetShopLinkName(),
+								   DIALOG_FUNC_OPENSHOP,
+								   m_pType->GetShopID(),
+								   "",
+								   GetID());
+		for(auto pTaskType: setShowTask)
 		{
-			pPlayer->DialogAddLink(DIALOGLINK_TYPE_LIST, pTaskType->GetName(), DIALOG_FUNC_SHOWTASK, pTaskType->GetScriptID(),"", GetID());
-			
+			pPlayer->DialogAddLink(DIALOGLINK_TYPE_LIST,
+								   pTaskType->GetName(),
+								   DIALOG_FUNC_SHOWTASK,
+								   pTaskType->GetScriptID(),
+								   "",
+								   GetID());
 		}
-		
+
 		pPlayer->DialogSend(DIALOGTYPE_NORMAL);
 	}
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 }
 void CNpc::ActiveNpc(CPlayer* pPlayer)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	if(m_pType->GetScriptID() != 0)
 	{
 		const std::string& funcName = ScriptManager()->QueryFunc(m_pType->GetScriptID(), SCB_NPC_ONACTIVE);
@@ -132,8 +140,6 @@ __ENTER_FUNCTION
 		}
 	}
 
-	
 	_ActiveNpc(pPlayer);
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 }
-

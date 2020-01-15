@@ -1,4 +1,5 @@
-#pragma once
+#ifndef RANDOMGET_H
+#define RANDOMGET_H
 
 
 #include "BaseType.h"
@@ -11,3 +12,4 @@ export_lua float random_float(float min = 0.0f, float max = 1.0f);
 //根据几率判断是否命中,扔硬币（p = 0.5）
 export_lua bool random_hit(float op);
 
+#endif /* RANDOMGET_H */

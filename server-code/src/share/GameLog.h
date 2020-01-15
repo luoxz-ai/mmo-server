@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GAMELOG_H
+#define GAMELOG_H
 
 
 enum ItemLogType
@@ -12,3 +13,4 @@ enum ItemLogType
 	LOGITEM_DROP,
 
 };
+#endif /* GAMELOG_H */

@@ -2,6 +2,8 @@
 #define __MD5_H__
 
 #include <stdio.h>
+
+#include "BaseType.h"
 #include "export_lua.h"
 
 export_lua void GetMD5Code(BYTE* pBuf, int nSize, char pCode[34]);

@@ -1,8 +1,9 @@
-#pragma once
+#ifndef USER_H
+#define USER_H
 
-#include "NetworkDefine.h"
 #include "BaseCode.h"
 #include "MemoryHeap.h"
+#include "NetworkDefine.h"
 #include "NetworkMessage.h"
 class CAccount;
 struct ST_ROLE_INFO;
@@ -10,7 +11,8 @@ struct ST_ROLE_INFO;
 class CUser
 {
 	CUser();
-public:
+
+  public:
 	~CUser();
 	CREATE_NEW_IMPL(CUser);
 	bool Init(CAccount* pAccount, ST_ROLE_INFO* pInfo);
@@ -24,29 +26,29 @@ public:
 	void Logout();
 	void SendMsg(uint16_t usCmd, const google::protobuf::Message& msg);
 
-	uint32_t GetLev() const;
+	uint32_t		   GetLev() const;
 	const std::string& GetName() const;
-	uint64_t GetTeamID() const;
-	uint64_t GetGuildID() const;
-	
+	uint64_t		   GetTeamID() const;
+	uint64_t		   GetGuildID() const;
 
 	bool ChangeName(const std::string& new_name);
 	void OnLevChg(uint32_t v);
 	void SetTeamID(uint64_t v);
 	void SetGuildID(uint64_t v);
 	void ClearMate();
-public:
-	OBJID GetID() const;
-	uint16_t GetZoneID()const;
 
-public:
+  public:
+	OBJID	 GetID() const;
+	uint16_t GetZoneID() const;
+
+  public:
 	MEMORYHEAP_DECLARATION(s_heap);
 
-private:
-	CAccount* m_pAccount = nullptr;
-	ST_ROLE_INFO* m_pInfo = nullptr;
+  private:
+	CAccount*	  m_pAccount = nullptr;
+	ST_ROLE_INFO* m_pInfo	 = nullptr;
 	//所在zone服务器
-	uint16_t      m_idZone = 0;
-	uint32_t	  m_nLev;
-	
+	uint16_t m_idZone = 0;
+	uint32_t m_nLev;
 };
+#endif /* USER_H */

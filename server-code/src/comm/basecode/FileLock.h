@@ -11,7 +11,7 @@ purpose : 文件锁
 
 class file_lock
 {
-public:
+  public:
 	file_lock(const std::string& programname);
 	~file_lock();
 
@@ -20,9 +20,10 @@ public:
 	bool lock();
 
 	void unlock();
-private:
+
+  private:
 	std::string m_pid_file;
-	int m_fd;
+	int			m_fd;
 };
 
 #endif // __FILE_LOCK_H__

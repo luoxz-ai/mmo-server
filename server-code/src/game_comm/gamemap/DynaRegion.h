@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DYNAREGION_H
+#define DYNAREGION_H
 
 
 struct CDynaRegion
@@ -35,6 +36,7 @@ struct CDynaRegion
 		float start;
 		float end;
 	};
-	std::vector< RegionLine > m_setLineX;
-	std::vector< RegionLine > m_setLineY;
+	std::vector<RegionLine> m_setLineX;
+	std::vector<RegionLine> m_setLineY;
 };
+#endif /* DYNAREGION_H */

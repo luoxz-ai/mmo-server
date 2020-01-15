@@ -22,7 +22,6 @@ void CPlayer::TeamInviteMember(OBJID idTarget)
 	msg.set_operator_id(GetID());
 	msg.set_invitee_id(idTarget);
 	ZoneService()->SendPortMsg(GetWorldID(), ServerMSG::MsgID_TeamInviteMember, msg);
-
 }
 
 void CPlayer::TeamAcceptInvite(uint64_t idTeam, OBJID idInviter, bool bResult)
@@ -36,7 +35,6 @@ void CPlayer::TeamAcceptInvite(uint64_t idTeam, OBJID idInviter, bool bResult)
 	msg.set_invitee_id(GetID());
 	msg.set_result(bResult);
 	ZoneService()->SendPortMsg(GetWorldID(), ServerMSG::MsgID_TeamAcceptInvite, msg);
-
 }
 
 void CPlayer::TeamApplyMember(OBJID idTarget)
@@ -48,7 +46,6 @@ void CPlayer::TeamApplyMember(OBJID idTarget)
 	msg.set_applicant_id(GetID());
 	msg.set_respondent_id(idTarget);
 	ZoneService()->SendPortMsg(GetWorldID(), ServerMSG::MsgID_TeamApplyMember, msg);
-
 }
 
 void CPlayer::TeamAcceptApply(OBJID idApplicant, bool bResult)
@@ -60,7 +57,6 @@ void CPlayer::TeamAcceptApply(OBJID idApplicant, bool bResult)
 	ZoneService()->SendPortMsg(GetWorldID(), ServerMSG::MsgID_TeamAcceptApply, msg);
 }
 
-
 void CPlayer::TeamQuit()
 {
 	if(HasTeam() == false)
@@ -70,10 +66,7 @@ void CPlayer::TeamQuit()
 	msg.set_team_id(GetTeamID());
 	msg.set_operator_id(GetID());
 	ZoneService()->SendPortMsg(GetWorldID(), ServerMSG::MsgID_TeamQuit, msg);
-
 }
-
-
 
 void CPlayer::TeamKickMember(OBJID idMember)
 {
@@ -87,22 +80,18 @@ void CPlayer::TeamKickMember(OBJID idMember)
 	if(pTeam->IsTeamLeader(GetID()) == false)
 		return;
 
-
-
-
 	ServerMSG::TeamKickMember msg;
 	msg.set_team_id(GetTeamID());
 	msg.set_operator_id(GetID());
 	msg.set_kick_id(idMember);
 	ZoneService()->SendPortMsg(GetWorldID(), ServerMSG::MsgID_TeamKickMember, msg);
-
 }
 
 void CPlayer::TeamChangeLeader(OBJID idMember)
 {
 	if(HasTeam() == false)
 		return;
-	auto pTeam= TeamManager()->QueryTeam(GetTeamID());
+	auto pTeam = TeamManager()->QueryTeam(GetTeamID());
 	CHECK(pTeam);
 	if(pTeam->IsTeamLeader(GetID()) == false)
 		return;
@@ -115,5 +104,4 @@ void CPlayer::TeamChangeLeader(OBJID idMember)
 	msg.set_operator_id(GetID());
 	msg.set_new_leader_id(idMember);
 	ZoneService()->SendPortMsg(GetWorldID(), ServerMSG::MsgID_TeamNewLeader, msg);
-
 }

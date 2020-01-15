@@ -1,15 +1,16 @@
 #include "TeamInfoManager.h"
-#include "ZoneService.h"
-#include "server_side.pb.h"
+
 #include "Actor.h"
 #include "Player.h"
+#include "ZoneService.h"
+#include "msg/server_side.pb.h"
 
 MEMORYHEAP_IMPLEMENTATION(CTeamInfo, s_heap);
 
 bool CTeamInfo::Init(OBJID idTeam, uint64_t idLeader)
 {
-	m_idTeam = idTeam; 
-	m_idLeader = idLeader; 
+	m_idTeam   = idTeam;
+	m_idLeader = idLeader;
 	return true;
 }
 
@@ -42,11 +43,12 @@ void CTeamInfo::OnDelMember(OBJID idMember)
 
 void CTeamInfo::OnDestory()
 {
-	for(OBJID idActor : m_setMemberID)
+	for(OBJID idActor: m_setMemberID)
 	{
 		CActor* pActor = ActorManager()->QueryActor(idActor);
 		if(pActor == nullptr)
-			continue;;
+			continue;
+		;
 		CPlayer* pPlayer = pActor->ConvertToDerived<CPlayer>();
 		pPlayer->SetTeamID(0);
 	}
@@ -59,7 +61,8 @@ size_t CTeamInfo::GetMemeberAmount() const
 
 OBJID CTeamInfo::GetMemberIDByIdx(uint32_t idx)
 {
-	CHECKF(idx < m_setMemberID.size()); return m_setMemberID[idx];
+	CHECKF(idx < m_setMemberID.size());
+	return m_setMemberID[idx];
 }
 
 bool CTeamInfo::IsTeamMember(OBJID idActor) const
@@ -79,7 +82,7 @@ OBJID CTeamInfo::GetTeamLeaderID() const
 
 CTeamInfo* CTeamInfoManager::OnCreateTeam(uint64_t idTeam, uint64_t idLeader)
 {
-	auto pTeam = CTeamInfo::CreateNew(idTeam,idLeader);
+	auto pTeam = CTeamInfo::CreateNew(idTeam, idLeader);
 	CHECKF(pTeam);
 	m_setTeam[idTeam] = pTeam;
 	return pTeam;
@@ -97,7 +100,6 @@ void CTeamInfoManager::OnDestoryTeam(uint64_t idTeam)
 	}
 	m_setTeam.erase(it);
 }
-
 
 CTeamInfo* CTeamInfoManager::QueryTeam(uint64_t idTeam)
 {
@@ -158,8 +160,10 @@ void ProcessTeamMsg(CNetworkMessage* pMsg, Func func)
 
 void CTeamInfoManager::RegisterMessageHandler()
 {
-#define REG_CMD(msg_t) ZoneService()->GetNetMsgProcess()->Register(MsgID_##msg_t, std::bind(&ProcessTeamMsg<msg_t,decltype(OnMsg_##msg_t)>, std::placeholders::_1, &OnMsg_##msg_t));
-
+#define REG_CMD(msg_t)                           \
+	ZoneService()->GetNetMsgProcess()->Register( \
+		MsgID_##msg_t,                           \
+		std::bind(&ProcessTeamMsg<msg_t, decltype(OnMsg_##msg_t)>, std::placeholders::_1, &OnMsg_##msg_t));
 
 	using namespace ServerMSG;
 
@@ -171,5 +175,4 @@ void CTeamInfoManager::RegisterMessageHandler()
 	REG_CMD(TeamAddMember);
 
 #undef REG_CMD
-
 }

@@ -1,23 +1,26 @@
-#pragma once
+#ifndef ROBOTCLIENT_H
+#define ROBOTCLIENT_H
+
 
 #include <deque>
-#include <vector>
 #include <functional>
-#include "NetworkService.h"
-#include "NetSocket.h"
+#include <vector>
+
 #include "EventEntry.h"
+#include "NetSocket.h"
+#include "NetworkService.h"
 class RobotClientManager;
 class CNetSocket;
 
-class RobotClient: public CNetEventHandler
+class RobotClient : public CNetEventHandler
 {
-public:
+  public:
 	RobotClient(RobotClientManager* pManager);
 	~RobotClient();
 
 	static void initInLua(struct lua_State* L);
 
-public:
+  public:
 	virtual void OnConnected(CNetSocket* pSocket);
 	virtual void OnConnectFailed(CNetSocket*);
 	virtual void OnDisconnected(CNetSocket*);
@@ -29,17 +32,21 @@ public:
 	void AddEventCallBack(uint32_t nWaitMs, const std::string& func_name, bool bPersist);
 	bool IsConnectServer();
 	void DisconnectServer();
-public:
+
+  public:
 	uint32_t GetClientID() const { return m_idClient; }
-	void SetClientID(uint32_t val) { m_idClient = val; }
+	void	 SetClientID(uint32_t val) { m_idClient = val; }
 
 	void SendProtobufToServer(uint16_t cmd, google::protobuf::Message* pMsg);
-private:
+
+  private:
 	void SendToServer(byte* buf, size_t len);
 	void SendToServer(CNetworkMessage& msg);
-private:
+
+  private:
 	RobotClientManager* m_pManager;
-	CNetSocket* m_pServerSocket;
-	uint32_t m_idClient;
-	CEventEntryPtr m_Event;
+	CNetSocket*			m_pServerSocket;
+	uint32_t			m_idClient;
+	CEventEntryPtr		m_Event;
 };
+#endif /* ROBOTCLIENT_H */

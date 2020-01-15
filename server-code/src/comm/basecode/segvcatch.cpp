@@ -5,11 +5,11 @@
  ***************************************************************************/
 
 #include "segvcatch.h"
-#include "CallStackDumper.h"
-#include <string>
+
 #include <stdexcept>
+#include <string>
 
-
+#include "CallStackDumper.h"
 
 using namespace std;
 
@@ -17,7 +17,7 @@ namespace
 {
 
 segvcatch::handler handler_segv = 0;
-segvcatch::handler handler_fpe = 0;
+segvcatch::handler handler_fpe	= 0;
 
 #if defined __GNUC__ && __linux
 
@@ -33,27 +33,27 @@ segvcatch::handler handler_fpe = 0;
 
 void default_segv()
 {
-    throw std::runtime_error("Segmentation fault");
+	throw std::runtime_error("Segmentation fault");
 }
 
 void default_fpe()
 {
-    throw std::runtime_error("Floating-point exception");
+	throw std::runtime_error("Floating-point exception");
 }
 
 void handle_segv()
 {
-    if (handler_segv)
-        handler_segv();
+	if(handler_segv)
+		handler_segv();
 }
 
 void handle_fpe()
 {
-    if (handler_fpe)
-        handler_fpe();
+	if(handler_fpe)
+		handler_fpe();
 }
 
-#if defined (HANDLE_SEGV) || defined(HANDLE_FPE)
+#if defined(HANDLE_SEGV) || defined(HANDLE_FPE)
 
 #include <execinfo.h>
 
@@ -62,10 +62,10 @@ void handle_fpe()
 static void unblock_signal(int signum __attribute__((__unused__)))
 {
 #ifdef __linux__
-    sigset_t sigs;
-    sigemptyset(&sigs);
-    sigaddset(&sigs, signum);
-    sigprocmask(SIG_UNBLOCK, &sigs, NULL);
+	sigset_t sigs;
+	sigemptyset(&sigs);
+	sigaddset(&sigs, signum);
+	sigprocmask(SIG_UNBLOCK, &sigs, NULL);
 #endif
 }
 #endif
@@ -74,10 +74,10 @@ static void unblock_signal(int signum __attribute__((__unused__)))
 
 SIGNAL_HANDLER(catch_segv)
 {
-    unblock_signal(SIGSEGV);
+	unblock_signal(SIGSEGV);
 	DumpStackFile(CallFrameMap(2));
-    MAKE_THROW_FRAME(nullp);
-    handle_segv();
+	MAKE_THROW_FRAME(nullp);
+	handle_segv();
 }
 #endif
 
@@ -85,59 +85,50 @@ SIGNAL_HANDLER(catch_segv)
 
 SIGNAL_HANDLER(catch_fpe)
 {
-    unblock_signal(SIGFPE);
+	unblock_signal(SIGFPE);
 #ifdef HANDLE_DIVIDE_OVERFLOW
-    HANDLE_DIVIDE_OVERFLOW;
+	HANDLE_DIVIDE_OVERFLOW;
 #else
 	DumpStackFile(CallFrameMap(2));
-    MAKE_THROW_FRAME(arithexception);
+	MAKE_THROW_FRAME(arithexception);
 #endif
-    handle_fpe();
+	handle_fpe();
 }
 #endif
 
-
-
-}
-
+} // namespace
 
 namespace segvcatch
 {
 
 void init_segv(handler h)
 {
-    if (h)
-        handler_segv = h;
-    else
-        handler_segv = default_segv;
+	if(h)
+		handler_segv = h;
+	else
+		handler_segv = default_segv;
 #ifdef HANDLE_SEGV
-    INIT_SEGV;
+	INIT_SEGV;
 #endif
-
-
 }
 
 void init_fpe(handler h)
 {
-    if (h)
-        handler_fpe = h;
-    else
-        handler_fpe = default_fpe;
+	if(h)
+		handler_fpe = h;
+	else
+		handler_fpe = default_fpe;
 #ifdef HANDLE_FPE
-    INIT_FPE;
+	INIT_FPE;
 #endif
-
 }
 
-
-
-}
+} // namespace segvcatch
 
 void G_INITSEGV()
 {
-	if (!handler_segv)
+	if(!handler_segv)
 		segvcatch::init_segv(0);
-	if (!handler_fpe)
+	if(!handler_fpe)
 		segvcatch::init_fpe(0);
 }
-

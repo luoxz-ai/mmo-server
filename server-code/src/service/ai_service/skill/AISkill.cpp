@@ -1,35 +1,30 @@
 #include "AISkill.h"
+
 #include "AIMonster.h"
 #include "AIService.h"
 
-CAISkillData::CAISkillData()
-{
+CAISkillData::CAISkillData() {}
 
-}
-
-CAISkillData::~CAISkillData()
-{
-
-}
+CAISkillData::~CAISkillData() {}
 
 bool CAISkillData::Init(uint32_t idSkill)
 {
-	m_idSkill = idSkill;
+	m_idSkill	 = idSkill;
 	m_pSkillType = SkillTypeSet()->QueryObj(idSkill);
-	CHECKF_M(m_pSkillType, fmt::format(FMT_STRING("Skill {} Not Find"), idSkill).c_str() );
+	CHECKF_M(m_pSkillType, fmt::format(FMT_STRING("Skill {} Not Find"), idSkill).c_str());
 	m_pSkillFAM = SkillFAMSet()->QueryObj(idSkill);
-	
+
 	return true;
 }
 
 void CAISkillData::StartCoolDown()
 {
-	m_tCoolDown = TimeGetMillisecond () + GetSkillType()->GetCDSec();
+	m_tCoolDown = TimeGetMillisecond() + GetSkillType()->GetCDSec();
 }
 
 bool CAISkillData::IsCoolDown()
 {
-	return m_tCoolDown > (uint64_t)TimeGetMillisecond ();
+	return m_tCoolDown > (uint64_t)TimeGetMillisecond();
 }
 
 double CAISkillData::GetUtilityValue(double dist, double self_hp, double self_mp, double target_hp)
@@ -55,12 +50,11 @@ uint32_t CAISkillData::GetSkillTypeID() const
 	return m_idSkill;
 }
 
-CAISkillSet::CAISkillSet()
-{}
+CAISkillSet::CAISkillSet() {}
 
 CAISkillSet::~CAISkillSet()
 {
-	for(auto& pair_val : m_setSkill)
+	for(auto& pair_val: m_setSkill)
 	{
 		SAFE_DELETE(pair_val.second);
 	}
@@ -82,7 +76,7 @@ bool CAISkillSet::CastSkill(CAISkillData* pSkill)
 		return false;
 	if(m_pMonster->GetMP() < pSkill->GetSkillType()->GetUseMP())
 		return false;
-	//send cast skill to ai
+	// send cast skill to ai
 	pSkill->StartCoolDown();
 	return true;
 }
@@ -90,9 +84,9 @@ bool CAISkillSet::CastSkill(CAISkillData* pSkill)
 CAISkillData* CAISkillSet::ChooseSkill(double dist, double self_hp, double self_mp, double target_hp)
 {
 	//遍历所有技能
-	double cur_val = 0.0;
+	double		  cur_val  = 0.0;
 	CAISkillData* pCurData = nullptr;
-	for(const auto& pair_val : m_setSkill)
+	for(const auto& pair_val: m_setSkill)
 	{
 		auto pData = pair_val.second;
 		if(pData->IsCoolDown())
@@ -100,7 +94,7 @@ CAISkillData* CAISkillSet::ChooseSkill(double dist, double self_hp, double self_
 		double util_value = pData->GetUtilityValue(dist, self_hp, self_mp, target_hp);
 		if(pCurData == nullptr || cur_val < util_value)
 		{
-			cur_val = util_value;
+			cur_val	 = util_value;
 			pCurData = pData;
 		}
 	}

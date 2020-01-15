@@ -1,4 +1,5 @@
 #include "Pet.h"
+
 #include "Player.h"
 #include "Scene.h"
 MEMORYHEAP_IMPLEMENTATION(CPet, s_heap);
@@ -10,36 +11,34 @@ CPet::CPet()
 
 CPet::~CPet()
 {
-	if(	GetCurrentScene() != nullptr)
+	if(GetCurrentScene() != nullptr)
 		GetCurrentScene()->LeaveMap(this);
-
 }
 
 bool CPet::Init(CPetSet* pPetSet, CDBRecordPtr&& pRecord)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	m_pRecord.reset(pRecord.release());
 	m_pPetSet = pPetSet;
 	SetID(m_pRecord->Field(TBLD_PET::ID));
 	CHECKF(CActor::Init());
-	
-	//m_pType = PetTypeSet()->QueryObj(GetPetTypeID());
-	//m_ActorAttrib.load_from(m_pType->getData());
 
-	
+	// m_pType = PetTypeSet()->QueryObj(GetPetTypeID());
+	// m_ActorAttrib.load_from(m_pType->getData());
+
 	m_pCDSet.reset(CCoolDownSet::CreateNew());
 	CHECKF(m_pCDSet.get());
 
 	RecalcAttrib(true);
 
 	return true;
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
 }
 
 bool CPet::CanDamage(CActor* pTarget) const
-{	
-__ENTER_FUNCTION
+{
+	__ENTER_FUNCTION
 	if(this == pTarget)
 		return false;
 	if(GetOwnerID() != 0)
@@ -48,7 +47,7 @@ __ENTER_FUNCTION
 		if(pOwner)
 			return pOwner->CanDamage(pTarget);
 	}
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
 }
 
@@ -59,7 +58,7 @@ void CPet::BeKillBy(CActor* pAttacker)
 
 bool CPet::IsEnemy(CSceneObject* pTarget) const
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	if(this == pTarget)
 		return false;
 	if(GetOwnerID() != 0)
@@ -69,13 +68,13 @@ __ENTER_FUNCTION
 			return pOwner->IsEnemy(pTarget);
 	}
 
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
 }
 
 void CPet::MakeShowData(SC_AOI_NEW& msg)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	msg.set_mapid(GetMapID());
 
 	msg.set_actor_id(GetID());
@@ -88,15 +87,15 @@ __ENTER_FUNCTION
 	msg.set_name(GetName());
 	msg.set_hp(GetHP());
 	msg.set_hpmax(GetHPMax());
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 }
 
 void CPet::OnEnterMap(CSceneBase* pScene)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 
 	CActor::OnEnterMap(pScene);
-	
+
 	ServerMSG::ActorCreate ai_msg;
 	ai_msg.set_actor_id(GetID());
 	ai_msg.set_scene_id(GetSceneID());
@@ -114,25 +113,22 @@ __ENTER_FUNCTION
 	ai_msg.set_posy(GetPosY());
 	ai_msg.set_ownerid(GetOwnerID());
 	ZoneService()->SendMsgToAIService(ServerMSG::MsgID_ActorCreate, ai_msg);
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 }
 
 void CPet::OnLeaveMap(uint64_t idTargetScene)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 
 	CActor::OnLeaveMap(idTargetScene);
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 }
 
-void CPet::Save()
-{
-
-}
+void CPet::Save() {}
 
 void CPet::CallOut()
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	if(GetCurrentScene() != nullptr)
 		return;
 
@@ -140,17 +136,15 @@ __ENTER_FUNCTION
 	CHECK(pOwner);
 	CHECK(pOwner->GetCurrentScene());
 
-
 	auto findPos = pOwner->GetCurrentScene()->FindPosNearby(Vector2(pOwner->GetPosX(), pOwner->GetPosY()), 2.0f);
-	pOwner->GetCurrentScene()->EnterMap(this, findPos.x , findPos.y, 0.0f);
+	pOwner->GetCurrentScene()->EnterMap(this, findPos.x, findPos.y, 0.0f);
 
-__LEAVE_FUNCTION
-
+	__LEAVE_FUNCTION
 }
 
 void CPet::CallBack()
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	if(GetCurrentScene() == nullptr)
 		return;
 
@@ -159,6 +153,5 @@ __ENTER_FUNCTION
 	CHECK(pOwner->GetCurrentScene());
 
 	pOwner->GetCurrentScene()->LeaveMap(this);
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 }
-

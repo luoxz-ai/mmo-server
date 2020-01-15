@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SKILL_H
+#define SKILL_H
+
 
 #include "BaseCode.h"
 #include "DBRecord.h"
@@ -7,19 +9,21 @@
 //每一条技能记录
 export_lua class CUserSkillData
 {
-public:
+  public:
 	CUserSkillData();
 	~CUserSkillData();
-public:
-	CREATE_NEW_IMPL(CUserSkillData);
-	bool	Init(CActor* pOwner, uint32_t idSkillSort, uint32_t nLev);
-	bool	Init(CActor* pOwner, CDBRecordPtr&& pRow);
 
-	export_lua uint32_t GetSkillSort() const {return m_pData->Field(TBLD_SKILL::SKILLTYPE);}
-	export_lua uint32_t GetSkillLev() const {return m_pData->Field(TBLD_SKILL::LEV);}
-	export_lua void SetSkillLev(uint32_t nLev, bool bUpdate = true);
-	export_lua void Update();
-private:
+  public:
+	CREATE_NEW_IMPL(CUserSkillData);
+	bool Init(CActor* pOwner, uint32_t idSkillSort, uint32_t nLev);
+	bool Init(CActor* pOwner, CDBRecordPtr&& pRow);
+
+	export_lua uint32_t GetSkillSort() const { return m_pData->Field(TBLD_SKILL::SKILLTYPE); }
+	export_lua uint32_t GetSkillLev() const { return m_pData->Field(TBLD_SKILL::LEV); }
+	export_lua void		SetSkillLev(uint32_t nLev, bool bUpdate = true);
+	export_lua void		Update();
+
+  private:
 	CDBRecordPtr m_pData;
 };
 
@@ -27,20 +31,22 @@ private:
 class CPlayer;
 export_lua class CUserSkillManager
 {
-public:
+  public:
 	CUserSkillManager();
 	~CUserSkillManager();
-public:
-	CREATE_NEW_IMPL(CUserSkillManager);
-	bool	Init(CPlayer* pOwner);
 
-	export_lua bool	LearnSkill(uint32_t idSkillSort);
-	export_lua bool	CastSkill(uint32_t idSkillSort, OBJID idTarget, const Vector2& pos);
-	export_lua bool	UpgradeSkill(uint32_t idSkillSort);
+  public:
+	CREATE_NEW_IMPL(CUserSkillManager);
+	bool Init(CPlayer* pOwner);
+
+	export_lua bool LearnSkill(uint32_t idSkillSort);
+	export_lua bool CastSkill(uint32_t idSkillSort, OBJID idTarget, const Vector2& pos);
+	export_lua bool UpgradeSkill(uint32_t idSkillSort);
 	export_lua CUserSkillData* _QuerySkill(uint32_t idSkillSort) const;
-	void	OnRecalcAttrib(CActorAttribCalc& calc) const;
-private:
-	
-	CPlayer* m_pOwner = nullptr;
+	void					   OnRecalcAttrib(CActorAttribCalc& calc) const;
+
+  private:
+	CPlayer*							m_pOwner = nullptr;
 	std::map<uint32_t, CUserSkillData*> m_setSkillData;
 };
+#endif /* SKILL_H */

@@ -1,16 +1,14 @@
 #ifndef NetWebsocket_H__
 #define NetWebsocket_H__
 
-#include "NetworkDefine.h"
-#include "BaseType.h"
-#include "Encryptor.h"
-#include "Decryptor.h"
-
 #include <libwebsockets.h>
 
+#include "BaseType.h"
+#include "Decryptor.h"
+#include "Encryptor.h"
+#include "NetworkDefine.h"
 
-
-static const uint32_t g_FrameSize = 4096;
+static const uint32_t g_FrameSize	   = 4096;
 static const uint16_t g_RecvBufferSize = g_FrameSize * 4;
 
 class CWebSocketEventHandler;
@@ -29,41 +27,35 @@ enum NET_WEBSOCKET_STATUS
 
 struct WebSocketFrame
 {
-	byte* data;
+	byte*	 data;
 	uint16_t length;
-	bool isStart;
-	bool isEnd;
+	bool	 isStart;
+	bool	 isEnd;
 
-	byte * GetPayload()
-	{
-		return data + LWS_PRE;
-	}
+	byte* GetPayload() { return data + LWS_PRE; }
 
-	uint16_t GetPayloadLength()	
-	{
-		return length - LWS_PRE;
-	}
+	uint16_t GetPayloadLength() { return length - LWS_PRE; }
 
-	static WebSocketFrame * CreateFrame(void * data, uint16_t length, bool isStart, bool isEnd)
+	static WebSocketFrame* CreateFrame(void* data, uint16_t length, bool isStart, bool isEnd)
 	{
-		WebSocketFrame * frame = new WebSocketFrame();
+		WebSocketFrame* frame = new WebSocketFrame();
 		// LWS_PRE: libwebsocket要求发送数据前面保留LWS_PRE可用，用来做协议头填充。
 		uint16_t frame_len = length + LWS_PRE;
 
 		frame->data = new byte[frame_len];
 		memset(frame->data, 0, frame_len);
 		memcpy(frame->data + LWS_PRE, data, length);
-		frame->length = frame_len;
+		frame->length  = frame_len;
 		frame->isStart = isStart;
-		frame->isEnd = isEnd;
+		frame->isEnd   = isEnd;
 		return frame;
 	}
 
-	static void DestroyFrame(WebSocketFrame * frame)
+	static void DestroyFrame(WebSocketFrame* frame)
 	{
-		if (frame != nullptr)
+		if(frame != nullptr)
 		{
-			delete [] frame->data;
+			delete[] frame->data;
 			delete frame;
 		}
 	}
@@ -71,14 +63,12 @@ struct WebSocketFrame
 
 class CNetWebSocket
 {
-public:
-
-	CNetWebSocket(CNetworkService * pService, CWebSocketEventHandler *pEventHandler);
+  public:
+	CNetWebSocket(CNetworkService* pService, CWebSocketEventHandler* pEventHandler);
 	~CNetWebSocket();
 
-public:
-
-	bool Init(struct lws *wsi);
+  public:
+	bool Init(struct lws* wsi);
 
 	void InitDecryptor(uint32_t seed)
 	{
@@ -95,10 +85,10 @@ public:
 	}
 
 	uint16_t GetSocketIdx() const { return m_nSocketIdx; }
-	void SetSocketIdx(uint16_t val) { m_nSocketIdx = val; }
+	void	 SetSocketIdx(uint16_t val) { m_nSocketIdx = val; }
 
 	SOCKET GetSocket() const { return m_socket; }
-	void SetSocket(SOCKET val) { m_socket = val; }
+	void   SetSocket(SOCKET val) { m_socket = val; }
 
 	NET_WEBSOCKET_STATUS GetWebSocketStatus();
 
@@ -111,10 +101,9 @@ public:
 	void Close();
 
 	size_t GetPacketSizeMax() const { return m_nPacketSizeMax; }
-	void SetPacketSizeMax(size_t val);
+	void   SetPacketSizeMax(size_t val);
 
-public:
-
+  public:
 	void RealSend();
 
 	void SendTestData();
@@ -122,45 +111,41 @@ public:
 	void OnWsAccepted();
 
 	void OnWsConnected();
-	
+
 	void OnWsConnectFailed();
-	
+
 	void OnWsDisconnected();
 
 	void OnWsRecvData(byte* pBuffer, size_t len);
 
-private:
-
+  private:
 	bool _AddRecvBuffer(byte* pBuffer, size_t len);
 
-	bool _GetEntirePackage(byte* pBuffer, size_t &len);
+	bool _GetEntirePackage(byte* pBuffer, size_t& len);
 
 	void _ConsumeBuffer(size_t len);
 
-private:
-
+  private:
 	NET_WEBSOCKET_STATUS m_WebSocketStatus;
 
-	CNetworkService*	m_pService;
-	CWebSocketEventHandler*	m_pWebSocketHandler;
+	CNetworkService*		m_pService;
+	CWebSocketEventHandler* m_pWebSocketHandler;
 
-	CDecryptor*			m_pDecryptor;
-	CEncryptor*			m_pEncryptor;
+	CDecryptor* m_pDecryptor;
+	CEncryptor* m_pEncryptor;
 
-	struct lws *		m_pLwsInstance;
+	struct lws* m_pLwsInstance;
 
-	std::list<WebSocketFrame *> m_SendList;
+	std::list<WebSocketFrame*> m_SendList;
 
-	byte 	 			m_RecvBuffer[g_RecvBufferSize];
-	uint16_t 			m_RecvLength;
+	byte	 m_RecvBuffer[g_RecvBufferSize];
+	uint16_t m_RecvLength;
 
-	uint16_t			m_nSocketIdx;
-	SOCKET 				m_socket;
-	size_t 				m_nPacketSizeMax;
-	uint16_t			m_nLastProcessMsgCMD;
-	uint16_t			m_nLastCMDSize;
+	uint16_t m_nSocketIdx;
+	SOCKET	 m_socket;
+	size_t	 m_nPacketSizeMax;
+	uint16_t m_nLastProcessMsgCMD;
+	uint16_t m_nLastCMDSize;
 };
 
-
-#endif //NetWebsocket_H__
-
+#endif // NetWebsocket_H__

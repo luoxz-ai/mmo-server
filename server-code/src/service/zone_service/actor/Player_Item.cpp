@@ -1,20 +1,23 @@
-#include "Player.h"
 #include "Item.h"
+#include "Player.h"
 #include "ScriptManager.h"
-bool CPlayer::SpendItem(uint32_t nItemLogType, uint32_t idItemType, uint32_t nCount /*= 1*/, bool bUseBindFirst /*= true*/)
+bool CPlayer::SpendItem(uint32_t nItemLogType,
+						uint32_t idItemType,
+						uint32_t nCount /*= 1*/,
+						bool	 bUseBindFirst /*= true*/)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	CHECKF(idItemType > 0);
 	CHECKF(nCount > 0);
 	switch(idItemType)
 	{
-	case MT_MONEY:
-	case MT_MONEYBIND:
-	case MT_GOLD:
-	case MT_GOLDBIND:
-		return SpendMoney(idItemType, nCount);
-		break;
-	default:
+		case MT_MONEY:
+		case MT_MONEYBIND:
+		case MT_GOLD:
+		case MT_GOLDBIND:
+			return SpendMoney(idItemType, nCount);
+			break;
+		default:
 		{
 			if(bUseBindFirst == true)
 				nCount -= GetBag()->DelItemByType(idItemType, nCount, ITEMFLAG_EXCHANGE_DISABLE);
@@ -25,48 +28,42 @@ __ENTER_FUNCTION
 		break;
 	}
 
-
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
 }
 
-
 bool CPlayer::AwardItem(uint32_t nItemLogType, uint32_t idItemType, uint32_t nCount, uint32_t dwFlag)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 
 	switch(idItemType)
 	{
-	case MT_MONEY:
-	case MT_MONEYBIND:
-	case MT_GOLD:
-	case MT_GOLDBIND:
-		return AwardMeony(idItemType, nCount);
-		break;
-	default:
-		return GetBag()->AwardItem(idItemType, nCount, dwFlag);
-		break;
+		case MT_MONEY:
+		case MT_MONEYBIND:
+		case MT_GOLD:
+		case MT_GOLDBIND:
+			return AwardMeony(idItemType, nCount);
+			break;
+		default:
+			return GetBag()->AwardItem(idItemType, nCount, dwFlag);
+			break;
 	}
-	
 
-
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
 }
 
 bool CPlayer::CheckItem(uint32_t idItemType, uint32_t nCount /*= 1*/, uint32_t dwFlag)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	return GetBag()->HaveSoManyItem(idItemType, nCount, dwFlag);
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
 }
 
-
-
-bool CPlayer::UseItem(uint32_t nGridInBag, uint32_t nCount/* = 1*/)
+bool CPlayer::UseItem(uint32_t nGridInBag, uint32_t nCount /* = 1*/)
 {
-__ENTER_FUNCTION
+	__ENTER_FUNCTION
 	CItem* pItem = GetBag()->QueryItemByGrid(nGridInBag);
 	CHECKF(pItem);
 
@@ -103,13 +100,12 @@ __ENTER_FUNCTION
 		auto check_func_name = ScriptManager()->QueryFunc(pItemType->GetScriptID(), SCB_ITEM_ONBATCHUSECHECK);
 		if(check_func_name.empty() == false)
 		{
-			nCount =  ScriptManager()->_ExecScript<uint32_t>(check_func_name.c_str(), check_func_name, pItem, nCount, this);
+			nCount =
+				ScriptManager()->_ExecScript<uint32_t>(check_func_name.c_str(), check_func_name, pItem, nCount, this);
 			if(nCount == 0)
 				return false;
 		}
-		
 	}
-	
 
 	auto check_func_name = ScriptManager()->QueryFunc(pItemType->GetScriptID(), SCB_ITEM_ONUSE);
 	if(check_func_name.empty())
@@ -123,7 +119,7 @@ __ENTER_FUNCTION
 	if(pItemType->GetCDType() != 0)
 		GetCDSet()->StartCoolDown(COOLDOWN_TYPE_ITEM, pItemType->GetCDType(), pItemType->GetCDMsces());
 
-	//dlog
+	// dlog
 
 	if(pItem->GetPileNum() == nCount)
 	{
@@ -135,10 +131,6 @@ __ENTER_FUNCTION
 		pItem->SyncPileNum(this);
 	}
 
-
-	
-
-
-__LEAVE_FUNCTION
+	__LEAVE_FUNCTION
 	return false;
 }

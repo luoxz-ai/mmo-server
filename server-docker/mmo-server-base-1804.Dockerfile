@@ -26,6 +26,9 @@ RUN apt-get update -y --fix-missing \
  gdb \
  python \
  linux-tools-common \
+ clang-9 \
+ clang-format-9 \
+ clang-tidy-9 \
  sudo 
  
 ENV LC_CTYPE=zh_CN.UTF-8 
