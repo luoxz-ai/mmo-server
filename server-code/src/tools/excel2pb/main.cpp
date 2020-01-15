@@ -66,7 +66,7 @@ int main(int argc, char** argv)
 
 			for(auto cell: row)
 			{
-				fmt::printf("[{},{}]{} \t", x, y, cell.to_string().c_str());
+				fmt::print("[{},{}]{} \t", x, y, cell.to_string().c_str());
 				x++;
 			}
 			y++;

@@ -66,7 +66,7 @@ char* ConvertEnc(const char* encFrom, const char* encTo, char* pszBuffIn, size_t
 
 	if((c_pt = iconv_open(encTo, encFrom)) == (iconv_t)-1)
 	{
-		fmt::printf("iconv_open false: {} ==> {}" LINEEND, encFrom, encTo);
+		fmt::print("iconv_open false: {} ==> {}" LINEEND, encFrom, encTo);
 		return NULL;
 	}
 	iconv(c_pt, NULL, NULL, NULL, NULL);

@@ -40,8 +40,11 @@ TARGET_LINK_LIBRARIES(globalroute_service
  myproto 
  mydbtable 
  service_comm 
- brpc
+ libbrpc.a
  fmt
+ pthread
+ rt
+ dl
   ${JEMALLOC_LIB_NAME}
 )
 

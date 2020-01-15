@@ -26,12 +26,12 @@ TARGET_LINK_LIBRARIES(service_loader
  libevent_core.so
  libevent_pthreads.so
  libevent_extra.so
- libbasecode.so
- libnetwork.so
- libmessage_route.so
- libmydb.so
- libmyproto.so
- libwebsockets.so
+ basecode
+ network
+ message_route
+ mydb
+ myproto
+ websockets
  fmt
  tinyxml2
  pthread

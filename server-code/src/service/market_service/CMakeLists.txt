@@ -34,8 +34,10 @@ TARGET_LINK_LIBRARIES(market_service
  myproto 
  mydbtable 
  service_comm  
- brpc
  fmt
+ pthread
+ rt
+ dl
   ${JEMALLOC_LIB_NAME}
 )
 

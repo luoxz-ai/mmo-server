@@ -38,6 +38,10 @@ TARGET_LINK_LIBRARIES(world_service
  mydbtable 
  service_comm 
  gamemap
+ fmt
+ pthread
+ rt
+ dl
  ${JEMALLOC_LIB_NAME}
 )
 

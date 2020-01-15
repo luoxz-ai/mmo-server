@@ -32,6 +32,7 @@ endif()
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(script
   liblua.a
+  basecode
   ${JEMALLOC_LIB_NAME}
 )
 

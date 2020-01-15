@@ -50,8 +50,10 @@ TARGET_LINK_LIBRARIES(zone_service
  service_comm 
  gamemap 
  script
- brpc
  fmt
+ pthread
+ rt
+ dl
  ${JEMALLOC_LIB_NAME}
 )
 

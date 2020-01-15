@@ -34,8 +34,10 @@ TARGET_LINK_LIBRARIES(servicectrl_service
  mydbtable 
  service_comm  
  gamemap
- brpc
  fmt
+ pthread
+ rt
+ dl
   ${JEMALLOC_LIB_NAME}
 )
 

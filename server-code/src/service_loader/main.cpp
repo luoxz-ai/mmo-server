@@ -204,11 +204,11 @@ int main(int argc, char* argv[])
 
 	if(g_pLoader->Load(setting_filename, nWorldID, create_service_set) == false)
 	{
-		std::cerr << "service load fail." << std::endl;
+		fmt::print(stderr,  "service {} load fail.\n" , start_service_set);
 		exit(-1);
 	}
-	std::cout << fmt::format("service {} load succ.", start_service_set) << std::endl;
-
+	fmt::print("service {} load succ.\n" , start_service_set);
+	
 #ifndef STDIN_FILENO
 	/* Standard file descriptors. */
 #define STDIN_FILENO  0 /* Standard input. */

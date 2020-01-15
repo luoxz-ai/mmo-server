@@ -67,7 +67,7 @@ int								 main(int argc, char* argv[])
 	{
 		nStart = std::atoi(opt["--start"].c_str());
 	}
-	fmt::printf("thread={} percount={} start={} \n", max_thread, nAmount, nStart);
+	fmt::print("thread={} percount={} start={} \n", max_thread, nAmount, nStart);
 
 	BaseCode::InitLog("./log/robot_client");
 	for(uint32_t i = 0; i < max_thread; i++)

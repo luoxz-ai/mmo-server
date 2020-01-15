@@ -46,8 +46,10 @@ TARGET_LINK_LIBRARIES(ai_service
  service_comm 
  gamemap 
  script
- brpc
  fmt
+ pthread
+ rt
+ dl
  ${JEMALLOC_LIB_NAME}
 )
 

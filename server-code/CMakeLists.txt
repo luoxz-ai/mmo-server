@@ -155,7 +155,7 @@ SET(LIBRARIES ${PROJECT_BINARY_DIR}/lib/release)
 SET(BINARIES ${PROJECT_BINARY_DIR}/bin/release)
 ENDIF()
 
-
+add_compile_options(-Wl,--unresolved-symbols=ignore-in-shared-libs)
 LINK_DIRECTORIES(
  ${PROJECT_SOURCE_DIR}/depends/lib/
  ${LIBRARIES}

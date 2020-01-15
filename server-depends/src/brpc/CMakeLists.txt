@@ -9,6 +9,7 @@ option(BUILD_UNIT_TESTS "Whether to build unit tests" OFF)
 option(DOWNLOAD_GTEST "Download and build a fresh copy of \
                             googletest. Requires Internet access." ON)
 
+
 # Enable MACOSX_RPATH. Run "cmake --help-policy CMP0042" for policy details.
 if(POLICY CMP0042)
     cmake_policy(SET CMP0042 NEW)
@@ -177,8 +178,8 @@ if(WITH_GLOG)
 endif()
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    set(DYNAMIC_LIB ${DYNAMIC_LIB} rt)
-    set(BRPC_PRIVATE_LIBS "${BRPC_PRIVATE_LIBS} -lrt")
+    set(DYNAMIC_LIB ${DYNAMIC_LIB} rt pthread)
+    set(BRPC_PRIVATE_LIBS "${BRPC_PRIVATE_LIBS} -lrt -lpthread")
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     set(DYNAMIC_LIB ${DYNAMIC_LIB}
         pthread

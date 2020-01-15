@@ -35,8 +35,11 @@ TARGET_LINK_LIBRARIES(gm_service
   mydb 
   mydbtable 
   service_comm
-  brpc
+  libbrpc.a
   fmt
+  pthread
+  rt
+  dl
  ${JEMALLOC_LIB_NAME}
 )
 

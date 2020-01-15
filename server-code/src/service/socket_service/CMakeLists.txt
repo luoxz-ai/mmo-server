@@ -29,8 +29,10 @@ TARGET_LINK_LIBRARIES(socket_service
  network 
  myproto 
  service_comm
- brpc
  fmt
+ pthread
+ rt
+ dl
  ${JEMALLOC_LIB_NAME}
 )
 

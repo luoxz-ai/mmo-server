@@ -24,6 +24,7 @@ ADD_DEPENDENCIES(mydb basecode)
 TARGET_LINK_LIBRARIES(mydb
 	libbasecode.so
 	libmysqlclient.a
+	ssl
 	dl
 	pthread
 	${JEMALLOC_LIB_NAME}

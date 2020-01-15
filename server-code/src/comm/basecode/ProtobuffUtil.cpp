@@ -227,7 +227,7 @@ bool SetMessageData(google::protobuf::Message* pPBMessage, const std::string& fi
 				auto pEnumVal = pFieldDesc->enum_type()->FindValueByName(data);
 				if(pEnumVal == nullptr)
 				{
-					fmt::printf("can't convert {} to {}\n", data, field_name);
+					fmt::print("can't convert {} to {}\n", data, field_name);
 					return false;
 				}
 				pThisRow->GetReflection()->SetEnum(pThisRow, pFieldDesc, pEnumVal);

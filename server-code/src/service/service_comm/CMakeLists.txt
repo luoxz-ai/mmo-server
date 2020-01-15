@@ -30,8 +30,14 @@ TARGET_LINK_LIBRARIES(service_comm
  libmyproto.so
  libmydb.so
  message_route
- brpc
+ libbrpc.a
+ libgflags.a
+ libleveldb.a
+ libsnappy.a
  fmt
+ pthread
+ rt
+ dl
  ${JEMALLOC_LIB_NAME}
 )
 
