@@ -20,17 +20,12 @@
 namespace details
 {
 CAT_CLASS_HAS_MEMBER(GetIDFromPBRow);
-CAT_CLASS_HAS_MEMBER(mergeFrom);
 }; // namespace details
 template<typename T>
 struct hasFunc_GetIDFromPBRow : bool_type<details::has_GetIDFromPBRow<T>::value>
 {
 };
 
-template<typename T>
-struct hasFunc_mergeFrom : bool_type<details::has_mergeFrom<T>::value>
-{
-};
 
 template<class T>
 class CGameDataMap
@@ -77,17 +72,17 @@ public:
 	}
 	bool Reload(CMysqlConnection* pDb, const char* table_name, const char* szSQL)
 	{
-		CGameDataMap<T>::Clear();
+		Clear();
 		return Init(pDb, table_name, szSQL);
 	}
 
-	template<class ManagerT, class PBRow_T>
-	static auto _LoadFromPB(const PBRow_T& row, ManagerT* pThis)
+	template<class PBRow_T>
+	auto _LoadFromPB(const PBRow_T& row)
 	{
 		if constexpr(hasFunc_GetIDFromPBRow<T>::value)
 		{
 			KEY_T key	= T::GetIDFromPBRow(row);
-			T*	  pData = pThis->QueryObj(key);
+			T*	  pData = QueryObj(key);
 			if(pData)
 			{
 				pData->Init(row);
@@ -100,7 +95,7 @@ public:
 					return false;
 				}
 
-				pThis->AddObj(pData);
+				AddObj(pData);
 			}
 			return true;
 		}
@@ -112,7 +107,7 @@ public:
 				return false;
 			}
 
-			pThis->AddObj(pData);
+			AddObj(pData);
 			return true;
 		}
 	}
@@ -128,7 +123,7 @@ public:
 		}
 		for(const auto& iter: cfg.rows())
 		{
-			_LoadFromPB(iter, this);
+			_LoadFromPB(iter);
 		}
 
 		return true;
@@ -136,26 +131,16 @@ public:
 	bool Reload(const char* szFileName, bool bClear)
 	{
 		if(bClear)
-			CGameDataMap<T>::Clear();
+			Clear();
 		return Init(szFileName);
 	}
 
 	void AddObj(T* pData)
 	{
-
 		auto it_find = m_setData.find(pData->GetID());
 		if(it_find != m_setData.end())
 		{
-			// log error
-			if constexpr(hasFunc_mergeFrom<T>::value)
-			{
-				it_find->merge(pData);
-				SAFE_DELETE(pData);
-			}
-			else
-			{
-				LOGWARNING("AddObj twice {}, id:{}", GET_NAME(), pData->GetID());
-			}
+			LOGWARNING("AddObj twice {}, id:{}", GET_NAME(), pData->GetID());
 		}
 		else
 		{
@@ -278,7 +263,7 @@ public:
 	}
 	bool Reload(CMysqlConnection* pDb, const char* table_name, const char* szSQL)
 	{
-		CGameDataMap<T>::Clear();
+		Clear();
 		return Init(pDb, table_name, szSQL);
 	}
 
@@ -306,7 +291,7 @@ public:
 	}
 	bool Reload(const char* szFileName)
 	{
-		CGameDataMap<T>::Clear();
+		Clear();
 		return Init(szFileName);
 	}
 

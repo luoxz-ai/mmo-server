@@ -27,7 +27,7 @@
 	class has_##member                                                              \
 	{                                                                               \
 		template<class C>                                                           \
-		static void check(typename std::decay<typename C::member>::type*) noexcept; \
+		static void check(typename std::decay<decltype(&C::member)>::type*) noexcept; \
 		template<class C>                                                           \
 		static void check(...) noexcept(false);                                     \
                                                                                     \
@@ -37,6 +37,7 @@
 			value = noexcept(check<T>(nullptr))                                     \
 		};                                                                          \
 	};
+
 
 //////////////////////////////////////////////////////////////////////////////////
 //
@@ -66,25 +67,25 @@ struct not_type<Trait, true> : std::false_type
 
 namespace details
 {
-CAT_CLASS_HAS_MEMBER(value_type);
-CAT_CLASS_HAS_MEMBER(key_type);
-CAT_CLASS_HAS_MEMBER(mapped_type);
-CAT_CLASS_HAS_MEMBER(container_type);
+CAT_CLASS_HAS_TYPEDEF(value_type);
+CAT_CLASS_HAS_TYPEDEF(key_type);
+CAT_CLASS_HAS_TYPEDEF(mapped_type);
+CAT_CLASS_HAS_TYPEDEF(container_type);
 
-CAT_CLASS_HAS_MEMBER(pointer);
-CAT_CLASS_HAS_MEMBER(const_pointer);
-CAT_CLASS_HAS_MEMBER(reference);
-CAT_CLASS_HAS_MEMBER(const_reference);
-CAT_CLASS_HAS_MEMBER(iterator);
-CAT_CLASS_HAS_MEMBER(const_iterator);
-CAT_CLASS_HAS_MEMBER(reverse_iterator);
-CAT_CLASS_HAS_MEMBER(const_reverse_iterator);
-CAT_CLASS_HAS_MEMBER(size_type);
-CAT_CLASS_HAS_MEMBER(difference_type);
+CAT_CLASS_HAS_TYPEDEF(pointer);
+CAT_CLASS_HAS_TYPEDEF(const_pointer);
+CAT_CLASS_HAS_TYPEDEF(reference);
+CAT_CLASS_HAS_TYPEDEF(const_reference);
+CAT_CLASS_HAS_TYPEDEF(iterator);
+CAT_CLASS_HAS_TYPEDEF(const_iterator);
+CAT_CLASS_HAS_TYPEDEF(reverse_iterator);
+CAT_CLASS_HAS_TYPEDEF(const_reverse_iterator);
+CAT_CLASS_HAS_TYPEDEF(size_type);
+CAT_CLASS_HAS_TYPEDEF(difference_type);
 
 CAT_CLASS_HAS_TYPEDEF(function_type);
 CAT_CLASS_HAS_TYPEDEF(return_type);
-CAT_CLASS_HAS_MEMBER(arity_value);
+CAT_CLASS_HAS_TYPEDEF(arity_value);
 } // namespace details
 
 template<typename T>

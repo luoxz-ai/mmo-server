@@ -52,8 +52,6 @@ public:
 	CREATE_NEW_IMPL(SkillFAM);
 	using PB_T = Cfg_SkillFAM;
 
-	void mergeFrom(SkillFAM* pData) { m_rule_set.merge(pData->m_rule_set); }
-
 	bool Init(const Cfg_SkillFAM_Row& row)
 	{
 		m_ID = row.idskill();
@@ -96,8 +94,6 @@ public:
 	~TargetFAM() {}
 	CREATE_NEW_IMPL(TargetFAM);
 	using PB_T = Cfg_TargetFAM;
-
-	void mergeFrom(TargetFAM* pData) { m_rule_set.merge(pData->m_rule_set); }
 
 	bool Init(const Cfg_TargetFAM_Row& row)
 	{
