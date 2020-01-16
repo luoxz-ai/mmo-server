@@ -1,7 +1,9 @@
-FROM mmo-server-base:18.04
+FROM mmo-server-depends
 
 
-ADD release/ /data/mmorpg/server/
+ADD server-code/bin/ /data/mmorpg/server/server-code/bin/
 USER root
-WORKDIR /data/mmorpg/server/
+WORKDIR /data/mmorpg/server/server-code/bin/
+RUN ./cp_depends_lib.sh
+RUN ./cp_release.sh
 

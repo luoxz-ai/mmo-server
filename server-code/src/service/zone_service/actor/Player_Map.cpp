@@ -134,7 +134,7 @@ void CPlayer::OnEnterMap(CSceneBase* pScene)
 	__ENTER_FUNCTION
 
 	CHECK(GetCurrentScene() == nullptr);
-	LOGLOGIN("Player OnEnterMapStart:{} {} pos:%.2f %.2f", GetID(), pScene->GetMapID(), GetPosX(), GetPosY());
+	LOGLOGIN("Player OnEnterMapStart:{} {} pos:{.2f} {.2f}", GetID(), pScene->GetMapID(), GetPosX(), GetPosY());
 	CActor::OnEnterMap(pScene);
 
 	m_idLoadingScene = 0;
@@ -221,7 +221,7 @@ void CPlayer::_FlyMap(const SceneID& idScene, float fPosX, float fPosY, float fR
 
 	if(m_pScene == pScene)
 	{
-		LOGLOGIN("Player FlySameMap:{} {} pos:%.2f %.2f %.2fs", GetID(), idScene.GetMapID(), fPosX, fPosY, fRange);
+		LOGLOGIN("Player FlySameMap:{} {} pos:{.2f} {.2f} {.2f}s", GetID(), idScene.GetMapID(), fPosX, fPosY, fRange);
 
 		m_pScene->LeaveMap(this, idScene);
 		m_pScene = nullptr;
@@ -232,7 +232,7 @@ void CPlayer::_FlyMap(const SceneID& idScene, float fPosX, float fPosY, float fR
 	}
 	else
 	{
-		LOGLOGIN("Player FlyMap:{} {} pos:%.2f %.2f %.2fs", GetID(), idScene.GetMapID(), fPosX, fPosY, fRange);
+		LOGLOGIN("Player FlyMap:{} {} pos:{.2f} {.2f} {.2f}s", GetID(), idScene.GetMapID(), fPosX, fPosY, fRange);
 
 		//从老地图离开
 		m_pScene->LeaveMap(this, idScene);

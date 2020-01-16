@@ -1,4 +1,4 @@
-GLOBAL_IP=172.28.1.2
+GLOBAL_IP=172.28.1.3
 GLOBAL_PORTD_START=17000
 
 echo "create database global;" | docker exec -i mysql-global sh -c 'exec mysql -uroot -p"3Killyou"'
