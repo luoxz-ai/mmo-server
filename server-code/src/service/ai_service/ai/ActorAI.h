@@ -7,6 +7,8 @@
 #include "HateList.h"
 #include "MapManager.h"
 #include "SkillType.h"
+#include <functional>
+#include <string_view>
 //最后还是考虑使用最简答的单层状态机来构建AI
 //在攻击决策模块中,适量的使用模糊逻辑,来增加随机性
 
@@ -33,6 +35,15 @@ enum AITaskType
 	ATT_PRATOL,		// prtrol from the path
 	ATT_PRATOLWAIT, // prtrol from the path
 	ATT_RANDMOVE,	// random move
+	ATT_MAX,
+};
+
+class CActorAI;
+struct STATE_DATA
+{
+	std::string_view name;
+	typedef void (CActorAI::*ProcessFunc)();
+	ProcessFunc func;
 };
 
 class CAIActor;
@@ -67,6 +78,7 @@ public:
 	uint32_t GetCurSkillTypeID() const { return m_nCurSkillTypeID; }
 	void	 SetCurSkillTypeID(uint32_t val) { m_nCurSkillTypeID = val; }
 
+	static const STATE_DATA& GetStateData(int nState);
 public:
 	// 随机移动
 	bool ToRandMove();
@@ -117,7 +129,7 @@ public:
 	CAIPathFinder* PathFind() const { return m_pAIPathFinder; }
 
 	const Cfg_AIType_Row&					  GetAIData() const;
-	const ::Cfg_Scene_Patrol_Row_patrol_data& GetCurPratolData();
+	const Cfg_Scene_Patrol_Row_patrol_data& GetCurPratolData();
 
 private:
 	void AddNextCall(uint32_t ms);

@@ -8,9 +8,14 @@
 
 #include "loging_manager.h"
 
-int MulDiv(int a, int b, int c)
+int32_t MulDivSign(int32_t a, int32_t b, int32_t c)
 {
-	return ((int)(((int64_t)(a) * (int64_t)(b)) / (int64_t)(c)));
+	return ((int32_t)(((int64_t)(a) * (int64_t)(b)) / (int64_t)(c)));
+}
+
+uint32_t MulDiv(uint32_t a, uint32_t b, uint32_t c)
+{
+	return ((uint32_t)(((uint64_t)(a) * (uint64_t)(b)) / (uint64_t)(c)));
 }
 
 uint32_t hex_set(uint32_t dwFlag, int nHex, UCHAR ucVal)

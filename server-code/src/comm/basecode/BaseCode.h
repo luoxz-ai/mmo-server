@@ -181,6 +181,16 @@ export_lua inline BYTE toHex(const BYTE& x)
 		}                            \
 	}
 
+#define CHECKFSR(x, R)               \
+	{                                \
+		if(!(x))                     \
+		{                            \
+			LOGASSERT("ASSERT:" #x); \
+			static R r;              \
+			return r;                \
+		}                            \
+	}
+
 #define CHECK_M(x, msg)                             \
 	{                                               \
 		if(!(x))                                    \
@@ -205,6 +215,15 @@ export_lua inline BYTE toHex(const BYTE& x)
 			return r;                               \
 		}                                           \
 	}
+#define CHECKFSR_M(x, R, msg)                       \
+	{                                               \
+		if(!(x))                                    \
+		{                                           \
+			LOGASSERT("ASSERT:" #x " msg:{}", msg); \
+			static R r;                             \
+			return r;                               \
+		}                                           \
+	}
 
 #define __ENTER_FUNCTION \
 	{                    \
@@ -218,7 +237,8 @@ export_lua inline BYTE toHex(const BYTE& x)
 	}
 
 // a*b/c
-export_lua int MulDiv(int a, int b, int c);
+export_lua int32_t	MulDivSign(int32_t a, int32_t b, int32_t c);
+export_lua uint32_t MulDiv(uint32_t a, uint32_t b, uint32_t c);
 
 export_lua inline uint32_t MAKE32(uint32_t a, uint32_t b)
 {

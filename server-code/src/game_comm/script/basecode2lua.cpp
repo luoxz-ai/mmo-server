@@ -57,6 +57,7 @@ void basecode2lua(lua_State* L)
 	lua_tinker::def(L, "MakeINT64", &MakeINT64);
 	lua_tinker::def(L, "MakeUINT64", &MakeUINT64);
 	lua_tinker::def(L, "MulDiv", &MulDiv);
+	lua_tinker::def(L, "MulDivSign", &MulDivSign);
 	lua_tinker::def(L, "RegexStrCheck", &RegexStrCheck);
 	lua_tinker::def(L, "RegexStrReload", &RegexStrReload);
 	lua_tinker::def(L, "ReplaceIllegaWords",

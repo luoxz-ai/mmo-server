@@ -4,6 +4,7 @@
 #include "AIActor.h"
 #include "AIPathFinder.h"
 #include "AIService.h"
+
 static const int MOVE_PER_WAIT_MS = 500; //每500ms向zone发送一次移动消息
 
 CActorAI::CActorAI() {}
@@ -39,61 +40,28 @@ void CActorAI::OnUnderAttack(OBJID idTarget, int32_t nDamage)
 
 void CActorAI::OnDead() {}
 
+const STATE_DATA& CActorAI::GetStateData(int nState)
+{
+	CHECKFSR(nState > 0 && nState < ATT_MAX, STATE_DATA);
+	static STATE_DATA STATE_DATA_ARRAY[] = 
+	{
+		{"ATT_IDLE", 		&CActorAI::ProcessIdle},		  
+		{"ATT_ATTACK", 		&CActorAI::ProcessAttack},		  
+		{"ATT_APPROACH", 	&CActorAI::ProcessApproach},
+		{"ATT_SKILL", 		&CActorAI::ProcessSkill},		  
+		{"ATT_SKILLWAIT", 	&CActorAI::ProcessSkillWait}, 
+		{"ATT_ESCAPE", 		&CActorAI::ProcessEscape},
+		{"ATT_GOBACK", 		&CActorAI::ProcessPatrol},	  
+		{"ATT_PRATOL", 		&CActorAI::ProcessGoback},		  
+		{"ATT_PRATOLWAIT", 	&CActorAI::ProcessPatrolWait},
+		{"ATT_RANDMOVE", 	&CActorAI::ProcessRandMove},
+	};
+	return STATE_DATA_ARRAY[nState];
+}
+
 void CActorAI::Process()
 {
-	switch(m_nState)
-	{
-		case ATT_IDLE: // idle
-		{
-			ProcessIdle();
-		}
-		break;
-		case ATT_ATTACK: //攻击决策
-		{
-			ProcessAttack();
-		}
-		break;
-		case ATT_APPROACH: //移动到距离目标N米处
-		{
-			ProcessApproach();
-		}
-		break;
-		case ATT_SKILL: //释放某种技能
-		{
-			ProcessSkill();
-		}
-		break;
-		case ATT_ESCAPE: //逃离
-		{
-			ProcessEscape();
-		}
-		break;
-		case ATT_GOBACK: //快速移动/无敌移动到目标点
-		{
-			ProcessGoback();
-		}
-		break;
-		case ATT_PRATOL: // prtrol from the path
-		{
-			ProcessPatrol();
-		}
-		break;
-		case ATT_PRATOLWAIT: // prtrol from the path
-		{
-			ProcessPatrolWait();
-		}
-		break;
-		case ATT_RANDMOVE: // random move
-		{
-			ProcessRandMove();
-		}
-		break;
-		case ATT_SKILLWAIT:
-		{
-			ProcessSkillWait();
-		}
-		break;
-	}
+	std::invoke( GetStateData(m_nState).func, this);
 }
 
 uint32_t CActorAI::GetState() const
@@ -103,20 +71,8 @@ uint32_t CActorAI::GetState() const
 
 void CActorAI::ChangeState(uint32_t val)
 {
-	m_nState							  = val;
-	static const char* const STATE_NAME[] = {
-		"ATT_IDLE",		  // idle
-		"ATT_ATTACK",	  //攻击决策
-		"ATT_APPROACH",	  //移动到距离目标N米处
-		"ATT_SKILL",	  //释放某种技能
-		"ATT_SKILLWAIT",  //释放某种技能
-		"ATT_ESCAPE",	  //逃离
-		"ATT_GOBACK",	  //快速移动/无敌移动到目标点
-		"ATT_PRATOL",	  // prtrol from the path
-		"ATT_PRATOLWAIT", // prtrol from the path
-		"ATT_RANDMOVE",	  // random move
-	};
-	LOGAIDEBUG(GetAIData().ai_debug(), "AI: {} ChangeState: {}", GetActor()->GetID(), STATE_NAME[val]);
+	m_nState = val;
+	LOGAIDEBUG(GetAIData().ai_debug(), "AI: {} ChangeState: {}", GetActor()->GetID(), GetStateData(val).name);
 }
 
 void CActorAI::SetAISleep(bool v)
@@ -636,7 +592,7 @@ bool CActorAI::FindNextEnemy()
 					continue;
 				if(GetActor()->IsEnemy(pActor) == false)
 					continue;
-				;
+
 				float dis = GameMath::distance(pActor->GetPos(), GetActor()->GetPos());
 				if(dis >= m_pAIType->GetDataRef().search_enemy_range())
 					continue;
