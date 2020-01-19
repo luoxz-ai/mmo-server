@@ -78,17 +78,6 @@ private:
 	std::condition_variable m_cv;
 };
 
-template<typename T>
-class MyTLSTypePtr
-{
-public:
-	static void set(T* pPtr) { m_pPtr = pPtr; }
-
-	static T* get() { return m_pPtr; }
-
-	thread_local static T* m_pPtr;
-};
-
 inline long int get_cur_thread_id()
 {
 	constexpr int ___NR_gettid = 186;

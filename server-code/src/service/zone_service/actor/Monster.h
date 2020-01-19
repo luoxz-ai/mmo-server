@@ -19,7 +19,7 @@ public:
 public:
 	export_lua virtual bool SendMessage(uint16_t cmd, const google::protobuf::Message& msg) const override;
 
-	export_lua virtual ActorType GetActorType() const { return ActorType::ACT_MONSTER; }
+	export_lua virtual ActorType GetActorType() const override{ return ActorType::ACT_MONSTER; }
 	export_lua static ActorType	 GetActorTypeStatic() { return ActorType::ACT_MONSTER; }
 
 	export_lua virtual uint32_t			  GetLev() const override { return m_pType->GetLevel(); }

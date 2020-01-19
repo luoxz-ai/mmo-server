@@ -1,9 +1,16 @@
+
+include(FindLibClang)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LIBCLANG_CXXFLAGS}")
+LINK_DIRECTORIES(${LIBCLANG_LIBDIR})
+
 # 搜索当前目录下所有文件
 file(GLOB_RECURSE SRCS "*.cc" "*.cpp" "*.c" "*.h" "*.hpp")
 IF(TIDY)
 set(CMAKE_CXX_CLANG_TIDY ${MY_CLANG_TIDY_STR})
 ELSE()
 ENDIF()
+
+
 
 # 生成库文件
 add_executable(cxx2lua ${SRCS})

@@ -17,7 +17,7 @@ public:
 	export_lua uint32_t GetTypeID() const { return m_idType; }
 
 public:
-	export_lua virtual ActorType GetActorType() const { return ActorType::ACT_MAPITEM; }
+	export_lua virtual ActorType GetActorType() const override { return ActorType::ACT_MAPITEM; }
 	export_lua static ActorType	 GetActorTypeStatic() { return ActorType::ACT_MAPITEM; }
 	virtual void				 MakeShowData(SC_AOI_NEW& msg) override;
 	virtual void				 OnEnterMap(CSceneBase* pScene) override;

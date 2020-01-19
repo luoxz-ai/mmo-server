@@ -50,7 +50,7 @@ int main(int argc, char** argv)
 	if(input_file.is_open() == false)
 	{
 		std::cout << "gamedb.sql open fail" << std::endl;
-		return false;
+		return -1;
 	}
 	std::string input_string((std::istreambuf_iterator<char>(input_file)), std::istreambuf_iterator<char>());
 

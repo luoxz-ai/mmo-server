@@ -21,7 +21,7 @@ file(GLOB_RECURSE LIBBASECODE_SRC "*.cc" "*.cpp" "*.c" "*.h" "*.hpp")
 if(AUTO_GEN_EXPORT_LUA)
 GET_DIRECTORY_PROPERTY(includes INCLUDE_DIRECTORIES)
 add_custom_target(basecode2lua ALL
-  COMMAND echo ${LIBBASECODE_SRC} > /tmp/basecode_cpps.txt && echo ${includes} > /tmp/basecode_includes.txt && ${BINARIES}/cxx2lua --cpps=/tmp/basecode_cpps.txt --include=/tmp/basecode_includes.txt  --output=${PROJECT_SOURCE_DIR}/src/game_comm/script/basecode2lua.cpp --output_functionname=basecode2lua --skip_cpp
+  COMMAND echo ${LIBBASECODE_SRC} > /tmp/basecode_cpps.txt && echo ${includes} > /tmp/basecode_includes.txt && ${BINARIES}/cxx2lua --cpps=/tmp/basecode_cpps.txt --include=/tmp/basecode_includes.txt  --output=${PROJECT_SOURCE_DIR}/src/game_comm/script/basecode2lua.cpp --output_functionname=basecode2lua --skip_cpp && clang-format-9 -i ${PROJECT_SOURCE_DIR}/src/game_comm/script/basecode2lua.cpp
   DEPENDS cxx2lua
   COMMENT "gen code for export_lua"
  )

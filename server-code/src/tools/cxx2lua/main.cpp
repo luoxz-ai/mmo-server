@@ -128,7 +128,7 @@ void display_debug_cursor(CXCursor& cursor, CXCursorKind& kind, CXSourceLocation
 
 std::string get_default_params(CXCursor cursor, int params_idx)
 {
-	// std::string varname = getClangString(clang_getCursorSpelling(cursor));
+	std::string varname = getClangString(clang_getCursorSpelling(cursor));
 
 	CXSourceRange range = clang_getCursorExtent(cursor);
 	unsigned	  numtokens;
@@ -139,31 +139,27 @@ std::string get_default_params(CXCursor cursor, int params_idx)
 	int defaultTokenEnd	  = 0;
 	// This tokensequence needs some cleanup. There may be a default value
 	// included, and sometimes there are extra tokens.
+	std::string default_val;
+	bool bStartInsert = false;
 	for(unsigned int i = 0; i < numtokens; ++i)
 	{
 		auto token_i = tokens[i];
+		if(bStartInsert)
+		{
+			std::string p = getClangString(clang_getTokenSpelling(TU, token_i));
+			default_val += p;
+			continue;
+		}
 		if(clang_getTokenKind(token_i) == CXToken_Punctuation)
 		{
 			std::string p = getClangString(clang_getTokenSpelling(TU, token_i));
 			if(p == "=")
 			{
-				defaultTokenStart = i + 1;
-				defaultTokenEnd	  = numtokens - 1;
-				break;
+				bStartInsert = true;
 			}
 		}
 	}
 
-	std::string default_val;
-	if(defaultTokenStart > 0)
-	{
-		for(int i = defaultTokenStart; i < defaultTokenEnd; ++i)
-		{
-			auto		token_i = tokens[i];
-			std::string p		= getClangString(clang_getTokenSpelling(TU, token_i));
-			default_val += p;
-		}
-	}
 
 	clang_disposeTokens(TU, tokens, numtokens);
 

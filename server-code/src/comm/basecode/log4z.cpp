@@ -84,6 +84,7 @@
 #endif
 #endif
 
+
 _ZSUMMER_BEGIN
 _ZSUMMER_LOG4Z_BEGIN
 
@@ -1197,7 +1198,7 @@ LogData* LogerManager::makeLogData(LoggerId id, int level)
 	if(true)
 	{
 		tm	 tt	  = timeToTm(pLog->_time);
-		NDC* pNdc = MyTLSTypePtr<NDC>::get();
+		NDC* pNdc = BaseCode::getNdc();
 
 		pLog->_contentLen = sprintf(pLog->_content, "%d-%02d-%02d %02d:%02d:%02d.%03u %s[%s] ", tt.tm_year + 1900, tt.tm_mon + 1, tt.tm_mday, tt.tm_hour, tt.tm_min,
 									tt.tm_sec, pLog->_precise, LOG_STRING[pLog->_level], (pNdc) ? pNdc->ndc.c_str() : "");

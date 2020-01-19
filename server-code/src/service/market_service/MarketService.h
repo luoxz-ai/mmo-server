@@ -13,7 +13,7 @@ class CMarketService : public IService, public CServiceCommon
 public:
 	CMarketService(const ServerPort& nServerPort);
 	virtual ~CMarketService();
-	void Release() { delete this; }
+	void Release() override{ delete this; }
 	bool Create();
 
 public:
@@ -24,8 +24,8 @@ public:
 	virtual void OnProcessMessage(CNetworkMessage*) override;
 };
 
-#define MarketService() MyTLSTypePtr<CMarketService>::get()
-#define EventManager()	MarketService()->GetEventManager()
-#define NetMsgProcess() MarketService()->GetNetMsgProcess()
+CMarketService* MarketService();
+inline auto EventManager() { return MarketService()->GetEventManager();}  
+inline auto NetMsgProcess() { return MarketService()->GetNetMsgProcess();}  
 
 #endif // MarketService_h__

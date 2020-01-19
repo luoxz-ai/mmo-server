@@ -11,7 +11,7 @@ public:
 	CREATE_NEW_IMPL(CAIPlayer);
 	bool Init(const ServerMSG::ActorCreate& msg);
 
-	virtual ActorType GetActorType() const { return ActorType::ACT_PLAYER; }
+	virtual ActorType GetActorType() const override { return ActorType::ACT_PLAYER; }
 	static ActorType  GetActorTypeStatic() { return ActorType::ACT_PLAYER; }
 
 public:

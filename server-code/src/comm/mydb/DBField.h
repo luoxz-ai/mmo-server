@@ -230,7 +230,7 @@ public:
 		{
 			if(CheckType<std::string>())
 			{
-				return static_cast<char*>(std::get<std::string>(m_Val).c_str());
+				return const_cast<char*>(std::get<std::string>(m_Val).c_str());
 			}
 			return const_cast<char*>(EMPTY_STR);
 		}

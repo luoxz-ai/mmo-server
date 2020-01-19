@@ -40,7 +40,8 @@ public:
 	bool			IsVaild() const;
 	bool			IsAuth() const { return m_bAuth; }
 	void			SetAuth(bool val) { m_bAuth = val; }
-
+	OBJID			GetUserID() const { return m_idUser; }
+	void			SetUserID(OBJID val) { m_idUser = val; }
 private:
 	VirtualSocket m_VirtualSocket;
 	ServerPort	  m_nDestServerPort;
@@ -61,7 +62,7 @@ class CSocketService : public IService, public CServiceCommon, public CNetEventH
 public:
 	CSocketService(const ServerPort& nServerPort);
 	virtual ~CSocketService();
-	void Release() { delete this; }
+	void Release() override{ delete this; }
 	bool Create();
 
 public:
@@ -79,7 +80,7 @@ public:
 	virtual void OnWsDisconnected(CNetWebSocket* pWebSocket) override;
 	virtual void OnWsRecvData(CNetWebSocket* pWebSocket, byte* pBuffer, size_t len) override;
 
-	void		 OnProcessMessage(CNetworkMessage*);
+	void		 OnProcessMessage(CNetworkMessage*) override;
 	virtual void OnLogicThreadCreate() override;
 	virtual void OnLogicThreadExit() override;
 	virtual void OnLogicThreadProc() override;
@@ -97,17 +98,16 @@ private:
 	std::map<VirtualSocket, CGameClient*> m_setVirtualSocket;
 	std::map<OBJID, CGameClient*>		  m_mapClientByUserID;
 
-	CUIDFactory m_UIDFactory;
+	//CUIDFactory m_UIDFactory;
 
 	std::deque<uint16_t> m_SocketPool;
-	CNetMSGProcess*		 m_pNetMsgProcess;
-
+	
 	uint64_t m_nSocketMessageProcess	= 0;
 	uint64_t m_nWebSocketMessageProcess = 0;
-	uint64_t m_nMessageProcess			= 0;
+	
 	CMyTimer m_tLastDisplayTime;
 };
 
-#define SocketService() MyTLSTypePtr<CSocketService>::get()
+CSocketService* SocketService();
 
 #endif // SocketService_h__

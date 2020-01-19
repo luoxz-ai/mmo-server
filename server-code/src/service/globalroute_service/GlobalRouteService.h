@@ -13,7 +13,7 @@ class CGlobalRouteService : public IService, public CServiceCommon
 public:
 	CGlobalRouteService(const ServerPort& nServerPort);
 	virtual ~CGlobalRouteService();
-	void Release() { delete this; }
+	void Release() override{ delete this; }
 	bool Create();
 
 public:
@@ -31,8 +31,8 @@ private:
 	std::map<uint64_t, struct evhttp_request*> m_RequestMap;
 };
 
-#define GlobalRouteService() MyTLSTypePtr<CGlobalRouteService>::get()
-#define EventManager()		 GlobalRouteService()->GetEventManager()
-#define NetMsgProcess()		 GlobalRouteService()->GetNetMsgProcess()
+CGlobalRouteService* GlobalRouteService();
+inline auto EventManager() { return GlobalRouteService()->GetEventManager();}  
+inline auto NetMsgProcess() { return GlobalRouteService()->GetNetMsgProcess();}  
 
 #endif // GlobalRouteService_h__

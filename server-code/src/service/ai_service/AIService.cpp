@@ -13,10 +13,14 @@
 #include "SettingMap.h"
 #include "tinyxml2/tinyxml2.h"
 
-template<>
-thread_local CAIService* MyTLSTypePtr<CAIService>::m_pPtr = nullptr;
 
-extern "C" IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
+static thread_local CAIService* thread_local_pService;
+CAIService* AIService()
+{
+	return thread_local_pService;
+}	
+
+extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
 
 	CAIService* pService = new CAIService(ServerPort{idWorld, idService});
@@ -31,7 +35,7 @@ extern "C" IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 
 	return pService;
 }
-__attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService);
+
 
 //////////////////////////////////////////////////////////////////////////
 CAIService::CAIService(const ServerPort& nServerPort)
@@ -42,10 +46,10 @@ CAIService::CAIService(const ServerPort& nServerPort)
 
 CAIService::~CAIService()
 {
-	MyTLSTypePtr<CAIService>::set(this);
+	thread_local_pService = this;
 	scope_guards scope_exit;
 	scope_exit += []() {
-		MyTLSTypePtr<CAIService>::set(nullptr);
+		thread_local_pService = nullptr;
 	};
 	StopLogicThread();
 
@@ -57,13 +61,12 @@ bool CAIService::Create()
 {
 	//各种初始化
 	scope_guards scope_exit;
-	MyTLSTypePtr<CAIService>::set(this);
+	thread_local_pService = this;
 	scope_exit += []() {
-		MyTLSTypePtr<CAIService>::set(nullptr);
+		thread_local_pService = nullptr;
 	};
 
 	BaseCode::SetNdc(GetServiceName());
-
 	scope_exit += []() {
 		BaseCode::SetNdc(std::string());
 	};
@@ -274,7 +277,7 @@ void CAIService::OnLogicThreadProc()
 
 void CAIService::OnLogicThreadCreate()
 {
-	MyTLSTypePtr<CAIService>::set(this);
+	thread_local_pService = this;
 	CServiceCommon::OnLogicThreadCreate();
 }
 

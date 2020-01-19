@@ -30,10 +30,6 @@ TARGET_LINK_LIBRARIES(network
  libevent_extra.so
  libbasecode.so
  protobuf
- libmyproto.so
- cpp_redis
- tinyxml2
- tacopie
  libwebsockets.so
  ${JEMALLOC_LIB_NAME}
 )

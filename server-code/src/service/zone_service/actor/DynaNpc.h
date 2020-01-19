@@ -12,6 +12,6 @@ public:
 	virtual ~CDynaNpc();
 
 	CREATE_NEW_IMPL(CDynaNpc);
-	bool Init();
+	bool Init(uint32_t idType);
 };
 #endif /* DYNANPC_H */

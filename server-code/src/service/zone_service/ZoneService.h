@@ -23,6 +23,7 @@
 #include "ScriptManager.h"
 #include "ServiceComm.h"
 #include "SkillType.h"
+#include "PetType.h"
 #include "SuitEquip.h"
 #include "SystemVars.h"
 #include "TaskType.h"
@@ -43,7 +44,7 @@ export_lua class CZoneService : public IService, public CServiceCommon
 public:
 	CZoneService(const ServerPort& nServerPort);
 	virtual ~CZoneService();
-	void Release() { delete this; }
+	void Release() override{ delete this; }
 	bool Create();
 
 public:
@@ -200,36 +201,40 @@ private:                                       \
 	DEFINE_CONFIG_SET(CTaskTypeSet);
 	DEFINE_CONFIG_SET(CAchievementTypeSet);
 	DEFINE_CONFIG_SET(CNpcTypeSet);
+	DEFINE_CONFIG_SET(CPetTypeSet);
 #undef DEFINE_CONFIG_SET
 };
 
-#define ZoneService()	MyTLSTypePtr<CZoneService>::get()
-#define EventManager()	ZoneService()->GetEventManager()
-#define NetMsgProcess() ZoneService()->GetNetMsgProcess()
-#define ScriptManager() ZoneService()->GetScriptManager()
-#define ActorManager()	ZoneService()->GetActorManager()
-#define SceneManager()	ZoneService()->GetSceneManager()
-#define MapManager()	ZoneService()->GetMapManager()
-#define SystemVarSet()	ZoneService()->GetSystemVarSet()
-#define MonitorMgr()	ZoneService()->GetMonitorMgr()
-#define GMManager()		ZoneService()->GetGMManager()
+CZoneService* ZoneService();
+void SetZoneServicePtr(CZoneService*);
 
-#define StatusTypeSet()			   ZoneService()->GetCStatusTypeSet()
-#define UserAttrSet()			   ZoneService()->GetCUserAttrSet()
-#define DataCountLimitSet()		   ZoneService()->GetCDataCountLimitSet()
-#define SkillTypeSet()			   ZoneService()->GetCSkillTypeSet()
-#define SkillAttachStatusDataSet() ZoneService()->GetCSkillAttachStatusDataSet()
-#define SkillDetachStatusDataSet() ZoneService()->GetCSkillDetachStatusDataSet()
-#define MonsterTypeSet()		   ZoneService()->GetCMonsterTypeSet()
-#define BulletTypeSet()			   ZoneService()->GetCBulletTypeSet()
-#define ItemTypeSet()			   ZoneService()->GetCItemTypeSet()
-#define ItemAdditionSet()		   ZoneService()->GetCItemAdditionSet()
-#define ItemFormulaDataSet()	   ZoneService()->GetCItemFormulaDataSet()
-#define ItemUpgradeDataSet()	   ZoneService()->GetCItemUpgradeDataSet()
-#define SuitEquipSet()			   ZoneService()->GetCSuitEquipSet()
-#define TaskTypeSet()			   ZoneService()->GetCTaskTypeSet()
-#define AchievementTypeSet()	   ZoneService()->GetCAchievementTypeSet()
-#define NpcTypeSet()			   ZoneService()->GetCNpcTypeSet()
-#define TeamManager()			   ZoneService()->GetTeamInfoManager()
+inline auto EventManager() { return ZoneService()->GetEventManager();}  
+inline auto NetMsgProcess() { return ZoneService()->GetNetMsgProcess();}  
+inline auto ScriptManager() { return ZoneService()->GetScriptManager();}  
+inline auto ActorManager() { return ZoneService()->GetActorManager();}  
+inline auto SceneManager() { return ZoneService()->GetSceneManager();}  
+inline auto MapManager() { return ZoneService()->GetMapManager();}  
+inline auto SystemVarSet() { return ZoneService()->GetSystemVarSet();}  
+inline auto MonitorMgr() { return ZoneService()->GetMonitorMgr();}  
+inline auto GMManager() { return ZoneService()->GetGMManager();}  
+inline auto TeamManager() { return ZoneService()->GetTeamInfoManager();}
+
+inline auto StatusTypeSet() { return ZoneService()->GetCStatusTypeSet();}  
+inline auto UserAttrSet() { return ZoneService()->GetCUserAttrSet();}  
+inline auto DataCountLimitSet() { return ZoneService()->GetCDataCountLimitSet();}  
+inline auto SkillTypeSet() { return ZoneService()->GetCSkillTypeSet();}  
+inline auto SkillAttachStatusDataSet() { return ZoneService()->GetCSkillAttachStatusDataSet();}  
+inline auto SkillDetachStatusDataSet() { return ZoneService()->GetCSkillDetachStatusDataSet();}  
+inline auto MonsterTypeSet() { return ZoneService()->GetCMonsterTypeSet();}  
+inline auto BulletTypeSet() { return ZoneService()->GetCBulletTypeSet();}  
+inline auto ItemTypeSet() { return ZoneService()->GetCItemTypeSet();}  
+inline auto ItemAdditionSet() { return ZoneService()->GetCItemAdditionSet();}  
+inline auto ItemFormulaDataSet() { return ZoneService()->GetCItemFormulaDataSet();}  
+inline auto ItemUpgradeDataSet() { return ZoneService()->GetCItemUpgradeDataSet();}  
+inline auto SuitEquipSet() { return ZoneService()->GetCSuitEquipSet();}  
+inline auto TaskTypeSet() { return ZoneService()->GetCTaskTypeSet();}  
+inline auto AchievementTypeSet() { return ZoneService()->GetCAchievementTypeSet();}  
+inline auto NpcTypeSet() { return ZoneService()->GetCNpcTypeSet();}  
+inline auto PetTypeSet() { return ZoneService()->GetCPetTypeSet();}  
 
 #endif // ZoneService_h__

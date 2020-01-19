@@ -9,12 +9,15 @@
 #include "NetSocket.h"
 #include "NetworkMessage.h"
 #include "SettingMap.h"
-#include "tinyxml2/tinyxml2.h"
 
-template<>
-thread_local CMarketService* MyTLSTypePtr<CMarketService>::m_pPtr = nullptr;
 
-extern "C" IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
+static thread_local CMarketService* thread_local_pService = nullptr;
+CMarketService* MarketService()
+{
+	return thread_local_pService;
+}
+
+extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
 
 	CMarketService* pService = new CMarketService(ServerPort{idWorld, idService});
@@ -29,7 +32,7 @@ extern "C" IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 
 	return pService;
 }
-__attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService);
+
 
 //////////////////////////////////////////////////////////////////////////
 CMarketService::CMarketService(const ServerPort& nServerPort)
@@ -39,20 +42,20 @@ CMarketService::CMarketService(const ServerPort& nServerPort)
 
 CMarketService::~CMarketService()
 {
-	MyTLSTypePtr<CMarketService>::set(this);
+	thread_local_pService = this;
 	scope_guards scope_exit;
 	scope_exit += []() {
-		MyTLSTypePtr<CMarketService>::set(nullptr);
+		thread_local_pService = nullptr;
 	};
 }
 
 bool CMarketService::Create()
 {
 	//各种初始化
+	thread_local_pService = this;
 	scope_guards scope_exit;
-	MyTLSTypePtr<CMarketService>::set(this);
 	scope_exit += []() {
-		MyTLSTypePtr<CMarketService>::set(nullptr);
+		thread_local_pService = nullptr;
 	};
 
 	BaseCode::SetNdc(GetServiceName());
@@ -90,7 +93,7 @@ void CMarketService::OnLogicThreadProc()
 
 void CMarketService::OnLogicThreadCreate()
 {
-	MyTLSTypePtr<CMarketService>::set(this);
+	thread_local_pService = this;
 	CServiceCommon::OnLogicThreadCreate();
 }
 

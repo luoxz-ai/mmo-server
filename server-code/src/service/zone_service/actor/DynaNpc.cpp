@@ -4,7 +4,8 @@ CDynaNpc::CDynaNpc() {}
 
 CDynaNpc::~CDynaNpc() {}
 
-bool CDynaNpc::Init()
+bool CDynaNpc::Init(uint32_t idType)
 {
-	CHECKF(CActor::Init());
+	CHECKF(CNpc::Init(idType));
+	return true;
 }

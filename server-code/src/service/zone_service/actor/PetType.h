@@ -33,7 +33,7 @@ public:
 	const std::string&	GetName() const { return m_Data.name(); }
 	OBJID				GetScirptID() const { return m_Data.scriptid(); }
 	const CActorAttrib& GetAbility() const { return m_ability; }
-
+	const AttribDataProto&  getData() const { return m_Data.attr_data(); }
 private:
 	Cfg_Pet_Row	 m_Data;
 	CActorAttrib m_ability;

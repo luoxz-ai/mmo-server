@@ -15,7 +15,7 @@ public:
 	CREATE_NEW_IMPL(CAIMonster);
 	bool Init(const ServerMSG::ActorCreate& msg);
 
-	virtual ActorType GetActorType() const { return ActorType::ACT_MONSTER; }
+	virtual ActorType GetActorType() const override  { return ActorType::ACT_MONSTER; }
 	static ActorType  GetActorTypeStatic() { return ActorType::ACT_MONSTER; }
 
 	void		 SetIsAISleep(bool bSleep);

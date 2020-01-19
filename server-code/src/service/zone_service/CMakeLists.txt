@@ -28,7 +28,7 @@ cotire(zone_service)
 if(AUTO_GEN_EXPORT_LUA)
 GET_DIRECTORY_PROPERTY(includes INCLUDE_DIRECTORIES)
 add_custom_target(zone2lua ALL
-  COMMAND echo ${SRCS} > /tmp/zone_cpps.txt && echo ${includes} > /tmp/zone_includes.txt && ${BINARIES}/cxx2lua --cpps=/tmp/zone_cpps.txt --include=/tmp/zone_includes.txt --output=${PROJECT_SOURCE_DIR}/src/service/zone_service/script/zone2lua.cpp --output_functionname=zone2lua --skip_cpp
+  COMMAND echo ${SRCS} > /tmp/zone_cpps.txt && echo ${includes} > /tmp/zone_includes.txt && ${BINARIES}/cxx2lua --cpps=/tmp/zone_cpps.txt --include=/tmp/zone_includes.txt --output=${PROJECT_SOURCE_DIR}/src/service/zone_service/script/zone2lua.cpp --output_functionname=zone2lua --skip_cpp && clang-format-9 -i ${PROJECT_SOURCE_DIR}/src/service/zone_service/script/zone2lua.cpp
   DEPENDS cxx2lua
   COMMENT "gen zone2lua for export_lua"
  )

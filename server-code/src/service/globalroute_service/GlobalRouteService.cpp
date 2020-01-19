@@ -106,6 +106,9 @@ public:
 
 		http_chan.CallMethod(NULL, client_cntl, NULL, NULL, brpc::NewCallback(&handle_response, client_cntl, server_cntl, done));
 		return true;
+
+		UNUSED(m_pService);
+		UNUSED(m_internal_port);
 	}
 
 	virtual void default_method(google::protobuf::RpcController* cntl_base, const HttpRequest*, HttpResponse*, google::protobuf::Closure* done)
@@ -145,10 +148,13 @@ public:
 	}
 };
 
-template<>
-thread_local CGlobalRouteService* MyTLSTypePtr<CGlobalRouteService>::m_pPtr = nullptr;
+static thread_local CGlobalRouteService* thread_local_pService;
+CGlobalRouteService* GlobalRouteService()
+{
+	return thread_local_pService;
+}	
 
-extern "C" IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
+extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
 
 	CGlobalRouteService* pService = new CGlobalRouteService(ServerPort{idWorld, idService});
@@ -163,7 +169,7 @@ extern "C" IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 
 	return pService;
 }
-__attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService);
+
 
 //////////////////////////////////////////////////////////////////////////
 CGlobalRouteService::CGlobalRouteService(const ServerPort& nServerPort)
@@ -173,10 +179,10 @@ CGlobalRouteService::CGlobalRouteService(const ServerPort& nServerPort)
 
 CGlobalRouteService::~CGlobalRouteService()
 {
-	MyTLSTypePtr<CGlobalRouteService>::set(this);
+	thread_local_pService = this;
 	scope_guards scope_exit;
 	scope_exit += []() {
-		MyTLSTypePtr<CGlobalRouteService>::set(nullptr);
+		thread_local_pService = nullptr;
 	};
 
 	StopRPCServer();
@@ -185,10 +191,10 @@ CGlobalRouteService::~CGlobalRouteService()
 bool CGlobalRouteService::Create()
 {
 	//各种初始化
+	thread_local_pService = this;
 	scope_guards scope_exit;
-	MyTLSTypePtr<CGlobalRouteService>::set(this);
 	scope_exit += []() {
-		MyTLSTypePtr<CGlobalRouteService>::set(nullptr);
+		thread_local_pService = nullptr;
 	};
 
 	BaseCode::SetNdc(GetServiceName());
@@ -305,7 +311,7 @@ void CGlobalRouteService::OnLogicThreadProc()
 
 void CGlobalRouteService::OnLogicThreadCreate()
 {
-	MyTLSTypePtr<CGlobalRouteService>::set(this);
+	thread_local_pService = this;
 	CServiceCommon::OnLogicThreadCreate();
 }
 

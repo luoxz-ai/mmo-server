@@ -19,7 +19,7 @@ export_lua struct Rect
 	export_lua long right  = 0;
 	export_lua long bottom = 0;
 	export_lua		Rect() {}
-	export_lua		Rect(long const& l, long const& t, long const& r, long const& b)
+	export_lua		Rect(long l, long t, long r, long b)
 		: left(l)
 		, top(t)
 		, right(r)
@@ -56,21 +56,21 @@ export_lua struct FloatRect
 	export_lua float right	= 0.0f;
 	export_lua float bottom = 0.0f;
 	export_lua		 FloatRect() {}
-	export_lua		 FloatRect(float const& l, float const& t, float const& r, float const& b)
+	export_lua		 FloatRect(float l, float t, float r, float b)
 		: left(l)
 		, top(t)
 		, right(r)
 		, bottom(b)
 	{
 	}
-	export_lua FloatRect(FloatRect const& o)
+	export_lua FloatRect(const FloatRect& o)
 		: left(o.left)
 		, top(o.top)
 		, right(o.right)
 		, bottom(o.bottom)
 	{
 	}
-	FloatRect& operator=(FloatRect const& o)
+	FloatRect& operator=(const FloatRect& o)
 	{
 		left   = o.left;
 		top	   = o.top;

@@ -9,12 +9,16 @@
 #include "NetSocket.h"
 #include "NetworkMessage.h"
 #include "SettingMap.h"
-#include "tinyxml2/tinyxml2.h"
 
-template<>
-thread_local CServiceCtrlService* MyTLSTypePtr<CServiceCtrlService>::m_pPtr = nullptr;
 
-extern "C" IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
+
+static thread_local CServiceCtrlService* thread_local_pService = nullptr;
+CServiceCtrlService* ServiceCtrlService()
+{
+	return thread_local_pService;
+}
+
+extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
 
 	CServiceCtrlService* pService = new CServiceCtrlService(ServerPort{idWorld, idService});
@@ -29,7 +33,7 @@ extern "C" IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 
 	return pService;
 }
-__attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService);
+
 
 //////////////////////////////////////////////////////////////////////////
 CServiceCtrlService::CServiceCtrlService(const ServerPort& nServerPort)
@@ -39,20 +43,20 @@ CServiceCtrlService::CServiceCtrlService(const ServerPort& nServerPort)
 
 CServiceCtrlService::~CServiceCtrlService()
 {
-	MyTLSTypePtr<CServiceCtrlService>::set(this);
+	thread_local_pService = this;
 	scope_guards scope_exit;
 	scope_exit += []() {
-		MyTLSTypePtr<CServiceCtrlService>::set(nullptr);
+		thread_local_pService = nullptr;
 	};
 }
 
 bool CServiceCtrlService::Create()
 {
 	//各种初始化
+	thread_local_pService = this;
 	scope_guards scope_exit;
-	MyTLSTypePtr<CServiceCtrlService>::set(this);
 	scope_exit += []() {
-		MyTLSTypePtr<CServiceCtrlService>::set(nullptr);
+		thread_local_pService = nullptr;
 	};
 
 	BaseCode::SetNdc(GetServiceName());
@@ -199,7 +203,7 @@ void CServiceCtrlService::OnLogicThreadProc()
 
 void CServiceCtrlService::OnLogicThreadCreate()
 {
-	MyTLSTypePtr<CServiceCtrlService>::set(this);
+	thread_local_pService = this;
 	BaseCode::SetNdc("ServiceCtrl");
 	LOGMESSAGE("ThreadID:{}", get_cur_thread_id());
 }

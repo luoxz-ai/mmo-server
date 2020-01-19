@@ -2,11 +2,12 @@
 
 #include <fmt/format.h>
 #include <fmt/printf.h>
+#include <fmt/chrono.h>
 #include <xlnt/styles/format.hpp>
 
 #include "Thread.h"
-template<>
-thread_local NDC* MyTLSTypePtr<NDC>::m_pPtr = nullptr;
+
+
 
 namespace BaseCode
 {
@@ -47,18 +48,17 @@ void BaseCode::MyLogMsgX(const char* pszName, const char* pszBuffer)
 		return;
 	auto		curTime		= std::chrono::system_clock::now();
 	std::time_t now_c		= std::chrono::system_clock::to_time_t(curTime);
-	auto		localtime_c = std::localtime(&now_c);
-	char		mbstr[100]	= {'\0'};
-	std::strftime(mbstr, sizeof(mbstr), "%Y-%m-%d", localtime_c);
+	auto		localtime_c = std::localtime(&now_c);	
+	if(localtime_c == nullptr)
+		return;
 
-	std::string szLogName = fmt::format("{}_{}.log", pszName, mbstr);
+	std::string szLogName = fmt::format("{}_{:%Y-%m-%d}.log", pszName, *localtime_c);
 
 	FILE* fp = fopen(szLogName.c_str(), "a+");
 	if(nullptr == fp)
 		return;
 
-	std::strftime(mbstr, sizeof(mbstr), "%H:%M:%S", localtime_c);
-	fmt::fprintf(fp, "%s [%d] %s\n", mbstr, getpid(), pszBuffer);
+	fmt::print(fp, "{:%H-%M-%S} [{:d}] {:s}\n", *localtime_c, getpid(), pszBuffer);
 
 	fclose(fp);
 }
@@ -128,22 +128,27 @@ void BaseCode::StopLog()
 	ILog4zManager::getRef().stop();
 }
 
+static thread_local NDC* this_thread_NDC = nullptr;
 void BaseCode::SetNdc(const std::string& name)
 {
-	if(MyTLSTypePtr<NDC>::get() == nullptr)
+	if(this_thread_NDC == nullptr)
 	{
-		MyTLSTypePtr<NDC>::set(new NDC{name});
+		this_thread_NDC = new NDC{name};
 	}
 	else
 	{
 		if(name.empty())
 		{
-			delete MyTLSTypePtr<NDC>::get();
-			MyTLSTypePtr<NDC>::set(nullptr);
+			SAFE_DELETE(this_thread_NDC);;
 		}
 		else
 		{
-			MyTLSTypePtr<NDC>::get()->ndc = name;
+			this_thread_NDC->ndc = name;
 		}
 	}
+}
+
+NDC* BaseCode::getNdc()
+{
+	return this_thread_NDC;
 }

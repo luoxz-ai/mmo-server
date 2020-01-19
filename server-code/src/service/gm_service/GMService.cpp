@@ -16,7 +16,7 @@
 #include "event2/http.h"
 #include "event2/keyvalq_struct.h"
 #include "gm_service.pb.h"
-#include "tinyxml2/tinyxml2.h"
+
 
 namespace Game
 {
@@ -39,6 +39,9 @@ public:
 
 		LOGMESSAGE_NOFMT(fmt::format(FMT_STRING("Received SetGM[log_id={}]: open_id={} gm_level={} sign={}"), cntl->log_id(), request->open_id(), request->gm_level(),
 									 request->sign()));
+		UNUSED(m_pService);
+		//m_pService->ProcessGM(request, response, done_guard.release());
+
 	}
 	virtual void BlockLogin(google::protobuf::RpcController* cntl_base,
 							const BlockLoginRequest*		 request,
@@ -75,10 +78,17 @@ public:
 };
 } // namespace Game
 
-template<>
-thread_local CGMService* MyTLSTypePtr<CGMService>::m_pPtr = nullptr;
 
-extern "C" IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
+
+
+
+static thread_local CGMService* thread_local_pService = nullptr;
+CGMService* GMService()
+{
+	return thread_local_pService;
+}	
+
+extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
 
 	CGMService* pService = new CGMService(ServerPort{idWorld, idService});
@@ -93,7 +103,7 @@ extern "C" IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 
 	return pService;
 }
-__attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService);
+
 
 //////////////////////////////////////////////////////////////////////////
 CGMService::CGMService(const ServerPort& nServerPort)
@@ -103,10 +113,10 @@ CGMService::CGMService(const ServerPort& nServerPort)
 
 CGMService::~CGMService()
 {
-	MyTLSTypePtr<CGMService>::set(this);
+	thread_local_pService = this;
 	scope_guards scope_exit;
 	scope_exit += []() {
-		MyTLSTypePtr<CGMService>::set(nullptr);
+		thread_local_pService = nullptr;
 	};
 
 	StopRPCServer();
@@ -118,10 +128,10 @@ CGMService::~CGMService()
 bool CGMService::Create()
 {
 	//各种初始化
+	thread_local_pService = this;
 	scope_guards scope_exit;
-	MyTLSTypePtr<CGMService>::set(this);
 	scope_exit += []() {
-		MyTLSTypePtr<CGMService>::set(nullptr);
+		thread_local_pService = nullptr;
 	};
 
 	BaseCode::SetNdc(GetServiceName());
@@ -221,7 +231,7 @@ void CGMService::OnLogicThreadProc()
 
 void CGMService::OnLogicThreadCreate()
 {
-	MyTLSTypePtr<CGMService>::set(this);
+	thread_local_pService = this;
 	CServiceCommon::OnLogicThreadCreate();
 }
 

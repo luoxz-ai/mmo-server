@@ -13,12 +13,20 @@
 #include "Thread.h"
 #include "User.h"
 #include "UserManager.h"
-#include "tinyxml2/tinyxml2.h"
 
-template<>
-thread_local CWorldService* MyTLSTypePtr<CWorldService>::m_pPtr = nullptr;
 
-extern "C" IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
+static thread_local CWorldService* thread_local_pService = nullptr;
+CWorldService* WorldService()
+{
+	return thread_local_pService;
+}	
+
+void SetWorldServicePtr(CWorldService* ptr)
+{
+	thread_local_pService = ptr;
+}
+
+extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
 
 	CWorldService* pService = new CWorldService(ServerPort{idWorld, idService});
@@ -33,7 +41,7 @@ extern "C" IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 
 	return pService;
 }
-__attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService);
+
 
 //////////////////////////////////////////////////////////////////////////
 CWorldService::CWorldService(const ServerPort& nServerPort)
@@ -54,10 +62,10 @@ CWorldService::CWorldService(const ServerPort& nServerPort)
 
 CWorldService::~CWorldService()
 {
-	MyTLSTypePtr<CWorldService>::set(this);
+	thread_local_pService = this;
 	scope_guards scope_exit;
 	scope_exit += []() {
-		MyTLSTypePtr<CWorldService>::set(nullptr);
+		thread_local_pService = nullptr;
 	};
 	StopLogicThread();
 	m_pAccountManager->Destory();
@@ -69,11 +77,17 @@ bool CWorldService::Create()
 {
 	__ENTER_FUNCTION
 	//各种初始化
+	thread_local_pService = this;
 	scope_guards scope_exit;
-	MyTLSTypePtr<CWorldService>::set(this);
 	scope_exit += []() {
-		MyTLSTypePtr<CWorldService>::set(nullptr);
+		thread_local_pService = nullptr;
 	};
+
+	BaseCode::SetNdc(GetServiceName());
+	scope_exit += []() {
+		BaseCode::SetNdc(std::string());
+	};
+
 	m_pAccountManager.reset(CAccountManager::CreateNew(this));
 	CHECKF(m_pAccountManager.get());
 	m_pUserManager.reset(new CUserManager);
@@ -85,11 +99,6 @@ bool CWorldService::Create()
 	RegisterWorldMessageHandler();
 	m_pAccountManager->RegisterMessageHandler();
 	m_pTeamManager->RegisterMessageHandler();
-
-	BaseCode::SetNdc(GetServiceName());
-	scope_exit += []() {
-		BaseCode::SetNdc(std::string());
-	};
 
 	const auto& settings = GetMessageRoute()->GetSettingMap();
 	{
@@ -347,7 +356,7 @@ void CWorldService::OnLogicThreadProc()
 
 void CWorldService::OnLogicThreadCreate()
 {
-	MyTLSTypePtr<CWorldService>::set(this);
+	thread_local_pService = this;
 	CServiceCommon::OnLogicThreadCreate();
 }
 

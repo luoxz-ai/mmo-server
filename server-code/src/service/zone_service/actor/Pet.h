@@ -17,7 +17,7 @@ public:
 	bool Init(CPetSet* pPetSet, CDBRecordPtr&& pRecord);
 
 public:
-	export_lua virtual ActorType GetActorType() const { return ActorType::ACT_PET; }
+	export_lua virtual ActorType GetActorType() const override{ return ActorType::ACT_PET; }
 	export_lua static ActorType	 GetActorTypeStatic() { return ActorType::ACT_PET; }
 	export_lua virtual uint32_t	 GetHP() const override { return m_nHP; };
 	export_lua virtual uint32_t	 GetMP() const override { return m_nMP; };

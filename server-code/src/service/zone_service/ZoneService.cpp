@@ -15,12 +15,21 @@
 #include "SettingMap.h"
 #include "globaldb.h"
 #include "msg/server_side.pb.h"
-#include "tinyxml2/tinyxml2.h"
 
-template<>
-thread_local CZoneService* MyTLSTypePtr<CZoneService>::m_pPtr = nullptr;
 
-extern "C" IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
+
+static thread_local CZoneService* thread_local_pService = nullptr;
+CZoneService* ZoneService()
+{
+	return thread_local_pService;
+}
+
+void SetZoneServicePtr(CZoneService* pZone)
+{
+	thread_local_pService = pZone;
+}
+
+extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
 
 	CZoneService* pService = new CZoneService(ServerPort{idWorld, idService});
@@ -35,7 +44,7 @@ extern "C" IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 
 	return pService;
 }
-__attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService);
+
 
 //////////////////////////////////////////////////////////////////////////
 CZoneService::CZoneService(const ServerPort& nServerPort)
@@ -53,10 +62,10 @@ CZoneService::CZoneService(const ServerPort& nServerPort)
 
 CZoneService::~CZoneService()
 {
-	MyTLSTypePtr<CZoneService>::set(this);
+	thread_local_pService = this;
 	scope_guards scope_exit;
 	scope_exit += []() {
-		MyTLSTypePtr<CZoneService>::set(nullptr);
+		thread_local_pService = nullptr;
 	};
 	StopLogicThread();
 	if(m_pLoadingThread)
@@ -83,10 +92,10 @@ bool CZoneService::Create()
 	__ENTER_FUNCTION
 
 	//各种初始化
+	thread_local_pService = this;
 	scope_guards scope_exit;
-	MyTLSTypePtr<CZoneService>::set(this);
 	scope_exit += []() {
-		MyTLSTypePtr<CZoneService>::set(nullptr);
+		thread_local_pService = nullptr;
 	};
 
 	BaseCode::SetNdc(GetServiceName());
@@ -534,7 +543,7 @@ void CZoneService::OnLogicThreadProc()
 
 void CZoneService::OnLogicThreadCreate()
 {
-	MyTLSTypePtr<CZoneService>::set(this);
+	thread_local_pService = this;
 	CServiceCommon::OnLogicThreadCreate();
 }
 

@@ -2,6 +2,7 @@
 
 #include "Player.h"
 #include "Scene.h"
+#include "PetType.h"
 MEMORYHEAP_IMPLEMENTATION(CPet, s_heap);
 
 CPet::CPet()
@@ -23,8 +24,8 @@ bool CPet::Init(CPetSet* pPetSet, CDBRecordPtr&& pRecord)
 	SetID(m_pRecord->Field(TBLD_PET::ID));
 	CHECKF(CActor::Init());
 
-	// m_pType = PetTypeSet()->QueryObj(GetPetTypeID());
-	// m_ActorAttrib.load_from(m_pType->getData());
+	m_pType = PetTypeSet()->QueryObj(GetPetTypeID());
+	m_ActorAttrib.load_from(m_pType->getData());
 
 	m_pCDSet.reset(CCoolDownSet::CreateNew());
 	CHECKF(m_pCDSet.get());

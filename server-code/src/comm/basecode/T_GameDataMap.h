@@ -30,7 +30,7 @@ struct hasFunc_GetIDFromPBRow : bool_type<details::has_GetIDFromPBRow<T>::value>
 template<class T>
 class CGameDataMap
 {
-	constexpr std::string GET_NAME() { return demangle(typeid(T).name()); }
+	std::string GET_NAME() { return demangle(typeid(T).name()); }
 
 	CGameDataMap() {}
 

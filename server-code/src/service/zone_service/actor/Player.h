@@ -55,7 +55,7 @@ public:
 	export_lua virtual bool SendMessage(uint16_t cmd, const google::protobuf::Message& msg) const override;
 
 public:
-	export_lua virtual ActorType GetActorType() const { return ActorType::ACT_PLAYER; }
+	export_lua virtual ActorType GetActorType() const override{ return ActorType::ACT_PLAYER; }
 	export_lua static ActorType	 GetActorTypeStatic() { return ActorType::ACT_PLAYER; }
 
 	export_lua virtual float GetHeight() const { return 1.0f; }
@@ -182,7 +182,7 @@ public:
 	//处理网络消息
 	void			 ProcessMsg();
 	export_lua const VirtualSocket& GetSocket() const { return m_Socket; }
-	export_lua virtual void			RecalcAttrib(bool bClearCache = false);
+	export_lua virtual void			RecalcAttrib(bool bClearCache = false) override;
 
 public:
 	void OnRecvGameData(CNetworkMessage* pMsg);

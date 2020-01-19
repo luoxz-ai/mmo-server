@@ -9,9 +9,9 @@
 #include "SettingMap.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/world_service.pb.h"
-#include "tinyxml2/tinyxml2.h"
 
-extern "C" IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
+
+extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
 
 	CSocketService* pService = new CSocketService(ServerPort{idWorld, idService});
@@ -26,7 +26,7 @@ extern "C" IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 
 	return pService;
 }
-__attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService);
+
 
 CGameClient::CGameClient()
 	: m_nDestServerPort(0)
@@ -58,9 +58,11 @@ bool CGameClient::IsVaild() const
 	return m_VirtualSocket.GetSocketIdx() != 0;
 }
 
-template<>
-thread_local CSocketService* MyTLSTypePtr<CSocketService>::m_pPtr = nullptr;
-
+static thread_local CSocketService* thread_local_pService = nullptr;
+CSocketService* SocketService()
+{
+	return thread_local_pService;
+}
 //////////////////////////////////////////////////////////////////////////
 CSocketService::CSocketService(const ServerPort& nServerPort)
 	: CServiceCommon(nServerPort, std::string("Socket") + std::to_string(nServerPort.GetServiceID()))
@@ -70,17 +72,21 @@ CSocketService::CSocketService(const ServerPort& nServerPort)
 
 CSocketService::~CSocketService()
 {
-	MyTLSTypePtr<CSocketService>::set(this);
+	thread_local_pService = this;
 	scope_guards scope_exit;
 	scope_exit += []() {
-		MyTLSTypePtr<CSocketService>::set(nullptr);
+		thread_local_pService = nullptr;
 	};
 }
 
 bool CSocketService::Create()
 {
-	MyTLSTypePtr<CSocketService>::set(this);
+	thread_local_pService = this;
 	scope_guards scope_exit;
+	scope_exit += []() {
+		thread_local_pService = nullptr;
+	};
+
 	BaseCode::SetNdc(GetServiceName());
 	scope_exit += []() {
 		BaseCode::SetNdc(std::string());
@@ -126,6 +132,7 @@ void CSocketService::MapClientByUserID(OBJID idUser, CGameClient* pClient)
 		return;
 
 	m_mapClientByUserID[idUser] = pClient;
+	pClient->SetUserID(idUser);
 }
 
 CGameClient* CSocketService::QueryClientByUserID(OBJID idUser)
@@ -439,7 +446,7 @@ void CSocketService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 
 void CSocketService::OnLogicThreadCreate()
 {
-	MyTLSTypePtr<CSocketService>::set(this);
+	thread_local_pService = this;
 	CServiceCommon::OnLogicThreadCreate();
 }
 

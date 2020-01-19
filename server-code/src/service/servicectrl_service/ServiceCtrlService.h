@@ -14,7 +14,7 @@ class CServiceCtrlService : public IService, public CServiceCommon, public CMess
 public:
 	CServiceCtrlService(const ServerPort& nServerPort);
 	virtual ~CServiceCtrlService();
-	void Release() { delete this; }
+	void Release() override{ delete this; }
 	bool Create();
 
 public:
@@ -37,8 +37,8 @@ public:
 	virtual void OnProcessMessage(CNetworkMessage*) override;
 };
 
-#define ServiceCtrlService() MyTLSTypePtr<CServiceCtrlService>::get()
-#define EventManager()		 ServiceCtrlService()->GetEventManager()
-#define NetMsgProcess()		 ServiceCtrlService()->GetNetMsgProcess()
+CServiceCtrlService* ServiceCtrlService();
+inline auto EventManager() { return ServiceCtrlService()->GetEventManager();}  
+inline auto NetMsgProcess() { return ServiceCtrlService()->GetNetMsgProcess();}  
 
 #endif // ServiceCtrlService_h__

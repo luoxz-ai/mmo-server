@@ -1,80 +1,101 @@
-#
-# Try to find libclang
-#
-# Once done this will define:
-# - LIBCLANG_FOUND
-#               System has libclang
-# - LIBCLANG_INCLUDE_DIRS
-#               The libclang include directories
-# - LIBCLANG_LIBRARIES
-#               The libraries needed to use libclang
-# - LIBCLANG_LIBRARY_DIR
-#               The path to the directory containing libclang.
-# - LIBCLANG_KNOWN_LLVM_VERSIONS
-#               Known LLVM release numbers.
-#
-# At the CMake invocation level it is possible to specify some hints for the
-# libclang installation, e.g: for non-standard libclang installations.
-#
-# To specify the include directory use:
-#   -DLIBCLANG_INCLUDE_PATH=/path/to/libclang/include-dir
-# The specified directory should contain the header file 'clang-c/Index.h'
-#
-# To specify the library directory use:
-#   -DLIBCLANG_LIBRARY_PATH=/path/to/libclang/libraries
-# The specified directory should contain the libclang library, e.g: libclang.so
-# on Linux.
-#
-# CMake invocation example with a custom libclang installation:
-#     cmake -DLIBCLANG_INCLUDE_PATH=~/llvm-3.4/include/ \
-#           -DLIBCLANG_LIBRARY_PATH=~/llvm-3.4/lib/ <args...>
+if (NOT LIBCLANG_ROOT_DIR)
+ set(LIBCLANG_ROOT_DIR $ENV{LIBCLANG_ROOT_DIR})
+endif ()
 
-# most recent versions come first
-set(LIBCLANG_KNOWN_LLVM_VERSIONS 4.0 3.9 3.8 3.7 3.6 3.5
-  3.4.2 3.4.1 3.4 3.3 3.2 3.1)
+if (NOT LIBCLANG_LLVM_CONFIG_EXECUTABLE)
+ set(LIBCLANG_LLVM_CONFIG_EXECUTABLE $ENV{LIBCLANG_LLVM_CONFIG_EXECUTABLE})
+ if (NOT LIBCLANG_LLVM_CONFIG_EXECUTABLE)
+ if (APPLE)
+            foreach(major RANGE 9 3)
+                foreach(minor RANGE 9 0)
+                    foreach(patch RANGE 9 0)
+                        message(STATUS "trying llvm-config llvm-config${major}${minor} in /usr/local/Cellar/llvm/${major}.${minor}.${patch}/bin")
+                        find_program(LIBCLANG_LLVM_CONFIG_EXECUTABLE NAMES llvm-config llvm-config${major}${minor} llvm-config-${major}${minor} llvm-config-${major} llvm-config${major} PATHS /usr/local/Cellar/llvm/${major}.${minor}.${patch}/bin)
+ if (LIBCLANG_LLVM_CONFIG_EXECUTABLE)
+ break()
+                        endif ()
+                    endforeach ()
+ if (LIBCLANG_LLVM_CONFIG_EXECUTABLE)
+ break()
+                    endif ()
+                endforeach ()
+ if (LIBCLANG_LLVM_CONFIG_EXECUTABLE)
+ break()
+                endif ()
+            endforeach ()
+ else ()
+ set(llvm_config_names llvm-config)
+            foreach(major RANGE 9 3)
+                list(APPEND llvm_config_names "llvm-config${major}" "llvm-config-${major}")
+                foreach(minor RANGE 9 0)
+                    list(APPEND llvm_config_names "llvm-config${major}${minor}" "llvm-config-${major}.${minor}" "llvm-config-mp-${major}.${minor}")
+                endforeach ()
+            endforeach ()
+            find_program(LIBCLANG_LLVM_CONFIG_EXECUTABLE NAMES ${llvm_config_names})
+        endif ()
+    endif ()
+ if (LIBCLANG_LLVM_CONFIG_EXECUTABLE)
+        message(STATUS "llvm-config executable found: ${LIBCLANG_LLVM_CONFIG_EXECUTABLE}")
+    endif ()
+endif ()
 
-set(libclang_llvm_header_search_paths)
-set(libclang_llvm_lib_search_paths
-  # LLVM Fedora
-  /usr/lib/llvm
-  )
-foreach (version ${LIBCLANG_KNOWN_LLVM_VERSIONS})
-  list(APPEND libclang_llvm_header_search_paths
-    # LLVM Debian/Ubuntu nightly packages: http://llvm.org/apt/
-    "/usr/lib/llvm-${version}/include/"
-    # LLVM MacPorts
-    "/opt/local/libexec/llvm-${version}/include"
-    # LLVM Homebrew
-    "/usr/local/Cellar/llvm/${version}/include"
-    )
+if (NOT LIBCLANG_CXXFLAGS)
+ if (NOT LIBCLANG_LLVM_CONFIG_EXECUTABLE)
+        message(FATAL_ERROR "Could NOT find llvm-config executable and LIBCLANG_CXXFLAGS is not set ")
+    endif ()
+    execute_process(COMMAND ${LIBCLANG_LLVM_CONFIG_EXECUTABLE} --cxxflags OUTPUT_VARIABLE LIBCLANG_CXXFLAGS OUTPUT_STRIP_TRAILING_WHITESPACE)
+ if (NOT LIBCLANG_CXXFLAGS)
+        find_path(LIBCLANG_CXXFLAGS_HACK_CMAKECACHE_DOT_TEXT_BULLSHIT clang-c/Index.h HINTS ${LIBCLANG_ROOT_DIR}/include NO_DEFAULT_PATH)
+ if (NOT EXISTS ${LIBCLANG_CXXFLAGS_HACK_CMAKECACHE_DOT_TEXT_BULLSHIT})
+            find_path(LIBCLANG_CXXFLAGS clang-c/Index.h)
+ if (NOT EXISTS ${LIBCLANG_CXXFLAGS})
+                message(FATAL_ERROR "Could NOT find clang include path. You can fix this by setting LIBCLANG_CXXFLAGS in your shell or as a cmake variable.")
+            endif ()
+ else ()
+ set(LIBCLANG_CXXFLAGS ${LIBCLANG_CXXFLAGS_HACK_CMAKECACHE_DOT_TEXT_BULLSHIT})
+        endif ()
+ set(LIBCLANG_CXXFLAGS "-I${LIBCLANG_CXXFLAGS}")
+    endif ()
+    string(REGEX MATCHALL "-(D__?[a-zA-Z_]*|I([^\" ]+|\"[^\"]+\"))" LIBCLANG_CXXFLAGS "${LIBCLANG_CXXFLAGS}")
+    string(REGEX REPLACE ";" " " LIBCLANG_CXXFLAGS "${LIBCLANG_CXXFLAGS}")
+ set(LIBCLANG_CXXFLAGS ${LIBCLANG_CXXFLAGS} CACHE STRING "The LLVM C++ compiler flags needed to compile LLVM based applications.")
+ unset(LIBCLANG_CXXFLAGS_HACK_CMAKECACHE_DOT_TEXT_BULLSHIT CACHE)
+endif ()
 
-  list(APPEND libclang_llvm_lib_search_paths
-    # LLVM Debian/Ubuntu nightly packages: http://llvm.org/apt/
-    "/usr/lib/llvm-${version}/lib/"
-    # LLVM MacPorts
-    "/opt/local/libexec/llvm-${version}/lib"
-    # LLVM Homebrew
-    "/usr/local/Cellar/llvm/${version}/lib"
-    )
-endforeach()
+if (NOT EXISTS ${LIBCLANG_LIBDIR})
+ if (NOT LIBCLANG_LLVM_CONFIG_EXECUTABLE)
+        message(FATAL_ERROR "Could NOT find llvm-config executable and LIBCLANG_LIBDIR is not set ")
+    endif ()
+    execute_process(COMMAND ${LIBCLANG_LLVM_CONFIG_EXECUTABLE} --libdir OUTPUT_VARIABLE LIBCLANG_LIBDIR OUTPUT_STRIP_TRAILING_WHITESPACE)
+ if (NOT EXISTS ${LIBCLANG_LIBDIR})
+        message(FATAL_ERROR "Could NOT find clang libdir. You can fix this by setting LIBCLANG_LIBDIR in your shell or as a cmake variable.")
+    endif ()
+ set(LIBCLANG_LIBDIR ${LIBCLANG_LIBDIR} CACHE STRING "Path to the clang library.")
+endif ()
 
-find_path(LIBCLANG_INCLUDE_DIR clang-c/Index.h
-  HINTS ${LIBCLANG_INCLUDE_PATH}
-  PATHS ${libclang_llvm_header_search_paths})
+if (NOT LIBCLANG_LIBRARIES)
+    find_library(LIBCLANG_LIB_HACK_CMAKECACHE_DOT_TEXT_BULLSHIT NAMES clang libclang HINTS ${LIBCLANG_LIBDIR} ${LIBCLANG_ROOT_DIR}/lib NO_DEFAULT_PATH)
+ if (LIBCLANG_LIB_HACK_CMAKECACHE_DOT_TEXT_BULLSHIT)
+ set(LIBCLANG_LIBRARIES "${LIBCLANG_LIB_HACK_CMAKECACHE_DOT_TEXT_BULLSHIT}")
+ else ()
+        find_library(LIBCLANG_LIBRARIES NAMES clang libclang)
+ if (NOT EXISTS ${LIBCLANG_LIBRARIES})
+ set (LIBCLANG_LIBRARIES "-L${LIBCLANG_LIBDIR}" "-lclang" "-Wl,-rpath,${LIBCLANG_LIBDIR}")
+        endif ()
+    endif ()
+ unset(LIBCLANG_LIB_HACK_CMAKECACHE_DOT_TEXT_BULLSHIT CACHE)
+endif ()
 
-find_library(LIBCLANG_LIBRARY NAMES clang libclang
-  HINTS ${LIBCLANG_LIBRARY_PATH}
-  PATHS ${libclang_llvm_lib_search_paths})
+set(LIBCLANG_LIBRARY ${LIBCLANG_LIBRARIES} CACHE FILEPATH "Path to the libclang library")
 
-get_filename_component(LIBCLANG_LIBRARY_DIR ${LIBCLANG_LIBRARY} PATH)
+if (LIBCLANG_LLVM_CONFIG_EXECUTABLE)
+    execute_process(COMMAND ${LIBCLANG_LLVM_CONFIG_EXECUTABLE} --version OUTPUT_VARIABLE LIBCLANG_VERSION_STRING OUTPUT_STRIP_TRAILING_WHITESPACE)
+else ()
+ set(LIBCLANG_VERSION_STRING "Unknown")
+endif ()
+message("-- Using Clang version ${LIBCLANG_VERSION_STRING} from ${LIBCLANG_LIBDIR} with CXXFLAGS ${LIBCLANG_CXXFLAGS}")
 
-set(LIBCLANG_LIBRARIES ${LIBCLANG_LIBRARY})
-set(LIBCLANG_INCLUDE_DIRS ${LIBCLANG_INCLUDE_DIR})
-
+# Handly the QUIETLY and REQUIRED arguments and set LIBCLANG_FOUND to TRUE if all listed variables are TRUE
 include(FindPackageHandleStandardArgs)
-# handle the QUIETLY and REQUIRED arguments and set LIBCLANG_FOUND to TRUE if
-# all listed variables are TRUE
-find_package_handle_standard_args(LibClang DEFAULT_MSG
-  LIBCLANG_LIBRARY LIBCLANG_INCLUDE_DIR)
-
-mark_as_advanced(LIBCLANG_INCLUDE_DIR LIBCLANG_LIBRARY)
+find_package_handle_standard_args(LibClang DEFAULT_MSG LIBCLANG_LIBRARY LIBCLANG_CXXFLAGS LIBCLANG_LIBDIR)
+mark_as_advanced(LIBCLANG_CXXFLAGS LIBCLANG_LIBRARY LIBCLANG_LLVM_CONFIG_EXECUTABLE LIBCLANG_LIBDIR)

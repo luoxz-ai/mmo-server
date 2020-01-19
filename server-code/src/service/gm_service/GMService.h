@@ -17,7 +17,7 @@ class CGMService : public IService, public CServiceCommon
 public:
 	CGMService(const ServerPort& nServerPort);
 	virtual ~CGMService();
-	void Release() { delete this; }
+	void Release() override{ delete this; }
 	bool Create();
 
 	void SendServiceReady();
@@ -34,8 +34,8 @@ public:
 	std::unordered_map<std::string, HttpRequestHandleFunc> m_HttpRequestHandle;
 };
 
-#define GMService()		MyTLSTypePtr<CGMService>::get()
-#define EventManager()	GMService()->GetEventManager()
-#define NetMsgProcess() GMService()->GetNetMsgProcess()
+CGMService* GMService();
+inline auto EventManager() { return GMService()->GetEventManager();}  
+inline auto NetMsgProcess() { return GMService()->GetNetMsgProcess();}  
 
 #endif // GMService_h__

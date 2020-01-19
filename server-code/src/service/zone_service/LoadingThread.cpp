@@ -185,7 +185,7 @@ bool CLoadingThread::CancleWaiting(OBJID idPlayer)
 
 void CLoadingThread::OnThreadCreate()
 {
-	MyTLSTypePtr<CZoneService>::set(m_pZone);
+	SetZoneServicePtr(m_pZone);
 	std::string name = std::string("Zone") + std::to_string(m_pZone->GetServerPort().GetServiceID());
 	BaseCode::SetNdc(name);
 	LOGMESSAGE("ThreadID:{}", get_cur_thread_id());

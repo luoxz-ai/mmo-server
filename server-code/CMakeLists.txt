@@ -5,7 +5,6 @@ option(DEBUG "ON for debug or OFF for release" OFF)
 option(TIDY "ON for use clang-tidy(cmake version 3.6+) or OFF for not use" OFF)
 option(USE_LUADEBUGER "ON for use lua_debuger or OFF for lua" OFF)
 option(USE_JEMALLOC "ON for use jemalloc or OFF" ON)
-option(LIBCLANG "ON for FIND LIBCLANG or OFF" ON)
 option(AUTO_GEN_EXPORT_LUA "ON for AUTO_GEN_EXPORT_LUA or OFF" ON)
 
 set_directory_properties(PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
@@ -16,11 +15,16 @@ set_directory_properties(PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
 PROJECT(Framework C CXX)
 
 
+set (CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/src/CMake")
+include(cotire)
+
+
+
 SET(CMAKE_C_FLAGS_DEBUG "$ENV{CFLAGS} -g -DDEBUG ")
 SET(CMAKE_C_FLAGS_RELEASE "$ENV{CFLAGS} -g -O3 -DNDEBUG ")
-SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -std=c++17 -g -DDEBUG -Wall -Wno-reorder -Wno-unused-variable -Wno-unused-function -fexceptions -Wno-unused-result")
-SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -std=c++17 -g -O3 -DNDEBUG -Wall -Wno-reorder -Wno-unused-variable -Wno-unused-function -fexceptions -Wno-unused-result")
-
+SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -std=c++17 -g -DDEBUG -Wall -Wno-reorder -Wno-unused-variable -Wno-unused-function -fexceptions -Wno-unused-result -Wundefined-var-template")
+SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -std=c++17 -g -O3 -DNDEBUG -Wall -Wno-reorder -Wno-unused-variable -Wno-unused-function -fexceptions -Wno-unused-result -Wundefined-var-template")
+#add_compile_options(-Wl,--unresolved-symbols=ignore-in-shared-libs)
 IF(NOT CMAKE_CXX_COMPILER MATCHES "clang")
 SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -rdynamic")
 SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -rdynamic")
@@ -29,15 +33,6 @@ SET(CMAKE_EXE_LINKER_FLAGS "-Wl,--export-dynamic")
 ENDIF()
 
 
-set (CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/src/CMake")
-include(cotire)
-
-
-if(LIBCLANG)
-include(FindLibClang)
-else()
-SET(AUTO_GEN_EXPORT_LUA OFF)
-endif()
 
 #-----------------------------------------------------------------------------
 # Enable ccache if not already enabled by symlink masquerading and if no other
@@ -91,10 +86,6 @@ include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/depends/src/snappy)
 include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/depends/src/libwebsockets/build/include)
 include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/depends/src/cpp-taskflow)
 include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/depends/src/)
-if(LIBCLANG)
-include_directories(SYSTEM ${LIBCLANG_INCLUDE_DIRS})
-else()
-endif()
 include_directories(${PROJECT_SOURCE_DIR}/src/share/)
 include_directories(${PROJECT_SOURCE_DIR}/src/comm/basecode/)
 include_directories(${PROJECT_SOURCE_DIR}/src/comm/network/)
@@ -155,16 +146,12 @@ SET(LIBRARIES ${PROJECT_BINARY_DIR}/lib/release)
 SET(BINARIES ${PROJECT_BINARY_DIR}/bin/release)
 ENDIF()
 
-add_compile_options(-Wl,--unresolved-symbols=ignore-in-shared-libs)
+
 LINK_DIRECTORIES(
  ${PROJECT_SOURCE_DIR}/depends/lib/
  ${LIBRARIES}
 )
 
-if(LIBCLANG)
-LINK_DIRECTORIES(${LIBCLANG_LIBRARY_DIR})
-else()
-endif()
 
 IF(DEBUG)
 ADD_SUBDIRECTORY(src obj/debug)

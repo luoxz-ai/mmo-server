@@ -5,6 +5,7 @@
 #include "Account.h"
 #include "WorldService.h"
 #include "md5.h"
+
 const char* AUTH_URL = "https://example.com";
 
 static const std::string AUTH_SERVER_SIGNATURE = "test";
@@ -33,7 +34,7 @@ void CAccountManager::Destory()
 bool CAccountManager::Init(class CWorldService* pWorld)
 {
 	m_threadAuth.reset(new CWorkerThread("AuthThread", [pWorld]() {
-		MyTLSTypePtr<CWorldService>::set(pWorld);
+		SetWorldServicePtr(pWorld);
 		BaseCode::SetNdc("AuthThread");
 		LOGMESSAGE("ThreadID:{}", get_cur_thread_id());
 	}));

@@ -83,6 +83,8 @@ constexpr inline size_t sizeOfArray(T (&array)[N])
 		return nullptr;                                         \
 	}
 
+#define UNUSED(var) (void)((var) = (var))
+
 export_lua inline int64_t MakeINT64(int32_t left, int32_t right)
 {
 	return static_cast<int64_t>(left) << 32 | static_cast<int64_t>(right);

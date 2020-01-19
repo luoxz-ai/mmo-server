@@ -28,7 +28,7 @@ class CWorldService : public IService, public CServiceCommon
 public:
 	CWorldService(const ServerPort& nServerPort);
 	virtual ~CWorldService();
-	void Release() { delete this; }
+	void Release() override{ delete this; }
 	bool Create();
 
 public:
@@ -121,20 +121,21 @@ private:
 	std::unique_ptr<CSystemVarSet> m_pSystemVarSet;
 	std::unique_ptr<CTeamManager>  m_pTeamManager;
 
-	size_t	 m_nMessageProcess = 0;
 	CMyTimer m_tLastDisplayTime;
 };
 
-#define WorldService()	 MyTLSTypePtr<CWorldService>::get()
-#define GMManager()		 WorldService()->GetGMManager()
-#define EventManager()	 WorldService()->GetEventManager()
-#define NetMsgProcess()	 WorldService()->GetNetMsgProcess()
-#define AccountManager() WorldService()->GetAccountManager()
-#define UserManager()	 WorldService()->GetUserManager()
-#define UserAttrSet()	 WorldService()->GetUserAttrSet()
-#define BornPosSet()	 WorldService()->GetBornPosSet()
-#define MapManager()	 WorldService()->GetMapManager()
-#define SystemVarSet()	 WorldService()->GetSystemVarSet()
-#define TeamManager()	 WorldService()->GetTeamManager()
+CWorldService* WorldService();
+void SetWorldServicePtr(CWorldService* ptr);
+
+inline auto GMManager() { return WorldService()->GetGMManager();}  
+inline auto EventManager() { return WorldService()->GetEventManager();}  
+inline auto NetMsgProcess() { return WorldService()->GetNetMsgProcess();}  
+inline auto AccountManager() { return WorldService()->GetAccountManager();}  
+inline auto UserManager() { return WorldService()->GetUserManager();}  
+inline auto UserAttrSet() { return WorldService()->GetUserAttrSet();}  
+inline auto BornPosSet() { return WorldService()->GetBornPosSet();}  
+inline auto MapManager() { return WorldService()->GetMapManager();}  
+inline auto SystemVarSet() { return WorldService()->GetSystemVarSet();}  
+inline auto TeamManager() { return WorldService()->GetTeamManager();}  
 
 #endif // WorldService_h__

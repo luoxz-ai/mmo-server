@@ -35,6 +35,7 @@ namespace BaseCode
 void InitLog(const std::string& path);
 void InitMonitorLog(const std::string& logname);
 void SetNdc(const std::string& name);
+NDC* getNdc();
 void StopLog();
 
 extern int				s_default_logger;

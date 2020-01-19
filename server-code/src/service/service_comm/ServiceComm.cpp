@@ -161,7 +161,7 @@ bool CServiceCommon::StartRPCServer(uint16_t publish_port, uint16_t internal_por
 		return false;
 	brpc::ServerOptions options;
 	options.idle_timeout_sec = -1;
-	if(internal_port == 0 || internal_port == -1)
+	if(internal_port == 0)
 		options.internal_port = 32000 + GetServerPort().GetServiceID();
 	else
 		options.internal_port = internal_port;

@@ -24,7 +24,7 @@ class CAIService : public IService, public CServiceCommon
 public:
 	CAIService(const ServerPort& nServerPort);
 	virtual ~CAIService();
-	void Release() { delete this; }
+	void Release() override { delete this; }
 	bool Create();
 
 	VirtualSocket GetZoneServiceVirtualSocket() const { return VirtualSocket(ServerPort(GetWorldID(), GetZoneID()), 0); }
@@ -66,17 +66,18 @@ private:
 	std::unique_ptr<CMapManager>	   m_pMapManager;
 };
 
-#define AIService()		 MyTLSTypePtr<CAIService>::get()
-#define EventManager()	 AIService()->GetEventManager()
-#define ScriptManager()	 AIService()->GetScriptManager()
-#define NetMsgProcess()	 AIService()->GetNetMsgProcess()
-#define TargetFAMSet()	 AIService()->GetTargetFAMSet()
-#define SkillFAMSet()	 AIService()->GetSkillFAMSet()
-#define AITypeSet()		 AIService()->GetAITypeSet()
-#define AISceneManager() AIService()->GetAISceneManager()
-#define AIActorManager() AIService()->GetAIActorManager()
-#define SkillTypeSet()	 AIService()->GetSkillTypeSet()
-#define MapManager()	 AIService()->GetMapManager()
-#define MonsterTypeSet() AIService()->GetMonsterTypeSet()
+CAIService* AIService();
+
+inline auto EventManager() { return AIService()->GetEventManager();}  
+inline auto ScriptManager() { return AIService()->GetScriptManager();}  
+inline auto NetMsgProcess() { return AIService()->GetNetMsgProcess();}  
+inline auto TargetFAMSet() { return AIService()->GetTargetFAMSet();}  
+inline auto SkillFAMSet() { return AIService()->GetSkillFAMSet();}  
+inline auto AITypeSet() { return AIService()->GetAITypeSet();}  
+inline auto AISceneManager() { return AIService()->GetAISceneManager();}  
+inline auto AIActorManager() { return AIService()->GetAIActorManager();}  
+inline auto SkillTypeSet() { return AIService()->GetSkillTypeSet();}  
+inline auto MapManager() { return AIService()->GetMapManager();}  
+inline auto MonsterTypeSet() { return AIService()->GetMonsterTypeSet();}  
 
 #endif /* AISERVICE_H */
