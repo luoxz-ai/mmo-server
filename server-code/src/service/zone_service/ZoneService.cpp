@@ -154,8 +154,8 @@ bool CZoneService::Create()
 	//脚本加载
 	extern void export_to_lua(lua_State*, void*);
 	m_pScriptManager.reset(
-		CLUAScriptManager::CreateNew(std::string("ZoneScript") + std::to_string(GetServerPort().GetServiceID()), &export_to_lua, (void*)this, "res/script"));
-
+		CLUAScriptManager::CreateNew(std::string("ZoneScript") + std::to_string(GetServerPort().GetServiceID()), &export_to_lua, (void*)this, "res/script/zone"));
+	
 	CHECKF(m_SceneManager.Init(GetServerPort().GetServiceID()));
 
 	extern void PlayerMessageHandlerRegister();
