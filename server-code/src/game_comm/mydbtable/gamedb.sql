@@ -72,7 +72,7 @@ CREATE TABLE `tbld_global_mail` (
   `content` varchar(1024) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '邮件内容',
   `filter_type` bigint(20) NOT NULL DEFAULT '0' COMMENT '玩家过滤条件',
   `filter_data` bigint(20) NOT NULL DEFAULT '0' COMMENT '玩家过滤条件',
-  `attach_data` blob(4096) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '附件数据json',
+  `attach_data` blob(4096) COMMENT '附件数据json', 
   PRIMARY KEY (`id`),
   KEY `idx_create_time` (`create_time`),
   KEY `idx_sendid` (`senderid`)
@@ -118,7 +118,7 @@ CREATE TABLE `tbld_item` (
   `dura` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '当前耐久',
   `dura_limit` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '耐久上限',
   `addition_lev` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '强化等级',
-  `extra` blob(4096) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '额外信息'
+  `extra` blob(4096) COMMENT '额外信息', 
   PRIMARY KEY (`id`),
   KEY `idx_itemtype` (`itemtype`),
   KEY `idx_owner` (`owner_id`),

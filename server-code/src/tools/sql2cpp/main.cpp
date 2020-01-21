@@ -101,6 +101,13 @@ int main(int argc, char** argv)
 					std::string field_comment = field_match[3];
 					vecFieldType.push_back({field_name, field_type, field_comment});
 				}
+				else if(std::regex_search(v, field_match, std::regex{R"(.*`(.*)` (.*) COMMENT ('.*').*)"}))
+				{
+					std::string field_name	  = field_match[1];
+					std::string field_type	  = field_match[2];
+					std::string field_comment = field_match[3];
+					vecFieldType.push_back({field_name, field_type, field_comment});
+				}
 			}
 
 			std::string fields_name;
@@ -221,16 +228,8 @@ int main(int argc, char** argv)
 						}
 						else if(field_type == "blob")
 						{
-							if(field_bits.empty())
-							{
-								field_type_cpp	= "std::string ";
-								field_type_enum = "DB_FIELD_TYPE_BLOB";
-							}
-							else
-							{
-								field_type_cpp	= "char[" + field_bits + "] ";
-								field_type_enum = "DB_FIELD_TYPE_BLOB";
-							}
+							field_type_cpp	= "std::string ";
+							field_type_enum = "DB_FIELD_TYPE_BLOB";	
 						}
 
 						fields_type += field_type_cpp;

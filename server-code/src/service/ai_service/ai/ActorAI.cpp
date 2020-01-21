@@ -7,7 +7,7 @@
 
 static const int MOVE_PER_WAIT_MS = 500; //每500ms向zone发送一次移动消息
 
-CActorAI::CActorAI() {}
+CActorAI::CActorAI(){}
 
 CActorAI::~CActorAI()
 {
@@ -42,7 +42,7 @@ void CActorAI::OnDead() {}
 
 const STATE_DATA& CActorAI::GetStateData(int nState)
 {
-	CHECKFSR(nState > 0 && nState < ATT_MAX, STATE_DATA);
+	CHECKFSR_FMT(nState > 0 && nState < ATT_MAX, STATE_DATA, "nState={}", nState);
 	static STATE_DATA STATE_DATA_ARRAY[] = 
 	{
 		{"ATT_IDLE", 		&CActorAI::ProcessIdle},		  

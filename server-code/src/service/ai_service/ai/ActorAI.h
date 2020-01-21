@@ -25,7 +25,7 @@
 
 enum AITaskType
 {
-	ATT_IDLE,		// idle
+	ATT_IDLE = 0,		// idle
 	ATT_ATTACK,		//攻击决策
 	ATT_APPROACH,	//移动到距离目标N米处
 	ATT_SKILL,		//释放某种技能
@@ -149,7 +149,7 @@ private:
 	uint32_t	   m_nState	 = 0;
 	CAIActor*	   m_pActor	 = nullptr;
 	CAIType*	   m_pAIType = nullptr;
-	CAIPathFinder* m_pAIPathFinder;
+	CAIPathFinder* m_pAIPathFinder=  nullptr;
 	OBJID		   m_idTarget = 0;
 	Vector2		   m_posTarget;
 	Vector2		   m_posRecord;

@@ -168,7 +168,7 @@ evconnlistener* CNetworkService::Listen(const char* addr, int port, CNetEventHan
 
 	if(evutil_getaddrinfo(addr, std::to_string(port).c_str(), &hits, &answer) != 0)
 	{
-		LOGERROR("CNetworkService::Listen:{}:{} evutil_getaddrinfo fail", addr, port);
+		LOGNETERROR("CNetworkService::Listen:{}:{} evutil_getaddrinfo fail", addr, port);
 		return nullptr;
 	}
 	std::unique_ptr<addrinfo, decltype(evutil_freeaddrinfo)*> answer_ptr(answer, evutil_freeaddrinfo);
@@ -177,7 +177,7 @@ evconnlistener* CNetworkService::Listen(const char* addr, int port, CNetEventHan
 														answer_ptr->ai_addr, answer_ptr->ai_addrlen);
 	if(pListener == nullptr)
 	{
-		LOGERROR("CNetworkService::Listen:{}:{} evconnlistener_new_bind fail:{}", addr, port, strerror(errno));
+		LOGNETERROR("CNetworkService::Listen:{}:{} evconnlistener_new_bind fail:{}", addr, port, strerror(errno));
 		return nullptr;
 	}
 	evconnlistener_set_error_cb(pListener, accept_error_cb);
@@ -203,7 +203,7 @@ CNetSocket* CNetworkService::ConnectTo(const char* addr, int port, CNetEventHand
 
 	if(evutil_getaddrinfo(addr, std::to_string(port).c_str(), &hits, &answer) != 0)
 	{
-		LOGERROR("CNetworkService::ConnectTo:{}:{} evutil_getaddrinfo fail", addr, port);
+		LOGNETERROR("CNetworkService::ConnectTo:{}:{} evutil_getaddrinfo fail", addr, port);
 		return nullptr;
 	}
 	std::unique_ptr<addrinfo, decltype(evutil_freeaddrinfo)*> answer_ptr(answer, evutil_freeaddrinfo);
@@ -211,12 +211,12 @@ CNetSocket* CNetworkService::ConnectTo(const char* addr, int port, CNetEventHand
 	int fd = socket(answer_ptr->ai_family, answer_ptr->ai_socktype, answer_ptr->ai_protocol);
 	if(fd < 0)
 	{
-		LOGERROR("CNetworkService::ConnectTo:{}:{} socket fail", addr, port);
+		LOGNETERROR("CNetworkService::ConnectTo:{}:{} socket fail", addr, port);
 		return nullptr;
 	}
 	if(connect(fd, answer_ptr->ai_addr, answer_ptr->ai_addrlen))
 	{
-		LOGERROR("CNetworkService::ConnectTo:{}:{} connect fail", addr, port);
+		LOGNETERROR("CNetworkService::ConnectTo:{}:{} connect fail", addr, port);
 		evutil_closesocket(fd);
 		return nullptr;
 	}
@@ -224,7 +224,7 @@ CNetSocket* CNetworkService::ConnectTo(const char* addr, int port, CNetEventHand
 	bufferevent* pBufferEvent = bufferevent_socket_new(m_pBase, fd, BEV_OPT_CLOSE_ON_FREE | BEV_OPT_THREADSAFE);
 	if(pBufferEvent == nullptr)
 	{
-		LOGERROR("CNetworkService::ConnectTo:{}:{} bufferevent_socket_new fail", addr, port);
+		LOGNETERROR("CNetworkService::ConnectTo:{}:{} bufferevent_socket_new fail", addr, port);
 		return nullptr;
 	}
 
@@ -254,7 +254,7 @@ bool CNetworkService::_Reconnect(CNetSocket* pSocket)
 
 	if(evutil_getaddrinfo(pSocket->GetAddrString().c_str(), std::to_string(pSocket->GetPort()).c_str(), &hits, &answer) != 0)
 	{
-		LOGERROR("CNetworkService::_Reconnect:{}:{} evutil_getaddrinfo fail", pSocket->GetAddrString().c_str(), pSocket->GetPort());
+		LOGNETERROR("CNetworkService::_Reconnect:{}:{} evutil_getaddrinfo fail", pSocket->GetAddrString().c_str(), pSocket->GetPort());
 		return false;
 	}
 	std::unique_ptr<addrinfo, decltype(evutil_freeaddrinfo)*> answer_ptr(answer, evutil_freeaddrinfo);
@@ -262,13 +262,13 @@ bool CNetworkService::_Reconnect(CNetSocket* pSocket)
 	int fd = socket(answer_ptr->ai_family, answer_ptr->ai_socktype, answer_ptr->ai_protocol);
 	if(fd < 0)
 	{
-		LOGERROR("CNetworkService::_Reconnect:{}:{} socket fail", pSocket->GetAddrString().c_str(), pSocket->GetPort());
+		LOGNETERROR("CNetworkService::_Reconnect:{}:{} socket fail", pSocket->GetAddrString().c_str(), pSocket->GetPort());
 
 		return false;
 	}
 	if(connect(fd, answer_ptr->ai_addr, answer_ptr->ai_addrlen))
 	{
-		LOGERROR("CNetworkService::_Reconnect:{}:{} connect fail", pSocket->GetAddrString().c_str(), pSocket->GetPort());
+		LOGNETERROR("CNetworkService::_Reconnect:{}:{} connect fail", pSocket->GetAddrString().c_str(), pSocket->GetPort());
 
 		evutil_closesocket(fd);
 		return false;
@@ -298,7 +298,7 @@ CNetSocket* CNetworkService::AsyncConnectTo(const char* addr, int port, CNetEven
 
 	if(evutil_getaddrinfo(addr, std::to_string(port).c_str(), &hits, &answer) != 0)
 	{
-		LOGERROR("CNetworkService::AsyncConnectTo:{}:{} evutil_getaddrinfo fail", addr, port);
+		LOGNETERROR("CNetworkService::AsyncConnectTo:{}:{} evutil_getaddrinfo fail", addr, port);
 
 		return nullptr;
 	}
@@ -307,7 +307,7 @@ CNetSocket* CNetworkService::AsyncConnectTo(const char* addr, int port, CNetEven
 	bufferevent* pBufferEvent = bufferevent_socket_new(m_pBase, -1, BEV_OPT_CLOSE_ON_FREE | BEV_OPT_THREADSAFE);
 	if(pBufferEvent == nullptr)
 	{
-		LOGERROR("CNetworkService::AsyncConnectTo:{}:{} bufferevent_socket_new fail", addr, port);
+		LOGNETERROR("CNetworkService::AsyncConnectTo:{}:{} bufferevent_socket_new fail", addr, port);
 
 		return nullptr;
 	}
@@ -318,7 +318,7 @@ CNetSocket* CNetworkService::AsyncConnectTo(const char* addr, int port, CNetEven
 
 	if(bufferevent_socket_connect(pBufferEvent, answer_ptr->ai_addr, answer_ptr->ai_addrlen) != 0)
 	{
-		LOGERROR("CNetworkService::AsyncConnectTo:{}:{} bufferevent_socket_connect fail", addr, port);
+		LOGNETERROR("CNetworkService::AsyncConnectTo:{}:{} bufferevent_socket_connect fail", addr, port);
 		delete pSocket;
 		bufferevent_free(pBufferEvent);
 		return nullptr;
@@ -345,7 +345,7 @@ bool CNetworkService::_AsyncReconnect(CNetSocket* pSocket)
 
 	if(evutil_getaddrinfo(pSocket->GetAddrString().c_str(), std::to_string(pSocket->GetPort()).c_str(), &hits, &answer) != 0)
 	{
-		LOGERROR("CNetworkService::_AsyncReconnect:{}:{} evutil_getaddrinfo fail", pSocket->GetAddrString().c_str(), pSocket->GetPort());
+		LOGNETERROR("CNetworkService::_AsyncReconnect:{}:{} evutil_getaddrinfo fail", pSocket->GetAddrString().c_str(), pSocket->GetPort());
 
 		return false;
 	}
@@ -356,7 +356,7 @@ bool CNetworkService::_AsyncReconnect(CNetSocket* pSocket)
 		int			err	   = EVUTIL_SOCKET_ERROR();
 		const char* errstr = evutil_socket_error_to_string(err);
 
-		LOGERROR("CNetworkService::_AsyncReconnect:{}:{} bufferevent_socket_connect fail:{}", pSocket->GetAddrString().c_str(), pSocket->GetPort(), errstr);
+		LOGNETERROR("CNetworkService::_AsyncReconnect:{}:{} bufferevent_socket_connect fail:{}", pSocket->GetAddrString().c_str(), pSocket->GetPort(), errstr);
 		return false;
 	}
 	LOGNETDEBUG("CNetworkService::_AsyncReconnect:{}:{}", pSocket->GetAddrString().c_str(), pSocket->GetPort());
@@ -419,7 +419,7 @@ void CNetworkService::StartIOThread(const std::string& thread_name, std::functio
 		{
 			// showerror
 
-			LOGERROR("CNetworkService {} IOThread Close with ERROR:", idService);
+			LOGNETERROR("CNetworkService {} IOThread Close with ERROR:", idService);
 		}
 		LOGNETDEBUG("CNetworkService IOThread Close:{}", idService);
 		__LEAVE_FUNCTION
@@ -472,7 +472,7 @@ void CNetworkService::accept_error_cb(struct evconnlistener* listener, void* arg
 	const char*		   errstr = evutil_socket_error_to_string(err);
 
 	// log error
-	LOGERROR("CNetworkService::accept_error_cb {}", errstr);
+	LOGNETERROR("CNetworkService::accept_error_cb {}", errstr);
 	__LEAVE_FUNCTION
 }
 
@@ -512,7 +512,7 @@ void CNetworkService::OnAccept(int fd, sockaddr* addr, int, evconnlistener* list
 	bufferevent* pBufferEvent = bufferevent_socket_new(GetEVBase(), fd, BEV_OPT_CLOSE_ON_FREE | BEV_OPT_THREADSAFE);
 	if(pBufferEvent == nullptr)
 	{
-		LOGERROR("CNetworkService::OnAccept bufferevent_socket_new fail:{}:{} ", szHost, uPort);
+		LOGNETERROR("CNetworkService::OnAccept bufferevent_socket_new fail:{}:{} ", szHost, uPort);
 		evutil_closesocket(fd);
 		return;
 	}

@@ -225,6 +225,40 @@ export_lua inline BYTE toHex(const BYTE& x)
 		}                                           \
 	}
 
+#define CHECK_FMT(x, fmt_msg, ...)                                  \
+	{                                                               \
+		if(!(x))                                                    \
+		{                                                           \
+			LOGASSERT("ASSERT:" #x " msg:" fmt_msg, ##__VA_ARGS__); \
+			return;                                                 \
+		}                                                           \
+	}
+#define CHECKF_FMT(x, fmt_msg, ...)                                   \
+	{                                                               \
+		if(!(x))                                                    \
+		{                                                           \
+			LOGASSERT("ASSERT:" #x " msg:" fmt_msg, ##__VA_ARGS__); \
+			return 0;                                               \
+		}                                                           \
+	}
+#define CHECKFR_FMT(x, r, fmt_msg, ...)                               \
+	{                                                               \
+		if(!(x))                                                    \
+		{                                                           \
+			LOGASSERT("ASSERT:" #x " msg:" fmt_msg, ##__VA_ARGS__); \
+			return r;                                               \
+		}                                                           \
+	}
+#define CHECKFSR_FMT(x, R, fmt_msg, ...)                              \
+	{                                                               \
+		if(!(x))                                                    \
+		{                                                           \
+			LOGASSERT("ASSERT:" #x " msg:" fmt_msg, ##__VA_ARGS__); \
+			static R r;                                             \
+			return r;                                               \
+		}                                                           \
+	}
+
 #define __ENTER_FUNCTION \
 	{                    \
 		try              \

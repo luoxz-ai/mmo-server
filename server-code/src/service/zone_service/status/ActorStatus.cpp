@@ -270,10 +270,17 @@ void CActorStatus::OnMove()
 }
 
 
+void CActorStatus::OnSkill(uint32_t idSkill)
+{
+	__ENTER_FUNCTION
+	OnEventDetach(&CStatus::OnSkill, STATUSFLAG_DEATCH_SKILL, idSkill);
+	__LEAVE_FUNCTION
+}
+
 void CActorStatus::OnAttack(CActor* pTarget, uint32_t idSkill, int32_t nDamage)
 {
 	__ENTER_FUNCTION
-	OnEventDetach(&CStatus::OnAttack, STATUSFLAG_DEATCH_SKILL, pTarget, idSkill, nDamage);
+	OnEventDetach(&CStatus::OnAttack, STATUSFLAG_DEATCH_ATTACK, pTarget, idSkill, nDamage);
 	__LEAVE_FUNCTION
 }
 

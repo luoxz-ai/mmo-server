@@ -82,7 +82,7 @@ struct TBLD_GLOBAL_MAIL
 
 	};
 	static constexpr const char* field_name[] = { "id","senderid","sendername","create_time","flag","subject","content","filter_type","filter_data","attach_data" };
-	using field_type_t = type_list<uint64_t ,uint64_t ,char[255] ,uint32_t ,uint64_t ,char[255] ,char[1024] ,int64_t ,int64_t ,char[4096] >;
+	using field_type_t = type_list<uint64_t ,uint64_t ,char[255] ,uint32_t ,uint64_t ,char[255] ,char[1024] ,int64_t ,int64_t ,std::string >;
 	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_BLOB };
 	static constexpr bool pri_key_idx[] = { true,false,false,false,false,false,false,false,false,false };
 };
@@ -129,7 +129,7 @@ struct TBLD_ITEM
 
 	};
 	static constexpr const char* field_name[] = { "id","owner_id","itemtype","position","grid","flag","pilenum","expire_time","dura","dura_limit","addition_lev","extra" };
-	using field_type_t = type_list<uint64_t ,uint64_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,char[4096] >;
+	using field_type_t = type_list<uint64_t ,uint64_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,std::string >;
 	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_BLOB };
 	static constexpr bool pri_key_idx[] = { true,false,false,false,false,false,false,false,false,false,false,false };
 };

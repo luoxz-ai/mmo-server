@@ -9,9 +9,9 @@ ZONE_MYSQL_IP=172.28.2.2
 MYSQL_PASSWD=3Killyou
 ZONE_OPEN_TIME="\"NOW()\""
 
-echo "create database ${ZONE_NAME};" | docker exec -i ${MYSQL_DOCKER_NAME} sh -c 'exec mysql -uroot -p"3Killyou"'
+echo "create database ${ZONE_NAME};" | docker exec -i ${MYSQL_DOCKER_NAME} sh -c 'exec mysql -v -uroot -p"3Killyou"'
 
-sql_cmd="exec mysql -uroot -p'3Killyou' ${ZONE_NAME}"
+sql_cmd="exec mysql -v -uroot -p'3Killyou' ${ZONE_NAME}"
 cat server-code/res/db/gamedb.sql | docker exec -i ${MYSQL_DOCKER_NAME} sh -c "${sql_cmd}"
 
 
@@ -22,5 +22,5 @@ cmd="m4 -DZONE_ID=${ZONE_ID} -DZONE_NAME=${ZONE_NAME} -DZONE_IP=${ZONE_IP} \
 
 
 docker exec -i mmo-server-build sh -c "${cmd}" | 
-docker exec -i mysql-global sh -c 'exec mysql -uroot -p"3Killyou" global'
+docker exec -i mysql-global sh -c 'exec mysql -v -uroot -p"3Killyou" global'
 echo "select * from tbld_servicedetail where worldid=${ZONE_ID};" | docker exec -i mysql-global sh -c 'exec mysql -uroot -p"3Killyou" global'
