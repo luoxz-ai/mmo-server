@@ -33,7 +33,7 @@ public:
 	export_lua void				  Broadcast();
 	export_lua void				  SendToPlayer(CPlayer* pPlayer);
 	export_lua void				  Save();
-	export_lua void				  ClearModify();
+	export_lua void				  ClearDirty();
 	export_lua void				  DeleteRecord();
 
 private:

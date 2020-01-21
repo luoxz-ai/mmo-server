@@ -28,3 +28,8 @@ message AttribChangeDataProto
 	int32 val=3;
 	int32 factor=4;
 };
+
+message ItemExtraData
+{
+	repeated uint32 data = 1;
+};

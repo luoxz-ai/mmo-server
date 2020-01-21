@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <variant>
 #include <vector>
+#include <functional>
 
 #include "BaseCode.h"
 #include "CallStackDumper.h"
@@ -27,6 +28,7 @@ enum DB_FIELD_TYPES
 	DB_FIELD_TYPE_FLOAT,
 	DB_FIELD_TYPE_DOUBLE,
 	DB_FIELD_TYPE_VARCHAR,
+	DB_FIELD_TYPE_BLOB,
 };
 
 struct CDBFieldInfo
@@ -37,6 +39,7 @@ struct CDBFieldInfo
 	virtual const char*	   GetTableName() const = 0;
 	virtual const char*	   GetFieldName() const = 0;
 	virtual DB_FIELD_TYPES GetFieldType() const = 0;
+	virtual uint32_t	   GetFieldIdx() const = 0;
 	virtual bool		   IsPriKey() const		= 0;
 };
 
@@ -57,12 +60,13 @@ struct MYSQL_FIELD_COPY : public CDBFieldInfo
 	std::string			m_table;	  /* Table of column if column was a field */
 	enum DB_FIELD_TYPES m_field_type; /* Type of field. See mysql_com.h for types */
 	bool				m_isPriKey;
-
-	MYSQL_FIELD_COPY(MYSQL_FIELD* pField)
+	uint32_t			m_idx;
+	MYSQL_FIELD_COPY(MYSQL_FIELD* pField, uint32_t idx)
 	{
 		m_name	   = (pField->name ? pField->name : "");
 		m_table	   = (pField->table ? pField->table : "");
 		m_isPriKey = IS_PRI_KEY(pField->flags);
+		m_idx	   = idx;
 		switch(pField->type)
 		{
 			case MYSQL_TYPE_TINY:
@@ -125,9 +129,13 @@ struct MYSQL_FIELD_COPY : public CDBFieldInfo
 			break;
 			case MYSQL_TYPE_VAR_STRING:
 			case MYSQL_TYPE_STRING:
-			case MYSQL_TYPE_BLOB:
 			{
 				m_field_type = DB_FIELD_TYPE_VARCHAR;
+			}
+			break;
+			case MYSQL_TYPE_BLOB:
+			{
+				m_field_type = DB_FIELD_TYPE_BLOB;
 			}
 			break;
 			default:
@@ -141,6 +149,7 @@ struct MYSQL_FIELD_COPY : public CDBFieldInfo
 	virtual const char*	   GetFieldName() const override { return m_name.c_str(); }
 	virtual DB_FIELD_TYPES GetFieldType() const override { return m_field_type; }
 	virtual bool		   IsPriKey() const override { return m_isPriKey; }
+	virtual uint32_t	   GetFieldIdx() const override { return m_idx; }
 };
 
 class CMysqlFieldInfoList : public CDBFieldInfoList
@@ -164,6 +173,7 @@ struct CDDLFieldInfo : public CDBFieldInfo
 	virtual const char*	   GetFieldName() const override { return T::field_name[FIELD_IDX]; }
 	virtual DB_FIELD_TYPES GetFieldType() const override { return T::field_type_enum_list[FIELD_IDX]; }
 	virtual bool		   IsPriKey() const override { return T::pri_key_idx[FIELD_IDX] == true; }
+	virtual uint32_t	   GetFieldIdx() const override { return FIELD_IDX; }
 };
 
 template<typename T>
@@ -210,7 +220,7 @@ public:
 	CDBField(const CDBField&)			 = delete;
 
 	bool IsString() const;
-	void ClearModify();
+	void ClearDirty();
 
 public:
 	operator const std::string&() const
@@ -280,7 +290,7 @@ public:
 					return *this;
 
 				m_Val = v;
-				SetModified();
+				MakeDirty();
 			}
 		}
 
@@ -374,6 +384,7 @@ public:
 			}
 			break;
 			case DB_FIELD_TYPE_VARCHAR:
+			case DB_FIELD_TYPE_BLOB:
 			{
 				if(std::is_same<typename std::decay<T>::type, std::string>::value || std::is_same<typename std::decay<T>::type, const char*>::value ||
 				   std::is_same<typename std::decay<T>::type, char*>::value)
@@ -396,10 +407,10 @@ public:
 	}
 
 	std::string GetValString() const;
-
+	void SetGetValStringFunc(std::function< std::string () > func){m_funcGetValString = func;}
 	bool				CanModify() const;
-	bool				IsModify() const { return m_bModify; }
-	void				SetModified();
+	bool				IsDirty() const;
+	void				MakeDirty();
 	const CDBFieldInfo* GetFieldInfo() const { return m_pFieldInfo; }
 
 public:
@@ -409,7 +420,8 @@ private:
 	CDBRecord*																										   m_pDBRecord;
 	const CDBFieldInfo*																								   m_pFieldInfo;
 	std::variant<int8_t, uint8_t, int16_t, uint16_t, int32_t, uint32_t, int64_t, uint64_t, float, double, std::string> m_Val;
-	bool																											   m_bModify;
+	bool																											   m_bDirty;
+	std::function< std::string () > 																				   m_funcGetValString;
 };
 
 #endif /* DBFIELD_H */

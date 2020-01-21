@@ -73,9 +73,8 @@ bool CAIService::Create()
 
 	extern void export_to_lua(lua_State*, void*);
 	m_pScriptManager.reset(
-		CLUAScriptManager::CreateNew(std::string("AIScript") + std::to_string(GetServerPort().GetServiceID()), &export_to_lua, (void*)this, "res/script", false));
-	m_pScriptManager->LoadFilesInDir("ai", false);
-
+		CLUAScriptManager::CreateNew(std::string("AIScript") + std::to_string(GetServerPort().GetServiceID()), &export_to_lua, (void*)this, "res/script/ai_service", true));
+	
 	m_pMapManager.reset(new CMapManager);
 	CHECKF(m_pMapManager->Init(GetZoneID()));
 

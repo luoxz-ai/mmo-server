@@ -48,6 +48,28 @@ public:
 	export_lua void OnLogin();
 	export_lua void OnLogout();
 
+
+
+	template<class Func, class... Args>
+	void OnEvent(Func func, int flag, Args&&... args)
+	{
+		__ENTER_FUNCTION
+		for(auto it = m_setStatus.begin(); it != m_setStatus.end();)
+		{
+			CStatus* pStatus = it->second;
+			if(HasFlag(pStatus->GetFlag(), flag) == true || std::invoke(func,it->second, std::forward<Args>(args)...))
+			{
+				pStatus->OnDeatch();
+				SAFE_DELETE(pStatus);
+				it = m_setStatus.erase(it);
+			}
+			else
+			{
+				it++;
+			}
+		}
+		__LEAVE_FUNCTION
+	}
 private:
 	void _AddStatus(CStatus* pStatus);
 

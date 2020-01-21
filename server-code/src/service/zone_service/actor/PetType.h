@@ -19,7 +19,7 @@ public:
 	bool Init(const Cfg_Pet_Row& row)
 	{
 		m_Data = row;
-		m_ability.load_from(row.attr_data());
+		CActorAttrib::load_from(m_ability, row.attr_data());
 
 		return true;
 	}
@@ -32,11 +32,11 @@ public:
 	float				GetVolume() const { return m_Data.volume(); }
 	const std::string&	GetName() const { return m_Data.name(); }
 	OBJID				GetScirptID() const { return m_Data.scriptid(); }
-	const CActorAttrib& GetAbility() const { return m_ability; }
+	const AttribList_t& GetAbility() const { return m_ability; }
 	const AttribDataProto&  getData() const { return m_Data.attr_data(); }
 private:
 	Cfg_Pet_Row	 m_Data;
-	CActorAttrib m_ability;
+	AttribList_t m_ability;
 };
 
 typedef CGameDataMap<CPetType> CPetTypeSet;

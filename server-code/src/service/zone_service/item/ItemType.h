@@ -136,7 +136,7 @@ public:
 	uint32_t							   GetCDMsces() const { return m_Data.cd_msces(); }
 	uint32_t							   GetSuitType() const { return m_Data.suit_id() / 100; }
 	uint32_t							   GetSuitIdx() const { return m_Data.suit_id() % 100; }
-	const std::vector<CActorAttribChange>& GetAttr() const { return m_AttribChangeList; }
+	const std::vector<CActorAttribChange>& GetAttrib() const { return m_AttribChangeList; }
 	uint64_t							   GetScriptID() const { return m_Data.scriptid(); }
 	uint32_t							   GetBatchUseCount() const { return m_Data.batchuse_count(); }
 

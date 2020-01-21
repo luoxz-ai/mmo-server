@@ -335,8 +335,20 @@ void CEquipment::AddSuitNum(CItemType* pItemType)
 	__ENTER_FUNCTION
 
 	uint32_t& nCount = m_setSuitNum[pItemType->GetSuitType()];
+	auto old_data = SuitEquipSet()->QuerySuitEquip(pItemType->GetSuitType(),nCount);
+	if(old_data)
+	{
+		m_pOwner->GetAttrib().Remove(old_data->GetAttribChangeList());
+	}
+
 	nCount++;
 
+	auto new_data = SuitEquipSet()->QuerySuitEquip(pItemType->GetSuitType(),nCount);
+	if(new_data)
+	{
+		m_pOwner->GetAttrib().Store(new_data->GetAttribChangeList());
+	}
+	
 	m_pOwner->GetAchievement()->CheckAchiCondition(CONDITION_EQUIPMENT_SUIT, pItemType->GetSuitType(), nCount);
 
 	__LEAVE_FUNCTION
@@ -351,10 +363,22 @@ void CEquipment::DecSuitNum(CItemType* pItemType)
 	if(it == m_setSuitNum.end())
 		return;
 	uint32_t& nCount = it->second;
+	auto old_data = SuitEquipSet()->QuerySuitEquip(pItemType->GetSuitType(),nCount);
+	if(old_data)
+	{
+		m_pOwner->GetAttrib().Remove(old_data->GetAttribChangeList());
+	}
+	
 	--nCount;
 	if(nCount == 0)
 	{
 		m_setSuitNum.erase(it);
+	}
+
+	auto new_data = SuitEquipSet()->QuerySuitEquip(pItemType->GetSuitType(),nCount);
+	if(new_data)
+	{
+		m_pOwner->GetAttrib().Store(new_data->GetAttribChangeList());
 	}
 
 	__LEAVE_FUNCTION
@@ -385,13 +409,11 @@ void CEquipment::CheckItemExpire(uint32_t dwTimeNow)
 			else
 			{
 			}
-
 			bRecalcAbility = true;
 		}
 
 		m_setExpireItem.erase(it++);
 	}
-
 	if(bRecalcAbility)
 	{
 		m_pOwner->RecalcAttrib();
@@ -429,12 +451,17 @@ void CEquipment::OnItemEquiped(CItem* pItem, bool bRepair)
 {
 	__ENTER_FUNCTION
 	CHECK(pItem);
+	m_pOwner->GetAttrib().Store(pItem->ItemTypePtr()->GetAttrib());
+	if(pItem->AdditionType())
+	{
+		m_pOwner->GetAttrib().Store(pItem->AdditionType()->GetAttrib());
+	}
 	// 重新计算套装数量
 	if((pItem->GetDura() != 0 || pItem->ItemTypePtr()->GetDuraLimit() == 0) && pItem->IsSuit())
 	{
 		AddSuitNum(pItem->ItemTypePtr());
 	}
-
+	
 	m_pOwner->GetAchievement()->CheckAchiCondition(CONDITION_EQUIPMENT, pItem->GetType(), pItem->GetGrid());
 	if(pItem->ItemTypePtr()->GetQuility() > 0)
 		m_pOwner->GetAchievement()->CheckAchiCondition(CONDITION_EQUIPMENT_QUILITY, pItem->ItemTypePtr()->GetQuility(), pItem->GetGrid());
@@ -448,6 +475,11 @@ void CEquipment::OnItemUnEquiped(CItem* pItem, bool bBroked)
 {
 	__ENTER_FUNCTION
 	CHECK(pItem);
+	m_pOwner->GetAttrib().Remove(pItem->ItemTypePtr()->GetAttrib());
+	if(pItem->AdditionType())
+	{
+		m_pOwner->GetAttrib().Remove(pItem->AdditionType()->GetAttrib());
+	}
 	// 重新计算套装数量
 	if((pItem->GetDura() != 0 || pItem->ItemTypePtr()->GetDuraLimit() == 0) && pItem->IsSuit())
 	{
@@ -487,44 +519,4 @@ bool CEquipment::SetEquipment(uint32_t nGrid, CItem* pItem)
 void CEquipment::NotifyEquip(USHORT usAction, CItem* pItem, uint32_t nGrid)
 {
 	//通知周围的人, 装备变化
-}
-
-void CEquipment::OnRecalcAttrib(CActorAttribCalc& calc) const
-{
-	__ENTER_FUNCTION
-	for(auto it = m_setItem.begin(); it != m_setItem.end(); it++)
-	{
-		CItem* pItem = it->second;
-		if(pItem && pItem->IsExpire() == false)
-		{
-			const auto& refList = pItem->ItemTypePtr()->GetAttr();
-			for(const auto& v: refList)
-			{
-				calc += v;
-			}
-			//强化追加
-			if(pItem->GetAddition() > 0 && pItem->AdditionType())
-			{
-				const auto& refList_addition = pItem->AdditionType()->GetAttrib();
-				for(const auto& v: refList_addition)
-				{
-					calc += v;
-				}
-			}
-		}
-	}
-	//套装属性
-	for(const auto& [k, v]: m_setSuitNum)
-	{
-		auto pSuitType = SuitEquipSet()->QuerySuitEquip(k, v);
-		if(pSuitType)
-		{
-			const auto& refList = pSuitType->GetAttribChangeList();
-			for(const auto& v: refList)
-			{
-				calc += v;
-			}
-		}
-	}
-	__LEAVE_FUNCTION
 }

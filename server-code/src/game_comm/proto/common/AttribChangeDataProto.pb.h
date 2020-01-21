@@ -48,7 +48,7 @@ struct TableStruct_common_2fAttribChangeDataProto_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[2]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[3]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -61,9 +61,13 @@ extern AttribChangeDataProtoDefaultTypeInternal _AttribChangeDataProto_default_i
 class AttribDataProto;
 class AttribDataProtoDefaultTypeInternal;
 extern AttribDataProtoDefaultTypeInternal _AttribDataProto_default_instance_;
+class ItemExtraData;
+class ItemExtraDataDefaultTypeInternal;
+extern ItemExtraDataDefaultTypeInternal _ItemExtraData_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
 template<> ::AttribChangeDataProto* Arena::CreateMaybeMessage<::AttribChangeDataProto>(Arena*);
 template<> ::AttribDataProto* Arena::CreateMaybeMessage<::AttribDataProto>(Arena*);
+template<> ::ItemExtraData* Arena::CreateMaybeMessage<::ItemExtraData>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 
 // ===================================================================
@@ -465,6 +469,136 @@ class AttribChangeDataProto :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_common_2fAttribChangeDataProto_2eproto;
 };
+// -------------------------------------------------------------------
+
+class ItemExtraData :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ItemExtraData) */ {
+ public:
+  ItemExtraData();
+  virtual ~ItemExtraData();
+
+  ItemExtraData(const ItemExtraData& from);
+  ItemExtraData(ItemExtraData&& from) noexcept
+    : ItemExtraData() {
+    *this = ::std::move(from);
+  }
+
+  inline ItemExtraData& operator=(const ItemExtraData& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ItemExtraData& operator=(ItemExtraData&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const ItemExtraData& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const ItemExtraData* internal_default_instance() {
+    return reinterpret_cast<const ItemExtraData*>(
+               &_ItemExtraData_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  friend void swap(ItemExtraData& a, ItemExtraData& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(ItemExtraData* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ItemExtraData* New() const final {
+    return CreateMaybeMessage<ItemExtraData>(nullptr);
+  }
+
+  ItemExtraData* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<ItemExtraData>(arena);
+  }
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ItemExtraData* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ItemExtraData";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_common_2fAttribChangeDataProto_2eproto);
+    return ::descriptor_table_common_2fAttribChangeDataProto_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kDataFieldNumber = 1,
+  };
+  // repeated uint32 data = 1;
+  int data_size() const;
+  private:
+  int _internal_data_size() const;
+  public:
+  void clear_data();
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_data(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
+      _internal_data() const;
+  void _internal_add_data(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
+      _internal_mutable_data();
+  public:
+  ::PROTOBUF_NAMESPACE_ID::uint32 data(int index) const;
+  void set_data(int index, ::PROTOBUF_NAMESPACE_ID::uint32 value);
+  void add_data(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
+      data() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
+      mutable_data();
+
+  // @@protoc_insertion_point(class_scope:ItemExtraData)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 > data_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_common_2fAttribChangeDataProto_2eproto;
+};
 // ===================================================================
 
 
@@ -820,9 +954,62 @@ inline void AttribChangeDataProto::set_factor(::PROTOBUF_NAMESPACE_ID::int32 val
   // @@protoc_insertion_point(field_set:AttribChangeDataProto.factor)
 }
 
+// -------------------------------------------------------------------
+
+// ItemExtraData
+
+// repeated uint32 data = 1;
+inline int ItemExtraData::_internal_data_size() const {
+  return data_.size();
+}
+inline int ItemExtraData::data_size() const {
+  return _internal_data_size();
+}
+inline void ItemExtraData::clear_data() {
+  data_.Clear();
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 ItemExtraData::_internal_data(int index) const {
+  return data_.Get(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 ItemExtraData::data(int index) const {
+  // @@protoc_insertion_point(field_get:ItemExtraData.data)
+  return _internal_data(index);
+}
+inline void ItemExtraData::set_data(int index, ::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  data_.Set(index, value);
+  // @@protoc_insertion_point(field_set:ItemExtraData.data)
+}
+inline void ItemExtraData::_internal_add_data(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  data_.Add(value);
+}
+inline void ItemExtraData::add_data(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_add_data(value);
+  // @@protoc_insertion_point(field_add:ItemExtraData.data)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
+ItemExtraData::_internal_data() const {
+  return data_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
+ItemExtraData::data() const {
+  // @@protoc_insertion_point(field_list:ItemExtraData.data)
+  return _internal_data();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
+ItemExtraData::_internal_mutable_data() {
+  return &data_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
+ItemExtraData::mutable_data() {
+  // @@protoc_insertion_point(field_mutable_list:ItemExtraData.data)
+  return _internal_mutable_data();
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 

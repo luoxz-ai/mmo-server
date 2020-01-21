@@ -38,13 +38,13 @@
 #define LUA_CHECK_HAVE_THIS_PARAM(L, index)                          \
 	if(lua_isnone(L, index))                                         \
 	{                                                                \
-		lua_pushfstring(L, "need argument {} to call cfunc", index); \
+		lua_pushfstring(L, "need argument %d to call cfunc", index); \
 		lua_error(L);                                                \
 	}
 #define LUA_CHECK_HAVE_THIS_PARAM_AND_NOT_NIL(L, index)              \
 	if(lua_isnoneornil(L, index))                                    \
 	{                                                                \
-		lua_pushfstring(L, "need argument {} to call cfunc", index); \
+		lua_pushfstring(L, "need argument %d to call cfunc", index); \
 		lua_error(L);                                                \
 	}
 #else
@@ -56,7 +56,7 @@
 	{                                                                                                   \
 		if(lua_isnoneornil(L, 1))                                                                       \
 		{                                                                                               \
-			lua_pushfstring(L, "class_ptr {} is nil or none", lua_tinker::detail::get_class_name<T>()); \
+			lua_pushfstring(L, "class_ptr %s is nil or none", lua_tinker::detail::get_class_name<T>()); \
 			lua_error(L);                                                                               \
 		}                                                                                               \
 	}
@@ -476,7 +476,6 @@ namespace detail
 		{
 			stack_delay_pop _dealy(L, nresult);
 			return read_nocheck<T>(L, -1);
-			;
 		}
 	};
 
@@ -600,7 +599,7 @@ namespace detail
 	{
 		if(!lua_isuserdata(L, index))
 		{
-			lua_pushfstring(L, "can't convert argument {} to class {}", index, get_class_name<_T>());
+			lua_pushfstring(L, "can't convert argument %d to class %s", index, get_class_name<_T>());
 			lua_error(L);
 		}
 
@@ -616,7 +615,7 @@ namespace detail
 			// maybe derived to base
 			if(IsInherit(L, pWapper->m_type_idx, get_type_idx<base_type<_T>>()) == false)
 			{
-				lua_pushfstring(L, "can't convert argument {} to class {}", index, get_class_name<_T>());
+				lua_pushfstring(L, "can't convert argument %d to class %s", index, get_class_name<_T>());
 				lua_error(L);
 			}
 		}
@@ -625,7 +624,7 @@ namespace detail
 		if((std::is_reference<_T>::value || std::is_pointer<_T>::value) && pWapper->is_const() == true &&
 		   std::is_const<typename std::remove_reference<typename std::remove_pointer<_T>::type>::type>::value == false)
 		{
-			lua_pushfstring(L, "can't convert argument {} from const class {}", index, get_class_name<_T>());
+			lua_pushfstring(L, "can't convert argument %d from const class %s", index, get_class_name<_T>());
 			lua_error(L);
 		}
 #endif
@@ -791,7 +790,7 @@ namespace detail
 		stack_obj table_obj(L, index);
 		if(table_obj.is_table() == false)
 		{
-			lua_pushfstring(L, "convert k-v container from argument {} must be a table", index);
+			lua_pushfstring(L, "convert k-v container from argument %d must be a table", index);
 			lua_error(L);
 		}
 
@@ -889,6 +888,77 @@ namespace detail
 		}
 	};
 
+	template<typename... Args>
+	struct _stack_help<std::tuple<Args...>>
+	{
+		using TupleType = std::tuple<Args...>;
+		static constexpr int cover_to_lua_type() { return CLT_TABLE; }
+
+		template<typename T, std::size_t I>
+		static T _read_tuple_element_fromtable_helper(lua_State* L, int table_stack_pos)
+		{
+			T t;
+			push(L, I);
+			lua_gettable(L, table_stack_pos);
+			t = read<T>(L, -1);
+
+			return t;
+		}
+
+		template<typename Tuple, std::size_t... index>
+		static Tuple _read_tuple_fromtable(lua_State* L, int table_stack_pos, std::index_sequence<index...>)
+		{
+			return std::make_tuple(_read_tuple_element_fromtable_helper<typename std::tuple_element<index, Tuple>::type, index + 1>(L, table_stack_pos)...);
+		}
+
+		template<typename Tuple>
+		static Tuple _read_tuple_fromtable(lua_State* L, int index)
+		{
+			stack_obj table_obj(L, index);
+			if(table_obj.is_table() == false)
+			{
+				lua_pushfstring(L, "convert set from argument %d must be a table", index);
+				lua_error(L);
+			}
+
+			return _read_tuple_fromtable<Tuple>(L, table_obj._stack_pos, std::make_index_sequence<std::tuple_size<Tuple>::value>{});
+		}
+
+		static TupleType _read(lua_State* L, int index)
+		{
+			if(lua_istable(L, index))
+				return _read_tuple_fromtable<TupleType>(L, index);
+			else
+			{
+				return _lua2type<TupleType>(L, index);
+			}
+		}
+
+		template<typename Tuple>
+		static void _push_tuple_totable_helper(lua_State* L, int table_stack_pos, Tuple&& tuple, std::index_sequence<>)
+		{
+		}
+
+		template<typename Tuple, std::size_t first, std::size_t... is>
+		static void _push_tuple_totable_helper(lua_State* L, int table_stack_pos, Tuple&& tuple, std::index_sequence<first, is...>)
+		{
+			push(L, first + 1); // lua table index from 1~x
+			push(L, std::get<first>(std::forward<Tuple>(tuple)));
+			lua_settable(L, table_stack_pos);
+			_push_tuple_totable_helper(L, table_stack_pos, std::forward<Tuple>(tuple), std::index_sequence<is...>{});
+		}
+
+		static void _push(lua_State* L, TupleType&& tuple)
+		{
+			stack_obj			   table_obj  = stack_obj::new_table(L, std::tuple_size<TupleType>(), 0);
+			constexpr const size_t tuple_size = std::tuple_size<TupleType>::value;
+			_push_tuple_totable_helper(L, table_obj._stack_pos, std::forward<TupleType>(tuple), std::make_index_sequence<tuple_size>());
+		}
+
+		static void _push(lua_State* L, const TupleType& val) { return _type2lua(L, val); }
+
+		static void _push(lua_State* L, TupleType& val) { return _type2lua(L, val); }
+	};
 	template<typename RVal, typename... Args>
 	struct _stack_help<std::function<RVal(Args...)>>
 	{
@@ -899,7 +969,7 @@ namespace detail
 		{
 			if(lua_isfunction(L, index) == false)
 			{
-				lua_pushfstring(L, "can't convert argument {} to function", index);
+				lua_pushfstring(L, "can't convert argument %d to function", index);
 				lua_error(L);
 			}
 
@@ -929,7 +999,7 @@ namespace detail
 		{
 			if(lua_isfunction(L, index) == false)
 			{
-				lua_pushfstring(L, "can't convert argument {} to function", index);
+				lua_pushfstring(L, "can't convert argument %d to function", index);
 				lua_error(L);
 			}
 
@@ -968,14 +1038,14 @@ namespace detail
 		{
 			if(!lua_isuserdata(L, index))
 			{
-				lua_pushfstring(L, "can't convert argument {} to class {}", index, get_class_name<T>());
+				lua_pushfstring(L, "can't convert argument %d to class %s", index, get_class_name<T>());
 				lua_error(L);
 			}
 
 			UserDataWapper* pWapper = user2type<UserDataWapper*>(L, index);
 			if(pWapper->isSharedPtr() == false)
 			{
-				lua_pushfstring(L, "can't convert argument {} to class {}", index, get_class_name<T>());
+				lua_pushfstring(L, "can't convert argument %d to class %s", index, get_class_name<T>());
 				lua_error(L);
 			}
 
@@ -985,7 +1055,7 @@ namespace detail
 				// maybe derived to base
 				if(IsInherit(L, pWapper->m_type_idx, get_type_idx<std::shared_ptr<T>>()) == false)
 				{
-					lua_pushfstring(L, "can't convert argument {} to class {}", index, get_class_name<T>());
+					lua_pushfstring(L, "can't convert argument %d to class %s", index, get_class_name<T>());
 					lua_error(L);
 				}
 			}
@@ -1180,7 +1250,7 @@ namespace detail
 #ifdef LUATINKER_USERDATA_CHECK_CONST
 			if(pWapper->is_const() == true && bConstMemberFunc == false)
 			{
-				lua_pushfstring(L, "const class_ptr {} can't invoke non-const member func.", get_class_name<T>());
+				lua_pushfstring(L, "const class_ptr %s can't invoke non-const member func.", get_class_name<T>());
 				lua_error(L);
 			}
 #endif
@@ -1602,7 +1672,7 @@ RVal dofile(lua_State* L, const char* filename)
 	}
 	else
 	{
-		print_error(L, "{}", lua_tostring(L, -1));
+		print_error(L, "%s", lua_tostring(L, -1));
 	}
 
 	lua_remove(L, errfunc);
@@ -1650,7 +1720,7 @@ RVal dobuffer(lua_State* L, const char* buff, size_t sz)
 	}
 	else
 	{
-		print_error(L, "{}", lua_tostring(L, -1));
+		print_error(L, "%s", lua_tostring(L, -1));
 	}
 
 	lua_remove(L, errfunc);
@@ -1695,7 +1765,8 @@ RVal call(lua_State* L, const char* name, Args&&... arg)
 	}
 	else
 	{
-		print_error(L, "lua_tinker::call() attempt to call global `{}' (not a function)", name);
+		lua_pop(L, 1); // pop getglobal
+		print_error(L, "lua_tinker::call() attempt to call global `%s' (not a function)", name);
 	}
 
 	lua_remove(L, errfunc);
@@ -2599,7 +2670,7 @@ namespace detail
 			key -= 1;
 			if(key > (int)pContainer->size())
 			{
-				lua_pushfstring(L, "set to vector : {} out of range", key);
+				lua_pushfstring(L, "set to vector : %d out of range", key);
 				lua_error(L);
 			}
 			else
@@ -2894,7 +2965,7 @@ struct args_type_overload_functor_base
 		if(itFind.first == refMap.end())
 		{
 			// signature mismatch
-			lua_pushfstring(L, "function overload can't find {} args resolution ", nParamsCount);
+			lua_pushfstring(L, "function overload can't find %d args resolution ", nParamsCount);
 			lua_error(L);
 			return -1;
 		}
@@ -2910,7 +2981,7 @@ struct args_type_overload_functor_base
 				const char* pName = detail::OVERLOAD_PARAMTYPE_NAME[c];
 				strSig.append(pName);
 			}
-			lua_pushfstring(L, "function({}) overload resolution more than one", strSig.c_str());
+			lua_pushfstring(L, "function(%s) overload resolution more than one", strSig.c_str());
 			lua_error(L);
 			return -1;
 		}

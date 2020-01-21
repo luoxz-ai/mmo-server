@@ -275,17 +275,7 @@ void CPlayer::RecalcAttrib(bool bClearCache /*= false*/)
 		// lev给予的基础属性
 		auto pData = UserAttrSet()->QueryObj(CUserAttrData::MakeID(GetProf(), GetLev()));
 		CHECK(pData);
-		m_ActorAttrib = pData->GetAbility();
-
-		CActorAttribCalc calc;
-		//计算装备给予的属性
-		m_pEquipmentSet->OnRecalcAttrib(calc);
-		//计算被动技能给予的属性
-		m_pUserSkillManager->OnRecalcAttrib(calc);
-		//计算其他系统给予的属性
-
-		//累加结束
-		m_ActorAttrib.Store(calc);
+		m_ActorAttrib.SetBase(pData->GetAbility());
 	}
 
 	CActor::RecalcAttrib(bClearCache);

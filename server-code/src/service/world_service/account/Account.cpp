@@ -133,7 +133,7 @@ bool CAccount::CreateActor(const std::string& name, uint32_t dwProf, uint32_t dw
 	{
 		return false;
 	}
-	const CActorAttrib& AbilityLevel = pLevData->GetAbility();
+	const AttribList_t& AbilityLevel = pLevData->GetAbility();
 
 	CBornPos* pBornPos = BornPosSet()->RandGet(dwProf);
 	CHECKF(pBornPos);

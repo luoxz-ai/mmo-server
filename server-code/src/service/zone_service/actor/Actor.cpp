@@ -278,8 +278,7 @@ void CActor::RecalcAttrib(bool bClearCache /*= false*/)
 	uint32_t nOldHPMax = GetHPMax();
 
 	// process status
-	m_pStatus->ProcessAttrib(m_ActorAttrib);
-	m_ActorAttrib.Apply();
+	m_ActorAttrib.Apply(!bClearCache);
 	//广播通知hp变化
 	if(GetHPMax() != nOldHPMax)
 	{

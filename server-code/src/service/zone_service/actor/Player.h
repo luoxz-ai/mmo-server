@@ -107,7 +107,7 @@ public:
 	{
 		m_pRecord->Update();
 		m_pRecord->Field(TBLD_PLAYER::TEAMID) = val;
-		m_pRecord->ClearModify();
+		m_pRecord->ClearDirty();
 	}
 	export_lua bool	 HasTeam() const { return GetTeamID() != 0; }
 	export_lua OBJID GetGuildID() const { return m_pRecord->Field(TBLD_PLAYER::GUILDID); }
@@ -115,7 +115,7 @@ public:
 	{
 		m_pRecord->Update();
 		m_pRecord->Field(TBLD_PLAYER::GUILDID) = val;
-		m_pRecord->ClearModify();
+		m_pRecord->ClearDirty();
 	}
 
 	export_lua uint32_t GetTeamMemberCount() const;

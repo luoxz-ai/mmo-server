@@ -33,7 +33,7 @@ CREATE TABLE `tbld_cooldown` (
   KEY `idx_player` (`playerid`),
   KEY `idx_player_idx` (`playerid`,`keytype`,`keyidx`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
+ 
 -- ----------------------------
 -- Records of tbld_cooldown
 -- ----------------------------
@@ -72,16 +72,7 @@ CREATE TABLE `tbld_global_mail` (
   `content` varchar(1024) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '邮件内容',
   `filter_type` bigint(20) NOT NULL DEFAULT '0' COMMENT '玩家过滤条件',
   `filter_data` bigint(20) NOT NULL DEFAULT '0' COMMENT '玩家过滤条件',
-  `attach_type0` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '附件类型',
-  `attach_data0` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '附件内容:数量',
-  `attach_type1` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '附件类型',
-  `attach_data1` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '附件内容:数量',
-  `attach_type2` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '附件类型',
-  `attach_data2` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '附件内容:数量',
-  `attach_type3` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '附件类型',
-  `attach_data3` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '附件内容:数量',
-  `attach_type4` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '附件类型',
-  `attach_data4` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '附件内容:数量',
+  `attach_data` blob(4096) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '附件数据json',
   PRIMARY KEY (`id`),
   KEY `idx_create_time` (`create_time`),
   KEY `idx_sendid` (`senderid`)
@@ -127,16 +118,7 @@ CREATE TABLE `tbld_item` (
   `dura` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '当前耐久',
   `dura_limit` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '耐久上限',
   `addition_lev` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '强化等级',
-  `extra0` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '额外信息1',
-  `extra1` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '额外信息2',
-  `extra2` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '额外信息3',
-  `extra3` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '额外信息4',
-  `extra4` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '额外信息5',
-  `extra5` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '额外信息6',
-  `extra6` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '额外信息7',
-  `extra7` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '额外信息8',
-  `extra8` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '额外信息9',
-  `extra9` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '额外信息10',
+  `extra` blob(4096) CHARACTER SET utf8 NOT NULL DEFAULT '' COMMENT '额外信息'
   PRIMARY KEY (`id`),
   KEY `idx_itemtype` (`itemtype`),
   KEY `idx_owner` (`owner_id`),

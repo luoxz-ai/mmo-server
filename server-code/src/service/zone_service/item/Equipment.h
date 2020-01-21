@@ -42,7 +42,7 @@ public:
 
 	export_lua virtual int GetSuitTypeAmount() { return (int)m_setSuitNum.size(); }
 
-	void OnRecalcAttrib(CActorAttribCalc& calc) const;
+	
 	void CheckItemExpire(uint32_t dwTimeNow);
 
 protected:

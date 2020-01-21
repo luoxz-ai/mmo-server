@@ -261,124 +261,40 @@ bool CActorStatus::TestStatusByFlag(uint32_t nFlag) const
 	return false;
 }
 
+
 void CActorStatus::OnMove()
 {
 	__ENTER_FUNCTION
-	for(auto it = m_setStatus.begin(); it != m_setStatus.end();)
-	{
-		CStatus* pStatus = it->second;
-		if(HasFlag(pStatus->GetFlag(), STATUSFLAG_DEATCH_MOVE) == true || it->second->OnMove())
-		{
-			pStatus->OnDeatch();
-			SAFE_DELETE(pStatus);
-			it = m_setStatus.erase(it);
-		}
-		else
-		{
-			it++;
-		}
-	}
+	OnEvent(&CStatus::OnMove, STATUSFLAG_DEATCH_MOVE);
 	__LEAVE_FUNCTION
 }
 
-void CActorStatus::OnSkill(uint32_t idSkill)
-{
-	__ENTER_FUNCTION
-	for(auto it = m_setStatus.begin(); it != m_setStatus.end();)
-	{
-		CStatus* pStatus = it->second;
-		if(HasFlag(pStatus->GetFlag(), STATUSFLAG_DEATCH_SKILL) == true || it->second->OnSkill(idSkill))
-		{
-			pStatus->OnDeatch();
-			SAFE_DELETE(pStatus);
-			it = m_setStatus.erase(it);
-		}
-		else
-		{
-			it++;
-		}
-	}
-	__LEAVE_FUNCTION
-}
 
 void CActorStatus::OnAttack(CActor* pTarget, uint32_t idSkill, int32_t nDamage)
 {
 	__ENTER_FUNCTION
-	for(auto it = m_setStatus.begin(); it != m_setStatus.end();)
-	{
-		CStatus* pStatus = it->second;
-		if(it->second->OnAttack(pTarget, idSkill, nDamage))
-		{
-			pStatus->OnDeatch();
-			SAFE_DELETE(pStatus);
-			it = m_setStatus.erase(it);
-		}
-		else
-		{
-			it++;
-		}
-	}
+	OnEvent(&CStatus::OnAttack, STATUSFLAG_DEATCH_ATTACK, pTarget, idSkill, nDamage);
 	__LEAVE_FUNCTION
 }
 
 void CActorStatus::OnDead(CActor* pKiller)
 {
 	__ENTER_FUNCTION
-	for(auto it = m_setStatus.begin(); it != m_setStatus.end();)
-	{
-		CStatus* pStatus = it->second;
-		if(HasFlag(pStatus->GetFlag(), STATUSFLAG_UNDEATCH_DEAD) == false || it->second->OnDead(pKiller))
-		{
-			pStatus->OnDeatch();
-			SAFE_DELETE(pStatus);
-			it = m_setStatus.erase(it);
-		}
-		else
-		{
-			it++;
-		}
-	}
+	OnEvent(&CStatus::OnAttack, STATUSFLAG_UNDEATCH_DEAD, pKiller);
 	__LEAVE_FUNCTION
 }
 
 void CActorStatus::OnBeAttack(CActor* pAttacker, int32_t nDamage)
 {
 	__ENTER_FUNCTION
-	for(auto it = m_setStatus.begin(); it != m_setStatus.end();)
-	{
-		CStatus* pStatus = it->second;
-		if(HasFlag(pStatus->GetFlag(), STATUSFLAG_DEATCH_BEATTACK) == true || it->second->OnBeAttack(pAttacker, nDamage))
-		{
-			pStatus->OnDeatch();
-			SAFE_DELETE(pStatus);
-			it = m_setStatus.erase(it);
-		}
-		else
-		{
-			it++;
-		}
-	}
+	OnEvent(&CStatus::OnBeAttack, STATUSFLAG_DEATCH_BEATTACK, pAttacker, nDamage);
 	__LEAVE_FUNCTION
 }
 
 void CActorStatus::OnLeaveMap()
 {
 	__ENTER_FUNCTION
-	for(auto it = m_setStatus.begin(); it != m_setStatus.end();)
-	{
-		CStatus* pStatus = it->second;
-		if(HasFlag(pStatus->GetFlag(), STATUSFLAG_DEATCH_LEAVEMAP) == true || it->second->OnLeaveMap())
-		{
-			pStatus->OnDeatch();
-			SAFE_DELETE(pStatus);
-			it = m_setStatus.erase(it);
-		}
-		else
-		{
-			it++;
-		}
-	}
-
+	OnEvent(&CStatus::OnLeaveMap, STATUSFLAG_DEATCH_LEAVEMAP);
 	__LEAVE_FUNCTION
 }
 

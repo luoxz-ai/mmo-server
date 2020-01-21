@@ -1,54 +1,46 @@
 #ifndef ACTORATTRIB_H
 #define ACTORATTRIB_H
 
+#include <array>
 #include <unordered_map>
+#include <vector>
 
 #include "AttribChangeDataProto.pb.h"
 #include "BaseCode.h"
 #include "Common.pb.h"
 #include "game_common_def.h"
 
+constexpr uint32_t MAX_ATTR_LAYER = 50;
+
 // val = (val + nValModify) * (nValPercent+10000) / 10000
 //将属性变化储存在一个uint64中， 前32位代表数值的增删, 后32位代表数值的变化系数(万分比)
 struct CActorAttribChangeVal
 {
 public:
-	CActorAttribChangeVal(int32_t nValModify, int32_t nValFactor)
-		: m_Data{nValModify, nValFactor}
-	{
-	}
-
-	union {
-		struct
-		{
-			int32_t nValModify;
-			int32_t nValFactor;
-		} m_Data;
-		uint64_t m_nData32 = 0;
-	};
-};
-
-//计算过程中的临时变量
-struct CActorAttribChangeValTmp
-{
-public:
-	CActorAttribChangeValTmp& operator+=(const CActorAttribChangeVal& rht)
-	{
-		nValModify += rht.m_Data.nValModify;
-		nValFactor += rht.m_Data.nValFactor;
-		return *this;
-	}
-	CActorAttribChangeValTmp& operator+=(const CActorAttribChangeValTmp& rht)
+	CActorAttribChangeVal& operator+=(const CActorAttribChangeVal& rht)
 	{
 		nValModify += rht.nValModify;
 		nValFactor += rht.nValFactor;
 		return *this;
 	}
-
-	CActorAttribChangeValTmp operator+(const CActorAttribChangeVal& rht) const
+	CActorAttribChangeVal& operator-=(const CActorAttribChangeVal& rht)
 	{
-		return CActorAttribChangeValTmp{nValModify + rht.m_Data.nValModify, nValFactor + rht.m_Data.nValFactor};
+		nValModify -= rht.nValModify;
+		nValFactor -= rht.nValFactor;
+		return *this;
 	}
+	
+	CActorAttribChangeVal operator+(const CActorAttribChangeVal& rht) const
+	{
+		return CActorAttribChangeVal{nValModify + rht.nValModify, nValFactor + rht.nValFactor};
+	}
+
+	bool empty() const
+	{
+		return nValModify == 0 && nValFactor == 0;
+	}
+
+
 	int32_t nValModify = 0;
 	int32_t nValFactor = 0;
 };
@@ -56,64 +48,26 @@ public:
 struct CActorAttribChange
 {
 public:
-	CActorAttribChange(uint32_t nAttribIdx = 0, uint32_t nOpLev = 0, int16_t nValModify = 0, int16_t nValFactor = 0)
+	CActorAttribChange(uint32_t nAttribIdx = 0, uint32_t nOpLev = 0, int32_t nValModify = 0, int32_t nValFactor = 0)
 		: m_nAttribIdx(nAttribIdx)
-		, m_nOpLev(nOpLev)
+		, m_nLayer(nOpLev)
 		, m_AttribChangeVal{nValModify, nValFactor}
 	{
 	}
 	CActorAttribChange(const AttribChangeDataProto& v)
 		: m_nAttribIdx(v.attrib())
-		, m_nOpLev(v.oplev())
+		, m_nLayer(v.oplev())
 		, m_AttribChangeVal{v.val(), v.factor()}
 	{
 	}
 
 	uint32_t			  m_nAttribIdx = 0;
-	uint32_t			  m_nOpLev	   = 0;
+	uint32_t			  m_nLayer	   = 0;
 	CActorAttribChangeVal m_AttribChangeVal;
 };
-
-// RoleAttr计算过程中的数据缓存
-class CActorAttribCalc
-{
-public:
-	typedef std::unordered_map<size_t, CActorAttribChangeValTmp> CHANGE_VAL_MAP;
-	CActorAttribCalc() {}
-	~CActorAttribCalc() {}
-
-	CActorAttribCalc& operator+=(const CActorAttribChange& modify)
-	{
-		auto& data = m_setData[modify.m_nOpLev][modify.m_nAttribIdx];
-		data += modify.m_AttribChangeVal;
-		return *this;
-	}
-
-	void Merge(const CActorAttribCalc& rht)
-	{
-		for(auto it_map = rht.m_setData.begin(); it_map != rht.m_setData.end(); it_map++)
-		{
-			const auto& ref_list = it_map->second;
-			uint32_t	oplev	 = it_map->first;
-			for(auto it = ref_list.begin(); it != ref_list.end(); it++)
-			{
-				size_t							nAttribIdx = it->first;
-				const CActorAttribChangeValTmp& refData	   = it->second;
-				m_setData[oplev][nAttribIdx] += refData;
-			}
-		}
-	}
-
-	void Clear() { m_setData.clear(); }
-
-	CHANGE_VAL_MAP&							  _GetDataSet(uint32_t oplev) { return m_setData[oplev]; }
-	std::map<uint32_t, CHANGE_VAL_MAP>&		  _GetDataSet() { return m_setData; }
-	const std::map<uint32_t, CHANGE_VAL_MAP>& _GetDataSet() const { return m_setData; }
-
-private:
-	std::map<uint32_t, CHANGE_VAL_MAP> m_setData;
-};
-
+using AttribList_t = std::array<uint32_t, ATTRIB_MAX>;
+using ValModifyLayer_t = std::unordered_map<uint32_t, CActorAttribChangeVal>;
+using ActorAttribChangeList_t = std::vector<CActorAttribChange>;
 //最终数据
 class CActorAttrib
 {
@@ -124,21 +78,7 @@ public:
 		memset(&m_setAttribBase, 0, sizeof(m_setAttribBase));
 		memset(&m_setAttrib, 0, sizeof(m_setAttrib));
 	}
-	CActorAttrib(const CActorAttrib& rht)
-		: m_setAttribBase(rht.m_setAttribBase)
-		, m_Calc(rht.m_Calc)
-	{
-		memset(&m_setAttrib, 0, sizeof(m_setAttrib));
-	}
-
-	CActorAttrib& operator=(const CActorAttrib& rht)
-	{
-		m_setAttribBase = rht.m_setAttribBase;
-		m_Calc			= rht.m_Calc;
-
-		return *this;
-	}
-
+	
 	uint32_t  operator[](size_t nIdx) const { return get(nIdx); }
 	uint32_t& operator[](size_t nIdx) { return get(nIdx); }
 
@@ -163,30 +103,87 @@ public:
 		return m_setAttribBase[nIdx];
 	}
 
-	void Store(const CActorAttribCalc& valModify_All) { m_Calc.Merge(valModify_All); }
-	void StoreTmp(const CActorAttribCalc& valModify_All) { m_CalcTmp.Merge(valModify_All); }
-
-	void Apply()
+	void SetBase(const AttribList_t& base)
 	{
-		m_CalcTmp.Merge(m_Calc);
-		m_setAttrib = m_setAttribBase;
-		for(const auto& [oplev, ref_list]: m_CalcTmp._GetDataSet())
+		m_setAttribBase = base;
+	}
+
+	void Store(const CActorAttribChange& valModify) 
+	{ 
+		CActorAttribChangeVal& change = m_mapValModify[valModify.m_nLayer][valModify.m_nAttribIdx]; 
+		change += valModify.m_AttribChangeVal;
+		m_nDirtyLayer = std::min<uint32_t>(m_nDirtyLayer, valModify.m_nLayer);
+	}
+
+	void Store(const ActorAttribChangeList_t& list) 
+	{
+		for(const auto& v : list)
 		{
-			for(const auto& [nAttribIdx, change]: ref_list)
+			Store(v);
+		}
+	}
+
+	void Remove(const CActorAttribChange& valModify)
+	{
+		CActorAttribChangeVal& change = m_mapValModify[valModify.m_nLayer][valModify.m_nAttribIdx]; 
+		change -= valModify.m_AttribChangeVal;
+		m_nDirtyLayer = std::min<uint32_t>(m_nDirtyLayer, valModify.m_nLayer);
+		if(change.empty())
+		{
+			m_mapValModify[valModify.m_nLayer].erase(valModify.m_nAttribIdx);
+			if(m_mapValModify[valModify.m_nLayer].empty())
 			{
-				auto& val = m_setAttrib[nAttribIdx];
-				if(change.nValModify == 0)
-				{
-					val = (val + change.nValModify);
-				}
-				else
-				{
-					val = MulDiv(val + change.nValModify, change.nValFactor + 10000, 10000);
-				}
+				m_mapValModify.erase(valModify.m_nLayer);
 			}
 		}
-		m_CalcTmp.Clear();
 	}
+
+	void Remove(const ActorAttribChangeList_t& list) 
+	{
+		for(const auto& v : list)
+		{
+			Remove(v);
+		}
+	}
+	
+
+	void Apply(bool bRecalcAll)
+	{
+		if(bRecalcAll)
+		{
+			m_setAttrib = m_setAttribBase;
+			for(const auto&[nLayer, stValModifyLayer] : m_mapValModify)
+			{
+				_CalcValLayer(nLayer, stValModifyLayer);
+			}
+			m_nDirtyLayer = MAX_ATTR_LAYER;
+		}
+		else if(m_nDirtyLayer != MAX_ATTR_LAYER)
+		{
+			uint32_t nCachedLayer = GetLowerBoundCacheLayer(m_nDirtyLayer);
+			if(nCachedLayer == (uint32_t)-1)
+			{
+				Apply(true);
+				return;
+			}
+			else
+			{
+				m_setAttrib = m_setCache[nCachedLayer];
+				
+				auto it_begin = m_mapValModify.find(nCachedLayer);
+				for(auto it = it_begin; it != m_mapValModify.end(); it++)
+				{
+					const auto& nLayer = it->first;
+					const auto& stValModifyLayer = it->second;
+					_CalcValLayer(nLayer, stValModifyLayer);
+				}
+
+				m_nDirtyLayer = MAX_ATTR_LAYER;
+			}
+		}
+		
+	}
+
 
 	template<class T>
 	void load_from(const T& row)
@@ -205,11 +202,70 @@ public:
 		get_base(ATTRIB_HIT)	  = row.hit();
 		get_base(ATTRIB_DODGE)	  = row.dodge();
 	}
+	
+	template<class T>
+	static void load_from(AttribList_t& list, const T& row)
+	{
+		list[ATTRIB_HP_MAX]	  = row.hp_max();
+		list[ATTRIB_MP_MAX]	  = row.mp_max();
+		list[ATTRIB_MOVESPD]  = row.movespd();
+		list[ATTRIB_MIN_ATK]  = row.min_atk();
+		list[ATTRIB_MAX_ATK]  = row.max_atk();
+		list[ATTRIB_MIN_DEF]  = row.min_def();
+		list[ATTRIB_MAX_DEF]  = row.max_def();
+		list[ATTRIB_MIN_MATK] = row.min_matk();
+		list[ATTRIB_MAX_MATK] = row.max_matk();
+		list[ATTRIB_MIN_MDEF] = row.min_mdef();
+		list[ATTRIB_MAX_MDEF] = row.max_mdef();
+		list[ATTRIB_HIT]	  = row.hit();
+		list[ATTRIB_DODGE]	  = row.dodge();
+	}
+private:
+
+	void _CalcValLayer(uint32_t nLayer, const ValModifyLayer_t& stValModifyLayer)
+	{
+		for(const auto&[nAttribIdx,stValChange] : stValModifyLayer)
+		{
+			//final =(final+val)*percent
+			if(stValChange.nValFactor == 0)
+			{
+				m_setAttrib[nAttribIdx] =m_setAttrib[nAttribIdx] + stValChange.nValModify;
+			}
+			else
+			{
+				m_setAttrib[nAttribIdx] = MulDiv(m_setAttrib[nAttribIdx] + stValChange.nValModify, 100+stValChange.nValFactor, 100);
+			}
+		}
+
+		if(NeedCacheLayer(nLayer))
+		{
+			m_setCache[nLayer] = m_setAttrib;
+		}
+	}
+
+	static uint32_t GetLowerBoundCacheLayer(uint32_t nLayer)
+	{
+		auto it = std::lower_bound(NEED_CACHE_LAYER.begin(), NEED_CACHE_LAYER.end(), nLayer);
+		if(it != NEED_CACHE_LAYER.end())
+		{
+			return *it;
+		}
+		return -1;
+	}
+	static bool NeedCacheLayer(uint32_t nLayer)
+	{
+		return std::binary_search(NEED_CACHE_LAYER.begin(), NEED_CACHE_LAYER.end(), nLayer);
+	}
+	static constexpr std::array<uint32_t,4> NEED_CACHE_LAYER = {1,5,8,10};
+
 
 private:
-	std::array<uint32_t, ATTRIB_MAX> m_setAttribBase;
-	std::array<uint32_t, ATTRIB_MAX> m_setAttrib;
-	CActorAttribCalc				 m_Calc;
-	CActorAttribCalc				 m_CalcTmp;
+	
+	AttribList_t m_setAttribBase;
+	AttribList_t m_setAttrib;
+	
+	std::unordered_map<uint32_t, ValModifyLayer_t > m_mapValModify;
+	std::unordered_map<uint32_t, AttribList_t > m_setCache;
+	uint32_t m_nDirtyLayer = MAX_ATTR_LAYER;
 };
 #endif /* ACTORATTRIB_H */

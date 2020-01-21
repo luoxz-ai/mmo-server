@@ -77,6 +77,12 @@ bool CUserSkillManager::Init(CPlayer* pOwner)
 			if(pData)
 			{
 				m_setSkillData[pData->GetSkillSort()] = pData;
+				CSkillType* pSkillType = SkillTypeSet()->QueryObj(CSkillType::MakeID(idSkillSort, 1));
+				if(pSkillType && pSkillType->GetSkillType() == SKILLTYPE_PASSIVE)
+				{
+					const auto& refList = pSkillType->GetAttrib();
+					m_pOwner->GetAttrib()->Store(refList);
+				}
 			}
 			else
 			{
@@ -107,7 +113,15 @@ bool CUserSkillManager::LearnSkill(uint32_t idSkillSort)
 	if(pData)
 	{
 		m_setSkillData[pData->GetSkillSort()] = pData;
+		if(pSkillType && pSkillType->GetSkillType() == SKILLTYPE_PASSIVE)
+		{
+			const auto& refList = pSkillType->GetAttrib();
+			m_pOwner->GetAttrib()->Store(refList);
+		}
+	
 		m_pOwner->GetAchievement()->CheckAchiCondition(CONDITION_SKILL_LEARN, idSkillSort, 1);
+
+		//lua call onSkillLearn
 
 		//通知前端
 		return true;
@@ -147,7 +161,26 @@ bool CUserSkillManager::UpgradeSkill(uint32_t idSkillSort)
 
 	//检查各种学习需求
 
+
+	//属性
+	if(pSkillType->GetSkillType() == SKILLTYPE_PASSIVE)
+	{
+		CSkillType* pOldSkillType = SkillTypeSet()->QueryObj(CSkillType::MakeID(idSkillSort, pSkillData->GetSkillLev()));
+		if(pOldSkillType)
+		{
+			const auto& refList = pOldSkillType->GetAttrib();
+			m_pOwner->GetAttrib()->Remove(refList);
+		}
+	}
+
 	pSkillData->SetSkillLev(pSkillData->GetSkillLev() + 1, UPDATE_TRUE);
+
+	if(pSkillType && SkillType->GetSkillType() == SKILLTYPE_PASSIVE)
+	{
+		const auto& refList = pSkillType->GetAttrib();
+		m_pOwner->GetAttrib()->Store(refList);
+	}
+	
 	m_pOwner->GetAchievement()->CheckAchiCondition(CONDITION_SKILL_LEARN, idSkillSort, pSkillData->GetSkillLev());
 	return true;
 	__LEAVE_FUNCTION
@@ -165,22 +198,3 @@ CUserSkillData* CUserSkillManager::_QuerySkill(uint32_t idSkillSort) const
 	return nullptr;
 }
 
-void CUserSkillManager::OnRecalcAttrib(CActorAttribCalc& calc) const
-{
-	for(const auto& [idSkillSort, pData]: m_setSkillData)
-	{
-		if(pData)
-		{
-			uint32_t	nSkillLev  = pData->GetSkillLev();
-			CSkillType* pSkillType = SkillTypeSet()->QueryObj(CSkillType::MakeID(idSkillSort, nSkillLev));
-			if(pSkillType && pSkillType->GetSkillType() == SKILLTYPE_PASSIVE)
-			{
-				const auto& refList = pSkillType->GetAttrib();
-				for(const auto& v: refList)
-				{
-					calc += v;
-				}
-			}
-		}
-	}
-}

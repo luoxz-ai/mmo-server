@@ -6,6 +6,7 @@
 #include <google/protobuf/io/zero_copy_stream_impl.h>
 #include <google/protobuf/stubs/common.h>
 #include <google/protobuf/text_format.h>
+#include <google/protobuf/util/json_util.h>
 
 #include "loging_manager.h"
 #include "rapidjson/document.h"
@@ -72,6 +73,23 @@ bool LoadFromBinaryFile(const std::string& filename, google::protobuf::Message& 
 	}
 	return rv;
 }
+
+bool LoadFromJsonTxt(const std::string& jsonTxt, google::protobuf::Message& pbm)
+{
+	using namespace google::protobuf::util;
+	JsonParseOptions options;
+	options.ignore_unknown_fields = true;
+	return JsonStringToMessage(jsonTxt, &pbm, options).ok();
+	
+}
+
+bool SaveToJsonTxt(const google::protobuf::Message& pbm, std::string& jsonTxt)
+{
+	using namespace google::protobuf::util;
+	JsonPrintOptions options;
+	return MessageToJsonString(pbm, &jsonTxt, options).ok();
+}
+
 
 bool FindFieldInMessage(const std::string& field_name, google::protobuf::Message*& pThisRow, const google::protobuf::FieldDescriptor*& pFieldDesc)
 {

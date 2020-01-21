@@ -22,6 +22,10 @@ class AttribChangeDataProtoDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<AttribChangeDataProto> _instance;
 } _AttribChangeDataProto_default_instance_;
+class ItemExtraDataDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ItemExtraData> _instance;
+} _ItemExtraData_default_instance_;
 static void InitDefaultsscc_info_AttribChangeDataProto_common_2fAttribChangeDataProto_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -50,7 +54,21 @@ static void InitDefaultsscc_info_AttribDataProto_common_2fAttribChangeDataProto_
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_AttribDataProto_common_2fAttribChangeDataProto_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_AttribDataProto_common_2fAttribChangeDataProto_2eproto}, {}};
 
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_common_2fAttribChangeDataProto_2eproto[2];
+static void InitDefaultsscc_info_ItemExtraData_common_2fAttribChangeDataProto_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::_ItemExtraData_default_instance_;
+    new (ptr) ::ItemExtraData();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ItemExtraData::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ItemExtraData_common_2fAttribChangeDataProto_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_ItemExtraData_common_2fAttribChangeDataProto_2eproto}, {}};
+
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_common_2fAttribChangeDataProto_2eproto[3];
 static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_common_2fAttribChangeDataProto_2eproto = nullptr;
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_common_2fAttribChangeDataProto_2eproto = nullptr;
 
@@ -82,15 +100,23 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_common_2fAttribChangeDataProto
   PROTOBUF_FIELD_OFFSET(::AttribChangeDataProto, oplev_),
   PROTOBUF_FIELD_OFFSET(::AttribChangeDataProto, val_),
   PROTOBUF_FIELD_OFFSET(::AttribChangeDataProto, factor_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ItemExtraData, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::ItemExtraData, data_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::AttribDataProto)},
   { 18, -1, sizeof(::AttribChangeDataProto)},
+  { 27, -1, sizeof(::ItemExtraData)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_AttribDataProto_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_AttribChangeDataProto_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_ItemExtraData_default_instance_),
 };
 
 const char descriptor_table_protodef_common_2fAttribChangeDataProto_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -103,23 +129,24 @@ const char descriptor_table_protodef_common_2fAttribChangeDataProto_2eproto[] PR
   "ef\030\017 \001(\005\022\020\n\010max_mdef\030\020 \001(\005\022\013\n\003hit\030\021 \001(\005\022"
   "\r\n\005dodge\030\022 \001(\005\"b\n\025AttribChangeDataProto\022"
   "\035\n\006attrib\030\001 \001(\0162\r.ACTOR_ATTRIB\022\r\n\005oplev\030"
-  "\002 \001(\r\022\013\n\003val\030\003 \001(\005\022\016\n\006factor\030\004 \001(\005B\002H\002b\006"
-  "proto3"
+  "\002 \001(\r\022\013\n\003val\030\003 \001(\005\022\016\n\006factor\030\004 \001(\005\"\035\n\rIt"
+  "emExtraData\022\014\n\004data\030\001 \003(\rB\002H\002b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_common_2fAttribChangeDataProto_2eproto_deps[1] = {
   &::descriptor_table_common_2fCommon_2eproto,
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_common_2fAttribChangeDataProto_2eproto_sccs[2] = {
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_common_2fAttribChangeDataProto_2eproto_sccs[3] = {
   &scc_info_AttribChangeDataProto_common_2fAttribChangeDataProto_2eproto.base,
   &scc_info_AttribDataProto_common_2fAttribChangeDataProto_2eproto.base,
+  &scc_info_ItemExtraData_common_2fAttribChangeDataProto_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_common_2fAttribChangeDataProto_2eproto_once;
 static bool descriptor_table_common_2fAttribChangeDataProto_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_common_2fAttribChangeDataProto_2eproto = {
-  &descriptor_table_common_2fAttribChangeDataProto_2eproto_initialized, descriptor_table_protodef_common_2fAttribChangeDataProto_2eproto, "common/AttribChangeDataProto.proto", 406,
-  &descriptor_table_common_2fAttribChangeDataProto_2eproto_once, descriptor_table_common_2fAttribChangeDataProto_2eproto_sccs, descriptor_table_common_2fAttribChangeDataProto_2eproto_deps, 2, 1,
+  &descriptor_table_common_2fAttribChangeDataProto_2eproto_initialized, descriptor_table_protodef_common_2fAttribChangeDataProto_2eproto, "common/AttribChangeDataProto.proto", 437,
+  &descriptor_table_common_2fAttribChangeDataProto_2eproto_once, descriptor_table_common_2fAttribChangeDataProto_2eproto_sccs, descriptor_table_common_2fAttribChangeDataProto_2eproto_deps, 3, 1,
   schemas, file_default_instances, TableStruct_common_2fAttribChangeDataProto_2eproto::offsets,
-  file_level_metadata_common_2fAttribChangeDataProto_2eproto, 2, file_level_enum_descriptors_common_2fAttribChangeDataProto_2eproto, file_level_service_descriptors_common_2fAttribChangeDataProto_2eproto,
+  file_level_metadata_common_2fAttribChangeDataProto_2eproto, 3, file_level_enum_descriptors_common_2fAttribChangeDataProto_2eproto, file_level_service_descriptors_common_2fAttribChangeDataProto_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
@@ -235,6 +262,56 @@ void AttribChangeDataProto::InternalSwap(AttribChangeDataProto* other) {
 }
 
 
+// ===================================================================
+
+void ItemExtraData::InitAsDefaultInstance() {
+}
+class ItemExtraData::_Internal {
+ public:
+};
+
+ItemExtraData::ItemExtraData()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:ItemExtraData)
+}
+ItemExtraData::ItemExtraData(const ItemExtraData& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr),
+      data_(from.data_) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:ItemExtraData)
+}
+
+void ItemExtraData::SharedCtor() {
+}
+
+ItemExtraData::~ItemExtraData() {
+  // @@protoc_insertion_point(destructor:ItemExtraData)
+  SharedDtor();
+}
+
+void ItemExtraData::SharedDtor() {
+}
+
+void ItemExtraData::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ItemExtraData& ItemExtraData::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_ItemExtraData_common_2fAttribChangeDataProto_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void ItemExtraData::InternalSwap(ItemExtraData* other) {
+  using std::swap;
+  GetReflection()->Swap(this, other);}
+
+::PROTOBUF_NAMESPACE_ID::Metadata ItemExtraData::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
 // @@protoc_insertion_point(namespace_scope)
 PROTOBUF_NAMESPACE_OPEN
 template<> PROTOBUF_NOINLINE ::AttribDataProto* Arena::CreateMaybeMessage< ::AttribDataProto >(Arena* arena) {
@@ -242,6 +319,9 @@ template<> PROTOBUF_NOINLINE ::AttribDataProto* Arena::CreateMaybeMessage< ::Att
 }
 template<> PROTOBUF_NOINLINE ::AttribChangeDataProto* Arena::CreateMaybeMessage< ::AttribChangeDataProto >(Arena* arena) {
   return Arena::CreateInternal< ::AttribChangeDataProto >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ItemExtraData* Arena::CreateMaybeMessage< ::ItemExtraData >(Arena* arena) {
+  return Arena::CreateInternal< ::ItemExtraData >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

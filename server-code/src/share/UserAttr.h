@@ -24,7 +24,8 @@ public:
 	{
 		m_dwProfession = row.prof();
 		m_nLevel	   = row.level();
-		m_ability.load_from(row.attr_data());
+		
+		CActorAttrib::load_from(m_ability, row.attr_data());
 
 		return true;
 	}
@@ -32,7 +33,7 @@ public:
 	uint32_t GetID() { return CUserAttrData::MakeID(m_dwProfession, m_nLevel); }
 
 public:
-	const CActorAttrib& GetAbility() const { return m_ability; }
+	const AttribList_t& GetAbility() const { return m_ability; }
 	uint32_t			GetLevUpNeedExp() const { return m_nLevUpExp; }
 
 public:
@@ -43,7 +44,7 @@ protected:
 	uint16_t m_nLevel;
 
 	uint32_t	 m_nLevUpExp;
-	CActorAttrib m_ability;
+	AttribList_t m_ability;
 };
 
 //////////////////////////////////////////////////////////////////////

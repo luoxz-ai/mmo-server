@@ -6,11 +6,13 @@
 #include <type_traits>
 #include <unordered_map>
 #include <vector>
+#include <mysql/mysql.h>
 
 #include "BaseCode.h"
 #include "DBField.h"
 #include "MemoryHeap.h"
-#include "mysql/mysql.h"
+#include "dynamic_bitset.h"
+
 
 class CDBRecord;
 class CMysqlConnection;
@@ -47,11 +49,12 @@ public:
 	}
 	bool			  CanModify() const { return m_bCanModify; }
 	bool			  Update(bool bSync = true);
-	void			  ClearModify();
+	void			  ClearDirty();
 	void			  DeleteRecord(bool bSync = true);
 	CMysqlConnection* _GetMysqlConnection() const { return m_pMysqlConnection; }
-	bool			  GetModified() const { return m_bModified; }
-	void			  SetModified(bool val) { m_bModified = val; }
+	bool			  IsDirty() const;
+	bool			  IsDirty(uint32_t idx) const;
+	void			  MakeDirty(uint32_t idx);
 
 private:
 	std::string BuildDeleteSQL();
@@ -65,13 +68,13 @@ private:
 	CMysqlConnection*						   m_pMysqlConnection;
 	CDBFieldInfoListPtr						   m_pDBFieldInfo;
 	bool									   m_bCanModify;
-	bool									   m_bModified = false;
 	std::vector<CDBField*>					   m_FieldsByIdx;
 	std::unordered_map<std::string, CDBField*> m_FieldsByName;
 	std::string								   m_TableName;
 	std::string								   m_strPriKeyBuf;
 	int										   m_nPriKeyIdx;
 	bool									   m_bNeedCreateFirst;
+	dynamic_bitset<uint32_t>				   m_setDirty;
 };
 
 using CDBRecordPtr = std::unique_ptr<CDBRecord>;

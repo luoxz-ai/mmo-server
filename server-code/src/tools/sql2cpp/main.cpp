@@ -4,6 +4,8 @@
 #include <regex>
 #include <string>
 #include <unordered_set>
+#include "fmt/format.h"
+#include "fmt/printf.h"
 
 //////////////////////////////////////////////////////////////////////
 std::string ReplaceStr(std::string& strSource, const std::string& strRepl, const std::string& strNew)
@@ -217,6 +219,19 @@ int main(int argc, char** argv)
 								field_type_enum = "DB_FIELD_TYPE_VARCHAR";
 							}
 						}
+						else if(field_type == "blob")
+						{
+							if(field_bits.empty())
+							{
+								field_type_cpp	= "std::string ";
+								field_type_enum = "DB_FIELD_TYPE_BLOB";
+							}
+							else
+							{
+								field_type_cpp	= "char[" + field_bits + "] ";
+								field_type_enum = "DB_FIELD_TYPE_BLOB";
+							}
+						}
 
 						fields_type += field_type_cpp;
 						fields_type_enum += field_type_enum;
@@ -225,29 +240,29 @@ int main(int argc, char** argv)
 			}
 
 			std::string output_format = R"(
-struct {}
-{
-	static constexpr const char* table_name = "{}";
+struct {0}
+{{
+	static constexpr const char* table_name = "{1}";
 	enum FIELD_ENUMS
-	{
-		{}
-	};
-	static constexpr const char* field_name[] = {{}};
-	using field_type_t = type_list<{}>;
-	static constexpr DB_FIELD_TYPES field_type_enum_list[] = {{}};
-	static constexpr bool pri_key_idx[] = {{}};
-};
+	{{
+		{2}
+	}};
+	static constexpr const char* field_name[] = {{ {3} }};
+	using field_type_t = type_list<{4}>;
+	static constexpr DB_FIELD_TYPES field_type_enum_list[] = {{ {5} }};
+	static constexpr bool pri_key_idx[] = {{ {6} }};
+}};
 
 		)";
 
 			char		szBuf[4096]	  = {};
 			std::string table_name_UP = table_name;
 			std::transform(table_name_UP.begin(), table_name_UP.end(), table_name_UP.begin(), ::toupper);
-			sprintf(szBuf, output_format.c_str(), table_name_UP.c_str(), table_name.c_str(), fields_enum_list.c_str(), fields_name.c_str(), fields_type.c_str(),
+			fmt::format_to(szBuf, output_format.c_str(), table_name_UP.c_str(), table_name.c_str(), fields_enum_list.c_str(), fields_name.c_str(), fields_type.c_str(),
 					fields_type_enum.c_str(), is_pri_key_list.c_str());
 
 			output_header += szBuf;
-			printf("%s", szBuf);
+			fmt::printf("%s", szBuf);
 
 			{
 				std::string output_format = R"(
@@ -260,10 +275,10 @@ constexpr bool {}::pri_key_idx[];
 				char		szBuf[4096]	  = {};
 				std::string table_name_UP = table_name;
 				std::transform(table_name_UP.begin(), table_name_UP.end(), table_name_UP.begin(), ::toupper);
-				sprintf(szBuf, output_format.c_str(), table_name_UP.c_str(), table_name_UP.c_str(), table_name_UP.c_str(), table_name_UP.c_str());
+				fmt::format_to(szBuf, output_format.c_str(), table_name_UP.c_str(), table_name_UP.c_str(), table_name_UP.c_str(), table_name_UP.c_str());
 
 				output_cpp += szBuf;
-				printf("%s", szBuf);
+				fmt::printf("%s", szBuf);
 			}
 		}
 	}

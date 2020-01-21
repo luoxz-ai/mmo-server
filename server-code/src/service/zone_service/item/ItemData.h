@@ -48,11 +48,7 @@ public: // get attr
 	export_lua uint32_t _GetFlag() const { return m_pRecord->Field(TBLD_ITEM::FLAG); }
 	export_lua uint32_t GetFlag() const { return _GetFlag() | ItemTypePtr()->GetFlag(); }
 	export_lua bool		HasFlag(DWORD dwFlag) const { return ::HasFlag(GetFlag(), dwFlag); }
-	export_lua uint32_t GetExtra(uint32_t nIdx) const
-	{
-		CHECKF(nIdx >= 0 && nIdx < MAX_ITEM_EXTRDATA_NUM);
-		return m_pRecord->Field(TBLD_ITEM::EXTRA0 + nIdx);
-	}
+	export_lua uint32_t GetExtra(uint32_t nIdx) const;
 
 	export_lua const std::string& GetName() const { return m_pType->GetName(); }
 	export_lua CItemType* ItemTypePtr() const { return m_pType; }
@@ -85,6 +81,7 @@ public:
 
 protected:
 	CDBRecordPtr			 m_pRecord;				// 物品数据
+	ItemExtraData			 m_ExtraData;
 	CItemType*				 m_pType	 = nullptr; // 物品类型数据
 	const CItemAdditionData* m_pAddition = nullptr; // 强化数据
 };

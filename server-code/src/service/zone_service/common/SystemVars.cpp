@@ -164,10 +164,10 @@ void CSystemVar::Save()
 		m_pRecord->Update(true);
 }
 
-void CSystemVar::ClearModify()
+void CSystemVar::ClearDirty()
 {
 	if(m_pRecord)
-		m_pRecord->ClearModify();
+		m_pRecord->ClearDirty();
 }
 
 void CSystemVar::DeleteRecord()
@@ -209,19 +209,19 @@ void CSystemVarSet::OnSystemVarChange(CNetworkMessage* pMsg)
 		case ServerMSG::SystemVarChange::SVCT_ADD_DATA:
 		{
 			pVar->AddData(msg.idx(), msg.val(), UPDATE_FALSE, false);
-			pVar->ClearModify();
+			pVar->ClearDirty();
 		}
 		break;
 		case ServerMSG::SystemVarChange::SVCT_SET_DATA:
 		{
 			pVar->SetData(msg.idx(), msg.val(), UPDATE_FALSE, false);
-			pVar->ClearModify();
+			pVar->ClearDirty();
 		}
 		break;
 		case ServerMSG::SystemVarChange::SVCT_SET_STR:
 		{
 			pVar->SetStr(msg.idx(), msg.str(), UPDATE_FALSE, false);
-			pVar->ClearModify();
+			pVar->ClearDirty();
 		}
 		break;
 		default:

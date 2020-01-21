@@ -77,7 +77,7 @@ bool CDBRecord::Update(bool bSync)
 	__ENTER_FUNCTION
 	if(CanModify() == false)
 		return false;
-	if(m_bModified == false)
+	if(IsDirty() == false)
 		return false;
 
 	if(m_bNeedCreateFirst)
@@ -130,7 +130,7 @@ bool CDBRecord::Update(bool bSync)
 			}
 		}
 
-		ClearModify();
+		ClearDirty();
 
 		m_bNeedCreateFirst = false;
 	}
@@ -153,21 +153,17 @@ bool CDBRecord::Update(bool bSync)
 		{
 			m_pMysqlConnection->AsyncExec(sql);
 		}
+		ClearDirty();
 	}
 	return true;
 	__LEAVE_FUNCTION
 	return false;
 }
 
-void CDBRecord::ClearModify()
+void CDBRecord::ClearDirty()
 {
 	__ENTER_FUNCTION
-	for(size_t i = 0; i < m_FieldsByIdx.size(); i++)
-	{
-		CDBField* pField = m_FieldsByIdx[i];
-		pField->ClearModify();
-	}
-	m_bModified = false;
+	m_setDirty.clear();
 	__LEAVE_FUNCTION
 }
 
@@ -209,7 +205,7 @@ std::string CDBRecord::BuildDeleteSQL()
 	{
 		CDBField* pField			 = m_FieldsByIdx[i];
 		auto	  ref_field_info_ptr = (*m_pDBFieldInfo)[i];
-		if(pField->IsModify() == false)
+		if(IsDirty(i) == false)
 		{
 			continue;
 		}
@@ -249,7 +245,7 @@ std::string CDBRecord::BuildUpdateSQL()
 	for(size_t i = 0; i < m_FieldsByIdx.size(); i++)
 	{
 		CDBField* pField = m_FieldsByIdx[i];
-		if(pField->IsModify() == false)
+		if(IsDirty(i) == false)
 		{
 			continue;
 		}
@@ -281,7 +277,7 @@ std::string CDBRecord::BuildInsertSQL()
 	{
 		CDBField* pField			 = m_FieldsByIdx[i];
 		auto	  ref_field_info_ptr = (*m_pDBFieldInfo)[i];
-		if(pField->IsModify() == false)
+		if(IsDirty(i) == false)
 		{
 			continue;
 		}
@@ -303,4 +299,19 @@ std::string CDBRecord::BuildInsertSQL()
 		return std::string("INSERT INTO ") + m_TableName + "(" + szKeyNameBuf + ") VALUES ( " + szKeyValBuf + ")";
 	__LEAVE_FUNCTION
 	return std::string();
+}
+
+bool CDBRecord::IsDirty() const
+{
+	return m_setDirty.any();
+}
+
+bool CDBRecord::IsDirty(uint32_t idx) const
+{
+	return m_setDirty.test(idx);
+}
+
+void CDBRecord::MakeDirty(uint32_t idx)
+{
+	m_setDirty.set(idx, true);
 }

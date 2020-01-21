@@ -68,6 +68,7 @@ void lua_tinker::register_lua_close_callback(lua_State* L, Lua_Close_CallBack_Fu
 	detail::stack_scope_exit scope_exit(L);
 	if(lua_getglobal(L, s_lua_ext_value_name) != LUA_TUSERDATA)
 	{
+		lua_pop(L, 1); // pop getglobal
 		print_error(L, "can't find lua_ext_value");
 		return;
 	}
@@ -146,7 +147,7 @@ int lua_class_call(lua_State* L)
 		}
 	}
 
-	lua_pushfstring(L, "can't direct invoke {}", szClassName);
+	lua_pushfstring(L, "can't direct invoke %s", szClassName);
 	lua_error(L);
 
 	lua_pop(L, lua_gettop(L) - nArgCount);
@@ -241,6 +242,7 @@ bool lua_tinker::detail::IsInherit(lua_State* L, size_t idTypeDerived, size_t id
 	lua_stack_scope_exit scope_exit(L);
 	if(lua_getglobal(L, s_lua_ext_value_name) != LUA_TUSERDATA)
 	{
+		lua_pop(L, 1); // pop getglobal
 		print_error(L, "can't find lua_ext_value");
 		return false;
 	}
@@ -256,6 +258,7 @@ void lua_tinker::detail::_addInheritMap(lua_State* L, size_t idTypeDerived, size
 	lua_stack_scope_exit scope_exit(L);
 	if(lua_getglobal(L, s_lua_ext_value_name) != LUA_TUSERDATA)
 	{
+		lua_pop(L, 1); // pop getglobal
 		print_error(L, "can't find lua_ext_value");
 		return;
 	}
@@ -289,9 +292,9 @@ static void call_stack(lua_State* L, int n)
 		}
 
 		if(ar.name)
-			lua_tinker::print_error(L, "{}{}() : line {} [{} : line {}]", indent, ar.name, ar.currentline, ar.source, ar.linedefined);
+			lua_tinker::print_error(L, "%s%s() : line %d [%s : line %d]", indent, ar.name, ar.currentline, ar.source, ar.linedefined);
 		else
-			lua_tinker::print_error(L, "{}unknown : line {} [{} : line {}]", indent, ar.currentline, ar.source, ar.linedefined);
+			lua_tinker::print_error(L, "%sunknown : line %d [%s : line %d]", indent, ar.currentline, ar.source, ar.linedefined);
 
 		call_stack(L, n + 1);
 	}
@@ -300,7 +303,7 @@ static void call_stack(lua_State* L, int n)
 /*---------------------------------------------------------------------------*/
 int lua_tinker::on_error(lua_State* L)
 {
-	print_error(L, "{}", lua_tostring(L, -1));
+	print_error(L, "%s", lua_tostring(L, -1));
 
 	call_stack(L, 0);
 
@@ -324,8 +327,8 @@ void lua_tinker::print_error(lua_State* L, const char* fmt, ...)
 	}
 	else
 	{
+		lua_pop(L, 1); // pop getglobal
 		printf("%s\n", text);
-		lua_pop(L, 1);
 	}
 }
 
@@ -333,26 +336,26 @@ void lua_tinker::print_error(lua_State* L, const char* fmt, ...)
 void lua_tinker::enum_stack(lua_State* L)
 {
 	int top = lua_gettop(L);
-	print_error(L, "{}", "----------stack----------");
-	print_error(L, "Type:{}", top);
+	print_error(L, "%s", "----------stack----------");
+	print_error(L, "Type:%d", top);
 	for(int i = 1; i <= lua_gettop(L); ++i)
 	{
 		switch(lua_type(L, i))
 		{
 			case LUA_TNIL:
-				print_error(L, "\t{}", lua_typename(L, lua_type(L, i)));
+				print_error(L, "\t%s", lua_typename(L, lua_type(L, i)));
 				break;
 			case LUA_TBOOLEAN:
-				print_error(L, "\t{}    {}", lua_typename(L, lua_type(L, i)), lua_toboolean(L, i) ? "true" : "false");
+				print_error(L, "\t%s    %s", lua_typename(L, lua_type(L, i)), lua_toboolean(L, i) ? "true" : "false");
 				break;
 			case LUA_TLIGHTUSERDATA:
-				print_error(L, "\t{}    0x%08p", lua_typename(L, lua_type(L, i)), lua_topointer(L, i));
+				print_error(L, "\t%s    0x%08p", lua_typename(L, lua_type(L, i)), lua_topointer(L, i));
 				break;
 			case LUA_TNUMBER:
-				print_error(L, "\t{}    {}", lua_typename(L, lua_type(L, i)), lua_tonumber(L, i));
+				print_error(L, "\t%s    %f", lua_typename(L, lua_type(L, i)), lua_tonumber(L, i));
 				break;
 			case LUA_TSTRING:
-				print_error(L, "\t{}    {}", lua_typename(L, lua_type(L, i)), lua_tostring(L, i));
+				print_error(L, "\t%s    %s", lua_typename(L, lua_type(L, i)), lua_tostring(L, i));
 				break;
 			case LUA_TTABLE:
 			{
@@ -362,27 +365,27 @@ void lua_tinker::enum_stack(lua_State* L)
 				{
 					name.assign(lua_tostring(L, -1));
 					lua_remove(L, -1);
-					print_error(L, "\t{}    0x%08p [{}]", lua_typename(L, lua_type(L, i)), lua_topointer(L, i), name.c_str());
+					print_error(L, "\t%s    0x%08p [%s]", lua_typename(L, lua_type(L, i)), lua_topointer(L, i), name.c_str());
 				}
 				else
 				{
 					lua_remove(L, -1);
-					print_error(L, "\t{}    0x%08p ", lua_typename(L, lua_type(L, i)), lua_topointer(L, i));
+					print_error(L, "\t%s    0x%08p ", lua_typename(L, lua_type(L, i)), lua_topointer(L, i));
 				}
 			}
 			break;
 			case LUA_TFUNCTION:
-				print_error(L, "\t{}()  0x%08p", lua_typename(L, lua_type(L, i)), lua_topointer(L, i));
+				print_error(L, "\t%s()  0x%08p", lua_typename(L, lua_type(L, i)), lua_topointer(L, i));
 				break;
 			case LUA_TUSERDATA:
-				print_error(L, "\t{}    0x%08p", lua_typename(L, lua_type(L, i)), lua_topointer(L, i));
+				print_error(L, "\t%s    0x%08p", lua_typename(L, lua_type(L, i)), lua_topointer(L, i));
 				break;
 			case LUA_TTHREAD:
-				print_error(L, "\t{}", lua_typename(L, lua_type(L, i)));
+				print_error(L, "\t%s", lua_typename(L, lua_type(L, i)));
 				break;
 		}
 	}
-	print_error(L, "{}", "-------------------------");
+	print_error(L, "%s", "-------------------------");
 }
 
 void lua_tinker::clear_stack(lua_State* L)
@@ -585,7 +588,7 @@ int lua_tinker::detail::meta_get(lua_State* L)
 		}
 		else if(val_obj.is_nil())
 		{
-			lua_pushfstring(L, "can't find '{}' class variable. (forgot registering class variable ?)", read_nocheck<const char*>(L, key_obj._stack_pos));
+			lua_pushfstring(L, "can't find '%s' class variable. (forgot registering class variable ?)", read_nocheck<const char*>(L, key_obj._stack_pos));
 			lua_error(L);
 		}
 	}
@@ -619,7 +622,7 @@ int lua_tinker::detail::meta_set(lua_State* L)
 		}
 		else if(val_obj.is_nil())
 		{
-			lua_pushfstring(L, "can't find '{}' class variable. (forgot registering class variable ?)", read_nocheck<const char*>(L, key_obj._stack_pos));
+			lua_pushfstring(L, "can't find '%s' class variable. (forgot registering class variable ?)", read_nocheck<const char*>(L, key_obj._stack_pos));
 			lua_error(L);
 		}
 	}

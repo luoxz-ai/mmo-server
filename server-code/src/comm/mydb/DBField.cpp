@@ -6,7 +6,6 @@
 CDBField::CDBField(CDBRecord* pDBRecord, const CDBFieldInfo* pFieldInfo, char* pVal, unsigned long len)
 	: m_pDBRecord(pDBRecord)
 	, m_pFieldInfo(pFieldInfo)
-	, m_bModify(false)
 {
 	__ENTER_FUNCTION
 	switch(m_pFieldInfo->GetFieldType())
@@ -93,6 +92,7 @@ CDBField::CDBField(CDBRecord* pDBRecord, const CDBFieldInfo* pFieldInfo, char* p
 		}
 		break;
 		case DB_FIELD_TYPE_VARCHAR:
+		case DB_FIELD_TYPE_BLOB:
 		{
 			if(pVal == nullptr || len == 0)
 				m_Val = std::string("");
@@ -116,7 +116,6 @@ CDBField::CDBField(CDBRecord* pDBRecord, const CDBFieldInfo* pFieldInfo, char* p
 CDBField::CDBField()
 	: m_pDBRecord(nullptr)
 	, m_pFieldInfo(nullptr)
-	, m_bModify(false)
 {
 }
 
@@ -125,16 +124,15 @@ bool CDBField::IsString() const
 	return (m_pFieldInfo->GetFieldType() == DB_FIELD_TYPE_VARCHAR);
 }
 
-void CDBField::ClearModify()
-{
-	m_bModify = false;
-}
-
 std::string CDBField::GetValString() const
 {
 	__ENTER_FUNCTION
 	if(m_pFieldInfo == nullptr)
 		return std::string();
+	if(m_funcGetValString)
+	{
+		return "'" + m_funcGetValString() + "'";
+	}
 
 	switch(m_pFieldInfo->GetFieldType())
 	{
@@ -189,6 +187,7 @@ std::string CDBField::GetValString() const
 		}
 		break;
 		case DB_FIELD_TYPE_VARCHAR:
+		case DB_FIELD_TYPE_BLOB:
 		{
 			std::string				tmp = std::get<std::string>(m_Val);
 			std::unique_ptr<char[]> szBuff(new char[tmp.size() * 2 + 1]);
@@ -218,18 +217,24 @@ bool CDBField::CanModify() const
 	return false;
 }
 
-void CDBField::SetModified()
+void CDBField::MakeDirty()
 {
-	m_bModify = true;
-	m_pDBRecord->SetModified(true);
+	m_pDBRecord->MakeDirty(m_pFieldInfo->GetFieldIdx());
+}
+
+bool CDBField::IsDirty() const
+{
+	if(m_pDBRecord && m_pFieldInfo)
+		return m_pDBRecord->IsDirty(m_pFieldInfo->GetFieldIdx());
+	return false;
 }
 
 CMysqlFieldInfoList::CMysqlFieldInfoList(MYSQL_RES* res)
 {
 	int nFields = mysql_num_fields(res);
-	for(int i = 0; i < nFields; i++)
+	for(uint32_t i = 0; i < nFields; i++)
 	{
-		m_FieldInfos.push_back(new MYSQL_FIELD_COPY{mysql_fetch_field(res)});
+		m_FieldInfos.push_back(new MYSQL_FIELD_COPY{mysql_fetch_field(res), i});
 	}
 }
 

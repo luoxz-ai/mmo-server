@@ -302,7 +302,7 @@ void CStatus::OnAttach()
 		default:
 			break;
 	}
-
+	m_pOwner->GetAttrib().Store(m_pType->GetAttribChangeList());
 	//执行脚本
 	if(m_pType->GetScirptID() != 0)
 		ScriptManager()->TryExecScript<void>(m_pType->GetScirptID(), SCB_STATUS_ONATTACH, this);
@@ -329,7 +329,7 @@ void CStatus::OnDeatch()
 		default:
 			break;
 	}
-
+	m_pOwner->GetAttrib().Remove(m_pType->GetAttribChangeList());
 	//执行脚本
 	if(m_pType->GetScirptID() != 0)
 		ScriptManager()->TryExecScript<void>(m_pType->GetScirptID(), SCB_STATUS_ONDETACH, this);
