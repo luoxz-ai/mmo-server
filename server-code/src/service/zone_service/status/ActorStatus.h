@@ -14,7 +14,7 @@ public:
 	~CActorStatus();
 	CREATE_NEW_IMPL(CActorStatus);
 	bool Init(CActor* pActor);
-	void ProcessAttrib(CActorAttrib& attrib);
+	
 
 	export_lua CStatus* QueryStatus(uint16_t idStatusType) const;
 	export_lua bool		AttachStatus(uint16_t idStatusType, UCHAR ucLev, OBJID idCaster, uint32_t nPower, uint32_t nSecs, uint32_t nTimes);
@@ -39,25 +39,46 @@ public:
 	export_lua size_t size() const { return m_setStatus.size(); }
 
 public:
-	export_lua void OnMove();
-	export_lua void OnSkill(uint32_t idSkill);
-	export_lua void OnAttack(CActor* pTarget, uint32_t idSkill, int32_t nDamage);
-	export_lua void OnDead(CActor* pKiller);
-	export_lua void OnBeAttack(CActor* pAttacker, int32_t nDamage);
-	export_lua void OnLeaveMap();
-	export_lua void OnLogin();
-	export_lua void OnLogout();
+	void OnMove();
+	void OnSkill(uint32_t idSkill);
+	void OnAttack(CActor* pTarget, uint32_t idSkill, int32_t nDamage);
+	void OnDead(CActor* pKiller);
+	void OnBeAttack(CActor* pAttacker, int32_t nDamage);
+	void OnLeaveMap();
+	void OnLogin();
+	void OnLogout();
 
 
 
 	template<class Func, class... Args>
-	void OnEvent(Func func, int flag, Args&&... args)
+	void OnEventDetach(Func func, int flag, Args&&... args)
 	{
 		__ENTER_FUNCTION
 		for(auto it = m_setStatus.begin(); it != m_setStatus.end();)
 		{
 			CStatus* pStatus = it->second;
 			if(HasFlag(pStatus->GetFlag(), flag) == true || std::invoke(func,it->second, std::forward<Args>(args)...))
+			{
+				pStatus->OnDeatch();
+				SAFE_DELETE(pStatus);
+				it = m_setStatus.erase(it);
+			}
+			else
+			{
+				it++;
+			}
+		}
+		__LEAVE_FUNCTION
+	}
+
+	template<class Func, class... Args>
+	void OnEventUndeatch(Func func, int flag, Args&&... args)
+	{
+		__ENTER_FUNCTION
+		for(auto it = m_setStatus.begin(); it != m_setStatus.end();)
+		{
+			CStatus* pStatus = it->second;
+			if(HasFlag(pStatus->GetFlag(), flag) == false || std::invoke(func,it->second, std::forward<Args>(args)...))
 			{
 				pStatus->OnDeatch();
 				SAFE_DELETE(pStatus);

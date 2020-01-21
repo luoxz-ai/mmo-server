@@ -265,7 +265,7 @@ bool CActorStatus::TestStatusByFlag(uint32_t nFlag) const
 void CActorStatus::OnMove()
 {
 	__ENTER_FUNCTION
-	OnEvent(&CStatus::OnMove, STATUSFLAG_DEATCH_MOVE);
+	OnEventDetach(&CStatus::OnMove, STATUSFLAG_DEATCH_MOVE);
 	__LEAVE_FUNCTION
 }
 
@@ -273,28 +273,28 @@ void CActorStatus::OnMove()
 void CActorStatus::OnAttack(CActor* pTarget, uint32_t idSkill, int32_t nDamage)
 {
 	__ENTER_FUNCTION
-	OnEvent(&CStatus::OnAttack, STATUSFLAG_DEATCH_ATTACK, pTarget, idSkill, nDamage);
+	OnEventDetach(&CStatus::OnAttack, STATUSFLAG_DEATCH_SKILL, pTarget, idSkill, nDamage);
 	__LEAVE_FUNCTION
 }
 
 void CActorStatus::OnDead(CActor* pKiller)
 {
 	__ENTER_FUNCTION
-	OnEvent(&CStatus::OnAttack, STATUSFLAG_UNDEATCH_DEAD, pKiller);
+	OnEventUndeatch(&CStatus::OnDead, STATUSFLAG_UNDEATCH_DEAD, pKiller);
 	__LEAVE_FUNCTION
 }
 
 void CActorStatus::OnBeAttack(CActor* pAttacker, int32_t nDamage)
 {
 	__ENTER_FUNCTION
-	OnEvent(&CStatus::OnBeAttack, STATUSFLAG_DEATCH_BEATTACK, pAttacker, nDamage);
+	OnEventDetach(&CStatus::OnBeAttack, STATUSFLAG_DEATCH_BEATTACK, pAttacker, nDamage);
 	__LEAVE_FUNCTION
 }
 
 void CActorStatus::OnLeaveMap()
 {
 	__ENTER_FUNCTION
-	OnEvent(&CStatus::OnLeaveMap, STATUSFLAG_DEATCH_LEAVEMAP);
+	OnEventDetach(&CStatus::OnLeaveMap, STATUSFLAG_DEATCH_LEAVEMAP);
 	__LEAVE_FUNCTION
 }
 
@@ -338,22 +338,5 @@ void CActorStatus::SaveInfo()
 		CStatus* pStatus = it->second;
 		pStatus->SaveInfo();
 	}
-	__LEAVE_FUNCTION
-}
-
-void CActorStatus::ProcessAttrib(CActorAttrib& attrib)
-{
-	__ENTER_FUNCTION
-	CActorAttribCalc calc;
-	for(auto it = m_setStatus.begin(); it != m_setStatus.end(); it++)
-	{
-		CStatus*	pStatus = it->second;
-		const auto& refList = pStatus->Type()->GetAttribChangeList();
-		for(const auto& v: refList)
-		{
-			calc += v;
-		}
-	}
-	attrib.StoreTmp(calc);
 	__LEAVE_FUNCTION
 }
