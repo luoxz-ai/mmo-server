@@ -65,6 +65,6 @@ protected:
 	SUITNUM_SET						  m_setSuitNum;
 
 	typedef std::multimap<uint32_t, uint8_t> EXPIRE_ITEM_SET;
-	EXPIRE_ITEM_SET						m_setExpireItem;
+	EXPIRE_ITEM_SET							 m_setExpireItem;
 };
 #endif /* EQUIPMENT_H */

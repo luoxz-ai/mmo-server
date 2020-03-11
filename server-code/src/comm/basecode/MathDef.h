@@ -95,7 +95,7 @@ public:
 		}
 
 	private:
-		static constexpr int32_t			  m_TrigTableFactor = nTrigTableSize / TWO_PI;
+		static constexpr int32_t		  m_TrigTableFactor = nTrigTableSize / TWO_PI;
 		std::array<float, nTrigTableSize> m_SinTable;
 		std::array<float, nTrigTableSize> m_TanTable;
 	};

@@ -43,18 +43,11 @@ void CActorAI::OnDead() {}
 const STATE_DATA& CActorAI::GetStateData(int32_t nState)
 {
 	CHECKFSR_FMT(nState > 0 && nState < ATT_MAX, STATE_DATA, "nState={}", nState);
-	static STATE_DATA STATE_DATA_ARRAY[] = 
-	{
-		{"ATT_IDLE", 		&CActorAI::ProcessIdle},		  
-		{"ATT_ATTACK", 		&CActorAI::ProcessAttack},		  
-		{"ATT_APPROACH", 	&CActorAI::ProcessApproach},
-		{"ATT_SKILL", 		&CActorAI::ProcessSkill},		  
-		{"ATT_SKILLWAIT", 	&CActorAI::ProcessSkillWait}, 
-		{"ATT_ESCAPE", 		&CActorAI::ProcessEscape},
-		{"ATT_GOBACK", 		&CActorAI::ProcessPatrol},	  
-		{"ATT_PRATOL", 		&CActorAI::ProcessGoback},		  
-		{"ATT_PRATOLWAIT", 	&CActorAI::ProcessPatrolWait},
-		{"ATT_RANDMOVE", 	&CActorAI::ProcessRandMove},
+	static STATE_DATA STATE_DATA_ARRAY[] = {
+		{"ATT_IDLE", &CActorAI::ProcessIdle},		  {"ATT_ATTACK", &CActorAI::ProcessAttack},		  {"ATT_APPROACH", &CActorAI::ProcessApproach},
+		{"ATT_SKILL", &CActorAI::ProcessSkill},		  {"ATT_SKILLWAIT", &CActorAI::ProcessSkillWait}, {"ATT_ESCAPE", &CActorAI::ProcessEscape},
+		{"ATT_GOBACK", &CActorAI::ProcessPatrol},	  {"ATT_PRATOL", &CActorAI::ProcessGoback},		  {"ATT_PRATOLWAIT", &CActorAI::ProcessPatrolWait},
+		{"ATT_RANDMOVE", &CActorAI::ProcessRandMove},
 	};
 	return STATE_DATA_ARRAY[nState];
 }

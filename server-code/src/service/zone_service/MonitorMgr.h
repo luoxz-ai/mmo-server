@@ -15,7 +15,7 @@
 
 struct RecvMsgNode
 {
-	int32_t											   iCount;
+	int32_t										   iCount;
 	std::chrono::high_resolution_clock::time_point nStartFrequence;
 	uint64_t									   nTotalFrequence;
 };
@@ -57,9 +57,9 @@ public:
 	void AddSendInfo_broad(int32_t iCmdID, uint32_t bytes_size);
 	void AddSendInfo_some(int32_t iCmdID, uint32_t bytes_size, uint32_t count);
 
-	int32_t	 Print();
-	void Add(const char* name, int32_t uTime);
-	void Tick10s();
+	int32_t Print();
+	void	Add(const char* name, int32_t uTime);
+	void	Tick10s();
 
 private:
 	void PrintSendInfo(); //打印下发消息信息

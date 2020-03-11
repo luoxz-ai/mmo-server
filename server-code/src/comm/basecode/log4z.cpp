@@ -312,21 +312,21 @@ enum LogDataType
 struct LoggerInfo
 {
 	//! attribute
-	std::string	 _key;			  // logger key
-	std::string	 _name;			  // one logger one name.
-	std::string	 _path;			  // path for log file.
-	int			 _level;		  // filter level
-	bool		 _display;		  // display to screen
-	bool		 _outfile;		  // output to file
-	bool		 _monthdir;		  // create directory per month
-	uint32_t _limitsize;	  // limit file's size, unit Million byte.
-	bool		 _enable;		  // logger is enable
-	bool		 _fileLine;		  // enable/disable the log's suffix.(file name:line number)
-	time_t		 _logReserveTime; // log file reserve time. unit is time second.
+	std::string _key;			 // logger key
+	std::string _name;			 // one logger one name.
+	std::string _path;			 // path for log file.
+	int			_level;			 // filter level
+	bool		_display;		 // display to screen
+	bool		_outfile;		 // output to file
+	bool		_monthdir;		 // create directory per month
+	uint32_t	_limitsize;		 // limit file's size, unit Million byte.
+	bool		_enable;		 // logger is enable
+	bool		_fileLine;		 // enable/disable the log's suffix.(file name:line number)
+	time_t		_logReserveTime; // log file reserve time. unit is time second.
 	//! runtime info
 	time_t			 _curFileCreateTime; // file create time
-	uint32_t	 _curFileIndex;		 // rolling file index
-	uint32_t	 _curWriteLen;		 // current file length
+	uint32_t		 _curFileIndex;		 // rolling file index
+	uint32_t		 _curWriteLen;		 // current file length
 	Log4zFileHandler _handle;			 // file handle.
 	//! history
 	std::list<std::pair<time_t, std::string>> _historyLogs;
@@ -390,7 +390,7 @@ public:
 	virtual unsigned long long getStatusTotalWriteBytes() { return _ullStatusTotalWriteFileBytes; }
 	virtual unsigned long long getStatusTotalPushQueue() { return _ullStatusTotalPushLog; }
 	virtual unsigned long long getStatusTotalPopQueue() { return _ullStatusTotalPopLog; }
-	virtual uint32_t	   getStatusActiveLoggers();
+	virtual uint32_t		   getStatusActiveLoggers();
 
 protected:
 	virtual LogData* makeLogData(LoggerId id, int level);
@@ -409,7 +409,7 @@ private:
 	SemHelper _semaphore;
 
 	//! hot change name or path for one logger
-	int			 _hotUpdateInterval;
+	int		 _hotUpdateInterval;
 	uint32_t _checksum;
 
 	//! the process info.

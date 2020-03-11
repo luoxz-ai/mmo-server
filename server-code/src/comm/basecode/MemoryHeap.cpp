@@ -53,8 +53,8 @@ namespace
 
 inline uint32_t arena_alloc()
 {
-	uint32_t arena;
-	std::size_t	 arena_byte_size = sizeof(arena);
+	uint32_t	arena;
+	std::size_t arena_byte_size = sizeof(arena);
 
 	// Extend number of arenas
 	if(je_mallctl("arenas.create", (void*)&arena, &arena_byte_size, nullptr, 0))

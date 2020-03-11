@@ -241,8 +241,8 @@ void CEventManager::ScheduleWait()
 
 		if(pEntry->CreateEvTimer(m_pBase))
 		{
-			int32_t	 nRet = -1;
-			auto it	  = m_mapCommonTimeVal.find((uint32_t)pEntry->m_tWaitTime);
+			int32_t nRet = -1;
+			auto	it	 = m_mapCommonTimeVal.find((uint32_t)pEntry->m_tWaitTime);
 			if(it != m_mapCommonTimeVal.end())
 			{
 				nRet = evtimer_add(pEntry->m_pevTimer, &it->second);

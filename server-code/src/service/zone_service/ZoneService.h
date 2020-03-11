@@ -15,6 +15,7 @@
 #include "ItemUpgrade.h"
 #include "LoadingThread.h"
 #include "MapManager.h"
+#include "MonitorMgr.h"
 #include "MonsterType.h"
 #include "MyTimer.h"
 #include "NetSocket.h"
@@ -32,10 +33,9 @@
 #include "game_common_def.h"
 #include "gamedb.h"
 #include "globaldb.h"
-#include "MonitorMgr.h"
-#include "server_msg/server_side.pb.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"
+#include "server_msg/server_side.pb.h"
 
 struct event;
 class CNetMSGProcess;
@@ -181,6 +181,7 @@ public:
 #define DEFINE_CONFIG_SET(T)                   \
 public:                                        \
 	T* Get##T() const { return m_p##T.get(); } \
+                                               \
 private:                                       \
 	std::unique_ptr<T> m_p##T;
 

@@ -73,12 +73,12 @@ public:
 	export_lua bool QuickFinish(uint32_t idTask);
 	export_lua bool GiveupTask(uint32_t idTask);
 
-	export_lua bool CanAccept(uint32_t idTask);
-	export_lua bool CanAccept(CTaskType* pType);
-	export_lua bool CanSubmit(uint32_t idTask);
-	export_lua bool CanSubmit(CTaskType* pTaskType);
-	export_lua int32_t	GetLeftTimes(uint32_t idTask);
-	export_lua bool IsFinished(uint32_t idTask);
+	export_lua bool	   CanAccept(uint32_t idTask);
+	export_lua bool	   CanAccept(CTaskType* pType);
+	export_lua bool	   CanSubmit(uint32_t idTask);
+	export_lua bool	   CanSubmit(CTaskType* pTaskType);
+	export_lua int32_t GetLeftTimes(uint32_t idTask);
+	export_lua bool	   IsFinished(uint32_t idTask);
 
 	export_lua void			   SaveInfo();
 	export_lua void			   SendTaskInfo();

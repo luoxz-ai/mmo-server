@@ -40,7 +40,7 @@ void CLoadingThread::Destory()
 			SAFE_DELETE(pData);
 		}
 	}
-	
+
 	{
 		ST_LOADINGTHREAD_PROCESS_DATA* pData = nullptr;
 		while(m_ReadyList.get(pData))
@@ -48,14 +48,13 @@ void CLoadingThread::Destory()
 			SAFE_DELETE(pData);
 		}
 	}
-
 }
 
 bool CLoadingThread::AddLoginPlayer(OBJID idPlayer, const VirtualSocket& socket, bool bChangeZone, uint64_t idScene, float fPosX, float fPosY, float fRange, float fFace)
 {
 	auto pData = new ST_LOADINGTHREAD_PROCESS_DATA{LPT_LOADING, idPlayer, bChangeZone, socket, idScene, fPosX, fPosY, fRange, fFace, nullptr};
 	m_nLoadingCount++;
-	
+
 	m_WaitingList.push(pData);
 	return true;
 }
@@ -64,7 +63,7 @@ bool CLoadingThread::AddClosePlayer(CPlayer* pPlayer, uint64_t idScene, float fP
 {
 	auto pData = new ST_LOADINGTHREAD_PROCESS_DATA{LPT_SAVE, pPlayer->GetID(), idScene != 0, pPlayer->GetSocket(), idScene, fPosX, fPosY, fRange, fFace, pPlayer};
 	m_nSaveingCount++;
-	
+
 	m_WaitingList.push(pData);
 	return true;
 }
@@ -83,7 +82,7 @@ bool CLoadingThread::CancleWaiting(OBJID idPlayer)
 
 		//遍历Ready列表
 		ST_LOADINGTHREAD_PROCESS_DATA* pData = nullptr;
-		while(m_ReadyList.get(pData) )
+		while(m_ReadyList.get(pData))
 		{
 			if(pData->nPorcessType == LPT_LOADING)
 			{
@@ -95,7 +94,6 @@ bool CLoadingThread::CancleWaiting(OBJID idPlayer)
 					SAFE_DELETE(pData);
 					LOGLOGIN("remove from loading_ready:{}", idPlayer);
 				}
-
 			}
 			else
 			{
@@ -183,9 +181,9 @@ void CLoadingThread::OnThreadProcess()
 		if(m_WaitingList.get(pCurData) == false)
 		{
 			return;
-		}		
+		}
 		m_idCurProcess = pCurData->idPlayer;
-		
+
 		if(pCurData->nPorcessType == LPT_LOADING)
 		{
 			m_nLoadingCount--;
@@ -208,7 +206,7 @@ void CLoadingThread::OnThreadProcess()
 			{
 				//放入ready列表
 				LOGLOGIN("LoadingReady:{}", pCurData->idPlayer);
-				
+
 				pCurData->pPlayer = pPlayer;
 				m_nReadyCount++;
 				m_ReadyList.push(pCurData);

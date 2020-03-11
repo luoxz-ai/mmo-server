@@ -244,8 +244,7 @@ bool CActorStatus::DetachStatusByFlag(uint32_t nStatusFlag, bool bHave)
 bool CActorStatus::TestStatusByType(uint32_t nStatusType) const
 {
 	__ENTER_FUNCTION
-	auto it = std::find_if(m_setStatus.begin(), m_setStatus.end(),
-						   [nStatusType](const auto& pair_val) -> bool { return pair_val.second->GetType() == nStatusType; });
+	auto it = std::find_if(m_setStatus.begin(), m_setStatus.end(), [nStatusType](const auto& pair_val) -> bool { return pair_val.second->GetType() == nStatusType; });
 	return it != m_setStatus.end();
 	__LEAVE_FUNCTION
 	return false;
@@ -254,8 +253,7 @@ bool CActorStatus::TestStatusByType(uint32_t nStatusType) const
 bool CActorStatus::TestStatusByFlag(uint32_t nFlag) const
 {
 	__ENTER_FUNCTION
-	auto it = std::find_if(m_setStatus.begin(), m_setStatus.end(),
-						   [nFlag](const auto& pair_val) -> bool { return HasFlag(pair_val.second->GetFlag(), nFlag); });
+	auto it = std::find_if(m_setStatus.begin(), m_setStatus.end(), [nFlag](const auto& pair_val) -> bool { return HasFlag(pair_val.second->GetFlag(), nFlag); });
 	return it != m_setStatus.end();
 	__LEAVE_FUNCTION
 	return false;

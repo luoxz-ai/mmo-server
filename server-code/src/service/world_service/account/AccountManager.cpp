@@ -9,7 +9,7 @@
 const char* AUTH_URL = "https://example.com";
 
 static const std::string AUTH_SERVER_SIGNATURE = "test";
-static const int32_t		 AUTH_KEY_CANUSE_SECS  = 180;
+static const int32_t	 AUTH_KEY_CANUSE_SECS  = 180;
 CAccountManager::CAccountManager() {}
 
 CAccountManager::~CAccountManager()

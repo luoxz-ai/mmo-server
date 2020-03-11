@@ -4,8 +4,8 @@
 #include "BaseCode.h"
 #include "RandomGet.h"
 
-constexpr int32_t	 SKIPLIST_MAXLEVEL = 32;
-constexpr double SKIPLIST_P		   = 0.25;
+constexpr int32_t SKIPLIST_MAXLEVEL = 32;
+constexpr double  SKIPLIST_P		= 0.25;
 
 class CSkipList
 {
@@ -18,7 +18,7 @@ public:
 		struct CSkipListLevel
 		{
 			struct CSkipListNode* m_forward = nullptr;
-			uint32_t		  m_span	= 0;
+			uint32_t			  m_span	= 0;
 		};
 		std::vector<CSkipListLevel> m_level;
 
@@ -28,7 +28,7 @@ public:
 	struct CSkipListNode* m_header = nullptr;
 	struct CSkipListNode* m_tail   = nullptr;
 	unsigned long		  m_length = 0;
-	int32_t					  m_level  = 1;
+	int32_t				  m_level  = 1;
 
 public:
 	CSkipList()

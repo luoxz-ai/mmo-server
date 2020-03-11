@@ -46,8 +46,8 @@ std::string CNetWebSocket::GetAddrString()
 {
 	if(m_pLwsInstance)
 	{
-		char addr[128] = {};
-		int32_t	 addr_len  = 128;
+		char	addr[128] = {};
+		int32_t addr_len  = 128;
 		lws_get_peer_simple(m_pLwsInstance, addr, addr_len);
 		return addr;
 	}
@@ -114,7 +114,7 @@ void CNetWebSocket::RealSend()
 	if(m_SendList.size() > 0)
 	{
 		WebSocketFrame* frame = m_SendList.front();
-		int32_t				flags = lws_write_ws_flags(LWS_WRITE_BINARY, frame->isStart ? 1 : 0, frame->isEnd ? 1 : 0);
+		int32_t			flags = lws_write_ws_flags(LWS_WRITE_BINARY, frame->isStart ? 1 : 0, frame->isEnd ? 1 : 0);
 
 		/*
 		 * The OS may not accept everything you asked to write on the connection.

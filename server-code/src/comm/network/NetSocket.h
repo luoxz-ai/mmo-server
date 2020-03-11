@@ -99,11 +99,11 @@ public:
 	std::string GetAddrString() const { return m_strAddr; }
 	uint64_t	GetAddr() const { return m_addr; }
 	void		SetAddr(const std::string& val);
-	int32_t			GetPort() const { return m_nPort; }
+	int32_t		GetPort() const { return m_nPort; }
 	void		SetPort(int32_t val) { m_nPort = val; }
 	size_t		GetReconnectTimes() const { return m_nReconnectTimes; }
 	void		SetReconnectTimes(size_t val) { m_nReconnectTimes = val; }
-	int32_t			GetRecvTimeOutSec() const { return m_nRecvTimeOutSec; }
+	int32_t		GetRecvTimeOutSec() const { return m_nRecvTimeOutSec; }
 	void		SetRecvTimeOutSec(int32_t val) { m_nRecvTimeOutSec = val; }
 	size_t		GetLogWriteHighWateMark() const { return m_nLogWriteHighWateMark; }
 	void		SetLogWriteHighWateMark(size_t val) { m_nLogWriteHighWateMark = val; }
@@ -124,7 +124,7 @@ protected:
 
 	bool		m_bPassive;
 	std::string m_strAddr;
-	int32_t			m_nPort;
+	int32_t		m_nPort;
 	uint64_t	m_addr;
 
 	SOCKET	 m_socket;
@@ -134,7 +134,7 @@ protected:
 
 	NET_SOCKET_STATUS m_Status;
 	size_t			  m_nReconnectTimes;
-	int32_t				  m_nRecvTimeOutSec;
+	int32_t			  m_nRecvTimeOutSec;
 
 	bool		   m_bCreateByListener;
 	CDecryptor*	   m_pDecryptor;

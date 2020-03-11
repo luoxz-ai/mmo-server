@@ -58,7 +58,6 @@ private:
 	CZoneService* m_pZone;
 	CNormalThread m_Thread;
 
-	
 	MPSCQueue<ST_LOADINGTHREAD_PROCESS_DATA*> m_WaitingList;
 	MPSCQueue<ST_LOADINGTHREAD_PROCESS_DATA*> m_ReadyList;
 

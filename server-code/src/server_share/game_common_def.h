@@ -42,8 +42,8 @@ const int32_t _MAX_ROLES_PER_ACCOUNT = 4;
 const int32_t _MAX_NAME_SIZE = 32;
 const int32_t _MIN_NAME_SIZE = 3;
 
-const float DEFAULT_MOVE_SPEED = 2.0f; //基准移动单位每秒可以移动几米
-const int32_t	DEFAULT_MOVE_RADIO = 10000;
+const float	  DEFAULT_MOVE_SPEED = 2.0f; //基准移动单位每秒可以移动几米
+const int32_t DEFAULT_MOVE_RADIO = 10000;
 
 constexpr uint32_t TALK_MIN_LEV[] = {
 	30,			// CHANNEL_NORMAL = 0,

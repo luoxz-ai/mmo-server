@@ -149,10 +149,10 @@ public:
 	// m_nInterval+=nMilliSecs; }	// ToNextTime(): 保证至少有nSecs秒
 
 public: // get
-	int32_t	   GetInterval() { return (int32_t)m_tInterval; }
-	time_t GetUpdateTime() { return m_tUpdateTime; }
-	uint32_t  GetRemain() { return uint32_t(m_tUpdateTime ? __min(__max(m_tInterval - (::TimeGetMonotonic() - m_tUpdateTime), 0), m_tInterval) : 0); }
-	time_t GetTimeOut()
+	int32_t	 GetInterval() { return (int32_t)m_tInterval; }
+	time_t	 GetUpdateTime() { return m_tUpdateTime; }
+	uint32_t GetRemain() { return uint32_t(m_tUpdateTime ? __min(__max(m_tInterval - (::TimeGetMonotonic() - m_tUpdateTime), 0), m_tInterval) : 0); }
+	time_t	 GetTimeOut()
 	{
 		if(m_tUpdateTime)
 			return m_tUpdateTime + m_tInterval;

@@ -117,8 +117,8 @@ Vector2 CMapData::LineFindCanStand(const Vector2& src, const Vector2& dest) cons
 		return dest;
 
 	Vector2 result = src;
-	int32_t		last_x = xWidth;
-	int32_t		last_y = yHeight;
+	int32_t last_x = xWidth;
+	int32_t last_y = yHeight;
 	GameMath::DDALineForeach(xWidth, yHeight, xDestWidth, yDestHeight, [this, src, dest, &last_x, &last_y, &result](int32_t x, int32_t y) -> bool {
 		if(_getGridData(x, y).bPassDisable == true)
 		{
@@ -164,8 +164,8 @@ Vector2			   CMapData::LineFindCanJump(const Vector2& src, const Vector2& dest) 
 	}
 
 	Vector2 result	  = src;
-	int32_t		last_x	  = xWidth;
-	int32_t		last_y	  = yHeight;
+	int32_t last_x	  = xWidth;
+	int32_t last_y	  = yHeight;
 	float	last_high = fSrcHigh;
 	GameMath::DDALineForeach(xWidth, yHeight, xDestWidth, yDestHeight, [this, src, dest, &result, &last_x, &last_y, &last_high](int32_t x, int32_t y) -> bool {
 		if(_getGridData(x, y).bPassDisable == true || _getGridData(x, y).bJumpDisable == true)

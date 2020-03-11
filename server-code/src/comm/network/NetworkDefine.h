@@ -343,7 +343,7 @@ struct MSG_SCK_CONNECT : public MSG_HEAD
 {
 	VirtualSocket vs;
 	uint64_t	  ip;
-	int32_t			  port;
+	int32_t		  port;
 	MSG_SCK_CONNECT()
 	{
 		usCmd  = NETMSG_SCK_CONNECT;

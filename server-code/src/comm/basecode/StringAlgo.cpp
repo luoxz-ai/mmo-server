@@ -205,16 +205,16 @@ std::string URLDecode(const char* pszStr)
 	if(!pszStr)
 		return strOut;
 
-	char tmp[3];
-	int32_t	 i = 0, idx = 0, len = (int32_t)strlen(pszStr);
+	char	tmp[3];
+	int32_t i = 0, idx = 0, len = (int32_t)strlen(pszStr);
 
 	while(i < len)
 	{
 		if(pszStr[i] == '%')
 		{
-			tmp[0]	  = pszStr[i + 1];
-			tmp[1]	  = pszStr[i + 2];
-			tmp[2]	  = 0;
+			tmp[0]		  = pszStr[i + 1];
+			tmp[1]		  = pszStr[i + 2];
+			tmp[2]		  = 0;
 			int32_t nChar = 0;
 			sscanf(tmp, "%X", &nChar);
 
@@ -247,8 +247,8 @@ std::string GetFullPath(const std::string& szPath)
 	char				szFull[_PATH_MAX * 2];
 	if(NULL == ::getcwd(szFull, _PATH_MAX))
 		return "";
-	int32_t	 len = ::strlen(szFull);
-	char c	 = szFull[len - 1];
+	int32_t len = ::strlen(szFull);
+	char	c	= szFull[len - 1];
 	if(c != '/')
 		::strcat(szFull + len, "/");
 	::strcat(szFull + len, szPath.c_str());
@@ -337,8 +337,8 @@ public:
 	{
 
 		// char szLine[1024] = "";
-		int32_t	 nIdx = 1;
-		char szFileName[256];
+		int32_t nIdx = 1;
+		char	szFileName[256];
 		strcpy(szFileName, filename);
 		FILE* fp = NULL;
 		while(fopen_s(&fp, szFileName, "r") != nullptr)

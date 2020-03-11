@@ -93,8 +93,8 @@ export_lua inline std::string GetBasePath(const std::string& szFullPath)
 template<typename OI, typename II>
 OI remove_sub_sequence(OI first1, OI last1, II first2, II last2)
 {
-	OI		  r1 = std::search(first1, last1, first2, last2);
-	OI		  w = r1, r2 = r1;
+	OI			  r1 = std::search(first1, last1, first2, last2);
+	OI			  w = r1, r2 = r1;
 	const int32_t nDiff = std::distance(first2, last2);
 	while(r2 != last1)
 	{

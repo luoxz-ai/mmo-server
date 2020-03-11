@@ -6,8 +6,8 @@
 
 typedef struct
 {
-	uint32_t  state[4];
-	uint32_t  count[2];
+	uint32_t	  state[4];
+	uint32_t	  count[2];
 	unsigned char buffer[64];
 } MD5Context;
 
@@ -45,32 +45,32 @@ static unsigned char PADDING[64] = {0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 
 #define ROTATE_LEFT(x, n) (((x) << (n)) | ((x) >> (32 - (n))))
 
-#define FF(a, b, c, d, x, s, ac)                            \
-	{                                                       \
+#define FF(a, b, c, d, x, s, ac)                        \
+	{                                                   \
 		(a) += F((b), (c), (d)) + (x) + (uint32_t)(ac); \
-		(a) = ROTATE_LEFT((a), (s));                        \
-		(a) += (b);                                         \
+		(a) = ROTATE_LEFT((a), (s));                    \
+		(a) += (b);                                     \
 	}
 
-#define GG(a, b, c, d, x, s, ac)                            \
-	{                                                       \
+#define GG(a, b, c, d, x, s, ac)                        \
+	{                                                   \
 		(a) += G((b), (c), (d)) + (x) + (uint32_t)(ac); \
-		(a) = ROTATE_LEFT((a), (s));                        \
-		(a) += (b);                                         \
+		(a) = ROTATE_LEFT((a), (s));                    \
+		(a) += (b);                                     \
 	}
 
-#define HH(a, b, c, d, x, s, ac)                            \
-	{                                                       \
+#define HH(a, b, c, d, x, s, ac)                        \
+	{                                                   \
 		(a) += H((b), (c), (d)) + (x) + (uint32_t)(ac); \
-		(a) = ROTATE_LEFT((a), (s));                        \
-		(a) += (b);                                         \
+		(a) = ROTATE_LEFT((a), (s));                    \
+		(a) += (b);                                     \
 	}
 
-#define II(a, b, c, d, x, s, ac)                            \
-	{                                                       \
+#define II(a, b, c, d, x, s, ac)                        \
+	{                                                   \
 		(a) += I((b), (c), (d)) + (x) + (uint32_t)(ac); \
-		(a) = ROTATE_LEFT((a), (s));                        \
-		(a) += (b);                                         \
+		(a) = ROTATE_LEFT((a), (s));                    \
+		(a) += (b);                                     \
 	}
 
 static void MD5_Encode(unsigned char* output, uint32_t* input, int32_t len)
@@ -226,7 +226,7 @@ void MD5_Update(MD5Context* context, unsigned char* buf, int32_t len)
 void MD5_Final(MD5Context* context, unsigned char digest[16])
 {
 	unsigned char bits[8];
-	uint32_t  index, padLen;
+	uint32_t	  index, padLen;
 
 	MD5_Encode(bits, context->count, 8);
 

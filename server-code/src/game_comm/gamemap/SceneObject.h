@@ -82,8 +82,11 @@ protected:
 	// AOI
 	virtual void RemoveFromViewList(CSceneObject* pActor, OBJID idActor, bool bErase);
 	virtual void AddToViewList(CSceneObject* pActor, bool bChkDuplicate, bool bSendShow);
-	virtual void AOIProcessActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_MAP& mapAllViewActor)															  = 0;
-	virtual void AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel, BROADCAST_SET& setBCActor, int32_t nCanReserveDelCount, uint32_t view_range_out_square) = 0;
+	virtual void AOIProcessActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_MAP& mapAllViewActor) = 0;
+	virtual void AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
+											  BROADCAST_SET&	   setBCActor,
+											  int32_t			   nCanReserveDelCount,
+											  uint32_t			   view_range_out_square)							 = 0;
 	virtual void AOIProcessPosUpdate(){};
 	virtual bool IsNeedAddToBroadCastSet(CSceneObject* pActor) { return false; }
 	virtual bool IsMustAddToBroadCastSet(CSceneObject* pActor) { return false; }

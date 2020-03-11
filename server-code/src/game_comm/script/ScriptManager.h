@@ -9,8 +9,6 @@
 #include "fmt/format.h"
 #include "lua_tinker.h"
 
-
-
 export_lua enum ScriptCallBack {
 	SCB_MONSTER_ONBORN = 1,
 	SCB_MONSTER_ONATTACK,
@@ -88,10 +86,10 @@ public:
 	void FullGC();
 
 public:
-	int32_t	 GetLuaGCStep() const { return m_nLuaGCStep; }
-	void SetLuaGCStep(int32_t val) { m_nLuaGCStep = val; }
-	int32_t	 GetLuaGCStepTick() const { return m_nLuaGCStepTick; }
-	void SetLuaGCStepTick(int32_t val) { m_nLuaGCStepTick = val; }
+	int32_t GetLuaGCStep() const { return m_nLuaGCStep; }
+	void	SetLuaGCStep(int32_t val) { m_nLuaGCStep = val; }
+	int32_t GetLuaGCStepTick() const { return m_nLuaGCStepTick; }
+	void	SetLuaGCStepTick(int32_t val) { m_nLuaGCStepTick = val; }
 
 public:
 	template<typename RVal, typename... Args>
@@ -156,8 +154,8 @@ public:
 
 private:
 	lua_State* m_pLua;
-	int32_t		   m_nLuaGCStep;	  //每次GCStep执行几步GC
-	int32_t		   m_nLuaGCStepTick;  //每多少Tick执行1次GCStep
+	int32_t	   m_nLuaGCStep;	  //每次GCStep执行几步GC
+	int32_t	   m_nLuaGCStepTick;  //每多少Tick执行1次GCStep
 	time_t	   m_tNextGCStepTime; //下1次执行GC的Time
 
 	std::string		 m_search_path;

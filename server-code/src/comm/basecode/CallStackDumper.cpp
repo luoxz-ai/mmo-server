@@ -30,8 +30,8 @@ std::string demangle(const char* name)
 	//   -2: mangled_name is not a valid name under the C++ ABI
 	//       mangling rules.
 	//   -3: One of the arguments is invalid.
-	int32_t	  status = 0;
-	char* buf	 = abi::__cxa_demangle(name, NULL, NULL, &status);
+	int32_t status = 0;
+	char*	buf	   = abi::__cxa_demangle(name, NULL, NULL, &status);
 	if(status == 0)
 	{
 		std::string s(buf);
@@ -73,7 +73,7 @@ std::string DemangleSymbol(const char* input_symbol)
 		}
 		std::string mangled_symbol = symbol.substr(mangled_start, mangled_end - mangled_start);
 		// Try to demangle the mangled symbol candidate
-		int32_t									   status = -4; // some arbitrary value to eliminate the compiler warning
+		int32_t								   status = -4; // some arbitrary value to eliminate the compiler warning
 		std::unique_ptr<char, void (*)(void*)> demangled_symbol(abi::__cxa_demangle(mangled_symbol.c_str(), nullptr, 0, &status), std::free);
 		// 0 Demangling is success
 		if(0 == status)
@@ -101,12 +101,12 @@ std::string DemangleSymbol(const char* input_symbol)
 
 struct line_data
 {
-	asymbol**	 symbol_table; /* Symbol table.  */
-	bfd_vma		 addr;
-	std::string	 filename;
-	std::string	 function_name;
-	uint32_t line;
-	int32_t			 line_found;
+	asymbol**	symbol_table; /* Symbol table.  */
+	bfd_vma		addr;
+	std::string filename;
+	std::string function_name;
+	uint32_t	line;
+	int32_t		line_found;
 };
 
 void process_section(bfd* abfd, asection* section, void* _data)
@@ -162,8 +162,8 @@ int32_t load_symbol_table(bfd* abfd, line_data* data)
 		// If we don't have any symbols, return
 		return 0;
 
-	void**		 symbol_table_ptr = reinterpret_cast<void**>(&data->symbol_table);
-	long		 n_symbols;
+	void**	 symbol_table_ptr = reinterpret_cast<void**>(&data->symbol_table);
+	long	 n_symbols;
 	uint32_t symbol_size;
 	n_symbols = bfd_read_minisymbols(abfd, false, symbol_table_ptr, &symbol_size);
 	if(n_symbols == 0)
@@ -313,9 +313,9 @@ bool DumpStackFile(const CallFrameMap& data)
 CallFrameMap::CallFrameMap(int32_t skip_calldepth)
 {
 	static const int32_t MAX_BACKTRACE_SYMBOLS_NUMBER = 100;
-	void*			 pCallFramearray[MAX_BACKTRACE_SYMBOLS_NUMBER];
-	size_t			 nTrace		  = backtrace(pCallFramearray, MAX_BACKTRACE_SYMBOLS_NUMBER);
-	char**			 funcnamearry = backtrace_symbols(pCallFramearray, nTrace);
+	void*				 pCallFramearray[MAX_BACKTRACE_SYMBOLS_NUMBER];
+	size_t				 nTrace		  = backtrace(pCallFramearray, MAX_BACKTRACE_SYMBOLS_NUMBER);
+	char**				 funcnamearry = backtrace_symbols(pCallFramearray, nTrace);
 	if(funcnamearry == NULL)
 		return;
 
@@ -376,9 +376,9 @@ void CALLFRAME_NODE::remove(CALLFRAME_NODE* pChild)
 CALLFRAME_NODE* CALLFRAME_NODE::MakeCallFrame(int32_t skip_calldepth)
 {
 	static const int32_t MAX_BACKTRACE_SYMBOLS_NUMBER = 100;
-	void*			 pCallFramearray[MAX_BACKTRACE_SYMBOLS_NUMBER];
-	size_t			 nTrace = backtrace(pCallFramearray, MAX_BACKTRACE_SYMBOLS_NUMBER);
-	CALLFRAME_NODE*	 pFrame = this;
+	void*				 pCallFramearray[MAX_BACKTRACE_SYMBOLS_NUMBER];
+	size_t				 nTrace = backtrace(pCallFramearray, MAX_BACKTRACE_SYMBOLS_NUMBER);
+	CALLFRAME_NODE*		 pFrame = this;
 	for(size_t i = skip_calldepth + 1; i < nTrace; i++)
 	{
 		pFrame = pFrame->append(pCallFramearray[i]);

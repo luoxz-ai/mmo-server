@@ -158,7 +158,7 @@ private:
 	Vector2		   m_posBorn;
 	float		   m_fTargetDis = 0.0f;
 
-	int32_t							m_nCurPathNode	  = 0;
+	int32_t						m_nCurPathNode	  = 0;
 	uint32_t					m_nCurSkillTypeID = 0;
 	const Cfg_Scene_Patrol_Row* m_pPathData		  = nullptr;
 

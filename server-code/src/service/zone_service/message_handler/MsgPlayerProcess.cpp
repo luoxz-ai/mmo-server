@@ -1,14 +1,11 @@
+#include "MsgPlayerProcess.h"
+
 #include <regex>
 
-#include "MsgPlayerProcess.h"
-#include "msg/ts_cmd.pb.h"
-#include "msg/zone_service.pb.h"
 #include "Player.h"
 #include "ZoneService.h"
-
-
-
-
+#include "msg/ts_cmd.pb.h"
+#include "msg/zone_service.pb.h"
 
 DEFINE_MSG_PROCESS(CS_CHANGE_PKMODE)
 {
@@ -37,23 +34,21 @@ DEFINE_MSG_PROCESS(CS_ACHI_TAKE)
 	__LEAVE_FUNCTION
 }
 
-
-
 //////////////////////////////////////////////////////////////////////////
 PlayerMsgRegisterMgr::ProcessMap_t PlayerMsgRegisterMgr::s_ProcessMap;
-void PlayerMessageHandlerRegister()
+void							   PlayerMessageHandlerRegister()
 {
 	__ENTER_FUNCTION
 
 	auto pNetMsgProcess = ZoneService()->GetNetMsgProcess();
 	using namespace std::placeholders;
-	
-	for(auto& [key, value] : PlayerMsgRegisterMgr::s_ProcessMap)
+
+	for(auto& [key, value]: PlayerMsgRegisterMgr::s_ProcessMap)
 	{
 		pNetMsgProcess->Register(key, std::move(value));
 		value = nullptr;
 	}
 	PlayerMsgRegisterMgr::s_ProcessMap.clear();
-	
-	__LEAVE_FUNCTION      
+
+	__LEAVE_FUNCTION
 }

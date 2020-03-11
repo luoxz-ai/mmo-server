@@ -90,7 +90,6 @@ public:
 		return false;
 	}
 
-
 	bool Query(const std::string& AttName, int64_t& val, int32_t _base = 10) const
 	{
 		auto it = m_setAttrib.find(AttName);
@@ -149,8 +148,8 @@ public:
 
 	int32_t QueryInt(const std::string& AttName, int32_t _base = 10) const
 	{
-		int32_t	 val = 0;
-		auto it	 = m_setAttrib.find(AttName);
+		int32_t val = 0;
+		auto	it	= m_setAttrib.find(AttName);
 		if(it != m_setAttrib.end() && it->second.empty() == false)
 		{
 			val = std::stoi(it->second, 0, _base);
@@ -210,7 +209,7 @@ public:
 	int64_t QueryLongLong(const std::string& AttName, int32_t _base = 10) const
 	{
 		int64_t val = 0;
-		auto	  it  = m_setAttrib.find(AttName);
+		auto	it	= m_setAttrib.find(AttName);
 		if(it != m_setAttrib.end() && it->second.empty() == false)
 		{
 			val = std::stoll(it->second, 0, _base);
@@ -222,7 +221,7 @@ public:
 	int64_t QueryULongLong(const std::string& AttName, int32_t _base = 10) const
 	{
 		int64_t val = 0;
-		auto			   it  = m_setAttrib.find(AttName);
+		auto	it	= m_setAttrib.find(AttName);
 		if(it != m_setAttrib.end() && it->second.empty() == false)
 		{
 			val = std::stoull(it->second, 0, _base);

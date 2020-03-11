@@ -36,6 +36,6 @@ private:
 	uint64_t world_id_;	 //大区ID
 	uint64_t func_id_;	 //功能ID
 	time_t	 self_time_; //自适应时间
-	int32_t		 seq_;		 //序号
+	int32_t	 seq_;		 //序号
 };
 #endif /* UIDFACTORY_H */

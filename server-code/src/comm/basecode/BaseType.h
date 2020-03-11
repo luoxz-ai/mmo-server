@@ -38,10 +38,9 @@ using float32_t = float;
 using float64_t = double;
 
 using byte = unsigned char;
-using BYTE	= uint8_t;
+using BYTE = uint8_t;
 
 using OBJID = uint64_t;
-
 
 using HMODULE = void*;
 using HANDLE  = void*;

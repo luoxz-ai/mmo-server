@@ -36,7 +36,7 @@ struct ProtobufMessageWarp
 		stack_obj key_obj(L, 2);
 		stack_obj class_meta = class_obj.get_metatable();
 		stack_obj val_obj	 = class_meta.rawget(key_obj);
-		int32_t		  result	 = 0;
+		int32_t	  result	 = 0;
 		if(val_obj.is_nil())
 		{
 			val_obj.remove();
@@ -95,7 +95,7 @@ struct ConstProtobufMessageWarp
 		stack_obj key_obj(L, 2);
 		stack_obj class_meta = class_obj.get_metatable();
 		stack_obj val_obj	 = class_meta.rawget(key_obj);
-		int32_t		  result	 = 0;
+		int32_t	  result	 = 0;
 		if(val_obj.is_nil())
 		{
 			val_obj.remove();
@@ -144,7 +144,7 @@ struct ConstRepeatedProtobufMessageWarp
 		stack_obj key_obj(L, 2);
 		stack_obj class_meta = class_obj.get_metatable();
 		stack_obj val_obj	 = class_meta.rawget(key_obj);
-		int32_t		  result	 = 0;
+		int32_t	  result	 = 0;
 		if(val_obj.is_nil())
 		{
 			val_obj.remove();
@@ -162,7 +162,7 @@ struct ConstRepeatedProtobufMessageWarp
 		using namespace google::protobuf;
 
 		ConstRepeatedProtobufMessageWarp* pWarp = lua_tinker::detail::read<ConstRepeatedProtobufMessageWarp*>(L, 1);
-		int32_t								  idx	= lua_tinker::detail::read<int32_t>(L, 2);
+		int32_t							  idx	= lua_tinker::detail::read<int32_t>(L, 2);
 		if(pWarp)
 		{
 			if(idx >= (int32_t)pWarp->size())

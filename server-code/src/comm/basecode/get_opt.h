@@ -131,8 +131,8 @@ inline std::vector<std::string> cmdline()
 	std::vector<std::string> args;
 	std::string				 arg;
 #ifdef _WIN32
-	int32_t	  argv;
-	auto* list = CommandLineToArgvW(GetCommandLineW(), &argv);
+	int32_t argv;
+	auto*	list = CommandLineToArgvW(GetCommandLineW(), &argv);
 	if(list)
 	{
 		for(int32_t i = 0; i < argv; ++i)

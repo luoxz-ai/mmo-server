@@ -158,7 +158,7 @@ public:
 	void	 _PushWebSocketIndexBack(uint16_t index);
 
 	void				  StartWebSocketIOThread();
-	static int32_t			  OnWebSocketCallback(struct lws* wsi, enum lws_callback_reasons reason, void* user, void* in, size_t len);
+	static int32_t		  OnWebSocketCallback(struct lws* wsi, enum lws_callback_reasons reason, void* user, void* in, size_t len);
 	static CNetWebSocket* _GetWebSocketFromLWS(struct lws* wsi);
 	static void			  _SetWebSocketToLWS(struct lws* wsi, CNetWebSocket* pWebSocket);
 

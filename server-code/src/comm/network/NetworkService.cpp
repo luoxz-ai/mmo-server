@@ -353,7 +353,7 @@ bool CNetworkService::_AsyncReconnect(CNetSocket* pSocket)
 	pSocket->InitWaitConnecting(pSocket->GetBufferevent());
 	if(bufferevent_socket_connect(pSocket->GetBufferevent(), answer_ptr->ai_addr, answer_ptr->ai_addrlen) != 0)
 	{
-		int32_t			err	   = EVUTIL_SOCKET_ERROR();
+		int32_t		err	   = EVUTIL_SOCKET_ERROR();
 		const char* errstr = evutil_socket_error_to_string(err);
 
 		LOGNETERROR("CNetworkService::_AsyncReconnect:{}:{} bufferevent_socket_connect fail:{}", pSocket->GetAddrString().c_str(), pSocket->GetPort(), errstr);
@@ -468,7 +468,7 @@ void CNetworkService::accept_error_cb(struct evconnlistener* listener, void* arg
 {
 	__ENTER_FUNCTION
 	struct event_base* base	  = evconnlistener_get_base(listener);
-	int32_t				   err	  = EVUTIL_SOCKET_ERROR();
+	int32_t			   err	  = EVUTIL_SOCKET_ERROR();
 	const char*		   errstr = evutil_socket_error_to_string(err);
 
 	// log error

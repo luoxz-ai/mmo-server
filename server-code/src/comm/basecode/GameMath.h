@@ -259,7 +259,7 @@ export_lua namespace GameMath
 		}
 	}
 
-	export_lua inline void DDALineEx(int32_t x0, int32_t y0, int32_t x1, int32_t y1, std::vector<CPos2D>& setPos)
+	export_lua inline void DDALineEx(int32_t x0, int32_t y0, int32_t x1, int32_t y1, std::vector<CPos2D> & setPos)
 	{
 		setPos.clear();
 		if(x0 == x1 && y0 == y1)

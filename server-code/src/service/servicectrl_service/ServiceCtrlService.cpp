@@ -186,7 +186,7 @@ void CServiceCtrlService::OnLogicThreadProc()
 
 	static const int32_t MAX_PROCESS_PER_LOOP = 1000;
 	int32_t				 nCount				  = 0;
-	CNetworkMessage* pMsg				  = nullptr;
+	CNetworkMessage*	 pMsg				  = nullptr;
 	if(m_pMessagePort)
 	{
 		// process message_port msg

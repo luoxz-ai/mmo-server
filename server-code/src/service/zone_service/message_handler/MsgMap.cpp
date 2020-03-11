@@ -1,8 +1,8 @@
 #include "MsgPlayerProcess.h"
-#include "msg/ts_cmd.pb.h"
-#include "msg/zone_service.pb.h"
 #include "Player.h"
 #include "ZoneService.h"
+#include "msg/ts_cmd.pb.h"
+#include "msg/zone_service.pb.h"
 
 DEFINE_MSG_PROCESS(CS_LOADMAP_SUCC)
 {
@@ -13,7 +13,6 @@ DEFINE_MSG_PROCESS(CS_LOADMAP_SUCC)
 	pPlayer->OnLoadMapSucc();
 	__LEAVE_FUNCTION
 }
-
 
 DEFINE_MSG_PROCESS(CS_CHANGEMAP)
 {

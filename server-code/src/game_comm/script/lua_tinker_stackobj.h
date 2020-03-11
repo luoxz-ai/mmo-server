@@ -10,7 +10,7 @@ namespace detail
 	struct stack_scope_exit
 	{
 		lua_State* L;
-		int32_t		   nTop;
+		int32_t	   nTop;
 		stack_scope_exit(lua_State* _L)
 			: L(_L)
 		{
@@ -21,7 +21,7 @@ namespace detail
 	struct stack_delay_pop
 	{
 		lua_State* L;
-		int32_t		   nPop;
+		int32_t	   nPop;
 		stack_delay_pop(lua_State* _L, int32_t _nPop)
 			: L(_L)
 			, nPop(_nPop)
@@ -32,7 +32,7 @@ namespace detail
 	struct stack_obj
 	{
 		lua_State* L;
-		int32_t		   _stack_pos;
+		int32_t	   _stack_pos;
 		stack_obj(lua_State* _L, int32_t nIdx)
 			: L(_L)
 			, _stack_pos(lua_absindex(L, nIdx))
@@ -47,18 +47,18 @@ namespace detail
 			return stack_obj(L, lua_gettop(L));
 		}
 
-		bool is_vaild() const { return _stack_pos != 0; }
-		int32_t	 get_type() const { return is_vaild() && lua_type(L, _stack_pos); }
-		bool is_number() const { return get_type() == LUA_TNUMBER; }
-		bool is_string() const { return is_vaild() && lua_isstring(L, _stack_pos) == 1; }
-		bool is_integer() const { return is_vaild() && lua_isinteger(L, _stack_pos) == 1; }
-		bool is_boolean() const { return is_vaild() && lua_isboolean(L, _stack_pos); }
-		bool is_none() const { return is_vaild() && lua_isnone(L, _stack_pos); }
-		bool is_userdata() const { return is_vaild() && lua_isuserdata(L, _stack_pos) == 1; }
-		bool is_function() const { return is_vaild() && lua_isfunction(L, _stack_pos); }
-		bool is_cfunction() const { return is_vaild() && lua_iscfunction(L, _stack_pos) == 1; }
-		bool is_table() const { return is_vaild() && lua_istable(L, _stack_pos); }
-		bool is_nil() const { return is_vaild() && lua_isnil(L, _stack_pos); }
+		bool	is_vaild() const { return _stack_pos != 0; }
+		int32_t get_type() const { return is_vaild() && lua_type(L, _stack_pos); }
+		bool	is_number() const { return get_type() == LUA_TNUMBER; }
+		bool	is_string() const { return is_vaild() && lua_isstring(L, _stack_pos) == 1; }
+		bool	is_integer() const { return is_vaild() && lua_isinteger(L, _stack_pos) == 1; }
+		bool	is_boolean() const { return is_vaild() && lua_isboolean(L, _stack_pos); }
+		bool	is_none() const { return is_vaild() && lua_isnone(L, _stack_pos); }
+		bool	is_userdata() const { return is_vaild() && lua_isuserdata(L, _stack_pos) == 1; }
+		bool	is_function() const { return is_vaild() && lua_isfunction(L, _stack_pos); }
+		bool	is_cfunction() const { return is_vaild() && lua_iscfunction(L, _stack_pos) == 1; }
+		bool	is_table() const { return is_vaild() && lua_istable(L, _stack_pos); }
+		bool	is_nil() const { return is_vaild() && lua_isnil(L, _stack_pos); }
 
 		void remove()
 		{
@@ -219,10 +219,10 @@ namespace detail
 		}
 
 		stack_obj key() const { return stack_obj(m_table.L, m_key); }
-		int32_t		  key_idx() const { return m_key; }
+		int32_t	  key_idx() const { return m_key; }
 
 		stack_obj value() const { return stack_obj(m_table.L, m_key + 1); }
-		int32_t		  value_idx() const { return m_key + 1; }
+		int32_t	  value_idx() const { return m_key + 1; }
 
 		void destory()
 		{
@@ -235,7 +235,7 @@ namespace detail
 	private:
 		void	  do_next() { m_hasNext = !!lua_next(m_table.L, m_table._stack_pos); }
 		stack_obj m_table;
-		int32_t		  m_key;
+		int32_t	  m_key;
 		bool	  m_hasNext;
 	};
 

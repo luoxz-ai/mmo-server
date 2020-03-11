@@ -343,7 +343,7 @@ void CNetSocket::_OnSocketEvent(bufferevent* b, short what, void* ctx)
 	}
 	if(what & BEV_EVENT_ERROR)
 	{
-		int32_t			err	   = evutil_socket_geterror(bufferevent_getfd(b));
+		int32_t		err	   = evutil_socket_geterror(bufferevent_getfd(b));
 		const char* errstr = evutil_socket_error_to_string(err);
 		if(err == 10054 || err == 104 || err == 32)
 		{
@@ -391,7 +391,7 @@ void CNetSocket::_OnSocketConnectorEvent(bufferevent* b, short what, void* ctx)
 	}
 	else
 	{
-		int32_t			err	   = evutil_socket_geterror(bufferevent_getfd(b));
+		int32_t		err	   = evutil_socket_geterror(bufferevent_getfd(b));
 		const char* errstr = evutil_socket_error_to_string(err);
 		LOGNETDEBUG("CNetSocket::SocketConnectFail:{}:{} {}", pSocket->GetAddrString().c_str(), pSocket->GetPort(), errstr);
 

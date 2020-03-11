@@ -6,9 +6,9 @@
 #include <unordered_map>
 
 #include "BaseCode.h"
+#include "NetworkMessage.h"
 #include "Player.h"
 #include "ZoneService.h"
-#include "NetworkMessage.h"
 
 class CNetworkMessage;
 
@@ -42,21 +42,21 @@ struct PlayerMsgRegister
 	PlayerMsgRegister(PlayerMsgRegisterMgr::FuncType&& func) { PlayerMsgRegisterMgr::s_ProcessMap.emplace(Cmd, std::move(func)); }
 };
 
-#define DEFINE_MSG_PROCESS(MsgType)                                                                                                             \
-	static void OnMsg_##MsgType(CPlayer* pPlayer, const MsgType& msg, CNetworkMessage* pMsg);                                                   \
-	static PlayerMsgRegister<CMD_##MsgType>                                                                                                     \
-		 s_PlayerMsgRegister_##MsgType(std::bind(&ProcPlayerMsg<MsgType, decltype(OnMsg_##MsgType)>, std::placeholders::_1, &OnMsg_##MsgType)); \
+#define DEFINE_MSG_PROCESS(MsgType)                                                                                       \
+	static void								OnMsg_##MsgType(CPlayer* pPlayer, const MsgType& msg, CNetworkMessage* pMsg); \
+	static PlayerMsgRegister<CMD_##MsgType> s_PlayerMsgRegister_##MsgType(                                                \
+		std::bind(&ProcPlayerMsg<MsgType, decltype(OnMsg_##MsgType)>, std::placeholders::_1, &OnMsg_##MsgType));          \
 	void OnMsg_##MsgType(CPlayer* pPlayer, const MsgType& msg, CNetworkMessage* pMsg)
 
-#define DEFINE_SERVERSIDE_MSG_PROCESS(MsgType)                                                                              \
-	static void OnMsg_##MsgType(const ServerMSG::MsgType& msg, CNetworkMessage* pMsg);                                      \
-	static PlayerMsgRegister<ServerMSG::MsgID_##MsgType> s_PlayerMsgRegister_##MsgType(                                     \
-		std::bind(&ProcPlayerMsg<ServerMSG::MsgType, decltype(OnMsg_##MsgType)>, std::placeholders::_1, &OnMsg_##MsgType)); \
+#define DEFINE_SERVERSIDE_MSG_PROCESS(MsgType)                                                                                  \
+	static void											 OnMsg_##MsgType(const ServerMSG::MsgType& msg, CNetworkMessage* pMsg); \
+	static PlayerMsgRegister<ServerMSG::MsgID_##MsgType> s_PlayerMsgRegister_##MsgType(                                         \
+		std::bind(&ProcPlayerMsg<ServerMSG::MsgType, decltype(OnMsg_##MsgType)>, std::placeholders::_1, &OnMsg_##MsgType));     \
 	void OnMsg_##MsgType(const ServerMSG::MsgType& msg, CNetworkMessage* pMsg)
 
 #define DEFINE_RAWMSG_PROCESS(MsgType)                                                                                         \
-	static void OnMsg_##MsgType(CNetworkMessage* pMsg);                                                                        \
+	static void								OnMsg_##MsgType(CNetworkMessage* pMsg);                                            \
 	static PlayerMsgRegister<CMD_##MsgType> s_PlayerMsgRegister_##MsgType(std::bind(&OnMsg_##MsgType, std::placeholders::_1)); \
-	void OnMsg_##MsgType(CNetworkMessage* pMsg)
+	void									OnMsg_##MsgType(CNetworkMessage* pMsg)
 
 #endif /* MSGPLAYER_H */

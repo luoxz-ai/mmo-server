@@ -1,9 +1,9 @@
+#include "Item.h"
 #include "MsgPlayerProcess.h"
-#include "msg/ts_cmd.pb.h"
-#include "msg/zone_service.pb.h"
 #include "Player.h"
 #include "ZoneService.h"
-#include "Item.h"
+#include "msg/ts_cmd.pb.h"
+#include "msg/zone_service.pb.h"
 
 DEFINE_MSG_PROCESS(CS_ITEM_SWAP)
 {
@@ -64,7 +64,6 @@ DEFINE_MSG_PROCESS(CS_ITEM_TIDY)
 	pPackage->TidyItem();
 	__LEAVE_FUNCTION
 }
-
 
 DEFINE_MSG_PROCESS(CS_ITEM_USE)
 {

@@ -322,8 +322,8 @@ export_lua time_t local2gmt(time_t tNow);
 //检查是否是同一天,loclatime
 export_lua bool CheckSameDay(time_t time1, time_t time2);
 //返回两个时间戳之间的日期差
-export_lua int32_t	  DateDiffLocal(time_t time1, time_t time2);
-export_lua time_t GetNextDayBeginTime();
+export_lua int32_t DateDiffLocal(time_t time1, time_t time2);
+export_lua time_t  GetNextDayBeginTime();
 
 export_lua time_t GetTimeFromString(const std::string& time_str);
 

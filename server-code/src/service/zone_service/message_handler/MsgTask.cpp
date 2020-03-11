@@ -1,11 +1,11 @@
 #include <regex>
 
 #include "MsgPlayerProcess.h"
+#include "Npc.h"
+#include "Player.h"
+#include "ZoneService.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"
-#include "Player.h"
-#include "Npc.h"
-#include "ZoneService.h"
 
 DEFINE_MSG_PROCESS(CS_TASK_SUBMIT)
 {

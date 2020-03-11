@@ -54,24 +54,15 @@ public:
 	export_lua virtual uint32_t GetFP() const { return 0; }
 	export_lua virtual uint32_t GetNP() const { return 0; }
 	export_lua virtual uint32_t GetHPMax() const { return GetAttrib().get(ATTRIB_HP_MAX); }
-	export_lua virtual uint32_t GetMPMax() const
-	{
-		return GetAttrib().get(ATTRIB_MP_MAX);
-	}
-	export_lua virtual uint32_t GetFPMax() const
-	{
-		return GetAttrib().get(ATTRIB_FP_MAX);
-	}
-	export_lua virtual uint32_t GetNPMax() const
-	{
-		return GetAttrib().get(ATTRIB_NP_MAX);
-	}
-	export_lua virtual void	 _SetHP(uint32_t v) {}
-	export_lua virtual void	 _SetMP(uint32_t v) {}
-	export_lua virtual void	 _SetFP(uint32_t v) {}
-	export_lua virtual void	 _SetNP(uint32_t v) {}
-	export_lua float		 GetMoveSpeed() const;
-	export_lua virtual OBJID GetOwnerID() const { return 0; }
+	export_lua virtual uint32_t GetMPMax() const { return GetAttrib().get(ATTRIB_MP_MAX); }
+	export_lua virtual uint32_t GetFPMax() const { return GetAttrib().get(ATTRIB_FP_MAX); }
+	export_lua virtual uint32_t GetNPMax() const { return GetAttrib().get(ATTRIB_NP_MAX); }
+	export_lua virtual void		_SetHP(uint32_t v) {}
+	export_lua virtual void		_SetMP(uint32_t v) {}
+	export_lua virtual void		_SetFP(uint32_t v) {}
+	export_lua virtual void		_SetNP(uint32_t v) {}
+	export_lua float			GetMoveSpeed() const;
+	export_lua virtual OBJID	GetOwnerID() const { return 0; }
 
 	export_lua virtual void		AddProperty(uint32_t nType, int32_t nVal, uint32_t nSync = SYNC_TRUE);
 	export_lua virtual void		SetProperty(uint32_t nType, uint32_t nVal, uint32_t nSync = SYNC_TRUE);
@@ -120,7 +111,7 @@ protected:
 	virtual void AOIProcessActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_MAP& mapAllViewActor) override;
 	virtual void AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
 											  BROADCAST_SET&	   setBCActor,
-											  int32_t				   nCanReserveDelCount,
+											  int32_t			   nCanReserveDelCount,
 											  uint32_t			   view_range_out_square) override;
 	virtual void AOIProcessPosUpdate() override;
 
@@ -171,7 +162,7 @@ public:
 	virtual void			OnBeAttack(CActor* pAttacker, int32_t nRealDamage);
 	export_lua void			UpdateFight();
 	export_lua bool			HitTest(CActor* pTarget, uint32_t nHitType);
-	export_lua int32_t			CalcDefence(uint32_t nHitType);
+	export_lua int32_t		CalcDefence(uint32_t nHitType);
 	export_lua virtual bool CanDamage(CActor* pTarget) const { return false; }
 	export_lua virtual void BeKillBy(CActor* pAttacker);
 

@@ -46,7 +46,7 @@ public:
 							const std::string& user,
 							const std::string& password,
 							const std::string& db,
-							uint32_t	   port,
+							uint32_t		   port,
 							unsigned long	   client_flag	= 0,
 							bool			   bCreateAsync = false);
 	CMysqlStmt*		Prepare(const std::string& s);

@@ -19,8 +19,8 @@
 #include "event2/keyvalq_struct.h"
 #include "loging_manager.h"
 #include "md5.h"
-#include "server_msg/server_side.pb.h"
 #include "proxy_service.pb.h"
+#include "server_msg/server_side.pb.h"
 #include "tinyxml2/tinyxml2.h"
 
 // handle HTTP response of accessing builtin services of the target server.
@@ -45,7 +45,7 @@ static void handle_response(brpc::Controller* client_cntl, brpc::Controller* ser
 class ProxyServiceImpl : public ProxyService
 {
 	CGlobalRouteService* m_pService;
-	int32_t					 m_internal_port;
+	int32_t				 m_internal_port;
 
 public:
 	ProxyServiceImpl(CGlobalRouteService* pService, int32_t internal_port)
@@ -118,7 +118,7 @@ public:
 
 		// Get or set target. Notice that we don't access FLAGS_target directly
 		// which is thread-unsafe (for string flags).
-		int32_t				   server_id	 = 0;
+		int32_t			   server_id	 = 0;
 		const std::string* server_id_str = server_cntl->http_request().uri().GetQuery("server");
 		if(server_id_str)
 		{

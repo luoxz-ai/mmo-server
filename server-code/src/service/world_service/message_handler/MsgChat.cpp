@@ -1,7 +1,7 @@
+#include "MsgWorldProcess.h"
 #include "User.h"
 #include "UserManager.h"
 #include "WorldService.h"
-#include "MsgWorldProcess.h"
 #include "msg/zone_service.pb.h"
 
 DEFINE_MSG_PROCESS(SC_TALK)

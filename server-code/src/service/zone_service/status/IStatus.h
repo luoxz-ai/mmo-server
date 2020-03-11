@@ -11,9 +11,9 @@ struct ST_STATUS_INFO
 {
 	uint16_t idStatusType; // 状态编码(0-100)保留给基础类型
 	uint8_t	 ucLevel;	   // 状态等级
-	int32_t		 nPower;	   //
-	int32_t		 nSecs;		   // 持续时间(或多次作用时间间隔)
-	int32_t		 nTimes;	   // 作用次数
+	int32_t	 nPower;	   //
+	int32_t	 nSecs;		   // 持续时间(或多次作用时间间隔)
+	int32_t	 nTimes;	   // 作用次数
 	uint32_t tLastStamp;   // 最后一次作用的时间戳
 	OBJID	 idCaster;	   // 施加此状态的角色
 	uint8_t	 bPause;	   // 状态：0 = 正常， 1 = 暂停
@@ -92,11 +92,11 @@ public:
 	uint32_t							   GetType() const { return m_Data.status_type(); }
 	uint32_t							   GetExpireType() const { return m_Data.status_expire_type(); }
 	uint32_t							   GetFlag() const { return m_Data.status_flag(); }
-	int32_t									   GetPower() const { return m_Data.power(); }
-	int32_t									   GetSecs() const { return m_Data.secs(); }
-	int32_t									   GetTimes() const { return m_Data.times(); }
-	int32_t									   GetMaxTimes() const { return m_Data.max_times(); }
-	int32_t									   GetMaxSecs() const { return m_Data.max_secs(); }
+	int32_t								   GetPower() const { return m_Data.power(); }
+	int32_t								   GetSecs() const { return m_Data.secs(); }
+	int32_t								   GetTimes() const { return m_Data.times(); }
+	int32_t								   GetMaxTimes() const { return m_Data.max_times(); }
+	int32_t								   GetMaxSecs() const { return m_Data.max_secs(); }
 	OBJID								   GetScirptID() const { return m_Data.scriptid(); }
 	const std::vector<CActorAttribChange>& GetAttribChangeList() const { return m_AttribChangeList; }
 
@@ -131,14 +131,14 @@ public:
 	export_lua bool		IsValid() const;
 	export_lua uint32_t GetType() const { return m_pType->GetType(); }
 	export_lua uint16_t GetStatusTypeID() const { return m_info.idStatusType; }
-	export_lua int32_t		GetPower() const { return m_info.nPower; }
+	export_lua int32_t	GetPower() const { return m_info.nPower; }
 	export_lua OBJID	GetCasterID() const { return m_info.idCaster; }
 	export_lua uint8_t	GetLevel() const { return m_info.ucLevel; }
-	export_lua int32_t		GetSecs() const { return m_info.nSecs; }
-	export_lua int32_t		GetTimes() const { return m_info.nTimes; }
+	export_lua int32_t	GetSecs() const { return m_info.nSecs; }
+	export_lua int32_t	GetTimes() const { return m_info.nTimes; }
 	export_lua uint32_t GetLastTimeStamp() const { return m_info.tLastStamp; }
 	export_lua uint32_t GetFlag() const { return m_pType->GetFlag(); }
-	export_lua int32_t		GetRemainTime() const;
+	export_lua int32_t	GetRemainTime() const;
 
 	export_lua void SetPower(int32_t nPower) { m_info.nPower = nPower; }
 	export_lua void AddSecs(int32_t nSecs);

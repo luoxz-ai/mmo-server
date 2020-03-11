@@ -23,7 +23,7 @@ public:
 
 private:
 	std::string m_pid_file;
-	int32_t			m_fd;
+	int32_t		m_fd;
 };
 
 #endif // __FILE_LOCK_H__

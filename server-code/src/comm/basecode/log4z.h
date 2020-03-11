@@ -288,14 +288,14 @@ _ZSUMMER_LOG4Z_BEGIN
 
 struct LogData
 {
-	LoggerId	 _id;	// dest logger id
-	int			 _type; // type.
-	int			 _typeval;
-	int			 _level;   // log level
-	time_t		 _time;	   // create time
+	LoggerId _id;	// dest logger id
+	int		 _type; // type.
+	int		 _typeval;
+	int		 _level;   // log level
+	time_t	 _time;	   // create time
 	uint32_t _precise; // create time
-	int			 _contentLen;
-	char		 _content[LOG4Z_LOG_BUF_SIZE]; // content
+	int		 _contentLen;
+	char	 _content[LOG4Z_LOG_BUF_SIZE]; // content
 
 	MEMORYHEAP_DECLARATION(s_heap);
 };
@@ -338,16 +338,16 @@ public:
 	virtual bool pushLog(LogData* pLog, const char* file = NULL, int line = 0) = 0;
 
 	//! set logger's attribute, thread safe.
-	virtual bool enableLogger(LoggerId id, bool enable)					 = 0; // immediately when enable, and queue up when disable.
-	virtual bool setLoggerName(LoggerId id, const char* name)			 = 0;
-	virtual bool setLoggerPath(LoggerId id, const char* path)			 = 0;
-	virtual bool setLoggerLevel(LoggerId id, int nLevel)				 = 0; // immediately when enable, and queue up when disable.
-	virtual bool setLoggerFileLine(LoggerId id, bool enable)			 = 0;
-	virtual bool setLoggerDisplay(LoggerId id, bool enable)				 = 0;
-	virtual bool setLoggerOutFile(LoggerId id, bool enable)				 = 0;
+	virtual bool enableLogger(LoggerId id, bool enable)				 = 0; // immediately when enable, and queue up when disable.
+	virtual bool setLoggerName(LoggerId id, const char* name)		 = 0;
+	virtual bool setLoggerPath(LoggerId id, const char* path)		 = 0;
+	virtual bool setLoggerLevel(LoggerId id, int nLevel)			 = 0; // immediately when enable, and queue up when disable.
+	virtual bool setLoggerFileLine(LoggerId id, bool enable)		 = 0;
+	virtual bool setLoggerDisplay(LoggerId id, bool enable)			 = 0;
+	virtual bool setLoggerOutFile(LoggerId id, bool enable)			 = 0;
 	virtual bool setLoggerLimitsize(LoggerId id, uint32_t limitsize) = 0;
-	virtual bool setLoggerMonthdir(LoggerId id, bool enable)			 = 0;
-	virtual bool setLoggerReserveTime(LoggerId id, time_t sec)			 = 0;
+	virtual bool setLoggerMonthdir(LoggerId id, bool enable)		 = 0;
+	virtual bool setLoggerReserveTime(LoggerId id, time_t sec)		 = 0;
 
 	//! Update logger's attribute from config file, thread safe.
 	virtual bool setAutoUpdate(int interval /*per second, 0 is disable auto update*/) = 0;
@@ -359,7 +359,7 @@ public:
 	virtual unsigned long long getStatusTotalWriteBytes()  = 0;
 	virtual unsigned long long getStatusTotalPushQueue()   = 0;
 	virtual unsigned long long getStatusTotalPopQueue()	   = 0;
-	virtual uint32_t	   getStatusActiveLoggers()	   = 0;
+	virtual uint32_t		   getStatusActiveLoggers()	   = 0;
 
 	virtual LogData* makeLogData(LoggerId id, int level) = 0;
 	virtual void	 freeLogData(LogData* log)			 = 0;

@@ -107,7 +107,7 @@ struct Visitor_Content
 };
 
 CXTranslationUnit						  TU;
-typedef std::set<int32_t>					  export_line_set;
+typedef std::set<int32_t>				  export_line_set;
 std::map<CXFileUniqueID, export_line_set> g_export_loc;
 
 void display_debug_cursor(CXCursor& cursor, CXCursorKind& kind, CXSourceLocation& source_loc)
@@ -140,7 +140,7 @@ std::string get_default_params(CXCursor cursor, int32_t params_idx)
 	// This tokensequence needs some cleanup. There may be a default value
 	// included, and sometimes there are extra tokens.
 	std::string default_val;
-	bool bStartInsert = false;
+	bool		bStartInsert = false;
 	for(uint32_t i = 0; i < numtokens; ++i)
 	{
 		auto token_i = tokens[i];
@@ -159,7 +159,6 @@ std::string get_default_params(CXCursor cursor, int32_t params_idx)
 			}
 		}
 	}
-
 
 	clang_disposeTokens(TU, tokens, numtokens);
 
@@ -379,7 +378,7 @@ static void printString(const char* name, CXString string)
 static void printCursor(CXCursor cursor)
 {
 	CXFile			 file;
-	uint32_t	 off, line, col;
+	uint32_t		 off, line, col;
 	CXSourceLocation location = clang_getCursorLocation(cursor);
 	if(clang_Location_isInSystemHeader(location))
 		return;
@@ -389,7 +388,7 @@ static void printCursor(CXCursor cursor)
 	if(fileNameCStr)
 	{
 		CXSourceRange range = clang_getCursorExtent(cursor);
-		uint32_t  start, end;
+		uint32_t	  start, end;
 		clang_getSpellingLocation(clang_getRangeStart(range), 0, 0, 0, &start);
 		clang_getSpellingLocation(clang_getRangeEnd(range), 0, 0, 0, &end);
 		printf("%s:%d:%d (%d, %d-%d) ", fileNameCStr, line, col, off, start, end);
@@ -1681,9 +1680,8 @@ int main(int argc, char** argv)
 		auto _stopTime2 = clock.now();
 		if(temp_filename.empty() == false)
 		{
-			printf("file:%s processed use %ld %ld\n", temp_filename.c_str(),
-					std::chrono::duration_cast<std::chrono::milliseconds>(_stopTime1 - _startTime).count(),
-				    std::chrono::duration_cast<std::chrono::milliseconds>(_stopTime2 - _stopTime1).count());
+			printf("file:%s processed use %ld %ld\n", temp_filename.c_str(), std::chrono::duration_cast<std::chrono::milliseconds>(_stopTime1 - _startTime).count(),
+				   std::chrono::duration_cast<std::chrono::milliseconds>(_stopTime2 - _stopTime1).count());
 		}
 	}
 
