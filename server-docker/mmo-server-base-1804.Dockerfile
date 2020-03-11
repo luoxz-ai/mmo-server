@@ -3,7 +3,9 @@ FROM ubuntu:18.04
 ADD mirror.list /root/mirror.list
 RUN cp /root/mirror.list /etc/apt/sources.list
 RUN apt-get update -y --fix-missing \
- && apt-get install -y \
+ && apt-get install -y --fix-missing \
+ apt-utils \
+ && apt-get install -y --fix-missing \
  sudo \
  vim \
  less \
@@ -13,31 +15,30 @@ RUN apt-get update -y --fix-missing \
  curl \
  ccache \
  cmake \
- libcurl4-openssl-dev \
  libtool \
- libmysqlclient-dev \
- libreadline6-dev \
- libssl-dev \
  language-pack-zh-hans \
  subversion \
  git \
- gdb \
  python \
  net-tools \
- mysql-client \
- linux-tools-common \
- linux-tools-generic \
- && apt-get install -y \
+ gdb \
  gcc-7 \
  g++-7 \
  clang-9 \
  clang-format-9 \
  clang-tidy-9 \
- lldb-9 \
  libclang-9-dev \
- libc++-9-dev 
- 
- 
+ lldb-9 \
+ lld-9 \
+ libc++-9-dev \
+ libmysqlclient-dev \
+ mysql-client \
+ libcurl4-openssl-dev \
+ libreadline6-dev \
+ libssl-dev \
+ libasan5 
+
+
 ENV LC_CTYPE=zh_CN.UTF-8 
 ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

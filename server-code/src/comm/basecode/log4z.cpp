@@ -84,7 +84,6 @@
 #endif
 #endif
 
-
 _ZSUMMER_BEGIN
 _ZSUMMER_LOG4Z_BEGIN
 

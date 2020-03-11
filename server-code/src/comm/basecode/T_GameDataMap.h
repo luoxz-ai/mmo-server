@@ -26,7 +26,6 @@ struct hasFunc_GetIDFromPBRow : bool_type<details::has_GetIDFromPBRow<T>::value>
 {
 };
 
-
 template<class T>
 class CGameDataMap
 {

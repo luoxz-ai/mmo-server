@@ -58,14 +58,13 @@ private:
 	CZoneService* m_pZone;
 	CNormalThread m_Thread;
 
-	std::mutex								   m_MutexWait;
-	std::deque<ST_LOADINGTHREAD_PROCESS_DATA*> m_WaitingList;
-
-	std::mutex								   m_MutexReady;
-	std::deque<ST_LOADINGTHREAD_PROCESS_DATA*> m_ReadyList;
+	
+	MPSCQueue<ST_LOADINGTHREAD_PROCESS_DATA*> m_WaitingList;
+	MPSCQueue<ST_LOADINGTHREAD_PROCESS_DATA*> m_ReadyList;
 
 	std::atomic<uint64_t> m_nLoadingCount;
 	std::atomic<uint64_t> m_nSaveingCount;
+	std::atomic<uint64_t> m_nReadyCount;
 	std::atomic<OBJID>	  m_idCurProcess;
 	std::atomic<OBJID>	  m_idNeedCancle;
 };

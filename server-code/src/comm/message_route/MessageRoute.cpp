@@ -4,7 +4,7 @@
 #include "MessagePort.h"
 #include "NetSocket.h"
 #include "globaldb.h"
-#include "msg/server_side.pb.h"
+#include "server_msg/server_side.pb.h"
 #include "tinyxml2/tinyxml2.h"
 
 static const uint32_t SERVICE_LOAD_REDIS_TIMEOUT = 60 * 1000; // redis上的serviceload数据60秒丢弃
@@ -132,8 +132,10 @@ void CMessageRoute::ReloadServiceInfo(uint32_t update_time)
 	//读取合服信息
 	if(GetWorldID() == 0)
 	{
-		std::string							   SQL	  = "SELECT * FROM tbld_serverlist WHERE mergeto<>0";
-		auto								   result = m_pGlobalDB->Query(TBLD_SERVERLIST::table_name, SQL);
+		std::string SQL = "SELECT * FROM tbld_serverlist WHERE mergeto<>0";
+
+		auto result = m_pGlobalDB->Query(TBLD_SERVERLIST::table_name, SQL);
+
 		std::unordered_map<uint16_t, uint16_t> MergeToList;
 		for(size_t i = 0; i < result->get_num_row(); i++)
 		{

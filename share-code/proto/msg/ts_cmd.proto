@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+enum TS_CMD
+{
+	CMD_BEGIN  = 0;
+	CMD_SC_KEY = 1; // key下发
+	CMD_PING   = 2; // pingpong校验对
+	CMD_PONG   = 3;
+
+	CMD_WORLD_BEGIN = 10;
+	CMD_WORLD_END	= 999;
+
+	CMD_ZONE_BEGIN = 1000;
+	CMD_ZONE_END   = 3999;
+
+	CMD_CLOSE = 10000;
+};
+
+message SC_KEY
+{
+	uint32 key = 1;
+};

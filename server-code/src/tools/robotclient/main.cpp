@@ -48,7 +48,8 @@ std::atomic<uint32_t> pb_luahelper::ConstProtobufMessageWarp::s_nCount{0};
 std::atomic<uint32_t> pb_luahelper::ConstRepeatedProtobufMessageWarp::s_nCount{0};
 
 std::vector<RobotClientManager*> vecManager;
-int								 main(int argc, char* argv[])
+
+int main(int argc, char* argv[])
 {
 	get_opt opt(argc, (const char**)argv);
 

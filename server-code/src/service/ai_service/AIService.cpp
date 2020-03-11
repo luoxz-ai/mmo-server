@@ -13,12 +13,11 @@
 #include "SettingMap.h"
 #include "tinyxml2/tinyxml2.h"
 
-
-static thread_local CAIService* thread_local_pService;
-CAIService* AIService()
+static thread_local CAIService* tls_pService;
+CAIService*						AIService()
 {
-	return thread_local_pService;
-}	
+	return tls_pService;
+}
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
@@ -36,7 +35,6 @@ extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16
 	return pService;
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 CAIService::CAIService(const ServerPort& nServerPort)
 	: CServiceCommon(nServerPort, std::string("AI") + std::to_string(nServerPort.GetServiceID()))
@@ -46,10 +44,10 @@ CAIService::CAIService(const ServerPort& nServerPort)
 
 CAIService::~CAIService()
 {
-	thread_local_pService = this;
+	tls_pService = this;
 	scope_guards scope_exit;
 	scope_exit += []() {
-		thread_local_pService = nullptr;
+		tls_pService = nullptr;
 	};
 	StopLogicThread();
 
@@ -61,9 +59,9 @@ bool CAIService::Create()
 {
 	//各种初始化
 	scope_guards scope_exit;
-	thread_local_pService = this;
+	tls_pService = this;
 	scope_exit += []() {
-		thread_local_pService = nullptr;
+		tls_pService = nullptr;
 	};
 
 	BaseCode::SetNdc(GetServiceName());
@@ -72,9 +70,9 @@ bool CAIService::Create()
 	};
 
 	extern void export_to_lua(lua_State*, void*);
-	m_pScriptManager.reset(
-		CLUAScriptManager::CreateNew(std::string("AIScript") + std::to_string(GetServerPort().GetServiceID()), &export_to_lua, (void*)this, "res/script/ai_service", true));
-	
+	m_pScriptManager.reset(CLUAScriptManager::CreateNew(std::string("AIScript") + std::to_string(GetServerPort().GetServiceID()), &export_to_lua, (void*)this,
+														"res/script/ai_service", true));
+
 	m_pMapManager.reset(new CMapManager);
 	CHECKF(m_pMapManager->Init(GetZoneID()));
 
@@ -276,7 +274,7 @@ void CAIService::OnLogicThreadProc()
 
 void CAIService::OnLogicThreadCreate()
 {
-	thread_local_pService = this;
+	tls_pService = this;
 	CServiceCommon::OnLogicThreadCreate();
 }
 

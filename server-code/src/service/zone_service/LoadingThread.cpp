@@ -26,32 +26,37 @@ void CLoadingThread::Destory()
 	m_Thread.Join();
 
 	//把剩余的东西处理完
-	for(auto& pData: m_WaitingList)
 	{
-		if(pData->nPorcessType == LPT_SAVE)
+		ST_LOADINGTHREAD_PROCESS_DATA* pData = nullptr;
+		while(m_WaitingList.get(pData))
 		{
-			if(pData->pPlayer)
+			if(pData->nPorcessType == LPT_SAVE)
 			{
-				pData->pPlayer->SaveInfo();
+				if(pData->pPlayer)
+				{
+					pData->pPlayer->SaveInfo();
+				}
 			}
+			SAFE_DELETE(pData);
 		}
-		SAFE_DELETE(pData);
 	}
-	m_WaitingList.clear();
-
-	for(auto& pData: m_ReadyList)
+	
 	{
-		SAFE_DELETE(pData);
+		ST_LOADINGTHREAD_PROCESS_DATA* pData = nullptr;
+		while(m_ReadyList.get(pData))
+		{
+			SAFE_DELETE(pData);
+		}
 	}
-	m_ReadyList.clear();
+
 }
 
 bool CLoadingThread::AddLoginPlayer(OBJID idPlayer, const VirtualSocket& socket, bool bChangeZone, uint64_t idScene, float fPosX, float fPosY, float fRange, float fFace)
 {
 	auto pData = new ST_LOADINGTHREAD_PROCESS_DATA{LPT_LOADING, idPlayer, bChangeZone, socket, idScene, fPosX, fPosY, fRange, fFace, nullptr};
 	m_nLoadingCount++;
-	std::lock_guard<std::mutex> lock(m_MutexWait);
-	m_WaitingList.push_back(pData);
+	
+	m_WaitingList.push(pData);
 	return true;
 }
 
@@ -59,8 +64,8 @@ bool CLoadingThread::AddClosePlayer(CPlayer* pPlayer, uint64_t idScene, float fP
 {
 	auto pData = new ST_LOADINGTHREAD_PROCESS_DATA{LPT_SAVE, pPlayer->GetID(), idScene != 0, pPlayer->GetSocket(), idScene, fPosX, fPosY, fRange, fFace, pPlayer};
 	m_nSaveingCount++;
-	std::lock_guard<std::mutex> lock(m_MutexWait);
-	m_WaitingList.push_back(pData);
+	
+	m_WaitingList.push(pData);
 	return true;
 }
 
@@ -76,11 +81,10 @@ bool CLoadingThread::CancleWaiting(OBJID idPlayer)
 	{
 		__ENTER_FUNCTION
 
-		std::lock_guard<std::mutex> lock(m_MutexReady);
 		//遍历Ready列表
-		for(auto it = m_ReadyList.begin(); it != m_ReadyList.end();)
+		ST_LOADINGTHREAD_PROCESS_DATA* pData = nullptr;
+		while(m_ReadyList.get(pData) )
 		{
-			ST_LOADINGTHREAD_PROCESS_DATA* pData = *it;
 			if(pData->nPorcessType == LPT_LOADING)
 			{
 				// loading ready
@@ -90,12 +94,8 @@ bool CLoadingThread::CancleWaiting(OBJID idPlayer)
 					SAFE_DELETE(pData->pPlayer);
 					SAFE_DELETE(pData);
 					LOGLOGIN("remove from loading_ready:{}", idPlayer);
-					it = m_ReadyList.erase(it);
 				}
-				else
-				{
-					it++;
-				}
+
 			}
 			else
 			{
@@ -106,11 +106,6 @@ bool CLoadingThread::CancleWaiting(OBJID idPlayer)
 					SAFE_DELETE(pData->pPlayer);
 					SAFE_DELETE(pData);
 					LOGLOGIN("remove from saver_eady:{}", idPlayer);
-					it = m_ReadyList.erase(it);
-				}
-				else
-				{
-					it++;
 				}
 			}
 		}
@@ -121,13 +116,11 @@ bool CLoadingThread::CancleWaiting(OBJID idPlayer)
 	{
 		__ENTER_FUNCTION
 
-		std::lock_guard<std::mutex> lock(m_MutexWait);
-		for(auto it = m_WaitingList.begin(); it != m_WaitingList.end();)
+		ST_LOADINGTHREAD_PROCESS_DATA* pLoadData = nullptr;
+		while(m_WaitingList.get(pLoadData))
 		{
-			auto pLoadData = *it;
 			if(pLoadData == nullptr)
 			{
-				it = m_WaitingList.erase(it);
 				continue;
 			}
 
@@ -139,13 +132,8 @@ bool CLoadingThread::CancleWaiting(OBJID idPlayer)
 					SAFE_DELETE(pLoadData->pPlayer);
 					SAFE_DELETE(pLoadData);
 					m_nLoadingCount--;
-					it = m_WaitingList.erase(it);
 					LOGLOGIN("remove from loading:{}", idPlayer);
 					continue;
-				}
-				else
-				{
-					it++;
 				}
 			}
 			else
@@ -154,7 +142,6 @@ bool CLoadingThread::CancleWaiting(OBJID idPlayer)
 				if(pPlayer == nullptr)
 				{
 					LOGERROR("Process WaitList PlayerIsNull:{}", pLoadData->idPlayer);
-					it = m_WaitingList.erase(it);
 					continue;
 				}
 
@@ -167,13 +154,8 @@ bool CLoadingThread::CancleWaiting(OBJID idPlayer)
 					SAFE_DELETE(pLoadData->pPlayer);
 					SAFE_DELETE(pLoadData);
 					m_nSaveingCount--;
-					it = m_WaitingList.erase(it);
 					LOGLOGIN("remove from saving:{}", idPlayer);
 					continue;
-				}
-				else
-				{
-					it++;
 				}
 			}
 		}
@@ -198,16 +180,12 @@ void CLoadingThread::OnThreadProcess()
 		__ENTER_FUNCTION
 		// take from list
 		ST_LOADINGTHREAD_PROCESS_DATA* pCurData = nullptr;
+		if(m_WaitingList.get(pCurData) == false)
 		{
-			std::lock_guard<std::mutex> lock(m_MutexWait);
-			if(m_WaitingList.empty() == true)
-				return;
-
-			pCurData	   = m_WaitingList.front();
-			m_idCurProcess = pCurData->idPlayer;
-			m_WaitingList.pop_front();
-		}
-
+			return;
+		}		
+		m_idCurProcess = pCurData->idPlayer;
+		
 		if(pCurData->nPorcessType == LPT_LOADING)
 		{
 			m_nLoadingCount--;
@@ -230,9 +208,10 @@ void CLoadingThread::OnThreadProcess()
 			{
 				//放入ready列表
 				LOGLOGIN("LoadingReady:{}", pCurData->idPlayer);
-				std::lock_guard<std::mutex> lock(m_MutexReady);
+				
 				pCurData->pPlayer = pPlayer;
-				m_ReadyList.push_back(pCurData);
+				m_nReadyCount++;
+				m_ReadyList.push(pCurData);
 			}
 		}
 		else
@@ -249,8 +228,8 @@ void CLoadingThread::OnThreadProcess()
 				LOGLOGIN("SaveingReady:{}", pCurData->idPlayer);
 				if(pCurData->bChangeZone)
 				{
-					std::lock_guard<std::mutex> lock(m_MutexReady);
-					m_ReadyList.push_back(pCurData);
+					m_nReadyCount++;
+					m_ReadyList.push(pCurData);
 				}
 				else
 				{
@@ -276,13 +255,8 @@ void CLoadingThread::OnMainThreadExec()
 		__ENTER_FUNCTION
 
 		ST_LOADINGTHREAD_PROCESS_DATA* pData = nullptr;
-		{
-			std::lock_guard<std::mutex> lock(m_MutexReady);
-			if(m_ReadyList.empty())
-				return;
-			pData = m_ReadyList.front();
-			m_ReadyList.pop_front();
-		}
+		if(m_ReadyList.get(pData) == false)
+			return;
 
 		if(pData->nPorcessType == LPT_LOADING)
 		{
@@ -297,7 +271,7 @@ void CLoadingThread::OnMainThreadExec()
 			pData->pPlayer->OnChangeZoneSaveFinish(pData->idScene, pData->fPosX, pData->fPosY, pData->fRange, pData->fFace);
 			SAFE_DELETE(pData->pPlayer);
 		}
-
+		m_nReadyCount--;
 		SAFE_DELETE(pData);
 
 		nCount++;
@@ -312,6 +286,5 @@ void CLoadingThread::OnMainThreadExec()
 
 size_t CLoadingThread::GetReadyCount()
 {
-	std::lock_guard<std::mutex> lock(m_MutexReady);
-	return m_ReadyList.size();
+	return m_nReadyCount;
 }

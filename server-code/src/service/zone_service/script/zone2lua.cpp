@@ -30,8 +30,10 @@
 #include "MailBox.h"
 #include "Mall.h"
 #include "MapItem.h"
+#include "MonitorMgr.h"
 #include "Monster.h"
 #include "MonsterType.h"
+#include "MsgPlayerProcess.h"
 #include "Npc.h"
 #include "NpcType.h"
 #include "Package.h"
@@ -55,7 +57,6 @@
 #include "ZoneGuildManager.h"
 #include "ZoneService.h"
 #include "lua_tinker.h"
-#include "monitor_mgr.h"
 void zone2lua(lua_State* L)
 {
 	lua_tinker::def(L, "CheckSameDay", &CheckSameDay);

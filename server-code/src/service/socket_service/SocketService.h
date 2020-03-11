@@ -42,6 +42,7 @@ public:
 	void			SetAuth(bool val) { m_bAuth = val; }
 	OBJID			GetUserID() const { return m_idUser; }
 	void			SetUserID(OBJID val) { m_idUser = val; }
+
 private:
 	VirtualSocket m_VirtualSocket;
 	ServerPort	  m_nDestServerPort;
@@ -62,7 +63,7 @@ class CSocketService : public IService, public CServiceCommon, public CNetEventH
 public:
 	CSocketService(const ServerPort& nServerPort);
 	virtual ~CSocketService();
-	void Release() override{ delete this; }
+	void Release() override { delete this; }
 	bool Create();
 
 public:
@@ -98,13 +99,13 @@ private:
 	std::map<VirtualSocket, CGameClient*> m_setVirtualSocket;
 	std::map<OBJID, CGameClient*>		  m_mapClientByUserID;
 
-	//CUIDFactory m_UIDFactory;
+	// CUIDFactory m_UIDFactory;
 
 	std::deque<uint16_t> m_SocketPool;
-	
+
 	uint64_t m_nSocketMessageProcess	= 0;
 	uint64_t m_nWebSocketMessageProcess = 0;
-	
+
 	CMyTimer m_tLastDisplayTime;
 };
 

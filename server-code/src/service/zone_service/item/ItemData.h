@@ -80,7 +80,7 @@ public:
 	MEMORYHEAP_DECLARATION(s_heap);
 
 protected:
-	CDBRecordPtr			 m_pRecord;				// 物品数据
+	CDBRecordPtr			 m_pRecord; // 物品数据
 	ItemExtraData			 m_ExtraData;
 	CItemType*				 m_pType	 = nullptr; // 物品类型数据
 	const CItemAdditionData* m_pAddition = nullptr; // 强化数据

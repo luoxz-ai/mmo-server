@@ -14,16 +14,15 @@
 #include "User.h"
 #include "UserManager.h"
 
-
-static thread_local CWorldService* thread_local_pService = nullptr;
-CWorldService* WorldService()
+static thread_local CWorldService* tls_pService = nullptr;
+CWorldService*					   WorldService()
 {
-	return thread_local_pService;
-}	
+	return tls_pService;
+}
 
 void SetWorldServicePtr(CWorldService* ptr)
 {
-	thread_local_pService = ptr;
+	tls_pService = ptr;
 }
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
@@ -41,7 +40,6 @@ extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16
 
 	return pService;
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 CWorldService::CWorldService(const ServerPort& nServerPort)
@@ -62,10 +60,10 @@ CWorldService::CWorldService(const ServerPort& nServerPort)
 
 CWorldService::~CWorldService()
 {
-	thread_local_pService = this;
+	tls_pService = this;
 	scope_guards scope_exit;
 	scope_exit += []() {
-		thread_local_pService = nullptr;
+		tls_pService = nullptr;
 	};
 	StopLogicThread();
 	m_pAccountManager->Destory();
@@ -77,10 +75,10 @@ bool CWorldService::Create()
 {
 	__ENTER_FUNCTION
 	//各种初始化
-	thread_local_pService = this;
+	tls_pService = this;
 	scope_guards scope_exit;
 	scope_exit += []() {
-		thread_local_pService = nullptr;
+		tls_pService = nullptr;
 	};
 
 	BaseCode::SetNdc(GetServiceName());
@@ -356,7 +354,7 @@ void CWorldService::OnLogicThreadProc()
 
 void CWorldService::OnLogicThreadCreate()
 {
-	thread_local_pService = this;
+	tls_pService = this;
 	CServiceCommon::OnLogicThreadCreate();
 }
 

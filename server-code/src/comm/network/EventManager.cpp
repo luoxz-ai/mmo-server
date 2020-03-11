@@ -123,7 +123,7 @@ bool CEventManager::ScheduleEvent(uint32_t evType, EventCallBackFunc&& cb, time_
 {
 	if(cb == nullptr)
 		return false;
-	CEventEntry* pEntry = ScheduleEvent(evType, std::forward<EventCallBackFunc>(cb), tWaitTime, bPersist, refEntry.GetRef());
+	CEventEntry* pEntry = ScheduleEvent(evType, std::move(cb), tWaitTime, bPersist, refEntry.GetRef());
 	if(pEntry)
 	{
 		pEntry->SetManagerType(EMT_ENTRY_PTR);
@@ -137,7 +137,7 @@ bool CEventManager::ScheduleEvent(uint32_t evType, EventCallBackFunc&& cb, time_
 {
 	if(cb == nullptr)
 		return false;
-	CEventEntry* pEntry = ScheduleEvent(evType, std::forward<EventCallBackFunc>(cb), tWaitTime, bPersist, nullptr);
+	CEventEntry* pEntry = ScheduleEvent(evType, std::move(cb), tWaitTime, bPersist, nullptr);
 	if(pEntry)
 	{
 		pEntry->SetManagerType(EMT_ENTRY_QUEUE);
@@ -151,7 +151,7 @@ bool CEventManager::ScheduleEvent(uint32_t evType, EventCallBackFunc&& cb, time_
 {
 	if(cb == nullptr)
 		return false;
-	CEventEntry* pEntry = ScheduleEvent(evType, std::forward<EventCallBackFunc>(cb), tWaitTime, bPersist, refEntryMap.GetRef(evType));
+	CEventEntry* pEntry = ScheduleEvent(evType, std::move(cb), tWaitTime, bPersist, refEntryMap.GetRef(evType));
 	if(pEntry)
 	{
 		pEntry->SetManagerType(EMT_ENTRY_MAP);
@@ -168,7 +168,7 @@ bool CEventManager::ScheduleEvent(uint32_t evType, EventCallBackFunc&& cb, time_
 		return false;
 	}
 
-	CEventEntry* pEntry = CreateEntry(evType, std::forward<EventCallBackFunc>(cb), tWaitTime, bPersist);
+	CEventEntry* pEntry = CreateEntry(evType, std::move(cb), tWaitTime, bPersist);
 	if(PushWait(pEntry) == nullptr)
 	{
 		SAFE_DELETE(pEntry);
@@ -189,11 +189,11 @@ CEventEntry* CEventManager::ScheduleEvent(uint32_t evType, EventCallBackFunc&& c
 	{
 		RemoveWait(pEntry);
 		pEntry->Clear();
-		pEntry->Set(evType, std::forward<EventCallBackFunc>(cb), tWaitTime, bPersist);
+		pEntry->Set(evType, std::move(cb), tWaitTime, bPersist);
 	}
 	else
 	{
-		pEntry = CreateEntry(evType, std::forward<EventCallBackFunc>(cb), tWaitTime, bPersist);
+		pEntry = CreateEntry(evType, std::move(cb), tWaitTime, bPersist);
 	}
 
 	if(PushWait(pEntry) == nullptr)
@@ -206,7 +206,7 @@ CEventEntry* CEventManager::ScheduleEvent(uint32_t evType, EventCallBackFunc&& c
 
 CEventEntry* CEventManager::CreateEntry(uint32_t evType, EventCallBackFunc&& cb /*= nullptr*/, time_t tWaitTime /*= 0*/, bool bPersist)
 {
-	CEventEntry* pEntry = new CEventEntry(this, evType, std::forward<EventCallBackFunc>(cb), tWaitTime, bPersist);
+	CEventEntry* pEntry = new CEventEntry(this, evType, std::move(cb), tWaitTime, bPersist);
 	if(pEntry)
 	{
 		if(pEntry->CreateEvTimer(m_pBase))

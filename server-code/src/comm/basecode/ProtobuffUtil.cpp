@@ -80,7 +80,6 @@ bool LoadFromJsonTxt(const std::string& jsonTxt, google::protobuf::Message& pbm)
 	JsonParseOptions options;
 	options.ignore_unknown_fields = true;
 	return JsonStringToMessage(jsonTxt, &pbm, options).ok();
-	
 }
 
 bool SaveToJsonTxt(const google::protobuf::Message& pbm, std::string& jsonTxt)
@@ -89,7 +88,6 @@ bool SaveToJsonTxt(const google::protobuf::Message& pbm, std::string& jsonTxt)
 	JsonPrintOptions options;
 	return MessageToJsonString(pbm, &jsonTxt, options).ok();
 }
-
 
 bool FindFieldInMessage(const std::string& field_name, google::protobuf::Message*& pThisRow, const google::protobuf::FieldDescriptor*& pFieldDesc)
 {

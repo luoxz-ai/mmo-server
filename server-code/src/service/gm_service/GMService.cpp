@@ -17,7 +17,6 @@
 #include "event2/keyvalq_struct.h"
 #include "gm_service.pb.h"
 
-
 namespace Game
 {
 // Service with static path.
@@ -40,8 +39,7 @@ public:
 		LOGMESSAGE_NOFMT(fmt::format(FMT_STRING("Received SetGM[log_id={}]: open_id={} gm_level={} sign={}"), cntl->log_id(), request->open_id(), request->gm_level(),
 									 request->sign()));
 		UNUSED(m_pService);
-		//m_pService->ProcessGM(request, response, done_guard.release());
-
+		// m_pService->ProcessGM(request, response, done_guard.release());
 	}
 	virtual void BlockLogin(google::protobuf::RpcController* cntl_base,
 							const BlockLoginRequest*		 request,
@@ -78,15 +76,11 @@ public:
 };
 } // namespace Game
 
-
-
-
-
-static thread_local CGMService* thread_local_pService = nullptr;
-CGMService* GMService()
+static thread_local CGMService* tls_pService = nullptr;
+CGMService*						GMService()
 {
-	return thread_local_pService;
-}	
+	return tls_pService;
+}
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
@@ -104,7 +98,6 @@ extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16
 	return pService;
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 CGMService::CGMService(const ServerPort& nServerPort)
 	: CServiceCommon(nServerPort, "GM")
@@ -113,10 +106,10 @@ CGMService::CGMService(const ServerPort& nServerPort)
 
 CGMService::~CGMService()
 {
-	thread_local_pService = this;
+	tls_pService = this;
 	scope_guards scope_exit;
 	scope_exit += []() {
-		thread_local_pService = nullptr;
+		tls_pService = nullptr;
 	};
 
 	StopRPCServer();
@@ -128,10 +121,10 @@ CGMService::~CGMService()
 bool CGMService::Create()
 {
 	//各种初始化
-	thread_local_pService = this;
+	tls_pService = this;
 	scope_guards scope_exit;
 	scope_exit += []() {
-		thread_local_pService = nullptr;
+		tls_pService = nullptr;
 	};
 
 	BaseCode::SetNdc(GetServiceName());
@@ -231,7 +224,7 @@ void CGMService::OnLogicThreadProc()
 
 void CGMService::OnLogicThreadCreate()
 {
-	thread_local_pService = this;
+	tls_pService = this;
 	CServiceCommon::OnLogicThreadCreate();
 }
 

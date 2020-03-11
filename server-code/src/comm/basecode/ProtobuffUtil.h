@@ -17,7 +17,6 @@ bool SaveToBinaryFile(const google::protobuf::Message& pbm, const std::string& f
 bool LoadFromJsonTxt(const std::string& jsonTxt, google::protobuf::Message& pbm);
 bool SaveToJsonTxt(const google::protobuf::Message& pbm, std::string& jsonTxt);
 
-
 bool					   SetMessageData(google::protobuf::Message* pPBMessage, const std::string& field_name, const std::string& data);
 bool					   AddMessageData(google::protobuf::Message* pPBMessage, const std::string& field_name, const std::string& data);
 google::protobuf::Message* AddMessageSubMessage(google::protobuf::Message* pPBMessage, const std::string& field_name);

@@ -1,5 +1,0 @@
-XSym
-0042
-ca4018eb9fdd22fbaa23aa5f5a5eb93f
-../../src/game_comm/mydbtable/globaldb.sql
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     

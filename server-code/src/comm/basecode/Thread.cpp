@@ -55,7 +55,10 @@ CNormalThread::CNormalThread(int32_t					nWorkIntervalMS,
 			}
 
 			if(_on_thread_create_func)
+			{
 				_on_thread_create_func();
+			}
+
 			TimeGetCacheCreate();
 			pThis->m_bIsReady = true;
 			while(!pThis->m_bStop)
@@ -87,7 +90,9 @@ CNormalThread::CNormalThread(int32_t					nWorkIntervalMS,
 			}
 
 			if(_on_thread_finish_func)
+			{
 				_on_thread_finish_func();
+			}
 			__LEAVE_FUNCTION
 		}));
 }
@@ -142,7 +147,9 @@ CWorkerThread::CWorkerThread(const std::string&			thread_name /*= std::string()*
 		}
 
 		if(_on_thread_create_func)
+		{
 			_on_thread_create_func();
+		}
 		pThis->m_bIsReady = true;
 		while(pThis->m_bStop.load() == false)
 		{
@@ -162,7 +169,9 @@ CWorkerThread::CWorkerThread(const std::string&			thread_name /*= std::string()*
 		}
 
 		if(_on_thread_finish_func)
+		{
 			_on_thread_finish_func();
+		}
 		__LEAVE_FUNCTION
 	}));
 }

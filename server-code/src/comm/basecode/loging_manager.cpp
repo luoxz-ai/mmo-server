@@ -1,13 +1,11 @@
 #include "loging_manager.h"
 
+#include <fmt/chrono.h>
 #include <fmt/format.h>
 #include <fmt/printf.h>
-#include <fmt/chrono.h>
 #include <xlnt/styles/format.hpp>
 
 #include "Thread.h"
-
-
 
 namespace BaseCode
 {
@@ -48,7 +46,7 @@ void BaseCode::MyLogMsgX(const char* pszName, const char* pszBuffer)
 		return;
 	auto		curTime		= std::chrono::system_clock::now();
 	std::time_t now_c		= std::chrono::system_clock::to_time_t(curTime);
-	auto		localtime_c = std::localtime(&now_c);	
+	auto		localtime_c = std::localtime(&now_c);
 	if(localtime_c == nullptr)
 		return;
 
@@ -129,7 +127,7 @@ void BaseCode::StopLog()
 }
 
 static thread_local NDC* this_thread_NDC = nullptr;
-void BaseCode::SetNdc(const std::string& name)
+void					 BaseCode::SetNdc(const std::string& name)
 {
 	if(this_thread_NDC == nullptr)
 	{
@@ -139,7 +137,8 @@ void BaseCode::SetNdc(const std::string& name)
 	{
 		if(name.empty())
 		{
-			SAFE_DELETE(this_thread_NDC);;
+			SAFE_DELETE(this_thread_NDC);
+			;
 		}
 		else
 		{

@@ -35,8 +35,11 @@ TARGET_LINK_LIBRARIES(service_loader
  fmt
  tinyxml2
  pthread
+ ssl
+ libcrypto.so
  rt
  dl
+ z
  ${JEMALLOC_LIB_NAME}
 
 )

@@ -1,8 +1,8 @@
 #include "Pet.h"
 
+#include "PetType.h"
 #include "Player.h"
 #include "Scene.h"
-#include "PetType.h"
 MEMORYHEAP_IMPLEMENTATION(CPet, s_heap);
 
 CPet::CPet()

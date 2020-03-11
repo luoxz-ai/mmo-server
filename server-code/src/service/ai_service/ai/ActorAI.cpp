@@ -7,7 +7,7 @@
 
 static const int MOVE_PER_WAIT_MS = 500; //每500ms向zone发送一次移动消息
 
-CActorAI::CActorAI(){}
+CActorAI::CActorAI() {}
 
 CActorAI::~CActorAI()
 {
@@ -61,7 +61,7 @@ const STATE_DATA& CActorAI::GetStateData(int nState)
 
 void CActorAI::Process()
 {
-	std::invoke( GetStateData(m_nState).func, this);
+	std::invoke(GetStateData(m_nState).func, this);
 }
 
 uint32_t CActorAI::GetState() const

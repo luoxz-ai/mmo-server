@@ -1,0 +1,56 @@
+syntax				= "proto3";
+option optimize_for = CODE_SIZE;
+import "common/AttribChangeDataProto.proto";
+
+message Cfg_Item
+{
+	message Row
+	{
+		uint32 id = 1; //物品ID  a bb ccccc
+					   //  a=类型(1:物品 2:装备 3: )
+					   //	b=子类型(01=药品
+					   //			 02=任务道具
+					   //			 04=坐骑类道具
+					   //			 09=杂物
+					   //			10=锻造材料[11=强化道具 levreq=上限,prof=下限
+					   //						12=强化保护 levreq=上限,prof=下限
+					   //						13=强化幸运 value=成功率,levreq=上限,prof=下限 ]
+					   //			)
+					   //			(0-9=武器[]
+					   //			 10-19=衣服[10=头
+					   //						11=铠甲
+					   //						12=腰带
+					   //						13=鞋子
+					   //						14=手套
+					   //						19=时装]
+					   //			 20-29=首饰[20=项链
+					   //						21=戒指
+					   //						23=翅膀
+					   //						24=坐骑])
+					   //  c=顺序号
+
+		uint32 sort			  = 2;	//物品排序编号
+		string name			  = 3;	//物品名称
+		uint32 quility		  = 5;	//品质
+		uint32 pile_limit	  = 6;	//堆叠上限
+		uint32 expire_time	  = 7;	//过期时间（秒）
+		uint32 dura			  = 8;	//当前耐久
+		uint32 dura_limit	  = 9;	//耐久上限
+		uint32 addition_limit = 10; //追加等级上限
+
+		uint32 lev_req	= 11; //等级需求
+		uint32 prof_req = 12; //职业需求
+		uint32 value	= 13;
+
+		uint32 cd_type	= 15; // CD类型
+		uint32 cd_msces = 16; // CD时间
+		uint32 suit_id	= 17; //套装编号xxxxyy;
+
+		repeated AttribChangeDataProto attrib_change_list = 18; //增加的属性
+		uint32						   flag				  = 19; //掩码
+		uint64						   scriptid			  = 20; //脚本id
+		uint32						   batchuse_count	  = 21; //单次使用数量上限
+	}
+
+	repeated Row rows = 1;
+}

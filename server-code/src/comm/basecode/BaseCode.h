@@ -233,7 +233,7 @@ export_lua inline BYTE toHex(const BYTE& x)
 			return;                                                 \
 		}                                                           \
 	}
-#define CHECKF_FMT(x, fmt_msg, ...)                                   \
+#define CHECKF_FMT(x, fmt_msg, ...)                                 \
 	{                                                               \
 		if(!(x))                                                    \
 		{                                                           \
@@ -241,7 +241,7 @@ export_lua inline BYTE toHex(const BYTE& x)
 			return 0;                                               \
 		}                                                           \
 	}
-#define CHECKFR_FMT(x, r, fmt_msg, ...)                               \
+#define CHECKFR_FMT(x, r, fmt_msg, ...)                             \
 	{                                                               \
 		if(!(x))                                                    \
 		{                                                           \
@@ -249,7 +249,7 @@ export_lua inline BYTE toHex(const BYTE& x)
 			return r;                                               \
 		}                                                           \
 	}
-#define CHECKFSR_FMT(x, R, fmt_msg, ...)                              \
+#define CHECKFSR_FMT(x, R, fmt_msg, ...)                            \
 	{                                                               \
 		if(!(x))                                                    \
 		{                                                           \

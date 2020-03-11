@@ -11,7 +11,7 @@
 #include "ZoneService.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"
-#include "share/game_common_def.h"
+#include "server_share/game_common_def.h"
 
 class CMonster;
 class CPlayer;
@@ -57,17 +57,14 @@ public:
 	export_lua virtual uint32_t GetMPMax() const
 	{
 		return GetAttrib().get(ATTRIB_MP_MAX);
-		;
 	}
 	export_lua virtual uint32_t GetFPMax() const
 	{
 		return GetAttrib().get(ATTRIB_FP_MAX);
-		;
 	}
 	export_lua virtual uint32_t GetNPMax() const
 	{
 		return GetAttrib().get(ATTRIB_NP_MAX);
-		;
 	}
 	export_lua virtual void	 _SetHP(uint32_t v) {}
 	export_lua virtual void	 _SetMP(uint32_t v) {}

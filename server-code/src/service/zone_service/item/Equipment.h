@@ -42,7 +42,6 @@ public:
 
 	export_lua virtual int GetSuitTypeAmount() { return (int)m_setSuitNum.size(); }
 
-	
 	void CheckItemExpire(uint32_t dwTimeNow);
 
 protected:

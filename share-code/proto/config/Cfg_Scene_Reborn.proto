@@ -1,0 +1,19 @@
+syntax				= "proto3";
+option optimize_for = CODE_SIZE;
+
+message Cfg_Scene_Reborn
+{
+
+	message Row
+	{
+		uint32 idmap		= 1;  // 地图ID
+		uint32 idx			= 2;  // 阵营id
+		uint32 reborn_map	= 8;  // 复活点地图
+		float  reborn_x		= 9;  // 复活点x
+		float  reborn_y		= 10; // 复活点y
+		float  reborn_range = 11; // 复活点range
+		float  reborn_face	= 12; // 复活点朝向
+	}
+
+	repeated Row rows = 1;
+}

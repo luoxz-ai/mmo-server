@@ -154,7 +154,7 @@ bool CAccountManager::Auth(CNetworkMessage* pMsg)
 	auth_data.open_id		 = msg.openid();
 	auth_data.from			 = pMsg->GetFrom();
 
-	struct __local
+	struct local
 	{
 		static void _OnAuthResult(brpc::Controller* cntl, CAccountManager* pThis, uint64_t call_id)
 		{
@@ -174,7 +174,7 @@ bool CAccountManager::Auth(CNetworkMessage* pMsg)
 			}
 		}
 	};
-	google::protobuf::Closure* done = brpc::NewCallback(&__local::_OnAuthResult, cntl, this, call_id);
+	google::protobuf::Closure* done = brpc::NewCallback(&local::_OnAuthResult, cntl, this, call_id);
 
 	m_pAuthChannel->CallMethod(NULL, cntl, NULL, NULL, done);
 	if(cntl->Failed())

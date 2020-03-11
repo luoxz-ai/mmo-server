@@ -1,0 +1,61 @@
+syntax				= "proto3";
+option optimize_for = CODE_SIZE;
+
+enum AchiConditionType
+{
+	CONDITION_NONE		  = 0;
+	CONDITION_LEVEL		  = 1; //等级>=val0
+	CONDITION_MONEY		  = 2; //铜钱>=val0
+	CONDITION_ACHIPOINT	  = 3; //成就点>=val0
+	CONDITION_COMBATPOWER = 4; //排行榜战斗力>=val0
+	CONDITION_USER_FRIEND = 5; //好友数量>=val0
+	CONDITION_VIP		  = 6; // VIP等级>=val0
+
+	CONDITION_TASK		  = 10; // val0编号的任务处于完成状态
+	CONDITION_SKILL_LEARN = 11; //技能id=val0(为0=任意)的技能等级>=val1
+
+	CONDITION_EQUIPMENT			 = 20; //是否装备了val0类型的物品,在装备位置val1(为0=任意)位置
+	CONDITION_EQUIPMENT_SUIT	 = 21; //是否装备了val0(为0=任意)类型的套装,val1个
+	CONDITION_EQUIPMENT_QUILITY	 = 22; //装备上一件品质>=val0的装备,在装备位置val1(为0=任意)位置
+	CONDITION_EQUIPMENT_ADDITION = 23; //装备上一件强化等级>=val0的装备,在装备位置val1(为0=任意)位置
+	CONDITION_UPGRADE_ADDITION	 = 24; //强化一件装备成功，强化后的强化等级>=val0
+	CONDITION_FORMULAITEM		 = 25; //合成一件装备成功，装备类型ID = val0
+	CONDITION_UPGRADEITEM		 = 26; //升级一件装备成功，装备类型ID = val0
+	CONDITION_FINISH_ACHI		 = 27; // GroupID=val0的成就全部达成
+
+	CONDITION_DATA_COUNT = 30; //累计计数type=val0, key=val1的value>val2
+}
+
+message Cfg_Achievement
+{
+	message Row
+	{
+		uint32	id		 = 1;
+		uint32	sort	 = 2; //排序编号
+		string	name	 = 3; //名称
+		string	desc	 = 4; //描述
+		uint32	lev_req	 = 5; //等级需求
+		uint32	prof_req = 6; //职业需求
+		uint32	group_id = 7;
+		message CheckData
+		{
+			AchiConditionType check_type = 1;
+			uint32			  val0		 = 2;
+			uint32			  val1		 = 3;
+			uint32			  val2		 = 4;
+		}
+		CheckData check_data = 8;
+
+		message AwardData
+		{
+			uint32 type = 1;
+			uint32 num	= 2;
+			uint32 flag = 3;
+		}
+		repeated AwardData award_list	   = 9;
+		uint32			   award_exp	   = 10;
+		uint32			   award_achipoint = 11;
+	}
+
+	repeated Row rows = 1;
+}

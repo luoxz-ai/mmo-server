@@ -20,3 +20,9 @@ for file in $filelist
 do
   ./gen_proto.sh . ${file%\.*} .
 done
+
+filelist=`ls server_msg/*.proto`
+for file in $filelist
+do
+  ./gen_proto.sh . ${file%\.*} .
+done

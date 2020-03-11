@@ -103,40 +103,53 @@ time_t _TimeGetMillisecond()
 
 time_t _TimeGetSecondLocal()
 {
-	return gmt2local(TimeGetSecond());
+	return gmt2local(_TimeGetSecond());
 }
 
 struct TimeGetCacheData
 {
-	bool   bUserCache				= false;
-	time_t cache_TimeGet			= 0;
-	time_t cache_TimeGetSecond		= 0;
-	time_t cache_TimeGetMillisecond = 0;
-	time_t cache_TimeGetSecondLocal = 0;
+	bool   bUserCache		 = false;
+	time_t Last				 = 0;
+	time_t Now				 = 0;
+	time_t NowOffset		 = 0;
+	time_t NowOffsetSec		 = 0;
+	time_t NowOffsetLocalSec = 0;
 };
 thread_local static TimeGetCacheData g_TimeGetCacheData;
+static std::atomic<time_t>			 g_TimeOffset = 0;
+
+void TimeOffset(time_t offset)
+{
+	g_TimeOffset += offset;
+}
 
 void TimeGetCacheCreate()
 {
 	g_TimeGetCacheData.bUserCache = true;
-	TimeGetCacheUpdate();
+	g_TimeGetCacheData.Last		  = _TimeGetMillisecond();
+	g_TimeGetCacheData.Now		  = g_TimeGetCacheData.Last;
 }
 
 void TimeGetCacheUpdate()
 {
 	if(g_TimeGetCacheData.bUserCache)
 	{
-		g_TimeGetCacheData.cache_TimeGet			= _TimeGetMonotonic();
-		g_TimeGetCacheData.cache_TimeGetSecond		= _TimeGetSecond();
-		g_TimeGetCacheData.cache_TimeGetMillisecond = _TimeGetMillisecond();
-		g_TimeGetCacheData.cache_TimeGetSecondLocal = _TimeGetSecondLocal();
+		time_t now = _TimeGetMillisecond();
+		if(now > g_TimeGetCacheData.Last)
+		{
+			g_TimeGetCacheData.Now += now - g_TimeGetCacheData.Last;
+		}
+		g_TimeGetCacheData.Last				 = now;
+		g_TimeGetCacheData.NowOffset		 = g_TimeGetCacheData.Now + g_TimeOffset;
+		g_TimeGetCacheData.NowOffsetSec		 = g_TimeGetCacheData.NowOffset / 1000;
+		g_TimeGetCacheData.NowOffsetLocalSec = gmt2local(g_TimeGetCacheData.NowOffsetSec);
 	}
 }
 
 time_t TimeGetMonotonic()
 {
 	if(g_TimeGetCacheData.bUserCache)
-		return g_TimeGetCacheData.cache_TimeGet;
+		return g_TimeGetCacheData.NowOffset;
 	else
 		return _TimeGetMonotonic();
 }
@@ -144,7 +157,7 @@ time_t TimeGetMonotonic()
 time_t TimeGetSecond()
 {
 	if(g_TimeGetCacheData.bUserCache)
-		return g_TimeGetCacheData.cache_TimeGetSecond;
+		return g_TimeGetCacheData.NowOffsetSec;
 	else
 		return _TimeGetSecond();
 }
@@ -152,7 +165,7 @@ time_t TimeGetSecond()
 time_t TimeGetMillisecond()
 {
 	if(g_TimeGetCacheData.bUserCache)
-		return g_TimeGetCacheData.cache_TimeGetMillisecond;
+		return g_TimeGetCacheData.NowOffset;
 	else
 		return _TimeGetMillisecond();
 }
@@ -160,7 +173,7 @@ time_t TimeGetMillisecond()
 time_t TimeGetSecondLocal()
 {
 	if(g_TimeGetCacheData.bUserCache)
-		return g_TimeGetCacheData.cache_TimeGetSecondLocal;
+		return g_TimeGetCacheData.NowOffsetLocalSec;
 	else
 		return _TimeGetSecondLocal();
 }
@@ -260,7 +273,8 @@ time_t GetTimeFromString(const std::string& time_str)
 time_t GetNextDayBeginTime()
 {
 	static thread_local time_t s_NextDayBeginTime = 0;
-	time_t					   now				  = TimeGetSecond();
+
+	time_t now = TimeGetSecond();
 	if(now < s_NextDayBeginTime)
 		return s_NextDayBeginTime;
 

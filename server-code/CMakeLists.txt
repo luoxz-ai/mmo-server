@@ -1,15 +1,21 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.2)
 MESSAGE(STATUS "cmake: project root")
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(DEBUG "ON for debug or OFF for release" OFF)
 option(TIDY "ON for use clang-tidy(cmake version 3.6+) or OFF for not use" OFF)
 option(USE_LUADEBUGER "ON for use lua_debuger or OFF for lua" OFF)
 option(USE_JEMALLOC "ON for use jemalloc or OFF" ON)
 option(AUTO_GEN_EXPORT_LUA "ON for AUTO_GEN_EXPORT_LUA or OFF" ON)
+option(USE_ASAN "ON for use Address Sanitizer or OFF" ON)
+option(IS_LEAKCHECK  "ON for use LeakChecker Sanitizer or OFF" ON)
 
 set_directory_properties(PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
 
-#-Woverloaded-virtual 
+
 
 
 PROJECT(Framework C CXX)
@@ -18,21 +24,31 @@ PROJECT(Framework C CXX)
 set (CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/src/CMake")
 include(cotire)
 
-
+SET(CMAKE_CXX_ERROR_FLAGS "-fexceptions -Wall -Wno-reorder -Wno-unused-variable -Wno-unused-function -Wno-unused-result -Wno-undefined-internal -Wno-deprecated -Wno-unused-private-field -Wno-nonportable-include-path")
 
 SET(CMAKE_C_FLAGS_DEBUG "$ENV{CFLAGS} -g -DDEBUG ")
 SET(CMAKE_C_FLAGS_RELEASE "$ENV{CFLAGS} -g -O3 -DNDEBUG ")
-SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -std=c++17 -g -DDEBUG -Wall -Wno-reorder -Wno-unused-variable -Wno-unused-function -fexceptions -Wno-unused-result -Wundefined-var-template")
-SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -std=c++17 -g -O3 -DNDEBUG -Wall -Wno-reorder -Wno-unused-variable -Wno-unused-function -fexceptions -Wno-unused-result -Wundefined-var-template")
+SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -std=c++17 -g -DDEBUG ${CMAKE_CXX_ERROR_FLAGS} ")
+SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -std=c++17 -g -O3 -DNDEBUG ${CMAKE_CXX_ERROR_FLAGS} ")
+
 #add_compile_options(-Wl,--unresolved-symbols=ignore-in-shared-libs)
 IF(NOT CMAKE_CXX_COMPILER MATCHES "clang")
-SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -rdynamic")
-SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -rdynamic")
+add_compile_options("-rdynamic")
 ELSE()
+add_compile_options("-Wno-undefined-var-template")
 SET(CMAKE_EXE_LINKER_FLAGS "-Wl,--export-dynamic")
+link_libraries("-fuse-ld=lld-9")
 ENDIF()
 
-
+IF(USE_ASAN)
+add_compile_options("-fsanitize=address")
+add_compile_options("-fno-omit-frame-pointer")
+add_compile_options("-fsanitize-address-use-after-scope")
+add_compile_options("-fsanitize-recover=address")
+add_compile_options("-fsanitize=undefined")
+link_libraries("-fsanitize=address")
+ENDIF(USE_ASAN)
+#add_compile_options("-fsanitize=thread")
 
 #-----------------------------------------------------------------------------
 # Enable ccache if not already enabled by symlink masquerading and if no other
@@ -58,6 +74,14 @@ SET(PROTOBUF_PROTOC_EXECUTABLE ${PROJECT_SOURCE_DIR}/depends/bin/protoc)
 include(FindProtobuf)
 
 set (MY_CLANG_TIDY_STR "clang-tidy-4.0;-style=file;-checks=-*,clang-analyzer-core*,clang-analyzer-cplusplus*,clang-analyzer-nullability*")
+
+
+message("CMAKE_CXX_COMPILER:" ${CMAKE_CXX_COMPILER})
+IF(DEBUG)
+message("CMAKE_CXX_FLAGS:" ${CMAKE_CXX_FLAGS_DEBUG})
+ELSE()
+message("CMAKE_CXX_FLAGS:" ${CMAKE_CXX_FLAGS_RELEASE})
+ENDIF()
 
 
 SET(CMAKE_SKIP_RPATH  FALSE)
@@ -86,7 +110,7 @@ include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/depends/src/snappy)
 include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/depends/src/libwebsockets/build/include)
 include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/depends/src/cpp-taskflow)
 include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/depends/src/)
-include_directories(${PROJECT_SOURCE_DIR}/src/share/)
+include_directories(${PROJECT_SOURCE_DIR}/src/server_share/)
 include_directories(${PROJECT_SOURCE_DIR}/src/comm/basecode/)
 include_directories(${PROJECT_SOURCE_DIR}/src/comm/network/)
 include_directories(${PROJECT_SOURCE_DIR}/src/comm/message_route/)

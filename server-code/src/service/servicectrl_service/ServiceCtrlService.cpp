@@ -10,12 +10,10 @@
 #include "NetworkMessage.h"
 #include "SettingMap.h"
 
-
-
-static thread_local CServiceCtrlService* thread_local_pService = nullptr;
-CServiceCtrlService* ServiceCtrlService()
+static thread_local CServiceCtrlService* tls_pService = nullptr;
+CServiceCtrlService*					 ServiceCtrlService()
 {
-	return thread_local_pService;
+	return tls_pService;
 }
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
@@ -34,7 +32,6 @@ extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16
 	return pService;
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 CServiceCtrlService::CServiceCtrlService(const ServerPort& nServerPort)
 	: CServiceCommon(nServerPort, "ServiceCtrl")
@@ -43,20 +40,20 @@ CServiceCtrlService::CServiceCtrlService(const ServerPort& nServerPort)
 
 CServiceCtrlService::~CServiceCtrlService()
 {
-	thread_local_pService = this;
+	tls_pService = this;
 	scope_guards scope_exit;
 	scope_exit += []() {
-		thread_local_pService = nullptr;
+		tls_pService = nullptr;
 	};
 }
 
 bool CServiceCtrlService::Create()
 {
 	//各种初始化
-	thread_local_pService = this;
+	tls_pService = this;
 	scope_guards scope_exit;
 	scope_exit += []() {
-		thread_local_pService = nullptr;
+		tls_pService = nullptr;
 	};
 
 	BaseCode::SetNdc(GetServiceName());
@@ -203,7 +200,7 @@ void CServiceCtrlService::OnLogicThreadProc()
 
 void CServiceCtrlService::OnLogicThreadCreate()
 {
-	thread_local_pService = this;
+	tls_pService = this;
 	BaseCode::SetNdc("ServiceCtrl");
 	LOGMESSAGE("ThreadID:{}", get_cur_thread_id());
 }

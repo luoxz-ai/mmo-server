@@ -5,7 +5,7 @@
 #include "AISkill.h"
 #include "AIType.h"
 #include "MonsterType.h"
-#include "msg/server_side.pb.h"
+#include "server_msg/server_side.pb.h"
 class CActorAI;
 class CAIMonster : public CAIActor
 {
@@ -15,7 +15,7 @@ public:
 	CREATE_NEW_IMPL(CAIMonster);
 	bool Init(const ServerMSG::ActorCreate& msg);
 
-	virtual ActorType GetActorType() const override  { return ActorType::ACT_MONSTER; }
+	virtual ActorType GetActorType() const override { return ActorType::ACT_MONSTER; }
 	static ActorType  GetActorTypeStatic() { return ActorType::ACT_MONSTER; }
 
 	void		 SetIsAISleep(bool bSleep);

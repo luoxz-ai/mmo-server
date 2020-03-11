@@ -6,13 +6,13 @@
 #include <type_traits>
 #include <unordered_map>
 #include <vector>
+
 #include <mysql/mysql.h>
 
 #include "BaseCode.h"
 #include "DBField.h"
 #include "MemoryHeap.h"
 #include "dynamic_bitset.h"
-
 
 class CDBRecord;
 class CMysqlConnection;

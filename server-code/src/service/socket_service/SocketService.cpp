@@ -10,7 +10,6 @@
 #include "msg/ts_cmd.pb.h"
 #include "msg/world_service.pb.h"
 
-
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
 
@@ -26,7 +25,6 @@ extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16
 
 	return pService;
 }
-
 
 CGameClient::CGameClient()
 	: m_nDestServerPort(0)
@@ -58,10 +56,10 @@ bool CGameClient::IsVaild() const
 	return m_VirtualSocket.GetSocketIdx() != 0;
 }
 
-static thread_local CSocketService* thread_local_pService = nullptr;
-CSocketService* SocketService()
+static thread_local CSocketService* tls_pService = nullptr;
+CSocketService*						SocketService()
 {
-	return thread_local_pService;
+	return tls_pService;
 }
 //////////////////////////////////////////////////////////////////////////
 CSocketService::CSocketService(const ServerPort& nServerPort)
@@ -72,19 +70,19 @@ CSocketService::CSocketService(const ServerPort& nServerPort)
 
 CSocketService::~CSocketService()
 {
-	thread_local_pService = this;
+	tls_pService = this;
 	scope_guards scope_exit;
 	scope_exit += []() {
-		thread_local_pService = nullptr;
+		tls_pService = nullptr;
 	};
 }
 
 bool CSocketService::Create()
 {
-	thread_local_pService = this;
+	tls_pService = this;
 	scope_guards scope_exit;
 	scope_exit += []() {
-		thread_local_pService = nullptr;
+		tls_pService = nullptr;
 	};
 
 	BaseCode::SetNdc(GetServiceName());
@@ -446,7 +444,7 @@ void CSocketService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 
 void CSocketService::OnLogicThreadCreate()
 {
-	thread_local_pService = this;
+	tls_pService = this;
 	CServiceCommon::OnLogicThreadCreate();
 }
 

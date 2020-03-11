@@ -1,14 +1,15 @@
 #ifndef ACTORAI_H
 #define ACTORAI_H
 
+#include <functional>
+#include <string_view>
+
 #include "AIService.h"
 #include "AIType.h"
 #include "EventManager.h"
 #include "HateList.h"
 #include "MapManager.h"
 #include "SkillType.h"
-#include <functional>
-#include <string_view>
 //最后还是考虑使用最简答的单层状态机来构建AI
 //在攻击决策模块中,适量的使用模糊逻辑,来增加随机性
 
@@ -25,7 +26,7 @@
 
 enum AITaskType
 {
-	ATT_IDLE = 0,		// idle
+	ATT_IDLE = 0,	// idle
 	ATT_ATTACK,		//攻击决策
 	ATT_APPROACH,	//移动到距离目标N米处
 	ATT_SKILL,		//释放某种技能
@@ -79,6 +80,7 @@ public:
 	void	 SetCurSkillTypeID(uint32_t val) { m_nCurSkillTypeID = val; }
 
 	static const STATE_DATA& GetStateData(int nState);
+
 public:
 	// 随机移动
 	bool ToRandMove();
@@ -128,7 +130,7 @@ public:
 	CAIType*	   GetAIType() const;
 	CAIPathFinder* PathFind() const { return m_pAIPathFinder; }
 
-	const Cfg_AIType_Row&					  GetAIData() const;
+	const Cfg_AIType_Row&					GetAIData() const;
 	const Cfg_Scene_Patrol_Row_patrol_data& GetCurPratolData();
 
 private:
@@ -146,11 +148,11 @@ private:
 	}
 
 private:
-	uint32_t	   m_nState	 = 0;
-	CAIActor*	   m_pActor	 = nullptr;
-	CAIType*	   m_pAIType = nullptr;
-	CAIPathFinder* m_pAIPathFinder=  nullptr;
-	OBJID		   m_idTarget = 0;
+	uint32_t	   m_nState		   = 0;
+	CAIActor*	   m_pActor		   = nullptr;
+	CAIType*	   m_pAIType	   = nullptr;
+	CAIPathFinder* m_pAIPathFinder = nullptr;
+	OBJID		   m_idTarget	   = 0;
 	Vector2		   m_posTarget;
 	Vector2		   m_posRecord;
 	Vector2		   m_posBorn;

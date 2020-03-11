@@ -1,0 +1,16 @@
+syntax				= "proto3";
+option optimize_for = CODE_SIZE;
+import "common/AttribChangeDataProto.proto";
+
+message Cfg_ItemAddition
+{
+	message Row
+	{
+		uint32 id  = 1; //物品类型id
+		uint32 lev = 2; //强化等级
+
+		repeated AttribChangeDataProto attrib_change_list = 18; //增加的属性
+	}
+
+	repeated Row rows = 1;
+}

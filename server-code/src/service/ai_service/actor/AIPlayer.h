@@ -1,7 +1,7 @@
 #ifndef AIPLAYER_H
 #define AIPLAYER_H
 #include "AIActor.h"
-#include "msg/server_side.pb.h"
+#include "server_msg/server_side.pb.h"
 
 class CAIPlayer : public CAIActor
 {

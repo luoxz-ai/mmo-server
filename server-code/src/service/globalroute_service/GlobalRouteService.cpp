@@ -19,7 +19,7 @@
 #include "event2/keyvalq_struct.h"
 #include "loging_manager.h"
 #include "md5.h"
-#include "msg/server_side.pb.h"
+#include "server_msg/server_side.pb.h"
 #include "proxy_service.pb.h"
 #include "tinyxml2/tinyxml2.h"
 
@@ -105,10 +105,10 @@ public:
 		client_cntl->request_attachment() = server_cntl->request_attachment();
 
 		http_chan.CallMethod(NULL, client_cntl, NULL, NULL, brpc::NewCallback(&handle_response, client_cntl, server_cntl, done));
-		return true;
 
 		UNUSED(m_pService);
 		UNUSED(m_internal_port);
+		return true;
 	}
 
 	virtual void default_method(google::protobuf::RpcController* cntl_base, const HttpRequest*, HttpResponse*, google::protobuf::Closure* done)
@@ -148,11 +148,11 @@ public:
 	}
 };
 
-static thread_local CGlobalRouteService* thread_local_pService;
-CGlobalRouteService* GlobalRouteService()
+static thread_local CGlobalRouteService* tls_pService;
+CGlobalRouteService*					 GlobalRouteService()
 {
-	return thread_local_pService;
-}	
+	return tls_pService;
+}
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
@@ -170,7 +170,6 @@ extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16
 	return pService;
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 CGlobalRouteService::CGlobalRouteService(const ServerPort& nServerPort)
 	: CServiceCommon(nServerPort, std::string("global_route") + std::to_string(nServerPort.GetServiceID()))
@@ -179,10 +178,10 @@ CGlobalRouteService::CGlobalRouteService(const ServerPort& nServerPort)
 
 CGlobalRouteService::~CGlobalRouteService()
 {
-	thread_local_pService = this;
+	tls_pService = this;
 	scope_guards scope_exit;
 	scope_exit += []() {
-		thread_local_pService = nullptr;
+		tls_pService = nullptr;
 	};
 
 	StopRPCServer();
@@ -191,10 +190,10 @@ CGlobalRouteService::~CGlobalRouteService()
 bool CGlobalRouteService::Create()
 {
 	//各种初始化
-	thread_local_pService = this;
+	tls_pService = this;
 	scope_guards scope_exit;
 	scope_exit += []() {
-		thread_local_pService = nullptr;
+		tls_pService = nullptr;
 	};
 
 	BaseCode::SetNdc(GetServiceName());
@@ -311,7 +310,7 @@ void CGlobalRouteService::OnLogicThreadProc()
 
 void CGlobalRouteService::OnLogicThreadCreate()
 {
-	thread_local_pService = this;
+	tls_pService = this;
 	CServiceCommon::OnLogicThreadCreate();
 }
 
@@ -432,7 +431,7 @@ bool CheckKVMap(const std::unordered_map<std::string, std::string>& kvmap)
 //
 //	//产生对应的消息发送给对应的服务器
 //	auto uid = GlobalRouteService()->CreateUID();
-//	ServerMSG::ServiceHttpRequest msg;
+//	MsgServiceHttpRequest msg;
 //	msg.set_uid(uid);
 //	msg.mutable_kvmap()->insert(kvmap.begin(), kvmap.end());
 //	if(idWorld == 0)
@@ -441,7 +440,7 @@ bool CheckKVMap(const std::unordered_map<std::string, std::string>& kvmap)
 //	}
 //	else
 //	{
-//		SendPortMsg(ServerPort(idWorld, GM_SERVICE_ID), ServerMSG::MsgID_ServiceHttpRequest, msg);
+//		SendPortMsg(ServerPort(idWorld, GM_SERVICE_ID), MsgID_ServiceHttpRequest, msg);
 //	}
 //	evhttp_request_own(req);
 //	GlobalRouteService()->AddDelayResponse(uid, req);

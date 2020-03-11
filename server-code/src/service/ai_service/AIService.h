@@ -13,7 +13,7 @@
 #include "ScriptManager.h"
 #include "ServiceComm.h"
 #include "UIDFactory.h"
-#include "msg/server_side.pb.h"
+#include "server_msg/server_side.pb.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"
 
@@ -68,16 +68,49 @@ private:
 
 CAIService* AIService();
 
-inline auto EventManager() { return AIService()->GetEventManager();}  
-inline auto ScriptManager() { return AIService()->GetScriptManager();}  
-inline auto NetMsgProcess() { return AIService()->GetNetMsgProcess();}  
-inline auto TargetFAMSet() { return AIService()->GetTargetFAMSet();}  
-inline auto SkillFAMSet() { return AIService()->GetSkillFAMSet();}  
-inline auto AITypeSet() { return AIService()->GetAITypeSet();}  
-inline auto AISceneManager() { return AIService()->GetAISceneManager();}  
-inline auto AIActorManager() { return AIService()->GetAIActorManager();}  
-inline auto SkillTypeSet() { return AIService()->GetSkillTypeSet();}  
-inline auto MapManager() { return AIService()->GetMapManager();}  
-inline auto MonsterTypeSet() { return AIService()->GetMonsterTypeSet();}  
+inline auto EventManager()
+{
+	return AIService()->GetEventManager();
+}
+inline auto ScriptManager()
+{
+	return AIService()->GetScriptManager();
+}
+inline auto NetMsgProcess()
+{
+	return AIService()->GetNetMsgProcess();
+}
+inline auto TargetFAMSet()
+{
+	return AIService()->GetTargetFAMSet();
+}
+inline auto SkillFAMSet()
+{
+	return AIService()->GetSkillFAMSet();
+}
+inline auto AITypeSet()
+{
+	return AIService()->GetAITypeSet();
+}
+inline auto AISceneManager()
+{
+	return AIService()->GetAISceneManager();
+}
+inline auto AIActorManager()
+{
+	return AIService()->GetAIActorManager();
+}
+inline auto SkillTypeSet()
+{
+	return AIService()->GetSkillTypeSet();
+}
+inline auto MapManager()
+{
+	return AIService()->GetMapManager();
+}
+inline auto MonsterTypeSet()
+{
+	return AIService()->GetMonsterTypeSet();
+}
 
 #endif /* AISERVICE_H */

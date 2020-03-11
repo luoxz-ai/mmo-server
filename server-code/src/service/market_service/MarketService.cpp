@@ -10,11 +10,10 @@
 #include "NetworkMessage.h"
 #include "SettingMap.h"
 
-
-static thread_local CMarketService* thread_local_pService = nullptr;
-CMarketService* MarketService()
+static thread_local CMarketService* tls_pService = nullptr;
+CMarketService*						MarketService()
 {
-	return thread_local_pService;
+	return tls_pService;
 }
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
@@ -33,7 +32,6 @@ extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16
 	return pService;
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 CMarketService::CMarketService(const ServerPort& nServerPort)
 	: CServiceCommon(nServerPort, "Market")
@@ -42,20 +40,20 @@ CMarketService::CMarketService(const ServerPort& nServerPort)
 
 CMarketService::~CMarketService()
 {
-	thread_local_pService = this;
+	tls_pService = this;
 	scope_guards scope_exit;
 	scope_exit += []() {
-		thread_local_pService = nullptr;
+		tls_pService = nullptr;
 	};
 }
 
 bool CMarketService::Create()
 {
 	//各种初始化
-	thread_local_pService = this;
+	tls_pService = this;
 	scope_guards scope_exit;
 	scope_exit += []() {
-		thread_local_pService = nullptr;
+		tls_pService = nullptr;
 	};
 
 	BaseCode::SetNdc(GetServiceName());
@@ -93,7 +91,7 @@ void CMarketService::OnLogicThreadProc()
 
 void CMarketService::OnLogicThreadCreate()
 {
-	thread_local_pService = this;
+	tls_pService = this;
 	CServiceCommon::OnLogicThreadCreate();
 }
 

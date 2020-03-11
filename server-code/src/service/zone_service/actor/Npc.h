@@ -20,7 +20,7 @@ public:
 	export_lua virtual const std::string& GetName() const override { return m_pType->GetName(); }
 
 public:
-	export_lua virtual ActorType GetActorType() const override{ return ActorType::ACT_NPC; }
+	export_lua virtual ActorType GetActorType() const override { return ActorType::ACT_NPC; }
 	export_lua static ActorType	 GetActorTypeStatic() { return ActorType::ACT_NPC; }
 	virtual void				 MakeShowData(SC_AOI_NEW& msg) override;
 	virtual void				 OnEnterMap(CSceneBase* pScene) override;

@@ -2,7 +2,7 @@ MESSAGE(STATUS "cmake: world_service")
 
 # 搜索当前目录下所有文件
 file(GLOB_RECURSE SRCS "*.cc" "*.cpp" "*.c" "*.h" "*.hpp")
-file(GLOB_RECURSE SHARES "../share/*.h" "../share/*.hpp")
+file(GLOB_RECURSE SHARES "../server_share/*.h" "../server_share/*.hpp")
 
 list(APPEND SRCS ${SHARES})
 source_group_by_dir(SRCS)

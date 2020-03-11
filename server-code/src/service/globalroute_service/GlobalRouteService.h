@@ -13,7 +13,7 @@ class CGlobalRouteService : public IService, public CServiceCommon
 public:
 	CGlobalRouteService(const ServerPort& nServerPort);
 	virtual ~CGlobalRouteService();
-	void Release() override{ delete this; }
+	void Release() override { delete this; }
 	bool Create();
 
 public:
@@ -32,7 +32,13 @@ private:
 };
 
 CGlobalRouteService* GlobalRouteService();
-inline auto EventManager() { return GlobalRouteService()->GetEventManager();}  
-inline auto NetMsgProcess() { return GlobalRouteService()->GetNetMsgProcess();}  
+inline auto			 EventManager()
+{
+	return GlobalRouteService()->GetEventManager();
+}
+inline auto NetMsgProcess()
+{
+	return GlobalRouteService()->GetNetMsgProcess();
+}
 
 #endif // GlobalRouteService_h__

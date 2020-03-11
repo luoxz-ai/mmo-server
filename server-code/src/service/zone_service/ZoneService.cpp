@@ -14,19 +14,17 @@
 #include "Scene.h"
 #include "SettingMap.h"
 #include "globaldb.h"
-#include "msg/server_side.pb.h"
+#include "server_msg/server_side.pb.h"
 
-
-
-static thread_local CZoneService* thread_local_pService = nullptr;
-CZoneService* ZoneService()
+static thread_local CZoneService* tls_pService = nullptr;
+CZoneService*					  ZoneService()
 {
-	return thread_local_pService;
+	return tls_pService;
 }
 
 void SetZoneServicePtr(CZoneService* pZone)
 {
-	thread_local_pService = pZone;
+	tls_pService = pZone;
 }
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
@@ -45,7 +43,6 @@ extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16
 	return pService;
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 CZoneService::CZoneService(const ServerPort& nServerPort)
 	: CServiceCommon(nServerPort, std::string("Zone") + std::to_string(nServerPort.GetServiceID()))
@@ -62,10 +59,10 @@ CZoneService::CZoneService(const ServerPort& nServerPort)
 
 CZoneService::~CZoneService()
 {
-	thread_local_pService = this;
+	tls_pService = this;
 	scope_guards scope_exit;
 	scope_exit += []() {
-		thread_local_pService = nullptr;
+		tls_pService = nullptr;
 	};
 	StopLogicThread();
 	if(m_pLoadingThread)
@@ -92,10 +89,10 @@ bool CZoneService::Create()
 	__ENTER_FUNCTION
 
 	//各种初始化
-	thread_local_pService = this;
+	tls_pService = this;
 	scope_guards scope_exit;
 	scope_exit += []() {
-		thread_local_pService = nullptr;
+		tls_pService = nullptr;
 	};
 
 	BaseCode::SetNdc(GetServiceName());
@@ -155,7 +152,7 @@ bool CZoneService::Create()
 	extern void export_to_lua(lua_State*, void*);
 	m_pScriptManager.reset(
 		CLUAScriptManager::CreateNew(std::string("ZoneScript") + std::to_string(GetServerPort().GetServiceID()), &export_to_lua, (void*)this, "res/script/zone_service"));
-	
+
 	CHECKF(m_SceneManager.Init(GetServerPort().GetServiceID()));
 
 	extern void PlayerMessageHandlerRegister();
@@ -411,7 +408,7 @@ bool CZoneService::BroadcastToAllPlayer(uint16_t nCmd, const google::protobuf::M
 				return pPlayer->GetID();
 			return 0;
 		};
-		auto func = std::bind(&CActorManager::foreach_player, GetActorManager(), std::move(func_callback));
+		auto func = std::bind(&CActorManager::ForeachPlayer, GetActorManager(), std::move(func_callback));
 		BroadcastMessageToPlayer(func, nCmd, msg);
 	}
 
@@ -543,7 +540,7 @@ void CZoneService::OnLogicThreadProc()
 
 void CZoneService::OnLogicThreadCreate()
 {
-	thread_local_pService = this;
+	tls_pService = this;
 	CServiceCommon::OnLogicThreadCreate();
 }
 

@@ -1,0 +1,18 @@
+syntax				= "proto3";
+option optimize_for = CODE_SIZE;
+
+message Cfg_BornPos
+{
+	message Row
+	{
+		uint32 id	 = 1;
+		uint32 prof	 = 2;
+		uint32 mapid = 3;
+		float  posx	 = 4;
+		float  posy	 = 5;
+		float  range = 6;
+		float  face	 = 7;
+	}
+
+	repeated Row rows = 1;
+}

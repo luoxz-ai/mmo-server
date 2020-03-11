@@ -261,14 +261,12 @@ bool CActorStatus::TestStatusByFlag(uint32_t nFlag) const
 	return false;
 }
 
-
 void CActorStatus::OnMove()
 {
 	__ENTER_FUNCTION
 	OnEventDetach(&CStatus::OnMove, STATUSFLAG_DEATCH_MOVE);
 	__LEAVE_FUNCTION
 }
-
 
 void CActorStatus::OnSkill(uint32_t idSkill)
 {

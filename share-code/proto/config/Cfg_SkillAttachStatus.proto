@@ -1,0 +1,19 @@
+syntax				= "proto3";
+option optimize_for = CODE_SIZE;
+
+message Cfg_SkillAttachStatus
+{
+	message Row
+	{
+		uint32 id			 = 1;
+		uint32 idskill		 = 2;
+		uint32 status_typeid = 3;
+		uint32 status_lev	 = 4;
+
+		uint32 status_power = 6;
+		uint32 status_secs	= 7;
+		uint32 status_times = 8;
+	}
+
+	repeated Row rows = 1;
+}

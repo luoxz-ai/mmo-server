@@ -77,7 +77,7 @@ bool CUserSkillManager::Init(CPlayer* pOwner)
 			if(pData)
 			{
 				m_setSkillData[pData->GetSkillSort()] = pData;
-				CSkillType* pSkillType = SkillTypeSet()->QueryObj(CSkillType::MakeID(pData->GetSkillSort(), pData->GetSkillLev()));
+				CSkillType* pSkillType				  = SkillTypeSet()->QueryObj(CSkillType::MakeID(pData->GetSkillSort(), pData->GetSkillLev()));
 				if(pSkillType && pSkillType->GetSkillType() == SKILLTYPE_PASSIVE)
 				{
 					const auto& refList = pSkillType->GetAttrib();
@@ -118,10 +118,10 @@ bool CUserSkillManager::LearnSkill(uint32_t idSkillSort)
 			const auto& refList = pSkillType->GetAttrib();
 			m_pOwner->GetAttrib().Store(refList);
 		}
-	
+
 		m_pOwner->GetAchievement()->CheckAchiCondition(CONDITION_SKILL_LEARN, idSkillSort, 1);
 
-		//lua call onSkillLearn
+		// lua call onSkillLearn
 
 		//通知前端
 		return true;
@@ -161,7 +161,6 @@ bool CUserSkillManager::UpgradeSkill(uint32_t idSkillSort)
 
 	//检查各种学习需求
 
-
 	//属性
 	if(pSkillType->GetSkillType() == SKILLTYPE_PASSIVE)
 	{
@@ -197,4 +196,3 @@ CUserSkillData* CUserSkillManager::_QuerySkill(uint32_t idSkillSort) const
 	__LEAVE_FUNCTION
 	return nullptr;
 }
-

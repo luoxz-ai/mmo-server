@@ -31,7 +31,7 @@ ENDIF()
 
 
 # 搜索当前目录下所有文件
-file(GLOB_RECURSE SRCS "*.cc" "*.cpp" "*.c" "*.h" "*.hpp")
+file(GLOB_RECURSE SRCS FOLLOW_SYMLINKS "*.cc" "*.cpp" "*.c" "*.h" "*.hpp")
 source_group_by_dir(SRCS)
 # 生成库文件
 ADD_LIBRARY(myproto SHARED ${SRCS})
@@ -40,9 +40,6 @@ IF(WIN32)
 ELSE()
 ADD_DEPENDENCIES(myproto myproto_autogen)
 ENDIF()
-
-#SET_TARGET_PROPERTIES(world_service PROPERTIES CLEAN_DIRECT_OUTPUT 1)
-#SET_TARGET_PROPERTIES(world_service PROPERTIES VERSION 0.1 SOVERSION 1)
 
 set(CMAKE_CXX_CLANG_TIDY "")
  

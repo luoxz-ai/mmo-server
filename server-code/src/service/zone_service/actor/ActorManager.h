@@ -50,12 +50,12 @@ public:
 	OBJID GenMapItemID();
 	OBJID GenBulletID();
 
-	void foreach_player(std::function<void(const std::unordered_map<VirtualSocket, CPlayer*>::value_type&)>&& func)
+	void ForeachPlayer(std::function<void(const std::unordered_map<VirtualSocket, CPlayer*>::value_type&)>&& func)
 	{
 		std::for_each(m_PlayerRefMap.begin(), m_PlayerRefMap.end(), func);
 	}
 
-	void foreach_actor(std::function<void(const std::unordered_map<OBJID, CActor*>::value_type&)>&& func) { std::for_each(m_ActorMap.begin(), m_ActorMap.end(), func); }
+	void ForeachActor(std::function<void(const std::unordered_map<OBJID, CActor*>::value_type&)>&& func) { std::for_each(m_ActorMap.begin(), m_ActorMap.end(), func); }
 
 protected:
 private:

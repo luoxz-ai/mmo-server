@@ -8,7 +8,7 @@
 #include "NetSocket.h"
 #include "ServiceComm.h"
 #include "UIDFactory.h"
-#include "msg/server_side.pb.h"
+#include "server_msg/server_side.pb.h"
 
 struct event;
 class CNetMSGProcess;
@@ -17,7 +17,7 @@ class CGMService : public IService, public CServiceCommon
 public:
 	CGMService(const ServerPort& nServerPort);
 	virtual ~CGMService();
-	void Release() override{ delete this; }
+	void Release() override { delete this; }
 	bool Create();
 
 	void SendServiceReady();
@@ -35,7 +35,13 @@ public:
 };
 
 CGMService* GMService();
-inline auto EventManager() { return GMService()->GetEventManager();}  
-inline auto NetMsgProcess() { return GMService()->GetNetMsgProcess();}  
+inline auto EventManager()
+{
+	return GMService()->GetEventManager();
+}
+inline auto NetMsgProcess()
+{
+	return GMService()->GetNetMsgProcess();
+}
 
 #endif // GMService_h__

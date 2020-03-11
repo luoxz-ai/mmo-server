@@ -1,0 +1,67 @@
+syntax				= "proto3";
+option optimize_for = CODE_SIZE;
+
+enum TaskFinishType
+{
+	TFTYPE_NONE		  = 0;
+	TFTYPE_MONSTER	  = 1; //击杀怪物
+	TFTYPE_ITEM		  = 2; //提交物品
+	TFTYPE_ACHI		  = 3; //达成成就
+	TFTYPE_FINISHTASK = 4; //完成任务
+	TFTYPE_DATA		  = 5;
+};
+
+message Cfg_Task
+{
+	message Row
+	{
+		uint32 id	= 1; //任务ID
+		uint32 sort = 2; //任务排序编号
+
+		uint32			type					 = 4;  //任务分类 	0=主线 1=每日
+		string			name					 = 5;  //任务名称
+		uint32			level_req				 = 6;  //等级需求
+		uint32			prof_req				 = 7;  //职业需求
+		repeated uint32 task_req				 = 8;  //前置任务需求
+		uint32			expire_sec				 = 9;  //过期时间
+		uint32			daytimes				 = 10; //每日可执行次数
+		uint32			accept_npcid			 = 11; //接任务的NPCid
+		uint32			submit_npcid			 = 12; //交任务的NPCid
+		uint32			task_flag				 = 13; //任务掩码
+		uint32			daytimes_max			 = 14; //最大每日可执行次数
+		uint32			daytime_per_cost		 = 15; //额外购买次数需要消耗的元宝
+		uint32			submit_multiple_max		 = 16; //最多可以额外提交几倍奖励
+		uint32			submit_multiple_cost	 = 17; //每份额外奖励需要消耗多少元宝
+		uint32			quick_submit_cost		 = 18; //元宝快速完成需要消耗多少元宝
+		uint32			next_auto_accept_task_id = 19; //完成任务时自动接受某个任务
+		uint32			award_exp				 = 20; //奖励经验
+
+		message TaskAwardItemData
+		{
+			uint32 itemtype	  = 1; //奖励物品类型
+			uint32 itemflag	  = 2; //奖励物品掩码
+			uint32 itemamount = 3; //奖励物品数量
+		}
+		repeated TaskAwardItemData award_item_list = 21;
+
+		message TaskFinishData
+		{
+			uint32 finish_type = 1;	 //任务完成条件类型
+			uint32 finish_data = 2;	 //任务完成条件数值1  物品id/任务id/成就id
+			uint32 finish_num  = 3;	 //任务完成条件数值2  需要的数量
+			float  rate		   = 4;	 //几率
+			bool   share	   = 5;	 //是否允许共享
+			string desc		   = 10; //描述文字
+		}
+
+		repeated TaskFinishData finish_data_list = 22;
+
+		int64  scriptid	  = 30; //脚本id
+		string accept_txt = 31; //接取任务时的文本
+		string doing_txt  = 32; //正在处理时的文本
+		string submit_txt = 33; //可以提交时的文本
+		string desc		  = 34; //描述文字
+	}
+
+	repeated Row rows = 1;
+}

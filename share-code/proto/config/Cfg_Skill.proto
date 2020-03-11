@@ -1,0 +1,53 @@
+syntax				= "proto3";
+option optimize_for = CODE_SIZE;
+import "common/AttribChangeDataProto.proto";
+message Cfg_Skill
+{
+	message Row
+	{
+		uint32 id		   = 1; //技能ID
+		uint32 sort		   = 2; //技能排序编号
+		uint32 level	   = 3; //技能等级
+		uint32 type		   = 4; //技能实际类别
+		string name		   = 5; //技能名称
+		uint32 learn_level = 6; //学习等级
+		uint32 prof_req	   = 7; //职业需求
+		uint32 skillid_req = 8; //前置技能需求
+
+		uint32 use_itemtype	  = 9;	//释放所需物品
+		int32  use_mp		  = 10; //释放所需mp
+		int32  use_hp		  = 11; //释放所需mp
+		uint32 use_needstatus = 12; //释放所需状态编号
+
+		uint32 power		  = 13; //最小伤害
+		uint32 max_power	  = 14; //最大伤害
+		uint32 power_addition = 15; //附加伤害
+		uint32 data			  = 16; //自定义数值
+
+		uint32 intone_ms	= 17; //吟唱时间
+		uint32 apply_times	= 18; //作用次数
+		uint32 apply_ms		= 19; //单次作用间隔时间=apply_ms + apply_adj_ms*times
+		uint32 apply_adj_ms = 20; //每次作用后对单次作用间隔时间的修改,
+		uint32 stun_ms		= 21; //施法后僵直时间
+		uint32 cd_sec		= 22; //技能CD时间
+		uint32 cd_type		= 23; //技能cd编号
+
+		uint32 hit_type		= 24; //伤害类型
+		float  distance		= 25; //最小释放距离
+		float  max_distance = 26; //最大释放距离
+		float  range		= 27; //技能范围
+		float  width		= 28; //技能宽度
+
+		uint32 cast_type	= 29; //技能目标类型
+		uint32 flag			= 30; //技能掩码
+		uint32 damage_flag	= 31; //技能伤害掩码
+		uint32 damage_shape = 32; //技能伤害范围
+
+		uint32						   bulletid			  = 33; //每次apply产生的bullet的typeid
+		uint64						   scriptid			  = 34; //脚本id
+		bool						   isdebug			  = 35; //打开调试信息
+		repeated AttribChangeDataProto attrib_change_list = 36;
+	}
+
+	repeated Row rows = 1;
+}

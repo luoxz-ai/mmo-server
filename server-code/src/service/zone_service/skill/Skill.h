@@ -42,7 +42,6 @@ public:
 	export_lua bool CastSkill(uint32_t idSkillSort, OBJID idTarget, const Vector2& pos);
 	export_lua bool UpgradeSkill(uint32_t idSkillSort);
 	export_lua CUserSkillData* _QuerySkill(uint32_t idSkillSort) const;
-	
 
 private:
 	CPlayer*							m_pOwner = nullptr;

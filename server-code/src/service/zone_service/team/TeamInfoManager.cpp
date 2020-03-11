@@ -3,7 +3,7 @@
 #include "Actor.h"
 #include "Player.h"
 #include "ZoneService.h"
-#include "msg/server_side.pb.h"
+#include "server_msg/server_side.pb.h"
 
 MEMORYHEAP_IMPLEMENTATION(CTeamInfo, s_heap);
 

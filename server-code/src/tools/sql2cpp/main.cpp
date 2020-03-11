@@ -4,6 +4,7 @@
 #include <regex>
 #include <string>
 #include <unordered_set>
+
 #include "fmt/format.h"
 #include "fmt/printf.h"
 
@@ -229,7 +230,7 @@ int main(int argc, char** argv)
 						else if(field_type == "blob")
 						{
 							field_type_cpp	= "std::string ";
-							field_type_enum = "DB_FIELD_TYPE_BLOB";	
+							field_type_enum = "DB_FIELD_TYPE_BLOB";
 						}
 
 						fields_type += field_type_cpp;
@@ -258,7 +259,7 @@ struct {0}
 			std::string table_name_UP = table_name;
 			std::transform(table_name_UP.begin(), table_name_UP.end(), table_name_UP.begin(), ::toupper);
 			fmt::format_to(szBuf, output_format.c_str(), table_name_UP.c_str(), table_name.c_str(), fields_enum_list.c_str(), fields_name.c_str(), fields_type.c_str(),
-					fields_type_enum.c_str(), is_pri_key_list.c_str());
+						   fields_type_enum.c_str(), is_pri_key_list.c_str());
 
 			output_header += szBuf;
 			fmt::printf("%s", szBuf);

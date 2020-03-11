@@ -1,12 +1,12 @@
 #ifndef DBFIELD_H
 #define DBFIELD_H
 
+#include <functional>
 #include <memory>
 #include <string>
 #include <unordered_map>
 #include <variant>
 #include <vector>
-#include <functional>
 
 #include "BaseCode.h"
 #include "CallStackDumper.h"
@@ -39,7 +39,7 @@ struct CDBFieldInfo
 	virtual const char*	   GetTableName() const = 0;
 	virtual const char*	   GetFieldName() const = 0;
 	virtual DB_FIELD_TYPES GetFieldType() const = 0;
-	virtual uint32_t	   GetFieldIdx() const = 0;
+	virtual uint32_t	   GetFieldIdx() const	= 0;
 	virtual bool		   IsPriKey() const		= 0;
 };
 
@@ -301,13 +301,13 @@ public:
 	CDBField& set(char* v) { return set<std::string>(v); }
 
 	template<class T>
-	CDBField& operator=(T v)
+	CDBField& operator=(T&& v)
 	{
 		return set(std::forward<T>(v));
 	}
 
 	template<class T>
-	bool operator==(T v) const
+	bool operator==(T&& v) const
 	{
 		return this->operator T() == v;
 	}
@@ -406,8 +406,8 @@ public:
 		return false;
 	}
 
-	std::string GetValString() const;
-	void SetGetValStringFunc(std::function< std::string () > func){m_funcGetValString = func;}
+	std::string			GetValString() const;
+	void				SetGetValStringFunc(std::function<std::string()> func) { m_funcGetValString = func; }
 	bool				CanModify() const;
 	bool				IsDirty() const;
 	void				MakeDirty();
@@ -421,7 +421,7 @@ private:
 	const CDBFieldInfo*																								   m_pFieldInfo;
 	std::variant<int8_t, uint8_t, int16_t, uint16_t, int32_t, uint32_t, int64_t, uint64_t, float, double, std::string> m_Val;
 	bool																											   m_bDirty;
-	std::function< std::string () > 																				   m_funcGetValString;
+	std::function<std::string()>																					   m_funcGetValString;
 };
 
 #endif /* DBFIELD_H */

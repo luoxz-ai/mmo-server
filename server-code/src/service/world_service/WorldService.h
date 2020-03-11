@@ -16,7 +16,7 @@
 #include "UserAttr.h"
 #include "UserManager.h"
 #include "globaldb.h"
-#include "msg/server_side.pb.h"
+#include "server_msg/server_side.pb.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/world_service.pb.h"
 
@@ -28,7 +28,7 @@ class CWorldService : public IService, public CServiceCommon
 public:
 	CWorldService(const ServerPort& nServerPort);
 	virtual ~CWorldService();
-	void Release() override{ delete this; }
+	void Release() override { delete this; }
 	bool Create();
 
 public:
@@ -125,17 +125,47 @@ private:
 };
 
 CWorldService* WorldService();
-void SetWorldServicePtr(CWorldService* ptr);
+void		   SetWorldServicePtr(CWorldService* ptr);
 
-inline auto GMManager() { return WorldService()->GetGMManager();}  
-inline auto EventManager() { return WorldService()->GetEventManager();}  
-inline auto NetMsgProcess() { return WorldService()->GetNetMsgProcess();}  
-inline auto AccountManager() { return WorldService()->GetAccountManager();}  
-inline auto UserManager() { return WorldService()->GetUserManager();}  
-inline auto UserAttrSet() { return WorldService()->GetUserAttrSet();}  
-inline auto BornPosSet() { return WorldService()->GetBornPosSet();}  
-inline auto MapManager() { return WorldService()->GetMapManager();}  
-inline auto SystemVarSet() { return WorldService()->GetSystemVarSet();}  
-inline auto TeamManager() { return WorldService()->GetTeamManager();}  
+inline auto GMManager()
+{
+	return WorldService()->GetGMManager();
+}
+inline auto EventManager()
+{
+	return WorldService()->GetEventManager();
+}
+inline auto NetMsgProcess()
+{
+	return WorldService()->GetNetMsgProcess();
+}
+inline auto AccountManager()
+{
+	return WorldService()->GetAccountManager();
+}
+inline auto UserManager()
+{
+	return WorldService()->GetUserManager();
+}
+inline auto UserAttrSet()
+{
+	return WorldService()->GetUserAttrSet();
+}
+inline auto BornPosSet()
+{
+	return WorldService()->GetBornPosSet();
+}
+inline auto MapManager()
+{
+	return WorldService()->GetMapManager();
+}
+inline auto SystemVarSet()
+{
+	return WorldService()->GetSystemVarSet();
+}
+inline auto TeamManager()
+{
+	return WorldService()->GetTeamManager();
+}
 
 #endif // WorldService_h__

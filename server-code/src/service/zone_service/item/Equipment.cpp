@@ -334,8 +334,8 @@ void CEquipment::AddSuitNum(CItemType* pItemType)
 	CHECK(pItemType->GetSuitType() != 0);
 	__ENTER_FUNCTION
 
-	uint32_t& nCount = m_setSuitNum[pItemType->GetSuitType()];
-	auto old_data = SuitEquipSet()->QuerySuitEquip(pItemType->GetSuitType(),nCount);
+	uint32_t& nCount   = m_setSuitNum[pItemType->GetSuitType()];
+	auto	  old_data = SuitEquipSet()->QuerySuitEquip(pItemType->GetSuitType(), nCount);
 	if(old_data)
 	{
 		m_pOwner->GetAttrib().Remove(old_data->GetAttribChangeList());
@@ -343,12 +343,12 @@ void CEquipment::AddSuitNum(CItemType* pItemType)
 
 	nCount++;
 
-	auto new_data = SuitEquipSet()->QuerySuitEquip(pItemType->GetSuitType(),nCount);
+	auto new_data = SuitEquipSet()->QuerySuitEquip(pItemType->GetSuitType(), nCount);
 	if(new_data)
 	{
 		m_pOwner->GetAttrib().Store(new_data->GetAttribChangeList());
 	}
-	
+
 	m_pOwner->GetAchievement()->CheckAchiCondition(CONDITION_EQUIPMENT_SUIT, pItemType->GetSuitType(), nCount);
 
 	__LEAVE_FUNCTION
@@ -362,20 +362,20 @@ void CEquipment::DecSuitNum(CItemType* pItemType)
 	auto it = m_setSuitNum.find(pItemType->GetSuitType());
 	if(it == m_setSuitNum.end())
 		return;
-	uint32_t& nCount = it->second;
-	auto old_data = SuitEquipSet()->QuerySuitEquip(pItemType->GetSuitType(),nCount);
+	uint32_t& nCount   = it->second;
+	auto	  old_data = SuitEquipSet()->QuerySuitEquip(pItemType->GetSuitType(), nCount);
 	if(old_data)
 	{
 		m_pOwner->GetAttrib().Remove(old_data->GetAttribChangeList());
 	}
-	
+
 	--nCount;
 	if(nCount == 0)
 	{
 		m_setSuitNum.erase(it);
 	}
 
-	auto new_data = SuitEquipSet()->QuerySuitEquip(pItemType->GetSuitType(),nCount);
+	auto new_data = SuitEquipSet()->QuerySuitEquip(pItemType->GetSuitType(), nCount);
 	if(new_data)
 	{
 		m_pOwner->GetAttrib().Store(new_data->GetAttribChangeList());
@@ -461,7 +461,7 @@ void CEquipment::OnItemEquiped(CItem* pItem, bool bRepair)
 	{
 		AddSuitNum(pItem->ItemTypePtr());
 	}
-	
+
 	m_pOwner->GetAchievement()->CheckAchiCondition(CONDITION_EQUIPMENT, pItem->GetType(), pItem->GetGrid());
 	if(pItem->ItemTypePtr()->GetQuility() > 0)
 		m_pOwner->GetAchievement()->CheckAchiCondition(CONDITION_EQUIPMENT_QUILITY, pItem->ItemTypePtr()->GetQuility(), pItem->GetGrid());

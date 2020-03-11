@@ -55,7 +55,7 @@ public:
 	export_lua virtual bool SendMessage(uint16_t cmd, const google::protobuf::Message& msg) const override;
 
 public:
-	export_lua virtual ActorType GetActorType() const override{ return ActorType::ACT_PLAYER; }
+	export_lua virtual ActorType GetActorType() const override { return ActorType::ACT_PLAYER; }
 	export_lua static ActorType	 GetActorTypeStatic() { return ActorType::ACT_PLAYER; }
 
 	export_lua virtual float GetHeight() const { return 1.0f; }

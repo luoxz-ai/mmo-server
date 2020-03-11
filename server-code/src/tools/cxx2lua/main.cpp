@@ -1681,8 +1681,9 @@ int main(int argc, char** argv)
 		auto _stopTime2 = clock.now();
 		if(temp_filename.empty() == false)
 		{
-			printf("file:%s processed use %ld %ld\n", temp_filename.c_str(), std::chrono::duration_cast<std::chrono::milliseconds>(_stopTime1 - _startTime).count(),
-				   std::chrono::duration_cast<std::chrono::milliseconds>(_stopTime2 - _stopTime1).count());
+			printf("file:%s processed use %ld %ld\n", temp_filename.c_str(),
+					std::chrono::duration_cast<std::chrono::milliseconds>(_stopTime1 - _startTime).count(),
+				    std::chrono::duration_cast<std::chrono::milliseconds>(_stopTime2 - _stopTime1).count());
 		}
 	}
 

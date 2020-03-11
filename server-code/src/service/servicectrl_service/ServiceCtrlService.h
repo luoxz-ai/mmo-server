@@ -14,7 +14,7 @@ class CServiceCtrlService : public IService, public CServiceCommon, public CMess
 public:
 	CServiceCtrlService(const ServerPort& nServerPort);
 	virtual ~CServiceCtrlService();
-	void Release() override{ delete this; }
+	void Release() override { delete this; }
 	bool Create();
 
 public:
@@ -38,7 +38,13 @@ public:
 };
 
 CServiceCtrlService* ServiceCtrlService();
-inline auto EventManager() { return ServiceCtrlService()->GetEventManager();}  
-inline auto NetMsgProcess() { return ServiceCtrlService()->GetNetMsgProcess();}  
+inline auto			 EventManager()
+{
+	return ServiceCtrlService()->GetEventManager();
+}
+inline auto NetMsgProcess()
+{
+	return ServiceCtrlService()->GetNetMsgProcess();
+}
 
 #endif // ServiceCtrlService_h__
