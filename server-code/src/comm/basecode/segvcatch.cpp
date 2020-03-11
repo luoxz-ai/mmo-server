@@ -59,7 +59,7 @@ void handle_fpe()
 
 /* Unblock a signal.  Unless we do this, the signal may only be sent
    once.  */
-static void unblock_signal(int signum __attribute__((__unused__)))
+static void unblock_signal(int32_t signum __attribute__((__unused__)))
 {
 #ifdef __linux__
 	sigset_t sigs;

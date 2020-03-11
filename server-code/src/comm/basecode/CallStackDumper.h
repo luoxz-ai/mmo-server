@@ -11,7 +11,7 @@ extern std::string demangle(const char* name);
 
 struct CallFrameMap
 {
-	CallFrameMap(int skip_calldepth = 0);
+	CallFrameMap(int32_t skip_calldepth = 0);
 	std::vector<std::pair<void*, std::string>> m_Addr;
 };
 
@@ -32,7 +32,7 @@ public:
 
 	void remove(CALLFRAME_NODE* pChild);
 
-	CALLFRAME_NODE* MakeCallFrame(int skip_calldepth);
+	CALLFRAME_NODE* MakeCallFrame(int32_t skip_calldepth);
 
 public:
 	bool  m_bClear;

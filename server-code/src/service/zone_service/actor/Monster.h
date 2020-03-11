@@ -34,7 +34,7 @@ public:
 	export_lua virtual void _SetMP(uint32_t v) override { m_nMP = v; };
 	export_lua virtual bool CanDamage(CActor* pTarget) const override;
 	export_lua virtual void BeKillBy(CActor* pAttacker) override;
-	virtual void			OnBeAttack(CActor* pAttacker, int nRealDamage) override;
+	virtual void			OnBeAttack(CActor* pAttacker, int32_t nRealDamage) override;
 
 	virtual void OnEnterMap(CSceneBase* pScene) override;
 	virtual void OnLeaveMap(uint64_t idTargetScene) override;

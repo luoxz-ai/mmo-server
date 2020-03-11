@@ -18,7 +18,7 @@ public:
 	~RobotClientManager();
 
 public:
-	RobotClient*	ConnectServer(const char* addr, int port);
+	RobotClient*	ConnectServer(const char* addr, int32_t port);
 	void			DelClient(RobotClient* pClient);
 	CNetMSGProcess* GetNetMessageProcess() const { return m_pNetMsgProcess; }
 	CEventManager*	GetEventManager() const { return m_pEventManager; }

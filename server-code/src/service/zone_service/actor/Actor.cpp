@@ -369,7 +369,7 @@ bool CActor::_CastSkill(uint32_t idSkill, OBJID idTarget, const Vector2& targetP
 	return false;
 }
 
-void CActor::OnBeAttack(CActor* pAttacker, int nRealDamage)
+void CActor::OnBeAttack(CActor* pAttacker, int32_t nRealDamage)
 {
 	__ENTER_FUNCTION
 	LOGDEBUG("OnBeAttack: Actor:{} Attacker:{} Damage:{}", GetID(), (pAttacker) ? pAttacker->GetID() : 0, nRealDamage);
@@ -401,14 +401,14 @@ int32_t CActor::BeAttack(CActor*  pAttacker,
 		return DR_NOTARGET;
 
 	//根据伤害类型，取得防御
-	int nDefence = 0;
+	int32_t nDefence = 0;
 	if(bIgnoreDefence == false)
 	{
 		nDefence = CalcDefence(nHitType);
 	}
 	//伤害=攻击-防御
-	int nPowerBase = random_uint32_range(nPower, nMaxPower);
-	int nDamage	   = nPowerBase + nPowerAddition - nDefence;
+	int32_t nPowerBase = random_uint32_range(nPower, nMaxPower);
+	int32_t nDamage	   = nPowerBase + nPowerAddition - nDefence;
 
 	//计算伤害减免
 	nDamage = MulDiv(nDamage, GetAttrib().get(ATTRIB_DAMAGE_ADJ) + 10000, 10000);
@@ -416,11 +416,11 @@ int32_t CActor::BeAttack(CActor*  pAttacker,
 	//计算伤害反弹
 	if(bCanReflect)
 	{
-		int nReflectRate = GetAttrib().get(ATTRIB_DAMAGE_REFLECT_RATE);
+		int32_t nReflectRate = GetAttrib().get(ATTRIB_DAMAGE_REFLECT_RATE);
 		if(nReflectRate > 0 && random_hit(nReflectRate / 10000.0f))
 		{
 			//计算反弹伤害
-			int nReflectDamage = MulDiv(nDamage, GetAttrib().get(ATTRIB_DAMAGE_REFLECT_ADJ) + 10000, 10000);
+			int32_t nReflectDamage = MulDiv(nDamage, GetAttrib().get(ATTRIB_DAMAGE_REFLECT_ADJ) + 10000, 10000);
 			if(pAttacker)
 			{
 				pAttacker->BeAttack(this, 0, nHitType, 0, 0, nReflectDamage, true, false, false);
@@ -429,7 +429,7 @@ int32_t CActor::BeAttack(CActor*  pAttacker,
 	}
 
 	//扣血
-	int nRealDamage = std::min<uint32_t>(nDamage, GetHP());
+	int32_t nRealDamage = std::min<uint32_t>(nDamage, GetHP());
 	if(nHitType == HIT_HEAL)
 		nRealDamage = -nRealDamage;
 
@@ -460,7 +460,7 @@ int32_t CActor::BeAttack(CActor*  pAttacker,
 
 void CActor::UpdateFight()
 {
-	const int FIGHT_CD_SEC = 5;
+	const int32_t FIGHT_CD_SEC = 5;
 	m_tFight.Startup(FIGHT_CD_SEC);
 }
 
@@ -473,8 +473,8 @@ bool CActor::HitTest(CActor* pTarget, uint32_t nHitType)
 	{
 		case HIT_WEAPON:
 		{
-			int nHit   = GetAttrib().get(ATTRIB_HIT);
-			int nDodge = pTarget->GetAttrib().get(ATTRIB_DODGE);
+			int32_t nHit   = GetAttrib().get(ATTRIB_HIT);
+			int32_t nDodge = pTarget->GetAttrib().get(ATTRIB_DODGE);
 			return random_hit((float)nHit / float(nHit + nDodge));
 		}
 		break;
@@ -490,22 +490,22 @@ bool CActor::HitTest(CActor* pTarget, uint32_t nHitType)
 	return false;
 }
 
-int CActor::CalcDefence(uint32_t nHitType)
+int32_t CActor::CalcDefence(uint32_t nHitType)
 {
 	__ENTER_FUNCTION
 	switch(nHitType)
 	{
 		case HIT_WEAPON:
 		{
-			int nMinDef = GetAttrib().get(ATTRIB_MIN_DEF);
-			int nMaxDef = GetAttrib().get(ATTRIB_MAX_DEF);
+			int32_t nMinDef = GetAttrib().get(ATTRIB_MIN_DEF);
+			int32_t nMaxDef = GetAttrib().get(ATTRIB_MAX_DEF);
 			return random_uint32_range(nMinDef, nMaxDef);
 		}
 		break;
 		case HIT_MAGE:
 		{
-			int nMinDef = GetAttrib().get(ATTRIB_MIN_MDEF);
-			int nMaxDef = GetAttrib().get(ATTRIB_MAX_MDEF);
+			int32_t nMinDef = GetAttrib().get(ATTRIB_MIN_MDEF);
+			int32_t nMaxDef = GetAttrib().get(ATTRIB_MAX_MDEF);
 			return random_uint32_range(nMinDef, nMaxDef);
 		}
 		break;

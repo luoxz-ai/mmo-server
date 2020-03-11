@@ -37,7 +37,7 @@ void CActor::_AddToAOIRemoveMessage(SC_AOI_REMOVE& removeMsg, OBJID id)
 	{
 		removeMsg.add_idlist(id);
 		//为了加速前端处理,以及避免单个包过大,每个包中允许缓冲64个aoi_info
-		static const int MAX_AOI_SIZE_IN_ONE_PACKET = 64;
+		static const int32_t MAX_AOI_SIZE_IN_ONE_PACKET = 64;
 		if(removeMsg.idlist_size() > MAX_AOI_SIZE_IN_ONE_PACKET)
 		{
 			SendMessage(CMD_SC_AOI_REMOVE, removeMsg);
@@ -292,7 +292,7 @@ uint64_t CActor::GetSceneID() const
 	return 0;
 }
 
-void CActor::AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel, BROADCAST_SET& setBCActor, int nCanReserveDelCount, uint32_t view_range_out_square)
+void CActor::AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel, BROADCAST_SET& setBCActor, int32_t nCanReserveDelCount, uint32_t view_range_out_square)
 {
 	SC_AOI_REMOVE hold_info;
 	hold_info.set_mapid(GetMapID());

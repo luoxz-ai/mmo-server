@@ -235,7 +235,7 @@ bool SetMessageData(google::protobuf::Message* pPBMessage, const std::string& fi
 		{
 			try
 			{
-				int val = stol(data);
+				int32_t val = stol(data);
 				pThisRow->GetReflection()->SetEnumValue(pThisRow, pFieldDesc, val);
 			}
 			catch(...)

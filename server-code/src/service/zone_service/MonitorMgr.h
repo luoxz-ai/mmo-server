@@ -15,7 +15,7 @@
 
 struct RecvMsgNode
 {
-	int											   iCount;
+	int32_t											   iCount;
 	std::chrono::high_resolution_clock::time_point nStartFrequence;
 	uint64_t									   nTotalFrequence;
 };
@@ -48,16 +48,16 @@ public:
 		m_SendToClientMsgMap_broad.clear();
 		m_SendToClientMsgMap_some.clear();
 	}
-	int AddConnStart(int iCmdID);
-	int AddConnEnd(int iCmdID);
+	int32_t AddConnStart(int32_t iCmdID);
+	int32_t AddConnEnd(int32_t iCmdID);
 
 	//记录下发消息
 	// para uint32_t bytes_size 本次字节数
-	void AddSendInfo(int iCmdID, uint32_t bytes_size);
-	void AddSendInfo_broad(int iCmdID, uint32_t bytes_size);
-	void AddSendInfo_some(int iCmdID, uint32_t bytes_size, uint32_t count);
+	void AddSendInfo(int32_t iCmdID, uint32_t bytes_size);
+	void AddSendInfo_broad(int32_t iCmdID, uint32_t bytes_size);
+	void AddSendInfo_some(int32_t iCmdID, uint32_t bytes_size, uint32_t count);
 
-	int	 Print();
+	int32_t	 Print();
 	void Add(const char* name, int32_t uTime);
 	void Tick10s();
 
@@ -65,9 +65,9 @@ private:
 	void PrintSendInfo(); //打印下发消息信息
 
 private:
-	typedef std::map<int, RecvMsgNode>			 RecvMsgMap;
-	typedef std::map<int, RecvMsgNode>::iterator RecvMsgIter;
-	typedef std::map<int, SendToClientMsgNode>	 SendToClientMsgMap;
+	typedef std::map<int32_t, RecvMsgNode>			 RecvMsgMap;
+	typedef std::map<int32_t, RecvMsgNode>::iterator RecvMsgIter;
+	typedef std::map<int32_t, SendToClientMsgNode>	 SendToClientMsgMap;
 
 	typedef std::map<const char*, int32_t>			 TickEvalMap;
 	typedef std::map<const char*, int32_t>::iterator TickEvalIter;

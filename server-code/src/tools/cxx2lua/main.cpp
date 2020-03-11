@@ -107,7 +107,7 @@ struct Visitor_Content
 };
 
 CXTranslationUnit						  TU;
-typedef std::set<int>					  export_line_set;
+typedef std::set<int32_t>					  export_line_set;
 std::map<CXFileUniqueID, export_line_set> g_export_loc;
 
 void display_debug_cursor(CXCursor& cursor, CXCursorKind& kind, CXSourceLocation& source_loc)
@@ -126,7 +126,7 @@ void display_debug_cursor(CXCursor& cursor, CXCursorKind& kind, CXSourceLocation
 	printf("find:%d %s name:%s in file:%s line:%d \n", kind, kindname.c_str(), nsname.c_str(), filename.c_str(), line);
 }
 
-std::string get_default_params(CXCursor cursor, int params_idx)
+std::string get_default_params(CXCursor cursor, int32_t params_idx)
 {
 	std::string varname = getClangString(clang_getCursorSpelling(cursor));
 
@@ -135,13 +135,13 @@ std::string get_default_params(CXCursor cursor, int params_idx)
 	CXToken*	  tokens;
 	clang_tokenize(TU, range, &tokens, &numtokens);
 
-	int defaultTokenStart = 0;
-	int defaultTokenEnd	  = 0;
+	int32_t defaultTokenStart = 0;
+	int32_t defaultTokenEnd	  = 0;
 	// This tokensequence needs some cleanup. There may be a default value
 	// included, and sometimes there are extra tokens.
 	std::string default_val;
 	bool bStartInsert = false;
-	for(unsigned int i = 0; i < numtokens; ++i)
+	for(uint32_t i = 0; i < numtokens; ++i)
 	{
 		auto token_i = tokens[i];
 		if(bStartInsert)
@@ -217,9 +217,9 @@ void visit_function(CXCursor cursor, Visitor_Content* pContent)
 	overload_data.func_type = typestr;
 	overload_data.is_static = clang_CXXMethod_isStatic(cursor) != 0;
 	// reg gloabl_func
-	int nArgs = clang_Cursor_getNumArguments(cursor);
+	int32_t nArgs = clang_Cursor_getNumArguments(cursor);
 	{
-		for(int i = 0; i < nArgs; i++)
+		for(int32_t i = 0; i < nArgs; i++)
 		{
 			CXCursor args_cursor = clang_Cursor_getArgument(cursor, i);
 
@@ -244,7 +244,7 @@ void visit_function(CXCursor cursor, Visitor_Content* pContent)
 	CXCursor* overridden_cursors;
 	unsigned  num_overridden = 0;
 	clang_getOverriddenCursors(cursor, &overridden_cursors, &num_overridden);
-	for(unsigned int i = 0; i < num_overridden; i++)
+	for(uint32_t i = 0; i < num_overridden; i++)
 	{
 		CXCursor overridden = overridden_cursors[i];
 		visit_function(overridden, pContent);
@@ -266,9 +266,9 @@ void visit_constructor(CXCursor cursor, Visitor_Content* pContent)
 		return;
 	auto& overload_data = refMap[typestr];
 	// reg gloabl_func
-	int nArgs = clang_Cursor_getNumArguments(cursor);
+	int32_t nArgs = clang_Cursor_getNumArguments(cursor);
 	{
-		for(int i = 0; i < nArgs; i++)
+		for(int32_t i = 0; i < nArgs; i++)
 		{
 			CXCursor args_cursor = clang_Cursor_getArgument(cursor, i);
 			overload_data.func_type += ", ";
@@ -379,7 +379,7 @@ static void printString(const char* name, CXString string)
 static void printCursor(CXCursor cursor)
 {
 	CXFile			 file;
-	unsigned int	 off, line, col;
+	uint32_t	 off, line, col;
 	CXSourceLocation location = clang_getCursorLocation(cursor);
 	if(clang_Location_isInSystemHeader(location))
 		return;
@@ -389,7 +389,7 @@ static void printCursor(CXCursor cursor)
 	if(fileNameCStr)
 	{
 		CXSourceRange range = clang_getCursorExtent(cursor);
-		unsigned int  start, end;
+		uint32_t  start, end;
 		clang_getSpellingLocation(clang_getRangeStart(range), 0, 0, 0, &start);
 		clang_getSpellingLocation(clang_getRangeEnd(range), 0, 0, 0, &end);
 		printf("%s:%d:%d (%d, %d-%d) ", fileNameCStr, line, col, off, start, end);
@@ -406,8 +406,8 @@ static void printCursor(CXCursor cursor)
 static enum CXChildVisitResult visit_display(CXCursor cursor, CXCursor parent, CXClientData userData)
 {
 	(void)parent;
-	int indent = *(int*)userData;
-	int i;
+	int32_t indent = *(int32_t*)userData;
+	int32_t i;
 	for(i = 0; i < indent; ++i)
 	{
 		printf("  ");
@@ -923,7 +923,7 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 
 			bool bScopedEnum = false;
 			// This tokensequence needs some cleanup.
-			for(unsigned int i = 0; i < numtokens; ++i)
+			for(uint32_t i = 0; i < numtokens; ++i)
 			{
 				auto token_i = tokens[i];
 				if(clang_getTokenKind(token_i) == CXToken_Keyword)
@@ -1464,7 +1464,7 @@ void visit_includes(CXFile included_file, CXSourceLocation* inclusion_stack, uns
 	AddSkipFile(id);
 }
 
-template<typename T, int N>
+template<typename T, int32_t N>
 inline size_t sizeofArray(T (&_array)[N])
 {
 	return N;
@@ -1664,7 +1664,7 @@ int main(int argc, char** argv)
 		CXCursor C = clang_getTranslationUnitCursor(TU);
 		if(g_bJustDisplay)
 		{
-			int indent = 0;
+			int32_t indent = 0;
 			clang_visitChildren(C, visit_display, &indent);
 		}
 		else

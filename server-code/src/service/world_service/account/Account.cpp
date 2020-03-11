@@ -126,7 +126,7 @@ bool CAccount::CreateActor(const std::string& name, uint32_t dwProf, uint32_t dw
 	}
 
 	CHECKF(PROF_WARRIOR == dwProf || PROF_MAGA == dwProf || PROF_PRIEST == dwProf);
-	DWORD dwBaseLook = dwLook;
+	uint32_t dwBaseLook = dwLook;
 
 	CUserAttrData* pLevData = UserAttrSet()->QueryObj(CUserAttrData::MakeID(dwProf, 1));
 	if(pLevData == nullptr)

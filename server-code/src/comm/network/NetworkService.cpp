@@ -124,7 +124,7 @@ bool CNetworkService::EnableListener(evconnlistener* listener, bool bEnable)
 	return false;
 }
 
-bool CNetworkService::ListenHttpPort(const char* addr, int port, std::function<void(struct evhttp_request* req)> func)
+bool CNetworkService::ListenHttpPort(const char* addr, int32_t port, std::function<void(struct evhttp_request* req)> func)
 {
 	__ENTER_FUNCTION
 	if(m_pHttpHandle != nullptr)
@@ -134,7 +134,7 @@ bool CNetworkService::ListenHttpPort(const char* addr, int port, std::function<v
 	if(m_pHttpHandle == nullptr)
 		return false;
 
-	int ret = evhttp_bind_socket(m_pHttpHandle, addr, port);
+	int32_t ret = evhttp_bind_socket(m_pHttpHandle, addr, port);
 	if(ret != 0)
 	{
 		return false;
@@ -155,7 +155,7 @@ void CNetworkService::http_process_cb(struct evhttp_request* req, void* arg)
 	__LEAVE_FUNCTION
 }
 
-evconnlistener* CNetworkService::Listen(const char* addr, int port, CNetEventHandler* pEventHandler)
+evconnlistener* CNetworkService::Listen(const char* addr, int32_t port, CNetEventHandler* pEventHandler)
 {
 	__ENTER_FUNCTION
 	struct evutil_addrinfo	hits;
@@ -190,7 +190,7 @@ evconnlistener* CNetworkService::Listen(const char* addr, int port, CNetEventHan
 	return nullptr;
 }
 
-CNetSocket* CNetworkService::ConnectTo(const char* addr, int port, CNetEventHandler* pEventHandler)
+CNetSocket* CNetworkService::ConnectTo(const char* addr, int32_t port, CNetEventHandler* pEventHandler)
 {
 	__ENTER_FUNCTION
 	struct evutil_addrinfo	hits;
@@ -208,7 +208,7 @@ CNetSocket* CNetworkService::ConnectTo(const char* addr, int port, CNetEventHand
 	}
 	std::unique_ptr<addrinfo, decltype(evutil_freeaddrinfo)*> answer_ptr(answer, evutil_freeaddrinfo);
 
-	int fd = socket(answer_ptr->ai_family, answer_ptr->ai_socktype, answer_ptr->ai_protocol);
+	int32_t fd = socket(answer_ptr->ai_family, answer_ptr->ai_socktype, answer_ptr->ai_protocol);
 	if(fd < 0)
 	{
 		LOGNETERROR("CNetworkService::ConnectTo:{}:{} socket fail", addr, port);
@@ -259,7 +259,7 @@ bool CNetworkService::_Reconnect(CNetSocket* pSocket)
 	}
 	std::unique_ptr<addrinfo, decltype(evutil_freeaddrinfo)*> answer_ptr(answer, evutil_freeaddrinfo);
 
-	int fd = socket(answer_ptr->ai_family, answer_ptr->ai_socktype, answer_ptr->ai_protocol);
+	int32_t fd = socket(answer_ptr->ai_family, answer_ptr->ai_socktype, answer_ptr->ai_protocol);
 	if(fd < 0)
 	{
 		LOGNETERROR("CNetworkService::_Reconnect:{}:{} socket fail", pSocket->GetAddrString().c_str(), pSocket->GetPort());
@@ -285,7 +285,7 @@ bool CNetworkService::_Reconnect(CNetSocket* pSocket)
 	return false;
 }
 
-CNetSocket* CNetworkService::AsyncConnectTo(const char* addr, int port, CNetEventHandler* pEventHandler)
+CNetSocket* CNetworkService::AsyncConnectTo(const char* addr, int32_t port, CNetEventHandler* pEventHandler)
 {
 	__ENTER_FUNCTION
 	struct evutil_addrinfo	hits;
@@ -353,7 +353,7 @@ bool CNetworkService::_AsyncReconnect(CNetSocket* pSocket)
 	pSocket->InitWaitConnecting(pSocket->GetBufferevent());
 	if(bufferevent_socket_connect(pSocket->GetBufferevent(), answer_ptr->ai_addr, answer_ptr->ai_addrlen) != 0)
 	{
-		int			err	   = EVUTIL_SOCKET_ERROR();
+		int32_t			err	   = EVUTIL_SOCKET_ERROR();
 		const char* errstr = evutil_socket_error_to_string(err);
 
 		LOGNETERROR("CNetworkService::_AsyncReconnect:{}:{} bufferevent_socket_connect fail:{}", pSocket->GetAddrString().c_str(), pSocket->GetPort(), errstr);
@@ -373,7 +373,7 @@ void CNetworkService::Stop()
 	__LEAVE_FUNCTION
 }
 
-static void _IOThreadTimeOut(int, short, void* ctx)
+static void _IOThreadTimeOut(int32_t, short, void* ctx)
 {
 	__ENTER_FUNCTION
 	CNetworkService* pThis = (CNetworkService*)ctx;
@@ -408,7 +408,7 @@ void CNetworkService::StartIOThread(const std::string& thread_name, std::functio
 		pthread_setname_np(pthread_self(), _thread_name.c_str());
 
 		LOGMESSAGE("ThreadID:{}", get_cur_thread_id());
-		int result = 0;
+		int32_t result = 0;
 		do
 		{
 			result = event_base_dispatch(pBase);
@@ -458,7 +458,7 @@ CNetSocket* CNetworkService::CreateSocket(CNetEventHandler* pHandle, bool bPassi
 	return nullptr;
 }
 
-void CNetworkService::accept_conn_cb(evconnlistener* listener, int fd, sockaddr* addr, int socklen, void* arg)
+void CNetworkService::accept_conn_cb(evconnlistener* listener, int32_t fd, sockaddr* addr, int32_t socklen, void* arg)
 {
 	__ENTER_FUNCTION((CNetworkService*)arg)->OnAccept(fd, addr, socklen, listener);
 	__LEAVE_FUNCTION
@@ -468,7 +468,7 @@ void CNetworkService::accept_error_cb(struct evconnlistener* listener, void* arg
 {
 	__ENTER_FUNCTION
 	struct event_base* base	  = evconnlistener_get_base(listener);
-	int				   err	  = EVUTIL_SOCKET_ERROR();
+	int32_t				   err	  = EVUTIL_SOCKET_ERROR();
 	const char*		   errstr = evutil_socket_error_to_string(err);
 
 	// log error
@@ -476,7 +476,7 @@ void CNetworkService::accept_error_cb(struct evconnlistener* listener, void* arg
 	__LEAVE_FUNCTION
 }
 
-void CNetworkService::OnAccept(int fd, sockaddr* addr, int, evconnlistener* listener)
+void CNetworkService::OnAccept(int32_t fd, sockaddr* addr, int32_t, evconnlistener* listener)
 {
 	__ENTER_FUNCTION
 	char		   szHost[512];
@@ -732,7 +732,7 @@ static struct lws_protocols server_protocols[] = {
 	{NULL, NULL, 0, 0} /* terminator */
 };
 
-bool CNetworkService::ListenWebSocket(int port, CWebSocketEventHandler* pEventHandler)
+bool CNetworkService::ListenWebSocket(int32_t port, CWebSocketEventHandler* pEventHandler)
 {
 	__ENTER_FUNCTION
 	if(m_pWebSocketEventHandler != nullptr)
@@ -878,7 +878,7 @@ void CNetworkService::_SetWebSocketToLWS(struct lws* wsi, CNetWebSocket* pWebSoc
 
 void CNetworkService::StartWebSocketIOThread() {}
 
-int CNetworkService::OnWebSocketCallback(struct lws* wsi, enum lws_callback_reasons reason, void* user, void* in, size_t len)
+int32_t CNetworkService::OnWebSocketCallback(struct lws* wsi, enum lws_callback_reasons reason, void* user, void* in, size_t len)
 {
 	__ENTER_FUNCTION
 

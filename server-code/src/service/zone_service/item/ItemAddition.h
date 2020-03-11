@@ -14,7 +14,7 @@ public:
 	CREATE_NEW_IMPL(CItemAdditionData);
 	bool Init(const Cfg_ItemAddition_Row& row)
 	{
-		for(int i = 0; i < row.attrib_change_list_size(); i++)
+		for(int32_t i = 0; i < row.attrib_change_list_size(); i++)
 		{
 			m_AttribChangeList.push_back(CActorAttribChange(row.attrib_change_list(i)));
 		}
@@ -42,7 +42,7 @@ public:
 	bool Reload(const char* szFileName);
 	void Destroy();
 	// 根据itemtype, 追加等级，查询对应的追加数据
-	const CItemAdditionData* QueryItemAddition(uint32_t idType, int nLevel);
+	const CItemAdditionData* QueryItemAddition(uint32_t idType, int32_t nLevel);
 
 public:
 	typedef std::vector<CItemAdditionData*>		 LEVEL_SET;

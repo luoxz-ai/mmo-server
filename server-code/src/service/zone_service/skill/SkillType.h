@@ -87,7 +87,7 @@ public:
 	bool Init(const Cfg_Skill_Row& row)
 	{
 		m_Data = row;
-		for(int i = 0; i < row.attrib_change_list_size(); i++)
+		for(int32_t i = 0; i < row.attrib_change_list_size(); i++)
 		{
 			m_AttribChangeList.push_back(CActorAttribChange(row.attrib_change_list(i)));
 		}
@@ -95,7 +95,7 @@ public:
 	}
 
 	using PB_T = Cfg_Skill;
-	static uint32_t	   MakeID(uint16_t idSkillSort, UCHAR ucLevel) { return idSkillSort * 100 + ucLevel; }
+	static uint32_t	   MakeID(uint16_t idSkillSort, uint8_t ucLevel) { return idSkillSort * 100 + ucLevel; }
 	uint32_t		   GetID() const { return GetSkillID(); }
 	uint32_t		   GetSkillID() const { return m_Data.id(); }
 	uint32_t		   GetSkillSort() const { return m_Data.sort(); }

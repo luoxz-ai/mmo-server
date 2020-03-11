@@ -235,7 +235,7 @@ void CZoneService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 				return;
 			}
 
-			for(int i = 0; i < msg.monster_id_size(); i++)
+			for(int32_t i = 0; i < msg.monster_id_size(); i++)
 			{
 				ActorManager()->DelActorByID(msg.monster_id(i));
 			}
@@ -319,7 +319,7 @@ void CZoneService::PushMsgToMessagePool(const VirtualSocket& vs, CNetworkMessage
 	pStoreMsg->CopyBuffer();
 	refList.push_back(pStoreMsg);
 
-	static const int MAX_USER_HOLD_MESSAGE = 500;
+	static const int32_t MAX_USER_HOLD_MESSAGE = 500;
 	if(refList.size() > MAX_USER_HOLD_MESSAGE)
 	{
 		// logerror

@@ -47,7 +47,7 @@ public: // get attr
 	export_lua uint32_t GetAddition() const { return m_pRecord->Field(TBLD_ITEM::ADDITION_LEV); }
 	export_lua uint32_t _GetFlag() const { return m_pRecord->Field(TBLD_ITEM::FLAG); }
 	export_lua uint32_t GetFlag() const { return _GetFlag() | ItemTypePtr()->GetFlag(); }
-	export_lua bool		HasFlag(DWORD dwFlag) const { return ::HasFlag(GetFlag(), dwFlag); }
+	export_lua bool		HasFlag(uint32_t dwFlag) const { return ::HasFlag(GetFlag(), dwFlag); }
 	export_lua uint32_t GetExtra(uint32_t nIdx) const;
 
 	export_lua const std::string& GetName() const { return m_pType->GetName(); }
@@ -61,7 +61,7 @@ public: // get attr
 public: // set attr
 	export_lua void SetOwnerID(OBJID idOwner, bool bUpdate = true);
 	export_lua void SetTypeID(OBJID idType, bool bUpdate = true);
-	export_lua void SetPosition(UCHAR ucPosition, bool bUpdate = true);
+	export_lua void SetPosition(uint8_t ucPosition, bool bUpdate = true);
 	export_lua void SetGrid(uint32_t nData, bool bUpdate /*=true*/);
 	export_lua void SetPileNum(uint32_t nNum, bool bUpdate = false);
 	export_lua void AddPileNum(uint32_t nNum, bool bUpdate = false);
@@ -72,7 +72,7 @@ public: // set attr
 	export_lua void SetAddition(uint32_t nAddition, bool bUpdate = false);
 	export_lua void SetFlag(uint32_t dwFlag, bool bUpdate = false);
 
-	export_lua void SetExtra(int nIdx, uint32_t nExtra, bool bUpdate = false);
+	export_lua void SetExtra(int32_t nIdx, uint32_t nExtra, bool bUpdate = false);
 
 	export_lua void SaveInfo() { m_pRecord->Update(); }
 

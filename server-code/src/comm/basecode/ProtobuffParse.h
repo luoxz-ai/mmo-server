@@ -39,7 +39,7 @@ public:
 		if(pEnumDesc == nullptr)
 			return;
 
-		for(int i = 0; i < pEnumDesc->value_count(); i++)
+		for(int32_t i = 0; i < pEnumDesc->value_count(); i++)
 		{
 			auto		pEnumValDesc = pEnumDesc->value(i);
 			std::string msg_name	 = pEnumValDesc->name();

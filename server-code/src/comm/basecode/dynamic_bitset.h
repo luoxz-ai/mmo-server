@@ -1398,7 +1398,7 @@ constexpr typename dynamic_bitset<Block, Allocator>::size_type dynamic_bitset<Bl
 	{
 		return static_cast<size_type>(__builtin_popcountl(block));
 	}
-	if constexpr(sizeof(block_type) <= sizeof(unsigned int))
+	if constexpr(sizeof(block_type) <= sizeof(uint32_t))
 	{
 		return static_cast<size_type>(__builtin_popcount(static_cast<unsigned int>(block)));
 	}

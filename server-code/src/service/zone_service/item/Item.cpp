@@ -121,7 +121,7 @@ bool CItem::IsSuit()
 	return false;
 }
 
-bool CItem::IsCombineEnable(OBJID idItemType, DWORD dwFlag)
+bool CItem::IsCombineEnable(OBJID idItemType, uint32_t dwFlag)
 {
 	__ENTER_FUNCTION
 	if(GetType() != idItemType)

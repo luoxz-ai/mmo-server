@@ -4,7 +4,7 @@
 // CMyTimer
 //////////////////////////////////////////////////////////////////////
 // 带时间积累的定时时钟
-bool CMyTimer::ToNextTick(int nSecs)
+bool CMyTimer::ToNextTick(int32_t nSecs)
 {
 	if(IsTimeOut(nSecs))
 	{
@@ -21,7 +21,7 @@ bool CMyTimer::ToNextTick(int nSecs)
 // CMyTimerMS
 //////////////////////////////////////////////////////////////////////
 // 带时间积累的定时时钟
-bool CMyTimerMS::ToNextTick(int nMilliSecs)
+bool CMyTimerMS::ToNextTick(int32_t nMilliSecs)
 {
 	if(IsTimeOut(nMilliSecs))
 	{

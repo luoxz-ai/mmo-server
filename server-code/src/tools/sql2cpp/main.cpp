@@ -117,7 +117,7 @@ int main(int argc, char** argv)
 			std::string fields_type_enum;
 			std::string is_pri_key_list;
 
-			for(unsigned int i = 0; i < vecFieldType.size(); i++)
+			for(uint32_t i = 0; i < vecFieldType.size(); i++)
 			{
 				const auto& v = vecFieldType[i];
 				std::smatch field_match;
@@ -165,7 +165,7 @@ int main(int argc, char** argv)
 								field_type_enum = "DB_FIELD_TYPE_LONGLONG";
 							}
 						}
-						else if(field_type == "int")
+						else if(field_type == "int32_t")
 						{
 							if(bUnsigned)
 							{

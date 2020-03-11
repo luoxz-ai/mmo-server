@@ -95,12 +95,12 @@ void CServiceCtrlService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 			MSG_INTERNAL_SERVICE_REGISTER* pMsg = (MSG_INTERNAL_SERVICE_REGISTER*)pNetworkMsg->GetBuf();
 			LOGMESSAGE("World:{} start", pMsg->idWorld);
 			GetMessageRoute()->SetWorldReady(pMsg->idWorld, true);
-			for(int i = MIN_GLOBAL_ROUTE_SERVICE_ID; i <= MAX_GLOBAL_ROUTE_SERVICE_ID; i++)
+			for(int32_t i = MIN_GLOBAL_ROUTE_SERVICE_ID; i <= MAX_GLOBAL_ROUTE_SERVICE_ID; i++)
 			{
 				SendPortMsg(ServerPort(0, i), (byte*)pMsg, sizeof(*pMsg));
 			}
 
-			for(int i = MIN_SHAREZONE_SERVICE_ID; i <= MAX_SHAREZONE_SERVICE_ID; i++)
+			for(int32_t i = MIN_SHAREZONE_SERVICE_ID; i <= MAX_SHAREZONE_SERVICE_ID; i++)
 			{
 				SendPortMsg(ServerPort(0, i), (byte*)pMsg, sizeof(*pMsg));
 				;
@@ -122,12 +122,12 @@ void CServiceCtrlService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 			//通知所有的global_route更新
 			GetMessageRoute()->SetWorldReady(pMsg->idWorld, pMsg->bReady);
 
-			for(int i = MIN_GLOBAL_ROUTE_SERVICE_ID; i <= MAX_GLOBAL_ROUTE_SERVICE_ID; i++)
+			for(int32_t i = MIN_GLOBAL_ROUTE_SERVICE_ID; i <= MAX_GLOBAL_ROUTE_SERVICE_ID; i++)
 			{
 				SendPortMsg(ServerPort(0, i), (byte*)pMsg, sizeof(*pMsg));
 			}
 
-			for(int i = MIN_SHAREZONE_SERVICE_ID; i <= MAX_SHAREZONE_SERVICE_ID; i++)
+			for(int32_t i = MIN_SHAREZONE_SERVICE_ID; i <= MAX_SHAREZONE_SERVICE_ID; i++)
 			{
 				SendPortMsg(ServerPort(0, i), (byte*)pMsg, sizeof(*pMsg));
 			}
@@ -184,8 +184,8 @@ void CServiceCtrlService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 void CServiceCtrlService::OnLogicThreadProc()
 {
 
-	static const int MAX_PROCESS_PER_LOOP = 1000;
-	int				 nCount				  = 0;
+	static const int32_t MAX_PROCESS_PER_LOOP = 1000;
+	int32_t				 nCount				  = 0;
 	CNetworkMessage* pMsg				  = nullptr;
 	if(m_pMessagePort)
 	{

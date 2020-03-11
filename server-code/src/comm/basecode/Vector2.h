@@ -36,7 +36,7 @@ public:
 	{
 	}
 
-	inline explicit Vector2(const int afCoordinate[2])
+	inline explicit Vector2(const int32_t afCoordinate[2])
 	{
 		x = (float)afCoordinate[0];
 		y = (float)afCoordinate[1];

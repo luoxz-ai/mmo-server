@@ -16,7 +16,7 @@ public:
 	bool Init(CActor* pActor);
 
 	export_lua CStatus* QueryStatus(uint16_t idStatusType) const;
-	export_lua bool		AttachStatus(uint16_t idStatusType, UCHAR ucLev, OBJID idCaster, uint32_t nPower, uint32_t nSecs, uint32_t nTimes);
+	export_lua bool		AttachStatus(uint16_t idStatusType, uint8_t ucLev, OBJID idCaster, uint32_t nPower, uint32_t nSecs, uint32_t nTimes);
 	export_lua bool		DetachStatus(uint16_t idStatusType);
 	export_lua bool		DetachStatusByType(uint32_t nStatusType);
 	export_lua bool		DetachStatusByFlag(uint32_t nStatusFlag, bool bHave = true);
@@ -48,7 +48,7 @@ public:
 	void OnLogout();
 
 	template<class Func, class... Args>
-	void OnEventDetach(Func func, int flag, Args&&... args)
+	void OnEventDetach(Func func, int32_t flag, Args&&... args)
 	{
 		__ENTER_FUNCTION
 		for(auto it = m_setStatus.begin(); it != m_setStatus.end();)
@@ -69,7 +69,7 @@ public:
 	}
 
 	template<class Func, class... Args>
-	void OnEventUndeatch(Func func, int flag, Args&&... args)
+	void OnEventUndeatch(Func func, int32_t flag, Args&&... args)
 	{
 		__ENTER_FUNCTION
 		for(auto it = m_setStatus.begin(); it != m_setStatus.end();)

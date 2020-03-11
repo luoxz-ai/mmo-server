@@ -115,12 +115,12 @@ bool CEventEntry::CreateEvTimer(event_base* base)
 	{
 		m_pevTimer = event_new(
 			base, -1, (m_bPersist) ? EV_PERSIST : 0,
-			[](int, short, void* ctx) {
+			[](int32_t, short, void* ctx) {
 				CEventEntry* pEntry = (CEventEntry*)ctx;
 				if(pEntry == nullptr || pEntry->m_pCallBack == nullptr)
 					return;
-				int nEventType	 = pEntry->GetEventType();
-				int nManagerType = pEntry->GetManagerType();
+				int32_t nEventType	 = pEntry->GetEventType();
+				int32_t nManagerType = pEntry->GetManagerType();
 				pEntry->Trigger();
 				if(pEntry->m_bPersist == false && nManagerType == EMT_EVMANAGER)
 					pEntry->ReleaseFromManager();

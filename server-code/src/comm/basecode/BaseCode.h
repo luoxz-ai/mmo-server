@@ -146,7 +146,7 @@ inline FILE* fopen_s(FILE** fp, const char* path, const char* mode)
 	return *fp;
 }
 
-export_lua inline int isleap(unsigned int year)
+export_lua inline int32_t isleap(uint32_t year)
 {
 	return ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0));
 }
@@ -295,13 +295,13 @@ export_lua inline uint32_t GetLowFromU64(uint64_t v)
 }
 
 //十六进制get/set
-export_lua uint32_t hex_set(uint32_t dwFlag, int nHex, UCHAR ucVal);
-export_lua UCHAR	hex_get(uint32_t dwFlag, int nHex);
+export_lua uint32_t hex_set(uint32_t dwFlag, uint8_t nHex, uint8_t ucVal);
+export_lua uint8_t	hex_get(uint32_t dwFlag, uint8_t nHex);
 
 //位操作
-export_lua bool		bit_test(uint32_t dwFlag, int nBit);
-export_lua uint32_t bit_flip(uint32_t dwFlag, int nBit);
-export_lua uint32_t bit_set(uint32_t dwFlag, int nBit, bool bVal);
+export_lua bool		bit_test(uint32_t dwFlag, uint8_t nBit);
+export_lua uint32_t bit_flip(uint32_t dwFlag, uint8_t nBit);
+export_lua uint32_t bit_set(uint32_t dwFlag, uint8_t nBit, bool bVal);
 
 void TimeGetCacheCreate();
 void TimeGetCacheUpdate();
@@ -310,6 +310,7 @@ export_lua time_t TimeGetMonotonic();
 export_lua time_t TimeGetMillisecond();
 export_lua time_t TimeGetSecond();
 export_lua time_t TimeGetSecondLocal();
+
 export_lua time_t _TimeGetMonotonic();
 export_lua time_t _TimeGetSecond();
 export_lua time_t _TimeGetMillisecond();
@@ -321,7 +322,7 @@ export_lua time_t local2gmt(time_t tNow);
 //检查是否是同一天,loclatime
 export_lua bool CheckSameDay(time_t time1, time_t time2);
 //返回两个时间戳之间的日期差
-export_lua int	  DateDiffLocal(time_t time1, time_t time2);
+export_lua int32_t	  DateDiffLocal(time_t time1, time_t time2);
 export_lua time_t GetNextDayBeginTime();
 
 export_lua time_t GetTimeFromString(const std::string& time_str);

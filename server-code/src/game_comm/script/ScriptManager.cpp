@@ -22,7 +22,7 @@
 //}
 
 ///////////////////////////////////////////////////////////////////////////////////////
-static int my_panic(lua_State* L)
+static int32_t my_panic(lua_State* L)
 {
 	(void)L; /* to avoid warnings */
 	LOGERROR("PANIC: unprotected error in call to Lua API ({})", lua_tostring(L, -1));

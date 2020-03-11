@@ -10,7 +10,7 @@
 export_lua class CMyTimer
 {
 public:
-	export_lua CMyTimer(int nIntervalSecs = 0)
+	export_lua CMyTimer(int32_t nIntervalSecs = 0)
 	{
 		m_tInterval	  = nIntervalSecs;
 		m_tUpdateTime = 0;
@@ -31,10 +31,10 @@ public:
 			return false;
 	}
 	// 初始化时间片。(但不启动)
-	export_lua void SetInterval(int nSecs) { m_tInterval = nSecs; }
+	export_lua void SetInterval(int32_t nSecs) { m_tInterval = nSecs; }
 
 	// 开始启动时钟(同SetInterval)
-	export_lua void Startup(int nSecs)
+	export_lua void Startup(int32_t nSecs)
 	{
 		m_tInterval = nSecs;
 		Update();
@@ -52,13 +52,13 @@ public:
 		m_tUpdateTime = 0;
 	}
 	export_lua bool IsActive() { return m_tUpdateTime != 0; }
-	export_lua void IncInterval(int nSecs, int nLimit) { m_tInterval = __min(m_tInterval + nSecs, nLimit); }
-	export_lua void DecInterval(int nSecs) { m_tInterval = __max(m_tInterval - nSecs, 0); }
+	export_lua void IncInterval(int32_t nSecs, int32_t nLimit) { m_tInterval = __min(m_tInterval + nSecs, nLimit); }
+	export_lua void DecInterval(int32_t nSecs) { m_tInterval = __max(m_tInterval - nSecs, 0); }
 
 	// 检查是否超时了指定时间片。用于同一时间标签检查多个不同超时事件。(可实现一个对象控制多个时钟)
-	export_lua bool IsTimeOut(int nSecs) { return ::TimeGetSecond() >= m_tUpdateTime + nSecs; }
+	export_lua bool IsTimeOut(int32_t nSecs) { return ::TimeGetSecond() >= m_tUpdateTime + nSecs; }
 	// 用于变长的超时事件。
-	export_lua bool ToNextTime(int nSecs)
+	export_lua bool ToNextTime(int32_t nSecs)
 	{
 		if(IsTimeOut(nSecs))
 			return Update(), true;
@@ -66,15 +66,15 @@ public:
 			return false;
 	}
 	// 时钟会积累，但积累值不超过间隔值。其它同ToNextTime(...)
-	export_lua bool ToNextTick(int nSecs);
-	//	void	AppendInterval	(int nSecs)			{ if(ToNextTime()) m_nInterval=nSecs; else m_nInterval+=nSecs; }
+	export_lua bool ToNextTick(int32_t nSecs);
+	//	void	AppendInterval	(int32_t nSecs)			{ if(ToNextTime()) m_nInterval=nSecs; else m_nInterval+=nSecs; }
 	//// ToNextTime(): 保证至少有nSecs秒
 
 public: // get
 	/**
 	 * 返回剩余时间
 	 */
-	export_lua int GetRemain() { return (int)(m_tUpdateTime ? __min(__max(m_tInterval - (::TimeGetSecond() - (int)m_tUpdateTime), 0), m_tInterval) : 0); }
+	export_lua int32_t GetRemain() { return (int32_t)(m_tUpdateTime ? __min(__max(m_tInterval - (::TimeGetSecond() - (int32_t)m_tUpdateTime), 0), m_tInterval) : 0); }
 	/**
 	 * 返回timeout时刻时间戳
 	 */
@@ -95,7 +95,7 @@ protected:
 class CMyTimerMS
 {
 public:
-	CMyTimerMS(int nIntervalSecs = 0)
+	CMyTimerMS(int32_t nIntervalSecs = 0)
 	{
 		m_tInterval	  = nIntervalSecs;
 		m_tUpdateTime = 0;
@@ -114,9 +114,9 @@ public:
 	}
 	// 	void	WaitNextTime()						{ clock_t tmNow = ::TimeGet(); if(m_tUpdateTime+m_nInterval > tmNow)
 	// Sleep(m_tUpdateTime+m_nInterval-tmNow); Update(); }
-	void SetInterval(int nMilliSecs) { m_tInterval = nMilliSecs; }
+	void SetInterval(int32_t nMilliSecs) { m_tInterval = nMilliSecs; }
 
-	void Startup(int nMilliSecs)
+	void Startup(int32_t nMilliSecs)
 	{
 		m_tInterval = nMilliSecs;
 		Update();
@@ -133,25 +133,25 @@ public:
 		m_tUpdateTime = 0;
 	}
 	bool IsActive() { return m_tUpdateTime != 0; }
-	void IncInterval(int nMilliSecs, int nLimit) { m_tInterval = __min(m_tInterval + nMilliSecs, (DWORD)nLimit); }
-	void DecInterval(int nMilliSecs) { m_tInterval = __max(m_tInterval - nMilliSecs, 0); }
+	void IncInterval(int32_t nMilliSecs, int32_t nLimit) { m_tInterval = __min(m_tInterval + nMilliSecs, (uint32_t)nLimit); }
+	void DecInterval(int32_t nMilliSecs) { m_tInterval = __max(m_tInterval - nMilliSecs, 0); }
 
-	bool IsTimeOut(int nMilliSecs) { return ::TimeGetMonotonic() >= m_tUpdateTime + nMilliSecs; }
-	bool ToNextTime(int nMilliSecs)
+	bool IsTimeOut(int32_t nMilliSecs) { return ::TimeGetMonotonic() >= m_tUpdateTime + nMilliSecs; }
+	bool ToNextTime(int32_t nMilliSecs)
 	{
 		if(IsTimeOut(nMilliSecs))
 			return Update(), true;
 		else
 			return false;
 	}
-	bool ToNextTick(int nMilliSecs);
-	//	void	AppendInterval	(int nMilliSecs)	{ if(ToNextTime()) m_nInterval=nMilliSecs; else
+	bool ToNextTick(int32_t nMilliSecs);
+	//	void	AppendInterval	(int32_t nMilliSecs)	{ if(ToNextTime()) m_nInterval=nMilliSecs; else
 	// m_nInterval+=nMilliSecs; }	// ToNextTime(): 保证至少有nSecs秒
 
 public: // get
-	int	   GetInterval() { return (int)m_tInterval; }
+	int32_t	   GetInterval() { return (int32_t)m_tInterval; }
 	time_t GetUpdateTime() { return m_tUpdateTime; }
-	DWORD  GetRemain() { return DWORD(m_tUpdateTime ? __min(__max(m_tInterval - (::TimeGetMonotonic() - m_tUpdateTime), 0), m_tInterval) : 0); }
+	uint32_t  GetRemain() { return uint32_t(m_tUpdateTime ? __min(__max(m_tInterval - (::TimeGetMonotonic() - m_tUpdateTime), 0), m_tInterval) : 0); }
 	time_t GetTimeOut()
 	{
 		if(m_tUpdateTime)

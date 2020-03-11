@@ -181,7 +181,7 @@ void CItemData::SetTypeID(OBJID idType, bool bUpdate /*=true*/)
 	__LEAVE_FUNCTION
 }
 
-void CItemData::SetPosition(UCHAR ucPosition, bool bUpdate /*=true*/)
+void CItemData::SetPosition(uint8_t ucPosition, bool bUpdate /*=true*/)
 {
 	__ENTER_FUNCTION
 	m_pRecord->Field(TBLD_ITEM::POSITION) = ucPosition;
@@ -274,10 +274,10 @@ void CItemData::SetFlag(uint32_t dwFlag, bool bUpdate /*=false*/)
 	__LEAVE_FUNCTION
 }
 
-void CItemData::SetExtra(int nIdx, uint32_t nExtra, bool bUpdate /*=false*/)
+void CItemData::SetExtra(int32_t nIdx, uint32_t nExtra, bool bUpdate /*=false*/)
 {
 	__ENTER_FUNCTION
-	for(int i = m_ExtraData.data_size(); i < nIdx; i++)
+	for(int32_t i = m_ExtraData.data_size(); i < nIdx; i++)
 	{
 		m_ExtraData.add_data(0);
 	}

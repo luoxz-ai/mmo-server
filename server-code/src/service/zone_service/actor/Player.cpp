@@ -132,7 +132,7 @@ void CPlayer::OnLogin(bool bLogin, const SceneID& idScene, float fPosX, float fP
 		CCommonData* pCommonData = GetCommonDataSet()->QueryData(COMMON_DATA_CONTINUELOGIN);
 		if(pCommonData)
 		{
-			int nDateDiff = DateDiffLocal(pCommonData->GetData(0), now);
+			int32_t nDateDiff = DateDiffLocal(pCommonData->GetData(0), now);
 			if(nDateDiff >= 1)
 			{
 				if(nDateDiff == 1)
@@ -258,7 +258,7 @@ void CPlayer::SendAttribToClient()
 {
 	__ENTER_FUNCTION
 	SC_ACTORATTRIB msg;
-	for(int i = 0; i < ATTRIB_MAX; i++)
+	for(int32_t i = 0; i < ATTRIB_MAX; i++)
 	{
 		msg.add_attrib_list(m_ActorAttrib.get(i));
 	}
@@ -960,8 +960,8 @@ void CPlayer::ProcessMsg()
 
 	auto pProcesser = ZoneService()->GetNetMsgProcess();
 	//每个人每次最多处理10条消息
-	static const int MAX_PROCESS_PER_TIME = 10;
-	int				 nProcessCount		  = 0;
+	static const int32_t MAX_PROCESS_PER_TIME = 10;
+	int32_t				 nProcessCount		  = 0;
 	while(refPool.empty() == false && nProcessCount < MAX_PROCESS_PER_TIME)
 	{
 		CNetworkMessage* pMsg = refPool.front();

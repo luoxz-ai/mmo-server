@@ -11,7 +11,7 @@
 #include "get_opt.h"
 #include "loging_manager.h"
 
-void log_cb(int severity, const char* msg)
+void log_cb(int32_t severity, const char* msg)
 {
 	LOGNETERROR("{}", msg);
 }
@@ -27,7 +27,7 @@ struct NetworkGInit
 	}
 } const G_NetworkGInit;
 
-void ProtobufLogHandler(google::protobuf::LogLevel level, const char* file, int line, const std::string& msg)
+void ProtobufLogHandler(google::protobuf::LogLevel level, const char* file, int32_t line, const std::string& msg)
 {
 	LOGERROR("PBError: {} in {}:{}", msg.c_str(), file, line);
 }

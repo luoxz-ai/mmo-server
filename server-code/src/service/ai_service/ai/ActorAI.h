@@ -79,7 +79,7 @@ public:
 	uint32_t GetCurSkillTypeID() const { return m_nCurSkillTypeID; }
 	void	 SetCurSkillTypeID(uint32_t val) { m_nCurSkillTypeID = val; }
 
-	static const STATE_DATA& GetStateData(int nState);
+	static const STATE_DATA& GetStateData(int32_t nState);
 
 public:
 	// 随机移动
@@ -158,7 +158,7 @@ private:
 	Vector2		   m_posBorn;
 	float		   m_fTargetDis = 0.0f;
 
-	int							m_nCurPathNode	  = 0;
+	int32_t							m_nCurPathNode	  = 0;
 	uint32_t					m_nCurSkillTypeID = 0;
 	const Cfg_Scene_Patrol_Row* m_pPathData		  = nullptr;
 

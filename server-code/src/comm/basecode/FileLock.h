@@ -15,7 +15,7 @@ public:
 	file_lock(const std::string& programname);
 	~file_lock();
 
-	bool kill(int sig);
+	bool kill(int32_t sig);
 	bool test();
 	bool lock();
 
@@ -23,7 +23,7 @@ public:
 
 private:
 	std::string m_pid_file;
-	int			m_fd;
+	int32_t			m_fd;
 };
 
 #endif // __FILE_LOCK_H__

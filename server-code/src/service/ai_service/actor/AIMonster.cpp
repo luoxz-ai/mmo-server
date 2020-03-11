@@ -36,7 +36,7 @@ bool CAIMonster::Init(const ServerMSG::ActorCreate& msg)
 		m_pAIType = AITypeSet()->QueryObj(m_pType->GetAITypeID());
 		if(m_pAIType)
 		{
-			for(int i = 0; i < m_pAIType->GetDataRef().skill_id_size(); i++)
+			for(int32_t i = 0; i < m_pAIType->GetDataRef().skill_id_size(); i++)
 			{
 				m_SkillSet.AddSkill(m_pAIType->GetDataRef().skill_id(i));
 			}

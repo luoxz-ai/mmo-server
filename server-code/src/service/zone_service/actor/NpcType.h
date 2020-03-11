@@ -27,7 +27,7 @@ public:
 
 	using PB_T = Cfg_Npc;
 	uint32_t GetID() const { return m_Data.id(); }
-	UCHAR	 GetLevel() const { return m_Data.level(); }
+	uint8_t	 GetLevel() const { return m_Data.level(); }
 	uint32_t GetTypeFlag() const { return m_Data.type_flag(); }
 
 	uint32_t		   GetCampID() const { return m_Data.idcamp(); }

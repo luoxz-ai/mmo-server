@@ -56,7 +56,7 @@ public:
 	export_lua bool IsEquipment() { return IsEquipmentStatic(GetType()); }
 	static bool		IsEquipmentStatic(uint32_t idType);
 	export_lua bool IsSuit();
-	export_lua bool IsCombineEnable(OBJID idItemType, DWORD dwFlag);
+	export_lua bool IsCombineEnable(OBJID idItemType, uint32_t dwFlag);
 	export_lua bool IsCombineEnable(CItem* pItem);
 
 public:

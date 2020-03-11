@@ -9,7 +9,7 @@
 const char* AUTH_URL = "https://example.com";
 
 static const std::string AUTH_SERVER_SIGNATURE = "test";
-static const int		 AUTH_KEY_CANUSE_SECS  = 180;
+static const int32_t		 AUTH_KEY_CANUSE_SECS  = 180;
 CAccountManager::CAccountManager() {}
 
 CAccountManager::~CAccountManager()
@@ -339,8 +339,8 @@ void CAccountManager::OnTimer()
 
 	//检查等待登陆队列， 如果等待登陆队列不为空
 	//每次最多放行5个
-	static const int MAX_PROCESS_PER_TIMERS = 20;
-	for(int i = 0; i < MAX_PROCESS_PER_TIMERS; i++)
+	static const int32_t MAX_PROCESS_PER_TIMERS = 20;
+	for(int32_t i = 0; i < MAX_PROCESS_PER_TIMERS; i++)
 	{
 		if(m_setWaitAccount.empty())
 			break;

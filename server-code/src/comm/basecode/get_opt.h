@@ -11,8 +11,8 @@
 //
 // int main() {
 //     bool help = getarg( false, "-h", "--help", "-?" );
-//     int version = getarg( 0, "-v", "--version", "--show-version" );
-//     int depth = getarg( 1, "-d", "--depth", "--max-depth");
+//     int32_t version = getarg( 0, "-v", "--version", "--show-version" );
+//     int32_t depth = getarg( 1, "-d", "--depth", "--max-depth");
 //     std::string file = getarg( "", "-f", "--file" );
 //     [...]
 // }
@@ -39,7 +39,7 @@
 //         std::cout << args["0"] << " sample v1.0.0. Compiled on " << __DATE__ << std::endl;
 //     }
 //     if( args.has("--depth") ) {
-//         int depth = atoi( args["--depth"].c_str() );
+//         int32_t depth = atoi( args["--depth"].c_str() );
 //         std::cout << "depth set to " << depth << std::endl;
 //     }
 //     [...]
@@ -80,17 +80,17 @@ inline T as(const std::string& self)
 template<>
 inline char as(const std::string& self)
 {
-	return self.size() == 1 ? (char)(self[0]) : (char)(as<int>(self));
+	return self.size() == 1 ? (char)(self[0]) : (char)(as<int32_t>(self));
 }
 template<>
 inline signed char as(const std::string& self)
 {
-	return self.size() == 1 ? (signed char)(self[0]) : (signed char)(as<int>(self));
+	return self.size() == 1 ? (signed char)(self[0]) : (signed char)(as<int32_t>(self));
 }
 template<>
 inline unsigned char as(const std::string& self)
 {
-	return self.size() == 1 ? (unsigned char)(self[0]) : (unsigned char)(as<int>(self));
+	return self.size() == 1 ? (unsigned char)(self[0]) : (unsigned char)(as<int32_t>(self));
 }
 
 template<>
@@ -131,11 +131,11 @@ inline std::vector<std::string> cmdline()
 	std::vector<std::string> args;
 	std::string				 arg;
 #ifdef _WIN32
-	int	  argv;
+	int32_t	  argv;
 	auto* list = CommandLineToArgvW(GetCommandLineW(), &argv);
 	if(list)
 	{
-		for(int i = 0; i < argv; ++i)
+		for(int32_t i = 0; i < argv; ++i)
 		{
 			std::wstring ws(list[i]);
 			args.push_back(std::string(ws.begin(), ws.end()));
@@ -177,7 +177,7 @@ struct get_opt : public std::map<std::string, std::string>
 	{
 		// reconstruct vector
 		std::vector<std::string> args(argc, std::string());
-		for(int i = 0; i < argc; ++i)
+		for(int32_t i = 0; i < argc; ++i)
 		{
 			args[i] = argv[i];
 		}

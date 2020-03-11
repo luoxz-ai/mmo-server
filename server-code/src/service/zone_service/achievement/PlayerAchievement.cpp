@@ -129,7 +129,7 @@ bool CPlayerAchievement::TakeReward(uint32_t idAchiType)
 		m_pOwner->AddProperty(PROP_ACHIPOINT, pType->GetAwardAchiPoint());
 	}
 	//物品
-	for(int i = 0; i < pType->GetDataRef().award_list_size(); i++)
+	for(int32_t i = 0; i < pType->GetDataRef().award_list_size(); i++)
 	{
 		const auto& v = pType->GetDataRef().award_list(i);
 		m_pOwner->AwardItem(0, v.type(), v.num(), v.flag());
@@ -169,7 +169,7 @@ bool CPlayerAchievement::TakeAll()
 			m_pOwner->AddProperty(PROP_ACHIPOINT, pType->GetAwardAchiPoint());
 		}
 		//物品
-		for(int i = 0; i < pType->GetDataRef().award_list_size(); i++)
+		for(int32_t i = 0; i < pType->GetDataRef().award_list_size(); i++)
 		{
 			const auto& v = pType->GetDataRef().award_list(i);
 			m_pOwner->AwardItem(0, v.type(), v.num(), v.flag());

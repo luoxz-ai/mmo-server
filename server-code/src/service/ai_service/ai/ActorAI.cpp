@@ -5,7 +5,7 @@
 #include "AIPathFinder.h"
 #include "AIService.h"
 
-static const int MOVE_PER_WAIT_MS = 500; //每500ms向zone发送一次移动消息
+static const int32_t MOVE_PER_WAIT_MS = 500; //每500ms向zone发送一次移动消息
 
 CActorAI::CActorAI() {}
 
@@ -40,7 +40,7 @@ void CActorAI::OnUnderAttack(OBJID idTarget, int32_t nDamage)
 
 void CActorAI::OnDead() {}
 
-const STATE_DATA& CActorAI::GetStateData(int nState)
+const STATE_DATA& CActorAI::GetStateData(int32_t nState)
 {
 	CHECKFSR_FMT(nState > 0 && nState < ATT_MAX, STATE_DATA, "nState={}", nState);
 	static STATE_DATA STATE_DATA_ARRAY[] = 

@@ -120,7 +120,7 @@ protected:
 	virtual void AOIProcessActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_MAP& mapAllViewActor) override;
 	virtual void AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
 											  BROADCAST_SET&	   setBCActor,
-											  int				   nCanReserveDelCount,
+											  int32_t				   nCanReserveDelCount,
 											  uint32_t			   view_range_out_square) override;
 	virtual void AOIProcessPosUpdate() override;
 
@@ -168,10 +168,10 @@ public:
 								bool	 bCanReflect,
 								bool	 bIgnoreDefence);
 
-	virtual void			OnBeAttack(CActor* pAttacker, int nRealDamage);
+	virtual void			OnBeAttack(CActor* pAttacker, int32_t nRealDamage);
 	export_lua void			UpdateFight();
 	export_lua bool			HitTest(CActor* pTarget, uint32_t nHitType);
-	export_lua int			CalcDefence(uint32_t nHitType);
+	export_lua int32_t			CalcDefence(uint32_t nHitType);
 	export_lua virtual bool CanDamage(CActor* pTarget) const { return false; }
 	export_lua virtual void BeKillBy(CActor* pAttacker);
 

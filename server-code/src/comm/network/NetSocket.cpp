@@ -151,7 +151,7 @@ bool CNetSocket::_SendMsg(byte* pBuffer, size_t len, bool bFlush)
 	{
 		m_pService->AddSendByteCount(len);
 
-		int nSucc = bufferevent_write(m_pBufferevent, pBuffer, len);
+		int32_t nSucc = bufferevent_write(m_pBufferevent, pBuffer, len);
 		if(bFlush)
 			bufferevent_flush(m_pBufferevent, EV_WRITE, BEV_FLUSH);
 		size_t nNeedWrite = evbuffer_get_length(bufferevent_get_output(m_pBufferevent));
@@ -238,7 +238,7 @@ void CNetSocket::_OnClose(short what)
 	__LEAVE_FUNCTION
 }
 
-void CNetSocket::_OnReconnect(int fd, short what, void* ctx)
+void CNetSocket::_OnReconnect(int32_t fd, short what, void* ctx)
 {
 	__ENTER_FUNCTION
 
@@ -343,7 +343,7 @@ void CNetSocket::_OnSocketEvent(bufferevent* b, short what, void* ctx)
 	}
 	if(what & BEV_EVENT_ERROR)
 	{
-		int			err	   = evutil_socket_geterror(bufferevent_getfd(b));
+		int32_t			err	   = evutil_socket_geterror(bufferevent_getfd(b));
 		const char* errstr = evutil_socket_error_to_string(err);
 		if(err == 10054 || err == 104 || err == 32)
 		{
@@ -376,7 +376,7 @@ void CNetSocket::_OnSocketConnectorEvent(bufferevent* b, short what, void* ctx)
 
 	if(what == BEV_EVENT_CONNECTED)
 	{
-		int fd = bufferevent_getfd(b);
+		int32_t fd = bufferevent_getfd(b);
 		evutil_make_socket_nonblocking(fd);
 		pSocket->SetSocket(fd);
 		pSocket->GetService()->_AddSocket(pSocket);
@@ -391,7 +391,7 @@ void CNetSocket::_OnSocketConnectorEvent(bufferevent* b, short what, void* ctx)
 	}
 	else
 	{
-		int			err	   = evutil_socket_geterror(bufferevent_getfd(b));
+		int32_t			err	   = evutil_socket_geterror(bufferevent_getfd(b));
 		const char* errstr = evutil_socket_error_to_string(err);
 		LOGNETDEBUG("CNetSocket::SocketConnectFail:{}:{} {}", pSocket->GetAddrString().c_str(), pSocket->GetPort(), errstr);
 
@@ -400,7 +400,7 @@ void CNetSocket::_OnSocketConnectorEvent(bufferevent* b, short what, void* ctx)
 	__LEAVE_FUNCTION
 }
 
-void CNetSocket::SetAddrAndPort(const char* addr, int port)
+void CNetSocket::SetAddrAndPort(const char* addr, int32_t port)
 {
 	__ENTER_FUNCTION
 	if(addr == nullptr)

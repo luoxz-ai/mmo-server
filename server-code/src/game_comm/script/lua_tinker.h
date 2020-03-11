@@ -78,7 +78,7 @@ typedef std::function<void(lua_State*)> Lua_Close_CallBack_Func;
 void									register_lua_close_callback(lua_State* L, Lua_Close_CallBack_Func&& callback_func);
 
 // error callback
-typedef int (*error_call_back_fn)(lua_State* L);
+typedef int32_t (*error_call_back_fn)(lua_State* L);
 error_call_back_fn get_error_callback();
 void			   set_error_callback(error_call_back_fn fn);
 
@@ -93,7 +93,7 @@ RVal dobuffer(lua_State* L, const char* buff, size_t sz);
 // debug helpers
 void enum_stack(lua_State* L);
 void clear_stack(lua_State* L);
-int	 on_error(lua_State* L);
+int32_t	 on_error(lua_State* L);
 void print_error(lua_State* L, const char* fmt, ...);
 
 // dynamic type extention
@@ -172,9 +172,9 @@ void class_property(lua_State* L, const char* name, GET_FUNC&& get_func, SET_FUN
 namespace detail
 {
 	// class helper
-	int	 meta_get(lua_State* L);
-	int	 meta_set(lua_State* L);
-	int	 push_meta(lua_State* L, const char* name);
+	int32_t	 meta_get(lua_State* L);
+	int32_t	 meta_set(lua_State* L);
+	int32_t	 push_meta(lua_State* L, const char* name);
 	void add_gc_mate(lua_State* L);
 
 	template<typename T>
@@ -224,7 +224,7 @@ namespace detail
 
 	struct lua_stack_scope_exit
 	{
-		int		   m_nOldTop;
+		int32_t		   m_nOldTop;
 		lua_State* m_L;
 		lua_stack_scope_exit(lua_State* L)
 			: m_L(L)
@@ -257,9 +257,9 @@ namespace detail
 
 	// forward delcare
 	template<typename T>
-	auto read(lua_State* L, int index) -> decltype(_stack_help<T>::_read(L, index));
+	auto read(lua_State* L, int32_t index) -> decltype(_stack_help<T>::_read(L, index));
 	template<typename T>
-	auto read_nocheck(lua_State* L, int index) -> decltype(_stack_help<T>::_read(L, index));
+	auto read_nocheck(lua_State* L, int32_t index) -> decltype(_stack_help<T>::_read(L, index));
 
 	template<typename T>
 	void push(lua_State* L, T ret); // here need a T/T*/T& not a T&&
@@ -286,7 +286,7 @@ namespace detail
 
 	// userdata to T，T*，T&
 	template<typename T>
-	T user2type(lua_State* L, int index)
+	T user2type(lua_State* L, int32_t index)
 	{
 		return void2type<T>(lua_touserdata(L, index));
 	}
@@ -471,7 +471,7 @@ namespace detail
 	template<typename T>
 	struct pop
 	{
-		static constexpr const int nresult = 1;
+		static constexpr const int32_t nresult = 1;
 		static T				   apply(lua_State* L)
 		{
 			stack_delay_pop _dealy(L, nresult);
@@ -482,7 +482,7 @@ namespace detail
 	template<typename... TS>
 	struct pop<std::tuple<TS...>>
 	{
-		static constexpr const int nresult = sizeof...(TS);
+		static constexpr const int32_t nresult = sizeof...(TS);
 
 		static std::tuple<TS...> apply(lua_State* L)
 		{
@@ -493,28 +493,28 @@ namespace detail
 		template<std::size_t... index>
 		static std::tuple<TS...> apply_help(lua_State* L, std::index_sequence<index...>)
 		{
-			return std::make_tuple(read_nocheck<TS>(L, (int)(index - nresult))...);
+			return std::make_tuple(read_nocheck<TS>(L, (int32_t)(index - nresult))...);
 		}
 	};
 
 	template<>
 	struct pop<void>
 	{
-		static constexpr const int nresult = 0;
+		static constexpr const int32_t nresult = 0;
 		static void				   apply(lua_State* L);
 	};
 
 	template<>
 	struct pop<table_ref>
 	{
-		static constexpr const int nresult = 1;
+		static constexpr const int32_t nresult = 1;
 		static table_ref		   apply(lua_State* L);
 	};
 
 	template<>
 	struct pop<table_onstack>
 	{
-		static constexpr const int nresult = 1;
+		static constexpr const int32_t nresult = 1;
 		static table_onstack	   apply(lua_State* L);
 	};
 
@@ -565,7 +565,7 @@ namespace detail
 		return user2type<T>(L, lua_upvalueindex(1));
 	}
 
-	enum OVERLOAD_PARAMTYPE : unsigned char
+	enum OVERLOAD_PARAMTYPE : uint8_t
 	{
 		CLT_NONE	 = LUA_TNIL,
 		CLT_BOOLEAN	 = LUA_TBOOLEAN,
@@ -583,9 +583,9 @@ namespace detail
 		"CLT_NONE", "CLT_BOOLEAN", "CLT_NOUSE1", "CLT_INT", "CLT_STRING", "CLT_TABLE", "CLT_FUNCTION", "CLT_USERDATA", "CLT_NOUSE2", "CLT_DOUBLE",
 	};
 
-	inline unsigned char LType2ParamsType(lua_State* L, int idx)
+	inline uint8_t LType2ParamsType(lua_State* L, int32_t idx)
 	{
-		int nType = lua_type(L, idx);
+		int32_t nType = lua_type(L, idx);
 		if(nType != LUA_TNUMBER)
 			return nType;
 		if(!lua_isinteger(L, idx))
@@ -595,7 +595,7 @@ namespace detail
 	}
 
 	template<typename _T>
-	static _T _lua2type(lua_State* L, int index)
+	static _T _lua2type(lua_State* L, int32_t index)
 	{
 		if(!lua_isuserdata(L, index))
 		{
@@ -666,13 +666,13 @@ namespace detail
 	template<typename T, typename Enable>
 	struct _stack_help
 	{
-		static constexpr int cover_to_lua_type() { return CLT_USERDATA; }
+		static constexpr int32_t cover_to_lua_type() { return CLT_USERDATA; }
 
-		static T _read(lua_State* L, int index) { return lua2type<T>(L, index); }
+		static T _read(lua_State* L, int32_t index) { return lua2type<T>(L, index); }
 
 		// get userdata ptr from lua, can handle nil an 0
 		template<typename _T>
-		static _T lua2type(lua_State* L, int index)
+		static _T lua2type(lua_State* L, int32_t index)
 		{
 			if constexpr(std::is_pointer<_T>::value)
 			{
@@ -703,25 +703,25 @@ namespace detail
 	template<>
 	struct _stack_help<char*>
 	{
-		static constexpr int cover_to_lua_type() { return CLT_STRING; }
-		static char*		 _read(lua_State* L, int index);
+		static constexpr int32_t cover_to_lua_type() { return CLT_STRING; }
+		static char*		 _read(lua_State* L, int32_t index);
 		static void			 _push(lua_State* L, char* ret);
 	};
 
 	template<>
 	struct _stack_help<const char*>
 	{
-		static constexpr int cover_to_lua_type() { return CLT_STRING; }
-		static const char*	 _read(lua_State* L, int index);
+		static constexpr int32_t cover_to_lua_type() { return CLT_STRING; }
+		static const char*	 _read(lua_State* L, int32_t index);
 		static void			 _push(lua_State* L, const char* ret);
 	};
 
 	template<>
 	struct _stack_help<bool>
 	{
-		static constexpr int cover_to_lua_type() { return CLT_BOOLEAN; }
+		static constexpr int32_t cover_to_lua_type() { return CLT_BOOLEAN; }
 
-		static bool _read(lua_State* L, int index);
+		static bool _read(lua_State* L, int32_t index);
 		static void _push(lua_State* L, bool ret);
 	};
 
@@ -729,9 +729,9 @@ namespace detail
 	template<typename T>
 	struct _stack_help<T, typename std::enable_if<std::is_integral<T>::value>::type>
 	{
-		static constexpr int cover_to_lua_type() { return CLT_INT; }
+		static constexpr int32_t cover_to_lua_type() { return CLT_INT; }
 
-		static T	_read(lua_State* L, int index) { return (T)lua_tointeger(L, index); }
+		static T	_read(lua_State* L, int32_t index) { return (T)lua_tointeger(L, index); }
 		static void _push(lua_State* L, T ret) { lua_pushinteger(L, ret); }
 	};
 
@@ -739,18 +739,18 @@ namespace detail
 	template<typename T>
 	struct _stack_help<T, typename std::enable_if<std::is_floating_point<T>::value>::type>
 	{
-		static constexpr int cover_to_lua_type() { return CLT_DOUBLE; }
+		static constexpr int32_t cover_to_lua_type() { return CLT_DOUBLE; }
 
-		static T	_read(lua_State* L, int index) { return (T)lua_tonumber(L, index); }
+		static T	_read(lua_State* L, int32_t index) { return (T)lua_tonumber(L, index); }
 		static void _push(lua_State* L, T ret) { lua_pushnumber(L, ret); }
 	};
 
 	template<>
 	struct _stack_help<std::string>
 	{
-		static constexpr int cover_to_lua_type() { return CLT_STRING; }
+		static constexpr int32_t cover_to_lua_type() { return CLT_STRING; }
 
-		static std::string _read(lua_State* L, int index);
+		static std::string _read(lua_State* L, int32_t index);
 		static void		   _push(lua_State* L, const std::string& ret);
 	};
 	template<>
@@ -761,16 +761,16 @@ namespace detail
 	template<>
 	struct _stack_help<table_onstack>
 	{
-		static constexpr int cover_to_lua_type() { return CLT_TABLE; }
-		static table_onstack _read(lua_State* L, int index);
+		static constexpr int32_t cover_to_lua_type() { return CLT_TABLE; }
+		static table_onstack _read(lua_State* L, int32_t index);
 		static void			 _push(lua_State* L, const table_onstack& ret);
 	};
 
 	template<>
 	struct _stack_help<lua_value*>
 	{
-		static constexpr int cover_to_lua_type() { return CLT_USERDATA; }
-		static lua_value*	 _read(lua_State* L, int index);
+		static constexpr int32_t cover_to_lua_type() { return CLT_USERDATA; }
+		static lua_value*	 _read(lua_State* L, int32_t index);
 		static void			 _push(lua_State* L, lua_value* ret);
 	};
 
@@ -778,14 +778,14 @@ namespace detail
 	template<typename T>
 	struct _stack_help<T, typename std::enable_if<std::is_enum<T>::value>::type>
 	{
-		static constexpr int cover_to_lua_type() { return CLT_INT; }
-		static T			 _read(lua_State* L, int index) { return (T)lua_tointeger(L, index); }
-		static void			 _push(lua_State* L, T ret) { lua_pushinteger(L, (int)ret); }
+		static constexpr int32_t cover_to_lua_type() { return CLT_INT; }
+		static T			 _read(lua_State* L, int32_t index) { return (T)lua_tointeger(L, index); }
+		static void			 _push(lua_State* L, T ret) { lua_pushinteger(L, (int32_t)ret); }
 	};
 
 	// support container
 	template<typename _T>
-	_T _readfromtable(lua_State* L, int index)
+	_T _readfromtable(lua_State* L, int32_t index)
 	{
 		stack_obj table_obj(L, index);
 		if(table_obj.is_table() == false)
@@ -835,7 +835,7 @@ namespace detail
 		{
 			stack_obj table_obj = stack_obj::new_table(L, ret.size(), 0);
 			auto	  it		= ret.begin();
-			for(int i = 1; it != ret.end(); it++, i++)
+			for(int32_t i = 1; it != ret.end(); it++, i++)
 			{
 				push(L, i);
 				push(L, *it);
@@ -848,9 +848,9 @@ namespace detail
 	template<typename T>
 	struct _stack_help<T, typename std::enable_if<!std::is_reference<T>::value && !std::is_pointer<T>::value && is_container<base_type<T>>::value>::type>
 	{
-		static constexpr int cover_to_lua_type() { return CLT_TABLE; }
+		static constexpr int32_t cover_to_lua_type() { return CLT_TABLE; }
 
-		static T _read(lua_State* L, int index)
+		static T _read(lua_State* L, int32_t index)
 		{
 			if(lua_istable(L, index))
 				return _readfromtable<T>(L, index);
@@ -866,7 +866,7 @@ namespace detail
 		//	return _pushtotable(L, std::forward<_T>(val));
 		//}
 
-		// static T _read(lua_State *L, int index)
+		// static T _read(lua_State *L, int32_t index)
 		//{
 		//	return _lua2type<T>(L, index);
 		//}
@@ -892,10 +892,10 @@ namespace detail
 	struct _stack_help<std::tuple<Args...>>
 	{
 		using TupleType = std::tuple<Args...>;
-		static constexpr int cover_to_lua_type() { return CLT_TABLE; }
+		static constexpr int32_t cover_to_lua_type() { return CLT_TABLE; }
 
 		template<typename T, std::size_t I>
-		static T _read_tuple_element_fromtable_helper(lua_State* L, int table_stack_pos)
+		static T _read_tuple_element_fromtable_helper(lua_State* L, int32_t table_stack_pos)
 		{
 			T t;
 			push(L, I);
@@ -906,13 +906,13 @@ namespace detail
 		}
 
 		template<typename Tuple, std::size_t... index>
-		static Tuple _read_tuple_fromtable(lua_State* L, int table_stack_pos, std::index_sequence<index...>)
+		static Tuple _read_tuple_fromtable(lua_State* L, int32_t table_stack_pos, std::index_sequence<index...>)
 		{
 			return std::make_tuple(_read_tuple_element_fromtable_helper<typename std::tuple_element<index, Tuple>::type, index + 1>(L, table_stack_pos)...);
 		}
 
 		template<typename Tuple>
-		static Tuple _read_tuple_fromtable(lua_State* L, int index)
+		static Tuple _read_tuple_fromtable(lua_State* L, int32_t index)
 		{
 			stack_obj table_obj(L, index);
 			if(table_obj.is_table() == false)
@@ -924,7 +924,7 @@ namespace detail
 			return _read_tuple_fromtable<Tuple>(L, table_obj._stack_pos, std::make_index_sequence<std::tuple_size<Tuple>::value>{});
 		}
 
-		static TupleType _read(lua_State* L, int index)
+		static TupleType _read(lua_State* L, int32_t index)
 		{
 			if(lua_istable(L, index))
 				return _read_tuple_fromtable<TupleType>(L, index);
@@ -935,12 +935,12 @@ namespace detail
 		}
 
 		template<typename Tuple>
-		static void _push_tuple_totable_helper(lua_State* L, int table_stack_pos, Tuple&& tuple, std::index_sequence<>)
+		static void _push_tuple_totable_helper(lua_State* L, int32_t table_stack_pos, Tuple&& tuple, std::index_sequence<>)
 		{
 		}
 
 		template<typename Tuple, std::size_t first, std::size_t... is>
-		static void _push_tuple_totable_helper(lua_State* L, int table_stack_pos, Tuple&& tuple, std::index_sequence<first, is...>)
+		static void _push_tuple_totable_helper(lua_State* L, int32_t table_stack_pos, Tuple&& tuple, std::index_sequence<first, is...>)
 		{
 			push(L, first + 1); // lua table index from 1~x
 			push(L, std::get<first>(std::forward<Tuple>(tuple)));
@@ -962,10 +962,10 @@ namespace detail
 	template<typename RVal, typename... Args>
 	struct _stack_help<std::function<RVal(Args...)>>
 	{
-		static constexpr int cover_to_lua_type() { return CLT_FUNCTION; }
+		static constexpr int32_t cover_to_lua_type() { return CLT_FUNCTION; }
 
 		// func must be release before lua close.....user_conctrl
-		static std::function<RVal(Args...)> _read(lua_State* L, int index)
+		static std::function<RVal(Args...)> _read(lua_State* L, int32_t index)
 		{
 			if(lua_isfunction(L, index) == false)
 			{
@@ -976,7 +976,7 @@ namespace detail
 			// copy idx to top
 			lua_pushvalue(L, index);
 			// make ref
-			int					   lua_callback = luaL_ref(L, LUA_REGISTRYINDEX);
+			int32_t					   lua_callback = luaL_ref(L, LUA_REGISTRYINDEX);
 			lua_function_ref<RVal> callback_ref(L, lua_callback);
 
 			return std::function<RVal(Args...)>(callback_ref);
@@ -993,9 +993,9 @@ namespace detail
 	template<typename RVal>
 	struct _stack_help<lua_function_ref<RVal>>
 	{
-		static constexpr int cover_to_lua_type() { return CLT_FUNCTION; }
+		static constexpr int32_t cover_to_lua_type() { return CLT_FUNCTION; }
 		// func must be release before lua close.....user_conctrl
-		static lua_function_ref<RVal> _read(lua_State* L, int index)
+		static lua_function_ref<RVal> _read(lua_State* L, int32_t index)
 		{
 			if(lua_isfunction(L, index) == false)
 			{
@@ -1006,7 +1006,7 @@ namespace detail
 			// copy to top
 			lua_pushvalue(L, index);
 			// move top to ref
-			int lua_callback = luaL_ref(L, LUA_REGISTRYINDEX);
+			int32_t lua_callback = luaL_ref(L, LUA_REGISTRYINDEX);
 
 			lua_function_ref<RVal> callback_ref(L, lua_callback);
 
@@ -1032,9 +1032,9 @@ namespace detail
 	template<typename T>
 	struct _stack_help<std::shared_ptr<T>>
 	{
-		static constexpr int cover_to_lua_type() { return CLT_USERDATA; }
+		static constexpr int32_t cover_to_lua_type() { return CLT_USERDATA; }
 
-		static std::shared_ptr<T> _read(lua_State* L, int index)
+		static std::shared_ptr<T> _read(lua_State* L, int32_t index)
 		{
 			if(!lua_isuserdata(L, index))
 			{
@@ -1118,7 +1118,7 @@ namespace detail
 
 	// read_weap
 	template<typename T>
-	auto read(lua_State* L, int index) -> decltype(_stack_help<T>::_read(L, index))
+	auto read(lua_State* L, int32_t index) -> decltype(_stack_help<T>::_read(L, index))
 	{
 #ifdef LUA_CALL_CFUNC_NEED_ALL_PARAM
 		if(std::is_pointer<T>)
@@ -1135,7 +1135,7 @@ namespace detail
 
 	// read_weap
 	template<typename T>
-	auto read_nocheck(lua_State* L, int index) -> decltype(_stack_help<T>::_read(L, index))
+	auto read_nocheck(lua_State* L, int32_t index) -> decltype(_stack_help<T>::_read(L, index))
 	{
 		return _stack_help<T>::_read(L, index);
 	}
@@ -1175,25 +1175,25 @@ namespace detail
 	}
 
 	// direct invoke func
-	template<int nIdxParams, typename RVal, typename Func, typename... Args, std::size_t... index>
+	template<int32_t nIdxParams, typename RVal, typename Func, typename... Args, std::size_t... index>
 	RVal direct_invoke_invoke_helper(Func&& func, lua_State* L, std::index_sequence<index...>)
 	{
 		return stdext::invoke(std::forward<Func>(func), read<Args>(L, index + nIdxParams)...);
 	}
 
-	template<int nIdxParams, typename RVal, typename Func, typename... Args>
+	template<int32_t nIdxParams, typename RVal, typename Func, typename... Args>
 	RVal direct_invoke_func(Func&& func, lua_State* L)
 	{
 		return direct_invoke_invoke_helper<nIdxParams, RVal, Func, Args...>(std::forward<Func>(func), L, std::make_index_sequence<sizeof...(Args)>{});
 	}
 
-	template<int nIdxParams, typename RVal, typename Func, typename CT, typename... Args, std::size_t... index>
+	template<int32_t nIdxParams, typename RVal, typename Func, typename CT, typename... Args, std::size_t... index>
 	RVal direct_invoke_invoke_helper(Func&& func, lua_State* L, CT* pClassPtr, std::index_sequence<index...>)
 	{
 		return stdext::invoke(std::forward<Func>(func), pClassPtr, read<Args>(L, index + nIdxParams)...);
 	}
 
-	template<int nIdxParams, typename RVal, typename Func, typename CT, typename... Args>
+	template<int32_t nIdxParams, typename RVal, typename Func, typename CT, typename... Args>
 	RVal direct_invoke_member_func(Func&& func, lua_State* L, CT* pClassPtr)
 	{
 		return direct_invoke_invoke_helper<nIdxParams, RVal, Func, CT, Args...>(std::forward<Func>(func), L, pClassPtr, std::make_index_sequence<sizeof...(Args)>{});
@@ -1208,20 +1208,20 @@ namespace detail
 	// template<typename...T>
 	// using ParamHolder_T = typename ParamHolder<T...>::type;
 
-	// template <int nIdxParams, typename... T, std::size_t... N>
+	// template <int32_t nIdxParams, typename... T, std::size_t... N>
 	// ParamHolder_T<T...> _get_args(lua_State *L, std::index_sequence<N...>)
 	//{
 	//	return std::forward<ParamHolder_T<T...>>(ParamHolder_T<T...>{ read<T>(L, N + nIdxParams)... });
 	//}
 
-	// template <int nIdxParams, typename... T>
+	// template <int32_t nIdxParams, typename... T>
 	// ParamHolder_T<T...> _get_args(lua_State *L)
 	//{
 	//	constexpr std::size_t num_args = sizeof...(T);
 	//	return _get_args<nIdxParams, T...>(L, std::make_index_sequence<num_args>());
 	//}
 
-	bool CheckSameMetaTable(lua_State* L, int nIndex, const char* tname);
+	bool CheckSameMetaTable(lua_State* L, int32_t nIndex, const char* tname);
 
 	template<typename T, bool bConstMemberFunc>
 	T* _read_classptr_from_index1(lua_State* L)
@@ -1259,13 +1259,13 @@ namespace detail
 	}
 
 	// upval to stack helper
-	bool push_upval_to_stack(lua_State* L, int nArgsCount, int nArgsNeed, int default_upval_start = 2);
-	bool push_upval_to_stack(lua_State* L, int nArgsCount, int nArgsNeed, int nUpvalCount, int UpvalStart);
+	bool push_upval_to_stack(lua_State* L, int32_t nArgsCount, int32_t nArgsNeed, int32_t default_upval_start = 2);
+	bool push_upval_to_stack(lua_State* L, int32_t nArgsCount, int32_t nArgsNeed, int32_t nUpvalCount, int32_t UpvalStart);
 	// functor
 	struct functor_base
 	{
 		virtual ~functor_base() {}
-		virtual int apply(lua_State* L) = 0;
+		virtual int32_t apply(lua_State* L) = 0;
 	};
 
 	template<bool bConst, typename CT, typename RVal, typename... Args>
@@ -1275,15 +1275,15 @@ namespace detail
 		typedef std::function<RVal(CT*, Args...)> FunctionType;
 		FunctionType							  m_func;
 
-		int m_nDefaultParamCount  = 0;
-		int m_nDefaultParamsStart = 0;
-		member_functor(const FunctionType& func, int nDefaultParamCount = 0, int nDefaultParamStart = 0)
+		int32_t m_nDefaultParamCount  = 0;
+		int32_t m_nDefaultParamsStart = 0;
+		member_functor(const FunctionType& func, int32_t nDefaultParamCount = 0, int32_t nDefaultParamStart = 0)
 			: m_func(func)
 			, m_nDefaultParamCount(nDefaultParamCount)
 			, m_nDefaultParamsStart(nDefaultParamStart)
 		{
 		}
-		member_functor(FunctionType&& func, int nDefaultParamCount = 0, int nDefaultParamStart = 0)
+		member_functor(FunctionType&& func, int32_t nDefaultParamCount = 0, int32_t nDefaultParamStart = 0)
 			: m_func(func)
 			, m_nDefaultParamCount(nDefaultParamCount)
 			, m_nDefaultParamsStart(nDefaultParamStart)
@@ -1292,9 +1292,9 @@ namespace detail
 
 		~member_functor() {}
 
-		int getDefaultArgsNum() { return m_nDefaultParamCount; }
+		int32_t getDefaultArgsNum() { return m_nDefaultParamCount; }
 
-		virtual int apply(lua_State* L) override
+		virtual int32_t apply(lua_State* L) override
 		{
 			CHECK_CLASS_PTR(CT);
 			TRY_LUA_TINKER_INVOKE()
@@ -1311,7 +1311,7 @@ namespace detail
 			return 0;
 		}
 
-		static int invoke(lua_State* L)
+		static int32_t invoke(lua_State* L)
 		{
 			CHECK_CLASS_PTR(CT);
 			TRY_LUA_TINKER_INVOKE()
@@ -1337,7 +1337,7 @@ namespace detail
 				direct_invoke_member_func<2, RVal, FuncType, CT, Args...>(std::forward<FuncType>(func), L, pClassPtr);
 		}
 
-		static int invoke_function(lua_State* L)
+		static int32_t invoke_function(lua_State* L)
 		{
 			CHECK_CLASS_PTR(CT);
 			TRY_LUA_TINKER_INVOKE()
@@ -1374,15 +1374,15 @@ namespace detail
 
 		FunctionType m_func;
 
-		int m_nDefaultParamCount  = 0;
-		int m_nDefaultParamsStart = 0;
-		functor(const FunctionType& func, int nDefaultParamCount = 0, int nDefaultParamStart = 0)
+		int32_t m_nDefaultParamCount  = 0;
+		int32_t m_nDefaultParamsStart = 0;
+		functor(const FunctionType& func, int32_t nDefaultParamCount = 0, int32_t nDefaultParamStart = 0)
 			: m_func(func)
 			, m_nDefaultParamCount(nDefaultParamCount)
 			, m_nDefaultParamsStart(nDefaultParamStart)
 		{
 		}
-		functor(FunctionType&& func, int nDefaultParamCount = 0, int nDefaultParamStart = 0)
+		functor(FunctionType&& func, int32_t nDefaultParamCount = 0, int32_t nDefaultParamStart = 0)
 			: m_func(func)
 			, m_nDefaultParamCount(nDefaultParamCount)
 			, m_nDefaultParamsStart(nDefaultParamStart)
@@ -1391,9 +1391,9 @@ namespace detail
 
 		~functor() {}
 
-		int getDefaultArgsNum() { return m_nDefaultParamCount; }
+		int32_t getDefaultArgsNum() { return m_nDefaultParamCount; }
 
-		virtual int apply(lua_State* L) override
+		virtual int32_t apply(lua_State* L) override
 		{
 			TRY_LUA_TINKER_INVOKE()
 			{
@@ -1409,7 +1409,7 @@ namespace detail
 			return 0;
 		}
 
-		static int invoke(lua_State* L)
+		static int32_t invoke(lua_State* L)
 		{
 			TRY_LUA_TINKER_INVOKE()
 			{
@@ -1434,7 +1434,7 @@ namespace detail
 				direct_invoke_func<1, RVal, FuncType, Args...>(std::forward<FuncType>(upvalue_<FuncType>(L)), L);
 		}
 
-		static int invoke_function(lua_State* L)
+		static int32_t invoke_function(lua_State* L)
 		{
 			TRY_LUA_TINKER_INVOKE()
 			{
@@ -1464,23 +1464,23 @@ namespace detail
 
 	// destroyer
 	template<typename T>
-	int destroyer(lua_State* L)
+	int32_t destroyer(lua_State* L)
 	{
 		((T*)lua_touserdata(L, 1))->~T();
 		return 0;
 	}
 
 	template<typename T, typename... DEFAULT_ARGS>
-	void _push_functor_invoke(lua_State* L, int upval_num, T&& t, DEFAULT_ARGS&&... default_args)
+	void _push_functor_invoke(lua_State* L, int32_t upval_num, T&& t, DEFAULT_ARGS&&... default_args)
 	{
 		const size_t size_args = sizeof...(default_args);
-		push<int>(L, size_args);
+		push<int32_t>(L, size_args);
 		push_args(L, std::forward<DEFAULT_ARGS>(default_args)...);
 		lua_pushcclosure(L, std::forward<T>(t), upval_num + 1 + size_args);
 	}
 
 	template<typename T>
-	void _push_functor_invoke(lua_State* L, int upval_num, T&& t)
+	void _push_functor_invoke(lua_State* L, int32_t upval_num, T&& t)
 	{
 		lua_pushcclosure(L, std::forward<T>(t), upval_num);
 	}
@@ -1557,17 +1557,17 @@ namespace detail
 template<typename T, typename... Args>
 struct constructor : public detail::functor_base
 {
-	int m_nDefaultParamCount  = 0;
-	int m_nDefaultParamsStart = 0;
-	constructor(int nDefaultParamCount = 0, int nDefaultParamStart = 0)
+	int32_t m_nDefaultParamCount  = 0;
+	int32_t m_nDefaultParamsStart = 0;
+	constructor(int32_t nDefaultParamCount = 0, int32_t nDefaultParamStart = 0)
 		: m_nDefaultParamCount(nDefaultParamCount)
 		, m_nDefaultParamsStart(nDefaultParamStart)
 	{
 	}
 
-	int getDefaultArgsNum() { return m_nDefaultParamCount; }
+	int32_t getDefaultArgsNum() { return m_nDefaultParamCount; }
 
-	virtual int apply(lua_State* L) override
+	virtual int32_t apply(lua_State* L) override
 	{
 		TRY_LUA_TINKER_INVOKE()
 		{
@@ -1583,7 +1583,7 @@ struct constructor : public detail::functor_base
 		return 0;
 	}
 
-	static int invoke(lua_State* L)
+	static int32_t invoke(lua_State* L)
 	{
 		TRY_LUA_TINKER_INVOKE()
 		{
@@ -1599,7 +1599,7 @@ struct constructor : public detail::functor_base
 		return 0;
 	}
 
-	static int _invoke(lua_State* L)
+	static int32_t _invoke(lua_State* L)
 	{
 		new(lua_newuserdata(L, sizeof(detail::val2user<T>))) detail::val2user<T>(L, detail::class_tag<Args...>());
 		detail::push_meta(L, detail::get_class_name<T>());
@@ -1641,7 +1641,7 @@ template<typename RVal>
 RVal dofile(lua_State* L, const char* filename)
 {
 	lua_pushcclosure(L, get_error_callback(), 0);
-	int errfunc = lua_gettop(L);
+	int32_t errfunc = lua_gettop(L);
 
 	if(luaL_loadfile(L, filename) == 0)
 	{
@@ -1656,7 +1656,7 @@ RVal dofile(lua_State* L, const char* filename)
 			else if(detail::pop<RVal>::nresult > 1)
 			{
 				// push nil to pop result
-				for(int i = 0; i < detail::pop<RVal>::nresult - 1; i++)
+				for(int32_t i = 0; i < detail::pop<RVal>::nresult - 1; i++)
 				{
 					lua_pushnil(L);
 				};
@@ -1689,7 +1689,7 @@ template<typename RVal>
 RVal dobuffer(lua_State* L, const char* buff, size_t sz)
 {
 	lua_pushcclosure(L, get_error_callback(), 0);
-	int errfunc = lua_gettop(L);
+	int32_t errfunc = lua_gettop(L);
 
 	if(luaL_loadbuffer(L, buff, sz, "lua_tinker::dobuffer()") == 0)
 	{
@@ -1704,7 +1704,7 @@ RVal dobuffer(lua_State* L, const char* buff, size_t sz)
 			else if(detail::pop<RVal>::nresult > 1)
 			{
 				// push nil to pop result
-				for(int i = 0; i < detail::pop<RVal>::nresult - 1; i++)
+				for(int32_t i = 0; i < detail::pop<RVal>::nresult - 1; i++)
 				{
 					lua_pushnil(L);
 				};
@@ -1732,7 +1732,7 @@ template<typename RVal, typename... Args>
 RVal call(lua_State* L, const char* name, Args&&... arg)
 {
 	lua_pushcclosure(L, get_error_callback(), 0);
-	int errfunc = lua_gettop(L);
+	int32_t errfunc = lua_gettop(L);
 	lua_getglobal(L, name);
 	if(lua_isfunction(L, -1))
 	{
@@ -1749,7 +1749,7 @@ RVal call(lua_State* L, const char* name, Args&&... arg)
 			else if(detail::pop<RVal>::nresult > 1)
 			{
 				// push nil to pop result
-				for(int i = 0; i < detail::pop<RVal>::nresult - 1; i++)
+				for(int32_t i = 0; i < detail::pop<RVal>::nresult - 1; i++)
 				{
 					lua_pushnil(L);
 				};
@@ -1854,7 +1854,7 @@ namespace detail
 	}
 
 	template<typename T>
-	int _get_raw_ptr(lua_State* L)
+	int32_t _get_raw_ptr(lua_State* L)
 	{
 		std::shared_ptr<T> ptrT = read<std::shared_ptr<T>>(L, 1);
 		push_rv<T*>(L, ptrT.get());
@@ -1969,7 +1969,7 @@ void class_add(lua_State* L, const char* name, bool bInitShared)
 	{
 		std::string strSharedName = (std::string(name) + S_SHARED_PTR_NAME);
 		detail::class_name<std::shared_ptr<T>>::name(strSharedName.c_str());
-		int nReserveSize = 3;
+		int32_t nReserveSize = 3;
 
 #ifdef _ALLOW_SHAREDPTR_INVOKE
 		nReserveSize = 6;
@@ -2046,7 +2046,7 @@ void class_inh(lua_State* L)
 			}
 			else
 			{
-				int nLen = parent_table.get_rawlen() + 1;
+				int32_t nLen = parent_table.get_rawlen() + 1;
 				push_meta(L, get_class_name<P>());
 				parent_table.rawseti(nLen); // set __multi_parent[n]=table
 				parent_table.remove();		// pop __multi_parent table
@@ -2324,7 +2324,7 @@ namespace detail
 	// Table Object on Stack
 	struct table_obj
 	{
-		table_obj(lua_State* L, int index);
+		table_obj(lua_State* L, int32_t index);
 		~table_obj();
 
 		void inc_ref();
@@ -2343,7 +2343,7 @@ namespace detail
 			}
 		}
 		template<typename T>
-		void set(int key, T&& object)
+		void set(int32_t key, T&& object)
 		{
 			if(validate())
 			{
@@ -2370,7 +2370,7 @@ namespace detail
 		}
 
 		template<typename T>
-		T get(int key)
+		T get(int32_t key)
 		{
 			if(validate())
 			{
@@ -2401,9 +2401,9 @@ namespace detail
 		}
 
 		lua_State*	m_L;
-		int			m_index;
+		int32_t			m_index;
 		const void* m_pointer;
-		int			m_ref;
+		int32_t			m_ref;
 	};
 } // namespace detail
 
@@ -2411,7 +2411,7 @@ namespace detail
 struct table_onstack
 {
 	table_onstack(lua_State* L);
-	table_onstack(lua_State* L, int index);
+	table_onstack(lua_State* L, int32_t index);
 	table_onstack(lua_State* L, const char* name);
 	table_onstack(const table_onstack& input);
 	~table_onstack();
@@ -2423,7 +2423,7 @@ struct table_onstack
 	}
 
 	template<typename T>
-	void set(int key, T&& object)
+	void set(int32_t key, T&& object)
 	{
 		m_obj->set(key, std::forward<T>(object));
 	}
@@ -2435,7 +2435,7 @@ struct table_onstack
 	}
 
 	template<typename T>
-	T get(int key)
+	T get(int32_t key)
 	{
 		return m_obj->get<T>(key);
 	}
@@ -2448,7 +2448,7 @@ struct table_onstack
 		return detail::_readfromtable<T>(m_obj->m_L, m_obj->m_index);
 	}
 
-	void for_each(std::function<bool(int key_idx, int value_idx)> func)
+	void for_each(std::function<bool(int32_t key_idx, int32_t value_idx)> func)
 	{
 
 		detail::stack_obj	   table = m_obj->get_stack_obj();
@@ -2471,8 +2471,8 @@ namespace detail
 	struct lua_ref_base
 	{
 		lua_State* m_L		= nullptr;
-		int		   m_regidx = 0;
-		int*	   m_pRef	= nullptr;
+		int32_t		   m_regidx = 0;
+		int32_t*	   m_pRef	= nullptr;
 
 		void inc_ref();
 		void dec_ref();
@@ -2482,7 +2482,7 @@ namespace detail
 		void reset();
 
 		lua_ref_base() {}
-		lua_ref_base(lua_State* L, int regidx);
+		lua_ref_base(lua_State* L, int32_t regidx);
 		virtual ~lua_ref_base();
 		lua_ref_base(const lua_ref_base& rht);
 		lua_ref_base(lua_ref_base&& rht);
@@ -2501,20 +2501,20 @@ struct table_ref : public detail::lua_ref_base
 			// copy table to top
 			lua_pushvalue(ref_table.m_obj->m_L, ref_table.m_obj->m_index);
 			// move top to registry
-			int reg_idx = luaL_ref(ref_table.m_obj->m_L, LUA_REGISTRYINDEX);
+			int32_t reg_idx = luaL_ref(ref_table.m_obj->m_L, LUA_REGISTRYINDEX);
 
 			return table_ref(ref_table.m_obj->m_L, reg_idx);
 		}
 		return table_ref();
 	}
-	static table_ref make_table_ref(lua_State* L, int index)
+	static table_ref make_table_ref(lua_State* L, int32_t index)
 	{
 		if(lua_istable(L, index) == true)
 		{
 			// copy table to top
 			lua_pushvalue(L, index);
 			// move top to registry
-			int reg_idx = luaL_ref(L, LUA_REGISTRYINDEX);
+			int32_t reg_idx = luaL_ref(L, LUA_REGISTRYINDEX);
 
 			return table_ref(L, reg_idx);
 		}
@@ -2544,7 +2544,7 @@ struct lua_function_ref : public detail::lua_ref_base
 	RVal operator()(Args&&... args) const
 	{
 		lua_pushcclosure(m_L, get_error_callback(), 0);
-		int errfunc = lua_gettop(m_L);
+		int32_t errfunc = lua_gettop(m_L);
 
 		if(lua_rawgeti(m_L, LUA_REGISTRYINDEX, m_regidx) == LUA_TFUNCTION)
 		{
@@ -2560,7 +2560,7 @@ struct lua_function_ref : public detail::lua_ref_base
 				else if(detail::pop<RVal>::nresult > 1)
 				{
 					// push nil to pop result
-					for(int i = 0; i < detail::pop<RVal>::nresult - 1; i++)
+					for(int32_t i = 0; i < detail::pop<RVal>::nresult - 1; i++)
 					{
 						lua_pushnil(m_L);
 					};
@@ -2584,7 +2584,7 @@ struct lua_function_ref : public detail::lua_ref_base
 namespace detail
 {
 	template<typename T>
-	int meta_container_get(lua_State* L)
+	int32_t meta_container_get(lua_State* L)
 	{
 		stack_obj class_obj(L, 1);
 		stack_obj key_obj(L, 2);
@@ -2625,9 +2625,9 @@ namespace detail
 			{
 				// vector
 
-				int key = detail::read<int>(L, 2);
+				int32_t key = detail::read<int32_t>(L, 2);
 				key -= 1;
-				if(key > (int)pContainer->size())
+				if(key > (int32_t)pContainer->size())
 				{
 					lua_pushnil(L);
 				}
@@ -2641,7 +2641,7 @@ namespace detail
 	}
 
 	template<typename T>
-	int meta_container_set(lua_State* L)
+	int32_t meta_container_set(lua_State* L)
 	{
 		// list[key] = val;
 		UserDataWapper* pWapper	   = user2type<UserDataWapper*>(L, 1);
@@ -2666,9 +2666,9 @@ namespace detail
 		else
 		{
 			// vector
-			int key = detail::read<int>(L, 2);
+			int32_t key = detail::read<int32_t>(L, 2);
 			key -= 1;
-			if(key > (int)pContainer->size())
+			if(key > (int32_t)pContainer->size())
 			{
 				lua_pushfstring(L, "set to vector : %d out of range", key);
 				lua_error(L);
@@ -2683,7 +2683,7 @@ namespace detail
 	}
 
 	template<typename T>
-	int meta_container_push(lua_State* L)
+	int32_t meta_container_push(lua_State* L)
 	{
 		// list[key] = val;
 		UserDataWapper* pWapper	   = user2type<UserDataWapper*>(L, 1);
@@ -2715,7 +2715,7 @@ namespace detail
 	}
 
 	template<typename T>
-	int meta_container_erase(lua_State* L)
+	int32_t meta_container_erase(lua_State* L)
 	{
 		// list[key] = val;
 		UserDataWapper* pWapper	   = user2type<UserDataWapper*>(L, 1);
@@ -2762,7 +2762,7 @@ namespace detail
 			m_Iter++;
 			m_nMoveDistance++;
 		}
-		static int Next(lua_State* L)
+		static int32_t Next(lua_State* L)
 		{
 			UserDataWapper*	 pWapper = user2type<UserDataWapper*>(L, 1);
 			lua_iterator<T>* pIter	 = (lua_iterator<T>*)(pWapper->m_p);
@@ -2792,7 +2792,7 @@ namespace detail
 	};
 
 	template<typename T>
-	int meta_container_make_range(lua_State* L)
+	int32_t meta_container_make_range(lua_State* L)
 	{
 		UserDataWapper* pWapper	   = user2type<UserDataWapper*>(L, 1);
 		T*				pContainer = (T*)(pWapper->m_p);
@@ -2803,7 +2803,7 @@ namespace detail
 	}
 
 	template<typename T>
-	int meta_container_get_len(lua_State* L)
+	int32_t meta_container_get_len(lua_State* L)
 	{
 		UserDataWapper* pWapper	   = user2type<UserDataWapper*>(L, 1);
 		T*				pContainer = (T*)(pWapper->m_p);
@@ -2812,7 +2812,7 @@ namespace detail
 	}
 
 	template<typename T>
-	int meta_container_to_table(lua_State* L)
+	int32_t meta_container_to_table(lua_State* L)
 	{
 		UserDataWapper* pWapper	   = user2type<UserDataWapper*>(L, 1);
 		T*				pContainer = (T*)(pWapper->m_p);
@@ -2877,14 +2877,14 @@ namespace lua_tinker
 {
 
 // convert args to luatype store in longlong
-// so void(int) = LUA_TNUMBER = 0x3, void(unsigned shart) = LUA_TNUMBER = 0x3, they have the same signature,
-// void(int,a*) = LUA_TNUMBER,LUA_TUSERDATA = 0x73 , void(long long,b*) = LUA_TNUMBER,LUA_TUSERDATA = 0x73 , they have
+// so void(int32_t) = LUA_TNUMBER = 0x3, void(unsigned shart) = LUA_TNUMBER = 0x3, they have the same signature,
+// void(int32_t,a*) = LUA_TNUMBER,LUA_TUSERDATA = 0x73 , void(int64_t,b*) = LUA_TNUMBER,LUA_TUSERDATA = 0x73 , they have
 // the same signature, and use longlong to stroe,so we only support 16 args
 
 namespace detail
 {
 	template<typename Func, std::size_t index>
-	constexpr int get_func_argv()
+	constexpr int32_t get_func_argv()
 	{
 		return _stack_help<typename function_traits<Func>::template argv<index>::type>::cover_to_lua_type();
 	}
@@ -2892,39 +2892,39 @@ namespace detail
 	template<typename Func, std::size_t args_num>
 	struct count_all_func_argv
 	{
-		static constexpr const unsigned long long result =
+		static constexpr const uint64_t result =
 			((get_func_argv<Func, (args_num - 1)>() << ((args_num - 1) * 4)) + count_all_func_argv<Func, (args_num - 1)>::result);
 	};
 	template<typename Func>
 	struct count_all_func_argv<Func, 1>
 	{
-		static constexpr const unsigned long long result = get_func_argv<Func, 0>();
+		static constexpr const uint64_t result = get_func_argv<Func, 0>();
 	};
 
 	template<typename Func>
 	struct count_all_func_argv<Func, 0>
 	{
-		static constexpr unsigned const long long result = 0;
+		static constexpr const uint64_t result = 0;
 	};
 
 	template<typename T>
 	struct function_signature
 	{
-		static constexpr const unsigned long long m_sig = count_all_func_argv<T, function_traits<T>::argc>::result;
+		static constexpr const uint64_t m_sig = count_all_func_argv<T, function_traits<T>::argc>::result;
 	};
 
-	void		  _set_signature_bit(unsigned long long& sig, size_t idx, unsigned char c);
-	unsigned char _get_signature_bit(const unsigned long long& sig, size_t idx);
+	void		  _set_signature_bit(uint64_t& sig, size_t idx, uint8_t c);
+	uint8_t _get_signature_bit(const uint64_t& sig, size_t idx);
 
 }; // namespace detail
 
 struct args_type_overload_functor_base
 {
 	typedef std::shared_ptr<detail::functor_base>				functor_base_ptr;
-	typedef std::multimap<unsigned long long, functor_base_ptr> overload_funcmap_t;
+	typedef std::multimap<uint64_t, functor_base_ptr> overload_funcmap_t;
 	typedef std::map<size_t, overload_funcmap_t>				overload_funcmap_by_argsnum_t;
 	overload_funcmap_by_argsnum_t								m_overload_funcmap;
-	int															m_nParamsOffset = 0;
+	int32_t															m_nParamsOffset = 0;
 
 	args_type_overload_functor_base() {}
 
@@ -2936,28 +2936,28 @@ struct args_type_overload_functor_base
 		rht.m_overload_funcmap.clear();
 	}
 
-	void insert(size_t args_num, size_t default_args_num, unsigned long long sig, functor_base_ptr&& ptr)
+	void insert(size_t args_num, size_t default_args_num, uint64_t sig, functor_base_ptr&& ptr)
 	{
 		for(size_t i = 0; i <= default_args_num && i <= args_num; i++)
 		{
 			auto&							refMap = m_overload_funcmap[args_num - i];
-			static const unsigned long long mask[] = {
+			static const uint64_t mask[] = {
 				0,			 0xF,		   0xFF,		  0xFFF,		  0xFFFF,		   0xFFFFF,			 0xFFFFFF,			0xFFFFFFF,			0xFFFFFFFF,
 				0xFFFFFFFFF, 0xFFFFFFFFFF, 0xFFFFFFFFFFF, 0xFFFFFFFFFFFF, 0xFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF,
 			};
-			long long new_sig = sig & mask[args_num - i];
+			int64_t new_sig = sig & mask[args_num - i];
 
 			refMap.emplace(new_sig, ptr);
 		}
 	}
 
-	int apply(lua_State* L)
+	int32_t apply(lua_State* L)
 	{
-		unsigned long long sig			= 0;
-		int				   nParamsCount = lua_gettop(L) - m_nParamsOffset;
-		for(int i = 0; i < nParamsCount; i++)
+		uint64_t sig			= 0;
+		int32_t				   nParamsCount = lua_gettop(L) - m_nParamsOffset;
+		for(int32_t i = 0; i < nParamsCount; i++)
 		{
-			int nType = detail::LType2ParamsType(L, i + m_nParamsOffset + 1);
+			int32_t nType = detail::LType2ParamsType(L, i + m_nParamsOffset + 1);
 			detail::_set_signature_bit(sig, i, nType);
 		}
 		auto& refMap = m_overload_funcmap[nParamsCount];
@@ -2973,9 +2973,9 @@ struct args_type_overload_functor_base
 		{
 			// signature mismatch
 			std::string strSig;
-			for(int i = 0; i < nParamsCount; i++)
+			for(int32_t i = 0; i < nParamsCount; i++)
 			{
-				unsigned char c = detail::_get_signature_bit(sig, i);
+				uint8_t c = detail::_get_signature_bit(sig, i);
 				if(strSig.empty() == false)
 					strSig.push_back(',');
 				const char* pName = detail::OVERLOAD_PARAMTYPE_NAME[c];
@@ -2991,7 +2991,7 @@ struct args_type_overload_functor_base
 		}
 	}
 
-	static int invoke_function(lua_State* L)
+	static int32_t invoke_function(lua_State* L)
 	{
 		args_type_overload_functor_base* pFunctor = detail::upvalue_<args_type_overload_functor_base*>(L);
 		return pFunctor->apply(L);
@@ -3017,7 +3017,7 @@ struct args_type_overload_functor : public args_type_overload_functor_base
 	template<typename RVal, typename... Args>
 	void push_to_map_help(detail::functor<RVal, Args...>* ptr)
 	{
-		constexpr long long sig = detail::function_signature<RVal(Args...)>::m_sig;
+		constexpr int64_t sig = detail::function_signature<RVal(Args...)>::m_sig;
 		insert(sizeof...(Args), ptr->getDefaultArgsNum(), sig, functor_base_ptr(ptr));
 	}
 };
@@ -3042,7 +3042,7 @@ struct args_type_overload_member_functor : public args_type_overload_functor_bas
 	template<bool bConst, typename CT, typename RVal, typename... Args>
 	void push_to_map_help(detail::member_functor<bConst, CT, RVal, Args...>* ptr)
 	{
-		constexpr long long sig = detail::function_signature<RVal (CT::*)(Args...)>::m_sig;
+		constexpr int64_t sig = detail::function_signature<RVal (CT::*)(Args...)>::m_sig;
 		insert(sizeof...(Args), ptr->getDefaultArgsNum(), sig, functor_base_ptr(ptr));
 	}
 };
@@ -3068,7 +3068,7 @@ struct args_type_overload_constructor : public args_type_overload_functor_base
 	template<typename T, typename... Args>
 	void push_to_map_help(constructor<T, Args...>* ptr)
 	{
-		constexpr const long long sig = detail::function_signature<void(Args...)>::m_sig;
+		constexpr const int64_t sig = detail::function_signature<void(Args...)>::m_sig;
 		insert(sizeof...(Args), ptr->getDefaultArgsNum(), sig, functor_base_ptr(ptr));
 	}
 };

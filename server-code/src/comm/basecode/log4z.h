@@ -293,7 +293,7 @@ struct LogData
 	int			 _typeval;
 	int			 _level;   // log level
 	time_t		 _time;	   // create time
-	unsigned int _precise; // create time
+	uint32_t _precise; // create time
 	int			 _contentLen;
 	char		 _content[LOG4Z_LOG_BUF_SIZE]; // content
 
@@ -345,7 +345,7 @@ public:
 	virtual bool setLoggerFileLine(LoggerId id, bool enable)			 = 0;
 	virtual bool setLoggerDisplay(LoggerId id, bool enable)				 = 0;
 	virtual bool setLoggerOutFile(LoggerId id, bool enable)				 = 0;
-	virtual bool setLoggerLimitsize(LoggerId id, unsigned int limitsize) = 0;
+	virtual bool setLoggerLimitsize(LoggerId id, uint32_t limitsize) = 0;
 	virtual bool setLoggerMonthdir(LoggerId id, bool enable)			 = 0;
 	virtual bool setLoggerReserveTime(LoggerId id, time_t sec)			 = 0;
 
@@ -359,7 +359,7 @@ public:
 	virtual unsigned long long getStatusTotalWriteBytes()  = 0;
 	virtual unsigned long long getStatusTotalPushQueue()   = 0;
 	virtual unsigned long long getStatusTotalPopQueue()	   = 0;
-	virtual unsigned int	   getStatusActiveLoggers()	   = 0;
+	virtual uint32_t	   getStatusActiveLoggers()	   = 0;
 
 	virtual LogData* makeLogData(LoggerId id, int level) = 0;
 	virtual void	 freeLogData(LogData* log)			 = 0;
@@ -547,15 +547,15 @@ public:
 
 	inline Log4zStream& operator<<(char t) { return writeData("%c", t); }
 
-	inline Log4zStream& operator<<(unsigned char t) { return writeData("%u", (unsigned int)t); }
+	inline Log4zStream& operator<<(unsigned char t) { return writeData("%u", (uint32_t)t); }
 
 	inline Log4zStream& operator<<(short t) { return writeData("%d", (int)t); }
 
-	inline Log4zStream& operator<<(unsigned short t) { return writeData("%u", (unsigned int)t); }
+	inline Log4zStream& operator<<(unsigned short t) { return writeData("%u", (uint32_t)t); }
 
 	inline Log4zStream& operator<<(int t) { return writeData("%d", t); }
 
-	inline Log4zStream& operator<<(unsigned int t) { return writeData("%u", t); }
+	inline Log4zStream& operator<<(uint32_t t) { return writeData("%u", t); }
 
 	inline Log4zStream& operator<<(long t) { return writeLongLong(t); }
 
@@ -822,7 +822,7 @@ inline Log4zStream& zsummer::log4z::Log4zStream::writeString(const char* t, size
 inline zsummer::log4z::Log4zStream& zsummer::log4z::Log4zStream::writeWString(const wchar_t* t)
 {
 #ifdef WIN32
-	DWORD dwLen = WideCharToMultiByte(CP_ACP, 0, t, -1, NULL, 0, NULL, NULL);
+	uint32_t dwLen = WideCharToMultiByte(CP_ACP, 0, t, -1, NULL, 0, NULL, NULL);
 	if(dwLen < LOG4Z_LOG_BUF_SIZE)
 	{
 		std::string str;

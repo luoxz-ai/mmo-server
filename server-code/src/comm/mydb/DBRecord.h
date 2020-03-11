@@ -72,7 +72,7 @@ private:
 	std::unordered_map<std::string, CDBField*> m_FieldsByName;
 	std::string								   m_TableName;
 	std::string								   m_strPriKeyBuf;
-	int										   m_nPriKeyIdx;
+	int32_t										   m_nPriKeyIdx;
 	bool									   m_bNeedCreateFirst;
 	dynamic_bitset<uint32_t>				   m_setDirty;
 };

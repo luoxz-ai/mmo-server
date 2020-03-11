@@ -10,7 +10,7 @@ struct ConstRepeatedProtobufMessageWarp;
 struct ConstProtobufMessageWarp;
 struct ProtobufMessageWarp;
 
-inline int PushMessageDataToLua(lua_State* L, const google::protobuf::Message* pPBMessage, const std::string& field_name);
+inline int32_t PushMessageDataToLua(lua_State* L, const google::protobuf::Message* pPBMessage, const std::string& field_name);
 struct ProtobufMessageWarp
 {
 	static std::atomic<uint32_t> s_nCount;
@@ -28,7 +28,7 @@ struct ProtobufMessageWarp
 
 	void set(const std::string& key, const std::string& val) { pb_util::SetMessageData(m_pMessage, key, val); }
 
-	static int meta_get(lua_State* L)
+	static int32_t meta_get(lua_State* L)
 	{
 		using namespace lua_tinker;
 		using namespace lua_tinker::detail;
@@ -36,7 +36,7 @@ struct ProtobufMessageWarp
 		stack_obj key_obj(L, 2);
 		stack_obj class_meta = class_obj.get_metatable();
 		stack_obj val_obj	 = class_meta.rawget(key_obj);
-		int		  result	 = 0;
+		int32_t		  result	 = 0;
 		if(val_obj.is_nil())
 		{
 			val_obj.remove();
@@ -50,7 +50,7 @@ struct ProtobufMessageWarp
 		return result;
 	}
 
-	static int index_ProtobufMessageWarp(lua_State* L)
+	static int32_t index_ProtobufMessageWarp(lua_State* L)
 	{
 		ProtobufMessageWarp* pWarp = lua_tinker::detail::read<ProtobufMessageWarp*>(L, 1);
 		const std::string&	 key   = lua_tinker::detail::read<const std::string&>(L, 2);
@@ -87,7 +87,7 @@ struct ConstProtobufMessageWarp
 	}
 	~ConstProtobufMessageWarp() { s_nCount--; }
 
-	static int meta_get(lua_State* L)
+	static int32_t meta_get(lua_State* L)
 	{
 		using namespace lua_tinker;
 		using namespace lua_tinker::detail;
@@ -95,7 +95,7 @@ struct ConstProtobufMessageWarp
 		stack_obj key_obj(L, 2);
 		stack_obj class_meta = class_obj.get_metatable();
 		stack_obj val_obj	 = class_meta.rawget(key_obj);
-		int		  result	 = 0;
+		int32_t		  result	 = 0;
 		if(val_obj.is_nil())
 		{
 			val_obj.remove();
@@ -109,7 +109,7 @@ struct ConstProtobufMessageWarp
 		return result;
 	}
 
-	static int index_ProtobufMessageWarp(lua_State* L)
+	static int32_t index_ProtobufMessageWarp(lua_State* L)
 	{
 		ConstProtobufMessageWarp* pWarp = lua_tinker::detail::read<ConstProtobufMessageWarp*>(L, 1);
 		const std::string&		  key	= lua_tinker::detail::read<const std::string&>(L, 2);
@@ -136,7 +136,7 @@ struct ConstRepeatedProtobufMessageWarp
 	~ConstRepeatedProtobufMessageWarp() { s_nCount--; }
 	size_t size() const { return m_pMessage->GetReflection()->FieldSize(*m_pMessage, m_pFieldDesc); }
 
-	static int meta_get(lua_State* L)
+	static int32_t meta_get(lua_State* L)
 	{
 		using namespace lua_tinker;
 		using namespace lua_tinker::detail;
@@ -144,7 +144,7 @@ struct ConstRepeatedProtobufMessageWarp
 		stack_obj key_obj(L, 2);
 		stack_obj class_meta = class_obj.get_metatable();
 		stack_obj val_obj	 = class_meta.rawget(key_obj);
-		int		  result	 = 0;
+		int32_t		  result	 = 0;
 		if(val_obj.is_nil())
 		{
 			val_obj.remove();
@@ -157,15 +157,15 @@ struct ConstRepeatedProtobufMessageWarp
 		class_meta.remove();
 		return result;
 	}
-	static int index_ProtobufMessageWarp(lua_State* L)
+	static int32_t index_ProtobufMessageWarp(lua_State* L)
 	{
 		using namespace google::protobuf;
 
 		ConstRepeatedProtobufMessageWarp* pWarp = lua_tinker::detail::read<ConstRepeatedProtobufMessageWarp*>(L, 1);
-		int								  idx	= lua_tinker::detail::read<int>(L, 2);
+		int32_t								  idx	= lua_tinker::detail::read<int32_t>(L, 2);
 		if(pWarp)
 		{
-			if(idx >= (int)pWarp->size())
+			if(idx >= (int32_t)pWarp->size())
 			{
 				luaL_error(L, "idx {} is out of size {}", idx, pWarp->size());
 				return 0;
@@ -243,7 +243,7 @@ struct ConstRepeatedProtobufMessageWarp
 	const google::protobuf::FieldDescriptor* m_pFieldDesc = nullptr;
 };
 
-inline int PushMessageDataToLua(lua_State* L, const google::protobuf::Message* pPBMessage, const std::string& field_name)
+inline int32_t PushMessageDataToLua(lua_State* L, const google::protobuf::Message* pPBMessage, const std::string& field_name)
 {
 	using namespace google::protobuf;
 	const FieldDescriptor* pFieldDesc = pPBMessage->GetDescriptor()->FindFieldByName(field_name);
@@ -330,11 +330,11 @@ inline void export_protobuf_enum_to_lua(lua_State* L, const ::google::protobuf::
 	if(pEnumDesc == nullptr)
 		return;
 
-	for(int i = 0; i < pEnumDesc->value_count(); i++)
+	for(int32_t i = 0; i < pEnumDesc->value_count(); i++)
 	{
 		auto pEnumValDesc = pEnumDesc->value(i);
 
-		lua_tinker::set<int>(L, pEnumValDesc->name().c_str(), pEnumValDesc->number());
+		lua_tinker::set<int32_t>(L, pEnumValDesc->name().c_str(), pEnumValDesc->number());
 	}
 }
 

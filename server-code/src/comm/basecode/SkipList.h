@@ -4,7 +4,7 @@
 #include "BaseCode.h"
 #include "RandomGet.h"
 
-constexpr int	 SKIPLIST_MAXLEVEL = 32;
+constexpr int32_t	 SKIPLIST_MAXLEVEL = 32;
 constexpr double SKIPLIST_P		   = 0.25;
 
 class CSkipList
@@ -18,7 +18,7 @@ public:
 		struct CSkipListLevel
 		{
 			struct CSkipListNode* m_forward = nullptr;
-			unsigned int		  m_span	= 0;
+			uint32_t		  m_span	= 0;
 		};
 		std::vector<CSkipListLevel> m_level;
 
@@ -28,7 +28,7 @@ public:
 	struct CSkipListNode* m_header = nullptr;
 	struct CSkipListNode* m_tail   = nullptr;
 	unsigned long		  m_length = 0;
-	int					  m_level  = 1;
+	int32_t					  m_level  = 1;
 
 public:
 	CSkipList()
@@ -55,11 +55,11 @@ public:
 	{
 		std::array<CSkipListNode*, SKIPLIST_MAXLEVEL> update;
 		update.fill(nullptr);
-		std::array<unsigned int, SKIPLIST_MAXLEVEL> rank;
+		std::array<uint32_t, SKIPLIST_MAXLEVEL> rank;
 		rank.fill(0);
 
 		CSkipListNode* x = m_header;
-		for(int i = m_level - 1; i >= 0; i--)
+		for(int32_t i = m_level - 1; i >= 0; i--)
 		{
 			/* store rank that is crossed to reach the insert position */
 			rank[i] = i == (m_level - 1) ? 0 : rank[i + 1];
@@ -75,10 +75,10 @@ public:
 		 * scores, and the re-insertion of score and redis object should never
 		 * happen since the caller of slInsert() should test in the hash table
 		 * if the element is already inside or not. */
-		int level = RandomLevel();
+		int32_t level = RandomLevel();
 		if(level > m_level)
 		{
-			for(int i = m_level; i < level; i++)
+			for(int32_t i = m_level; i < level; i++)
 			{
 				rank[i]						 = 0;
 				update[i]					 = m_header;
@@ -87,7 +87,7 @@ public:
 			m_level = level;
 		}
 		x = CreateNode(level, score, member);
-		for(int i = 0; i < level; i++)
+		for(int32_t i = 0; i < level; i++)
 		{
 			x->m_level[i].m_forward			= update[i]->m_level[i].m_forward;
 			update[i]->m_level[i].m_forward = x;
@@ -98,7 +98,7 @@ public:
 		}
 
 		/* increment span for untouched levels */
-		for(int i = level; i < m_level; i++)
+		for(int32_t i = level; i < m_level; i++)
 		{
 			update[i]->m_level[i].m_span++;
 		}
@@ -112,11 +112,11 @@ public:
 	}
 
 	/* Delete an element with matching score/object from the skiplist. */
-	int Delete(uint64_t score, uint64_t member)
+	int32_t Delete(uint64_t score, uint64_t member)
 	{
 		CSkipListNode* update[SKIPLIST_MAXLEVEL];
 		CSkipListNode* x = m_header;
-		for(int i = m_level - 1; i >= 0; i--)
+		for(int32_t i = m_level - 1; i >= 0; i--)
 		{
 			while(x->m_level[i].m_forward && (x->m_level[i].m_forward->m_score > score ||
 											  (x->m_level[i].m_forward->m_score == score && compareslObj(x->m_level[i].m_forward->m_member, member) > 0)))
@@ -141,12 +141,12 @@ public:
 
 	/* Delete all the elements with rank between start and end from the skiplist.
 	 * Start and end are inclusive. Note that start and end need to be 1-based */
-	unsigned long DeleteByRank(unsigned int start, unsigned int end, std::function<void(uint64_t member, uint64_t score)> cb)
+	unsigned long DeleteByRank(uint32_t start, uint32_t end, std::function<void(uint64_t member, uint64_t score)> cb)
 	{
 		CSkipListNode* update[SKIPLIST_MAXLEVEL];
 		unsigned long  traversed = 0, removed = 0;
 		CSkipListNode* x = m_header;
-		for(int i = m_level - 1; i >= 0; i--)
+		for(int32_t i = m_level - 1; i >= 0; i--)
 		{
 			while(x->m_level[i].m_forward && (traversed + x->m_level[i].m_span) < start)
 			{
@@ -179,7 +179,7 @@ public:
 	{
 		CSkipListNode* x	= m_header;
 		unsigned long  rank = 0;
-		for(int i = m_level - 1; i >= 0; i--)
+		for(int32_t i = m_level - 1; i >= 0; i--)
 		{
 			while(x->m_level[i].m_forward && (x->m_level[i].m_forward->m_score > score ||
 											  (x->m_level[i].m_forward->m_score == score && compareslObj(x->m_level[i].m_forward->m_member, member) >= 0)))
@@ -207,7 +207,7 @@ public:
 
 		CSkipListNode* x		 = m_header;
 		unsigned long  traversed = 0;
-		for(int i = m_level - 1; i >= 0; i--)
+		for(int32_t i = m_level - 1; i >= 0; i--)
 		{
 			while(x->m_level[i].m_forward && (traversed + x->m_level[i].m_span) <= rank)
 			{
@@ -225,7 +225,7 @@ public:
 
 	/* range [min, max], left & right both include */
 	/* Returns if there is a part of the zset is in range. */
-	int IsInRange(uint64_t min, uint64_t max) const
+	int32_t IsInRange(uint64_t min, uint64_t max) const
 	{
 		CSkipListNode* x;
 
@@ -252,7 +252,7 @@ public:
 		/* If everything is out of range, return early. */
 		if(!IsInRange(min, max))
 			return NULL;
-		for(int i = m_level - 1; i >= 0; i--)
+		for(int32_t i = m_level - 1; i >= 0; i--)
 		{
 			/* Go forward while *OUT* of range. */
 			while(x->m_level[i].m_forward && x->m_level[i].m_forward->m_score < min)
@@ -273,7 +273,7 @@ public:
 		if(!IsInRange(min, max))
 			return NULL;
 
-		for(int i = m_level - 1; i >= 0; i--)
+		for(int32_t i = m_level - 1; i >= 0; i--)
 		{
 			/* Go forward while *IN* range. */
 			while(x->m_level[i].m_forward && x->m_level[i].m_forward->m_score <= max)
@@ -297,7 +297,7 @@ public:
 	}
 
 private:
-	static int compareslObj(uint64_t a, uint64_t b)
+	static int32_t compareslObj(uint64_t a, uint64_t b)
 	{
 		if(a == b)
 			return 0;
@@ -306,7 +306,7 @@ private:
 		return 1;
 	}
 
-	CSkipListNode* CreateNode(int level, uint64_t score, uint64_t member)
+	CSkipListNode* CreateNode(int32_t level, uint64_t score, uint64_t member)
 	{
 		CSkipListNode* n = new CSkipListNode;
 		n->m_score		 = score;
@@ -317,9 +317,9 @@ private:
 
 	void FreeNode(CSkipListNode* node) { delete node; }
 
-	int RandomLevel(void) const
+	int32_t RandomLevel(void) const
 	{
-		int level = 1;
+		int32_t level = 1;
 		while((random_uint32() & 0xffff) < (SKIPLIST_P * 0xffff))
 			level += 1;
 		return (level < SKIPLIST_MAXLEVEL) ? level : SKIPLIST_MAXLEVEL;
@@ -328,7 +328,7 @@ private:
 	/* Internal function used by slDelete, slDeleteByScore */
 	void DeleteNode(CSkipListNode* x, CSkipListNode** update)
 	{
-		for(int i = 0; i < m_level; i++)
+		for(int32_t i = 0; i < m_level; i++)
 		{
 			if(update[i]->m_level[i].m_forward == x)
 			{

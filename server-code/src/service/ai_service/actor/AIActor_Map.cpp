@@ -9,7 +9,7 @@ void CAIActor::AddToViewList(CSceneObject* pActor, bool bChkDuplicate, bool bSen
 {
 	CSceneObject::AddToViewList(pActor, bChkDuplicate, bSendShow);
 
-	//Èç¹û×Ô¼ºÊÇ¹ÖÎï
+	//ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½Ç¹ï¿½ï¿½ï¿½
 	if(GetActorType() == ACT_MONSTER)
 	{
 		ConvertToDerived<CAIMonster>()->SetIsAISleep(false);
@@ -21,14 +21,14 @@ void CAIActor::ClearViewList(bool bSendMsgToSelf)
 {
 	for(uint64_t id: m_ViewActors)
 	{
-		// Í¨Öª¶Ô·½×Ô¼ºÏûÊ§
+		// Í¨Öªï¿½Ô·ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½Ê§
 		CAIActor* pActor = AIActorManager()->QueryActor(id);
 		if(pActor)
 		{
 			pActor->RemoveFromViewList(this, GetID(), true);
 		}
 	}
-	//·¢ËÍÉ¾³ý°ü
+	//ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½ï¿½
 
 	m_ViewActorsByType.clear();
 	m_ViewActors.clear();
@@ -36,11 +36,11 @@ void CAIActor::ClearViewList(bool bSendMsgToSelf)
 
 bool CAIActor::IsNeedAddToBroadCastSet(CSceneObject* pActor)
 {
-	//ÌØÊâ¹ÖÎïÐèÒª½«ÆäËû¹ÖÎï¼ÓÈë×Ô¼ºÊÓÒ°µÄ,ÕâÀï´¦Àí
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½Ò°ï¿½ï¿½,ï¿½ï¿½ï¿½ï´¦ï¿½ï¿½
 	if(GetActorType() == ACT_MONSTER)
 	{
 		CAIMonster* pMonster = this->ConvertToDerived<CAIMonster>();
-		// Ö»¿´µ½µÐÈËµ¥Î»
+		// Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ëµï¿½Î»
 		return pMonster->IsEnemy(pActor);
 	}
 	else
@@ -50,16 +50,16 @@ bool CAIActor::IsNeedAddToBroadCastSet(CSceneObject* pActor)
 	}
 }
 
-void CAIActor::AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel, BROADCAST_SET& setBCActor, int nCanReserveDelCount, uint32_t view_range_out_square)
+void CAIActor::AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel, BROADCAST_SET& setBCActor, int32_t nCanReserveDelCount, uint32_t view_range_out_square)
 {
 	for(auto it = setBCActorDel.begin(); it != setBCActorDel.end(); it++)
 	{
-		// Èç¹û¶Ô·½»¹ÔÚÍÑÀëÊÓÒ°·¶Î§ÄÚ£¬Ôò²»É¾³ý
+		// ï¿½ï¿½ï¿½ï¿½Ô·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò°ï¿½ï¿½Î§ï¿½Ú£ï¿½ï¿½ï¿½É¾ï¿½ï¿½
 		uint64_t  id	 = *it;
 		CAIActor* pActor = AIActorManager()->QueryActor(id);
 		if(pActor == nullptr)
 		{
-			//Èç¹û¶Ô·½ÒÑ¾­ÏûÊ§,ÔòÒÆ³ý
+			//ï¿½ï¿½ï¿½ï¿½Ô·ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½Ê§,ï¿½ï¿½ï¿½Æ³ï¿½
 			RemoveFromViewList(nullptr, id, false);
 			continue;
 		}
@@ -68,7 +68,7 @@ void CAIActor::AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel, 
 			if(view_range_out_square > 0)
 			{
 				uint32_t distance_square = GameMath::simpleDistance(GetPos(), pActor->GetPos());
-				if(distance_square < view_range_out_square) // ÔÚÍÑÀëÊÓÒ°°ë¾¶ÄÚµÄ£¬²»ÐèÒªÀë¿ª¹ã²¥ÇøÓò)
+				if(distance_square < view_range_out_square) // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò°ï¿½ë¾¶ï¿½ÚµÄ£ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ë¿ªï¿½ã²¥ï¿½ï¿½ï¿½ï¿½)
 				{
 					nCanReserveDelCount--;
 					setBCActor.insert(std::lower_bound(setBCActor.begin(), setBCActor.end(), id), id);
@@ -77,13 +77,13 @@ void CAIActor::AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel, 
 			}
 		}
 
-		// ¶Ô·½ÒÑÍÑÀëÊÓÒ°
+		// ï¿½Ô·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò°
 
-		// Í¨Öª×Ô¼º¶Ô·½ÏûÊ§
-		//²»ÐèÒª´Ó×Ô¼ºµÄm_ViewActorsÒÆ³ý,ÒòÎªµÈÏÂ»áÒ»´ÎÐÔÒÆ³ý,
-		//ÎªÁË¼õÉÙ·¢ËÍ´ÎÊý,·¢ËÍ¸ø×Ô¼ºµÄÒÆ³ýÏûÏ¢Ò»´ÎÐÔ·¢ËÍ
+		// Í¨Öªï¿½Ô¼ï¿½ï¿½Ô·ï¿½ï¿½ï¿½Ê§
+		//ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½m_ViewActorsï¿½Æ³ï¿½,ï¿½ï¿½Îªï¿½ï¿½ï¿½Â»ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Æ³ï¿½,
+		//Îªï¿½Ë¼ï¿½ï¿½Ù·ï¿½ï¿½Í´ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½Í¸ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½Æ³ï¿½ï¿½ï¿½Ï¢Ò»ï¿½ï¿½ï¿½Ô·ï¿½ï¿½ï¿½
 		RemoveFromViewList(pActor, id, false);
-		// Í¨Öª¶Ô·½×Ô¼ºÏûÊ§,
+		// Í¨Öªï¿½Ô·ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½Ê§,
 		pActor->RemoveFromViewList(this, this->GetID(), true);
 	}
 }
@@ -99,10 +99,10 @@ void CAIActor::AOIProcessActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR
 		{
 			CAIActor* pActor = static_cast<CAIActor*>(itr->second);
 
-			// Í¨Öª×Ô¼º,ÐèÒª·¢ËÍ¶Ô·½µÄÐÅÏ¢¸ø×Ô¼º
+			// Í¨Öªï¿½Ô¼ï¿½,ï¿½ï¿½Òªï¿½ï¿½ï¿½Í¶Ô·ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½Ô¼ï¿½
 			AddToViewList(pActor, false, true);
 
-			// Í¨ÖªÄ¿±ê,²»Òª·¢ËÍ×Ô¼ºµÄÐÅÏ¢¸ø¶Ô·½,ºóÃæ»áÍ³Ò»¹ã²¥
+			// Í¨ÖªÄ¿ï¿½ï¿½,ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½Ô·ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½Í³Ò»ï¿½ã²¥
 			pActor->AddToViewList(this, true, false);
 		}
 	}

@@ -45,17 +45,17 @@ static void handle_response(brpc::Controller* client_cntl, brpc::Controller* ser
 class ProxyServiceImpl : public ProxyService
 {
 	CGlobalRouteService* m_pService;
-	int					 m_internal_port;
+	int32_t					 m_internal_port;
 
 public:
-	ProxyServiceImpl(CGlobalRouteService* pService, int internal_port)
+	ProxyServiceImpl(CGlobalRouteService* pService, int32_t internal_port)
 		: m_pService(pService)
 		, m_internal_port(internal_port)
 	{
 	}
 	virtual ~ProxyServiceImpl(){};
 
-	bool TransToTarget(const char* server_addr, int port, brpc::Controller* server_cntl, google::protobuf::Closure* done)
+	bool TransToTarget(const char* server_addr, int32_t port, brpc::Controller* server_cntl, google::protobuf::Closure* done)
 	{
 		if(server_addr == nullptr)
 			return false;
@@ -118,7 +118,7 @@ public:
 
 		// Get or set target. Notice that we don't access FLAGS_target directly
 		// which is thread-unsafe (for string flags).
-		int				   server_id	 = 0;
+		int32_t				   server_id	 = 0;
 		const std::string* server_id_str = server_cntl->http_request().uri().GetQuery("server");
 		if(server_id_str)
 		{

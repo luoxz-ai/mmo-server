@@ -44,7 +44,7 @@ void CSceneObject::OnLeaveMap(uint64_t idTargetScene)
 	m_pScene = nullptr;
 }
 
-void CSceneObject::SetHideCoude(int nHideCount)
+void CSceneObject::SetHideCoude(int32_t nHideCount)
 {
 	if(nHideCount == 0)
 	{
@@ -155,7 +155,7 @@ bool CSceneObject::IsInViewActorByID(OBJID idActor) const
 //////////////////////////////////////////////////////////////////////
 void CSceneObject::RemoveFromViewList(CSceneObject* pActor, OBJID idActor, bool bErase)
 {
-	// м╗ж╙вт╪╨╤т╥╫оШй╖
+	// м╗ж╙О©╫т╪О©╫О©╫т╥О©╫О©╫О©╫й╖
 	if(pActor)
 	{
 		m_ViewActorsByType[pActor->GetActorType()].erase(pActor->GetID());
@@ -200,10 +200,10 @@ void CSceneObject::AddToViewList(CSceneObject* pActor, bool bChkDuplicate, bool 
 bool CSceneObject::UpdateViewList()
 {
 	//////////////////////////////////////////////////////////////////////////
-	// н╙ак╪УиыжьпбкякВ╧Ц╡╔╪╞╣д╢нйЩё╛уБюО╡исц╣д╡ъбтйг╩╝╥ж3*3╦Я╣дбъ╪╜╦Явсё╛
-	// ж╩спйв╢н╫ЬхК╣ьм╪╩Рбъ╪╜╦Явс╥╒иЗ╠Д╩╞╣дй╠╨Р╡ежьпб╫ЬппкякВ
+	// н╙О©╫к╪О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫Ц╡╔О©╫О©╫О©╫д╢О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫ц╣д╡О©╫О©╫О©╫О©╫г╩О©╫О©╫О©╫3*3О©╫О©╫О©╫О©╫ъ╪О©╫О©╫О©╫О©╫сёО©╫
+	// ж╩О©╫О©╫О©╫в╢н╫О©╫О©╫О©╫О©╫м╪О©╫О©╫О©╫ъ╪О©╫О©╫О©╫О©╫с╥О©╫О©╫О©╫О©╫Д╩╞О©╫О©╫й╠О©╫О©╫О©╫О©╫О©╫О©╫б╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
 
-	// я╟урпб╣дд©╠Й╪╞
+	// я╟О©╫О©╫О©╫б╣О©╫д©О©╫Й╪╞
 	BROADCAST_SET setBCActor;
 	ACTOR_MAP	  mapAllViewActor;
 	struct ACTOR_MAP_BY_DIS_DATA
@@ -217,9 +217,9 @@ bool CSceneObject::UpdateViewList()
 	uint32_t viewcount_max		   = GetCurrentScene()->GetViewCount();
 	uint32_t view_range_in_square  = GetCurrentScene()->GetViewRangeInSquare();
 	uint32_t view_range_out_square = GetCurrentScene()->GetViewRangeOutSquare();
-	// ╧Ц╡╔╪╞кЦ╥╗пч╦д╡Бйт
+	// О©╫Ц╡╔О©╫О©╫О©╫Ц╥╗О©╫ч╦д╡О©╫О©╫О©╫
 	//////////////////////////////////////////////////////////////////////////
-	// step1: ╩Ях║╣╠г╟╧Ц╡╔╪╞╥╤н╖дз╣д╤тоС
+	// step1: О©╫О©╫х║О©╫О©╫г╟О©╫Ц╡╔О©╫О©╫О©╫О©╫н╖О©╫з╣д╤О©╫О©╫О©╫
 	{
 		GetCurrentScene()->foreach_SceneNodeInSight(
 			GetPosX(), GetPosY(),
@@ -230,20 +230,20 @@ bool CSceneObject::UpdateViewList()
 					if(pActor == thisActor)
 						continue;
 
-					// еп╤од©╠Ййг╥ЯпХр╙╪схК╧Ц╡╔╪╞
+					// О©╫п╤О©╫д©О©╫О©╫О©╫г╥О©╫О©╫О©╫р╙О©╫О©╫О©╫О©╫Ц╡╔О©╫О©╫
 					if(thisActor->IsNeedAddToBroadCastSet(pActor) == false)
 						continue;
 
-					//! д©╠Й╫ЬхКйср╟ё╛пХр╙╪схК╧Ц╡╔╪╞
+					//! д©О©╫О©╫О©╫О©╫О©╫О©╫О©╫р╟О©╫О©╫О©╫О©╫р╙О©╫О©╫О©╫О©╫Ц╡╔О©╫О©╫
 					uint32_t distance_square = 0;
 
-					if(view_range_in_square > 0) //╬ЮюКсеохеп╤о
+					if(view_range_in_square > 0) //О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫п╤О©╫
 					{
 						distance_square = GameMath::simpleDistance(thisActor->GetPos(), pActor->GetPos());
 					}
 					else
 					{
-						// view_in == 0й╠,й╧сцбС╧Ч╤ы╬ЮюК╫Ьппеп╤о
+						// view_in == 0й╠,й╧О©╫О©╫О©╫О©╫О©╫О©╫ы╬О©╫О©╫О©╫О©╫О©╫О©╫О©╫п╤О©╫
 						distance_square = GameMath::manhattanDistance(thisActor->GetPos(), pActor->GetPos());
 					}
 
@@ -274,12 +274,12 @@ bool CSceneObject::UpdateViewList()
 
 	if(viewcount_max > 0)
 	{
-		//пХр╙йср╟╡ц╪Т
-		//хГ╧Ш╣╠г╟йср╟хкйЩря╬╜Ё╛╧Щйср╟хкйЩиооч
+		//О©╫О©╫р╙О©╫О©╫р╟О©╫ц╪О©╫
+		//О©╫О©╫О©╫О©╫О©╫г╟О©╫О©╫р╟О©╫О©╫О©╫О©╫О©╫я╬О©╫О©╫О©╫О©╫О©╫О©╫О©╫р╟О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
 		if(setBCActor.size() < viewcount_max)
 		{
-			//╤тйср╟╪╞╨о╫ЬппеепР,ж╩х║╬ЮюКвт╪╨вН╫Э╣дN╦Ж,вВн╙вНпб╧Ц╡╔╪╞
-			int nCanInsert = viewcount_max - setBCActor.size();
+			//О©╫О©╫О©╫О©╫р╟О©╫О©╫О©╫о╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫,ж╩х║О©╫О©╫О©╫О©╫О©╫т╪О©╫О©╫О©╫О©╫О©╫О©╫NО©╫О©╫,О©╫О©╫н╙О©╫О©╫О©╫б╧Ц╡╔О©╫О©╫
+			int32_t nCanInsert = viewcount_max - setBCActor.size();
 			struct comp
 			{
 				bool operator()(const ACTOR_MAP_BY_DIS_DATA& lft, uint32_t rht) const { return lft.dis < rht; }
@@ -290,7 +290,7 @@ bool CSceneObject::UpdateViewList()
 			};
 			std::nth_element(sortedAllViewActorByDist.begin(), sortedAllViewActorByDist.begin() + nCanInsert - 1, sortedAllViewActorByDist.end(), comp());
 
-			int i = 0;
+			int32_t i = 0;
 			for(auto it = sortedAllViewActorByDist.begin(); i < nCanInsert && it != sortedAllViewActorByDist.end(); it++, i++)
 			{
 				CSceneObject* pActor = it->pActor;
@@ -300,11 +300,11 @@ bool CSceneObject::UpdateViewList()
 		}
 	}
 
-	// ╧Ц╡╔╪╞╠ьпКохвЖ╨цеепР
+	// О©╫Ц╡╔О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
 	sort(setBCActor.begin(), setBCActor.end());
 
 	//////////////////////////////////////////////////////////////////////////
-	// setp2: ╪фкЦ╣╠г╟╧Ц╡╔╪╞сК╬и╧Ц╡╔╪╞╣д╡Н╪╞║╙║╙уБ╡©╥жйгпб╫ЬхКйср╟╣д
+	// setp2: О©╫О©╫О©╫Ц╣╠г╟О©╫Ц╡╔О©╫О©╫О©╫О©╫и╧Ц╡╔О©╫О©╫О©╫д╡Н╪╞О©╫О©╫О©╫О©╫О©╫Б╡©О©╫О©╫О©╫О©╫О©╫б╫О©╫О©╫О©╫О©╫О©╫р╟О©╫О©╫
 	BROADCAST_SET::iterator result;
 
 	BROADCAST_SET setBCActorAdd(setBCActor.size(), 0);
@@ -312,29 +312,29 @@ bool CSceneObject::UpdateViewList()
 	setBCActorAdd.erase(result, setBCActorAdd.end());
 
 	//////////////////////////////////////////////////////////////////////////
-	// step3: ╪фкЦ╬и╧Ц╡╔╪╞сК╣╠г╟╧Ц╡╔╪╞╣д╡Н╪╞║╙║╙уБ╡©╥жйг©идэпХр╙юК©╙йср╟╣д
+	// step3: О©╫О©╫О©╫О©╫и╧Ц╡╔О©╫О©╫О©╫К╣╠г╟О©╫Ц╡╔О©╫О©╫О©╫д╡Н╪╞О©╫О©╫О©╫О©╫О©╫Б╡©О©╫О©╫О©╫г©О©╫О©╫О©╫О©╫О©╫р╙О©╫К©╙О©╫О©╫р╟О©╫О©╫
 	BROADCAST_SET setBCActorDel(m_ViewActors.size(), 0);
 	result = set_difference(m_ViewActors.begin(), m_ViewActors.end(), setBCActor.begin(), setBCActor.end(), setBCActorDel.begin());
 	setBCActorDel.erase(result, setBCActorDel.end());
 
-	//╪фкЦ╢Щи╬ЁЩап╠М╩╧©ирт╠ёаТ╤Юиы╦Ж
-	int nCanReserveDelCount = setBCActorDel.size();
+	//О©╫О©╫О©╫О©╫О©╫и╬О©╫О©╫О©╫п╠О©╫О©╫О©╫О©╫О©╫О©╫т╠О©╫О©╫О©╫О©╫О©╫О©╫ы╦О©╫
+	int32_t nCanReserveDelCount = setBCActorDel.size();
 	if(viewcount_max > 0)
 	{
-		//пХр╙йср╟╡ц╪Т
-		//хГ╧Ш╣╠г╟йср╟хкйЩря╬╜Ё╛╧Щйср╟хкйЩиооч
+		//О©╫О©╫р╙О©╫О©╫р╟О©╫ц╪О©╫
+		//О©╫О©╫О©╫О©╫О©╫г╟О©╫О©╫р╟О©╫О©╫О©╫О©╫О©╫я╬О©╫О©╫О©╫О©╫О©╫О©╫О©╫р╟О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
 		nCanReserveDelCount = viewcount_max - ((m_ViewActors.size() - setBCActorDel.size()) + setBCActorAdd.size());
 	}
 
-	// step4: пХр╙юК©╙йср╟╣д╫ги╚Remove
+	// step4: О©╫О©╫р╙О©╫К©╙О©╫О©╫р╟О©╫д╫О©╫и╚Remove
 	AOIProcessActorRemoveFromAOI(setBCActorDel, setBCActor, nCanReserveDelCount, view_range_out_square);
 
-	// иХжц╫ги╚╧Ц╡╔╪╞=╣╠г╟╧Ц╡╔╪╞-юК©╙йср╟╣д╡Н╪╞
+	// О©╫О©╫О©╫ц╫О©╫и╚О©╫Ц╡╔О©╫О©╫=О©╫О©╫г╟О©╫Ц╡╔О©╫О©╫-О©╫К©╙О©╫О©╫р╟О©╫д╡Н╪╞
 	m_ViewActors = setBCActor;
 	AOIProcessPosUpdate();
 
 	//////////////////////////////////////////////////////////////////////////
-	// step5: пб╫ЬхКйср╟╣д╫ги╚╨м╣ьм╪нОф╥Add
+	// step5: О©╫б╫О©╫О©╫О©╫О©╫О©╫р╟О©╫д╫О©╫и╚О©╫м╣О©╫м╪О©╫О©╫ф╥Add
 	AOIProcessActorAddToAOI(setBCActorAdd, mapAllViewActor);
 
 	return true;

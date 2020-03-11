@@ -36,7 +36,7 @@ void On_CMD_SC_ATTRIB_CHANGE(CNetworkMessage* pNetworkMsg)
 
 	CAIActor* pActor = AIActorManager()->QueryActor(msg.actor_id());
 	CHECK(pActor);
-	for(int i = 0; i < msg.datalist_size(); i++)
+	for(int32_t i = 0; i < msg.datalist_size(); i++)
 	{
 		const auto& data = msg.datalist(i);
 		pActor->SetProperty(data.actype(), data.val());

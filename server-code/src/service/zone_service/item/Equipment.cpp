@@ -106,7 +106,7 @@ bool CEquipment::EquipItem(uint32_t nGridInPackage, uint32_t nGrid, bool bSync /
 	{
 		//清除装备后绑定标记
 		//设置禁止交易标志
-		DWORD dwFlag = pItem->_GetFlag();
+		uint32_t dwFlag = pItem->_GetFlag();
 		dwFlag |= ITEMFLAG_EXCHANGE_DISABLE;
 		pItem->SetFlag(dwFlag, UPDATE_FALSE);
 	}
@@ -230,12 +230,12 @@ void CEquipment::SendInfo()
 	__LEAVE_FUNCTION
 }
 
-bool CEquipment::DecEquipmentDurability(bool bBeAttack, bool bMagic, int nDecValue /*=1*/)
+bool CEquipment::DecEquipmentDurability(bool bBeAttack, bool bMagic, int32_t nDecValue /*=1*/)
 {
 	return true;
 }
 
-void CEquipment::AddEquipmentDurability(uint32_t nPosition, int nAddValue) {}
+void CEquipment::AddEquipmentDurability(uint32_t nPosition, int32_t nAddValue) {}
 
 void CEquipment::DeleteAll(bool bSync /*=true*/, bool bTraceTaskItem)
 {
@@ -516,7 +516,7 @@ bool CEquipment::SetEquipment(uint32_t nGrid, CItem* pItem)
 	return false;
 }
 
-void CEquipment::NotifyEquip(USHORT usAction, CItem* pItem, uint32_t nGrid)
+void CEquipment::NotifyEquip(uint16_t usAction, CItem* pItem, uint32_t nGrid)
 {
 	//通知周围的人, 装备变化
 }

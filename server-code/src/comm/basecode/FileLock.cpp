@@ -20,9 +20,9 @@ file_lock::file_lock(const std::string& programname)
 
 file_lock::~file_lock() {}
 
-bool file_lock::kill(int sig)
+bool file_lock::kill(int32_t sig)
 {
-	int fd = open(m_pid_file.c_str(), O_TRUNC | O_RDWR);
+	int32_t fd = open(m_pid_file.c_str(), O_TRUNC | O_RDWR);
 	if(fd < 0)
 	{
 		BaseCode::PrintfError("file_lock::kill open fd = {}, {}, {}", fd, sig, m_pid_file.c_str());
@@ -69,7 +69,7 @@ bool file_lock::lock()
 		BaseCode::PrintfError("file_lock::lock fail m_fd = {},{}({}), {}", m_fd, strerror(errno), errno, m_pid_file.c_str());
 		return false;
 	}
-	int lock_result = lockf(m_fd, F_TLOCK, 0);
+	int32_t lock_result = lockf(m_fd, F_TLOCK, 0);
 	if(lock_result < 0)
 	{
 		// lockf F_LOCK failure.

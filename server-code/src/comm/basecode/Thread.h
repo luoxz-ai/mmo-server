@@ -78,9 +78,9 @@ private:
 	std::condition_variable m_cv;
 };
 
-inline long int get_cur_thread_id()
+inline int32_t get_cur_thread_id()
 {
-	constexpr int ___NR_gettid = 186;
-	return (long int)syscall(___NR_gettid);
+	constexpr int32_t ___NR_gettid = 186;
+	return (int32_t)syscall(___NR_gettid);
 }
 #endif /* THREAD_H */

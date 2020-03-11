@@ -103,7 +103,7 @@ bool CMessageRoute::LoadServiceSetting(const std::string& filename, uint16_t nWo
 	return false;
 }
 
-bool CMessageRoute::ConnectGlobalDB(const std::string& host, const std::string& user, const std::string& password, const std::string& db, unsigned int port)
+bool CMessageRoute::ConnectGlobalDB(const std::string& host, const std::string& user, const std::string& password, const std::string& db, uint32_t port)
 {
 	__ENTER_FUNCTION
 	// connect db

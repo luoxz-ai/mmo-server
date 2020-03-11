@@ -117,14 +117,14 @@ static void init_shared_ptr(lua_State* L)
 	lua_setglobal(L, S_SHARED_PTR_NAME); // pop table
 }
 
-int lua_class_call(lua_State* L)
+int32_t lua_class_call(lua_State* L)
 {
 	using namespace lua_tinker;
 	using namespace lua_tinker::detail;
 	const char* szClassName		= read<const char*>(L, lua_upvalueindex(1));
 	const char* szBaseClassName = read<const char*>(L, lua_upvalueindex(2));
 
-	int nArgCount = lua_gettop(L);
+	int32_t nArgCount = lua_gettop(L);
 
 	push_meta(L, szBaseClassName);
 	stack_obj base_meta = stack_obj::get_top(L);
@@ -153,7 +153,7 @@ int lua_class_call(lua_State* L)
 	lua_pop(L, lua_gettop(L) - nArgCount);
 	return 0;
 }
-int create_class(lua_State* L)
+int32_t create_class(lua_State* L)
 {
 	size_t		nClassName;
 	const char* szClassName = luaL_checklstring(L, -2, &nClassName);
@@ -273,7 +273,7 @@ void lua_tinker::detail::_addInheritMap(lua_State* L, size_t idTypeDerived, size
 /*---------------------------------------------------------------------------*/
 /* debug helpers                                                             */
 /*---------------------------------------------------------------------------*/
-static void call_stack(lua_State* L, int n)
+static void call_stack(lua_State* L, int32_t n)
 {
 	lua_Debug ar;
 	if(lua_getstack(L, n, &ar) == 1)
@@ -301,7 +301,7 @@ static void call_stack(lua_State* L, int n)
 }
 
 /*---------------------------------------------------------------------------*/
-int lua_tinker::on_error(lua_State* L)
+int32_t lua_tinker::on_error(lua_State* L)
 {
 	print_error(L, "%s", lua_tostring(L, -1));
 
@@ -335,10 +335,10 @@ void lua_tinker::print_error(lua_State* L, const char* fmt, ...)
 /*---------------------------------------------------------------------------*/
 void lua_tinker::enum_stack(lua_State* L)
 {
-	int top = lua_gettop(L);
+	int32_t top = lua_gettop(L);
 	print_error(L, "%s", "----------stack----------");
 	print_error(L, "Type:%d", top);
-	for(int i = 1; i <= lua_gettop(L); ++i)
+	for(int32_t i = 1; i <= lua_gettop(L); ++i)
 	{
 		switch(lua_type(L, i))
 		{
@@ -393,7 +393,7 @@ void lua_tinker::clear_stack(lua_State* L)
 	lua_settop(L, 0);
 }
 
-char* lua_tinker::detail::_stack_help<char*>::_read(lua_State* L, int index)
+char* lua_tinker::detail::_stack_help<char*>::_read(lua_State* L, int32_t index)
 {
 	return (char*)lua_tostring(L, index);
 }
@@ -403,7 +403,7 @@ void lua_tinker::detail::_stack_help<char*>::_push(lua_State* L, char* ret)
 	lua_pushstring(L, ret);
 }
 
-const char* lua_tinker::detail::_stack_help<const char*>::_read(lua_State* L, int index)
+const char* lua_tinker::detail::_stack_help<const char*>::_read(lua_State* L, int32_t index)
 {
 	return (const char*)lua_tostring(L, index);
 }
@@ -413,7 +413,7 @@ void lua_tinker::detail::_stack_help<const char*>::_push(lua_State* L, const cha
 	lua_pushstring(L, ret);
 }
 
-bool lua_tinker::detail::_stack_help<bool>::_read(lua_State* L, int index)
+bool lua_tinker::detail::_stack_help<bool>::_read(lua_State* L, int32_t index)
 {
 	if(lua_isboolean(L, index))
 		return lua_toboolean(L, index) != 0;
@@ -433,7 +433,7 @@ void lua_tinker::detail::_stack_help<lua_tinker::lua_value*>::_push(lua_State* L
 		lua_pushnil(L);
 }
 
-lua_tinker::table_onstack lua_tinker::detail::_stack_help<lua_tinker::table_onstack>::_read(lua_State* L, int index)
+lua_tinker::table_onstack lua_tinker::detail::_stack_help<lua_tinker::table_onstack>::_read(lua_State* L, int32_t index)
 {
 	return lua_tinker::table_onstack(L, index);
 }
@@ -443,7 +443,7 @@ void lua_tinker::detail::_stack_help<lua_tinker::table_onstack>::_push(lua_State
 	lua_pushvalue(L, ret.m_obj->m_index);
 }
 
-std::string lua_tinker::detail::_stack_help<std::string>::_read(lua_State* L, int index)
+std::string lua_tinker::detail::_stack_help<std::string>::_read(lua_State* L, int32_t index)
 {
 	const char* strLua = lua_tostring(L, index);
 	if(strLua)
@@ -565,7 +565,7 @@ static void invoke_parent(lua_State* L)
 }
 
 /*---------------------------------------------------------------------------*/
-int lua_tinker::detail::meta_get(lua_State* L)
+int32_t lua_tinker::detail::meta_get(lua_State* L)
 {
 	stack_obj class_obj(L, 1);
 	stack_obj key_obj(L, 2);
@@ -597,7 +597,7 @@ int lua_tinker::detail::meta_get(lua_State* L)
 }
 
 /*---------------------------------------------------------------------------*/
-int lua_tinker::detail::meta_set(lua_State* L)
+int32_t lua_tinker::detail::meta_set(lua_State* L)
 {
 	stack_scope_exit scope_exit(L);
 	stack_obj		 class_obj(L, 1);
@@ -630,7 +630,7 @@ int lua_tinker::detail::meta_set(lua_State* L)
 }
 
 /*---------------------------------------------------------------------------*/
-int lua_tinker::detail::push_meta(lua_State* L, const char* name)
+int32_t lua_tinker::detail::push_meta(lua_State* L, const char* name)
 {
 	return lua_getglobal(L, name);
 }
@@ -646,7 +646,7 @@ void lua_tinker::detail::add_gc_mate(lua_State* L)
 	lua_setglobal(L, "__onlygc_meta");
 }
 
-bool lua_tinker::detail::CheckSameMetaTable(lua_State* L, int nIndex, const char* tname)
+bool lua_tinker::detail::CheckSameMetaTable(lua_State* L, int32_t nIndex, const char* tname)
 {
 	bool  bResult = true;
 	void* p		  = lua_touserdata(L, nIndex);
@@ -664,18 +664,18 @@ bool lua_tinker::detail::CheckSameMetaTable(lua_State* L, int nIndex, const char
 	return false;
 }
 
-bool lua_tinker::detail::push_upval_to_stack(lua_State* L, int nArgsCount, int nArgsNeed, int default_upval_start)
+bool lua_tinker::detail::push_upval_to_stack(lua_State* L, int32_t nArgsCount, int32_t nArgsNeed, int32_t default_upval_start)
 {
 	if(nArgsCount < nArgsNeed)
 	{
 		// need use upval
-		int nNeedUpval	= nArgsNeed - nArgsCount;
-		int nUpvalCount = read<int>(L, lua_upvalueindex(default_upval_start));
+		int32_t nNeedUpval	= nArgsNeed - nArgsCount;
+		int32_t nUpvalCount = read<int32_t>(L, lua_upvalueindex(default_upval_start));
 		if(nUpvalCount < 0)
 		{
 			return false;
 		}
-		for(int i = nUpvalCount - nNeedUpval; i < nUpvalCount; i++)
+		for(int32_t i = nUpvalCount - nNeedUpval; i < nUpvalCount; i++)
 		{
 			lua_pushvalue(L, lua_upvalueindex(default_upval_start + 1 + i));
 		}
@@ -684,18 +684,18 @@ bool lua_tinker::detail::push_upval_to_stack(lua_State* L, int nArgsCount, int n
 	return true;
 }
 
-bool lua_tinker::detail::push_upval_to_stack(lua_State* L, int nArgsCount, int nArgsNeed, int nUpvalCount, int UpvalStart)
+bool lua_tinker::detail::push_upval_to_stack(lua_State* L, int32_t nArgsCount, int32_t nArgsNeed, int32_t nUpvalCount, int32_t UpvalStart)
 {
 	if(nArgsCount < nArgsNeed)
 	{
 		// need use upval
-		int nNeedUpval = nArgsNeed - nArgsCount;
+		int32_t nNeedUpval = nArgsNeed - nArgsCount;
 		if(nUpvalCount < 0)
 		{
 			return false;
 		}
-		static const int default_upval_start = 2;
-		for(int i = nUpvalCount - nNeedUpval; i < nUpvalCount; i++)
+		static const int32_t default_upval_start = 2;
+		for(int32_t i = nUpvalCount - nNeedUpval; i < nUpvalCount; i++)
 		{
 			lua_pushvalue(L, lua_upvalueindex(default_upval_start + UpvalStart + i));
 		}
@@ -704,14 +704,14 @@ bool lua_tinker::detail::push_upval_to_stack(lua_State* L, int nArgsCount, int n
 	return true;
 }
 
-void lua_tinker::detail::_set_signature_bit(unsigned long long& sig, size_t idx, unsigned char c)
+void lua_tinker::detail::_set_signature_bit(uint64_t& sig, size_t idx, uint8_t c)
 {
 	if(idx > sizeof(sig) * 2)
 		return;
 	sig = (sig & ~(0xF << (idx * 4))) | ((c & 0xF) << (idx * 4));
 }
 
-unsigned char lua_tinker::detail::_get_signature_bit(const unsigned long long& sig, size_t idx)
+uint8_t lua_tinker::detail::_get_signature_bit(const uint64_t& sig, size_t idx)
 {
 	if(idx > sizeof(sig) * 2)
 		return 0;
@@ -721,7 +721,7 @@ unsigned char lua_tinker::detail::_get_signature_bit(const unsigned long long& s
 /*---------------------------------------------------------------------------*/
 /* table object on stack                                                     */
 /*---------------------------------------------------------------------------*/
-lua_tinker::detail::table_obj::table_obj(lua_State* L, int index)
+lua_tinker::detail::table_obj::table_obj(lua_State* L, int32_t index)
 	: m_L(L)
 	, m_index(index)
 	, m_ref(0)
@@ -766,9 +766,9 @@ bool lua_tinker::detail::table_obj::validate()
 		}
 		else
 		{
-			int top = lua_gettop(m_L);
+			int32_t top = lua_gettop(m_L);
 
-			for(int i = 1; i <= top; ++i)
+			for(int32_t i = 1; i <= top; ++i)
 			{
 				if(m_pointer == lua_topointer(m_L, i))
 				{
@@ -815,7 +815,7 @@ lua_tinker::table_onstack::table_onstack(lua_State* L, const char* name)
 	m_obj->inc_ref();
 }
 
-lua_tinker::table_onstack::table_onstack(lua_State* L, int index)
+lua_tinker::table_onstack::table_onstack(lua_State* L, int32_t index)
 {
 	if(index < 0)
 	{
@@ -846,10 +846,10 @@ namespace lua_tinker
 namespace detail
 {
 
-	lua_ref_base::lua_ref_base(lua_State* L, int regidx)
+	lua_ref_base::lua_ref_base(lua_State* L, int32_t regidx)
 		: m_L(L)
 		, m_regidx(regidx)
-		, m_pRef(new int(0))
+		, m_pRef(new int32_t(0))
 	{
 		inc_ref();
 	}

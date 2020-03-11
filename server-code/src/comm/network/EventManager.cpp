@@ -26,7 +26,7 @@ bool CEventManager::Init(event_base* base)
 		const uint32_t time_out_ms = 200;
 		m_DefaultEvent			   = event_new(
 			m_pBase, -1, EV_PERSIST,
-			[](int, short int, void* ctx) {
+			[](int32_t, short int32_t, void* ctx) {
 				CEventManager* pThis = (CEventManager*)ctx;
 				pThis->ScheduleWait();
 			},
@@ -241,7 +241,7 @@ void CEventManager::ScheduleWait()
 
 		if(pEntry->CreateEvTimer(m_pBase))
 		{
-			int	 nRet = -1;
+			int32_t	 nRet = -1;
 			auto it	  = m_mapCommonTimeVal.find((uint32_t)pEntry->m_tWaitTime);
 			if(it != m_mapCommonTimeVal.end())
 			{

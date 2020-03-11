@@ -4,8 +4,8 @@
 #include "BaseCode.h"
 
 //////////////////////////////////////////////////////////////////////
-const int _MAX_ITEMPACKAGE_SIZE = 30;  // 普通物品背包最大容量
-const int _MAX_SYSSTORAGE_SIZE	= 300; // 系统物品仓库最大容量
+const int32_t _MAX_ITEMPACKAGE_SIZE = 30;  // 普通物品背包最大容量
+const int32_t _MAX_SYSSTORAGE_SIZE	= 300; // 系统物品仓库最大容量
 
 //////////////////////////////////////////////////////////////////////
 class CItem;
@@ -33,9 +33,9 @@ public:
 	export_lua virtual uint32_t GetAmount() { return m_setItem.size(); }
 
 	export_lua virtual bool		IsFull(uint32_t nAmount = 1) { return (m_nMaxSize > 0 && m_setItem.size() + nAmount > m_nMaxSize); }
-	export_lua virtual bool		IsFull(uint32_t idType, uint32_t nAmount, DWORD dwFlag = 0);
+	export_lua virtual bool		IsFull(uint32_t idType, uint32_t nAmount, uint32_t dwFlag = 0);
 	export_lua virtual bool		IsFull(CItem* pItem);
-	export_lua virtual uint32_t GetSpareSpace(uint32_t idType = ID_NONE, uint32_t nAmount = 0, uint32_t nFillSpace = 0, DWORD dwFlag = 0);
+	export_lua virtual uint32_t GetSpareSpace(uint32_t idType = ID_NONE, uint32_t nAmount = 0, uint32_t nFillSpace = 0, uint32_t dwFlag = 0);
 
 	export_lua virtual bool AwardItem(uint32_t idItemType, uint32_t nAmount, uint32_t dwFlag = 0);
 
@@ -54,26 +54,26 @@ public:
 	export_lua virtual bool TidyItem();
 
 	export_lua virtual CItem* QueryItem(OBJID idItem);
-	export_lua virtual CItem* QueryItemByType(uint32_t idType, DWORD dwFlag = 0);
+	export_lua virtual CItem* QueryItemByType(uint32_t idType, uint32_t dwFlag = 0);
 	export_lua virtual CItem* QueryItemByGrid(uint32_t nGrid);
 
-	export_lua virtual CItem* FindCombineItem(uint32_t idType, DWORD dwFlag, uint32_t nAmount);
+	export_lua virtual CItem* FindCombineItem(uint32_t idType, uint32_t dwFlag, uint32_t nAmount);
 
 	export_lua virtual void SaveAll();
 	export_lua virtual void SendAllItemInfo();
 
 public:
 	export_lua CItem* ForEach(std::function<bool(CItem*)> func);
-	void			  CheckItemExpire(DWORD dwTimeNow);
+	void			  CheckItemExpire(uint32_t dwTimeNow);
 
 public:
-	export_lua virtual bool		HaveSoManyItem(uint32_t idType, uint32_t nNum, DWORD dwFlag = 0);
-	export_lua virtual uint32_t DelItemByType(uint32_t idType, uint32_t nNum, DWORD dwFlag = 0, bool bTraceTaskItem = true);
-	export_lua virtual uint32_t GetItemTypeAmount(uint32_t idType, DWORD dwFlag = 0);
+	export_lua virtual bool		HaveSoManyItem(uint32_t idType, uint32_t nNum, uint32_t dwFlag = 0);
+	export_lua virtual uint32_t DelItemByType(uint32_t idType, uint32_t nNum, uint32_t dwFlag = 0, bool bTraceTaskItem = true);
+	export_lua virtual uint32_t GetItemTypeAmount(uint32_t idType, uint32_t dwFlag = 0);
 
 protected:
-	void RemoveItemExpireCallBack(OBJID idItem, DWORD dwExpireData);
-	void AddItemExpireCallBack(OBJID idItem, DWORD dwExpireData);
+	void RemoveItemExpireCallBack(OBJID idItem, uint32_t dwExpireData);
+	void AddItemExpireCallBack(OBJID idItem, uint32_t dwExpireData);
 
 protected:
 	CPlayer* m_pOwner	 = nullptr;

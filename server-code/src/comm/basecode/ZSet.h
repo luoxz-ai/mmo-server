@@ -70,7 +70,7 @@ public:
 	void zRange(uint32_t r1, uint32_t r2, const std::function<void(uint32_t, uint64_t, uint32_t)>& func) const
 	{
 		bool reverse  = false;
-		int	 rangelen = 0;
+		int32_t	 rangelen = 0;
 		if(r1 < 1)
 			r1 = 1;
 		if(r2 < 1)
@@ -92,7 +92,7 @@ public:
 		}
 
 		auto node = m_SkipList.GetNodeByRank(r1);
-		int	 n	  = 0;
+		int32_t	 n	  = 0;
 		while(node && n < rangelen)
 		{
 			uint32_t nRank = (reverse) ? r1 - n : r1 + n;

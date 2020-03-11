@@ -181,7 +181,6 @@ public:
 #define DEFINE_CONFIG_SET(T)                   \
 public:                                        \
 	T* Get##T() const { return m_p##T.get(); } \
-                                               \
 private:                                       \
 	std::unique_ptr<T> m_p##T;
 

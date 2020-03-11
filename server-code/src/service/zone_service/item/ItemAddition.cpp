@@ -63,14 +63,14 @@ void CItemAdditionSet::Destroy()
 	__LEAVE_FUNCTION
 }
 
-const CItemAdditionData* CItemAdditionSet::QueryItemAddition(uint32_t idType, int nLevel)
+const CItemAdditionData* CItemAdditionSet::QueryItemAddition(uint32_t idType, int32_t nLevel)
 {
 	__ENTER_FUNCTION
 	auto it_map = m_setAddition.find(idType);
 	if(it_map == m_setAddition.end())
 		return nullptr;
 	const auto& refList = it_map->second;
-	if(nLevel > (int)refList.size())
+	if(nLevel > (int32_t)refList.size())
 		return nullptr;
 	return refList[nLevel - 1];
 	__LEAVE_FUNCTION

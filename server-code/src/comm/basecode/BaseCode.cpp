@@ -18,33 +18,33 @@ uint32_t MulDiv(uint32_t a, uint32_t b, uint32_t c)
 	return ((uint32_t)(((uint64_t)(a) * (uint64_t)(b)) / (uint64_t)(c)));
 }
 
-uint32_t hex_set(uint32_t dwFlag, int nHex, UCHAR ucVal)
+uint32_t hex_set(uint32_t dwFlag, uint8_t nHex, uint8_t ucVal)
 {
-	CHECKF(nHex >= 0 && nHex < 8);
+	CHECKF(nHex < 8);
 	return (dwFlag & ~(0xF << (nHex * 4))) | ((ucVal & 0xF) << (nHex * 4));
 }
 
-UCHAR hex_get(uint32_t dwFlag, int nHex)
+uint8_t hex_get(uint32_t dwFlag, uint8_t nHex)
 {
-	CHECKF(nHex >= 0 && nHex < 8);
+	CHECKF(nHex < 8);
 	return (dwFlag >> (nHex * 4)) & 0xF;
 }
 
-bool bit_test(uint32_t dwFlag, int nBit)
+bool bit_test(uint32_t dwFlag, uint8_t nBit)
 {
-	CHECKF(nBit >= 0 && nBit < 32);
+	CHECKF(nBit < 32);
 	return (dwFlag & ((uint32_t)1 << nBit)) != 0;
 }
 
-uint32_t bit_flip(uint32_t dwFlag, int nBit)
+uint32_t bit_flip(uint32_t dwFlag, uint8_t nBit)
 {
-	CHECKF(nBit >= 0 && nBit < 32);
+	CHECKF(nBit < 32);
 	return dwFlag ^ ((uint32_t)1 << nBit);
 }
 
-uint32_t bit_set(uint32_t dwFlag, int nBit, bool bVal)
+uint32_t bit_set(uint32_t dwFlag, uint8_t nBit, bool bVal)
 {
-	CHECKF(nBit >= 0 && nBit < 32);
+	CHECKF(nBit < 32);
 	if(bVal)
 		return dwFlag | (uint32_t)1 << nBit;
 	else
@@ -63,7 +63,7 @@ time_t timeGetTime()
 	long     tv_nsec;       // nanoseconds
 	};
 
-	int clock_gettime(clockid_t clk_id, struct timespec *tp);
+	int32_t clock_gettime(clockid_t clk_id, struct timespec *tp);
 	clk_id:
 	CLOCK_REALTIME				系统实时时间
 	CLOCK_MONOTONIC				从系统启动到这一刻所经过的时间，不受系统时间被用户改变的影响
@@ -211,7 +211,7 @@ bool CheckSameDay(time_t time1, time_t time2)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-int DateDiffLocal(time_t time1, time_t time2)
+int32_t DateDiffLocal(time_t time1, time_t time2)
 {
 	__ENTER_FUNCTION
 	struct tm tm1;
@@ -222,12 +222,12 @@ int DateDiffLocal(time_t time1, time_t time2)
 	if(0 != localtime_r(&time2, &tm2)) /* Convert to local time. */
 		return 0;
 
-	// int nLeapYear = isleap(tm2.tm_year) ? 1 : 0;
+	// int32_t nLeapYear = isleap(tm2.tm_year) ? 1 : 0;
 
-	int nYears = tm2.tm_year - tm1.tm_year;
-	int nDays  = tm2.tm_yday - tm1.tm_yday;
+	int32_t nYears = tm2.tm_year - tm1.tm_year;
+	int32_t nDays  = tm2.tm_yday - tm1.tm_yday;
 
-	int nTmpYear = tm1.tm_year + 1900;
+	int32_t nTmpYear = tm1.tm_year + 1900;
 
 	if(nYears > 0)
 	{

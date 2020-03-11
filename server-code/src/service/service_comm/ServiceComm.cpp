@@ -14,10 +14,10 @@ public:
 	virtual ~BRPCLogSink() {}
 	// Called when a log is ready to be written out.
 	// Returns true to stop further processing.
-	virtual bool OnLogMessage(int severity, const char* file, int line, const butil::StringPiece& log_content)
+	virtual bool OnLogMessage(int32_t severity, const char* file, int32_t line, const butil::StringPiece& log_content)
 	{
-		int logid  = 0;
-		int loglev = 0;
+		int32_t logid  = 0;
+		int32_t loglev = 0;
 		switch(severity)
 		{
 			case logging::BLOG_INFO:
@@ -250,8 +250,8 @@ void CServiceCommon::OnLogicThreadProc()
 		m_pNetworkService->RunOnce();
 	}
 
-	static const int MAX_PROCESS_PER_LOOP = 1000;
-	int				 nCount				  = 0;
+	static const int32_t MAX_PROCESS_PER_LOOP = 1000;
+	int32_t				 nCount				  = 0;
 
 	CNetworkMessage* pMsg = nullptr;
 	if(m_pMessagePort)

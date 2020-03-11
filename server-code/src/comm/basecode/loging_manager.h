@@ -38,20 +38,20 @@ void SetNdc(const std::string& name);
 NDC* getNdc();
 void StopLog();
 
-extern int				s_default_logger;
-extern int				s_debug_logger;
-extern int				s_error_logger;
-extern int				s_message_logger;
-extern int				s_warning_logger;
-extern int				s_fatal_logger;
-extern int				s_network_logger;
-extern int				s_db_logger;
-extern int				s_stack_logger;
-extern int				s_lua_logger;
-extern thread_local int s_monitor_logger;
-extern int				s_ai_logger;
-extern int				s_login_logger;
-extern int				s_gm_logger;
+extern int32_t				s_default_logger;
+extern int32_t				s_debug_logger;
+extern int32_t				s_error_logger;
+extern int32_t				s_message_logger;
+extern int32_t				s_warning_logger;
+extern int32_t				s_fatal_logger;
+extern int32_t				s_network_logger;
+extern int32_t				s_db_logger;
+extern int32_t				s_stack_logger;
+extern int32_t				s_lua_logger;
+extern thread_local int32_t s_monitor_logger;
+extern int32_t				s_ai_logger;
+extern int32_t				s_login_logger;
+extern int32_t				s_gm_logger;
 } // namespace BaseCode
 
 #ifdef DEBUG

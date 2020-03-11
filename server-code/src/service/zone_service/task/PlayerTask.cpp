@@ -290,7 +290,7 @@ bool CPlayerTask::AcceptTask(uint32_t idTask, bool bChkCondition /*= true*/, boo
 	if(pType->GetScriptID() != 0)
 		ScriptManager()->TryExecScript<void>(pType->GetScriptID(), SCB_TASK_ON_ACCEPT, m_pOwner, pData);
 
-	for(int i = 0; i < pType->GetDataRef().finish_data_list_size(); i++)
+	for(int32_t i = 0; i < pType->GetDataRef().finish_data_list_size(); i++)
 	{
 		const auto& v = pType->GetDataRef().finish_data_list(i);
 		switch(v.finish_type())
@@ -414,7 +414,7 @@ bool CPlayerTask::SubmitTask(uint32_t idTask, uint32_t nSubmitMultiple)
 	if(pType->GetAwardExp() > 0)
 		m_pOwner->AwardExp(pType->GetAwardExp() * (1 + nSubmitMultiple));
 	//物品
-	for(int i = 0; i < pType->GetDataRef().award_item_list_size(); i++)
+	for(int32_t i = 0; i < pType->GetDataRef().award_item_list_size(); i++)
 	{
 		const auto& v = pType->GetDataRef().award_item_list(i);
 		m_pOwner->AwardItem(0, v.itemtype(), v.itemamount() * (1 + nSubmitMultiple), v.itemflag());
@@ -444,7 +444,7 @@ bool CPlayerTask::QuickFinish(uint32_t idTask)
 		return false;
 	}
 
-	for(int i = 0; i < pType->GetDataRef().finish_data_list_size(); i++)
+	for(int32_t i = 0; i < pType->GetDataRef().finish_data_list_size(); i++)
 	{
 		const auto& v = pType->GetDataRef().finish_data_list(i);
 		pData->SetNum(i, v.finish_num(), UPDATE_FALSE);
@@ -531,7 +531,7 @@ void CPlayerTask::OnFinishAchi(uint32_t idAchi)
 		if(pType == nullptr)
 			continue;
 
-		for(int i = 0; i < pType->GetDataRef().finish_data_list_size(); i++)
+		for(int32_t i = 0; i < pType->GetDataRef().finish_data_list_size(); i++)
 		{
 			const auto& v = pType->GetDataRef().finish_data_list(i);
 			if(v.finish_type() == TFTYPE_ACHI && v.finish_data() == idAchi)
@@ -556,7 +556,7 @@ bool CPlayerTask::CanSubmit(CTaskType* pTaskType)
 	if(pData->IsExpire())
 		return false;
 	//先检查
-	for(int i = 0; i < pTaskType->GetDataRef().finish_data_list_size(); i++)
+	for(int32_t i = 0; i < pTaskType->GetDataRef().finish_data_list_size(); i++)
 	{
 		const auto& v = pTaskType->GetDataRef().finish_data_list(i);
 		if(pData->GetNum(i) < v.finish_num())
@@ -575,7 +575,7 @@ bool CPlayerTask::CanSubmit(CTaskType* pTaskType)
 
 	//额外的扣物品
 	if(pTaskType->HasFlag(TASKFLAG_SUBMIT_DELITEM))
-		for(int i = 0; i < pTaskType->GetDataRef().finish_data_list_size(); i++)
+		for(int32_t i = 0; i < pTaskType->GetDataRef().finish_data_list_size(); i++)
 		{
 			const auto& v = pTaskType->GetDataRef().finish_data_list(i);
 			switch(v.finish_type())
@@ -614,7 +614,7 @@ bool CPlayerTask::CanSubmit(uint32_t idTask)
 	return false;
 }
 
-int CPlayerTask::GetLeftTimes(uint32_t idTask)
+int32_t CPlayerTask::GetLeftTimes(uint32_t idTask)
 {
 	__ENTER_FUNCTION
 	CPlayerTaskData* pData = QueryTaskData(idTask);
@@ -726,7 +726,7 @@ void CPlayerTask::OnAwardTaskItem(uint32_t idItemType, uint32_t nNum)
 		if(pType == nullptr)
 			continue;
 
-		for(int i = 0; i < pType->GetDataRef().finish_data_list_size(); i++)
+		for(int32_t i = 0; i < pType->GetDataRef().finish_data_list_size(); i++)
 		{
 			const auto& v = pType->GetDataRef().finish_data_list(i);
 			if(v.finish_type() == TFTYPE_ITEM && v.finish_data() == idItemType)
@@ -752,7 +752,7 @@ void CPlayerTask::OnKillMonster(uint32_t idMonster, bool bKillBySelf)
 		if(pType == nullptr)
 			continue;
 
-		for(int i = 0; i < pType->GetDataRef().finish_data_list_size(); i++)
+		for(int32_t i = 0; i < pType->GetDataRef().finish_data_list_size(); i++)
 		{
 			const auto& v = pType->GetDataRef().finish_data_list(i);
 			if(v.finish_type() == TFTYPE_MONSTER && v.finish_data() == idMonster && (bKillBySelf == true || (bKillBySelf == false && v.share() == false)) &&
@@ -779,7 +779,7 @@ void CPlayerTask::OnDelTaskItem(uint32_t idItemType, uint32_t nNum)
 		if(pType == nullptr)
 			continue;
 
-		for(int i = 0; i < pType->GetDataRef().finish_data_list_size(); i++)
+		for(int32_t i = 0; i < pType->GetDataRef().finish_data_list_size(); i++)
 		{
 			const auto& v = pType->GetDataRef().finish_data_list(i);
 			if(v.finish_type() == TFTYPE_ITEM && v.finish_data() == idItemType)

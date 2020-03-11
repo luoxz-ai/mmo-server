@@ -36,7 +36,7 @@ Vector2 CAIPathFinder::SearchStep(const Vector2& dest, float move_spd)
 	else
 	{
 		//检查正向180度内是否有位置可以移动
-		for(int i = 0; i < 6; i++)
+		for(int32_t i = 0; i < 6; i++)
 		{
 			auto new_dir = GameMath::rotate(dir, 30.0f * i * ((i % 2) ? 1 : -1));
 			new_pos		 = new_dir * move_spd;

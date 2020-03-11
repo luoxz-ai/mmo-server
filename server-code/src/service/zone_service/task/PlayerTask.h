@@ -77,7 +77,7 @@ public:
 	export_lua bool CanAccept(CTaskType* pType);
 	export_lua bool CanSubmit(uint32_t idTask);
 	export_lua bool CanSubmit(CTaskType* pTaskType);
-	export_lua int	GetLeftTimes(uint32_t idTask);
+	export_lua int32_t	GetLeftTimes(uint32_t idTask);
 	export_lua bool IsFinished(uint32_t idTask);
 
 	export_lua void			   SaveInfo();

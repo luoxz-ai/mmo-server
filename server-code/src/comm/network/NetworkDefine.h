@@ -6,7 +6,7 @@
 #include "BaseType.h"
 #include "export_lua.h"
 
-const int _MAX_MSGSIZE = 1024 * 4;
+const int32_t _MAX_MSGSIZE = 1024 * 4;
 
 export_lua enum SERVICE_TYPE {
 	SOCKET_SERVICE = 1, //单服多个, 连接服务, 网关, 广播, 组播
@@ -343,7 +343,7 @@ struct MSG_SCK_CONNECT : public MSG_HEAD
 {
 	VirtualSocket vs;
 	uint64_t	  ip;
-	int			  port;
+	int32_t			  port;
 	MSG_SCK_CONNECT()
 	{
 		usCmd  = NETMSG_SCK_CONNECT;

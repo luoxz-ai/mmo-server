@@ -168,7 +168,7 @@ public:
 //////////////////////////////////////////////////////////////////////////
 //! UTILITY
 //////////////////////////////////////////////////////////////////////////
-static void sleepMillisecond(unsigned int ms);
+static void sleepMillisecond(uint32_t ms);
 static tm	timeToTm(time_t t);
 static bool isSameDay(time_t t1, time_t t2);
 
@@ -248,7 +248,7 @@ private:
 //! ThreadHelper
 //////////////////////////////////////////////////////////////////////////
 #ifdef WIN32
-static unsigned int WINAPI threadProc(LPVOID lpParam);
+static uint32_t WINAPI threadProc(LPVOID lpParam);
 #else
 static void* threadProc(void* pParam);
 #endif
@@ -272,7 +272,7 @@ private:
 };
 
 #ifdef WIN32
-unsigned int WINAPI threadProc(LPVOID lpParam)
+uint32_t WINAPI threadProc(LPVOID lpParam)
 {
 	ThreadHelper* p = (ThreadHelper*)lpParam;
 	p->run();
@@ -319,14 +319,14 @@ struct LoggerInfo
 	bool		 _display;		  // display to screen
 	bool		 _outfile;		  // output to file
 	bool		 _monthdir;		  // create directory per month
-	unsigned int _limitsize;	  // limit file's size, unit Million byte.
+	uint32_t _limitsize;	  // limit file's size, unit Million byte.
 	bool		 _enable;		  // logger is enable
 	bool		 _fileLine;		  // enable/disable the log's suffix.(file name:line number)
 	time_t		 _logReserveTime; // log file reserve time. unit is time second.
 	//! runtime info
 	time_t			 _curFileCreateTime; // file create time
-	unsigned int	 _curFileIndex;		 // rolling file index
-	unsigned int	 _curWriteLen;		 // current file length
+	uint32_t	 _curFileIndex;		 // rolling file index
+	uint32_t	 _curWriteLen;		 // current file length
 	Log4zFileHandler _handle;			 // file handle.
 	//! history
 	std::list<std::pair<time_t, std::string>> _historyLogs;
@@ -380,7 +380,7 @@ public:
 	virtual bool			   setLoggerFileLine(LoggerId id, bool enable);
 	virtual bool			   setLoggerDisplay(LoggerId id, bool enable);
 	virtual bool			   setLoggerOutFile(LoggerId id, bool enable);
-	virtual bool			   setLoggerLimitsize(LoggerId id, unsigned int limitsize);
+	virtual bool			   setLoggerLimitsize(LoggerId id, uint32_t limitsize);
 	virtual bool			   setLoggerMonthdir(LoggerId id, bool enable);
 	virtual bool			   setLoggerReserveTime(LoggerId id, time_t sec);
 	virtual bool			   setAutoUpdate(int interval);
@@ -390,7 +390,7 @@ public:
 	virtual unsigned long long getStatusTotalWriteBytes() { return _ullStatusTotalWriteFileBytes; }
 	virtual unsigned long long getStatusTotalPushQueue() { return _ullStatusTotalPushLog; }
 	virtual unsigned long long getStatusTotalPopQueue() { return _ullStatusTotalPopLog; }
-	virtual unsigned int	   getStatusActiveLoggers();
+	virtual uint32_t	   getStatusActiveLoggers();
 
 protected:
 	virtual LogData* makeLogData(LoggerId id, int level);
@@ -410,7 +410,7 @@ private:
 
 	//! hot change name or path for one logger
 	int			 _hotUpdateInterval;
-	unsigned int _checksum;
+	uint32_t _checksum;
 
 	//! the process info.
 	std::string _pid;
@@ -469,7 +469,7 @@ const std::string Log4zFileHandler::readContent()
 //! utility
 //////////////////////////////////////////////////////////////////////////
 
-void sleepMillisecond(unsigned int ms)
+void sleepMillisecond(uint32_t ms)
 {
 #ifdef WIN32
 	::Sleep(ms);
@@ -848,7 +848,7 @@ std::string getProcessID()
 	std::string pid		 = "0";
 	char		buf[260] = {0};
 #ifdef WIN32
-	DWORD winPID = GetCurrentProcessId();
+	uint32_t winPID = GetCurrentProcessId();
 	sprintf(buf, "%06u", winPID);
 	pid = buf;
 #else
@@ -1184,7 +1184,7 @@ LogData* LogerManager::makeLogData(LoggerId id, int level)
 		now -= 11644473600000000ULL;
 		now /= 1000;
 		pLog->_time	   = now / 1000;
-		pLog->_precise = (unsigned int)(now % 1000);
+		pLog->_precise = (uint32_t)(now % 1000);
 #else
 		struct timeval tm;
 		gettimeofday(&tm, NULL);
@@ -1267,7 +1267,7 @@ void LogerManager::showColorText(const char* text, int level)
 
 bool LogerManager::configFromStringImpl(std::string content, bool isUpdate)
 {
-	unsigned int sum = 0;
+	uint32_t sum = 0;
 	for(std::string::iterator iter = content.begin(); iter != content.end(); ++iter)
 	{
 		sum += (unsigned char)*iter;
@@ -1433,7 +1433,7 @@ bool LogerManager::prePushLog(LoggerId id, int level)
 		int r		 = rand() % 5000;
 		if(r < 1000 || r < delay * 100)
 		{
-			sleepMillisecond((unsigned int)(delay));
+			sleepMillisecond((uint32_t)(delay));
 		}
 		return true;
 	}
@@ -1625,11 +1625,11 @@ bool LogerManager::setLoggerReserveTime(LoggerId id, time_t sec)
 {
 	return hotChange(id, LDT_SET_LOGGER_RESERVETIME, (int)sec, "");
 }
-bool LogerManager::setLoggerLimitsize(LoggerId id, unsigned int limitsize)
+bool LogerManager::setLoggerLimitsize(LoggerId id, uint32_t limitsize)
 {
 	if(limitsize == 0)
 	{
-		limitsize = (unsigned int)-1;
+		limitsize = (uint32_t)-1;
 	}
 	return hotChange(id, LDT_SET_LOGGER_LIMITSIZE, limitsize, "");
 }
@@ -1695,9 +1695,9 @@ bool LogerManager::isLoggerEnable(LoggerId id)
 	return _loggers[id]._enable;
 }
 
-unsigned int LogerManager::getStatusActiveLoggers()
+uint32_t LogerManager::getStatusActiveLoggers()
 {
-	unsigned int actives = 0;
+	uint32_t actives = 0;
 	for(int i = 0; i <= _lastId; i++)
 	{
 		if(_loggers[i]._enable)
@@ -1889,7 +1889,7 @@ void LogerManager::run()
 				}
 
 				curLogger._handle.write(pLog->_content, pLog->_contentLen);
-				curLogger._curWriteLen += (unsigned int)pLog->_contentLen;
+				curLogger._curWriteLen += (uint32_t)pLog->_contentLen;
 				needFlush[pLog->_id]++;
 				_ullStatusTotalWriteFileCount++;
 				_ullStatusTotalWriteFileBytes += pLog->_contentLen;

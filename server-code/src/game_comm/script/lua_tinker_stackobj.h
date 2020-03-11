@@ -10,7 +10,7 @@ namespace detail
 	struct stack_scope_exit
 	{
 		lua_State* L;
-		int		   nTop;
+		int32_t		   nTop;
 		stack_scope_exit(lua_State* _L)
 			: L(_L)
 		{
@@ -21,8 +21,8 @@ namespace detail
 	struct stack_delay_pop
 	{
 		lua_State* L;
-		int		   nPop;
-		stack_delay_pop(lua_State* _L, int _nPop)
+		int32_t		   nPop;
+		stack_delay_pop(lua_State* _L, int32_t _nPop)
 			: L(_L)
 			, nPop(_nPop)
 		{
@@ -32,8 +32,8 @@ namespace detail
 	struct stack_obj
 	{
 		lua_State* L;
-		int		   _stack_pos;
-		stack_obj(lua_State* _L, int nIdx)
+		int32_t		   _stack_pos;
+		stack_obj(lua_State* _L, int32_t nIdx)
 			: L(_L)
 			, _stack_pos(lua_absindex(L, nIdx))
 		{
@@ -41,14 +41,14 @@ namespace detail
 		~stack_obj() {}
 
 		static stack_obj get_top(lua_State* L) { return stack_obj(L, lua_gettop(L)); }
-		static stack_obj new_table(lua_State* L, int narr = 0, int nrec = 0)
+		static stack_obj new_table(lua_State* L, int32_t narr = 0, int32_t nrec = 0)
 		{
 			lua_createtable(L, narr, nrec);
 			return stack_obj(L, lua_gettop(L));
 		}
 
 		bool is_vaild() const { return _stack_pos != 0; }
-		int	 get_type() const { return is_vaild() && lua_type(L, _stack_pos); }
+		int32_t	 get_type() const { return is_vaild() && lua_type(L, _stack_pos); }
 		bool is_number() const { return get_type() == LUA_TNUMBER; }
 		bool is_string() const { return is_vaild() && lua_isstring(L, _stack_pos) == 1; }
 		bool is_integer() const { return is_vaild() && lua_isinteger(L, _stack_pos) == 1; }
@@ -67,9 +67,9 @@ namespace detail
 			_stack_pos = 0;
 		}
 
-		void insert_to(int nIdx)
+		void insert_to(int32_t nIdx)
 		{
-			int nTop = lua_gettop(L);
+			int32_t nTop = lua_gettop(L);
 			if(nTop == _stack_pos)
 			{
 				lua_rotate(L, nIdx, 1);
@@ -77,9 +77,9 @@ namespace detail
 			}
 		}
 
-		void pop_up(int nIdx)
+		void pop_up(int32_t nIdx)
 		{
-			int nTop = lua_gettop(L);
+			int32_t nTop = lua_gettop(L);
 			if(nTop == _stack_pos)
 			{
 				lua_rotate(L, nIdx, 1);
@@ -153,7 +153,7 @@ namespace detail
 			return stack_obj(L, 0);
 		}
 
-		stack_obj rawgeti(int n) const
+		stack_obj rawgeti(int32_t n) const
 		{
 			if(is_vaild())
 			{
@@ -171,7 +171,7 @@ namespace detail
 			}
 		}
 
-		void rawseti(int n)
+		void rawseti(int32_t n)
 		{
 			if(is_vaild())
 			{
@@ -206,7 +206,7 @@ namespace detail
 
 		void moveNext()
 		{
-			int nTop = lua_gettop(m_table.L);
+			int32_t nTop = lua_gettop(m_table.L);
 			if(nTop == m_key + 1)
 			{
 				lua_pop(m_table.L, 1); // pop value
@@ -219,10 +219,10 @@ namespace detail
 		}
 
 		stack_obj key() const { return stack_obj(m_table.L, m_key); }
-		int		  key_idx() const { return m_key; }
+		int32_t		  key_idx() const { return m_key; }
 
 		stack_obj value() const { return stack_obj(m_table.L, m_key + 1); }
-		int		  value_idx() const { return m_key + 1; }
+		int32_t		  value_idx() const { return m_key + 1; }
 
 		void destory()
 		{
@@ -235,7 +235,7 @@ namespace detail
 	private:
 		void	  do_next() { m_hasNext = !!lua_next(m_table.L, m_table._stack_pos); }
 		stack_obj m_table;
-		int		  m_key;
+		int32_t		  m_key;
 		bool	  m_hasNext;
 	};
 

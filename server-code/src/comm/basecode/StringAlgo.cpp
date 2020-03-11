@@ -71,7 +71,7 @@ char* ConvertEnc(const char* encFrom, const char* encTo, char* pszBuffIn, size_t
 	}
 	iconv(c_pt, NULL, NULL, NULL, NULL);
 	memset(pszBuffout, 0, lenout);
-	int ret = iconv(c_pt, &pszBuffIn, &lenin, &pszBuffout, &lenout);
+	int32_t ret = iconv(c_pt, &pszBuffIn, &lenin, &pszBuffout, &lenout);
 	if(ret == -1)
 	{
 		return NULL;
@@ -143,14 +143,14 @@ std::string ReplaceStr(std::string& strSource, const std::string& strRepl, const
 
 std::string& ltrim(std::string& ss)
 {
-	std::string::iterator p = std::find_if(ss.begin(), ss.end(), std::not1(std::ptr_fun<int, int>(std::isspace)));
+	std::string::iterator p = std::find_if(ss.begin(), ss.end(), std::not1(std::ptr_fun<int32_t, int32_t>(std::isspace)));
 	ss.erase(ss.begin(), p);
 	return ss;
 }
 
 std::string& rtrim(std::string& ss)
 {
-	std::string::reverse_iterator p = std::find_if(ss.rbegin(), ss.rend(), std::not1(std::ptr_fun<int, int>(std::isspace)));
+	std::string::reverse_iterator p = std::find_if(ss.rbegin(), ss.rend(), std::not1(std::ptr_fun<int32_t, int32_t>(std::isspace)));
 	ss.erase(p.base(), ss.end());
 	return ss;
 }
@@ -169,7 +169,7 @@ std::string URLEncode(const char* pszStr)
 
 	std::string strOut = "";
 	char		szBuf[4];
-	for(int i = 0; i < (int)strlen(pszStr); i++)
+	for(int32_t i = 0; i < (int32_t)strlen(pszStr); i++)
 	{
 		memset(szBuf, 0, 4);
 		if(isalnum((BYTE)pszStr[i]))
@@ -206,7 +206,7 @@ std::string URLDecode(const char* pszStr)
 		return strOut;
 
 	char tmp[3];
-	int	 i = 0, idx = 0, len = (int)strlen(pszStr);
+	int32_t	 i = 0, idx = 0, len = (int32_t)strlen(pszStr);
 
 	while(i < len)
 	{
@@ -215,7 +215,7 @@ std::string URLDecode(const char* pszStr)
 			tmp[0]	  = pszStr[i + 1];
 			tmp[1]	  = pszStr[i + 2];
 			tmp[2]	  = 0;
-			int nChar = 0;
+			int32_t nChar = 0;
 			sscanf(tmp, "%X", &nChar);
 
 			strOut += (char)nChar;
@@ -247,7 +247,7 @@ std::string GetFullPath(const std::string& szPath)
 	char				szFull[_PATH_MAX * 2];
 	if(NULL == ::getcwd(szFull, _PATH_MAX))
 		return "";
-	int	 len = ::strlen(szFull);
+	int32_t	 len = ::strlen(szFull);
 	char c	 = szFull[len - 1];
 	if(c != '/')
 		::strcat(szFull + len, "/");
@@ -257,7 +257,7 @@ std::string GetFullPath(const std::string& szPath)
 	return s;
 }
 
-int CompareFileName(const std::string& szFile1, const std::string& szFile2)
+int32_t CompareFileName(const std::string& szFile1, const std::string& szFile2)
 {
 	return szFile1.compare(szFile2);
 }
@@ -337,7 +337,7 @@ public:
 	{
 
 		// char szLine[1024] = "";
-		int	 nIdx = 1;
+		int32_t	 nIdx = 1;
 		char szFileName[256];
 		strcpy(szFileName, filename);
 		FILE* fp = NULL;
@@ -349,7 +349,7 @@ public:
 
 			while(EOF != fscanf(fp, "%s\n", szLine))
 			{
-				int nLineSize = (int)strlen(szLine);
+				int32_t nLineSize = (int32_t)strlen(szLine);
 				if(nLineSize > 0)
 				{
 					wchar_t wszLine[2048] = {0};
@@ -373,7 +373,7 @@ public:
 	{
 		//反序添加
 		IllegalWordNode* pNode = NULL;
-		for(int i = (int)nSize - 1; i >= 0; i--)
+		for(int32_t i = (int32_t)nSize - 1; i >= 0; i--)
 		{
 			wchar_t str = testString[i];
 
@@ -400,13 +400,13 @@ public:
 		const IllegalWordNode* pNode	= this;
 		const IllegalWordNode* pNewNode = NULL;
 		//反序便利
-		int itBegin	   = (int)nSize - 1;
-		int itEnd	   = -1;
-		int itSubStart = itEnd;
-		int itSubEnd   = itEnd;
-		int itLast	   = itEnd;
+		int32_t itBegin	   = (int32_t)nSize - 1;
+		int32_t itEnd	   = -1;
+		int32_t itSubStart = itEnd;
+		int32_t itSubEnd   = itEnd;
+		int32_t itLast	   = itEnd;
 		itLast++;
-		for(int it = itBegin; it != itEnd; it--)
+		for(int32_t it = itBegin; it != itEnd; it--)
 		{
 			wchar_t str = testString[it];
 			if(str == L' ')
@@ -480,13 +480,13 @@ public:
 		const IllegalWordNode* pNode	= this;
 		const IllegalWordNode* pNewNode = NULL;
 		//反序便利
-		int itBegin	   = (int)nSize - 1;
-		int itEnd	   = -1;
-		int itSubStart = itEnd;
-		int itSubEnd   = itEnd;
-		int itLast	   = itEnd;
+		int32_t itBegin	   = (int32_t)nSize - 1;
+		int32_t itEnd	   = -1;
+		int32_t itSubStart = itEnd;
+		int32_t itSubEnd   = itEnd;
+		int32_t itLast	   = itEnd;
 		itLast++;
-		for(int it = itBegin; it != itEnd; it--)
+		for(int32_t it = itBegin; it != itEnd; it--)
 		{
 			wchar_t str = testString[it];
 			if(str == L' ')
@@ -508,8 +508,8 @@ public:
 				//命中，该项没有后续项，代表全部命中
 				if(pNewNode->HasMoreElement() == false && pNewNode->IsEnd())
 				{
-					int itReplaceEnd = it;
-					int itReplace	 = itSubStart;
+					int32_t itReplaceEnd = it;
+					int32_t itReplace	 = itSubStart;
 					itReplaceEnd--;
 					for(; itReplace != itReplaceEnd; itReplace--)
 					{
@@ -528,9 +528,9 @@ public:
 					if(itSubEnd != itEnd && itSubStart != itEnd)
 					{
 						//命中的是上一个
-						int itReplaceEnd = itSubEnd;
+						int32_t itReplaceEnd = itSubEnd;
 						itReplaceEnd--;
-						for(int itReplace = itSubStart; itReplace != itReplaceEnd; itReplace--)
+						for(int32_t itReplace = itSubStart; itReplace != itReplaceEnd; itReplace--)
 						{
 							testString[itReplace] = L'*';
 						}
@@ -558,9 +558,9 @@ public:
 				if(itSubEnd != itEnd)
 				{
 					//命中的是上一个
-					int itReplaceEnd = itSubEnd;
+					int32_t itReplaceEnd = itSubEnd;
 					itReplaceEnd--;
-					for(int itReplace = itSubStart; itReplace != itReplaceEnd; itReplace--)
+					for(int32_t itReplace = itSubStart; itReplace != itReplaceEnd; itReplace--)
 					{
 						testString[itReplace] = L'*';
 					}
@@ -684,7 +684,7 @@ public:
 
 			while(EOF != fscanf(fp, "%s\n", szLine))
 			{
-				int nLineSize = (int)strlen(szLine);
+				int32_t nLineSize = (int32_t)strlen(szLine);
 				if(nLineSize > 0 && szLine[nLineSize - 1] == '\r')
 				{
 					szLine[nLineSize - 1] = '0';

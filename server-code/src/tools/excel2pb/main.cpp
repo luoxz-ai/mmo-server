@@ -19,7 +19,7 @@
 #include "get_opt.h"
 #include "xlnt/xlnt.hpp"
 
-void ProtobufLogHandler(google::protobuf::LogLevel level, const char* file, int line, const std::string& msg)
+void ProtobufLogHandler(google::protobuf::LogLevel level, const char* file, int32_t line, const std::string& msg)
 {
 	std::cerr << msg << std::endl;
 }
@@ -60,7 +60,7 @@ int main(int argc, char** argv)
 
 	if(opt.has("--showexecl"))
 	{
-		int x = 0, y = 0;
+		int32_t x = 0, y = 0;
 		for(auto row: rows)
 		{
 

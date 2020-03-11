@@ -249,7 +249,7 @@ void CLoadingThread::OnThreadProcess()
 
 void CLoadingThread::OnMainThreadExec()
 {
-	int nCount = 0;
+	int32_t nCount = 0;
 	while(true)
 	{
 		__ENTER_FUNCTION
@@ -275,7 +275,7 @@ void CLoadingThread::OnMainThreadExec()
 		SAFE_DELETE(pData);
 
 		nCount++;
-		static const int MAX_PROCESS_READY_COUNT = 25;
+		static const int32_t MAX_PROCESS_READY_COUNT = 25;
 		if(nCount > MAX_PROCESS_READY_COUNT)
 		{
 			return;

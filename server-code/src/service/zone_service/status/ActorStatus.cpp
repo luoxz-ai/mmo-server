@@ -120,7 +120,7 @@ void CActorStatus::FillStatusMsg(SC_STATUS_LIST& status_msg)
 	__LEAVE_FUNCTION
 }
 
-bool CActorStatus::AttachStatus(uint16_t idStatusType, UCHAR ucLev, OBJID idCaster, uint32_t nPower, uint32_t nSecs, uint32_t nTimes)
+bool CActorStatus::AttachStatus(uint16_t idStatusType, uint8_t ucLev, OBJID idCaster, uint32_t nPower, uint32_t nSecs, uint32_t nTimes)
 {
 	__ENTER_FUNCTION
 	CStatusType* pNewStatusType = StatusTypeSet()->QueryObj(CStatusType::MakeID(idStatusType, ucLev));
@@ -245,7 +245,7 @@ bool CActorStatus::TestStatusByType(uint32_t nStatusType) const
 {
 	__ENTER_FUNCTION
 	auto it = std::find_if(m_setStatus.begin(), m_setStatus.end(),
-						   [nStatusType](const std::pair<const short unsigned int, CStatus*>& pair_val) -> bool { return pair_val.second->GetType() == nStatusType; });
+						   [nStatusType](const auto& pair_val) -> bool { return pair_val.second->GetType() == nStatusType; });
 	return it != m_setStatus.end();
 	__LEAVE_FUNCTION
 	return false;
@@ -255,7 +255,7 @@ bool CActorStatus::TestStatusByFlag(uint32_t nFlag) const
 {
 	__ENTER_FUNCTION
 	auto it = std::find_if(m_setStatus.begin(), m_setStatus.end(),
-						   [nFlag](const std::pair<const short unsigned int, CStatus*>& pair_val) -> bool { return HasFlag(pair_val.second->GetFlag(), nFlag); });
+						   [nFlag](const auto& pair_val) -> bool { return HasFlag(pair_val.second->GetFlag(), nFlag); });
 	return it != m_setStatus.end();
 	__LEAVE_FUNCTION
 	return false;

@@ -117,7 +117,7 @@ bool CPackage::IsFull(CItem* pItem)
 	return false;
 }
 
-bool CPackage::IsFull(uint32_t idType, uint32_t nAmount, DWORD dwFlag /*= 0*/)
+bool CPackage::IsFull(uint32_t idType, uint32_t nAmount, uint32_t dwFlag /*= 0*/)
 {
 	__ENTER_FUNCTION
 	if(0 == nAmount)
@@ -135,7 +135,7 @@ bool CPackage::IsFull(uint32_t idType, uint32_t nAmount, DWORD dwFlag /*= 0*/)
 	return false;
 }
 
-uint32_t CPackage::GetSpareSpace(uint32_t idType /*=ID_NONE*/, uint32_t nAmount /*=0*/, uint32_t nFillSpace /*=0*/, DWORD dwFlag /*= 0*/)
+uint32_t CPackage::GetSpareSpace(uint32_t idType /*=ID_NONE*/, uint32_t nAmount /*=0*/, uint32_t nFillSpace /*=0*/, uint32_t dwFlag /*= 0*/)
 {
 	__ENTER_FUNCTION
 	if(idType == ID_NONE)
@@ -542,7 +542,7 @@ bool CPackage::CombineItem(uint32_t nGrid1, uint32_t nGrid2)
 	if(pItem1->GetType() != pItem2->GetType())
 		return false;
 
-	DWORD dwNewFlag = pItem1->_GetFlag() | pItem2->_GetFlag();
+	uint32_t dwNewFlag = pItem1->_GetFlag() | pItem2->_GetFlag();
 
 	// item1是目标物品，取得可以容纳的合并数量
 	uint32_t nCombineNum = pItem1->GetCanPileNum();
@@ -639,7 +639,7 @@ bool CPackage::TidyItem()
 			}
 		}
 		// 遍历每个物品进行合并
-		int nCount = 0;
+		int32_t nCount = 0;
 		while(setPileItem.empty() == false)
 		{
 			// 先取出第一个物品
@@ -668,7 +668,7 @@ bool CPackage::TidyItem()
 					else
 					{
 						// 只能合并部分
-						int nCombineAmount = pTargetItem->ItemTypePtr()->GetPileLimit() - pTargetItem->GetPileNum();
+						int32_t nCombineAmount = pTargetItem->ItemTypePtr()->GetPileLimit() - pTargetItem->GetPileNum();
 						pTargetItem->SetPileNum(pTargetItem->ItemTypePtr()->GetPileLimit(), UPDATE_TRUE);
 						bUpdate = true;
 						pItem->DecPileNum(nCombineAmount, UPDATE_TRUE);
@@ -734,7 +734,7 @@ CItem* CPackage::QueryItem(OBJID idItem)
 	return nullptr;
 }
 
-CItem* CPackage::QueryItemByType(uint32_t idType, DWORD dwFlag /*=0*/)
+CItem* CPackage::QueryItemByType(uint32_t idType, uint32_t dwFlag /*=0*/)
 {
 	__ENTER_FUNCTION
 	for(auto it = m_setItem.begin(); it != m_setItem.end(); it++)
@@ -757,7 +757,7 @@ CItem* CPackage::QueryItemByGrid(uint32_t nGrid)
 	return nullptr;
 }
 
-CItem* CPackage::FindCombineItem(uint32_t idType, DWORD dwFlag, uint32_t nAmount)
+CItem* CPackage::FindCombineItem(uint32_t idType, uint32_t dwFlag, uint32_t nAmount)
 {
 	__ENTER_FUNCTION
 	for(auto it = m_setItem.begin(); it != m_setItem.end(); it++)
@@ -772,7 +772,7 @@ CItem* CPackage::FindCombineItem(uint32_t idType, DWORD dwFlag, uint32_t nAmount
 	return nullptr;
 }
 
-bool CPackage::HaveSoManyItem(uint32_t idType, uint32_t nNum, DWORD dwFlag /*=0*/)
+bool CPackage::HaveSoManyItem(uint32_t idType, uint32_t nNum, uint32_t dwFlag /*=0*/)
 {
 	__ENTER_FUNCTION
 	CHECKF(nNum > 0); // 必须确保nNum>0才有意义
@@ -797,7 +797,7 @@ bool CPackage::HaveSoManyItem(uint32_t idType, uint32_t nNum, DWORD dwFlag /*=0*
 	return false;
 }
 
-uint32_t CPackage::DelItemByType(uint32_t idType, uint32_t nNum, DWORD dwFlag /*=0*/, bool bTraceTaskItem /*=true*/)
+uint32_t CPackage::DelItemByType(uint32_t idType, uint32_t nNum, uint32_t dwFlag /*=0*/, bool bTraceTaskItem /*=true*/)
 {
 	__ENTER_FUNCTION
 	CHECKF(nNum > 0); // 必须确保nNum>0才有意义
@@ -865,7 +865,7 @@ uint32_t CPackage::DelItemByType(uint32_t idType, uint32_t nNum, DWORD dwFlag /*
 	return 0;
 }
 
-uint32_t CPackage::GetItemTypeAmount(uint32_t idType, DWORD dwFlag /*=0*/)
+uint32_t CPackage::GetItemTypeAmount(uint32_t idType, uint32_t dwFlag /*=0*/)
 {
 	uint32_t nAmount = 0;
 	__ENTER_FUNCTION

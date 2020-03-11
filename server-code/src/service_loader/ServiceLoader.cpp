@@ -11,7 +11,7 @@
 #include "event2/thread.h"
 #include "loging_manager.h"
 //#include "brpc/global.h"
-void log_cb(int severity, const char* msg)
+void log_cb(int32_t severity, const char* msg)
 {
 	LOGNETERROR("{}", msg);
 }

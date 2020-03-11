@@ -9,7 +9,7 @@ CStatus::CStatus() {}
 
 CStatus::~CStatus() {}
 
-bool CStatus::Init(CActor* pOwner, uint16_t idStatusType, UCHAR ucLevel, OBJID idCaster, uint32_t nPower, uint32_t nSecs, uint32_t nTimes)
+bool CStatus::Init(CActor* pOwner, uint16_t idStatusType, uint8_t ucLevel, OBJID idCaster, uint32_t nPower, uint32_t nSecs, uint32_t nTimes)
 {
 	__ENTER_FUNCTION
 	CStatusType* pStatusType = StatusTypeSet()->QueryObj(CStatusType::MakeID(idStatusType, ucLevel));
@@ -94,7 +94,7 @@ bool CStatus::IsValid() const
 	return false;
 }
 
-int CStatus::GetRemainTime() const
+int32_t CStatus::GetRemainTime() const
 {
 	__ENTER_FUNCTION
 	if(GetTimes() > 0)
@@ -118,7 +118,7 @@ int CStatus::GetRemainTime() const
 	return 0;
 }
 
-void CStatus::AddSecs(int nSecs)
+void CStatus::AddSecs(int32_t nSecs)
 {
 	__ENTER_FUNCTION
 	Pause(false);
@@ -135,7 +135,7 @@ void CStatus::AddSecs(int nSecs)
 	__LEAVE_FUNCTION
 }
 
-void CStatus::AddTimes(int nTimes)
+void CStatus::AddTimes(int32_t nTimes)
 {
 	__ENTER_FUNCTION
 	if(m_pType->GetMaxTimes() - m_info.nTimes > nTimes)
@@ -149,7 +149,7 @@ void CStatus::AddTimes(int nTimes)
 	__LEAVE_FUNCTION
 }
 
-bool CStatus::ChangeData(UCHAR ucLevel, int nPower, int nSecs, int nTimes, OBJID idCaster)
+bool CStatus::ChangeData(uint8_t ucLevel, int32_t nPower, int32_t nSecs, int32_t nTimes, OBJID idCaster)
 {
 	__ENTER_FUNCTION
 	m_info.ucLevel	= ucLevel;

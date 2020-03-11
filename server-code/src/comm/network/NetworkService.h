@@ -77,14 +77,14 @@ public:
 
 	void Destroy();
 	//监听
-	evconnlistener* Listen(const char* addr, int port, CNetEventHandler* pEventHandler);
+	evconnlistener* Listen(const char* addr, int32_t port, CNetEventHandler* pEventHandler);
 	bool			EnableListener(evconnlistener* listener, bool bEnable = false);
 	// http监听
-	bool ListenHttpPort(const char* addr, int port, std::function<void(struct evhttp_request* req)> func);
+	bool ListenHttpPort(const char* addr, int32_t port, std::function<void(struct evhttp_request* req)> func);
 	//阻塞连接到一个目标地址
-	CNetSocket* ConnectTo(const char* addr, int port, CNetEventHandler* pEventHandler);
+	CNetSocket* ConnectTo(const char* addr, int32_t port, CNetEventHandler* pEventHandler);
 	//异步连接到一个目标地址
-	CNetSocket* AsyncConnectTo(const char* addr, int port, CNetEventHandler* pEventHandler);
+	CNetSocket* AsyncConnectTo(const char* addr, int32_t port, CNetEventHandler* pEventHandler);
 	bool		_Reconnect(CNetSocket* pSocket);
 	bool		_AsyncReconnect(CNetSocket* pSocket);
 
@@ -108,11 +108,11 @@ public:
 	MPSCQueue<CNetworkMessage*>& _GetMessageQueue() { return m_MessageQueue; }
 
 public:
-	static void accept_conn_cb(evconnlistener*, int fd, struct sockaddr* addr, int socklen, void* arg);
+	static void accept_conn_cb(evconnlistener*, int32_t fd, struct sockaddr* addr, int32_t socklen, void* arg);
 	static void accept_error_cb(struct evconnlistener*, void* arg);
 	static void http_process_cb(struct evhttp_request* req, void* arg);
 
-	void OnAccept(int fd, struct sockaddr* addr, int, evconnlistener* listener);
+	void OnAccept(int32_t fd, struct sockaddr* addr, int32_t, evconnlistener* listener);
 
 public:
 	event_base* GetEVBase() const { return m_pBase; }
@@ -145,7 +145,7 @@ private:
 public:
 	///////////////////////////////////////////////////////////////////
 	// websocket
-	bool ListenWebSocket(int port, CWebSocketEventHandler* pEventHandler);
+	bool ListenWebSocket(int32_t port, CWebSocketEventHandler* pEventHandler);
 	void StopWebSocket();
 
 	CNetWebSocket* CreateWebSocket();
@@ -158,7 +158,7 @@ public:
 	void	 _PushWebSocketIndexBack(uint16_t index);
 
 	void				  StartWebSocketIOThread();
-	static int			  OnWebSocketCallback(struct lws* wsi, enum lws_callback_reasons reason, void* user, void* in, size_t len);
+	static int32_t			  OnWebSocketCallback(struct lws* wsi, enum lws_callback_reasons reason, void* user, void* in, size_t len);
 	static CNetWebSocket* _GetWebSocketFromLWS(struct lws* wsi);
 	static void			  _SetWebSocketToLWS(struct lws* wsi, CNetWebSocket* pWebSocket);
 

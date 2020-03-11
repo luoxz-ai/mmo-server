@@ -94,7 +94,7 @@ public:
 
 	std::string GetAddrString();
 
-	int GetPort();
+	int32_t GetPort();
 
 	bool SendMsg(byte* pBuffer, size_t len, bool bFlush = true);
 

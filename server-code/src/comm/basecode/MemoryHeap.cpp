@@ -51,9 +51,9 @@ extern "C"
 namespace
 {
 
-inline unsigned int arena_alloc()
+inline uint32_t arena_alloc()
 {
-	unsigned int arena;
+	uint32_t arena;
 	std::size_t	 arena_byte_size = sizeof(arena);
 
 	// Extend number of arenas

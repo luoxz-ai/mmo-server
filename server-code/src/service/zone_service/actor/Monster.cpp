@@ -174,7 +174,7 @@ void CMonster::BeKillBy(CActor* pAttacker)
 	__LEAVE_FUNCTION
 }
 
-void CMonster::OnBeAttack(CActor* pAttacker, int nRealDamage)
+void CMonster::OnBeAttack(CActor* pAttacker, int32_t nRealDamage)
 {
 	__ENTER_FUNCTION
 

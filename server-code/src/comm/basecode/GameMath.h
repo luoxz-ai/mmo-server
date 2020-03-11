@@ -198,25 +198,25 @@ export_lua namespace GameMath
 	}
 
 	//////////////////////////////////////////////////////////////////////
-	export_lua inline void DDALineForeach(int x0, int y0, int x1, int y1, std::function<bool(int, int)> func)
+	export_lua inline void DDALineForeach(int32_t x0, int32_t y0, int32_t x1, int32_t y1, std::function<bool(int32_t, int32_t)> func)
 	{
 		if(x0 == x1 && y0 == y1)
 			return;
 
-		int dx	   = x1 - x0;
-		int dy	   = y1 - y0;
-		int abs_dx = abs(dx);
-		int abs_dy = abs(dy);
+		int32_t dx	   = x1 - x0;
+		int32_t dy	   = y1 - y0;
+		int32_t abs_dx = abs(dx);
+		int32_t abs_dy = abs(dy);
 		if(abs_dx > abs_dy)
 		{
-			int _0_5		= abs_dx * (dy > 0 ? 1 : -1);
-			int numerator	= dy * 2;
-			int denominator = abs_dx * 2;
+			int32_t _0_5		= abs_dx * (dy > 0 ? 1 : -1);
+			int32_t numerator	= dy * 2;
+			int32_t denominator = abs_dx * 2;
 			// x 增益
 			if(dx > 0)
 			{
 				// x0 ++
-				for(int i = 1; i <= abs_dx; i++)
+				for(int32_t i = 1; i <= abs_dx; i++)
 				{
 					if(func(x0 + i, y0 + ((numerator * i + _0_5) / denominator)) == false)
 						return;
@@ -225,7 +225,7 @@ export_lua namespace GameMath
 			else if(dx < 0)
 			{
 				// x0 --
-				for(int i = 1; i <= abs_dx; i++)
+				for(int32_t i = 1; i <= abs_dx; i++)
 				{
 					if(func(x0 - i, y0 + ((numerator * i + _0_5) / denominator)) == false)
 						return;
@@ -234,14 +234,14 @@ export_lua namespace GameMath
 		}
 		else
 		{
-			int _0_5		= abs_dy * (dx > 0 ? 1 : -1);
-			int numerator	= dx * 2;
-			int denominator = abs_dy * 2;
+			int32_t _0_5		= abs_dy * (dx > 0 ? 1 : -1);
+			int32_t numerator	= dx * 2;
+			int32_t denominator = abs_dy * 2;
 			// y 增益
 			if(dy > 0)
 			{
 				// y0 ++
-				for(int i = 1; i <= abs_dy; i++)
+				for(int32_t i = 1; i <= abs_dy; i++)
 				{
 					if(func(x0 + ((numerator * i + _0_5) / denominator), y0 + i) == false)
 						return;
@@ -250,7 +250,7 @@ export_lua namespace GameMath
 			else if(dy < 0)
 			{
 				// y0 --
-				for(int i = 1; i <= abs_dy; i++)
+				for(int32_t i = 1; i <= abs_dy; i++)
 				{
 					if(func(x0 + ((numerator * i + _0_5) / denominator), y0 - i) == false)
 						return;
@@ -259,7 +259,7 @@ export_lua namespace GameMath
 		}
 	}
 
-	export_lua inline void DDALineEx(int x0, int y0, int x1, int y1, std::vector<CPos2D>& setPos)
+	export_lua inline void DDALineEx(int32_t x0, int32_t y0, int32_t x1, int32_t y1, std::vector<CPos2D>& setPos)
 	{
 		setPos.clear();
 		if(x0 == x1 && y0 == y1)
@@ -267,7 +267,7 @@ export_lua namespace GameMath
 
 		setPos.push_back(CPos2D(x0, y0)); // 先把初始点加入
 
-		DDALineForeach(x0, y0, x1, y1, [&setPos](int x, int y) -> bool {
+		DDALineForeach(x0, y0, x1, y1, [&setPos](int32_t x, int32_t y) -> bool {
 			setPos.push_back(CPos2D(x, y));
 			return true;
 		});

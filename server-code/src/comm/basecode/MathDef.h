@@ -24,11 +24,11 @@ public:
 		return f != f;
 	}
 
-	export_lua static inline bool is2Pow(unsigned int target) { return (!(target & (target - 1))); }
+	export_lua static inline bool is2Pow(uint32_t target) { return (!(target & (target - 1))); }
 
-	export_lua static inline int get2Pow(unsigned int target)
+	export_lua static inline int32_t get2Pow(uint32_t target)
 	{
-		int result = -1;
+		int32_t result = -1;
 		if(is2Pow(target) == true)
 		{
 			while(target != 0)
@@ -64,7 +64,7 @@ public:
 	public:
 		CTrigTable()
 		{
-			for(int i = 0; i < nTrigTableSize; ++i)
+			for(int32_t i = 0; i < nTrigTableSize; ++i)
 			{
 				float angle	  = TWO_PI * i / nTrigTableSize;
 				m_SinTable[i] = sin(angle);
@@ -74,14 +74,14 @@ public:
 
 		float SinTable(float fValue)
 		{
-			int idx;
+			int32_t idx;
 			if(fValue >= 0)
 			{
-				idx = int(fValue * m_TrigTableFactor) % nTrigTableSize;
+				idx = int32_t(fValue * m_TrigTableFactor) % nTrigTableSize;
 			}
 			else
 			{
-				idx = nTrigTableSize - (int(-fValue * m_TrigTableFactor) % nTrigTableSize) - 1;
+				idx = nTrigTableSize - (int32_t(-fValue * m_TrigTableFactor) % nTrigTableSize) - 1;
 			}
 
 			return m_SinTable[idx];
@@ -90,12 +90,12 @@ public:
 		float TanTable(float fValue)
 		{
 			// Convert range to index values, wrap if required
-			int idx = int(fValue *= m_TrigTableFactor) % nTrigTableSize;
+			int32_t idx = int32_t(fValue *= m_TrigTableFactor) % nTrigTableSize;
 			return m_TanTable[idx];
 		}
 
 	private:
-		static constexpr int			  m_TrigTableFactor = nTrigTableSize / TWO_PI;
+		static constexpr int32_t			  m_TrigTableFactor = nTrigTableSize / TWO_PI;
 		std::array<float, nTrigTableSize> m_SinTable;
 		std::array<float, nTrigTableSize> m_TanTable;
 	};

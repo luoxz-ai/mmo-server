@@ -14,7 +14,7 @@ public:
 	bool Init(const Cfg_Suit_Row& row)
 	{
 		m_nEquipNum = row.num();
-		for(int i = 0; i < row.attrib_change_list_size(); i++)
+		for(int32_t i = 0; i < row.attrib_change_list_size(); i++)
 		{
 			m_AttribChangeList.push_back(CActorAttribChange(row.attrib_change_list(i)));
 		}

@@ -28,7 +28,7 @@ public:
 
 	using PB_T = Cfg_Monster;
 	uint32_t			GetID() const { return m_Data.id(); }
-	UCHAR				GetLevel() const { return m_Data.level(); }
+	uint8_t				GetLevel() const { return m_Data.level(); }
 	uint32_t			GetType() const { return m_Data.monster_type(); }
 	uint32_t			GetFlag() const { return m_Data.monster_flag(); }
 	uint32_t			GetCampID() const { return m_Data.idcamp(); }

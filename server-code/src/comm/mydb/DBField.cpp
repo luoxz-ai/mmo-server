@@ -231,7 +231,7 @@ bool CDBField::IsDirty() const
 
 CMysqlFieldInfoList::CMysqlFieldInfoList(MYSQL_RES* res)
 {
-	int nFields = mysql_num_fields(res);
+	int32_t nFields = mysql_num_fields(res);
 	for(uint32_t i = 0; i < nFields; i++)
 	{
 		m_FieldInfos.push_back(new MYSQL_FIELD_COPY{mysql_fetch_field(res), i});

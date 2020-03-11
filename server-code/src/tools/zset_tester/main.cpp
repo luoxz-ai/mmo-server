@@ -6,7 +6,7 @@ int main()
 	__ENTER_FUNCTION
 	{
 		CZset test_set;
-		for(int i = 1; i < 1000; i++)
+		for(int32_t i = 1; i < 1000; i++)
 		{
 			test_set.zAdd(i, random_uint32_range(1, 1000));
 			// test_set.zAdd(i, i);

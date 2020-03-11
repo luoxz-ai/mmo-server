@@ -54,7 +54,7 @@ RobotClientManager::~RobotClientManager()
 	SAFE_DELETE(m_pScriptManager);
 }
 
-RobotClient* RobotClientManager::ConnectServer(const char* addr, int port)
+RobotClient* RobotClientManager::ConnectServer(const char* addr, int32_t port)
 {
 	RobotClient* pClient = new RobotClient(this);
 	if(AsyncConnectTo(addr, port, pClient) == nullptr)

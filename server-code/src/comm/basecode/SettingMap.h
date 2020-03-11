@@ -46,29 +46,29 @@ public:
 		return false;
 	}
 
-	bool Query(const std::string& AttName, short& val, int _base = 10) const
+	bool Query(const std::string& AttName, int16_t& val, int32_t _base = 10) const
 	{
 		auto it = m_setAttrib.find(AttName);
 		if(it != m_setAttrib.end())
 		{
-			val = (short)std::stoi(it->second, 0, _base);
+			val = (int16_t)std::stoi(it->second, 0, _base);
 			return true;
 		}
 		return false;
 	}
 
-	bool Query(const std::string& AttName, unsigned short& val, int _base = 10) const
+	bool Query(const std::string& AttName, uint16_t& val, int32_t _base = 10) const
 	{
 		auto it = m_setAttrib.find(AttName);
 		if(it != m_setAttrib.end())
 		{
-			val = (unsigned short)std::stoul(it->second, 0, _base);
+			val = (uint16_t)std::stoul(it->second, 0, _base);
 			return true;
 		}
 		return false;
 	}
 
-	bool Query(const std::string& AttName, int& val, int _base = 10) const
+	bool Query(const std::string& AttName, int32_t& val, int32_t _base = 10) const
 	{
 		auto it = m_setAttrib.find(AttName);
 		if(it != m_setAttrib.end())
@@ -79,7 +79,7 @@ public:
 		return false;
 	}
 
-	bool Query(const std::string& AttName, unsigned int& val, int _base = 10) const
+	bool Query(const std::string& AttName, uint32_t& val, int32_t _base = 10) const
 	{
 		auto it = m_setAttrib.find(AttName);
 		if(it != m_setAttrib.end())
@@ -90,29 +90,8 @@ public:
 		return false;
 	}
 
-	bool Query(const std::string& AttName, long& val, int _base = 10) const
-	{
-		auto it = m_setAttrib.find(AttName);
-		if(it != m_setAttrib.end())
-		{
-			val = std::stol(it->second, 0, _base);
-			return true;
-		}
-		return false;
-	}
 
-	bool Query(const std::string& AttName, unsigned long& val, int _base = 10) const
-	{
-		auto it = m_setAttrib.find(AttName);
-		if(it != m_setAttrib.end())
-		{
-			val = std::stoul(it->second, 0, _base);
-			return true;
-		}
-		return false;
-	}
-
-	bool Query(const std::string& AttName, long long& val, int _base = 10) const
+	bool Query(const std::string& AttName, int64_t& val, int32_t _base = 10) const
 	{
 		auto it = m_setAttrib.find(AttName);
 		if(it != m_setAttrib.end())
@@ -123,7 +102,7 @@ public:
 		return false;
 	}
 
-	bool Query(const std::string& AttName, unsigned long long& val, int _base = 10) const
+	bool Query(const std::string& AttName, uint64_t& val, int32_t _base = 10) const
 	{
 		auto it = m_setAttrib.find(AttName);
 		if(it != m_setAttrib.end())
@@ -168,9 +147,9 @@ public:
 		return false;
 	}
 
-	int QueryInt(const std::string& AttName, int _base = 10) const
+	int32_t QueryInt(const std::string& AttName, int32_t _base = 10) const
 	{
-		int	 val = 0;
+		int32_t	 val = 0;
 		auto it	 = m_setAttrib.find(AttName);
 		if(it != m_setAttrib.end() && it->second.empty() == false)
 		{
@@ -204,7 +183,7 @@ public:
 		return val;
 	}
 
-	long QueryLong(const std::string& AttName, int _base = 10) const
+	long QueryLong(const std::string& AttName, int32_t _base = 10) const
 	{
 		long val = 0;
 		auto it	 = m_setAttrib.find(AttName);
@@ -216,7 +195,7 @@ public:
 		return val;
 	}
 
-	unsigned long QueryULong(const std::string& AttName, int _base = 10) const
+	unsigned long QueryULong(const std::string& AttName, int32_t _base = 10) const
 	{
 		unsigned long val = 0;
 		auto		  it  = m_setAttrib.find(AttName);
@@ -228,9 +207,9 @@ public:
 		return val;
 	}
 
-	long long QueryLongLong(const std::string& AttName, int _base = 10) const
+	int64_t QueryLongLong(const std::string& AttName, int32_t _base = 10) const
 	{
-		long long val = 0;
+		int64_t val = 0;
 		auto	  it  = m_setAttrib.find(AttName);
 		if(it != m_setAttrib.end() && it->second.empty() == false)
 		{
@@ -240,9 +219,9 @@ public:
 		return val;
 	}
 
-	unsigned long long QueryULongLong(const std::string& AttName, int _base = 10) const
+	int64_t QueryULongLong(const std::string& AttName, int32_t _base = 10) const
 	{
-		unsigned long long val = 0;
+		int64_t val = 0;
 		auto			   it  = m_setAttrib.find(AttName);
 		if(it != m_setAttrib.end() && it->second.empty() == false)
 		{

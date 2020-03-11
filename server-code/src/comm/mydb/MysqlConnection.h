@@ -46,7 +46,7 @@ public:
 							const std::string& user,
 							const std::string& password,
 							const std::string& db,
-							unsigned int	   port,
+							uint32_t	   port,
 							unsigned long	   client_flag	= 0,
 							bool			   bCreateAsync = false);
 	CMysqlStmt*		Prepare(const std::string& s);
@@ -62,7 +62,7 @@ public:
 	CDBFieldInfoListPtr QueryFieldInfo(const std::string& s, MYSQL_RES* res);
 	void				_AddFieldInfo(const std::string& s, CDBFieldInfoListPtr ptr);
 	MYSQL*				_GetHandle() const { return m_pHandle.get(); }
-	bool				EscapeString(char* pszDst, const char* pszSrc, int nLen);
+	bool				EscapeString(char* pszDst, const char* pszSrc, int32_t nLen);
 
 	template<class T>
 	bool CheckTable()
@@ -136,7 +136,7 @@ public:
 public:
 	operator bool() { return !!m_pMysqlStmt; }
 
-	void _BindParam(int i, enum_field_types buffer_type, void* buffer, int buffer_length, my_bool* is_null, long unsigned int* length)
+	void _BindParam(int32_t i, enum_field_types buffer_type, void* buffer, int32_t buffer_length, my_bool* is_null, uint64_t* length)
 	{
 		MYSQL_BIND& b	= m_Params[i];
 		b.buffer_type	= buffer_type;
@@ -146,11 +146,11 @@ public:
 		b.length		= length;
 	}
 
-	void BindParam(int i, const int& x) { _BindParam(i, MYSQL_TYPE_LONG, (char*)&x, 0, 0, 0); }
+	void BindParam(int32_t i, const int32_t& x) { _BindParam(i, MYSQL_TYPE_LONG, (char*)&x, 0, 0, 0); }
 
-	void BindParam(int i, const long long& x) { _BindParam(i, MYSQL_TYPE_LONGLONG, (char*)&x, 0, 0, 0); }
+	void BindParam(int32_t i, const int64_t& x) { _BindParam(i, MYSQL_TYPE_LONGLONG, (char*)&x, 0, 0, 0); }
 
-	void BindParam(int i, const std::string& x) { _BindParam(i, MYSQL_TYPE_STRING, (char*)x.c_str(), x.size(), 0, &(m_Params[i].buffer_length)); }
+	void BindParam(int32_t i, const std::string& x) { _BindParam(i, MYSQL_TYPE_STRING, (char*)x.c_str(), x.size(), 0, &(m_Params[i].buffer_length)); }
 
 	template<class... Args>
 	void Execute(Args&&... args)
@@ -173,14 +173,14 @@ public:
 	}*/
 
 	template<class T, class... Args>
-	void _Execute(int n, const T& x, Args&&... args)
+	void _Execute(int32_t n, const T& x, Args&&... args)
 	{
 		BindParam(n, x);
 		_Execute(n + 1, std::forward<Args>(args)...);
 	}
 
 	// base case
-	void _Execute(int n) {}
+	void _Execute(int32_t n) {}
 
 private:
 	MYSQL_STMT_PTR				  m_pMysqlStmt;

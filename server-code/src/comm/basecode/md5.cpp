@@ -6,8 +6,8 @@
 
 typedef struct
 {
-	unsigned int  state[4];
-	unsigned int  count[2];
+	uint32_t  state[4];
+	uint32_t  count[2];
 	unsigned char buffer[64];
 } MD5Context;
 
@@ -47,37 +47,37 @@ static unsigned char PADDING[64] = {0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 
 #define FF(a, b, c, d, x, s, ac)                            \
 	{                                                       \
-		(a) += F((b), (c), (d)) + (x) + (unsigned int)(ac); \
+		(a) += F((b), (c), (d)) + (x) + (uint32_t)(ac); \
 		(a) = ROTATE_LEFT((a), (s));                        \
 		(a) += (b);                                         \
 	}
 
 #define GG(a, b, c, d, x, s, ac)                            \
 	{                                                       \
-		(a) += G((b), (c), (d)) + (x) + (unsigned int)(ac); \
+		(a) += G((b), (c), (d)) + (x) + (uint32_t)(ac); \
 		(a) = ROTATE_LEFT((a), (s));                        \
 		(a) += (b);                                         \
 	}
 
 #define HH(a, b, c, d, x, s, ac)                            \
 	{                                                       \
-		(a) += H((b), (c), (d)) + (x) + (unsigned int)(ac); \
+		(a) += H((b), (c), (d)) + (x) + (uint32_t)(ac); \
 		(a) = ROTATE_LEFT((a), (s));                        \
 		(a) += (b);                                         \
 	}
 
 #define II(a, b, c, d, x, s, ac)                            \
 	{                                                       \
-		(a) += I((b), (c), (d)) + (x) + (unsigned int)(ac); \
+		(a) += I((b), (c), (d)) + (x) + (uint32_t)(ac); \
 		(a) = ROTATE_LEFT((a), (s));                        \
 		(a) += (b);                                         \
 	}
 
-static void MD5_Encode(unsigned char* output, unsigned int* input, int len)
+static void MD5_Encode(unsigned char* output, uint32_t* input, int32_t len)
 {
-	unsigned int i, j;
+	uint32_t i, j;
 
-	for(i = 0, j = 0; j < (unsigned int)len; i++, j += 4)
+	for(i = 0, j = 0; j < (uint32_t)len; i++, j += 4)
 	{
 		output[j]	  = (unsigned char)(input[i] & 0xff);
 		output[j + 1] = (unsigned char)((input[i] >> 8) & 0xff);
@@ -86,19 +86,19 @@ static void MD5_Encode(unsigned char* output, unsigned int* input, int len)
 	}
 }
 
-static void MD5_Decode(unsigned int* output, unsigned char* input, int len)
+static void MD5_Decode(uint32_t* output, unsigned char* input, int32_t len)
 {
-	unsigned int i, j;
+	uint32_t i, j;
 
-	for(i = 0, j = 0; j < (unsigned int)len; i++, j += 4)
+	for(i = 0, j = 0; j < (uint32_t)len; i++, j += 4)
 	{
-		output[i] = ((unsigned int)input[j]) | (((unsigned int)input[j + 1]) << 8) | (((unsigned int)input[j + 2]) << 16) | (((unsigned int)input[j + 3]) << 24);
+		output[i] = ((uint32_t)input[j]) | (((uint32_t)input[j + 1]) << 8) | (((uint32_t)input[j + 2]) << 16) | (((uint32_t)input[j + 3]) << 24);
 	}
 }
 
-static void MD5_Transform(unsigned int state[4], unsigned char block[64])
+static void MD5_Transform(uint32_t state[4], unsigned char block[64])
 {
-	unsigned int a = state[0], b = state[1], c = state[2], d = state[3], x[16];
+	uint32_t a = state[0], b = state[1], c = state[2], d = state[3], x[16];
 
 	MD5_Decode(x, block, 64);
 
@@ -192,25 +192,25 @@ void MD5_Init(MD5Context* context)
 	context->state[3] = 0x10325476;
 }
 
-void MD5_Update(MD5Context* context, unsigned char* buf, int len)
+void MD5_Update(MD5Context* context, unsigned char* buf, int32_t len)
 {
-	unsigned int i, index, partLen;
+	uint32_t i, index, partLen;
 
-	index = (unsigned int)((context->count[0] >> 3) & 0x3F);
+	index = (uint32_t)((context->count[0] >> 3) & 0x3F);
 
-	if((context->count[0] += ((unsigned int)len << 3)) < ((unsigned int)len << 3))
+	if((context->count[0] += ((uint32_t)len << 3)) < ((uint32_t)len << 3))
 		context->count[1]++;
 
-	context->count[1] += ((unsigned int)len >> 29);
+	context->count[1] += ((uint32_t)len >> 29);
 
 	partLen = 64 - index;
 
-	if((unsigned int)len >= partLen)
+	if((uint32_t)len >= partLen)
 	{
 		memcpy((char*)&context->buffer[index], (char*)buf, partLen);
 		MD5_Transform(context->state, context->buffer);
 
-		for(i = partLen; i + 63 < (unsigned int)len; i += 64)
+		for(i = partLen; i + 63 < (uint32_t)len; i += 64)
 			MD5_Transform(context->state, &buf[i]);
 
 		index = 0;
@@ -226,11 +226,11 @@ void MD5_Update(MD5Context* context, unsigned char* buf, int len)
 void MD5_Final(MD5Context* context, unsigned char digest[16])
 {
 	unsigned char bits[8];
-	unsigned int  index, padLen;
+	uint32_t  index, padLen;
 
 	MD5_Encode(bits, context->count, 8);
 
-	index  = (unsigned int)((context->count[0] >> 3) & 0x3f);
+	index  = (uint32_t)((context->count[0] >> 3) & 0x3f);
 	padLen = (index < 56) ? (56 - index) : (120 - index);
 	MD5_Update(context, PADDING, padLen);
 
@@ -241,33 +241,33 @@ void MD5_Final(MD5Context* context, unsigned char digest[16])
 	memset((char*)context, 0, sizeof(*context));
 }
 
-void GetMD5Code(BYTE* pBuf, int nSize, char pCode[34])
+void GetMD5Code(BYTE* pBuf, int32_t nSize, char pCode[34])
 {
 	MD5Context	  context;
 	unsigned char buff[16];
 	MD5_Init(&context);
 	MD5_Update(&context, pBuf, nSize);
 	MD5_Final(&context, buff);
-	for(int j = 0; j < 16; j++)
+	for(int32_t j = 0; j < 16; j++)
 	{
 		pCode[j * 2]	 = HEX[(buff[j] & 0xF0) >> 4];
 		pCode[j * 2 + 1] = HEX[(buff[j] & 0xF)];
 	}
 	pCode[32] = 0;
-	// 	for(int j = 0;j < 16; j++){
+	// 	for(int32_t j = 0;j < 16; j++){
 	// 		sprintf_s(pCode + j * 2, 34, "%x", (buff[j] & 0xF0)>>4);
 	// 		sprintf_s(pCode + j * 2 + 1, 34, "%x", buff[j] & 0x0F);
 	// 	}
 }
 
-void GetMD5CodeBig(BYTE* pBuf, int nSize, char pCode[34])
+void GetMD5CodeBig(BYTE* pBuf, int32_t nSize, char pCode[34])
 {
 	MD5Context	  context;
 	unsigned char buff[16];
 	MD5_Init(&context);
 	MD5_Update(&context, pBuf, nSize);
 	MD5_Final(&context, buff);
-	for(int j = 0; j < 16; j++)
+	for(int32_t j = 0; j < 16; j++)
 	{
 		pCode[j * 2]	 = HEX_BIG[(buff[j] & 0xF0) >> 4];
 		pCode[j * 2 + 1] = HEX_BIG[(buff[j] & 0xF)];

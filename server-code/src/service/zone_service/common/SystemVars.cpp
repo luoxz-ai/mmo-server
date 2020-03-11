@@ -324,7 +324,7 @@ void CSystemVarSet::SyncToClient(CPlayer* pPlayer)
 			pData->set_str2(pSysvars->GetStr(2));
 			pData->set_str3(pSysvars->GetStr(3));
 
-			static const int MAX_DATA_PER_MSG = 64;
+			static const int32_t MAX_DATA_PER_MSG = 64;
 			if(msg.datalist_size() > MAX_DATA_PER_MSG)
 			{
 				pPlayer->SendMessage(CMD_SC_SYSVAR, msg);

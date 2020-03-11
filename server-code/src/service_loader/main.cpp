@@ -54,7 +54,7 @@ extern "C"
 //	return je_malloc(size);
 //}
 
-void ProtobufLogHandler(google::protobuf::LogLevel level, const char* file, int line, const std::string& msg)
+void ProtobufLogHandler(google::protobuf::LogLevel level, const char* file, int32_t line, const std::string& msg)
 {
 	LOGERROR("PBError: {} in {}:{}", msg.c_str(), file, line);
 }
@@ -79,7 +79,7 @@ ServiceLoader*			   g_pLoader;
 std::unique_ptr<file_lock> plock;
 std::mutex				   g_tem_mutex;
 //////////////////////////////////////////////////////////////////////////
-void sig_term(int signo)
+void sig_term(int32_t signo)
 {
 	__ENTER_FUNCTION
 	std::unique_lock<std::mutex> lock(g_tem_mutex, std::try_to_lock);
@@ -102,9 +102,9 @@ void sig_term(int signo)
 	// std::quick_exit(1);
 }
 
-// int daemon_init()
+// int32_t daemon_init()
 //{
-//	int		i;
+//	int32_t		i;
 //	pid_t	pid;
 //
 //	if ((pid = fork()) < 0)

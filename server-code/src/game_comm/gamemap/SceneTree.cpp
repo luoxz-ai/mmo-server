@@ -2,7 +2,7 @@
 
 #include "GameMap.h"
 #include "SceneObject.h"
-static const int CONST_SCENE_NODE_GRIDRANGE = 30;
+static const int32_t CONST_SCENE_NODE_GRIDRANGE = 30;
 
 CSceneTree::CSceneTree() {}
 

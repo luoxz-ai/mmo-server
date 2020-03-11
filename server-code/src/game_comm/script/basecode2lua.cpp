@@ -107,18 +107,20 @@ void basecode2lua(lua_State* L)
 	lua_tinker::class_def<CMyTimer>(L, "GetTimeOut", &CMyTimer::GetTimeOut);
 	lua_tinker::class_def<CMyTimer>(L, "IncInterval", &CMyTimer::IncInterval);
 	lua_tinker::class_def<CMyTimer>(L, "IsActive", &CMyTimer::IsActive);
-	lua_tinker::class_def<CMyTimer>(L, "IsTimeOut",
-									lua_tinker::args_type_overload_member_functor(lua_tinker::make_member_functor_ptr((bool (CMyTimer::*)())(&CMyTimer::IsTimeOut)),
-																				  lua_tinker::make_member_functor_ptr((bool (CMyTimer::*)(int))(&CMyTimer::IsTimeOut))));
+	lua_tinker::class_def<CMyTimer>(
+		L, "IsTimeOut",
+		lua_tinker::args_type_overload_member_functor(lua_tinker::make_member_functor_ptr((bool (CMyTimer::*)())(&CMyTimer::IsTimeOut)),
+													  lua_tinker::make_member_functor_ptr((bool (CMyTimer::*)(int32_t))(&CMyTimer::IsTimeOut))));
 	lua_tinker::class_def<CMyTimer>(L, "SetInterval", &CMyTimer::SetInterval);
 	lua_tinker::class_def<CMyTimer>(L, "Startup", &CMyTimer::Startup);
 	lua_tinker::class_def<CMyTimer>(L, "TimeOver", &CMyTimer::TimeOver);
 	lua_tinker::class_def<CMyTimer>(L, "ToNextTick", &CMyTimer::ToNextTick);
-	lua_tinker::class_def<CMyTimer>(L, "ToNextTime",
-									lua_tinker::args_type_overload_member_functor(lua_tinker::make_member_functor_ptr((bool (CMyTimer::*)())(&CMyTimer::ToNextTime)),
-																				  lua_tinker::make_member_functor_ptr((bool (CMyTimer::*)(int))(&CMyTimer::ToNextTime))));
+	lua_tinker::class_def<CMyTimer>(
+		L, "ToNextTime",
+		lua_tinker::args_type_overload_member_functor(lua_tinker::make_member_functor_ptr((bool (CMyTimer::*)())(&CMyTimer::ToNextTime)),
+													  lua_tinker::make_member_functor_ptr((bool (CMyTimer::*)(int32_t))(&CMyTimer::ToNextTime))));
 	lua_tinker::class_def<CMyTimer>(L, "Update", &CMyTimer::Update);
-	lua_tinker::class_con<CMyTimer>(L, lua_tinker::constructor<CMyTimer, int>::invoke, 0);
+	lua_tinker::class_con<CMyTimer>(L, lua_tinker::constructor<CMyTimer, int32_t>::invoke, 0);
 	lua_tinker::class_add<FloatRect>(L, "FloatRect", true);
 	lua_tinker::class_def<FloatRect>(L, "height", &FloatRect::height);
 	lua_tinker::class_def<FloatRect>(L, "isIntersect", &FloatRect::isIntersect);

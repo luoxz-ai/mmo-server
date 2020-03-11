@@ -46,7 +46,7 @@ CNetworkMessage::CNetworkMessage(
 	, m_pBuf(nullptr)
 	, m_nBufSize(0)
 {
-	int nDataSize = msg.ByteSizeLong();
+	int32_t nDataSize = msg.ByteSizeLong();
 	AllocBuffer(nDataSize + sizeof(MSG_HEAD));
 	msg.SerializeToArray(GetMsgBody(), nDataSize);
 

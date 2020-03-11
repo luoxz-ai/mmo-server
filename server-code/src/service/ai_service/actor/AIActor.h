@@ -66,7 +66,7 @@ protected:
 	virtual void AOIProcessActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_MAP& mapAllViewActor) override;
 	virtual void AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
 											  BROADCAST_SET&	   setBCActor,
-											  int				   nCanReserveDelCount,
+											  int32_t				   nCanReserveDelCount,
 											  uint32_t			   view_range_out_square) override;
 	virtual bool IsNeedAddToBroadCastSet(CSceneObject* pActor) override;
 

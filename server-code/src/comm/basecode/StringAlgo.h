@@ -95,7 +95,7 @@ OI remove_sub_sequence(OI first1, OI last1, II first2, II last2)
 {
 	OI		  r1 = std::search(first1, last1, first2, last2);
 	OI		  w = r1, r2 = r1;
-	const int nDiff = std::distance(first2, last2);
+	const int32_t nDiff = std::distance(first2, last2);
 	while(r2 != last1)
 	{
 		std::advance(r1, nDiff);					// ignore [first2, last2)

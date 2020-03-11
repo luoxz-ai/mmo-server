@@ -88,10 +88,10 @@ public:
 	void FullGC();
 
 public:
-	int	 GetLuaGCStep() const { return m_nLuaGCStep; }
-	void SetLuaGCStep(int val) { m_nLuaGCStep = val; }
-	int	 GetLuaGCStepTick() const { return m_nLuaGCStepTick; }
-	void SetLuaGCStepTick(int val) { m_nLuaGCStepTick = val; }
+	int32_t	 GetLuaGCStep() const { return m_nLuaGCStep; }
+	void SetLuaGCStep(int32_t val) { m_nLuaGCStep = val; }
+	int32_t	 GetLuaGCStepTick() const { return m_nLuaGCStepTick; }
+	void SetLuaGCStepTick(int32_t val) { m_nLuaGCStepTick = val; }
 
 public:
 	template<typename RVal, typename... Args>
@@ -156,8 +156,8 @@ public:
 
 private:
 	lua_State* m_pLua;
-	int		   m_nLuaGCStep;	  //每次GCStep执行几步GC
-	int		   m_nLuaGCStepTick;  //每多少Tick执行1次GCStep
+	int32_t		   m_nLuaGCStep;	  //每次GCStep执行几步GC
+	int32_t		   m_nLuaGCStepTick;  //每多少Tick执行1次GCStep
 	time_t	   m_tNextGCStepTime; //下1次执行GC的Time
 
 	std::string		 m_search_path;
@@ -180,7 +180,7 @@ lua_tinker使用：
 //向lua中设置一个全局变量,尽量不要,保持脚本干净
 lua_tinker::set(L, "g_test", &g_test);
 //从lua中获取一个全局变量
-int lua_int = lua_tinker::get<int>(L, "lua_int");
+int32_t lua_int = lua_tinker::get<int32_t>(L, "lua_int");
 
 //将test函数注册给lua,命名为ctest
 lua_tinker::def(L, "ctest", test);
@@ -194,7 +194,7 @@ lua_tinker::class_add<LUAScript>(m_pLua, "LUAScript");
 lua_tinker::class_inh<LUAScript2, LUAScript>(L);
 //注册类构造函数,一般来说没必要在lua中产生c++对象,因为内存管理不同步,
 //可以用在struct上,比如Vector2,Point之类的
-lua_tinker::class_con<Vector2>(L,lua_tinker::constructor<int,int>());
+lua_tinker::class_con<Vector2>(L,lua_tinker::constructor<int32_t,int32_t>());
 //向lua中注册一个类成员函数LUAScript::Reload
 lua_tinker::class_def<LUAScript>(L, "Reload", &LUAScript::Reload);
 //向lua中注册一个成员变量

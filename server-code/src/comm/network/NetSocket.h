@@ -76,7 +76,7 @@ public:
 	void _OnReceive(bufferevent* b);
 	void _OnClose(short what);
 
-	static void _OnReconnect(int fd, short what, void* ctx);
+	static void _OnReconnect(int32_t fd, short what, void* ctx);
 	static void _OnSocketRead(bufferevent*, void* ctx);
 	static void _OnSendOK(bufferevent* b, void* ctx);
 	static void _OnSocketEvent(bufferevent*, short, void* ctx);
@@ -90,7 +90,7 @@ public:
 	NET_SOCKET_STATUS GetStatus() const { return m_Status; }
 	void			  SetStatus(NET_SOCKET_STATUS val) { m_Status = val; }
 
-	void SetAddrAndPort(const char* addr, int port);
+	void SetAddrAndPort(const char* addr, int32_t port);
 
 	SOCKET		GetSocket() const { return m_socket; }
 	void		SetSocket(SOCKET val) { m_socket = val; }
@@ -99,12 +99,12 @@ public:
 	std::string GetAddrString() const { return m_strAddr; }
 	uint64_t	GetAddr() const { return m_addr; }
 	void		SetAddr(const std::string& val);
-	int			GetPort() const { return m_nPort; }
-	void		SetPort(int val) { m_nPort = val; }
+	int32_t			GetPort() const { return m_nPort; }
+	void		SetPort(int32_t val) { m_nPort = val; }
 	size_t		GetReconnectTimes() const { return m_nReconnectTimes; }
 	void		SetReconnectTimes(size_t val) { m_nReconnectTimes = val; }
-	int			GetRecvTimeOutSec() const { return m_nRecvTimeOutSec; }
-	void		SetRecvTimeOutSec(int val) { m_nRecvTimeOutSec = val; }
+	int32_t			GetRecvTimeOutSec() const { return m_nRecvTimeOutSec; }
+	void		SetRecvTimeOutSec(int32_t val) { m_nRecvTimeOutSec = val; }
 	size_t		GetLogWriteHighWateMark() const { return m_nLogWriteHighWateMark; }
 	void		SetLogWriteHighWateMark(size_t val) { m_nLogWriteHighWateMark = val; }
 	size_t		GetWaitWriteSize();
@@ -124,7 +124,7 @@ protected:
 
 	bool		m_bPassive;
 	std::string m_strAddr;
-	int			m_nPort;
+	int32_t			m_nPort;
 	uint64_t	m_addr;
 
 	SOCKET	 m_socket;
@@ -134,7 +134,7 @@ protected:
 
 	NET_SOCKET_STATUS m_Status;
 	size_t			  m_nReconnectTimes;
-	int				  m_nRecvTimeOutSec;
+	int32_t				  m_nRecvTimeOutSec;
 
 	bool		   m_bCreateByListener;
 	CDecryptor*	   m_pDecryptor;

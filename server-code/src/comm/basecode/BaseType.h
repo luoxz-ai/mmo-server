@@ -34,31 +34,14 @@
 #include <sys/time.h>
 #include <sys/types.h>
 
-typedef long unsigned int size_t;
-
 using float32_t = float;
 using float64_t = double;
 
 using byte = unsigned char;
-
-using VOID	 = void;
-using UCHAR	 = unsigned char;
-using CHAR	 = char;
-using UINT	 = unsigned int;
-using INT	 = int;
-using USHORT = unsigned short;
-using SHORT	 = short;
-using ULONG	 = unsigned long;
-using LONG	 = long;
-using FLOAT	 = float;
-
 using BYTE	= uint8_t;
-using WORD	= uint16_t;
-using DWORD = uint32_t;
 
 using OBJID = uint64_t;
 
-using BOOL = int;
 
 using HMODULE = void*;
 using HANDLE  = void*;
