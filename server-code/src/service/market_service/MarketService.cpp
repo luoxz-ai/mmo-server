@@ -56,9 +56,9 @@ bool CMarketService::Create()
 		tls_pService = nullptr;
 	};
 
-	BaseCode::SetNdc(GetServiceName());
-	scope_exit += []() {
-		BaseCode::SetNdc(std::string());
+	auto oldNdc = BaseCode::SetNdc(GetServiceName());
+	scope_exit += [oldNdc]() {
+		BaseCode::SetNdc(oldNdc);;
 	};
 
 	if(CreateService(20) == false)
@@ -95,4 +95,4 @@ void CMarketService::OnLogicThreadCreate()
 	CServiceCommon::OnLogicThreadCreate();
 }
 
-void CMarketService::OnLogicThreadExit() {}
+void CMarketService::OnLogicThreadExit() {CServiceCommon::OnLogicThreadExit();}

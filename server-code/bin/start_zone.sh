@@ -13,4 +13,7 @@ cd binary
 ln -sf ../service_loader zone_${serverid}
 cd -
 
-${DIR_file}/binary/zone_${serverid} --worldid=$serverid --start -d --logpath=/data/log/zone_$serverid
+export ASAN_OPTIONS=include_if_exists=${DIR_file}/asan_options
+export LSAN_OPTIONS=include_if_exists=${DIR_file}/lsan_options
+
+${DIR_file}/binary/zone_${serverid} --worldid=$serverid --start --logpath=/data/log/zone_$serverid -d

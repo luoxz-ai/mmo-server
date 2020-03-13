@@ -338,10 +338,9 @@ public:
 
 		// char szLine[1024] = "";
 		int32_t nIdx = 1;
-		char	szFileName[256];
-		strcpy(szFileName, filename);
+		std::string szFileName(filename);
 		FILE* fp = NULL;
-		while(fopen_s(&fp, szFileName, "r") != nullptr)
+		while(fopen_s(&fp, szFileName.c_str(), "r") != nullptr)
 		{
 			char szLine[1024] = "";
 
@@ -365,7 +364,7 @@ public:
 			}
 
 			fclose(fp);
-			fmt::format_to_n(szFileName, 256, "pingbi/pingbi{}.txt", nIdx++);
+			szFileName = fmt::format("pingbi/pingbi{}.txt", nIdx++);
 		}
 	}
 

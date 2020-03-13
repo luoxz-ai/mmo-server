@@ -13,6 +13,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+#include <utility>
 
 #include <dirent.h>
 #include <stdarg.h>
@@ -23,7 +24,7 @@
 #include "GameMath.h"
 #include "StringAlgo.h"
 #include "export_lua.h"
-#include "loging_manager.h"
+#include "LoggingMgr.h"
 
 export_lua enum SYNC_TYPE { SYNC_FALSE, SYNC_TRUE, SYNC_ALL, SYNC_ALL_DELAY };
 
@@ -263,11 +264,11 @@ export_lua inline BYTE toHex(const BYTE& x)
 	{                    \
 		try              \
 		{
-#define __LEAVE_FUNCTION                                                               \
-	}                                                                                  \
-	catch(const std::runtime_error& e) { LOGASSERT("catch_execpetion:{}", e.what()); } \
-	catch(const std::exception& e) { LOGASSERT("catch_execpetion:{}", e.what()); }     \
-	catch(...) { LOGASSERT("catch_error"); }                                           \
+#define __LEAVE_FUNCTION                                                               	  \
+		}                                                                                  \
+		catch(const std::runtime_error& e) { LOGASSERT("catch_execpetion:{}", e.what()); DumpStackFile(CallFrameMap(1)); } \
+		catch(const std::exception& e) { LOGASSERT("catch_execpetion:{}", e.what()); DumpStackFile(CallFrameMap(1)); }     \
+		catch(...) { LOGASSERT("catch_error"); }                                           \
 	}
 
 // a*b/c

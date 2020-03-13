@@ -110,7 +110,7 @@ public:
 	export_lua const Cfg_Scene_LeavePoint_Row* GetLeavePointByIdx(uint32_t idx) const;
 	void									   _setLeavePoint(const Cfg_Scene_LeavePoint_Row& iter);
 
-	export_lua auto	 GetRebornData() const { return m_RebornDataSet; }
+	export_lua const auto&	 GetRebornData() const { return m_RebornDataSet; }
 	export_lua const Cfg_Scene_Reborn_Row* GetRebornDataByIdx(uint32_t idx) const
 	{
 		auto it = m_RebornDataSet.find(idx);
@@ -121,9 +121,9 @@ public:
 	}
 	void _AddRebornData(const Cfg_Scene_Reborn_Row& iter);
 
-	export_lua auto	 GetGeneratorData() const { return m_MonsterGeneratorList; }
+	export_lua const auto&	GetGeneratorData() const { return m_MonsterGeneratorList; }
 	void			 _AddMonsterGenerator(const Cfg_Scene_MonsterGenerator_Row& iter);
-	export_lua auto	 GetPatrolData() const { return m_PatrolSet; }
+	export_lua const auto&	GetPatrolData() const { return m_PatrolSet; }
 	export_lua const Cfg_Scene_Patrol_Row* GetPatrolDataByIdx(uint32_t idx) const
 	{
 		auto it = m_PatrolSet.find(idx);

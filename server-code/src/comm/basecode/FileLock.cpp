@@ -10,7 +10,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#include "loging_manager.h"
+#include "LoggingMgr.h"
 
 file_lock::file_lock(const std::string& programname)
 {

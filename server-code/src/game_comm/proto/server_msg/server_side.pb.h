@@ -233,9 +233,10 @@ inline bool SystemVarChange_SystemVarChangeType_Parse(
 }
 enum OMsgID : int {
   OMSGID_NONE = 0,
-  MsgID_ServiceCmd = 20000,
-  MsgID_ServiceHttpRequest = 20001,
-  MsgID_ServiceHttpResponse = 20002,
+  MsgID_BEGIN = 20000,
+  MsgID_ServiceCmd = 20001,
+  MsgID_ServiceHttpRequest = 20002,
+  MsgID_ServiceHttpResponse = 20003,
   MsgID_ServiceReady = 20010,
   MsgID_PlayerEnterZone = 20021,
   MsgID_PlayerChangeZone = 20022,
@@ -266,12 +267,13 @@ enum OMsgID : int {
   MsgID_TeamMemberInfo = 20119,
   MsgID_TeamAddMember = 20120,
   MsgID_TeamDelMember = 20121,
+  MsgID_END = 30000,
   OMsgID_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   OMsgID_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
 bool OMsgID_IsValid(int value);
 constexpr OMsgID OMsgID_MIN = OMSGID_NONE;
-constexpr OMsgID OMsgID_MAX = MsgID_TeamDelMember;
+constexpr OMsgID OMsgID_MAX = MsgID_END;
 constexpr int OMsgID_ARRAYSIZE = OMsgID_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* OMsgID_descriptor();

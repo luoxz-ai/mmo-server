@@ -1,13 +1,28 @@
 #include "GMManager.h"
 #include "Player.h"
 
-void OnGMCMD_help(CPlayer* pPlayer, const std::vector<std::string>& vecCMD)
+struct GMCMDRegister
+{
+	GMCMDRegister(const std::string& cmd, CGMManager::GMCmdHandle&& handle)
+	{
+		s_DataMap.emplace(cmd, std::move(handle));
+	}
+	static std::unordered_map<std::string, CGMManager::GMCmdHandle> s_DataMap;
+};
+std::unordered_map<std::string, CGMManager::GMCmdHandle> GMCMDRegister::s_DataMap;
+
+#define DEFINE_GMCMD(MsgType)                                                                                  \
+	static void OnGMCMD_##MsgType(CPlayer* pPlayer, const std::vector<std::string>& vecCMD); \
+	static GMCMDRegister s_GMCMDRegister_##MsgType(#MsgType, &OnGMCMD_##MsgType);     \
+	void OnGMCMD_##MsgType(CPlayer* pPlayer, const std::vector<std::string>& vecCMD)
+
+DEFINE_GMCMD(help)
 {
 	__ENTER_FUNCTION
 	__LEAVE_FUNCTION
 }
 
-void OnGMCMD_additem(CPlayer* pPlayer, const std::vector<std::string>& vecCMD)
+DEFINE_GMCMD(additem)
 {
 	__ENTER_FUNCTION
 	CHECK(pPlayer);
@@ -23,7 +38,7 @@ void OnGMCMD_additem(CPlayer* pPlayer, const std::vector<std::string>& vecCMD)
 	__LEAVE_FUNCTION
 }
 
-void OnGMCMD_chgmap(CPlayer* pPlayer, const std::vector<std::string>& vecCMD)
+DEFINE_GMCMD(chgmap)
 {
 	__ENTER_FUNCTION
 	CHECK(pPlayer);
@@ -40,7 +55,10 @@ void OnGMCMD_chgmap(CPlayer* pPlayer, const std::vector<std::string>& vecCMD)
 
 void CGMManager::GMCmdHandlerRegister()
 {
-	RegisterGMCmd("help", &OnGMCMD_help);
-	RegisterGMCmd("additem", &OnGMCMD_additem);
-	RegisterGMCmd("chgmap", &OnGMCMD_chgmap);
+	for(auto& [k,v] : GMCMDRegister::s_DataMap)
+	{
+		RegisterGMCmd(k, std::move(v));
+		v = nullptr;
+	}
+	GMCMDRegister::s_DataMap.clear();
 }

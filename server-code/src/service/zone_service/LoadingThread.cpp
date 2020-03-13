@@ -272,14 +272,12 @@ void CLoadingThread::OnMainThreadExec()
 		m_nReadyCount--;
 		SAFE_DELETE(pData);
 
-		nCount++;
-		static const int32_t MAX_PROCESS_READY_COUNT = 25;
-		if(nCount > MAX_PROCESS_READY_COUNT)
-		{
-			return;
-		}
 		__LEAVE_FUNCTION
 	}
+
+	LOGMESSAGE("DestroyThreadID:{}", get_cur_thread_id());
+	BaseCode::ClearNdc();;
+	
 }
 
 size_t CLoadingThread::GetReadyCount()

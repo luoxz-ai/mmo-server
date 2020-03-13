@@ -45,19 +45,24 @@ DEFINE_SERVERSIDE_MSG_PROCESS(ServiceCmd)
 
 //////////////////////////////////////////////////////////////////////////
 WorldMsgRegisterMgr::ProcessMap_t WorldMsgRegisterMgr::s_ProcessMap;
-void							  WorldMessageHandlerRegister()
+
+void RegisterWorldMessageHandler()
 {
 	__ENTER_FUNCTION
 
 	auto pNetMsgProcess = WorldService()->GetNetMsgProcess();
 	using namespace std::placeholders;
 
-	for(auto& [key, value]: WorldMsgRegisterMgr::s_ProcessMap)
+	for(int32_t i = 0; i < WorldMsgRegisterMgr::s_ProcessMap.size(); i++)
 	{
-		pNetMsgProcess->Register(key, std::move(value));
-		value = nullptr;
+		auto& func = WorldMsgRegisterMgr::s_ProcessMap[i];
+		if(func)
+		{
+			pNetMsgProcess->Register(i, std::move(func));
+		}
+		func = nullptr;
 	}
-	WorldMsgRegisterMgr::s_ProcessMap.clear();
+
 
 	__LEAVE_FUNCTION
 }

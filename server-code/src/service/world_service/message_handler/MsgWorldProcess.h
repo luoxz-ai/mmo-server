@@ -3,15 +3,16 @@
 
 #include <functional>
 #include <memory>
-#include <unordered_map>
+#include <array>
 
 #include "BaseCode.h"
 #include "NetworkMessage.h"
+#include "server_msg/server_side.pb.h"
 
 struct WorldMsgRegisterMgr
 {
 	using FuncType	   = std::function<void(CNetworkMessage*)>;
-	using ProcessMap_t = std::unordered_map<uint32_t, FuncType>;
+	using ProcessMap_t = std::array<FuncType, ServerMSG::MsgID_END>;
 	static ProcessMap_t s_ProcessMap;
 };
 
@@ -25,7 +26,7 @@ void ProcWorldMsg(CNetworkMessage* pMsg, FuncType func)
 	{
 		return;
 	}
-	func(msg, pMsg);
+	std::invoke(func, msg, pMsg);
 
 	__LEAVE_FUNCTION
 }
@@ -33,13 +34,13 @@ void ProcWorldMsg(CNetworkMessage* pMsg, FuncType func)
 template<uint32_t Cmd>
 struct WorldMsgRegister
 {
-	WorldMsgRegister(WorldMsgRegisterMgr::FuncType&& func) { WorldMsgRegisterMgr::s_ProcessMap.emplace(Cmd, std::move(func)); }
+	WorldMsgRegister(WorldMsgRegisterMgr::FuncType&& func) { WorldMsgRegisterMgr::s_ProcessMap[Cmd] = std::move(func); }
 };
 
 #define DEFINE_MSG_PROCESS(MsgType)                                                                             \
 	static void							   OnMsg_##MsgType(const MsgType& msg, CNetworkMessage* pMsg);          \
-	static WorldMsgRegister<CMD_##MsgType> s_WorldMsgRegister_##MsgType(                                        \
-		std::bind(&ProcWorldMsg<MsgType, decltype(OnMsg_##MsgType)>, std::placeholders::_1, &OnMsg_##MsgType)); \
+	static WorldMsgRegister<CMD_##MsgType> s_WorldMsgRegister_##MsgType{                                        \
+		std::bind(&ProcWorldMsg<MsgType, decltype(OnMsg_##MsgType)>, std::placeholders::_1, &OnMsg_##MsgType)}; \
 	void OnMsg_##MsgType(const MsgType& msg, CNetworkMessage* pMsg)
 
 #define DEFINE_SERVERSIDE_MSG_PROCESS(MsgType)                                                                                 \

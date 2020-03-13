@@ -3,6 +3,7 @@
 #include "Actor.h"
 #include "Player.h"
 #include "ZoneService.h"
+#include "MsgZoneProcess.h"
 #include "server_msg/server_side.pb.h"
 
 MEMORYHEAP_IMPLEMENTATION(CTeamInfo, s_heap);
@@ -80,6 +81,11 @@ OBJID CTeamInfo::GetTeamLeaderID() const
 	return m_idLeader;
 }
 
+//////////////////////////////////////////////////////////////////////////////
+CTeamInfoManager::CTeamInfoManager()
+{
+}
+
 CTeamInfo* CTeamInfoManager::OnCreateTeam(uint64_t idTeam, uint64_t idLeader)
 {
 	auto pTeam = CTeamInfo::CreateNew(idTeam, idLeader);
@@ -109,38 +115,38 @@ CTeamInfo* CTeamInfoManager::QueryTeam(uint64_t idTeam)
 	return nullptr;
 }
 
-void OnMsg_TeamCreate(const ServerMSG::TeamCreate& msg)
+DEFINE_SERVERSIDE_MSG_PROCESS(TeamCreate)
 {
 	TeamManager()->OnCreateTeam(msg.team_id(), msg.leader_id());
 }
 
-void OnMsg_TeamDestory(const ServerMSG::TeamDestory& msg)
+DEFINE_SERVERSIDE_MSG_PROCESS(TeamDestory)
 {
 	TeamManager()->OnDestoryTeam(msg.team_id());
 }
 
-void OnMsg_TeamQuit(const ServerMSG::TeamQuit& msg)
+DEFINE_SERVERSIDE_MSG_PROCESS(TeamQuit)
 {
 	auto pTeam = TeamManager()->QueryTeam(msg.team_id());
 	CHECK(pTeam);
 	pTeam->OnDelMember(msg.operator_id());
 }
 
-void OnMsg_TeamKickMember(const ServerMSG::TeamKickMember& msg)
+DEFINE_SERVERSIDE_MSG_PROCESS(TeamKickMember)
 {
 	auto pTeam = TeamManager()->QueryTeam(msg.team_id());
 	CHECK(pTeam);
 	pTeam->OnDelMember(msg.kick_id());
 }
 
-void OnMsg_TeamNewLeader(const ServerMSG::TeamNewLeader& msg)
+DEFINE_SERVERSIDE_MSG_PROCESS(TeamNewLeader)
 {
 	auto pTeam = TeamManager()->QueryTeam(msg.team_id());
 	CHECK(pTeam);
 	pTeam->OnSetLeader(msg.new_leader_id());
 }
 
-void OnMsg_TeamAddMember(const ServerMSG::TeamAddMember& msg)
+DEFINE_SERVERSIDE_MSG_PROCESS(TeamAddMember)
 {
 	auto pTeam = TeamManager()->QueryTeam(msg.team_id());
 	CHECK(pTeam);
@@ -148,29 +154,3 @@ void OnMsg_TeamAddMember(const ServerMSG::TeamAddMember& msg)
 }
 
 //////////////////////////////////////////////////////////////////////////
-
-template<class T, class Func>
-void ProcessTeamMsg(CNetworkMessage* pMsg, Func func)
-{
-	T msg;
-	if(msg.ParseFromArray(pMsg->GetMsgBody(), pMsg->GetBodySize()) == false)
-		return;
-	func(msg);
-}
-
-void CTeamInfoManager::RegisterMessageHandler()
-{
-#define REG_CMD(msg_t) \
-	ZoneService()->GetNetMsgProcess()->Register(MsgID_##msg_t, std::bind(&ProcessTeamMsg<msg_t, decltype(OnMsg_##msg_t)>, std::placeholders::_1, &OnMsg_##msg_t));
-
-	using namespace ServerMSG;
-
-	REG_CMD(TeamCreate);
-	REG_CMD(TeamDestory);
-	REG_CMD(TeamQuit);
-	REG_CMD(TeamKickMember);
-	REG_CMD(TeamNewLeader);
-	REG_CMD(TeamAddMember);
-
-#undef REG_CMD
-}

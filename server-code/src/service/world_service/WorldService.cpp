@@ -81,9 +81,9 @@ bool CWorldService::Create()
 		tls_pService = nullptr;
 	};
 
-	BaseCode::SetNdc(GetServiceName());
-	scope_exit += []() {
-		BaseCode::SetNdc(std::string());
+	auto oldNdc = BaseCode::SetNdc(GetServiceName());
+	scope_exit += [oldNdc]() {
+		BaseCode::SetNdc(oldNdc);;
 	};
 
 	m_pAccountManager.reset(CAccountManager::CreateNew(this));
@@ -95,8 +95,6 @@ bool CWorldService::Create()
 
 	extern void RegisterWorldMessageHandler();
 	RegisterWorldMessageHandler();
-	m_pAccountManager->RegisterMessageHandler();
-	m_pTeamManager->RegisterMessageHandler();
 
 	const auto& settings = GetMessageRoute()->GetSettingMap();
 	{

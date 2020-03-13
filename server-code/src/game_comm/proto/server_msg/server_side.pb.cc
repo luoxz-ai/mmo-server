@@ -1085,30 +1085,31 @@ const char descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto[] PROT
   "ServerMSG.TeamMemberInfo.Info\032Y\n\004Info\022\021\n"
   "\tmember_id\030\001 \001(\004\022\022\n\nmember_lev\030\002 \001(\r\022\025\n\r"
   "member_online\030\003 \001(\010\022\023\n\013member_name\030\004 \001(\t"
-  "*\233\007\n\006OMsgID\022\017\n\013OMSGID_NONE\020\000\022\026\n\020MsgID_Se"
-  "rviceCmd\020\240\234\001\022\036\n\030MsgID_ServiceHttpRequest"
-  "\020\241\234\001\022\037\n\031MsgID_ServiceHttpResponse\020\242\234\001\022\030\n"
-  "\022MsgID_ServiceReady\020\252\234\001\022\033\n\025MsgID_PlayerE"
-  "nterZone\020\265\234\001\022\034\n\026MsgID_PlayerChangeZone\020\266"
-  "\234\001\022!\n\033MsgID_PlayerChangeZone_Data\020\267\234\001\022\030\n"
-  "\022MsgID_PlayerLogout\020\270\234\001\022\033\n\025MsgID_SystemV"
-  "arChange\020\276\234\001\022\027\n\021MsgID_SceneCreate\020\277\234\001\022\030\n"
-  "\022MsgID_SceneDestory\020\300\234\001\022\026\n\020MsgID_Monster"
-  "Gen\020\301\234\001\022\032\n\024MsgID_MonsterDestory\020\302\234\001\022\025\n\017M"
-  "sgID_ActiveGen\020\303\234\001\022\023\n\rMsgID_KillGen\020\304\234\001\022"
-  "\027\n\021MsgID_ActorCreate\020\204\235\001\022\030\n\022MsgID_ActorD"
-  "estory\020\205\235\001\022\025\n\017MsgID_ActorMove\020\206\235\001\022\032\n\024Msg"
-  "ID_ActorCastSkill\020\207\235\001\022\037\n\031MsgID_ActorCast"
-  "Skill_Fail\020\210\235\001\022\030\n\022MsgID_ActorSetHide\020\211\235\001"
-  "\022\026\n\020MsgID_TeamCreate\020\216\235\001\022\027\n\021MsgID_TeamDe"
-  "story\020\217\235\001\022\024\n\016MsgID_TeamQuit\020\220\235\001\022\032\n\024MsgID"
-  "_TeamKickMember\020\221\235\001\022\034\n\026MsgID_TeamInviteM"
-  "ember\020\222\235\001\022\034\n\026MsgID_TeamAcceptInvite\020\223\235\001\022"
-  "\033\n\025MsgID_TeamApplyMember\020\224\235\001\022\033\n\025MsgID_Te"
-  "amAcceptApply\020\225\235\001\022\031\n\023MsgID_TeamNewLeader"
-  "\020\226\235\001\022\032\n\024MsgID_TeamMemberInfo\020\227\235\001\022\031\n\023MsgI"
-  "D_TeamAddMember\020\230\235\001\022\031\n\023MsgID_TeamDelMemb"
-  "er\020\231\235\001b\006proto3"
+  "*\277\007\n\006OMsgID\022\017\n\013OMSGID_NONE\020\000\022\021\n\013MsgID_BE"
+  "GIN\020\240\234\001\022\026\n\020MsgID_ServiceCmd\020\241\234\001\022\036\n\030MsgID"
+  "_ServiceHttpRequest\020\242\234\001\022\037\n\031MsgID_Service"
+  "HttpResponse\020\243\234\001\022\030\n\022MsgID_ServiceReady\020\252"
+  "\234\001\022\033\n\025MsgID_PlayerEnterZone\020\265\234\001\022\034\n\026MsgID"
+  "_PlayerChangeZone\020\266\234\001\022!\n\033MsgID_PlayerCha"
+  "ngeZone_Data\020\267\234\001\022\030\n\022MsgID_PlayerLogout\020\270"
+  "\234\001\022\033\n\025MsgID_SystemVarChange\020\276\234\001\022\027\n\021MsgID"
+  "_SceneCreate\020\277\234\001\022\030\n\022MsgID_SceneDestory\020\300"
+  "\234\001\022\026\n\020MsgID_MonsterGen\020\301\234\001\022\032\n\024MsgID_Mons"
+  "terDestory\020\302\234\001\022\025\n\017MsgID_ActiveGen\020\303\234\001\022\023\n"
+  "\rMsgID_KillGen\020\304\234\001\022\027\n\021MsgID_ActorCreate\020"
+  "\204\235\001\022\030\n\022MsgID_ActorDestory\020\205\235\001\022\025\n\017MsgID_A"
+  "ctorMove\020\206\235\001\022\032\n\024MsgID_ActorCastSkill\020\207\235\001"
+  "\022\037\n\031MsgID_ActorCastSkill_Fail\020\210\235\001\022\030\n\022Msg"
+  "ID_ActorSetHide\020\211\235\001\022\026\n\020MsgID_TeamCreate\020"
+  "\216\235\001\022\027\n\021MsgID_TeamDestory\020\217\235\001\022\024\n\016MsgID_Te"
+  "amQuit\020\220\235\001\022\032\n\024MsgID_TeamKickMember\020\221\235\001\022\034"
+  "\n\026MsgID_TeamInviteMember\020\222\235\001\022\034\n\026MsgID_Te"
+  "amAcceptInvite\020\223\235\001\022\033\n\025MsgID_TeamApplyMem"
+  "ber\020\224\235\001\022\033\n\025MsgID_TeamAcceptApply\020\225\235\001\022\031\n\023"
+  "MsgID_TeamNewLeader\020\226\235\001\022\032\n\024MsgID_TeamMem"
+  "berInfo\020\227\235\001\022\031\n\023MsgID_TeamAddMember\020\230\235\001\022\031"
+  "\n\023MsgID_TeamDelMember\020\231\235\001\022\017\n\tMsgID_END\020\260"
+  "\352\001b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_server_5fmsg_2fserver_5fside_2eproto_deps[1] = {
 };
@@ -1152,7 +1153,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_ser
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_server_5fmsg_2fserver_5fside_2eproto_once;
 static bool descriptor_table_server_5fmsg_2fserver_5fside_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_server_5fmsg_2fserver_5fside_2eproto = {
-  &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_initialized, descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto, "server_msg/server_side.proto", 3654,
+  &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_initialized, descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto, "server_msg/server_side.proto", 3690,
   &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_once, descriptor_table_server_5fmsg_2fserver_5fside_2eproto_sccs, descriptor_table_server_5fmsg_2fserver_5fside_2eproto_deps, 35, 0,
   schemas, file_default_instances, TableStruct_server_5fmsg_2fserver_5fside_2eproto::offsets,
   file_level_metadata_server_5fmsg_2fserver_5fside_2eproto, 35, file_level_enum_descriptors_server_5fmsg_2fserver_5fside_2eproto, file_level_service_descriptors_server_5fmsg_2fserver_5fside_2eproto,
@@ -1196,6 +1197,7 @@ bool OMsgID_IsValid(int value) {
     case 20000:
     case 20001:
     case 20002:
+    case 20003:
     case 20010:
     case 20021:
     case 20022:
@@ -1226,6 +1228,7 @@ bool OMsgID_IsValid(int value) {
     case 20119:
     case 20120:
     case 20121:
+    case 30000:
       return true;
     default:
       return false;

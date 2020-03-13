@@ -398,9 +398,6 @@ public:
 		}
 
 		__LEAVE_FUNCTION
-#ifdef DEBUG
-		DumpStack(CallFrameMap(1));
-#endif
 
 		LOGDBERROR("Field {}.{} get/set type error", m_pFieldInfo->GetTableName(), m_pFieldInfo->GetFieldName());
 		return false;

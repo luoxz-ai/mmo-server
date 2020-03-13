@@ -149,7 +149,7 @@ public:
 		}
 		else if(m_nDirtyLayer != MAX_ATTR_LAYER)
 		{
-			uint32_t nCachedLayer = GetLowerBoundCacheLayer(m_nDirtyLayer);
+			uint32_t nCachedLayer = FindNearestCacheLayer(m_nDirtyLayer);
 			if(nCachedLayer == (uint32_t)-1)
 			{
 				Apply(true);
@@ -160,7 +160,7 @@ public:
 				m_setAttrib = m_setCache[nCachedLayer];
 
 				auto it_begin = m_mapValModify.find(nCachedLayer);
-				for(auto it = it_begin; it != m_mapValModify.end(); it++)
+				for(auto it = std::next(it_begin); it != m_mapValModify.end(); it++)
 				{
 					const auto& nLayer			 = it->first;
 					const auto& stValModifyLayer = it->second;
@@ -230,16 +230,18 @@ private:
 		}
 	}
 
-	static uint32_t GetLowerBoundCacheLayer(uint32_t nLayer)
+	static uint32_t FindNearestCacheLayer(uint32_t nLayer)
 	{
-		auto it = std::lower_bound(NEED_CACHE_LAYER.begin(), NEED_CACHE_LAYER.end(), nLayer);
+		auto it = std::upper_bound(NEED_CACHE_LAYER.begin(), NEED_CACHE_LAYER.end(), nLayer, std::greater<uint32_t>());
 		if(it != NEED_CACHE_LAYER.end())
 		{
 			return *it;
 		}
 		return -1;
 	}
-	static bool								 NeedCacheLayer(uint32_t nLayer) { return std::binary_search(NEED_CACHE_LAYER.begin(), NEED_CACHE_LAYER.end(), nLayer); }
+
+	static bool	NeedCacheLayer(uint32_t nLayer) { return std::binary_search(NEED_CACHE_LAYER.begin(), NEED_CACHE_LAYER.end(), nLayer); }
+
 	static constexpr std::array<uint32_t, 4> NEED_CACHE_LAYER = {1, 5, 8, 10};
 
 private:

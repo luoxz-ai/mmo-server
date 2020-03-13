@@ -1,0 +1,2 @@
+suppressions=MyLSan.supp
+print_suppressions=0

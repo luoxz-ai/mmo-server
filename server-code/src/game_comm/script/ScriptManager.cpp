@@ -2,7 +2,7 @@
 
 #include "BaseCode.h"
 #include "lua_tinker.h"
-#include "md5.h"
+#include "MD5.h"
 
 //////////////////////////////////////////////////////////////////////////////////////
 // static void *my_l_alloc (void *ud, void *ptr, size_t osize, size_t nsize)

@@ -54,11 +54,11 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_msg_2fts_5fcmd_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\020msg/ts_cmd.proto\"\025\n\006SC_KEY\022\013\n\003key\030\001 \001("
-  "\r*\244\001\n\006TS_CMD\022\r\n\tCMD_BEGIN\020\000\022\016\n\nCMD_SC_KE"
+  "\r*\262\001\n\006TS_CMD\022\r\n\tCMD_BEGIN\020\000\022\016\n\nCMD_SC_KE"
   "Y\020\001\022\014\n\010CMD_PING\020\002\022\014\n\010CMD_PONG\020\003\022\023\n\017CMD_W"
   "ORLD_BEGIN\020\n\022\022\n\rCMD_WORLD_END\020\347\007\022\023\n\016CMD_"
   "ZONE_BEGIN\020\350\007\022\021\n\014CMD_ZONE_END\020\237\037\022\016\n\tCMD_"
-  "CLOSE\020\220Nb\006proto3"
+  "CLOSE\020\217N\022\014\n\007CMD_MAX\020\220Nb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_msg_2fts_5fcmd_2eproto_deps[1] = {
 };
@@ -68,7 +68,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_msg
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_msg_2fts_5fcmd_2eproto_once;
 static bool descriptor_table_msg_2fts_5fcmd_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_msg_2fts_5fcmd_2eproto = {
-  &descriptor_table_msg_2fts_5fcmd_2eproto_initialized, descriptor_table_protodef_msg_2fts_5fcmd_2eproto, "msg/ts_cmd.proto", 216,
+  &descriptor_table_msg_2fts_5fcmd_2eproto_initialized, descriptor_table_protodef_msg_2fts_5fcmd_2eproto, "msg/ts_cmd.proto", 230,
   &descriptor_table_msg_2fts_5fcmd_2eproto_once, descriptor_table_msg_2fts_5fcmd_2eproto_sccs, descriptor_table_msg_2fts_5fcmd_2eproto_deps, 1, 0,
   schemas, file_default_instances, TableStruct_msg_2fts_5fcmd_2eproto::offsets,
   file_level_metadata_msg_2fts_5fcmd_2eproto, 1, file_level_enum_descriptors_msg_2fts_5fcmd_2eproto, file_level_service_descriptors_msg_2fts_5fcmd_2eproto,
@@ -90,6 +90,7 @@ bool TS_CMD_IsValid(int value) {
     case 999:
     case 1000:
     case 3999:
+    case 9999:
     case 10000:
       return true;
     default:

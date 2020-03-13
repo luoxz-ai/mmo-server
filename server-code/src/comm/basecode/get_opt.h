@@ -145,8 +145,7 @@ inline std::vector<std::string> cmdline()
 #else
 	pid_t pid = getpid();
 
-	char fname[32] = {};
-	fmt::format_to_n(fname, 32, "/proc/{}/cmdline", pid);
+	std::string fname = fmt::format("/proc/{}/cmdline", pid);
 	std::ifstream ifs(fname);
 	if(ifs.good())
 	{

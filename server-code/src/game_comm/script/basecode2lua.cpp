@@ -5,12 +5,15 @@
 #include "GameMath.h"
 #include "INILoader.h"
 #include "LockfreeQueue.h"
+#include "LoggingMgr.h"
+#include "MD5.h"
 #include "MathDef.h"
 #include "MemoryHeap.h"
 #include "MyTimer.h"
 #include "ProtobuffParse.h"
 #include "ProtobuffUtil.h"
 #include "RandomGet.h"
+#include "SegvCatch.h"
 #include "SettingMap.h"
 #include "Singleton.h"
 #include "SkipList.h"
@@ -26,10 +29,7 @@
 #include "get_opt.h"
 #include "i386-signal.h"
 #include "log4z.h"
-#include "loging_manager.h"
 #include "lua_tinker.h"
-#include "md5.h"
-#include "segvcatch.h"
 #include "type_traits_ext.h"
 #include "x86_64-signal.h"
 void basecode2lua(lua_State* L)
@@ -47,6 +47,8 @@ void basecode2lua(lua_State* L)
 	lua_tinker::def(L, "GetFullPath", &GetFullPath);
 	lua_tinker::def(L, "GetHighFromU64", &GetHighFromU64);
 	lua_tinker::def(L, "GetLowFromU64", &GetLowFromU64);
+	lua_tinker::def(L, "GetMD5Code", &GetMD5Code);
+	lua_tinker::def(L, "GetMD5CodeBig", &GetMD5CodeBig);
 	lua_tinker::def(L, "GetNextDayBeginTime", &GetNextDayBeginTime);
 	lua_tinker::def(L, "GetTimeFromString", &GetTimeFromString);
 	lua_tinker::def(L, "HasFlag", &HasFlag);
@@ -83,6 +85,7 @@ void basecode2lua(lua_State* L)
 	lua_tinker::def(L, "isleap", &isleap);
 	lua_tinker::def(L, "local2gmt", &local2gmt);
 	lua_tinker::def(L, "ltrim", &ltrim);
+	lua_tinker::def(L, "md5", &md5);
 	lua_tinker::def(L, "random_float", &random_float, 0.0f, 1.0f);
 	lua_tinker::def(L, "random_hit", &random_hit);
 	lua_tinker::def(L, "random_uint32", &random_uint32);

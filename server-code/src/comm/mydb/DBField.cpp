@@ -238,4 +238,10 @@ CMysqlFieldInfoList::CMysqlFieldInfoList(MYSQL_RES* res)
 	}
 }
 
-CMysqlFieldInfoList::~CMysqlFieldInfoList() {}
+CMysqlFieldInfoList::~CMysqlFieldInfoList()
+{
+	for(auto& v : m_FieldInfos)
+	{
+		SAFE_DELETE(v);
+	}
+}

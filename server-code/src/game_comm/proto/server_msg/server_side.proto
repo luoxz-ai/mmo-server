@@ -4,11 +4,11 @@ package ServerMSG;
 enum OMsgID
 {
 	OMSGID_NONE = 0;
-
+	MsgID_BEGIN = 20000;
 	//内部消息id
-	MsgID_ServiceCmd		  = 20000;
-	MsgID_ServiceHttpRequest  = 20001;
-	MsgID_ServiceHttpResponse = 20002;
+	MsgID_ServiceCmd		  = 20001;
+	MsgID_ServiceHttpRequest  = 20002;
+	MsgID_ServiceHttpResponse = 20003;
 	MsgID_ServiceReady		  = 20010;
 
 	MsgID_PlayerEnterZone		= 20021;
@@ -43,6 +43,8 @@ enum OMsgID
 	MsgID_TeamMemberInfo   = 20119;
 	MsgID_TeamAddMember	   = 20120;
 	MsgID_TeamDelMember	   = 20121;
+
+	MsgID_END = 30000;
 };
 
 message ServiceCmd

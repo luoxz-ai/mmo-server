@@ -1,6 +1,6 @@
 set -e
 rm res/config/*.bytes -f
-filelist=`ls ../excel/*.xlsx`
+filelist=`ls ../../server-res/excel/*.xlsx`
 for file in $filelist
 do
 	filename=$(basename "$file") 

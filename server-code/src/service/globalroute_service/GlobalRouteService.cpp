@@ -17,8 +17,8 @@
 #include "event2/http.h"
 #include "event2/http_struct.h"
 #include "event2/keyvalq_struct.h"
-#include "loging_manager.h"
-#include "md5.h"
+#include "LoggingMgr.h"
+#include "MD5.h"
 #include "proxy_service.pb.h"
 #include "server_msg/server_side.pb.h"
 #include "tinyxml2/tinyxml2.h"
@@ -196,9 +196,9 @@ bool CGlobalRouteService::Create()
 		tls_pService = nullptr;
 	};
 
-	BaseCode::SetNdc(GetServiceName());
-	scope_exit += []() {
-		BaseCode::SetNdc(std::string());
+	auto oldNdc = BaseCode::SetNdc(GetServiceName());
+	scope_exit += [oldNdc]() {
+		BaseCode::SetNdc(oldNdc);;
 	};
 
 	if(CreateService(20) == false)
@@ -314,7 +314,10 @@ void CGlobalRouteService::OnLogicThreadCreate()
 	CServiceCommon::OnLogicThreadCreate();
 }
 
-void CGlobalRouteService::OnLogicThreadExit() {}
+void CGlobalRouteService::OnLogicThreadExit() 
+{
+	CServiceCommon::OnLogicThreadExit();
+}
 
 bool CheckKVMap(const std::unordered_map<std::string, std::string>& kvmap)
 {

@@ -293,7 +293,11 @@ void CServiceCommon::OnLogicThreadCreate()
 	LOGMESSAGE("ThreadID:{}", get_cur_thread_id());
 }
 
-void CServiceCommon::OnLogicThreadExit() {}
+void CServiceCommon::OnLogicThreadExit()
+{
+	LOGMESSAGE("ExitThreadID:{}", get_cur_thread_id());
+	BaseCode::ClearNdc();;
+}
 
 bool CServiceCommon::SendPortBroadcastMsg(const ServerPort& nServerPort, byte* buf, size_t len)
 {

@@ -7,7 +7,7 @@
 #include <dlfcn.h>
 
 #include "BaseCode.h"
-#include "loging_manager.h"
+#include "LoggingMgr.h"
 
 std::string demangle(const char* name)
 {
@@ -222,11 +222,11 @@ std::string GetStackTraceString(const CallFrameMap& data)
 	Dl_info		dlinfo;
 	time_t		t = _TimeGetSecond();
 	char		mbstr[100];
-	if(std::strftime(mbstr, sizeof(mbstr), "%A %c", std::localtime(&t)))
+	if(std::strftime(mbstr, sizeof(mbstr), "%Y/%m/%d %H:%M:%S", std::localtime(&t)))
 	{
 		result += mbstr;
 	}
-	result += "=============================================================\n";
+	result += fmt::format("{}\n====================start=============================\n", BaseCode::getNdcStr());
 	for(const auto& pair_v: data.m_Addr)
 	{
 		//尝试输出基址差
@@ -236,18 +236,15 @@ std::string GetStackTraceString(const CallFrameMap& data)
 			size_t		addr   = (size_t)(pair_v.first) - (size_t)(dlinfo.dli_fbase);
 			if((size_t)dlinfo.dli_fbase == 0x400000)
 				addr = (size_t)(pair_v.first);
-			char buff[2048];
-			fmt::format_to_n(buff, 2048, "TRACE:{}\n \033[44;37m{}[{:X}]\033[0m \n", addr2str(dlinfo.dli_fname, addr).c_str(), symbol.c_str(), addr);
-			result += buff;
+			result += fmt::format("TRACE:[{:X}]{}\nADDR::{} \n", addr, symbol.c_str(), addr2str(dlinfo.dli_fname, addr).c_str());
 		}
 		else
 		{
 			std::string symbol = DemangleSymbol(pair_v.second.c_str());
-			char		buff[2048];
-			fmt::format_to_n(buff, 2048, "TRACE:{}\n", symbol.c_str());
-			result += buff;
+			result += fmt::format("TRACEADDR:{}\n", symbol.c_str());
 		}
 	}
+	result += "==================end===================================\n";
 	return result;
 }
 
@@ -257,11 +254,11 @@ std::string GetStackTraceString(const CALLFRAME_NODE* pFrame)
 	Dl_info		dlinfo;
 	time_t		t = _TimeGetSecond();
 	char		mbstr[100];
-	if(std::strftime(mbstr, sizeof(mbstr), "%A %c", std::localtime(&t)))
+	if(std::strftime(mbstr, sizeof(mbstr), "%Y/%m/%d %H:%M:%S", std::localtime(&t)))
 	{
 		result += mbstr;
 	}
-	result += "=============================================================\n";
+	result += fmt::format("{}\n====================start=============================\n", BaseCode::getNdcStr());
 	while(pFrame->m_pParent != nullptr)
 	{
 		//尝试输出基址差
@@ -272,39 +269,36 @@ std::string GetStackTraceString(const CALLFRAME_NODE* pFrame)
 			size_t		addr   = (size_t)(pFrame->m_pCallFunc) - (size_t)(dlinfo.dli_fbase);
 			if((size_t)dlinfo.dli_fbase == 0x400000)
 				addr = (size_t)(pFrame->m_pCallFunc);
-			char buff[2048];
-			fmt::format_to_n(buff, 2048, "TRACE:{}\n \033[44;37m{}[{:X}]\033[0m \n", addr2str(dlinfo.dli_fname, addr).c_str(), symbol.c_str(), addr);
-			result += buff;
+			result += fmt::format("TRACE:[{:X}]{}\nADDR::{} \n", addr, symbol.c_str(), addr2str(dlinfo.dli_fname, addr).c_str());;
 		}
 		else
 		{
 			std::string symbol = DemangleSymbol(*funcnamearry);
-			char		buff[2048];
-			fmt::format_to_n(buff, 2048, "TRACE:{}\n", symbol.c_str());
-			result += buff;
+			result += fmt::format("TRACEADDR:{}\n", symbol.c_str());;
 		}
 		free(funcnamearry);
 		pFrame = pFrame->m_pParent;
 	}
+	result += "==================end===================================\n";
 	return result;
 }
 
 bool DumpStack(const CALLFRAME_NODE* pFrame)
 {
-	BaseCode::MyLogMsg("log/trace", "{}", GetStackTraceString(pFrame).c_str());
+	LOGSTACK("{}", GetStackTraceString(pFrame));
 	return true;
 }
 
 bool DumpStack(const CallFrameMap& data)
 {
-	BaseCode::MyLogMsg("log/trace", "{}", GetStackTraceString(data).c_str());
+	LOGSTACK("{}", GetStackTraceString(data));
 	return true;
 }
 
 bool DumpStackFile(const CallFrameMap& data)
 {
-	FILE*		pFile = fopen("hangup.log", "a+");
 	std::string txt	  = GetStackTraceString(data);
+	FILE*		pFile = fopen("hangup.log", "a+");
 	fwrite(txt.c_str(), txt.size(), 1, pFile);
 	fclose(pFile);
 	return true;

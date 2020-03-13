@@ -2,7 +2,13 @@
 
 CAchievementTypeSet::CAchievementTypeSet() {}
 
-CAchievementTypeSet::~CAchievementTypeSet() {}
+CAchievementTypeSet::~CAchievementTypeSet() 
+{
+	for(auto& [k, v] : m_setData)
+	{
+		SAFE_DELETE(v);
+	}
+}
 
 bool CAchievementTypeSet::Init(const char* szFileName)
 {

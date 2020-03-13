@@ -9,7 +9,7 @@
 #include "SettingMap.h"
 #include "event2/event.h"
 #include "event2/thread.h"
-#include "loging_manager.h"
+#include "LoggingMgr.h"
 //#include "brpc/global.h"
 void log_cb(int32_t severity, const char* msg)
 {
@@ -43,7 +43,9 @@ void ServiceLoader::Destory()
 	m_setService.clear();
 	for(auto it = m_setModule.begin(); it != m_setModule.end(); it++)
 	{
+		#ifndef USE_ASAN
 		dlclose(it->second);
+		#endif
 	}
 	m_setModule.clear();
 	LOGMESSAGE("service_loader end:{}", getpid());
@@ -83,6 +85,13 @@ bool ServiceLoader::_StartService(const std::string& dll_name, uint16_t idWorld,
 	typedef IService* (*ServiceCreateFunc)(uint16_t, uint16_t);
 
 	ServiceCreateFunc func	   = (ServiceCreateFunc)dlsym(hService, "ServiceCreate");
+	if(func == nullptr)
+	{
+		// log err
+		LOGFATAL("ServiceCreateFunc null {} fail:{}", idService, dll_name.c_str());
+		return false;
+	}
+
 	IService*		  pService = func(idWorld, idService);
 	if(pService)
 	{
@@ -97,12 +106,14 @@ bool ServiceLoader::_StartService(const std::string& dll_name, uint16_t idWorld,
 
 	LOGDEBUG("after {}[{}] memory allocated: {}", dll_name.c_str(), idService, get_memory_status().allocted);
 	return true;
+
 	__LEAVE_FUNCTION
 	return false;
 }
 
 bool ServiceLoader::Load(const std::string& setting_filename, uint16_t nWorldID, const std::set<uint16_t>& create_service_set)
 {
+	__ENTER_FUNCTION
 
 	//先将所有的Service存储到MessagePort中，这样当Service开启后，收到的ServiceMsg:service_addr如果没有收录就是新Service
 	if(GetMessageRoute()->LoadServiceSetting(setting_filename, nWorldID) == false)
@@ -150,4 +161,7 @@ bool ServiceLoader::Load(const std::string& setting_filename, uint16_t nWorldID,
 		return false;
 	}
 	return true;
+
+	__LEAVE_FUNCTION
+	return false;
 }

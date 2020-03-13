@@ -9,7 +9,7 @@
 #include "event2/event.h"
 #include "event2/thread.h"
 #include "get_opt.h"
-#include "loging_manager.h"
+#include "LoggingMgr.h"
 
 void log_cb(int32_t severity, const char* msg)
 {

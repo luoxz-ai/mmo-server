@@ -4,7 +4,7 @@
 #include <deque>
 
 #include "BaseCode.h"
-#include "loging_manager.h"
+#include "LoggingMgr.h"
 
 #ifdef USE_JEMALLOC
 extern "C"

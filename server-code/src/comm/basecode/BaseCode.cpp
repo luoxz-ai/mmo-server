@@ -6,7 +6,7 @@
 #include <cstring>
 #include <string>
 
-#include "loging_manager.h"
+#include "LoggingMgr.h"
 
 int32_t MulDivSign(int32_t a, int32_t b, int32_t c)
 {

@@ -4,13 +4,16 @@
 
 #include "Account.h"
 #include "WorldService.h"
-#include "md5.h"
+#include "MD5.h"
 
 const char* AUTH_URL = "https://example.com";
 
 static const std::string AUTH_SERVER_SIGNATURE = "test";
 static const int32_t	 AUTH_KEY_CANUSE_SECS  = 180;
-CAccountManager::CAccountManager() {}
+CAccountManager::CAccountManager() 
+{
+	RegisterMessageHandler();
+}
 
 CAccountManager::~CAccountManager()
 {
@@ -33,11 +36,22 @@ void CAccountManager::Destory()
 
 bool CAccountManager::Init(class CWorldService* pWorld)
 {
-	m_threadAuth.reset(new CWorkerThread("AuthThread", [pWorld]() {
-		SetWorldServicePtr(pWorld);
-		BaseCode::SetNdc("AuthThread");
-		LOGMESSAGE("ThreadID:{}", get_cur_thread_id());
-	}));
+	m_threadAuth.reset(new CWorkerThread("AuthThread", 
+										[pWorld]() 
+										{
+											SetWorldServicePtr(pWorld);
+											BaseCode::SetNdc("AuthThread");
+											LOGMESSAGE("Create ThreadID:{}", get_cur_thread_id());
+										},
+										[]() 
+										{
+											SetWorldServicePtr(nullptr);
+											LOGMESSAGE("Exit ThreadID:{}", get_cur_thread_id());
+											BaseCode::ClearNdc();;
+											
+										}
+										)
+						);
 
 	m_pAuthChannel = new brpc::Channel;
 	brpc::ChannelOptions options;

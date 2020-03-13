@@ -5,7 +5,18 @@
 
 CMapManager::CMapManager() {}
 
-CMapManager::~CMapManager() {}
+CMapManager::~CMapManager() 
+{
+	for(auto& [k,v] : m_vecMapData)
+	{
+		SAFE_DELETE(v);
+	}
+	for(auto& [k,v] : m_vecMap)
+	{
+		SAFE_DELETE(v);
+	}
+	
+}
 
 bool CMapManager::Init(uint16_t idZone)
 {
@@ -33,7 +44,7 @@ bool CMapManager::Init(uint16_t idZone)
 					pMapData = CMapData::CreateNew(iter.idmapdata());
 					CHECKF(pMapData);
 					m_vecMapData[pMapData->GetMapTemplateID()] = pMapData;
-					;
+					
 				}
 			}
 

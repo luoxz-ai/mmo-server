@@ -50,7 +50,7 @@
 
 #include "Thread.h"
 #include "fmt/printf.h"
-#include "loging_manager.h"
+#include "LoggingMgr.h"
 
 #ifdef WIN32
 #include <io.h>

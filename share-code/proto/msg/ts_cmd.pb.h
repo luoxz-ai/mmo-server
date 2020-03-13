@@ -71,13 +71,14 @@ enum TS_CMD : int {
   CMD_WORLD_END = 999,
   CMD_ZONE_BEGIN = 1000,
   CMD_ZONE_END = 3999,
-  CMD_CLOSE = 10000,
+  CMD_CLOSE = 9999,
+  CMD_MAX = 10000,
   TS_CMD_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   TS_CMD_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
 bool TS_CMD_IsValid(int value);
 constexpr TS_CMD TS_CMD_MIN = CMD_BEGIN;
-constexpr TS_CMD TS_CMD_MAX = CMD_CLOSE;
+constexpr TS_CMD TS_CMD_MAX = CMD_MAX;
 constexpr int TS_CMD_ARRAYSIZE = TS_CMD_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* TS_CMD_descriptor();

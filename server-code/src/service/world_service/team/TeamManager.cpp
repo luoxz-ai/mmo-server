@@ -354,7 +354,10 @@ void CTeam::OnUserLevChg(OBJID idActor, uint32_t nLev) {}
 
 void CTeam::OnUserNameChg(OBJID idActor, const std::string& name) {}
 
-CTeamManager::CTeamManager() {}
+CTeamManager::CTeamManager()
+{
+	RegisterMessageHandler();
+}
 
 CTeamManager::~CTeamManager() {}
 

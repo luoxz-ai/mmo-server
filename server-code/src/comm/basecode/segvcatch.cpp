@@ -4,7 +4,7 @@
  *   Redistributed under LGPL license terms.                               *
  ***************************************************************************/
 
-#include "segvcatch.h"
+#include "SegvCatch.h"
 
 #include <stdexcept>
 #include <string>

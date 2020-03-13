@@ -2,7 +2,13 @@
 
 CTaskTypeSet::CTaskTypeSet() {}
 
-CTaskTypeSet::~CTaskTypeSet() {}
+CTaskTypeSet::~CTaskTypeSet() 
+{
+	for(auto& [k,v] : m_setData)
+	{
+		SAFE_DELETE(v);
+	}
+}
 
 bool CTaskTypeSet::Init(const char* szFileName)
 {

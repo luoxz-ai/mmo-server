@@ -36,12 +36,11 @@ public:
 export_lua class CTeamInfoManager
 {
 public:
-	CTeamInfoManager() {}
+	CTeamInfoManager(); 
 	~CTeamInfoManager() {}
 
 	CTeamInfo* OnCreateTeam(uint64_t idTeam, uint64_t idLeader);
 	void	   OnDestoryTeam(uint64_t idTeam);
-	void	   RegisterMessageHandler();
 
 	export_lua CTeamInfo* QueryTeam(uint64_t idTeam);
 

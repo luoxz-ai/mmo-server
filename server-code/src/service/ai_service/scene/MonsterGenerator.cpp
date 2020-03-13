@@ -23,6 +23,11 @@ void CMonsterGenerator::Init(CAIScene* pScene)
 	for(const auto& pair_val: gen_list)
 	{
 		auto pGenData			 = new MonsterGenData{pair_val.second};
+		if(m_setGen.find(pair_val.first) != m_setGen.end())
+		{
+			LOGDEBUG("CMonsterGenerator::Init Map:{} Add{} twice", m_pMap->GetMapID(), pair_val.first);
+			continue;
+		}
 		m_setGen[pair_val.first] = pGenData;
 		if(pGenData->gen_data.active())
 		{

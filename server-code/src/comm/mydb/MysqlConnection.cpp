@@ -120,7 +120,7 @@ bool CMysqlConnection::Connect(
 				}
 				__LEAVE_FUNCTION
 			},
-			[]() { BaseCode::SetNdc(""); }));
+			[]() { BaseCode::ClearNdc(); }));
 
 		while(m_AsyncThread->IsReady() == false)
 		{

@@ -8,7 +8,7 @@
 #include <google/protobuf/text_format.h>
 #include <google/protobuf/util/json_util.h>
 
-#include "loging_manager.h"
+#include "LoggingMgr.h"
 #include "rapidjson/document.h"
 #include "rapidjson/reader.h"
 

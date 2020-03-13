@@ -1,6 +1,6 @@
 #include "NetMSGProcess.h"
 
-#include "loging_manager.h"
+#include "LoggingMgr.h"
 
 void CNetMSGProcess::Register(uint16_t cmd, MessageHandler&& func)
 {

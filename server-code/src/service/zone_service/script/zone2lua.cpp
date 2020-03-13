@@ -33,7 +33,7 @@
 #include "MonitorMgr.h"
 #include "Monster.h"
 #include "MonsterType.h"
-#include "MsgPlayerProcess.h"
+#include "MsgZoneProcess.h"
 #include "Npc.h"
 #include "NpcType.h"
 #include "Package.h"

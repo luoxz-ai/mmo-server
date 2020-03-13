@@ -56,9 +56,9 @@ bool CServiceCtrlService::Create()
 		tls_pService = nullptr;
 	};
 
-	BaseCode::SetNdc(GetServiceName());
-	scope_exit += []() {
-		BaseCode::SetNdc(std::string());
+	auto oldNdc = BaseCode::SetNdc(GetServiceName());
+	scope_exit += [oldNdc]() {
+		BaseCode::SetNdc(oldNdc);;
 	};
 
 	if(CreateService(20, this) == false)
@@ -205,4 +205,8 @@ void CServiceCtrlService::OnLogicThreadCreate()
 	LOGMESSAGE("ThreadID:{}", get_cur_thread_id());
 }
 
-void CServiceCtrlService::OnLogicThreadExit() {}
+void CServiceCtrlService::OnLogicThreadExit() 
+{
+	LOGMESSAGE("ExitThreadID:{}", get_cur_thread_id());
+	BaseCode::ClearNdc();;
+}

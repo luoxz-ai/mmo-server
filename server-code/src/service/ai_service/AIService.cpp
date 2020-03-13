@@ -64,9 +64,9 @@ bool CAIService::Create()
 		tls_pService = nullptr;
 	};
 
-	BaseCode::SetNdc(GetServiceName());
-	scope_exit += []() {
-		BaseCode::SetNdc(std::string());
+	auto oldNdc = BaseCode::SetNdc(GetServiceName());
+	scope_exit += [oldNdc]() {
+		BaseCode::SetNdc(oldNdc);;
 	};
 
 	extern void export_to_lua(lua_State*, void*);
@@ -278,4 +278,7 @@ void CAIService::OnLogicThreadCreate()
 	CServiceCommon::OnLogicThreadCreate();
 }
 
-void CAIService::OnLogicThreadExit() {}
+void CAIService::OnLogicThreadExit() 
+{
+	CServiceCommon::OnLogicThreadExit();
+}

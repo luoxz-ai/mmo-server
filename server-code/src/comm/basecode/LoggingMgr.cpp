@@ -1,4 +1,4 @@
-#include "loging_manager.h"
+#include "LoggingMgr.h"
 
 #include <fmt/chrono.h>
 #include <fmt/format.h>
@@ -127,27 +127,40 @@ void BaseCode::StopLog()
 }
 
 static thread_local NDC* this_thread_NDC = nullptr;
-void					 BaseCode::SetNdc(const std::string& name)
+
+std::string BaseCode::SetNdc(const std::string& name)
 {
+	std::string oldNdc;
 	if(this_thread_NDC == nullptr)
 	{
 		this_thread_NDC = new NDC{name};
 	}
 	else
 	{
+		oldNdc = this_thread_NDC->ndc;
 		if(name.empty())
 		{
 			SAFE_DELETE(this_thread_NDC);
-			;
 		}
 		else
 		{
 			this_thread_NDC->ndc = name;
 		}
 	}
+	return oldNdc;
+}
+
+void BaseCode::ClearNdc()
+{
+	SAFE_DELETE(this_thread_NDC);
 }
 
 NDC* BaseCode::getNdc()
 {
 	return this_thread_NDC;
+}
+
+std::string BaseCode::getNdcStr()
+{
+	return (this_thread_NDC)?this_thread_NDC->ndc: std::string();
 }

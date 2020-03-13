@@ -95,9 +95,9 @@ bool CZoneService::Create()
 		tls_pService = nullptr;
 	};
 
-	BaseCode::SetNdc(GetServiceName());
-	scope_exit += []() {
-		BaseCode::SetNdc(std::string());
+	auto oldNdc = BaseCode::SetNdc(GetServiceName());
+	scope_exit += [oldNdc]() {
+		BaseCode::SetNdc(oldNdc);;
 	};
 
 	const auto& settings = GetMessageRoute()->GetSettingMap();
@@ -155,9 +155,8 @@ bool CZoneService::Create()
 
 	CHECKF(m_SceneManager.Init(GetServerPort().GetServiceID()));
 
-	extern void PlayerMessageHandlerRegister();
-	PlayerMessageHandlerRegister();
-	GetTeamInfoManager()->RegisterMessageHandler();
+	extern void ZoneMessageHandlerRegister();
+	ZoneMessageHandlerRegister();
 
 	if(GetWorldID() != 0)
 	{
@@ -544,4 +543,4 @@ void CZoneService::OnLogicThreadCreate()
 	CServiceCommon::OnLogicThreadCreate();
 }
 
-void CZoneService::OnLogicThreadExit() {}
+void CZoneService::OnLogicThreadExit() {CServiceCommon::OnLogicThreadExit();}

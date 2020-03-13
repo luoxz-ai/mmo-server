@@ -15,8 +15,8 @@
 #include "StringAlgo.h"
 #include "fmt/format.h"
 #include "get_opt.h"
-#include "loging_manager.h"
-#include "segvcatch.h"
+#include "LoggingMgr.h"
+#include "SegvCatch.h"
 #ifdef USE_JEMALLOC
 extern "C"
 {
@@ -182,6 +182,7 @@ int main(int argc, char* argv[])
 	}
 
 	BaseCode::InitLog(logpath);
+	BaseCode::SetNdc("service_loader");
 	g_pLoader = new ServiceLoader();
 	std::string start_service_set;
 	if(opt.has("--start"))

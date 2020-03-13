@@ -1,6 +1,6 @@
 
 // #include "StdAfx.h"
-#include "md5.h"
+#include "MD5.h"
 
 #include "BaseCode.h"
 

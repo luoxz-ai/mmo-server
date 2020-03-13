@@ -1,4 +1,4 @@
-#include "MsgPlayerProcess.h"
+#include "MsgZoneProcess.h"
 
 #include <regex>
 
@@ -35,20 +35,26 @@ DEFINE_MSG_PROCESS(CS_ACHI_TAKE)
 }
 
 //////////////////////////////////////////////////////////////////////////
-PlayerMsgRegisterMgr::ProcessMap_t PlayerMsgRegisterMgr::s_ProcessMap;
-void							   PlayerMessageHandlerRegister()
+ZoneMsgRegisterMgr::ProcessMap_t ZoneMsgRegisterMgr::s_ProcessMap;
+
+void ZoneMessageHandlerRegister()
 {
 	__ENTER_FUNCTION
 
 	auto pNetMsgProcess = ZoneService()->GetNetMsgProcess();
 	using namespace std::placeholders;
 
-	for(auto& [key, value]: PlayerMsgRegisterMgr::s_ProcessMap)
+	for(int32_t i = 0; i < ZoneMsgRegisterMgr::s_ProcessMap.size(); i++)
 	{
-		pNetMsgProcess->Register(key, std::move(value));
-		value = nullptr;
+		auto& func = ZoneMsgRegisterMgr::s_ProcessMap[i];
+		if(func)
+		{
+			pNetMsgProcess->Register(i, std::move(func));
+			LOGDEBUG("RegisterMsgProc:{}", i);
+		}
+		func = nullptr;
 	}
-	PlayerMsgRegisterMgr::s_ProcessMap.clear();
+	
 
 	__LEAVE_FUNCTION
 }
