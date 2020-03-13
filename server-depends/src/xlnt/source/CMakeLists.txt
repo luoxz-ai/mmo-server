@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.1)
-project(xlnt VERSION 1.2)
+project(xlnt VERSION 1.4)
 
 set(CMAKE_CXX_STANDARD ${XLNT_CXX_LANG})
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -64,6 +64,8 @@ endif()
 file(GLOB ROOT_HEADERS ${XLNT_INCLUDE_DIR}/xlnt/*.hpp)
 file(GLOB CELL_HEADERS ${XLNT_INCLUDE_DIR}/xlnt/cell/*.hpp)
 file(GLOB CELL_SOURCES ${XLNT_SOURCE_DIR}/cell/*.cpp)
+file(GLOB DRAWING_HEADERS ${XLNT_INCLUDE_DIR}/xlnt/drawing/*.hpp)
+file(GLOB DRAWING_SOURCES ${XLNT_SOURCE_DIR}/drawing/*.cpp)
 file(GLOB CHARTS_HEADERS ${XLNT_INCLUDE_DIR}/xlnt/charts/*.hpp)
 file(GLOB CHARTS_SOURCES ${XLNT_SOURCE_DIR}/charts/*.cpp)
 file(GLOB CHARTSHEET_HEADERS ${XLNT_INCLUDE_DIR}/xlnt/chartsheet/*.hpp)
@@ -82,6 +84,8 @@ file(GLOB WORKBOOK_HEADERS ${XLNT_INCLUDE_DIR}/xlnt/workbook/*.hpp)
 file(GLOB WORKBOOK_SOURCES ${XLNT_SOURCE_DIR}/workbook/*.cpp)
 file(GLOB WORKSHEET_HEADERS ${XLNT_INCLUDE_DIR}/xlnt/worksheet/*.hpp)
 file(GLOB WORKSHEET_SOURCES ${XLNT_SOURCE_DIR}/worksheet/*.cpp)
+file(GLOB MINIZ_HEADERS ${THIRD_PARTY_DIR}/miniz/*.h)
+file(GLOB MINIZ_SOURCES ${THIRD_PARTY_DIR}/miniz/*.c)
 
 file(GLOB DETAIL_ROOT_HEADERS ${XLNT_SOURCE_DIR}/detail/*.hpp)
 file(GLOB DETAIL_ROOT_SOURCES ${XLNT_SOURCE_DIR}/detail/*.cpp)
@@ -110,11 +114,13 @@ set(DETAIL_SOURCES ${DETAIL_ROOT_SOURCES} ${DETAIL_CRYPTOGRAPHY_SOURCES}
 set(XLNT_HEADERS ${ROOT_HEADERS} ${CELL_HEADERS} ${CHARTS_HEADERS}
   ${CHARTSHEET_HEADERS} ${DRAWING_HEADERS} ${FORMULA_HEADERS}
   ${PACKAGING_HEADERS} ${STYLES_HEADERS} ${UTILS_HEADERS}
-  ${WORKBOOK_HEADERS} ${WORKSHEET_HEADERS} ${DETAIL_HEADERS} ${DETAIL_CRYPTO_HEADERS})
+  ${WORKBOOK_HEADERS} ${WORKSHEET_HEADERS} ${DETAIL_HEADERS} ${DETAIL_CRYPTO_HEADERS}
+  ${DRAWING_HEADERS} ${MINIZ_HEADERS})
 set(XLNT_SOURCES ${CELL_SOURCES} ${CHARTS_SOURCES} ${CHARTSHEET_SOURCES}
   ${DRAWING_SOURCES} ${FORMULA_SOURCES} ${PACKAGING_SOURCES}
   ${STYLES_SOURCES} ${UTILS_SOURCES} ${WORKBOOK_SOURCES}
-  ${WORKSHEET_SOURCES} ${DETAIL_SOURCES} ${DETAIL_CRYPTO_SOURCES})
+  ${WORKSHEET_SOURCES} ${DETAIL_SOURCES} ${DETAIL_CRYPTO_SOURCES}
+  ${DRAWING_SOURCES} ${MINIZ_SOURCES})
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
   # Set a default CMAKE_INSTALL_PREFIX if one wasn't specified
@@ -157,7 +163,7 @@ if(NOT STATIC)
 
   target_compile_definitions(xlnt PRIVATE XLNT_SHARED=1)
 
-  # Set SO version (for symbolic links like libxlnt.so.1.2 and libxlnt.so.1)
+  # Set SO version (for symbolic links like libxlnt.so.1.4 and libxlnt.so.1)
   set_target_properties(xlnt
     PROPERTIES
     VERSION ${PROJECT_VERSION}
@@ -180,6 +186,7 @@ target_include_directories(xlnt
 	PRIVATE
 	${XLNT_SOURCE_DIR}
 	${XLNT_SOURCE_DIR}/../third-party/libstudxml
+    ${XLNT_SOURCE_DIR}/../third-party/miniz
 	${XLNT_SOURCE_DIR}/../third-party/utfcpp)
 
 # Platform- and file-specific settings, MSVC
@@ -227,11 +234,13 @@ source_group(detail\\header_footer FILES ${DETAIL_HEADER_FOOTER_HEADERS} ${DETAI
 source_group(detail\\implementations FILES ${DETAIL_IMPLEMENTATIONS_HEADERS} ${DETAIL_IMPLEMENTATIONS_SOURCES})
 source_group(detail\\number_format FILES ${DETAIL_NUMBER_FORMAT_HEADERS} ${DETAIL_NUMBER_FORMAT_SOURCES})
 source_group(detail\\serialization FILES ${DETAIL_SERIALIZATION_HEADERS} ${DETAIL_SERIALIZATION_SOURCES})
+source_group(drawing FILES ${DRAWING_HEADERS} ${DRAWING_SOURCES})
 source_group(packaging FILES ${PACKAGING_HEADERS} ${PACKAGING_SOURCES})
 source_group(styles FILES ${STYLES_HEADERS} ${STYLES_SOURCES})
 source_group(utils FILES ${UTILS_HEADERS} ${UTILS_SOURCES})
 source_group(workbook FILES ${WORKBOOK_HEADERS} ${WORKBOOK_SOURCES})
 source_group(worksheet FILES ${WORKSHEET_HEADERS} ${WORKSHEET_SOURCES})
+source_group(third-party\\miniz FILES ${MINIZ_HEADERS} ${MINIZ_SOURCES})
 
 # Install library
 install(TARGETS xlnt EXPORT XlntTargets
@@ -271,15 +280,17 @@ install(DIRECTORY ${XLNT_INCLUDE_DIR}/xlnt
 install(FILES ${XLNT_ROOT_DIR}/docs/xlnt.3
 DESTINATION ${XLNT_MAN_DEST_DIR}/man3)
 
-# Configure uninstall
-configure_file("${XLNT_ROOT_DIR}/cmake/cmake_uninstall.cmake.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
-  IMMEDIATE @ONLY)
+if(NOT TARGET uninstall)
+  # Configure uninstall
+  configure_file("${XLNT_ROOT_DIR}/cmake/cmake_uninstall.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+    IMMEDIATE @ONLY)
 
-# Add uninstall target
-add_custom_target(uninstall
-  COMMAND ${CMAKE_COMMAND} -P
-    ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
+  # Add uninstall target
+  add_custom_target(uninstall
+    COMMAND ${CMAKE_COMMAND} -P
+      ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
+endif()
 
 if(NOT MSVC)
   # Set pkg-config variables
