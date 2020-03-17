@@ -1,0 +1,140 @@
+[{
+ "idmonster": 10001,
+ "dis": 2,
+ "hp": 2,
+ "targetHp": 2,
+ "like": 2
+,"__debug":"file:Cfg_TargetFAM.xlsx sheet:Sheet1 line:3  "
+} ,
+{
+ "idmonster": 10001,
+ "dis": 1,
+ "hp": 2,
+ "targetHp": 2,
+ "like": 1
+,"__debug":"file:Cfg_TargetFAM.xlsx sheet:Sheet1 line:4  "
+} ,
+{
+ "idmonster": 10001,
+ "hp": 2,
+ "targetHp": 2
+,"__debug":"file:Cfg_TargetFAM.xlsx sheet:Sheet1 line:5  "
+} ,
+{
+ "idmonster": 10001,
+ "dis": 2,
+ "hp": 2,
+ "targetHp": 1,
+ "like": 1
+,"__debug":"file:Cfg_TargetFAM.xlsx sheet:Sheet1 line:6  "
+} ,
+{
+ "idmonster": 10001,
+ "dis": 1,
+ "hp": 2,
+ "targetHp": 1,
+ "like": 1
+,"__debug":"file:Cfg_TargetFAM.xlsx sheet:Sheet1 line:7  "
+} ,
+{
+ "idmonster": 10001,
+ "hp": 2,
+ "targetHp": 1,
+ "like": 1
+,"__debug":"file:Cfg_TargetFAM.xlsx sheet:Sheet1 line:8  "
+} ,
+{
+ "idmonster": 10001,
+ "dis": 2,
+ "hp": 2
+,"__debug":"file:Cfg_TargetFAM.xlsx sheet:Sheet1 line:9  "
+} ,
+{
+ "idmonster": 10001,
+ "dis": 1,
+ "hp": 2
+,"__debug":"file:Cfg_TargetFAM.xlsx sheet:Sheet1 line:10  "
+} ,
+{
+ "idmonster": 10001,
+ "hp": 2
+,"__debug":"file:Cfg_TargetFAM.xlsx sheet:Sheet1 line:11  "
+} ,
+{
+ "idmonster": 10001,
+ "dis": 2,
+ "hp": 1,
+ "targetHp": 2
+,"__debug":"file:Cfg_TargetFAM.xlsx sheet:Sheet1 line:12  "
+} ,
+{
+ "idmonster": 10001,
+ "dis": 1,
+ "hp": 1,
+ "targetHp": 2,
+ "like": 2
+,"__debug":"file:Cfg_TargetFAM.xlsx sheet:Sheet1 line:13  "
+} ,
+{
+ "idmonster": 10001,
+ "hp": 1,
+ "targetHp": 2,
+ "like": 1
+,"__debug":"file:Cfg_TargetFAM.xlsx sheet:Sheet1 line:14  "
+} ,
+{
+ "idmonster": 10001,
+ "dis": 2,
+ "hp": 1,
+ "targetHp": 1,
+ "like": 1
+,"__debug":"file:Cfg_TargetFAM.xlsx sheet:Sheet1 line:15  "
+} ,
+{
+ "idmonster": 10001,
+ "dis": 1,
+ "hp": 1,
+ "targetHp": 1,
+ "like": 1
+,"__debug":"file:Cfg_TargetFAM.xlsx sheet:Sheet1 line:16  "
+} ,
+{
+ "idmonster": 10001,
+ "hp": 1,
+ "targetHp": 1,
+ "like": 1
+,"__debug":"file:Cfg_TargetFAM.xlsx sheet:Sheet1 line:17  "
+} ,
+{
+ "idmonster": 10001,
+ "dis": 2,
+ "hp": 1
+,"__debug":"file:Cfg_TargetFAM.xlsx sheet:Sheet1 line:18  "
+} ,
+{
+ "idmonster": 10001,
+ "dis": 1,
+ "hp": 1
+,"__debug":"file:Cfg_TargetFAM.xlsx sheet:Sheet1 line:19  "
+} ,
+{
+ "idmonster": 10001,
+ "hp": 1
+,"__debug":"file:Cfg_TargetFAM.xlsx sheet:Sheet1 line:20  "
+} ,
+{
+ "idmonster": 10001,
+ "dis": 2
+,"__debug":"file:Cfg_TargetFAM.xlsx sheet:Sheet1 line:21  "
+} ,
+{
+ "idmonster": 10001,
+ "dis": 1,
+ "like": 1
+,"__debug":"file:Cfg_TargetFAM.xlsx sheet:Sheet1 line:22  "
+} ,
+{
+ "idmonster": 10001,
+ "like": 2
+,"__debug":"file:Cfg_TargetFAM.xlsx sheet:Sheet1 line:23  "
+} ]

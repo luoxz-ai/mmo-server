@@ -1,0 +1,67 @@
+[{
+ "id": 1000001,
+ "sort": 1,
+ "type": 1,
+ "name": "主线1",
+ "submitNpcid": 15001,
+ "awardExp": 100,
+ "scriptid": "501000001"
+,"__debug":"file:Cfg_Task.xlsx sheet:Sheet1 line:3  "
+} ,
+{
+ "id": 1000002,
+ "sort": 1,
+ "type": 1,
+ "name": "主线1",
+ "acceptNpcid": 15001,
+ "submitNpcid": 15002,
+ "awardExp": 100,
+ "scriptid": "501000002"
+,"__debug":"file:Cfg_Task.xlsx sheet:Sheet1 line:4  "
+} ,
+{
+ "id": 1000003,
+ "sort": 1,
+ "type": 1,
+ "name": "主线1",
+ "acceptNpcid": 15002,
+ "submitNpcid": 15003,
+ "awardExp": 100,
+ "scriptid": "501000003"
+,"__debug":"file:Cfg_Task.xlsx sheet:Sheet1 line:5  "
+} ,
+{
+ "id": 2000001,
+ "sort": 2,
+ "type": 2,
+ "name": "支线1",
+ "expireSec": 3600,
+ "daytimes": 2,
+ "acceptNpcid": 15005,
+ "submitNpcid": 15005,
+ "awardExp": 1500,
+ "scriptid": "502000001"
+,"__debug":"file:Cfg_Task.xlsx sheet:Sheet1 line:6  "
+} ,
+{
+ "id": 3000011,
+ "sort": 3,
+ "type": 3,
+ "name": "环任务1",
+ "levelReq": 20,
+ "submitNpcid": 15005,
+ "awardExp": 1500,
+ "scriptid": "503000011"
+,"__debug":"file:Cfg_Task.xlsx sheet:Sheet1 line:7  "
+} ,
+{
+ "id": 3000012,
+ "sort": 3,
+ "type": 3,
+ "name": "环任务2",
+ "levelReq": 20,
+ "submitNpcid": 15005,
+ "awardExp": 1500,
+ "scriptid": "503000012"
+,"__debug":"file:Cfg_Task.xlsx sheet:Sheet1 line:8  "
+} ]

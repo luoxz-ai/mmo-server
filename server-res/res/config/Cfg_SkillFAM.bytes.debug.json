@@ -1,0 +1,109 @@
+[{
+ "idskill": 10001,
+ "dis": 2,
+ "selfHp": 2,
+ "selfMp": 2,
+ "targetHp": 2,
+ "like": 2
+,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:3  "
+} ,
+{
+ "idskill": 10001,
+ "dis": 2,
+ "selfHp": 2,
+ "selfMp": 2,
+ "targetHp": 1,
+ "like": 2
+,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:4  "
+} ,
+{
+ "idskill": 10001,
+ "dis": 2,
+ "selfHp": 2,
+ "selfMp": 2,
+ "like": 2
+,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:5  "
+} ,
+{
+ "idskill": 10001,
+ "dis": 2,
+ "selfHp": 1,
+ "selfMp": 2,
+ "targetHp": 2,
+ "like": 2
+,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:6  "
+} ,
+{
+ "idskill": 10001,
+ "dis": 2,
+ "selfHp": 1,
+ "selfMp": 2,
+ "targetHp": 1,
+ "like": 2
+,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:7  "
+} ,
+{
+ "idskill": 10001,
+ "dis": 2,
+ "selfHp": 1,
+ "selfMp": 2,
+ "like": 2
+,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:8  "
+} ,
+{
+ "idskill": 10001,
+ "dis": 2,
+ "selfHp": 2,
+ "selfMp": 1,
+ "targetHp": 2,
+ "like": 1
+,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:9  "
+} ,
+{
+ "idskill": 10001,
+ "dis": 2,
+ "selfHp": 2,
+ "selfMp": 1,
+ "targetHp": 1,
+ "like": 1
+,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:10  "
+} ,
+{
+ "idskill": 10001,
+ "dis": 2,
+ "selfHp": 2,
+ "selfMp": 1,
+ "like": 1
+,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:11  "
+} ,
+{
+ "idskill": 10001,
+ "selfMp": 1,
+ "targetHp": 2
+,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:12  "
+} ,
+{
+ "idskill": 10001,
+ "selfMp": 1,
+ "targetHp": 1
+,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:13  "
+} ,
+{
+ "idskill": 10001,
+ "selfMp": 1
+,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:14  "
+} ,
+{
+ "idskill": 10001,
+ "targetHp": 2
+,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:15  "
+} ,
+{
+ "idskill": 10001,
+ "targetHp": 1
+,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:16  "
+} ,
+{
+ "idskill": 10001
+,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:17  "
+} ]

@@ -1,0 +1,201 @@
+[{
+ "id": 1001,
+ "num": 1,
+ "attribChangeList": [
+  {
+   "attrib": 1,
+   "val": 100
+  }
+ ]
+,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:3  "
+} ,
+{
+ "id": 1001,
+ "num": 2,
+ "attribChangeList": [
+  {
+   "attrib": 1,
+   "val": 200
+  }
+ ]
+,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:4  "
+} ,
+{
+ "id": 1001,
+ "num": 3,
+ "attribChangeList": [
+  {
+   "attrib": 1,
+   "val": 200
+  },
+  {
+   "attrib": 7,
+   "val": 100
+  }
+ ]
+,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:5  "
+} ,
+{
+ "id": 1001,
+ "num": 4,
+ "attribChangeList": [
+  {
+   "attrib": 1,
+   "val": 200
+  },
+  {
+   "attrib": 7,
+   "val": 100
+  }
+ ]
+,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:6  "
+} ,
+{
+ "id": 1001,
+ "num": 5,
+ "attribChangeList": [
+  {
+   "attrib": 1,
+   "val": 200
+  },
+  {
+   "attrib": 7,
+   "val": 100
+  }
+ ]
+,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:7  "
+} ,
+{
+ "id": 1002,
+ "num": 1,
+ "attribChangeList": [
+  {
+   "attrib": 1,
+   "val": 100
+  }
+ ]
+,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:8  "
+} ,
+{
+ "id": 1002,
+ "num": 2,
+ "attribChangeList": [
+  {
+   "attrib": 1,
+   "val": 200
+  }
+ ]
+,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:9  "
+} ,
+{
+ "id": 1002,
+ "num": 3,
+ "attribChangeList": [
+  {
+   "attrib": 1,
+   "val": 200
+  },
+  {
+   "attrib": 7,
+   "val": 100
+  }
+ ]
+,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:10  "
+} ,
+{
+ "id": 1002,
+ "num": 4,
+ "attribChangeList": [
+  {
+   "attrib": 1,
+   "val": 200
+  },
+  {
+   "attrib": 7,
+   "val": 100
+  }
+ ]
+,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:11  "
+} ,
+{
+ "id": 1002,
+ "num": 5,
+ "attribChangeList": [
+  {
+   "attrib": 1,
+   "val": 200
+  },
+  {
+   "attrib": 7,
+   "val": 100
+  }
+ ]
+,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:12  "
+} ,
+{
+ "id": 2001,
+ "num": 1,
+ "attribChangeList": [
+  {
+   "attrib": 1,
+   "val": 100
+  }
+ ]
+,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:13  "
+} ,
+{
+ "id": 2001,
+ "num": 2,
+ "attribChangeList": [
+  {
+   "attrib": 1,
+   "val": 200
+  }
+ ]
+,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:14  "
+} ,
+{
+ "id": 2001,
+ "num": 3,
+ "attribChangeList": [
+  {
+   "attrib": 1,
+   "val": 200
+  },
+  {
+   "attrib": 7,
+   "val": 100
+  }
+ ]
+,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:15  "
+} ,
+{
+ "id": 2001,
+ "num": 4,
+ "attribChangeList": [
+  {
+   "attrib": 1,
+   "val": 200
+  },
+  {
+   "attrib": 7,
+   "val": 100
+  }
+ ]
+,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:16  "
+} ,
+{
+ "id": 2001,
+ "num": 5,
+ "attribChangeList": [
+  {
+   "attrib": 1,
+   "val": 200
+  },
+  {
+   "attrib": 7,
+   "val": 100
+  }
+ ]
+,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:17  "
+} ]

@@ -1,0 +1,50 @@
+[{
+ "id": 1,
+ "num": 1,
+ "moveSpd": 80000,
+ "applyTimes": 1,
+ "expireMs": 10000,
+ "skillId": 8010001
+,"__debug":"file:Cfg_Bullet.xlsx sheet:Sheet1 line:3  "
+} ,
+{
+ "id": 2,
+ "num": 1,
+ "emitType": 2,
+ "moveSpd": 80000,
+ "expireType": 1,
+ "expireMs": 10000,
+ "skillId": 8010001
+,"__debug":"file:Cfg_Bullet.xlsx sheet:Sheet1 line:4  "
+} ,
+{
+ "id": 3,
+ "num": 2,
+ "emitType": 2,
+ "targetType": 1,
+ "moveSpd": 80000,
+ "expireType": 2,
+ "expireMs": 10000,
+ "skillId": 8010001
+,"__debug":"file:Cfg_Bullet.xlsx sheet:Sheet1 line:5  "
+} ,
+{
+ "id": 4,
+ "num": 5,
+ "emitType": 1,
+ "targetType": 1,
+ "moveSpd": 80000,
+ "expireType": 2,
+ "expireMs": 10000,
+ "skillId": 8010001
+,"__debug":"file:Cfg_Bullet.xlsx sheet:Sheet1 line:6  "
+} ,
+{
+ "id": 5,
+ "num": 2,
+ "targetType": 1,
+ "moveSpd": 80000,
+ "expireMs": 10000,
+ "skillId": 8010001
+,"__debug":"file:Cfg_Bullet.xlsx sheet:Sheet1 line:7  "
+} ]

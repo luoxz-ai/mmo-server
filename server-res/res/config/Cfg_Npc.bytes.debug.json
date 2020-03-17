@@ -1,0 +1,55 @@
+[{
+ "id": 101001,
+ "level": 1,
+ "name": "小鸡",
+ "shopId": 1,
+ "shopLinkname": "1",
+ "scriptid": "300101001",
+ "posx": 10,
+ "posy": 10
+,"__debug":"file:Cfg_Npc.xlsx sheet:Sheet1 line:3  "
+} ,
+{
+ "id": 101002,
+ "level": 2,
+ "name": "小鸭",
+ "shopId": 2,
+ "shopLinkname": "1",
+ "scriptid": "300101002",
+ "posx": 20,
+ "posy": 20
+,"__debug":"file:Cfg_Npc.xlsx sheet:Sheet1 line:4  "
+} ,
+{
+ "id": 101003,
+ "level": 3,
+ "name": "小猫",
+ "shopId": 3,
+ "shopLinkname": "2",
+ "scriptid": "300101003",
+ "posx": 30,
+ "posy": 30
+,"__debug":"file:Cfg_Npc.xlsx sheet:Sheet1 line:5  "
+} ,
+{
+ "id": 101004,
+ "level": 4,
+ "name": "小猪",
+ "shopId": 2,
+ "shopLinkname": "2",
+ "scriptid": "300101004",
+ "posx": 40,
+ "posy": 40
+,"__debug":"file:Cfg_Npc.xlsx sheet:Sheet1 line:6  "
+} ,
+{
+ "id": 101005,
+ "level": 5,
+ "name": "小狗",
+ "shopId": 1,
+ "shopLinkname": "3",
+ "scriptid": "300101005",
+ "posx": 50,
+ "posy": 50
+,"__debug":"file:Cfg_Npc.xlsx sheet:Sheet1 line:7  "
+} ]

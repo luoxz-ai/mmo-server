@@ -1,0 +1,64 @@
+[{
+ "idmap": 101,
+ "idx": 1,
+ "active": 1,
+ "x": 50,
+ "y": 50,
+ "range": 2,
+ "monsterid": 1010001,
+ "perGen": 2,
+ "waitTime": 1,
+ "genMax": 2
+,"__debug":"file:Cfg_Scene_MonsterGenerator.xlsx sheet:Sheet1 line:3  "
+} ,
+{
+ "idmap": 101,
+ "idx": 2,
+ "x": 50,
+ "y": 50,
+ "range": 3,
+ "monsterid": 1010002,
+ "perGen": 8,
+ "waitTime": 1,
+ "genMax": 15
+,"__debug":"file:Cfg_Scene_MonsterGenerator.xlsx sheet:Sheet1 line:4  "
+} ,
+{
+ "idmap": 101,
+ "idx": 3,
+ "x": 50,
+ "y": 50,
+ "range": 4,
+ "monsterid": 1010003,
+ "perGen": 15,
+ "waitTime": 1,
+ "genMax": 25
+,"__debug":"file:Cfg_Scene_MonsterGenerator.xlsx sheet:Sheet1 line:5  "
+} ,
+{
+ "idmap": 101,
+ "idx": 4,
+ "shape": 1,
+ "x": 50,
+ "y": 50,
+ "range": 5,
+ "width": 5,
+ "monsterid": 1010004,
+ "perGen": 20,
+ "waitTime": 1,
+ "genMax": 20
+,"__debug":"file:Cfg_Scene_MonsterGenerator.xlsx sheet:Sheet1 line:6  "
+} ,
+{
+ "idmap": 101,
+ "idx": 5,
+ "shape": 1,
+ "x": 50,
+ "y": 50,
+ "range": 3,
+ "width": 8,
+ "monsterid": 1010005,
+ "perGen": 4294967295,
+ "genMax": 40
+,"__debug":"file:Cfg_Scene_MonsterGenerator.xlsx sheet:Sheet1 line:7  "
+} ]

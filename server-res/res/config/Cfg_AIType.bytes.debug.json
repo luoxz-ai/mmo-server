@@ -1,0 +1,47 @@
+[{
+ "idmonster": 1010001,
+ "aiType": 2,
+ "idleRandomwalkMsMin": 5000,
+ "idleRandomwalkMsMax": 12000,
+ "idleRandomwalkStepMin": 1,
+ "idleRandomwalkStepMax": 4,
+ "idleRandomwalkRange": 8,
+ "attackPursueSelfrange": 30,
+ "attackTargetRange": 30,
+ "searchEnemyRange": 15,
+ "searchEnemyMsMin": 1000,
+ "searchEnemyMsMax": 3500,
+ "canApproach": true,
+ "attackWaitMs": 800,
+ "targetfamId": 10001,
+ "skillId": [
+  900101,
+  900102,
+  900103
+ ],
+ "scriptId": 1010001,
+ "aiDebug": true
+,"__debug":"file:Cfg_AIType.xlsx sheet:Sheet1 line:3  "
+} ,
+{
+ "idmonster": 1010002,
+ "aiType": 2,
+ "idleRandomwalkMsMin": 10000,
+ "idleRandomwalkMsMax": 12000,
+ "idleRandomwalkStepMin": 1,
+ "idleRandomwalkStepMax": 4,
+ "idleRandomwalkRange": 8,
+ "attackPursueSelfrange": 30,
+ "attackTargetRange": 30,
+ "searchEnemyRange": 15,
+ "searchEnemyMsMin": 1000,
+ "searchEnemyMsMax": 3500,
+ "canApproach": true,
+ "attackWaitMs": 800,
+ "targetfamId": 10002,
+ "skillId": [
+  900201,
+  900202
+ ]
+,"__debug":"file:Cfg_AIType.xlsx sheet:Sheet1 line:4  "
+} ]

@@ -1,0 +1,38 @@
+[{
+ "id": 10000001,
+ "sort": 1,
+ "targetItemtype": 10100001,
+ "targetItemnum": 1,
+ "levReq": 1,
+ "succRate": 1,
+ "reqDataList": [
+  {
+   "reqType": 1,
+   "reqNum": 1000
+  },
+  {
+   "reqType": 2,
+   "reqNum": 1000
+  }
+ ]
+,"__debug":"file:Cfg_ItemFormula.xlsx sheet:Sheet1 line:3  "
+} ,
+{
+ "id": 10000002,
+ "sort": 1,
+ "targetItemtype": 10100001,
+ "targetItemnum": 10,
+ "levReq": 1,
+ "succRate": 1,
+ "reqDataList": [
+  {
+   "reqType": 1,
+   "reqNum": 1000
+  },
+  {
+   "reqType": 2,
+   "reqNum": 1000
+  }
+ ]
+,"__debug":"file:Cfg_ItemFormula.xlsx sheet:Sheet1 line:4  "
+} ]

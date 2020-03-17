@@ -1,0 +1,48 @@
+[{
+ "idmap": 101,
+ "idx": 1,
+ "x": 100,
+ "y": 50,
+ "range": 5,
+ "destMapId": 102,
+ "destEnterPointIdx": 1
+,"__debug":"file:Cfg_Scene_LeavePoint.xlsx sheet:Sheet1 line:3  "
+} ,
+{
+ "idmap": 102,
+ "idx": 1,
+ "x": 100,
+ "y": 50,
+ "range": 5,
+ "destMapId": 103,
+ "destEnterPointIdx": 1
+,"__debug":"file:Cfg_Scene_LeavePoint.xlsx sheet:Sheet1 line:4  "
+} ,
+{
+ "idmap": 103,
+ "idx": 1,
+ "x": 100,
+ "y": 50,
+ "range": 5,
+ "destMapId": 201,
+ "destEnterPointIdx": 1
+,"__debug":"file:Cfg_Scene_LeavePoint.xlsx sheet:Sheet1 line:5  "
+} ,
+{
+ "idmap": 201,
+ "idx": 1,
+ "x": 100,
+ "y": 50,
+ "range": 5,
+ "destMapId": 103,
+ "destEnterPointIdx": 1
+,"__debug":"file:Cfg_Scene_LeavePoint.xlsx sheet:Sheet1 line:6  "
+} ,
+{
+ "idmap": 301,
+ "idx": 1,
+ "x": 100,
+ "y": 50,
+ "range": 5
+,"__debug":"file:Cfg_Scene_LeavePoint.xlsx sheet:Sheet1 line:7  "
+} ]

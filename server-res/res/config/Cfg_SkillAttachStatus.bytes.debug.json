@@ -1,0 +1,19 @@
+[{
+ "id": 1,
+ "idskill": 100301,
+ "statusTypeid": 1,
+ "statusLev": 1,
+ "statusSecs": 60,
+ "statusTimes": 1
+,"__debug":"file:Cfg_SkillAttachStatus.xlsx sheet:Sheet1 line:3  "
+} ,
+{
+ "id": 2,
+ "idskill": 100102,
+ "statusTypeid": 5,
+ "statusLev": 1,
+ "statusPower": 2,
+ "statusSecs": 3,
+ "statusTimes": 10
+,"__debug":"file:Cfg_SkillAttachStatus.xlsx sheet:Sheet1 line:4  "
+} ]

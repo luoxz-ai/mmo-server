@@ -1,0 +1,27 @@
+[{
+ "id": 1,
+ "prof": 1,
+ "mapid": 101,
+ "posx": 50,
+ "posy": 50,
+ "range": 2
+,"__debug":"file:Cfg_BornPos.xlsx sheet:Sheet1 line:3  "
+} ,
+{
+ "id": 2,
+ "prof": 2,
+ "mapid": 101,
+ "posx": 50,
+ "posy": 50,
+ "range": 2
+,"__debug":"file:Cfg_BornPos.xlsx sheet:Sheet1 line:4  "
+} ,
+{
+ "id": 3,
+ "prof": 4,
+ "mapid": 101,
+ "posx": 50,
+ "posy": 50,
+ "range": 2
+,"__debug":"file:Cfg_BornPos.xlsx sheet:Sheet1 line:5  "
+} ]

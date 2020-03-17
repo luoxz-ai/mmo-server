@@ -1,0 +1,105 @@
+[{
+ "id": 1010001,
+ "level": 1,
+ "name": "小鸡",
+ "monsterFlag": 1,
+ "killExp": 1,
+ "idcamp": 1,
+ "scriptid": "201010001",
+ "aitype": 1010001,
+ "attrData": {
+  "hpMax": 100,
+  "movespd": 20000,
+  "minAtk": 1,
+  "maxAtk": 2,
+  "minDef": 1,
+  "maxDef": 5,
+  "hit": 100,
+  "dodge": 20
+ }
+,"__debug":"file:Cfg_Monster.xlsx sheet:Sheet1 line:3  "
+} ,
+{
+ "id": 1010002,
+ "level": 2,
+ "name": "小鸭",
+ "monsterFlag": 2,
+ "killExp": 1,
+ "idcamp": 1,
+ "scriptid": "201010002",
+ "aitype": 1010002,
+ "attrData": {
+  "hpMax": 120,
+  "movespd": 20000,
+  "minAtk": 1,
+  "maxAtk": 3,
+  "minDef": 1,
+  "maxDef": 5,
+  "hit": 100,
+  "dodge": 20
+ }
+,"__debug":"file:Cfg_Monster.xlsx sheet:Sheet1 line:4  "
+} ,
+{
+ "id": 1010003,
+ "level": 3,
+ "name": "小猫",
+ "monsterFlag": 3,
+ "killExp": 2,
+ "idcamp": 1,
+ "scriptid": "201010003",
+ "aitype": 1010003,
+ "attrData": {
+  "hpMax": 140,
+  "movespd": 20000,
+  "minAtk": 1,
+  "maxAtk": 4,
+  "minDef": 5,
+  "maxDef": 5,
+  "hit": 100,
+  "dodge": 20
+ }
+,"__debug":"file:Cfg_Monster.xlsx sheet:Sheet1 line:5  "
+} ,
+{
+ "id": 1010004,
+ "level": 4,
+ "name": "小猪",
+ "monsterFlag": 2,
+ "killExp": 2,
+ "idcamp": 1,
+ "scriptid": "201010004",
+ "aitype": 1010004,
+ "attrData": {
+  "hpMax": 200,
+  "movespd": 20000,
+  "minAtk": 2,
+  "maxAtk": 4,
+  "minDef": 5,
+  "maxDef": 5,
+  "hit": 100,
+  "dodge": 20
+ }
+,"__debug":"file:Cfg_Monster.xlsx sheet:Sheet1 line:6  "
+} ,
+{
+ "id": 1010005,
+ "level": 5,
+ "name": "小狗",
+ "monsterFlag": 1,
+ "killExp": 3,
+ "idcamp": 1,
+ "scriptid": "201010005",
+ "aitype": 1010005,
+ "attrData": {
+  "hpMax": 200,
+  "movespd": 20000,
+  "minAtk": 3,
+  "maxAtk": 4,
+  "minDef": 5,
+  "maxDef": 5,
+  "hit": 100,
+  "dodge": 20
+ }
+,"__debug":"file:Cfg_Monster.xlsx sheet:Sheet1 line:7  "
+} ]

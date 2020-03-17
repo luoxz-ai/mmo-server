@@ -1,0 +1,45 @@
+[{
+ "idmap": 101,
+ "idx": 1,
+ "rebornMap": 101,
+ "rebornX": 50,
+ "rebornY": 50,
+ "rebornRange": 2
+,"__debug":"file:Cfg_Scene_Reborn.xlsx sheet:Sheet1 line:3  "
+} ,
+{
+ "idmap": 102,
+ "idx": 1,
+ "rebornMap": 102,
+ "rebornX": 50,
+ "rebornY": 50,
+ "rebornRange": 2
+,"__debug":"file:Cfg_Scene_Reborn.xlsx sheet:Sheet1 line:4  "
+} ,
+{
+ "idmap": 103,
+ "idx": 1,
+ "rebornMap": 103,
+ "rebornX": 50,
+ "rebornY": 50,
+ "rebornRange": 2
+,"__debug":"file:Cfg_Scene_Reborn.xlsx sheet:Sheet1 line:5  "
+} ,
+{
+ "idmap": 201,
+ "idx": 1,
+ "rebornMap": 103,
+ "rebornX": 50,
+ "rebornY": 50,
+ "rebornRange": 2
+,"__debug":"file:Cfg_Scene_Reborn.xlsx sheet:Sheet1 line:6  "
+} ,
+{
+ "idmap": 301,
+ "idx": 1,
+ "rebornMap": 103,
+ "rebornX": 50,
+ "rebornY": 50,
+ "rebornRange": 2
+,"__debug":"file:Cfg_Scene_Reborn.xlsx sheet:Sheet1 line:7  "
+} ]
