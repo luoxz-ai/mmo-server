@@ -47,7 +47,7 @@ public:
 		, m_AttribChangeVal{nValModify, nValFactor}
 	{
 	}
-	CActorAttribChange(const AttribChangeDataProto& v)
+	explicit CActorAttribChange(const AttribChangeDataProto& v)
 		: m_nAttribIdx(v.attrib())
 		, m_nLayer(v.oplev())
 		, m_AttribChangeVal{v.val(), v.factor()}

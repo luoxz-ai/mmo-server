@@ -51,31 +51,6 @@ int main(int argc, char** argv)
 	std::string pb_dir_name		= opt["--inputpbdir"];
 	std::string out_file_name	= opt["--out"];
 
-	xlnt::workbook wb;
-	wb.load(execl_full_path);
-	auto		ws		  = wb.active_sheet();
-	auto		rows	  = ws.rows(false);
-	const auto& row_name  = rows.vector(0);
-	const auto& row_proto = rows.vector(0);
-
-	if(opt.has("--showexecl"))
-	{
-		int32_t x = 0, y = 0;
-		for(auto row: rows)
-		{
-
-			for(auto cell: row)
-			{
-				fmt::print("[{},{}]{} \t", x, y, cell.to_string().c_str());
-				x++;
-			}
-			y++;
-			x = 0;
-			std::cout << std::endl;
-		}
-		return 0;
-	}
-
 	using namespace google::protobuf;
 	using namespace google::protobuf::compiler;
 
@@ -85,73 +60,142 @@ int main(int argc, char** argv)
 	const FileDescriptor* fdes = importer.Import(pb_file_name);
 	if(fdes == nullptr)
 	{
-		std::cerr << "importer fail";
+		fmt::print( "importer fail");
 		return -1;
 	}
 
 	const Descriptor* desc = importer.pool()->FindMessageTypeByName(execl_name);
 	if(desc == nullptr)
 	{
-		std::cerr << "find cfgname fail";
+		fmt::print( "find cfgname fail" );
 		return -1;
 	}
 
 	DynamicMessageFactory factory;
 	const Message*		  message_const	  = factory.GetPrototype(desc);
-	Message*			  pData			  = message_const->New();
-	auto				  pPBRowFieldDesc = pData->GetDescriptor()->FindFieldByNumber(1);
-	auto				  sub_msg_desc	  = pPBRowFieldDesc->message_type();
+	Message*			  pData			  = message_const->New();	
+	auto pPBRowFieldDesc = pData->GetDescriptor()->FindFieldByNumber(1);
+	auto sub_msg_desc	  = pPBRowFieldDesc->message_type();
 	if(sub_msg_desc == nullptr)
 	{
-		std::cerr << execl_name << " field 1 is not a message";
+		fmt::print("{} field 1 is not a message",  execl_name);
 		return -1;
 	}
-	const Message* row_message_const = factory.GetPrototype(sub_msg_desc);
-	size_t		   x				 = 0;
-	size_t		   y				 = 0;
-	for(auto row: rows)
+
+	std::string debug_txt;
+	xlnt::workbook wb;
+	wb.load(execl_full_path);
+	for(const auto& ws : wb)
 	{
-		if(y < 3)
+		auto		rows	  = ws.rows(false);
+		const auto& row_name  = rows.vector(0);
+		const auto& row_proto = rows.vector(0);
+
+		if(opt.has("--showexecl"))
 		{
+			int32_t x = 0, y = 0;
+			for(auto row: rows)
+			{
+
+				for(auto cell: row)
+				{
+					fmt::print("[{},{}]{} \t", y+1, x+1, cell.to_string().c_str());
+					x++;
+				}
+				y++;
+				x = 0;
+				std::cout << std::endl;
+			}
+			return 0;
+		}
+
+		
+		const Message* row_message_const = factory.GetPrototype(sub_msg_desc);
+		size_t		   x				 = 0;
+		size_t		   y				 = 0;
+		for(auto row: rows)
+		{
+			if(y < 2)
+			{
+				y++;
+				continue;
+			}
+			Message* pPBRow	 = row_message_const->New();
+			bool	 bUpdate = false;
+			for(auto cell: row)
+			{
+				if(x > row_name.length())
+					continue;
+				const auto& cell_name = row_name[x];
+				std::string name	  = cell_name.to_string();
+				if(name.empty() || name[0] == '#')
+				{
+					x++;
+					continue;
+				}
+
+				std::string data = cell.to_string();
+				if(data.empty())
+				{
+					x++;
+					continue;
+				}
+
+				try
+				{
+					pb_util::SetMessageData(pPBRow, name, data);
+				}
+				catch(...)
+				{
+					fmt::print("process fail: sheet={} y={} x={} cell:{} data:{} \n", ws.title(), y+1, x+1, name, data);
+				}
+				
+				bUpdate = true;
+				x++;
+			}
+
+			if(bUpdate)
+			{
+				pData->GetReflection()->AddAllocatedMessage(pData, pPBRowFieldDesc, pPBRow);
+				std::string json_txt;
+				pb_util::SaveToJsonTxt(*pPBRow, json_txt);
+				
+				if(debug_txt.empty() == false)
+					debug_txt += ",\n";
+				debug_txt += std::string_view{json_txt.c_str(), json_txt.size() -2 };
+				debug_txt += fmt::format(",\"__debug\":\"file:{} sheet:{} line:{}  \"\n}} ", execl_file_name, ws.title(), y+1 );
+				
+				
+			}
+			else
+			{
+				SAFE_DELETE(pPBRow);
+			}	
+
+
+			x = 0;
 			y++;
-			continue;
 		}
-		Message* pPBRow	 = row_message_const->New();
-		bool	 bUpdate = false;
-		for(auto cell: row)
-		{
-			if(x > row_name.length())
-				continue;
-			const auto& cell_name = row_name[x];
-			std::string name	  = cell_name.to_string();
-			if(name.empty() || name[0] == '#')
-				continue;
-
-			std::string data = cell.to_string();
-			if(data.empty())
-				continue;
-			pb_util::SetMessageData(pPBRow, name, data);
-			bUpdate = true;
-			x++;
-		}
-		if(bUpdate)
-			pData->GetReflection()->AddAllocatedMessage(pData, pPBRowFieldDesc, pPBRow);
-		else
-			SAFE_DELETE(pPBRow);
-		x = 0;
-		y++;
 	}
+	
 
-	if(opt.has("--display"))
-		std::cout << pData->Utf8DebugString() << std::endl;
-
-	std::ofstream ofs(out_file_name.data());
-	if(ofs.is_open())
+	if(opt.has("--debug"))
 	{
-		pData->SerializeToOstream(&ofs);
+		std::string debug_file_name = out_file_name + ".debug.json";
+		std::ofstream ofs(debug_file_name.c_str(), std::ios::out| std::ios::trunc);
+		if(ofs.is_open())
+		{
+			ofs <<"[";
+			ofs << debug_txt;
+			ofs <<"]";
+			ofs.close();
+		}
 	}
-	ofs.close();
-	printf("write to file succ.\n");
+
+	pb_util::SaveToBinaryFile(*pData, out_file_name.c_str());
+	SAFE_DELETE(pData);
+	
+	fmt::printf("write to file succ.\n");
 
 	return 0;
 }

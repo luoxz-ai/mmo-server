@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2020 Thomas Fussell
+// Copyright (c) 2014-2017 Thomas Fussell
 // Copyright (c) 2010-2015 openpyxl
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,6 +22,8 @@
 // @license: http://www.opensource.org/licenses/mit-license.php
 // @author: see AUTHORS file
 
+#include <detail/implementations/style_impl.hpp>
+#include <detail/implementations/stylesheet.hpp>
 #include <xlnt/styles/alignment.hpp>
 #include <xlnt/styles/border.hpp>
 #include <xlnt/styles/fill.hpp>
@@ -29,16 +31,14 @@
 #include <xlnt/styles/number_format.hpp>
 #include <xlnt/styles/protection.hpp>
 #include <xlnt/styles/style.hpp>
-#include <detail/implementations/style_impl.hpp>
-#include <detail/implementations/stylesheet.hpp>
 
 namespace {
 
 std::vector<xlnt::number_format>::iterator find_number_format(
-    std::vector<xlnt::number_format> &number_formats, std::size_t id)
+	std::vector<xlnt::number_format> &number_formats, std::size_t id)
 {
-    return std::find_if(number_formats.begin(), number_formats.end(),
-        [=](const xlnt::number_format &nf) { return nf.id() == id; });
+	return std::find_if(number_formats.begin(), number_formats.end(),
+		[=](const xlnt::number_format &nf) { return nf.id() == id; });
 }
 
 } // namespace
@@ -66,11 +66,6 @@ std::size_t style::builtin_id() const
     return d_->builtin_id.get();
 }
 
-bool style::builtin() const
-{
-    return d_->builtin_id.is_set();
-}
-
 std::string style::name() const
 {
     return d_->name;
@@ -84,7 +79,7 @@ style style::name(const std::string &name)
 
 bool style::custom_builtin() const
 {
-    return d_->builtin_id.is_set() && d_->custom_builtin;
+	return d_->builtin_id.is_set() && d_->custom_builtin;
 }
 
 bool style::operator==(const style &other) const
@@ -92,22 +87,22 @@ bool style::operator==(const style &other) const
     return name() == other.name();
 }
 
-bool style::operator!=(const style &other) const
-{
-    return !operator==(other);
-}
-
 xlnt::alignment style::alignment() const
 {
     return d_->parent->alignments.at(d_->alignment_id.get());
 }
 
-style style::alignment(const xlnt::alignment &new_alignment, optional<bool> applied)
+bool style::alignment_applied() const
+{
+	return d_->alignment_applied;
+}
+
+style style::alignment(const xlnt::alignment &new_alignment, bool applied)
 {
     d_->alignment_id = d_->parent->find_or_add(d_->parent->alignments, new_alignment);
     d_->alignment_applied = applied;
 
-    return *this;
+	return *this;
 }
 
 xlnt::border style::border() const
@@ -115,12 +110,17 @@ xlnt::border style::border() const
     return d_->parent->borders.at(d_->border_id.get());
 }
 
-style style::border(const xlnt::border &new_border, optional<bool> applied)
+bool style::border_applied() const
+{
+	return d_->border_applied;
+}
+
+style style::border(const xlnt::border &new_border, bool applied)
 {
     d_->border_id = d_->parent->find_or_add(d_->parent->borders, new_border);
     d_->border_applied = applied;
 
-    return *this;
+	return *this;
 }
 
 xlnt::fill style::fill() const
@@ -128,12 +128,17 @@ xlnt::fill style::fill() const
     return d_->parent->fills.at(d_->fill_id.get());
 }
 
-style style::fill(const xlnt::fill &new_fill, optional<bool> applied)
+bool style::fill_applied() const
+{
+	return d_->fill_applied;
+}
+
+style style::fill(const xlnt::fill &new_fill, bool applied)
 {
     d_->fill_id = d_->parent->find_or_add(d_->parent->fills, new_fill);
     d_->fill_applied = applied;
 
-    return *this;
+	return *this;
 }
 
 xlnt::font style::font() const
@@ -141,28 +146,38 @@ xlnt::font style::font() const
     return d_->parent->fonts.at(d_->font_id.get());
 }
 
-style style::font(const xlnt::font &new_font, optional<bool> applied)
+bool style::font_applied() const
+{
+	return d_->font_applied;
+}
+
+style style::font(const xlnt::font &new_font, bool applied)
 {
     d_->font_id = d_->parent->find_or_add(d_->parent->fonts, new_font);
     d_->font_applied = applied;
 
-    return *this;
+	return *this;
 }
 
 xlnt::number_format style::number_format() const
 {
-    auto match = find_number_format(d_->parent->number_formats,
-        d_->number_format_id.get());
+	auto match = find_number_format(d_->parent->number_formats, 
+		d_->number_format_id.get());
 
-    if (match == d_->parent->number_formats.end())
-    {
-        throw invalid_attribute();
-    }
+	if (match == d_->parent->number_formats.end())
+	{
+		throw invalid_attribute();
+	}
 
-    return *match;
+	return *match;
 }
 
-style style::number_format(const xlnt::number_format &new_number_format, optional<bool> applied)
+bool style::number_format_applied() const
+{
+	return d_->number_format_applied;
+}
+
+style style::number_format(const xlnt::number_format &new_number_format, bool applied)
 {
     auto copy = new_number_format;
 
@@ -171,16 +186,16 @@ style style::number_format(const xlnt::number_format &new_number_format, optiona
         copy.id(d_->parent->next_custom_number_format_id());
         d_->parent->number_formats.push_back(copy);
     }
-    else if (find_number_format(d_->parent->number_formats, copy.id())
-        == d_->parent->number_formats.end())
-    {
+	else if (find_number_format(d_->parent->number_formats, copy.id()) 
+		== d_->parent->number_formats.end())
+	{
         d_->parent->number_formats.push_back(copy);
     }
 
     d_->number_format_id = copy.id();
     d_->number_format_applied = applied;
 
-    return *this;
+	return *this;
 }
 
 xlnt::protection style::protection() const
@@ -188,54 +203,17 @@ xlnt::protection style::protection() const
     return d_->parent->protections.at(d_->protection_id.get());
 }
 
-style style::protection(const xlnt::protection &new_protection, optional<bool> applied)
+bool style::protection_applied() const
+{
+	return d_->protection_applied;
+}
+
+style style::protection(const xlnt::protection &new_protection, bool applied)
 {
     d_->protection_id = d_->parent->find_or_add(d_->parent->protections, new_protection);
     d_->protection_applied = applied;
 
     return *this;
-}
-
-bool style::alignment_applied() const
-{
-    return d_->alignment_applied.is_set()
-        ? d_->alignment_applied.get()
-        : d_->alignment_id.is_set();
-}
-
-bool style::border_applied() const
-{
-    return d_->border_applied.is_set()
-        ? d_->border_applied.get()
-        : d_->border_id.is_set();
-}
-
-bool style::fill_applied() const
-{
-    return d_->fill_applied.is_set()
-        ? d_->fill_applied.get()
-        : d_->fill_id.is_set();
-}
-
-bool style::font_applied() const
-{
-    return d_->font_applied.is_set()
-        ? d_->font_applied.get()
-        : d_->font_id.is_set();
-}
-
-bool style::number_format_applied() const
-{
-    return d_->number_format_applied.is_set()
-        ? d_->number_format_applied.get()
-        : d_->number_format_id.is_set();
-}
-
-bool style::protection_applied() const
-{
-    return d_->protection_applied.is_set()
-        ? d_->protection_applied.get()
-        : d_->protection_id.is_set();
 }
 
 bool style::pivot_button() const

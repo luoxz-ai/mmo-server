@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2020 Thomas Fussell
+// Copyright (c) 2014-2017 Thomas Fussell
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -31,7 +31,7 @@
 
 namespace xlnt {
 
-range::range(class worksheet ws, const range_reference &reference, major_order order, bool skip_null)
+range::range(worksheet ws, const range_reference &reference, major_order order, bool skip_null)
     : ws_(ws),
       ref_(reference),
       order_(order),
@@ -39,7 +39,9 @@ range::range(class worksheet ws, const range_reference &reference, major_order o
 {
 }
 
-range::~range() = default;
+range::~range()
+{
+}
 
 void range::clear_cells()
 {
@@ -61,21 +63,12 @@ void range::clear_cells()
             }
         }
     }
+    
 }
 
 cell_vector range::operator[](std::size_t index)
 {
     return vector(index);
-}
-
-const cell_vector range::operator[](std::size_t index) const
-{
-    return vector(index);
-}
-
-const worksheet &range::target_worksheet() const
-{
-    return ws_;
 }
 
 range_reference range::reference() const
@@ -101,22 +94,6 @@ bool range::operator==(const range &comparand) const
 }
 
 cell_vector range::vector(std::size_t vector_index)
-{
-    auto cursor = ref_.top_left();
-
-    if (order_ == major_order::row)
-    {
-        cursor.row(cursor.row() + static_cast<row_t>(vector_index));
-    }
-    else
-    {
-        cursor.column_index(cursor.column_index() + static_cast<column_t::index_t>(vector_index));
-    }
-
-    return cell_vector(ws_, cursor, ref_, order_, skip_null_, false);
-}
-
-const cell_vector range::vector(std::size_t vector_index) const
 {
     auto cursor = ref_.top_left();
 
@@ -189,7 +166,7 @@ range range::style(const std::string &style_name)
 
 conditional_format range::conditional_format(const condition &when)
 {
-    return ws_.conditional_format(ref_, when);
+	return ws_.conditional_format(ref_, when);
 }
 
 void range::apply(std::function<void(class cell)> f)
@@ -204,11 +181,6 @@ void range::apply(std::function<void(class cell)> f)
 }
 
 cell range::cell(const cell_reference &ref)
-{
-    return (*this)[ref.row() - 1][ref.column().index - 1];
-}
-
-const cell range::cell(const cell_reference &ref) const
 {
     return (*this)[ref.row() - 1][ref.column().index - 1];
 }

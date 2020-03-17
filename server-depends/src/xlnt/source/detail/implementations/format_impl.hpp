@@ -30,22 +30,22 @@ struct format_impl
 	std::size_t id;
 
 	optional<std::size_t> alignment_id;
-    optional<bool> alignment_applied;
+    bool alignment_applied = false;
 
 	optional<std::size_t> border_id;
-    optional<bool> border_applied;
+    bool border_applied = false;
 
 	optional<std::size_t> fill_id;
-    optional<bool> fill_applied;
+    bool fill_applied = false;
 
 	optional<std::size_t> font_id;
-    optional<bool> font_applied;
+    bool font_applied = false;
 
 	optional<std::size_t> number_format_id;
-    optional<bool> number_format_applied;
+    bool number_format_applied = false;
 
 	optional<std::size_t> protection_id;
-    optional<bool> protection_applied;
+    bool protection_applied = false;
 
     bool pivot_button_ = false;
     bool quote_prefix_ = false;

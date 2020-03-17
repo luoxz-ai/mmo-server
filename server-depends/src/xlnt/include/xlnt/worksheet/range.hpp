@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2020 Thomas Fussell
+// Copyright (c) 2014-2017 Thomas Fussell
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -118,11 +118,6 @@ public:
     const class cell cell(const cell_reference &ref) const;
 
     /// <summary>
-    /// The worksheet this range targets
-    /// </summary>
-    const worksheet &target_worksheet() const;
-
-    /// <summary>
     /// Returns the reference defining the bounds of this range.
     /// </summary>
     range_reference reference() const;
@@ -136,7 +131,7 @@ public:
     /// Returns true if the given cell exists in the parent worksheet of this range.
     /// </summary>
     bool contains(const cell_reference &ref);
-
+    
     /// <summary>
     /// Sets the alignment of all cells in the range to new_alignment and returns the range.
     /// </summary>
@@ -180,10 +175,10 @@ public:
     /// </summary>
     range style(const std::string &style_name);
 
-    /// <summary>
-    ///
-    /// </summary>
-    xlnt::conditional_format conditional_format(const condition &when);
+	/// <summary>
+	/// 
+	/// </summary>
+	xlnt::conditional_format conditional_format(const condition &when);
 
     /// <summary>
     /// Returns the first row or column in this range.
@@ -294,7 +289,7 @@ private:
     /// <summary>
     /// The worksheet this range is within
     /// </summary>
-    class worksheet ws_;
+    worksheet ws_;
 
     /// <summary>
     /// The reference of this range

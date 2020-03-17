@@ -8,7 +8,7 @@ CMapData::CMapData() {}
 
 CMapData::~CMapData()
 {
-	SAFE_DELETE(m_pGridData);
+	SAFE_DELETE_ARRAY(m_pGridData);
 }
 
 bool CMapData::Init(uint32_t idMapTemplate)

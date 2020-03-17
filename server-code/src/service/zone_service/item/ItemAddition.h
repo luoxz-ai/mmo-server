@@ -16,7 +16,7 @@ public:
 	{
 		for(int32_t i = 0; i < row.attrib_change_list_size(); i++)
 		{
-			m_AttribChangeList.push_back(CActorAttribChange(row.attrib_change_list(i)));
+			m_AttribChangeList.push_back(CActorAttribChange{row.attrib_change_list(i)});
 		}
 		return true;
 	}

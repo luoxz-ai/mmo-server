@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2020 Thomas Fussell
+// Copyright (c) 2014-2017 Thomas Fussell
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,9 +21,7 @@
 // @license: http://www.opensource.org/licenses/mit-license.php
 // @author: see AUTHORS file
 
-#include <algorithm>
 #include <fstream>
-#include <iterator>
 #include <sstream>
 #include <sys/stat.h>
 
@@ -37,8 +35,8 @@
 #include <codecvt>
 #endif
 
-#include <xlnt/utils/path.hpp>
 #include <detail/external/include_windows.hpp>
+#include <xlnt/utils/path.hpp>
 
 namespace {
 
@@ -139,24 +137,8 @@ path::path()
 }
 
 path::path(const std::string &path_string)
-{
-    std::remove_copy(path_string.begin(), path_string.end(), std::back_inserter(internal_), '\"');
-}
-
-path::path(const std::string &path_string, char sep)
     : internal_(path_string)
 {
-    char curr_sep = guess_separator();
-    if (curr_sep != sep)
-    {
-        for (char &c : internal_) // simple find and replace
-        {
-            if (c == curr_sep)
-            {
-                c = sep;
-            }
-        }
-    }
 }
 
 // general attributes
@@ -223,7 +205,7 @@ std::pair<std::string, std::string> path::split_extension() const
 
 // conversion
 
-const std::string &path::string() const
+std::string path::string() const
 {
     return internal_;
 }
@@ -252,12 +234,6 @@ path path::resolve(const path &base_path) const
 
     for (const auto &part : split())
     {
-        if (part == "..")
-        {
-            copy = copy.parent();
-            continue;
-        }
-
         copy = copy.append(part);
     }
 
@@ -353,11 +329,6 @@ path path::relative_to(const path &base_path) const
 bool path::operator==(const path &other) const
 {
     return internal_ == other.internal_;
-}
-
-bool path::operator!=(const path &other) const
-{
-    return !operator==(other);
 }
 
 } // namespace xlnt

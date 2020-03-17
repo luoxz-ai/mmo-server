@@ -48,6 +48,7 @@ public:
 			SAFE_DELETE(pair_val.second);
 		}
 		m_setData.clear();
+		LOGDEBUG("Clear {} Succ.", GET_NAME());
 	}
 
 	bool Init(CMysqlConnection* pDb, const char* table_name, const char* szSQL)
@@ -67,6 +68,7 @@ public:
 				this->AddObj(pData);
 			}
 		}
+		LOGDEBUG("Init {} Succ.", GET_NAME());
 		return true;
 	}
 	bool Reload(CMysqlConnection* pDb, const char* table_name, const char* szSQL)
@@ -124,7 +126,7 @@ public:
 		{
 			_LoadFromPB(iter);
 		}
-
+		LOGDEBUG("Init {} Succ.", szFileName);
 		return true;
 	}
 	bool Reload(const char* szFileName, bool bClear)
@@ -190,6 +192,7 @@ private:
 template<class T>
 class CGameMultiDataMap
 {
+	std::string GET_NAME() { return demangle(typeid(T).name()); }
 	CGameMultiDataMap() {}
 
 public:
@@ -239,6 +242,7 @@ public:
 			SAFE_DELETE(pair_val.second);
 		}
 		m_setData.clear();
+		LOGDEBUG("Clear {} Succ.", GET_NAME());
 	}
 
 	bool Init(CMysqlConnection* pDb, const char* table_name, const char* szSQL)
@@ -257,6 +261,7 @@ public:
 
 				this->AddObj(pData);
 			}
+			LOGDEBUG("Init {} Succ.", GET_NAME());
 		}
 		return true;
 	}
@@ -286,6 +291,7 @@ public:
 
 			this->AddObj(pData);
 		}
+		LOGDEBUG("Init {} Succ.", szFileName);
 		return true;
 	}
 	bool Reload(const char* szFileName)

@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2020 Thomas Fussell
+// Copyright (c) 2014-2017 Thomas Fussell
 // Copyright (c) 2010-2015 openpyxl
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -78,24 +78,16 @@ path manifest::canonicalize(const std::vector<xlnt::relationship> &rels) const
     return result;
 }
 
-bool manifest::has_relationship(const path &path, relationship_type type) const
+bool manifest::has_relationship(const path &part, relationship_type type) const
 {
-    auto rels = relationships_.find(path);
-    if (rels == relationships_.end())
-    {
-        return false;
-    }
-    return rels->second.end() != std::find_if(rels->second.begin(), rels->second.end(), [type](const std::pair<std::string, xlnt::relationship> &rel) { return rel.second.type() == type; });
-}
+    if (relationships_.find(part) == relationships_.end()) return false;
 
-bool manifest::has_relationship(const path &path, const std::string &rel_id) const
-{
-    auto rels = relationships_.find(path);
-    if (rels == relationships_.end())
+    for (const auto &rel : relationships_.at(part))
     {
-        return false;
+        if (rel.second.type() == type) return true;
     }
-    return rels->second.find(rel_id) != rels->second.end();
+
+    return false;
 }
 
 relationship manifest::relationship(const path &part, relationship_type type) const
@@ -334,13 +326,6 @@ std::string manifest::override_type(const xlnt::path &part) const
     }
 
     return override_content_types_.at(part);
-}
-
-bool manifest::operator==(const manifest &other) const
-{
-    return default_content_types_ == other.default_content_types_
-        && override_content_types_ == other.override_content_types_
-        && relationships_ == other.relationships_;
 }
 
 } // namespace xlnt

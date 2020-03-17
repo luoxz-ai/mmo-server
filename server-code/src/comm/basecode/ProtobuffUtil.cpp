@@ -74,6 +74,49 @@ bool LoadFromBinaryFile(const std::string& filename, google::protobuf::Message& 
 	return rv;
 }
 
+bool LoadFromJsonFile(const std::string& filename, google::protobuf::Message& pbm)
+{
+	using namespace google::protobuf::util;
+	JsonParseOptions options;
+	options.ignore_unknown_fields = true;
+
+	std::ifstream ifs(filename.data());
+	if(ifs.is_open())
+	{
+		std::ifstream in("some.file"); 
+		std::istreambuf_iterator<char> beg(in), end; 
+		std::string str(beg, end); 
+		ifs.close();
+		if(LoadFromJsonTxt(str, pbm) != true)
+		{
+			LOGERROR("ParseFromStream failed, filename is [{}]", filename);
+			return false;
+		}	
+	}
+	else
+	{
+		LOGERROR("Open file failed, filename is [{}]", filename);
+		return false;
+	}
+	return true;
+}
+
+bool SaveToJsonFile(const google::protobuf::Message& pbm, const std::string& filename)
+{
+	std::string json_txt;
+	SaveToJsonTxt(pbm, json_txt);
+	bool		  rv = false;
+	std::ofstream ofs(filename.data(), std::ios::out| std::ios::trunc);
+	if(ofs.is_open())
+	{
+		ofs << json_txt;
+		ofs.close();
+		return true;
+	}
+	return false;
+	
+}
+
 bool LoadFromJsonTxt(const std::string& jsonTxt, google::protobuf::Message& pbm)
 {
 	using namespace google::protobuf::util;
@@ -86,6 +129,8 @@ bool SaveToJsonTxt(const google::protobuf::Message& pbm, std::string& jsonTxt)
 {
 	using namespace google::protobuf::util;
 	JsonPrintOptions options;
+	options.add_whitespace = true;
+	options.always_print_enums_as_ints = true;
 	return MessageToJsonString(pbm, &jsonTxt, options).ok();
 }
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2020 Thomas Fussell
+// Copyright (c) 2017 Thomas Fussell
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -21,43 +21,45 @@
 // @license: http://www.opensource.org/licenses/mit-license.php
 // @author: see AUTHORS file
 
-#include <xlnt/utils/datetime.hpp>
 #include <xlnt/utils/variant.hpp>
+#include <xlnt/utils/datetime.hpp>
 
 namespace xlnt {
 
 variant::variant()
-    : type_(type::null)
 {
+
 }
 
 variant::variant(const std::string &value)
     : type_(type::lpstr),
-      lpstr_value_(value)
+    lpstr_value_(value)
 {
 }
 
-variant::variant(const char *value)
-    : variant(std::string(value))
+variant::variant(const char *value) : variant(std::string(value))
 {
 }
 
-variant::variant(int32_t value)
+variant::variant(int value)
     : type_(type::i4),
-      i4_value_(value)
+    i4_value_(value)
 {
+
 }
 
 variant::variant(bool value)
     : type_(type::boolean),
-      i4_value_(value ? 1 : 0)
+    i4_value_(value ? 1 : 0)
 {
+
 }
 
 variant::variant(const datetime &value)
     : type_(type::date),
-      lpstr_value_(value.to_iso_string())
+    lpstr_value_(value.to_iso_string())
 {
+
 }
 
 variant::variant(const std::initializer_list<int> &value)
@@ -123,58 +125,36 @@ variant::variant(const std::vector<variant> &value)
     }
 }
 
-bool variant::operator==(const variant &rhs) const
-{
-    if (type_ != rhs.type_)
-    {
-        return false;
-    }
-    switch (type_)
-    {
-    case type::vector:
-        return vector_value_ == rhs.vector_value_;
-    case type::i4:
-    case type::boolean:
-        return i4_value_ == rhs.i4_value_;
-    case type::date:
-    case type::lpstr:
-        return lpstr_value_ == rhs.lpstr_value_;
-    case type::null:
-        return true;
-    }
-    return false;
-}
-
 bool variant::is(type t) const
 {
     return type_ == t;
 }
 
-template <>
+template<>
 XLNT_API std::string variant::get() const
 {
     return lpstr_value_;
 }
 
-template <>
+template<>
 XLNT_API std::vector<variant> variant::get() const
 {
     return vector_value_;
 }
 
-template <>
+template<>
 XLNT_API bool variant::get() const
 {
     return i4_value_ != 0;
 }
 
-template <>
+template<>
 XLNT_API std::int32_t variant::get() const
 {
     return i4_value_;
 }
 
-template <>
+template<>
 XLNT_API datetime variant::get() const
 {
     return datetime::from_iso_string(lpstr_value_);

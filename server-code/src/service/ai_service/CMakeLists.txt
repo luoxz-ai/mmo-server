@@ -28,7 +28,7 @@ cotire(ai_service)
 if(AUTO_GEN_EXPORT_LUA)
 GET_DIRECTORY_PROPERTY(includes INCLUDE_DIRECTORIES)
 add_custom_target(ai2lua ALL
-  COMMAND echo ${SRCS} > /tmp/ai_cpps.txt && echo ${includes} > /tmp/ai_includes.txt && ${BINARIES}/cxx2lua --cpps=/tmp/ai_cpps.txt --include=/tmp/ai_includes.txt --output=${PROJECT_SOURCE_DIR}/src/service/ai_service/script/ai2lua.cpp --output_functionname=ai2lua --skip_cpp && clang-format-9 -i ${PROJECT_SOURCE_DIR}/src/service/ai_service/script/ai2lua.cpp
+  COMMAND echo ${SRCS} > /tmp/ai_cpps.txt && echo ${includes} > /tmp/ai_includes.txt && ${BINARIES}/cxx2lua --cpps=/tmp/ai_cpps.txt --include=/tmp/ai_includes.txt --output=${PROJECT_SOURCE_DIR}/src/service/ai_service/script/ai2lua.cpp --output_functionname=ai2lua --skip_cpp  --format=clang-format-9
   DEPENDS cxx2lua
   COMMENT "gen ai2lua for export_lua"
  )

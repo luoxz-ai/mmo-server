@@ -48,6 +48,7 @@ public:
 
 	void OnThreadCreate();
 	void OnThreadProcess();
+	void OnThreadExit();
 	void OnMainThreadExec();
 
 	uint64_t GetLoadingCount() const { return m_nLoadingCount; }

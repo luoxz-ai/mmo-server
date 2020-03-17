@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2020 Thomas Fussell
+// Copyright (c) 2014-2017 Thomas Fussell
 // Copyright (c) 2010-2015 openpyxl
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,69 +22,63 @@
 // @license: http://www.opensource.org/licenses/mit-license.php
 // @author: see AUTHORS file
 
-#include <xlnt/styles/border.hpp>
-#include <xlnt/styles/conditional_format.hpp>
-#include <xlnt/styles/fill.hpp>
-#include <xlnt/styles/font.hpp>
 #include <detail/implementations/conditional_format_impl.hpp>
 #include <detail/implementations/stylesheet.hpp>
+#include <xlnt/styles/border.hpp>
+#include <xlnt/styles/fill.hpp>
+#include <xlnt/styles/font.hpp>
+#include <xlnt/styles/conditional_format.hpp>
 
 namespace xlnt {
 
 condition condition::text_starts_with(const std::string &text)
 {
-    condition c;
-    c.type_ = type::contains_text;
-    c.operator_ = condition_operator::starts_with;
-    c.text_comparand_ = text;
-    return c;
+	condition c;
+	c.type_ = type::contains_text;
+	c.operator_ = condition_operator::starts_with;
+	c.text_comparand_ = text;
+	return c;
 }
 
 condition condition::text_ends_with(const std::string &text)
 {
-    condition c;
-    c.type_ = type::contains_text;
-    c.operator_ = condition_operator::ends_with;
-    c.text_comparand_ = text;
-    return c;
+	condition c;
+	c.type_ = type::contains_text;
+	c.operator_ = condition_operator::ends_with;
+	c.text_comparand_ = text;
+	return c;
 }
 
 condition condition::text_contains(const std::string &text)
 {
-    condition c;
-    c.type_ = type::contains_text;
-    c.operator_ = condition_operator::contains;
-    c.text_comparand_ = text;
-    return c;
+	condition c;
+	c.type_ = type::contains_text;
+	c.operator_ = condition_operator::contains;
+	c.text_comparand_ = text;
+	return c;
 }
 
 condition condition::text_does_not_contain(const std::string &text)
 {
-    condition c;
-    c.type_ = type::contains_text;
-    c.operator_ = condition_operator::does_not_contain;
-    c.text_comparand_ = text;
-    return c;
+	condition c;
+	c.type_ = type::contains_text;
+	c.operator_ = condition_operator::does_not_contain;
+	c.text_comparand_ = text;
+	return c;
 }
 
-conditional_format::conditional_format(detail::conditional_format_impl *d)
-    : d_(d)
+conditional_format::conditional_format(detail::conditional_format_impl *d) : d_(d)
 {
 }
 
 bool conditional_format::operator==(const conditional_format &other) const
 {
-    return d_ == other.d_;
+	return d_ == other.d_;
 }
 
 bool conditional_format::operator!=(const conditional_format &other) const
 {
-    return !(*this == other);
-}
-
-bool conditional_format::has_border() const
-{
-    return d_->border_id.is_set();
+	return !(*this == other);
 }
 
 xlnt::border conditional_format::border() const
@@ -95,12 +89,7 @@ xlnt::border conditional_format::border() const
 conditional_format conditional_format::border(const xlnt::border &new_border)
 {
     d_->border_id = d_->parent->find_or_add(d_->parent->borders, new_border);
-    return *this;
-}
-
-bool conditional_format::has_fill() const
-{
-    return d_->fill_id.is_set();
+	return *this;
 }
 
 xlnt::fill conditional_format::fill() const
@@ -111,12 +100,7 @@ xlnt::fill conditional_format::fill() const
 conditional_format conditional_format::fill(const xlnt::fill &new_fill)
 {
     d_->fill_id = d_->parent->find_or_add(d_->parent->fills, new_fill);
-    return *this;
-}
-
-bool conditional_format::has_font() const
-{
-    return d_->font_id.is_set();
+	return *this;
 }
 
 xlnt::font conditional_format::font() const
@@ -127,7 +111,7 @@ xlnt::font conditional_format::font() const
 conditional_format conditional_format::font(const xlnt::font &new_font)
 {
     d_->font_id = d_->parent->find_or_add(d_->parent->fonts, new_font);
-    return *this;
+	return *this;
 }
 
 } // namespace xlnt

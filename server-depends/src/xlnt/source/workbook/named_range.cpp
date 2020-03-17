@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2020 Thomas Fussell
+// Copyright (c) 2014-2017 Thomas Fussell
 // Copyright (c) 2010-2015 openpyxl
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -121,12 +121,6 @@ named_range &named_range::operator=(const named_range &other)
     targets_ = other.targets_;
 
     return *this;
-}
-
-bool named_range::operator==(const named_range &rhs) const
-{
-    return name_ == rhs.name_
-        && targets_ == rhs.targets_;
 }
 
 } // namespace xlnt

@@ -112,7 +112,7 @@ public:
 		m_Data = row;
 		for(int32_t i = 0; i < m_Data.attrib_change_list_size(); i++)
 		{
-			m_AttribChangeList.push_back(CActorAttribChange(m_Data.attrib_change_list(i)));
+			m_AttribChangeList.push_back(CActorAttribChange{m_Data.attrib_change_list(i)});
 		}
 		return true;
 	}

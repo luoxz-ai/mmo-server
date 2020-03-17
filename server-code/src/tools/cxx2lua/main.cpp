@@ -1651,13 +1651,15 @@ int main(int argc, char** argv)
 
 	{
 		std::chrono::high_resolution_clock clock;
-		auto							   _startTime = clock.now();
-		unsigned						   flag		  = CXTranslationUnit_SkipFunctionBodies | CXTranslationUnit_KeepGoing | g_extTUFlag;
+
+		auto	 _startTime = clock.now();
+		unsigned flag		= CXTranslationUnit_SkipFunctionBodies | CXTranslationUnit_KeepGoing | g_extTUFlag;
 		if(g_strKeyword.empty() == false)
 		{
 			flag |= CXTranslationUnit_DetailedPreprocessingRecord;
 		}
-		TU				= clang_parseTranslationUnit(Index, temp_filename.c_str(), szParams.data(), szParams.size(), 0, 0, flag);
+		TU = clang_parseTranslationUnit(Index, temp_filename.c_str(), szParams.data(), szParams.size(), 0, 0, flag);
+
 		auto _stopTime1 = clock.now();
 
 		CXCursor C = clang_getTranslationUnitCursor(TU);
@@ -1698,8 +1700,8 @@ int main(int argc, char** argv)
 	visit_contnet(&content, os, os_second);
 	if(g_bDebug)
 	{
-		printf("global:func:%lu, child:%lu", content.m_vecFuncName.size(), content.m_setChild.size());
-		printf("press any key to start output");
+		printf("global:func:%lu, child:%lu\n", content.m_vecFuncName.size(), content.m_setChild.size());
+		printf("press any key to start output\n");
 		getchar();
 	}
 
@@ -1712,7 +1714,7 @@ int main(int argc, char** argv)
 	}
 	else
 	{
-		printf("start gen export_code,plz waiting");
+		printf("start gen export_code,plz waiting\n");
 
 		temp_file << "#include \"lua_tinker.h\"\n";
 		temp_file << "void " << output_functionname << "(lua_State* L)\n{\n";
@@ -1724,26 +1726,37 @@ int main(int argc, char** argv)
 		temp_file << "\n}";
 		temp_file.flush();
 		temp_file.seekg(0);
+		temp_file.close();
 
-		std::fstream output_file(output_filename.c_str(), std::ios_base::in | std::ios_base::out);
-		std::string	 old_txt((std::istreambuf_iterator<char>(output_file)), std::istreambuf_iterator<char>());
-		std::string	 new_txt((std::istreambuf_iterator<char>(temp_file)), std::istreambuf_iterator<char>());
-
-		if(old_txt != new_txt)
+		if(opt.has("--format"))
 		{
-			output_file.close();
-			output_file.clear();
-			output_file.open(output_filename.c_str(), std::ios_base::out | std::ios_base::trunc);
-			output_file << new_txt;
-			output_file.flush();
+			system(fmt::format("{} -i {}", opt["--format"], temp_filename).c_str());
 		}
 
-		temp_file.close();
+		std::fstream output_file_read(output_filename.c_str(), std::ios_base::in | std::ios_base::out);
+		std::fstream temp_file_read(temp_filename.c_str(), std::ios_base::in | std::ios_base::out);
+		std::string	 old_txt((std::istreambuf_iterator<char>(output_file_read)), std::istreambuf_iterator<char>());
+		std::string	 new_txt((std::istreambuf_iterator<char>(temp_file_read)), std::istreambuf_iterator<char>());
+		output_file_read.close();
+		if(old_txt != new_txt)
+		{
+			std::fstream output_file;
+			output_file.open(output_filename.c_str(), std::ios_base::out | std::ios_base::trunc);
+			if(output_file.is_open())
+			{
+				output_file << new_txt;
+				output_file.close();
+				printf("write %s succ.\n",output_filename.c_str());
+			}
+			
+		}
+
+		temp_file_read.close();
 		remove(temp_filename.c_str());
 	}
 	if(g_bDebug)
 	{
-		printf("press any key to exit");
+		printf("press any key to exit\n");
 		getchar();
 	}
 	return 0;

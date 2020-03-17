@@ -43,9 +43,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
 #include <iterator> // for std::back_inserter
 #include <stdexcept>
 #include <string>
-#include <miniz.h>
 
 #include <xlnt/utils/exceptions.hpp>
+#include <detail/serialization/miniz.hpp>
 #include <detail/serialization/vector_streambuf.hpp>
 #include <detail/serialization/zstream.hpp>
 
@@ -366,7 +366,7 @@ public:
             deflateEnd(&strm);
             if (header)
             {
-                auto final_position = ostream.tellp();
+                std::ios::streampos final_position = ostream.tellp();
                 header->uncompressed_size = uncompressed_size;
                 header->crc = crc;
                 ostream.seekp(header->header_offset);
@@ -401,6 +401,7 @@ protected:
             {
                 valid = false;
                 std::cerr << "gzip: gzip error " << strm.msg << std::endl;
+                ;
                 return -1;
             }
 
@@ -456,14 +457,14 @@ ozstream::ozstream(std::ostream &stream)
 ozstream::~ozstream()
 {
     // Write all file headers
-    auto final_position = destination_stream_.tellp();
+    std::ios::streampos final_position = destination_stream_.tellp();
 
     for (const auto &header : file_headers_)
     {
         write_header(header, destination_stream_, true);
     }
 
-    auto central_end = destination_stream_.tellp();
+    std::ios::streampos central_end = destination_stream_.tellp();
 
     // Write end of central
     write_int(destination_stream_, static_cast<std::uint32_t>(0x06054b50)); // end of central
@@ -506,12 +507,12 @@ bool izstream::read_central_header()
     // Find the header
     // NOTE: this assumes the zip file header is the last thing written to file...
     source_stream_.seekg(0, std::ios_base::end);
-    auto end_position = source_stream_.tellg();
+    std::ios::streampos end_position = source_stream_.tellg();
 
     auto max_comment_size = std::uint32_t(0xffff); // max size of header
     auto read_size_before_comment = std::uint32_t(22);
 
-    std::streamoff read_start = max_comment_size + read_size_before_comment;
+    std::ios::streamoff read_start = max_comment_size + read_size_before_comment;
 
     if (read_start > end_position)
     {
@@ -535,14 +536,11 @@ bool izstream::read_central_header()
     }
 
     auto found_header = false;
-    std::streamoff header_index = 0;
+    std::size_t header_index = 0;
 
-    for (std::streamoff i = 0; i < read_start - 3; ++i)
+    for (std::size_t i = 0; i < static_cast<std::size_t>(read_start - 3); ++i)
     {
-        if (buf[static_cast<std::size_t>(i)] == 0x50
-            && buf[static_cast<std::size_t>(i) + 1] == 0x4b
-            && buf[static_cast<std::size_t>(i) + 2] == 0x05
-            && buf[static_cast<std::size_t>(i) + 3] == 0x06)
+        if (buf[i] == 0x50 && buf[i + 1] == 0x4b && buf[i + 2] == 0x05 && buf[i + 3] == 0x06)
         {
             found_header = true;
             header_index = i;
@@ -556,7 +554,7 @@ bool izstream::read_central_header()
     }
 
     // seek to end of central header and read
-    source_stream_.seekg(end_position - (read_start - header_index));
+    source_stream_.seekg(end_position - (read_start - static_cast<std::ptrdiff_t>(header_index)));
 
     /*auto word = */ read_int<std::uint32_t>(source_stream_);
     auto disk_number1 = read_int<std::uint16_t>(source_stream_);

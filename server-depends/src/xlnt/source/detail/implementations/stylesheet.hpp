@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2020 Thomas Fussell
+// Copyright (c) 2014-2017 Thomas Fussell
 // Copyright (c) 2010-2015 openpyxl
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -51,7 +51,12 @@ struct stylesheet
 
 		impl.parent = this;
 		impl.id = format_impls.size() - 1;
-
+        
+        impl.border_id = 0;
+        impl.fill_id = 0;
+        impl.font_id = 0;
+        impl.number_format_id = 0;
+        
         impl.references = default_format ? 1 : 0;
         
         return xlnt::format(&impl);
@@ -173,18 +178,33 @@ struct stylesheet
 	}
     
     template<typename T, typename C>
-    std::size_t find_or_add(C &container, const T &item)
+    std::size_t find_or_add(C &container, const T &item, bool *added = nullptr)
     {
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsign-conversion"
-        auto iter = std::find(container.begin(), container.end(), item);
-        if (iter != container.end())
+        if (added != nullptr)
         {
-            return std::size_t(iter - container.begin());
+            *added = false;
         }
-        iter = container.emplace(container.end(), item);
-        return std::size_t(iter - container.begin());
-#pragma GCC diagnostic pop
+
+        std::size_t i = 0;
+        
+        for (auto iter = container.begin(); iter != container.end(); ++iter)
+        {
+            if (*iter == item)
+            {
+                return i;
+            }
+
+            ++i;
+        }
+
+        if (added != nullptr)
+        {
+            *added = true;
+        }
+
+        container.emplace(container.end(), item);
+
+        return container.size() - 1;
     }
     
     template<typename T>
@@ -215,6 +235,7 @@ struct stylesheet
         if (!garbage_collection_enabled) return;
         
         auto format_iter = format_impls.begin();
+
         while (format_iter != format_impls.end())
         {
             auto &impl = *format_iter;
@@ -378,19 +399,17 @@ struct stylesheet
 
     format_impl *find_or_create(format_impl &pattern)
     {
-        pattern.references = 0;
-        std::size_t id = 0;
         auto iter = format_impls.begin();
-        while (iter != format_impls.end() && !(*iter == pattern))
-        {
-            ++id;
-            ++iter;
-        }
-        if (iter == format_impls.end())
-        {
-            iter = format_impls.emplace(format_impls.end(), pattern);
-        }
+        bool added = false;
+        auto id = find_or_add(format_impls, pattern, &added);
+        std::advance(iter, static_cast<std::list<format_impl>::difference_type>(id));
+        
         auto &result = *iter;
+
+        if (added)
+        {
+            result.references = 0;
+        }
 
         result.parent = this;
         result.id = id;
@@ -398,9 +417,7 @@ struct stylesheet
         
         if (id != pattern.id)
         {
-            iter = format_impls.begin();
-            std::advance(iter, static_cast<std::list<format_impl>::difference_type>(pattern.id));
-            iter->references -= iter->references > 0 ? 1 : 0;
+            pattern.references -= pattern.references > 0 ? 1 : 0;
             garbage_collect();
         }
 
@@ -411,62 +428,47 @@ struct stylesheet
     {
         format_impl new_format = *pattern;
         new_format.style = style_name;
-        if (pattern->references == 0)
-        {
-            *pattern = new_format;
-        }
+
         return find_or_create(new_format);
     }
 
-    format_impl *find_or_create_with(format_impl *pattern, const alignment &new_alignment, optional<bool> applied)
+    format_impl *find_or_create_with(format_impl *pattern, const alignment &new_alignment, bool applied)
     {
         format_impl new_format = *pattern;
         new_format.alignment_id = find_or_add(alignments, new_alignment);
         new_format.alignment_applied = applied;
-        if (pattern->references == 0)
-        {
-            *pattern = new_format;
-        }
+        
         return find_or_create(new_format);
     }
 
-    format_impl *find_or_create_with(format_impl *pattern, const border &new_border, optional<bool> applied)
+    format_impl *find_or_create_with(format_impl *pattern, const border &new_border, bool applied)
     {
         format_impl new_format = *pattern;
         new_format.border_id = find_or_add(borders, new_border);
         new_format.border_applied = applied;
-        if (pattern->references == 0)
-        {
-            *pattern = new_format;
-        }
+        
         return find_or_create(new_format);
     }
     
-    format_impl *find_or_create_with(format_impl *pattern, const fill &new_fill, optional<bool> applied)
+    format_impl *find_or_create_with(format_impl *pattern, const fill &new_fill, bool applied)
     {
         format_impl new_format = *pattern;
         new_format.fill_id = find_or_add(fills, new_fill);
         new_format.fill_applied = applied;
-        if (pattern->references == 0)
-        {
-            *pattern = new_format;
-        }
+        
         return find_or_create(new_format);
     }
     
-    format_impl *find_or_create_with(format_impl *pattern, const font &new_font, optional<bool> applied)
+    format_impl *find_or_create_with(format_impl *pattern, const font &new_font, bool applied)
     {
         format_impl new_format = *pattern;
         new_format.font_id = find_or_add(fonts, new_font);
         new_format.font_applied = applied;
-        if (pattern->references == 0)
-        {
-            *pattern = new_format;
-        }
+        
         return find_or_create(new_format);
     }
     
-    format_impl *find_or_create_with(format_impl *pattern, const number_format &new_number_format, optional<bool> applied)
+    format_impl *find_or_create_with(format_impl *pattern, const number_format &new_number_format, bool applied)
     {
         format_impl new_format = *pattern;
         if (new_number_format.id() >= 164)
@@ -475,22 +477,16 @@ struct stylesheet
         }
         new_format.number_format_id = new_number_format.id();
         new_format.number_format_applied = applied;
-        if (pattern->references == 0)
-        {
-            *pattern = new_format;
-        }
+        
         return find_or_create(new_format);
     }
     
-    format_impl *find_or_create_with(format_impl *pattern, const protection &new_protection, optional<bool> applied)
+    format_impl *find_or_create_with(format_impl *pattern, const protection &new_protection, bool applied)
     {
         format_impl new_format = *pattern;
         new_format.protection_id = find_or_add(protections, new_protection);
         new_format.protection_applied = applied;
-        if (pattern->references == 0)
-        {
-            *pattern = new_format;
-        }
+        
         return find_or_create(new_format);
     }
 
@@ -533,34 +529,13 @@ struct stylesheet
 	}
 
     workbook *parent;
-
-    bool operator==(const stylesheet& rhs) const
-    {
-        // no equality on parent as there is only 1 stylesheet per borkbook hence would always be false
-        return garbage_collection_enabled == rhs.garbage_collection_enabled
-            && known_fonts_enabled == rhs.known_fonts_enabled
-            && conditional_format_impls == rhs.conditional_format_impls
-            && format_impls == rhs.format_impls
-            && style_impls == rhs.style_impls
-            && style_names == rhs.style_names
-            && default_slicer_style == rhs.default_slicer_style
-            && alignments == rhs.alignments
-            && borders == rhs.borders
-            && fills == rhs.fills
-            && fonts == rhs.fonts
-            && number_formats == rhs.number_formats
-            && protections == rhs.protections
-            && colors == rhs.colors;
-    }
     
     bool garbage_collection_enabled = true;
-    bool known_fonts_enabled = false;
 
 	std::list<conditional_format_impl> conditional_format_impls;
     std::list<format_impl> format_impls;
     std::unordered_map<std::string, style_impl> style_impls;
     std::vector<std::string> style_names;
-    optional<std::string> default_slicer_style;
 
 	std::vector<alignment> alignments;
     std::vector<border> borders;

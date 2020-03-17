@@ -192,17 +192,26 @@ std::string addr2str(const std::string& file_name, size_t addr)
 	if(abfd == NULL)
 		return "Cannot open the binary file '" + file_name + "'\n";
 	if(bfd_check_format(abfd, bfd_archive))
+	{
+		bfd_close(abfd);
 		return "Cannot get addresses from the archive '" + file_name + "'\n";
+	}
 	char** matching;
 	if(!bfd_check_format_matches(abfd, bfd_object, &matching))
+	{
+		bfd_close(abfd);
 		return "Unknown format of the binary file '" + file_name + "'\n";
+	}
 	line_data data;
 	data.addr		  = addr;
 	data.symbol_table = NULL;
 	data.line_found	  = false;
 	// This allocates the symbol_table:
 	if(load_symbol_table(abfd, &data) == 1)
+	{
+		bfd_close(abfd);
 		return "Failed to load the symbol table from '" + file_name + "'\n";
+	}
 	// Loops over all sections and try to find the line
 	bfd_map_over_sections(abfd, process_section, &data);
 	// Deallocates the symbol table

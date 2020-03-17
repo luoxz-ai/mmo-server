@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2020 Thomas Fussell
+// Copyright (c) 2014-2017 Thomas Fussell
 // Copyright (c) 2010-2015 openpyxl
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -34,7 +34,6 @@
 
 #include <detail/external/include_libstudxml.hpp>
 #include <detail/serialization/zstream.hpp>
-#include <xlnt/utils/numeric.hpp>
 
 namespace xlnt {
 
@@ -233,7 +232,7 @@ private:
 	/// <summary>
 	///
 	/// </summary>
-	void read_drawings(worksheet ws, const path &part);
+	void read_drawings();
 
 	// Unknown Parts
 
@@ -358,12 +357,6 @@ private:
     /// </summary>
     bool in_element(const xml::qname &name);
 
-    /// <summary>
-    /// Throws an exception or skips remaining elements depending on
-    /// the value of THROW_ON_INVALID_XML.
-    /// </summary>
-    void unexpected_element(const xml::qname &name);
-
     // Properties
 
 	/// <summary>
@@ -416,7 +409,6 @@ private:
     detail::cell_impl *current_cell_;
 
     detail::worksheet_impl *current_worksheet_;
-    number_converter converter_;
 };
 
 } // namespace detail

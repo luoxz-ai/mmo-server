@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2018 Thomas Fussell
+// Copyright (c) 2017 Thomas Fussell
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -39,10 +39,11 @@ void writer(int cols, int rows)
 
     for(int index = 0; index < rows; index++)
     {
-        if (rows >= 10 && (index + 1) % (rows / 10) == 0)
+        if ((index + 1) % (rows / 10) == 0)
         {
             std::string progress = std::string((index + 1) / (1 + rows / 10), '.');
             std::cout << "\r" << progress;
+            std::cout.flush();
         }
 
 		for (int i = 0; i < cols; i++)
@@ -50,7 +51,8 @@ void writer(int cols, int rows)
 			ws.cell(xlnt::cell_reference(i + 1, index + 1)).value(i);
 		}
     }
-    std::cout << '\n';
+
+    std::cout << std::endl;
 
     auto filename = "benchmark.xlsx";
     wb.save(filename);
@@ -61,30 +63,33 @@ void writer(int cols, int rows)
 // Time from the best of three is taken.
 void timer(std::function<void(int, int)> fn, int cols, int rows)
 {
+    using xlnt::benchmarks::current_time;
+
     const auto repeat = std::size_t(3);
-    std::chrono::duration<double, std::milli> time{};
+    auto time = std::numeric_limits<std::size_t>::max();
+
     std::cout << cols << " cols " << rows << " rows" << std::endl;
-    fn(rows, cols); // 1 cold run
 
     for(int i = 0; i < repeat; i++)
     {
-        auto start = std::chrono::high_resolution_clock::now();
+        auto start = current_time();
         fn(cols, rows);
-        time += std::chrono::high_resolution_clock::now() - start;
+        time = std::min(current_time() - start, time);
     }
 
-    std::cout << time.count() / repeat << " ms per iteration" << '\n' << '\n';
+    std::cout << time / 1000.0 << std::endl;
 }
 
 } // namespace
 
 int main()
 {
-    timer(&writer, 10000, 1);
-    timer(&writer, 1000, 10);
     timer(&writer, 100, 100);
-    timer(&writer, 10, 1000);
-    timer(&writer, 1, 10000);
+    timer(&writer, 1000, 100);
+    timer(&writer, 4000, 100);
+    timer(&writer, 8192, 100);
+    timer(&writer, 10, 10000);
+    timer(&writer, 4000, 1000);
 
     return 0;
 }

@@ -9,7 +9,8 @@ CLoadingThread::CLoadingThread(CZoneService* pZoneRef)
 	, m_Thread(50,
 			   std::string("Loading") + std::to_string(pZoneRef->GetServerPort().GetServiceID()),
 			   std::bind(&CLoadingThread::OnThreadProcess, this),
-			   std::bind(&CLoadingThread::OnThreadCreate, this))
+			   std::bind(&CLoadingThread::OnThreadCreate, this),
+			   std::bind(&CLoadingThread::OnThreadExit, this))
 	, m_idCurProcess(0)
 	, m_idNeedCancle(0)
 {
@@ -168,8 +169,16 @@ void CLoadingThread::OnThreadCreate()
 	SetZoneServicePtr(m_pZone);
 	std::string name = std::string("Zone") + std::to_string(m_pZone->GetServerPort().GetServiceID());
 	BaseCode::SetNdc(name);
-	LOGMESSAGE("ThreadID:{}", get_cur_thread_id());
+	LOGMESSAGE("Loading ThreadID:{} Start", get_cur_thread_id());
 }
+
+void CLoadingThread::OnThreadExit()
+{
+	LOGMESSAGE("Loading ThreadID:{} Stop", get_cur_thread_id());
+	BaseCode::ClearNdc();
+	SetZoneServicePtr(nullptr);
+}
+
 void CLoadingThread::OnThreadProcess()
 {
 	//处理
@@ -274,9 +283,6 @@ void CLoadingThread::OnMainThreadExec()
 
 		__LEAVE_FUNCTION
 	}
-
-	LOGMESSAGE("DestroyThreadID:{}", get_cur_thread_id());
-	BaseCode::ClearNdc();;
 	
 }
 

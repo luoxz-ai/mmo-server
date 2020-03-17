@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2020 Thomas Fussell
+// Copyright (c) 2014-2017 Thomas Fussell
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -39,15 +39,11 @@ class number_format;
 class protection;
 class style;
 
-template <typename T>
-class optional;
-
 namespace detail {
 
 struct format_impl;
 struct stylesheet;
 class xlsx_producer;
-class xlsx_consumer;
 
 } // namespace detail
 
@@ -67,7 +63,7 @@ public:
     /// to true, determines whether the alignment should be enabled for cells using
     /// this format.
     /// </summary>
-    format alignment(const xlnt::alignment &new_alignment, xlnt::optional<bool> applied = {});
+    format alignment(const xlnt::alignment &new_alignment, bool applied = true);
 
     /// <summary>
     /// Returns true if the alignment of this format should be applied to cells
@@ -85,10 +81,10 @@ public:
     /// to true, determines whether the border should be enabled for cells using
     /// this format.
     /// </summary>
-    format border(const xlnt::border &new_border, xlnt::optional<bool> applied = {});
+    format border(const xlnt::border &new_border, bool applied = true);
 
     /// <summary>
-    /// Returns true if the border set for this format should be applied to cells using the format.
+    /// Returns true if the border set for this format should be applied to cells using the format.        
     /// </summary>
     bool border_applied() const;
 
@@ -102,10 +98,10 @@ public:
     /// to true, determines whether the border should be enabled for cells using
     /// this format.
     /// </summary>
-    format fill(const xlnt::fill &new_fill, xlnt::optional<bool> applied = {});
+    format fill(const xlnt::fill &new_fill, bool applied = true);
 
     /// <summary>
-    /// Returns true if the fill set for this format should be applied to cells using the format.
+    /// Returns true if the fill set for this format should be applied to cells using the format.        
     /// </summary>
     bool fill_applied() const;
 
@@ -119,10 +115,10 @@ public:
     /// to true, determines whether the font should be enabled for cells using
     /// this format.
     /// </summary>
-    format font(const xlnt::font &new_font, xlnt::optional<bool> applied = {});
+    format font(const xlnt::font &new_font, bool applied = true);
 
     /// <summary>
-    /// Returns true if the font set for this format should be applied to cells using the format.
+    /// Returns true if the font set for this format should be applied to cells using the format.        
     /// </summary>
     bool font_applied() const;
 
@@ -136,10 +132,10 @@ public:
     /// to true, determines whether the number format should be enabled for cells using
     /// this format.
     /// </summary>
-    format number_format(const xlnt::number_format &new_number_format, xlnt::optional<bool> applied = {});
+    format number_format(const xlnt::number_format &new_number_format, bool applied = true);
 
     /// <summary>
-    /// Returns true if the number_format set for this format should be applied to cells using the format.
+    /// Returns true if the number_format set for this format should be applied to cells using the format.    
     /// </summary>
     bool number_format_applied() const;
 
@@ -158,7 +154,7 @@ public:
     /// to true, determines whether the protection should be enabled for cells using
     /// this format.
     /// </summary>
-    format protection(const xlnt::protection &new_protection, xlnt::optional<bool> applied = {});
+    format protection(const xlnt::protection &new_protection, bool applied = true);
 
     /// <summary>
     /// Returns true if the pivot table interface is enabled for this format.
@@ -167,7 +163,7 @@ public:
 
     /// <summary>
     /// If show is true, a pivot table interface will be displayed for cells using
-    /// this format.
+	/// this format.
     /// </summary>
     void pivot_button(bool show);
 
@@ -178,8 +174,8 @@ public:
 
     /// <summary>
     /// If quote is true, enables a single-quote prefix for all text values in cells
-    /// using this format (e.g. "abc" will appear as "'abc"). The text will also not
-    /// be stored in sharedStrings when this is enabled.
+	/// using this format (e.g. "abc" will appear as "'abc"). The text will also not
+	/// be stored in sharedStrings when this is enabled.
     /// </summary>
     void quote_prefix(bool quote);
 
@@ -218,7 +214,6 @@ public:
 private:
     friend struct detail::stylesheet;
     friend class detail::xlsx_producer;
-    friend class detail::xlsx_consumer;
     friend class cell;
 
     /// <summary>

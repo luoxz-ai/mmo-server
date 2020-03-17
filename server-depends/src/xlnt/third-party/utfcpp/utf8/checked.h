@@ -107,9 +107,7 @@ namespace utf8
                         *out++ = *it;
                     break;
                 case internal::NOT_ENOUGH_ROOM:
-                    out = utf8::append (replacement, out);
-                    start = end;
-                    break;
+                    throw not_enough_room();
                 case internal::INVALID_LEAD:
                     out = utf8::append (replacement, out);
                     ++start;
@@ -176,19 +174,23 @@ namespace utf8
         return utf8::peek_next(it, end);
     }
 
+    /// Deprecated in versions that include "prior"
+    template <typename octet_iterator>
+    uint32_t previous(octet_iterator& it, octet_iterator pass_start)
+    {
+        octet_iterator end = it;
+        while (utf8::internal::is_trail(*(--it)))
+            if (it == pass_start)
+                throw invalid_utf8(*it); // error - no lead byte in the sequence
+        octet_iterator temp = it;
+        return utf8::next(temp, end);
+    }
+
     template <typename octet_iterator, typename distance_type>
     void advance (octet_iterator& it, distance_type n, octet_iterator end)
     {
-        const distance_type zero(0);
-        if (n < zero) {
-            // backward
-            for (distance_type i = n; i < zero; ++i)
-                utf8::prior(it, end);
-        } else {
-            // forward
-            for (distance_type i = zero; i < n; ++i)
-                utf8::next(it, end);
-        }
+        for (distance_type i = 0; i < n; ++i)
+            utf8::next(it, end);
     }
 
     template <typename octet_iterator>
@@ -321,4 +323,5 @@ namespace utf8
 } // namespace utf8
 
 #endif //header guard
+
 

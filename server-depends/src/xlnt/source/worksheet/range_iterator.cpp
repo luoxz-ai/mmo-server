@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2020 Thomas Fussell
+// Copyright (c) 2014-2017 Thomas Fussell
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,28 +28,28 @@
 
 namespace xlnt {
 
-range_iterator::reference range_iterator::operator*()
-{
-    return cell_vector(ws_, cursor_, bounds_, order_, skip_null_, false);
-}
-
-const range_iterator::reference range_iterator::operator*() const
+cell_vector range_iterator::operator*() const
 {
     return cell_vector(ws_, cursor_, bounds_, order_, skip_null_, false);
 }
 
 range_iterator::range_iterator(worksheet &ws, const cell_reference &cursor,
     const range_reference &bounds, major_order order, bool skip_null)
-    : skip_null_(skip_null),
-      order_(order),
-      ws_(ws),
+    : ws_(ws),
       cursor_(cursor),
-      bounds_(bounds)
+      bounds_(bounds),
+      order_(order),
+      skip_null_(skip_null)
 {
     if (skip_null_ && (**this).empty())
     {
         ++(*this);
     }
+}
+
+range_iterator::range_iterator(const range_iterator &other)
+{
+    *this = other;
 }
 
 bool range_iterator::operator==(const range_iterator &other) const
@@ -117,7 +117,7 @@ range_iterator &range_iterator::operator++()
         {
             cursor_.row(cursor_.row() + 1);
         }
-
+    
         if (skip_null_)
         {
             while ((**this).empty() && cursor_.row() <= bounds_.bottom_right().row())
@@ -153,18 +153,24 @@ range_iterator range_iterator::operator++(int)
     return old;
 }
 
+
 const_range_iterator::const_range_iterator(const worksheet &ws, const cell_reference &cursor,
     const range_reference &bounds, major_order order, bool skip_null)
-    : skip_null_(skip_null),
-      order_(order),
-      ws_(ws.d_),
+    : ws_(ws.d_),
       cursor_(cursor),
-      bounds_(bounds)
+      bounds_(bounds),
+      order_(order),
+      skip_null_(skip_null)
 {
     if (skip_null_ && (**this).empty())
     {
         ++(*this);
     }
+}
+
+const_range_iterator::const_range_iterator(const const_range_iterator &other)
+{
+    *this = other;
 }
 
 bool const_range_iterator::operator==(const const_range_iterator &other) const
@@ -232,7 +238,7 @@ const_range_iterator &const_range_iterator::operator++()
         {
             cursor_.row(cursor_.row() + 1);
         }
-
+    
         if (skip_null_)
         {
             while ((**this).empty() && cursor_.row() <= bounds_.bottom_right().row())
@@ -268,7 +274,7 @@ const_range_iterator const_range_iterator::operator++(int)
     return old;
 }
 
-const const_range_iterator::reference const_range_iterator::operator*() const
+const cell_vector const_range_iterator::operator*() const
 {
     return cell_vector(ws_, cursor_, bounds_, order_, skip_null_, false);
 }
