@@ -13,6 +13,7 @@
 #include <memory>
 #include <new>
 #include <string>
+#include <string_view>
 #include <type_traits>
 #include <typeindex>
 #include <typeinfo>
@@ -755,6 +756,19 @@ namespace detail
 	};
 	template<>
 	struct _stack_help<const std::string&> : public _stack_help<std::string>
+	{
+	};
+
+	template<>
+	struct _stack_help<std::string_view>
+	{
+		static constexpr int32_t cover_to_lua_type() { return CLT_STRING; }
+
+		static std::string_view _read(lua_State* L, int32_t index);
+		static void		   _push(lua_State* L, const std::string_view& ret);
+	};
+	template<>
+	struct _stack_help<const std::string_view&> : public _stack_help<std::string_view>
 	{
 	};
 

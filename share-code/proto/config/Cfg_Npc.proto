@@ -7,15 +7,15 @@ message Cfg_Npc
 	{
 		uint32 id			 = 1; //类型编号
 		uint32 level		 = 2; //等级
-		string name			 = 3; //名字
-		string dialog_txt	 = 4; //对话内容
+		string  name			 = 3; //名字
+		string  dialog_txt	 = 4; //对话内容
 		uint32 type_flag	 = 5; //类型掩码 0x01=商店NPC 0x02=交互型NPC(搓条)
 		uint32 shop_id		 = 6; //商店id/特种对话框id  0-100为特殊界面(0=普通对话 1=任务接受 2=任务未完成 3=任务提交)
-		string shop_linkname = 7; //打开商店的链接名
+		string  shop_linkname = 7; //打开商店的链接名
 		uint32 idcamp		 = 8; //阵营编号(0=玩家,1=普通怪物)
 		uint64 scriptid		 = 9; //脚本编号
 
-		uint32 map_id = 10; //所在场景
+		uint32 mapid  = 10; //所在场景
 		float  posx	  = 11;
 		float  posy	  = 12;
 		float  face	  = 13;

@@ -4,10 +4,7 @@ CAchievementTypeSet::CAchievementTypeSet() {}
 
 CAchievementTypeSet::~CAchievementTypeSet() 
 {
-	for(auto& [k, v] : m_setData)
-	{
-		SAFE_DELETE(v);
-	}
+	Destroy();
 }
 
 bool CAchievementTypeSet::Init(const char* szFileName)
@@ -24,7 +21,8 @@ bool CAchievementTypeSet::Init(const char* szFileName)
 
 		auto pData = CAchievementType::CreateNew(iter);
 		CHECKF(pData);
-		m_setData[pData->GetID()] = pData;
+		CHECKF_FMT(m_setData[pData->GetID()] == nullptr, "CAchievementType %d dup", pData->GetID());
+		m_setData[pData->GetID()].reset(pData);
 		m_setDataByCheckType[pData->GetCheckData().check_type()].push_back(pData);
 		m_setDataByGroupID[pData->GetGroupID()].push_back(pData);
 	}
@@ -45,17 +43,13 @@ bool CAchievementTypeSet::Reload(const char* szFileName)
 void CAchievementTypeSet::Destroy()
 {
 	__ENTER_FUNCTION
-	for(auto& [k, v]: m_setData)
-	{
-		SAFE_DELETE(v);
-	}
 	m_setData.clear();
 	m_setDataByCheckType.clear();
 	m_setDataByGroupID.clear();
 	__LEAVE_FUNCTION
 }
 
-const std::map<uint32_t, CAchievementType*>& CAchievementTypeSet::GetData() const
+const CAchievementTypeSet::DATA_TYPE& CAchievementTypeSet::GetData() const
 {
 	return m_setData;
 }
@@ -66,13 +60,13 @@ CAchievementType* CAchievementTypeSet::GetData(uint32_t idType) const
 	auto it = m_setData.find(idType);
 	if(it != m_setData.end())
 	{
-		return it->second;
+		return it->second.get();
 	}
 	__LEAVE_FUNCTION
 	return nullptr;
 }
 
-const std::vector<CAchievementType*>* CAchievementTypeSet::QueryAchiemenetByGroupID(uint32_t idGroup) const
+const CAchievementTypeSet::SUB_DATA_LIST* CAchievementTypeSet::QueryAchiemenetByGroupID(uint32_t idGroup) const
 {
 	__ENTER_FUNCTION
 	auto it = m_setDataByGroupID.find(idGroup);
@@ -84,7 +78,7 @@ const std::vector<CAchievementType*>* CAchievementTypeSet::QueryAchiemenetByGrou
 	return nullptr;
 }
 
-const std::vector<CAchievementType*>* CAchievementTypeSet::QueryAchiemenetByCheckType(uint32_t idType) const
+const CAchievementTypeSet::SUB_DATA_LIST* CAchievementTypeSet::QueryAchiemenetByCheckType(uint32_t idType) const
 {
 	__ENTER_FUNCTION
 	auto it = m_setDataByCheckType.find(idType);

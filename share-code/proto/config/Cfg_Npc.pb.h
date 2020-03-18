@@ -171,7 +171,7 @@ class Cfg_Npc_Row :
     kShopIdFieldNumber = 6,
     kScriptidFieldNumber = 9,
     kIdcampFieldNumber = 8,
-    kMapIdFieldNumber = 10,
+    kMapidFieldNumber = 10,
     kPosxFieldNumber = 11,
     kPosyFieldNumber = 12,
     kFaceFieldNumber = 13,
@@ -280,13 +280,13 @@ class Cfg_Npc_Row :
   void _internal_set_idcamp(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 map_id = 10;
-  void clear_map_id();
-  ::PROTOBUF_NAMESPACE_ID::uint32 map_id() const;
-  void set_map_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  // uint32 mapid = 10;
+  void clear_mapid();
+  ::PROTOBUF_NAMESPACE_ID::uint32 mapid() const;
+  void set_mapid(::PROTOBUF_NAMESPACE_ID::uint32 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_map_id() const;
-  void _internal_set_map_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_mapid() const;
+  void _internal_set_mapid(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
   // float posx = 11;
@@ -348,7 +348,7 @@ class Cfg_Npc_Row :
   ::PROTOBUF_NAMESPACE_ID::uint32 shop_id_;
   ::PROTOBUF_NAMESPACE_ID::uint64 scriptid_;
   ::PROTOBUF_NAMESPACE_ID::uint32 idcamp_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 map_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 mapid_;
   float posx_;
   float posy_;
   float face_;
@@ -796,24 +796,24 @@ inline void Cfg_Npc_Row::set_scriptid(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   // @@protoc_insertion_point(field_set:Cfg_Npc.Row.scriptid)
 }
 
-// uint32 map_id = 10;
-inline void Cfg_Npc_Row::clear_map_id() {
-  map_id_ = 0u;
+// uint32 mapid = 10;
+inline void Cfg_Npc_Row::clear_mapid() {
+  mapid_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Npc_Row::_internal_map_id() const {
-  return map_id_;
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Npc_Row::_internal_mapid() const {
+  return mapid_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Npc_Row::map_id() const {
-  // @@protoc_insertion_point(field_get:Cfg_Npc.Row.map_id)
-  return _internal_map_id();
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Npc_Row::mapid() const {
+  // @@protoc_insertion_point(field_get:Cfg_Npc.Row.mapid)
+  return _internal_mapid();
 }
-inline void Cfg_Npc_Row::_internal_set_map_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Npc_Row::_internal_set_mapid(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
-  map_id_ = value;
+  mapid_ = value;
 }
-inline void Cfg_Npc_Row::set_map_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  _internal_set_map_id(value);
-  // @@protoc_insertion_point(field_set:Cfg_Npc.Row.map_id)
+inline void Cfg_Npc_Row::set_mapid(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_mapid(value);
+  // @@protoc_insertion_point(field_set:Cfg_Npc.Row.mapid)
 }
 
 // float posx = 11;

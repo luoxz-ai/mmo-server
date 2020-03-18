@@ -169,17 +169,23 @@ class AttribDataProto :
   enum : int {
     kHpMaxFieldNumber = 1,
     kMpMaxFieldNumber = 2,
-    kMovespdFieldNumber = 3,
+    kFpMaxFieldNumber = 3,
+    kNpMaxFieldNumber = 4,
+    kMovespdFieldNumber = 5,
     kMinAtkFieldNumber = 9,
     kMaxAtkFieldNumber = 10,
     kMinDefFieldNumber = 11,
     kMaxDefFieldNumber = 12,
     kMinMatkFieldNumber = 13,
-    kDodgeFieldNumber = 18,
     kMaxMatkFieldNumber = 14,
     kMinMdefFieldNumber = 15,
     kMaxMdefFieldNumber = 16,
     kHitFieldNumber = 17,
+    kDodgeFieldNumber = 18,
+    kDamageAdjFieldNumber = 19,
+    kExpAdjFieldNumber = 22,
+    kDamageReflectRateFieldNumber = 20,
+    kDamageReflectAdjFieldNumber = 21,
   };
   // int32 hp_max = 1;
   void clear_hp_max();
@@ -199,7 +205,25 @@ class AttribDataProto :
   void _internal_set_mp_max(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 movespd = 3;
+  // int32 fp_max = 3;
+  void clear_fp_max();
+  ::PROTOBUF_NAMESPACE_ID::int32 fp_max() const;
+  void set_fp_max(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_fp_max() const;
+  void _internal_set_fp_max(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 np_max = 4;
+  void clear_np_max();
+  ::PROTOBUF_NAMESPACE_ID::int32 np_max() const;
+  void set_np_max(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_np_max() const;
+  void _internal_set_np_max(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 movespd = 5;
   void clear_movespd();
   ::PROTOBUF_NAMESPACE_ID::int32 movespd() const;
   void set_movespd(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -253,15 +277,6 @@ class AttribDataProto :
   void _internal_set_min_matk(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 dodge = 18;
-  void clear_dodge();
-  ::PROTOBUF_NAMESPACE_ID::int32 dodge() const;
-  void set_dodge(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_dodge() const;
-  void _internal_set_dodge(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
   // int32 max_matk = 14;
   void clear_max_matk();
   ::PROTOBUF_NAMESPACE_ID::int32 max_matk() const;
@@ -298,6 +313,51 @@ class AttribDataProto :
   void _internal_set_hit(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
+  // int32 dodge = 18;
+  void clear_dodge();
+  ::PROTOBUF_NAMESPACE_ID::int32 dodge() const;
+  void set_dodge(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_dodge() const;
+  void _internal_set_dodge(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 damage_adj = 19;
+  void clear_damage_adj();
+  ::PROTOBUF_NAMESPACE_ID::int32 damage_adj() const;
+  void set_damage_adj(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_damage_adj() const;
+  void _internal_set_damage_adj(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 exp_adj = 22;
+  void clear_exp_adj();
+  ::PROTOBUF_NAMESPACE_ID::int32 exp_adj() const;
+  void set_exp_adj(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_exp_adj() const;
+  void _internal_set_exp_adj(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 damage_reflect_rate = 20;
+  void clear_damage_reflect_rate();
+  ::PROTOBUF_NAMESPACE_ID::int32 damage_reflect_rate() const;
+  void set_damage_reflect_rate(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_damage_reflect_rate() const;
+  void _internal_set_damage_reflect_rate(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 damage_reflect_adj = 21;
+  void clear_damage_reflect_adj();
+  ::PROTOBUF_NAMESPACE_ID::int32 damage_reflect_adj() const;
+  void set_damage_reflect_adj(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_damage_reflect_adj() const;
+  void _internal_set_damage_reflect_adj(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:AttribDataProto)
  private:
   class _Internal;
@@ -305,17 +365,23 @@ class AttribDataProto :
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
   ::PROTOBUF_NAMESPACE_ID::int32 hp_max_;
   ::PROTOBUF_NAMESPACE_ID::int32 mp_max_;
+  ::PROTOBUF_NAMESPACE_ID::int32 fp_max_;
+  ::PROTOBUF_NAMESPACE_ID::int32 np_max_;
   ::PROTOBUF_NAMESPACE_ID::int32 movespd_;
   ::PROTOBUF_NAMESPACE_ID::int32 min_atk_;
   ::PROTOBUF_NAMESPACE_ID::int32 max_atk_;
   ::PROTOBUF_NAMESPACE_ID::int32 min_def_;
   ::PROTOBUF_NAMESPACE_ID::int32 max_def_;
   ::PROTOBUF_NAMESPACE_ID::int32 min_matk_;
-  ::PROTOBUF_NAMESPACE_ID::int32 dodge_;
   ::PROTOBUF_NAMESPACE_ID::int32 max_matk_;
   ::PROTOBUF_NAMESPACE_ID::int32 min_mdef_;
   ::PROTOBUF_NAMESPACE_ID::int32 max_mdef_;
   ::PROTOBUF_NAMESPACE_ID::int32 hit_;
+  ::PROTOBUF_NAMESPACE_ID::int32 dodge_;
+  ::PROTOBUF_NAMESPACE_ID::int32 damage_adj_;
+  ::PROTOBUF_NAMESPACE_ID::int32 exp_adj_;
+  ::PROTOBUF_NAMESPACE_ID::int32 damage_reflect_rate_;
+  ::PROTOBUF_NAMESPACE_ID::int32 damage_reflect_adj_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_common_2fAttribChangeDataProto_2eproto;
 };
@@ -416,11 +482,28 @@ class AttribChangeDataProto :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kDescFieldNumber = 5,
     kAttribFieldNumber = 1,
     kOplevFieldNumber = 2,
     kValFieldNumber = 3,
     kFactorFieldNumber = 4,
   };
+  // string desc = 5;
+  void clear_desc();
+  const std::string& desc() const;
+  void set_desc(const std::string& value);
+  void set_desc(std::string&& value);
+  void set_desc(const char* value);
+  void set_desc(const char* value, size_t size);
+  std::string* mutable_desc();
+  std::string* release_desc();
+  void set_allocated_desc(std::string* desc);
+  private:
+  const std::string& _internal_desc() const;
+  void _internal_set_desc(const std::string& value);
+  std::string* _internal_mutable_desc();
+  public:
+
   // .ACTOR_ATTRIB attrib = 1;
   void clear_attrib();
   ::ACTOR_ATTRIB attrib() const;
@@ -462,6 +545,7 @@ class AttribChangeDataProto :
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr desc_;
   int attrib_;
   ::PROTOBUF_NAMESPACE_ID::uint32 oplev_;
   ::PROTOBUF_NAMESPACE_ID::int32 val_;
@@ -650,7 +734,47 @@ inline void AttribDataProto::set_mp_max(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:AttribDataProto.mp_max)
 }
 
-// int32 movespd = 3;
+// int32 fp_max = 3;
+inline void AttribDataProto::clear_fp_max() {
+  fp_max_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 AttribDataProto::_internal_fp_max() const {
+  return fp_max_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 AttribDataProto::fp_max() const {
+  // @@protoc_insertion_point(field_get:AttribDataProto.fp_max)
+  return _internal_fp_max();
+}
+inline void AttribDataProto::_internal_set_fp_max(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  fp_max_ = value;
+}
+inline void AttribDataProto::set_fp_max(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_fp_max(value);
+  // @@protoc_insertion_point(field_set:AttribDataProto.fp_max)
+}
+
+// int32 np_max = 4;
+inline void AttribDataProto::clear_np_max() {
+  np_max_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 AttribDataProto::_internal_np_max() const {
+  return np_max_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 AttribDataProto::np_max() const {
+  // @@protoc_insertion_point(field_get:AttribDataProto.np_max)
+  return _internal_np_max();
+}
+inline void AttribDataProto::_internal_set_np_max(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  np_max_ = value;
+}
+inline void AttribDataProto::set_np_max(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_np_max(value);
+  // @@protoc_insertion_point(field_set:AttribDataProto.np_max)
+}
+
+// int32 movespd = 5;
 inline void AttribDataProto::clear_movespd() {
   movespd_ = 0;
 }
@@ -870,6 +994,86 @@ inline void AttribDataProto::set_dodge(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:AttribDataProto.dodge)
 }
 
+// int32 damage_adj = 19;
+inline void AttribDataProto::clear_damage_adj() {
+  damage_adj_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 AttribDataProto::_internal_damage_adj() const {
+  return damage_adj_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 AttribDataProto::damage_adj() const {
+  // @@protoc_insertion_point(field_get:AttribDataProto.damage_adj)
+  return _internal_damage_adj();
+}
+inline void AttribDataProto::_internal_set_damage_adj(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  damage_adj_ = value;
+}
+inline void AttribDataProto::set_damage_adj(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_damage_adj(value);
+  // @@protoc_insertion_point(field_set:AttribDataProto.damage_adj)
+}
+
+// int32 damage_reflect_rate = 20;
+inline void AttribDataProto::clear_damage_reflect_rate() {
+  damage_reflect_rate_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 AttribDataProto::_internal_damage_reflect_rate() const {
+  return damage_reflect_rate_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 AttribDataProto::damage_reflect_rate() const {
+  // @@protoc_insertion_point(field_get:AttribDataProto.damage_reflect_rate)
+  return _internal_damage_reflect_rate();
+}
+inline void AttribDataProto::_internal_set_damage_reflect_rate(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  damage_reflect_rate_ = value;
+}
+inline void AttribDataProto::set_damage_reflect_rate(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_damage_reflect_rate(value);
+  // @@protoc_insertion_point(field_set:AttribDataProto.damage_reflect_rate)
+}
+
+// int32 damage_reflect_adj = 21;
+inline void AttribDataProto::clear_damage_reflect_adj() {
+  damage_reflect_adj_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 AttribDataProto::_internal_damage_reflect_adj() const {
+  return damage_reflect_adj_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 AttribDataProto::damage_reflect_adj() const {
+  // @@protoc_insertion_point(field_get:AttribDataProto.damage_reflect_adj)
+  return _internal_damage_reflect_adj();
+}
+inline void AttribDataProto::_internal_set_damage_reflect_adj(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  damage_reflect_adj_ = value;
+}
+inline void AttribDataProto::set_damage_reflect_adj(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_damage_reflect_adj(value);
+  // @@protoc_insertion_point(field_set:AttribDataProto.damage_reflect_adj)
+}
+
+// int32 exp_adj = 22;
+inline void AttribDataProto::clear_exp_adj() {
+  exp_adj_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 AttribDataProto::_internal_exp_adj() const {
+  return exp_adj_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 AttribDataProto::exp_adj() const {
+  // @@protoc_insertion_point(field_get:AttribDataProto.exp_adj)
+  return _internal_exp_adj();
+}
+inline void AttribDataProto::_internal_set_exp_adj(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  exp_adj_ = value;
+}
+inline void AttribDataProto::set_exp_adj(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_exp_adj(value);
+  // @@protoc_insertion_point(field_set:AttribDataProto.exp_adj)
+}
+
 // -------------------------------------------------------------------
 
 // AttribChangeDataProto
@@ -952,6 +1156,66 @@ inline void AttribChangeDataProto::_internal_set_factor(::PROTOBUF_NAMESPACE_ID:
 inline void AttribChangeDataProto::set_factor(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_factor(value);
   // @@protoc_insertion_point(field_set:AttribChangeDataProto.factor)
+}
+
+// string desc = 5;
+inline void AttribChangeDataProto::clear_desc() {
+  desc_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& AttribChangeDataProto::desc() const {
+  // @@protoc_insertion_point(field_get:AttribChangeDataProto.desc)
+  return _internal_desc();
+}
+inline void AttribChangeDataProto::set_desc(const std::string& value) {
+  _internal_set_desc(value);
+  // @@protoc_insertion_point(field_set:AttribChangeDataProto.desc)
+}
+inline std::string* AttribChangeDataProto::mutable_desc() {
+  // @@protoc_insertion_point(field_mutable:AttribChangeDataProto.desc)
+  return _internal_mutable_desc();
+}
+inline const std::string& AttribChangeDataProto::_internal_desc() const {
+  return desc_.GetNoArena();
+}
+inline void AttribChangeDataProto::_internal_set_desc(const std::string& value) {
+  
+  desc_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void AttribChangeDataProto::set_desc(std::string&& value) {
+  
+  desc_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:AttribChangeDataProto.desc)
+}
+inline void AttribChangeDataProto::set_desc(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  desc_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AttribChangeDataProto.desc)
+}
+inline void AttribChangeDataProto::set_desc(const char* value, size_t size) {
+  
+  desc_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AttribChangeDataProto.desc)
+}
+inline std::string* AttribChangeDataProto::_internal_mutable_desc() {
+  
+  return desc_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* AttribChangeDataProto::release_desc() {
+  // @@protoc_insertion_point(field_release:AttribChangeDataProto.desc)
+  
+  return desc_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void AttribChangeDataProto::set_allocated_desc(std::string* desc) {
+  if (desc != nullptr) {
+    
+  } else {
+    
+  }
+  desc_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), desc);
+  // @@protoc_insertion_point(field_set_allocated:AttribChangeDataProto.desc)
 }
 
 // -------------------------------------------------------------------

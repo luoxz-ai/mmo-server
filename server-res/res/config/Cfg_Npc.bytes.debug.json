@@ -5,6 +5,7 @@
  "shopId": 1,
  "shopLinkname": "1",
  "scriptid": "300101001",
+ "mapid": 101,
  "posx": 10,
  "posy": 10
 ,"__debug":"file:Cfg_Npc.xlsx sheet:Sheet1 line:3  "
@@ -16,6 +17,7 @@
  "shopId": 2,
  "shopLinkname": "1",
  "scriptid": "300101002",
+ "mapid": 101,
  "posx": 20,
  "posy": 20
 ,"__debug":"file:Cfg_Npc.xlsx sheet:Sheet1 line:4  "
@@ -27,6 +29,7 @@
  "shopId": 3,
  "shopLinkname": "2",
  "scriptid": "300101003",
+ "mapid": 101,
  "posx": 30,
  "posy": 30
 ,"__debug":"file:Cfg_Npc.xlsx sheet:Sheet1 line:5  "
@@ -38,6 +41,7 @@
  "shopId": 2,
  "shopLinkname": "2",
  "scriptid": "300101004",
+ "mapid": 101,
  "posx": 40,
  "posy": 40
 ,"__debug":"file:Cfg_Npc.xlsx sheet:Sheet1 line:6  "
@@ -49,6 +53,7 @@
  "shopId": 1,
  "shopLinkname": "3",
  "scriptid": "300101005",
+ "mapid": 101,
  "posx": 50,
  "posy": 50
 ,"__debug":"file:Cfg_Npc.xlsx sheet:Sheet1 line:7  "

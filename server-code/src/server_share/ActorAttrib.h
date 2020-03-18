@@ -175,37 +175,32 @@ public:
 	template<class T>
 	void load_from(const T& row)
 	{
-		get_base(ATTRIB_HP_MAX)	  = row.hp_max();
-		get_base(ATTRIB_MP_MAX)	  = row.mp_max();
-		get_base(ATTRIB_MOVESPD)  = row.movespd();
-		get_base(ATTRIB_MIN_ATK)  = row.min_atk();
-		get_base(ATTRIB_MAX_ATK)  = row.max_atk();
-		get_base(ATTRIB_MIN_DEF)  = row.min_def();
-		get_base(ATTRIB_MAX_DEF)  = row.max_def();
-		get_base(ATTRIB_MIN_MATK) = row.min_matk();
-		get_base(ATTRIB_MAX_MATK) = row.max_matk();
-		get_base(ATTRIB_MIN_MDEF) = row.min_mdef();
-		get_base(ATTRIB_MAX_MDEF) = row.max_mdef();
-		get_base(ATTRIB_HIT)	  = row.hit();
-		get_base(ATTRIB_DODGE)	  = row.dodge();
+		auto ref = row.GetReflection();
+		auto desc = row.GetDescriptor();
+		for(int i = ATTRIB_HP_MAX; i < ATTRIB_MAX; i++)
+		{
+			auto field_desc =  desc->FindFieldByNumber(i);
+			if(field_desc)
+			{
+				get_base(i) = ref->GetInt32(row, field_desc);
+			}
+		}
+		
 	}
 
 	template<class T>
 	static void load_from(AttribList_t& list, const T& row)
 	{
-		list[ATTRIB_HP_MAX]	  = row.hp_max();
-		list[ATTRIB_MP_MAX]	  = row.mp_max();
-		list[ATTRIB_MOVESPD]  = row.movespd();
-		list[ATTRIB_MIN_ATK]  = row.min_atk();
-		list[ATTRIB_MAX_ATK]  = row.max_atk();
-		list[ATTRIB_MIN_DEF]  = row.min_def();
-		list[ATTRIB_MAX_DEF]  = row.max_def();
-		list[ATTRIB_MIN_MATK] = row.min_matk();
-		list[ATTRIB_MAX_MATK] = row.max_matk();
-		list[ATTRIB_MIN_MDEF] = row.min_mdef();
-		list[ATTRIB_MAX_MDEF] = row.max_mdef();
-		list[ATTRIB_HIT]	  = row.hit();
-		list[ATTRIB_DODGE]	  = row.dodge();
+		auto ref = row.GetReflection();
+		auto desc = row.GetDescriptor();
+		for(int i = ATTRIB_HP_MAX; i < ATTRIB_MAX; i++)
+		{
+			auto field_desc =  desc->FindFieldByNumber(i);
+			if(field_desc)
+			{
+				list[i] = ref->GetInt32(row, field_desc);
+			}
+		}
 	}
 
 private:

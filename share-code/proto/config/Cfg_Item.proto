@@ -47,9 +47,11 @@ message Cfg_Item
 		uint32 suit_id	= 17; //套装编号xxxxyy;
 
 		repeated AttribChangeDataProto attrib_change_list = 18; //增加的属性
-		uint32						   flag				  = 19; //掩码
-		uint64						   scriptid			  = 20; //脚本id
-		uint32						   batchuse_count	  = 21; //单次使用数量上限
+
+		uint32 flag			  = 19; //掩码
+		uint64 scriptid		  = 20; //脚本id
+		uint32 batchuse_count = 21; //单次使用数量上限
+		string  desc			  = 22;
 	}
 
 	repeated Row rows = 1;

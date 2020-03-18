@@ -122,7 +122,8 @@
  "pileLimit": 1,
  "dura": 1,
  "duraLimit": 1,
- "scriptid": "410400001"
+ "scriptid": "410400001",
+ "desc": "使用获得坐骑"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:14  "
 } ,
 {
@@ -134,7 +135,8 @@
  "dura": 1,
  "duraLimit": 1,
  "scriptid": "410500001",
- "batchuseCount": 9999
+ "batchuseCount": 9999,
+ "desc": "使用获得金钱100"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:15  "
 } ,
 {
@@ -144,7 +146,8 @@
  "pileLimit": 99999,
  "dura": 1,
  "duraLimit": 1,
- "scriptid": "410900001"
+ "scriptid": "410900001",
+ "desc": "可以拿来卖钱"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:16  "
 } ,
 {
@@ -156,7 +159,8 @@
  "dura": 1,
  "duraLimit": 1,
  "profReq": 3,
- "scriptid": "411100001"
+ "scriptid": "411100001",
+ "desc": "强化0-3级"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:17  "
 } ,
 {
@@ -169,7 +173,8 @@
  "duraLimit": 1,
  "levReq": 3,
  "profReq": 6,
- "scriptid": "411100002"
+ "scriptid": "411100002",
+ "desc": "强化3-5级"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:18  "
 } ,
 {
@@ -182,7 +187,8 @@
  "duraLimit": 1,
  "levReq": 5,
  "profReq": 10,
- "scriptid": "411100003"
+ "scriptid": "411100003",
+ "desc": "强化6-9级"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:19  "
 } ,
 {
@@ -195,7 +201,8 @@
  "duraLimit": 1,
  "levReq": 10,
  "profReq": 15,
- "scriptid": "411100004"
+ "scriptid": "411100004",
+ "desc": "强化10-15级"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:20  "
 } ,
 {
@@ -208,7 +215,8 @@
  "duraLimit": 1,
  "levReq": 5,
  "profReq": 9,
- "scriptid": "411200001"
+ "scriptid": "411200001",
+ "desc": "保护5-9级"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:21  "
 } ,
 {
@@ -221,7 +229,8 @@
  "duraLimit": 1,
  "profReq": 15,
  "value": 500,
- "scriptid": "411300001"
+ "scriptid": "411300001",
+ "desc": "增加幸运5%"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:22  "
 } ,
 {
@@ -234,7 +243,8 @@
  "duraLimit": 100,
  "additionLimit": 5,
  "profReq": 1,
- "scriptid": "420110001"
+ "scriptid": "420110001",
+ "desc": "职业1-0级武器"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:23  "
 } ,
 {
@@ -248,7 +258,8 @@
  "additionLimit": 5,
  "levReq": 10,
  "profReq": 1,
- "scriptid": "420111001"
+ "scriptid": "420111001",
+ "desc": "职业1-10级武器"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:24  "
 } ,
 {
@@ -262,7 +273,8 @@
  "additionLimit": 7,
  "levReq": 20,
  "profReq": 1,
- "scriptid": "420112001"
+ "scriptid": "420112001",
+ "desc": "职业1-20级武器"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:25  "
 } ,
 {
@@ -276,7 +288,8 @@
  "additionLimit": 7,
  "levReq": 30,
  "profReq": 1,
- "scriptid": "420113001"
+ "scriptid": "420113001",
+ "desc": "职业1-30级武器"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:26  "
 } ,
 {
@@ -291,7 +304,8 @@
  "levReq": 40,
  "profReq": 1,
  "suitId": 100101,
- "scriptid": "420114001"
+ "scriptid": "420114001",
+ "desc": "职业1-40级武器"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:27  "
 } ,
 {
@@ -306,7 +320,8 @@
  "levReq": 50,
  "profReq": 1,
  "suitId": 100201,
- "scriptid": "420115001"
+ "scriptid": "420115001",
+ "desc": "职业1-50级武器"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:28  "
 } ,
 {
@@ -319,7 +334,8 @@
  "duraLimit": 100,
  "additionLimit": 5,
  "profReq": 2,
- "scriptid": "420120001"
+ "scriptid": "420120001",
+ "desc": "职业2-0级武器"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:29  "
 } ,
 {
@@ -333,7 +349,8 @@
  "additionLimit": 5,
  "levReq": 10,
  "profReq": 2,
- "scriptid": "420121001"
+ "scriptid": "420121001",
+ "desc": "职业2-10级武器"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:30  "
 } ,
 {
@@ -347,7 +364,8 @@
  "additionLimit": 7,
  "levReq": 20,
  "profReq": 2,
- "scriptid": "420122001"
+ "scriptid": "420122001",
+ "desc": "职业2-20级武器"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:31  "
 } ,
 {
@@ -361,7 +379,8 @@
  "additionLimit": 7,
  "levReq": 30,
  "profReq": 2,
- "scriptid": "420123001"
+ "scriptid": "420123001",
+ "desc": "职业2-30级武器"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:32  "
 } ,
 {
@@ -376,7 +395,8 @@
  "levReq": 40,
  "profReq": 2,
  "suitId": 200101,
- "scriptid": "420124001"
+ "scriptid": "420124001",
+ "desc": "职业2-40级武器"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:33  "
 } ,
 {
@@ -391,7 +411,8 @@
  "levReq": 50,
  "profReq": 2,
  "suitId": 200201,
- "scriptid": "420125001"
+ "scriptid": "420125001",
+ "desc": "职业2-50级武器"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:34  "
 } ,
 {
@@ -404,7 +425,8 @@
  "duraLimit": 100,
  "additionLimit": 5,
  "profReq": 2,
- "scriptid": "420220001"
+ "scriptid": "420220001",
+ "desc": "职业2-0级头盔"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:35  "
 } ,
 {
@@ -418,7 +440,8 @@
  "additionLimit": 5,
  "levReq": 10,
  "profReq": 2,
- "scriptid": "421020001"
+ "scriptid": "421020001",
+ "desc": "职业2-10级头盔"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:36  "
 } ,
 {
@@ -432,7 +455,8 @@
  "additionLimit": 7,
  "levReq": 20,
  "profReq": 2,
- "scriptid": "421021001"
+ "scriptid": "421021001",
+ "desc": "职业2-20级头盔"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:37  "
 } ,
 {
@@ -446,7 +470,8 @@
  "additionLimit": 7,
  "levReq": 30,
  "profReq": 2,
- "scriptid": "421022001"
+ "scriptid": "421022001",
+ "desc": "职业2-30级头盔"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:38  "
 } ,
 {
@@ -461,7 +486,8 @@
  "levReq": 40,
  "profReq": 2,
  "suitId": 200101,
- "scriptid": "421023001"
+ "scriptid": "421023001",
+ "desc": "职业2-40级头盔"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:39  "
 } ,
 {
@@ -476,7 +502,8 @@
  "levReq": 50,
  "profReq": 2,
  "suitId": 200201,
- "scriptid": "421024001"
+ "scriptid": "421024001",
+ "desc": "职业2-50级头盔"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:40  "
 } ,
 {
@@ -488,6 +515,7 @@
  "dura": 100,
  "duraLimit": 100,
  "additionLimit": 5,
- "scriptid": "422300001"
+ "scriptid": "422300001",
+ "desc": "公用翅膀1"
 ,"__debug":"file:Cfg_Item.xlsx sheet:Sheet1 line:41  "
 } ]

@@ -1,9 +1,12 @@
 #include "BaseCode.h"
 #include "BaseType.h"
 #include "CallStackDumper.h"
+#include "CheckUtil.h"
 #include "FileLock.h"
+#include "FileUtil.h"
 #include "GameMath.h"
 #include "INILoader.h"
+#include "IntUtil.h"
 #include "LockfreeQueue.h"
 #include "LoggingMgr.h"
 #include "MD5.h"
@@ -20,6 +23,7 @@
 #include "StringAlgo.h"
 #include "T_GameDataMap.h"
 #include "Thread.h"
+#include "TimeUtil.h"
 #include "UIDFactory.h"
 #include "Vector2.h"
 #include "Vector3.h"
@@ -94,6 +98,7 @@ void basecode2lua(lua_State* L)
     lua_tinker::def(L, "scan_dir", &scan_dir);
     lua_tinker::def(L, "skip_utf8_bom", &skip_utf8_bom);
     lua_tinker::def(L, "split_string", &split_string);
+    lua_tinker::def(L, "split_string_view", &split_string_view);
     lua_tinker::def(L, "toHex", &toHex);
     lua_tinker::def(L, "trim", &trim);
     lua_tinker::def(L, "utf8_length", &utf8_length, 0);

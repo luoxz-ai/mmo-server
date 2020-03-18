@@ -4,7 +4,8 @@
  "attribChangeList": [
   {
    "attrib": 1,
-   "val": 100
+   "val": 100,
+   "desc": "血量上限+100"
   }
  ]
 ,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:3  "
@@ -15,7 +16,8 @@
  "attribChangeList": [
   {
    "attrib": 1,
-   "val": 200
+   "val": 200,
+   "desc": "血量上限+200"
   }
  ]
 ,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:4  "
@@ -26,11 +28,13 @@
  "attribChangeList": [
   {
    "attrib": 1,
-   "val": 200
+   "val": 200,
+   "desc": "血量上限+200"
   },
   {
-   "attrib": 7,
-   "val": 100
+   "attrib": 10,
+   "val": 100,
+   "desc": "攻击力上限+200"
   }
  ]
 ,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:5  "
@@ -41,11 +45,13 @@
  "attribChangeList": [
   {
    "attrib": 1,
-   "val": 200
+   "val": 200,
+   "desc": "血量上限+200"
   },
   {
-   "attrib": 7,
-   "val": 100
+   "attrib": 10,
+   "val": 100,
+   "desc": "攻击力上限+200"
   }
  ]
 ,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:6  "
@@ -56,11 +62,13 @@
  "attribChangeList": [
   {
    "attrib": 1,
-   "val": 200
+   "val": 200,
+   "desc": "血量上限+200"
   },
   {
-   "attrib": 7,
-   "val": 100
+   "attrib": 10,
+   "val": 100,
+   "desc": "攻击力上限+200"
   }
  ]
 ,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:7  "
@@ -71,7 +79,8 @@
  "attribChangeList": [
   {
    "attrib": 1,
-   "val": 100
+   "val": 100,
+   "desc": "血量上限+100"
   }
  ]
 ,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:8  "
@@ -82,7 +91,8 @@
  "attribChangeList": [
   {
    "attrib": 1,
-   "val": 200
+   "val": 200,
+   "desc": "血量上限+200"
   }
  ]
 ,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:9  "
@@ -93,11 +103,13 @@
  "attribChangeList": [
   {
    "attrib": 1,
-   "val": 200
+   "val": 200,
+   "desc": "血量上限+200"
   },
   {
-   "attrib": 7,
-   "val": 100
+   "attrib": 10,
+   "val": 100,
+   "desc": "攻击力上限+200"
   }
  ]
 ,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:10  "
@@ -108,11 +120,13 @@
  "attribChangeList": [
   {
    "attrib": 1,
-   "val": 200
+   "val": 200,
+   "desc": "血量上限+200"
   },
   {
-   "attrib": 7,
-   "val": 100
+   "attrib": 10,
+   "val": 100,
+   "desc": "攻击力上限+200"
   }
  ]
 ,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:11  "
@@ -123,11 +137,13 @@
  "attribChangeList": [
   {
    "attrib": 1,
-   "val": 200
+   "val": 200,
+   "desc": "血量上限+200"
   },
   {
-   "attrib": 7,
-   "val": 100
+   "attrib": 10,
+   "val": 100,
+   "desc": "攻击力上限+200"
   }
  ]
 ,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:12  "
@@ -138,7 +154,8 @@
  "attribChangeList": [
   {
    "attrib": 1,
-   "val": 100
+   "val": 100,
+   "desc": "血量上限+100"
   }
  ]
 ,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:13  "
@@ -149,7 +166,8 @@
  "attribChangeList": [
   {
    "attrib": 1,
-   "val": 200
+   "val": 200,
+   "desc": "血量上限+200"
   }
  ]
 ,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:14  "
@@ -160,11 +178,13 @@
  "attribChangeList": [
   {
    "attrib": 1,
-   "val": 200
+   "val": 200,
+   "desc": "血量上限+200"
   },
   {
-   "attrib": 7,
-   "val": 100
+   "attrib": 10,
+   "val": 100,
+   "desc": "攻击力上限+200"
   }
  ]
 ,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:15  "
@@ -175,11 +195,13 @@
  "attribChangeList": [
   {
    "attrib": 1,
-   "val": 200
+   "val": 200,
+   "desc": "血量上限+200"
   },
   {
-   "attrib": 7,
-   "val": 100
+   "attrib": 10,
+   "val": 100,
+   "desc": "攻击力上限+200"
   }
  ]
 ,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:16  "
@@ -190,11 +212,13 @@
  "attribChangeList": [
   {
    "attrib": 1,
-   "val": 200
+   "val": 200,
+   "desc": "血量上限+200"
   },
   {
-   "attrib": 7,
-   "val": 100
+   "attrib": 10,
+   "val": 100,
+   "desc": "攻击力上限+200"
   }
  ]
 ,"__debug":"file:Cfg_Suit.xlsx sheet:Sheet1 line:17  "

@@ -5,6 +5,17 @@
  "name": "主线1",
  "submitNpcid": 15001,
  "awardExp": 100,
+ "awardItemList": [
+  {
+   "itemtype": 100071,
+   "itemamount": 1
+  }
+ ],
+ "finishDataList": [
+  {
+   "desc": "0"
+  }
+ ],
  "scriptid": "501000001"
 ,"__debug":"file:Cfg_Task.xlsx sheet:Sheet1 line:3  "
 } ,
@@ -13,9 +24,17 @@
  "sort": 1,
  "type": 1,
  "name": "主线1",
+ "taskReq": [
+  1000001
+ ],
  "acceptNpcid": 15001,
  "submitNpcid": 15002,
  "awardExp": 100,
+ "finishDataList": [
+  {
+   "desc": "0"
+  }
+ ],
  "scriptid": "501000002"
 ,"__debug":"file:Cfg_Task.xlsx sheet:Sheet1 line:4  "
 } ,
@@ -24,9 +43,17 @@
  "sort": 1,
  "type": 1,
  "name": "主线1",
+ "taskReq": [
+  1000002
+ ],
  "acceptNpcid": 15002,
  "submitNpcid": 15003,
  "awardExp": 100,
+ "finishDataList": [
+  {
+   "desc": "0"
+  }
+ ],
  "scriptid": "501000003"
 ,"__debug":"file:Cfg_Task.xlsx sheet:Sheet1 line:5  "
 } ,
@@ -35,11 +62,20 @@
  "sort": 2,
  "type": 2,
  "name": "支线1",
+ "taskReq": [
+  1000002
+ ],
  "expireSec": 3600,
  "daytimes": 2,
  "acceptNpcid": 15005,
  "submitNpcid": 15005,
  "awardExp": 1500,
+ "finishDataList": [
+  {
+   "finishType": 2,
+   "desc": "0"
+  }
+ ],
  "scriptid": "502000001"
 ,"__debug":"file:Cfg_Task.xlsx sheet:Sheet1 line:6  "
 } ,
@@ -51,6 +87,14 @@
  "levelReq": 20,
  "submitNpcid": 15005,
  "awardExp": 1500,
+ "finishDataList": [
+  {
+   "finishType": 3,
+   "finishData": 110001,
+   "finishNum": 50,
+   "desc": "0"
+  }
+ ],
  "scriptid": "503000011"
 ,"__debug":"file:Cfg_Task.xlsx sheet:Sheet1 line:7  "
 } ,
@@ -62,6 +106,14 @@
  "levelReq": 20,
  "submitNpcid": 15005,
  "awardExp": 1500,
+ "finishDataList": [
+  {
+   "finishType": 3,
+   "finishData": 110002,
+   "finishNum": 50,
+   "desc": "0"
+  }
+ ],
  "scriptid": "503000012"
 ,"__debug":"file:Cfg_Task.xlsx sheet:Sheet1 line:8  "
 } ]

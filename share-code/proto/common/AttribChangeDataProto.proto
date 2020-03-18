@@ -7,18 +7,27 @@ message AttribDataProto
 {
 	int32 hp_max  = 1;
 	int32 mp_max  = 2;
-	int32 movespd = 3;
+	int32 fp_max  = 3;
+	int32 np_max  = 4;
+	int32 movespd = 5;
 
 	int32 min_atk  = 9;
 	int32 max_atk  = 10;
 	int32 min_def  = 11;
 	int32 max_def  = 12;
+	
 	int32 min_matk = 13;
 	int32 max_matk = 14;
 	int32 min_mdef = 15;
 	int32 max_mdef = 16;
+
 	int32 hit	   = 17;
 	int32 dodge	   = 18;
+
+	int32 damage_adj	   		= 19;
+	int32 damage_reflect_rate	= 20;
+	int32 damage_reflect_adj	= 21;
+	int32 exp_adj = 22;
 };
 
 message AttribChangeDataProto
@@ -27,6 +36,7 @@ message AttribChangeDataProto
 	uint32		 oplev	= 2;
 	int32		 val	= 3;
 	int32		 factor = 4;
+	string		 desc 	= 5;
 };
 
 message ItemExtraData

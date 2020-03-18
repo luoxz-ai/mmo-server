@@ -164,7 +164,7 @@ private:
 
 	CActorManager	m_ActorManager;
 	CSceneManager	m_SceneManager;
-	CLoadingThread* m_pLoadingThread;
+	CLoadingThread* m_pLoadingThread = nullptr;
 
 	std::unordered_map<uint64_t, std::deque<CNetworkMessage*>> m_MessagePoolBySocket;
 

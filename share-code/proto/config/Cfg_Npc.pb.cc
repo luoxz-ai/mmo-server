@@ -71,7 +71,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_config_2fCfg_5fNpc_2eproto::of
   PROTOBUF_FIELD_OFFSET(::Cfg_Npc_Row, shop_linkname_),
   PROTOBUF_FIELD_OFFSET(::Cfg_Npc_Row, idcamp_),
   PROTOBUF_FIELD_OFFSET(::Cfg_Npc_Row, scriptid_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Npc_Row, map_id_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Npc_Row, mapid_),
   PROTOBUF_FIELD_OFFSET(::Cfg_Npc_Row, posx_),
   PROTOBUF_FIELD_OFFSET(::Cfg_Npc_Row, posy_),
   PROTOBUF_FIELD_OFFSET(::Cfg_Npc_Row, face_),
@@ -95,15 +95,15 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 };
 
 const char descriptor_table_protodef_config_2fCfg_5fNpc_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\024config/Cfg_Npc.proto\"\237\002\n\007Cfg_Npc\022\032\n\004ro"
-  "ws\030\001 \003(\0132\014.Cfg_Npc.Row\032\367\001\n\003Row\022\n\n\002id\030\001 \001"
+  "\n\024config/Cfg_Npc.proto\"\236\002\n\007Cfg_Npc\022\032\n\004ro"
+  "ws\030\001 \003(\0132\014.Cfg_Npc.Row\032\366\001\n\003Row\022\n\n\002id\030\001 \001"
   "(\r\022\r\n\005level\030\002 \001(\r\022\014\n\004name\030\003 \001(\t\022\022\n\ndialo"
   "g_txt\030\004 \001(\t\022\021\n\ttype_flag\030\005 \001(\r\022\017\n\007shop_i"
   "d\030\006 \001(\r\022\025\n\rshop_linkname\030\007 \001(\t\022\016\n\006idcamp"
-  "\030\010 \001(\r\022\020\n\010scriptid\030\t \001(\004\022\016\n\006map_id\030\n \001(\r"
-  "\022\014\n\004posx\030\013 \001(\002\022\014\n\004posy\030\014 \001(\002\022\014\n\004face\030\r \001"
-  "(\002\022\014\n\004high\030\016 \001(\002\022\016\n\006volume\030\017 \001(\002B\002H\002b\006pr"
-  "oto3"
+  "\030\010 \001(\r\022\020\n\010scriptid\030\t \001(\004\022\r\n\005mapid\030\n \001(\r\022"
+  "\014\n\004posx\030\013 \001(\002\022\014\n\004posy\030\014 \001(\002\022\014\n\004face\030\r \001("
+  "\002\022\014\n\004high\030\016 \001(\002\022\016\n\006volume\030\017 \001(\002B\002H\002b\006pro"
+  "to3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_config_2fCfg_5fNpc_2eproto_deps[1] = {
 };
@@ -114,7 +114,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_con
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_config_2fCfg_5fNpc_2eproto_once;
 static bool descriptor_table_config_2fCfg_5fNpc_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_config_2fCfg_5fNpc_2eproto = {
-  &descriptor_table_config_2fCfg_5fNpc_2eproto_initialized, descriptor_table_protodef_config_2fCfg_5fNpc_2eproto, "config/Cfg_Npc.proto", 324,
+  &descriptor_table_config_2fCfg_5fNpc_2eproto_initialized, descriptor_table_protodef_config_2fCfg_5fNpc_2eproto, "config/Cfg_Npc.proto", 323,
   &descriptor_table_config_2fCfg_5fNpc_2eproto_once, descriptor_table_config_2fCfg_5fNpc_2eproto_sccs, descriptor_table_config_2fCfg_5fNpc_2eproto_deps, 2, 0,
   schemas, file_default_instances, TableStruct_config_2fCfg_5fNpc_2eproto::offsets,
   file_level_metadata_config_2fCfg_5fNpc_2eproto, 2, file_level_enum_descriptors_config_2fCfg_5fNpc_2eproto, file_level_service_descriptors_config_2fCfg_5fNpc_2eproto,

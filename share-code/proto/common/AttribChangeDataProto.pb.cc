@@ -80,6 +80,8 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_common_2fAttribChangeDataProto
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::AttribDataProto, hp_max_),
   PROTOBUF_FIELD_OFFSET(::AttribDataProto, mp_max_),
+  PROTOBUF_FIELD_OFFSET(::AttribDataProto, fp_max_),
+  PROTOBUF_FIELD_OFFSET(::AttribDataProto, np_max_),
   PROTOBUF_FIELD_OFFSET(::AttribDataProto, movespd_),
   PROTOBUF_FIELD_OFFSET(::AttribDataProto, min_atk_),
   PROTOBUF_FIELD_OFFSET(::AttribDataProto, max_atk_),
@@ -91,6 +93,10 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_common_2fAttribChangeDataProto
   PROTOBUF_FIELD_OFFSET(::AttribDataProto, max_mdef_),
   PROTOBUF_FIELD_OFFSET(::AttribDataProto, hit_),
   PROTOBUF_FIELD_OFFSET(::AttribDataProto, dodge_),
+  PROTOBUF_FIELD_OFFSET(::AttribDataProto, damage_adj_),
+  PROTOBUF_FIELD_OFFSET(::AttribDataProto, damage_reflect_rate_),
+  PROTOBUF_FIELD_OFFSET(::AttribDataProto, damage_reflect_adj_),
+  PROTOBUF_FIELD_OFFSET(::AttribDataProto, exp_adj_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::AttribChangeDataProto, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -100,6 +106,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_common_2fAttribChangeDataProto
   PROTOBUF_FIELD_OFFSET(::AttribChangeDataProto, oplev_),
   PROTOBUF_FIELD_OFFSET(::AttribChangeDataProto, val_),
   PROTOBUF_FIELD_OFFSET(::AttribChangeDataProto, factor_),
+  PROTOBUF_FIELD_OFFSET(::AttribChangeDataProto, desc_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ItemExtraData, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -109,8 +116,8 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_common_2fAttribChangeDataProto
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::AttribDataProto)},
-  { 18, -1, sizeof(::AttribChangeDataProto)},
-  { 27, -1, sizeof(::ItemExtraData)},
+  { 24, -1, sizeof(::AttribChangeDataProto)},
+  { 34, -1, sizeof(::ItemExtraData)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -121,16 +128,20 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_common_2fAttribChangeDataProto_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\"common/AttribChangeDataProto.proto\032\023co"
-  "mmon/Common.proto\"\352\001\n\017AttribDataProto\022\016\n"
-  "\006hp_max\030\001 \001(\005\022\016\n\006mp_max\030\002 \001(\005\022\017\n\007movespd"
-  "\030\003 \001(\005\022\017\n\007min_atk\030\t \001(\005\022\017\n\007max_atk\030\n \001(\005"
-  "\022\017\n\007min_def\030\013 \001(\005\022\017\n\007max_def\030\014 \001(\005\022\020\n\010mi"
-  "n_matk\030\r \001(\005\022\020\n\010max_matk\030\016 \001(\005\022\020\n\010min_md"
-  "ef\030\017 \001(\005\022\020\n\010max_mdef\030\020 \001(\005\022\013\n\003hit\030\021 \001(\005\022"
-  "\r\n\005dodge\030\022 \001(\005\"b\n\025AttribChangeDataProto\022"
-  "\035\n\006attrib\030\001 \001(\0162\r.ACTOR_ATTRIB\022\r\n\005oplev\030"
-  "\002 \001(\r\022\013\n\003val\030\003 \001(\005\022\016\n\006factor\030\004 \001(\005\"\035\n\rIt"
-  "emExtraData\022\014\n\004data\030\001 \003(\rB\002H\002b\006proto3"
+  "mmon/Common.proto\"\350\002\n\017AttribDataProto\022\016\n"
+  "\006hp_max\030\001 \001(\005\022\016\n\006mp_max\030\002 \001(\005\022\016\n\006fp_max\030"
+  "\003 \001(\005\022\016\n\006np_max\030\004 \001(\005\022\017\n\007movespd\030\005 \001(\005\022\017"
+  "\n\007min_atk\030\t \001(\005\022\017\n\007max_atk\030\n \001(\005\022\017\n\007min_"
+  "def\030\013 \001(\005\022\017\n\007max_def\030\014 \001(\005\022\020\n\010min_matk\030\r"
+  " \001(\005\022\020\n\010max_matk\030\016 \001(\005\022\020\n\010min_mdef\030\017 \001(\005"
+  "\022\020\n\010max_mdef\030\020 \001(\005\022\013\n\003hit\030\021 \001(\005\022\r\n\005dodge"
+  "\030\022 \001(\005\022\022\n\ndamage_adj\030\023 \001(\005\022\033\n\023damage_ref"
+  "lect_rate\030\024 \001(\005\022\032\n\022damage_reflect_adj\030\025 "
+  "\001(\005\022\017\n\007exp_adj\030\026 \001(\005\"p\n\025AttribChangeData"
+  "Proto\022\035\n\006attrib\030\001 \001(\0162\r.ACTOR_ATTRIB\022\r\n\005"
+  "oplev\030\002 \001(\r\022\013\n\003val\030\003 \001(\005\022\016\n\006factor\030\004 \001(\005"
+  "\022\014\n\004desc\030\005 \001(\t\"\035\n\rItemExtraData\022\014\n\004data\030"
+  "\001 \003(\rB\002H\002b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_common_2fAttribChangeDataProto_2eproto_deps[1] = {
   &::descriptor_table_common_2fCommon_2eproto,
@@ -143,7 +154,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_com
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_common_2fAttribChangeDataProto_2eproto_once;
 static bool descriptor_table_common_2fAttribChangeDataProto_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_common_2fAttribChangeDataProto_2eproto = {
-  &descriptor_table_common_2fAttribChangeDataProto_2eproto_initialized, descriptor_table_protodef_common_2fAttribChangeDataProto_2eproto, "common/AttribChangeDataProto.proto", 437,
+  &descriptor_table_common_2fAttribChangeDataProto_2eproto_initialized, descriptor_table_protodef_common_2fAttribChangeDataProto_2eproto, "common/AttribChangeDataProto.proto", 577,
   &descriptor_table_common_2fAttribChangeDataProto_2eproto_once, descriptor_table_common_2fAttribChangeDataProto_2eproto_sccs, descriptor_table_common_2fAttribChangeDataProto_2eproto_deps, 3, 1,
   schemas, file_default_instances, TableStruct_common_2fAttribChangeDataProto_2eproto::offsets,
   file_level_metadata_common_2fAttribChangeDataProto_2eproto, 3, file_level_enum_descriptors_common_2fAttribChangeDataProto_2eproto, file_level_service_descriptors_common_2fAttribChangeDataProto_2eproto,
@@ -170,15 +181,15 @@ AttribDataProto::AttribDataProto(const AttribDataProto& from)
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&hp_max_, &from.hp_max_,
-    static_cast<size_t>(reinterpret_cast<char*>(&hit_) -
-    reinterpret_cast<char*>(&hp_max_)) + sizeof(hit_));
+    static_cast<size_t>(reinterpret_cast<char*>(&damage_reflect_adj_) -
+    reinterpret_cast<char*>(&hp_max_)) + sizeof(damage_reflect_adj_));
   // @@protoc_insertion_point(copy_constructor:AttribDataProto)
 }
 
 void AttribDataProto::SharedCtor() {
   ::memset(&hp_max_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&hit_) -
-      reinterpret_cast<char*>(&hp_max_)) + sizeof(hit_));
+      reinterpret_cast<char*>(&damage_reflect_adj_) -
+      reinterpret_cast<char*>(&hp_max_)) + sizeof(damage_reflect_adj_));
 }
 
 AttribDataProto::~AttribDataProto() {
@@ -224,6 +235,10 @@ AttribChangeDataProto::AttribChangeDataProto(const AttribChangeDataProto& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
+  desc_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_desc().empty()) {
+    desc_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.desc_);
+  }
   ::memcpy(&attrib_, &from.attrib_,
     static_cast<size_t>(reinterpret_cast<char*>(&factor_) -
     reinterpret_cast<char*>(&attrib_)) + sizeof(factor_));
@@ -231,6 +246,8 @@ AttribChangeDataProto::AttribChangeDataProto(const AttribChangeDataProto& from)
 }
 
 void AttribChangeDataProto::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_AttribChangeDataProto_common_2fAttribChangeDataProto_2eproto.base);
+  desc_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   ::memset(&attrib_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&factor_) -
       reinterpret_cast<char*>(&attrib_)) + sizeof(factor_));
@@ -242,6 +259,7 @@ AttribChangeDataProto::~AttribChangeDataProto() {
 }
 
 void AttribChangeDataProto::SharedDtor() {
+  desc_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 void AttribChangeDataProto::SetCachedSize(int size) const {

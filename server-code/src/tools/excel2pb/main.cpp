@@ -143,7 +143,10 @@ int main(int argc, char** argv)
 
 				try
 				{
-					pb_util::SetMessageData(pPBRow, name, data);
+					if(pb_util::SetMessageData(pPBRow, name, data) == false)
+					{
+						fmt::print("process fail: sheet={} y={} x={} cell:{} data:{} \n", ws.title(), y+1, x+1, name, data);
+					}
 				}
 				catch(...)
 				{

@@ -1,55 +1,7 @@
+#include "TimeUtil.h"
 #include "BaseCode.h"
 
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <string>
 
-#include "LoggingMgr.h"
-
-int32_t MulDivSign(int32_t a, int32_t b, int32_t c)
-{
-	return ((int32_t)(((int64_t)(a) * (int64_t)(b)) / (int64_t)(c)));
-}
-
-uint32_t MulDiv(uint32_t a, uint32_t b, uint32_t c)
-{
-	return ((uint32_t)(((uint64_t)(a) * (uint64_t)(b)) / (uint64_t)(c)));
-}
-
-uint32_t hex_set(uint32_t dwFlag, uint8_t nHex, uint8_t ucVal)
-{
-	CHECKF(nHex < 8);
-	return (dwFlag & ~(0xF << (nHex * 4))) | ((ucVal & 0xF) << (nHex * 4));
-}
-
-uint8_t hex_get(uint32_t dwFlag, uint8_t nHex)
-{
-	CHECKF(nHex < 8);
-	return (dwFlag >> (nHex * 4)) & 0xF;
-}
-
-bool bit_test(uint32_t dwFlag, uint8_t nBit)
-{
-	CHECKF(nBit < 32);
-	return (dwFlag & ((uint32_t)1 << nBit)) != 0;
-}
-
-uint32_t bit_flip(uint32_t dwFlag, uint8_t nBit)
-{
-	CHECKF(nBit < 32);
-	return dwFlag ^ ((uint32_t)1 << nBit);
-}
-
-uint32_t bit_set(uint32_t dwFlag, uint8_t nBit, bool bVal)
-{
-	CHECKF(nBit < 32);
-	if(bVal)
-		return dwFlag | (uint32_t)1 << nBit;
-	else
-		return dwFlag & ~((uint32_t)1 << nBit);
-}
 
 time_t timeGetTime()
 {

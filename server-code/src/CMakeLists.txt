@@ -3,10 +3,12 @@ ADD_SUBDIRECTORY(game_comm)
 
 ADD_SUBDIRECTORY(service)
 ADD_SUBDIRECTORY(service_loader)
+
 ADD_SUBDIRECTORY(tools)
+#ADD_SUBDIRECTORY(test)
 
 
 
-#ADD_SUBDIRECTORY(tools)
+
 
 

@@ -39,7 +39,7 @@ public:
 	float			   GetVolume() const { return m_Data.volume(); }
 
 	OBJID	 GetScriptID() const { return m_Data.scriptid(); }
-	uint32_t GetMapID() const { return m_Data.map_id(); }
+	uint32_t GetMapID() const { return m_Data.mapid(); }
 	float	 GetPosX() const { return m_Data.posx(); }
 	float	 GetPosY() const { return m_Data.posy(); }
 	float	 GetFace() const { return m_Data.face(); }

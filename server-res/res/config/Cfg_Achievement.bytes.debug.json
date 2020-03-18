@@ -1,4 +1,5 @@
 [{
+ "id": 1,
  "sort": 1,
  "name": "10级",
  "desc": "达到10级",
@@ -10,6 +11,7 @@
 ,"__debug":"file:Cfg_Achievement.xlsx sheet:Sheet1 line:3  "
 } ,
 {
+ "id": 2,
  "sort": 1,
  "name": "20级",
  "desc": "达到20级",
@@ -22,6 +24,7 @@
 ,"__debug":"file:Cfg_Achievement.xlsx sheet:Sheet1 line:4  "
 } ,
 {
+ "id": 3,
  "sort": 1,
  "name": "50级",
  "desc": "达到50级",
@@ -34,6 +37,7 @@
 ,"__debug":"file:Cfg_Achievement.xlsx sheet:Sheet1 line:5  "
 } ,
 {
+ "id": 4,
  "sort": 2,
  "name": "vip1",
  "desc": "达到vip1",
@@ -46,6 +50,7 @@
 ,"__debug":"file:Cfg_Achievement.xlsx sheet:Sheet1 line:6  "
 } ,
 {
+ "id": 5,
  "sort": 2,
  "name": "vip5",
  "desc": "达到vip5",
@@ -58,6 +63,7 @@
 ,"__debug":"file:Cfg_Achievement.xlsx sheet:Sheet1 line:7  "
 } ,
 {
+ "id": 6,
  "sort": 3,
  "name": "白手起家",
  "desc": "拥有一万金币",
@@ -70,6 +76,7 @@
 ,"__debug":"file:Cfg_Achievement.xlsx sheet:Sheet1 line:8  "
 } ,
 {
+ "id": 7,
  "sort": 3,
  "name": "百万富豪",
  "desc": "拥有百万金币",

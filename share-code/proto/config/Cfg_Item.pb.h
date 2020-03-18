@@ -165,6 +165,7 @@ class Cfg_Item_Row :
   enum : int {
     kAttribChangeListFieldNumber = 18,
     kNameFieldNumber = 3,
+    kDescFieldNumber = 22,
     kIdFieldNumber = 1,
     kSortFieldNumber = 2,
     kQuilityFieldNumber = 5,
@@ -215,6 +216,22 @@ class Cfg_Item_Row :
   const std::string& _internal_name() const;
   void _internal_set_name(const std::string& value);
   std::string* _internal_mutable_name();
+  public:
+
+  // string desc = 22;
+  void clear_desc();
+  const std::string& desc() const;
+  void set_desc(const std::string& value);
+  void set_desc(std::string&& value);
+  void set_desc(const char* value);
+  void set_desc(const char* value, size_t size);
+  std::string* mutable_desc();
+  std::string* release_desc();
+  void set_allocated_desc(std::string* desc);
+  private:
+  const std::string& _internal_desc() const;
+  void _internal_set_desc(const std::string& value);
+  std::string* _internal_mutable_desc();
   public:
 
   // uint32 id = 1;
@@ -377,6 +394,7 @@ class Cfg_Item_Row :
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::AttribChangeDataProto > attrib_change_list_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr desc_;
   ::PROTOBUF_NAMESPACE_ID::uint32 id_;
   ::PROTOBUF_NAMESPACE_ID::uint32 sort_;
   ::PROTOBUF_NAMESPACE_ID::uint32 quility_;
@@ -970,6 +988,66 @@ inline void Cfg_Item_Row::_internal_set_batchuse_count(::PROTOBUF_NAMESPACE_ID::
 inline void Cfg_Item_Row::set_batchuse_count(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_batchuse_count(value);
   // @@protoc_insertion_point(field_set:Cfg_Item.Row.batchuse_count)
+}
+
+// string desc = 22;
+inline void Cfg_Item_Row::clear_desc() {
+  desc_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& Cfg_Item_Row::desc() const {
+  // @@protoc_insertion_point(field_get:Cfg_Item.Row.desc)
+  return _internal_desc();
+}
+inline void Cfg_Item_Row::set_desc(const std::string& value) {
+  _internal_set_desc(value);
+  // @@protoc_insertion_point(field_set:Cfg_Item.Row.desc)
+}
+inline std::string* Cfg_Item_Row::mutable_desc() {
+  // @@protoc_insertion_point(field_mutable:Cfg_Item.Row.desc)
+  return _internal_mutable_desc();
+}
+inline const std::string& Cfg_Item_Row::_internal_desc() const {
+  return desc_.GetNoArena();
+}
+inline void Cfg_Item_Row::_internal_set_desc(const std::string& value) {
+  
+  desc_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void Cfg_Item_Row::set_desc(std::string&& value) {
+  
+  desc_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:Cfg_Item.Row.desc)
+}
+inline void Cfg_Item_Row::set_desc(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  desc_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:Cfg_Item.Row.desc)
+}
+inline void Cfg_Item_Row::set_desc(const char* value, size_t size) {
+  
+  desc_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:Cfg_Item.Row.desc)
+}
+inline std::string* Cfg_Item_Row::_internal_mutable_desc() {
+  
+  return desc_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* Cfg_Item_Row::release_desc() {
+  // @@protoc_insertion_point(field_release:Cfg_Item.Row.desc)
+  
+  return desc_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void Cfg_Item_Row::set_allocated_desc(std::string* desc) {
+  if (desc != nullptr) {
+    
+  } else {
+    
+  }
+  desc_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), desc);
+  // @@protoc_insertion_point(field_set_allocated:Cfg_Item.Row.desc)
 }
 
 // -------------------------------------------------------------------

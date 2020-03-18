@@ -6,7 +6,8 @@
  "attribChangeList": [
   {
    "attrib": 1,
-   "val": 100
+   "val": 100,
+   "desc": "血量上限+100"
   }
  ]
 ,"__debug":"file:Cfg_Status.xlsx sheet:Sheet1 line:3  "

@@ -12,23 +12,25 @@ enum ACTOR_ATTRIB
 
 	ATTRIB_MOVESPD = 5; //移动速度修正率
 
-	ATTRIB_MIN_ATK	= 6; //最小物理攻击
-	ATTRIB_MAX_ATK	= 7; //最大物理攻击
-	ATTRIB_MIN_DEF	= 8; //最小物理防御
-	ATTRIB_MAX_DEF	= 9; //最大物理防御
-	ATTRIB_MIN_MATK = 10;
-	ATTRIB_MAX_MATK = 11;
-	ATTRIB_MIN_MDEF = 12;
-	ATTRIB_MAX_MDEF = 13;
+	ATTRIB_MIN_ATK	= 9; //最小物理攻击
+	ATTRIB_MAX_ATK	= 10; //最大物理攻击
+	ATTRIB_MIN_DEF	= 11; //最小物理防御
+	ATTRIB_MAX_DEF	= 12; //最大物理防御
 
-	ATTRIB_HIT				   = 14; //命中
-	ATTRIB_DODGE			   = 15; //闪避
-	ATTRIB_DAMAGE_ADJ		   = 16; //伤害调整万分比
-	ATTRIB_DAMAGE_REFLECT_RATE = 17; //伤害反弹几率万分比
-	ATTRIB_DAMAGE_REFLECT_ADJ  = 18; //伤害反弹万分比
+	ATTRIB_MIN_MATK = 13;
+	ATTRIB_MAX_MATK = 14;
+	ATTRIB_MIN_MDEF = 15;
+	ATTRIB_MAX_MDEF = 16;
 
-	ATTRIB_EXP_ADJ = 19; //经验加成万分比
-	ATTRIB_MAX	   = 20;
+	ATTRIB_HIT				   = 17; //命中
+	ATTRIB_DODGE			   = 18; //闪避
+	ATTRIB_DAMAGE_ADJ		   = 19; //伤害调整万分比
+	ATTRIB_DAMAGE_REFLECT_RATE = 20; //伤害反弹几率万分比
+	ATTRIB_DAMAGE_REFLECT_ADJ  = 21; //伤害反弹万分比
+
+	ATTRIB_EXP_ADJ = 22; //经验加成万分比
+
+	ATTRIB_MAX	   = 23;
 };
 
 //玩家的数值, 一直都在变的, 数值存储在uin32_t中, 有些是不存储但是要通知周围的玩家的

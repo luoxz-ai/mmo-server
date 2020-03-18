@@ -6,81 +6,9 @@
 #include <unordered_set>
 
 #include "ProtobuffParse.h"
+#include "ProtobuffUtil.h"
 #include "StringAlgo.h"
 #include "get_opt.h"
-
-bool SaveToTXTFile(const google::protobuf::Message& pbm, const std::string& filename)
-{
-	bool		  rv = false;
-	std::ofstream ofs(filename.data(), std::ios::out | std::ios::trunc);
-	if(ofs.is_open())
-	{
-		std::string							  text;
-		google::protobuf::TextFormat::Printer printer;
-		printer.SetUseUtf8StringEscaping(true);
-		rv = printer.PrintToString(pbm, &text);
-		std::cout << text << std::endl;
-		ofs << text;
-		std::cout << "save to file succ." << std::endl;
-		ofs.close();
-	}
-	return rv;
-}
-
-bool LoadFromTXTFile(const std::string& filename, google::protobuf::Message& pbm)
-{
-	bool rv = false;
-
-	std::ifstream ifs(filename.data());
-	if(ifs.is_open())
-	{
-		google::protobuf::io::IstreamInputStream raw_input(&ifs);
-
-		rv = google::protobuf::TextFormat::Parse(&raw_input, &pbm);
-		ifs.close();
-
-		if(rv != true)
-			std::cerr << "ParseFromStream failed, filename is " << filename.c_str() << std::endl;
-	}
-	else
-	{
-		std::cerr << "Open file failed, filename is " << filename.c_str() << std::endl;
-	}
-	return rv;
-}
-
-bool SaveToBinaryFile(const google::protobuf::Message& pbm, const std::string& filename)
-{
-	bool		  rv = false;
-	std::ofstream ofs(filename.data(), std::ios::out | std::ios::binary);
-	if(ofs.is_open())
-	{
-		pbm.SerializeToOstream(&ofs);
-		ofs.close();
-		std::cout << "save to file succ." << std::endl;
-	}
-	return rv;
-}
-
-bool LoadFromBinaryFile(const std::string& filename, google::protobuf::Message& pbm)
-{
-	bool rv = false;
-
-	std::ifstream ifs(filename.data());
-	if(ifs.is_open())
-	{
-		rv = pbm.ParseFromIstream(&ifs);
-		ifs.close();
-
-		if(rv != true)
-			std::cerr << "ParseFromStream failed, filename is " << filename.c_str() << std::endl;
-	}
-	else
-	{
-		std::cerr << "Open file failed, filename is " << filename.c_str() << std::endl;
-	}
-	return rv;
-}
 
 int main(int argc, char** argv)
 {
@@ -122,32 +50,17 @@ int main(int argc, char** argv)
 
 	auto pData = parser.NewMessage(cfgname);
 
-	if(opt.has("--t2b"))
+	
+	pb_util::LoadFromBinaryFile(in_file_name, *pData);
+	if(opt.has("--output"))
 	{
-		LoadFromTXTFile(in_file_name, *pData);
-		if(opt.has("--output"))
-		{
-			SaveToBinaryFile(*pData, opt["--output"]);
-		}
-		else
-		{
-
-			std::cout << pData->Utf8DebugString() << std::endl;
-			;
-		}
+		pb_util::SaveToJsonFile(*pData, opt["--output"]);
 	}
 	else
 	{
-		LoadFromBinaryFile(in_file_name, *pData);
-		if(opt.has("--output"))
-		{
-			SaveToTXTFile(*pData, opt["--output"]);
-		}
-		else
-		{
-
-			std::cout << pData->Utf8DebugString() << std::endl;
-			;
-		}
+		std::string json_txt;
+		pb_util::SaveToJsonTxt(*pData, json_txt);
+		std::cout << json_txt << std::endl;
 	}
+	
 }

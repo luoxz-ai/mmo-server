@@ -1,6 +1,7 @@
 #include "ProtobuffUtil.h"
 
 #include <fstream>
+#include <cstdlib>
 
 #include <google/protobuf/descriptor.pb.h>
 #include <google/protobuf/io/zero_copy_stream_impl.h>
@@ -11,6 +12,8 @@
 #include "LoggingMgr.h"
 #include "rapidjson/document.h"
 #include "rapidjson/reader.h"
+#include "rapidjson/stringbuffer.h"
+#include "rapidjson/writer.h"
 
 namespace pb_util
 {
@@ -137,21 +140,67 @@ bool SaveToJsonTxt(const google::protobuf::Message& pbm, std::string& jsonTxt)
 bool FindFieldInMessage(const std::string& field_name, google::protobuf::Message*& pThisRow, const google::protobuf::FieldDescriptor*& pFieldDesc)
 {
 	__ENTER_FUNCTION
+
 	auto vecName = split_string(field_name, ".");
 	while(vecName.empty() == false)
 	{
-		pFieldDesc = pThisRow->GetDescriptor()->FindFieldByName(vecName.front());
+		int array_idx = -1;
+		auto name = std::move(vecName.front());
+		vecName.erase(vecName.begin());
+		if(name.empty())
+			continue;
+		//xxx[1].xxx
+		if(name[name.size() - 1] == ']')
+		{
+			auto pos   = name.find_first_of("[", 0);
+			if(pos != 0)
+			{
+				std::string array_str{name.data()+pos+1, name.size()-2 - pos};
+				std::string real_name{name.data(), pos};
+				pFieldDesc = pThisRow->GetDescriptor()->FindFieldByName(real_name.data());
+				if(pFieldDesc == nullptr)
+				{
+					throw std::runtime_error{fmt::format("realname:{} not find in {}", real_name, pThisRow->GetDescriptor()->name())};
+					return false;
+				}
+				if(pFieldDesc->is_repeated() && pFieldDesc->type() != google::protobuf::FieldDescriptor::TYPE_MESSAGE)
+				{
+					throw std::runtime_error{fmt::format("realname:{} in {} is repeated and not a message\n", real_name, pThisRow->GetDescriptor()->name())};
+					return false;
+				}
+				auto array_idx = atoi(array_str.data());
+				auto curSize = pThisRow->GetReflection()->FieldSize(*pThisRow, pFieldDesc);
+				for(int i = curSize; i < array_idx+1; i++)
+				{
+					auto pSubMessage = pThisRow->GetReflection()->AddMessage(pThisRow, pFieldDesc, nullptr);
+				}
+				pThisRow = pThisRow->GetReflection()->MutableRepeatedMessage(pThisRow, pFieldDesc, array_idx);
+				continue;
+			}
+			continue;
+		}
+
+
+		pFieldDesc = pThisRow->GetDescriptor()->FindFieldByName(name.data());	
 		if(pFieldDesc == nullptr)
 		{
-			// printf("process {} fail\n", name.c_str());
+			throw std::runtime_error{fmt::format("{} not find in {}\n", name, pThisRow->GetDescriptor()->name())};
 			return false;
 		}
-		vecName.erase(vecName.begin());
-		if(vecName.empty() == false && pFieldDesc->type() == google::protobuf::FieldDescriptor::TYPE_MESSAGE)
+
+		if(pFieldDesc->type() == google::protobuf::FieldDescriptor::TYPE_MESSAGE)
 		{
+			if(pFieldDesc->is_repeated() == true)
+			{
+				return true;
+			}
 			pThisRow = pThisRow->GetReflection()->MutableMessage(pThisRow, pFieldDesc);
-		}
+			continue;
+		}	
+		
 	}
+
+
 	if(pFieldDesc == nullptr)
 	{
 		return false;
@@ -224,56 +273,10 @@ void AddFieldData(google::protobuf::Message* pThisRow, const google::protobuf::F
 	}
 }
 
-bool SetMessageData(google::protobuf::Message* pPBMessage, const std::string& field_name, const std::string& data)
+
+bool SetFieldData(google::protobuf::Message* pThisRow, const google::protobuf::FieldDescriptor* pFieldDesc, const std::string& field_name, const std::string& data)
 {
 	using namespace google::protobuf;
-	using namespace rapidjson;
-	Message*			   pThisRow	  = pPBMessage;
-	const FieldDescriptor* pFieldDesc = nullptr;
-	if(FindFieldInMessage(field_name, pThisRow, pFieldDesc) == false)
-		return false;
-
-	if(pFieldDesc->is_repeated())
-	{
-		Document document;
-		if(document.Parse(data.c_str()).HasParseError())
-		{
-			auto vecData = split_string(data, ",");
-			for(const std::string& str: vecData)
-			{
-				AddFieldData(pThisRow, pFieldDesc, str);
-			}
-		}
-		else
-		{
-			if(document.IsArray() == false)
-				return false;
-
-			if(pFieldDesc->type() == FieldDescriptor::TYPE_MESSAGE)
-			{
-				for(SizeType i = 0; i < document.Size(); i++)
-				{
-					const auto& v			= document[i];
-					auto		pSubMessage = pThisRow->GetReflection()->AddMessage(pThisRow, pFieldDesc, nullptr);
-					for(auto it = v.MemberBegin(); it != v.MemberEnd(); it++)
-					{
-						SetMessageData(pSubMessage, it->name.GetString(), it->value.GetString());
-					}
-				}
-			}
-			else
-			{
-				for(SizeType i = 0; i < document.Size(); i++)
-				{
-					const auto& v = document[i];
-					AddFieldData(pThisRow, pFieldDesc, v.GetString());
-				}
-			}
-		}
-
-		return true;
-	}
-
 	switch(pFieldDesc->type())
 	{
 		case FieldDescriptor::TYPE_ENUM:
@@ -288,7 +291,7 @@ bool SetMessageData(google::protobuf::Message* pPBMessage, const std::string& fi
 				auto pEnumVal = pFieldDesc->enum_type()->FindValueByName(data);
 				if(pEnumVal == nullptr)
 				{
-					fmt::print("can't convert {} to {}\n", data, field_name);
+					throw std::runtime_error{fmt::format("can't convert {} to {}\n", data, field_name)};
 					return false;
 				}
 				pThisRow->GetReflection()->SetEnum(pThisRow, pFieldDesc, pEnumVal);
@@ -352,9 +355,93 @@ bool SetMessageData(google::protobuf::Message* pPBMessage, const std::string& fi
 		default:
 			break;
 	}
-
 	return true;
 }
+
+bool SetMessageData(google::protobuf::Message* pPBMessage, const std::string& field_name, const std::string& data)
+{
+	using namespace google::protobuf;
+	using namespace rapidjson;
+	Message*			   pThisRow	  = pPBMessage;
+	const FieldDescriptor* pFieldDesc = nullptr;
+	if(FindFieldInMessage(field_name, pThisRow, pFieldDesc) == false)
+		return false;
+	
+	if(pFieldDesc->is_repeated())
+	{
+		Document document;
+		if(document.Parse(data.c_str()).HasParseError())
+		{
+			auto vecData = split_string(data, ",");
+			for(const std::string& str: vecData)
+			{
+				AddFieldData(pThisRow, pFieldDesc, str);
+			}
+		}
+		else
+		{
+			if(document.IsArray() == false)
+			{
+				if(pFieldDesc->type() != FieldDescriptor::TYPE_MESSAGE)
+				{
+					AddFieldData(pThisRow, pFieldDesc, data);
+					return true;	
+				}
+				else
+				{
+					return false;
+				}
+			}
+			if(pFieldDesc->type() == FieldDescriptor::TYPE_MESSAGE)
+			{		
+				for(SizeType i = 0; i < document.Size(); i++)
+				{
+					const auto& v			= document[i];
+					auto		pSubMessage = pThisRow->GetReflection()->AddMessage(pThisRow, pFieldDesc, nullptr);
+					for(auto it = v.MemberBegin(); it != v.MemberEnd(); it++)
+					{
+						if(it->value.IsString())
+						{
+							SetMessageData(pSubMessage, it->name.GetString(), it->value.GetString() );
+						}
+						else
+						{
+							StringBuffer buffer;
+							Writer<StringBuffer> writer(buffer);
+							it->value.Accept(writer);
+							
+							const char* output = buffer.GetString();
+							
+							SetMessageData(pSubMessage, it->name.GetString(), output );
+						}
+						
+					}
+				}
+			}
+			else
+			{
+				for(SizeType i = 0; i < document.Size(); i++)
+				{
+					const auto& v = document[i];
+					AddFieldData(pThisRow, pFieldDesc, v.GetString());
+				}
+			}
+			
+		}
+
+		return true;
+	}
+	else if(pFieldDesc->type() == FieldDescriptor::TYPE_MESSAGE)
+	{
+		auto pSubMessage = pThisRow->GetReflection()->MutableMessage(pThisRow, pFieldDesc, nullptr);
+		return pb_util::LoadFromJsonTxt(data, *pSubMessage);
+	}
+	else
+	{
+		return SetFieldData(pThisRow, pFieldDesc, field_name, data);
+	}
+}
+
 
 bool AddMessageData(google::protobuf::Message* pPBMessage, const std::string& field_name, const std::string& data)
 {

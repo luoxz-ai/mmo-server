@@ -73,9 +73,9 @@ void ai2lua(lua_State* L)
     lua_tinker::def(L, "random_uint32", &random_uint32);
     lua_tinker::def(L, "random_uint32_range", &random_uint32_range);
     lua_tinker::def(L, "rtrim", &rtrim);
-    lua_tinker::def(L, "scan_dir", &scan_dir);
     lua_tinker::def(L, "skip_utf8_bom", &skip_utf8_bom);
     lua_tinker::def(L, "split_string", &split_string);
+    lua_tinker::def(L, "split_string_view", &split_string_view);
     lua_tinker::def(L, "toHex", &toHex);
     lua_tinker::def(L, "trim", &trim);
     lua_tinker::def(L, "utf8_length", &utf8_length, 0);

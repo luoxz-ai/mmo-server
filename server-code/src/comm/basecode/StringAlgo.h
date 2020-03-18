@@ -36,6 +36,24 @@ export_lua inline std::vector<std::string> split_string(const std::string& str, 
 	return v;
 }
 
+
+export_lua inline std::vector<std::string_view> split_string_view(const std::string& str, const std::string& delimiters)
+{
+	std::vector<std::string_view> v;
+	std::string::size_type	 start = 0;
+	auto					 pos   = str.find_first_of(delimiters, start);
+	while(pos != std::string::npos)
+	{
+		if(pos != start) // ignore empty tokens
+			v.emplace_back( std::string_view{str.c_str() + start, pos - start} );
+		start = pos + 1;
+		pos	  = str.find_first_of(delimiters, start);
+	}
+	if(start < str.length())							  // ignore trailing delimiter
+		v.emplace_back( std::string_view{str.c_str() + start, str.length() - start} ); // add what's left of the string
+	return v;
+}
+
 export_lua std::string ReplaceStr(std::string& strSource, const std::string& strRepl, const std::string& strNew);
 export_lua std::string URLDecode(const char* pszStr);
 export_lua std::string URLEncode(const char* pszStr);

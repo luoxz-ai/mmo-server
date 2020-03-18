@@ -11,21 +11,8 @@
 
 #include "BaseCode.h"
 #include "BaseType.h"
+#include "FileUtil.h"
 
-const unsigned char CODE_UTF_LEAD_0 = 0xefU;
-const unsigned char CODE_UTF_LEAD_1 = 0xbbU;
-const unsigned char CODE_UTF_LEAD_2 = 0xbfU;
-
-void skip_utf8_bom(FILE* fp)
-{
-	if(fp == NULL)
-		return;
-	unsigned char ch1 = fgetc(fp);
-	unsigned char ch2 = fgetc(fp);
-	unsigned char ch3 = fgetc(fp);
-	if(!(ch1 == CODE_UTF_LEAD_0 && ch2 == CODE_UTF_LEAD_1 && ch3 == CODE_UTF_LEAD_2)) //不等于BOM头时，重新回退到文件头
-		fseek(fp, 0, SEEK_SET);
-}
 
 const unsigned char PL_utf8skip[] = {
 	1, 1,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, /** ascii */

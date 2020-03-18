@@ -142,6 +142,7 @@ public:
 		if(it_find != m_setData.end())
 		{
 			LOGWARNING("AddObj twice {}, id:{}", GET_NAME(), pData->GetID());
+			SAFE_DELETE(pData);
 		}
 		else
 		{

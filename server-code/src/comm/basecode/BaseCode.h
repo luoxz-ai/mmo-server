@@ -25,13 +25,14 @@
 #include "StringAlgo.h"
 #include "export_lua.h"
 #include "LoggingMgr.h"
+#include "TimeUtil.h"
+#include "CheckUtil.h"
+#include "IntUtil.h"
 
 export_lua enum SYNC_TYPE { SYNC_FALSE, SYNC_TRUE, SYNC_ALL, SYNC_ALL_DELAY };
+export_lua constexpr bool UPDATE_TRUE  = true;
+export_lua constexpr bool UPDATE_FALSE = false;
 
-export_lua inline bool HasFlag(uint32_t flag, uint32_t mask)
-{
-	return (flag & mask) != 0;
-}
 
 template<class T>
 void SAFE_DELETE(T*& p)
@@ -84,18 +85,6 @@ constexpr inline size_t sizeOfArray(T (&array)[N])
 		return nullptr;                                         \
 	}
 
-#define UNUSED(var) (void)((var) = (var))
-
-export_lua inline int64_t MakeINT64(int32_t left, int32_t right)
-{
-	return static_cast<int64_t>(left) << 32 | static_cast<int64_t>(right);
-}
-
-export_lua inline uint64_t MakeUINT64(uint32_t left, uint32_t right)
-{
-	return static_cast<uint64_t>(left) << 32 | static_cast<uint64_t>(right);
-}
-
 template<class... Args>
 struct type_list
 {
@@ -139,238 +128,9 @@ private:
 	std::deque<std::function<void()>> m_data;
 };
 
-inline FILE* fopen_s(FILE** fp, const char* path, const char* mode)
-{
-	if(fp == nullptr)
-		return nullptr;
-	*fp = fopen(path, mode);
-	return *fp;
-}
 
-export_lua inline int32_t isleap(uint32_t year)
-{
-	return ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0));
-}
 
-export_lua inline BYTE toHex(const BYTE& x)
-{
-	return x > 9 ? x + 55 : x + 48;
-}
 
-#define CHECK(x)                     \
-	{                                \
-		if(!(x))                     \
-		{                            \
-			LOGASSERT("ASSERT:" #x); \
-			return;                  \
-		}                            \
-	}
-#define CHECKF(x)                    \
-	{                                \
-		if(!(x))                     \
-		{                            \
-			LOGASSERT("ASSERT:" #x); \
-			return 0;                \
-		}                            \
-	}
-#define CHECKFR(x, r)                \
-	{                                \
-		if(!(x))                     \
-		{                            \
-			LOGASSERT("ASSERT:" #x); \
-			return r;                \
-		}                            \
-	}
 
-#define CHECKFSR(x, R)               \
-	{                                \
-		if(!(x))                     \
-		{                            \
-			LOGASSERT("ASSERT:" #x); \
-			static R r;              \
-			return r;                \
-		}                            \
-	}
-
-#define CHECK_M(x, msg)                             \
-	{                                               \
-		if(!(x))                                    \
-		{                                           \
-			LOGASSERT("ASSERT:" #x " msg:{}", msg); \
-			return;                                 \
-		}                                           \
-	}
-#define CHECKF_M(x, msg)                            \
-	{                                               \
-		if(!(x))                                    \
-		{                                           \
-			LOGASSERT("ASSERT:" #x " msg:{}", msg); \
-			return 0;                               \
-		}                                           \
-	}
-#define CHECKFR_M(x, r, msg)                        \
-	{                                               \
-		if(!(x))                                    \
-		{                                           \
-			LOGASSERT("ASSERT:" #x " msg:{}", msg); \
-			return r;                               \
-		}                                           \
-	}
-#define CHECKFSR_M(x, R, msg)                       \
-	{                                               \
-		if(!(x))                                    \
-		{                                           \
-			LOGASSERT("ASSERT:" #x " msg:{}", msg); \
-			static R r;                             \
-			return r;                               \
-		}                                           \
-	}
-
-#define CHECK_FMT(x, fmt_msg, ...)                                  \
-	{                                                               \
-		if(!(x))                                                    \
-		{                                                           \
-			LOGASSERT("ASSERT:" #x " msg:" fmt_msg, ##__VA_ARGS__); \
-			return;                                                 \
-		}                                                           \
-	}
-#define CHECKF_FMT(x, fmt_msg, ...)                                 \
-	{                                                               \
-		if(!(x))                                                    \
-		{                                                           \
-			LOGASSERT("ASSERT:" #x " msg:" fmt_msg, ##__VA_ARGS__); \
-			return 0;                                               \
-		}                                                           \
-	}
-#define CHECKFR_FMT(x, r, fmt_msg, ...)                             \
-	{                                                               \
-		if(!(x))                                                    \
-		{                                                           \
-			LOGASSERT("ASSERT:" #x " msg:" fmt_msg, ##__VA_ARGS__); \
-			return r;                                               \
-		}                                                           \
-	}
-#define CHECKFSR_FMT(x, R, fmt_msg, ...)                            \
-	{                                                               \
-		if(!(x))                                                    \
-		{                                                           \
-			LOGASSERT("ASSERT:" #x " msg:" fmt_msg, ##__VA_ARGS__); \
-			static R r;                                             \
-			return r;                                               \
-		}                                                           \
-	}
-
-#define __ENTER_FUNCTION \
-	{                    \
-		try              \
-		{
-#define __LEAVE_FUNCTION                                                               	  \
-		}                                                                                  \
-		catch(const std::runtime_error& e) { LOGASSERT("catch_execpetion:{}", e.what()); DumpStackFile(CallFrameMap(1)); } \
-		catch(const std::exception& e) { LOGASSERT("catch_execpetion:{}", e.what()); DumpStackFile(CallFrameMap(1)); }     \
-		catch(...) { LOGASSERT("catch_error"); }                                           \
-	}
-
-// a*b/c
-export_lua int32_t	MulDivSign(int32_t a, int32_t b, int32_t c);
-export_lua uint32_t MulDiv(uint32_t a, uint32_t b, uint32_t c);
-
-export_lua inline uint32_t MAKE32(uint32_t a, uint32_t b)
-{
-	return (a << 16) | (b & 0xFFFF);
-}
-
-export_lua inline uint64_t MAKE64(uint64_t a, uint64_t b)
-{
-	return (a << 32) | (b & 0xFFFFFFFF);
-}
-
-export_lua inline uint32_t GetHighFromU64(uint64_t v)
-{
-	return (v >> 32) & 0xFFFFFFFF;
-}
-
-export_lua inline uint32_t GetLowFromU64(uint64_t v)
-{
-	return (v)&0xFFFFFFFF;
-}
-
-//十六进制get/set
-export_lua uint32_t hex_set(uint32_t dwFlag, uint8_t nHex, uint8_t ucVal);
-export_lua uint8_t	hex_get(uint32_t dwFlag, uint8_t nHex);
-
-//位操作
-export_lua bool		bit_test(uint32_t dwFlag, uint8_t nBit);
-export_lua uint32_t bit_flip(uint32_t dwFlag, uint8_t nBit);
-export_lua uint32_t bit_set(uint32_t dwFlag, uint8_t nBit, bool bVal);
-
-void TimeGetCacheCreate();
-void TimeGetCacheUpdate();
-
-export_lua time_t TimeGetMonotonic();
-export_lua time_t TimeGetMillisecond();
-export_lua time_t TimeGetSecond();
-export_lua time_t TimeGetSecondLocal();
-
-export_lua time_t _TimeGetMonotonic();
-export_lua time_t _TimeGetSecond();
-export_lua time_t _TimeGetMillisecond();
-export_lua time_t _TimeGetSecondLocal();
-
-export_lua time_t gmt2local(time_t tNow);
-export_lua time_t local2gmt(time_t tNow);
-
-//检查是否是同一天,loclatime
-export_lua bool CheckSameDay(time_t time1, time_t time2);
-//返回两个时间戳之间的日期差
-export_lua int32_t DateDiffLocal(time_t time1, time_t time2);
-export_lua time_t  GetNextDayBeginTime();
-
-export_lua time_t GetTimeFromString(const std::string& time_str);
-
-export_lua constexpr bool UPDATE_TRUE  = true;
-export_lua constexpr bool UPDATE_FALSE = false;
-
-export_lua inline bool scan_dir(const std::string&											parent_path,
-								const std::string&											path,
-								bool														bRecursive,
-								std::function<void(const std::string&, const std::string&)> func)
-{
-	std::string cur_dir = parent_path + "/" + path;
-	DIR*		dp		= opendir(cur_dir.c_str());
-	if(dp == nullptr)
-	{
-		return false;
-	}
-
-	struct dirent* entry = readdir(dp);
-	while(entry != nullptr)
-	{
-		struct stat statbuf;
-		memset(&statbuf, 0, sizeof(statbuf));
-		lstat(entry->d_name, &statbuf); // 获取下一级成员属性
-		if(S_IFDIR & statbuf.st_mode)	// 判断下一级成员是否是目录
-		{
-			if(std::string(".") == entry->d_name || std::string("..") == entry->d_name)
-			{
-				entry = readdir(dp);
-				continue;
-			}
-
-			if(bRecursive)
-			{
-				scan_dir(cur_dir, entry->d_name, bRecursive, func); // 递归调用自身，扫描下一级目录的内容
-			}
-		}
-		else
-		{
-			func(cur_dir, entry->d_name);
-		}
-
-		entry = readdir(dp);
-	}
-	closedir(dp);
-	return true;
-}
 
 #endif // BaseCode_h__
