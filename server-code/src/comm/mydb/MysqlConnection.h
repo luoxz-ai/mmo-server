@@ -16,10 +16,16 @@ using MYSQL_PTR		 = std::unique_ptr<MYSQL, decltype(&mysql_close)>;
 using MYSQL_STMT_PTR = std::unique_ptr<MYSQL_STMT, decltype(&mysql_stmt_close)>;
 using MYSQL_RES_PTR	 = std::unique_ptr<MYSQL_RES, decltype(&mysql_free_result)>;
 
+inline MYSQL_RES_PTR make_mysql_res_ptr(MYSQL_RES* res)
+{
+	return MYSQL_RES_PTR{res, mysql_free_result};
+}
+
+
 class CMysqlResult
 {
 public:
-	CMysqlResult(CMysqlConnection* pMysqlConnection, MYSQL_RES* res, CDBFieldInfoListPtr infolist_ptr);
+	CMysqlResult(CMysqlConnection* pMysqlConnection, MYSQL_RES_PTR&& res, CDBFieldInfoListPtr infolist_ptr);
 	~CMysqlResult();
 
 	CDBFieldInfoListPtr GetFieldInfo() const;
@@ -59,7 +65,8 @@ public:
 	void			JoinAsyncThreadFinish();
 	CDBRecordPtr	MakeRecord(const std::string& table_name);
 
-	CDBFieldInfoListPtr QueryFieldInfo(const std::string& s, MYSQL_RES* res);
+	CDBFieldInfoListPtr QueryFieldInfo(const std::string& s);
+	CDBFieldInfoListPtr CreateFieldInfo(const std::string& s, const MYSQL_RES_PTR& res);
 	void				_AddFieldInfo(const std::string& s, CDBFieldInfoListPtr ptr);
 	MYSQL*				_GetHandle() const { return m_pHandle.get(); }
 	bool				EscapeString(char* pszDst, const char* pszSrc, int32_t nLen);
@@ -69,18 +76,18 @@ public:
 	{
 		__ENTER_FUNCTION
 		auto ptr			  = MakeRecord(T::table_name);
-		auto pFieldInfo_MYSQL = QueryFieldInfo(T::table_name, nullptr);
+		auto pFieldInfo_MYSQL = QueryFieldInfo(T::table_name);
 		if(pFieldInfo_MYSQL == nullptr)
 		{
 			LOGFATAL("GameDB Check Error, table:{} not find in MYSQL", T::table_name);
 			return false;
 		}
-		auto pFieldInfo_DDL = new CDDLFieldInfoList<T>();
+		auto pFieldInfo_DDL = std::make_unique<CDDLFieldInfoList<T>>();
 		for(size_t i = 0; i < pFieldInfo_DDL->size_fields; i++)
 		{
 			const CDBFieldInfo* pInfo_DDL	= pFieldInfo_DDL->get(i);
 			const CDBFieldInfo* pInfo_MYSQL = pFieldInfo_MYSQL->get(i);
-			if(pFieldInfo_MYSQL == nullptr || pInfo_DDL == nullptr || pInfo_MYSQL == nullptr || pInfo_DDL->GetFieldType() != pInfo_MYSQL->GetFieldType())
+			if(pInfo_DDL == nullptr || pInfo_MYSQL == nullptr || pInfo_DDL->GetFieldType() != pInfo_MYSQL->GetFieldType())
 			{
 				LOGFATAL("GameDB Check Error, table:{}, field:{} fieldname:{}", T::table_name, i, pInfo_DDL->GetFieldName());
 				return false;

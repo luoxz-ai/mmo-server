@@ -10,9 +10,12 @@ class CNetworkMessage;
 
 class CUserManager
 {
-public:
 	CUserManager();
+public:
 	~CUserManager();
+	CREATE_NEW_IMPL(CUserManager);
+	
+	bool	  Init();
 
 	CUser* QueryUser(OBJID uid);
 	CUser* QueryUserBySocket(const VirtualSocket& vs);

@@ -9,7 +9,7 @@ IF(TIDY)
 set(CMAKE_CXX_CLANG_TIDY ${MY_CLANG_TIDY_STR})
 ELSE()
 ENDIF()
-
+add_definitions (-Wno-format-security)
 
 
 # 生成库文件

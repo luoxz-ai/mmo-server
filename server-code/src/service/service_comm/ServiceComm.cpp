@@ -81,6 +81,7 @@ CServiceCommon::~CServiceCommon()
 	{
 		m_pBRPCServer->Stop(0);
 		m_pBRPCServer->Join();
+		m_pBRPCServer->ClearServices();
 	}
 	SAFE_DELETE(m_pBRPCServer);
 

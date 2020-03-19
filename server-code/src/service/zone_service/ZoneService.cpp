@@ -120,8 +120,8 @@ bool CZoneService::Create()
 		}
 	}
 
-	m_pMapManager.reset(new CMapManager);
-	CHECKF(m_pMapManager->Init(GetServerPort().GetServiceID()));
+	m_pMapManager.reset(CMapManager::CreateNew(GetServerPort().GetServiceID()));
+	CHECKF(m_pMapManager.get());
 
 	m_pGMManager.reset(CGMManager::CreateNew());
 	CHECKF(m_pGMManager.get());

@@ -5,12 +5,18 @@
 
 CAIActorManager::CAIActorManager()
 {
-	m_ActorMap.reserve(GUESS_MAX_ACTOR_COUNT);
+
 }
 
 CAIActorManager::~CAIActorManager()
 {
 	Destroy();
+}
+
+bool CAIActorManager::Init()
+{
+	m_ActorMap.reserve(GUESS_MAX_ACTOR_COUNT);
+	return true;
 }
 
 void CAIActorManager::Destroy()

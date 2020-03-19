@@ -57,10 +57,11 @@ struct hash<SceneID>
 
 class CMapManager
 {
-public:
 	CMapManager();
+public:
 	~CMapManager();
-
+	CREATE_NEW_IMPL(CMapManager);
+	
 	bool	  Init(uint16_t idZone);
 	void	  ForEach(const std::function<void(CGameMap*)>& func);
 	CGameMap* QueryMap(uint16_t idMap);

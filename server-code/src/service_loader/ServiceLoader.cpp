@@ -48,7 +48,7 @@ void ServiceLoader::Destory()
 		#endif
 	}
 	m_setModule.clear();
-	LOGMESSAGE("service_loader end:{}", getpid());
+	LOGMESSAGE("service_loader Destory:{}", getpid());
 	ReleaseMessageRoute();
 	__LEAVE_FUNCTION
 }

@@ -11,10 +11,13 @@ class CAIPlayer;
 
 class CAIActorManager
 {
-public:
 	CAIActorManager();
+public:
 	~CAIActorManager();
+	CREATE_NEW_IMPL(CAIActorManager);
 
+	
+	bool Init();
 	void Destroy();
 
 	CAIActor* QueryActor(OBJID id) const;

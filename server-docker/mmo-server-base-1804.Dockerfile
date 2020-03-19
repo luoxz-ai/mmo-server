@@ -21,6 +21,7 @@ RUN apt-get update -y --fix-missing \
  git \
  python \
  net-tools \
+ linux-tools-generic \
  gdb \
  gcc-7 \
  g++-7 \

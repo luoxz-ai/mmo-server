@@ -24,9 +24,11 @@ private:
 
 class CAISceneManager
 {
-public:
 	CAISceneManager();
+public:
+	
 	~CAISceneManager();
+	CREATE_NEW_IMPL(CAISceneManager);
 
 	bool Init(uint32_t idZone);
 	void Destory();

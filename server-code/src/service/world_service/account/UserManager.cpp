@@ -11,6 +11,11 @@ CUserManager::~CUserManager()
 	Destory();
 }
 
+bool CUserManager::Init()
+{
+	return true;
+}
+
 void CUserManager::Destory()
 {
 	for(auto& v: m_setUser)

@@ -72,10 +72,10 @@ bool CAIService::Create()
 	extern void export_to_lua(lua_State*, void*);
 	m_pScriptManager.reset(CLUAScriptManager::CreateNew(std::string("AIScript") + std::to_string(GetServerPort().GetServiceID()), &export_to_lua, (void*)this,
 														"res/script/ai_service", true));
-
-	m_pMapManager.reset(new CMapManager);
-	CHECKF(m_pMapManager->Init(GetZoneID()));
-
+	
+	m_pMapManager.reset(CMapManager::CreateNew(GetZoneID()));
+	CHECKF(m_pMapManager.get());
+	
 	m_pTargetFAMSet.reset(CTargetFAMSet::CreateNew("res/config/Cfg_TargetFAM.bytes"));
 	CHECKF(m_pTargetFAMSet.get());
 	m_pSkillFAMSet.reset(CSkillFAMSet::CreateNew("res/config/Cfg_SkillFAM.bytes"));
@@ -90,9 +90,11 @@ bool CAIService::Create()
 	m_pMonsterTypeSet.reset(CMonsterTypeSet::CreateNew("res/config/Cfg_Monster.bytes"));
 	CHECKF(m_pMonsterTypeSet.get());
 
-	m_pAISceneManager.reset(new CAISceneManager);
-	CHECKF(m_pAISceneManager->Init(GetServerPort().GetServiceID()));
-	m_pAIActorManager.reset(new CAIActorManager);
+	m_pAISceneManager.reset(CAISceneManager::CreateNew(GetZoneID()));
+	CHECKF(m_pAISceneManager.get());
+	m_pAIActorManager.reset(CAIActorManager::CreateNew());
+	CHECKF(m_pAIActorManager.get());
+
 
 	extern void AIServiceMessageHandlerRegister();
 	AIServiceMessageHandlerRegister();

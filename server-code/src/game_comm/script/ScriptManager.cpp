@@ -76,9 +76,7 @@ void LogLuaError(const char* txt)
 
 void LogLuaDebug(const char* txt)
 {
-#ifdef DEBUG
 	LOGLUADEBUG("{}", txt);
-#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -132,7 +130,7 @@ bool CLUAScriptManager::Init(const std::string& name, InitRegisterFunc func, voi
 	// 调用初始化函数
 	if(bExecMain)
 		lua_tinker::call<void>(m_pLua, "main");
-
+	LOGDEBUG("ScriptManager Init Succ");
 	return true;
 }
 
@@ -142,6 +140,7 @@ void CLUAScriptManager::Destory()
 	{
 		lua_close(m_pLua);
 		m_pLua = nullptr;
+		LOGDEBUG("ScriptManager Destory Succ");
 	}
 }
 

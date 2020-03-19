@@ -19,7 +19,8 @@ struct ST_STATUS_INFO
 	uint8_t	 bPause;	   // 状态：0 = 正常， 1 = 暂停
 };
 
-export_lua enum StatusType {
+export_lua enum StatusType 
+{
 	STATUSTYPE_NORMAL	 = 1,
 	STATUSTYPE_CRIME	 = 2, //犯罪
 	STATUSTYPE_DEAD		 = 3, //死亡
@@ -30,13 +31,15 @@ export_lua enum StatusType {
 
 };
 
-export_lua enum StatusExpireType {
+export_lua enum StatusExpireType
+{
 	STATUSEXPIRETYPE_TIME  = 0, //默认时间计时销毁
 	STATUSEXPIRETYPE_POINT = 1, // POWER为0时销毁
 	STATUSEXPIRETYPE_NEVER = 2, //必须手动/达到条件销毁
 };
 
-export_lua enum StatusFlag {
+export_lua enum StatusFlag 
+{
 	STATUSFLAG_NONE			= 0x0000, //默认不可叠加,不可覆盖
 	STATUSFLAG_OVERRIDE_LEV = 0x0001, //高等级可以覆盖低等级
 	STATUSFLAG_OVERLAP		= 0x0002, //不考虑等级, 直接叠加， 时间形的叠加时间， 数值型的叠加数值

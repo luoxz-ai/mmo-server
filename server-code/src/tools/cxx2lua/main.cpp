@@ -15,6 +15,7 @@
 #include "StringAlgo.h"
 #include "get_opt.h"
 
+
 std::set<std::string> g_export_class_name;
 
 std::string output_filename;
@@ -50,24 +51,59 @@ std::string			  getClangString(CXString str)
 	return strString;
 }
 
+
+template<class ... ARGS>
+void debug_printf(ARGS&&... args)
+{
+	if(g_bDebug)
+	{
+		printf(std::forward<ARGS>(args)...);
+	}
+}
+template<class ... ARGS>
+void debug_display_debug_cursor(ARGS&&... args)
+{
+	if(g_bDebug)
+	{
+		display_debug_cursor(std::forward<ARGS>(args)...);
+	}
+}
+
+enum ContentType
+{
+	CT_GLOBAL,
+	CT_CLASS,
+	CT_NAMESPACE,
+};
 struct Visitor_Content
 {
-	Visitor_Content(std::string name = "", Visitor_Content* pParent = nullptr, std::string accessname = "")
+	Visitor_Content(std::string name = "", Visitor_Content* pParent = nullptr, std::string accessname = "", ContentType ct = CT_GLOBAL)
 		: m_name(name)
 		, m_pParent(pParent)
 		, m_accessname(accessname)
+		, m_ContentType(ct)
 	{
 		if(m_pParent)
-			m_pParent->m_setChild[name] = this;
+		{
+			if(m_ContentType == CT_CLASS)
+				m_pParent->m_setChildClass[name] = this;
+			else
+				m_pParent->m_setChildNameSpace[name] = this;
+		}
 	}
 	~Visitor_Content() { destory(); }
 	void destory()
 	{
-		for(auto& v: m_setChild)
+		for(auto& v: m_setChildClass)
 		{
 			delete v.second;
 		}
-		m_setChild.clear();
+		m_setChildClass.clear();
+		for(auto& v: m_setChildNameSpace)
+		{
+			delete v.second;
+		}
+		m_setChildNameSpace.clear();
 	}
 
 	std::string getAccessName() { return m_accessname; }
@@ -78,14 +114,22 @@ struct Visitor_Content
 		return m_accessname + "::";
 	}
 
-	bool hasChild(const std::string& name) { return m_setChild.find(name) != m_setChild.end(); }
+	bool hasChildClass(const std::string& name) const
+	{ 
+		return m_setChildClass.find(name) != m_setChildClass.end(); 
+	}
+	bool hasChildNameSpace(const std::string& name) const
+	{ 
+		return m_setChildNameSpace.find(name) != m_setChildNameSpace.end(); 
+	}
+	
 
-	bool									bClass	   = false;
-	bool									bNameSpace = false;
+	ContentType								m_ContentType;
 	std::string								m_name;
 	std::string								m_accessname;
 	Visitor_Content*						m_pParent = nullptr;
-	std::map<std::string, Visitor_Content*> m_setChild;
+	std::map<std::string, Visitor_Content*> m_setChildClass;
+	std::map<std::string, Visitor_Content*> m_setChildNameSpace;
 	typedef std::vector<std::string>		ParamsDefaultVal;
 	struct OverLoadData
 	{
@@ -202,7 +246,7 @@ void visit_function(CXCursor cursor, Visitor_Content* pContent)
 	{
 		overload_data.funcptr_type = getClangString(clang_getTypeSpelling(clang_getResultType(clang_getCursorType(cursor))));
 
-		if(pContent->bClass == true)
+		if(pContent->m_ContentType == CT_CLASS)
 		{
 			overload_data.funcptr_type += "(";
 			overload_data.funcptr_type += pContent->getAccessName();
@@ -355,10 +399,7 @@ bool NeedSkipByFile(CXFileUniqueID id)
 	auto itFind = g_finish_file.find(id);
 	if(itFind != g_finish_file.end())
 	{
-		if(g_bDebug)
-		{
-			printf("skip:%llx %llx %llx \n", id.data[0], id.data[1], id.data[2]);
-		}
+		debug_printf("skip:%llx %llx %llx \n", id.data[0], id.data[1], id.data[2]);
 		return true;
 	}
 
@@ -454,10 +495,9 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 			if(nsname == g_strKeyword)
 			{
 				auto source_loc = clang_getCursorLocation(cursor);
-				if(g_bDebug)
-				{
-					display_debug_cursor(cursor, kind, source_loc);
-				}
+				
+				debug_display_debug_cursor(cursor, kind, source_loc);
+				
 				CXFile	 file;
 				unsigned line;
 				unsigned column;
@@ -482,10 +522,8 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 			auto source_loc = clang_getCursorLocation(cursor);
 			if(clang_Location_isInSystemHeader(source_loc))
 				return CXChildVisit_Continue;
-			if(g_bDebug)
-			{
-				display_debug_cursor(cursor, kind, source_loc);
-			}
+			debug_display_debug_cursor(cursor, kind, source_loc);
+			
 
 			CXFile	 file;
 			unsigned line;
@@ -517,15 +555,15 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 			if(g_strExportNamespaceName.empty() == false && g_strExportNamespaceName.find(nsname) == g_strExportNamespaceName.end())
 				return CXChildVisit_Continue;
 			// reg class
-			if(pContent->hasChild(nsname) == false)
+			if(pContent->hasChildNameSpace(nsname) == false)
 			{
-				Visitor_Content* pNewContent = new Visitor_Content(nsname, pContent, pContent->getAccessPrifix() + nsname);
-				pNewContent->bNameSpace		 = true;
+				Visitor_Content* pNewContent = new Visitor_Content(nsname, pContent, pContent->getAccessPrifix() + nsname, CT_NAMESPACE);
+				
 				clang_visitChildren(cursor, &TU_visitor, pNewContent);
 			}
 			else
 			{
-				clang_visitChildren(cursor, &TU_visitor, pContent->m_setChild[nsname]);
+				clang_visitChildren(cursor, &TU_visitor, pContent->m_setChildNameSpace[nsname]);
 			}
 		}
 		break;
@@ -539,17 +577,13 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 			auto source_loc = clang_getCursorLocation(cursor);
 			if(clang_Location_isInSystemHeader(source_loc))
 				return CXChildVisit_Continue;
-			if(g_bDebug)
-			{
-				display_debug_cursor(cursor, kind, source_loc);
-			}
+			debug_display_debug_cursor(cursor, kind, source_loc);
+			
 			CX_CXXAccessSpecifier access_kind = clang_getCXXAccessSpecifier(cursor);
 			if(access_kind != CX_CXXPublic && access_kind != CX_CXXInvalidAccessSpecifier)
 			{
-				if(g_bDebug)
-				{
-					printf("skip:ClassDecl no public\n");
-				}
+				debug_printf("skip:ClassDecl no public\n");
+				
 				return CXChildVisit_Continue;
 			}
 
@@ -583,23 +617,18 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 			std::string tname  = getClangString(clang_getTypeSpelling(clang_getCursorType(cursor)));
 
 			// reg class
-			if(pContent->hasChild(nsname) == false)
+			if(pContent->hasChildClass(nsname) == false)
 			{
-				if(g_bDebug)
-				{
-					printf("do:class\n");
-				}
-				Visitor_Content* pNewContent = new Visitor_Content(nsname, pContent, tname);
-				pNewContent->bClass			 = true;
+				debug_printf("do:class\n");
+				
+				Visitor_Content* pNewContent = new Visitor_Content(nsname, pContent, tname, CT_CLASS);
 				g_export_class_name.insert(nsname);
 				clang_visitChildren(cursor, &TU_visitor, pNewContent);
 			}
 			else
 			{
-				if(g_bDebug)
-				{
-					printf("skip:class\n");
-				}
+				debug_printf("skip:class\n");
+				
 			}
 		}
 		break;
@@ -613,17 +642,13 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 			auto source_loc = clang_getCursorLocation(cursor);
 			if(clang_Location_isInSystemHeader(source_loc))
 				return CXChildVisit_Continue;
-			if(g_bDebug)
-			{
-				display_debug_cursor(cursor, kind, source_loc);
-			}
+			debug_display_debug_cursor(cursor, kind, source_loc);
+			
 			CX_CXXAccessSpecifier access_kind = clang_getCXXAccessSpecifier(cursor);
 			if(access_kind != CX_CXXPublic && access_kind != CX_CXXInvalidAccessSpecifier)
 			{
-				if(g_bDebug)
-				{
-					printf("skip:CXXMethod no public\n");
-				}
+				debug_printf("skip:CXXMethod no public\n");
+				
 				return CXChildVisit_Continue;
 			}
 
@@ -644,27 +669,21 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 				auto itFind = g_export_loc.find(id);
 				if(itFind == g_export_loc.end())
 				{
-					if(g_bDebug)
-					{
-						printf("skip:CXXMethod\n");
-					}
+					debug_printf("skip:CXXMethod\n");
+					
 					return CXChildVisit_Continue;
 				}
 
 				auto& refSet = itFind->second;
 				if(refSet.find(line) == refSet.end())
 				{
-					if(g_bDebug)
-					{
-						printf("skip:CXXMethod\n");
-					}
+					debug_printf("skip:CXXMethod\n");
+					
 					return CXChildVisit_Continue;
 				}
 			}
-			if(g_bDebug)
-			{
-				printf("do:CXXMethod\n");
-			}
+			debug_printf("do:CXXMethod\n");
+			
 			visit_function(cursor, pContent);
 		}
 		break;
@@ -675,18 +694,14 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 			auto source_loc = clang_getCursorLocation(cursor);
 			if(clang_Location_isInSystemHeader(source_loc))
 				return CXChildVisit_Continue;
-			if(g_bDebug)
-			{
-				display_debug_cursor(cursor, kind, source_loc);
-			}
+			debug_display_debug_cursor(cursor, kind, source_loc);
+			
 
 			CX_CXXAccessSpecifier access_kind = clang_getCXXAccessSpecifier(cursor);
 			if(access_kind != CX_CXXPublic && access_kind != CX_CXXInvalidAccessSpecifier)
 			{
-				if(g_bDebug)
-				{
-					printf("skip:Constructor no public\n");
-				}
+				debug_printf("skip:Constructor no public\n");
+				
 				return CXChildVisit_Continue;
 			}
 
@@ -712,18 +727,14 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 				auto& refSet = itFind->second;
 				if(refSet.find(line) == refSet.end())
 				{
-					if(g_bDebug)
-					{
-						printf("skip:Constructor\n");
-					}
+					debug_printf("skip:Constructor\n");
+					
 					return CXChildVisit_Continue;
 				}
 			}
 
-			if(g_bDebug)
-			{
-				printf("do:Constructor\n");
-			}
+			debug_printf("do:Constructor\n");
+			
 			visit_constructor(cursor, pContent);
 		}
 		break;
@@ -738,17 +749,13 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 			auto source_loc = clang_getCursorLocation(cursor);
 			if(clang_Location_isInSystemHeader(source_loc))
 				return CXChildVisit_Continue;
-			if(g_bDebug)
-			{
-				display_debug_cursor(cursor, kind, source_loc);
-			}
+			debug_display_debug_cursor(cursor, kind, source_loc);
+			
 			CX_CXXAccessSpecifier access_kind = clang_getCXXAccessSpecifier(cursor);
 			if(access_kind != CX_CXXPublic && access_kind != CX_CXXInvalidAccessSpecifier)
 			{
-				if(g_bDebug)
-				{
-					printf("skip:FieldDecl no public\n");
-				}
+				debug_printf("skip:FieldDecl no public\n");
+				
 				return CXChildVisit_Continue;
 			}
 
@@ -774,10 +781,8 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 				auto& refSet = itFind->second;
 				if(refSet.find(line) == refSet.end())
 				{
-					if(g_bDebug)
-					{
-						printf("skip:FieldDecl\n");
-					}
+					debug_printf("skip:FieldDecl\n");
+					
 					return CXChildVisit_Continue;
 				}
 			}
@@ -785,10 +790,8 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 			pContent->m_vecValName[nsname].bIsStatic = false;
 			pContent->m_vecValName[nsname].bIsConst	 = clang_isConstQualifiedType(clang_getCursorType(cursor)) != 0;
 
-			if(g_bDebug)
-			{
-				printf("do:FieldDecl\n");
-			}
+			debug_printf("do:FieldDecl\n");
+			
 		}
 		break;
 		case CXCursor_CXXBaseSpecifier:
@@ -803,17 +806,13 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 			CX_CXXAccessSpecifier access_kind = clang_getCXXAccessSpecifier(cursor);
 			if(access_kind != CX_CXXPublic && access_kind != CX_CXXInvalidAccessSpecifier)
 			{
-				if(g_bDebug)
-				{
-					printf("skip:CXXBaseSpecifier no public\n");
-				}
+				debug_printf("skip:CXXBaseSpecifier no public\n");
+				
 				return CXChildVisit_Continue;
 			}
 
-			if(g_bDebug)
-			{
-				display_debug_cursor(cursor, kind, source_loc);
-			}
+			debug_display_debug_cursor(cursor, kind, source_loc);
+			
 			// reg inh
 			CXFile	 file;
 			unsigned line;
@@ -838,20 +837,16 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 				auto& refSet = itFind->second;
 				if(refSet.find(line) == refSet.end())
 				{
-					if(g_bDebug)
-					{
-						printf("skip:CXXBase\n");
-					}
+					debug_printf("skip:CXXBase\n");
+					
 					return CXChildVisit_Continue;
 				}
 			}
 			// std::string nsname = getClangString(clang_getCursorSpelling(cursor));
 			std::string tname = getClangString(clang_getTypeSpelling(clang_getCursorType(cursor)));
 			pContent->m_vecInhName.insert(tname);
-			if(g_bDebug)
-			{
-				printf("do:CXXBase\n");
-			}
+			debug_printf("do:CXXBase\n");
+			
 		}
 		break;
 		case CXCursor_EnumDecl:
@@ -863,17 +858,13 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 			auto source_loc = clang_getCursorLocation(cursor);
 			if(clang_Location_isInSystemHeader(source_loc))
 				return CXChildVisit_Continue;
-			if(g_bDebug)
-			{
-				display_debug_cursor(cursor, kind, source_loc);
-			}
+			debug_display_debug_cursor(cursor, kind, source_loc);
+			
 			CX_CXXAccessSpecifier access_kind = clang_getCXXAccessSpecifier(cursor);
 			if(access_kind != CX_CXXPublic && access_kind != CX_CXXInvalidAccessSpecifier)
 			{
-				if(g_bDebug)
-				{
-					printf("skip:EnumDecl no public\n");
-				}
+				debug_printf("skip:EnumDecl no public\n");
+				
 				return CXChildVisit_Continue;
 			}
 
@@ -899,10 +890,8 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 				auto& refSet = itFind->second;
 				if(refSet.find(line) == refSet.end())
 				{
-					if(g_bDebug)
-					{
-						printf("skip:Enum\n");
-					}
+					debug_printf("skip:Enum\n");
+					
 					return CXChildVisit_Continue;
 				}
 			}
@@ -910,10 +899,8 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 			{
 			}
 
-			if(g_bDebug)
-			{
-				printf("do:Enum\n");
-			}
+			debug_printf("do:Enum\n");
+			
 
 			CXSourceRange range = clang_getCursorExtent(cursor);
 			unsigned	  numtokens;
@@ -942,8 +929,8 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 			{
 				std::string nsname = getClangString(clang_getCursorSpelling(cursor));
 
-				Visitor_Content* pNewContent = new Visitor_Content(nsname, pContent, pContent->getAccessPrifix() + nsname);
-				pNewContent->bNameSpace		 = true;
+				Visitor_Content* pNewContent = new Visitor_Content(nsname, pContent, pContent->getAccessPrifix() + nsname, CT_NAMESPACE);
+				
 				clang_visitChildren(cursor, &visit_enum, pNewContent);
 			}
 			else
@@ -960,17 +947,13 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 			auto source_loc = clang_getCursorLocation(cursor);
 			if(clang_Location_isInSystemHeader(source_loc))
 				return CXChildVisit_Continue;
-			if(g_bDebug)
-			{
-				display_debug_cursor(cursor, kind, source_loc);
-			}
+			debug_display_debug_cursor(cursor, kind, source_loc);
+			
 			CX_CXXAccessSpecifier access_kind = clang_getCXXAccessSpecifier(cursor);
 			if(access_kind != CX_CXXPublic && access_kind != CX_CXXInvalidAccessSpecifier)
 			{
-				if(g_bDebug)
-				{
-					printf("skip:VarDecl no public\n");
-				}
+				debug_printf("skip:VarDecl no public\n");
+				
 				return CXChildVisit_Continue;
 			}
 
@@ -995,17 +978,13 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 				auto& refSet = itFind->second;
 				if(refSet.find(line) == refSet.end())
 				{
-					if(g_bDebug)
-					{
-						printf("skip:VarDecl\n");
-					}
+					debug_printf("skip:VarDecl\n");
+					
 					return CXChildVisit_Continue;
 				}
 			}
-			if(g_bDebug)
-			{
-				printf("do:VarDecl\n");
-			}
+			debug_printf("do:VarDecl\n");
+			
 			// reg global val;
 			std::string nsname = getClangString(clang_getCursorSpelling(cursor));
 			// std::string tname = getClangString(clang_getTypeSpelling(clang_getCursorType(cursor)));
@@ -1023,10 +1002,8 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 			if(clang_Location_isInSystemHeader(source_loc))
 				return CXChildVisit_Continue;
 
-			if(g_bDebug)
-			{
-				display_debug_cursor(cursor, kind, source_loc);
-			}
+			debug_display_debug_cursor(cursor, kind, source_loc);
+			
 
 			CXFile	 file;
 			unsigned line;
@@ -1049,18 +1026,14 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 				auto& refSet = itFind->second;
 				if(refSet.find(line) == refSet.end())
 				{
-					if(g_bDebug)
-					{
-						printf("skip:funciton\n");
-					}
+					debug_printf("skip:funciton\n");
+					
 					return CXChildVisit_Continue;
 				}
 			}
 
-			if(g_bDebug)
-			{
-				printf("do:funciton\n");
-			}
+			debug_printf("do:funciton\n");
+			
 			visit_function(cursor, pContent);
 		}
 		break;
@@ -1075,13 +1048,13 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_second)
 {
 
-	if(pContent->bClass)
+	if(pContent->m_ContentType == CT_CLASS)
 	{
 		// should export this?
 		if(g_strExportClassName.empty() == false && g_strExportClassName.find(pContent->m_name) == g_strExportClassName.end())
 			return;
 	}
-	else if(pContent->bNameSpace)
+	else if(pContent->m_ContentType == CT_NAMESPACE)
 	{
 		// should export this
 		if(g_strExportNamespaceName.empty() == false && g_strExportNamespaceName.find(pContent->m_name) == g_strExportNamespaceName.end())
@@ -1092,12 +1065,25 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 		// root
 		if(g_strExportClassName.empty() == false || g_strExportNamespaceName.empty() == false)
 		{
-			for(auto& v: pContent->m_setChild)
+			for(auto& v: pContent->m_setChildClass)
 			{
 				if(g_strExportNamespaceName.empty() == false)
 				{
 					// only visit namespace
-					if(v.second->bNameSpace)
+					if(v.second->m_ContentType == CT_NAMESPACE)
+						visit_contnet(v.second, os, os_second);
+				}
+				else
+				{
+					visit_contnet(v.second, os, os_second);
+				}
+			}
+			for(auto& v: pContent->m_setChildNameSpace)
+			{
+				if(g_strExportNamespaceName.empty() == false)
+				{
+					// only visit namespace
+					if(v.second->m_ContentType == CT_NAMESPACE)
 						visit_contnet(v.second, os, os_second);
 				}
 				else
@@ -1111,13 +1097,13 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 
 	char szBuf[4096];
 	// class add
-	if(pContent->bClass)
+	if(pContent->m_ContentType == CT_CLASS)
 	{
 		snprintf(szBuf, 4096, "lua_tinker::class_add<%s>(L, \"%s\",true);\n", pContent->getAccessName().c_str(),
 				 pContent->getAccessName().c_str()); // class_add
 		os += szBuf;
 	}
-	else if(pContent->bNameSpace)
+	else if(pContent->m_ContentType == CT_NAMESPACE)
 	{
 		snprintf(szBuf, 4096, "lua_tinker::namespace_add(L, \"%s\");\n", pContent->getAccessName().c_str()); // namespace_add
 		os += szBuf;
@@ -1134,7 +1120,7 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 
 	// global_func
 
-	if(pContent->bClass == true)
+	if(pContent->m_ContentType == CT_CLASS)
 	{
 		// class CXXMethod
 		for(const auto& v: pContent->m_vecFuncName)
@@ -1195,7 +1181,7 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 			}
 		}
 	}
-	else if(pContent->bNameSpace == true)
+	else if(pContent->m_ContentType == CT_NAMESPACE)
 	{
 		for(const auto& v: pContent->m_vecFuncName)
 		{
@@ -1305,7 +1291,6 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 
 	for(const auto& v: pContent->m_vecConName)
 	{
-
 		const auto& refDataSet = v.second;
 		if(refDataSet.size() == 1) // no overload
 		{
@@ -1356,7 +1341,7 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 		}
 	}
 
-	if(pContent->bNameSpace == true)
+	if(pContent->m_ContentType == CT_NAMESPACE)
 	{
 		for(const auto& v: pContent->m_vecValName)
 		{
@@ -1365,7 +1350,7 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 			os += szBuf;
 		}
 	}
-	else if(pContent->bClass == true)
+	else if(pContent->m_ContentType == CT_CLASS)
 	{
 		for(const auto& v: pContent->m_vecValName)
 		{
@@ -1400,7 +1385,7 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 		}
 	}
 
-	if(pContent->bNameSpace == true)
+	if(pContent->m_ContentType == CT_NAMESPACE)
 	{
 		for(const auto& v: pContent->m_vecEnumName)
 		{
@@ -1409,7 +1394,7 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 			os += szBuf;
 		}
 	}
-	else if(pContent->bClass == true)
+	else if(pContent->m_ContentType == CT_CLASS)
 	{
 		for(const auto& v: pContent->m_vecEnumName)
 		{
@@ -1427,10 +1412,20 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 		}
 	}
 
-	for(auto& v: pContent->m_setChild)
+	for(auto& v: pContent->m_setChildClass)
 	{
 		visit_contnet(v.second, os, os_second);
-		if(pContent->bClass || pContent->bNameSpace)
+		if(pContent->m_ContentType != CT_GLOBAL)
+		{
+			snprintf(szBuf, 4096, "lua_tinker::scope_inner(L, \"%s\", \"%s\", \"%s\");\n", pContent->getAccessName().c_str(), v.second->m_name.c_str(),
+					 v.second->getAccessName().c_str());
+			os += szBuf;
+		}
+	}
+	for(auto& v: pContent->m_setChildNameSpace)
+	{
+		visit_contnet(v.second, os, os_second);
+		if(pContent->m_ContentType != CT_GLOBAL)
 		{
 			snprintf(szBuf, 4096, "lua_tinker::scope_inner(L, \"%s\", \"%s\", \"%s\");\n", pContent->getAccessName().c_str(), v.second->m_name.c_str(),
 					 v.second->getAccessName().c_str());
@@ -1700,7 +1695,7 @@ int main(int argc, char** argv)
 	visit_contnet(&content, os, os_second);
 	if(g_bDebug)
 	{
-		printf("global:func:%lu, child:%lu\n", content.m_vecFuncName.size(), content.m_setChild.size());
+		printf("global:func:%lu, child:%lu\n", content.m_vecFuncName.size(), content.m_setChildClass.size() + content.m_setChildNameSpace.size());
 		printf("press any key to start output\n");
 		getchar();
 	}

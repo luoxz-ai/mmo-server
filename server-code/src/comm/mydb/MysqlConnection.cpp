@@ -339,7 +339,8 @@ CMysqlResultPtr CMysqlConnection::Query(const std::string& table_name, const std
 		if(query.empty())
 		{
 			std::string simple_query = "SELECT * FROM " + table_name;
-			nError					 = mysql_real_query(m_pHandle.get(), simple_query.c_str(), simple_query.size());
+			
+			nError = mysql_real_query(m_pHandle.get(), simple_query.c_str(), simple_query.size());
 		}
 		else
 		{
@@ -429,15 +430,16 @@ CDBRecordPtr CMysqlConnection::MakeRecord(const std::string& table_name)
 	{
 		NextResult();
 	}
-	auto ptr = QueryFieldInfo(table_name, nullptr);
+	auto ptr = QueryFieldInfo(table_name);
 	if(ptr)
 	{
 		return std::make_unique<CDBRecord>(this, ptr, true, nullptr, nullptr);
 	}
 	else
 	{
-		auto mysql_res	= mysql_list_fields(m_pHandle.get(), table_name.c_str(), "");
-		auto pFieldInfo = QueryFieldInfo(table_name, mysql_res);
+		auto mysql_res	= make_mysql_res_ptr(mysql_list_fields(m_pHandle.get(), table_name.c_str(), ""));
+		auto pFieldInfo = CreateFieldInfo(table_name, mysql_res);
+
 		if(pFieldInfo)
 			return std::make_unique<CDBRecord>(this, pFieldInfo, true, nullptr, nullptr);
 		else
@@ -460,28 +462,36 @@ bool CMysqlConnection::NextResult()
 CMysqlResultPtr CMysqlConnection::UseResult(const std::string& query)
 {
 	__ENTER_FUNCTION
-	MYSQL_RES* result = mysql_store_result(m_pHandle.get());
+	auto result = make_mysql_res_ptr(mysql_store_result(m_pHandle.get()));
 	if(result == nullptr)
 	{
 		return nullptr;
 	}
-	return std::make_unique<CMysqlResult>(this, result, QueryFieldInfo(query, result));
+	auto pFieldInfo = QueryFieldInfo(query);
+	if(pFieldInfo == nullptr)
+		pFieldInfo = CreateFieldInfo(query, result);
+
+	return std::make_unique<CMysqlResult>(this, std::move(result), pFieldInfo);
 	__LEAVE_FUNCTION
 	return nullptr;
 }
 
-CDBFieldInfoListPtr CMysqlConnection::QueryFieldInfo(const std::string& s, MYSQL_RES* res)
+CDBFieldInfoListPtr CMysqlConnection::CreateFieldInfo(const std::string& s, const MYSQL_RES_PTR& res)
+{
+	if(res == nullptr)
+		return nullptr;
+
+	m_MysqlFieldInfoCache.emplace(s, std::make_shared<CMysqlFieldInfoList>(res.get()));
+	return QueryFieldInfo(s);
+}
+
+CDBFieldInfoListPtr CMysqlConnection::QueryFieldInfo(const std::string& s)
 {
 	__ENTER_FUNCTION
 	auto itFind = m_MysqlFieldInfoCache.find(s);
 	if(itFind == m_MysqlFieldInfoCache.end())
 	{
-		if(res == nullptr)
-			return nullptr;
-
-		CDBFieldInfoListPtr ptr{new CMysqlFieldInfoList{res}};
-		m_MysqlFieldInfoCache.emplace(s, ptr);
-		return ptr;
+		return nullptr;
 	}
 	else
 	{
@@ -493,7 +503,10 @@ CDBFieldInfoListPtr CMysqlConnection::QueryFieldInfo(const std::string& s, MYSQL
 
 void CMysqlConnection::_AddFieldInfo(const std::string& s, CDBFieldInfoListPtr ptr)
 {
-	m_MysqlFieldInfoCache[s] = ptr;
+	if(ptr)
+	{
+		m_MysqlFieldInfoCache[s] = ptr;
+	}
 }
 
 bool CMysqlConnection::EscapeString(char* pszDst, const char* pszSrc, int32_t nLen)
@@ -503,9 +516,9 @@ bool CMysqlConnection::EscapeString(char* pszDst, const char* pszSrc, int32_t nL
 
 //////////////////////////////////////////////////////////////////////////
 
-CMysqlResult::CMysqlResult(CMysqlConnection* pMysqlConnection, MYSQL_RES* res, CDBFieldInfoListPtr infolist_ptr)
+CMysqlResult::CMysqlResult(CMysqlConnection* pMysqlConnection, MYSQL_RES_PTR&& res, CDBFieldInfoListPtr infolist_ptr)
 	: m_pMysqlConnection(pMysqlConnection)
-	, m_MySqlResult(res, mysql_free_result)
+	, m_MySqlResult(std::move(res))
 	, m_pFieldInfoList(infolist_ptr)
 {
 }

@@ -406,7 +406,7 @@ void CNetworkService::StartIOThread(const std::string& thread_name, std::functio
 	m_pIOThread = std::unique_ptr<std::thread>(new std::thread([pBase = m_pBase, _thread_name = thread_name, idService]() {
 		__ENTER_FUNCTION
 		pthread_setname_np(pthread_self(), _thread_name.c_str());
-
+		BaseCode::SetNdc(_thread_name);
 		LOGMESSAGE("ThreadID:{}", get_cur_thread_id());
 		int32_t result = 0;
 		do
@@ -422,6 +422,7 @@ void CNetworkService::StartIOThread(const std::string& thread_name, std::functio
 			LOGNETERROR("CNetworkService {} IOThread Close with ERROR:", idService);
 		}
 		LOGNETDEBUG("CNetworkService IOThread Close:{}", idService);
+		BaseCode::ClearNdc();
 		__LEAVE_FUNCTION
 	}));
 

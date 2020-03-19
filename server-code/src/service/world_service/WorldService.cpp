@@ -88,9 +88,9 @@ bool CWorldService::Create()
 
 	m_pAccountManager.reset(CAccountManager::CreateNew(this));
 	CHECKF(m_pAccountManager.get());
-	m_pUserManager.reset(new CUserManager);
+	m_pUserManager.reset(CUserManager::CreateNew());
 	CHECKF(m_pUserManager.get());
-	m_pTeamManager.reset(new CTeamManager);
+	m_pTeamManager.reset(CTeamManager::CreateNew());
 	CHECKF(m_pTeamManager.get());
 
 	extern void RegisterWorldMessageHandler();
@@ -172,8 +172,8 @@ bool CWorldService::Create()
 	m_pBornPosSet.reset(CBornPosSet::CreateNew("res/config/Cfg_BornPos.bytes"));
 	CHECKF(m_pBornPosSet.get());
 
-	m_pMapManager.reset(new CMapManager);
-	CHECKF(m_pMapManager->Init(0));
+	m_pMapManager.reset(CMapManager::CreateNew(0));
+	CHECKF(m_pMapManager.get());
 
 	m_pGMManager.reset(CGMManager::CreateNew());
 	CHECKF(m_pGMManager.get());
