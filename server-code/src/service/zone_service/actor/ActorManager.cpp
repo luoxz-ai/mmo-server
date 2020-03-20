@@ -20,6 +20,11 @@ CActorManager::~CActorManager()
 	Destory();
 }
 
+bool CActorManager::Init()
+{
+	return true;
+}
+
 void CActorManager::Destory()
 {
 	for(auto it = m_PlayerRefMap.begin(); it != m_PlayerRefMap.end(); it++)

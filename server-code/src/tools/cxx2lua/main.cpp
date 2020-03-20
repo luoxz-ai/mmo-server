@@ -464,8 +464,9 @@ static enum CXChildVisitResult visit_display(CXCursor cursor, CXCursor parent, C
 		printCursor(ref);
 	}
 	++indent;
-	clang_visitChildren(cursor, visit_display, &indent);
-	return CXChildVisit_Continue;
+	return CXChildVisit_Recurse;
+	//clang_visitChildren(cursor, visit_display, &indent);
+	//return CXChildVisit_Continue;
 }
 
 bool					g_bPreProcessing = true;
@@ -1047,7 +1048,7 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 
 void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_second)
 {
-
+	char szBuf[4096];
 	if(pContent->m_ContentType == CT_CLASS)
 	{
 		// should export this?
@@ -1093,9 +1094,33 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 			}
 			return; // just visit child,skip global scope
 		}
+		else
+		{
+			//vist child first;
+			for(auto& v: pContent->m_setChildClass)
+			{
+				visit_contnet(v.second, os, os_second);
+				if(pContent->m_ContentType != CT_GLOBAL)
+				{
+					snprintf(szBuf, 4096, "lua_tinker::scope_inner(L, \"%s\", \"%s\", \"%s\");\n", pContent->getAccessName().c_str(), v.second->m_name.c_str(),
+							v.second->getAccessName().c_str());
+					os += szBuf;
+				}
+			}
+			for(auto& v: pContent->m_setChildNameSpace)
+			{
+				visit_contnet(v.second, os, os_second);
+				if(pContent->m_ContentType != CT_GLOBAL)
+				{
+					snprintf(szBuf, 4096, "lua_tinker::scope_inner(L, \"%s\", \"%s\", \"%s\");\n", pContent->getAccessName().c_str(), v.second->m_name.c_str(),
+							v.second->getAccessName().c_str());
+					os += szBuf;
+				}
+			}
+		}
 	}
 
-	char szBuf[4096];
+
 	// class add
 	if(pContent->m_ContentType == CT_CLASS)
 	{
@@ -1412,24 +1437,29 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 		}
 	}
 
-	for(auto& v: pContent->m_setChildClass)
+
+	//root vist child first, other vist child end;
+	if(pContent->m_pParent != NULL)
 	{
-		visit_contnet(v.second, os, os_second);
-		if(pContent->m_ContentType != CT_GLOBAL)
+		for(auto& v: pContent->m_setChildClass)
 		{
-			snprintf(szBuf, 4096, "lua_tinker::scope_inner(L, \"%s\", \"%s\", \"%s\");\n", pContent->getAccessName().c_str(), v.second->m_name.c_str(),
-					 v.second->getAccessName().c_str());
-			os += szBuf;
+			visit_contnet(v.second, os, os_second);
+			if(pContent->m_ContentType != CT_GLOBAL)
+			{
+				snprintf(szBuf, 4096, "lua_tinker::scope_inner(L, \"%s\", \"%s\", \"%s\");\n", pContent->getAccessName().c_str(), v.second->m_name.c_str(),
+						v.second->getAccessName().c_str());
+				os += szBuf;
+			}
 		}
-	}
-	for(auto& v: pContent->m_setChildNameSpace)
-	{
-		visit_contnet(v.second, os, os_second);
-		if(pContent->m_ContentType != CT_GLOBAL)
+		for(auto& v: pContent->m_setChildNameSpace)
 		{
-			snprintf(szBuf, 4096, "lua_tinker::scope_inner(L, \"%s\", \"%s\", \"%s\");\n", pContent->getAccessName().c_str(), v.second->m_name.c_str(),
-					 v.second->getAccessName().c_str());
-			os += szBuf;
+			visit_contnet(v.second, os, os_second);
+			if(pContent->m_ContentType != CT_GLOBAL)
+			{
+				snprintf(szBuf, 4096, "lua_tinker::scope_inner(L, \"%s\", \"%s\", \"%s\");\n", pContent->getAccessName().c_str(), v.second->m_name.c_str(),
+						v.second->getAccessName().c_str());
+				os += szBuf;
+			}
 		}
 	}
 }
@@ -1621,7 +1651,7 @@ int main(int argc, char** argv)
 	}
 
 	const char* ext_cxx_flag[] = {
-		"-xc++", "-std=c++14", "-w", "-fno-spell-checking", "-fsyntax-only",
+		"-xc++", "-std=c++17", "-w", "-fno-spell-checking", "-fsyntax-only",
 		//"-Dexport_lua="
 	};
 

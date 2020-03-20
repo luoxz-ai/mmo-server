@@ -7,9 +7,10 @@
 class CScene;
 export_lua class CSceneManager
 {
-public:
 	CSceneManager();
+public:
 	~CSceneManager();
+	CREATE_NEW_IMPL(CSceneManager);
 
 	bool	   Init(uint32_t idZone);
 	void	   Destory();

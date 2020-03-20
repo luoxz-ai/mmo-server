@@ -75,9 +75,18 @@ void print_help()
 	std::cout << " [-h|--help] [--config=service.xml] [--worldid=0] [--start] [--start=1,2,3,4,5,6] [--stop] [--daemon]" << std::endl;
 }
 
+#ifndef STDIN_FILENO
+	/* Standard file descriptors. */
+#define STDIN_FILENO  0 /* Standard input. */
+#define STDOUT_FILENO 1 /* Standard output. */
+#define STDERR_FILENO 2 /* Standard error output. */
+#endif
+
 ServiceLoader*			   g_pLoader;
 std::unique_ptr<file_lock> plock;
 std::mutex				   g_tem_mutex;
+int savefd_out = -1;
+int savefd_err = -1;
 //////////////////////////////////////////////////////////////////////////
 void sig_term(int32_t signo)
 {
@@ -91,6 +100,10 @@ void sig_term(int32_t signo)
 	{
 		g_pLoader->Destory();
 		stop_jemalloc_backgroud_thread();
+		if(savefd_out != -1)
+			dup2(savefd_out, STDOUT_FILENO);
+		if(savefd_err != -1)
+			dup2(savefd_err, STDERR_FILENO);
 		std::cerr << "service destory." << std::endl;
 		plock->unlock();
 		plock.reset();
@@ -210,18 +223,15 @@ int main(int argc, char* argv[])
 	}
 	fmt::print("service {} load succ.\n", start_service_set);
 
-#ifndef STDIN_FILENO
-	/* Standard file descriptors. */
-#define STDIN_FILENO  0 /* Standard input. */
-#define STDOUT_FILENO 1 /* Standard output. */
-#define STDERR_FILENO 2 /* Standard error output. */
-#endif
 
-	FILE* pStdOutFile = fopen("stdout.log", "w+");
+
+	FILE* pStdOutFile = fopen((logpath+"/stdout.log").c_str(), "w+");
 	if(pStdOutFile == NULL)
 	{
 		exit(-1);
 	}
+	savefd_out = dup(STDOUT_FILENO);
+	savefd_err = dup(STDERR_FILENO);
 	dup2(fileno(pStdOutFile), STDOUT_FILENO);
 	dup2(fileno(pStdOutFile), STDERR_FILENO);
 	fclose(pStdOutFile);

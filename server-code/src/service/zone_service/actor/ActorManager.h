@@ -27,10 +27,13 @@ class CPlayer;
 
 class CActorManager
 {
-public:
 	CActorManager();
+public:
+	
 	~CActorManager();
+	CREATE_NEW_IMPL(CActorManager);
 
+	bool Init();
 	void Destory();
 
 	CActor*	 QueryActor(OBJID id) const;

@@ -5,9 +5,11 @@
 
 #include <cxxabi.h>
 #include <dlfcn.h>
+#include "fmt/chrono.h"
 
 #include "BaseCode.h"
 #include "LoggingMgr.h"
+
 
 std::string demangle(const char* name)
 {
@@ -93,6 +95,71 @@ std::string DemangleSymbol(const char* input_symbol)
 	}
 
 	return symbol;
+}
+
+
+
+
+std::string getProcessID()
+{
+	std::string pid		 = "0";
+	char		buf[260] = {0};
+#ifdef WIN32
+	uint32_t winPID = GetCurrentProcessId();
+	sprintf(buf, "%06u", winPID);
+	pid = buf;
+#else
+	sprintf(buf, "%06d", getpid());
+	pid = buf;
+#endif
+	return pid;
+}
+
+std::string getProcessName()
+{
+	std::string name	 = "process";
+	char		buf[260] = {0};
+#ifdef WIN32
+	if(GetModuleFileNameA(NULL, buf, 259) > 0)
+	{
+		name = buf;
+	}
+	std::string::size_type pos = name.rfind("\\");
+	if(pos != std::string::npos)
+	{
+		name = name.substr(pos + 1, std::string::npos);
+	}
+	pos = name.rfind(".");
+	if(pos != std::string::npos)
+	{
+		name = name.substr(0, pos - 0);
+	}
+
+// #elif defined(LOG4Z_HAVE_LIBPROC)
+// 	proc_name(getpid(), buf, 260);
+// 	name = buf;
+// 	return name;
+// 	;
+#else
+	sprintf(buf, "/proc/%d/cmdline", (int)getpid());
+	FILE* fp = fopen(buf, "rb");
+	if(!fp)
+	{
+		return name;
+	}
+
+	fgets(buf, 260, fp);
+	name = buf;
+	fclose(fp);
+
+	std::string::size_type pos = name.rfind("/");
+	if(pos != std::string::npos)
+	{
+		name = name.substr(pos + 1, std::string::npos);
+	}
+#endif
+
+	return name;
 }
 
 } // namespace
@@ -310,9 +377,18 @@ bool DumpStack(const CallFrameMap& data)
 bool DumpStackFile(const CallFrameMap& data)
 {
 	std::string txt	  = GetStackTraceString(data);
-	FILE*		pFile = fopen("hangup.log", "a+");
-	fwrite(txt.c_str(), txt.size(), 1, pFile);
-	fclose(pFile);
+
+	std::string szLogName = fmt::format("{}_hangup_{}.log", getProcessName(), getProcessID());
+	
+
+	
+
+	FILE* fp = fopen(szLogName.c_str(), "a+");
+	if(nullptr == fp)
+		return false;
+
+	fwrite(txt.c_str(), txt.size(), 1, fp);
+	fclose(fp);
 	return true;
 }
 

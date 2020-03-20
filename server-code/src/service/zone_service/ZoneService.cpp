@@ -48,12 +48,6 @@ CZoneService::CZoneService(const ServerPort& nServerPort)
 	: CServiceCommon(nServerPort, std::string("Zone") + std::to_string(nServerPort.GetServiceID()))
 {
 	m_MessagePoolBySocket.reserve(GUESS_MAX_PLAYER_COUNT);
-	using namespace std::placeholders;
-	m_pNetMsgProcess->Register(ServerMSG::MsgID_PlayerEnterZone, std::bind(&CZoneService::OnMsgPlayerEnterZone, this, _1));
-	m_pNetMsgProcess->Register(ServerMSG::MsgID_PlayerChangeZone, std::bind(&CZoneService::OnMsgPlayerChangeZone, this, _1));
-	m_pNetMsgProcess->Register(ServerMSG::MsgID_PlayerChangeZone_Data, std::bind(&CZoneService::OnMsgPlayerChangeZone_Data, this, _1));
-	m_pNetMsgProcess->Register(ServerMSG::MsgID_PlayerLogout, std::bind(&CZoneService::OnMsgPlayerLogout, this, _1));
-
 	m_tLastDisplayTime.Startup(20);
 }
 
@@ -67,10 +61,9 @@ CZoneService::~CZoneService()
 	StopLogicThread();
 	if(m_pLoadingThread)
 		m_pLoadingThread->Destory();
-	SAFE_DELETE(m_pLoadingThread);
 
-	m_SceneManager.Destory();
-	m_ActorManager.Destory();
+	GetSceneManager()->Destory();
+	GetActorManager()->Destory();
 
 	for(auto& [k, refQueue]: m_MessagePoolBySocket)
 	{
@@ -120,11 +113,6 @@ bool CZoneService::Create()
 		}
 	}
 
-	m_pMapManager.reset(CMapManager::CreateNew(GetServerPort().GetServiceID()));
-	CHECKF(m_pMapManager.get());
-
-	m_pGMManager.reset(CGMManager::CreateNew());
-	CHECKF(m_pGMManager.get());
 
 	//配置读取
 #define DEFINE_CONFIG_LOAD(T, path)   \
@@ -148,12 +136,24 @@ bool CZoneService::Create()
 	DEFINE_CONFIG_LOAD(CNpcTypeSet, "res/config/Cfg_Npc.bytes");
 #undef DEFINE_CONFIG_LOAD
 
+	m_pMapManager.reset(CMapManager::CreateNew(GetServerPort().GetServiceID()));
+	CHECKF(m_pMapManager.get());
+	m_pActorManager.reset(CActorManager::CreateNew());
+	CHECKF(m_pActorManager.get());
+	m_pTeamInfoManager.reset(CTeamInfoManager::CreateNew());
+	CHECKF(m_pTeamInfoManager.get());
+	m_pGMManager.reset(CGMManager::CreateNew());
+	CHECKF(m_pGMManager.get());
+
 	//脚本加载
 	extern void export_to_lua(lua_State*, void*);
 	m_pScriptManager.reset(
 		CLUAScriptManager::CreateNew(std::string("ZoneScript") + std::to_string(GetServerPort().GetServiceID()), &export_to_lua, (void*)this, "res/script/zone_service"));
-
-	CHECKF(m_SceneManager.Init(GetServerPort().GetServiceID()));
+		
+	//必须要晚于MapManger和ActorManager
+	m_pSceneManager.reset(CSceneManager::CreateNew(GetServerPort().GetServiceID()));
+	CHECKF(m_pSceneManager.get());
+	
 
 	extern void ZoneMessageHandlerRegister();
 	ZoneMessageHandlerRegister();
@@ -166,7 +166,9 @@ bool CZoneService::Create()
 		CHECKF(m_pSystemVarSet.get());
 	}
 
-	m_pLoadingThread = new CLoadingThread(this);
+	m_pLoadingThread.reset(new CLoadingThread(this));
+	CHECKF(m_pLoadingThread.get());
+
 	if(CreateService(20) == false)
 		return false;
 
@@ -432,7 +434,7 @@ bool CZoneService::SendMsgToAIService(uint16_t nCmd, const google::protobuf::Mes
 void CZoneService::_ID2VS(OBJID id, CZoneService::VSMap_t& VSMap)
 {
 	__ENTER_FUNCTION
-	CActor* pActor = m_ActorManager.QueryActor(id);
+	CActor* pActor = GetActorManager()->QueryActor(id);
 	if(pActor && pActor->IsPlayer())
 	{
 		CPlayer* pPlayer = pActor->ConvertToDerived<CPlayer>();

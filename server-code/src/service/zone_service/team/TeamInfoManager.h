@@ -35,15 +35,18 @@ public:
 
 export_lua class CTeamInfoManager
 {
-public:
 	CTeamInfoManager(); 
+public:
+	CREATE_NEW_IMPL(CTeamInfoManager);
 	~CTeamInfoManager() {}
 
+	bool 	   Init();
 	CTeamInfo* OnCreateTeam(uint64_t idTeam, uint64_t idLeader);
 	void	   OnDestoryTeam(uint64_t idTeam);
 
 	export_lua CTeamInfo* QueryTeam(uint64_t idTeam);
 
+	void RegisterMsgHandler();
 private:
 	std::map<uint64_t, CTeamInfo*> m_setTeam;
 };

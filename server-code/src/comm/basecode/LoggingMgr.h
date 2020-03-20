@@ -71,14 +71,17 @@ extern int32_t				s_gm_logger;
 	}
 
 #define LOGNETDEBUG(...) ZLOGFMT_DEBUG(BaseCode::s_network_logger, ##__VA_ARGS__)
+#define LOGNETINFO(...)  ZLOGFMT_INFO(BaseCode::s_network_logger, ##__VA_ARGS__)
 #define LOGNETERROR(...) ZLOGFMT_ERROR(BaseCode::s_network_logger, ##__VA_ARGS__)
 
 #define LOGDBDEBUG(...) ZLOGFMT_DEBUG(BaseCode::s_db_logger, ##__VA_ARGS__)
+#define LOGDBINFO(...) 	ZLOGFMT_INFO(BaseCode::s_db_logger, ##__VA_ARGS__)
 #define LOGDBERROR(...) ZLOGFMT_ERROR(BaseCode::s_db_logger, ##__VA_ARGS__)
 #define LOGDBFATAL(...) ZLOGFMT_FATAL(BaseCode::s_db_logger, ##__VA_ARGS__)
 
-#define LOGSTACK(...) ZLOGFMT_ERROR(BaseCode::s_stack_logger, ##__VA_ARGS__)
+#define LOGSTACK(...) 	ZLOGFMT_ERROR(BaseCode::s_stack_logger, ##__VA_ARGS__)
 
+#define LOGINFO(...) 	ZLOGFMT_INFO(BaseCode::s_message_logger, ##__VA_ARGS__)
 #define LOGMESSAGE(...) ZLOGFMT_INFO(BaseCode::s_message_logger, ##__VA_ARGS__)
 #define LOGMESSAGE_NOFMT(msg) ZLOG_INFO(BaseCode::s_message_logger, msg)
 

@@ -137,34 +137,26 @@ public:
 	export_lua CMapManager* GetMapManager() const { return m_pMapManager.get(); }
 	export_lua CSystemVarSet* GetSystemVarSet() const { return m_pSystemVarSet.get(); }
 
-	export_lua CActorManager* GetActorManager() { return &m_ActorManager; }
-	export_lua CSceneManager* GetSceneManager() { return &m_SceneManager; }
-	export_lua CLoadingThread* GetLoadingThread() { return m_pLoadingThread; }
+	export_lua CActorManager* GetActorManager() { return m_pActorManager.get(); }
+	export_lua CSceneManager* GetSceneManager() { return m_pSceneManager.get(); }
+	export_lua CLoadingThread* GetLoadingThread() { return m_pLoadingThread.get(); }
 	export_lua CMonitorMgr* GetMonitorMgr() { return &m_MonitorMgr; }
 	export_lua CGMManager* GetGMManager() { return m_pGMManager.get(); }
-	export_lua CTeamInfoManager* GetTeamInfoManager() { return &m_TeamInfoManager; }
-
-public:
-	void OnMsgPlayerEnterZone(CNetworkMessage* pMsg);
-	void OnMsgPlayerChangeZone(CNetworkMessage* pMsg);
-
-	void OnMsgPlayerChangeZone_Data(CNetworkMessage* pMsg);
-	void OnMsgMonsterCreate(CNetworkMessage* pMsg);
-	void OnMsgPlayerLogout(CNetworkMessage* pMsg);
+	export_lua CTeamInfoManager* GetTeamInfoManager() { return m_pTeamInfoManager.get(); }
 
 private:
 	void ProcessPortMessage();
 
 private:
-	std::unique_ptr<CMysqlConnection>								m_pGlobalDB = nullptr;
+	std::unique_ptr<CMysqlConnection>								m_pGlobalDB;
 	std::unordered_map<uint16_t, std::unique_ptr<CMysqlConnection>> m_GameDBMap;
 
 	CMyTimer m_tLastDisplayTime;
 	size_t	 m_nMessageProcess = 0;
 
-	CActorManager	m_ActorManager;
-	CSceneManager	m_SceneManager;
-	CLoadingThread* m_pLoadingThread = nullptr;
+	std::unique_ptr<CActorManager>	m_pActorManager;
+	std::unique_ptr<CSceneManager>	m_pSceneManager;
+	std::unique_ptr<CLoadingThread> m_pLoadingThread;
 
 	std::unordered_map<uint64_t, std::deque<CNetworkMessage*>> m_MessagePoolBySocket;
 
@@ -173,7 +165,7 @@ private:
 	std::unique_ptr<CMapManager>	   m_pMapManager;
 	std::unique_ptr<CSystemVarSet>	   m_pSystemVarSet;
 	CMonitorMgr						   m_MonitorMgr;
-	CTeamInfoManager				   m_TeamInfoManager;
+	std::unique_ptr<CTeamInfoManager>  m_pTeamInfoManager;
 
 public:
 	//配置文件
@@ -205,115 +197,115 @@ private:                                       \
 #undef DEFINE_CONFIG_SET
 };
 
-CZoneService* ZoneService();
+export_lua CZoneService* ZoneService();
 void		  SetZoneServicePtr(CZoneService*);
 
-inline auto EventManager()
+export_lua inline auto EventManager()
 {
 	return ZoneService()->GetEventManager();
 }
-inline auto NetMsgProcess()
+export_lua inline auto NetMsgProcess()
 {
 	return ZoneService()->GetNetMsgProcess();
 }
-inline auto ScriptManager()
+export_lua inline auto ScriptManager()
 {
 	return ZoneService()->GetScriptManager();
 }
-inline auto ActorManager()
+export_lua inline auto ActorManager()
 {
 	return ZoneService()->GetActorManager();
 }
-inline auto SceneManager()
+export_lua inline auto SceneManager()
 {
 	return ZoneService()->GetSceneManager();
 }
-inline auto MapManager()
+export_lua inline auto MapManager()
 {
 	return ZoneService()->GetMapManager();
 }
-inline auto SystemVarSet()
+export_lua inline auto SystemVarSet()
 {
 	return ZoneService()->GetSystemVarSet();
 }
-inline auto MonitorMgr()
+export_lua inline auto MonitorMgr()
 {
 	return ZoneService()->GetMonitorMgr();
 }
-inline auto GMManager()
+export_lua inline auto GMManager()
 {
 	return ZoneService()->GetGMManager();
 }
-inline auto TeamManager()
+export_lua inline auto TeamManager()
 {
 	return ZoneService()->GetTeamInfoManager();
 }
 
-inline auto StatusTypeSet()
+export_lua inline auto StatusTypeSet()
 {
 	return ZoneService()->GetCStatusTypeSet();
 }
-inline auto UserAttrSet()
+export_lua inline auto UserAttrSet()
 {
 	return ZoneService()->GetCUserAttrSet();
 }
-inline auto DataCountLimitSet()
+export_lua inline auto DataCountLimitSet()
 {
 	return ZoneService()->GetCDataCountLimitSet();
 }
-inline auto SkillTypeSet()
+export_lua inline auto SkillTypeSet()
 {
 	return ZoneService()->GetCSkillTypeSet();
 }
-inline auto SkillAttachStatusDataSet()
+export_lua inline auto SkillAttachStatusDataSet()
 {
 	return ZoneService()->GetCSkillAttachStatusDataSet();
 }
-inline auto SkillDetachStatusDataSet()
+export_lua inline auto SkillDetachStatusDataSet()
 {
 	return ZoneService()->GetCSkillDetachStatusDataSet();
 }
-inline auto MonsterTypeSet()
+export_lua inline auto MonsterTypeSet()
 {
 	return ZoneService()->GetCMonsterTypeSet();
 }
-inline auto BulletTypeSet()
+export_lua inline auto BulletTypeSet()
 {
 	return ZoneService()->GetCBulletTypeSet();
 }
-inline auto ItemTypeSet()
+export_lua inline auto ItemTypeSet()
 {
 	return ZoneService()->GetCItemTypeSet();
 }
-inline auto ItemAdditionSet()
+export_lua inline auto ItemAdditionSet()
 {
 	return ZoneService()->GetCItemAdditionSet();
 }
-inline auto ItemFormulaDataSet()
+export_lua inline auto ItemFormulaDataSet()
 {
 	return ZoneService()->GetCItemFormulaDataSet();
 }
-inline auto ItemUpgradeDataSet()
+export_lua inline auto ItemUpgradeDataSet()
 {
 	return ZoneService()->GetCItemUpgradeDataSet();
 }
-inline auto SuitEquipSet()
+export_lua inline auto SuitEquipSet()
 {
 	return ZoneService()->GetCSuitEquipSet();
 }
-inline auto TaskTypeSet()
+export_lua inline auto TaskTypeSet()
 {
 	return ZoneService()->GetCTaskTypeSet();
 }
-inline auto AchievementTypeSet()
+export_lua inline auto AchievementTypeSet()
 {
 	return ZoneService()->GetCAchievementTypeSet();
 }
-inline auto NpcTypeSet()
+export_lua inline auto NpcTypeSet()
 {
 	return ZoneService()->GetCNpcTypeSet();
 }
-inline auto PetTypeSet()
+export_lua inline auto PetTypeSet()
 {
 	return ZoneService()->GetCPetTypeSet();
 }

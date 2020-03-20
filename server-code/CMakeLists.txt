@@ -42,11 +42,13 @@ SET(CMAKE_C_FLAGS_RELEASE "$ENV{CFLAGS} -g -O3 -DNDEBUG ")
 SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -std=c++17 -g -DDEBUG ${CMAKE_CXX_ERROR_FLAGS} ")
 SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -std=c++17 -g -O3 -DNDEBUG ${CMAKE_CXX_ERROR_FLAGS} ")
 
+add_compile_options("-fPIC")
+
 #add_compile_options(-Wl,--unresolved-symbols=ignore-in-shared-libs)
 IF(NOT CMAKE_CXX_COMPILER MATCHES "clang")
 add_compile_options("-rdynamic")
 ELSE()
-add_compile_options()
+
 link_libraries("-Wl,--export-dynamic")
 link_libraries("-fuse-ld=lld-9")
 ENDIF()

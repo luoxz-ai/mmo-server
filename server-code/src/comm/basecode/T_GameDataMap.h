@@ -48,7 +48,7 @@ public:
 			SAFE_DELETE(pair_val.second);
 		}
 		m_setData.clear();
-		LOGDEBUG("Clear {} Succ.", GET_NAME());
+		LOGINFO("Clear {} Succ.", GET_NAME());
 	}
 
 	bool Init(CMysqlConnection* pDb, const char* table_name, const char* szSQL)
@@ -68,7 +68,7 @@ public:
 				this->AddObj(pData);
 			}
 		}
-		LOGDEBUG("Init {} Succ.", GET_NAME());
+		LOGINFO("Init {} Succ.", GET_NAME());
 		return true;
 	}
 	bool Reload(CMysqlConnection* pDb, const char* table_name, const char* szSQL)
@@ -126,7 +126,7 @@ public:
 		{
 			_LoadFromPB(iter);
 		}
-		LOGDEBUG("Init {} Succ.", szFileName);
+		LOGINFO("Init {} Succ.", szFileName);
 		return true;
 	}
 	bool Reload(const char* szFileName, bool bClear)
@@ -243,7 +243,7 @@ public:
 			SAFE_DELETE(pair_val.second);
 		}
 		m_setData.clear();
-		LOGDEBUG("Clear {} Succ.", GET_NAME());
+		LOGINFO("Clear {} Succ.", GET_NAME());
 	}
 
 	bool Init(CMysqlConnection* pDb, const char* table_name, const char* szSQL)
@@ -262,7 +262,7 @@ public:
 
 				this->AddObj(pData);
 			}
-			LOGDEBUG("Init {} Succ.", GET_NAME());
+			LOGINFO("Init {} Succ.", GET_NAME());
 		}
 		return true;
 	}
@@ -292,7 +292,7 @@ public:
 
 			this->AddObj(pData);
 		}
-		LOGDEBUG("Init {} Succ.", szFileName);
+		LOGINFO("Init {} Succ.", szFileName);
 		return true;
 	}
 	bool Reload(const char* szFileName)

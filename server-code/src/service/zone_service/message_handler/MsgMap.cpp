@@ -4,7 +4,7 @@
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"
 
-DEFINE_MSG_PROCESS(CS_LOADMAP_SUCC)
+void OnMsg_CS_LOADMAP_SUCC(CPlayer* pPlayer, const CS_LOADMAP_SUCC& msg, CNetworkMessage* pMsg)
 {
 	__ENTER_FUNCTION
 	if(pPlayer->GetCurrentScene() != nullptr)
@@ -14,7 +14,7 @@ DEFINE_MSG_PROCESS(CS_LOADMAP_SUCC)
 	__LEAVE_FUNCTION
 }
 
-DEFINE_MSG_PROCESS(CS_CHANGEMAP)
+void OnMsg_CS_CHANGEMAP(CPlayer* pPlayer, const CS_CHANGEMAP& msg, CNetworkMessage* pMsg)
 {
 	__ENTER_FUNCTION
 
@@ -27,7 +27,7 @@ DEFINE_MSG_PROCESS(CS_CHANGEMAP)
 	__LEAVE_FUNCTION
 }
 
-DEFINE_MSG_PROCESS(CS_MOVE)
+void OnMsg_CS_MOVE(CPlayer* pPlayer, const CS_MOVE& msg, CNetworkMessage* pMsg)
 {
 	__ENTER_FUNCTION
 	if(pPlayer->GetCurrentScene() == nullptr)
@@ -46,7 +46,7 @@ DEFINE_MSG_PROCESS(CS_MOVE)
 	__LEAVE_FUNCTION
 }
 
-DEFINE_MSG_PROCESS(CS_REBORN)
+void OnMsg_CS_REBORN(CPlayer* pPlayer, const CS_REBORN& msg, CNetworkMessage* pMsg)
 {
 	__ENTER_FUNCTION
 	if(pPlayer->GetCurrentScene() == nullptr)
@@ -56,5 +56,34 @@ DEFINE_MSG_PROCESS(CS_REBORN)
 		return;
 
 	pPlayer->Reborn(msg.reborn_type());
+	__LEAVE_FUNCTION
+}
+
+
+
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////
+
+void ZoneMapMessageHandlerRegister()
+{
+	__ENTER_FUNCTION
+
+	auto pNetMsgProcess = ZoneService()->GetNetMsgProcess();
+#define REGISTER_MSG(MsgT) pNetMsgProcess->Register(CMD_##MsgT, std::bind(&ProcPlayerMsg<MsgT, decltype(OnMsg_##MsgT)>, std::placeholders::_1, &OnMsg_##MsgT) );
+
+	REGISTER_MSG(CS_LOADMAP_SUCC);
+	REGISTER_MSG(CS_CHANGEMAP);
+	REGISTER_MSG(CS_MOVE);
+	REGISTER_MSG(CS_REBORN);
+
+
+#undef REGISTER_MSG
 	__LEAVE_FUNCTION
 }

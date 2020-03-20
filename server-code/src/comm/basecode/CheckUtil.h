@@ -112,8 +112,8 @@
 		{
 #define __LEAVE_FUNCTION                                                               	  \
 		}                                                                                  \
-		catch(const std::runtime_error& e) { LOGASSERT("catch_execpetion:{}", e.what()); DumpStackFile(CallFrameMap(1)); } \
-		catch(const std::exception& e) { LOGASSERT("catch_execpetion:{}", e.what()); DumpStackFile(CallFrameMap(1)); }     \
+		catch(const std::runtime_error& e) { LOGASSERT("catch_execpetion:{}", e.what()); DumpStackFile(CallFrameMap(0)); } \
+		catch(const std::exception& e) { LOGASSERT("catch_execpetion:{}", e.what()); DumpStackFile(CallFrameMap(0)); }     \
 		catch(...) { LOGASSERT("catch_error"); }                                           \
 	}
 
