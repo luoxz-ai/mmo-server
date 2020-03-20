@@ -2954,7 +2954,7 @@ struct args_type_overload_functor_base
 		for(size_t i = 0; i <= default_args_num && i <= args_num; i++)
 		{
 			auto&				  refMap = m_overload_funcmap[args_num - i];
-			static const uint64_t mask[] = {
+			constexpr uint64_t mask[] = {
 				0,			 0xF,		   0xFF,		  0xFFF,		  0xFFFF,		   0xFFFFF,			 0xFFFFFF,			0xFFFFFFF,			0xFFFFFFFF,
 				0xFFFFFFFFF, 0xFFFFFFFFFF, 0xFFFFFFFFFFF, 0xFFFFFFFFFFFF, 0xFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF,
 			};

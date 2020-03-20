@@ -6,9 +6,9 @@ CDynaScene::CDynaScene() {}
 
 CDynaScene::~CDynaScene() {}
 // 5分钟后摧毁
-static const uint32_t WAIT_DESTORY_MS = 5 * 60 * 1000;
+constexpr uint32_t WAIT_DESTORY_MS = 5 * 60 * 1000;
 //给玩家10分钟的loading时间
-static const uint32_t WAIT_PLAYER_LOADING_MS = 10 * 60 * 1000;
+constexpr uint32_t WAIT_PLAYER_LOADING_MS = 10 * 60 * 1000;
 
 bool CDynaScene::Init(const SceneID& idScene)
 {

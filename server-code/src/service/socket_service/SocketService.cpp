@@ -465,7 +465,7 @@ void CSocketService::OnLogicThreadProc()
 			fmt::format(FMT_STRING("\nMessageProcess:{}\tSocketMsg:{}"), GetMessageProcess(), m_nSocketMessageProcess) +
 			fmt::format(FMT_STRING("\nRecvTotal:{}\tRecvAvg:{}"), GetNetworkService()->GetRecvBPS().GetTotal(), GetNetworkService()->GetRecvBPS().GetAvgBPS()) +
 			fmt::format(FMT_STRING("\nSendTotal:{}\tSendAvg:{}"), GetNetworkService()->GetSendBPS().GetTotal(), GetNetworkService()->GetSendBPS().GetAvgBPS());
-		static const uint16_t ServiceID[] = {1, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+		constexpr uint16_t ServiceID[] = {1, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
 
 		for(size_t i = 0; i < sizeOfArray(ServiceID); i++)
 		{

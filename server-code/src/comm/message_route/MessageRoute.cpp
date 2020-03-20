@@ -7,8 +7,8 @@
 #include "server_msg/server_side.pb.h"
 #include "tinyxml2/tinyxml2.h"
 
-static const uint32_t SERVICE_LOAD_REDIS_TIMEOUT = 60 * 1000; // redis上的serviceload数据60秒丢弃
-static const uint32_t SERVICE_LOAD_TIMEOUT		 = 30 * 1000; //每30秒发送1次service_load数据
+constexpr uint32_t SERVICE_LOAD_REDIS_TIMEOUT = 60 * 1000; // redis上的serviceload数据60秒丢弃
+constexpr uint32_t SERVICE_LOAD_TIMEOUT		 = 30 * 1000; //每30秒发送1次service_load数据
 
 static CMessageRoute* g_pMessageRoute = nullptr;
 CMessageRoute*		  GetMessageRoute()

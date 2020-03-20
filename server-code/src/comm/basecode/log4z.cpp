@@ -89,7 +89,7 @@ _ZSUMMER_LOG4Z_BEGIN
 
 MEMORYHEAP_IMPLEMENTATION(LogData, s_heap);
 
-static const char* const LOG_STRING[] = {
+constexpr const char* LOG_STRING[] = {
 	"LOG_TRACE", "LOG_DEBUG", "LOG_INFO ", "LOG_WARN ", "LOG_ERROR", "LOG_ALARM", "LOG_FATAL",
 };
 

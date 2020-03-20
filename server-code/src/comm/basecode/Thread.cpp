@@ -29,72 +29,13 @@ CNormalThread::CNormalThread(int32_t					nWorkIntervalMS,
 	: m_nWorkIntervalMS(nWorkIntervalMS)
 	, m_bIsReady(false)
 	, m_bStop(false)
+	, m_ThreadName(thread_name)
+	, m_funcThreadProcess(std::move(on_thread_process_func))
+	, m_funcThreadCreate(std::move(on_thread_create_func))
+	, m_funcThreadFinish(std::move(on_thread_finish_func))
+	, m_Thread{ std::make_unique<std::thread>( std::bind(&CNormalThread::ThreadFunc, this) ) }
 {
-	m_Thread = std::unique_ptr<std::thread>(
-		new std::thread([pThis = this, _on_thread_create_func = std::move(on_thread_create_func), _on_thread_process_func = std::move(on_thread_process_func),
-						 _on_thread_finish_func = std::move(on_thread_finish_func), _thread_name = thread_name]() {
-			__ENTER_FUNCTION
-			pThis->SetTid(pthread_self());
-			struct sigaction sa;
-
-			sigfillset(&wait_mask);
-			sigdelset(&wait_mask, SUSPEND_SIG);
-			sigdelset(&wait_mask, RESUME_SIG);
-
-			sigfillset(&sa.sa_mask);
-			sa.sa_flags		= SA_SIGINFO;
-			sa.sa_sigaction = &resume_handler;
-			sigaction(RESUME_SIG, &sa, NULL);
-
-			sa.sa_sigaction = &suspend_handler;
-			sigaction(SUSPEND_SIG, &sa, NULL);
-
-			if(_thread_name.empty() == false)
-			{
-				pthread_setname_np(pthread_self(), _thread_name.c_str());
-			}
-
-			if(_on_thread_create_func)
-			{
-				_on_thread_create_func();
-			}
-
-			TimeGetCacheCreate();
-			pThis->m_bIsReady = true;
-			while(!pThis->m_bStop)
-			{
-				__ENTER_FUNCTION
-				auto beginTime = std::chrono::high_resolution_clock::now();
-				TimeGetCacheUpdate();
-				_on_thread_process_func();
-				auto endTime = std::chrono::high_resolution_clock::now();
-
-				std::chrono::milliseconds costTime = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - beginTime);
-				if(pThis->m_nWorkIntervalMS > 0)
-				{
-					std::chrono::milliseconds waitTime = std::chrono::milliseconds(pThis->m_nWorkIntervalMS) - costTime;
-					if(waitTime.count() > 0)
-					{
-						usleep(waitTime.count() * 1000);
-					}
-					else
-					{
-						std::this_thread::yield();
-					}
-				}
-				else
-				{
-					std::this_thread::yield();
-				}
-				__LEAVE_FUNCTION
-			}
-
-			if(_on_thread_finish_func)
-			{
-				_on_thread_finish_func();
-			}
-			__LEAVE_FUNCTION
-		}));
+	
 }
 
 CNormalThread::~CNormalThread()
@@ -132,54 +73,126 @@ bool CNormalThread::IsReady() const
 	return m_bIsReady;
 }
 
+void CNormalThread::ThreadFunc()
+{
+__ENTER_FUNCTION
+	SetTid(pthread_self());
+	struct sigaction sa;
+
+	sigfillset(&wait_mask);
+	sigdelset(&wait_mask, SUSPEND_SIG);
+	sigdelset(&wait_mask, RESUME_SIG);
+
+	sigfillset(&sa.sa_mask);
+	sa.sa_flags		= SA_SIGINFO;
+	sa.sa_sigaction = &resume_handler;
+	sigaction(RESUME_SIG, &sa, NULL);
+
+	sa.sa_sigaction = &suspend_handler;
+	sigaction(SUSPEND_SIG, &sa, NULL);
+
+	if(m_ThreadName.empty() == false)
+	{
+		pthread_setname_np(pthread_self(), m_ThreadName.c_str());
+	}
+
+	if(m_funcThreadCreate)
+	{
+		m_funcThreadCreate();
+	}
+
+	TimeGetCacheCreate();
+	m_bIsReady = true;
+	while(!m_bStop)
+	{
+		__ENTER_FUNCTION
+		auto beginTime = std::chrono::high_resolution_clock::now();
+		TimeGetCacheUpdate();
+		m_funcThreadProcess();
+		auto endTime = std::chrono::high_resolution_clock::now();
+
+		std::chrono::milliseconds costTime = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - beginTime);
+		if(m_nWorkIntervalMS > 0)
+		{
+			std::chrono::milliseconds waitTime = std::chrono::milliseconds(m_nWorkIntervalMS) - costTime;
+			if(waitTime.count() > 0)
+			{
+				usleep(waitTime.count() * 1000);
+			}
+			else
+			{
+				std::this_thread::yield();
+			}
+		}
+		else
+		{
+			std::this_thread::yield();
+		}
+		__LEAVE_FUNCTION
+	}
+
+	if(m_funcThreadFinish)
+	{
+		m_funcThreadFinish();
+	}
+__LEAVE_FUNCTION
+}
+
+
+
 CWorkerThread::CWorkerThread(const std::string&			thread_name /*= std::string()*/,
 							 on_thread_event_function_t on_thread_create_func /*= on_thread_event_function_t()*/,
 							 on_thread_event_function_t on_thread_finish_func /*= on_thread_event_function_t()*/)
 	: m_bIsReady(false)
 	, m_bStop(false)
+	, m_ThreadName(thread_name)
+	, m_funcThreadCreate(std::move(on_thread_create_func))
+	, m_funcThreadFinish(std::move(on_thread_finish_func))
+	, m_Thread{ std::make_unique<std::thread>( std::bind(&CWorkerThread::ThreadFunc, this) ) }
 {
-	m_Thread = std::unique_ptr<std::thread>(new std::thread([pThis = this, _thread_name = thread_name, _on_thread_create_func = std::move(on_thread_create_func),
-															 _on_thread_finish_func = std::move(on_thread_finish_func)]() {
-		__ENTER_FUNCTION
-		if(_thread_name.empty() == false)
-		{
-			pthread_setname_np(pthread_self(), _thread_name.c_str());
-		}
-
-		if(_on_thread_create_func)
-		{
-			_on_thread_create_func();
-		}
-		pThis->m_bIsReady = true;
-		while(pThis->m_bStop.load() == false)
-		{
-			__ENTER_FUNCTION
-			std::function<void()> job_func;
-			while(pThis->m_JobList.get(job_func))
-			{
-				job_func();
-			}
-			if(pThis->m_bStop)
-			{
-				break;
-			}
-			std::unique_lock<std::mutex> lk(pThis->m_csCV);
-			pThis->m_cv.wait(lk);
-			__LEAVE_FUNCTION
-		}
-
-		if(_on_thread_finish_func)
-		{
-			_on_thread_finish_func();
-		}
-		__LEAVE_FUNCTION
-	}));
 }
 
 CWorkerThread::~CWorkerThread()
 {
 	Stop();
 	Join();
+}
+
+void CWorkerThread::ThreadFunc()
+{
+__ENTER_FUNCTION
+	if(m_ThreadName.empty() == false)
+	{
+		pthread_setname_np(pthread_self(), m_ThreadName.c_str());
+	}
+
+	if(m_funcThreadCreate)
+	{
+		m_funcThreadCreate();
+	}
+	m_bIsReady = true;
+	while(m_bStop.load() == false)
+	{
+		__ENTER_FUNCTION
+		std::function<void()> job_func;
+		while(m_JobList.get(job_func))
+		{
+			job_func();
+		}
+		if(m_bStop)
+		{
+			break;
+		}
+		std::unique_lock<std::mutex> lk(m_csCV);
+		m_cv.wait(lk);
+		__LEAVE_FUNCTION
+	}
+
+	if(m_funcThreadFinish)
+	{
+		m_funcThreadFinish();
+	}
+__LEAVE_FUNCTION
 }
 
 void CWorkerThread::Stop()
@@ -210,14 +223,18 @@ void CWorkerThread::_AddResult(result_function_t&& result_func)
 	m_ResultList.push(std::move(result_func));
 }
 
-void CWorkerThread::PorcessResult()
+void CWorkerThread::PorcessResult(int32_t nMaxProcess)
 {
 	// call by main thread
-
+	int32_t nProcessed = 0;
 	std::function<void()> result_func;
 	while(m_ResultList.get(result_func))
 	{
 		result_func();
+		if(nMaxProcess > 0 && nProcessed >= nMaxProcess)
+		{
+			return;
+		}
 	}
 }
 

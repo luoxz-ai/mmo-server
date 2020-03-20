@@ -8,8 +8,8 @@
 #include "Encryptor.h"
 #include "NetworkDefine.h"
 
-static const uint32_t g_FrameSize	   = 4096;
-static const uint16_t g_RecvBufferSize = g_FrameSize * 4;
+constexpr uint32_t g_FrameSize	   = 4096;
+constexpr uint16_t g_RecvBufferSize = g_FrameSize * 4;
 
 class CWebSocketEventHandler;
 class CNetworkService;

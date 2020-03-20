@@ -148,7 +148,7 @@ void CCommonDataSet::SyncAll()
 		data_ptr->set_data2(pData->GetData(2));
 		data_ptr->set_data3(pData->GetData(3));
 
-		static const int32_t MAX_DATA_PER_MSG = 50;
+		constexpr int32_t MAX_DATA_PER_MSG = 50;
 		if(msg.datalist_size() > MAX_DATA_PER_MSG)
 		{
 			m_pOwner->SendMessage(CMD_SC_COMMONDATA, msg);

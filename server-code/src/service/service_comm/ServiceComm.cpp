@@ -110,7 +110,7 @@ bool CServiceCommon::AddRPCService(google::protobuf::Service* pService, const st
 		return false;
 	if(restful_map.empty())
 	{
-		if(m_pBRPCServer->AddService(pService, brpc::SERVER_DOESNT_OWN_SERVICE) != 0)
+		if(m_pBRPCServer->AddService(pService, brpc::SERVER_OWNS_SERVICE) != 0)
 		{
 			LOGFATAL("Fail to AddRPCService");
 			return false;
@@ -118,7 +118,7 @@ bool CServiceCommon::AddRPCService(google::protobuf::Service* pService, const st
 	}
 	else
 	{
-		if(m_pBRPCServer->AddService(pService, brpc::SERVER_DOESNT_OWN_SERVICE, restful_map) != 0)
+		if(m_pBRPCServer->AddService(pService, brpc::SERVER_OWNS_SERVICE, restful_map) != 0)
 		{
 			LOGFATAL("Fail to AddRPCService");
 			return false;
@@ -251,7 +251,7 @@ void CServiceCommon::OnLogicThreadProc()
 		m_pNetworkService->RunOnce();
 	}
 
-	static const int32_t MAX_PROCESS_PER_LOOP = 1000;
+	constexpr int32_t MAX_PROCESS_PER_LOOP = 1000;
 	int32_t				 nCount				  = 0;
 
 	CNetworkMessage* pMsg = nullptr;

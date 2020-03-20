@@ -109,44 +109,43 @@ bool CAccountManager::Auth(CNetworkMessage* pMsg)
 		return false;
 	}
 
-	if(msg.auth().empty())
+	
+	
+	if(msg.last_succ_key().empty() == false)
 	{
-		if(msg.last_succ_key().empty() == false)
+		//曾经验证成功过， 检查2次校验串
+		std::string md5str = md5(msg.openid() + std::to_string(TimeGetSecond() / AUTH_KEY_CANUSE_SECS) + AUTH_SERVER_SIGNATURE);
+		if(nGMLev == 0 && msg.last_succ_key() != md5str)
 		{
-			//曾经验证成功过， 检查2次校验串
-			std::string md5str = md5(msg.openid() + std::to_string(TimeGetSecond() / AUTH_KEY_CANUSE_SECS) + AUTH_SERVER_SIGNATURE);
-			if(nGMLev == 0 && msg.last_succ_key() != md5str)
-			{
-				//发送错误给前端
-				LOGLOGIN("Actor:{} MD5CHECKFail.", msg.openid().c_str());
+			//发送错误给前端
+			LOGLOGIN("Actor:{} MD5CHECKFail.", msg.openid().c_str());
 
-				SC_LOGIN result_msg;
-				result_msg.set_result_code(SC_LOGIN::EC_LAST_KEY);
-				WorldService()->SendToVirtualSocket(pMsg->GetFrom(), CMD_SC_LOGIN, result_msg);
-				return false;
-			}
-			else
-			{
-				LOGLOGIN("Actor:{} LoginAuth.", msg.openid().c_str());
-				//可以直接登陆了
-				MSG_SCK_AUTH auth_msg;
-				auth_msg.vs = pMsg->GetFrom();
-				WorldService()->SendPortMsg(pMsg->GetFrom().GetServerPort(), (byte*)&auth_msg, sizeof(auth_msg));
+			SC_LOGIN result_msg;
+			result_msg.set_result_code(SC_LOGIN::EC_LAST_KEY);
+			WorldService()->SendToVirtualSocket(pMsg->GetFrom(), CMD_SC_LOGIN, result_msg);
+			return false;
+		}
+		else
+		{
+			LOGLOGIN("Actor:{} LoginAuth.", msg.openid().c_str());
+			//可以直接登陆了
+			MSG_SCK_AUTH auth_msg;
+			auth_msg.vs = pMsg->GetFrom();
+			WorldService()->SendPortMsg(pMsg->GetFrom().GetServerPort(), (byte*)&auth_msg, sizeof(auth_msg));
 
-				SC_LOGIN result_msg;
-				result_msg.set_result_code(SC_LOGIN::EC_SUCC);
-				result_msg.set_last_succ_key(md5str);
-				WorldService()->SendToVirtualSocket(pMsg->GetFrom(), CMD_SC_LOGIN, result_msg);
+			SC_LOGIN result_msg;
+			result_msg.set_result_code(SC_LOGIN::EC_SUCC);
+			result_msg.set_last_succ_key(md5str);
+			WorldService()->SendToVirtualSocket(pMsg->GetFrom(), CMD_SC_LOGIN, result_msg);
 
-				CAccount* pAccount = CAccount::CreateNew(msg.openid(), pMsg->GetFrom());
-				//将准备好的Account放入Result列表,等待主线程处理
-				Login(msg.openid(), pAccount);
+			CAccount* pAccount = CAccount::CreateNew(msg.openid(), pMsg->GetFrom());
+			//将准备好的Account放入Result列表,等待主线程处理
+			Login(msg.openid(), pAccount);
 
-				return true;
-			}
+			return true;
 		}
 	}
-	else
+	else if(msg.auth().empty())
 	{
 		SC_LOGIN result_msg;
 		result_msg.set_result_code(SC_LOGIN::EC_AUTH);
@@ -256,7 +255,7 @@ void CAccountManager::_OnAuthSucc(uint64_t call_id)
 	std::string md5str = md5(auth_data.open_id + std::to_string(TimeGetSecond() / AUTH_KEY_CANUSE_SECS) + AUTH_SERVER_SIGNATURE);
 	result_msg.set_last_succ_key(md5str);
 	WorldService()->SendToVirtualSocket(pAccount->GetSocket(), CMD_SC_LOGIN, result_msg);
-
+	
 	Login(auth_data.open_id, pAccount);
 	m_AuthList.erase(auth_data.open_id);
 	m_AuthDataList.erase(it);
@@ -353,7 +352,7 @@ void CAccountManager::OnTimer()
 
 	//检查等待登陆队列， 如果等待登陆队列不为空
 	//每次最多放行5个
-	static const int32_t MAX_PROCESS_PER_TIMERS = 20;
+	constexpr int32_t MAX_PROCESS_PER_TIMERS = 20;
 	for(int32_t i = 0; i < MAX_PROCESS_PER_TIMERS; i++)
 	{
 		if(m_setWaitAccount.empty())

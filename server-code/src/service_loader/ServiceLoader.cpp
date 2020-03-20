@@ -33,6 +33,7 @@ ServiceLoader::~ServiceLoader()
 void ServiceLoader::Destory()
 {
 	__ENTER_FUNCTION
+	LOGMESSAGE("service_loader StartDestory:{}", getpid());
 	for(auto it = m_setService.rbegin(); it != m_setService.rend(); it++)
 	{
 		__ENTER_FUNCTION
@@ -48,7 +49,7 @@ void ServiceLoader::Destory()
 		#endif
 	}
 	m_setModule.clear();
-	LOGMESSAGE("service_loader Destory:{}", getpid());
+	LOGMESSAGE("service_loader StopDestory:{}", getpid());
 	ReleaseMessageRoute();
 	__LEAVE_FUNCTION
 }

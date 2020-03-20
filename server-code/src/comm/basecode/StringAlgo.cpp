@@ -230,7 +230,7 @@ std::string GetFullPath(const std::string& szPath)
 	if(szPath[0] == '/')
 		return szPath;
 
-	static const size_t _PATH_MAX = 1024;
+	constexpr size_t _PATH_MAX = 1024;
 	char				szFull[_PATH_MAX * 2];
 	if(NULL == ::getcwd(szFull, _PATH_MAX))
 		return "";

@@ -33,12 +33,22 @@ public:
 
 	bool IsReady() const;
 
+
+	void ThreadFunc();
 private:
-	std::unique_ptr<std::thread> m_Thread;
+
 	int32_t						 m_nWorkIntervalMS;
 	std::atomic<bool>			 m_bStop;
 	std::atomic<bool>			 m_bIsReady;
 	uint32_t					 m_tid;
+
+	std::string					 m_ThreadName;
+
+	on_thread_event_function_t m_funcThreadProcess;
+	on_thread_event_function_t m_funcThreadCreate;
+	on_thread_event_function_t m_funcThreadFinish;
+
+	std::unique_ptr<std::thread> m_Thread;
 };
 
 //放入Job进行Process的Thread
@@ -63,12 +73,13 @@ public:
 
 	void _AddResult(result_function_t&& result_func);
 
-	void PorcessResult();
+	void PorcessResult(int32_t nMaxProcess = -1);
 
 	bool IsReady() const;
 
+	void ThreadFunc();
 private:
-	std::unique_ptr<std::thread> m_Thread;
+	
 	MPSCQueue<job_function_t>	 m_JobList;
 	MPSCQueue<result_function_t> m_ResultList;
 
@@ -76,6 +87,12 @@ private:
 	std::atomic<bool>		m_bIsReady;
 	std::mutex				m_csCV;
 	std::condition_variable m_cv;
+
+	std::string					 m_ThreadName;
+	on_thread_event_function_t m_funcThreadCreate;
+	on_thread_event_function_t m_funcThreadFinish;
+
+	std::unique_ptr<std::thread> m_Thread;
 };
 
 inline int32_t get_cur_thread_id()

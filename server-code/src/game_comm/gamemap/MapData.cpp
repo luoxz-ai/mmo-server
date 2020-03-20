@@ -142,7 +142,7 @@ Vector2 CMapData::LineFindCanStand(const Vector2& src, const Vector2& dest) cons
 	return result;
 }
 
-static const float SLOPE_MAX = 0.5f;
+constexpr float SLOPE_MAX = 0.5f;
 Vector2			   CMapData::LineFindCanJump(const Vector2& src, const Vector2& dest) const
 {
 	uint32_t xWidth		 = 0;

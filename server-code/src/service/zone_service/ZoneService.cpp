@@ -318,7 +318,7 @@ void CZoneService::PushMsgToMessagePool(const VirtualSocket& vs, CNetworkMessage
 	pStoreMsg->CopyBuffer();
 	refList.push_back(pStoreMsg);
 
-	static const int32_t MAX_USER_HOLD_MESSAGE = 500;
+	constexpr int32_t MAX_USER_HOLD_MESSAGE = 500;
 	if(refList.size() > MAX_USER_HOLD_MESSAGE)
 	{
 		// logerror

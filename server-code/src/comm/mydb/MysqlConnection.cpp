@@ -2,7 +2,7 @@
 
 #include "mysql/errmsg.h"
 
-static const int32_t MAX_PING_TIMES_PER_QUERY = 10;
+constexpr int32_t MAX_PING_TIMES_PER_QUERY = 10;
 
 CMysqlConnection::CMysqlConnection()
 	: m_pHandle(nullptr, &mysql_close)

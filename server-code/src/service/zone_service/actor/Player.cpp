@@ -629,7 +629,7 @@ bool CPlayer::CanDamage(CActor* pTarget) const
 			return false;
 
 		//新手保护
-		static const uint32_t NEWIBLE_PK_PROTECTED_LEV = 40;
+		constexpr uint32_t NEWIBLE_PK_PROTECTED_LEV = 40;
 		if(GetCurrentScene()->GetMap()->HasMapFlag(MAPFLAG_DISABLE_PKPROTECTED) == false && pTargetPlayer->GetLev() < NEWIBLE_PK_PROTECTED_LEV)
 			return false;
 
@@ -960,7 +960,7 @@ void CPlayer::ProcessMsg()
 
 	auto pProcesser = ZoneService()->GetNetMsgProcess();
 	//每个人每次最多处理10条消息
-	static const int32_t MAX_PROCESS_PER_TIME = 10;
+	constexpr int32_t MAX_PROCESS_PER_TIME = 10;
 	int32_t				 nProcessCount		  = 0;
 	while(refPool.empty() == false && nProcessCount < MAX_PROCESS_PER_TIME)
 	{

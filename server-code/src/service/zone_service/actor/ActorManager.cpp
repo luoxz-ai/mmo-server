@@ -3,7 +3,7 @@
 #include "Actor.h"
 #include "Player.h"
 
-static const OBJID ID_GEN_FACTOR = 100000000000000ull;
+constexpr OBJID ID_GEN_FACTOR = 100000000000000ull;
 CActorManager::CActorManager()
 	: m_nNpcIDGen(ACT_NPC * ID_GEN_FACTOR)
 	, m_nMonsterIDGen(ACT_MONSTER * ID_GEN_FACTOR)

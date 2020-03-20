@@ -244,7 +244,7 @@ struct MSG_INTERNAL_FORWARD_MSG_HEAD : public MSG_HEAD
 	VirtualSocket nForward;
 };
 
-static const size_t BROCAST_MSG_MAX_SOCKET = (_MAX_MSGSIZE - sizeof(MSG_HEAD) - sizeof(uint32_t) - sizeof(VirtualSocket)) / sizeof(VirtualSocket);
+constexpr size_t BROCAST_MSG_MAX_SOCKET = (_MAX_MSGSIZE - sizeof(MSG_HEAD) - sizeof(uint32_t) - sizeof(VirtualSocket)) / sizeof(VirtualSocket);
 struct MSG_INTERNAL_BROCAST_MSG_HEAD : public MSG_HEAD
 {
 	uint32_t	  nAmount = 0;
@@ -255,7 +255,7 @@ struct MSG_INTERNAL_BROCAST_MSG_HEAD : public MSG_HEAD
 	static size_t GetMaxAmount() { return BROCAST_MSG_MAX_SOCKET; }
 };
 
-static const size_t BROCAST_BYID_MSG_MAX_ID = (_MAX_MSGSIZE - sizeof(MSG_HEAD) - sizeof(uint32_t) - sizeof(VirtualSocket)) / sizeof(OBJID);
+constexpr size_t BROCAST_BYID_MSG_MAX_ID = (_MAX_MSGSIZE - sizeof(MSG_HEAD) - sizeof(uint32_t) - sizeof(VirtualSocket)) / sizeof(OBJID);
 struct MSG_INTERNAL_BROCAST_BYID_MSG_HEAD : public MSG_HEAD
 {
 	uint32_t	  nAmount = 0;
@@ -266,7 +266,7 @@ struct MSG_INTERNAL_BROCAST_BYID_MSG_HEAD : public MSG_HEAD
 	static size_t GetMaxAmount() { return BROCAST_BYID_MSG_MAX_ID; }
 };
 
-static const size_t BROCAST_BYGROUPID_MSG_MAX_ID = (_MAX_MSGSIZE - sizeof(MSG_HEAD) - sizeof(uint32_t) - sizeof(VirtualSocket)) / sizeof(OBJID);
+constexpr size_t BROCAST_BYGROUPID_MSG_MAX_ID = (_MAX_MSGSIZE - sizeof(MSG_HEAD) - sizeof(uint32_t) - sizeof(VirtualSocket)) / sizeof(OBJID);
 struct MSG_INTERNAL_BROCAST_BYGROUPID_MSG_HEAD : public MSG_HEAD
 {
 	uint32_t	  nAmount = 0;

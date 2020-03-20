@@ -209,6 +209,9 @@ std::string addr2str(const std::string& file_name, size_t addr)
 	// This allocates the symbol_table:
 	if(load_symbol_table(abfd, &data) == 1)
 	{
+		if(data.symbol_table != NULL)
+			free(data.symbol_table);
+
 		bfd_close(abfd);
 		return "Failed to load the symbol table from '" + file_name + "'\n";
 	}
@@ -315,7 +318,7 @@ bool DumpStackFile(const CallFrameMap& data)
 
 CallFrameMap::CallFrameMap(int32_t skip_calldepth)
 {
-	static const int32_t MAX_BACKTRACE_SYMBOLS_NUMBER = 100;
+	constexpr int32_t MAX_BACKTRACE_SYMBOLS_NUMBER = 100;
 	void*				 pCallFramearray[MAX_BACKTRACE_SYMBOLS_NUMBER];
 	size_t				 nTrace		  = backtrace(pCallFramearray, MAX_BACKTRACE_SYMBOLS_NUMBER);
 	char**				 funcnamearry = backtrace_symbols(pCallFramearray, nTrace);
@@ -378,7 +381,7 @@ void CALLFRAME_NODE::remove(CALLFRAME_NODE* pChild)
 
 CALLFRAME_NODE* CALLFRAME_NODE::MakeCallFrame(int32_t skip_calldepth)
 {
-	static const int32_t MAX_BACKTRACE_SYMBOLS_NUMBER = 100;
+	constexpr int32_t MAX_BACKTRACE_SYMBOLS_NUMBER = 100;
 	void*				 pCallFramearray[MAX_BACKTRACE_SYMBOLS_NUMBER];
 	size_t				 nTrace = backtrace(pCallFramearray, MAX_BACKTRACE_SYMBOLS_NUMBER);
 	CALLFRAME_NODE*		 pFrame = this;

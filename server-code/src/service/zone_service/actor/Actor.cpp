@@ -307,7 +307,7 @@ bool CActor::CheckCanMove(const Vector2& posTarget, bool bSet)
 	if(CanMove() == false)
 		return false;
 	//判断时间
-	static const uint32_t ONCE_MOVE_PER_TIME(200); // 350ms最小移动间隔, 服务器稍微增加一点误差
+	constexpr uint32_t ONCE_MOVE_PER_TIME(200); // 350ms最小移动间隔, 服务器稍微增加一点误差
 	uint32_t			  now		  = TimeGetMonotonic();
 	uint32_t			  passed_time = now - GetLastMoveTime();
 	if(passed_time < ONCE_MOVE_PER_TIME)
@@ -316,7 +316,7 @@ bool CActor::CheckCanMove(const Vector2& posTarget, bool bSet)
 		LOGDEBUG("move too fast: %ld {},{} {},{}", GetID(), GetPos().x, GetPos().y, posTarget.x, posTarget.y);
 		return false;
 	}
-	static const uint32_t MOVE_TIME_TOLERANCE(200);
+	constexpr uint32_t MOVE_TIME_TOLERANCE(200);
 	float				  move_spd = 0.0f;
 	move_spd					   = GetMoveSpeed() * 1.5f; //允许1.5倍的速度差异
 

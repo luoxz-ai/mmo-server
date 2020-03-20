@@ -61,7 +61,7 @@ struct lua_ext_value
 		}
 	}
 };
-static const char* s_lua_ext_value_name = "___lua_ext_value";
+constexpr const char* s_lua_ext_value_name = "___lua_ext_value";
 
 void lua_tinker::register_lua_close_callback(lua_State* L, Lua_Close_CallBack_Func&& callback_func)
 {
@@ -709,7 +709,7 @@ bool lua_tinker::detail::push_upval_to_stack(lua_State* L, int32_t nArgsCount, i
 		{
 			return false;
 		}
-		static const int32_t default_upval_start = 2;
+		constexpr int32_t default_upval_start = 2;
 		for(int32_t i = nUpvalCount - nNeedUpval; i < nUpvalCount; i++)
 		{
 			lua_pushvalue(L, lua_upvalueindex(default_upval_start + UpvalStart + i));

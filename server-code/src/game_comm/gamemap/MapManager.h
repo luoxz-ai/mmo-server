@@ -10,8 +10,8 @@
 
 struct SceneID
 {
-	static const uint64_t IDZONE_FACTOR = 100000000000ull;
-	static const uint64_t IDMAP_FACTOR	= 100000000000000ull;
+	static constexpr uint64_t IDZONE_FACTOR = 100000000000ull;
+	static constexpr uint64_t IDMAP_FACTOR	= 100000000000000ull;
 
 	SceneID(uint16_t _idZone, uint16_t _idMap, uint32_t _nDynaMapIdx)
 		: data64(_idMap * IDMAP_FACTOR + _idZone * IDZONE_FACTOR + _nDynaMapIdx)

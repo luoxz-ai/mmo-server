@@ -410,7 +410,7 @@ public:
 	*/
 	export_lua inline Vector3 perpendicular(void) const
 	{
-		static const float fSquareZero = (float)(1e-06 * 1e-06);
+		constexpr float fSquareZero = (float)(1e-06 * 1e-06);
 
 		Vector3 perp = this->crossProduct(Vector3::UNIT_X);
 

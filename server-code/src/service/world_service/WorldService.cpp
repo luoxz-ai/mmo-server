@@ -332,7 +332,7 @@ void CWorldService::OnLogicThreadProc()
 		std::string buf = std::string("\n======================================================================") +
 						  fmt::format(FMT_STRING("\nMessageProcess:{}"), GetMessageProcess()) + fmt::format(FMT_STRING("\nEvent:{}\t"), EventManager()->GetEventCount()) +
 						  fmt::format(FMT_STRING("\nAccount:{}\tWait:{}"), AccountManager()->GetAccountSize(), AccountManager()->GetWaitAccountSize());
-		static const uint16_t ServiceID[] = {11, 12, 13, 14, 15, 31, 32, 33, 34, 35};
+		constexpr uint16_t ServiceID[] = {11, 12, 13, 14, 15, 31, 32, 33, 34, 35};
 
 		for(size_t i = 0; i < sizeOfArray(ServiceID); i++)
 		{
