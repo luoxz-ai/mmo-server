@@ -88,17 +88,21 @@ void ai2lua(lua_State* L)
     lua_tinker::class_def<CMyTimer>(L, "IncInterval", &CMyTimer::IncInterval);
     lua_tinker::class_def<CMyTimer>(L, "IsActive", &CMyTimer::IsActive);
     lua_tinker::class_def<CMyTimer>(
-        L, "IsTimeOut",
-        lua_tinker::args_type_overload_member_functor(lua_tinker::make_member_functor_ptr((bool (CMyTimer::*)())(&CMyTimer::IsTimeOut)),
-                                                      lua_tinker::make_member_functor_ptr((bool (CMyTimer::*)(int32_t))(&CMyTimer::IsTimeOut))));
+        L,
+        "IsTimeOut",
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr((bool (CMyTimer::*)())(&CMyTimer::IsTimeOut)),
+            lua_tinker::make_member_functor_ptr((bool (CMyTimer::*)(int32_t))(&CMyTimer::IsTimeOut))));
     lua_tinker::class_def<CMyTimer>(L, "SetInterval", &CMyTimer::SetInterval);
     lua_tinker::class_def<CMyTimer>(L, "Startup", &CMyTimer::Startup);
     lua_tinker::class_def<CMyTimer>(L, "TimeOver", &CMyTimer::TimeOver);
     lua_tinker::class_def<CMyTimer>(L, "ToNextTick", &CMyTimer::ToNextTick);
     lua_tinker::class_def<CMyTimer>(
-        L, "ToNextTime",
-        lua_tinker::args_type_overload_member_functor(lua_tinker::make_member_functor_ptr((bool (CMyTimer::*)())(&CMyTimer::ToNextTime)),
-                                                      lua_tinker::make_member_functor_ptr((bool (CMyTimer::*)(int32_t))(&CMyTimer::ToNextTime))));
+        L,
+        "ToNextTime",
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr((bool (CMyTimer::*)())(&CMyTimer::ToNextTime)),
+            lua_tinker::make_member_functor_ptr((bool (CMyTimer::*)(int32_t))(&CMyTimer::ToNextTime))));
     lua_tinker::class_def<CMyTimer>(L, "Update", &CMyTimer::Update);
     lua_tinker::class_con<CMyTimer>(L, lua_tinker::constructor<CMyTimer, int32_t>::invoke, 0);
     lua_tinker::class_add<CNetworkMessage>(L, "CNetworkMessage", true);
@@ -109,13 +113,19 @@ void ai2lua(lua_State* L)
     lua_tinker::class_def<CNetworkMessage>(L, "GetForward", &CNetworkMessage::GetForward);
     lua_tinker::class_def<CNetworkMessage>(L, "GetFrom", &CNetworkMessage::GetFrom);
     lua_tinker::class_def<CNetworkMessage>(
-        L, "GetMsgBody",
-        lua_tinker::args_type_overload_member_functor(lua_tinker::make_member_functor_ptr((byte * (CNetworkMessage::*)())(&CNetworkMessage::GetMsgBody)),
-                                                      lua_tinker::make_member_functor_ptr((const byte* (CNetworkMessage::*)() const)(&CNetworkMessage::GetMsgBody))));
+        L,
+        "GetMsgBody",
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr((byte * (CNetworkMessage::*)())(&CNetworkMessage::GetMsgBody)),
+            lua_tinker::make_member_functor_ptr(
+                (const byte* (CNetworkMessage::*)() const)(&CNetworkMessage::GetMsgBody))));
     lua_tinker::class_def<CNetworkMessage>(
-        L, "GetMsgHead",
-        lua_tinker::args_type_overload_member_functor(lua_tinker::make_member_functor_ptr((MSG_HEAD * (CNetworkMessage::*)())(&CNetworkMessage::GetMsgHead)),
-                                                      lua_tinker::make_member_functor_ptr((const MSG_HEAD* (CNetworkMessage::*)() const)(&CNetworkMessage::GetMsgHead))));
+        L,
+        "GetMsgHead",
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr((MSG_HEAD * (CNetworkMessage::*)())(&CNetworkMessage::GetMsgHead)),
+            lua_tinker::make_member_functor_ptr(
+                (const MSG_HEAD* (CNetworkMessage::*)() const)(&CNetworkMessage::GetMsgHead))));
     lua_tinker::class_def<CNetworkMessage>(L, "GetMultiIDTo", &CNetworkMessage::GetMultiIDTo);
     lua_tinker::class_def<CNetworkMessage>(L, "GetMultiTo", &CNetworkMessage::GetMultiTo);
     lua_tinker::class_def<CNetworkMessage>(L, "GetMultiType", &CNetworkMessage::GetMultiType);
@@ -128,27 +138,49 @@ void ai2lua(lua_State* L)
     lua_tinker::class_def<CNetworkMessage>(L, "SetForward", &CNetworkMessage::SetForward);
     lua_tinker::class_def<CNetworkMessage>(L, "SetFrom", &CNetworkMessage::SetFrom);
     lua_tinker::class_def<CNetworkMessage>(
-        L, "SetMultiIDTo",
+        L,
+        "SetMultiIDTo",
         lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr((void (CNetworkMessage::*)(const OBJID*, size_t))(&CNetworkMessage::SetMultiIDTo)),
-            lua_tinker::make_member_functor_ptr((void (CNetworkMessage::*)(const std::vector<OBJID>&))(&CNetworkMessage::SetMultiIDTo))));
+            lua_tinker::make_member_functor_ptr(
+                (void (CNetworkMessage::*)(const OBJID*, size_t))(&CNetworkMessage::SetMultiIDTo)),
+            lua_tinker::make_member_functor_ptr(
+                (void (CNetworkMessage::*)(const std::vector<OBJID>&))(&CNetworkMessage::SetMultiIDTo))));
     lua_tinker::class_def<CNetworkMessage>(
-        L, "SetMultiTo",
+        L,
+        "SetMultiTo",
         lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr((void (CNetworkMessage::*)(const VirtualSocket*, size_t))(&CNetworkMessage::SetMultiTo)),
-            lua_tinker::make_member_functor_ptr((void (CNetworkMessage::*)(const std::vector<VirtualSocket>&))(&CNetworkMessage::SetMultiTo))));
+            lua_tinker::make_member_functor_ptr(
+                (void (CNetworkMessage::*)(const std::vector<VirtualSocket>&))(&CNetworkMessage::SetMultiTo)),
+            lua_tinker::make_member_functor_ptr(
+                (void (CNetworkMessage::*)(const uint64_t*, size_t))(&CNetworkMessage::SetMultiTo))));
     lua_tinker::class_def<CNetworkMessage>(L, "SetMultiType", &CNetworkMessage::SetMultiType);
     lua_tinker::class_def<CNetworkMessage>(L, "SetTo", &CNetworkMessage::SetTo);
     lua_tinker::class_con<CNetworkMessage>(
         L,
         lua_tinker::args_type_overload_constructor(
-            new lua_tinker::constructor<CNetworkMessage, byte*, size_t, VirtualSocket, VirtualSocket, VirtualSocket>(3 /*default_args_count*/, 1 /*default_args_start*/),
+            new lua_tinker::constructor<CNetworkMessage, byte*, size_t, VirtualSocket, VirtualSocket, VirtualSocket>(
+                3 /*default_args_count*/,
+                1 /*default_args_start*/),
             new lua_tinker::constructor<CNetworkMessage, const CNetworkMessage&>(),
-            new lua_tinker::constructor<CNetworkMessage, uint16_t, byte*, size_t, VirtualSocket, VirtualSocket, VirtualSocket>(3 /*default_args_count*/,
-                                                                                                                               4 /*default_args_start*/),
-            new lua_tinker::constructor<CNetworkMessage, uint16_t, const ::google::protobuf::Message&, VirtualSocket, VirtualSocket, VirtualSocket>(
-                3 /*default_args_count*/, 7 /*default_args_start*/)),
-        0, 0, 0, 0, 0, 0, 0, 0, 0);
+            new lua_tinker::
+                constructor<CNetworkMessage, uint16_t, byte*, size_t, VirtualSocket, VirtualSocket, VirtualSocket>(
+                    3 /*default_args_count*/,
+                    4 /*default_args_start*/),
+            new lua_tinker::constructor<CNetworkMessage,
+                                        uint16_t,
+                                        const ::google::protobuf::Message&,
+                                        VirtualSocket,
+                                        VirtualSocket,
+                                        VirtualSocket>(3 /*default_args_count*/, 7 /*default_args_start*/)),
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0);
     lua_tinker::class_add<CServiceCommon>(L, "CServiceCommon", true);
     lua_tinker::class_def<CServiceCommon>(L, "CreateUID", &CServiceCommon::CreateUID);
     lua_tinker::class_def<CServiceCommon>(L, "GetAIServerVirtualSocket", &CServiceCommon::GetAIServerVirtualSocket);
@@ -165,9 +197,11 @@ void ai2lua(lua_State* L)
     lua_tinker::class_def<FloatRect>(L, "height", &FloatRect::height);
     lua_tinker::class_def<FloatRect>(L, "isIntersect", &FloatRect::isIntersect);
     lua_tinker::class_def<FloatRect>(L, "width", &FloatRect::width);
-    lua_tinker::class_con<FloatRect>(L, lua_tinker::args_type_overload_constructor(new lua_tinker::constructor<FloatRect>(),
-                                                                                   new lua_tinker::constructor<FloatRect, const FloatRect&>(),
-                                                                                   new lua_tinker::constructor<FloatRect, float, float, float, float>()));
+    lua_tinker::class_con<FloatRect>(L,
+                                     lua_tinker::args_type_overload_constructor(
+                                         new lua_tinker::constructor<FloatRect>(),
+                                         new lua_tinker::constructor<FloatRect, const FloatRect&>(),
+                                         new lua_tinker::constructor<FloatRect, float, float, float, float>()));
     lua_tinker::class_mem<FloatRect>(L, "bottom", &FloatRect::bottom);
     lua_tinker::class_mem<FloatRect>(L, "left", &FloatRect::left);
     lua_tinker::class_mem<FloatRect>(L, "right", &FloatRect::right);
@@ -183,8 +217,11 @@ void ai2lua(lua_State* L)
     lua_tinker::class_def<Rect>(L, "isIntersect", &Rect::isIntersect);
     lua_tinker::class_def<Rect>(L, "operator=", &Rect::operator=);
     lua_tinker::class_def<Rect>(L, "width", &Rect::width);
-    lua_tinker::class_con<Rect>(L, lua_tinker::args_type_overload_constructor(new lua_tinker::constructor<Rect>(), new lua_tinker::constructor<Rect, const Rect&>(),
-                                                                              new lua_tinker::constructor<Rect, long, long, long, long>()));
+    lua_tinker::class_con<Rect>(
+        L,
+        lua_tinker::args_type_overload_constructor(new lua_tinker::constructor<Rect>(),
+                                                   new lua_tinker::constructor<Rect, const Rect&>(),
+                                                   new lua_tinker::constructor<Rect, long, long, long, long>()));
     lua_tinker::class_mem<Rect>(L, "bottom", &Rect::bottom);
     lua_tinker::class_mem<Rect>(L, "left", &Rect::left);
     lua_tinker::class_mem<Rect>(L, "right", &Rect::right);
@@ -199,11 +236,13 @@ void ai2lua(lua_State* L)
     lua_tinker::class_def<ServerPort>(L, "SetWorldID", &ServerPort::SetWorldID);
     lua_tinker::class_def<ServerPort>(L, "__lt", &ServerPort::operator<);
     lua_tinker::class_def<ServerPort>(L, "__eq", &ServerPort::operator==);
-    lua_tinker::class_con<ServerPort>(L,
-                                      lua_tinker::args_type_overload_constructor(
-                                          new lua_tinker::constructor<ServerPort, const ServerPort&>(), new lua_tinker::constructor<ServerPort, uint16_t, uint16_t>(),
-                                          new lua_tinker::constructor<ServerPort, uint32_t>(1 /*default_args_count*/, 1 /*default_args_start*/)),
-                                      0);
+    lua_tinker::class_con<ServerPort>(
+        L,
+        lua_tinker::args_type_overload_constructor(
+            new lua_tinker::constructor<ServerPort, const ServerPort&>(),
+            new lua_tinker::constructor<ServerPort, uint16_t, uint16_t>(),
+            new lua_tinker::constructor<ServerPort, uint32_t>(1 /*default_args_count*/, 1 /*default_args_start*/)),
+        0);
     lua_tinker::class_add<Vector2>(L, "Vector2", true);
     lua_tinker::class_def<Vector2>(L, "crossProduct", &Vector2::crossProduct);
     lua_tinker::class_def<Vector2>(L, "distance", &Vector2::distance);
@@ -226,9 +265,11 @@ void ai2lua(lua_State* L)
     lua_tinker::class_def<Vector2>(L, "squaredDistance", &Vector2::squaredDistance);
     lua_tinker::class_def<Vector2>(L, "squaredLength", &Vector2::squaredLength);
     lua_tinker::class_def<Vector2>(L, "swap", &Vector2::swap);
-    lua_tinker::class_con<Vector2>(L,
-                                   lua_tinker::args_type_overload_constructor(new lua_tinker::constructor<Vector2>(), new lua_tinker::constructor<Vector2, const float>(),
-                                                                              new lua_tinker::constructor<Vector2, const float, const float>()));
+    lua_tinker::class_con<Vector2>(
+        L,
+        lua_tinker::args_type_overload_constructor(new lua_tinker::constructor<Vector2>(),
+                                                   new lua_tinker::constructor<Vector2, const float>(),
+                                                   new lua_tinker::constructor<Vector2, const float, const float>()));
     lua_tinker::class_mem_static_readonly<Vector2>(L, "NEGATIVE_UNIT_X", &Vector2::NEGATIVE_UNIT_X);
     lua_tinker::class_mem_static_readonly<Vector2>(L, "NEGATIVE_UNIT_Y", &Vector2::NEGATIVE_UNIT_Y);
     lua_tinker::class_mem_static_readonly<Vector2>(L, "UNIT_SCALE", &Vector2::UNIT_SCALE);
@@ -263,8 +304,10 @@ void ai2lua(lua_State* L)
     lua_tinker::class_def<Vector3>(L, "squaredLength", &Vector3::squaredLength);
     lua_tinker::class_def<Vector3>(L, "swap", &Vector3::swap);
     lua_tinker::class_con<Vector3>(L,
-                                   lua_tinker::args_type_overload_constructor(new lua_tinker::constructor<Vector3>(), new lua_tinker::constructor<Vector3, const float>(),
-                                                                              new lua_tinker::constructor<Vector3, const float, const float, const float>()));
+                                   lua_tinker::args_type_overload_constructor(
+                                       new lua_tinker::constructor<Vector3>(),
+                                       new lua_tinker::constructor<Vector3, const float>(),
+                                       new lua_tinker::constructor<Vector3, const float, const float, const float>()));
     lua_tinker::class_mem_static_readonly<Vector3>(L, "NEGATIVE_UNIT_X", &Vector3::NEGATIVE_UNIT_X);
     lua_tinker::class_mem_static_readonly<Vector3>(L, "NEGATIVE_UNIT_Y", &Vector3::NEGATIVE_UNIT_Y);
     lua_tinker::class_mem_static_readonly<Vector3>(L, "NEGATIVE_UNIT_Z", &Vector3::NEGATIVE_UNIT_Z);
@@ -288,10 +331,11 @@ void ai2lua(lua_State* L)
     lua_tinker::class_def<VirtualSocket>(L, "__eq", &VirtualSocket::operator==);
     lua_tinker::class_con<VirtualSocket>(
         L,
-        lua_tinker::args_type_overload_constructor(new lua_tinker::constructor<VirtualSocket, const ServerPort&>(),
-                                                   new lua_tinker::constructor<VirtualSocket, const ServerPort&, uint16_t>(),
-                                                   new lua_tinker::constructor<VirtualSocket, const VirtualSocket&>(),
-                                                   new lua_tinker::constructor<VirtualSocket, uint64_t>(1 /*default_args_count*/, 1 /*default_args_start*/)),
+        lua_tinker::args_type_overload_constructor(
+            new lua_tinker::constructor<VirtualSocket, const ServerPort&>(),
+            new lua_tinker::constructor<VirtualSocket, const ServerPort&, uint16_t>(),
+            new lua_tinker::constructor<VirtualSocket, const VirtualSocket&>(),
+            new lua_tinker::constructor<VirtualSocket, uint64_t>(1 /*default_args_count*/, 1 /*default_args_start*/)),
         0);
     lua_tinker::namespace_add(L, "GameMath");
     lua_tinker::namespace_def(L, "GameMath", "DDALineEx", &GameMath::DDALineEx);
@@ -300,8 +344,18 @@ void ai2lua(lua_State* L)
     lua_tinker::namespace_def(L, "GameMath", "distance", &GameMath::distance);
     lua_tinker::namespace_def(L, "GameMath", "distance2D", &GameMath::distance2D);
     lua_tinker::namespace_def(L, "GameMath", "getAngleFrom", &GameMath::getAngleFrom, GameMath::VECTOR2_NORTH);
-    lua_tinker::namespace_def(L, "GameMath", "getDirectAngleFrom", &GameMath::getDirectAngleFrom, GameMath::VECTOR2_NORTH, true);
-    lua_tinker::namespace_def(L, "GameMath", "getDirectRadianFrom", &GameMath::getDirectRadianFrom, GameMath::VECTOR2_NORTH, true);
+    lua_tinker::namespace_def(L,
+                              "GameMath",
+                              "getDirectAngleFrom",
+                              &GameMath::getDirectAngleFrom,
+                              GameMath::VECTOR2_NORTH,
+                              true);
+    lua_tinker::namespace_def(L,
+                              "GameMath",
+                              "getDirectRadianFrom",
+                              &GameMath::getDirectRadianFrom,
+                              GameMath::VECTOR2_NORTH,
+                              true);
     lua_tinker::namespace_def(L, "GameMath", "getRadianFrom", &GameMath::getRadianFrom, GameMath::VECTOR2_NORTH);
     lua_tinker::namespace_def(L, "GameMath", "isIntersect", &GameMath::isIntersect);
     lua_tinker::namespace_def(L, "GameMath", "manhattanDistance", &GameMath::manhattanDistance);
@@ -314,18 +368,26 @@ void ai2lua(lua_State* L)
     lua_tinker::namespace_set(L, "GameMath", "VECTOR2_SOUTH", GameMath::VECTOR2_SOUTH);
     lua_tinker::namespace_set(L, "GameMath", "VECTOR2_WEST", GameMath::VECTOR2_WEST);
     lua_tinker::namespace_add(L, "GameMath::Intersection");
-    lua_tinker::namespace_def(L, "GameMath::Intersection", "LineIntersection2D", &GameMath::Intersection::LineIntersection2D);
+    lua_tinker::namespace_def(L,
+                              "GameMath::Intersection",
+                              "LineIntersection2D",
+                              &GameMath::Intersection::LineIntersection2D);
     lua_tinker::namespace_def(L, "GameMath::Intersection", "getNearestPoint", &GameMath::Intersection::getNearestPoint);
     lua_tinker::namespace_def(L, "GameMath::Intersection", "isInABBox", &GameMath::Intersection::isInABBox);
     lua_tinker::namespace_def(L, "GameMath::Intersection", "isInFOV", &GameMath::Intersection::isInFOV);
-    lua_tinker::namespace_def(L, "GameMath::Intersection", "lineIntersection2D", &GameMath::Intersection::lineIntersection2D);
+    lua_tinker::namespace_def(L,
+                              "GameMath::Intersection",
+                              "lineIntersection2D",
+                              &GameMath::Intersection::lineIntersection2D);
     lua_tinker::scope_inner(L, "GameMath", "Intersection", "GameMath::Intersection");
     lua_tinker::def(L, "CheckSameDay", &CheckSameDay);
     lua_tinker::def(L, "ConvertEnc", &ConvertEnc);
     lua_tinker::def(L, "DateDiffLocal", &DateDiffLocal);
-    lua_tinker::def(L, "FindNameError",
-                    lua_tinker::args_type_overload_functor(lua_tinker::make_functor_ptr((bool (*)(const std::string&))(&FindNameError)),
-                                                           lua_tinker::make_functor_ptr((bool (*)(const std::wstring&))(&FindNameError))));
+    lua_tinker::def(L,
+                    "FindNameError",
+                    lua_tinker::args_type_overload_functor(
+                        lua_tinker::make_functor_ptr((bool (*)(const std::string&))(&FindNameError)),
+                        lua_tinker::make_functor_ptr((bool (*)(const std::wstring&))(&FindNameError))));
     lua_tinker::def(L, "GetBasePath", &GetBasePath);
     lua_tinker::def(L, "GetFileExt", &GetFileExt);
     lua_tinker::def(L, "GetFileNameFromFullPath", &GetFileNameFromFullPath);
@@ -345,9 +407,11 @@ void ai2lua(lua_State* L)
     lua_tinker::def(L, "MulDivSign", &MulDivSign);
     lua_tinker::def(L, "RegexStrCheck", &RegexStrCheck);
     lua_tinker::def(L, "RegexStrReload", &RegexStrReload);
-    lua_tinker::def(L, "ReplaceIllegaWords",
-                    lua_tinker::args_type_overload_functor(lua_tinker::make_functor_ptr((bool (*)(std::string&))(&ReplaceIllegaWords)),
-                                                           lua_tinker::make_functor_ptr((bool (*)(std::wstring&))(&ReplaceIllegaWords))));
+    lua_tinker::def(L,
+                    "ReplaceIllegaWords",
+                    lua_tinker::args_type_overload_functor(
+                        lua_tinker::make_functor_ptr((bool (*)(std::string&))(&ReplaceIllegaWords)),
+                        lua_tinker::make_functor_ptr((bool (*)(std::wstring&))(&ReplaceIllegaWords))));
     lua_tinker::def(L, "ReplaceStr", &ReplaceStr);
     lua_tinker::def(L, "TimeGetMillisecond", &TimeGetMillisecond);
     lua_tinker::def(L, "TimeGetMonotonic", &TimeGetMonotonic);

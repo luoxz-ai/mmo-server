@@ -66,8 +66,8 @@ private:
 		{
 		}
 
-		T	  value;
 		Node* next;
+		T	  value;
 	};
 
 	std::atomic<Node*> head_;

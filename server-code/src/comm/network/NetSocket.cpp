@@ -24,7 +24,7 @@ CNetSocket::CNetSocket(CNetworkService* pService, CNetEventHandler* pEventHandle
 	, m_nSocketIdx(0xFFFF)
 	, m_pDecryptor(nullptr)
 	, m_pEncryptor(nullptr)
-	, m_nPacketSizeMax(_MAX_MSGSIZE)
+	, m_nPacketSizeMax(_MAX_MSGSIZE*2)
 	, m_socket(INVALID_SOCKET)
 {
 	m_ReadBuff = new byte[m_nPacketSizeMax];

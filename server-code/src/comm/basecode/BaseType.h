@@ -69,4 +69,5 @@ const OBJID ID_NONE = static_cast<OBJID>(0);
 #define __max(a, b) (((a) > (b)) ? (a) : (b))
 #define __min(a, b) (((a) < (b)) ? (a) : (b))
 
+
 #endif //__BASETYPE_H__

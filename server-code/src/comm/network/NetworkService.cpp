@@ -16,9 +16,6 @@
 
 CNetworkService::CNetworkService()
 	: m_pBase(event_base_new())
-	, m_bStop(false)
-	, m_nWorkInterval(0)
-	, m_pHttpHandle(nullptr)
 {
 	m_SocketIdxPool.resize(0x8000, 0);
 	for(size_t i = 0; i < m_SocketIdxPool.size(); i++)
@@ -72,6 +69,13 @@ void CNetworkService::Destroy()
 	}
 	m_setSocket.clear();
 
+	for(auto it = m_setConnectingSocket.begin(); it != m_setConnectingSocket.end();)
+	{
+		auto v = *it;
+		SAFE_DELETE(v);
+		it = m_setConnectingSocket.erase(it);
+	}
+	
 	for(auto it = m_setCloseingSocket.begin(); it != m_setCloseingSocket.end();)
 	{
 		auto v = *it;

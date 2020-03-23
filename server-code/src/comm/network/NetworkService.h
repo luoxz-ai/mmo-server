@@ -165,7 +165,7 @@ public:
 protected:
 	event_base*										m_pBase;
 	std::map<evconnlistener*, CNetEventHandler*>	m_setListener;
-	struct evhttp*									m_pHttpHandle;
+	struct evhttp*									m_pHttpHandle = nullptr;
 	std::function<void(struct evhttp_request* req)> m_funcOnReciveHttp;
 	std::mutex										m_mutex;
 
@@ -183,10 +183,10 @@ protected:
 	BytePerSecondCount			 m_RecvBPS;
 	BytePerSecondCount			 m_SendBPS;
 
-	std::atomic<bool>	m_bStop;
+	std::atomic<bool>	m_bStop = false;
 	std::vector<event*> m_setEvTimed;
 
-	uint32_t m_nWorkInterval;
+	uint32_t m_nWorkInterval = 0;
 
 	struct IPInfo
 	{
@@ -204,8 +204,8 @@ protected:
 	std::deque<uint16_t>			   m_WebSocketIdxPool;
 	std::array<CNetWebSocket*, 0x7FFF> m_setWebSocketByIdx;
 	std::map<SOCKET, CNetWebSocket*>   m_mapWebSockets;
-	CWebSocketEventHandler*			   m_pWebSocketEventHandler;
-	struct lws_context*				   m_pLwsContext;
+	CWebSocketEventHandler*			   m_pWebSocketEventHandler = nullptr;
+	struct lws_context*				   m_pLwsContext = nullptr;
 };
 
 #endif // NetworkService_h__

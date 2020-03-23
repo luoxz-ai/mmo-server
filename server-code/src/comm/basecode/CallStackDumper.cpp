@@ -288,7 +288,7 @@ std::string addr2str(const std::string& file_name, size_t addr)
 	if(data.symbol_table != NULL)
 		free(data.symbol_table);
 	bfd_close(abfd);
-
+	free(matching);
 	if(data.line_found)
 		return data.filename + ":" + std::to_string(data.line);
 	else

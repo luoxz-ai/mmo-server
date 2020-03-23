@@ -11,8 +11,6 @@ CLoadingThread::CLoadingThread(CZoneService* pZoneRef)
 			   std::bind(&CLoadingThread::OnThreadProcess, this),
 			   std::bind(&CLoadingThread::OnThreadCreate, this),
 			   std::bind(&CLoadingThread::OnThreadExit, this))
-	, m_idCurProcess(0)
-	, m_idNeedCancle(0)
 {
 }
 
@@ -23,13 +21,15 @@ CLoadingThread::~CLoadingThread()
 
 void CLoadingThread::Destory()
 {
+	m_bStop = true;
+	m_cv.notify_one();
 	m_Thread.Stop();
 	m_Thread.Join();
 
 	//把剩余的东西处理完
 	{
 		ST_LOADINGTHREAD_PROCESS_DATA* pData = nullptr;
-		while(m_WaitingList.get(pData))
+		for(auto& pData : m_WaitingList)
 		{
 			if(pData->nPorcessType == LPT_SAVE)
 			{
@@ -40,14 +40,16 @@ void CLoadingThread::Destory()
 			}
 			SAFE_DELETE(pData);
 		}
+		m_WaitingList.clear();
 	}
 
 	{
 		ST_LOADINGTHREAD_PROCESS_DATA* pData = nullptr;
-		while(m_ReadyList.get(pData))
+		for(auto& pData : m_ReadyList)
 		{
 			SAFE_DELETE(pData);
 		}
+		m_ReadyList.clear();
 	}
 }
 
@@ -55,8 +57,13 @@ bool CLoadingThread::AddLoginPlayer(OBJID idPlayer, const VirtualSocket& socket,
 {
 	auto pData = new ST_LOADINGTHREAD_PROCESS_DATA{LPT_LOADING, idPlayer, bChangeZone, socket, idScene, fPosX, fPosY, fRange, fFace, nullptr};
 	m_nLoadingCount++;
-
-	m_WaitingList.push(pData);
+	{
+		std::lock_guard locker(m_csWaitingList);
+		m_WaitingList.push_back(pData);
+	}
+	{
+		m_cv.notify_one();
+	}
 	return true;
 }
 
@@ -64,9 +71,118 @@ bool CLoadingThread::AddClosePlayer(CPlayer* pPlayer, uint64_t idScene, float fP
 {
 	auto pData = new ST_LOADINGTHREAD_PROCESS_DATA{LPT_SAVE, pPlayer->GetID(), idScene != 0, pPlayer->GetSocket(), idScene, fPosX, fPosY, fRange, fFace, pPlayer};
 	m_nSaveingCount++;
-
-	m_WaitingList.push(pData);
+	{
+		std::lock_guard locker(m_csWaitingList);
+		m_WaitingList.push_back(pData);
+	}
+	{
+		m_cv.notify_one();
+	}
+	
 	return true;
+}
+
+void CLoadingThread::CancleOnReadyList(OBJID idPlayer)
+{
+	__ENTER_FUNCTION
+	//遍历Ready列表
+	std::lock_guard locker(m_csReadyList);
+	for(auto it = m_ReadyList.begin(); it != m_ReadyList.end(); )
+	{
+		auto& pData = *it;
+		if(pData == nullptr)
+		{
+			it = m_ReadyList.erase(it);
+			continue;
+		}
+		if(pData->nPorcessType == LPT_LOADING)
+		{
+			// loading ready
+			CPlayer* pPlayer = pData->pPlayer;
+			if(pPlayer && pPlayer->GetID() == idPlayer)
+			{
+				SAFE_DELETE(pData->pPlayer);
+				SAFE_DELETE(pData);
+				LOGLOGIN("remove from loading_ready:{}", idPlayer);
+				it = m_ReadyList.erase(it);
+				continue;
+			}
+		}
+		else
+		{
+			// save ready
+			CPlayer* pPlayer = pData->pPlayer;
+			if(pPlayer && pPlayer->GetID() == idPlayer)
+			{
+				SAFE_DELETE(pData->pPlayer);
+				SAFE_DELETE(pData);
+				LOGLOGIN("remove from saver_eady:{}", idPlayer);
+				it = m_ReadyList.erase(it);
+				continue;
+			}
+		}
+
+		it++;
+	}
+
+	__LEAVE_FUNCTION
+}
+
+void CLoadingThread::CancleOnWaitList(OBJID idPlayer)
+{
+	__ENTER_FUNCTION
+	for(auto it = m_WaitingList.begin(); it != m_WaitingList.end(); )
+	{
+		auto& pLoadData = *it;
+		if(pLoadData == nullptr)
+		{
+			it = m_ReadyList.erase(it);
+			continue;
+		}
+
+		if(pLoadData->nPorcessType == LPT_LOADING)
+		{
+			if(pLoadData->idPlayer == idPlayer)
+			{
+				// remove this
+				SAFE_DELETE(pLoadData->pPlayer);
+				SAFE_DELETE(pLoadData);
+				m_nLoadingCount--;
+				LOGLOGIN("remove from loading:{}", idPlayer);
+				it = m_ReadyList.erase(it);
+				continue;
+			}
+		}
+		else
+		{
+			CPlayer* pPlayer = pLoadData->pPlayer;
+			if(pPlayer == nullptr)
+			{
+				LOGERROR("Process WaitList PlayerIsNull:{}", pLoadData->idPlayer);
+				SAFE_DELETE(pLoadData);
+				it = m_ReadyList.erase(it);
+				continue;
+			}
+
+			if(pPlayer->GetID() == idPlayer)
+			{
+				//优先写入
+				pPlayer->SaveInfo();
+
+				//必然是后一个顶前一个,应该已经在World被Kick了
+				SAFE_DELETE(pLoadData->pPlayer);
+				SAFE_DELETE(pLoadData);
+				m_nSaveingCount--;
+				LOGLOGIN("remove from saving:{}", idPlayer);
+				it = m_ReadyList.erase(it);
+				continue;
+			}
+		}
+
+
+		it++;
+	}
+	__LEAVE_FUNCTION
 }
 
 bool CLoadingThread::CancleWaiting(OBJID idPlayer)
@@ -76,90 +192,11 @@ bool CLoadingThread::CancleWaiting(OBJID idPlayer)
 	{
 		m_idNeedCancle = idPlayer;
 	}
-
 	//先处理已经Ready的列表
-	{
-		__ENTER_FUNCTION
-
-		//遍历Ready列表
-		ST_LOADINGTHREAD_PROCESS_DATA* pData = nullptr;
-		while(m_ReadyList.get(pData))
-		{
-			if(pData->nPorcessType == LPT_LOADING)
-			{
-				// loading ready
-				CPlayer* pPlayer = pData->pPlayer;
-				if(pPlayer && pPlayer->GetID() == idPlayer)
-				{
-					SAFE_DELETE(pData->pPlayer);
-					SAFE_DELETE(pData);
-					LOGLOGIN("remove from loading_ready:{}", idPlayer);
-				}
-			}
-			else
-			{
-				// save ready
-				CPlayer* pPlayer = pData->pPlayer;
-				if(pPlayer && pPlayer->GetID() == idPlayer)
-				{
-					SAFE_DELETE(pData->pPlayer);
-					SAFE_DELETE(pData);
-					LOGLOGIN("remove from saver_eady:{}", idPlayer);
-				}
-			}
-		}
-		__LEAVE_FUNCTION
-	}
-
+	CancleOnReadyList(idPlayer);
 	//再清理等待列表
-	{
-		__ENTER_FUNCTION
-
-		ST_LOADINGTHREAD_PROCESS_DATA* pLoadData = nullptr;
-		while(m_WaitingList.get(pLoadData))
-		{
-			if(pLoadData == nullptr)
-			{
-				continue;
-			}
-
-			if(pLoadData->nPorcessType == LPT_LOADING)
-			{
-				if(pLoadData->idPlayer == idPlayer)
-				{
-					// remove this
-					SAFE_DELETE(pLoadData->pPlayer);
-					SAFE_DELETE(pLoadData);
-					m_nLoadingCount--;
-					LOGLOGIN("remove from loading:{}", idPlayer);
-					continue;
-				}
-			}
-			else
-			{
-				CPlayer* pPlayer = pLoadData->pPlayer;
-				if(pPlayer == nullptr)
-				{
-					LOGERROR("Process WaitList PlayerIsNull:{}", pLoadData->idPlayer);
-					continue;
-				}
-
-				if(pPlayer->GetID() == idPlayer)
-				{
-					//优先写入
-					pPlayer->SaveInfo();
-
-					//必然是后一个顶前一个,应该已经在World被Kick了
-					SAFE_DELETE(pLoadData->pPlayer);
-					SAFE_DELETE(pLoadData);
-					m_nSaveingCount--;
-					LOGLOGIN("remove from saving:{}", idPlayer);
-					continue;
-				}
-			}
-		}
-		__LEAVE_FUNCTION
-	}
+	CancleOnWaitList(idPlayer);
+	
 
 	return true;
 }
@@ -182,17 +219,31 @@ void CLoadingThread::OnThreadExit()
 void CLoadingThread::OnThreadProcess()
 {
 	//处理
-	while(true)
+	while(m_bStop.load() == false)
 	{
 		__ENTER_FUNCTION
-		// take from list
 		ST_LOADINGTHREAD_PROCESS_DATA* pCurData = nullptr;
-		if(m_WaitingList.get(pCurData) == false)
+		// take from list
 		{
-			return;
+			std::unique_lock<std::mutex> locker(m_csWaitingList);
+			if(m_WaitingList.empty() )
+			{
+				locker.release();
+				if(m_bStop)
+				{
+					return;
+				}
+				std::unique_lock<std::mutex> lk(m_csCV);
+				m_cv.wait(lk);
+				continue;
+			}
+			pCurData = m_WaitingList.front();
+			m_WaitingList.pop_front();
 		}
+		if(pCurData == nullptr)
+			continue;
+		
 		m_idCurProcess = pCurData->idPlayer;
-
 		if(pCurData->nPorcessType == LPT_LOADING)
 		{
 			m_nLoadingCount--;
@@ -218,7 +269,10 @@ void CLoadingThread::OnThreadProcess()
 
 				pCurData->pPlayer = pPlayer;
 				m_nReadyCount++;
-				m_ReadyList.push(pCurData);
+				{
+					std::lock_guard locker(m_csReadyList);
+					m_ReadyList.push_back(pCurData);
+				}
 			}
 		}
 		else
@@ -236,7 +290,10 @@ void CLoadingThread::OnThreadProcess()
 				if(pCurData->bChangeZone)
 				{
 					m_nReadyCount++;
-					m_ReadyList.push(pCurData);
+					{
+						std::lock_guard locker(m_csReadyList);
+						m_ReadyList.push_back(pCurData);
+					}
 				}
 				else
 				{
@@ -262,8 +319,15 @@ void CLoadingThread::OnMainThreadExec()
 		__ENTER_FUNCTION
 
 		ST_LOADINGTHREAD_PROCESS_DATA* pData = nullptr;
-		if(m_ReadyList.get(pData) == false)
-			return;
+		{
+			std::lock_guard locker(m_csReadyList);
+			if(m_ReadyList.empty())
+				return;
+			pData = m_ReadyList.front();
+			m_ReadyList.pop_front();
+		}
+		if(pData == nullptr)
+			continue;
 
 		if(pData->nPorcessType == LPT_LOADING)
 		{

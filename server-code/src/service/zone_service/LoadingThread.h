@@ -55,17 +55,29 @@ public:
 	uint64_t GetSaveingCount() const { return m_nSaveingCount; }
 	size_t	 GetReadyCount();
 
+
+private:
+	void CancleOnReadyList(OBJID idPlayer);
+	void CancleOnWaitList(OBJID idPlayer);
 private:
 	CZoneService* m_pZone;
 	CNormalThread m_Thread;
 
-	MPSCQueue<ST_LOADINGTHREAD_PROCESS_DATA*> m_WaitingList;
-	MPSCQueue<ST_LOADINGTHREAD_PROCESS_DATA*> m_ReadyList;
+	std::atomic<bool>		m_bStop = false;
+	std::mutex				m_csCV;
+	std::condition_variable m_cv;
 
-	std::atomic<uint64_t> m_nLoadingCount;
-	std::atomic<uint64_t> m_nSaveingCount;
-	std::atomic<uint64_t> m_nReadyCount;
-	std::atomic<OBJID>	  m_idCurProcess;
-	std::atomic<OBJID>	  m_idNeedCancle;
+	//因为需要cancle，所以无法使用lockfree队列
+
+	std::mutex				m_csWaitingList;
+	std::mutex				m_csReadyList;
+	std::deque<ST_LOADINGTHREAD_PROCESS_DATA*> m_WaitingList;
+	std::deque<ST_LOADINGTHREAD_PROCESS_DATA*> m_ReadyList;
+
+	std::atomic<uint64_t> m_nLoadingCount = 0;
+	std::atomic<uint64_t> m_nSaveingCount = 0;
+	std::atomic<uint64_t> m_nReadyCount = 0;
+	std::atomic<OBJID>	  m_idCurProcess = 0;
+	std::atomic<OBJID>	  m_idNeedCancle = 0;
 };
 #endif /* LOADINGTHREAD_H */

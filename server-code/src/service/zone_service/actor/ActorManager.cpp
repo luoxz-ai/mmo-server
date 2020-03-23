@@ -10,9 +10,7 @@ CActorManager::CActorManager()
 	, m_nMapItemIDGen(ACT_MAPITEM * ID_GEN_FACTOR)
 	, m_nBulletIDGen(ACT_BULLET * ID_GEN_FACTOR)
 {
-	std::fill(m_ActorCount.begin(), m_ActorCount.end(), 0);
-	m_ActorMap.reserve(GUESS_MAX_ACTOR_COUNT);
-	m_PlayerRefMap.reserve(GUESS_MAX_PLAYER_COUNT);
+	
 }
 
 CActorManager::~CActorManager()
@@ -22,6 +20,10 @@ CActorManager::~CActorManager()
 
 bool CActorManager::Init()
 {
+	std::fill(m_ActorCount.begin(), m_ActorCount.end(), 0);
+	m_ActorMap.reserve(GUESS_MAX_ACTOR_COUNT);
+	m_PlayerRefMap.reserve(GUESS_MAX_PLAYER_COUNT);
+	
 	return true;
 }
 

@@ -81,11 +81,11 @@ byte* CNetworkMessage::GetBuf() const
 	return m_pBuffer.get();
 }
 
-void CNetworkMessage::SetMultiTo(const VirtualSocket* pVS, size_t len)
+void CNetworkMessage::SetMultiTo(const uint64_t* pVS, size_t len)
 {
 	for(size_t i = 0; i < len; i++)
 	{
-		m_MultiTo.push_back(pVS[i]);
+		m_MultiTo.push_back(VirtualSocket{pVS[i]});
 	}
 }
 

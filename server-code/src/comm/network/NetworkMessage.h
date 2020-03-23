@@ -43,17 +43,19 @@ public:
 	export_lua void			 SetMultiType(uint32_t nMultiType) { m_nMultiType = nMultiType; }
 	export_lua uint32_t		 GetMultiType() const { return m_nMultiType; }
 
-	export_lua const std::vector<VirtualSocket>& GetMultiTo() const { return m_MultiTo; }
-	export_lua bool								 IsMultiTo() const { return m_MultiTo.empty() == false; }
-	export_lua void								 SetMultiTo(const VirtualSocket* pVS, size_t len);
-	export_lua void								 SetMultiTo(const std::vector<VirtualSocket>& _MultiTo);
+    export_lua const std::vector<VirtualSocket>& GetMultiTo() const { return m_MultiTo; }
 
-	export_lua const std::vector<OBJID>& GetMultiIDTo() const { return m_MultiIDTo; }
-	export_lua bool						 IsMultiIDTo() const { return m_MultiIDTo.empty() == false; }
-	export_lua void						 SetMultiIDTo(const OBJID* pIDS, size_t len);
-	export_lua void						 SetMultiIDTo(const std::vector<OBJID>& _MultiTo);
+    export_lua bool IsMultiTo() const { return m_MultiTo.empty() == false; }
+    export_lua void SetMultiTo(const uint64_t* pVS, size_t len);
+    export_lua void SetMultiTo(const std::vector<VirtualSocket>& _MultiTo);
 
-	export_lua bool IsBroadcast() const { return m_nMultiType == MULTITYPE_BROADCAST; }
+    export_lua const std::vector<OBJID>& GetMultiIDTo() const { return m_MultiIDTo; }
+
+    export_lua bool IsMultiIDTo() const { return m_MultiIDTo.empty() == false; }
+    export_lua void SetMultiIDTo(const OBJID* pIDS, size_t len);
+    export_lua void SetMultiIDTo(const std::vector<OBJID>& _MultiTo);
+
+    export_lua bool IsBroadcast() const { return m_nMultiType == MULTITYPE_BROADCAST; }
 	export_lua void SetBroadcast() { m_nMultiType = MULTITYPE_BROADCAST; }
 
 	export_lua void CopyBuffer();
