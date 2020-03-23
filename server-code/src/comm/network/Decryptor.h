@@ -7,13 +7,13 @@ class CDecryptorImpl;
 class CDecryptor
 {
 public:
-	CDecryptor();
-	~CDecryptor();
+    CDecryptor();
+    ~CDecryptor();
 
-	void Init(uint32_t key);
-	void Decryptor(byte* in_buffer, size_t in_len, byte* out_buffer, size_t out_len);
+    void Init(uint32_t key);
+    void Decryptor(byte* in_buffer, size_t in_len, byte* out_buffer, size_t out_len);
 
 private:
-	CDecryptorImpl* m_pImpl;
+    CDecryptorImpl* m_pImpl;
 };
 #endif /* DECRYPTOR_H */

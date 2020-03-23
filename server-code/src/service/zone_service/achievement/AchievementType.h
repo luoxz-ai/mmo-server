@@ -47,11 +47,13 @@ class CAchievementTypeSet
 
 public:
     virtual ~CAchievementTypeSet();
+
 public:
     typedef std::unordered_map<uint32_t, std::unique_ptr<CAchievementType>> DATA_TYPE;
     typedef std::vector<CAchievementType*>                                  SUB_DATA_LIST;
     typedef std::unordered_map<uint32_t, SUB_DATA_LIST>                     DATA_MAP_BY_CHECKTYPE;
     typedef std::unordered_map<uint32_t, SUB_DATA_LIST>                     DATA_MAP_BY_GROUPID;
+
 public:
     CREATE_NEW_IMPL(CAchievementTypeSet);
     bool Init(const char* szFileName);
@@ -62,8 +64,6 @@ public:
     const DATA_TYPE&     GetData() const;
     const SUB_DATA_LIST* QueryAchiemenetByGroupID(uint32_t idGroup) const;
     const SUB_DATA_LIST* QueryAchiemenetByCheckType(uint32_t idType) const;
-
-
 
 protected:
     DATA_TYPE             m_setData;

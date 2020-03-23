@@ -1,9 +1,9 @@
 #ifndef MSGZONEPROCESS_H
 #define MSGZONEPROCESS_H
 
+#include <array>
 #include <functional>
 #include <memory>
-#include <array>
 #include <utility>
 
 #include "BaseCode.h"
@@ -14,37 +14,35 @@
 
 class CNetworkMessage;
 
-
 template<class MsgType, class FuncType>
 void ProcPlayerMsg(CNetworkMessage* pMsg, FuncType func)
 {
-	__ENTER_FUNCTION
+    __ENTER_FUNCTION
 
-	CPlayer* pPlayer = ZoneService()->GetActorManager()->QueryPlayer(pMsg->GetFrom());
-	CHECK(pPlayer);
-	MsgType msg;
-	if(msg.ParseFromArray(pMsg->GetMsgBody(), pMsg->GetBodySize()) == false)
-	{
-		return;
-	}
-	std::invoke(func, pPlayer, msg, pMsg);
+    CPlayer* pPlayer = ZoneService()->GetActorManager()->QueryPlayer(pMsg->GetFrom());
+    CHECK(pPlayer);
+    MsgType msg;
+    if(msg.ParseFromArray(pMsg->GetMsgBody(), pMsg->GetBodySize()) == false)
+    {
+        return;
+    }
+    std::invoke(func, pPlayer, msg, pMsg);
 
-	__LEAVE_FUNCTION
+    __LEAVE_FUNCTION
 }
 
 template<class T, class FuncType>
 void ProcessMsg(CNetworkMessage* pMsg, FuncType func)
 {
-	__ENTER_FUNCTION
+    __ENTER_FUNCTION
 
-	T msg;
-	if(msg.ParseFromArray(pMsg->GetMsgBody(), pMsg->GetBodySize()) == false)
-		return;
-	std::invoke(func, msg, pMsg);
+    T msg;
+    if(msg.ParseFromArray(pMsg->GetMsgBody(), pMsg->GetBodySize()) == false)
+        return;
+    std::invoke(func, msg, pMsg);
 
-	__LEAVE_FUNCTION
+    __LEAVE_FUNCTION
 }
-
 
 void ZoneItemMessageHandlerRegister();
 void ZoneMapMessageHandlerRegister();

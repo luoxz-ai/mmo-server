@@ -11,27 +11,27 @@ class CNetMSGProcess;
 class CMarketService : public IService, public CServiceCommon
 {
 public:
-	CMarketService(const ServerPort& nServerPort);
-	virtual ~CMarketService();
-	void Release() override { delete this; }
-	bool Create();
+    CMarketService(const ServerPort& nServerPort);
+    virtual ~CMarketService();
+    void Release() override { delete this; }
+    bool Create();
 
 public:
-	virtual void OnLogicThreadProc() override;
-	virtual void OnLogicThreadCreate() override;
-	virtual void OnLogicThreadExit() override;
+    virtual void OnLogicThreadProc() override;
+    virtual void OnLogicThreadCreate() override;
+    virtual void OnLogicThreadExit() override;
 
-	virtual void OnProcessMessage(CNetworkMessage*) override;
+    virtual void OnProcessMessage(CNetworkMessage*) override;
 };
 
 CMarketService* MarketService();
-inline auto		EventManager()
+inline auto     EventManager()
 {
-	return MarketService()->GetEventManager();
+    return MarketService()->GetEventManager();
 }
 inline auto NetMsgProcess()
 {
-	return MarketService()->GetNetMsgProcess();
+    return MarketService()->GetNetMsgProcess();
 }
 
 #endif // MarketService_h__

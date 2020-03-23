@@ -19,14 +19,16 @@ bool SaveToJsonFile(const google::protobuf::Message& pbm, const std::string& fil
 bool LoadFromJsonTxt(const std::string& jsonTxt, google::protobuf::Message& pbm);
 bool SaveToJsonTxt(const google::protobuf::Message& pbm, std::string& jsonTxt);
 
-bool					   SetMessageData(google::protobuf::Message* pPBMessage, const std::string& field_name, const std::string& data);
-bool					   AddMessageData(google::protobuf::Message* pPBMessage, const std::string& field_name, const std::string& data);
+bool SetMessageData(google::protobuf::Message* pPBMessage, const std::string& field_name, const std::string& data);
+bool AddMessageData(google::protobuf::Message* pPBMessage, const std::string& field_name, const std::string& data);
 google::protobuf::Message* AddMessageSubMessage(google::protobuf::Message* pPBMessage, const std::string& field_name);
 
 google::protobuf::Message* NewProtoMessage(const std::string& MsgType);
-void					   DelProtoMessage(google::protobuf::Message* pMessage);
+void                       DelProtoMessage(google::protobuf::Message* pMessage);
 
-bool FindFieldInMessage(const std::string& field_name, google::protobuf::Message*& pThisRow, const google::protobuf::FieldDescriptor*& pFieldDesc);
+bool FindFieldInMessage(const std::string&                        field_name,
+                        google::protobuf::Message*&               pThisRow,
+                        const google::protobuf::FieldDescriptor*& pFieldDesc);
 
 // Copy all the fields tagged with '[reconfigurable]' from |src| to |dst|.
 // NOTE: |src| and |dst| must be of the same type.

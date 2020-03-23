@@ -12,18 +12,18 @@ purpose : 文件锁
 class file_lock
 {
 public:
-	file_lock(const std::string& programname);
-	~file_lock();
+    file_lock(const std::string& programname);
+    ~file_lock();
 
-	bool kill(int32_t sig);
-	bool test();
-	bool lock();
+    bool kill(int32_t sig);
+    bool test();
+    bool lock();
 
-	void unlock();
+    void unlock();
 
 private:
-	std::string m_pid_file;
-	int32_t		m_fd;
+    std::string m_pid_file;
+    int32_t     m_fd;
 };
 
 #endif // __FILE_LOCK_H__

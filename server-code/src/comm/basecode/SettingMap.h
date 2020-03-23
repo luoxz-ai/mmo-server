@@ -10,293 +10,293 @@
 class CSettingNode
 {
 public:
-	CSettingNode() = default;
+    CSettingNode() = default;
 
-	std::vector<CSettingNode>& operator[](const std::string& name) { return m_setChild[name]; }
+    std::vector<CSettingNode>& operator[](const std::string& name) { return m_setChild[name]; }
 
-	const std::vector<CSettingNode>& operator[](const std::string& name) const
-	{
-		auto itFind = m_setChild.find(name);
-		if(itFind != m_setChild.end())
-		{
-			return itFind->second;
-		}
+    const std::vector<CSettingNode>& operator[](const std::string& name) const
+    {
+        auto itFind = m_setChild.find(name);
+        if(itFind != m_setChild.end())
+        {
+            return itFind->second;
+        }
 
-		static std::vector<CSettingNode> s_Empty;
-		return s_Empty;
-	}
+        static std::vector<CSettingNode> s_Empty;
+        return s_Empty;
+    }
 
-	std::string Query(const std::string& AttName) const
-	{
-		auto it = m_setAttrib.find(AttName);
-		if(it != m_setAttrib.end())
-			return it->second;
-		else
-			return std::string();
-	}
+    std::string Query(const std::string& AttName) const
+    {
+        auto it = m_setAttrib.find(AttName);
+        if(it != m_setAttrib.end())
+            return it->second;
+        else
+            return std::string();
+    }
 
-	bool Query(const std::string& AttName, std::string& val) const
-	{
-		auto it = m_setAttrib.find(AttName);
-		if(it != m_setAttrib.end())
-		{
-			val = it->second;
-			return true;
-		}
-		return false;
-	}
+    bool Query(const std::string& AttName, std::string& val) const
+    {
+        auto it = m_setAttrib.find(AttName);
+        if(it != m_setAttrib.end())
+        {
+            val = it->second;
+            return true;
+        }
+        return false;
+    }
 
-	bool Query(const std::string& AttName, int16_t& val, int32_t _base = 10) const
-	{
-		auto it = m_setAttrib.find(AttName);
-		if(it != m_setAttrib.end())
-		{
-			val = (int16_t)std::stoi(it->second, 0, _base);
-			return true;
-		}
-		return false;
-	}
+    bool Query(const std::string& AttName, int16_t& val, int32_t _base = 10) const
+    {
+        auto it = m_setAttrib.find(AttName);
+        if(it != m_setAttrib.end())
+        {
+            val = (int16_t)std::stoi(it->second, 0, _base);
+            return true;
+        }
+        return false;
+    }
 
-	bool Query(const std::string& AttName, uint16_t& val, int32_t _base = 10) const
-	{
-		auto it = m_setAttrib.find(AttName);
-		if(it != m_setAttrib.end())
-		{
-			val = (uint16_t)std::stoul(it->second, 0, _base);
-			return true;
-		}
-		return false;
-	}
+    bool Query(const std::string& AttName, uint16_t& val, int32_t _base = 10) const
+    {
+        auto it = m_setAttrib.find(AttName);
+        if(it != m_setAttrib.end())
+        {
+            val = (uint16_t)std::stoul(it->second, 0, _base);
+            return true;
+        }
+        return false;
+    }
 
-	bool Query(const std::string& AttName, int32_t& val, int32_t _base = 10) const
-	{
-		auto it = m_setAttrib.find(AttName);
-		if(it != m_setAttrib.end())
-		{
-			val = std::stoi(it->second, 0, _base);
-			return true;
-		}
-		return false;
-	}
+    bool Query(const std::string& AttName, int32_t& val, int32_t _base = 10) const
+    {
+        auto it = m_setAttrib.find(AttName);
+        if(it != m_setAttrib.end())
+        {
+            val = std::stoi(it->second, 0, _base);
+            return true;
+        }
+        return false;
+    }
 
-	bool Query(const std::string& AttName, uint32_t& val, int32_t _base = 10) const
-	{
-		auto it = m_setAttrib.find(AttName);
-		if(it != m_setAttrib.end())
-		{
-			val = std::stoul(it->second, 0, _base);
-			return true;
-		}
-		return false;
-	}
+    bool Query(const std::string& AttName, uint32_t& val, int32_t _base = 10) const
+    {
+        auto it = m_setAttrib.find(AttName);
+        if(it != m_setAttrib.end())
+        {
+            val = std::stoul(it->second, 0, _base);
+            return true;
+        }
+        return false;
+    }
 
-	bool Query(const std::string& AttName, int64_t& val, int32_t _base = 10) const
-	{
-		auto it = m_setAttrib.find(AttName);
-		if(it != m_setAttrib.end())
-		{
-			val = std::stoll(it->second, 0, _base);
-			return true;
-		}
-		return false;
-	}
+    bool Query(const std::string& AttName, int64_t& val, int32_t _base = 10) const
+    {
+        auto it = m_setAttrib.find(AttName);
+        if(it != m_setAttrib.end())
+        {
+            val = std::stoll(it->second, 0, _base);
+            return true;
+        }
+        return false;
+    }
 
-	bool Query(const std::string& AttName, uint64_t& val, int32_t _base = 10) const
-	{
-		auto it = m_setAttrib.find(AttName);
-		if(it != m_setAttrib.end())
-		{
-			val = std::stoull(it->second, 0, _base);
-			return true;
-		}
-		return false;
-	}
+    bool Query(const std::string& AttName, uint64_t& val, int32_t _base = 10) const
+    {
+        auto it = m_setAttrib.find(AttName);
+        if(it != m_setAttrib.end())
+        {
+            val = std::stoull(it->second, 0, _base);
+            return true;
+        }
+        return false;
+    }
 
-	bool Query(const std::string& AttName, float& val) const
-	{
-		auto it = m_setAttrib.find(AttName);
-		if(it != m_setAttrib.end())
-		{
-			val = std::stof(it->second, 0);
-			return true;
-		}
-		return false;
-	}
+    bool Query(const std::string& AttName, float& val) const
+    {
+        auto it = m_setAttrib.find(AttName);
+        if(it != m_setAttrib.end())
+        {
+            val = std::stof(it->second, 0);
+            return true;
+        }
+        return false;
+    }
 
-	bool Query(const std::string& AttName, double& val) const
-	{
-		auto it = m_setAttrib.find(AttName);
-		if(it != m_setAttrib.end())
-		{
-			val = std::stod(it->second, 0);
-			return true;
-		}
-		return false;
-	}
+    bool Query(const std::string& AttName, double& val) const
+    {
+        auto it = m_setAttrib.find(AttName);
+        if(it != m_setAttrib.end())
+        {
+            val = std::stod(it->second, 0);
+            return true;
+        }
+        return false;
+    }
 
-	bool Query(const std::string& AttName, bool& val) const
-	{
-		auto it = m_setAttrib.find(AttName);
-		if(it != m_setAttrib.end())
-		{
-			const std::string& result = it->second;
-			val						  = (result == std::string("TRUE") || result == std::string("true") || result == std::string("1"));
-			return true;
-		}
-		return false;
-	}
+    bool Query(const std::string& AttName, bool& val) const
+    {
+        auto it = m_setAttrib.find(AttName);
+        if(it != m_setAttrib.end())
+        {
+            const std::string& result = it->second;
+            val = (result == std::string("TRUE") || result == std::string("true") || result == std::string("1"));
+            return true;
+        }
+        return false;
+    }
 
-	int32_t QueryInt(const std::string& AttName, int32_t _base = 10) const
-	{
-		int32_t val = 0;
-		auto	it	= m_setAttrib.find(AttName);
-		if(it != m_setAttrib.end() && it->second.empty() == false)
-		{
-			val = std::stoi(it->second, 0, _base);
-			return val;
-		}
-		return val;
-	}
+    int32_t QueryInt(const std::string& AttName, int32_t _base = 10) const
+    {
+        int32_t val = 0;
+        auto    it  = m_setAttrib.find(AttName);
+        if(it != m_setAttrib.end() && it->second.empty() == false)
+        {
+            val = std::stoi(it->second, 0, _base);
+            return val;
+        }
+        return val;
+    }
 
-	float QueryFloat(const std::string& AttName) const
-	{
-		float val = 0.0f;
-		auto  it  = m_setAttrib.find(AttName);
-		if(it != m_setAttrib.end() && it->second.empty() == false)
-		{
-			val = std::stof(it->second, 0);
-			return val;
-		}
-		return val;
-	}
+    float QueryFloat(const std::string& AttName) const
+    {
+        float val = 0.0f;
+        auto  it  = m_setAttrib.find(AttName);
+        if(it != m_setAttrib.end() && it->second.empty() == false)
+        {
+            val = std::stof(it->second, 0);
+            return val;
+        }
+        return val;
+    }
 
-	double QueryDouble(const std::string& AttName) const
-	{
-		double val = 0.0;
-		auto   it  = m_setAttrib.find(AttName);
-		if(it != m_setAttrib.end() && it->second.empty() == false)
-		{
-			val = std::stod(it->second, 0);
-			return val;
-		}
-		return val;
-	}
+    double QueryDouble(const std::string& AttName) const
+    {
+        double val = 0.0;
+        auto   it  = m_setAttrib.find(AttName);
+        if(it != m_setAttrib.end() && it->second.empty() == false)
+        {
+            val = std::stod(it->second, 0);
+            return val;
+        }
+        return val;
+    }
 
-	long QueryLong(const std::string& AttName, int32_t _base = 10) const
-	{
-		long val = 0;
-		auto it	 = m_setAttrib.find(AttName);
-		if(it != m_setAttrib.end() && it->second.empty() == false)
-		{
-			val = std::stol(it->second, 0, _base);
-			return val;
-		}
-		return val;
-	}
+    long QueryLong(const std::string& AttName, int32_t _base = 10) const
+    {
+        long val = 0;
+        auto it  = m_setAttrib.find(AttName);
+        if(it != m_setAttrib.end() && it->second.empty() == false)
+        {
+            val = std::stol(it->second, 0, _base);
+            return val;
+        }
+        return val;
+    }
 
-	unsigned long QueryULong(const std::string& AttName, int32_t _base = 10) const
-	{
-		unsigned long val = 0;
-		auto		  it  = m_setAttrib.find(AttName);
-		if(it != m_setAttrib.end() && it->second.empty() == false)
-		{
-			val = std::stoul(it->second, 0, _base);
-			return val;
-		}
-		return val;
-	}
+    unsigned long QueryULong(const std::string& AttName, int32_t _base = 10) const
+    {
+        unsigned long val = 0;
+        auto          it  = m_setAttrib.find(AttName);
+        if(it != m_setAttrib.end() && it->second.empty() == false)
+        {
+            val = std::stoul(it->second, 0, _base);
+            return val;
+        }
+        return val;
+    }
 
-	int64_t QueryLongLong(const std::string& AttName, int32_t _base = 10) const
-	{
-		int64_t val = 0;
-		auto	it	= m_setAttrib.find(AttName);
-		if(it != m_setAttrib.end() && it->second.empty() == false)
-		{
-			val = std::stoll(it->second, 0, _base);
-			return val;
-		}
-		return val;
-	}
+    int64_t QueryLongLong(const std::string& AttName, int32_t _base = 10) const
+    {
+        int64_t val = 0;
+        auto    it  = m_setAttrib.find(AttName);
+        if(it != m_setAttrib.end() && it->second.empty() == false)
+        {
+            val = std::stoll(it->second, 0, _base);
+            return val;
+        }
+        return val;
+    }
 
-	int64_t QueryULongLong(const std::string& AttName, int32_t _base = 10) const
-	{
-		int64_t val = 0;
-		auto	it	= m_setAttrib.find(AttName);
-		if(it != m_setAttrib.end() && it->second.empty() == false)
-		{
-			val = std::stoull(it->second, 0, _base);
-			return val;
-		}
-		return val;
-	}
+    int64_t QueryULongLong(const std::string& AttName, int32_t _base = 10) const
+    {
+        int64_t val = 0;
+        auto    it  = m_setAttrib.find(AttName);
+        if(it != m_setAttrib.end() && it->second.empty() == false)
+        {
+            val = std::stoull(it->second, 0, _base);
+            return val;
+        }
+        return val;
+    }
 
-	bool QueryBool(const std::string& AttName) const
-	{
-		bool val = false;
-		auto it	 = m_setAttrib.find(AttName);
-		if(it != m_setAttrib.end() && it->second.empty() == false)
-		{
-			const std::string& result = it->second;
-			val						  = (result == std::string("TRUE") || result == std::string("true") || result == std::string("1"));
-			return val;
-		}
-		return val;
-	}
+    bool QueryBool(const std::string& AttName) const
+    {
+        bool val = false;
+        auto it  = m_setAttrib.find(AttName);
+        if(it != m_setAttrib.end() && it->second.empty() == false)
+        {
+            const std::string& result = it->second;
+            val = (result == std::string("TRUE") || result == std::string("true") || result == std::string("1"));
+            return val;
+        }
+        return val;
+    }
 
-	void SetVal(const std::string& AttName, const std::string& AttVal) { m_setAttrib[AttName] = AttVal; }
-	void SetVal(const std::string& AttName, const char* AttVal)
-	{
-		if(AttVal == nullptr)
-			return;
+    void SetVal(const std::string& AttName, const std::string& AttVal) { m_setAttrib[AttName] = AttVal; }
+    void SetVal(const std::string& AttName, const char* AttVal)
+    {
+        if(AttVal == nullptr)
+            return;
 
-		m_setAttrib[AttName] = AttVal;
-	}
+        m_setAttrib[AttName] = AttVal;
+    }
 
 protected:
-	std::map<std::string, std::vector<CSettingNode>> m_setChild;
-	std::map<std::string, std::string>				 m_setAttrib;
-	friend class CSettingMap;
+    std::map<std::string, std::vector<CSettingNode>> m_setChild;
+    std::map<std::string, std::string>               m_setAttrib;
+    friend class CSettingMap;
 };
 class CSettingMap
 {
 public:
-	CSettingMap() = default;
+    CSettingMap() = default;
 
-	void Prase(tinyxml2::XMLElement* pRootE)
-	{
-		if(pRootE == nullptr)
-			return;
-		PraseChild(m_RootNode, pRootE);
-	}
-	void PraseAttrib(CSettingNode& node, tinyxml2::XMLElement* pParentE)
-	{
-		const tinyxml2::XMLAttribute* pAttrib = pParentE->FirstAttribute();
-		while(pAttrib)
-		{
-			std::string val;
-			node.SetVal(pAttrib->Name(), pAttrib->Value() ? pAttrib->Value() : std::string());
-			pAttrib = pAttrib->Next();
-		}
-	}
-	void PraseChild(CSettingNode& node, tinyxml2::XMLElement* pParentE)
-	{
-		if(pParentE == nullptr)
-			return;
-		tinyxml2::XMLElement* pChildE = pParentE->FirstChildElement();
-		while(pChildE)
-		{
-			CSettingNode child_node;
-			PraseAttrib(child_node, pChildE);
-			PraseChild(child_node, pChildE);
-			node[pChildE->Name()].emplace_back(std::move(child_node));
-			pChildE = pChildE->NextSiblingElement();
-		}
-	}
+    void Prase(tinyxml2::XMLElement* pRootE)
+    {
+        if(pRootE == nullptr)
+            return;
+        PraseChild(m_RootNode, pRootE);
+    }
+    void PraseAttrib(CSettingNode& node, tinyxml2::XMLElement* pParentE)
+    {
+        const tinyxml2::XMLAttribute* pAttrib = pParentE->FirstAttribute();
+        while(pAttrib)
+        {
+            std::string val;
+            node.SetVal(pAttrib->Name(), pAttrib->Value() ? pAttrib->Value() : std::string());
+            pAttrib = pAttrib->Next();
+        }
+    }
+    void PraseChild(CSettingNode& node, tinyxml2::XMLElement* pParentE)
+    {
+        if(pParentE == nullptr)
+            return;
+        tinyxml2::XMLElement* pChildE = pParentE->FirstChildElement();
+        while(pChildE)
+        {
+            CSettingNode child_node;
+            PraseAttrib(child_node, pChildE);
+            PraseChild(child_node, pChildE);
+            node[pChildE->Name()].emplace_back(std::move(child_node));
+            pChildE = pChildE->NextSiblingElement();
+        }
+    }
 
-	std::vector<CSettingNode>&		 operator[](const std::string& name) { return m_RootNode[name]; }
-	const std::vector<CSettingNode>& operator[](const std::string& name) const { return m_RootNode[name]; }
+    std::vector<CSettingNode>&       operator[](const std::string& name) { return m_RootNode[name]; }
+    const std::vector<CSettingNode>& operator[](const std::string& name) const { return m_RootNode[name]; }
 
 private:
-	CSettingNode m_RootNode;
+    CSettingNode m_RootNode;
 };
 #endif // SettingMap_h__

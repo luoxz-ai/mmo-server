@@ -29,294 +29,294 @@ struct hasFunc_GetIDFromPBRow : bool_type<details::has_GetIDFromPBRow<T>::value>
 template<class T>
 class CGameDataMap
 {
-	std::string GET_NAME() { return demangle(typeid(T).name()); }
+    std::string GET_NAME() { return demangle(typeid(T).name()); }
 
-	CGameDataMap() {}
-
-public:
-	using KEY_T		 = typename std::result_of<decltype (&T::GetID)(T)>::type;
-	using MAP_SET_T	 = std::unordered_map<KEY_T, T*>;
-	using MAP_ITER_T = typename MAP_SET_T::const_iterator;
-	CREATE_NEW_IMPL(CGameDataMap<T>);
-	~CGameDataMap() { Clear(); }
+    CGameDataMap() {}
 
 public:
-	void Clear()
-	{
-		for(auto& pair_val: m_setData)
-		{
-			SAFE_DELETE(pair_val.second);
-		}
-		m_setData.clear();
-		LOGINFO("Clear {} Succ.", GET_NAME());
-	}
+    using KEY_T      = typename std::result_of<decltype (&T::GetID)(T)>::type;
+    using MAP_SET_T  = std::unordered_map<KEY_T, T*>;
+    using MAP_ITER_T = typename MAP_SET_T::const_iterator;
+    CREATE_NEW_IMPL(CGameDataMap<T>);
+    ~CGameDataMap() { Clear(); }
 
-	bool Init(CMysqlConnection* pDb, const char* table_name, const char* szSQL)
-	{
-		auto result_ptr = pDb->Query(table_name, szSQL);
-		if(result_ptr)
-		{
-			for(size_t i = 0; i < result_ptr->get_num_row(); i++)
-			{
-				auto db_record_ptr = result_ptr->fetch_row(false);
-				T*	 pData		   = T::CreateNew(std::move(db_record_ptr));
-				if(pData == nullptr)
-				{
-					return false;
-				}
+public:
+    void Clear()
+    {
+        for(auto& pair_val: m_setData)
+        {
+            SAFE_DELETE(pair_val.second);
+        }
+        m_setData.clear();
+        LOGINFO("Clear {} Succ.", GET_NAME());
+    }
 
-				this->AddObj(pData);
-			}
-		}
-		LOGINFO("Init {} Succ.", GET_NAME());
-		return true;
-	}
-	bool Reload(CMysqlConnection* pDb, const char* table_name, const char* szSQL)
-	{
-		Clear();
-		return Init(pDb, table_name, szSQL);
-	}
+    bool Init(CMysqlConnection* pDb, const char* table_name, const char* szSQL)
+    {
+        auto result_ptr = pDb->Query(table_name, szSQL);
+        if(result_ptr)
+        {
+            for(size_t i = 0; i < result_ptr->get_num_row(); i++)
+            {
+                auto db_record_ptr = result_ptr->fetch_row(false);
+                T*   pData         = T::CreateNew(std::move(db_record_ptr));
+                if(pData == nullptr)
+                {
+                    return false;
+                }
 
-	template<class PBRow_T>
-	auto _LoadFromPB(const PBRow_T& row)
-	{
-		if constexpr(hasFunc_GetIDFromPBRow<T>::value)
-		{
-			KEY_T key	= T::GetIDFromPBRow(row);
-			T*	  pData = QueryObj(key);
-			if(pData)
-			{
-				pData->Init(row);
-			}
-			else
-			{
-				T* pData = T::CreateNew(row);
-				if(pData == nullptr)
-				{
-					return false;
-				}
+                this->AddObj(pData);
+            }
+        }
+        LOGINFO("Init {} Succ.", GET_NAME());
+        return true;
+    }
+    bool Reload(CMysqlConnection* pDb, const char* table_name, const char* szSQL)
+    {
+        Clear();
+        return Init(pDb, table_name, szSQL);
+    }
 
-				AddObj(pData);
-			}
-			return true;
-		}
-		else
-		{
-			T* pData = T::CreateNew(row);
-			if(pData == nullptr)
-			{
-				return false;
-			}
+    template<class PBRow_T>
+    auto _LoadFromPB(const PBRow_T& row)
+    {
+        if constexpr(hasFunc_GetIDFromPBRow<T>::value)
+        {
+            KEY_T key   = T::GetIDFromPBRow(row);
+            T*    pData = QueryObj(key);
+            if(pData)
+            {
+                pData->Init(row);
+            }
+            else
+            {
+                T* pData = T::CreateNew(row);
+                if(pData == nullptr)
+                {
+                    return false;
+                }
 
-			AddObj(pData);
-			return true;
-		}
-	}
+                AddObj(pData);
+            }
+            return true;
+        }
+        else
+        {
+            T* pData = T::CreateNew(row);
+            if(pData == nullptr)
+            {
+                return false;
+            }
 
-	auto Init(const char* szFileName)
-	{
-		using PB_T = typename T::PB_T;
-		PB_T cfg;
-		if(pb_util::LoadFromBinaryFile(szFileName, cfg) == false)
-		{
-			LOGERROR("InitFromFile {} Fail.", szFileName);
-			return false;
-		}
-		for(const auto& iter: cfg.rows())
-		{
-			_LoadFromPB(iter);
-		}
-		LOGINFO("Init {} Succ.", szFileName);
-		return true;
-	}
-	bool Reload(const char* szFileName, bool bClear)
-	{
-		if(bClear)
-			Clear();
-		return Init(szFileName);
-	}
+            AddObj(pData);
+            return true;
+        }
+    }
 
-	void AddObj(T* pData)
-	{
-		auto it_find = m_setData.find(pData->GetID());
-		if(it_find != m_setData.end())
-		{
-			LOGWARNING("AddObj twice {}, id:{}", GET_NAME(), pData->GetID());
-			SAFE_DELETE(pData);
-		}
-		else
-		{
-			m_setData[pData->GetID()] = pData;
-		}
-	}
+    auto Init(const char* szFileName)
+    {
+        using PB_T = typename T::PB_T;
+        PB_T cfg;
+        if(pb_util::LoadFromBinaryFile(szFileName, cfg) == false)
+        {
+            LOGERROR("InitFromFile {} Fail.", szFileName);
+            return false;
+        }
+        for(const auto& iter: cfg.rows())
+        {
+            _LoadFromPB(iter);
+        }
+        LOGINFO("Init {} Succ.", szFileName);
+        return true;
+    }
+    bool Reload(const char* szFileName, bool bClear)
+    {
+        if(bClear)
+            Clear();
+        return Init(szFileName);
+    }
 
-	T* QueryObj(KEY_T id)
-	{
-		auto it_find = m_setData.find(id);
-		if(it_find != m_setData.end())
-		{
-			return it_find->second;
-		}
-		return nullptr;
-	}
+    void AddObj(T* pData)
+    {
+        auto it_find = m_setData.find(pData->GetID());
+        if(it_find != m_setData.end())
+        {
+            LOGWARNING("AddObj twice {}, id:{}", GET_NAME(), pData->GetID());
+            SAFE_DELETE(pData);
+        }
+        else
+        {
+            m_setData[pData->GetID()] = pData;
+        }
+    }
 
-	class Iterator
-	{
-	private: // create by parent class
-		Iterator(const MAP_SET_T& refSet)
-			: m_refSet(refSet)
-			, m_iter(m_refSet.begin())
-		{
-		}
+    T* QueryObj(KEY_T id)
+    {
+        auto it_find = m_setData.find(id);
+        if(it_find != m_setData.end())
+        {
+            return it_find->second;
+        }
+        return nullptr;
+    }
 
-	public: // application
-		Iterator()				  = delete;
-		Iterator(const Iterator&) = default;
-		void MoveNext() { m_iter++; }
+    class Iterator
+    {
+    private: // create by parent class
+        Iterator(const MAP_SET_T& refSet)
+            : m_refSet(refSet)
+            , m_iter(m_refSet.begin())
+        {
+        }
 
-		bool HasMore() const { return m_iter != m_refSet.end(); }
+    public: // application
+        Iterator()                = delete;
+        Iterator(const Iterator&) = default;
+        void MoveNext() { m_iter++; }
 
-		T* PeekVal() const { return m_iter->second; }
+        bool HasMore() const { return m_iter != m_refSet.end(); }
 
-		friend class CGameDataMap<T>;
+        T* PeekVal() const { return m_iter->second; }
 
-	protected:
-		const MAP_SET_T& m_refSet;
-		MAP_ITER_T		 m_iter;
-	};
-	Iterator GetIter() const { return Iterator(m_setData); }
+        friend class CGameDataMap<T>;
+
+    protected:
+        const MAP_SET_T& m_refSet;
+        MAP_ITER_T       m_iter;
+    };
+    Iterator GetIter() const { return Iterator(m_setData); }
 
 private:
-	MAP_SET_T m_setData;
+    MAP_SET_T m_setData;
 };
 
 template<class T>
 class CGameMultiDataMap
 {
-	std::string GET_NAME() { return demangle(typeid(T).name()); }
-	CGameMultiDataMap() {}
+    std::string GET_NAME() { return demangle(typeid(T).name()); }
+    CGameMultiDataMap() {}
 
 public:
-	using KEY_T		 = typename std::result_of<decltype (&T::GetID)(T)>::type;
-	using MAP_SET_T	 = std::unordered_multimap<KEY_T, T*>;
-	using MAP_ITER_T = typename MAP_SET_T::const_iterator;
+    using KEY_T      = typename std::result_of<decltype (&T::GetID)(T)>::type;
+    using MAP_SET_T  = std::unordered_multimap<KEY_T, T*>;
+    using MAP_ITER_T = typename MAP_SET_T::const_iterator;
 
-	class Iterator
-	{
-	private: // create by parent class
-		Iterator(const MAP_SET_T& refSet)
-			: m_itBeg(refSet.begin())
-			, m_itEnd(refSet.end()())
-		{
-		}
-		Iterator(MAP_ITER_T it_beg, MAP_ITER_T it_end)
-			: m_itBeg(it_beg)
-			, m_itEnd(it_end)
-		{
-		}
+    class Iterator
+    {
+    private: // create by parent class
+        Iterator(const MAP_SET_T& refSet)
+            : m_itBeg(refSet.begin())
+            , m_itEnd(refSet.end()())
+        {
+        }
+        Iterator(MAP_ITER_T it_beg, MAP_ITER_T it_end)
+            : m_itBeg(it_beg)
+            , m_itEnd(it_end)
+        {
+        }
 
-	public: // application
-		Iterator()				  = delete;
-		Iterator(const Iterator&) = default;
-		void MoveNext() { m_itBeg++; }
+    public: // application
+        Iterator()                = delete;
+        Iterator(const Iterator&) = default;
+        void MoveNext() { m_itBeg++; }
 
-		bool HasMore() const { return m_itBeg != m_itEnd; }
+        bool HasMore() const { return m_itBeg != m_itEnd; }
 
-		T* PeekVal() const { return m_itBeg->second; }
+        T* PeekVal() const { return m_itBeg->second; }
 
-		friend class CGameMultiDataMap<T>;
+        friend class CGameMultiDataMap<T>;
 
-	protected:
-		MAP_ITER_T m_itBeg;
-		MAP_ITER_T m_itEnd;
-	};
-
-public:
-	CREATE_NEW_IMPL(CGameMultiDataMap<T>);
-	~CGameMultiDataMap() { Clear(); }
+    protected:
+        MAP_ITER_T m_itBeg;
+        MAP_ITER_T m_itEnd;
+    };
 
 public:
-	void Clear()
-	{
-		for(auto& pair_val: m_setData)
-		{
-			SAFE_DELETE(pair_val.second);
-		}
-		m_setData.clear();
-		LOGINFO("Clear {} Succ.", GET_NAME());
-	}
+    CREATE_NEW_IMPL(CGameMultiDataMap<T>);
+    ~CGameMultiDataMap() { Clear(); }
 
-	bool Init(CMysqlConnection* pDb, const char* table_name, const char* szSQL)
-	{
-		auto result_ptr = pDb->Query(table_name, szSQL);
-		if(result_ptr)
-		{
-			for(size_t i = 0; i < result_ptr->get_num_row(); i++)
-			{
-				auto db_record_ptr = result_ptr->fetch_row(false);
-				T*	 pData		   = T::CreateNew(std::move(db_record_ptr));
-				if(pData == nullptr)
-				{
-					return false;
-				}
+public:
+    void Clear()
+    {
+        for(auto& pair_val: m_setData)
+        {
+            SAFE_DELETE(pair_val.second);
+        }
+        m_setData.clear();
+        LOGINFO("Clear {} Succ.", GET_NAME());
+    }
 
-				this->AddObj(pData);
-			}
-			LOGINFO("Init {} Succ.", GET_NAME());
-		}
-		return true;
-	}
-	bool Reload(CMysqlConnection* pDb, const char* table_name, const char* szSQL)
-	{
-		Clear();
-		return Init(pDb, table_name, szSQL);
-	}
+    bool Init(CMysqlConnection* pDb, const char* table_name, const char* szSQL)
+    {
+        auto result_ptr = pDb->Query(table_name, szSQL);
+        if(result_ptr)
+        {
+            for(size_t i = 0; i < result_ptr->get_num_row(); i++)
+            {
+                auto db_record_ptr = result_ptr->fetch_row(false);
+                T*   pData         = T::CreateNew(std::move(db_record_ptr));
+                if(pData == nullptr)
+                {
+                    return false;
+                }
 
-	bool Init(const char* szFileName)
-	{
-		using PB_T = typename T::PB_T;
-		PB_T cfg;
-		if(pb_util::LoadFromBinaryFile(szFileName, cfg) == false)
-		{
-			LOGERROR("InitFromFile {} Fail.", szFileName);
-			return false;
-		}
+                this->AddObj(pData);
+            }
+            LOGINFO("Init {} Succ.", GET_NAME());
+        }
+        return true;
+    }
+    bool Reload(CMysqlConnection* pDb, const char* table_name, const char* szSQL)
+    {
+        Clear();
+        return Init(pDb, table_name, szSQL);
+    }
 
-		for(const auto& iter: cfg.rows())
-		{
-			T* pData = T::CreateNew(iter);
-			if(pData == nullptr)
-			{
-				return false;
-			}
+    bool Init(const char* szFileName)
+    {
+        using PB_T = typename T::PB_T;
+        PB_T cfg;
+        if(pb_util::LoadFromBinaryFile(szFileName, cfg) == false)
+        {
+            LOGERROR("InitFromFile {} Fail.", szFileName);
+            return false;
+        }
 
-			this->AddObj(pData);
-		}
-		LOGINFO("Init {} Succ.", szFileName);
-		return true;
-	}
-	bool Reload(const char* szFileName)
-	{
-		Clear();
-		return Init(szFileName);
-	}
+        for(const auto& iter: cfg.rows())
+        {
+            T* pData = T::CreateNew(iter);
+            if(pData == nullptr)
+            {
+                return false;
+            }
 
-	void AddObj(T* pData) { m_setData.insert(std::make_pair(pData->GetID(), pData)); }
+            this->AddObj(pData);
+        }
+        LOGINFO("Init {} Succ.", szFileName);
+        return true;
+    }
+    bool Reload(const char* szFileName)
+    {
+        Clear();
+        return Init(szFileName);
+    }
 
-	Iterator QueryObj(KEY_T id)
-	{
-		auto it_find = m_setData.equal_range(id);
-		if(it_find.first != it_find.second && it_find.first != m_setData.end())
-		{
-			return Iterator(it_find.first, it_find.second);
-		}
-		return Iterator(m_setData.end(), m_setData.end());
-	}
+    void AddObj(T* pData) { m_setData.insert(std::make_pair(pData->GetID(), pData)); }
 
-	Iterator GetIter() const { return Iterator(m_setData); }
+    Iterator QueryObj(KEY_T id)
+    {
+        auto it_find = m_setData.equal_range(id);
+        if(it_find.first != it_find.second && it_find.first != m_setData.end())
+        {
+            return Iterator(it_find.first, it_find.second);
+        }
+        return Iterator(m_setData.end(), m_setData.end());
+    }
+
+    Iterator GetIter() const { return Iterator(m_setData); }
 
 private:
-	MAP_SET_T m_setData;
+    MAP_SET_T m_setData;
 };
 
 #endif // T_GAMEDATAMAP_H

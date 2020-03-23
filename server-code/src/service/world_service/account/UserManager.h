@@ -10,22 +10,23 @@ class CNetworkMessage;
 
 class CUserManager
 {
-	CUserManager();
-public:
-	~CUserManager();
-	CREATE_NEW_IMPL(CUserManager);
-	
-	bool	  Init();
+    CUserManager();
 
-	CUser* QueryUser(OBJID uid);
-	CUser* QueryUserBySocket(const VirtualSocket& vs);
-	CUser* CreateUser(class CAccount* pAccount, struct ST_ROLE_INFO* pInfo);
-	void   RemoveUser(CUser*& pRemoveUser);
-	void   Destory();
+public:
+    ~CUserManager();
+    CREATE_NEW_IMPL(CUserManager);
+
+    bool Init();
+
+    CUser* QueryUser(OBJID uid);
+    CUser* QueryUserBySocket(const VirtualSocket& vs);
+    CUser* CreateUser(class CAccount* pAccount, struct ST_ROLE_INFO* pInfo);
+    void   RemoveUser(CUser*& pRemoveUser);
+    void   Destory();
 
 public:
 private:
-	std::unordered_map<OBJID, CUser*>		  m_setUser;
-	std::unordered_map<VirtualSocket, CUser*> m_setUserBySocket;
+    std::unordered_map<OBJID, CUser*>         m_setUser;
+    std::unordered_map<VirtualSocket, CUser*> m_setUserBySocket;
 };
 #endif /* USERMANAGER_H */

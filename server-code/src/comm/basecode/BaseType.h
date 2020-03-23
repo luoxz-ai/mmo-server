@@ -53,8 +53,8 @@ using SOCKET = unsigned int;
 const OBJID ID_NONE = static_cast<OBJID>(0);
 
 ///////////////////////////////////////////////////////////////////////
-#define TRUE	 1
-#define FALSE	 0
+#define TRUE     1
+#define FALSE    0
 #define INFINITE 0xFFFFFFFF // Infinite timeout
 
 #define INVALID_SOCKET static_cast<SOCKET>(-1)
@@ -68,6 +68,5 @@ const OBJID ID_NONE = static_cast<OBJID>(0);
 
 #define __max(a, b) (((a) > (b)) ? (a) : (b))
 #define __min(a, b) (((a) < (b)) ? (a) : (b))
-
 
 #endif //__BASETYPE_H__

@@ -4,9 +4,9 @@
 class IService
 {
 public:
-	IService() {}
-	virtual ~IService() {}
-	virtual void Release() = 0;
+    IService() {}
+    virtual ~IService() {}
+    virtual void Release() = 0;
 };
 
 #endif // IService_h__

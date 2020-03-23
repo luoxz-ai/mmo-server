@@ -1,4 +1,4 @@
-syntax					   = "proto2";
+syntax                     = "proto2";
 option cc_generic_services = true;
 
 message HttpRequest {};
@@ -6,5 +6,5 @@ message HttpResponse {};
 
 service ProxyService
 {
-	rpc default_method(HttpRequest) returns (HttpResponse);
+    rpc default_method(HttpRequest) returns (HttpResponse);
 };

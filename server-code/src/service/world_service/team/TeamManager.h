@@ -12,20 +12,21 @@ class CTeam;
 class CNetworkMessage;
 class CTeamManager
 {
-	CTeamManager();
+    CTeamManager();
+
 public:
-	~CTeamManager();
-	CREATE_NEW_IMPL(CTeamManager);
+    ~CTeamManager();
+    CREATE_NEW_IMPL(CTeamManager);
 
-	bool   Init();
-	void   Destory();
-	CTeam* CreateTeam(uint64_t idTeam, OBJID idLeader);
-	CTeam* QueryTeam(uint64_t idTeam);
-	bool   DestoryTeam(uint64_t idTeam);
+    bool   Init();
+    void   Destory();
+    CTeam* CreateTeam(uint64_t idTeam, OBJID idLeader);
+    CTeam* QueryTeam(uint64_t idTeam);
+    bool   DestoryTeam(uint64_t idTeam);
 
-	void RegisterMessageHandler();
+    void RegisterMessageHandler();
 
 private:
-	std::map<uint64_t, CTeam*> m_setTeam;
+    std::map<uint64_t, CTeam*> m_setTeam;
 };
 #endif /* TEAMMANAGER_H */

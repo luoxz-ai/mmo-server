@@ -12,39 +12,42 @@
 //
 class CUserAttrData
 {
-	CUserAttrData() {}
+    CUserAttrData() {}
 
 public:
-	using PB_T = Cfg_UserAttr;
-	virtual ~CUserAttrData() {}
-	CREATE_NEW_IMPL(CUserAttrData);
+    using PB_T = Cfg_UserAttr;
+    virtual ~CUserAttrData() {}
+    CREATE_NEW_IMPL(CUserAttrData);
 
 public:
-	bool Init(const Cfg_UserAttr_Row& row)
-	{
-		m_dwProfession = row.prof();
-		m_nLevel	   = row.level();
+    bool Init(const Cfg_UserAttr_Row& row)
+    {
+        m_dwProfession = row.prof();
+        m_nLevel       = row.level();
 
-		CActorAttrib::load_from(m_ability, row.attr_data());
+        CActorAttrib::load_from(m_ability, row.attr_data());
 
-		return true;
-	}
+        return true;
+    }
 
-	uint32_t GetID() { return CUserAttrData::MakeID(m_dwProfession, m_nLevel); }
-
-public:
-	const AttribList_t& GetAbility() const { return m_ability; }
-	uint32_t			GetLevUpNeedExp() const { return m_nLevUpExp; }
+    uint32_t GetID() { return CUserAttrData::MakeID(m_dwProfession, m_nLevel); }
 
 public:
-	static uint32_t MakeID(uint16_t dwProfession, uint32_t ucLevel) { return ((uint32_t)(dwProfession) << 16) | (uint32_t)(ucLevel & 0xFFFF); }
+    const AttribList_t& GetAbility() const { return m_ability; }
+    uint32_t            GetLevUpNeedExp() const { return m_nLevUpExp; }
+
+public:
+    static uint32_t MakeID(uint16_t dwProfession, uint32_t ucLevel)
+    {
+        return ((uint32_t)(dwProfession) << 16) | (uint32_t)(ucLevel & 0xFFFF);
+    }
 
 protected:
-	uint16_t m_dwProfession;
-	uint16_t m_nLevel;
+    uint16_t m_dwProfession;
+    uint16_t m_nLevel;
 
-	uint32_t	 m_nLevUpExp;
-	AttribList_t m_ability;
+    uint32_t     m_nLevUpExp;
+    AttribList_t m_ability;
 };
 
 //////////////////////////////////////////////////////////////////////

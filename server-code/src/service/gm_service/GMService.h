@@ -15,33 +15,33 @@ class CNetMSGProcess;
 class CGMService : public IService, public CServiceCommon
 {
 public:
-	CGMService(const ServerPort& nServerPort);
-	virtual ~CGMService();
-	void Release() override { delete this; }
-	bool Create();
+    CGMService(const ServerPort& nServerPort);
+    virtual ~CGMService();
+    void Release() override { delete this; }
+    bool Create();
 
-	void SendServiceReady();
-	void SendServiceUnReady();
-
-public:
-	virtual void OnLogicThreadProc() override;
-	virtual void OnLogicThreadCreate() override;
-	virtual void OnLogicThreadExit() override;
-	virtual void OnProcessMessage(CNetworkMessage*) override;
+    void SendServiceReady();
+    void SendServiceUnReady();
 
 public:
-	using HttpRequestHandleFunc = std::function<void(const ServerPort&, const ServerMSG::ServiceHttpRequest&)>;
-	std::unordered_map<std::string, HttpRequestHandleFunc> m_HttpRequestHandle;
+    virtual void OnLogicThreadProc() override;
+    virtual void OnLogicThreadCreate() override;
+    virtual void OnLogicThreadExit() override;
+    virtual void OnProcessMessage(CNetworkMessage*) override;
+
+public:
+    using HttpRequestHandleFunc = std::function<void(const ServerPort&, const ServerMSG::ServiceHttpRequest&)>;
+    std::unordered_map<std::string, HttpRequestHandleFunc> m_HttpRequestHandle;
 };
 
 CGMService* GMService();
 inline auto EventManager()
 {
-	return GMService()->GetEventManager();
+    return GMService()->GetEventManager();
 }
 inline auto NetMsgProcess()
 {
-	return GMService()->GetNetMsgProcess();
+    return GMService()->GetNetMsgProcess();
 }
 
 #endif // GMService_h__

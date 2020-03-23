@@ -7,36 +7,36 @@
 #include <tuple>
 
 #define CAT_CLASS_HAS_TYPEDEF(typedef_)                                               \
-	template<typename T>                                                              \
-	class has_##typedef_                                                              \
-	{                                                                                 \
-		template<class C>                                                             \
-		static void check(typename std::decay<typename C::typedef_>::type*) noexcept; \
-		template<class C>                                                             \
-		static void check(...) noexcept(false);                                       \
+    template<typename T>                                                              \
+    class has_##typedef_                                                              \
+    {                                                                                 \
+        template<class C>                                                             \
+        static void check(typename std::decay<typename C::typedef_>::type*) noexcept; \
+        template<class C>                                                             \
+        static void check(...) noexcept(false);                                       \
                                                                                       \
-	public:                                                                           \
-		enum                                                                          \
-		{                                                                             \
-			value = noexcept(check<T>(nullptr))                                       \
-		};                                                                            \
-	};
+    public:                                                                           \
+        enum                                                                          \
+        {                                                                             \
+            value = noexcept(check<T>(nullptr))                                       \
+        };                                                                            \
+    };
 
 #define CAT_CLASS_HAS_MEMBER(member)                                                  \
-	template<typename T>                                                              \
-	class has_##member                                                                \
-	{                                                                                 \
-		template<class C>                                                             \
-		static void check(typename std::decay<decltype(&C::member)>::type*) noexcept; \
-		template<class C>                                                             \
-		static void check(...) noexcept(false);                                       \
+    template<typename T>                                                              \
+    class has_##member                                                                \
+    {                                                                                 \
+        template<class C>                                                             \
+        static void check(typename std::decay<decltype(&C::member)>::type*) noexcept; \
+        template<class C>                                                             \
+        static void check(...) noexcept(false);                                       \
                                                                                       \
-	public:                                                                           \
-		enum                                                                          \
-		{                                                                             \
-			value = noexcept(check<T>(nullptr))                                       \
-		};                                                                            \
-	};
+    public:                                                                           \
+        enum                                                                          \
+        {                                                                             \
+            value = noexcept(check<T>(nullptr))                                       \
+        };                                                                            \
+    };
 
 //////////////////////////////////////////////////////////////////////////////////
 //
@@ -163,9 +163,11 @@ struct has_difference_type : bool_type<details::has_difference_type<T>::value>
 //
 
 template<typename T>
-struct is_container : bool_type<details::has_value_type<T>::value && details::has_reference<T>::value && details::has_const_reference<T>::value &&
-								details::has_iterator<T>::value && details::has_const_iterator<T>::value && details::has_pointer<T>::value &&
-								details::has_const_pointer<T>::value && details::has_size_type<T>::value && details::has_difference_type<T>::value>
+struct is_container : bool_type<details::has_value_type<T>::value && details::has_reference<T>::value &&
+                                details::has_const_reference<T>::value && details::has_iterator<T>::value &&
+                                details::has_const_iterator<T>::value && details::has_pointer<T>::value &&
+                                details::has_const_pointer<T>::value && details::has_size_type<T>::value &&
+                                details::has_difference_type<T>::value>
 {
 };
 
@@ -175,7 +177,8 @@ struct is_container : bool_type<details::has_value_type<T>::value && details::ha
 //
 
 template<typename T>
-struct is_associative_container : bool_type<is_container<T>::value && details::has_key_type<T>::value && details::has_mapped_type<T>::value>
+struct is_associative_container
+    : bool_type<is_container<T>::value && details::has_key_type<T>::value && details::has_mapped_type<T>::value>
 {
 };
 
@@ -217,7 +220,7 @@ struct get_shared
 template<typename T>
 struct get_shared<std::shared_ptr<T>>
 {
-	using type = T;
+    using type = T;
 };
 
 template<typename T>
@@ -226,13 +229,13 @@ using get_shared_t = typename get_shared<T>::type;
 template<class T>
 struct remove_r_reference
 {
-	typedef T type;
+    typedef T type;
 };
 
 template<class T>
 struct remove_r_reference<T&&>
 {
-	typedef T type;
+    typedef T type;
 };
 
 #if __cplusplus < 201402L
@@ -252,22 +255,22 @@ struct integer_sequence
 template<typename T, T N, typename = void>
 struct make_integer_sequence_impl
 {
-	template<typename>
-	struct tmp;
+    template<typename>
+    struct tmp;
 
-	template<T... Prev>
-	struct tmp<integer_sequence<T, Prev...>>
-	{
-		using type = integer_sequence<T, Prev..., N - 1>;
-	};
+    template<T... Prev>
+    struct tmp<integer_sequence<T, Prev...>>
+    {
+        using type = integer_sequence<T, Prev..., N - 1>;
+    };
 
-	using type = typename tmp<typename make_integer_sequence_impl<T, N - 1>::type>::type;
+    using type = typename tmp<typename make_integer_sequence_impl<T, N - 1>::type>::type;
 };
 
 template<typename T, T N>
 struct make_integer_sequence_impl<T, N, typename std::enable_if<N == 0>::type>
 {
-	using type = integer_sequence<T>;
+    using type = integer_sequence<T>;
 };
 
 template<typename T, T N>
@@ -296,78 +299,90 @@ namespace stdext
 {
 namespace detail
 {
-	template<class T>
-	struct is_reference_wrapper : std::false_type
-	{
-	};
-	template<class U>
-	struct is_reference_wrapper<std::reference_wrapper<U>> : std::true_type
-	{
-	};
-	// template <class T>
-	// constexpr bool is_reference_wrapper_v = is_reference_wrapper<T>::value;
+    template<class T>
+    struct is_reference_wrapper : std::false_type
+    {
+    };
+    template<class U>
+    struct is_reference_wrapper<std::reference_wrapper<U>> : std::true_type
+    {
+    };
+    // template <class T>
+    // constexpr bool is_reference_wrapper_v = is_reference_wrapper<T>::value;
 
-	template<class Base, class T, class Derived, class... Args>
-	auto INVOKE(T Base::*pmf, Derived&& ref, Args&&... args) noexcept(noexcept((std::forward<Derived>(ref).*pmf)(std::forward<Args>(args)...)))
-		-> std::enable_if_t<std::is_function<T>::value && std::is_base_of<Base, std::decay_t<Derived>>::value,
-							decltype((std::forward<Derived>(ref).*pmf)(std::forward<Args>(args)...))>
-	{
-		return (std::forward<Derived>(ref).*pmf)(std::forward<Args>(args)...);
-	}
+    template<class Base, class T, class Derived, class... Args>
+    auto INVOKE(T Base::* pmf,
+                Derived&& ref,
+                Args&&... args) noexcept(noexcept((std::forward<Derived>(ref).*pmf)(std::forward<Args>(args)...)))
+        -> std::enable_if_t<std::is_function<T>::value && std::is_base_of<Base, std::decay_t<Derived>>::value,
+                            decltype((std::forward<Derived>(ref).*pmf)(std::forward<Args>(args)...))>
+    {
+        return (std::forward<Derived>(ref).*pmf)(std::forward<Args>(args)...);
+    }
 
-	template<class Base, class T, class RefWrap, class... Args>
-	auto INVOKE(T Base::*pmf, RefWrap&& ref, Args&&... args) noexcept(noexcept((ref.get().*pmf)(std::forward<Args>(args)...)))
-		-> std::enable_if_t<std::is_function<T>::value && is_reference_wrapper<std::decay_t<RefWrap>>::value, decltype((ref.get().*pmf)(std::forward<Args>(args)...))>
+    template<class Base, class T, class RefWrap, class... Args>
+    auto INVOKE(T Base::* pmf,
+                RefWrap&& ref,
+                Args&&... args) noexcept(noexcept((ref.get().*pmf)(std::forward<Args>(args)...)))
+        -> std::enable_if_t<std::is_function<T>::value && is_reference_wrapper<std::decay_t<RefWrap>>::value,
+                            decltype((ref.get().*pmf)(std::forward<Args>(args)...))>
 
-	{
-		return (ref.get().*pmf)(std::forward<Args>(args)...);
-	}
+    {
+        return (ref.get().*pmf)(std::forward<Args>(args)...);
+    }
 
-	template<class Base, class T, class Pointer, class... Args>
-	auto INVOKE(T Base::*pmf, Pointer&& ptr, Args&&... args) noexcept(noexcept(((*std::forward<Pointer>(ptr)).*pmf)(std::forward<Args>(args)...)))
-		-> std::enable_if_t<std::is_function<T>::value && !is_reference_wrapper<std::decay_t<Pointer>>::value && !std::is_base_of<Base, std::decay_t<Pointer>>::value,
-							decltype(((*std::forward<Pointer>(ptr)).*pmf)(std::forward<Args>(args)...))>
-	{
-		return ((*std::forward<Pointer>(ptr)).*pmf)(std::forward<Args>(args)...);
-	}
+    template<class Base, class T, class Pointer, class... Args>
+    auto INVOKE(T Base::* pmf,
+                Pointer&& ptr,
+                Args&&... args) noexcept(noexcept(((*std::forward<Pointer>(ptr)).*pmf)(std::forward<Args>(args)...)))
+        -> std::enable_if_t<std::is_function<T>::value && !is_reference_wrapper<std::decay_t<Pointer>>::value &&
+                                !std::is_base_of<Base, std::decay_t<Pointer>>::value,
+                            decltype(((*std::forward<Pointer>(ptr)).*pmf)(std::forward<Args>(args)...))>
+    {
+        return ((*std::forward<Pointer>(ptr)).*pmf)(std::forward<Args>(args)...);
+    }
 
-	template<class Base, class T, class Derived>
-	auto INVOKE(T Base::*pmd, Derived&& ref) noexcept(noexcept(std::forward<Derived>(ref).*pmd))
-		-> std::enable_if_t<!std::is_function<T>::value && std::is_base_of<Base, std::decay_t<Derived>>::value, decltype(std::forward<Derived>(ref).*pmd)>
-	{
-		return std::forward<Derived>(ref).*pmd;
-	}
+    template<class Base, class T, class Derived>
+    auto INVOKE(T Base::*pmd, Derived&& ref) noexcept(noexcept(std::forward<Derived>(ref).*pmd))
+        -> std::enable_if_t<!std::is_function<T>::value && std::is_base_of<Base, std::decay_t<Derived>>::value,
+                            decltype(std::forward<Derived>(ref).*pmd)>
+    {
+        return std::forward<Derived>(ref).*pmd;
+    }
 
-	template<class Base, class T, class RefWrap>
-	auto INVOKE(T Base::*pmd, RefWrap&& ref) noexcept(noexcept(ref.get().*pmd))
-		-> std::enable_if_t<!std::is_function<T>::value && is_reference_wrapper<std::decay_t<RefWrap>>::value, decltype(ref.get().*pmd)>
-	{
-		return ref.get().*pmd;
-	}
+    template<class Base, class T, class RefWrap>
+    auto INVOKE(T Base::*pmd, RefWrap&& ref) noexcept(noexcept(ref.get().*pmd))
+        -> std::enable_if_t<!std::is_function<T>::value && is_reference_wrapper<std::decay_t<RefWrap>>::value,
+                            decltype(ref.get().*pmd)>
+    {
+        return ref.get().*pmd;
+    }
 
-	template<class Base, class T, class Pointer>
-	auto INVOKE(T Base::*pmd, Pointer&& ptr) noexcept(noexcept((*std::forward<Pointer>(ptr)).*pmd))
-		-> std::enable_if_t<!std::is_function<T>::value && !is_reference_wrapper<std::decay_t<Pointer>>::value && !std::is_base_of<Base, std::decay_t<Pointer>>::value,
-							decltype((*std::forward<Pointer>(ptr)).*pmd)>
-	{
-		return (*std::forward<Pointer>(ptr)).*pmd;
-	}
+    template<class Base, class T, class Pointer>
+    auto INVOKE(T Base::*pmd, Pointer&& ptr) noexcept(noexcept((*std::forward<Pointer>(ptr)).*pmd))
+        -> std::enable_if_t<!std::is_function<T>::value && !is_reference_wrapper<std::decay_t<Pointer>>::value &&
+                                !std::is_base_of<Base, std::decay_t<Pointer>>::value,
+                            decltype((*std::forward<Pointer>(ptr)).*pmd)>
+    {
+        return (*std::forward<Pointer>(ptr)).*pmd;
+    }
 
-	template<class F, class... Args>
-	auto INVOKE(F&& f, Args&&... args) noexcept(noexcept(std::forward<F>(f)(std::forward<Args>(args)...)))
-		-> std::enable_if_t<!std::is_member_pointer<std::decay_t<F>>::value, decltype(std::forward<F>(f)(std::forward<Args>(args)...))>
-	{
-		return std::forward<F>(f)(std::forward<Args>(args)...);
-	}
+    template<class F, class... Args>
+    auto INVOKE(F&& f, Args&&... args) noexcept(noexcept(std::forward<F>(f)(std::forward<Args>(args)...)))
+        -> std::enable_if_t<!std::is_member_pointer<std::decay_t<F>>::value,
+                            decltype(std::forward<F>(f)(std::forward<Args>(args)...))>
+    {
+        return std::forward<F>(f)(std::forward<Args>(args)...);
+    }
 } // namespace detail
 
 template<class F, class... ArgTypes>
 auto invoke(F&& f, ArgTypes&&... args)
-	// exception specification for QoI
-	noexcept(noexcept(detail::INVOKE(std::forward<F>(f), std::forward<ArgTypes>(args)...)))
-		-> decltype(detail::INVOKE(std::forward<F>(f), std::forward<ArgTypes>(args)...))
+    // exception specification for QoI
+    noexcept(noexcept(detail::INVOKE(std::forward<F>(f), std::forward<ArgTypes>(args)...)))
+        -> decltype(detail::INVOKE(std::forward<F>(f), std::forward<ArgTypes>(args)...))
 {
-	return detail::INVOKE(std::forward<F>(f), std::forward<ArgTypes>(args)...);
+    return detail::INVOKE(std::forward<F>(f), std::forward<ArgTypes>(args)...);
 }
 }; // namespace stdext
 
@@ -379,16 +394,16 @@ struct function_traits : function_traits<decltype(&_FUNC::operator())>
 template<class _RET, class... _ARGS>
 struct function_traits<_RET(_ARGS...)>
 {
-	typedef _RET return_type;
-	using _CALLTYPE = _RET(_ARGS...);
+    typedef _RET return_type;
+    using _CALLTYPE = _RET(_ARGS...);
 
-	static constexpr const size_t args_num = sizeof...(_ARGS);
-	static constexpr const size_t argc	   = sizeof...(_ARGS);
-	template<size_t i>
-	struct argv
-	{
-		typedef typename std::tuple_element<i, std::tuple<_ARGS...>>::type type;
-	};
+    static constexpr const size_t args_num = sizeof...(_ARGS);
+    static constexpr const size_t argc     = sizeof...(_ARGS);
+    template<size_t i>
+    struct argv
+    {
+        typedef typename std::tuple_element<i, std::tuple<_ARGS...>>::type type;
+    };
 };
 
 template<class _RET, class... _ARGS>
@@ -462,6 +477,7 @@ struct function_traits<const volatile _FUNC&&> : function_traits<_FUNC>
 };
 
 template<typename T>
-using base_type = typename std::remove_cv<typename std::remove_reference<typename std::remove_pointer<T>::type>::type>::type;
+using base_type =
+    typename std::remove_cv<typename std::remove_reference<typename std::remove_pointer<T>::type>::type>::type;
 
 #endif

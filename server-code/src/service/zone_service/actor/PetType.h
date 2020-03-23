@@ -6,38 +6,38 @@
 
 enum PetType
 {
-	PET_TYPE_NORMAL = 0,
+    PET_TYPE_NORMAL = 0,
 };
 
 class CPetType
 {
-	CPetType() {}
+    CPetType() {}
 
 public:
-	~CPetType() {}
-	CREATE_NEW_IMPL(CPetType);
-	bool Init(const Cfg_Pet_Row& row)
-	{
-		m_Data = row;
-		CActorAttrib::load_from(m_ability, row.attr_data());
+    ~CPetType() {}
+    CREATE_NEW_IMPL(CPetType);
+    bool Init(const Cfg_Pet_Row& row)
+    {
+        m_Data = row;
+        CActorAttrib::load_from(m_ability, row.attr_data());
 
-		return true;
-	}
+        return true;
+    }
 
-	using PB_T = Cfg_Pet;
-	uint32_t			   GetID() const { return m_Data.id(); }
-	uint32_t			   GetType() const { return m_Data.pet_type(); }
-	uint32_t			   GetFlag() const { return m_Data.pet_flag(); }
-	float				   GetHigh() const { return m_Data.high(); }
-	float				   GetVolume() const { return m_Data.volume(); }
-	const std::string&	   GetName() const { return m_Data.name(); }
-	OBJID				   GetScirptID() const { return m_Data.scriptid(); }
-	const AttribList_t&	   GetAbility() const { return m_ability; }
-	const AttribDataProto& getData() const { return m_Data.attr_data(); }
+    using PB_T = Cfg_Pet;
+    uint32_t               GetID() const { return m_Data.id(); }
+    uint32_t               GetType() const { return m_Data.pet_type(); }
+    uint32_t               GetFlag() const { return m_Data.pet_flag(); }
+    float                  GetHigh() const { return m_Data.high(); }
+    float                  GetVolume() const { return m_Data.volume(); }
+    const std::string&     GetName() const { return m_Data.name(); }
+    OBJID                  GetScirptID() const { return m_Data.scriptid(); }
+    const AttribList_t&    GetAbility() const { return m_ability; }
+    const AttribDataProto& getData() const { return m_Data.attr_data(); }
 
 private:
-	Cfg_Pet_Row	 m_Data;
-	AttribList_t m_ability;
+    Cfg_Pet_Row  m_Data;
+    AttribList_t m_ability;
 };
 
 typedef CGameDataMap<CPetType> CPetTypeSet;

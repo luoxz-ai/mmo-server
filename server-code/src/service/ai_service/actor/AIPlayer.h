@@ -6,16 +6,16 @@
 class CAIPlayer : public CAIActor
 {
 public:
-	CAIPlayer();
-	~CAIPlayer();
-	CREATE_NEW_IMPL(CAIPlayer);
-	bool Init(const ServerMSG::ActorCreate& msg);
+    CAIPlayer();
+    ~CAIPlayer();
+    CREATE_NEW_IMPL(CAIPlayer);
+    bool Init(const ServerMSG::ActorCreate& msg);
 
-	virtual ActorType GetActorType() const override { return ActorType::ACT_PLAYER; }
-	static ActorType  GetActorTypeStatic() { return ActorType::ACT_PLAYER; }
+    virtual ActorType GetActorType() const override { return ActorType::ACT_PLAYER; }
+    static ActorType  GetActorTypeStatic() { return ActorType::ACT_PLAYER; }
 
 public:
-	MEMORYHEAP_DECLARATION(s_heap);
+    MEMORYHEAP_DECLARATION(s_heap);
 
 private:
 };

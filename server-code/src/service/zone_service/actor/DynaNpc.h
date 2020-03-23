@@ -6,12 +6,12 @@
 export_lua class CDynaNpc : public CNpc
 {
 protected:
-	CDynaNpc();
+    CDynaNpc();
 
 public:
-	virtual ~CDynaNpc();
+    virtual ~CDynaNpc();
 
-	CREATE_NEW_IMPL(CDynaNpc);
-	bool Init(uint32_t idType);
+    CREATE_NEW_IMPL(CDynaNpc);
+    bool Init(uint32_t idType);
 };
 #endif /* DYNANPC_H */

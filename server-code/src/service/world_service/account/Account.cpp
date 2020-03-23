@@ -15,333 +15,337 @@ CAccount::CAccount() {}
 
 size_t CAccount::GetRoleAmount() const
 {
-	return m_setActorInfo.size();
+    return m_setActorInfo.size();
 }
 
 const ST_ROLE_INFO* CAccount::QueryRoleByIndex(size_t nIdx)
 {
-	if(nIdx > m_setActorInfo.size())
-		return nullptr;
-	return m_setActorInfo[nIdx];
+    if(nIdx > m_setActorInfo.size())
+        return nullptr;
+    return m_setActorInfo[nIdx];
 }
 
 CAccount::~CAccount()
 {
-	if(m_pUser)
-		UserManager()->RemoveUser(m_pUser);
-	for(ST_ROLE_INFO*& pInfo: m_setActorInfo)
-	{
-		SAFE_DELETE(pInfo);
-	}
-	m_setActorInfo.clear();
+    if(m_pUser)
+        UserManager()->RemoveUser(m_pUser);
+    for(ST_ROLE_INFO*& pInfo: m_setActorInfo)
+    {
+        SAFE_DELETE(pInfo);
+    }
+    m_setActorInfo.clear();
 }
 
 bool CAccount::Init(const std::string& open_id, const VirtualSocket& from)
 {
-	//从数据库读取数据
-	auto pDB = WorldService()->GetGameDB();
+    //从数据库读取数据
+    auto pDB = WorldService()->GetGameDB();
 
-	if(pDB->EscapeString(m_openid, open_id.c_str(), open_id.size()) == false)
-		return false;
+    if(pDB->EscapeString(m_openid, open_id.c_str(), open_id.size()) == false)
+        return false;
 
-	ReloadActorInfo();
+    ReloadActorInfo();
 
-	m_Socket = from;
+    m_Socket = from;
 
-	return true;
+    return true;
 }
 
 void CAccount::ReloadActorInfo()
 {
-	__ENTER_FUNCTION
+    __ENTER_FUNCTION
 
-	for(ST_ROLE_INFO* pInfo: m_setActorInfo)
-	{
-		SAFE_DELETE(pInfo);
-	}
-	m_setActorInfo.clear();
+    for(ST_ROLE_INFO* pInfo: m_setActorInfo)
+    {
+        SAFE_DELETE(pInfo);
+    }
+    m_setActorInfo.clear();
 
-	auto pDB = WorldService()->GetGameDB();
-	auto result_ptr =
-		pDB->Query(TBLD_PLAYER::table_name, fmt::format(FMT_STRING("SELECT * FROM {} WHERE openid=\'{}\' and del_time=0"), TBLD_PLAYER::table_name, m_openid));
-	if(result_ptr)
-	{
-		for(size_t i = 0; i < result_ptr->get_num_row(); i++)
-		{
-			auto		  db_record_ptr = result_ptr->fetch_row(true);
-			ST_ROLE_INFO* pInfo			= new ST_ROLE_INFO{std::move(db_record_ptr)};
-			m_setActorInfo.push_back(pInfo);
-		}
-	}
-	__LEAVE_FUNCTION
+    auto pDB        = WorldService()->GetGameDB();
+    auto result_ptr = pDB->Query(TBLD_PLAYER::table_name,
+                                 fmt::format(FMT_STRING("SELECT * FROM {} WHERE openid=\'{}\' and del_time=0"),
+                                             TBLD_PLAYER::table_name,
+                                             m_openid));
+    if(result_ptr)
+    {
+        for(size_t i = 0; i < result_ptr->get_num_row(); i++)
+        {
+            auto          db_record_ptr = result_ptr->fetch_row(true);
+            ST_ROLE_INFO* pInfo         = new ST_ROLE_INFO{std::move(db_record_ptr)};
+            m_setActorInfo.push_back(pInfo);
+        }
+    }
+    __LEAVE_FUNCTION
 }
 
 bool CAccount::CreateActor(const std::string& name, uint32_t dwProf, uint32_t dwLook)
 {
-	__ENTER_FUNCTION
-	if(GetRoleAmount() >= _MAX_ROLES_PER_ACCOUNT)
-	{
-		SC_CREATEACTOR msg;
-		msg.set_result_code(SC_CREATEACTOR::EC_MAX_ACTOR);
-		WorldService()->SendToVirtualSocket(m_Socket, CMD_SC_CREATEACTOR, msg);
-		return false;
-	}
-	if(name.size() > _MAX_NAME_SIZE)
-	{
-		SC_CREATEACTOR msg;
-		msg.set_result_code(SC_CREATEACTOR::EC_NAME_TOO_LONG);
-		WorldService()->SendToVirtualSocket(m_Socket, CMD_SC_CREATEACTOR, msg);
-		return false;
-	}
-	auto pDB = WorldService()->GetGameDB();
+    __ENTER_FUNCTION
+    if(GetRoleAmount() >= _MAX_ROLES_PER_ACCOUNT)
+    {
+        SC_CREATEACTOR msg;
+        msg.set_result_code(SC_CREATEACTOR::EC_MAX_ACTOR);
+        WorldService()->SendToVirtualSocket(m_Socket, CMD_SC_CREATEACTOR, msg);
+        return false;
+    }
+    if(name.size() > _MAX_NAME_SIZE)
+    {
+        SC_CREATEACTOR msg;
+        msg.set_result_code(SC_CREATEACTOR::EC_NAME_TOO_LONG);
+        WorldService()->SendToVirtualSocket(m_Socket, CMD_SC_CREATEACTOR, msg);
+        return false;
+    }
+    auto pDB = WorldService()->GetGameDB();
 
-	// 角色昵称允许所有任意字符，因此插入数据库之前需要处理：
-	char szName[_MAX_NAME_SIZE * 2 + 1];
-	if(pDB->EscapeString(szName, name.c_str(), name.size()) == false)
-	{
-		SC_CREATEACTOR msg;
-		msg.set_result_code(SC_CREATEACTOR::EC_NAME_ILLEGAL);
-		WorldService()->SendToVirtualSocket(m_Socket, CMD_SC_CREATEACTOR, msg);
-		return false;
-	}
+    // 角色昵称允许所有任意字符，因此插入数据库之前需要处理：
+    char szName[_MAX_NAME_SIZE * 2 + 1];
+    if(pDB->EscapeString(szName, name.c_str(), name.size()) == false)
+    {
+        SC_CREATEACTOR msg;
+        msg.set_result_code(SC_CREATEACTOR::EC_NAME_ILLEGAL);
+        WorldService()->SendToVirtualSocket(m_Socket, CMD_SC_CREATEACTOR, msg);
+        return false;
+    }
 
-	if(strlen(szName) < _MIN_NAME_SIZE)
-	{
-		SC_CREATEACTOR msg;
-		msg.set_result_code(SC_CREATEACTOR::EC_NAME_TOO_SHORT);
-		WorldService()->SendToVirtualSocket(m_Socket, CMD_SC_CREATEACTOR, msg);
-		return false;
-	}
+    if(strlen(szName) < _MIN_NAME_SIZE)
+    {
+        SC_CREATEACTOR msg;
+        msg.set_result_code(SC_CREATEACTOR::EC_NAME_TOO_SHORT);
+        WorldService()->SendToVirtualSocket(m_Socket, CMD_SC_CREATEACTOR, msg);
+        return false;
+    }
 
-	//敏感字检验
-	if(GMManager()->GetGMLevel(m_openid) == 0)
-	{
-		if(FindNameError(szName) == true)
-		{
-			SC_CREATEACTOR msg;
-			msg.set_result_code(SC_CREATEACTOR::EC_NAME_ILLEGAL);
-			WorldService()->SendToVirtualSocket(m_Socket, CMD_SC_CREATEACTOR, msg);
-			return false;
-		}
-	}
+    //敏感字检验
+    if(GMManager()->GetGMLevel(m_openid) == 0)
+    {
+        if(FindNameError(szName) == true)
+        {
+            SC_CREATEACTOR msg;
+            msg.set_result_code(SC_CREATEACTOR::EC_NAME_ILLEGAL);
+            WorldService()->SendToVirtualSocket(m_Socket, CMD_SC_CREATEACTOR, msg);
+            return false;
+        }
+    }
 
-	CHECKF(PROF_WARRIOR == dwProf || PROF_MAGA == dwProf || PROF_PRIEST == dwProf);
-	uint32_t dwBaseLook = dwLook;
+    CHECKF(PROF_WARRIOR == dwProf || PROF_MAGA == dwProf || PROF_PRIEST == dwProf);
+    uint32_t dwBaseLook = dwLook;
 
-	CUserAttrData* pLevData = UserAttrSet()->QueryObj(CUserAttrData::MakeID(dwProf, 1));
-	if(pLevData == nullptr)
-	{
-		return false;
-	}
-	const AttribList_t& AbilityLevel = pLevData->GetAbility();
+    CUserAttrData* pLevData = UserAttrSet()->QueryObj(CUserAttrData::MakeID(dwProf, 1));
+    if(pLevData == nullptr)
+    {
+        return false;
+    }
+    const AttribList_t& AbilityLevel = pLevData->GetAbility();
 
-	CBornPos* pBornPos = BornPosSet()->RandGet(dwProf);
-	CHECKF(pBornPos);
+    CBornPos* pBornPos = BornPosSet()->RandGet(dwProf);
+    CHECKF(pBornPos);
 
-	CGameMap* pMap = MapManager()->QueryMap(pBornPos->GetMapID());
-	CHECKF(pMap);
-	Vector2 bornPos(pBornPos->GetPosX(), pBornPos->GetPoxY());
-	bornPos = pMap->FindPosNearby(bornPos, pBornPos->GetRange());
+    CGameMap* pMap = MapManager()->QueryMap(pBornPos->GetMapID());
+    CHECKF(pMap);
+    Vector2 bornPos(pBornPos->GetPosX(), pBornPos->GetPoxY());
+    bornPos = pMap->FindPosNearby(bornPos, pBornPos->GetRange());
 
-	{
-		auto  db_record_ptr								  = pDB->MakeRecord(TBLD_PLAYER::table_name);
-		OBJID idPlayer									  = WorldService()->CreatePlayerID();
-		db_record_ptr->Field(TBLD_PLAYER::ID)			  = idPlayer;
-		db_record_ptr->Field(TBLD_PLAYER::WORLDID)		  = WorldService()->GetServerPort().GetWorldID();
-		db_record_ptr->Field(TBLD_PLAYER::ORIWORLDID)	  = WorldService()->GetServerPort().GetWorldID();
-		db_record_ptr->Field(TBLD_PLAYER::OPENID)		  = m_openid;
-		db_record_ptr->Field(TBLD_PLAYER::NAME)			  = szName;
-		db_record_ptr->Field(TBLD_PLAYER::PROF)			  = dwProf;
-		db_record_ptr->Field(TBLD_PLAYER::LEV)			  = (uint32_t)1;
-		db_record_ptr->Field(TBLD_PLAYER::EXP)			  = (uint32_t)0;
-		db_record_ptr->Field(TBLD_PLAYER::RECORD_SCENEID) = SceneID(pMap->GetZoneID(), pBornPos->GetMapID(), 0).data64;
-		db_record_ptr->Field(TBLD_PLAYER::RECORD_X)		  = bornPos.x;
-		db_record_ptr->Field(TBLD_PLAYER::RECORD_Y)		  = bornPos.y;
-		db_record_ptr->Field(TBLD_PLAYER::RECORD_FACE)	  = pBornPos->GetFace();
-		db_record_ptr->Field(TBLD_PLAYER::HOME_SCENEID)	  = SceneID(pMap->GetZoneID(), pBornPos->GetMapID(), 0).data64;
-		db_record_ptr->Field(TBLD_PLAYER::HOME_X)		  = bornPos.x;
-		db_record_ptr->Field(TBLD_PLAYER::HOME_Y)		  = bornPos.y;
-		db_record_ptr->Field(TBLD_PLAYER::HOME_FACE)	  = pBornPos->GetFace();
-		if(GMManager()->GetGMLevel(m_openid) != 0)
-		{
-			db_record_ptr->Field(TBLD_PLAYER::MONEY)	  = (uint32_t)10000;
-			db_record_ptr->Field(TBLD_PLAYER::MONEY_BIND) = (uint32_t)10000;
-			db_record_ptr->Field(TBLD_PLAYER::GOLD)		  = (uint32_t)10000;
-			db_record_ptr->Field(TBLD_PLAYER::GOLD_BIND)  = (uint32_t)10000;
-		}
-		else
-		{
-			db_record_ptr->Field(TBLD_PLAYER::MONEY)	  = (uint32_t)0;
-			db_record_ptr->Field(TBLD_PLAYER::MONEY_BIND) = (uint32_t)0;
-			db_record_ptr->Field(TBLD_PLAYER::GOLD)		  = (uint32_t)0;
-			db_record_ptr->Field(TBLD_PLAYER::GOLD_BIND)  = (uint32_t)0;
-		}
-		db_record_ptr->Field(TBLD_PLAYER::HP)			   = AbilityLevel[ATTRIB_HP_MAX];
-		db_record_ptr->Field(TBLD_PLAYER::MP)			   = AbilityLevel[ATTRIB_MP_MAX];
-		uint32_t now									   = TimeGetSecond();
-		db_record_ptr->Field(TBLD_PLAYER::CREATE_TIME)	   = now;
-		db_record_ptr->Field(TBLD_PLAYER::LAST_LOGINTIME)  = now;
-		db_record_ptr->Field(TBLD_PLAYER::LAST_LOGOUTTIME) = now;
+    {
+        auto  db_record_ptr                               = pDB->MakeRecord(TBLD_PLAYER::table_name);
+        OBJID idPlayer                                    = WorldService()->CreatePlayerID();
+        db_record_ptr->Field(TBLD_PLAYER::ID)             = idPlayer;
+        db_record_ptr->Field(TBLD_PLAYER::WORLDID)        = WorldService()->GetServerPort().GetWorldID();
+        db_record_ptr->Field(TBLD_PLAYER::ORIWORLDID)     = WorldService()->GetServerPort().GetWorldID();
+        db_record_ptr->Field(TBLD_PLAYER::OPENID)         = m_openid;
+        db_record_ptr->Field(TBLD_PLAYER::NAME)           = szName;
+        db_record_ptr->Field(TBLD_PLAYER::PROF)           = dwProf;
+        db_record_ptr->Field(TBLD_PLAYER::LEV)            = (uint32_t)1;
+        db_record_ptr->Field(TBLD_PLAYER::EXP)            = (uint32_t)0;
+        db_record_ptr->Field(TBLD_PLAYER::RECORD_SCENEID) = SceneID(pMap->GetZoneID(), pBornPos->GetMapID(), 0).data64;
+        db_record_ptr->Field(TBLD_PLAYER::RECORD_X)       = bornPos.x;
+        db_record_ptr->Field(TBLD_PLAYER::RECORD_Y)       = bornPos.y;
+        db_record_ptr->Field(TBLD_PLAYER::RECORD_FACE)    = pBornPos->GetFace();
+        db_record_ptr->Field(TBLD_PLAYER::HOME_SCENEID)   = SceneID(pMap->GetZoneID(), pBornPos->GetMapID(), 0).data64;
+        db_record_ptr->Field(TBLD_PLAYER::HOME_X)         = bornPos.x;
+        db_record_ptr->Field(TBLD_PLAYER::HOME_Y)         = bornPos.y;
+        db_record_ptr->Field(TBLD_PLAYER::HOME_FACE)      = pBornPos->GetFace();
+        if(GMManager()->GetGMLevel(m_openid) != 0)
+        {
+            db_record_ptr->Field(TBLD_PLAYER::MONEY)      = (uint32_t)10000;
+            db_record_ptr->Field(TBLD_PLAYER::MONEY_BIND) = (uint32_t)10000;
+            db_record_ptr->Field(TBLD_PLAYER::GOLD)       = (uint32_t)10000;
+            db_record_ptr->Field(TBLD_PLAYER::GOLD_BIND)  = (uint32_t)10000;
+        }
+        else
+        {
+            db_record_ptr->Field(TBLD_PLAYER::MONEY)      = (uint32_t)0;
+            db_record_ptr->Field(TBLD_PLAYER::MONEY_BIND) = (uint32_t)0;
+            db_record_ptr->Field(TBLD_PLAYER::GOLD)       = (uint32_t)0;
+            db_record_ptr->Field(TBLD_PLAYER::GOLD_BIND)  = (uint32_t)0;
+        }
+        db_record_ptr->Field(TBLD_PLAYER::HP)              = AbilityLevel[ATTRIB_HP_MAX];
+        db_record_ptr->Field(TBLD_PLAYER::MP)              = AbilityLevel[ATTRIB_MP_MAX];
+        uint32_t now                                       = TimeGetSecond();
+        db_record_ptr->Field(TBLD_PLAYER::CREATE_TIME)     = now;
+        db_record_ptr->Field(TBLD_PLAYER::LAST_LOGINTIME)  = now;
+        db_record_ptr->Field(TBLD_PLAYER::LAST_LOGOUTTIME) = now;
 
-		if(db_record_ptr->Update(true) == true)
-		{
-			LOGLOGIN("Account:{} CreateActor:{}", GetOpenID().c_str(), name.c_str());
+        if(db_record_ptr->Update(true) == true)
+        {
+            LOGLOGIN("Account:{} CreateActor:{}", GetOpenID().c_str(), name.c_str());
 
-			ST_ROLE_INFO* pInfo = new ST_ROLE_INFO{std::move(db_record_ptr)};
-			m_setActorInfo.push_back(pInfo);
+            ST_ROLE_INFO* pInfo = new ST_ROLE_INFO{std::move(db_record_ptr)};
+            m_setActorInfo.push_back(pInfo);
 
-			//通知前端创建成功
+            //通知前端创建成功
 
-			SC_CREATEACTOR msg;
-			msg.set_result_code(SC_CREATEACTOR::EC_SUCC);
-			WorldService()->SendToVirtualSocket(m_Socket, CMD_SC_CREATEACTOR, msg);
+            SC_CREATEACTOR msg;
+            msg.set_result_code(SC_CREATEACTOR::EC_SUCC);
+            WorldService()->SendToVirtualSocket(m_Socket, CMD_SC_CREATEACTOR, msg);
 
-			// todo:DLOG记录玩家创建角色日志
-			return true;
-		}
-		else
-		{
-			LOGLOGIN("Account:{} CreateActorFail:{}", GetOpenID().c_str(), name.c_str());
-			WorldService()->RecyclePlayerID(idPlayer);
-			SC_CREATEACTOR msg;
-			msg.set_result_code(SC_CREATEACTOR::EC_SAME_NAME);
-			WorldService()->SendToVirtualSocket(m_Socket, CMD_SC_CREATEACTOR, msg);
-		}
-		return false;
-	}
+            // todo:DLOG记录玩家创建角色日志
+            return true;
+        }
+        else
+        {
+            LOGLOGIN("Account:{} CreateActorFail:{}", GetOpenID().c_str(), name.c_str());
+            WorldService()->RecyclePlayerID(idPlayer);
+            SC_CREATEACTOR msg;
+            msg.set_result_code(SC_CREATEACTOR::EC_SAME_NAME);
+            WorldService()->SendToVirtualSocket(m_Socket, CMD_SC_CREATEACTOR, msg);
+        }
+        return false;
+    }
 
-	__LEAVE_FUNCTION
+    __LEAVE_FUNCTION
 
-	return false;
+    return false;
 }
 
 void CAccount::SelectActor(size_t nIdx)
 {
-	__ENTER_FUNCTION
-	if(m_setActorInfo.size() < nIdx)
-		return;
-	LOGLOGIN("Account:{} SelectActor:{}", GetOpenID().c_str(), nIdx);
-	if(m_pUser != nullptr)
-	{
-		// kick player first
-		ExitZone(false);
-	}
-	ST_ROLE_INFO* pInfo = m_setActorInfo[nIdx];
+    __ENTER_FUNCTION
+    if(m_setActorInfo.size() < nIdx)
+        return;
+    LOGLOGIN("Account:{} SelectActor:{}", GetOpenID().c_str(), nIdx);
+    if(m_pUser != nullptr)
+    {
+        // kick player first
+        ExitZone(false);
+    }
+    ST_ROLE_INFO* pInfo = m_setActorInfo[nIdx];
 
-	m_pUser = UserManager()->CreateUser(this, pInfo);
-	if(m_pUser == nullptr)
-	{
-		// send error to client
-		return;
-	}
-	m_pUser->EnterZone();
-	__LEAVE_FUNCTION
+    m_pUser = UserManager()->CreateUser(this, pInfo);
+    if(m_pUser == nullptr)
+    {
+        // send error to client
+        return;
+    }
+    m_pUser->EnterZone();
+    __LEAVE_FUNCTION
 }
 
 void CAccount::DelActor(size_t nIdx)
 {
-	__ENTER_FUNCTION
-	if(m_setActorInfo.size() < nIdx)
-		return;
-	LOGLOGIN("Account:{} DelActor:{}", GetOpenID().c_str(), nIdx);
-	if(m_pUser != nullptr)
-	{
-		// kick player first
-		ExitZone(false);
-	}
-	ST_ROLE_INFO* pInfo	 = m_setActorInfo[nIdx];
-	OBJID		  idUser = pInfo->GetID();
-	OBJID		  idMate = pInfo->GetMateID();
+    __ENTER_FUNCTION
+    if(m_setActorInfo.size() < nIdx)
+        return;
+    LOGLOGIN("Account:{} DelActor:{}", GetOpenID().c_str(), nIdx);
+    if(m_pUser != nullptr)
+    {
+        // kick player first
+        ExitZone(false);
+    }
+    ST_ROLE_INFO* pInfo  = m_setActorInfo[nIdx];
+    OBJID         idUser = pInfo->GetID();
+    OBJID         idMate = pInfo->GetMateID();
 
-	//通知伴侣
-	{
-		CUser* pMate = UserManager()->QueryUser(idMate);
-		if(pMate)
-		{
-			pMate->ClearMate();
-		}
-		else
-		{
-			//强行设定伴侣的MateID = 0;
-			auto pDB = WorldService()->GetGameDB();
-			pDB->AsyncExec(fmt::format(FMT_STRING("UPDATE {} SET mate_id=0,mate_name='' WHERE id={}"), TBLD_PLAYER::table_name, idMate));
-		}
-		//发送邮件
-	}
+    //通知伴侣
+    {
+        CUser* pMate = UserManager()->QueryUser(idMate);
+        if(pMate)
+        {
+            pMate->ClearMate();
+        }
+        else
+        {
+            //强行设定伴侣的MateID = 0;
+            auto pDB = WorldService()->GetGameDB();
+            pDB->AsyncExec(fmt::format(FMT_STRING("UPDATE {} SET mate_id=0,mate_name='' WHERE id={}"),
+                                       TBLD_PLAYER::table_name,
+                                       idMate));
+        }
+        //发送邮件
+    }
 
-	//通知组队系统
-	//通知工会系统
-	//通知拍卖行系统
+    //通知组队系统
+    //通知工会系统
+    //通知拍卖行系统
 
-	pInfo->ClearMate();
-	pInfo->SetDelTime(TimeGetSecond());
+    pInfo->ClearMate();
+    pInfo->SetDelTime(TimeGetSecond());
 
-	ReloadActorInfo();
-	__LEAVE_FUNCTION
+    ReloadActorInfo();
+    __LEAVE_FUNCTION
 }
 
 void CAccount::ExitZone(bool bReload)
 {
-	__ENTER_FUNCTION
-	if(m_pUser == nullptr)
-		return;
-	LOGLOGIN("Account:{} ExitZone", GetOpenID().c_str());
+    __ENTER_FUNCTION
+    if(m_pUser == nullptr)
+        return;
+    LOGLOGIN("Account:{} ExitZone", GetOpenID().c_str());
 
-	//将该角色退出
-	m_pUser->Logout();
+    //将该角色退出
+    m_pUser->Logout();
 
-	UserManager()->RemoveUser(m_pUser);
+    UserManager()->RemoveUser(m_pUser);
 
-	//重新读取角色信息
-	if(bReload)
-	{
-		ReloadActorInfo();
-		//发送角色信息
-		SendActorInfo();
-	}
+    //重新读取角色信息
+    if(bReload)
+    {
+        ReloadActorInfo();
+        //发送角色信息
+        SendActorInfo();
+    }
 
-	__LEAVE_FUNCTION
+    __LEAVE_FUNCTION
 }
 
 void CAccount::KickOut()
 {
-	ExitZone();
-	MSG_SCK_CLOSE kick_msg;
-	kick_msg.vs = GetSocket();
-	WorldService()->SendPortMsg(GetSocket().GetServerPort(), (byte*)&kick_msg, sizeof(kick_msg));
+    ExitZone();
+    MSG_SCK_CLOSE kick_msg;
+    kick_msg.vs = GetSocket();
+    WorldService()->SendPortMsg(GetSocket().GetServerPort(), (byte*)&kick_msg, sizeof(kick_msg));
 }
 
 void CAccount::SendActorInfo()
 {
-	__ENTER_FUNCTION
-	SC_ACTORINFOLIST msg;
-	for(size_t i = 0; i < m_setActorInfo.size(); i++)
-	{
-		auto* pInfo		 = msg.add_list();
-		auto& pActorInfo = m_setActorInfo[i];
-		pInfo->set_name(pActorInfo->GetName());
-		pInfo->set_prof(pActorInfo->GetProf());
-		pInfo->set_baselook(pActorInfo->GetBaseLook());
-		pInfo->set_lev(pActorInfo->GetLev());
-		// pInfo->set_name(pActorInfo->GetRecordMapID());
-		// pInfo->set_name(pActorInfo->GetHomeMapID());
-	}
-	WorldService()->SendToVirtualSocket(m_Socket, CMD_SC_ACTORINFOLIST, msg);
-	__LEAVE_FUNCTION
+    __ENTER_FUNCTION
+    SC_ACTORINFOLIST msg;
+    for(size_t i = 0; i < m_setActorInfo.size(); i++)
+    {
+        auto* pInfo      = msg.add_list();
+        auto& pActorInfo = m_setActorInfo[i];
+        pInfo->set_name(pActorInfo->GetName());
+        pInfo->set_prof(pActorInfo->GetProf());
+        pInfo->set_baselook(pActorInfo->GetBaseLook());
+        pInfo->set_lev(pActorInfo->GetLev());
+        // pInfo->set_name(pActorInfo->GetRecordMapID());
+        // pInfo->set_name(pActorInfo->GetHomeMapID());
+    }
+    WorldService()->SendToVirtualSocket(m_Socket, CMD_SC_ACTORINFOLIST, msg);
+    __LEAVE_FUNCTION
 }
 
 void CAccount::SendWaitInfo()
 {
-	SC_WAITINFO msg;
-	WorldService()->SendToVirtualSocket(m_Socket, CMD_SC_WAITINFO, msg);
+    SC_WAITINFO msg;
+    WorldService()->SendToVirtualSocket(m_Socket, CMD_SC_WAITINFO, msg);
 }
 
 void CAccount::SetWait(bool bWait)
 {
-	m_bWait = bWait;
+    m_bWait = bWait;
 }
 
 bool CAccount::IsWait()
 {
-	return m_bWait;
+    return m_bWait;
 }

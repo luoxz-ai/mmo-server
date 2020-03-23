@@ -11,25 +11,25 @@ class CAIPlayer;
 
 class CAIActorManager
 {
-	CAIActorManager();
+    CAIActorManager();
+
 public:
-	~CAIActorManager();
-	CREATE_NEW_IMPL(CAIActorManager);
+    ~CAIActorManager();
+    CREATE_NEW_IMPL(CAIActorManager);
 
-	
-	bool Init();
-	void Destroy();
+    bool Init();
+    void Destroy();
 
-	CAIActor* QueryActor(OBJID id) const;
-	bool	  AddActor(CAIActor* pActor);
+    CAIActor* QueryActor(OBJID id) const;
+    bool      AddActor(CAIActor* pActor);
 
-	bool DelActor(CAIActor* pActor, bool bDelete = true);
-	bool DelActorByID(OBJID id, bool bDelete = true);
+    bool DelActor(CAIActor* pActor, bool bDelete = true);
+    bool DelActorByID(OBJID id, bool bDelete = true);
 
-	void OnTimer();
+    void OnTimer();
 
 protected:
 private:
-	std::unordered_map<OBJID, CAIActor*> m_ActorMap;
+    std::unordered_map<OBJID, CAIActor*> m_ActorMap;
 };
 #endif /* AIACTORMANAGER_H */

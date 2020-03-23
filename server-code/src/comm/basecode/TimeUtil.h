@@ -1,7 +1,6 @@
 #ifndef TIMEUTIL_H
 #define TIMEUTIL_H
 
-
 #include <cstddef>
 #include <ctime>
 #include <string>
@@ -34,7 +33,7 @@ export_lua time_t GetTimeFromString(const std::string& time_str);
 
 export_lua inline int32_t isleap(uint32_t year)
 {
-	return ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0));
+    return ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0));
 }
 
 #endif /* TIMEUTIL_H */
