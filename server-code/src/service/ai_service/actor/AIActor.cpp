@@ -74,7 +74,7 @@ void CAIActor::MoveToTarget(const Vector2& posTarget)
         msg.set_x(posTarget.x);
         msg.set_y(posTarget.y);
         AIService()->SendMsgToZone(ServerMSG::MsgID_ActorMove, msg);
-        LOGDEBUG("Actor: {} From {} {} MoveToTargetE {} {}", GetID(), m_Pos.x, m_Pos.y, posTarget.x, posTarget.y);
+        LOGAIDEBUG(true, "Actor: {} From {} {} MoveToTargetE {} {}", GetID(), m_Pos.x, m_Pos.y, posTarget.x, posTarget.y);
         SetLastMoveTime(TimeGetMonotonic());
     }
     else
@@ -85,7 +85,7 @@ void CAIActor::MoveToTarget(const Vector2& posTarget)
         msg.set_x(GetPos().x + dir.x);
         msg.set_y(GetPos().y + dir.y);
         AIService()->SendMsgToZone(ServerMSG::MsgID_ActorMove, msg);
-        LOGDEBUG("Actor: {} From {} {} MoveToTarget {} {}", GetID(), m_Pos.x, m_Pos.y, msg.x(), msg.y());
+        LOGAIDEBUG(true, "Actor: {} From {} {} MoveToTarget {} {}", GetID(), m_Pos.x, m_Pos.y, msg.x(), msg.y());
         SetLastMoveTime(TimeGetMonotonic());
     }
 }

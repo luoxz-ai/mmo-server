@@ -42,7 +42,7 @@ void CActorAI::OnDead() {}
 
 const STATE_DATA& CActorAI::GetStateData(int32_t nState)
 {
-    CHECKFSR_FMT(nState > 0 && nState < ATT_MAX, STATE_DATA, "nState={}", nState);
+    CHECKFSR_FMT(nState >= 0 && nState < ATT_MAX, STATE_DATA, "nState={}", nState);
     static STATE_DATA STATE_DATA_ARRAY[] = {
         {"ATT_IDLE", &CActorAI::ProcessIdle},
         {"ATT_ATTACK", &CActorAI::ProcessAttack},

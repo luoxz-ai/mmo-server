@@ -17,13 +17,13 @@ void On_CMD_SC_AOI_UPDATE(CNetworkMessage* pNetworkMsg)
     }
 
     CAIActor* pActor = AIActorManager()->QueryActor(msg.actor_id());
-    CHECK(pActor);
+    CHECK_FMT(pActor, "actorid:{}", msg.actor_id());
     CHECK(pActor->GetCurrentScene());
     CHECK(pActor->GetCurrentScene()->GetMapID() == msg.mapid());
 
     pActor->SetPos(Vector2(msg.posx(), msg.posy()));
     pActor->UpdateViewList();
-    LOGDEBUG("Actor:{} MoveTo {} {:.2f}, {:.2f}",
+    LOGAIDEBUG(true, "Actor:{} MoveTo {} {:.2f}, {:.2f}",
              pActor->GetID(),
              pActor->GetCurrentScene()->GetMapID(),
              pActor->GetPosX(),

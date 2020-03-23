@@ -926,7 +926,7 @@ int32_t CNetworkService::OnWebSocketCallback(struct lws*               wsi,
     }
 
     CNetworkService* pNetworkService = (CNetworkService*)lws_get_vhost_user(vhost);
-    ;
+    
     if(pNetworkService == nullptr)
     {
         return 0;
@@ -984,7 +984,7 @@ int32_t CNetworkService::OnWebSocketCallback(struct lws*               wsi,
                 pNetworkService->RemoveWebSocket(pWebSocket->GetSocket());
                 pNetworkService->DestroyWebSocket(pWebSocket);
             }
-            LOGFATAL("websocket CALLBACK_CLOSED");
+            LOGNETDEBUG("websocket CALLBACK_CLOSED");
             break;
         }
         default:

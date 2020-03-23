@@ -88,6 +88,7 @@ std::unique_ptr<file_lock> plock;
 std::mutex                 g_tem_mutex;
 int                        savefd_out = -1;
 int                        savefd_err = -1;
+std::string                start_service_set;
 //////////////////////////////////////////////////////////////////////////
 void sig_term(int32_t signo)
 {
@@ -105,7 +106,7 @@ void sig_term(int32_t signo)
             dup2(savefd_out, STDOUT_FILENO);
         if(savefd_err != -1)
             dup2(savefd_err, STDERR_FILENO);
-        std::cerr << "service destory." << std::endl;
+        fmt::print("service {} destory.\n", start_service_set);
         plock->unlock();
         plock.reset();
         BaseCode::StopLog();
@@ -198,7 +199,7 @@ int main(int argc, char* argv[])
     BaseCode::InitLog(logpath);
     BaseCode::SetNdc("service_loader");
     g_pLoader = new ServiceLoader();
-    std::string start_service_set;
+    
     if(opt.has("--start"))
         start_service_set = opt["--start"];
 

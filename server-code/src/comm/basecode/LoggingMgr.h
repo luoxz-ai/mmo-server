@@ -87,7 +87,7 @@ extern int32_t              s_gm_logger;
 
 #define LOGWARNING(...) ZLOGFMT_WARN(BaseCode::s_warning_logger, ##__VA_ARGS__)
 #define LOGERROR(...)   ZLOGFMT_ERROR(BaseCode::s_error_logger, ##__VA_ARGS__)
-#define LOGFATAL(...)   ZLOGFMT_FATAL(BaseCode::s_fatal_logger, ##__VA_ARGS__)
+#define LOGFATAL(msg, ...)   ZLOGFMT_FATAL(BaseCode::s_fatal_logger, msg, ##__VA_ARGS__);fmt::print(stderr, msg"\n", ##__VA_ARGS__);
 
 #define LOGLUA(...)      ZLOGFMT_ERROR(BaseCode::s_lua_logger, ##__VA_ARGS__)
 #define LOGLUAERROR(...) ZLOGFMT_ERROR(BaseCode::s_lua_logger, ##__VA_ARGS__)

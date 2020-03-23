@@ -9,11 +9,12 @@ void CAIActor::AddToViewList(CSceneObject* pActor, bool bChkDuplicate, bool bSen
 {
     CSceneObject::AddToViewList(pActor, bChkDuplicate, bSendShow);
 
-    //����Լ��ǹ���
-    if(GetActorType() == ACT_MONSTER)
-    {
-        ConvertToDerived<CAIMonster>()->SetIsAISleep(false);
-    }
+	//如果自己是怪物
+	if(GetActorType() == ACT_MONSTER)
+	{
+		ConvertToDerived<CAIMonster>()->SetIsAISleep(false);
+	}
+
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -21,14 +22,15 @@ void CAIActor::ClearViewList(bool bSendMsgToSelf)
 {
     for(uint64_t id: m_ViewActors)
     {
-        // ֪ͨ�Է��Լ���ʧ
+		// 通知对方自己消失
         CAIActor* pActor = AIActorManager()->QueryActor(id);
         if(pActor)
         {
             pActor->RemoveFromViewList(this, GetID(), true);
         }
     }
-    //����ɾ����
+	//发送删除包
+
 
     m_ViewActorsByType.clear();
     m_ViewActors.clear();
@@ -36,11 +38,11 @@ void CAIActor::ClearViewList(bool bSendMsgToSelf)
 
 bool CAIActor::IsNeedAddToBroadCastSet(CSceneObject* pActor)
 {
-    //���������Ҫ��������������Լ���Ұ��,���ﴦ��
+	//特殊怪物需要将其他怪物加入自己视野的,这里处理	
     if(GetActorType() == ACT_MONSTER)
     {
         CAIMonster* pMonster = this->ConvertToDerived<CAIMonster>();
-        // ֻ�������˵�λ
+		// 只看到敌人单位
         return pMonster->IsEnemy(pActor);
     }
     else
@@ -57,12 +59,12 @@ void CAIActor::AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
 {
     for(auto it = setBCActorDel.begin(); it != setBCActorDel.end(); it++)
     {
-        // ����Է�����������Ұ��Χ�ڣ���ɾ��
+		// 如果对方还在脱离视野范围内，则不删除
         uint64_t  id     = *it;
         CAIActor* pActor = AIActorManager()->QueryActor(id);
         if(pActor == nullptr)
         {
-            //����Է��Ѿ���ʧ,���Ƴ�
+			//如果对方已经消失,则移除
             RemoveFromViewList(nullptr, id, false);
             continue;
         }
@@ -71,7 +73,7 @@ void CAIActor::AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
             if(view_range_out_square > 0)
             {
                 uint32_t distance_square = GameMath::simpleDistance(GetPos(), pActor->GetPos());
-                if(distance_square < view_range_out_square) // ��������Ұ�뾶�ڵģ�����Ҫ�뿪�㲥����)
+				if(distance_square < view_range_out_square)	// 在脱离视野半径内的，不需要离开广播区域)
                 {
                     nCanReserveDelCount--;
                     setBCActor.insert(std::lower_bound(setBCActor.begin(), setBCActor.end(), id), id);
@@ -80,13 +82,13 @@ void CAIActor::AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
             }
         }
 
-        // �Է���������Ұ
+		// 对方已脱离视野
 
-        // ֪ͨ�Լ��Է���ʧ
-        //����Ҫ���Լ���m_ViewActors�Ƴ�,��Ϊ���»�һ�����Ƴ�,
-        //Ϊ�˼��ٷ��ʹ���,���͸��Լ����Ƴ���Ϣһ���Է���
+		// 通知自己对方消失
+		//不需要从自己的m_ViewActors移除,因为等下会一次性移除, 
+		//为了减少发送次数,发送给自己的移除消息一次性发送
         RemoveFromViewList(pActor, id, false);
-        // ֪ͨ�Է��Լ���ʧ,
+		// 通知对方自己消失,
         pActor->RemoveFromViewList(this, this->GetID(), true);
     }
 }
@@ -102,10 +104,10 @@ void CAIActor::AOIProcessActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR
         {
             CAIActor* pActor = static_cast<CAIActor*>(itr->second);
 
-            // ֪ͨ�Լ�,��Ҫ���ͶԷ�����Ϣ���Լ�
+			// 通知自己,需要发送对方的信息给自己
             AddToViewList(pActor, false, true);
 
-            // ֪ͨĿ��,��Ҫ�����Լ�����Ϣ���Է�,�����ͳһ�㲥
+			// 通知目标,不要发送自己的信息给对方,后面会统一广播
             pActor->AddToViewList(this, true, false);
         }
     }

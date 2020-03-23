@@ -73,7 +73,6 @@ bool ServiceLoader::_StartService(const std::string& dll_name, uint16_t idWorld,
         {
             // log err
             LOGFATAL("dlopen fail:{}:{}", dll_name.c_str(), dlerror());
-            fmt::print(stderr, "dlopen fail:{}:{}\n", dll_name.c_str(), dlerror());
             return false;
         }
         m_setModule[dll_name] = hService;

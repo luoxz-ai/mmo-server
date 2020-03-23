@@ -85,13 +85,10 @@ bool CAIService::Create()
     CHECKF(m_pTargetFAMSet.get());
     m_pSkillFAMSet.reset(CSkillFAMSet::CreateNew("res/config/Cfg_SkillFAM.bytes"));
     CHECKF(m_pSkillFAMSet.get());
-
     m_pSkillTypeSet.reset(CSkillTypeSet::CreateNew("res/config/Cfg_Skill.bytes"));
     CHECKF(m_pSkillTypeSet.get());
-
     m_pAITypeSet.reset(CAITypeSet::CreateNew("res/config/Cfg_AIType.bytes"));
     CHECKF(m_pAITypeSet.get());
-
     m_pMonsterTypeSet.reset(CMonsterTypeSet::CreateNew("res/config/Cfg_Monster.bytes"));
     CHECKF(m_pMonsterTypeSet.get());
 
