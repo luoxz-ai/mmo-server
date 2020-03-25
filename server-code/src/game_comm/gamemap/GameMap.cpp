@@ -5,7 +5,7 @@ CGameMap::CGameMap()
 
 CGameMap::~CGameMap() {}
 
-bool CGameMap::Init(CMapManager* pManager, const Cfg_Scene_Row& data, CMapData* pMapData)
+bool CGameMap::Init(CMapManager* pManager, const Cfg_Scene_Row& data, const CMapData* pMapData)
 {
     CHECKF(pManager);
     CHECKF(pMapData);
@@ -33,7 +33,7 @@ bool CGameMap::IsInsideMap(float x, float y) const
     return false;
 }
 
-bool CGameMap::IsNearLeavePoint(float x, float y, uint32_t& destMapID, uint32_t& destEnterPointIdx)
+bool CGameMap::IsNearLeavePoint(float x, float y, uint32_t& destMapID, uint32_t& destEnterPointIdx)const
 {
     __ENTER_FUNCTION
     for(const auto& leave_point_pair: m_LeavePointSet)
@@ -57,7 +57,7 @@ bool CGameMap::IsNearLeavePointX(uint32_t  nLeavePointIdx,
                                  float     x,
                                  float     y,
                                  uint32_t& destMapID,
-                                 uint32_t& destEnterPointIdx)
+                                 uint32_t& destEnterPointIdx)const
 {
     __ENTER_FUNCTION
     auto pLeavePoint = GetLeavePointByIdx(nLeavePointIdx);

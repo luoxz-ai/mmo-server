@@ -2,6 +2,7 @@ FROM ubuntu:18.04
 
 ADD mirror.list /root/mirror.list
 RUN cp /root/mirror.list /etc/apt/sources.list
+RUN apk add --no-cache tzdata
 RUN apt-get update -y --fix-missing \
  && apt-get install -y --fix-missing \
  apt-utils \

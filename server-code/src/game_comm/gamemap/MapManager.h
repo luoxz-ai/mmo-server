@@ -65,13 +65,14 @@ public:
     
 
     bool      Init(uint16_t idZone);
-    void      ForEach(const std::function<void(CGameMap*)>& func);
-    CGameMap* QueryMap(uint16_t idMap);
-    CMapData* QueryMapData(uint16_t idMapTemplate);
-
+    void      ForEach(const std::function<void(CGameMap*)>& func)const;
+    const CGameMap* QueryMap(uint16_t idMap)const;
+    const CMapData* QueryMapData(uint16_t idMapTemplate)const;
 private:
-    std::unordered_map<uint16_t, CGameMap*> m_vecMap;
-    std::unordered_map<uint16_t, CMapData*> m_vecMapData;
+    CGameMap* _QueryMap(uint16_t idMap)const;
+private:
+    std::unordered_map<uint16_t, std::unique_ptr<CGameMap>> m_vecMap;
+    std::unordered_map<uint16_t, std::unique_ptr<CMapData>> m_vecMapData;
 };
 
 #endif /* MAPMANAGER_H */

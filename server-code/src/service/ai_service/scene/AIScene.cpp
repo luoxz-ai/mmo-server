@@ -52,7 +52,7 @@ CAIScene* CAISceneManager::CreateScene(CNetworkMessage* pMsg)
         return nullptr;
     }
     const SceneID& idScene = msg.scene_id();
-    CGameMap*      pMap    = MapManager()->QueryMap(idScene.GetMapID());
+    auto pMap    = MapManager()->QueryMap(idScene.GetMapID());
     CHECKF(pMap);
 
     CAIScene* pScene = CAIScene::CreateNew(idScene);

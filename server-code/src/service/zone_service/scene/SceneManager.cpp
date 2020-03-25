@@ -39,7 +39,7 @@ void CSceneManager::Destory()
 
 CScene* CSceneManager::_CreateStaticScene(uint16_t idMap)
 {
-    CGameMap* pMap = MapManager()->QueryMap(idMap);
+    const CGameMap* pMap = MapManager()->QueryMap(idMap);
     CHECKF(pMap && pMap->IsDynaMap() == false);
 
     SceneID idScene(ZoneService()->GetServiceID(), idMap, 0);
@@ -54,7 +54,7 @@ CScene* CSceneManager::_CreateStaticScene(uint16_t idMap)
 
 CScene* CSceneManager::CreateDynaScene(uint16_t idMap)
 {
-    CGameMap* pMap = MapManager()->QueryMap(idMap);
+    const CGameMap* pMap = MapManager()->QueryMap(idMap);
     CHECKF(pMap && pMap->IsDynaMap() == true);
 
     auto&    refPool    = m_setDynaSceneIDPool[idMap];

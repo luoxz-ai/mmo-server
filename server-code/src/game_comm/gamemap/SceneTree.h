@@ -37,7 +37,7 @@ public:
 
     bool InitSceneTree(uint32_t nNodeGridRange = 0);
 
-    CGameMap* GetMap() { return m_pMap; }
+    const CGameMap* GetMap()const { return m_pMap; }
 
     uint32_t GetViewRangeIn() const { return m_nViewRangeIn; }
     void     SetViewRangeIn(uint32_t val)
@@ -78,7 +78,7 @@ protected:
     std::deque<CSceneNode>          m_setNode;
     std::deque<CSceneCollisionNode> m_setCollision;
 
-    CGameMap* m_pMap = nullptr;
+    const CGameMap* m_pMap = nullptr;
     //左上角坐标
     CPos2D m_BasePos;
 

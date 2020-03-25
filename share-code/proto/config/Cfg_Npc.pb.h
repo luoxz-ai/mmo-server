@@ -32,6 +32,7 @@
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/unknown_field_set.h>
+#include "common/AttribChangeDataProto.pb.h"
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 #define PROTOBUF_INTERNAL_EXPORT_config_2fCfg_5fNpc_2eproto
@@ -165,6 +166,7 @@ class Cfg_Npc_Row :
     kNameFieldNumber = 3,
     kDialogTxtFieldNumber = 4,
     kShopLinknameFieldNumber = 7,
+    kAttrDataFieldNumber = 20,
     kIdFieldNumber = 1,
     kLevelFieldNumber = 2,
     kTypeFlagFieldNumber = 5,
@@ -224,6 +226,21 @@ class Cfg_Npc_Row :
   const std::string& _internal_shop_linkname() const;
   void _internal_set_shop_linkname(const std::string& value);
   std::string* _internal_mutable_shop_linkname();
+  public:
+
+  // .AttribDataProto attr_data = 20;
+  bool has_attr_data() const;
+  private:
+  bool _internal_has_attr_data() const;
+  public:
+  void clear_attr_data();
+  const ::AttribDataProto& attr_data() const;
+  ::AttribDataProto* release_attr_data();
+  ::AttribDataProto* mutable_attr_data();
+  void set_allocated_attr_data(::AttribDataProto* attr_data);
+  private:
+  const ::AttribDataProto& _internal_attr_data() const;
+  ::AttribDataProto* _internal_mutable_attr_data();
   public:
 
   // uint32 id = 1;
@@ -342,6 +359,7 @@ class Cfg_Npc_Row :
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr dialog_txt_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr shop_linkname_;
+  ::AttribDataProto* attr_data_;
   ::PROTOBUF_NAMESPACE_ID::uint32 id_;
   ::PROTOBUF_NAMESPACE_ID::uint32 level_;
   ::PROTOBUF_NAMESPACE_ID::uint32 type_flag_;
@@ -914,6 +932,60 @@ inline void Cfg_Npc_Row::_internal_set_volume(float value) {
 inline void Cfg_Npc_Row::set_volume(float value) {
   _internal_set_volume(value);
   // @@protoc_insertion_point(field_set:Cfg_Npc.Row.volume)
+}
+
+// .AttribDataProto attr_data = 20;
+inline bool Cfg_Npc_Row::_internal_has_attr_data() const {
+  return this != internal_default_instance() && attr_data_ != nullptr;
+}
+inline bool Cfg_Npc_Row::has_attr_data() const {
+  return _internal_has_attr_data();
+}
+inline const ::AttribDataProto& Cfg_Npc_Row::_internal_attr_data() const {
+  const ::AttribDataProto* p = attr_data_;
+  return p != nullptr ? *p : *reinterpret_cast<const ::AttribDataProto*>(
+      &::_AttribDataProto_default_instance_);
+}
+inline const ::AttribDataProto& Cfg_Npc_Row::attr_data() const {
+  // @@protoc_insertion_point(field_get:Cfg_Npc.Row.attr_data)
+  return _internal_attr_data();
+}
+inline ::AttribDataProto* Cfg_Npc_Row::release_attr_data() {
+  // @@protoc_insertion_point(field_release:Cfg_Npc.Row.attr_data)
+  
+  ::AttribDataProto* temp = attr_data_;
+  attr_data_ = nullptr;
+  return temp;
+}
+inline ::AttribDataProto* Cfg_Npc_Row::_internal_mutable_attr_data() {
+  
+  if (attr_data_ == nullptr) {
+    auto* p = CreateMaybeMessage<::AttribDataProto>(GetArenaNoVirtual());
+    attr_data_ = p;
+  }
+  return attr_data_;
+}
+inline ::AttribDataProto* Cfg_Npc_Row::mutable_attr_data() {
+  // @@protoc_insertion_point(field_mutable:Cfg_Npc.Row.attr_data)
+  return _internal_mutable_attr_data();
+}
+inline void Cfg_Npc_Row::set_allocated_attr_data(::AttribDataProto* attr_data) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(attr_data_);
+  }
+  if (attr_data) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena = nullptr;
+    if (message_arena != submessage_arena) {
+      attr_data = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, attr_data, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  attr_data_ = attr_data;
+  // @@protoc_insertion_point(field_set_allocated:Cfg_Npc.Row.attr_data)
 }
 
 // -------------------------------------------------------------------

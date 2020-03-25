@@ -11,7 +11,7 @@ option(USE_LUADEBUGER "ON for use lua_debuger or OFF for lua" OFF)
 option(USE_JEMALLOC "ON for use jemalloc or OFF" ON)
 option(AUTO_GEN_EXPORT_LUA "ON for AUTO_GEN_EXPORT_LUA or OFF" ON)
 option(USE_ASAN "ON for use Address Sanitizer or OFF" ON)
-option(IS_LEAKCHECK  "ON for use LeakChecker Sanitizer or OFF" ON)
+
 
 set_directory_properties(PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
 

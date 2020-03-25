@@ -130,10 +130,10 @@ bool CAccount::CreateActor(const std::string& name, uint32_t dwProf, uint32_t dw
     }
     const AttribList_t& AbilityLevel = pLevData->GetAbility();
 
-    CBornPos* pBornPos = BornPosSet()->RandGet(dwProf);
+    const CBornPos* pBornPos = BornPosSet()->RandGet(dwProf);
     CHECKF(pBornPos);
 
-    CGameMap* pMap = MapManager()->QueryMap(pBornPos->GetMapID());
+    const CGameMap* pMap = MapManager()->QueryMap(pBornPos->GetMapID());
     CHECKF(pMap);
     Vector2 bornPos(pBornPos->GetPosX(), pBornPos->GetPoxY());
     bornPos = pMap->FindPosNearby(bornPos, pBornPos->GetRange());

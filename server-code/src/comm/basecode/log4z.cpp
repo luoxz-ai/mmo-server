@@ -1501,7 +1501,7 @@ bool LogerManager::pushLog(LogData* pLog, const char* file, int line)
             pNameBegin--;
         } while(true);
         zsummer::log4z::Log4zStream ss(pLog->_content + pLog->_contentLen, LOG4Z_LOG_BUF_SIZE - pLog->_contentLen);
-        ss << " " << pNameBegin << ":" << line;
+        ss << "[" << pNameBegin << ":" << line << "]";
         pLog->_contentLen += ss.getCurrentLen();
     }
     if(pLog->_contentLen < 3)

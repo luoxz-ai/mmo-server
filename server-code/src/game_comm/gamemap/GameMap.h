@@ -71,7 +71,7 @@ public:
     ~CGameMap();
 
     CreateNewImpl(CGameMap);
-    bool Init(CMapManager* pManager, const Cfg_Scene_Row& data, CMapData* pMapData);
+    bool Init(CMapManager* pManager, const Cfg_Scene_Row& data,const CMapData* pMapData);
 
     export_lua bool     IsInsideMap(float x, float y) const;
     export_lua bool     IsZoneMap(uint16_t idZone) const { return m_idZone == 0 || idZone == m_idZone; }
@@ -81,15 +81,15 @@ public:
     export_lua uint32_t GetMapType() const { return m_nMapType; }
     export_lua uint32_t GetMapFlag() const { return m_nMapFlag; }
     export_lua uint64_t GetScriptID() const { return m_idScript; }
-    export_lua bool     HasMapFlag(uint32_t flag) { return ::HasFlag(GetMapFlag(), flag); }
+    export_lua bool     HasMapFlag(uint32_t flag) const{ return ::HasFlag(GetMapFlag(), flag); }
     export_lua bool     IsDynaMap() const { return HasFlag(GetMapFlag(), MAPFLAG_DYNAMAP); }
 
-    export_lua bool IsNearLeavePoint(float x, float y, uint32_t& destMapID, uint32_t& destEnterPointIdx);
+    export_lua bool IsNearLeavePoint(float x, float y, uint32_t& destMapID, uint32_t& destEnterPointIdx) const;
     export_lua bool IsNearLeavePointX(uint32_t  nLeavePointIdx,
                                       float     x,
                                       float     y,
                                       uint32_t& destMapID,
-                                      uint32_t& destEnterPointIdx);
+                                      uint32_t& destEnterPointIdx) const;
 
     export_lua bool IsPassDisable(float x, float y) const;
     export_lua bool IsJumpDisable(float x, float y) const;
@@ -126,10 +126,12 @@ public:
         else
             return &(it->second);
     }
+
     void _AddRebornData(const Cfg_Scene_Reborn_Row& iter);
 
     export_lua const auto& GetGeneratorData() const { return m_MonsterGeneratorList; }
     void                   _AddMonsterGenerator(const Cfg_Scene_MonsterGenerator_Row& iter);
+
     export_lua const auto& GetPatrolData() const { return m_PatrolSet; }
     export_lua const Cfg_Scene_Patrol_Row* GetPatrolDataByIdx(uint32_t idx) const
     {
@@ -139,6 +141,7 @@ public:
         else
             return &(it->second);
     }
+
     void _AddPatrol(const Cfg_Scene_Patrol_Row& iter);
 
 private:
@@ -157,6 +160,6 @@ private:
     std::unordered_map<uint32_t, Cfg_Scene_Patrol_Row>           m_PatrolSet;
     std::unordered_map<uint32_t, Cfg_Scene_Reborn_Row>           m_RebornDataSet;
 
-    CMapData* m_pMapData = nullptr;
+    const CMapData* m_pMapData = nullptr;
 };
 #endif /* GAMEMAP_H */

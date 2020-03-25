@@ -62,8 +62,10 @@ CZoneService::~CZoneService()
     if(m_pLoadingThread)
         m_pLoadingThread->Destory();
 
-    GetSceneManager()->Destory();
-    GetActorManager()->Destory();
+    if(GetSceneManager())
+        GetSceneManager()->Destory();
+    if(GetActorManager())
+        GetActorManager()->Destory();
 
     for(auto& [k, refQueue]: m_MessagePoolBySocket)
     {

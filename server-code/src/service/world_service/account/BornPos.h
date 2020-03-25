@@ -48,14 +48,6 @@ public:
 public:
     void Clear()
     {
-        for(auto& refMap: m_vecData)
-        {
-            for(auto& v: refMap.second)
-            {
-                SAFE_DELETE(v);
-            }
-        }
-        m_vecData.clear();
     }
 
     bool Init(const char* pszFileName)
@@ -74,8 +66,8 @@ public:
             {
                 return false;
             }
-
-            m_vecData[pData->GetProf()].push_back(pData);
+             
+            m_vecData[pData->GetProf()].push_back(std::unique_ptr<CBornPos>{pData});
         }
         return true;
     }
@@ -85,14 +77,19 @@ public:
         return Init(pszFileName);
     }
 
-    CBornPos* RandGet(uint32_t dwProf)
+    const CBornPos* RandGet(uint32_t dwProf)const
     {
-        const auto& refVecData = m_vecData[dwProf];
-        return refVecData[random_uint32_range(0, refVecData.size() - 1)];
+        auto it = m_vecData.find(dwProf);
+        if(it == m_vecData.end())
+        {
+            return nullptr;
+        }
+        const auto& refVecData = it->second;
+        return refVecData[random_uint32_range(0, refVecData.size() - 1)].get();
     }
 
 private:
-    std::unordered_map<uint32_t, std::vector<CBornPos*>> m_vecData;
+    std::unordered_map<uint32_t, std::vector<std::unique_ptr<CBornPos>>> m_vecData;
 };
 
 #endif /* BORNPOS_H */

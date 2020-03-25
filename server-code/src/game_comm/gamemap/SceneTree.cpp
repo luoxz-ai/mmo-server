@@ -194,7 +194,7 @@ void CSceneTree::_SetSceneNodeGridRange(uint32_t val)
         return;
     }
 
-    LOGDEBUG("resize node {}", m_nNodeWidth * m_nNodeHeight);
+    LOGDEBUG("map:{} resize node {}", pMapData->GetMapTemplateID(), m_nNodeWidth * m_nNodeHeight);
 
     m_setNode.resize(m_nNodeWidth * m_nNodeHeight);
 

@@ -193,16 +193,22 @@ void CMessagePort::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
         break;
     }
 
-    if(auto pHandler = m_pPortEventHandler.load())
+    auto pHandler = m_pPortEventHandler.load()
+    if(pHandler)
+    {
         pHandler->OnPortRecvData(pSocket, pBuffer, len);
+    }   
 
     __LEAVE_FUNCTION
 }
 
 void CMessagePort::OnRecvTimeout(CNetSocket* pSocket)
 {
-    if(auto pHandler = m_pPortEventHandler.load())
+    auto pHandler = m_pPortEventHandler.load()
+    if(pHandler)
+    {
         pHandler->OnPortRecvTimeout(pSocket);
+    }
 }
 
 bool CMessagePort::SendMultiMsg(const std::vector<VirtualSocket>& setVS, const CNetworkMessage& msg)

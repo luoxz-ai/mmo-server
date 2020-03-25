@@ -42,7 +42,7 @@ bool CPlayer::FlyMap(uint32_t idMap, float fPosX, float fPosY, float fRange, flo
     else
     {
         //通过原始Mapid查找所在Zone
-        CGameMap* pMap = MapManager()->QueryMap(idMap);
+        const CGameMap* pMap = MapManager()->QueryMap(idMap);
         CHECKF_M(pMap, fmt::format(FMT_STRING("can't find map {}"), idMap).c_str())
 
         uint16_t idZone = pMap->GetZoneID();
