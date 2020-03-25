@@ -54,7 +54,7 @@ const CAchievementTypeSet::DATA_TYPE& CAchievementTypeSet::GetData() const
     return m_setData;
 }
 
-CAchievementType* CAchievementTypeSet::GetData(uint32_t idType) const
+const CAchievementType* CAchievementTypeSet::GetData(uint32_t idType) const
 {
     __ENTER_FUNCTION
     auto it = m_setData.find(idType);

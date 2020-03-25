@@ -7,10 +7,11 @@ class CDynaScene : public CScene
 {
 protected:
     CDynaScene();
-
+public:
+    CreateNewImpl(CDynaScene);
 public:
     virtual ~CDynaScene();
-    CREATE_NEW_IMPL(CDynaScene);
+    
 
 public:
     bool Init(const SceneID& idScene);

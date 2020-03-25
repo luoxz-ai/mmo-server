@@ -17,7 +17,7 @@ enum SYSTEMVAR_KEYIDX
     SYSTEMVAR_NOT_SAVE = 10000, //这后面的都不会回写数据库,
 
 };
-class CSystemVar
+class CSystemVar : public Noncopyable<CSystemVar>
 {
 public:
     CSystemVar();
@@ -45,13 +45,13 @@ private:
     CDBRecordPtr m_pRecord;
 };
 
-class CSystemVarSet
+class CSystemVarSet : public Noncopyable<CSystemVarSet>
 {
     CSystemVarSet();
-
+public:
+    CreateNewImpl(CSystemVarSet);
 public:
     ~CSystemVarSet();
-    CREATE_NEW_IMPL(CSystemVarSet);
 
     bool        Init();
     CSystemVar* QueryVar(uint32_t nIdx, bool bCreateNew = false);
@@ -61,6 +61,6 @@ public:
     void OnSystemVarChange(class CNetworkMessage* pMsg);
 
 private:
-    std::unordered_map<uint32_t, CSystemVar*> m_setData;
+    std::unordered_map<uint32_t, std::unique_ptr<CSystemVar> > m_setData;
 };
 #endif /* SYSTEMVARS_H */

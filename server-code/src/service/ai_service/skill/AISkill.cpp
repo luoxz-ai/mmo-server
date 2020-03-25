@@ -35,12 +35,12 @@ double CAISkillData::GetUtilityValue(double dist, double self_hp, double self_mp
         return 0.0f;
 }
 
-CSkillType* CAISkillData::GetSkillType() const
+const CSkillType* CAISkillData::GetSkillType() const
 {
     return m_pSkillType;
 }
 
-SkillFAM* CAISkillData::GetSkillFAM() const
+const SkillFAM* CAISkillData::GetSkillFAM() const
 {
     return m_pSkillFAM;
 }

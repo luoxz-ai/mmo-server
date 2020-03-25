@@ -22,17 +22,14 @@ const ST_ROLE_INFO* CAccount::QueryRoleByIndex(size_t nIdx)
 {
     if(nIdx > m_setActorInfo.size())
         return nullptr;
-    return m_setActorInfo[nIdx];
+    return m_setActorInfo[nIdx].get();
 }
 
 CAccount::~CAccount()
 {
     if(m_pUser)
         UserManager()->RemoveUser(m_pUser);
-    for(ST_ROLE_INFO*& pInfo: m_setActorInfo)
-    {
-        SAFE_DELETE(pInfo);
-    }
+
     m_setActorInfo.clear();
 }
 
@@ -55,10 +52,6 @@ void CAccount::ReloadActorInfo()
 {
     __ENTER_FUNCTION
 
-    for(ST_ROLE_INFO* pInfo: m_setActorInfo)
-    {
-        SAFE_DELETE(pInfo);
-    }
     m_setActorInfo.clear();
 
     auto pDB        = WorldService()->GetGameDB();
@@ -70,9 +63,9 @@ void CAccount::ReloadActorInfo()
     {
         for(size_t i = 0; i < result_ptr->get_num_row(); i++)
         {
-            auto          db_record_ptr = result_ptr->fetch_row(true);
-            ST_ROLE_INFO* pInfo         = new ST_ROLE_INFO{std::move(db_record_ptr)};
-            m_setActorInfo.push_back(pInfo);
+            auto db_record_ptr = result_ptr->fetch_row(true);
+            ST_ROLE_INFO_PTR pInfo = std::make_unique<ST_ROLE_INFO>(std::move(db_record_ptr));
+            m_setActorInfo.push_back(std::move(pInfo));
         }
     }
     __LEAVE_FUNCTION
@@ -130,7 +123,7 @@ bool CAccount::CreateActor(const std::string& name, uint32_t dwProf, uint32_t dw
     CHECKF(PROF_WARRIOR == dwProf || PROF_MAGA == dwProf || PROF_PRIEST == dwProf);
     uint32_t dwBaseLook = dwLook;
 
-    CUserAttrData* pLevData = UserAttrSet()->QueryObj(CUserAttrData::MakeID(dwProf, 1));
+    const CUserAttrData* pLevData = UserAttrSet()->QueryObj(CUserAttrData::MakeID(dwProf, 1));
     if(pLevData == nullptr)
     {
         return false;
@@ -188,9 +181,8 @@ bool CAccount::CreateActor(const std::string& name, uint32_t dwProf, uint32_t dw
         if(db_record_ptr->Update(true) == true)
         {
             LOGLOGIN("Account:{} CreateActor:{}", GetOpenID().c_str(), name.c_str());
-
-            ST_ROLE_INFO* pInfo = new ST_ROLE_INFO{std::move(db_record_ptr)};
-            m_setActorInfo.push_back(pInfo);
+            auto pInfo = std::make_unique<ST_ROLE_INFO>(std::move(db_record_ptr));
+            m_setActorInfo.push_back(std::move(pInfo));
 
             //通知前端创建成功
 
@@ -228,9 +220,9 @@ void CAccount::SelectActor(size_t nIdx)
         // kick player first
         ExitZone(false);
     }
-    ST_ROLE_INFO* pInfo = m_setActorInfo[nIdx];
+    auto& pInfo = m_setActorInfo[nIdx];
 
-    m_pUser = UserManager()->CreateUser(this, pInfo);
+    m_pUser = UserManager()->CreateUser(this, pInfo.get());
     if(m_pUser == nullptr)
     {
         // send error to client
@@ -251,9 +243,9 @@ void CAccount::DelActor(size_t nIdx)
         // kick player first
         ExitZone(false);
     }
-    ST_ROLE_INFO* pInfo  = m_setActorInfo[nIdx];
-    OBJID         idUser = pInfo->GetID();
-    OBJID         idMate = pInfo->GetMateID();
+    auto& pInfo  = m_setActorInfo[nIdx];
+    OBJID idUser = pInfo->GetID();
+    OBJID idMate = pInfo->GetMateID();
 
     //通知伴侣
     {

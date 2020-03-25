@@ -106,7 +106,7 @@ void CActorStatus::SyncTo(CActor* pActor)
         pInfo->set_ispause(pStatus->IsPaused());
     }
 
-    pActor->SendMessage(CMD_SC_STATUS_INFO, msg);
+    pActor->SendMsg(CMD_SC_STATUS_INFO, msg);
     __LEAVE_FUNCTION
 }
 
@@ -130,7 +130,7 @@ bool CActorStatus::AttachStatus(uint16_t idStatusType,
                                 uint32_t nTimes)
 {
     __ENTER_FUNCTION
-    CStatusType* pNewStatusType = StatusTypeSet()->QueryObj(CStatusType::MakeID(idStatusType, ucLev));
+    const CStatusType* pNewStatusType = StatusTypeSet()->QueryObj(CStatusType::MakeID(idStatusType, ucLev));
     CHECKF(pNewStatusType);
     CStatus* pStatus = QueryStatus(idStatusType);
     if(pStatus)

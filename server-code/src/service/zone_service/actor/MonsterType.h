@@ -11,13 +11,14 @@ enum MonsterType
     MONSTER_TYPE_BOSS,
 };
 
-class CMonsterType
+class CMonsterType: public Noncopyable<CMonsterType>
 {
     CMonsterType() {}
-
+public:
+    CreateNewImpl(CMonsterType);
 public:
     ~CMonsterType() {}
-    CREATE_NEW_IMPL(CMonsterType);
+    
     bool Init(const Cfg_Monster_Row& row)
     {
         m_Data = row;

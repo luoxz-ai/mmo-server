@@ -8,13 +8,14 @@
 class CUser;
 class CNetworkMessage;
 
-class CUserManager
+class CUserManager: public Noncopyable<CUserManager>
 {
     CUserManager();
-
+public:
+    CreateNewImpl(CUserManager);
 public:
     ~CUserManager();
-    CREATE_NEW_IMPL(CUserManager);
+    
 
     bool Init();
 

@@ -18,7 +18,7 @@ bool CStatus::Init(CActor*  pOwner,
                    uint32_t nTimes)
 {
     __ENTER_FUNCTION
-    CStatusType* pStatusType = StatusTypeSet()->QueryObj(CStatusType::MakeID(idStatusType, ucLevel));
+    const CStatusType* pStatusType = StatusTypeSet()->QueryObj(CStatusType::MakeID(idStatusType, ucLevel));
     CHECKF(pStatusType);
     m_pType = pStatusType;
 
@@ -46,7 +46,7 @@ bool CStatus::Init(CActor* pOwner, CDBRecordPtr&& pRow)
     uint32_t idStatusType = pRow->Field(TBLD_STATUS::TYPEID);
     uint32_t ucLevel      = pRow->Field(TBLD_STATUS::LEV);
 
-    CStatusType* pStatusType = StatusTypeSet()->QueryObj(CStatusType::MakeID(idStatusType, ucLevel));
+    const CStatusType* pStatusType = StatusTypeSet()->QueryObj(CStatusType::MakeID(idStatusType, ucLevel));
     CHECKF(pStatusType);
     m_pType = pStatusType;
 
@@ -355,7 +355,9 @@ bool CStatus::OnMove()
     //执行脚本
     bool bNeedDestory = false;
     if(m_pType->GetScirptID() != 0)
+    {
         bNeedDestory = ScriptManager()->TryExecScript<bool>(m_pType->GetScirptID(), SCB_STATUS_ONMOVE, this);
+    }
 
     return bNeedDestory;
     __LEAVE_FUNCTION
@@ -368,7 +370,9 @@ bool CStatus::OnSkill(uint32_t idSkill)
     //执行脚本
     bool bNeedDestory = false;
     if(m_pType->GetScirptID() != 0)
+    {
         bNeedDestory = ScriptManager()->TryExecScript<bool>(m_pType->GetScirptID(), SCB_STATUS_ONSKILL, this, idSkill);
+    }
 
     return bNeedDestory;
     __LEAVE_FUNCTION
@@ -381,12 +385,14 @@ bool CStatus::OnAttack(CActor* pTarget, uint32_t idSkill, int32_t nDamage)
     //执行脚本
     bool bNeedDestory = false;
     if(m_pType->GetScirptID() != 0)
+    {
         bNeedDestory = ScriptManager()->TryExecScript<bool>(m_pType->GetScirptID(),
                                                             SCB_STATUS_ONATTACK,
                                                             this,
                                                             pTarget,
                                                             idSkill,
                                                             nDamage);
+    }
 
     return bNeedDestory;
 
@@ -400,11 +406,13 @@ bool CStatus::OnBeAttack(CActor* pAttacker, int32_t nDamage)
     //执行脚本
     bool bNeedDestory = false;
     if(m_pType->GetScirptID() != 0)
+    {
         bNeedDestory = ScriptManager()->TryExecScript<bool>(m_pType->GetScirptID(),
                                                             SCB_STATUS_ONBEATTACK,
                                                             this,
                                                             pAttacker,
                                                             nDamage);
+    }
 
     return bNeedDestory;
     __LEAVE_FUNCTION
@@ -416,7 +424,9 @@ bool CStatus::OnDead(CActor* pKiller)
     __ENTER_FUNCTION
     bool bNeedDestory = false;
     if(m_pType->GetScirptID() != 0)
+    {
         bNeedDestory = ScriptManager()->TryExecScript<bool>(m_pType->GetScirptID(), SCB_STATUS_ONDEAD, this, pKiller);
+    }
 
     return bNeedDestory;
     __LEAVE_FUNCTION
@@ -429,7 +439,9 @@ bool CStatus::OnLeaveMap()
     //执行脚本
     bool bNeedDestory = false;
     if(m_pType->GetScirptID() != 0)
+    {
         bNeedDestory = ScriptManager()->TryExecScript<bool>(m_pType->GetScirptID(), SCB_STATUS_ONLEAVEMAP, this);
+    }
 
     return bNeedDestory;
     __LEAVE_FUNCTION
@@ -441,7 +453,9 @@ void CStatus::OnLogin()
     __ENTER_FUNCTION
     //执行脚本
     if(m_pType->GetScirptID() != 0)
+    {
         ScriptManager()->TryExecScript<void>(m_pType->GetScirptID(), SCB_STATUS_ONLOGIN, this);
+    }
 
     if(IsPaused() == true)
     {
@@ -460,7 +474,9 @@ void CStatus::OnLogout()
     __ENTER_FUNCTION
     //执行脚本
     if(m_pType->GetScirptID() != 0)
+    {
         ScriptManager()->TryExecScript<void>(m_pType->GetScirptID(), SCB_STATUS_ONLOGOUT, this);
+    }
 
     CancelEvent();
     __LEAVE_FUNCTION
@@ -481,7 +497,7 @@ void CStatus::SendStatus()
     pInfo->set_laststamp(GetLastTimeStamp());
     pInfo->set_idcaster(GetCasterID());
     pInfo->set_ispause(IsPaused());
-    m_pOwner->SendMessage(CMD_SC_STATUS_INFO, status_msg);
+    m_pOwner->SendMsg(CMD_SC_STATUS_INFO, status_msg);
 
     __LEAVE_FUNCTION
 }
@@ -491,8 +507,9 @@ void CStatus::OnEffect()
     __ENTER_FUNCTION
     //执行脚本
     if(m_pType->GetScirptID() != 0)
+    {
         ScriptManager()->TryExecScript<void>(m_pType->GetScirptID(), SCB_STATUS_ONEFFECT, this);
-
+    }
     SC_STATUS_ACTION msg;
     msg.set_actor_id(m_pOwner->GetID());
     msg.set_action(SC_STATUS_ACTION::STATUS_EFFECT);

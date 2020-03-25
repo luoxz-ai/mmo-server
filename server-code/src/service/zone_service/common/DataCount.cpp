@@ -100,7 +100,7 @@ void CDataCount::Sync()
     pData->set_data(GetDataNum());
     pData->set_last_reset_time(GetLastResetTime());
 
-    m_pOwner->SendMessage(CMD_SC_DATACOUNT, msg);
+    m_pOwner->SendMsg(CMD_SC_DATACOUNT, msg);
     __LEAVE_FUNCTION
 }
 
@@ -125,10 +125,6 @@ CDataCountSet::CDataCountSet() {}
 CDataCountSet::~CDataCountSet()
 {
     __ENTER_FUNCTION
-    for(auto& [k, pDataAcc]: m_setDataMap)
-    {
-        SAFE_DELETE(pDataAcc);
-    }
     m_setDataMap.clear();
     __LEAVE_FUNCTION
 }
@@ -146,11 +142,10 @@ bool CDataCountSet::Init(CPlayer* pPlayer)
         for(size_t i = 0; i < result->get_num_row(); i++)
         {
             auto        row      = result->fetch_row(true);
-            CDataCount* pDataAcc = new CDataCount(pPlayer, std::move(row));
-            if(pDataAcc)
-            {
-                m_setDataMap[MAKE64(pDataAcc->GetType(), pDataAcc->GetIdx())] = pDataAcc;
-            }
+            auto pDataAcc = std::make_unique<CDataCount>(pPlayer, std::move(row));
+            auto key = MAKE64(pDataAcc->GetType(), pDataAcc->GetIdx());
+            m_setDataMap.emplace(key, std::move(pDataAcc));
+            
         }
     }
     return true;
@@ -177,7 +172,7 @@ void CDataCountSet::SyncAll()
         pData->set_data(pDataAcc->GetDataNum());
         pData->set_last_reset_time(pDataAcc->GetLastResetTime());
     }
-    m_pOwner->SendMessage(CMD_SC_DATACOUNT, msg);
+    m_pOwner->SendMsg(CMD_SC_DATACOUNT, msg);
 }
 
 void CDataCountSet::Save()
@@ -198,7 +193,7 @@ uint64_t CDataCountSet::GetCount(uint32_t nType, uint32_t nIdx)
     if(it == m_setDataMap.end())
         return 0;
 
-    auto* pData = it->second;
+    auto& pData = it->second;
     return pData->GetDataNum();
     __LEAVE_FUNCTION
     return 0;
@@ -240,7 +235,7 @@ uint64_t CDataCountSet::AddCount(uint32_t nType, uint32_t nIdx, uint64_t nVal, b
     auto     it  = m_setDataMap.find(key);
     if(it != m_setDataMap.end())
     {
-        auto pData  = it->second;
+        auto& pData  = it->second;
         auto pLimit = DataCountLimitSet()->QueryObj(CDataCountLimit::MakeID(pData->GetType(), pData->GetIdx()));
         if(pLimit == nullptr)
         {
@@ -288,38 +283,39 @@ void CDataCountSet::DeleteCount(uint32_t nType, uint32_t nIdx)
     if(it != m_setDataMap.end())
     {
         it->second->DeleteRecord();
-        SAFE_DELETE(it->second);
         m_setDataMap.erase(it);
     }
     __LEAVE_FUNCTION
 }
 
-CDataCount* CDataCountSet::CreateData(uint32_t nType, uint32_t nIdx, uint32_t nVal)
+void CDataCountSet::CreateData(uint32_t nType, uint32_t nIdx, uint32_t nVal)
 {
     __ENTER_FUNCTION
     auto* pDB = ZoneService()->GetGameDB(m_pOwner->GetWorldID());
 
-    auto pDBRecord                             = pDB->MakeRecord(TBLD_DATACOUNT::table_name);
+    auto pDBRecord = pDB->MakeRecord(TBLD_DATACOUNT::table_name);
+
     pDBRecord->Field(TBLD_DATACOUNT::ID)       = ZoneService()->CreateUID();
     pDBRecord->Field(TBLD_DATACOUNT::PLAYERID) = m_pOwner->GetID();
     pDBRecord->Field(TBLD_DATACOUNT::KEYTYPE)  = nType;
     pDBRecord->Field(TBLD_DATACOUNT::KEYIDX)   = nIdx;
     pDBRecord->Field(TBLD_DATACOUNT::DATA_NUM) = nVal;
-    auto pType                                 = DataCountLimitSet()->QueryObj(CDataCountLimit::MakeID(nType, nIdx));
+
+    auto pType = DataCountLimitSet()->QueryObj(CDataCountLimit::MakeID(nType, nIdx));
     if(pType && pType->GetResetTime() != 0)
     {
         pDBRecord->Field(TBLD_DATACOUNT::LAST_RESET_TIME) = (uint32_t)TimeGetSecond();
     }
 
-    CHECKF(pDBRecord->Update(true));
+    CHECK(pDBRecord->Update(true));
     uint64_t key = MAKE64(nType, nIdx);
 
-    CDataCount* pData = new CDataCount(m_pOwner, std::move(pDBRecord));
-    m_setDataMap[key] = pData;
+    auto pData = std::make_unique<CDataCount>(m_pOwner, std::move(pDBRecord));
+    m_setDataMap.emplace(key, std::move(pData));
 
     m_pOwner->GetAchievement()->CheckAchiCondition(CONDITION_DATA_COUNT, nType, nIdx, nVal);
 
-    return pData;
+
     __LEAVE_FUNCTION
-    return nullptr;
+
 }

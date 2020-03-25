@@ -2,13 +2,14 @@
 #define GMMANAGER_H
 #include "BaseCode.h"
 
-class CGMManager
+class CGMManager: public Noncopyable<CGMManager>
 {
     CGMManager();
-
+public:
+    CreateNewImpl(CGMManager);
 public:
     ~CGMManager();
-    CREATE_NEW_IMPL(CGMManager);
+    
     bool Init();
     void Destory();
     void Reload();

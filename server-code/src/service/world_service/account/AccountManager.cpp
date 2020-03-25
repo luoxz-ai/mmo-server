@@ -22,7 +22,7 @@ CAccountManager::~CAccountManager()
 
 void CAccountManager::Destory()
 {
-    SAFE_DELETE(m_pAuthChannel);
+    m_pAuthChannel.reset();
     m_threadAuth->Stop();
     m_threadAuth->Join();
     for(auto& pair_v: m_setAccount)
@@ -36,7 +36,7 @@ void CAccountManager::Destory()
 
 bool CAccountManager::Init(class CWorldService* pWorld)
 {
-    m_threadAuth.reset(new CWorkerThread(
+    m_threadAuth = std::make_unique<CWorkerThread>(
         "AuthThread",
         [pWorld]() {
             SetWorldServicePtr(pWorld);
@@ -48,9 +48,9 @@ bool CAccountManager::Init(class CWorldService* pWorld)
             LOGMESSAGE("Exit ThreadID:{}", get_cur_thread_id());
             BaseCode::ClearNdc();
             ;
-        }));
+        });
 
-    m_pAuthChannel = new brpc::Channel;
+    m_pAuthChannel = std::make_unique<brpc::Channel>();
     brpc::ChannelOptions options;
     options.protocol = brpc::PROTOCOL_HTTP;
     // options.connection_type = brpc::CONNECTION_TYPE_POOLED;

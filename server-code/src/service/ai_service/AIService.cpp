@@ -39,7 +39,7 @@ extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16
 CAIService::CAIService(const ServerPort& nServerPort)
     : CServiceCommon(nServerPort, std::string("AI") + std::to_string(nServerPort.GetServiceID()))
 {
-    m_tLastDisplayTime.Startup(20);
+    m_tLastDisplayTime.Startup(60);
 }
 
 CAIService::~CAIService()
@@ -204,6 +204,7 @@ void CAIService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
             CAIActor* pActor = AIActorManager()->QueryActor(msg.actor_id());
             if(pActor)
             {
+                
                 pActor->OnDead();
                 if(pActor->GetCurrentScene())
                     pActor->GetCurrentScene()->LeaveMap(pActor);

@@ -5,13 +5,14 @@
 #include "T_GameDataMap.h"
 #include "config/Cfg_Achievement.pb.h"
 
-class CAchievementType
+class CAchievementType: public Noncopyable<CAchievementType>
 {
     CAchievementType() {}
-
+public:
+    CreateNewImpl(CAchievementType);
 public:
     ~CAchievementType() {}
-    CREATE_NEW_IMPL(CAchievementType);
+    
     bool Init(const Cfg_Achievement_Row& row)
     {
         m_Data = row;
@@ -41,10 +42,11 @@ private:
 };
 
 //////////////////////////////////////////////////////////////////////
-class CAchievementTypeSet
+class CAchievementTypeSet: public Noncopyable<CAchievementTypeSet>
 {
     CAchievementTypeSet();
-
+public:
+    CreateNewImpl(CAchievementTypeSet);
 public:
     virtual ~CAchievementTypeSet();
 
@@ -55,12 +57,12 @@ public:
     typedef std::unordered_map<uint32_t, SUB_DATA_LIST>                     DATA_MAP_BY_GROUPID;
 
 public:
-    CREATE_NEW_IMPL(CAchievementTypeSet);
+    
     bool Init(const char* szFileName);
     bool Reload(const char* szFileName);
     void Destroy();
     // 根据itemtype, 追加等级，查询对应的追加数据
-    CAchievementType*    GetData(uint32_t idType) const;
+    const CAchievementType*    GetData(uint32_t idType) const;
     const DATA_TYPE&     GetData() const;
     const SUB_DATA_LIST* QueryAchiemenetByGroupID(uint32_t idGroup) const;
     const SUB_DATA_LIST* QueryAchiemenetByCheckType(uint32_t idType) const;

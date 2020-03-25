@@ -10,19 +10,19 @@ enum AIType
     AITYPE_PASSIVE = 1, //被动
     AITYPE_ACTIVE  = 2, //主动
 };
-class CAIType
+class CAIType: public Noncopyable<CAIType>
 {
     CAIType() {}
-
+public:
+    CreateNewImpl(CAIType);
 public:
     ~CAIType() {}
-    CREATE_NEW_IMPL(CAIType);
     bool Init(const Cfg_AIType_Row& row);
 
     using PB_T = Cfg_AIType;
     uint32_t GetID() const { return m_Data.idmonster(); }
 
-    TargetFAM* GetTargetFAM() { return m_pTargetFAM; }
+    const TargetFAM* GetTargetFAM()const { return m_pTargetFAM; }
 
 public:
     const Cfg_AIType_Row& GetDataRef() const { return m_Data; }
@@ -30,7 +30,7 @@ public:
 private:
     Cfg_AIType_Row m_Data;
 
-    TargetFAM* m_pTargetFAM;
+    const TargetFAM* m_pTargetFAM;
 };
 
 typedef CGameDataMap<CAIType> CAITypeSet;

@@ -71,7 +71,6 @@ void CAIMonster::OnUnderAttack(OBJID idTarget, int32_t nDamage)
 void CAIMonster::OnDead()
 {
     static_cast<CAIScene*>(GetCurrentScene())->GetMonsterGen().OnMonsterDead(this);
-    AIActorManager()->DelActor(this);
 }
 
 bool CAIMonster::IsEnemy(CSceneObject* pTarget) const

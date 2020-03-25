@@ -9,13 +9,14 @@ class CAIActor;
 class CAIMonster;
 class CAIPlayer;
 
-class CAIActorManager
+class CAIActorManager: public Noncopyable<CAIActorManager>
 {
     CAIActorManager();
-
+public:
+    CreateNewImpl(CAIActorManager);
 public:
     ~CAIActorManager();
-    CREATE_NEW_IMPL(CAIActorManager);
+    
 
     bool Init();
     void Destroy();

@@ -23,10 +23,12 @@ bool CNpc::Init(uint32_t idType)
 
     SetID(ActorManager()->GenNpcID());
     SetCampID(m_pType->GetCampID());
+    m_ActorAttrib = m_pType->GetAbility();
     CHECKF(CActor::Init());
 
-    _SetHP(100);
-    GetAttrib().get(ATTRIB_HP_MAX) = 100;
+    RecalcAttrib(true);
+    _SetHP(GetHPMax());
+    _SetMP(GetMPMax());
 
     return true;
 }
@@ -39,7 +41,7 @@ void CNpc::MakeShowData(SC_AOI_NEW& msg)
     msg.set_actortype(ACT_NPC);
     msg.set_prof(m_idType);
     msg.set_lev(GetLev());
-
+    msg.set_movespd(GetAttrib().get(ATTRIB_MOVESPD));
     msg.set_campid(GetCampID());
     msg.set_name(GetName());
     msg.set_hp(GetHP());
@@ -53,6 +55,25 @@ void CNpc::OnEnterMap(CSceneBase* pScene)
     {
         ScriptManager()->TryExecScript<void>(m_pType->GetScriptID(), SCB_NPC_ONBORN, this);
     }
+
+    // ServerMSG::ActorCreate ai_msg;
+    // ai_msg.set_actor_id(GetID());
+    // ai_msg.set_scene_id(GetSceneID());
+    // ai_msg.set_actortype(ACT_NPC);
+    // ai_msg.set_prof(GetTypeID());
+    // ai_msg.set_lev(GetLev());
+    // ai_msg.set_campid(GetCampID());
+    // ai_msg.set_name(GetName());
+    // ai_msg.set_hp(GetHP());
+    // ai_msg.set_hpmax(GetHPMax());
+    // ai_msg.set_mp(GetMP());
+    // ai_msg.set_mpmax(GetMPMax());
+    // ai_msg.set_movespd(GetAttrib().get(ATTRIB_MOVESPD));
+    // ai_msg.set_posx(GetPosX());
+    // ai_msg.set_posy(GetPosY());
+    // ai_msg.set_ownerid(GetOwnerID());
+
+    // ZoneService()->SendMsgToAIService(ServerMSG::MsgID_ActorCreate, ai_msg);
 }
 
 void CNpc::OnLeaveMap(uint64_t idTargetScene)
@@ -107,12 +128,15 @@ void CNpc::_ActiveNpc(CPlayer* pPlayer)
         pPlayer->DialogBegin(m_pType->GetName());
         pPlayer->DialogAddText(m_pType->GetDialogText());
         if(HasFlag(m_pType->GetTypeFlag(), NPC_TYPE_FLAG_SHOP))
+        {
             pPlayer->DialogAddLink(DIALOGLINK_TYPE_LIST,
-                                   m_pType->GetShopLinkName(),
-                                   DIALOG_FUNC_OPENSHOP,
-                                   m_pType->GetShopID(),
-                                   "",
-                                   GetID());
+                                m_pType->GetShopLinkName(),
+                                DIALOG_FUNC_OPENSHOP,
+                                m_pType->GetShopID(),
+                                "",
+                                GetID());
+        }
+
         for(auto pTaskType: setShowTask)
         {
             pPlayer->DialogAddLink(DIALOGLINK_TYPE_LIST,
@@ -127,6 +151,7 @@ void CNpc::_ActiveNpc(CPlayer* pPlayer)
     }
     __LEAVE_FUNCTION
 }
+
 void CNpc::ActiveNpc(CPlayer* pPlayer)
 {
     __ENTER_FUNCTION

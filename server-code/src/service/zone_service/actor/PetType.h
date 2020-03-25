@@ -9,13 +9,14 @@ enum PetType
     PET_TYPE_NORMAL = 0,
 };
 
-class CPetType
+class CPetType : public Noncopyable<CPetType>
 {
     CPetType() {}
-
+public:
+    CreateNewImpl(CPetType);
 public:
     ~CPetType() {}
-    CREATE_NEW_IMPL(CPetType);
+     
     bool Init(const Cfg_Pet_Row& row)
     {
         m_Data = row;

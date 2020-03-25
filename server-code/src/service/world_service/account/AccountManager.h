@@ -17,13 +17,16 @@ class Channel;
 class CNetworkMessage;
 class CMysqlConnection;
 class CAccount;
-class CAccountManager
+class CAccountManager: public Noncopyable<CAccountManager>
 {
-public:
     CAccountManager();
+public:
+    CreateNewImpl(CAccountManager);
+public:
+  
     ~CAccountManager();
 
-    CREATE_NEW_IMPL(CAccountManager);
+    
     bool Init(class CWorldService* pWorld);
 
     void RegisterMessageHandler();
@@ -67,6 +70,6 @@ private:
     std::deque<CAccount*>                        m_setWaitAccount;
     std::unique_ptr<CWorkerThread>               m_threadAuth;
 
-    brpc::Channel* m_pAuthChannel = nullptr;
+    std::unique_ptr<brpc::Channel> m_pAuthChannel;
 };
 #endif /* ACCOUNTMANAGER_H */

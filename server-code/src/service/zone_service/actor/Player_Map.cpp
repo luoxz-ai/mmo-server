@@ -190,7 +190,7 @@ void CPlayer::OnEnterMap(CSceneBase* pScene)
     msg.set_x(GetPosX());
     msg.set_y(GetPosY());
     msg.set_face(GetFace());
-    SendMessage(CMD_SC_ENTERMAP, msg);
+    SendMsg(CMD_SC_ENTERMAP, msg);
 
     __LEAVE_FUNCTION
 }
@@ -268,7 +268,7 @@ void CPlayer::_FlyMap(const SceneID& idScene, float fPosX, float fPosY, float fR
         msg.set_posy(m_fLoadingPosY);
         msg.set_face(m_fLoadingFace);
 
-        SendMessage(CMD_SC_LOADMAP, msg);
+        SendMsg(CMD_SC_LOADMAP, msg);
     }
 
     __LEAVE_FUNCTION

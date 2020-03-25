@@ -27,8 +27,6 @@ CNormalThread::CNormalThread(int32_t                    nWorkIntervalMS,
                              on_thread_event_function_t on_thread_create_func /*= on_thread_event_function_t()*/,
                              on_thread_event_function_t on_thread_finish_func /*= on_thread_event_function_t() */)
     : m_nWorkIntervalMS(nWorkIntervalMS)
-    , m_bIsReady(false)
-    , m_bStop(false)
     , m_ThreadName(thread_name)
     , m_funcThreadProcess(std::move(on_thread_process_func))
     , m_funcThreadCreate(std::move(on_thread_create_func))
@@ -140,9 +138,7 @@ void CNormalThread::ThreadFunc()
 CWorkerThread::CWorkerThread(const std::string&         thread_name /*= std::string()*/,
                              on_thread_event_function_t on_thread_create_func /*= on_thread_event_function_t()*/,
                              on_thread_event_function_t on_thread_finish_func /*= on_thread_event_function_t()*/)
-    : m_bIsReady(false)
-    , m_bStop(false)
-    , m_ThreadName(thread_name)
+    : m_ThreadName(thread_name)
     , m_funcThreadCreate(std::move(on_thread_create_func))
     , m_funcThreadFinish(std::move(on_thread_finish_func))
     , m_Thread{std::make_unique<std::thread>(std::bind(&CWorkerThread::ThreadFunc, this))}

@@ -7,10 +7,11 @@ export_lua class CStoragePackage : public CPackage
 {
 protected:
     CStoragePackage();
-
+public:
+    CreateNewImpl(CStoragePackage);
 public:
     virtual ~CStoragePackage();
-    CREATE_NEW_IMPL(CStoragePackage);
+    
 
 public:
     export_lua void CheckIn(uint32_t nGridInPackage);

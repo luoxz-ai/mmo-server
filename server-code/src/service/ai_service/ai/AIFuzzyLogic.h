@@ -46,16 +46,18 @@ const fuzzy::Trapezoid like_fuzzy[] = {fuzzy::Trapezoid(0, 0, 20, 50),
                                        fuzzy::Trapezoid(30, 50, 70, 90),
                                        fuzzy::Trapezoid(50, 80, 100, 100)};
 
-class SkillFAM
+class SkillFAM: public Noncopyable<SkillFAM>
 {
+    
     SkillFAM()
         : m_rule_set("SkillFAM", fuzzy::Implication::MAMDANI)
     {
     }
-
+public:
+    CreateNewImpl(SkillFAM);
 public:
     ~SkillFAM() {}
-    CREATE_NEW_IMPL(SkillFAM);
+    
     using PB_T = Cfg_SkillFAM;
 
     bool Init(const Cfg_SkillFAM_Row& row)
@@ -80,7 +82,7 @@ public:
     static uint32_t GetIDFromPBRow(const Cfg_SkillFAM_Row& row) { return row.idskill(); }
     uint32_t        GetID() { return m_ID; }
 
-    double calculate(double dist, double self_hp, double self_mp, double target_hp)
+    double calculate(double dist, double self_hp, double self_mp, double target_hp) const
     {
         return m_rule_set.calculate(std::vector<double>{dist, self_hp, self_mp, target_hp});
     }
@@ -93,16 +95,18 @@ private:
 };
 typedef CGameDataMap<SkillFAM> CSkillFAMSet;
 
-class TargetFAM
+class TargetFAM: public Noncopyable<TargetFAM>
 {
+
     TargetFAM()
         : m_rule_set("TargetFAM", fuzzy::Implication::MAMDANI)
     {
     }
-
+public:
+    CreateNewImpl(TargetFAM);
 public:
     ~TargetFAM() {}
-    CREATE_NEW_IMPL(TargetFAM);
+    
     using PB_T = Cfg_TargetFAM;
 
     bool Init(const Cfg_TargetFAM_Row& row)
@@ -125,7 +129,7 @@ public:
     static uint32_t GetIDFromPBRow(const Cfg_TargetFAM_Row& row) { return row.idmonster(); }
     uint32_t        GetID() { return m_ID; }
 
-    double calculate(double dist, double self_hp, double target_hp)
+    double calculate(double dist, double self_hp, double target_hp) const
     {
         return m_rule_set.calculate(std::vector<double>{dist, self_hp, target_hp});
     }

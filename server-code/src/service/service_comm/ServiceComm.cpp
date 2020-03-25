@@ -74,7 +74,7 @@ CServiceCommon::~CServiceCommon()
     if(m_pNetworkService)
     {
         m_pNetworkService->Destroy();
-        SAFE_DELETE(m_pNetworkService);
+        m_pNetworkService.reset();
     }
 
     if(m_pBRPCServer)
@@ -82,8 +82,9 @@ CServiceCommon::~CServiceCommon()
         m_pBRPCServer->Stop(0);
         m_pBRPCServer->Join();
         m_pBRPCServer->ClearServices();
+        m_pBRPCServer.reset();
     }
-    SAFE_DELETE(m_pBRPCServer);
+    
 
     LOGMESSAGE("{} {} Close", GetServiceName().c_str(), GetServerPort().GetServiceID());
     __LEAVE_FUNCTION
@@ -93,7 +94,7 @@ bool CServiceCommon::CreateRPCServer()
 {
     if(m_pBRPCServer == nullptr)
     {
-        m_pBRPCServer = new brpc::Server;
+        m_pBRPCServer = std::make_unique<brpc::Server>();
         return true;
     }
 
@@ -104,7 +105,7 @@ bool CServiceCommon::AddRPCService(google::protobuf::Service* pService, const st
 {
     if(m_pBRPCServer == nullptr)
     {
-        m_pBRPCServer = new brpc::Server;
+        m_pBRPCServer = std::make_unique<brpc::Server>();
     }
     if(pService == nullptr)
         return false;
@@ -196,7 +197,7 @@ bool CServiceCommon::CreateNetworkService()
 {
     if(m_pNetworkService)
         return false;
-    m_pNetworkService = new CNetworkService();
+    m_pNetworkService = std::make_unique<CNetworkService>();
     return true;
 }
 
@@ -232,12 +233,11 @@ void CServiceCommon::StartLogicThread(int32_t nWorkInterval, const std::string& 
     {
         return;
     }
-    m_pLogicThread =
-        std::unique_ptr<CNormalThread>(new CNormalThread(nWorkInterval,
-                                                         name,
-                                                         std::bind(&CServiceCommon::OnLogicThreadProc, this),
-                                                         std::bind(&CServiceCommon::OnLogicThreadCreate, this),
-                                                         std::bind(&CServiceCommon::OnLogicThreadExit, this)));
+    m_pLogicThread = std::make_unique<CNormalThread>(nWorkInterval,
+                                                    name,
+                                                    std::bind(&CServiceCommon::OnLogicThreadProc, this),
+                                                    std::bind(&CServiceCommon::OnLogicThreadCreate, this),
+                                                    std::bind(&CServiceCommon::OnLogicThreadExit, this));
 }
 
 void CServiceCommon::StopLogicThread()

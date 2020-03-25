@@ -11,11 +11,9 @@ CEventEntry::CEventEntry(CEventManager*      pManager,
                          time_t              tWaitTime,
                          bool                bPersisit)
     : m_pManager(pManager)
-    , m_bRunning(true)
     , m_tWaitTime(tWaitTime)
     , m_evType(evType)
     , m_evManagerType(EMT_EVMANAGER)
-    , m_pevTimer(nullptr)
     , m_pCallBack(cb)
     , m_bPersist(bPersisit)
 {

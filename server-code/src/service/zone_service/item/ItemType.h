@@ -99,14 +99,15 @@ export_lua enum ITEMFLAG_MASK {
 
 };
 
-class CItemType
+class CItemType : public Noncopyable<CItemType>
 {
     CItemType() {}
-
+public:
+    CreateNewImpl(CItemType);
 public:
     ~CItemType() {}
     using PB_T = Cfg_Item;
-    CREATE_NEW_IMPL(CItemType);
+    
     bool Init(const Cfg_Item_Row& row)
     {
         m_Data = row;
@@ -141,32 +142,32 @@ public:
     uint32_t                               GetBatchUseCount() const { return m_Data.batchuse_count(); }
 
 public:
-    bool IsPileEnable() { return GetPileLimit() > 1; }
+    bool IsPileEnable() const { return GetPileLimit() > 1; }
     // 是否可交易
-    bool IsExchangeEnable() { return HasFlag(ITEMFLAG_EXCHANGE_DISABLE) == false; }
+    bool IsExchangeEnable() const{ return HasFlag(ITEMFLAG_EXCHANGE_DISABLE) == false; }
     // 是否可存仓库
-    bool IsStorageEnable() { return HasFlag(ITEMFLAG_STORAGE_DISABLE) == false; }
+    bool IsStorageEnable() const{ return HasFlag(ITEMFLAG_STORAGE_DISABLE) == false; }
     // 是否可出售
-    bool IsSellEnable() { return HasFlag(ITEMFLAG_SELL_DISABLE) == false; }
+    bool IsSellEnable() const{ return HasFlag(ITEMFLAG_SELL_DISABLE) == false; }
     // 是否可丢弃
-    bool IsDropEnable() { return HasFlag(ITEMFLAG_DROP_DISABLE) == false; }
+    bool IsDropEnable() const{ return HasFlag(ITEMFLAG_DROP_DISABLE) == false; }
     // 是否客户端不可销毁
-    bool IsDelEnable() { return HasFlag(ITEMFLAG_DEL_DISABLE) == false; }
+    bool IsDelEnable()const { return HasFlag(ITEMFLAG_DEL_DISABLE) == false; }
     // 是否可升级品质
-    bool IsForgingEnable() { return HasFlag(ITEMFLAG_FORGING_DISABLE) == false; }
+    bool IsForgingEnable() const{ return HasFlag(ITEMFLAG_FORGING_DISABLE) == false; }
     // 是否可修理
-    bool IsRepairEnable() { return (IsEquipment() && (HasFlag(ITEMFLAG_REPAIR_DISABLE)) == false); }
+    bool IsRepairEnable() const{ return (IsEquipment() && (HasFlag(ITEMFLAG_REPAIR_DISABLE)) == false); }
     // 配方合成、拾取怪物掉落的时候是否广播传闻
-    bool IsPickRumor() { return HasFlag(ITEMFLAG_PICK_RUMOR); }
+    bool IsPickRumor()const { return HasFlag(ITEMFLAG_PICK_RUMOR); }
     // 商城购买、帮派商店购买 的时候是否广播传闻
-    bool IsBuyRumor() { return HasFlag(ITEMFLAG_BUY_RUMOR); }
+    bool IsBuyRumor() const{ return HasFlag(ITEMFLAG_BUY_RUMOR); }
     // 赌博产出 的时候是否广播传闻
-    bool IsGamblingRumor() { return HasFlag(ITEMFLAG_GAMBLING_RUMOR); }
+    bool IsGamblingRumor() const{ return HasFlag(ITEMFLAG_GAMBLING_RUMOR); }
     // 是否任务追踪物品
-    bool        IsTraceItem() { return HasFlag(ITEMFLAG_TRACE_ITEM); }
-    bool        IsEquipment() { return IsEquipment(GetID()); }
+    bool        IsTraceItem()const { return HasFlag(ITEMFLAG_TRACE_ITEM); }
+    bool        IsEquipment() const{ return IsEquipment(GetID()); }
     static bool IsEquipment(uint32_t idType) { return (idType / ITEM_MAINTYPE_MASK) == ITEM_MAINTYPE_EQUIP; }
-    bool        IsSuit() { return m_Data.suit_id() != 0; }
+    bool        IsSuit() const{ return m_Data.suit_id() != 0; }
 
 public:
     const Cfg_Item_Row& GetDataRef() const { return m_Data; }

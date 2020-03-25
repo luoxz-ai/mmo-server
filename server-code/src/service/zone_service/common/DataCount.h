@@ -25,14 +25,15 @@ export_lua enum {
     DATA_ACC_SYSTEM_KILL_BOSS       = 6, //累计击杀BOSS数量
 };
 
-class CDataCountLimit
+class CDataCountLimit : public Noncopyable<CDataCountLimit>
 {
     CDataCountLimit() {}
-
+public:
+    CreateNewImpl(CDataCountLimit);
 public:
     using PB_T = Cfg_DataCountLimit;
     virtual ~CDataCountLimit() {}
-    CREATE_NEW_IMPL(CDataCountLimit);
+    
 
 public:
     bool Init(const Cfg_DataCountLimit_Row& row)
@@ -88,13 +89,14 @@ private:
     MEMORYHEAP_DECLARATION(s_heap);
 };
 
-export_lua class CDataCountSet
+export_lua class CDataCountSet : public Noncopyable<CDataCountSet>
 {
     CDataCountSet();
-
+public:
+    CreateNewImpl(CDataCountSet);
 public:
     ~CDataCountSet();
-    CREATE_NEW_IMPL(CDataCountSet);
+    
 
     bool            Init(CPlayer* pPlayer);
     export_lua void SyncAll();
@@ -108,10 +110,11 @@ public:
     export_lua void     DeleteCount(uint32_t nType, uint32_t nIdx);
 
 private:
-    CDataCount* CreateData(uint32_t nType, uint32_t nIdx, uint32_t nVal);
+    void CreateData(uint32_t nType, uint32_t nIdx, uint32_t nVal);
 
 private:
-    CPlayer*                                  m_pOwner = nullptr;
-    std::unordered_map<uint64_t, CDataCount*> m_setDataMap;
+    CPlayer* m_pOwner = nullptr;
+
+    std::unordered_map<uint64_t, std::unique_ptr<CDataCount> > m_setDataMap;
 };
 #endif /* DATACOUNT_H */

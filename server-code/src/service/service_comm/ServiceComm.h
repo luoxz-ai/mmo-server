@@ -37,7 +37,7 @@ public:
     export_lua uint16_t          GetWorldID() const { return m_nServerPort.GetWorldID(); }
     export_lua uint16_t          GetServiceID() const { return m_nServerPort.GetServiceID(); }
 
-    export_lua CNetworkService* GetNetworkService() const { return m_pNetworkService; }
+    export_lua CNetworkService*  GetNetworkService() const { return m_pNetworkService.get(); }
     export_lua const std::string& GetServiceName() const { return m_ServiceName; }
     void                          SetServiceName(const std::string& val) { m_ServiceName = val; }
     uint32_t                      GetMessageProcess() const { return m_nMessageProcess; }
@@ -91,7 +91,7 @@ public:
     export_lua CNetMSGProcess* GetNetMsgProcess() const { return m_pNetMsgProcess.get(); }
 
 protected:
-    CNetworkService* m_pNetworkService;
+    std::unique_ptr<CNetworkService> m_pNetworkService;
     CMessagePort*    m_pMessagePort;
     ServerPort       m_nServerPort;
 
@@ -102,6 +102,6 @@ protected:
     std::string                     m_ServiceName;
     uint32_t                        m_nMessageProcess;
 
-    brpc::Server* m_pBRPCServer;
+    std::unique_ptr<brpc::Server> m_pBRPCServer;
 };
 #endif /* SERVICECOMM_H */

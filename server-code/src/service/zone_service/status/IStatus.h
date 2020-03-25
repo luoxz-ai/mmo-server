@@ -61,13 +61,14 @@ export_lua enum StatusFlag {
 
 };
 
-class CStatusType
+class CStatusType : public Noncopyable<CStatusType>
 {
     CStatusType() {}
-
+public:
+    CreateNewImpl(CStatusType);
 public:
     ~CStatusType() {}
-    CREATE_NEW_IMPL(CStatusType);
+    
     bool Init(const Cfg_Status_Row& row)
     {
         m_Data = row;
@@ -108,14 +109,17 @@ private:
 typedef CGameDataMap<CStatusType> CStatusTypeSet;
 
 class CActor;
-export_lua class CStatus
+export_lua class CStatus : public Noncopyable<CStatus>
 {
-public:
     CStatus();
+public:
+    CreateNewImpl(CStatus);
+public:
+    
     virtual ~CStatus();
 
 public:
-    CREATE_NEW_IMPL(CStatus);
+    
     bool Init(CActor* pOwner, CDBRecordPtr&& pRow);
     bool Init(CActor*  pOwner,
               uint16_t idStatusType,
@@ -132,7 +136,7 @@ public:
         return 0;
     }
     export_lua CActor* GetOwner() const { return m_pOwner; }
-    export_lua CStatusType* Type() const { return m_pType; }
+    export_lua const CStatusType* Type() const { return m_pType; }
 
     export_lua bool     IsValid() const;
     export_lua uint32_t GetType() const { return m_pType->GetType(); }
@@ -180,7 +184,7 @@ private:
 
 protected:
     CActor*        m_pOwner = nullptr;
-    CStatusType*   m_pType  = nullptr;
+    const CStatusType*   m_pType  = nullptr;
     ST_STATUS_INFO m_info;
     CDBRecordPtr   m_pRecord;
 

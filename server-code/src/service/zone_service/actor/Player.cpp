@@ -79,7 +79,7 @@ bool CPlayer::Init(OBJID idPlayer, const VirtualSocket& socket)
     return false;
 }
 
-bool CPlayer::SendMessage(uint16_t cmd, const google::protobuf::Message& msg) const
+bool CPlayer::SendMsg(uint16_t cmd, const google::protobuf::Message& msg) const
 {
     __ENTER_FUNCTION
     CNetworkMessage _msg(cmd, msg, ZoneService()->GetServerVirtualSocket(), GetSocket());
@@ -216,7 +216,7 @@ void CPlayer::OnLogin(bool bLogin, const SceneID& idScene, float fPosX, float fP
     msg.set_posy(m_fLoadingPosY);
     msg.set_face(m_fLoadingFace);
 
-    SendMessage(CMD_SC_LOADMAP, msg);
+    SendMsg(CMD_SC_LOADMAP, msg);
 
     EventManager()->ScheduleEvent(0, std::bind(&CPlayer::OnTimer, this), 100, true, m_pEventOnTimer);
     __LEAVE_FUNCTION
@@ -252,7 +252,7 @@ void CPlayer::SendPlayerInfoToClient()
     msg.set_fp(GetFP());
     msg.set_np(GetNP());
 
-    SendMessage(CMD_SC_PLAYERINFO, msg);
+    SendMsg(CMD_SC_PLAYERINFO, msg);
     __LEAVE_FUNCTION
 }
 
@@ -265,7 +265,7 @@ void CPlayer::SendAttribToClient()
         msg.add_attrib_list(m_ActorAttrib.get(i));
     }
 
-    SendMessage(CMD_SC_ACTORATTRIB, msg);
+    SendMsg(CMD_SC_ACTORATTRIB, msg);
     __LEAVE_FUNCTION
 }
 
@@ -384,7 +384,7 @@ void CPlayer::SendTalkMsg(uint32_t nTalkChannel, const std::string& txt)
     msg.set_words(txt);
     msg.set_channel(TalkChannel(nTalkChannel));
     msg.set_send_time(TimeGetSecond());
-    SendMessage(CMD_SC_TALK, msg);
+    SendMsg(CMD_SC_TALK, msg);
 }
 
 void CPlayer::SetPKMode(uint32_t val)
@@ -409,7 +409,7 @@ void CPlayer::SetPKMode(uint32_t val)
 
     SC_CHANGE_PKMODE msg;
     msg.set_pkmode(m_nPKMode);
-    SendMessage(CMD_SC_CHANGE_PKMODE, msg);
+    SendMsg(CMD_SC_CHANGE_PKMODE, msg);
     __LEAVE_FUNCTION
 }
 
@@ -1035,7 +1035,7 @@ bool CPlayer::DialogSend(uint32_t nDialogType /*=0*/)
 {
     __ENTER_FUNCTION
     m_dialog_msg.set_dialog_type(nDialogType);
-    SendMessage(CMD_SC_DIALOG, m_dialog_msg);
+    SendMsg(CMD_SC_DIALOG, m_dialog_msg);
     return true;
     __LEAVE_FUNCTION
     return false;

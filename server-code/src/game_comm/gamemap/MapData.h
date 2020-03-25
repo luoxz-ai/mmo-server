@@ -49,13 +49,15 @@ export_lua struct MapGridData
     };
 };
 
-export_lua class CMapData
+export_lua class CMapData: public Noncopyable<CMapData>
 {
     CMapData();
-
+    
+public:
+    CreateNewImpl(CMapData);
 public:
     ~CMapData();
-    CREATE_NEW_IMPL(CMapData);
+    
     bool Init(uint32_t idMapTemplate);
 
     export_lua uint32_t GetMapTemplateID() const { return m_idMapTemplate; }

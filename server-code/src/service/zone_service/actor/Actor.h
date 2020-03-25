@@ -77,7 +77,7 @@ public:
     // AOI相关
     export_lua void SendRoomMessage(uint16_t cmd, const google::protobuf::Message& msg, bool bIncludeSelf = true);
     export_lua void SendWorldMessage(uint16_t cmd, const google::protobuf::Message& msg);
-    export_lua virtual bool SendMessage(uint16_t cmd, const google::protobuf::Message& msg) const { return false; }
+    export_lua virtual bool SendMsg(uint16_t cmd, const google::protobuf::Message& msg) const { return false; }
 
     template<class T>
     void BroadcastMessageTo(const T& uins, uint32_t cmd, const google::protobuf::Message& msg, OBJID idExtInclude)

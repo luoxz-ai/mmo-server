@@ -11,17 +11,18 @@ enum NpcTypeFlag
     NPC_TYPE_FLAG_INTERACT = 0x02, //交互型NPC
 };
 
-class CNpcType
+class CNpcType : public Noncopyable<CNpcType>
 {
     CNpcType() {}
-
+public:
+    CreateNewImpl(CNpcType);
 public:
     ~CNpcType() {}
-    CREATE_NEW_IMPL(CNpcType);
+    
     bool Init(const Cfg_Npc_Row& row)
     {
         m_Data = row;
-
+        m_ability.load_from(row.attr_data());
         return true;
     }
 
@@ -43,27 +44,29 @@ public:
     float    GetPosX() const { return m_Data.posx(); }
     float    GetPosY() const { return m_Data.posy(); }
     float    GetFace() const { return m_Data.face(); }
-
+    const CActorAttrib& GetAbility() const { return m_ability; }
 private:
     Cfg_Npc_Row m_Data;
+    CActorAttrib    m_ability;
 };
 
 //////////////////////////////////////////////////////////////////////
-class CNpcTypeSet
+class CNpcTypeSet : public Noncopyable<CNpcTypeSet>
 {
     CNpcTypeSet();
-
+public:
+    CreateNewImpl(CNpcTypeSet);
 public:
     virtual ~CNpcTypeSet();
 
 public:
-    CREATE_NEW_IMPL(CNpcTypeSet);
+    
     bool Init(const char* szFileName);
     bool Reload(const char* szFileName);
     void Destroy();
 
-    CNpcType*                     QueryObj(uint32_t idType);
-    const std::vector<CNpcType*>* QueryObjByMapID(uint32_t idMap);
+    const CNpcType*                     QueryObj(uint32_t idType) const;
+    const std::vector<CNpcType*>* QueryObjByMapID(uint32_t idMap) const;
 
 protected:
     std::unordered_map<uint32_t, CNpcType*>              m_setData;

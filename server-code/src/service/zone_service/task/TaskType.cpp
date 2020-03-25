@@ -54,7 +54,7 @@ void CTaskTypeSet::Destroy()
     __LEAVE_FUNCTION
 }
 
-CTaskType* CTaskTypeSet::QueryObj(uint32_t idType) const
+const CTaskType* CTaskTypeSet::QueryObj(uint32_t idType) const
 {
     __ENTER_FUNCTION
     auto it = m_setData.find(idType);

@@ -27,17 +27,18 @@ struct hasFunc_GetIDFromPBRow : bool_type<details::has_GetIDFromPBRow<T>::value>
 };
 
 template<class T>
-class CGameDataMap
+class CGameDataMap : public Noncopyable<CGameDataMap<T>>
 {
     std::string GET_NAME() { return demangle(typeid(T).name()); }
 
     CGameDataMap() {}
-
+public:
+    CreateNewImpl(CGameDataMap<T>);
 public:
     using KEY_T      = typename std::result_of<decltype (&T::GetID)(T)>::type;
     using MAP_SET_T  = std::unordered_map<KEY_T, T*>;
     using MAP_ITER_T = typename MAP_SET_T::const_iterator;
-    CREATE_NEW_IMPL(CGameDataMap<T>);
+    
     ~CGameDataMap() { Clear(); }
 
 public:
@@ -83,7 +84,7 @@ public:
         if constexpr(hasFunc_GetIDFromPBRow<T>::value)
         {
             KEY_T key   = T::GetIDFromPBRow(row);
-            T*    pData = QueryObj(key);
+            T*    pData = _QueryObj(key);
             if(pData)
             {
                 pData->Init(row);
@@ -150,7 +151,17 @@ public:
         }
     }
 
-    T* QueryObj(KEY_T id)
+    const T* QueryObj(KEY_T id) const
+    {
+        auto it_find = m_setData.find(id);
+        if(it_find != m_setData.end())
+        {
+            return it_find->second;
+        }
+        return nullptr;
+    }
+
+    T* _QueryObj(KEY_T id)
     {
         auto it_find = m_setData.find(id);
         if(it_find != m_setData.end())
@@ -191,11 +202,12 @@ private:
 };
 
 template<class T>
-class CGameMultiDataMap
+class CGameMultiDataMap : public Noncopyable<CGameMultiDataMap<T>>
 {
     std::string GET_NAME() { return demangle(typeid(T).name()); }
     CGameMultiDataMap() {}
-
+public: 
+    CreateNewImpl(CGameMultiDataMap<T>);
 public:
     using KEY_T      = typename std::result_of<decltype (&T::GetID)(T)>::type;
     using MAP_SET_T  = std::unordered_multimap<KEY_T, T*>;
@@ -232,7 +244,7 @@ public:
     };
 
 public:
-    CREATE_NEW_IMPL(CGameMultiDataMap<T>);
+    
     ~CGameMultiDataMap() { Clear(); }
 
 public:
@@ -303,7 +315,7 @@ public:
 
     void AddObj(T* pData) { m_setData.insert(std::make_pair(pData->GetID(), pData)); }
 
-    Iterator QueryObj(KEY_T id)
+    Iterator QueryObj(KEY_T id) const
     {
         auto it_find = m_setData.equal_range(id);
         if(it_find.first != it_find.second && it_find.first != m_setData.end())

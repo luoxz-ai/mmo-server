@@ -76,19 +76,25 @@ struct ST_ROLE_INFO
         __LEAVE_FUNCTION
     }
 
+    ST_ROLE_INFO(CDBRecordPtr&& pRecord)
+    :m_pRecord(std::move(pRecord))
+    {}
+    
     CDBRecordPtr m_pRecord;
 };
+using ST_ROLE_INFO_PTR = std::unique_ptr<ST_ROLE_INFO>;
 
 class CUser;
-class CAccount
+class CAccount : public Noncopyable<CAccount>
 {
+public:
+    CreateNewImpl(CAccount);
 private:
     CAccount();
     size_t              GetRoleAmount() const;
     const ST_ROLE_INFO* QueryRoleByIndex(size_t nIdx);
 
 public:
-    CREATE_NEW_IMPL(CAccount);
     ~CAccount();
 
     bool Init(const std::string& open_id, const VirtualSocket& from);
@@ -122,7 +128,7 @@ public:
 private:
     VirtualSocket              m_Socket;
     char                       m_openid[2048];
-    std::vector<ST_ROLE_INFO*> m_setActorInfo;
+    std::vector<ST_ROLE_INFO_PTR> m_setActorInfo;
     CUser*                     m_pUser = nullptr;
     bool                       m_bWait = false;
 };

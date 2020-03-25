@@ -9,11 +9,12 @@ export_lua class CPet : public CActor
 {
 protected:
     CPet();
-
+public:
+    CreateNewImpl(CPet);
 public:
     virtual ~CPet();
 
-    CREATE_NEW_IMPL(CPet);
+    
     bool Init(CPetSet* pPetSet, CDBRecordPtr&& pRecord);
 
 public:
@@ -48,7 +49,7 @@ public:
 
 private:
     CPetSet*     m_pPetSet;
-    CPetType*    m_pType;
+    const CPetType*    m_pType;
     uint32_t     m_nHP = 0;
     uint32_t     m_nMP = 0;
     uint32_t     m_nFP = 0;

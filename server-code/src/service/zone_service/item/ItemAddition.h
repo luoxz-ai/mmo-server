@@ -5,13 +5,14 @@
 #include "BaseCode.h"
 #include "Cfg_ItemAddition.pb.h"
 
-class CItemAdditionData
+class CItemAdditionData : public Noncopyable<CItemAdditionData>
 {
     CItemAdditionData() {}
-
+public:
+    CreateNewImpl(CItemAdditionData);
 public:
     ~CItemAdditionData() {}
-    CREATE_NEW_IMPL(CItemAdditionData);
+    
     bool Init(const Cfg_ItemAddition_Row& row)
     {
         for(int32_t i = 0; i < row.attrib_change_list_size(); i++)
@@ -29,15 +30,16 @@ private:
 };
 
 //////////////////////////////////////////////////////////////////////
-class CItemAdditionSet
+class CItemAdditionSet : public Noncopyable<CItemAdditionSet>
 {
     CItemAdditionSet();
-
+public:
+    CreateNewImpl(CItemAdditionSet);
 public:
     virtual ~CItemAdditionSet();
 
 public:
-    CREATE_NEW_IMPL(CItemAdditionSet);
+    
     bool Init(const char* szFileName);
     bool Reload(const char* szFileName);
     void Destroy();

@@ -16,7 +16,7 @@ CMonster::~CMonster()
 bool CMonster::Init(uint32_t idMonsterType, OBJID idOwner, uint32_t idGen, uint32_t idCamp)
 {
     __ENTER_FUNCTION
-    CMonsterType* pType = MonsterTypeSet()->QueryObj(idMonsterType);
+    const CMonsterType* pType = MonsterTypeSet()->QueryObj(idMonsterType);
     CHECKF(pType);
 
     m_idOwner = idOwner;
@@ -52,7 +52,7 @@ bool CMonster::Init(uint32_t idMonsterType, OBJID idOwner, uint32_t idGen, uint3
     return false;
 }
 
-bool CMonster::SendMessage(uint16_t cmd, const google::protobuf::Message& msg) const
+bool CMonster::SendMsg(uint16_t cmd, const google::protobuf::Message& msg) const
 {
     __ENTER_FUNCTION
     if(cmd == CMD_SC_SKILL_STUN || cmd == CMD_SC_AOI_UPDATE || cmd == CMD_SC_ATTRIB_CHANGE)

@@ -11,14 +11,14 @@ CActorAI::CActorAI() {}
 
 CActorAI::~CActorAI()
 {
-    SAFE_DELETE(m_pAIPathFinder);
+
 }
 
-bool CActorAI::Init(CAIActor* pActor, CAIType* pAIType)
+bool CActorAI::Init(CAIActor* pActor, const CAIType* pAIType)
 {
     m_pActor        = pActor;
     m_pAIType       = pAIType;
-    m_pAIPathFinder = new CAIPathFinder(pActor);
+    m_pAIPathFinder = std::make_unique<CAIPathFinder>(pActor);
     if(GetAIData().follow_path() != 0)
     {
         m_pPathData = GetActor()->GetCurrentScene()->GetMap()->GetPatrolDataByIdx(GetAIData().follow_path());
@@ -192,7 +192,7 @@ bool CActorAI::ToSkill()
         SetMainTarget(0);
         return ToAttack();
     }
-    CSkillType* pCurSkillType = SkillTypeSet()->QueryObj(GetCurSkillTypeID());
+    const CSkillType* pCurSkillType = SkillTypeSet()->QueryObj(GetCurSkillTypeID());
     if(pCurSkillType == nullptr)
     {
         SetMainTarget(0);
@@ -642,7 +642,7 @@ CAIActor* CActorAI::GetActor() const
     return m_pActor;
 }
 
-CAIType* CActorAI::GetAIType() const
+const CAIType* CActorAI::GetAIType() const
 {
     return m_pAIType;
 }

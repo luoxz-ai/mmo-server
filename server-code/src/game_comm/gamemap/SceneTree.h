@@ -27,7 +27,7 @@ public:
 };
 
 class CGameMap;
-class CSceneTree
+class CSceneTree : Noncopyable<CSceneTree>
 {
 protected:
     CSceneTree();

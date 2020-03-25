@@ -4,13 +4,14 @@
 #include <unordered_map>
 
 #include "Pet.h"
-class CPetSet
+class CPetSet : public Noncopyable<CPetSet>
 {
     CPetSet();
-
+public:
+    CreateNewImpl(CPetSet);
 public:
     ~CPetSet();
-    CREATE_NEW_IMPL(CPetSet);
+    
     bool Init(CPlayer* pOwner);
 
     void  SyncAll();

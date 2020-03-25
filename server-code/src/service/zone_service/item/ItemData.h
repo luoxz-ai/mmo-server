@@ -17,14 +17,15 @@ export_lua struct ST_ITEMINFO
 };
 
 class CItemAdditionData;
-export_lua class CItemData
+export_lua class CItemData : public Noncopyable<CItemData>
 {
 protected:
     CItemData();
-
+public:
+    CreateNewImpl(CItemData);
 public:
     virtual ~CItemData();
-    CREATE_NEW_IMPL(CItemData);
+    
     bool Init(CDBRecordPtr&& pRes);
     bool Init(CMysqlConnection* pDB, OBJID idItem);
     bool Init(CMysqlConnection* pDB, ST_ITEMINFO& info);
@@ -56,7 +57,7 @@ public: // get attr
     export_lua uint32_t GetExtra(uint32_t nIdx) const;
 
     export_lua const std::string& GetName() const { return m_pType->GetName(); }
-    export_lua CItemType* ItemTypePtr() const { return m_pType; }
+    export_lua const CItemType* ItemTypePtr() const { return m_pType; }
     export_lua const CItemAdditionData* AdditionType() { return m_pAddition; }
     export_lua uint32_t                 GetMainType() const { return GetMainTypeByID(GetType()); }
     export_lua static uint32_t          GetMainTypeByID(uint32_t idType) { return idType / ITEM_MAINTYPE_MASK; }
@@ -90,7 +91,7 @@ public:
 protected:
     CDBRecordPtr             m_pRecord; // 物品数据
     ItemExtraData            m_ExtraData;
-    CItemType*               m_pType     = nullptr; // 物品类型数据
+    const CItemType*               m_pType     = nullptr; // 物品类型数据
     const CItemAdditionData* m_pAddition = nullptr; // 强化数据
 };
 #endif /* ITEMDATA_H */

@@ -5,15 +5,16 @@
 #include "BaseCode.h"
 #include "NpcType.h"
 
-export_lua class CNpc : public CActor
+export_lua class CNpc : public CActor, Noncopyable<CNpc>
 {
 protected:
     CNpc();
-
+public:
+    CreateNewImpl(CNpc);
 public:
     virtual ~CNpc();
 
-    CREATE_NEW_IMPL(CNpc);
+    
     bool                                  Init(uint32_t idType);
     export_lua uint32_t                   GetTypeID() const { return m_idType; }
     export_lua virtual uint32_t           GetLev() const override { return m_pType->GetLevel(); }
@@ -38,6 +39,6 @@ private:
     uint32_t m_idType = 0;
     uint32_t m_nHP    = 0;
 
-    CNpcType* m_pType = nullptr;
+    const CNpcType* m_pType = nullptr;
 };
 #endif /* NPC_H */

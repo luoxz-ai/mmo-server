@@ -77,13 +77,13 @@ export_lua enum SkillFlag {
     SKILLFLAG_LAUNCH_CANBREAK = 0x00200000, // 该技能释放时是否允许自行打断
 };
 
-class CSkillType
+class CSkillType: public Noncopyable<CSkillType>
 {
     CSkillType() {}
-
+public:
+    CreateNewImpl(CSkillType);
 public:
     ~CSkillType() {}
-    CREATE_NEW_IMPL(CSkillType);
     bool Init(const Cfg_Skill_Row& row)
     {
         m_Data = row;
@@ -148,13 +148,14 @@ private:
 
 typedef CGameDataMap<CSkillType> CSkillTypeSet;
 
-class CSkillAttachStatusData
+class CSkillAttachStatusData : public Noncopyable<CSkillAttachStatusData>
 {
     CSkillAttachStatusData() {}
-
+public:
+    CreateNewImpl(CSkillAttachStatusData);
 public:
     ~CSkillAttachStatusData() {}
-    CREATE_NEW_IMPL(CSkillAttachStatusData);
+    
     bool Init(const Cfg_SkillAttachStatus_Row& row)
     {
         m_Data = row;
@@ -181,13 +182,14 @@ private:
 
 typedef CGameMultiDataMap<CSkillAttachStatusData> CSkillAttachStatusDataSet;
 
-class CSkillDetachStatusData
+class CSkillDetachStatusData : public Noncopyable<CSkillDetachStatusData>
 {
     CSkillDetachStatusData() {}
-
+public:
+    CreateNewImpl(CSkillDetachStatusData);
 public:
     ~CSkillDetachStatusData() {}
-    CREATE_NEW_IMPL(CSkillDetachStatusData);
+    
     bool Init(const Cfg_SkillDetachStatus_Row& row)
     {
         m_Data = row;

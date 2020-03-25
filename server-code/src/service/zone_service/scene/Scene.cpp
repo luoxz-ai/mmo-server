@@ -24,6 +24,10 @@ bool CScene::Init(const SceneID& idScene)
 {
     __ENTER_FUNCTION
     CSceneBase::_Init(idScene, MapManager());
+    //通知AI服务器,创建场景
+    ServerMSG::SceneCreate msg;
+    msg.set_scene_id(idScene);
+    ZoneService()->SendMsgToAIService(ServerMSG::MsgID_SceneCreate, msg);
 
     TryExecScript<void>(SCB_MAP_ONCREATE, this);
 
@@ -37,10 +41,7 @@ bool CScene::Init(const SceneID& idScene)
         }
     }
 
-    //通知AI服务器,可以刷怪了
-    ServerMSG::SceneCreate msg;
-    msg.set_scene_id(idScene);
-    ZoneService()->SendMsgToAIService(ServerMSG::MsgID_SceneCreate, msg);
+   
 
     return true;
     __LEAVE_FUNCTION
@@ -219,7 +220,7 @@ CNpc* CScene::CreateNpc(uint32_t idNpcType, const CPos2D& pos, float face)
     return nullptr;
 }
 
-CMonster* CScene::CreateMonster(uint32_t      idMonsterType,
+CMonster* CScene::OnMsgCreateMonster(uint32_t      idMonsterType,
                                 uint32_t      idGen,
                                 uint32_t      idCamp,
                                 OBJID         idOwner,
@@ -239,7 +240,49 @@ CMonster* CScene::CreateMonster(uint32_t      idMonsterType,
     return nullptr;
 }
 
+CMonster* CScene::CreateMonster(uint32_t      idMonsterType,
+                                uint32_t      idGen,
+                                uint32_t      idCamp,
+                                OBJID         idOwner,
+                                const CPos2D& pos,
+                                float         face)
+{
+    __ENTER_FUNCTION
+    CMonster* pMonster = CMonster::CreateNew(idMonsterType, idOwner, idGen, idCamp);
+    if(pMonster)
+    {
+        //notify ai
+
+        EnterMap(pMonster, pos.x, pos.y, face);
+        ActorManager()->AddActor(pMonster);
+    }
+
+    return pMonster;
+    __LEAVE_FUNCTION
+    return nullptr;
+}
+
+
 bool CScene::CreateMultiMonster(uint32_t      idMonsterType,
+                                uint32_t      nNum,
+                                uint32_t      idCamp,
+                                OBJID         idOwner,
+                                const CPos2D& pos,
+                                float         range)
+{
+    __ENTER_FUNCTION
+    for(size_t i = 0; i < nNum; i++)
+    {
+        CPos2D newPos = pos + CPos2D::UNIT_X.randomDeviant(1.0f) * random_float(0.0f, range);
+        CreateMonster(idMonsterType, 0, idCamp, idOwner, newPos, random_float());
+    }
+
+    return true;
+    __LEAVE_FUNCTION
+    return false;
+}
+
+bool CScene::OnMsgCreateMultiMonster(uint32_t      idMonsterType,
                                 uint32_t      nNum,
                                 uint32_t      idCamp,
                                 OBJID         idOwner,

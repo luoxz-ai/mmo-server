@@ -140,7 +140,7 @@ void CActor::_SetProperty(uint32_t nType, uint32_t nVal, uint32_t nSync)
         auto attr = msg.add_datalist();
         attr->set_actype(nType);
         attr->set_val(nVal);
-        SendMessage(CMD_SC_ATTRIB_CHANGE, msg);
+        SendMsg(CMD_SC_ATTRIB_CHANGE, msg);
     }
     else if(nSync == SYNC_ALL)
     {
@@ -447,7 +447,7 @@ int32_t CActor::BeAttack(CActor*  pAttacker,
     msg.set_damage(nRealDamage);
     msg.set_hittype(nHitType);
     msg.set_crtical((uint32_t)nPowerBase == nMaxPower);
-    SendMessage(CMD_SC_DAMAGE, msg);
+    SendMsg(CMD_SC_DAMAGE, msg);
 
     OnBeAttack(pAttacker, nRealDamage);
 

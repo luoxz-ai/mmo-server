@@ -217,7 +217,7 @@ CPlayerTaskData* CPlayerTask::QueryTaskData(uint32_t idTask)
 bool CPlayerTask::AcceptTask(uint32_t idTask, bool bChkCondition /*= true*/, bool bIgnoreChkNum /*= false*/)
 {
     __ENTER_FUNCTION
-    CTaskType* pType = TaskTypeSet()->QueryObj(idTask);
+    auto pType = TaskTypeSet()->QueryObj(idTask);
     CHECKF(pType);
 
     if(bIgnoreChkNum == false && pType->HasFlag(TASKFLAG_HIDE) == false)
@@ -319,7 +319,7 @@ bool CPlayerTask::AcceptTask(uint32_t idTask, bool bChkCondition /*= true*/, boo
                     CPlayerTaskData* pTargetTask  = QueryTaskData(idTargetTask);
                     if(pTargetTask)
                     {
-                        CTaskType* pTargetTaskType = TaskTypeSet()->QueryObj(idTargetTask);
+                        auto pTargetTaskType = TaskTypeSet()->QueryObj(idTargetTask);
                         if(pTargetTaskType->HasFlag(TASKFLAG_REPEATABLE))
                         {
                             if(CheckSameDay(pTargetTask->GetFinishTime(), TimeGetSecond()) == true)
@@ -353,7 +353,7 @@ bool CPlayerTask::AcceptTask(uint32_t idTask, bool bChkCondition /*= true*/, boo
 bool CPlayerTask::SubmitTaskByMessage(uint32_t idTask, uint32_t nSubmitMultiple)
 {
     __ENTER_FUNCTION
-    CTaskType* pType = TaskTypeSet()->QueryObj(idTask);
+    auto pType = TaskTypeSet()->QueryObj(idTask);
     CHECKF(pType);
     if(pType->HasFlag(TASKFLAG_MSGSUBMIT) == false)
         return false;
@@ -366,7 +366,7 @@ bool CPlayerTask::SubmitTask(uint32_t idTask, uint32_t nSubmitMultiple)
     __ENTER_FUNCTION
     CPlayerTaskData* pData = QueryTaskData(idTask);
     CHECKF(pData);
-    CTaskType* pType = TaskTypeSet()->QueryObj(idTask);
+    auto pType = TaskTypeSet()->QueryObj(idTask);
     CHECKF(pType);
 
     CHECKF(pData->GetState() == TASKSTATE_ACCEPTED);
@@ -438,7 +438,7 @@ bool CPlayerTask::QuickFinish(uint32_t idTask)
     __ENTER_FUNCTION
     CPlayerTaskData* pData = QueryTaskData(idTask);
     CHECKF(pData);
-    CTaskType* pType = TaskTypeSet()->QueryObj(idTask);
+    auto pType = TaskTypeSet()->QueryObj(idTask);
     CHECKF(pType);
 
     CHECKF(pData->GetState() == TASKSTATE_ACCEPTED);
@@ -469,7 +469,7 @@ bool CPlayerTask::GiveupTask(uint32_t idTask)
 
     CPlayerTaskData* pData = QueryTaskData(idTask);
     CHECKF(pData);
-    CTaskType* pTaskType = TaskTypeSet()->QueryObj(idTask);
+    auto pTaskType = TaskTypeSet()->QueryObj(idTask);
     CHECKF(pTaskType);
 
     CHECKF(pData->GetState() == TASKSTATE_ACCEPTED);
@@ -489,14 +489,14 @@ bool CPlayerTask::CanAccept(uint32_t idTask)
 {
     __ENTER_FUNCTION
 
-    CTaskType* pTaskType = TaskTypeSet()->QueryObj(idTask);
+    auto pTaskType = TaskTypeSet()->QueryObj(idTask);
     CHECKF(pTaskType);
     return CanAccept(pTaskType);
     __LEAVE_FUNCTION
     return false;
 }
 
-bool CPlayerTask::CanAccept(CTaskType* pType)
+bool CPlayerTask::CanAccept(const CTaskType* pType)
 {
     __ENTER_FUNCTION
     if(m_pOwner->GetLev() < pType->GetLevReq())
@@ -533,7 +533,7 @@ void CPlayerTask::OnFinishAchi(uint32_t idAchi)
         if(pTaskData->IsTaskDoing() == false)
             continue;
 
-        CTaskType* pType = TaskTypeSet()->QueryObj(pTaskData->GetTaskID());
+        auto pType = TaskTypeSet()->QueryObj(pTaskData->GetTaskID());
         if(pType == nullptr)
             continue;
 
@@ -550,7 +550,7 @@ void CPlayerTask::OnFinishAchi(uint32_t idAchi)
     __LEAVE_FUNCTION
 }
 
-bool CPlayerTask::CanSubmit(CTaskType* pTaskType)
+bool CPlayerTask::CanSubmit(const CTaskType* pTaskType)
 {
     __ENTER_FUNCTION
     CPlayerTaskData* pData = QueryTaskData(pTaskType->GetID());
@@ -612,7 +612,7 @@ bool CPlayerTask::CanSubmit(CTaskType* pTaskType)
 bool CPlayerTask::CanSubmit(uint32_t idTask)
 {
     __ENTER_FUNCTION
-    CTaskType* pType = TaskTypeSet()->QueryObj(idTask);
+    auto pType = TaskTypeSet()->QueryObj(idTask);
     CHECKF(pType);
     return CanSubmit(pType);
 
@@ -625,7 +625,7 @@ int32_t CPlayerTask::GetLeftTimes(uint32_t idTask)
     __ENTER_FUNCTION
     CPlayerTaskData* pData = QueryTaskData(idTask);
     CHECKF(pData);
-    CTaskType* pType = TaskTypeSet()->QueryObj(idTask);
+    auto pType = TaskTypeSet()->QueryObj(idTask);
     CHECKF(pType);
 
     if(pType->HasFlag(TASKFLAG_REPEATABLE))
@@ -677,14 +677,14 @@ void CPlayerTask::SendTaskInfo()
             pData->set_num4(pTaskData->GetNum(3));
             if(msg.task_info_list_size() > 50)
             {
-                m_pOwner->SendMessage(CMD_SC_TASK_INFO, msg);
+                m_pOwner->SendMsg(CMD_SC_TASK_INFO, msg);
                 msg.clear_task_info_list();
             }
         }
     }
 
     if(msg.task_info_list_size() > 0)
-        m_pOwner->SendMessage(CMD_SC_TASK_INFO, msg);
+        m_pOwner->SendMsg(CMD_SC_TASK_INFO, msg);
     __LEAVE_FUNCTION
 }
 
@@ -695,7 +695,7 @@ void CPlayerTask::SendTaskDataChange(CPlayerTaskData* pTaskData, uint32_t i)
     msg.set_task_id(pTaskData->GetTaskID());
     msg.set_idx(i);
     msg.set_num(pTaskData->GetNum(i));
-    m_pOwner->SendMessage(CMD_SC_TASK_DATA, msg);
+    m_pOwner->SendMsg(CMD_SC_TASK_DATA, msg);
     __LEAVE_FUNCTION
 }
 
@@ -715,7 +715,7 @@ void CPlayerTask::SendTaskInfo(CPlayerTaskData* pTaskData)
     pData->set_num2(pTaskData->GetNum(1));
     pData->set_num3(pTaskData->GetNum(2));
     pData->set_num4(pTaskData->GetNum(3));
-    m_pOwner->SendMessage(CMD_SC_TASK_INFO, msg);
+    m_pOwner->SendMsg(CMD_SC_TASK_INFO, msg);
     __LEAVE_FUNCTION
 }
 
@@ -728,7 +728,7 @@ void CPlayerTask::OnAwardTaskItem(uint32_t idItemType, uint32_t nNum)
         if(pTaskData->IsTaskDoing() == false)
             continue;
 
-        CTaskType* pType = TaskTypeSet()->QueryObj(pTaskData->GetTaskID());
+        auto pType = TaskTypeSet()->QueryObj(pTaskData->GetTaskID());
         if(pType == nullptr)
             continue;
 
@@ -754,7 +754,7 @@ void CPlayerTask::OnKillMonster(uint32_t idMonster, bool bKillBySelf)
         if(pTaskData->IsTaskDoing() == false)
             continue;
 
-        CTaskType* pType = TaskTypeSet()->QueryObj(pTaskData->GetTaskID());
+        auto pType = TaskTypeSet()->QueryObj(pTaskData->GetTaskID());
         if(pType == nullptr)
             continue;
 
@@ -782,7 +782,7 @@ void CPlayerTask::OnDelTaskItem(uint32_t idItemType, uint32_t nNum)
         if(pTaskData->IsTaskDoing() == false)
             continue;
 
-        CTaskType* pType = TaskTypeSet()->QueryObj(pTaskData->GetTaskID());
+        auto pType = TaskTypeSet()->QueryObj(pTaskData->GetTaskID());
         if(pType == nullptr)
             continue;
 

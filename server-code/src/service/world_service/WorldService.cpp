@@ -55,7 +55,7 @@ CWorldService::CWorldService(const ServerPort& nServerPort)
         m_setServiceNeedReady.emplace(i);
     }
 
-    m_tLastDisplayTime.Startup(10);
+    m_tLastDisplayTime.Startup(30);
 }
 
 CWorldService::~CWorldService()

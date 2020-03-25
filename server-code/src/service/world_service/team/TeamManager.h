@@ -10,13 +10,14 @@ class CUser;
 class CTeam;
 
 class CNetworkMessage;
-class CTeamManager
+class CTeamManager: public Noncopyable<CTeamManager>
 {
     CTeamManager();
-
+public:
+    CreateNewImpl(CTeamManager);
 public:
     ~CTeamManager();
-    CREATE_NEW_IMPL(CTeamManager);
+    
 
     bool   Init();
     void   Destory();

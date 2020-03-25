@@ -25,13 +25,14 @@ class CPlayer;
 // 0000 2 00 0000 0000 0000
 //
 
-class CActorManager
+class CActorManager : public Noncopyable<CActorManager>
 {
     CActorManager();
-
+public:
+    CreateNewImpl(CActorManager);
 public:
     ~CActorManager();
-    CREATE_NEW_IMPL(CActorManager);
+    
 
     bool Init();
     void Destory();

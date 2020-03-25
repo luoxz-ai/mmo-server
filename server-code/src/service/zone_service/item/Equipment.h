@@ -9,20 +9,21 @@
 class CItem;
 class CItemType;
 class CPlayer;
-export_lua class CEquipment
+export_lua class CEquipment : public Noncopyable<CEquipment>
 {
 protected:
     CEquipment();
-
+public:
+    CreateNewImpl(CEquipment);
 public:
     virtual ~CEquipment();
-    CREATE_NEW_IMPL(CEquipment);
+    
     bool Init(CPlayer* pPlayer);
 
 public:
 public:
-    export_lua CItem* QueryEquipment(uint32_t nGrid);
-    export_lua CItem* QueryEquipmentById(OBJID idItem);
+    export_lua CItem* QueryEquipment(uint32_t nGrid) const;
+    export_lua CItem* QueryEquipmentById(OBJID idItem) const;
 
     export_lua bool EquipItem(uint32_t nGridInPackage, uint32_t nGrid, bool bSync = true);
     export_lua CItem* UnequipItem(uint32_t nGrid,
@@ -30,8 +31,8 @@ public:
                                   bool     bRecalcAbility    = true,
                                   bool     bRemoveItemExpire = true);
 
-    export_lua uint32_t GetWeaponTypeID();
-    export_lua uint32_t GetArmorTypeID();
+    export_lua uint32_t GetWeaponTypeID() const;
+    export_lua uint32_t GetArmorTypeID() const;
     export_lua void     SaveAll();
     export_lua void     SendInfo();
 
@@ -40,10 +41,10 @@ public:
 
     export_lua void DeleteAll(bool bSynchro = true, bool bTraceTaskItem = true);
 
-    export_lua bool CanEquipByItemType(CItemType* pItemType);
-    export_lua bool CanEquip(CItem* pItem, uint32_t& nGrid);
+    export_lua bool CanEquipByItemType(const CItemType* pItemType) const ;
+    export_lua bool CanEquip(CItem* pItem, uint32_t& nGrid)const ;
 
-    export_lua virtual int32_t GetSuitTypeAmount() { return (int32_t)m_setSuitNum.size(); }
+    export_lua virtual int32_t GetSuitTypeAmount() const { return (int32_t)m_setSuitNum.size(); }
 
     void CheckItemExpire(uint32_t dwTimeNow);
 
@@ -52,11 +53,11 @@ protected:
     void AddItemExpireCallBack(uint32_t nGrid, uint32_t dwExpireData);
     void OnItemEquiped(CItem* pItem, bool bRepair);
     void OnItemUnEquiped(CItem* pItem, bool bBroked);
-    void AddSuitNum(CItemType* pItemType);
-    void DecSuitNum(CItemType* pItemType);
+    void AddSuitNum(const CItemType* pItemType);
+    void DecSuitNum(const CItemType* pItemType);
 
 protected:
-    bool CheckEquipPosition(CItem* pItem, uint32_t nGrid);
+    bool CheckEquipPosition(CItem* pItem, uint32_t nGrid) const;
     bool SetEquipment(uint32_t nPosition, CItem* pItem);
     void NotifyEquip(uint16_t usAction, CItem* pItem, uint32_t nGrid);
 

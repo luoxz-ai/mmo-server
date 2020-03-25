@@ -18,9 +18,12 @@ void CActor::OnLeaveMap(uint64_t idTargetScene)
 {
     SendDelayAttribChage();
 
-    ServerMSG::ActorDestory ai_msg;
-    ai_msg.set_actor_id(GetID());
-    ZoneService()->SendMsgToAIService(ServerMSG::MsgID_ActorDestory, ai_msg);
+    if(IsMonster() || IsPlayer())
+    {
+        ServerMSG::ActorDestory ai_msg;
+        ai_msg.set_actor_id(GetID());
+        ZoneService()->SendMsgToAIService(ServerMSG::MsgID_ActorDestory, ai_msg);
+    }
 
     if(m_pScene)
         static_cast<CScene*>(m_pScene)->TryExecScript<void>(SCB_MAP_ONLEAVEMAP, this, idTargetScene);
@@ -40,7 +43,7 @@ void CActor::_AddToAOIRemoveMessage(SC_AOI_REMOVE& removeMsg, OBJID id)
         constexpr int32_t MAX_AOI_SIZE_IN_ONE_PACKET = 64;
         if(removeMsg.idlist_size() > MAX_AOI_SIZE_IN_ONE_PACKET)
         {
-            SendMessage(CMD_SC_AOI_REMOVE, removeMsg);
+            SendMsg(CMD_SC_AOI_REMOVE, removeMsg);
             removeMsg.clear_idlist();
         }
     }
@@ -50,7 +53,7 @@ void CActor::_TrySendAOIRemoveMessage(const SC_AOI_REMOVE& removeMsg)
 {
     if(removeMsg.idlist_size() > 0)
     {
-        SendMessage(CMD_SC_AOI_REMOVE, removeMsg);
+        SendMsg(CMD_SC_AOI_REMOVE, removeMsg);
     }
 }
 
@@ -186,7 +189,7 @@ void CActor::SendShowTo(CPlayer* pPlayer)
 
     SC_AOI_NEW msg;
     MakeShowData(msg);
-    pPlayer->SendMessage(CMD_SC_AOI_NEW, msg);
+    pPlayer->SendMsg(CMD_SC_AOI_NEW, msg);
 }
 
 class NEED_ADD_TO_BROADCASTSET_T
@@ -369,8 +372,6 @@ void CActor::AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
 }
 
 void CActor::AOIProcessPosUpdate()
-//////////////////////////////////////////////////////////////////////////
-//
 {
 
     //发送移动同步
@@ -447,8 +448,11 @@ void CActor::SendRoomMessage(uint16_t cmd, const google::protobuf::Message& msg,
         ZoneService()->BroadcastMessageToPlayer(m_ViewActorsByType[ACT_PLAYER], cmd, msg, 0);
 
     // send message to ai_service
-    if(cmd == CMD_SC_AOI_UPDATE || cmd == CMD_SC_CASTSKILL || cmd == CMD_SC_ATTRIB_CHANGE)
+    if( (IsMonster() || IsPlayer()) &&
+        (cmd == CMD_SC_AOI_UPDATE || cmd == CMD_SC_CASTSKILL || cmd == CMD_SC_ATTRIB_CHANGE) )
+    {
         ZoneService()->SendMsgToAIService(cmd, msg);
+    }
 }
 
 void CActor::SendWorldMessage(uint16_t cmd, const google::protobuf::Message& msg)

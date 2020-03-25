@@ -8,13 +8,13 @@
 class CAccount;
 struct ST_ROLE_INFO;
 
-class CUser
-{
+class CUser: public Noncopyable<CUser>
+{   
     CUser();
-
+public:
+    CreateNewImpl(CUser);
 public:
     ~CUser();
-    CREATE_NEW_IMPL(CUser);
     bool Init(CAccount* pAccount, ST_ROLE_INFO* pInfo);
 
     const VirtualSocket& GetSocket() const;

@@ -9,10 +9,11 @@ export_lua class CItem : public CItemData
 {
 private:
     CItem();
-
+public:
+    CreateNewImpl(CItem);
 public:
     virtual ~CItem();
-    CREATE_NEW_IMPL(CItem);
+    
 
 public:
     //! 直接发送物品信息给pRole

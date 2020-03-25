@@ -29,13 +29,14 @@ enum BULLET_EXPIRE_TYPE
     BULLET_EXPIRE_TIME,   //到达时间才死亡
 };
 
-class CBulletType
+class CBulletType : public Noncopyable<CBulletType>
 {
     CBulletType() {}
-
+public:
+    CreateNewImpl(CBulletType);
 public:
     ~CBulletType() {}
-    CREATE_NEW_IMPL(CBulletType);
+    
     bool Init(const Cfg_Bullet_Row& row)
     {
         m_Data = row;

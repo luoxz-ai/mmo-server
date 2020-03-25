@@ -70,7 +70,7 @@ bool CPlayer::UseItem(uint32_t nGridInBag, uint32_t nCount /* = 1*/)
     if(nCount > pItem->GetPileNum())
         nCount = pItem->GetPileNum();
 
-    CItemType* pItemType = ItemTypeSet()->QueryObj(pItem->GetType());
+    const CItemType* pItemType = ItemTypeSet()->QueryObj(pItem->GetType());
     CHECKF(pItemType);
 
     if(nCount > pItemType->GetBatchUseCount())

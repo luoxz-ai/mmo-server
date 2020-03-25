@@ -98,7 +98,7 @@ bool CZoneService::Create()
     {
         const auto& settingGlobalDB = settings["GlobalMYSQL"][0];
 
-        auto pDB = new CMysqlConnection();
+        auto pDB = std::make_unique<CMysqlConnection>();
 
         if(pDB->Connect(settingGlobalDB.Query("host"),
                         settingGlobalDB.Query("user"),
@@ -106,10 +106,9 @@ bool CZoneService::Create()
                         settingGlobalDB.Query("dbname"),
                         settingGlobalDB.QueryULong("port")) == false)
         {
-            SAFE_DELETE(pDB);
             return false;
         }
-        m_pGlobalDB.reset(pDB);
+        m_pGlobalDB.reset(pDB.release());
 
         if(GetWorldID() != 0)
         {
@@ -171,7 +170,7 @@ bool CZoneService::Create()
         CHECKF(m_pSystemVarSet.get());
     }
 
-    m_pLoadingThread.reset(new CLoadingThread(this));
+    m_pLoadingThread = std::make_unique<CLoadingThread>(this);
     CHECKF(m_pLoadingThread.get());
 
     if(CreateService(20) == false)
@@ -229,7 +228,7 @@ void CZoneService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 
             CScene* pScene = SceneManager()->QueryScene(msg.scene_id());
             CHECK(pScene);
-            CMonster* pMonster = pScene->CreateMonster(msg.monster_type(),
+            CMonster* pMonster = pScene->OnMsgCreateMonster(msg.monster_type(),
                                                        msg.gen_id(),
                                                        msg.camp_id(),
                                                        0,
@@ -496,14 +495,13 @@ CMysqlConnection* CZoneService::GetGameDB(uint16_t nWorldID)
                 std::string passwd = row->Field(TBLD_DBINFO::DB_PASSWD);
                 std::string dbname = row->Field(TBLD_DBINFO::DB_NAME);
 
-                auto pDB = new CMysqlConnection();
+                auto pDB = std::make_unique<CMysqlConnection>();
                 if(pDB->Connect(host, user, passwd, dbname, port) == false)
                 {
-                    SAFE_DELETE(pDB);
                     return nullptr;
                 }
-                m_GameDBMap[nWorldID].reset(pDB);
-                return pDB;
+                m_GameDBMap[nWorldID].reset(pDB.release());
+                return m_GameDBMap[nWorldID].get();
             }
         }
     }

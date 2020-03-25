@@ -37,22 +37,24 @@ export_lua enum {
 };
 
 class CNetworkMessage;
+
 export_lua class CPlayer : public CActor
 {
 protected:
     CPlayer();
-
+public:
+    CreateNewImpl(CPlayer);
 public:
     virtual ~CPlayer();
 
-    CREATE_NEW_IMPL(CPlayer);
+    
     bool Init(OBJID idPlayer, const VirtualSocket& socket);
 
     export_lua bool EnterDynaScene(CDynaScene* pScene, float fPosX, float fPosY, float fRange, float fFace);
     export_lua bool FlyMap(uint32_t idMap, float fPosX, float fPosY, float fRange, float fFace);
 
 public:
-    export_lua virtual bool SendMessage(uint16_t cmd, const google::protobuf::Message& msg) const override;
+    export_lua virtual bool SendMsg(uint16_t cmd, const google::protobuf::Message& msg) const override;
 
 public:
     export_lua virtual ActorType GetActorType() const override { return ActorType::ACT_PLAYER; }

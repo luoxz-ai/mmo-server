@@ -17,7 +17,7 @@ export_lua enum SYSTEMVAR_KEYIDX {
 
 };
 class CPlayer;
-export_lua class CSystemVar
+export_lua class CSystemVar : public Noncopyable<CSystemVar>
 {
 public:
     CSystemVar();
@@ -45,13 +45,14 @@ private:
     MEMORYHEAP_DECLARATION(s_heap);
 };
 
-export_lua class CSystemVarSet
+export_lua class CSystemVarSet : public Noncopyable<CSystemVarSet>
 {
     CSystemVarSet();
-
+public:
+    CreateNewImpl(CSystemVarSet);
 public:
     ~CSystemVarSet();
-    CREATE_NEW_IMPL(CSystemVarSet);
+    
 
     bool       Init();
     export_lua CSystemVar* QueryVar(uint32_t nIdx, bool bCreateNew = false);
@@ -62,6 +63,6 @@ public:
     export_lua void SyncToClient(CPlayer* pPlayer);
 
 private:
-    std::unordered_map<uint32_t, CSystemVar*> m_setData;
+    std::unordered_map<uint32_t, std::unique_ptr<CSystemVar> > m_setData;
 };
 #endif /* SYSTEMVARS_H */

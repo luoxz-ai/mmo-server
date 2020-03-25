@@ -70,14 +70,15 @@ private:
     CDBRecordPtr m_pRecord;
 };
 
-export_lua class CCoolDownSet
+export_lua class CCoolDownSet : public Noncopyable<CCoolDownSet>
 {
 protected:
     CCoolDownSet();
-
+public:
+    CreateNewImpl(CCoolDownSet);
 public:
     virtual ~CCoolDownSet();
-    CREATE_NEW_IMPL(CCoolDownSet);
+    
 
     bool                    Init();
     export_lua virtual void SyncAll() {}
@@ -96,18 +97,19 @@ protected:
     virtual ICoolDown* CreateData(uint32_t nType, uint32_t nIdx, uint32_t nMSec);
 
 protected:
-    std::unordered_map<uint64_t, ICoolDown*> m_setDataMap;
+    std::unordered_map<uint64_t, std::unique_ptr<ICoolDown> > m_setDataMap;
 
     MEMORYHEAP_DECLARATION(s_heap);
 };
 
-export_lua class CPlayerCoolDownSet : public CCoolDownSet
+export_lua class CPlayerCoolDownSet : public CCoolDownSet 
 {
     CPlayerCoolDownSet();
-
+public:
+    CreateNewImpl(CPlayerCoolDownSet);
 public:
     ~CPlayerCoolDownSet();
-    CREATE_NEW_IMPL(CPlayerCoolDownSet);
+    
 
     bool         Init(CPlayer* pPlayer);
     virtual void SyncAll() override;

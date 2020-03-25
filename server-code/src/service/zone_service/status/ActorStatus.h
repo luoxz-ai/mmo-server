@@ -6,13 +6,14 @@
 #include "msg/zone_service.pb.h"
 
 class CActor;
-export_lua class CActorStatus
+export_lua class CActorStatus : public Noncopyable<CActorStatus>
 {
     CActorStatus();
-
+public:
+    CreateNewImpl(CActorStatus);
 public:
     ~CActorStatus();
-    CREATE_NEW_IMPL(CActorStatus);
+    
     bool Init(CActor* pActor);
 
     export_lua CStatus* QueryStatus(uint16_t idStatusType) const;

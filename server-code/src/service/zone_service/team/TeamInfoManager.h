@@ -3,13 +3,14 @@
 
 #include "BaseCode.h"
 
-export_lua class CTeamInfo
+export_lua class CTeamInfo : public Noncopyable<CTeamInfo>
 {
     CTeamInfo() {}
-
+public:
+    CreateNewImpl(CTeamInfo);
 public:
     ~CTeamInfo() {}
-    CREATE_NEW_IMPL(CTeamInfo);
+    
     bool Init(OBJID idTeam, uint64_t idLeader);
 
     void OnSetLeader(OBJID idLeader);
@@ -33,12 +34,13 @@ public:
     MEMORYHEAP_DECLARATION(s_heap);
 };
 
-export_lua class CTeamInfoManager
+export_lua class CTeamInfoManager : public Noncopyable<CTeamInfoManager>
 {
     CTeamInfoManager();
-
 public:
-    CREATE_NEW_IMPL(CTeamInfoManager);
+    CreateNewImpl(CTeamInfoManager);
+public:
+    
     ~CTeamInfoManager() {}
 
     bool       Init();

@@ -15,14 +15,15 @@ export_lua enum SceneState {
 class CActor;
 class CMonster;
 class CNpc;
-export_lua class CScene : public CSceneBase
+export_lua class CScene : public CSceneBase 
 {
 protected:
     CScene();
-
+public:
+    CreateNewImpl(CScene);
 public:
     virtual ~CScene();
-    CREATE_NEW_IMPL(CScene);
+    
 
 public:
     bool            Init(const SceneID& idScene);
@@ -80,19 +81,34 @@ public:
         return RVal();
     }
 
+    
     export_lua CNpc* CreateNpc(uint32_t idNpcType, const CPos2D& pos, float face);
+
     export_lua CMonster* CreateMonster(uint32_t      idMonsterType,
                                        uint32_t      idGen,
                                        uint32_t      idCamp,
                                        OBJID         idOwner,
                                        const CPos2D& pos,
                                        float         face);
-    export_lua bool      CreateMultiMonster(uint32_t      idMonsterType,
+    export_lua CMonster* OnMsgCreateMonster(uint32_t      idMonsterType,
+                                            uint32_t      idGen,
+                                            uint32_t      idCamp,
+                                            OBJID         idOwner,
+                                            const CPos2D& pos,
+                                            float         face);
+
+    export_lua bool OnMsgCreateMultiMonster(uint32_t      idMonsterType,
                                             uint32_t      nNum,
                                             uint32_t      idCamp,
                                             OBJID         idOwner,
                                             const CPos2D& pos,
                                             float         range);
+    export_lua bool CreateMultiMonster(uint32_t      idMonsterType,
+                                       uint32_t      nNum,
+                                       uint32_t      idCamp,
+                                       OBJID         idOwner,
+                                       const CPos2D& pos,
+                                       float         range);
 
 private:
     uint32_t m_curSceneState;

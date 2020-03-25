@@ -110,7 +110,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CActor>(L, "RecalcAttrib", &CActor::RecalcAttrib, false);
     lua_tinker::class_def<CActor>(L, "RemoveHide", &CActor::RemoveHide);
     lua_tinker::class_def<CActor>(L, "SendDelayAttribChage", &CActor::SendDelayAttribChage);
-    lua_tinker::class_def<CActor>(L, "SendMessage", &CActor::SendMessage);
+    lua_tinker::class_def<CActor>(L, "SendMsg", &CActor::SendMsg);
     lua_tinker::class_def<CActor>(L, "SendRoomMessage", &CActor::SendRoomMessage, true);
     lua_tinker::class_def<CActor>(L, "SendShowTo", &CActor::SendShowTo);
     lua_tinker::class_def<CActor>(L, "SendShowToDealyList", &CActor::SendShowToDealyList);
@@ -357,7 +357,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CMonster>(L, "IsBoss", &CMonster::IsBoss);
     lua_tinker::class_def<CMonster>(L, "IsElit", &CMonster::IsElit);
     lua_tinker::class_def<CMonster>(L, "IsEnemy", &CMonster::IsEnemy);
-    lua_tinker::class_def<CMonster>(L, "SendMessage", &CMonster::SendMessage);
+    lua_tinker::class_def<CMonster>(L, "SendMsg", &CMonster::SendMsg);
     lua_tinker::class_def<CMonster>(L, "_SetHP", &CMonster::_SetHP);
     lua_tinker::class_def<CMonster>(L, "_SetMP", &CMonster::_SetMP);
     lua_tinker::class_add<CMyTimer>(L, "CMyTimer", true);
@@ -616,7 +616,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CPlayer>(L, "QueryPackage", &CPlayer::QueryPackage);
     lua_tinker::class_def<CPlayer>(L, "Reborn", &CPlayer::Reborn);
     lua_tinker::class_def<CPlayer>(L, "RecalcAttrib", &CPlayer::RecalcAttrib, false);
-    lua_tinker::class_def<CPlayer>(L, "SendMessage", &CPlayer::SendMessage);
+    lua_tinker::class_def<CPlayer>(L, "SendMsg", &CPlayer::SendMsg);
     lua_tinker::class_def<CPlayer>(L, "SendTalkMsg", &CPlayer::SendTalkMsg);
     lua_tinker::class_def<CPlayer>(L, "SetGuildID", &CPlayer::SetGuildID);
     lua_tinker::class_def<CPlayer>(L, "SetPKMode", &CPlayer::SetPKMode);
@@ -642,13 +642,13 @@ void zone2lua(lua_State* L)
         L,
         "CanAccept",
         lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr((bool (CPlayerTask::*)(CTaskType*))(&CPlayerTask::CanAccept)),
+            lua_tinker::make_member_functor_ptr((bool (CPlayerTask::*)(const CTaskType*))(&CPlayerTask::CanAccept)),
             lua_tinker::make_member_functor_ptr((bool (CPlayerTask::*)(uint32_t))(&CPlayerTask::CanAccept))));
     lua_tinker::class_def<CPlayerTask>(
         L,
         "CanSubmit",
         lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr((bool (CPlayerTask::*)(CTaskType*))(&CPlayerTask::CanSubmit)),
+            lua_tinker::make_member_functor_ptr((bool (CPlayerTask::*)(const CTaskType*))(&CPlayerTask::CanSubmit)),
             lua_tinker::make_member_functor_ptr((bool (CPlayerTask::*)(uint32_t))(&CPlayerTask::CanSubmit))));
     lua_tinker::class_def<CPlayerTask>(L, "GetLeftTimes", &CPlayerTask::GetLeftTimes);
     lua_tinker::class_def<CPlayerTask>(L, "GiveupTask", &CPlayerTask::GiveupTask);
@@ -708,6 +708,8 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CScene>(L, "GetSceneState", &CScene::GetSceneState);
     lua_tinker::class_def<CScene>(L, "KickAllPlayer", &CScene::KickAllPlayer, "");
     lua_tinker::class_def<CScene>(L, "NeedDestory", &CScene::NeedDestory);
+    lua_tinker::class_def<CScene>(L, "OnMsgCreateMonster", &CScene::OnMsgCreateMonster);
+    lua_tinker::class_def<CScene>(L, "OnMsgCreateMultiMonster", &CScene::OnMsgCreateMultiMonster);
     lua_tinker::class_def<CScene>(L, "SendAllMapValToClient", &CScene::SendAllMapValToClient);
     lua_tinker::class_def<CScene>(L, "SendSceneMessage", &CScene::SendSceneMessage);
     lua_tinker::class_def<CScene>(L, "SetMapUserVal", &CScene::SetMapUserVal, false);

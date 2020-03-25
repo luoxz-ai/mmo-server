@@ -4,13 +4,14 @@
 #include "ActorAttrib.h"
 #include "BaseCode.h"
 #include "Cfg_Suit.pb.h"
-class CSuitEquipData
+class CSuitEquipData : public Noncopyable<CSuitEquipData>
 {
     CSuitEquipData() {}
-
+public:
+    CreateNewImpl(CSuitEquipData);
 public:
     ~CSuitEquipData() {}
-    CREATE_NEW_IMPL(CSuitEquipData);
+    
     bool Init(const Cfg_Suit_Row& row)
     {
         m_nEquipNum = row.num();
@@ -32,15 +33,16 @@ private:
 };
 
 //////////////////////////////////////////////////////////////////////
-class CSuitEquipSet
+class CSuitEquipSet : public Noncopyable<CSuitEquipSet>
 {
     CSuitEquipSet();
-
+public:
+    CreateNewImpl(CSuitEquipSet);
 public:
     virtual ~CSuitEquipSet();
 
 public:
-    CREATE_NEW_IMPL(CSuitEquipSet);
+    
     bool Init(const char* szFileName);
     bool Reload(const char* szFileName);
     void Destroy();

@@ -72,7 +72,7 @@ bool CEquipment::Init(CPlayer* pPlayer)
     return false;
 }
 
-CItem* CEquipment::QueryEquipment(uint32_t nGrid)
+CItem* CEquipment::QueryEquipment(uint32_t nGrid) const
 {
     __ENTER_FUNCTION
     auto find = m_setItem.find(nGrid);
@@ -82,7 +82,7 @@ CItem* CEquipment::QueryEquipment(uint32_t nGrid)
     return nullptr;
 }
 
-CItem* CEquipment::QueryEquipmentById(OBJID idItem)
+CItem* CEquipment::QueryEquipmentById(OBJID idItem) const
 {
     __ENTER_FUNCTION
     for(auto it = m_setItem.begin(); it != m_setItem.end(); it++)
@@ -190,7 +190,7 @@ CItem* CEquipment::UnequipItem(uint32_t nGrid,
     return nullptr;
 }
 
-uint32_t CEquipment::GetWeaponTypeID()
+uint32_t CEquipment::GetWeaponTypeID() const
 {
     __ENTER_FUNCTION
     CItem* pWeapon = QueryEquipment(EQUIPPOSITION_FASHION_WEAPON);
@@ -204,7 +204,7 @@ uint32_t CEquipment::GetWeaponTypeID()
     return 0;
 }
 
-uint32_t CEquipment::GetArmorTypeID()
+uint32_t CEquipment::GetArmorTypeID() const
 {
     __ENTER_FUNCTION
     CItem* pArmor = QueryEquipment(EQUIPPOSITION_FASHION_DRESS);
@@ -268,7 +268,7 @@ void CEquipment::DeleteAll(bool bSync /*=true*/, bool bTraceTaskItem)
                 msg.set_item_id(pItem->GetID());
                 msg.set_position(pItem->GetPosition());
                 msg.set_grid(pItem->GetGrid());
-                m_pOwner->SendMessage(CMD_SC_ITEM_DELETE, msg);
+                m_pOwner->SendMsg(CMD_SC_ITEM_DELETE, msg);
             }
 
             pItem->DelRecord();
@@ -281,7 +281,7 @@ void CEquipment::DeleteAll(bool bSync /*=true*/, bool bTraceTaskItem)
     __LEAVE_FUNCTION
 }
 
-bool CEquipment::CanEquipByItemType(CItemType* pItemType)
+bool CEquipment::CanEquipByItemType(const CItemType* pItemType) const
 {
     CHECKF(pItemType);
     __ENTER_FUNCTION
@@ -302,7 +302,7 @@ bool CEquipment::CanEquipByItemType(CItemType* pItemType)
     return false;
 }
 
-bool CEquipment::CanEquip(CItem* pItem, uint32_t& nGrid)
+bool CEquipment::CanEquip(CItem* pItem, uint32_t& nGrid) const
 {
     __ENTER_FUNCTION
     CHECKF(pItem);
@@ -338,7 +338,7 @@ bool CEquipment::CanEquip(CItem* pItem, uint32_t& nGrid)
     return false;
 }
 
-void CEquipment::AddSuitNum(CItemType* pItemType)
+void CEquipment::AddSuitNum(const CItemType* pItemType)
 {
     CHECK(pItemType);
     CHECK(pItemType->GetSuitType() != 0);
@@ -364,7 +364,7 @@ void CEquipment::AddSuitNum(CItemType* pItemType)
     __LEAVE_FUNCTION
 }
 
-void CEquipment::DecSuitNum(CItemType* pItemType)
+void CEquipment::DecSuitNum(const CItemType* pItemType)
 {
     CHECK(pItemType);
     CHECK(pItemType->GetSuitType() != 0);
@@ -418,6 +418,7 @@ void CEquipment::CheckItemExpire(uint32_t dwTimeNow)
                                                      SCB_ITEM_ONTIMEOUT,
                                                      pItem,
                                                      m_pOwner);
+
             }
             else
             {
@@ -477,14 +478,17 @@ void CEquipment::OnItemEquiped(CItem* pItem, bool bRepair)
 
     m_pOwner->GetAchievement()->CheckAchiCondition(CONDITION_EQUIPMENT, pItem->GetType(), pItem->GetGrid());
     if(pItem->ItemTypePtr()->GetQuility() > 0)
+    {
         m_pOwner->GetAchievement()->CheckAchiCondition(CONDITION_EQUIPMENT_QUILITY,
                                                        pItem->ItemTypePtr()->GetQuility(),
                                                        pItem->GetGrid());
+    }
     if(pItem->GetAddition() > 0)
+    {
         m_pOwner->GetAchievement()->CheckAchiCondition(CONDITION_EQUIPMENT_ADDITION,
                                                        pItem->GetAddition(),
                                                        pItem->GetGrid());
-
+    }
     __LEAVE_FUNCTION
 }
 
@@ -505,7 +509,7 @@ void CEquipment::OnItemUnEquiped(CItem* pItem, bool bBroked)
     __LEAVE_FUNCTION
 }
 
-bool CEquipment::CheckEquipPosition(CItem* pItem, uint32_t nGrid)
+bool CEquipment::CheckEquipPosition(CItem* pItem, uint32_t nGrid) const
 {
     __ENTER_FUNCTION
     CHECKF(pItem);
@@ -513,7 +517,10 @@ bool CEquipment::CheckEquipPosition(CItem* pItem, uint32_t nGrid)
     //额外检查左右戒指/手套,GetEquipPosition默认返回左手位
     if(nPosition == nGrid || (nPosition == EQUIPPOSITION_RING_L && nPosition == EQUIPPOSITION_RING_R) ||
        (nPosition == EQUIPPOSITION_HAND_L && nPosition == EQUIPPOSITION_HAND_R))
+    {
         return true;
+    }
+
 
     __LEAVE_FUNCTION
     return false;

@@ -6,13 +6,14 @@
 #include "DBRecord.h"
 
 class CPlayer;
-export_lua class CPlayerAchievement
+export_lua class CPlayerAchievement : public Noncopyable<CPlayerAchievement>
 {
     CPlayerAchievement();
-
+public:
+    CreateNewImpl(CPlayerAchievement);
 public:
     virtual ~CPlayerAchievement();
-    CREATE_NEW_IMPL(CPlayerAchievement);
+    
     bool Init(CPlayer* pPlayer);
 
 public:
@@ -24,8 +25,8 @@ public:
     void            SaveAll();
 
 private:
-    bool _CheckAchiCondition(CAchievementType* pType, uint32_t nVal0, uint32_t nVal1, uint32_t nVal2);
-    void FinishAchievement(CAchievementType* pType);
+    bool _CheckAchiCondition(const CAchievementType* pType, uint32_t nVal0, uint32_t nVal1, uint32_t nVal2);
+    void FinishAchievement(const CAchievementType* pType);
     void SendAchiToClient(uint32_t idAchiType, bool bTake);
     bool IsFinish(uint32_t idAchiType);
 

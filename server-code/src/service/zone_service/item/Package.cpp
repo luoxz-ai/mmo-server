@@ -129,7 +129,7 @@ bool CPackage::IsFull(uint32_t idType, uint32_t nAmount, uint32_t dwFlag /*= 0*/
     __ENTER_FUNCTION
     if(0 == nAmount)
     {
-        CItemType* pType = ItemTypeSet()->QueryObj(idType);
+        const CItemType* pType = ItemTypeSet()->QueryObj(idType);
         if(!pType)
             return true; // 反正物品类型不存在，干脆直接返回背包满
         if(pType->IsPileEnable())
@@ -157,7 +157,7 @@ uint32_t CPackage::GetSpareSpace(uint32_t idType /*=ID_NONE*/,
         return nSpareSpace;
 
     // 不可叠加物品
-    CItemType* pType = ItemTypeSet()->QueryObj(idType);
+    const CItemType* pType = ItemTypeSet()->QueryObj(idType);
     CHECKF(pType);
     if(pType->GetPileLimit() == 1)
         return nSpareSpace - nAmount;
@@ -193,7 +193,7 @@ bool CPackage::AwardItem(uint32_t idItemType, uint32_t nAmount, uint32_t dwFlag 
     if(nAmount == 0)
         return true;
 
-    CItemType* pItemType = ItemTypeSet()->QueryObj(idItemType);
+    const CItemType* pItemType = ItemTypeSet()->QueryObj(idItemType);
     CHECKF(pItemType);
     uint32_t nNeedAdd = nAmount;
     if(pItemType->GetPileLimit() > 0)
@@ -605,7 +605,7 @@ bool CPackage::CombineAddItem(CItem* pItem, bool bSync /*=true*/)
 uint32_t CPackage::CombineAddItem(uint32_t idItemType, uint32_t nNum, uint32_t dwFlag, bool bSync /*=true*/)
 {
     __ENTER_FUNCTION
-    CItemType* pItemType = ItemTypeSet()->QueryObj(idItemType);
+    const CItemType* pItemType = ItemTypeSet()->QueryObj(idItemType);
     CHECKF(pItemType);
     if(pItemType->IsPileEnable() == false)
         return nNum;
@@ -821,7 +821,7 @@ uint32_t CPackage::DelItemByType(uint32_t idType, uint32_t nNum, uint32_t dwFlag
 {
     __ENTER_FUNCTION
     CHECKF(nNum > 0); // 必须确保nNum>0才有意义
-    CItemType* pItemType = ItemTypeSet()->QueryObj(idType);
+    const CItemType* pItemType = ItemTypeSet()->QueryObj(idType);
     CHECKF(pItemType);
 
     uint32_t nToDelNum = nNum; // 需要删除的数量

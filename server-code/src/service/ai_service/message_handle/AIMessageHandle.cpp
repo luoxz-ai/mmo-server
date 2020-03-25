@@ -4,7 +4,11 @@
 #include "AIService.h"
 #include "NetMSGProcess.h"
 
-void On_CMD_SC_AOI_NEW(CNetworkMessage* pNetworkMsg) {}
+void On_CMD_SC_AOI_NEW(CNetworkMessage* pNetworkMsg)
+{
+ 
+    
+}
 
 void On_CMD_SC_AOI_REMOVE(CNetworkMessage* pNetworkMsg) {}
 

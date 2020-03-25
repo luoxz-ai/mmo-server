@@ -5,13 +5,14 @@
 #include "MapManager.h"
 
 class CScene;
-export_lua class CSceneManager
+export_lua class CSceneManager : public Noncopyable<CSceneManager>
 {
     CSceneManager();
-
+public:
+    CreateNewImpl(CSceneManager);
 public:
     ~CSceneManager();
-    CREATE_NEW_IMPL(CSceneManager);
+    
 
     bool       Init(uint32_t idZone);
     void       Destory();

@@ -6,14 +6,15 @@
 #include "T_GameDataMap.h"
 
 //////////////////////////////////////////////////////////////////////
-class CItemUpgradeData
+class CItemUpgradeData : public Noncopyable<CItemUpgradeData>
 {
     CItemUpgradeData() {}
-
+public:
+    CreateNewImpl(CItemUpgradeData);
 public:
     virtual ~CItemUpgradeData() {}
     using PB_T = Cfg_ItemUpgrade;
-    CREATE_NEW_IMPL(CItemUpgradeData);
+    
     bool Init(const Cfg_ItemUpgrade_Row& row)
     {
         m_Data = row;

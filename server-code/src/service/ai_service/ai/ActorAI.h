@@ -49,14 +49,15 @@ struct STATE_DATA
 
 class CAIActor;
 class CAIPathFinder;
-class CActorAI
+class CActorAI: public Noncopyable<CActorAI>
 {
     CActorAI();
-
+public:
+    CreateNewImpl(CActorAI);
 public:
     ~CActorAI();
-    CREATE_NEW_IMPL(CActorAI);
-    bool Init(CAIActor* pActor, CAIType* pAIType);
+    
+    bool Init(CAIActor* pActor, const CAIType* pAIType);
 
     void OnUnderAttack(OBJID idTarget, int32_t nDamage);
     void OnDead();
@@ -127,8 +128,8 @@ public:
     OBJID          GetMainTarget() const;
     void           SetMainTarget(OBJID val);
     CAIActor*      GetActor() const;
-    CAIType*       GetAIType() const;
-    CAIPathFinder* PathFind() const { return m_pAIPathFinder; }
+    const CAIType* GetAIType() const;
+    CAIPathFinder* PathFind() const { return m_pAIPathFinder.get(); }
 
     const Cfg_AIType_Row&                   GetAIData() const;
     const Cfg_Scene_Patrol_Row_patrol_data& GetCurPratolData();
@@ -152,8 +153,8 @@ private:
 private:
     uint32_t       m_nState        = 0;
     CAIActor*      m_pActor        = nullptr;
-    CAIType*       m_pAIType       = nullptr;
-    CAIPathFinder* m_pAIPathFinder = nullptr;
+    const CAIType* m_pAIType       = nullptr;
+    std::unique_ptr<CAIPathFinder> m_pAIPathFinder;
     OBJID          m_idTarget      = 0;
     Vector2        m_posTarget;
     Vector2        m_posRecord;

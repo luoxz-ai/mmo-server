@@ -37,8 +37,8 @@ public:
 
 private:
     int32_t           m_nWorkIntervalMS;
-    std::atomic<bool> m_bStop;
-    std::atomic<bool> m_bIsReady;
+    std::atomic<bool> m_bStop = false;
+    std::atomic<bool> m_bIsReady = false;
     uint32_t          m_tid;
 
     std::string m_ThreadName;
@@ -82,8 +82,8 @@ private:
     MPSCQueue<job_function_t>    m_JobList;
     MPSCQueue<result_function_t> m_ResultList;
 
-    std::atomic<bool>       m_bStop;
-    std::atomic<bool>       m_bIsReady;
+    std::atomic<bool>       m_bStop = false;
+    std::atomic<bool>       m_bIsReady = false;
     std::mutex              m_csCV;
     std::condition_variable m_cv;
 

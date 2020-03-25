@@ -10,14 +10,15 @@
 #include "gamedb.h"
 //////////////////////////////////////////////////////////////////////
 //
-class CUserAttrData
+class CUserAttrData: public Noncopyable<CUserAttrData>
 {
     CUserAttrData() {}
-
+public:
+    CreateNewImpl(CUserAttrData);
 public:
     using PB_T = Cfg_UserAttr;
     virtual ~CUserAttrData() {}
-    CREATE_NEW_IMPL(CUserAttrData);
+    
 
 public:
     bool Init(const Cfg_UserAttr_Row& row)

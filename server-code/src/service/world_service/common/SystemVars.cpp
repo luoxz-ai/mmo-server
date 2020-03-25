@@ -148,11 +148,6 @@ CSystemVarSet::CSystemVarSet()
 
 CSystemVarSet::~CSystemVarSet()
 {
-    for(auto& pair_val: m_setData)
-    {
-        auto pData = pair_val.second;
-        SAFE_DELETE(pData);
-    }
     m_setData.clear();
 }
 
@@ -205,12 +200,10 @@ bool CSystemVarSet::Init()
     {
         for(size_t i = 0; i < result->get_num_row(); i++)
         {
-            auto        row         = result->fetch_row(true);
-            CSystemVar* pCommonData = new CSystemVar(std::move(row));
-            if(pCommonData)
-            {
-                m_setData[pCommonData->GetIdx()] = pCommonData;
-            }
+            auto row = result->fetch_row(true);
+            auto pData = std::make_unique<CSystemVar>(std::move(row));
+            auto key = pData->GetIdx();
+            m_setData.emplace(key, std::move(pData));
         }
     }
     return true;
@@ -221,7 +214,7 @@ CSystemVar* CSystemVarSet::QueryVar(uint32_t nIdx, bool bCreateNew /*= false*/)
     auto it = m_setData.find(nIdx);
     if(it != m_setData.end())
     {
-        return it->second;
+        return it->second.get();
     }
 
     if(bCreateNew)
@@ -234,19 +227,18 @@ CSystemVar* CSystemVarSet::CreateVar(uint32_t nIdx)
 {
     auto* pDB = WorldService()->GetGameDB();
     CHECKF(pDB);
-    CSystemVar* pVar = nullptr;
+    
     if(nIdx < SYSTEMVAR_NOT_SAVE)
     {
-        auto pDBRecord                           = pDB->MakeRecord(TBLD_SYSTEMVAR::table_name);
+        auto pDBRecord = pDB->MakeRecord(TBLD_SYSTEMVAR::table_name);
+
         pDBRecord->Field(TBLD_SYSTEMVAR::KEYIDX) = nIdx;
         CHECKF(pDBRecord->Update(true));
-        pVar            = new CSystemVar(std::move(pDBRecord));
-        m_setData[nIdx] = pVar;
+        m_setData[nIdx] = std::make_unique<CSystemVar>(std::move(pDBRecord));
     }
     else
     {
-        pVar            = new CSystemVar();
-        m_setData[nIdx] = pVar;
+        m_setData[nIdx] = std::make_unique<CSystemVar>();
     }
 
     ServerMSG::SystemVarChange msg;
@@ -254,7 +246,7 @@ CSystemVar* CSystemVarSet::CreateVar(uint32_t nIdx)
     msg.set_type(ServerMSG::SystemVarChange::SVCT_CREATE);
     WorldService()->BroadcastToZone(ServerMSG::MsgID_SystemVarChange, msg);
 
-    return pVar;
+    return m_setData[nIdx].get();
 }
 
 void CSystemVarSet::DeleteVar(uint32_t nIdx)
@@ -263,7 +255,6 @@ void CSystemVarSet::DeleteVar(uint32_t nIdx)
     if(it != m_setData.end())
     {
         it->second->DeleteRecord();
-        SAFE_DELETE(it->second);
         m_setData.erase(it);
     }
 }

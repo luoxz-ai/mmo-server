@@ -6,14 +6,15 @@
 #include "T_GameDataMap.h"
 
 //////////////////////////////////////////////////////////////////////
-class CItemFormulaData
+class CItemFormulaData : public Noncopyable<CItemFormulaData>
 {
     CItemFormulaData() {}
-
+public:
+    CreateNewImpl(CItemFormulaData);
 public:
     virtual ~CItemFormulaData() {}
     using PB_T = Cfg_ItemFormula;
-    CREATE_NEW_IMPL(CItemFormulaData);
+    
     bool Init(const Cfg_ItemFormula_Row& row)
     {
         m_Data = row;

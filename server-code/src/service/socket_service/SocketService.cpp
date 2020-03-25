@@ -65,7 +65,7 @@ CSocketService*                     SocketService()
 CSocketService::CSocketService(const ServerPort& nServerPort)
     : CServiceCommon(nServerPort, std::string("Socket") + std::to_string(nServerPort.GetServiceID()))
 {
-    m_tLastDisplayTime.Startup(10);
+    m_tLastDisplayTime.Startup(20);
 }
 
 CSocketService::~CSocketService()

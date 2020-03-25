@@ -22,6 +22,7 @@ public:
             new_node->next = old;
         } while(!head_.compare_exchange_weak(old, new_node, std::memory_order_release));
     }
+    
     bool get(T& item)
     {
         if(poll_list_)
@@ -70,14 +71,12 @@ private:
         T     value;
     };
 
-    std::atomic<Node*> head_;
-    Node*              poll_list_; // for consumer only
+    std::atomic<Node*> head_      = nullptr;
+    Node*              poll_list_ = nullptr; // for consumer only
 };
 
 template<class T>
 MPSCQueue<T>::MPSCQueue()
-    : head_(nullptr)
-    , poll_list_(nullptr)
 {
 }
 

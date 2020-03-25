@@ -1,19 +1,25 @@
 #include "GameMap.h"
 
-CGameMap::CGameMap(CMapManager* pManager, const Cfg_Scene_Row& data, CMapData* pMapData)
-    : m_pManager(pManager)
-    , m_idMap(data.idmap())
-    , m_MapName(data.name())
-    , m_idZone(data.idzone())
-    , m_idMapTemplate(data.idmapdata())
-    , m_nMapType(data.maptype())
-    , m_nMapFlag(data.mapflag())
-    , m_idScript(data.idscript())
-    , m_pMapData(pMapData)
-{
-}
+CGameMap::CGameMap()
+{}
 
 CGameMap::~CGameMap() {}
+
+bool CGameMap::Init(CMapManager* pManager, const Cfg_Scene_Row& data, CMapData* pMapData)
+{
+    CHECKF(pManager);
+    CHECKF(pMapData);
+    m_pManager = pManager;
+    m_idMap = data.idmap();
+    m_MapName = data.name();
+    m_idZone = data.idzone();
+    m_idMapTemplate =data.idmapdata();
+    m_nMapType = data.maptype();
+    m_nMapFlag = data.mapflag();
+    m_idScript = data.idscript();
+    m_pMapData = pMapData;
+    return true;
+}
 
 bool CGameMap::IsInsideMap(float x, float y) const
 {

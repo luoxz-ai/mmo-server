@@ -46,7 +46,7 @@ bool CMapManager::Init(uint16_t idZone)
                 }
             }
 
-            CGameMap* pGameMap = new CGameMap(this, iter, pMapData);
+            CGameMap* pGameMap = CGameMap::CreateNew(this, iter, pMapData);
             if(pGameMap == nullptr)
             {
                 return false;

@@ -55,13 +55,14 @@ struct hash<SceneID>
 };
 } // namespace std
 
-class CMapManager
+class CMapManager: public Noncopyable<CMapManager>
 {
     CMapManager();
-
+public:
+    CreateNewImpl(CMapManager);
 public:
     ~CMapManager();
-    CREATE_NEW_IMPL(CMapManager);
+    
 
     bool      Init(uint16_t idZone);
     void      ForEach(const std::function<void(CGameMap*)>& func);

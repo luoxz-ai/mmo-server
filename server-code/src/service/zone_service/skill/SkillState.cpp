@@ -18,7 +18,7 @@ CSkillFSM::~CSkillFSM()
 
 bool CSkillFSM::CastSkill(uint32_t idSkill, OBJID idTarget, const Vector2& pos)
 {
-    CSkillType* pSkillType = SkillTypeSet()->QueryObj(idSkill);
+    const CSkillType* pSkillType = SkillTypeSet()->QueryObj(idSkill);
     if(pSkillType == nullptr)
         return false;
     CActor* pTarget = ActorManager()->QueryActor(idTarget);
@@ -46,7 +46,7 @@ bool CSkillFSM::CastSkill(uint32_t idSkill, OBJID idTarget, const Vector2& pos)
     return true;
 }
 
-bool CSkillFSM::CanIntone(CSkillType* pSkillType, CActor* pTarget, const Vector2& target_pos)
+bool CSkillFSM::CanIntone(const CSkillType* pSkillType, CActor* pTarget, const Vector2& target_pos)
 {
     CHECKF(pSkillType);
     if(pSkillType->GetSkillType() == SKILLTYPE_PASSIVE || pSkillType->GetSkillType() == SKILLTYPE_NONE)
@@ -131,7 +131,7 @@ bool CSkillFSM::CanIntone(CSkillType* pSkillType, CActor* pTarget, const Vector2
     return true;
 }
 
-void CSkillFSM::DoIntone(CSkillType* pSkillType)
+void CSkillFSM::DoIntone(const CSkillType* pSkillType)
 {
     LOGSKILLDEBUG(pSkillType->IsDebug(), "DoIntone ID:{}", m_pOwner->GetID());
 
@@ -245,7 +245,7 @@ void CSkillFSM::SetTargetPos(const Vector2& posTarget)
 }
 
 void CSkillFSM::FindTarget(CActor*               pOwner,
-                           CSkillType*           pSkillType,
+                           const CSkillType*           pSkillType,
                            OBJID                 idTarget,
                            const Vector2&        posTarget,
                            std::vector<CActor*>& vecTarget)
@@ -389,7 +389,7 @@ void CSkillFSM::FindTarget(CActor*               pOwner,
 }
 
 void _SkillEffectInRange(CActor*        pOwner,
-                         CSkillType*    pSkillType,
+                         const CSkillType*    pSkillType,
                          OBJID          idTarget,
                          const Vector2& posTarget,
                          uint32_t       nApplyTimes)
@@ -423,7 +423,7 @@ void CSkillFSM::SkillEffectInRange(OBJID          idCaster,
                                    uint32_t       nApplyTimes)
 {
     CActor*     pOwner     = ActorManager()->QueryActor(idCaster);
-    CSkillType* pSkillType = SkillTypeSet()->QueryObj(idSkillType);
+    const CSkillType* pSkillType = SkillTypeSet()->QueryObj(idSkillType);
     CHECK(pSkillType);
     _SkillEffectInRange(pOwner, pSkillType, idTarget, posTarget, nApplyTimes);
 }
@@ -471,7 +471,7 @@ void CSkillFSM::DoStun()
     msg.set_actor_id(m_pOwner->GetID());
     msg.set_skill_id(m_pCurSkillType->GetSkillID());
     msg.set_stun_ms(m_pCurSkillType->GetStunMS());
-    m_pOwner->SendMessage(CMD_SC_SKILL_STUN, msg);
+    m_pOwner->SendMsg(CMD_SC_SKILL_STUN, msg);
 
     m_curState = SKILLSTATE_STUN;
     if(m_pCurSkillType->GetStunMS() == 0)
@@ -516,7 +516,7 @@ bool CSkillFSM::IsSkillCoolDown(uint32_t cdType) const
 }
 
 void CSkillFSM::DoMultiDamage(CActor*                     pOwner,
-                              CSkillType*                 pSkillType,
+                              const CSkillType*                 pSkillType,
                               OBJID                       idTarget,
                               const Vector2&              posTarget,
                               const std::vector<CActor*>& vecTarget)
@@ -540,18 +540,18 @@ void CSkillFSM::DoMultiDamage(CActor*                     pOwner,
 
                 if(msg.damagelist_size() > 64)
                 {
-                    pOwner->SendMessage(CMD_SC_SKILL_DAMAGE, msg);
+                    pOwner->SendMsg(CMD_SC_SKILL_DAMAGE, msg);
                     msg.clear_damagelist();
                 }
             }
         }
         if(msg.damagelist_size() > 0)
-            pOwner->SendMessage(CMD_SC_SKILL_DAMAGE, msg);
+            pOwner->SendMsg(CMD_SC_SKILL_DAMAGE, msg);
     }
 }
 
 int32_t CSkillFSM::DoDamage(CActor*        pOwner,
-                            CSkillType*    pSkillType,
+                            const CSkillType*    pSkillType,
                             CActor*        pTarget,
                             OBJID          idTarget,
                             const Vector2& posTarget)
@@ -616,7 +616,7 @@ int32_t CSkillFSM::DoDamage(CActor*        pOwner,
     return nDamage;
 }
 
-void CSkillFSM::AttachStatus(CActor* pOwner, CSkillType* pSkillType, const std::vector<CActor*>& vecTarget)
+void CSkillFSM::AttachStatus(CActor* pOwner, const CSkillType* pSkillType, const std::vector<CActor*>& vecTarget)
 {
     auto pAttachStatusDataList = SkillAttachStatusDataSet()->QueryObj(pSkillType->GetSkillID());
     auto pDetachStatusDataList = SkillDetachStatusDataSet()->QueryObj(pSkillType->GetSkillID());
@@ -662,7 +662,7 @@ void CSkillFSM::AddBullet(CActor*                     pOwner,
 
     CHECK(pOwner);
     const Vector2& posBorn = pOwner->GetPos();
-    CBulletType*   pType   = BulletTypeSet()->QueryObj(idBulletType);
+    const CBulletType*   pType   = BulletTypeSet()->QueryObj(idBulletType);
     CHECK(pType);
 
     switch(pType->GetEmitType())

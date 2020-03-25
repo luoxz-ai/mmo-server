@@ -14,6 +14,7 @@
 #include "MemoryHeap.h"
 #include "Misc.h"
 #include "MyTimer.h"
+#include "Noncopyable.h"
 #include "ProtobuffParse.h"
 #include "ProtobuffUtil.h"
 #include "RandomGet.h"

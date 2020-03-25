@@ -72,7 +72,7 @@ void CCommonData::Sync()
     pData->set_data2(GetData(2));
     pData->set_data3(GetData(3));
 
-    m_pOwner->SendMessage(CMD_SC_COMMONDATA, msg);
+    m_pOwner->SendMsg(CMD_SC_COMMONDATA, msg);
     __LEAVE_FUNCTION
 }
 
@@ -97,10 +97,6 @@ CCommonDataSet::CCommonDataSet() {}
 CCommonDataSet::~CCommonDataSet()
 {
     __ENTER_FUNCTION
-    for(auto& [k, pData]: m_setData)
-    {
-        SAFE_DELETE(pData);
-    }
     m_setData.clear();
     __LEAVE_FUNCTION
 }
@@ -119,12 +115,10 @@ bool CCommonDataSet::Init(CPlayer* pPlayer)
     {
         for(size_t i = 0; i < result->get_num_row(); i++)
         {
-            auto         row         = result->fetch_row(true);
-            CCommonData* pCommonData = new CCommonData(pPlayer, std::move(row));
-            if(pCommonData)
-            {
-                m_setData[pCommonData->GetIdx()] = pCommonData;
-            }
+            auto row   = result->fetch_row(true);
+            auto pData = std::make_unique<CCommonData>(pPlayer, std::move(row));
+
+            m_setData[pData->GetIdx()] = std::move(pData);
         }
     }
     return true;
@@ -154,14 +148,14 @@ void CCommonDataSet::SyncAll()
         constexpr int32_t MAX_DATA_PER_MSG = 50;
         if(msg.datalist_size() > MAX_DATA_PER_MSG)
         {
-            m_pOwner->SendMessage(CMD_SC_COMMONDATA, msg);
+            m_pOwner->SendMsg(CMD_SC_COMMONDATA, msg);
             msg.clear_datalist();
         }
     }
 
     if(msg.datalist_size() > 0)
     {
-        m_pOwner->SendMessage(CMD_SC_COMMONDATA, msg);
+        m_pOwner->SendMsg(CMD_SC_COMMONDATA, msg);
     }
     __LEAVE_FUNCTION
 }
@@ -182,7 +176,7 @@ CCommonData* CCommonDataSet::QueryData(uint32_t nIdx, bool bCreateNew /*= false*
     auto it = m_setData.find(nIdx);
     if(it != m_setData.end())
     {
-        return it->second;
+        return it->second.get();
     }
 
     if(bCreateNew)
@@ -198,15 +192,15 @@ CCommonData* CCommonDataSet::CreateData(uint32_t nIdx)
     __ENTER_FUNCTION
     auto* pDB = ZoneService()->GetGameDB(m_pOwner->GetWorldID());
 
-    auto pDBRecord                              = pDB->MakeRecord(TBLD_COMMONDATA::table_name);
+    auto pDBRecord = pDB->MakeRecord(TBLD_COMMONDATA::table_name);
+
     pDBRecord->Field(TBLD_COMMONDATA::ID)       = ZoneService()->CreateUID();
     pDBRecord->Field(TBLD_COMMONDATA::PLAYERID) = m_pOwner->GetID();
     pDBRecord->Field(TBLD_COMMONDATA::KEYIDX)   = nIdx;
     CHECKF(pDBRecord->Update(true));
 
-    CCommonData* pCommonData = new CCommonData(m_pOwner, std::move(pDBRecord));
-    m_setData[nIdx]          = pCommonData;
-    return pCommonData;
+    m_setData[nIdx] = std::make_unique<CCommonData>(m_pOwner, std::move(pDBRecord));
+    return m_setData[nIdx].get();
     __LEAVE_FUNCTION
     return nullptr;
 }
@@ -218,7 +212,6 @@ void CCommonDataSet::DeleteData(uint32_t nIdx)
     if(it != m_setData.end())
     {
         it->second->DeleteRecord();
-        SAFE_DELETE(it->second);
         m_setData.erase(it);
     }
     __LEAVE_FUNCTION

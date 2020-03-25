@@ -103,7 +103,7 @@ bool CPlayerAchievement::TakeReward(uint32_t idAchiType)
     __ENTER_FUNCTION
     if(idAchiType == 0)
         return TakeAll();
-    CAchievementType* pType = AchievementTypeSet()->GetData(idAchiType);
+    const CAchievementType* pType = AchievementTypeSet()->GetData(idAchiType);
     CHECKF(pType);
 
     auto it_take = m_setAward.find(idAchiType);
@@ -147,7 +147,7 @@ bool CPlayerAchievement::TakeAll()
     __ENTER_FUNCTION
     for(auto idAchiType: m_setAward)
     {
-        CAchievementType* pType = AchievementTypeSet()->GetData(idAchiType);
+        const CAchievementType* pType = AchievementTypeSet()->GetData(idAchiType);
         CHECKF(pType);
         auto it = m_setFinish.find(idAchiType);
         if(it == m_setFinish.end())
@@ -193,7 +193,7 @@ void CPlayerAchievement::SaveAll()
     //}
 }
 
-void CPlayerAchievement::FinishAchievement(CAchievementType* pType)
+void CPlayerAchievement::FinishAchievement(const CAchievementType* pType)
 {
     __ENTER_FUNCTION
     auto pDB = ZoneService()->GetGameDB(m_pOwner->GetWorldID());
@@ -217,7 +217,7 @@ void CPlayerAchievement::SyncAll()
         pData->set_achi_id(idAchiType);
         pData->set_take(row->Field(TBLD_ACHIEVEMENT::TAKE));
     }
-    m_pOwner->SendMessage(CMD_SC_ACHI_INFO, msg);
+    m_pOwner->SendMsg(CMD_SC_ACHI_INFO, msg);
 }
 
 void CPlayerAchievement::SendAchiToClient(uint32_t idAchiType, bool bTake)
@@ -226,7 +226,7 @@ void CPlayerAchievement::SendAchiToClient(uint32_t idAchiType, bool bTake)
     auto         pData = msg.add_finish_list();
     pData->set_achi_id(idAchiType);
     pData->set_take(bTake);
-    m_pOwner->SendMessage(CMD_SC_ACHI_INFO, msg);
+    m_pOwner->SendMsg(CMD_SC_ACHI_INFO, msg);
 }
 
 bool CPlayerAchievement::IsFinish(uint32_t idAchiType)
@@ -234,7 +234,7 @@ bool CPlayerAchievement::IsFinish(uint32_t idAchiType)
     return m_setFinish.find(idAchiType) != m_setFinish.end();
 }
 
-bool CPlayerAchievement::_CheckAchiCondition(CAchievementType* pType, uint32_t nVal0, uint32_t nVal1, uint32_t nVal2)
+bool CPlayerAchievement::_CheckAchiCondition(const CAchievementType* pType, uint32_t nVal0, uint32_t nVal1, uint32_t nVal2)
 {
     switch(pType->GetCheckData().check_type())
     {

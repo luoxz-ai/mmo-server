@@ -15,14 +15,17 @@ export_lua constexpr const char* STR_TASK_QUICK_FINISH = "快速完成";
 
 //每一条未完成的任务占据一条数据
 class CPlayer;
-export_lua class CPlayerTaskData
+export_lua class CPlayerTaskData : public Noncopyable<CPlayerTaskData>
 {
-public:
     CPlayerTaskData();
+public:
+    CreateNewImpl(CPlayerTaskData);
+public:
+    
     ~CPlayerTaskData();
 
 public:
-    CREATE_NEW_IMPL(CPlayerTaskData);
+    
     bool                Init(CDBRecordPtr&& pRow);
     bool                Init(CPlayer* pPlayer, uint32_t idTask);
     void                DelRecord();
@@ -59,13 +62,14 @@ private:
 
 export_lua const uint32_t MAX_ACCEPT_TASK = 20;
 
-export_lua class CPlayerTask
+export_lua class CPlayerTask : public Noncopyable<CPlayerTask>
 {
     CPlayerTask();
-
+public:
+    CreateNewImpl(CPlayerTask);
 public:
     ~CPlayerTask();
-    CREATE_NEW_IMPL(CPlayerTask);
+    
     bool Init(CPlayer* pPlayer);
 
     export_lua CPlayerTaskData* QueryTaskData(uint32_t idTask);
@@ -77,9 +81,9 @@ public:
     export_lua bool GiveupTask(uint32_t idTask);
 
     export_lua bool    CanAccept(uint32_t idTask);
-    export_lua bool    CanAccept(CTaskType* pType);
+    export_lua bool    CanAccept(const CTaskType* pType);
     export_lua bool    CanSubmit(uint32_t idTask);
-    export_lua bool    CanSubmit(CTaskType* pTaskType);
+    export_lua bool    CanSubmit(const CTaskType* pTaskType);
     export_lua int32_t GetLeftTimes(uint32_t idTask);
     export_lua bool    IsFinished(uint32_t idTask);
 

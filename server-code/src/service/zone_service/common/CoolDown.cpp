@@ -75,11 +75,12 @@ void CPlayerCoolDown::Sync()
     //发送给客户端
     SC_COOLDOWN msg;
     auto        pData = msg.add_datalist();
+
     pData->set_type(GetType());
     pData->set_idx(GetIdx());
     pData->set_expiretime(GetExpireTime());
 
-    m_pOwner->SendMessage(CMD_SC_COOLDOWN, msg);
+    m_pOwner->SendMsg(CMD_SC_COOLDOWN, msg);
     __LEAVE_FUNCTION
 }
 
@@ -104,10 +105,6 @@ CCoolDownSet::CCoolDownSet() {}
 CCoolDownSet::~CCoolDownSet()
 {
     __ENTER_FUNCTION
-    for(auto& [k, pDataAcc]: m_setDataMap)
-    {
-        SAFE_DELETE(pDataAcc);
-    }
     m_setDataMap.clear();
     __LEAVE_FUNCTION
 }
@@ -181,14 +178,10 @@ ICoolDown* CCoolDownSet::CreateData(uint32_t nType, uint32_t nIdx, uint32_t nMSe
 {
     __ENTER_FUNCTION
     uint64_t key = MAKE64(nType, nIdx);
-
-    ICoolDown* pData = new CCoolDown();
-    if(pData)
-    {
-        pData->StartCoolDown(nMSec);
-        m_setDataMap[key] = pData;
-    }
-    return pData;
+    auto pData = std::make_unique<CCoolDown>();
+    pData->StartCoolDown(nMSec);
+    m_setDataMap[key] = std::move(pData);
+    return m_setDataMap[key].get();
     __LEAVE_FUNCTION
     return nullptr;
 }
@@ -212,12 +205,10 @@ bool CPlayerCoolDownSet::Init(CPlayer* pPlayer)
     {
         for(size_t i = 0; i < result->get_num_row(); i++)
         {
-            auto             row      = result->fetch_row(true);
-            CPlayerCoolDown* pDataAcc = new CPlayerCoolDown(pPlayer, std::move(row));
-            if(pDataAcc)
-            {
-                m_setDataMap[MAKE64(pDataAcc->GetType(), pDataAcc->GetIdx())] = pDataAcc;
-            }
+            auto     row   = result->fetch_row(true);
+            auto     pData = std::make_unique<CPlayerCoolDown>(pPlayer, std::move(row));
+            uint64_t key   = MAKE64(pData->GetType(), pData->GetIdx());
+            m_setDataMap.emplace(key, std::move(pData));
         }
     }
     return true;
@@ -233,7 +224,7 @@ void CPlayerCoolDownSet::SyncAll()
     uint64_t    now = TimeGetMillisecond();
     for(auto& [k, v]: m_setDataMap)
     {
-        CPlayerCoolDown* pCD = static_cast<CPlayerCoolDown*>(v);
+        CPlayerCoolDown* pCD = static_cast<CPlayerCoolDown*>(v.get());
         if(pCD && pCD->GetExpireTime() > now)
         {
             auto pData = msg.add_datalist();
@@ -242,7 +233,7 @@ void CPlayerCoolDownSet::SyncAll()
             pData->set_expiretime(pCD->GetExpireTime());
         }
     }
-    m_pOwner->SendMessage(CMD_SC_COOLDOWN, msg);
+    m_pOwner->SendMsg(CMD_SC_COOLDOWN, msg);
 
     __LEAVE_FUNCTION
 }
@@ -252,7 +243,7 @@ void CPlayerCoolDownSet::Save()
     __ENTER_FUNCTION
     for(auto& [k, v]: m_setDataMap)
     {
-        CPlayerCoolDown* pDataAcc = static_cast<CPlayerCoolDown*>(v);
+        CPlayerCoolDown* pDataAcc = static_cast<CPlayerCoolDown*>(v.get());
         pDataAcc->Save();
     }
     __LEAVE_FUNCTION
@@ -264,6 +255,7 @@ ICoolDown* CPlayerCoolDownSet::CreateData(uint32_t nType, uint32_t nIdx, uint32_
     auto* pDB = ZoneService()->GetGameDB(m_pOwner->GetWorldID());
 
     auto pDBRecord                               = pDB->MakeRecord(TBLD_COOLDOWN::table_name);
+
     pDBRecord->Field(TBLD_COOLDOWN::PLAYERID)    = m_pOwner->GetID();
     pDBRecord->Field(TBLD_COOLDOWN::KEYTYPE)     = nType;
     pDBRecord->Field(TBLD_COOLDOWN::KEYIDX)      = nIdx;
@@ -272,9 +264,9 @@ ICoolDown* CPlayerCoolDownSet::CreateData(uint32_t nType, uint32_t nIdx, uint32_
     CHECKF(pDBRecord->Update(true));
     uint64_t key = MAKE64(nType, nIdx);
 
-    CPlayerCoolDown* pData = new CPlayerCoolDown(m_pOwner, std::move(pDBRecord));
-    m_setDataMap[key]      = pData;
-    return pData;
+    auto pData = std::make_unique<CPlayerCoolDown>(m_pOwner, std::move(pDBRecord));
+    m_setDataMap.emplace(key, std::move(pData) );
+    return m_setDataMap[key].get();
     __LEAVE_FUNCTION
     return nullptr;
 }

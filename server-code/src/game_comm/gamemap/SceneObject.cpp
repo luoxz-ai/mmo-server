@@ -155,7 +155,7 @@ bool CSceneObject::IsInViewActorByID(OBJID idActor) const
 //////////////////////////////////////////////////////////////////////
 void CSceneObject::RemoveFromViewList(CSceneObject* pActor, OBJID idActor, bool bErase)
 {
-    // ֪ͨ�Լ��Է���ʧ
+    // 通知自己对方消失
     if(pActor)
     {
         m_ViewActorsByType[pActor->GetActorType()].erase(pActor->GetID());
@@ -201,10 +201,10 @@ void CSceneObject::AddToViewList(CSceneObject* pActor, bool bChkDuplicate, bool 
 bool CSceneObject::UpdateViewList()
 {
     //////////////////////////////////////////////////////////////////////////
-    // Ϊ�˼������������㲥���Ĵ�����������õĲ����ǻ���3*3����߼����ӣ�
-    // ֻ���״ν����ͼ���߼����ӷ����仯��ʱ������½�������
+    // 为了减少重新搜索广播集的次数，这里采用的策略是划分3*3格的逻辑格子，
+    // 只有首次进入地图或逻辑格子发生变化的时候才重新进行搜索
 
-    // Ѱ���µ�Ŀ�꼯
+    // 寻找新的目标集
     BROADCAST_SET setBCActor;
     ACTOR_MAP     mapAllViewActor;
     struct ACTOR_MAP_BY_DIS_DATA
@@ -218,9 +218,9 @@ bool CSceneObject::UpdateViewList()
     uint32_t viewcount_max         = GetCurrentScene()->GetViewCount();
     uint32_t view_range_in_square  = GetCurrentScene()->GetViewRangeInSquare();
     uint32_t view_range_out_square = GetCurrentScene()->GetViewRangeOutSquare();
-    // �㲥���㷨�޸Ĳ���
+    // 广播集算法修改测试
     //////////////////////////////////////////////////////////////////////////
-    // step1: ��ȡ��ǰ�㲥����Χ�ڵĶ���
+    // step1: 获取当前广播集范围内的对象
     {
         GetCurrentScene()->foreach_SceneNodeInSight(
             GetPosX(),
@@ -230,27 +230,28 @@ bool CSceneObject::UpdateViewList()
              &mapAllViewActor,
              &sortedAllViewActorByDist,
              view_range_in_square,
-             viewcount_max](CSceneNode* pSceneNode) {
+             viewcount_max](CSceneNode* pSceneNode) 
+             {
                 const auto& actor_list = *pSceneNode;
                 for(CSceneObject* pActor: actor_list)
                 {
                     if(pActor == thisActor)
                         continue;
 
-                    // �ж�Ŀ���Ƿ���Ҫ����㲥��
+                    // 判断目标是否需要加入广播集
                     if(thisActor->IsNeedAddToBroadCastSet(pActor) == false)
                         continue;
 
-                    //! Ŀ�������Ұ����Ҫ����㲥��
+                    //! 目标进入视野，需要加入广播集
                     uint32_t distance_square = 0;
 
-                    if(view_range_in_square > 0) //���������ж�
+                    if(view_range_in_square > 0) //距离优先判断
                     {
                         distance_square = GameMath::simpleDistance(thisActor->GetPos(), pActor->GetPos());
                     }
                     else
                     {
-                        // view_in == 0ʱ,ʹ������پ�������ж�
+                        // view_in == 0时,使用麦哈顿距离进行判断
                         distance_square = GameMath::manhattanDistance(thisActor->GetPos(), pActor->GetPos());
                     }
 
@@ -281,11 +282,11 @@ bool CSceneObject::UpdateViewList()
 
     if(viewcount_max > 0)
     {
-        //��Ҫ��Ұ�ü�
-        //�����ǰ��Ұ�����Ѿ�������Ұ��������
+        //需要视野裁剪
+        //如果当前视野人数已经超过视野人数上限
         if(setBCActor.size() < viewcount_max)
         {
-            //����Ұ���Ͻ�������,ֻȡ�����Լ������N��,��Ϊ���¹㲥��
+            //对视野集合进行排序,只取距离自己最近的N个,作为最新广播集
             int32_t nCanInsert = viewcount_max - setBCActor.size();
             struct comp
             {
@@ -314,11 +315,11 @@ bool CSceneObject::UpdateViewList()
         }
     }
 
-    // �㲥����������������
+    // 广播集必须先做好排序
     sort(setBCActor.begin(), setBCActor.end());
 
     //////////////////////////////////////////////////////////////////////////
-    // setp2: ���㵱ǰ�㲥����ɹ㲥���Ĳ�����ⲿ�����½�����Ұ��
+    // setp2: 计算当前广播集与旧广播集的差集——这部分是新进入视野的
     BROADCAST_SET::iterator result;
 
     BROADCAST_SET setBCActorAdd(setBCActor.size(), 0);
@@ -330,7 +331,7 @@ bool CSceneObject::UpdateViewList()
     setBCActorAdd.erase(result, setBCActorAdd.end());
 
     //////////////////////////////////////////////////////////////////////////
-    // step3: ����ɹ㲥���뵱ǰ�㲥���Ĳ�����ⲿ���ǿ�����Ҫ�뿪��Ұ��
+    // step3: 计算旧广播集与当前广播集的差集——这部分是可能需要离开视野的
     BROADCAST_SET setBCActorDel(m_ViewActors.size(), 0);
     result = set_difference(m_ViewActors.begin(),
                             m_ViewActors.end(),
@@ -339,24 +340,24 @@ bool CSceneObject::UpdateViewList()
                             setBCActorDel.begin());
     setBCActorDel.erase(result, setBCActorDel.end());
 
-    //�����ɾ���б������Ա������ٸ�
+    //计算待删除列表还可以保留多少个
     int32_t nCanReserveDelCount = setBCActorDel.size();
     if(viewcount_max > 0)
     {
-        //��Ҫ��Ұ�ü�
-        //�����ǰ��Ұ�����Ѿ�������Ұ��������
+        //需要视野裁剪
+        //如果当前视野人数已经超过视野人数上限
         nCanReserveDelCount = viewcount_max - ((m_ViewActors.size() - setBCActorDel.size()) + setBCActorAdd.size());
     }
 
-    // step4: ��Ҫ�뿪��Ұ�Ľ�ɫRemove
+    // step4: 需要离开视野的角色Remove
     AOIProcessActorRemoveFromAOI(setBCActorDel, setBCActor, nCanReserveDelCount, view_range_out_square);
 
-    // ���ý�ɫ�㲥��=��ǰ�㲥��-�뿪��Ұ�Ĳ
+    // 设置角色广播集=当前广播集-离开视野的差集
     m_ViewActors = setBCActor;
     AOIProcessPosUpdate();
 
     //////////////////////////////////////////////////////////////////////////
-    // step5: �½�����Ұ�Ľ�ɫ�͵�ͼ��ƷAdd
+    // step5: 新进入视野的角色和地图物品Add
     AOIProcessActorAddToAOI(setBCActorAdd, mapAllViewActor);
 
     return true;

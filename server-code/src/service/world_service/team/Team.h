@@ -7,13 +7,14 @@
 #include "server_msg/server_side.pb.h"
 
 class CUser;
-class CTeam
+class CTeam: public Noncopyable<CTeam>
 {
     CTeam();
-
+public:
+    CreateNewImpl(CTeam);
 public:
     ~CTeam();
-    CREATE_NEW_IMPL(CTeam);
+    
     bool Init(uint64_t idTeam, OBJID idLeader);
     void SendTeamAction(uint32_t nAction, OBJID idOperator, OBJID idMember);
     void SendTeamMemberInfo(const SC_TEAMMEMBER_INFO::MemberInfo& info);

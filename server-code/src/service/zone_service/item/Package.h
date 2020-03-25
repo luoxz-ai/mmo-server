@@ -10,14 +10,15 @@ const int32_t _MAX_SYSSTORAGE_SIZE  = 300; // 系统物品仓库最大容量
 //////////////////////////////////////////////////////////////////////
 class CItem;
 class CPlayer;
-export_lua class CPackage
+export_lua class CPackage : public Noncopyable<CPackage>
 {
 protected:
     CPackage();
-
+public:
+    CreateNewImpl(CPackage);
 public:
     virtual ~CPackage();
-    CREATE_NEW_IMPL(CPackage);
+    
 
 public:
     virtual bool Init(CPlayer* pOwner, uint32_t nPackageType, uint32_t nMaxSize);

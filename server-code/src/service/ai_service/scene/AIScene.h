@@ -9,10 +9,10 @@ class CAIScene : public CSceneBase
 {
 protected:
     CAIScene();
-
+ public:
+    CreateNewImpl(CAIScene);
 public:
     virtual ~CAIScene();
-    CREATE_NEW_IMPL(CAIScene);
 
 public:
     bool               Init(const SceneID& idScene);
@@ -22,13 +22,14 @@ private:
     CMonsterGenerator m_MonsterGen;
 };
 
-class CAISceneManager
+class CAISceneManager: public Noncopyable<CAISceneManager>
 {
     CAISceneManager();
-
+public:
+    CreateNewImpl(CAISceneManager);
 public:
     ~CAISceneManager();
-    CREATE_NEW_IMPL(CAISceneManager);
+    
 
     bool Init(uint32_t idZone);
     void Destory();

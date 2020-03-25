@@ -18,13 +18,14 @@ export_lua enum TaskFlag {
     TASKFLAG_AUTO_ACITVE_NPC = 0x0100, // 接受任务/提交任务/快速完成处理完以后，重新激活NPC
 };
 
-class CTaskType
+class CTaskType : public Noncopyable<CTaskType>
 {
     CTaskType() {}
-
+public:
+    CreateNewImpl(CTaskType);
 public:
     ~CTaskType() {}
-    CREATE_NEW_IMPL(CTaskType);
+    
     bool Init(const Cfg_Task_Row& row)
     {
         m_Data = row;
@@ -69,20 +70,21 @@ private:
 };
 
 //////////////////////////////////////////////////////////////////////
-class CTaskTypeSet
+class CTaskTypeSet : public Noncopyable<CTaskTypeSet>
 {
     CTaskTypeSet();
-
+public:
+    CreateNewImpl(CTaskTypeSet);
 public:
     virtual ~CTaskTypeSet();
 
 public:
-    CREATE_NEW_IMPL(CTaskTypeSet);
+    
     bool Init(const char* szFileName);
     bool Reload(const char* szFileName);
     void Destroy();
 
-    CTaskType*                     QueryObj(uint32_t idType) const;
+    const CTaskType*                     QueryObj(uint32_t idType) const;
     const std::vector<CTaskType*>* QueryTaskByAcceptNpcID(uint32_t idNpc) const;
     const std::vector<CTaskType*>* QueryTaskBySubmitNpcID(uint32_t idNpc) const;
 

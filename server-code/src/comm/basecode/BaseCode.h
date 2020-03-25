@@ -28,28 +28,13 @@
 #include "Misc.h"
 #include "StringAlgo.h"
 #include "TimeUtil.h"
+#include "Noncopyable.h"
 #include "export_lua.h"
 
 export_lua enum SYNC_TYPE { SYNC_FALSE, SYNC_TRUE, SYNC_ALL, SYNC_ALL_DELAY };
 export_lua constexpr bool UPDATE_TRUE  = true;
 export_lua constexpr bool UPDATE_FALSE = false;
 
-#define CREATE_NEW_IMPL(Type)                                   \
-    template<typename... Args>                                  \
-    static inline Type* CreateNew(Args&&... args)               \
-    {                                                           \
-        Type* newT = nullptr;                                   \
-        __ENTER_FUNCTION                                        \
-        {                                                       \
-            newT = new Type();                                  \
-            if(newT && newT->Init(std::forward<Args>(args)...)) \
-            {                                                   \
-                return newT;                                    \
-            }                                                   \
-        }                                                       \
-        __LEAVE_FUNCTION                                        \
-        SAFE_DELETE(newT);                                      \
-        return nullptr;                                         \
-    }
+    
 
 #endif // BaseCode_h__

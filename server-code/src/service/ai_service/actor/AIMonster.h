@@ -9,10 +9,13 @@
 class CActorAI;
 class CAIMonster : public CAIActor
 {
+     CAIMonster();
 public:
-    CAIMonster();
+    CreateNewImpl(CAIMonster);
+public:
+   
     ~CAIMonster();
-    CREATE_NEW_IMPL(CAIMonster);
+    
     bool Init(const ServerMSG::ActorCreate& msg);
 
     virtual ActorType GetActorType() const override { return ActorType::ACT_MONSTER; }
@@ -25,7 +28,7 @@ public:
     virtual bool IsEnemy(CSceneObject* pTarget) const override;
 
     uint32_t      GetGenID() const { return m_idGen; }
-    CMonsterType* Type() const { return m_pType; }
+    const CMonsterType* Type() const { return m_pType; }
 
     virtual void OnCastSkillFinish(uint32_t stun_ms) override;
 
@@ -36,10 +39,10 @@ public:
     MEMORYHEAP_DECLARATION(s_heap);
 
 private:
-    uint32_t      m_idGen;
-    OBJID         m_idOwner;
-    CMonsterType* m_pType;
-    CAIType*      m_pAIType;
-    CActorAI*     m_pAI;
+    uint32_t            m_idGen;
+    OBJID               m_idOwner;
+    const CMonsterType* m_pType;
+    const CAIType*      m_pAIType;
+    CActorAI*           m_pAI;
 };
 #endif /* AIMONSTER_H */

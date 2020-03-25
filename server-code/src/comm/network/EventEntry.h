@@ -51,8 +51,8 @@ private:
     EventCallBackFunc m_pCallBack;
     time_t            m_tWaitTime;
     bool              m_bPersist;
-    event*            m_pevTimer;
-    std::atomic<bool> m_bRunning;
+    event*            m_pevTimer = nullptr;
+    std::atomic<bool> m_bRunning = true;
     uint32_t          m_evType;
     uint32_t          m_evManagerType;
     friend class CEventManager;

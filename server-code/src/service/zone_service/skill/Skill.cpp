@@ -79,7 +79,7 @@ bool CUserSkillManager::Init(CPlayer* pOwner)
             if(pData)
             {
                 m_setSkillData[pData->GetSkillSort()] = pData;
-                CSkillType* pSkillType =
+                const CSkillType* pSkillType =
                     SkillTypeSet()->QueryObj(CSkillType::MakeID(pData->GetSkillSort(), pData->GetSkillLev()));
                 if(pSkillType && pSkillType->GetSkillType() == SKILLTYPE_PASSIVE)
                 {
@@ -105,7 +105,7 @@ bool CUserSkillManager::LearnSkill(uint32_t idSkillSort)
     if(pSkillData != nullptr)
         return false;
 
-    CSkillType* pSkillType = SkillTypeSet()->QueryObj(CSkillType::MakeID(idSkillSort, 1));
+    const CSkillType* pSkillType = SkillTypeSet()->QueryObj(CSkillType::MakeID(idSkillSort, 1));
     if(pSkillType == nullptr)
         return false;
 
@@ -158,7 +158,7 @@ bool CUserSkillManager::UpgradeSkill(uint32_t idSkillSort)
     if(pSkillData == nullptr)
         return false;
 
-    CSkillType* pSkillType = SkillTypeSet()->QueryObj(CSkillType::MakeID(idSkillSort, pSkillData->GetSkillLev() + 1));
+    const CSkillType* pSkillType = SkillTypeSet()->QueryObj(CSkillType::MakeID(idSkillSort, pSkillData->GetSkillLev() + 1));
     if(pSkillType == nullptr)
         return false;
 
@@ -167,7 +167,7 @@ bool CUserSkillManager::UpgradeSkill(uint32_t idSkillSort)
     //属性
     if(pSkillType->GetSkillType() == SKILLTYPE_PASSIVE)
     {
-        CSkillType* pOldSkillType =
+        const CSkillType* pOldSkillType =
             SkillTypeSet()->QueryObj(CSkillType::MakeID(idSkillSort, pSkillData->GetSkillLev()));
         if(pOldSkillType)
         {

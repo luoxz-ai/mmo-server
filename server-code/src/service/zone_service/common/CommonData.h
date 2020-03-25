@@ -46,13 +46,14 @@ private:
     MEMORYHEAP_DECLARATION(s_heap);
 };
 
-export_lua class CCommonDataSet
+export_lua class CCommonDataSet : public Noncopyable<CCommonDataSet>
 {
     CCommonDataSet();
-
+public:
+    CreateNewImpl(CCommonDataSet);
 public:
     ~CCommonDataSet();
-    CREATE_NEW_IMPL(CCommonDataSet);
+    
 
     bool            Init(CPlayer* pPlayer);
     export_lua void SyncAll();
@@ -63,6 +64,6 @@ public:
 
 private:
     CPlayer*                                   m_pOwner = nullptr;
-    std::unordered_map<uint32_t, CCommonData*> m_setData;
+    std::unordered_map<uint32_t, std::unique_ptr<CCommonData> > m_setData;
 };
 #endif /* COMMONDATA_H */

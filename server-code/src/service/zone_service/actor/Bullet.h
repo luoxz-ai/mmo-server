@@ -8,12 +8,13 @@ export_lua class CBullet : public CActor
 {
 protected:
     CBullet();
-
+public:
+    CreateNewImpl(CBullet);
 public:
     virtual ~CBullet();
 
-    CREATE_NEW_IMPL(CBullet);
-    bool     Init(OBJID idOwner, CBulletType* pType, OBJID idTarget, const Vector2& posTarget);
+    
+    bool     Init(OBJID idOwner,const CBulletType* pType, OBJID idTarget, const Vector2& posTarget);
     uint32_t GetTypeID() const { return m_idType; }
 
 public:
@@ -38,7 +39,7 @@ public:
 private:
     OBJID        m_idOwner     = 0;
     uint32_t     m_idType      = 0;
-    CBulletType* m_pType       = nullptr;
+    const CBulletType* m_pType       = nullptr;
     OBJID        m_idTarget    = 0;
     uint32_t     m_nApplyTimes = 0;
     Vector2      m_posTarget;

@@ -57,7 +57,7 @@ void CNpcTypeSet::Destroy()
     __LEAVE_FUNCTION
 }
 
-CNpcType* CNpcTypeSet::QueryObj(uint32_t idType)
+const CNpcType* CNpcTypeSet::QueryObj(uint32_t idType) const
 {
     __ENTER_FUNCTION
     auto it = m_setData.find(idType);
@@ -69,7 +69,7 @@ CNpcType* CNpcTypeSet::QueryObj(uint32_t idType)
     return nullptr;
 }
 
-const std::vector<CNpcType*>* CNpcTypeSet::QueryObjByMapID(uint32_t idMap)
+const std::vector<CNpcType*>* CNpcTypeSet::QueryObjByMapID(uint32_t idMap) const
 {
     __ENTER_FUNCTION
     auto it = m_setDataByMapID.find(idMap);

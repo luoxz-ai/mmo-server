@@ -9,13 +9,13 @@
 #include "config/Cfg_BornPos.pb.h"
 //////////////////////////////////////////////////////////////////////
 //
-class CBornPos
+class CBornPos: public Noncopyable<CBornPos>
 {
     CBornPos() {}
-
+public:
+    CreateNewImpl(CBornPos);
 public:
     ~CBornPos() {}
-    CREATE_NEW_IMPL(CBornPos);
 
 public:
     bool Init(const Cfg_BornPos_Row& row)
@@ -36,12 +36,13 @@ protected:
     Cfg_BornPos::Row m_row;
 };
 
-class CBornPosSet
+class CBornPosSet: public Noncopyable<CBornPosSet>
 {
     CBornPosSet() {}
-
+ public:
+    CreateNewImpl(CBornPosSet);
 public:
-    CREATE_NEW_IMPL(CBornPosSet);
+    
     ~CBornPosSet() { Clear(); }
 
 public:
