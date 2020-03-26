@@ -12,6 +12,7 @@ class CMysqlConnection;
 class CMysqlStmt;
 class CMysqlResult;
 
+using CMysqlStmtPtr  = std::unique_ptr<CMysqlStmt>;
 using MYSQL_PTR      = std::unique_ptr<MYSQL, decltype(&mysql_close)>;
 using MYSQL_STMT_PTR = std::unique_ptr<MYSQL_STMT, decltype(&mysql_stmt_close)>;
 using MYSQL_RES_PTR  = std::unique_ptr<MYSQL_RES, decltype(&mysql_free_result)>;
@@ -54,7 +55,7 @@ public:
                             uint32_t           port,
                             unsigned long      client_flag  = 0,
                             bool               bCreateAsync = false);
-    CMysqlStmt*     Prepare(const std::string& s);
+    CMysqlStmtPtr   Prepare(const std::string& s);
     CMysqlResultPtr UnionQuery(const std::string& query);
     CMysqlResultPtr Query(const std::string& table_name, const std::string& query = "");
     uint64_t        Update(const std::string& query);
@@ -130,7 +131,7 @@ public:
     CMysqlStmt(MYSQL_STMT* stmt)
         : m_pMysqlStmt(stmt, mysql_stmt_close)
         , m_ParamsCount(mysql_stmt_param_count(stmt))
-        , m_Params(new MYSQL_BIND[m_ParamsCount]())
+        , m_Params(std::make_unique<MYSQL_BIND[]>(m_ParamsCount))
     {
     }
 

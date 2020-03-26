@@ -112,7 +112,7 @@ bool CMessageRoute::ConnectGlobalDB(const std::string& host,
 {
     __ENTER_FUNCTION
     // connect db
-    std::unique_ptr<CMysqlConnection> pDB(new CMysqlConnection());
+    std::unique_ptr<CMysqlConnection> pDB = std::make_unique<CMysqlConnection>();
     if(pDB->Connect(host, user, password, db, port) == false)
     {
         return false;

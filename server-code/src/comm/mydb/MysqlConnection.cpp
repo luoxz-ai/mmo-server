@@ -97,7 +97,7 @@ bool CMysqlConnection::Connect(const std::string& host,
 
     if(bCreateAsync)
     {
-        m_AsyncThread = std::unique_ptr<CWorkerThread>(new CWorkerThread(
+        m_AsyncThread = std::make_unique<CWorkerThread>(
             "DB AsyncThread",
             [this, host, user, password, db, port, client_flag]() {
                 __ENTER_FUNCTION
@@ -138,7 +138,7 @@ bool CMysqlConnection::Connect(const std::string& host,
                 }
                 __LEAVE_FUNCTION
             },
-            []() { BaseCode::ClearNdc(); }));
+            []() { BaseCode::ClearNdc(); });
 
         while(m_AsyncThread->IsReady() == false)
         {
@@ -204,13 +204,13 @@ void CMysqlConnection::JoinAsyncThreadFinish()
     __LEAVE_FUNCTION
 }
 
-CMysqlStmt* CMysqlConnection::Prepare(const std::string& s)
+CMysqlStmtPtr CMysqlConnection::Prepare(const std::string& s)
 {
     __ENTER_FUNCTION
     MYSQL_STMT_PTR stmt(mysql_stmt_init(m_pHandle.get()), mysql_stmt_close);
     if(mysql_stmt_prepare(stmt.get(), s.c_str(), s.size()) == 0)
     {
-        return new CMysqlStmt{stmt.release()};
+        return std::make_unique<CMysqlStmt>(stmt.release());
     }
     __LEAVE_FUNCTION
     return nullptr;

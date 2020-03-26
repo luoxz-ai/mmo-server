@@ -811,6 +811,8 @@ namespace detail
         static void              _push(lua_State* L, T ret) { lua_pushinteger(L, (int32_t)ret); }
     };
 
+   
+
     // support container
     template<typename _T>
     _T _readfromtable(lua_State* L, int32_t index)
@@ -872,6 +874,8 @@ namespace detail
             }
         }
     }
+
+   
 
     // stl container T
     template<typename T>
