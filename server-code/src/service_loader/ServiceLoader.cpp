@@ -13,7 +13,7 @@
 //#include "brpc/global.h"
 void log_cb(int32_t severity, const char* msg)
 {
-    LOGNETERROR("{}", msg);
+    LOGNETERROR("libevent：{}", msg);
 }
 
 ServiceLoader::ServiceLoader()

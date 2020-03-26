@@ -14,13 +14,13 @@ private:
 };
 
 CEncryptor::CEncryptor()
+:m_pImpl{ std::make_unique<CEncryptorImpl>() }
 {
-    m_pImpl = new CEncryptorImpl;
+    
 }
 
 CEncryptor::~CEncryptor()
 {
-    SAFE_DELETE(m_pImpl);
 }
 
 void CEncryptor::Init(uint32_t key)

@@ -111,7 +111,7 @@ private:
     float m_fGridHighFactor; //地形高度缩放系数， 实际高度=地形高度值/255*地形高度缩放系数
 
     //地图信息
-    MapGridData* m_pGridData = nullptr;
+    std::unique_ptr<MapGridData[]> m_pGridData;
     uint32_t     m_CollisionMask[32];
 
     //

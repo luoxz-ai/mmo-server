@@ -14,13 +14,12 @@ private:
 };
 
 CDecryptor::CDecryptor()
+:m_pImpl{ std::make_unique<CDecryptorImpl>() }
 {
-    m_pImpl = new CDecryptorImpl;
 }
 
 CDecryptor::~CDecryptor()
 {
-    SAFE_DELETE(m_pImpl);
 }
 
 void CDecryptor::Init(uint32_t key)

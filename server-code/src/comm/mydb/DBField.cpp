@@ -190,7 +190,7 @@ std::string CDBField::GetValString() const
         case DB_FIELD_TYPE_BLOB:
         {
             std::string             tmp = std::get<std::string>(m_Val);
-            std::unique_ptr<char[]> szBuff(new char[tmp.size() * 2 + 1]);
+            std::unique_ptr<char[]> szBuff = std::make_unique<char[]>(tmp.size() * 2 + 1);
             mysql_real_escape_string(m_pDBRecord->_GetMysqlConnection()->_GetHandle(),
                                      szBuff.get(),
                                      tmp.c_str(),
@@ -237,14 +237,10 @@ CMysqlFieldInfoList::CMysqlFieldInfoList(MYSQL_RES* res)
     int32_t nFields = mysql_num_fields(res);
     for(uint32_t i = 0; i < nFields; i++)
     {
-        m_FieldInfos.push_back(new MYSQL_FIELD_COPY{mysql_fetch_field(res), i});
+        m_FieldInfos.push_back( std::make_unique<MYSQL_FIELD_COPY>(mysql_fetch_field(res), i) );
     }
 }
 
 CMysqlFieldInfoList::~CMysqlFieldInfoList()
 {
-    for(auto& v: m_FieldInfos)
-    {
-        SAFE_DELETE(v);
-    }
 }

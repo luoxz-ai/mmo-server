@@ -101,7 +101,7 @@ bool CWorldService::Create()
     {
         const auto& settingGlobalDB = settings["GlobalMYSQL"][0];
 
-        auto pDB = new CMysqlConnection();
+        auto pDB = std::make_unique<CMysqlConnection>();
 
         if(pDB->Connect(settingGlobalDB.Query("host"),
                         settingGlobalDB.Query("user"),
@@ -109,10 +109,9 @@ bool CWorldService::Create()
                         settingGlobalDB.Query("dbname"),
                         settingGlobalDB.QueryULong("port")) == false)
         {
-            SAFE_DELETE(pDB);
             return false;
         }
-        m_pGlobalDB.reset(pDB);
+        m_pGlobalDB.reset(pDB.release());
 
         //通过globaldb查询localdb
 
@@ -135,13 +134,13 @@ bool CWorldService::Create()
             std::string passwd = (const char*)row->Field(TBLD_DBINFO::DB_PASSWD);
             std::string dbname = (const char*)row->Field(TBLD_DBINFO::DB_NAME);
 
-            auto pDB = new CMysqlConnection();
+            auto pDB = std::make_unique<CMysqlConnection>();
             if(pDB->Connect(host, user, passwd, dbname, port) == false)
             {
-                SAFE_DELETE(pDB);
+                
                 return false;
             }
-            m_pGameDB.reset(pDB);
+            m_pGameDB.reset(pDB.release());
 
             {
                 CHECKF(m_pGameDB->CheckTable<TBLD_PLAYER>());

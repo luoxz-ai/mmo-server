@@ -26,15 +26,13 @@ CNetSocket::CNetSocket(CNetworkService* pService, CNetEventHandler* pEventHandle
     , m_pEncryptor(nullptr)
     , m_nPacketSizeMax(_MAX_MSGSIZE * 2)
     , m_socket(INVALID_SOCKET)
+    , m_ReadBuff{std::make_unique<byte[]>(m_nPacketSizeMax) }
 {
-    m_ReadBuff = new byte[m_nPacketSizeMax];
 }
 
 CNetSocket::~CNetSocket()
 {
     __ENTER_FUNCTION
-    SAFE_DELETE(m_pDecryptor);
-    SAFE_DELETE(m_pEncryptor);
 
     if(m_pBufferevent)
     {
@@ -55,7 +53,7 @@ CNetSocket::~CNetSocket()
         evbuffer_free(m_Sendbuf);
         m_Sendbuf = nullptr;
     }
-    SAFE_DELETE_ARRAY(m_ReadBuff);
+    
     __LEAVE_FUNCTION
 }
 
@@ -286,20 +284,20 @@ void CNetSocket::_OnReceive(bufferevent* b)
         }
         if(nSize < pHeader->usSize)
             return;
-
-        evbuffer_remove(input, m_ReadBuff, pHeader->usSize);
-        pHeader = (MSG_HEAD*)m_ReadBuff;
+        byte* pReadBuf = m_ReadBuff.get();
+        evbuffer_remove(input, pReadBuf, pHeader->usSize);
+        pHeader = (MSG_HEAD*)pReadBuf;
 
         if(m_pDecryptor)
         {
-            byte*  pBody    = m_ReadBuff + sizeof(MSG_HEAD);
+            byte*  pBody    = pReadBuf + sizeof(MSG_HEAD);
             size_t nBodyLen = pHeader->usSize - sizeof(MSG_HEAD);
             m_pDecryptor->Decryptor(pBody, nBodyLen, pBody, nBodyLen);
         }
 
         m_nLastProcessMsgCMD = pHeader->usCmd;
         m_nLastCMDSize       = pHeader->usSize;
-        OnRecvData(m_ReadBuff, pHeader->usSize);
+        OnRecvData(pReadBuf, pHeader->usSize);
     }
     __LEAVE_FUNCTION
 }
@@ -447,8 +445,7 @@ void CNetSocket::SetPacketSizeMax(size_t val)
     if(m_nPacketSizeMax != val)
     {
         m_nPacketSizeMax = val;
-        SAFE_DELETE_ARRAY(m_ReadBuff);
-        m_ReadBuff = new byte[val];
+        m_ReadBuff = std::make_unique<byte[]>(val);
     }
 }
 

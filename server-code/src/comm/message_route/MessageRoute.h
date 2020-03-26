@@ -74,7 +74,7 @@ public:
 public:
     CSettingMap&       GetSettingMap() { return m_setDataMap; }
     const CSettingMap& GetSettingMap() const { return m_setDataMap; }
-    CEventManager*     GetEventManager() const { return m_pEventManager; }
+    CEventManager*     GetEventManager() const { return m_pEventManager.get(); }
 
 private:
     bool          ConnectGlobalDB(const std::string& host,
@@ -94,15 +94,17 @@ private:
     std::mutex                                    m_mutex;
     std::unordered_map<ServerPort, CMessagePort*> m_setMessagePort;
 
-    CNetworkService* m_pNetworkService;
-    CEventManager*   m_pEventManager;
+    std::unique_ptr<CNetworkService>  m_pNetworkService;
+    std::unique_ptr<CEventManager>    m_pEventManager;
+    std::unique_ptr<CMysqlConnection> m_pGlobalDB;
 
-    uint32_t                                                                                  m_lastUpdateTime = 0;
+    uint32_t m_lastUpdateTime = 0;
+
     std::unordered_map<ServerPort, ServerAddrInfo>                                            m_setServerInfo;
     std::unordered_map<uint16_t, std::map<ServerPort, ServerAddrInfo, std::less<ServerPort>>> m_setServerInfoByWorldID;
-    std::unordered_map<uint16_t, uint16_t>                                                    m_MergeList;
-    std::unique_ptr<CMysqlConnection>                                                         m_pGlobalDB;
-    std::unordered_map<uint16_t, time_t>                                                      m_WorldReadyList;
+
+    std::unordered_map<uint16_t, uint16_t> m_MergeList;
+    std::unordered_map<uint16_t, time_t>   m_WorldReadyList;
 };
 
 CMessageRoute* GetMessageRoute();

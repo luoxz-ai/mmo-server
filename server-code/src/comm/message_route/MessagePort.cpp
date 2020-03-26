@@ -193,7 +193,7 @@ void CMessagePort::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
         break;
     }
 
-    auto pHandler = m_pPortEventHandler.load()
+    auto pHandler = m_pPortEventHandler.load();
     if(pHandler)
     {
         pHandler->OnPortRecvData(pSocket, pBuffer, len);
@@ -204,7 +204,7 @@ void CMessagePort::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
 
 void CMessagePort::OnRecvTimeout(CNetSocket* pSocket)
 {
-    auto pHandler = m_pPortEventHandler.load()
+    auto pHandler = m_pPortEventHandler.load();
     if(pHandler)
     {
         pHandler->OnPortRecvTimeout(pSocket);

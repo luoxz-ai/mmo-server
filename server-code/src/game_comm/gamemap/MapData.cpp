@@ -8,7 +8,6 @@ CMapData::CMapData() {}
 
 CMapData::~CMapData()
 {
-    SAFE_DELETE_ARRAY(m_pGridData);
 }
 
 bool CMapData::Init(uint32_t idMapTemplate)
@@ -33,8 +32,8 @@ bool CMapData::Init(uint32_t idMapTemplate)
 
     // CHECKF_M((size_t)cfg.griddata().size() == m_nWidth * m_nHeight, std::to_string(idMapTemplate).c_str());
 
-    m_pGridData = new MapGridData[m_nWidth * m_nHeight];
-    memset(m_pGridData, 0, m_nWidth * m_nHeight * sizeof(MapGridData));
+    m_pGridData = std::make_unique<MapGridData[]>(m_nWidth * m_nHeight);
+    memset(m_pGridData.get(), 0, m_nWidth * m_nHeight * sizeof(MapGridData));
     for(size_t i = 0; i < m_nWidth * m_nHeight && i < (size_t)cfg.griddata().size(); i++)
     {
         m_pGridData[i] = cfg.griddata().Get(i);

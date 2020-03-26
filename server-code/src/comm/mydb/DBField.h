@@ -158,12 +158,12 @@ public:
     CMysqlFieldInfoList(MYSQL_RES* res);
     ~CMysqlFieldInfoList();
 
-    virtual const CDBFieldInfo* operator[](size_t idx) const { return m_FieldInfos[idx]; }
-    virtual const CDBFieldInfo* get(size_t idx) const { return m_FieldInfos[idx]; }
+    virtual const CDBFieldInfo* operator[](size_t idx) const { CHECKF(idx < size()); return m_FieldInfos[idx].get(); }
+    virtual const CDBFieldInfo* get(size_t idx) const {  CHECKF(idx < size()); return m_FieldInfos[idx].get(); }
     virtual size_t              size() const { return m_FieldInfos.size(); }
 
 protected:
-    std::vector<CDBFieldInfo*> m_FieldInfos;
+    std::vector< std::unique_ptr<CDBFieldInfo> > m_FieldInfos;
 };
 
 template<typename T, size_t FIELD_IDX>

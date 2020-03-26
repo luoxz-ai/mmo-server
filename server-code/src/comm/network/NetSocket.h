@@ -52,14 +52,12 @@ public:
     void SetReconnect(bool val) { m_bReconnect = val; }
     void InitDecryptor(uint32_t seed)
     {
-        SAFE_DELETE(m_pDecryptor);
-        m_pDecryptor = new CDecryptor;
+        m_pDecryptor = std::make_unique<CDecryptor>();
         m_pDecryptor->Init(seed);
     }
     void InitEncryptor(uint32_t seed)
     {
-        SAFE_DELETE(m_pEncryptor);
-        m_pEncryptor = new CEncryptor;
+        m_pEncryptor = std::make_unique<CEncryptor>();
         m_pEncryptor->Init(seed);
     }
 
@@ -137,11 +135,11 @@ protected:
     int32_t           m_nRecvTimeOutSec;
 
     bool           m_bCreateByListener;
-    CDecryptor*    m_pDecryptor;
-    CEncryptor*    m_pEncryptor;
+    std::unique_ptr<CDecryptor>    m_pDecryptor;
+    std::unique_ptr<CEncryptor>    m_pEncryptor;
     size_t         m_nPacketSizeMax;
     size_t         m_nLogWriteHighWateMark = 4 * 1024 * 1024; // default log when output>=4M
-    byte*          m_ReadBuff;
+    std::unique_ptr<byte[]> m_ReadBuff;
     unsigned short m_nLastProcessMsgCMD = 0;
     unsigned short m_nLastCMDSize       = 0;
 };

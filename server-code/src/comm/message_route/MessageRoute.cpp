@@ -28,8 +28,8 @@ void ReleaseMessageRoute()
 }
 
 CMessageRoute::CMessageRoute()
-    : m_pNetworkService(new CNetworkService())
-    , m_pEventManager(new CEventManager())
+    : m_pNetworkService(std::make_unique<CNetworkService>())
+    , m_pEventManager(std::make_unique<CEventManager>())
 {
     m_pEventManager->Init(m_pNetworkService->GetEVBase());
     m_pNetworkService->StartIOThread("MessageRoute");
@@ -52,8 +52,6 @@ CMessageRoute::~CMessageRoute()
     }
     m_setMessagePort.clear();
 
-    SAFE_DELETE(m_pEventManager);
-    SAFE_DELETE(m_pNetworkService);
     LOGDEBUG("MessageRoute Delete.");
 
     __LEAVE_FUNCTION

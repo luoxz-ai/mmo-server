@@ -20,10 +20,10 @@ public:
 public:
     RobotClient*    ConnectServer(const char* addr, int32_t port);
     void            DelClient(RobotClient* pClient);
-    CNetMSGProcess* GetNetMessageProcess() const { return m_pNetMsgProcess; }
-    CEventManager*  GetEventManager() const { return m_pEventManager; }
+    CNetMSGProcess* GetNetMessageProcess() const { return m_pNetMsgProcess.get(); }
+    CEventManager*  GetEventManager() const { return m_pEventManager.get(); }
 
-    CLUAScriptManager* GetScriptManager() { return m_pScriptManager; }
+    CLUAScriptManager* GetScriptManager() { return m_pScriptManager.get(); }
 
     template<typename RVal, typename... Args>
     RVal ExecScript(const char* pszFuncName, Args&&... args)
@@ -46,13 +46,13 @@ public:
     }
 
 private:
-    CNetMSGProcess*        m_pNetMsgProcess;
-    CEventManager*         m_pEventManager;
+    std::unique_ptr<CNetMSGProcess>       m_pNetMsgProcess;
+    std::unique_ptr<CEventManager>        m_pEventManager;
     std::set<RobotClient*> m_setClient;
     CEventEntryPtr         m_Event;
 
     std::unordered_map<uint16_t, std::string> m_CMDFuncMap;
-    CLUAScriptManager*                        m_pScriptManager = nullptr;
+    std::unique_ptr<CLUAScriptManager>    m_pScriptManager;
 };
 
 #endif // RobotClient_h__

@@ -22,16 +22,16 @@ void export_to_lua(lua_State* L, void* pManager)
 }
 
 RobotClientManager::RobotClientManager(uint32_t nRobStart, uint32_t nRobAmount)
-    : m_pNetMsgProcess(new CNetMSGProcess())
-    , m_pEventManager(new CEventManager())
+    : m_pNetMsgProcess(std::make_unique<CNetMSGProcess>())
+    , m_pEventManager(std::make_unique<CEventManager>())
 {
     m_pEventManager->Init(GetEVBase());
 
-    m_pScriptManager = CLUAScriptManager::CreateNew("script", export_to_lua, this, "robot_client", false);
+    m_pScriptManager.reset(CLUAScriptManager::CreateNew("script", export_to_lua, this, "robot_client", false));
     m_pScriptManager->_ExecScript<void>("main", nRobStart, nRobAmount);
     m_pEventManager->ScheduleEvent(
         0,
-        [pScriptManager = m_pScriptManager]() {
+        [pScriptManager = m_pScriptManager.get()]() {
             // pScriptManager->OnTimer(TimeGetMonotonic());
             pScriptManager->FullGC();
         },
@@ -51,9 +51,6 @@ RobotClientManager::~RobotClientManager()
     m_setClient.clear();
     Destroy();
 
-    SAFE_DELETE(m_pNetMsgProcess);
-    SAFE_DELETE(m_pEventManager);
-    SAFE_DELETE(m_pScriptManager);
 }
 
 RobotClient* RobotClientManager::ConnectServer(const char* addr, int32_t port)
