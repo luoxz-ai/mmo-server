@@ -262,12 +262,13 @@ std::string addr2str(const std::string& file_name, size_t addr)
         bfd_close(abfd);
         return "Cannot get addresses from the archive '" + file_name + "'\n";
     }
-    char** matching;
-    if(!bfd_check_format_matches(abfd, bfd_object, &matching))
+
+    if(!bfd_check_format_matches(abfd, bfd_object, nullptr))
     {
         bfd_close(abfd);
         return "Unknown format of the binary file '" + file_name + "'\n";
     }
+
     line_data data;
     data.addr         = addr;
     data.symbol_table = NULL;
@@ -287,7 +288,6 @@ std::string addr2str(const std::string& file_name, size_t addr)
     if(data.symbol_table != NULL)
         free(data.symbol_table);
     bfd_close(abfd);
-    free(matching);
     if(data.line_found)
         return data.filename + ":" + std::to_string(data.line);
     else

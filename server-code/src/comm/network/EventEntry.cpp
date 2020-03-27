@@ -301,7 +301,6 @@ bool CEventEntryQueue::Add(CEventEntry* pEntry)
 
 //////////////////////////////////////////////////////////////////////////
 CEventEntryPtr::CEventEntryPtr()
-    : m_pEntry(nullptr)
 {
 }
 

@@ -7,6 +7,7 @@ class CDynaScene : public CScene
 {
 protected:
     CDynaScene();
+    bool Init(const SceneID& idScene);
 public:
     CreateNewImpl(CDynaScene);
 public:
@@ -14,7 +15,7 @@ public:
     
 
 public:
-    bool Init(const SceneID& idScene);
+    
     void AddOwnerID(OBJID idOwner);
     void SetOwnerID(const std::vector<OBJID>& setPlayerID);
     void ClearOwner(OBJID idOwner);

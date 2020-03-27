@@ -116,7 +116,7 @@ protected:
     bool          Set(CEventEntry* pEntry);
 
 protected:
-    CEventEntry* m_pEntry;
+    CEventEntry* m_pEntry = nullptr;
     friend class CEventManager;
 };
 #endif // EventEntry_h__

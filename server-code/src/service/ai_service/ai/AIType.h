@@ -13,11 +13,12 @@ enum AIType
 class CAIType: public Noncopyable<CAIType>
 {
     CAIType() {}
+    bool Init(const Cfg_AIType_Row& row);
 public:
     CreateNewImpl(CAIType);
 public:
     ~CAIType() {}
-    bool Init(const Cfg_AIType_Row& row);
+    
 
     using PB_T = Cfg_AIType;
     uint32_t GetID() const { return m_Data.idmonster(); }

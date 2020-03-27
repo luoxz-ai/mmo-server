@@ -110,19 +110,37 @@
     {                    \
         try              \
         {
-#define __LEAVE_FUNCTION                            \
-    }                                               \
-    catch(const std::runtime_error& e)              \
-    {                                               \
-        LOGASSERT("catch_execpetion:{}", e.what()); \
-        DumpStackFile(CallFrameMap(0));             \
-    }                                               \
-    catch(const std::exception& e)                  \
-    {                                               \
-        LOGASSERT("catch_execpetion:{}", e.what()); \
-        DumpStackFile(CallFrameMap(0));             \
-    }                                               \
-    catch(...) { LOGASSERT("catch_error"); }        \
+#define __LEAVE_FUNCTION                           \
+    }                                              \
+    catch(const std::runtime_error& e)             \
+    {                                              \
+        LOGSTACK("catch_execpetion:{}", e.what()); \
+        DumpStack(CallFrameMap(0));                \
+    }                                              \
+    catch(const std::exception& e)                 \
+    {                                              \
+        LOGSTACK("catch_execpetion:{}", e.what()); \
+        DumpStack(CallFrameMap(0));                \
+    }                                              \
+    catch(...) { LOGSTACK("catch_error"); }        \
     }
+
+
+
+template<class Func, class ... Args>
+static inline std::optional<std::string> attempt(Func&& func, Args&& ... args)
+{
+    try
+    {
+        std::invoke(std::forward<Func>(func), std::forward<Args>(args)...);
+    }
+    catch(std::exception e)                 
+    {                                              
+        return {e.what()};
+    }
+    return {};
+}
+
+
 
 #endif /* CHECKUTIL_H */

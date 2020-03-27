@@ -31,12 +31,14 @@ struct ST_LOADINGTHREAD_PROCESS_DATA
 };
 
 class CZoneService;
-class CLoadingThread
+class CLoadingThread : public Noncopyable<CLoadingThread>
 {
+    CLoadingThread();
+    bool Init(CZoneService* pZoneRef);
 public:
-    CLoadingThread(CZoneService* pZoneRef);
+    CreateNewImpl(CLoadingThread);
     ~CLoadingThread();
-
+    
     void Destory();
 
     //添加玩家到等待登陆队列
@@ -67,9 +69,7 @@ private:
     void CancleOnWaitList(OBJID idPlayer);
 
 private:
-    CZoneService* m_pZone;
-    CNormalThread m_Thread;
-
+    CZoneService* m_pZone = nullptr;
     std::atomic<bool>       m_bStop = false;
     std::mutex              m_csCV;
     std::condition_variable m_cv;
@@ -86,5 +86,7 @@ private:
     std::atomic<uint64_t> m_nReadyCount   = 0;
     std::atomic<OBJID>    m_idCurProcess  = 0;
     std::atomic<OBJID>    m_idNeedCancle  = 0;
+
+    std::unique_ptr<CNormalThread> m_Thread;
 };
 #endif /* LOADINGTHREAD_H */

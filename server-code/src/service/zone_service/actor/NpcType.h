@@ -14,17 +14,18 @@ enum NpcTypeFlag
 class CNpcType : public Noncopyable<CNpcType>
 {
     CNpcType() {}
-public:
-    CreateNewImpl(CNpcType);
-public:
-    ~CNpcType() {}
-    
     bool Init(const Cfg_Npc_Row& row)
     {
         m_Data = row;
         m_ability.load_from(row.attr_data());
         return true;
     }
+public:
+    CreateNewImpl(CNpcType);
+public:
+    ~CNpcType() {}
+    
+    
 
     using PB_T = Cfg_Npc;
     uint32_t GetID() const { return m_Data.id(); }
@@ -54,6 +55,7 @@ private:
 class CNpcTypeSet : public Noncopyable<CNpcTypeSet>
 {
     CNpcTypeSet();
+    bool Init(const char* szFileName);
 public:
     CreateNewImpl(CNpcTypeSet);
 public:
@@ -61,7 +63,7 @@ public:
 
 public:
     
-    bool Init(const char* szFileName);
+    
     bool Reload(const char* szFileName);
     void Destroy();
 

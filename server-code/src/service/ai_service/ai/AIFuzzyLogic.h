@@ -53,16 +53,20 @@ class SkillFAM: public Noncopyable<SkillFAM>
         : m_rule_set("SkillFAM", fuzzy::Implication::MAMDANI)
     {
     }
+    bool Init(const Cfg_SkillFAM_Row& row)
+    {
+        m_ID = row.idskill();
+        Merge(row);
+        return true;
+    }
 public:
     CreateNewImpl(SkillFAM);
 public:
     ~SkillFAM() {}
     
     using PB_T = Cfg_SkillFAM;
-
-    bool Init(const Cfg_SkillFAM_Row& row)
+    void Merge(const Cfg_SkillFAM_Row& row)
     {
-        m_ID = row.idskill();
         // Set up our rules.
         uint32_t           dis_idx       = row.dis();
         uint32_t           hp_idx        = row.self_hp();
@@ -75,10 +79,9 @@ public:
                                                                  mp_fuzzy[mp_idx],
                                                                  hp_fuzzy[target_hp_idx]},
                                    oper_type,
-                                   like_fuzzy[like_idx]});
-
-        return true;
+                                   like_fuzzy[like_idx]});    
     }
+    
     static uint32_t GetIDFromPBRow(const Cfg_SkillFAM_Row& row) { return row.idskill(); }
     uint32_t        GetID() { return m_ID; }
 
@@ -102,16 +105,20 @@ class TargetFAM: public Noncopyable<TargetFAM>
         : m_rule_set("TargetFAM", fuzzy::Implication::MAMDANI)
     {
     }
+    bool Init(const Cfg_TargetFAM_Row& row)
+    {
+        m_ID = row.idmonster();
+        Merge(row);
+        return true;
+    }
 public:
     CreateNewImpl(TargetFAM);
 public:
     ~TargetFAM() {}
     
     using PB_T = Cfg_TargetFAM;
-
-    bool Init(const Cfg_TargetFAM_Row& row)
+    void Merge(const Cfg_TargetFAM_Row& row)
     {
-        m_ID = row.idmonster();
         // Set up our rules.
         uint32_t dis_idx       = row.dis();
         uint32_t hp_idx        = row.hp();
@@ -123,9 +130,8 @@ public:
             std::vector<fuzzy::Trapezoid>{distance_fuzzy[dis_idx], hp_fuzzy[hp_idx], hp_fuzzy[target_hp_idx]},
             oper_type,
             like_fuzzy[like_idx]});
-
-        return true;
     }
+    
     static uint32_t GetIDFromPBRow(const Cfg_TargetFAM_Row& row) { return row.idmonster(); }
     uint32_t        GetID() { return m_ID; }
 

@@ -8,7 +8,9 @@
 //每一条技能记录
 export_lua class CUserSkillData : public Noncopyable<CUserSkillData>
 {
-     CUserSkillData();
+    CUserSkillData();
+    bool Init(CActor* pOwner, uint32_t idSkillSort, uint32_t nLev);
+    bool Init(CActor* pOwner, CDBRecordPtr&& pRow);
 public:
     CreateNewImpl(CUserSkillData);
 public:
@@ -17,8 +19,7 @@ public:
 
 public:
     
-    bool Init(CActor* pOwner, uint32_t idSkillSort, uint32_t nLev);
-    bool Init(CActor* pOwner, CDBRecordPtr&& pRow);
+
 
     export_lua uint32_t GetSkillSort() const { return m_pData->Field(TBLD_SKILL::SKILLTYPE); }
     export_lua uint32_t GetSkillLev() const { return m_pData->Field(TBLD_SKILL::LEV); }
@@ -34,6 +35,7 @@ class CPlayer;
 export_lua class CUserSkillManager : public Noncopyable<CUserSkillManager>
 {
     CUserSkillManager();
+    bool Init(CPlayer* pOwner);
 public:
     CreateNewImpl(CUserSkillManager);
 public:
@@ -41,7 +43,7 @@ public:
 
 public:
     
-    bool Init(CPlayer* pOwner);
+    
 
     export_lua bool LearnSkill(uint32_t idSkillSort);
     export_lua bool CastSkill(uint32_t idSkillSort, OBJID idTarget, const Vector2& pos);

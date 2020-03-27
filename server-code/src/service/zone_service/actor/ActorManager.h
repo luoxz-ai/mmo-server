@@ -28,13 +28,14 @@ class CPlayer;
 class CActorManager : public Noncopyable<CActorManager>
 {
     CActorManager();
+    bool Init();
 public:
     CreateNewImpl(CActorManager);
 public:
     ~CActorManager();
     
 
-    bool Init();
+   
     void Destory();
 
     CActor*  QueryActor(OBJID id) const;

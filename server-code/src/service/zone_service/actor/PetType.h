@@ -12,11 +12,6 @@ enum PetType
 class CPetType : public Noncopyable<CPetType>
 {
     CPetType() {}
-public:
-    CreateNewImpl(CPetType);
-public:
-    ~CPetType() {}
-     
     bool Init(const Cfg_Pet_Row& row)
     {
         m_Data = row;
@@ -24,6 +19,12 @@ public:
 
         return true;
     }
+public:
+    CreateNewImpl(CPetType);
+public:
+    ~CPetType() {}
+     
+    
 
     using PB_T = Cfg_Pet;
     uint32_t               GetID() const { return m_Data.id(); }

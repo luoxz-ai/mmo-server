@@ -11,11 +11,12 @@ struct ST_ROLE_INFO;
 class CUser: public Noncopyable<CUser>
 {   
     CUser();
+    bool Init(CAccount* pAccount, ST_ROLE_INFO* pInfo);
 public:
     CreateNewImpl(CUser);
 public:
     ~CUser();
-    bool Init(CAccount* pAccount, ST_ROLE_INFO* pInfo);
+    
 
     const VirtualSocket& GetSocket() const;
     //进入游戏

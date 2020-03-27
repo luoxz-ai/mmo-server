@@ -4,14 +4,8 @@
 #include "Player.h"
 #include "ZoneService.h"
 
-CLoadingThread::CLoadingThread(CZoneService* pZoneRef)
-    : m_pZone(pZoneRef)
-    , m_Thread(50,
-               std::string("Loading") + std::to_string(pZoneRef->GetServerPort().GetServiceID()),
-               std::bind(&CLoadingThread::OnThreadProcess, this),
-               std::bind(&CLoadingThread::OnThreadCreate, this),
-               std::bind(&CLoadingThread::OnThreadExit, this))
-{
+CLoadingThread::CLoadingThread()
+{ 
 }
 
 CLoadingThread::~CLoadingThread()
@@ -19,13 +13,28 @@ CLoadingThread::~CLoadingThread()
     Destory();
 }
 
+bool CLoadingThread::Init(CZoneService* pZoneRef)
+{
+    m_pZone = pZoneRef;
+    m_Thread = std::make_unique<CNormalThread>(50,
+               std::string("Loading") + std::to_string(pZoneRef->GetServerPort().GetServiceID()),
+               std::bind(&CLoadingThread::OnThreadProcess, this),
+               std::bind(&CLoadingThread::OnThreadCreate, this),
+               std::bind(&CLoadingThread::OnThreadExit, this));
+    return true;
+}
+
 void CLoadingThread::Destory()
 {
+    __ENTER_FUNCTION
     m_bStop = true;
     m_cv.notify_one();
-    m_Thread.Stop();
-    m_Thread.Join();
-
+    if(m_Thread)
+    {
+        m_Thread->Stop();
+        m_Thread->Join();
+        m_Thread.reset();
+    }
     //把剩余的东西处理完
     {
         ST_LOADINGTHREAD_PROCESS_DATA* pData = nullptr;
@@ -51,6 +60,7 @@ void CLoadingThread::Destory()
         }
         m_ReadyList.clear();
     }
+    __LEAVE_FUNCTION
 }
 
 bool CLoadingThread::AddLoginPlayer(OBJID                idPlayer,

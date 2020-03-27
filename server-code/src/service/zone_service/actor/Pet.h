@@ -9,13 +9,14 @@ export_lua class CPet : public CActor
 {
 protected:
     CPet();
+    bool Init(CPetSet* pPetSet, CDBRecordPtr&& pRecord);
 public:
     CreateNewImpl(CPet);
 public:
     virtual ~CPet();
 
     
-    bool Init(CPetSet* pPetSet, CDBRecordPtr&& pRecord);
+    
 
 public:
     export_lua virtual ActorType GetActorType() const override { return ActorType::ACT_PET; }

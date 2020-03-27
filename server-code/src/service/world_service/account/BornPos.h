@@ -12,17 +12,18 @@
 class CBornPos: public Noncopyable<CBornPos>
 {
     CBornPos() {}
+    bool Init(const Cfg_BornPos_Row& row)
+    {
+        m_row = row;
+        return true;
+    }
 public:
     CreateNewImpl(CBornPos);
 public:
     ~CBornPos() {}
 
 public:
-    bool Init(const Cfg_BornPos_Row& row)
-    {
-        m_row = row;
-        return true;
-    }
+    
 
     uint32_t GetID() const { return m_row.id(); }
     uint32_t GetProf() const { return m_row.prof(); }
@@ -39,17 +40,6 @@ protected:
 class CBornPosSet: public Noncopyable<CBornPosSet>
 {
     CBornPosSet() {}
- public:
-    CreateNewImpl(CBornPosSet);
-public:
-    
-    ~CBornPosSet() { Clear(); }
-
-public:
-    void Clear()
-    {
-    }
-
     bool Init(const char* pszFileName)
     {
         Cfg_BornPos cfg;
@@ -71,6 +61,18 @@ public:
         }
         return true;
     }
+ public:
+    CreateNewImpl(CBornPosSet);
+public:
+    
+    ~CBornPosSet() { Clear(); }
+
+public:
+    void Clear()
+    {
+    }
+
+    
     bool Reload(const char* pszFileName)
     {
         Clear();

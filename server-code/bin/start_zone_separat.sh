@@ -25,6 +25,7 @@ cd -
 
 export ASAN_OPTIONS=include_if_exists=${DIR_file}/asan_options
 export LSAN_OPTIONS=include_if_exists=${DIR_file}/lsan_options
+export UBSAN_OPTIONS=include_if_exists=${DIR_file}/ubsan_options
 
 ${DIR_file}/binary/z${serverid}_world --worldid=${serverid} --start=1,3,4 --logpath=/data/log/zone_${serverid}/world -d
 ${DIR_file}/binary/z${serverid}_zone1 --worldid=${serverid} --start=11,21 --logpath=/data/log/zone_${serverid}/zone1 -d

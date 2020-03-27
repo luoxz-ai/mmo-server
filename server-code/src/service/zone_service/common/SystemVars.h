@@ -27,8 +27,9 @@ public:
     export_lua uint32_t GetIdx() const;
     export_lua uint64_t GetData(uint32_t nIdx) const;
     export_lua const std::string& GetStr(uint32_t nIdx) const;
-    export_lua void               AddData(uint32_t nIdx, int64_t nVal, bool bUpdate = false, bool bSync = false);
-    export_lua void               SetData(uint32_t nIdx, uint64_t nVal, bool bUpdate = false, bool bSync = false);
+
+    export_lua void AddData(uint32_t nIdx, int64_t nVal, bool bUpdate = false, bool bSync = false);
+    export_lua void SetData(uint32_t nIdx, uint64_t nVal, bool bUpdate = false, bool bSync = false);
     export_lua void SetStr(uint32_t nIdx, const std::string& strVal, bool bUpdate = false, bool bSync = false);
     export_lua void Broadcast();
     export_lua void SendToPlayer(CPlayer* pPlayer);

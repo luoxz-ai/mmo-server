@@ -7,12 +7,13 @@
 class CAISkillData: public Noncopyable<CAISkillData>
 {
     CAISkillData();
+    bool Init(uint32_t idSkill);
 public:
     CreateNewImpl(CAISkillData);
 public:
     ~CAISkillData();
     
-    bool Init(uint32_t idSkill);
+   
 
 public:
     void StartCoolDown();

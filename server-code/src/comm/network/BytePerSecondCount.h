@@ -12,9 +12,6 @@ class BytePerSecondCount
 {
 public:
     BytePerSecondCount()
-        : m_nTotal(0)
-        , m_nCur(0)
-        , m_fAvgBPS(0)
     {
     }
 
@@ -48,10 +45,11 @@ public:
     }
 
 private:
-    std::atomic<size_t> m_nTotal;
-    std::atomic<size_t> m_nCur;
+    std::atomic<size_t> m_nTotal = 0;
+    std::atomic<size_t> m_nCur = 0;
 
-    float                                          m_fAvgBPS;
+    float m_fAvgBPS = 0.0f;
+
     std::chrono::high_resolution_clock::time_point m_NextCalcTime;
     std::deque<float>                              m_BPSData;
 };

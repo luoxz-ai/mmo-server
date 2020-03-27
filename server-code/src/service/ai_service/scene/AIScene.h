@@ -25,13 +25,14 @@ private:
 class CAISceneManager: public Noncopyable<CAISceneManager>
 {
     CAISceneManager();
+    bool Init(uint32_t idZone);
 public:
     CreateNewImpl(CAISceneManager);
 public:
     ~CAISceneManager();
     
 
-    bool Init(uint32_t idZone);
+    
     void Destory();
     void RegisterMessageHandler();
 

@@ -4,6 +4,8 @@ DIR_file=`pwd`
 
 export ASAN_OPTIONS=include_if_exists=${DIR_file}/asan_options
 export LSAN_OPTIONS=include_if_exists=${DIR_file}/lsan_options
+export UBSAN_OPTIONS=include_if_exists=${DIR_file}/ubsan_options
+
 server_ctrl()
 {
     ${DIR_file}/binary/server_ctrl --worldid=0 --stop=60 --logpath=/data/log/server_ctrl 

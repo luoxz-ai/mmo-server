@@ -13,12 +13,13 @@ export_lua class CEquipment : public Noncopyable<CEquipment>
 {
 protected:
     CEquipment();
+    bool Init(CPlayer* pPlayer);
 public:
     CreateNewImpl(CEquipment);
 public:
     virtual ~CEquipment();
     
-    bool Init(CPlayer* pPlayer);
+    
 
 public:
 public:

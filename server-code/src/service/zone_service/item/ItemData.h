@@ -21,11 +21,6 @@ export_lua class CItemData : public Noncopyable<CItemData>
 {
 protected:
     CItemData();
-public:
-    CreateNewImpl(CItemData);
-public:
-    virtual ~CItemData();
-    
     bool Init(CDBRecordPtr&& pRes);
     bool Init(CMysqlConnection* pDB, OBJID idItem);
     bool Init(CMysqlConnection* pDB, ST_ITEMINFO& info);
@@ -35,6 +30,12 @@ public:
               uint32_t          nNum,
               uint32_t          dwFlag,
               uint32_t          nPosition);
+public:
+    CreateNewImpl(CItemData);
+public:
+    virtual ~CItemData();
+    
+    
 
 public:
     export_lua bool DelRecord();

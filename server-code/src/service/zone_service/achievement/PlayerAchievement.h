@@ -9,12 +9,13 @@ class CPlayer;
 export_lua class CPlayerAchievement : public Noncopyable<CPlayerAchievement>
 {
     CPlayerAchievement();
+    bool Init(CPlayer* pPlayer);
+
 public:
     CreateNewImpl(CPlayerAchievement);
 public:
     virtual ~CPlayerAchievement();
     
-    bool Init(CPlayer* pPlayer);
 
 public:
     export_lua void SyncAll();

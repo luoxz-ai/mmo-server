@@ -9,12 +9,13 @@ class CActor;
 export_lua class CActorStatus : public Noncopyable<CActorStatus>
 {
     CActorStatus();
+    bool Init(CActor* pActor);
 public:
     CreateNewImpl(CActorStatus);
 public:
     ~CActorStatus();
     
-    bool Init(CActor* pActor);
+    
 
     export_lua CStatus* QueryStatus(uint16_t idStatusType) const;
     export_lua bool     AttachStatus(uint16_t idStatusType,

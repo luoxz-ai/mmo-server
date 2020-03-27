@@ -87,17 +87,17 @@ using ST_ROLE_INFO_PTR = std::unique_ptr<ST_ROLE_INFO>;
 class CUser;
 class CAccount : public Noncopyable<CAccount>
 {
-public:
-    CreateNewImpl(CAccount);
+   
 private:
     CAccount();
+    bool Init(const std::string& open_id, const VirtualSocket& from);
     size_t              GetRoleAmount() const;
     const ST_ROLE_INFO* QueryRoleByIndex(size_t nIdx);
 
 public:
     ~CAccount();
-
-    bool Init(const std::string& open_id, const VirtualSocket& from);
+    CreateNewImpl(CAccount);
+    
     void ReloadActorInfo();
     //创建角色
     bool CreateActor(const std::string& name, uint32_t dwProf, uint32_t dwLook);

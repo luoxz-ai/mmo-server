@@ -12,13 +12,14 @@ class CAIPlayer;
 class CAIActorManager: public Noncopyable<CAIActorManager>
 {
     CAIActorManager();
+    bool Init();
 public:
     CreateNewImpl(CAIActorManager);
 public:
     ~CAIActorManager();
     
 
-    bool Init();
+
     void Destroy();
 
     CAIActor* QueryActor(OBJID id) const;

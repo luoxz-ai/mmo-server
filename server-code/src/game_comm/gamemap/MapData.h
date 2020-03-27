@@ -52,13 +52,13 @@ export_lua struct MapGridData
 export_lua class CMapData: public Noncopyable<CMapData>
 {
     CMapData();
-    
+    bool Init(uint32_t idMapTemplate);
 public:
     CreateNewImpl(CMapData);
-public:
+
     ~CMapData();
     
-    bool Init(uint32_t idMapTemplate);
+    
 
     export_lua uint32_t GetMapTemplateID() const { return m_idMapTemplate; }
 

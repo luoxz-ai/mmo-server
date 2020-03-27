@@ -42,13 +42,14 @@ export_lua class CPlayer : public CActor
 {
 protected:
     CPlayer();
+    bool Init(OBJID idPlayer, const VirtualSocket& socket);
 public:
     CreateNewImpl(CPlayer);
 public:
     virtual ~CPlayer();
 
     
-    bool Init(OBJID idPlayer, const VirtualSocket& socket);
+    
 
     export_lua bool EnterDynaScene(CDynaScene* pScene, float fPosX, float fPosY, float fRange, float fFace);
     export_lua bool FlyMap(uint32_t idMap, float fPosX, float fPosY, float fRange, float fFace);

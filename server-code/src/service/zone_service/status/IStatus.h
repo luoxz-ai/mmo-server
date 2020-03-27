@@ -64,11 +64,6 @@ export_lua enum StatusFlag {
 class CStatusType : public Noncopyable<CStatusType>
 {
     CStatusType() {}
-public:
-    CreateNewImpl(CStatusType);
-public:
-    ~CStatusType() {}
-    
     bool Init(const Cfg_Status_Row& row)
     {
         m_Data = row;
@@ -78,6 +73,12 @@ public:
         }
         return true;
     }
+public:
+    CreateNewImpl(CStatusType);
+public:
+    ~CStatusType() {}
+    
+    
 
     using PB_T = Cfg_Status;
     static uint32_t MakeID(uint16_t idStatus, uint8_t ucLevel)
@@ -112,14 +113,6 @@ class CActor;
 export_lua class CStatus : public Noncopyable<CStatus>
 {
     CStatus();
-public:
-    CreateNewImpl(CStatus);
-public:
-    
-    virtual ~CStatus();
-
-public:
-    
     bool Init(CActor* pOwner, CDBRecordPtr&& pRow);
     bool Init(CActor*  pOwner,
               uint16_t idStatusType,
@@ -128,6 +121,15 @@ public:
               uint32_t nPower,
               uint32_t nSecs,
               uint32_t nTimes);
+public:
+    CreateNewImpl(CStatus);
+public:
+    
+    virtual ~CStatus();
+
+public:
+    
+    
 
 public:
     unsigned long Release()

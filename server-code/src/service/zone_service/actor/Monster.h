@@ -9,13 +9,14 @@ export_lua class CMonster : public CActor
 {
 protected:
     CMonster();
+    bool Init(uint32_t idMonsterType, OBJID idOwner, uint32_t idGen, uint32_t idCamp);
 public:
     CreateNewImpl(CMonster);
 public:
     virtual ~CMonster();
 
     
-    bool Init(uint32_t idMonsterType, OBJID idOwner, uint32_t idGen, uint32_t idCamp);
+    
 
 public:
     export_lua virtual bool SendMsg(uint16_t cmd, const google::protobuf::Message& msg) const override;

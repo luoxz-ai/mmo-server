@@ -9,17 +9,18 @@
 class CItemFormulaData : public Noncopyable<CItemFormulaData>
 {
     CItemFormulaData() {}
+    bool Init(const Cfg_ItemFormula_Row& row)
+    {
+        m_Data = row;
+        return true;
+    }
 public:
     CreateNewImpl(CItemFormulaData);
 public:
     virtual ~CItemFormulaData() {}
     using PB_T = Cfg_ItemFormula;
     
-    bool Init(const Cfg_ItemFormula_Row& row)
-    {
-        m_Data = row;
-        return true;
-    }
+    
     static uint32_t getIDFromPBRow(const Cfg_ItemFormula_Row& row) { return row.id(); }
 
 public:

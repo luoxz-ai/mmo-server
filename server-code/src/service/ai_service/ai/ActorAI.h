@@ -52,12 +52,13 @@ class CAIPathFinder;
 class CActorAI: public Noncopyable<CActorAI>
 {
     CActorAI();
+    bool Init(CAIActor* pActor, const CAIType* pAIType);
 public:
     CreateNewImpl(CActorAI);
 public:
     ~CActorAI();
     
-    bool Init(CAIActor* pActor, const CAIType* pAIType);
+    
 
     void OnUnderAttack(OBJID idTarget, int32_t nDamage);
     void OnDead();

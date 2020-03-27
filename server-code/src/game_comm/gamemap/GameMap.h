@@ -66,13 +66,14 @@ enum REBORN_TYPE
 class CMapManager;
 export_lua class CGameMap : public Noncopyable<CGameMap>
 {
-public:
     CGameMap();
+    bool Init(CMapManager* pManager, const Cfg_Scene_Row& data,const CMapData* pMapData);
+public:
+   
     ~CGameMap();
 
     CreateNewImpl(CGameMap);
-    bool Init(CMapManager* pManager, const Cfg_Scene_Row& data,const CMapData* pMapData);
-
+    
     export_lua bool     IsInsideMap(float x, float y) const;
     export_lua bool     IsZoneMap(uint16_t idZone) const { return m_idZone == 0 || idZone == m_idZone; }
     export_lua uint16_t GetZoneID() const { return m_idZone; }

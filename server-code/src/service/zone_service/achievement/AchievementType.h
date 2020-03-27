@@ -8,16 +8,18 @@
 class CAchievementType: public Noncopyable<CAchievementType>
 {
     CAchievementType() {}
-public:
-    CreateNewImpl(CAchievementType);
-public:
-    ~CAchievementType() {}
-    
     bool Init(const Cfg_Achievement_Row& row)
     {
         m_Data = row;
         return true;
     }
+
+public:
+    CreateNewImpl(CAchievementType);
+public:
+    ~CAchievementType() {}
+    
+
 
     using PB_T = Cfg_Achievement;
     static uint32_t getIDFromPBRow(const Cfg_Achievement_Row& row) { return row.id(); }
@@ -45,6 +47,7 @@ private:
 class CAchievementTypeSet: public Noncopyable<CAchievementTypeSet>
 {
     CAchievementTypeSet();
+    bool Init(const char* szFileName);
 public:
     CreateNewImpl(CAchievementTypeSet);
 public:
@@ -58,7 +61,7 @@ public:
 
 public:
     
-    bool Init(const char* szFileName);
+    
     bool Reload(const char* szFileName);
     void Destroy();
     // 根据itemtype, 追加等级，查询对应的追加数据

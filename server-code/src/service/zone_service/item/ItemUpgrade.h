@@ -9,17 +9,18 @@
 class CItemUpgradeData : public Noncopyable<CItemUpgradeData>
 {
     CItemUpgradeData() {}
+    bool Init(const Cfg_ItemUpgrade_Row& row)
+    {
+        m_Data = row;
+        return true;
+    }
 public:
     CreateNewImpl(CItemUpgradeData);
 public:
     virtual ~CItemUpgradeData() {}
     using PB_T = Cfg_ItemUpgrade;
     
-    bool Init(const Cfg_ItemUpgrade_Row& row)
-    {
-        m_Data = row;
-        return true;
-    }
+    
     static uint32_t getIDFromPBRow(const Cfg_Item_Row& row) { return row.id(); }
 
 public:

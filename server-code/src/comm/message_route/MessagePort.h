@@ -33,7 +33,7 @@ class CMessagePort : public CNetEventHandler
 public:
     CMessagePort(const ServerPort& nServerPort, CMessageRoute* pRoute);
     virtual ~CMessagePort();
-
+    void     Destory();
 public:
     virtual void OnConnected(CNetSocket* pSocket);
     virtual void OnConnectFailed(CNetSocket*);
@@ -67,7 +67,7 @@ private:
     CNetSocket*                            m_pRemoteServerSocket = nullptr;
     bool                                   m_bLocalPort          = false;
     ServerPort                             m_nServerPort;
-    std::atomic<CMessagePortEventHandler*> m_pPortEventHandler;
+    std::atomic<CMessagePortEventHandler*> m_pPortEventHandler = nullptr;
     CEventEntryPtr                         m_Event;
 };
 

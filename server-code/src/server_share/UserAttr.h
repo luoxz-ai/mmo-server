@@ -13,14 +13,6 @@
 class CUserAttrData: public Noncopyable<CUserAttrData>
 {
     CUserAttrData() {}
-public:
-    CreateNewImpl(CUserAttrData);
-public:
-    using PB_T = Cfg_UserAttr;
-    virtual ~CUserAttrData() {}
-    
-
-public:
     bool Init(const Cfg_UserAttr_Row& row)
     {
         m_dwProfession = row.prof();
@@ -30,6 +22,15 @@ public:
 
         return true;
     }
+public:
+    CreateNewImpl(CUserAttrData);
+
+    using PB_T = Cfg_UserAttr;
+    virtual ~CUserAttrData() {}
+    
+
+public:
+
 
     uint32_t GetID() { return CUserAttrData::MakeID(m_dwProfession, m_nLevel); }
 

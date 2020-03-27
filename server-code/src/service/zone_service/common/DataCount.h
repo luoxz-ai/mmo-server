@@ -28,14 +28,6 @@ export_lua enum {
 class CDataCountLimit : public Noncopyable<CDataCountLimit>
 {
     CDataCountLimit() {}
-public:
-    CreateNewImpl(CDataCountLimit);
-public:
-    using PB_T = Cfg_DataCountLimit;
-    virtual ~CDataCountLimit() {}
-    
-
-public:
     bool Init(const Cfg_DataCountLimit_Row& row)
     {
         m_nType      = row.type();
@@ -44,6 +36,15 @@ public:
         m_nResetTime = row.reset_time();
         return true;
     }
+public:
+    CreateNewImpl(CDataCountLimit);
+public:
+    using PB_T = Cfg_DataCountLimit;
+    virtual ~CDataCountLimit() {}
+    
+
+public:
+    
 
     uint64_t GetID() const { return CDataCountLimit::MakeID(m_nType, m_nKeyIdx); }
     uint32_t GetType() const { return m_nType; }

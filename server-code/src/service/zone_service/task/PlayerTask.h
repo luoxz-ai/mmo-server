@@ -65,12 +65,13 @@ export_lua const uint32_t MAX_ACCEPT_TASK = 20;
 export_lua class CPlayerTask : public Noncopyable<CPlayerTask>
 {
     CPlayerTask();
+    bool Init(CPlayer* pPlayer);
 public:
     CreateNewImpl(CPlayerTask);
 public:
     ~CPlayerTask();
     
-    bool Init(CPlayer* pPlayer);
+    
 
     export_lua CPlayerTaskData* QueryTaskData(uint32_t idTask);
 

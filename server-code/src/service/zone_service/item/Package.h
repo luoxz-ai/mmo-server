@@ -14,6 +14,7 @@ export_lua class CPackage : public Noncopyable<CPackage>
 {
 protected:
     CPackage();
+    virtual bool Init(CPlayer* pOwner, uint32_t nPackageType, uint32_t nMaxSize);
 public:
     CreateNewImpl(CPackage);
 public:
@@ -21,7 +22,7 @@ public:
     
 
 public:
-    virtual bool Init(CPlayer* pOwner, uint32_t nPackageType, uint32_t nMaxSize);
+    
 
 public:
     export_lua virtual uint32_t GetPackageType() { return m_nPosition; }

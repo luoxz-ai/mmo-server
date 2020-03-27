@@ -53,13 +53,12 @@ static INIT_BRPC_LOG g_INIT_BRPC_LOG;
 CServiceCommon::CServiceCommon(const ServerPort& nServerPort, const std::string& service_name)
     : m_pNetworkService(nullptr)
     , m_pMessagePort(nullptr)
-    , m_pEventManager(std::make_unique<CEventManager>())
+    , m_pEventManager(CEventManager::CreateNew(nullptr))
     , m_pNetMsgProcess(std::make_unique<CNetMSGProcess>())
     , m_nServerPort(nServerPort)
     , m_ServiceName(service_name)
     , m_pBRPCServer(nullptr)
 {
-    m_pEventManager->Init(nullptr);
 }
 
 CServiceCommon::~CServiceCommon()

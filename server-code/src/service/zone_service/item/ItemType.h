@@ -102,12 +102,6 @@ export_lua enum ITEMFLAG_MASK {
 class CItemType : public Noncopyable<CItemType>
 {
     CItemType() {}
-public:
-    CreateNewImpl(CItemType);
-public:
-    ~CItemType() {}
-    using PB_T = Cfg_Item;
-    
     bool Init(const Cfg_Item_Row& row)
     {
         m_Data = row;
@@ -117,6 +111,13 @@ public:
         }
         return true;
     }
+public:
+    CreateNewImpl(CItemType);
+public:
+    ~CItemType() {}
+    using PB_T = Cfg_Item;
+    
+    
     static uint32_t getIDFromPBRow(const Cfg_Item_Row& row) { return row.id(); }
 
     uint32_t                               GetID() const { return m_Data.id(); }

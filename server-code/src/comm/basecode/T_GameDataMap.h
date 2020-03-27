@@ -51,7 +51,7 @@ public:
         m_setData.clear();
         LOGINFO("Clear {} Succ.", GET_NAME());
     }
-
+private:
     bool Init(CMysqlConnection* pDb, const char* table_name, const char* szSQL)
     {
         auto result_ptr = pDb->Query(table_name, szSQL);
@@ -72,47 +72,6 @@ public:
         LOGINFO("Init {} Succ.", GET_NAME());
         return true;
     }
-    bool Reload(CMysqlConnection* pDb, const char* table_name, const char* szSQL)
-    {
-        Clear();
-        return Init(pDb, table_name, szSQL);
-    }
-
-    template<class PBRow_T>
-    auto _LoadFromPB(const PBRow_T& row)
-    {
-        if constexpr(hasFunc_GetIDFromPBRow<T>::value)
-        {
-            KEY_T key   = T::GetIDFromPBRow(row);
-            T*    pData = _QueryObj(key);
-            if(pData)
-            {
-                pData->Init(row);
-            }
-            else
-            {
-                T* pData = T::CreateNew(row);
-                if(pData == nullptr)
-                {
-                    return false;
-                }
-
-                AddObj(pData);
-            }
-            return true;
-        }
-        else
-        {
-            T* pData = T::CreateNew(row);
-            if(pData == nullptr)
-            {
-                return false;
-            }
-
-            AddObj(pData);
-            return true;
-        }
-    }
 
     auto Init(const char* szFileName)
     {
@@ -130,6 +89,50 @@ public:
         LOGINFO("Init {} Succ.", szFileName);
         return true;
     }
+public:
+    bool Reload(CMysqlConnection* pDb, const char* table_name, const char* szSQL)
+    {
+        Clear();
+        return Init(pDb, table_name, szSQL);
+    }
+
+    template<class PBRow_T>
+    auto _LoadFromPB(const PBRow_T& row)
+    {
+        if constexpr(hasFunc_GetIDFromPBRow<T>::value)
+        {
+            KEY_T key   = T::GetIDFromPBRow(row);
+            T*    pData = _QueryObj(key);
+            if(pData)
+            {
+                pData->Merge(row);
+            }
+            else
+            {
+                T* pData = T::CreateNew(row);
+                if(pData == nullptr)
+                {
+                    return false;
+                }
+
+                AddObj(pData);
+            }
+            
+            return true;
+        }
+        else
+        {
+            T* pData = T::CreateNew(row);
+            if(pData == nullptr)
+            {
+                return false;
+            }
+
+            AddObj(pData);
+            return true;
+        }
+    }
+
     bool Reload(const char* szFileName, bool bClear)
     {
         if(bClear)
@@ -257,7 +260,7 @@ public:
         m_setData.clear();
         LOGINFO("Clear {} Succ.", GET_NAME());
     }
-
+private:
     bool Init(CMysqlConnection* pDb, const char* table_name, const char* szSQL)
     {
         auto result_ptr = pDb->Query(table_name, szSQL);
@@ -278,12 +281,8 @@ public:
         }
         return true;
     }
-    bool Reload(CMysqlConnection* pDb, const char* table_name, const char* szSQL)
-    {
-        Clear();
-        return Init(pDb, table_name, szSQL);
-    }
 
+private:
     bool Init(const char* szFileName)
     {
         using PB_T = typename T::PB_T;
@@ -307,6 +306,13 @@ public:
         LOGINFO("Init {} Succ.", szFileName);
         return true;
     }
+public:
+    bool Reload(CMysqlConnection* pDb, const char* table_name, const char* szSQL)
+    {
+        Clear();
+        return Init(pDb, table_name, szSQL);
+    }
+
     bool Reload(const char* szFileName)
     {
         Clear();

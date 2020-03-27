@@ -9,14 +9,13 @@
 class CActorAI;
 class CAIMonster : public CAIActor
 {
-     CAIMonster();
+    CAIMonster();
+    bool Init(const ServerMSG::ActorCreate& msg);
 public:
     CreateNewImpl(CAIMonster);
-public:
-   
     ~CAIMonster();
     
-    bool Init(const ServerMSG::ActorCreate& msg);
+    
 
     virtual ActorType GetActorType() const override { return ActorType::ACT_MONSTER; }
     static ActorType  GetActorTypeStatic() { return ActorType::ACT_MONSTER; }

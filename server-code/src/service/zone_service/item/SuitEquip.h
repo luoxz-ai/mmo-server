@@ -7,11 +7,6 @@
 class CSuitEquipData : public Noncopyable<CSuitEquipData>
 {
     CSuitEquipData() {}
-public:
-    CreateNewImpl(CSuitEquipData);
-public:
-    ~CSuitEquipData() {}
-    
     bool Init(const Cfg_Suit_Row& row)
     {
         m_nEquipNum = row.num();
@@ -21,6 +16,12 @@ public:
         }
         return true;
     }
+public:
+    CreateNewImpl(CSuitEquipData);
+public:
+    ~CSuitEquipData() {}
+    
+    
 
     uint32_t GetEquipNum() const { return m_nEquipNum; }
 
@@ -36,6 +37,7 @@ private:
 class CSuitEquipSet : public Noncopyable<CSuitEquipSet>
 {
     CSuitEquipSet();
+    bool Init(const char* szFileName);
 public:
     CreateNewImpl(CSuitEquipSet);
 public:
@@ -43,7 +45,7 @@ public:
 
 public:
     
-    bool Init(const char* szFileName);
+    
     bool Reload(const char* szFileName);
     void Destroy();
     // 根据itemtype, 追加等级，查询对应的追加数据

@@ -30,7 +30,7 @@ public:
 
     uint16_t GetWorldID() const { return m_nWorldID; }
     void     SetWorldID(uint16_t val) { m_nWorldID = val; }
-
+    void     Destory();
 public:
     //从配置文件读取数据库地址,并重读配置
     bool LoadServiceSetting(const std::string& filename, uint16_t nWorldID);

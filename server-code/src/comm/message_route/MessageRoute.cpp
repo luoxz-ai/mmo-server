@@ -24,22 +24,33 @@ void CreateMessageRoute()
 
 void ReleaseMessageRoute()
 {
+    if(g_pMessageRoute)
+    {
+        g_pMessageRoute->Destory();
+    }
     SAFE_DELETE(g_pMessageRoute);
 }
 
 CMessageRoute::CMessageRoute()
     : m_pNetworkService(std::make_unique<CNetworkService>())
-    , m_pEventManager(std::make_unique<CEventManager>())
 {
-    m_pEventManager->Init(m_pNetworkService->GetEVBase());
+    m_pEventManager.reset(CEventManager::CreateNew(m_pNetworkService->GetEVBase()));
     m_pNetworkService->StartIOThread("MessageRoute");
     LOGDEBUG("MessageRoute Create.");
 }
 
 CMessageRoute::~CMessageRoute()
 {
-    __ENTER_FUNCTION
+    Destory();
+}
 
+void CMessageRoute::Destory()
+{
+    __ENTER_FUNCTION
+    if(m_pNetworkService == nullptr)
+    {
+        return;
+    }
     m_setServerInfoByWorldID.clear();
     m_setServerInfo.clear();
     m_MergeList.clear();
@@ -48,10 +59,15 @@ CMessageRoute::~CMessageRoute()
     m_pGlobalDB.reset();
     for(auto& [k, v]: m_setMessagePort)
     {
+        v->Destory();
         SAFE_DELETE(v);
     }
     m_setMessagePort.clear();
 
+    m_pEventManager.reset();
+    m_pNetworkService.reset();
+    
+    
     LOGDEBUG("MessageRoute Delete.");
 
     __LEAVE_FUNCTION

@@ -7,11 +7,17 @@
 CMessagePort::CMessagePort(const ServerPort& nServerPort, CMessageRoute* pRoute)
     : m_nServerPort(nServerPort)
     , m_pRoute(pRoute)
-    , m_pPortEventHandler(nullptr)
 {
 }
 
 CMessagePort::~CMessagePort()
+{
+    __ENTER_FUNCTION
+    Destory();
+    __LEAVE_FUNCTION
+}
+
+void CMessagePort::Destory()
 {
     __ENTER_FUNCTION
     CNetworkMessage* pMsg;
@@ -24,8 +30,11 @@ CMessagePort::~CMessagePort()
         SAFE_DELETE(pMsg);
     }
     if(m_pRemoteServerSocket)
+    {
         m_pRemoteServerSocket->Close();
-    __LEAVE_FUNCTION
+        m_pRemoteServerSocket = nullptr;
+    }   
+    __LEAVE_FUNCTION 
 }
 
 bool CMessagePort::TakeMsg(CNetworkMessage*& msg)
@@ -49,7 +58,9 @@ void CMessagePort::OnConnected(CNetSocket* pSocket)
                 pSocket->GetAddrString().c_str(),
                 pSocket->GetPort());
     if(auto pHandler = m_pPortEventHandler.load())
+    {
         pHandler->OnPortConnected(pSocket);
+    }
     __LEAVE_FUNCTION
 }
 
@@ -61,7 +72,9 @@ void CMessagePort::OnConnectFailed(CNetSocket* pSocket)
                 pSocket->GetAddrString().c_str(),
                 pSocket->GetPort());
     if(auto pHandler = m_pPortEventHandler.load())
+    {
         pHandler->OnPortConnectFailed(pSocket);
+    }
     __LEAVE_FUNCTION
 }
 
@@ -73,8 +86,9 @@ void CMessagePort::OnDisconnected(CNetSocket* pSocket)
                 pSocket->GetAddrString().c_str(),
                 pSocket->GetPort());
     if(auto pHandler = m_pPortEventHandler.load())
+    {    
         pHandler->OnPortDisconnected(pSocket);
-
+    }
     __LEAVE_FUNCTION
 }
 
@@ -87,7 +101,9 @@ void CMessagePort::OnAccepted(CNetSocket* pSocket)
                 pSocket->GetPort());
     pSocket->SetPacketSizeMax(_MAX_MSGSIZE * 2);
     if(auto pHandler = m_pPortEventHandler.load())
+    {
         pHandler->OnPortAccepted(pSocket);
+    }
     __LEAVE_FUNCTION
 }
 

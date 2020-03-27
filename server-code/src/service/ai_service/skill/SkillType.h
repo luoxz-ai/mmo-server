@@ -80,10 +80,6 @@ export_lua enum SkillFlag {
 class CSkillType: public Noncopyable<CSkillType>
 {
     CSkillType() {}
-public:
-    CreateNewImpl(CSkillType);
-public:
-    ~CSkillType() {}
     bool Init(const Cfg_Skill_Row& row)
     {
         m_Data = row;
@@ -93,6 +89,11 @@ public:
         }
         return true;
     }
+public:
+    CreateNewImpl(CSkillType);
+public:
+    ~CSkillType() {}
+    
 
     using PB_T = Cfg_Skill;
     static uint32_t    MakeID(uint16_t idSkillSort, uint8_t ucLevel) { return idSkillSort * 100 + ucLevel; }
@@ -151,16 +152,17 @@ typedef CGameDataMap<CSkillType> CSkillTypeSet;
 class CSkillAttachStatusData : public Noncopyable<CSkillAttachStatusData>
 {
     CSkillAttachStatusData() {}
-public:
-    CreateNewImpl(CSkillAttachStatusData);
-public:
-    ~CSkillAttachStatusData() {}
-    
     bool Init(const Cfg_SkillAttachStatus_Row& row)
     {
         m_Data = row;
         return true;
     }
+public:
+    CreateNewImpl(CSkillAttachStatusData);
+public:
+    ~CSkillAttachStatusData() {}
+    
+    
 
     using PB_T = Cfg_SkillAttachStatus;
 
@@ -185,16 +187,17 @@ typedef CGameMultiDataMap<CSkillAttachStatusData> CSkillAttachStatusDataSet;
 class CSkillDetachStatusData : public Noncopyable<CSkillDetachStatusData>
 {
     CSkillDetachStatusData() {}
-public:
-    CreateNewImpl(CSkillDetachStatusData);
-public:
-    ~CSkillDetachStatusData() {}
-    
     bool Init(const Cfg_SkillDetachStatus_Row& row)
     {
         m_Data = row;
         return true;
     }
+public:
+    CreateNewImpl(CSkillDetachStatusData);
+public:
+    ~CSkillDetachStatusData() {}
+    
+    
 
     using PB_T = Cfg_SkillDetachStatus;
 

@@ -8,11 +8,6 @@
 class CItemAdditionData : public Noncopyable<CItemAdditionData>
 {
     CItemAdditionData() {}
-public:
-    CreateNewImpl(CItemAdditionData);
-public:
-    ~CItemAdditionData() {}
-    
     bool Init(const Cfg_ItemAddition_Row& row)
     {
         for(int32_t i = 0; i < row.attrib_change_list_size(); i++)
@@ -21,6 +16,12 @@ public:
         }
         return true;
     }
+public:
+    CreateNewImpl(CItemAdditionData);
+public:
+    ~CItemAdditionData() {}
+    
+    
 
 public:
     const std::vector<CActorAttribChange>& GetAttrib() const { return m_AttribChangeList; }
@@ -33,6 +34,7 @@ private:
 class CItemAdditionSet : public Noncopyable<CItemAdditionSet>
 {
     CItemAdditionSet();
+    bool Init(const char* szFileName);
 public:
     CreateNewImpl(CItemAdditionSet);
 public:
@@ -40,7 +42,7 @@ public:
 
 public:
     
-    bool Init(const char* szFileName);
+    
     bool Reload(const char* szFileName);
     void Destroy();
     // 根据itemtype, 追加等级，查询对应的追加数据

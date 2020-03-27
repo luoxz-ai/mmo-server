@@ -20,6 +20,7 @@ class CAccount;
 class CAccountManager: public Noncopyable<CAccountManager>
 {
     CAccountManager();
+    bool Init(class CWorldService* pWorld);
 public:
     CreateNewImpl(CAccountManager);
 public:
@@ -27,7 +28,7 @@ public:
     ~CAccountManager();
 
     
-    bool Init(class CWorldService* pWorld);
+    
 
     void RegisterMessageHandler();
     //验证

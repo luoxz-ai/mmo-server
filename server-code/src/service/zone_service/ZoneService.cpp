@@ -172,7 +172,7 @@ bool CZoneService::Create()
         CHECKF(m_pSystemVarSet.get());
     }
 
-    m_pLoadingThread = std::make_unique<CLoadingThread>(this);
+    m_pLoadingThread.reset(CLoadingThread::CreateNew(this));
     CHECKF(m_pLoadingThread.get());
 
     if(CreateService(20) == false)

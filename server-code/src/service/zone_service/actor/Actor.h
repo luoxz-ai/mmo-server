@@ -17,12 +17,12 @@ class CMonster;
 class CPlayer;
 export_lua class CActor : public CSceneObject
 {
-public:
+protected:
     CActor();
-    virtual ~CActor();
-
-public:
     bool Init();
+public:
+    virtual ~CActor();
+ 
 
     export_lua bool IsDelThis() const { return m_bDelThis; }
     export_lua void DelThis();

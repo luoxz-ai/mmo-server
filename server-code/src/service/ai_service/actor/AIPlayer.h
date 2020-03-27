@@ -6,13 +6,14 @@
 class CAIPlayer : public CAIActor
 {
     CAIPlayer();
+    bool Init(const ServerMSG::ActorCreate& msg);
 public:
     CreateNewImpl(CAIPlayer);
 public:
     
     ~CAIPlayer();
     
-    bool Init(const ServerMSG::ActorCreate& msg);
+    
 
     virtual ActorType GetActorType() const override { return ActorType::ACT_PLAYER; }
     static ActorType  GetActorTypeStatic() { return ActorType::ACT_PLAYER; }

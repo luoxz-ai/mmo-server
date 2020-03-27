@@ -14,11 +14,6 @@ enum MonsterType
 class CMonsterType: public Noncopyable<CMonsterType>
 {
     CMonsterType() {}
-public:
-    CreateNewImpl(CMonsterType);
-public:
-    ~CMonsterType() {}
-    
     bool Init(const Cfg_Monster_Row& row)
     {
         m_Data = row;
@@ -26,6 +21,12 @@ public:
 
         return true;
     }
+public:
+    CreateNewImpl(CMonsterType);
+public:
+    ~CMonsterType() {}
+    
+    
 
     using PB_T = Cfg_Monster;
     uint32_t            GetID() const { return m_Data.id(); }

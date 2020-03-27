@@ -12,13 +12,15 @@
 struct event_base;
 struct event;
 
-class CEventManager
+class CEventManager : public Noncopyable<CEventManager>
 {
-public:
     CEventManager();
+    bool Init(event_base* base);
+public:
+    CreateNewImpl(CEventManager);
     ~CEventManager();
 
-    bool Init(event_base* base);
+    
     void Destory();
 
     void   OnTimer();

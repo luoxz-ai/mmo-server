@@ -21,16 +21,17 @@ export_lua enum TaskFlag {
 class CTaskType : public Noncopyable<CTaskType>
 {
     CTaskType() {}
-public:
-    CreateNewImpl(CTaskType);
-public:
-    ~CTaskType() {}
-    
     bool Init(const Cfg_Task_Row& row)
     {
         m_Data = row;
         return true;
     }
+public:
+    CreateNewImpl(CTaskType);
+public:
+    ~CTaskType() {}
+    
+    
 
     using PB_T = Cfg_Task;
     static uint32_t getIDFromPBRow(const Cfg_Task_Row& row) { return row.id(); }
@@ -73,6 +74,7 @@ private:
 class CTaskTypeSet : public Noncopyable<CTaskTypeSet>
 {
     CTaskTypeSet();
+    bool Init(const char* szFileName);
 public:
     CreateNewImpl(CTaskTypeSet);
 public:
@@ -80,7 +82,7 @@ public:
 
 public:
     
-    bool Init(const char* szFileName);
+    
     bool Reload(const char* szFileName);
     void Destroy();
 

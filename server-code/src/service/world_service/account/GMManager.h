@@ -5,12 +5,13 @@
 class CGMManager: public Noncopyable<CGMManager>
 {
     CGMManager();
+    bool Init();
 public:
     CreateNewImpl(CGMManager);
 public:
     ~CGMManager();
     
-    bool Init();
+    
     void Destory();
     void Reload();
 
