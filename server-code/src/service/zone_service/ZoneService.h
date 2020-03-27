@@ -41,11 +41,17 @@ struct event;
 class CNetMSGProcess;
 export_lua class CZoneService : public IService, public CServiceCommon
 {
-public:
-    CZoneService(const ServerPort& nServerPort);
+    CZoneService();
+    bool Init(const ServerPort& nServerPort);
     virtual ~CZoneService();
-    void Release() override { delete this; }
-    bool Create();
+    void Destory();
+public:
+    
+
+    
+    void Release() override { Destory();delete this; }
+    CreateNewRealeaseImpl(CZoneService);
+    
 
 public:
     virtual void OnLogicThreadProc() override;

@@ -53,8 +53,8 @@ then
 else
     server_ctrl;
     global_route_1;
-    global_route_2;
-    global_route_3;
-    global_route_4;
-    global_route_5;
+    #global_route_2;
+    #global_route_3;
+    #global_route_4;
+    #global_route_5;
 fi

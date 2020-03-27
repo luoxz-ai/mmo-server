@@ -25,12 +25,17 @@ class CNetMSGProcess;
 
 class CWorldService : public IService, public CServiceCommon
 {
-public:
-    CWorldService(const ServerPort& nServerPort);
+    CWorldService();
+    bool Init(const ServerPort& nServerPort);
     virtual ~CWorldService();
-    void Release() override { delete this; }
-    bool Create();
+    void Destory();
+public:
+    
 
+   
+    void Release() override { Destory();delete this; }
+    
+    CreateNewRealeaseImpl(CWorldService);
 public:
     virtual void OnLogicThreadProc() override;
     virtual void OnLogicThreadCreate() override;

@@ -50,24 +50,27 @@ struct INIT_BRPC_LOG
 };
 static INIT_BRPC_LOG g_INIT_BRPC_LOG;
 
-CServiceCommon::CServiceCommon(const ServerPort& nServerPort, const std::string& service_name)
+CServiceCommon::CServiceCommon()
     : m_pNetworkService(nullptr)
     , m_pMessagePort(nullptr)
-    , m_pEventManager(CEventManager::CreateNew(nullptr))
-    , m_pNetMsgProcess(std::make_unique<CNetMSGProcess>())
-    , m_nServerPort(nServerPort)
-    , m_ServiceName(service_name)
     , m_pBRPCServer(nullptr)
 {
 }
 
 CServiceCommon::~CServiceCommon()
 {
+
+}
+
+void CServiceCommon::DestoryServiceCommon()
+{
     __ENTER_FUNCTION
     // GetMessageRoute()->CloseMessagePort(m_pMessagePort);
     if(m_pMessagePort)
+    {
         m_pMessagePort->SetPortEventHandler(nullptr);
-    m_pMessagePort = nullptr;
+        m_pMessagePort = nullptr;
+    }   
     StopLogicThread();
 
     if(m_pNetworkService)
@@ -87,6 +90,16 @@ CServiceCommon::~CServiceCommon()
 
     LOGMESSAGE("{} {} Close", GetServiceName().c_str(), GetServerPort().GetServiceID());
     __LEAVE_FUNCTION
+}
+
+bool CServiceCommon::Init(const ServerPort& nServerPort)
+{
+    m_nServerPort = nServerPort;
+    m_ServiceName = ::GetServiceName(nServerPort.GetServiceID());
+    m_pNetMsgProcess = std::make_unique<CNetMSGProcess>();
+    m_pEventManager.reset(CEventManager::CreateNew(nullptr));
+    
+    return true;
 }
 
 bool CServiceCommon::CreateRPCServer()

@@ -54,7 +54,7 @@ void CMessagePort::OnConnected(CNetSocket* pSocket)
     pSocket->SendMsg((byte*)&msg, sizeof(msg));
     pSocket->SetPacketSizeMax(_MAX_MSGSIZE * 2);
     LOGNETDEBUG("MessagePort:{} OnConnected {}:{}",
-                GetServerPort().GetServiceID(),
+                GetServiceName(GetServerPort().GetServiceID()),
                 pSocket->GetAddrString().c_str(),
                 pSocket->GetPort());
     if(auto pHandler = m_pPortEventHandler.load())
@@ -68,7 +68,7 @@ void CMessagePort::OnConnectFailed(CNetSocket* pSocket)
 {
     __ENTER_FUNCTION
     LOGNETDEBUG("MessagePort:{} OnConnectFailed {}:{}",
-                GetServerPort().GetServiceID(),
+                GetServiceName(GetServerPort().GetServiceID()),
                 pSocket->GetAddrString().c_str(),
                 pSocket->GetPort());
     if(auto pHandler = m_pPortEventHandler.load())
@@ -82,7 +82,7 @@ void CMessagePort::OnDisconnected(CNetSocket* pSocket)
 {
     __ENTER_FUNCTION
     LOGNETDEBUG("MessagePort:{} OnDisconnected {}:{}",
-                GetServerPort().GetServiceID(),
+                GetServiceName(GetServerPort().GetServiceID()),
                 pSocket->GetAddrString().c_str(),
                 pSocket->GetPort());
     if(auto pHandler = m_pPortEventHandler.load())
@@ -96,7 +96,7 @@ void CMessagePort::OnAccepted(CNetSocket* pSocket)
 {
     __ENTER_FUNCTION
     LOGNETDEBUG("MessagePort:{} OnAccpet {}:{}",
-                GetServerPort().GetServiceID(),
+                GetServiceName(GetServerPort().GetServiceID()),
                 pSocket->GetAddrString().c_str(),
                 pSocket->GetPort());
     pSocket->SetPacketSizeMax(_MAX_MSGSIZE * 2);
@@ -202,7 +202,7 @@ void CMessagePort::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
         default:
         {
             LOGNETERROR("MessagePort:{} Recv a unknow cmd:{} size:{}",
-                        GetServerPort().GetServiceID(),
+                        GetServiceName(GetServerPort().GetServiceID()),
                         pHead->usCmd,
                         pHead->usSize);
         }

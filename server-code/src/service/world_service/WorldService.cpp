@@ -27,29 +27,12 @@ void SetWorldServicePtr(CWorldService* ptr)
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
-
-    CWorldService* pService = new CWorldService(ServerPort{idWorld, idService});
-    if(pService == nullptr)
-        return nullptr;
-
-    if(pService->Create() == false)
-    {
-        pService->Release();
-        return nullptr;
-    }
-
-    return pService;
+    return CWorldService::CreateNew(ServerPort{idWorld, idService});
 }
 
 //////////////////////////////////////////////////////////////////////////
-CWorldService::CWorldService(const ServerPort& nServerPort)
-    : CServiceCommon(nServerPort, "World")
-    , m_pAccountManager(nullptr)
-    , m_pUserManager(nullptr)
-    , m_pTeamManager(nullptr)
-
+CWorldService::CWorldService()
 {
-
     for(uint16_t i = MIN_ZONE_SERVICE_ID; i <= MAX_ZONE_SERVICE_ID; i++)
     {
         m_setServiceNeedReady.emplace(i);
@@ -60,18 +43,30 @@ CWorldService::CWorldService(const ServerPort& nServerPort)
 
 CWorldService::~CWorldService()
 {
+    
+}
+
+void CWorldService::Destory()
+{
     tls_pService = this;
     scope_guards scope_exit;
     scope_exit += []() {
         tls_pService = nullptr;
     };
     StopLogicThread();
-    m_pAccountManager->Destory();
-    m_pUserManager->Destory();
-    m_pTeamManager->Destory();
+    if(m_pAccountManager)
+        m_pAccountManager->Destory();
+    m_pAccountManager.reset();
+    if(m_pUserManager)
+        m_pUserManager->Destory();
+    m_pUserManager.reset();
+    if(m_pTeamManager)
+        m_pTeamManager->Destory();
+    m_pTeamManager.reset();
+    DestoryServiceCommon();
 }
 
-bool CWorldService::Create()
+bool CWorldService::Init(const ServerPort& nServerPort)
 {
     __ENTER_FUNCTION
     //各种初始化
@@ -80,13 +75,13 @@ bool CWorldService::Create()
     scope_exit += []() {
         tls_pService = nullptr;
     };
-
+    CServiceCommon::Init(nServerPort);
     auto oldNdc = BaseCode::SetNdc(GetServiceName());
     scope_exit += [oldNdc]() {
         BaseCode::SetNdc(oldNdc);
         ;
     };
-
+    
     m_pAccountManager.reset(CAccountManager::CreateNew(this));
     CHECKF(m_pAccountManager.get());
     m_pUserManager.reset(CUserManager::CreateNew());

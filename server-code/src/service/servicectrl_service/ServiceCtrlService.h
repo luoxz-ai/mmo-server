@@ -11,12 +11,16 @@ struct event;
 class CNetMSGProcess;
 class CServiceCtrlService : public IService, public CServiceCommon, public CMessagePortEventHandler
 {
-public:
-    CServiceCtrlService(const ServerPort& nServerPort);
+    CServiceCtrlService();
+    bool Init(const ServerPort& nServerPort);
     virtual ~CServiceCtrlService();
-    void Release() override { delete this; }
-    bool Create();
+    void Destory();
+public:
+    
 
+    void Release() override { Destory();delete this; }
+    
+    CreateNewRealeaseImpl(CServiceCtrlService);
 public:
     // connect to other server succ
     virtual void OnPortConnected(CNetSocket*) override;

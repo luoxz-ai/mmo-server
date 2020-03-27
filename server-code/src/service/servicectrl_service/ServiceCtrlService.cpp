@@ -18,36 +18,30 @@ CServiceCtrlService*                     ServiceCtrlService()
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
-
-    CServiceCtrlService* pService = new CServiceCtrlService(ServerPort{idWorld, idService});
-    if(pService == nullptr)
-        return nullptr;
-
-    if(pService->Create() == false)
-    {
-        pService->Release();
-        return nullptr;
-    }
-
-    return pService;
+    return CServiceCtrlService::CreateNew(ServerPort{idWorld, idService});
 }
 
 //////////////////////////////////////////////////////////////////////////
-CServiceCtrlService::CServiceCtrlService(const ServerPort& nServerPort)
-    : CServiceCommon(nServerPort, "ServiceCtrl")
+CServiceCtrlService::CServiceCtrlService()
 {
 }
 
 CServiceCtrlService::~CServiceCtrlService()
+{
+
+}
+
+void CServiceCtrlService::Destory()
 {
     tls_pService = this;
     scope_guards scope_exit;
     scope_exit += []() {
         tls_pService = nullptr;
     };
+    DestoryServiceCommon();
 }
 
-bool CServiceCtrlService::Create()
+bool CServiceCtrlService::Init(const ServerPort& nServerPort)
 {
     //各种初始化
     tls_pService = this;
@@ -55,7 +49,7 @@ bool CServiceCtrlService::Create()
     scope_exit += []() {
         tls_pService = nullptr;
     };
-
+    CServiceCommon::Init(nServerPort);
     auto oldNdc = BaseCode::SetNdc(GetServiceName());
     scope_exit += [oldNdc]() {
         BaseCode::SetNdc(oldNdc);
@@ -104,7 +98,6 @@ void CServiceCtrlService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
             for(int32_t i = MIN_SHAREZONE_SERVICE_ID; i <= MAX_SHAREZONE_SERVICE_ID; i++)
             {
                 SendPortMsg(ServerPort(0, i), (byte*)pMsg, sizeof(*pMsg));
-                ;
             }
         }
         break;

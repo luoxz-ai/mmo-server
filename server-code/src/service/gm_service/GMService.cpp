@@ -103,27 +103,21 @@ CGMService*                     GMService()
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
-
-    CGMService* pService = new CGMService(ServerPort{idWorld, idService});
-    if(pService == nullptr)
-        return nullptr;
-
-    if(pService->Create() == false)
-    {
-        pService->Release();
-        return nullptr;
-    }
-
-    return pService;
+    return CGMService::CreateNew(ServerPort{idWorld, idService});
 }
 
 //////////////////////////////////////////////////////////////////////////
-CGMService::CGMService(const ServerPort& nServerPort)
-    : CServiceCommon(nServerPort, "GM")
+CGMService::CGMService()
 {
 }
 
 CGMService::~CGMService()
+{
+
+}
+
+
+void CGMService::Destory()
 {
     tls_pService = this;
     scope_guards scope_exit;
@@ -135,9 +129,10 @@ CGMService::~CGMService()
 
     auto pService = RemoveRPCService("GM_Service");
     SAFE_DELETE(pService);
+    DestoryServiceCommon();
 }
 
-bool CGMService::Create()
+bool CGMService::Init(const ServerPort& nServerPort)
 {
     //各种初始化
     tls_pService = this;
@@ -146,6 +141,7 @@ bool CGMService::Create()
         tls_pService = nullptr;
     };
 
+    CServiceCommon::Init(nServerPort);
     auto oldNdc = BaseCode::SetNdc(GetServiceName());
     scope_exit += [oldNdc]() {
         BaseCode::SetNdc(oldNdc);

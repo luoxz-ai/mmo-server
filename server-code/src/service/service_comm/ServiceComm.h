@@ -20,12 +20,15 @@ namespace protobuf
 }
 } // namespace google
 
-export_lua class CServiceCommon
+export_lua class CServiceCommon : public Noncopyable<CServiceCommon>
 {
+protected:
+    CServiceCommon();
+    bool Init(const ServerPort& nServerPort);
 public:
-    CServiceCommon(const ServerPort& nServerPort, const std::string& service_name);
+    
     virtual ~CServiceCommon();
-
+    void DestoryServiceCommon();
 public:
     export_lua VirtualSocket GetServerVirtualSocket() const { return VirtualSocket(m_nServerPort, 0); }
     export_lua VirtualSocket GetAIServerVirtualSocket() const

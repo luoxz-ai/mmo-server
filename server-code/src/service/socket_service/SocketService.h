@@ -60,12 +60,16 @@ struct event;
 class CNetMSGProcess;
 class CSocketService : public IService, public CServiceCommon, public CNetEventHandler, public CWebSocketEventHandler
 {
-public:
-    CSocketService(const ServerPort& nServerPort);
+    CSocketService();
+    bool Init(const ServerPort& nServerPort);
     virtual ~CSocketService();
-    void Release() override { delete this; }
-    bool Create();
+    void Destory();
+public:
+    
 
+    void Release() override { Destory();delete this; }
+    
+    CreateNewRealeaseImpl(CSocketService);
 public:
     virtual void OnConnected(CNetSocket* pSocket) override;
     virtual void OnConnectFailed(CNetSocket*) override;

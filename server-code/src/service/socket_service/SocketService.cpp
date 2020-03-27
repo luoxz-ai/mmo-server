@@ -12,18 +12,7 @@
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
-
-    CSocketService* pService = new CSocketService(ServerPort{idWorld, idService});
-    if(pService == nullptr)
-        return nullptr;
-
-    if(pService->Create() == false)
-    {
-        pService->Release();
-        return nullptr;
-    }
-
-    return pService;
+    return CSocketService::CreateNew(ServerPort{idWorld, idService});
 }
 
 CGameClient::CGameClient()
@@ -62,35 +51,38 @@ CSocketService*                     SocketService()
     return tls_pService;
 }
 //////////////////////////////////////////////////////////////////////////
-CSocketService::CSocketService(const ServerPort& nServerPort)
-    : CServiceCommon(nServerPort, std::string("Socket") + std::to_string(nServerPort.GetServiceID()))
+CSocketService::CSocketService()
 {
     m_tLastDisplayTime.Startup(20);
 }
 
 CSocketService::~CSocketService()
 {
-    tls_pService = this;
-    scope_guards scope_exit;
-    scope_exit += []() {
-        tls_pService = nullptr;
-    };
 }
-
-bool CSocketService::Create()
+void CSocketService::Destory()
 {
     tls_pService = this;
     scope_guards scope_exit;
     scope_exit += []() {
         tls_pService = nullptr;
     };
+    DestoryServiceCommon();
+}
 
+bool CSocketService::Init(const ServerPort& nServerPort)
+{
+    tls_pService = this;
+    scope_guards scope_exit;
+    scope_exit += []() {
+        tls_pService = nullptr;
+    };
+    CServiceCommon::Init(nServerPort);
     auto oldNdc = BaseCode::SetNdc(GetServiceName());
     scope_exit += [oldNdc]() {
         BaseCode::SetNdc(oldNdc);
         ;
     };
-
+    
     {
         const ServerAddrInfo* pAddrInfo = GetMessageRoute()->QueryServiceInfo(GetServerPort());
         if(pAddrInfo == nullptr)

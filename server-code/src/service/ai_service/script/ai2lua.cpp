@@ -396,6 +396,7 @@ void ai2lua(lua_State* L)
     lua_tinker::def(L, "GetHighFromU64", &GetHighFromU64);
     lua_tinker::def(L, "GetLowFromU64", &GetLowFromU64);
     lua_tinker::def(L, "GetNextDayBeginTime", &GetNextDayBeginTime);
+    lua_tinker::def(L, "GetServiceName", &GetServiceName);
     lua_tinker::def(L, "GetTimeFromString", &GetTimeFromString);
     lua_tinker::def(L, "HasFlag", &HasFlag);
     lua_tinker::def(L, "IsUTF8_NoneControl", &IsUTF8_NoneControl);

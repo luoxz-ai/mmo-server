@@ -29,29 +29,21 @@ void SetZoneServicePtr(CZoneService* pZone)
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
-
-    CZoneService* pService = new CZoneService(ServerPort{idWorld, idService});
-    if(pService == nullptr)
-        return nullptr;
-
-    if(pService->Create() == false)
-    {
-        pService->Release();
-        return nullptr;
-    }
-
-    return pService;
+    return CZoneService::CreateNew(ServerPort{idWorld, idService});
 }
 
 //////////////////////////////////////////////////////////////////////////
-CZoneService::CZoneService(const ServerPort& nServerPort)
-    : CServiceCommon(nServerPort, std::string("Zone") + std::to_string(nServerPort.GetServiceID()))
+CZoneService::CZoneService()
 {
-    m_MessagePoolBySocket.reserve(GUESS_MAX_PLAYER_COUNT);
-    m_tLastDisplayTime.Startup(20);
+   
 }
 
 CZoneService::~CZoneService()
+{
+   
+}
+
+void CZoneService::Destory()
 {
     tls_pService = this;
     scope_guards scope_exit;
@@ -61,12 +53,13 @@ CZoneService::~CZoneService()
     StopLogicThread();
     if(m_pLoadingThread)
         m_pLoadingThread->Destory();
-
+    m_pLoadingThread.reset();
     if(GetSceneManager())
         GetSceneManager()->Destory();
+    m_pSceneManager.reset();
     if(GetActorManager())
         GetActorManager()->Destory();
-
+    m_pActorManager.reset();
     for(auto& [k, refQueue]: m_MessagePoolBySocket)
     {
         for(auto& msg: refQueue)
@@ -75,11 +68,11 @@ CZoneService::~CZoneService()
         }
     }
     m_MessagePoolBySocket.clear();
-
-    LOGMESSAGE("CZoneService {} Close", GetServerPort().GetServiceID());
+    DestoryServiceCommon();
+    LOGMESSAGE("{} Close", GetServiceName());
 }
 
-bool CZoneService::Create()
+bool CZoneService::Init(const ServerPort& nServerPort)
 {
     __ENTER_FUNCTION
 
@@ -89,13 +82,15 @@ bool CZoneService::Create()
     scope_exit += []() {
         tls_pService = nullptr;
     };
-
+    CServiceCommon::Init(nServerPort);
     auto oldNdc = BaseCode::SetNdc(GetServiceName());
     scope_exit += [oldNdc]() {
         BaseCode::SetNdc(oldNdc);
         ;
     };
-
+    
+    m_MessagePoolBySocket.reserve(GUESS_MAX_PLAYER_COUNT);
+    m_tLastDisplayTime.Startup(20);
     const auto& settings = GetMessageRoute()->GetSettingMap();
     {
         const auto& settingGlobalDB = settings["GlobalMYSQL"][0];

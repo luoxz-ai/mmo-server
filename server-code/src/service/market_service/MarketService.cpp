@@ -18,36 +18,30 @@ CMarketService*                     MarketService()
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
-
-    CMarketService* pService = new CMarketService(ServerPort{idWorld, idService});
-    if(pService == nullptr)
-        return nullptr;
-
-    if(pService->Create() == false)
-    {
-        pService->Release();
-        return nullptr;
-    }
-
-    return pService;
+    return CMarketService::CreateNew(ServerPort{idWorld, idService});
 }
 
 //////////////////////////////////////////////////////////////////////////
-CMarketService::CMarketService(const ServerPort& nServerPort)
-    : CServiceCommon(nServerPort, "Market")
+CMarketService::CMarketService()
 {
 }
 
 CMarketService::~CMarketService()
+{
+
+}
+
+void CMarketService::Destory()
 {
     tls_pService = this;
     scope_guards scope_exit;
     scope_exit += []() {
         tls_pService = nullptr;
     };
+    DestoryServiceCommon();
 }
 
-bool CMarketService::Create()
+bool CMarketService::Init(const ServerPort& nServerPort)
 {
     //各种初始化
     tls_pService = this;
@@ -56,6 +50,7 @@ bool CMarketService::Create()
         tls_pService = nullptr;
     };
 
+    CServiceCommon::Init(nServerPort);
     auto oldNdc = BaseCode::SetNdc(GetServiceName());
     scope_exit += [oldNdc]() {
         BaseCode::SetNdc(oldNdc);

@@ -14,11 +14,18 @@ struct event;
 class CNetMSGProcess;
 class CGMService : public IService, public CServiceCommon
 {
-public:
-    CGMService(const ServerPort& nServerPort);
+    CGMService();
+    bool Init(const ServerPort& nServerPort);
     virtual ~CGMService();
-    void Release() override { delete this; }
-    bool Create();
+    void Destory();
+public:
+   
+    
+    void Release() override { Destory();delete this; }
+   
+    CreateNewRealeaseImpl(CGMService);
+
+public:
 
     void SendServiceReady();
     void SendServiceUnReady();

@@ -21,11 +21,15 @@ struct event;
 class CNetMSGProcess;
 class CAIService : public IService, public CServiceCommon
 {
-public:
-    CAIService(const ServerPort& nServerPort);
+    CAIService();
+    bool Init(const ServerPort& nServerPort);
     virtual ~CAIService();
-    void Release() override { delete this; }
-    bool Create();
+    void Destory();
+public:
+    
+
+    void Release() override { Destory();delete this; }
+    CreateNewRealeaseImpl(CAIService);
 
     VirtualSocket GetZoneServiceVirtualSocket() const
     {

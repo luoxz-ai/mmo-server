@@ -168,27 +168,21 @@ CGlobalRouteService*                     GlobalRouteService()
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
-
-    CGlobalRouteService* pService = new CGlobalRouteService(ServerPort{idWorld, idService});
-    if(pService == nullptr)
-        return nullptr;
-
-    if(pService->Create() == false)
-    {
-        pService->Release();
-        return nullptr;
-    }
-
-    return pService;
+    return CGlobalRouteService::CreateNew(ServerPort{idWorld, idService});
 }
 
 //////////////////////////////////////////////////////////////////////////
-CGlobalRouteService::CGlobalRouteService(const ServerPort& nServerPort)
-    : CServiceCommon(nServerPort, std::string("global_route") + std::to_string(nServerPort.GetServiceID()))
+CGlobalRouteService::CGlobalRouteService()
 {
 }
 
 CGlobalRouteService::~CGlobalRouteService()
+{
+
+    
+}
+
+void CGlobalRouteService::Destory()
 {
     tls_pService = this;
     scope_guards scope_exit;
@@ -197,9 +191,10 @@ CGlobalRouteService::~CGlobalRouteService()
     };
 
     StopRPCServer();
+    DestoryServiceCommon();
 }
 
-bool CGlobalRouteService::Create()
+bool CGlobalRouteService::Init(const ServerPort& nServerPort)
 {
     //各种初始化
     tls_pService = this;
@@ -208,6 +203,7 @@ bool CGlobalRouteService::Create()
         tls_pService = nullptr;
     };
 
+    CServiceCommon::Init(nServerPort);
     auto oldNdc = BaseCode::SetNdc(GetServiceName());
     scope_exit += [oldNdc]() {
         BaseCode::SetNdc(oldNdc);

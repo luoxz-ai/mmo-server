@@ -21,28 +21,21 @@ CAIService*                     AIService()
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
-
-    CAIService* pService = new CAIService(ServerPort{idWorld, idService});
-    if(pService == nullptr)
-        return nullptr;
-
-    if(pService->Create() == false)
-    {
-        pService->Release();
-        return nullptr;
-    }
-
-    return pService;
+    return CAIService::CreateNew(ServerPort{idWorld, idService});
 }
 
 //////////////////////////////////////////////////////////////////////////
-CAIService::CAIService(const ServerPort& nServerPort)
-    : CServiceCommon(nServerPort, std::string("AI") + std::to_string(nServerPort.GetServiceID()))
+CAIService::CAIService()
 {
     m_tLastDisplayTime.Startup(60);
 }
 
 CAIService::~CAIService()
+{
+
+}
+
+void CAIService::Destory()
 {
     tls_pService = this;
     scope_guards scope_exit;
@@ -50,12 +43,21 @@ CAIService::~CAIService()
         tls_pService = nullptr;
     };
     StopLogicThread();
-
-    m_pAISceneManager->Destory();
-    m_pAIActorManager->Destroy();
+    if(m_pAISceneManager)
+    {
+        m_pAISceneManager->Destory();
+        m_pAISceneManager.reset();
+    }
+    if(m_pAIActorManager)
+    {
+        m_pAIActorManager->Destroy();
+        m_pAIActorManager.reset();
+    }
+    DestoryServiceCommon();
 }
 
-bool CAIService::Create()
+
+bool CAIService::Init(const ServerPort& nServerPort)
 {
     //各种初始化
     scope_guards scope_exit;
@@ -64,6 +66,7 @@ bool CAIService::Create()
         tls_pService = nullptr;
     };
 
+    CServiceCommon::Init(nServerPort);
     auto oldNdc = BaseCode::SetNdc(GetServiceName());
     scope_exit += [oldNdc]() {
         BaseCode::SetNdc(oldNdc);

@@ -45,6 +45,19 @@ export_lua enum {
     MAX_SERVICE_ID         = 63,
 };
 
+struct ServiceNameRegister
+{
+    ServiceNameRegister();
+    std::string GetServiceName(uint32_t nServiceID) const;
+    std::unordered_map<uint32_t, std::string> s_ServiceName;
+};
+
+export_lua inline std::string GetServiceName(uint32_t nServiceID)
+{   
+   static ServiceNameRegister s_instance;
+   return s_instance.GetServiceName(nServiceID);
+}
+
 export_lua class ServerPort
 {
 public:

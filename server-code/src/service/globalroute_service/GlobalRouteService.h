@@ -10,11 +10,14 @@ struct event;
 class CNetMSGProcess;
 class CGlobalRouteService : public IService, public CServiceCommon
 {
-public:
-    CGlobalRouteService(const ServerPort& nServerPort);
+    CGlobalRouteService();
+    bool Init(const ServerPort& nServerPort);
     virtual ~CGlobalRouteService();
-    void Release() override { delete this; }
-    bool Create();
+    void Destory();
+public:
+    
+    void Release() override { Destory();delete this; }
+    CreateNewRealeaseImpl(CGlobalRouteService);
 
 public:
     virtual void OnLogicThreadProc() override;

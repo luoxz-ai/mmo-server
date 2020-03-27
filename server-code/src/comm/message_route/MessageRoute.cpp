@@ -541,7 +541,7 @@ CMessagePort* CMessageRoute::_ListenMessagePort(const ServerPort& nServerPort, c
     }
     LOGMESSAGE("CMessageRoute::ListenMessagePort:{}-{}, {}:{}",
                nServerPort.GetWorldID(),
-               nServerPort.GetServiceID(),
+               GetServiceName(nServerPort.GetServiceID()),
                info.route_addr.c_str(),
                info.route_port);
     m_setMessagePort[nServerPort] = pMessagePort;
