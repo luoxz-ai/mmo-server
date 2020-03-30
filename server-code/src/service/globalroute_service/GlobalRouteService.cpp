@@ -244,7 +244,7 @@ void CGlobalRouteService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
             //通知所有的global_route更新
             MSG_INTERNAL_SERVICE_REGISTER* pMsg = (MSG_INTERNAL_SERVICE_REGISTER*)pNetworkMsg->GetBuf();
             GetMessageRoute()->SetWorldReady(pMsg->idWorld, true);
-            GetMessageRoute()->ReloadServiceInfo(pMsg->update_time);
+            GetMessageRoute()->ReloadServiceInfo(pMsg->update_time, pMsg->idWorld);
         }
         break;
         case NETMSG_INTERNAL_SERVICE_READY:

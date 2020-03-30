@@ -134,17 +134,17 @@ bool CMessageRoute::ConnectGlobalDB(const std::string& host,
         return false;
     }
     m_pGlobalDB.reset(pDB.release());
-    ReloadServiceInfo(TimeGetSecond());
+    ReloadServiceInfo(TimeGetSecond(), 0);
     return true;
     __LEAVE_FUNCTION
     return false;
 }
 
-void CMessageRoute::ReloadServiceInfo(uint32_t update_time)
+void CMessageRoute::ReloadServiceInfo(uint32_t update_time, uint16_t nNewWorldID)
 {
     __ENTER_FUNCTION
 
-    if(update_time < m_lastUpdateTime)
+    if(update_time <= m_lastUpdateTime)
         return;
     LOGMESSAGE("reload service info");
     m_lastUpdateTime = update_time;
@@ -188,10 +188,23 @@ void CMessageRoute::ReloadServiceInfo(uint32_t update_time)
     {
         std::string SQL;
         if(GetWorldID() == 0)
-            SQL = "SELECT * FROM tbld_servicedetail";
+        {
+            //global服务 默认情况全读取
+            if(nNewWorldID == 0) 
+            {
+                SQL = "SELECT * FROM tbld_servicedetail";
+            }
+            else
+            {
+                //某个特定World启动了, 只需要读取该World数据
+                SQL = fmt::format("SELECT * FROM tbld_servicedetail WHERE worldid={}", nNewWorldID);
+            }
+        }   
         else
+        {
             SQL =
                 fmt::format(FMT_STRING("SELECT * FROM tbld_servicedetail WHERE worldid={} OR worldid=0"), GetWorldID());
+        }   
         auto result = m_pGlobalDB->Query(TBLD_SERVICEDETAIL::table_name, SQL);
         for(size_t i = 0; i < result->get_num_row(); i++)
         {
