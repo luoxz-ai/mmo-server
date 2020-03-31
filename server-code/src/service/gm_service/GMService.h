@@ -12,6 +12,7 @@
 
 struct event;
 class CNetMSGProcess;
+class CRPCService;
 class CGMService : public IService, public CServiceCommon
 {
     CGMService();
@@ -37,6 +38,7 @@ public:
     virtual void OnProcessMessage(CNetworkMessage*) override;
 
 public:
+    std::unique_ptr<CRPCService> m_pRPCService;
     using HttpRequestHandleFunc = std::function<void(const ServerPort&, const ServerMSG::ServiceHttpRequest&)>;
     std::unordered_map<std::string, HttpRequestHandleFunc> m_HttpRequestHandle;
 };

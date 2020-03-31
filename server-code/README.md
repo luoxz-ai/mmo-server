@@ -31,8 +31,8 @@
 * zone_service 游戏核心服务
 * ai_service 一个zone对应一个ai服务
 * gm_serivce 接入运营控制(一个区一个)
-* globalroute_service 全局外部回调模块(根据外部http端口回调地址, 发送内部消息给对应区分的gm_service)
-* servicectrl_service 全局服务控制模块
+* gmproxy_service 全局外部回调模块(根据外部http端口回调地址, 发送内部消息给对应区分的gm_service)
+* route_service 全局服务控制模块
 * dlog 彩虹数据日志上报
 * makret_serice 拍卖行服务
 
@@ -63,8 +63,9 @@ mysql -h 127.0.0.1 -u root --password=123456 global < add_new_server.sql
 mysql -h 127.0.0.1 -u root --password=123456 zone_1001 < gamedb.sql
 
 
-
 #启动global
+./start_global.sh
+#分离式启动global
 ./start_all_global.sh
 #启动zone
 ./start_zone.sh 1001

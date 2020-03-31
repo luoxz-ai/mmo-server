@@ -454,13 +454,13 @@ void ai2lua(lua_State* L)
     lua_tinker::set(L, "MARKET_SERVICE", MARKET_SERVICE);
     lua_tinker::set(L, "MARKET_SERVICE_ID", MARKET_SERVICE_ID);
     lua_tinker::set(L, "MAX_AI_SERVICE_ID", MAX_AI_SERVICE_ID);
-    lua_tinker::set(L, "MAX_GLOBAL_ROUTE_SERVICE_ID", MAX_GLOBAL_ROUTE_SERVICE_ID);
+    lua_tinker::set(L, "MAX_GM_PROYX_SERVICE_ID", MAX_GM_PROYX_SERVICE_ID);
     lua_tinker::set(L, "MAX_SERVICE_ID", MAX_SERVICE_ID);
     lua_tinker::set(L, "MAX_SHAREZONE_SERVICE_ID", MAX_SHAREZONE_SERVICE_ID);
     lua_tinker::set(L, "MAX_SOCKET_SERVICE_ID", MAX_SOCKET_SERVICE_ID);
     lua_tinker::set(L, "MAX_ZONE_SERVICE_ID", MAX_ZONE_SERVICE_ID);
     lua_tinker::set(L, "MIN_AI_SERVICE_ID", MIN_AI_SERVICE_ID);
-    lua_tinker::set(L, "MIN_GLOBAL_ROUTE_SERVICE_ID", MIN_GLOBAL_ROUTE_SERVICE_ID);
+    lua_tinker::set(L, "MIN_GM_PROYX_SERVICE_ID", MIN_GM_PROYX_SERVICE_ID);
     lua_tinker::set(L, "MIN_SHAREZONE_SERVICE_ID", MIN_SHAREZONE_SERVICE_ID);
     lua_tinker::set(L, "MIN_SOCKET_SERVICE_ID", MIN_SOCKET_SERVICE_ID);
     lua_tinker::set(L, "MIN_ZONE_SERVICE_ID", MIN_ZONE_SERVICE_ID);
@@ -478,6 +478,7 @@ void ai2lua(lua_State* L)
     lua_tinker::set(L, "REGION_PVP_FREE", REGION_PVP_FREE);
     lua_tinker::set(L, "REGION_RECORD_DISABLE", REGION_RECORD_DISABLE);
     lua_tinker::set(L, "REGION_STALL_DISABLE", REGION_STALL_DISABLE);
+    lua_tinker::set(L, "ROUTE_SERVICE_ID", ROUTE_SERVICE_ID);
     lua_tinker::set(L, "SCB_AI_FINDNEXTENEMY", SCB_AI_FINDNEXTENEMY);
     lua_tinker::set(L, "SCB_AI_ONUNDERATTACK", SCB_AI_ONUNDERATTACK);
     lua_tinker::set(L, "SCB_AI_PROCESS_ATTACK", SCB_AI_PROCESS_ATTACK);
@@ -524,7 +525,6 @@ void ai2lua(lua_State* L)
     lua_tinker::set(L, "SCT_TARGET_POS", SCT_TARGET_POS);
     lua_tinker::set(L, "SCT_TARGET_SELF", SCT_TARGET_SELF);
     lua_tinker::set(L, "SERVICECTRL_SERVICE", SERVICECTRL_SERVICE);
-    lua_tinker::set(L, "SERVICECTRL_SERVICE_ID", SERVICECTRL_SERVICE_ID);
     lua_tinker::set(L, "SKILLFLAG_AUTOLEARN", SKILLFLAG_AUTOLEARN);
     lua_tinker::set(L, "SKILLFLAG_AUTOUSE", SKILLFLAG_AUTOUSE);
     lua_tinker::set(L, "SKILLFLAG_BREAK_INTONE", SKILLFLAG_BREAK_INTONE);

@@ -1,5 +1,5 @@
-#ifndef ServiceCtrlService_h__
-#define ServiceCtrlService_h__
+#ifndef RouteService_h__
+#define RouteService_h__
 
 #include "IService.h"
 #include "MessagePort.h"
@@ -9,18 +9,18 @@
 
 struct event;
 class CNetMSGProcess;
-class CServiceCtrlService : public IService, public CServiceCommon, public CMessagePortEventHandler
+class CRouteService : public IService, public CServiceCommon, public CMessagePortEventHandler
 {
-    CServiceCtrlService();
+    CRouteService();
     bool Init(const ServerPort& nServerPort);
-    virtual ~CServiceCtrlService();
+    virtual ~CRouteService();
     void Destory();
 public:
     
 
     void Release() override { Destory();delete this; }
     
-    CreateNewRealeaseImpl(CServiceCtrlService);
+    CreateNewRealeaseImpl(CRouteService);
 public:
     // connect to other server succ
     virtual void OnPortConnected(CNetSocket*) override;
@@ -41,14 +41,14 @@ public:
     virtual void OnProcessMessage(CNetworkMessage*) override;
 };
 
-CServiceCtrlService* ServiceCtrlService();
+CRouteService* RouteService();
 inline auto          EventManager()
 {
-    return ServiceCtrlService()->GetEventManager();
+    return RouteService()->GetEventManager();
 }
 inline auto NetMsgProcess()
 {
-    return ServiceCtrlService()->GetNetMsgProcess();
+    return RouteService()->GetNetMsgProcess();
 }
 
-#endif // ServiceCtrlService_h__
+#endif // RouteService_h__

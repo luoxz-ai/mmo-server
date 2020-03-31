@@ -1,4 +1,4 @@
-#include "GlobalRouteService.h"
+#include "GMProxyService.h"
 
 #include <functional>
 
@@ -13,6 +13,7 @@
 #include "NetSocket.h"
 #include "NetworkMessage.h"
 #include "SettingMap.h"
+#include "RPCService.h"
 #include "brpc/channel.h"
 #include "brpc/server.h"
 #include "event2/buffer.h"
@@ -46,11 +47,11 @@ static void handle_response(brpc::Controller*          client_cntl,
 // A http_master_service.
 class ProxyServiceImpl : public ProxyService
 {
-    CGlobalRouteService* m_pService;
+    CGMProxyService* m_pService;
     int32_t              m_internal_port;
 
 public:
-    ProxyServiceImpl(CGlobalRouteService* pService, int32_t internal_port)
+    ProxyServiceImpl(CGMProxyService* pService, int32_t internal_port)
         : m_pService(pService)
         , m_internal_port(internal_port)
     {
@@ -160,41 +161,45 @@ public:
     }
 };
 
-static thread_local CGlobalRouteService* tls_pService;
-CGlobalRouteService*                     GlobalRouteService()
+static thread_local CGMProxyService* tls_pService;
+CGMProxyService*                     GMProxyService()
 {
     return tls_pService;
 }
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
-    return CGlobalRouteService::CreateNew(ServerPort{idWorld, idService});
+    return CGMProxyService::CreateNew(ServerPort{idWorld, idService});
 }
 
 //////////////////////////////////////////////////////////////////////////
-CGlobalRouteService::CGlobalRouteService()
+CGMProxyService::CGMProxyService()
 {
 }
 
-CGlobalRouteService::~CGlobalRouteService()
+CGMProxyService::~CGMProxyService()
 {
 
     
 }
 
-void CGlobalRouteService::Destory()
+void CGMProxyService::Destory()
 {
     tls_pService = this;
     scope_guards scope_exit;
     scope_exit += []() {
         tls_pService = nullptr;
     };
-
-    StopRPCServer();
+    if(m_pRPCService)
+    {
+        m_pRPCService->StopRPCServer();
+        m_pRPCService->ClearRPCServices();
+        m_pRPCService.reset();
+    }
     DestoryServiceCommon();
 }
 
-bool CGlobalRouteService::Init(const ServerPort& nServerPort)
+bool CGMProxyService::Init(const ServerPort& nServerPort)
 {
     //各种初始化
     tls_pService = this;
@@ -217,11 +222,12 @@ bool CGlobalRouteService::Init(const ServerPort& nServerPort)
         const ServerAddrInfo* pAddrInfo = GetMessageRoute()->QueryServiceInfo(GetServerPort());
         if(pAddrInfo == nullptr)
         {
-            LOGFATAL("CGlobalRouteService QueryServerInfo {} fail", GetServerPort().GetServiceID());
+            LOGFATAL("CGMProxyService QueryServerInfo {} fail", GetServerPort().GetServiceID());
             return false;
         }
-        CreateRPCServer();
-        CHECKF(StartRPCServer(pAddrInfo->publish_port,
+        m_pRPCService.reset(CRPCService::CreateNew(GetServerPort().GetServiceID()));
+        CHECKF(m_pRPCService.get());
+        CHECKF(m_pRPCService->StartRPCServer(pAddrInfo->publish_port,
                               pAddrInfo->debug_port,
                               true,
                               new ProxyServiceImpl(this, pAddrInfo->debug_port)));
@@ -230,7 +236,7 @@ bool CGlobalRouteService::Init(const ServerPort& nServerPort)
     return true;
 }
 
-void CGlobalRouteService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
+void CGMProxyService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 {
     switch(pNetworkMsg->GetMsgHead()->usCmd)
     {
@@ -301,12 +307,12 @@ void CGlobalRouteService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
     }
 }
 
-void CGlobalRouteService::AddDelayResponse(uint64_t uid, struct evhttp_request* req)
+void CGMProxyService::AddDelayResponse(uint64_t uid, struct evhttp_request* req)
 {
     m_RequestMap[uid] = req;
 }
 
-struct evhttp_request* CGlobalRouteService::FindDelayResponse(uint64_t uid)
+struct evhttp_request* CGMProxyService::FindDelayResponse(uint64_t uid)
 {
     auto it = m_RequestMap.find(uid);
     if(it != m_RequestMap.end())
@@ -318,19 +324,19 @@ struct evhttp_request* CGlobalRouteService::FindDelayResponse(uint64_t uid)
     return nullptr;
 }
 
-void CGlobalRouteService::OnLogicThreadProc()
+void CGMProxyService::OnLogicThreadProc()
 {
 
     CServiceCommon::OnLogicThreadProc();
 }
 
-void CGlobalRouteService::OnLogicThreadCreate()
+void CGMProxyService::OnLogicThreadCreate()
 {
     tls_pService = this;
     CServiceCommon::OnLogicThreadCreate();
 }
 
-void CGlobalRouteService::OnLogicThreadExit()
+void CGMProxyService::OnLogicThreadExit()
 {
     CServiceCommon::OnLogicThreadExit();
 }
@@ -356,7 +362,7 @@ bool CheckKVMap(const std::unordered_map<std::string, std::string>& kvmap)
     return true;
 }
 
-// void CGlobalRouteService::OnReciveHttp(struct evhttp_request *req)
+// void CGMProxyService::OnReciveHttp(struct evhttp_request *req)
 //{
 //	const char* uri = evhttp_request_get_uri(req);
 //	auto decoded = evhttp_uri_parse(uri);
@@ -449,7 +455,7 @@ bool CheckKVMap(const std::unordered_map<std::string, std::string>& kvmap)
 //	//充值/后台讯风操作等
 //
 //	//产生对应的消息发送给对应的服务器
-//	auto uid = GlobalRouteService()->CreateUID();
+//	auto uid = GMProxyService()->CreateUID();
 //	MsgServiceHttpRequest msg;
 //	msg.set_uid(uid);
 //	msg.mutable_kvmap()->insert(kvmap.begin(), kvmap.end());
@@ -462,7 +468,7 @@ bool CheckKVMap(const std::unordered_map<std::string, std::string>& kvmap)
 //		SendPortMsg(ServerPort(idWorld, GM_SERVICE_ID), MsgID_ServiceHttpRequest, msg);
 //	}
 //	evhttp_request_own(req);
-//	GlobalRouteService()->AddDelayResponse(uid, req);
+//	GMProxyService()->AddDelayResponse(uid, req);
 //	LOGMESSAGE("start_process:{}", uid);
 //
 //}

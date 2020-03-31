@@ -1,4 +1,4 @@
-#include "ServiceCtrlService.h"
+#include "RouteService.h"
 
 #include <functional>
 
@@ -10,28 +10,28 @@
 #include "NetworkMessage.h"
 #include "SettingMap.h"
 
-static thread_local CServiceCtrlService* tls_pService = nullptr;
-CServiceCtrlService*                     ServiceCtrlService()
+static thread_local CRouteService* tls_pService = nullptr;
+CRouteService*                     RouteService()
 {
     return tls_pService;
 }
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
-    return CServiceCtrlService::CreateNew(ServerPort{idWorld, idService});
+    return CRouteService::CreateNew(ServerPort{idWorld, idService});
 }
 
 //////////////////////////////////////////////////////////////////////////
-CServiceCtrlService::CServiceCtrlService()
+CRouteService::CRouteService()
 {
 }
 
-CServiceCtrlService::~CServiceCtrlService()
+CRouteService::~CRouteService()
 {
 
 }
 
-void CServiceCtrlService::Destory()
+void CRouteService::Destory()
 {
     tls_pService = this;
     scope_guards scope_exit;
@@ -41,7 +41,7 @@ void CServiceCtrlService::Destory()
     DestoryServiceCommon();
 }
 
-bool CServiceCtrlService::Init(const ServerPort& nServerPort)
+bool CRouteService::Init(const ServerPort& nServerPort)
 {
     //各种初始化
     tls_pService = this;
@@ -62,19 +62,19 @@ bool CServiceCtrlService::Init(const ServerPort& nServerPort)
     return true;
 }
 
-void CServiceCtrlService::OnPortConnected(CNetSocket* pSocket) {}
+void CRouteService::OnPortConnected(CNetSocket* pSocket) {}
 
-void CServiceCtrlService::OnPortConnectFailed(CNetSocket*) {}
+void CRouteService::OnPortConnectFailed(CNetSocket*) {}
 
-void CServiceCtrlService::OnPortDisconnected(CNetSocket* pSocket) {}
+void CRouteService::OnPortDisconnected(CNetSocket* pSocket) {}
 
-void CServiceCtrlService::OnPortAccepted(CNetSocket* pSocket) {}
+void CRouteService::OnPortAccepted(CNetSocket* pSocket) {}
 
-void CServiceCtrlService::OnPortRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len) {}
+void CRouteService::OnPortRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len) {}
 
-void CServiceCtrlService::OnPortRecvTimeout(CNetSocket* pSocket) {}
+void CRouteService::OnPortRecvTimeout(CNetSocket* pSocket) {}
 
-void CServiceCtrlService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
+void CRouteService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 {
     switch(pNetworkMsg->GetMsgHead()->usCmd)
     {
@@ -90,7 +90,7 @@ void CServiceCtrlService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
             MSG_INTERNAL_SERVICE_REGISTER* pMsg = (MSG_INTERNAL_SERVICE_REGISTER*)pNetworkMsg->GetBuf();
             LOGMESSAGE("World:{} start", pMsg->idWorld);
             GetMessageRoute()->SetWorldReady(pMsg->idWorld, true);
-            for(int32_t i = MIN_GLOBAL_ROUTE_SERVICE_ID; i <= MAX_GLOBAL_ROUTE_SERVICE_ID; i++)
+            for(int32_t i = MIN_GM_PROYX_SERVICE_ID; i <= MAX_GM_PROYX_SERVICE_ID; i++)
             {
                 SendPortMsg(ServerPort(0, i), (byte*)pMsg, sizeof(*pMsg));
             }
@@ -116,7 +116,7 @@ void CServiceCtrlService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
             //通知所有的global_route更新
             GetMessageRoute()->SetWorldReady(pMsg->idWorld, pMsg->bReady);
 
-            for(int32_t i = MIN_GLOBAL_ROUTE_SERVICE_ID; i <= MAX_GLOBAL_ROUTE_SERVICE_ID; i++)
+            for(int32_t i = MIN_GM_PROYX_SERVICE_ID; i <= MAX_GM_PROYX_SERVICE_ID; i++)
             {
                 SendPortMsg(ServerPort(0, i), (byte*)pMsg, sizeof(*pMsg));
             }
@@ -175,7 +175,7 @@ void CServiceCtrlService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
     }
 }
 
-void CServiceCtrlService::OnLogicThreadProc()
+void CRouteService::OnLogicThreadProc()
 {
 
     constexpr int32_t MAX_PROCESS_PER_LOOP = 1000;
@@ -192,14 +192,14 @@ void CServiceCtrlService::OnLogicThreadProc()
     }
 }
 
-void CServiceCtrlService::OnLogicThreadCreate()
+void CRouteService::OnLogicThreadCreate()
 {
     tls_pService = this;
-    BaseCode::SetNdc("ServiceCtrl");
+    BaseCode::SetNdc("Route");
     LOGMESSAGE("ThreadID:{}", get_cur_thread_id());
 }
 
-void CServiceCtrlService::OnLogicThreadExit()
+void CRouteService::OnLogicThreadExit()
 {
     LOGMESSAGE("ExitThreadID:{}", get_cur_thread_id());
     BaseCode::ClearNdc();

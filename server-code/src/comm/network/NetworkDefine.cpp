@@ -6,7 +6,7 @@ ServiceNameRegister::ServiceNameRegister()
     s_ServiceName[WORLD_SERVICE_ID] = "World";
     s_ServiceName[MARKET_SERVICE_ID] = "Market";
     s_ServiceName[GM_SERVICE_ID] = "GM";
-    s_ServiceName[SERVICECTRL_SERVICE_ID] = "ServiceCtrl";    
+    s_ServiceName[ROUTE_SERVICE_ID] = "Route";    
     for(int32_t i = MIN_ZONE_SERVICE_ID; i <= MAX_ZONE_SERVICE_ID; i++ )
     {
         s_ServiceName[i] = std::string("Zone_") + std::to_string(i-MIN_ZONE_SERVICE_ID+1);
@@ -23,9 +23,9 @@ ServiceNameRegister::ServiceNameRegister()
     {
         s_ServiceName[i] = std::string("Socket") + std::to_string(i-MAX_SOCKET_SERVICE_ID+1);
     }
-    for(int32_t i = MIN_GLOBAL_ROUTE_SERVICE_ID; i <= MAX_GLOBAL_ROUTE_SERVICE_ID; i++ )
+    for(int32_t i = MIN_GM_PROYX_SERVICE_ID; i <= MAX_GM_PROYX_SERVICE_ID; i++ )
     {
-        s_ServiceName[i] = std::string("GlobalRoute") + std::to_string(i-MIN_GLOBAL_ROUTE_SERVICE_ID+1);
+        s_ServiceName[i] = std::string("GMProxy") + std::to_string(i-MIN_GM_PROYX_SERVICE_ID+1);
     }
 
 }

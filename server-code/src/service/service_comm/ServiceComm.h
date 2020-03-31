@@ -8,17 +8,7 @@
 
 class CMessageRoute;
 class CMessagePort;
-namespace brpc
-{
-class Server;
-}
-namespace google
-{
-namespace protobuf
-{
-    class Service;
-}
-} // namespace google
+
 
 export_lua class CServiceCommon : public Noncopyable<CServiceCommon>
 {
@@ -52,15 +42,7 @@ public:
     bool CreateNetworkService();
     bool CreateService(int32_t nWorkInterval /*= 100*/, class CMessagePortEventHandler* pEventHandler = nullptr);
 
-public:
-    bool CreateRPCServer();
-    bool AddRPCService(google::protobuf::Service* pService, const std::string& restful_map = std::string());
-    google::protobuf::Service* RemoveRPCService(const std::string& name);
-    void                       StopRPCServer();
-    bool                       StartRPCServer(uint16_t                   publish_port,
-                                              uint16_t                   internal_port      = 0,
-                                              bool                       bEnableSSL         = true,
-                                              google::protobuf::Service* pHttpMasterService = nullptr);
+
 
 public:
     //开启逻辑线程，如果没有开启IO线程，也会每一个循环触发一次RunOnce
@@ -105,6 +87,6 @@ protected:
     std::string                     m_ServiceName;
     uint32_t                        m_nMessageProcess;
 
-    std::unique_ptr<brpc::Server> m_pBRPCServer;
+
 };
 #endif /* SERVICECOMM_H */

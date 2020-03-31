@@ -301,6 +301,7 @@ void CMessagePort::PostSend()
 void CMessagePort::_SendAllMsg()
 {
     __ENTER_FUNCTION
+    CHECK(m_pRemoteServerSocket);
     CNetworkMessage* pMsg;
     while(m_SendMsgQueue.get(pMsg))
     {

@@ -46,9 +46,10 @@ add_compile_options("-fPIC")
 
 #add_compile_options(-Wl,--unresolved-symbols=ignore-in-shared-libs)
 IF(NOT CMAKE_CXX_COMPILER MATCHES "clang")
+#gcc
 add_compile_options("-rdynamic")
 ELSE()
-
+#clang
 link_libraries("-Wl,--export-dynamic")
 link_libraries("-fuse-ld=lld-9")
 ENDIF()
@@ -179,7 +180,7 @@ SET(LIBRARIES ${PROJECT_BINARY_DIR}/lib/debug)
 SET(BINARIES ${PROJECT_BINARY_DIR}/bin/debug)
 ELSE()
 MESSAGE(STATUS "Build Release...")
-SET(CMAKE_BUILD_TYPE RelWithDebInfo)
+SET(CMAKE_BUILD_TYPE Release)
 SET(LIBRARIES ${PROJECT_BINARY_DIR}/lib/release)
 SET(BINARIES ${PROJECT_BINARY_DIR}/bin/release)
 ENDIF()

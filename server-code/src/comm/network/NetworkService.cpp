@@ -417,6 +417,30 @@ void CNetworkService::OnIOThreadTimeOut()
     __LEAVE_FUNCTION
 }
 
+static void IOThreadProc(event_base* pBase, std::string _thread_name, uint16_t idService)
+{
+    __ENTER_FUNCTION
+    pthread_setname_np(pthread_self(), _thread_name.c_str());
+    BaseCode::SetNdc(_thread_name);
+    LOGMESSAGE("ThreadID:{}", get_cur_thread_id());
+    int32_t result = 0;
+    do
+    {
+        result = event_base_dispatch(pBase);
+        if(event_base_got_break(pBase) || event_base_got_exit(pBase))
+            break;
+    } while(result != -1);
+    if(result == -1)
+    {
+        // showerror
+
+        LOGNETERROR("CNetworkService {} IOThread Close with ERROR:", idService);
+    }
+    LOGNETDEBUG("CNetworkService IOThread Close:{}", idService);
+    BaseCode::ClearNdc();
+    __LEAVE_FUNCTION
+}
+
 void CNetworkService::StartIOThread(const std::string&    thread_name,
                                     std::function<void()> time_out_func,
                                     uint32_t              time_out_ms,
@@ -434,29 +458,7 @@ void CNetworkService::StartIOThread(const std::string&    thread_name,
         time_out_ms / 1000, time_out_ms % 1000
     };
     event_add(m_pIOTimeOutEvent, &tv);
-    m_pIOThread =
-        std::unique_ptr<std::thread>(new std::thread([pBase = m_pBase, _thread_name = thread_name, idService]() {
-            __ENTER_FUNCTION
-            pthread_setname_np(pthread_self(), _thread_name.c_str());
-            BaseCode::SetNdc(_thread_name);
-            LOGMESSAGE("ThreadID:{}", get_cur_thread_id());
-            int32_t result = 0;
-            do
-            {
-                result = event_base_dispatch(pBase);
-                if(event_base_got_break(pBase) || event_base_got_exit(pBase))
-                    break;
-            } while(result != -1);
-            if(result == -1)
-            {
-                // showerror
-
-                LOGNETERROR("CNetworkService {} IOThread Close with ERROR:", idService);
-            }
-            LOGNETDEBUG("CNetworkService IOThread Close:{}", idService);
-            BaseCode::ClearNdc();
-            __LEAVE_FUNCTION
-        }));
+    m_pIOThread = std::make_unique<std::thread>(&IOThreadProc, m_pBase, thread_name, idService );
 
     __LEAVE_FUNCTION
 }

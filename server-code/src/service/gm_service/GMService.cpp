@@ -12,6 +12,7 @@
 #include "NetSocket.h"
 #include "NetworkMessage.h"
 #include "SettingMap.h"
+#include "RPCService.h"
 #include "brpc/server.h"
 #include "event2/http.h"
 #include "event2/keyvalq_struct.h"
@@ -125,10 +126,13 @@ void CGMService::Destory()
         tls_pService = nullptr;
     };
 
-    StopRPCServer();
-
-    auto pService = RemoveRPCService("GM_Service");
-    SAFE_DELETE(pService);
+    if(m_pRPCService)
+    {
+        m_pRPCService->StopRPCServer();
+        m_pRPCService->ClearRPCServices();
+        m_pRPCService.reset();
+    }
+    
     DestoryServiceCommon();
 }
 
@@ -158,9 +162,10 @@ bool CGMService::Init(const ServerPort& nServerPort)
             LOGFATAL("CGMService QueryServerInfo {} fail", GetServerPort().GetServiceID());
             return false;
         }
-
-        CHECKF(AddRPCService(new Game::GM_ServiceImpl(this)));
-        CHECKF(StartRPCServer(pAddrInfo->publish_port, pAddrInfo->debug_port));
+        m_pRPCService.reset(CRPCService::CreateNew(GetServerPort().GetServiceID()));
+        CHECKF(m_pRPCService.get());
+        CHECKF(m_pRPCService->AddRPCService(new Game::GM_ServiceImpl(this)));
+        CHECKF(m_pRPCService->StartRPCServer(pAddrInfo->publish_port, pAddrInfo->debug_port));
     }
     LOGMESSAGE("GMService {} Create", GetServerPort().GetServiceID());
 
@@ -172,7 +177,7 @@ void CGMService::SendServiceReady()
     MSG_INTERNAL_SERVICE_READY msg;
     msg.idWorld = GetWorldID();
     msg.bReady  = true;
-    SendPortMsg(ServerPort(0, SERVICECTRL_SERVICE_ID), (byte*)&msg, sizeof(msg));
+    SendPortMsg(ServerPort(0, ROUTE_SERVICE_ID), (byte*)&msg, sizeof(msg));
 }
 
 void CGMService::SendServiceUnReady()
@@ -180,7 +185,7 @@ void CGMService::SendServiceUnReady()
     MSG_INTERNAL_SERVICE_READY msg;
     msg.idWorld = GetWorldID();
     msg.bReady  = false;
-    SendPortMsg(ServerPort(0, SERVICECTRL_SERVICE_ID), (byte*)&msg, sizeof(msg));
+    SendPortMsg(ServerPort(0, ROUTE_SERVICE_ID), (byte*)&msg, sizeof(msg));
 }
 
 void CGMService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
@@ -198,7 +203,7 @@ void CGMService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
             MSG_INTERNAL_SERVICE_REGISTER msg;
             msg.idWorld     = GetWorldID();
             msg.update_time = TimeGetSecond();
-            SendPortMsg(ServerPort(0, SERVICECTRL_SERVICE_ID), (byte*)&msg, sizeof(msg));
+            SendPortMsg(ServerPort(0, ROUTE_SERVICE_ID), (byte*)&msg, sizeof(msg));
             LOGMESSAGE("WorldReady: {}", GetWorldID());
             EventManager()->ScheduleEvent(
                 0,

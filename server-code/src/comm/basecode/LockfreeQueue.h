@@ -16,26 +16,32 @@ public:
     void push(_T&& item)
     {
         Node* new_node = new Node(std::forward<_T>(item));
-        Node* old      = head_.load(std::memory_order_relaxed);
+        Node* old      = m_pHead.load(std::memory_order_relaxed);
         do
         {
             new_node->next = old;
-        } while(!head_.compare_exchange_weak(old, new_node, std::memory_order_release));
+        } while(!m_pHead.compare_exchange_weak(old, new_node, std::memory_order_release));
+        m_nCount++;
     }
     
     bool get(T& item)
     {
-        if(poll_list_)
+        if(m_pPollList)
         {
-            Node* result = poll_list_;
-            poll_list_   = poll_list_->next;
+            Node* result = m_pPollList;
+            m_pPollList   = m_pPollList->next;
             item         = std::move(result->value);
+            m_nCount--;
             delete result;
             return true;
         }
+        else if(m_nCount == 0)
+        {
+            return false;
+        }
         else
         {
-            Node* head = head_.exchange(nullptr, std::memory_order_acquire);
+            Node* head = m_pHead.exchange(nullptr, std::memory_order_acquire);
             if(!head)
             {
                 return false;
@@ -45,13 +51,14 @@ public:
             {
                 Node* temp = head;
                 head       = head->next;
-                temp->next = poll_list_;
-                poll_list_ = temp;
+                temp->next = m_pPollList;
+                m_pPollList = temp;
             } while(head != nullptr);
 
-            head       = poll_list_;
+            head       = m_pPollList;
             item       = std::move(head->value);
-            poll_list_ = head->next;
+            m_pPollList = head->next;
+            m_nCount--;
             delete head;
             return true;
         }
@@ -71,8 +78,9 @@ private:
         T     value;
     };
 
-    std::atomic<Node*> head_      = nullptr;
-    Node*              poll_list_ = nullptr; // for consumer only
+    std::atomic<Node*> m_pHead      = nullptr;
+    std::atomic<size_t> m_nCount     = 0;
+    Node*              m_pPollList = nullptr; // for consumer only
 };
 
 template<class T>
@@ -85,20 +93,21 @@ MPSCQueue<T>::~MPSCQueue()
 {
     while(true)
     {
-        while(poll_list_)
+        while(m_pPollList)
         {
-            Node* result = poll_list_;
-            poll_list_   = poll_list_->next;
+            Node* result = m_pPollList;
+            m_pPollList   = m_pPollList->next;
             delete result;
         }
-        Node* head = head_.exchange(nullptr, std::memory_order_acquire);
+        Node* head = m_pHead.exchange(nullptr, std::memory_order_acquire);
         if(!head)
         {
             break;
         }
-        poll_list_ = head->next;
+        m_pPollList = head->next;
         delete head;
     }
+    m_nCount = 0;
 }
 
 #endif // LockfreeQueue_h__

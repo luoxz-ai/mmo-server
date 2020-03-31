@@ -7,8 +7,8 @@ ADD_SUBDIRECTORY(ai_service)
 ADD_SUBDIRECTORY(market_service)
 ADD_SUBDIRECTORY(gm_service)
 
-ADD_SUBDIRECTORY(globalroute_service)
-ADD_SUBDIRECTORY(servicectrl_service)
+ADD_SUBDIRECTORY(gmproxy_service)
+ADD_SUBDIRECTORY(route_service)
 
 
 

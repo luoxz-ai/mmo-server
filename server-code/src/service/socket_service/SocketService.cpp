@@ -99,7 +99,7 @@ bool CSocketService::Init(const ServerPort& nServerPort)
             return false;
         }
         GetNetworkService()->EnableListener(nullptr, false);
-
+        GetNetworkService()->StartIOThread(GetServiceName()+"_Network");
         // websocket监听
         //		if (!GetNetworkService()->ListenWebSocket(9555, this))
         //		{

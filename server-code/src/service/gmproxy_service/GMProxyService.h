@@ -1,5 +1,5 @@
-#ifndef GlobalRouteService_h__
-#define GlobalRouteService_h__
+#ifndef GMProxyService_h__
+#define GMProxyService_h__
 
 #include "IService.h"
 #include "NetSocket.h"
@@ -8,16 +8,17 @@
 
 struct event;
 class CNetMSGProcess;
-class CGlobalRouteService : public IService, public CServiceCommon
+class CRPCService;
+class CGMProxyService : public IService, public CServiceCommon
 {
-    CGlobalRouteService();
+    CGMProxyService();
     bool Init(const ServerPort& nServerPort);
-    virtual ~CGlobalRouteService();
+    virtual ~CGMProxyService();
     void Destory();
 public:
     
     void Release() override { Destory();delete this; }
-    CreateNewRealeaseImpl(CGlobalRouteService);
+    CreateNewRealeaseImpl(CGMProxyService);
 
 public:
     virtual void OnLogicThreadProc() override;
@@ -32,16 +33,17 @@ public:
 
 private:
     std::map<uint64_t, struct evhttp_request*> m_RequestMap;
+    std::unique_ptr<CRPCService> m_pRPCService;
 };
 
-CGlobalRouteService* GlobalRouteService();
+CGMProxyService* GMProxyService();
 inline auto          EventManager()
 {
-    return GlobalRouteService()->GetEventManager();
+    return GMProxyService()->GetEventManager();
 }
 inline auto NetMsgProcess()
 {
-    return GlobalRouteService()->GetNetMsgProcess();
+    return GMProxyService()->GetNetMsgProcess();
 }
 
-#endif // GlobalRouteService_h__
+#endif // GMProxyService_h__

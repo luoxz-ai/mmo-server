@@ -6,55 +6,55 @@ mkdir -p binary
 mkdir -p /data/log
 cd binary
 
-ln -sf ../service_loader global_route_1
-ln -sf ../service_loader global_route_2
-ln -sf ../service_loader global_route_3
-ln -sf ../service_loader global_route_4
-ln -sf ../service_loader global_route_5
-ln -sf ../service_loader server_ctrl
+ln -sf ../service_loader gmproxy_1
+ln -sf ../service_loader gmproxy_2
+ln -sf ../service_loader gmproxy_3
+ln -sf ../service_loader gmproxy_4
+ln -sf ../service_loader gmproxy_5
+ln -sf ../service_loader route
 cd -
 
 export ASAN_OPTIONS=include_if_exists=${DIR_file}/asan_options
 export LSAN_OPTIONS=include_if_exists=${DIR_file}/lsan_options
 export UBSAN_OPTIONS=include_if_exists=${DIR_file}/ubsan_options
-server_ctrl()
+route()
 {
-   ${DIR_file}/binary/server_ctrl --worldid=0 --start=60 --logpath=/data/log/server_ctrl -d 
+   ${DIR_file}/binary/route --worldid=0 --start=60 --logpath=/data/log/route -d 
 }
 
-global_route_1()
+gmproxy_1()
 {
-    ${DIR_file}/binary/global_route_1 --worldid=0 --start=41 --logpath=/data/log/global_route1 -d 
+    ${DIR_file}/binary/gmproxy_1 --worldid=0 --start=41 --logpath=/data/log/gmproxy1 -d 
 }
 
-global_route_2()
+gmproxy_2()
 {
-    ${DIR_file}/binary/global_route_2 --worldid=0 --start=42 --logpath=/data/log/global_route2 -d 
+    ${DIR_file}/binary/gmproxy_2 --worldid=0 --start=42 --logpath=/data/log/gmproxy2 -d 
 }
 
-global_route_3()
+gmproxy_3()
 {
-${DIR_file}/binary/global_route_3 --worldid=0 --start=43 --logpath=/data/log/global_route3 -d 
+${DIR_file}/binary/gmproxy_3 --worldid=0 --start=43 --logpath=/data/log/gmproxy3 -d 
 }
 
-global_route_4()
+gmproxy_4()
 {
-${DIR_file}/binary/global_route_4 --worldid=0 --start=44 --logpath=/data/log/global_route4 -d 
+${DIR_file}/binary/gmproxy_4 --worldid=0 --start=44 --logpath=/data/log/gmproxy4 -d 
 }
 
-global_route_5()
+gmproxy_5()
 {
-${DIR_file}/binary/global_route_5 --worldid=0 --start=45 --logpath=/data/log/global_route5 -d 
+${DIR_file}/binary/gmproxy_5 --worldid=0 --start=45 --logpath=/data/log/gmproxy5 -d 
 }
 
 if [ $1 ];
 then
     $1;
 else
-    server_ctrl;
-    global_route_1;
-    #global_route_2;
-    #global_route_3;
-    #global_route_4;
-    #global_route_5;
+    route;
+    gmproxy_1;
+    #gmproxy_2;
+    #gmproxy_3;
+    #gmproxy_4;
+    #gmproxy_5;
 fi
