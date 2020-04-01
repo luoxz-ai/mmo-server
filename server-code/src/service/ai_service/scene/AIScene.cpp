@@ -44,14 +44,8 @@ void CAISceneManager::Destory()
     m_mapScene.clear();
 }
 
-CAIScene* CAISceneManager::CreateScene(CNetworkMessage* pMsg)
+CAIScene* CAISceneManager::CreateScene(const SceneID& idScene)
 {
-    ServerMSG::SceneCreate msg;
-    if(msg.ParseFromArray(pMsg->GetMsgBody(), pMsg->GetBodySize()) == false)
-    {
-        return nullptr;
-    }
-    const SceneID& idScene = msg.scene_id();
     auto pMap    = MapManager()->QueryMap(idScene.GetMapID());
     CHECKF(pMap);
 
@@ -65,15 +59,8 @@ CAIScene* CAISceneManager::CreateScene(CNetworkMessage* pMsg)
     return pScene;
 }
 
-void CAISceneManager::DestoryDynaScene(CNetworkMessage* pMsg)
+void CAISceneManager::DestoryDynaScene(const SceneID& idScene)
 {
-    ServerMSG::SceneDestory msg;
-    if(msg.ParseFromArray(pMsg->GetMsgBody(), pMsg->GetBodySize()) == false)
-    {
-        return;
-    }
-    const SceneID& idScene = msg.scene_id();
-
     auto itFind = m_mapScene.find(idScene);
     if(itFind == m_mapScene.end())
         return;

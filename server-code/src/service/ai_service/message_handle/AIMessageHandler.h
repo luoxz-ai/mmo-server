@@ -1,5 +1,5 @@
-#ifndef MSGWORLDPROCESS_H
-#define MSGWORLDPROCESS_H
+#ifndef AIMESSAGEHANDLER_H
+#define AIMESSAGEHANDLER_H
 
 #include <functional>
 #include <memory>
@@ -25,11 +25,11 @@ void ProcessMsg(CNetworkMessage* pMsg, FuncType func)
 
 using MsgProcessFunc = std::function<void(CNetworkMessage*)>;
 
-struct WorldMsgProcRegCenter
+struct AIMsgProcRegCenter
 {
-    static WorldMsgProcRegCenter& instance()
+    static AIMsgProcRegCenter& instance()
     {
-        static WorldMsgProcRegCenter s_instance;
+        static AIMsgProcRegCenter s_instance;
         return s_instance;
     }
     void reg(int cmd, MsgProcessFunc&& func)
@@ -40,18 +40,18 @@ struct WorldMsgProcRegCenter
     std::unordered_map<uint32_t, MsgProcessFunc> m_MsgProc;
 };
 
-struct WorldMsgProcRegister
+struct AIMsgProcRegister
 {
-    WorldMsgProcRegister(int cmd, MsgProcessFunc&& func)
+    AIMsgProcRegister(int cmd, MsgProcessFunc&& func)
     {
-        WorldMsgProcRegCenter::instance().reg(cmd, std::move(func));
+        AIMsgProcRegCenter::instance().reg(cmd, std::move(func));
     }
 };
 
 #define ON_MSG(MsgType)                                                                                       \
     void OnMsg_##MsgType(const MsgType& msg, CNetworkMessage* pMsg);                                          \
                                                                                                               \
-    WorldMsgProcRegister register_##MsgType(                                                                  \
+    AIMsgProcRegister register_##MsgType(                                                                  \
         CMD_##MsgType,                                                                                        \
         std::bind(&ProcessMsg<MsgType, decltype(OnMsg_##MsgType)>, std::placeholders::_1, &OnMsg_##MsgType)); \
                                                                                                               \
@@ -60,18 +60,18 @@ struct WorldMsgProcRegister
 #define ON_SERVERMSG(MsgType)                                                                                     \
     void OnMsg_##MsgType(const ServerMSG::MsgType& msg, CNetworkMessage* pMsg);                                   \
                                                                                                                   \
-    WorldMsgProcRegister register_##MsgType(ServerMSG::MsgID_##MsgType,                                           \
+    AIMsgProcRegister register_##MsgType(ServerMSG::MsgID_##MsgType,                                           \
                                             std::bind(&ProcessMsg<ServerMSG::MsgType, decltype(OnMsg_##MsgType)>, \
                                                       std::placeholders::_1,                                      \
                                                       &OnMsg_##MsgType));                                         \
                                                                                                                   \
     void OnMsg_##MsgType(const ServerMSG::MsgType& msg, CNetworkMessage* pMsg)
 
-#define ON_RAWMSG(MsgID, MsgType)                                                \
-    void OnMsg_##MsgType(CNetworkMessage* pMsg);                                 \
-                                                                                 \
-    WorldMsgProcRegister register_##MsgType(MsgID, std::bind(&OnMsg_##MsgType, std::placeholders::_1)); \
-                                                                                 \
+#define ON_RAWMSG(MsgID, MsgType)                                                                    \
+    void OnMsg_##MsgType(CNetworkMessage* pMsg);                                                     \
+                                                                                                     \
+    AIMsgProcRegister register_##MsgType(MsgID, std::bind(&OnMsg_##MsgType, std::placeholders::_1)); \
+                                                                                                     \
     void OnMsg_##MsgType(CNetworkMessage* pMsg)
 
-#endif /* MSGWORLDPROCESS_H */
+#endif /* AIMESSAGEHANDLER_H */

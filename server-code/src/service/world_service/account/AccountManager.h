@@ -17,6 +17,10 @@ class Channel;
 class CNetworkMessage;
 class CMysqlConnection;
 class CAccount;
+
+constexpr const char* AUTH_SERVER_SIGNATURE = "test";
+constexpr int32_t     AUTH_KEY_CANUSE_SECS  = 180;
+
 class CAccountManager: public Noncopyable<CAccountManager>
 {
     CAccountManager();
@@ -28,11 +32,9 @@ public:
     ~CAccountManager();
 
     
-    
-
-    void RegisterMessageHandler();
     //验证
-    bool Auth(CNetworkMessage* pMsg);
+    bool IsAuthing(const std::string& openid) const;
+    bool Auth(const std::string& openid, const std::string& auth, const VirtualSocket& vs);
     void _OnAuthFail(uint64_t call_id, std::string str_detail);
     void _OnAuthSucc(uint64_t call_id);
     void _AddResult(std::function<void()>&& result_func);
@@ -47,12 +49,10 @@ public:
     void OnTimer();
 
 public:
-    bool   OnMsgCreateActor(CNetworkMessage* pMsg);
-    bool   OnMsgSelectActor(CNetworkMessage* pMsg);
     size_t GetAccountSize() const;
     size_t GetWaitAccountSize() const;
     void   Destory();
-
+    CAccount* QueryAccountBySocket(const VirtualSocket& vs) const;
 private:
     //等待认证列表
     std::unordered_map<std::string, uint64_t> m_AuthList;

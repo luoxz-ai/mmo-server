@@ -8,11 +8,9 @@
 
 const char* AUTH_URL = "https://example.com";
 
-static const std::string AUTH_SERVER_SIGNATURE = "test";
-static const int32_t     AUTH_KEY_CANUSE_SECS  = 180;
+
 CAccountManager::CAccountManager()
 {
-    RegisterMessageHandler();
 }
 
 CAccountManager::~CAccountManager()
@@ -67,106 +65,24 @@ bool CAccountManager::Init(class CWorldService* pWorld)
     return true;
 }
 
-void CAccountManager::RegisterMessageHandler()
+bool CAccountManager::IsAuthing(const std::string& openid) const
 {
-    WorldService()->GetNetMsgProcess()->Register(CMD_CS_LOGIN,
-                                                 std::bind(&CAccountManager::Auth, this, std::placeholders::_1));
-    WorldService()->GetNetMsgProcess()->Register(
-        CMD_CS_CREATEACTOR,
-        std::bind(&CAccountManager::OnMsgCreateActor, this, std::placeholders::_1));
-    WorldService()->GetNetMsgProcess()->Register(
-        CMD_CS_SELECTACTOR,
-        std::bind(&CAccountManager::OnMsgSelectActor, this, std::placeholders::_1));
+    return  m_AuthList.find(openid) != m_AuthList.end();
 }
 
-bool CAccountManager::Auth(CNetworkMessage* pMsg)
+bool CAccountManager::Auth(const std::string& openid, const std::string& auth, const VirtualSocket& vs)
 {
     __ENTER_FUNCTION
-    CS_LOGIN msg;
-    if(msg.ParseFromArray(pMsg->GetMsgBody(), pMsg->GetBodySize()) == false)
-    {
-        return false;
-    }
-
-    auto itFind = m_AuthList.find(msg.openid());
-    if(itFind != m_AuthList.end())
-    {
-        LOGLOGIN("Actor:{} IsAleardyInAuth.", msg.openid().c_str());
-
-        //当前正在验证，通知客户端
-        SC_LOGIN result_msg;
-        result_msg.set_result_code(SC_LOGIN::EC_WAIT_AUTH);
-        WorldService()->SendToVirtualSocket(pMsg->GetFrom(), CMD_SC_LOGIN, result_msg);
-        return false;
-    }
-    auto nGMLev = GMManager()->GetGMLevel(msg.openid());
-    //校验程序版本号
-    if(nGMLev == 0 && (msg.prog_ver().empty() || WorldService()->CheckProgVer(msg.prog_ver()) == false))
-    {
-        //发送错误给前端
-        LOGLOGIN("Actor:{} CheckProgVerFail.", msg.openid().c_str());
-        SC_LOGIN result_msg;
-        result_msg.set_result_code(SC_LOGIN::EC_PROG_VER);
-        WorldService()->SendToVirtualSocket(pMsg->GetFrom(), CMD_SC_LOGIN, result_msg);
-        return false;
-    }
-
-    if(msg.last_succ_key().empty() == false)
-    {
-        //曾经验证成功过， 检查2次校验串
-        std::string md5str =
-            md5(msg.openid() + std::to_string(TimeGetSecond() / AUTH_KEY_CANUSE_SECS) + AUTH_SERVER_SIGNATURE);
-        if(nGMLev == 0 && msg.last_succ_key() != md5str)
-        {
-            //发送错误给前端
-            LOGLOGIN("Actor:{} MD5CHECKFail.", msg.openid().c_str());
-
-            SC_LOGIN result_msg;
-            result_msg.set_result_code(SC_LOGIN::EC_LAST_KEY);
-            WorldService()->SendToVirtualSocket(pMsg->GetFrom(), CMD_SC_LOGIN, result_msg);
-            return false;
-        }
-        else
-        {
-            LOGLOGIN("Actor:{} LoginAuth.", msg.openid().c_str());
-            //可以直接登陆了
-            MSG_SCK_AUTH auth_msg;
-            auth_msg.vs = pMsg->GetFrom();
-            WorldService()->SendPortMsg(pMsg->GetFrom().GetServerPort(), (byte*)&auth_msg, sizeof(auth_msg));
-
-            SC_LOGIN result_msg;
-            result_msg.set_result_code(SC_LOGIN::EC_SUCC);
-            result_msg.set_last_succ_key(md5str);
-            WorldService()->SendToVirtualSocket(pMsg->GetFrom(), CMD_SC_LOGIN, result_msg);
-
-            CAccount* pAccount = CAccount::CreateNew(msg.openid(), pMsg->GetFrom());
-            //将准备好的Account放入Result列表,等待主线程处理
-            Login(msg.openid(), pAccount);
-
-            return true;
-        }
-    }
-    else if(msg.auth().empty())
-    {
-        SC_LOGIN result_msg;
-        result_msg.set_result_code(SC_LOGIN::EC_AUTH);
-        WorldService()->SendToVirtualSocket(pMsg->GetFrom(), CMD_SC_LOGIN, result_msg);
-        return false;
-    }
-
-    LOGLOGIN("Actor:{} StartAuth.", msg.openid().c_str());
-
     brpc::Controller* cntl = new brpc::Controller;
-    ;
     cntl->http_request().uri() = AUTH_URL;
     cntl->http_request().set_method(brpc::HTTP_METHOD_POST);
-    std::string post_data = fmt::format(FMT_STRING("open_id={}&auth={}"), msg.openid(), msg.auth());
+    std::string post_data = fmt::format(FMT_STRING("open_id={}&auth={}"), openid, auth);
     cntl->request_attachment().append(post_data);
     auto call_id             = cntl->call_id().value;
-    m_AuthList[msg.openid()] = call_id;
+    m_AuthList[openid] = call_id;
     auto& auth_data          = m_AuthDataList[call_id];
-    auth_data.open_id        = msg.openid();
-    auth_data.from           = pMsg->GetFrom();
+    auth_data.open_id        = openid;
+    auth_data.from           = vs;
 
     struct local
     {
@@ -200,6 +116,16 @@ bool CAccountManager::Auth(CNetworkMessage* pMsg)
     return true;
     __LEAVE_FUNCTION
     return false;
+}
+
+CAccount* CAccountManager::QueryAccountBySocket(const VirtualSocket& vs) const
+{
+    auto it = m_setAccountBySocket.find(vs);
+    if(it == m_setAccountBySocket.end())
+    {
+        return it->second;
+    }
+    return nullptr;
 }
 
 void CAccountManager::_AddResult(std::function<void()>&& result_func)
@@ -374,49 +300,6 @@ void CAccountManager::OnTimer()
     __LEAVE_FUNCTION
 }
 
-bool CAccountManager::OnMsgCreateActor(CNetworkMessage* pMsg)
-{
-    __ENTER_FUNCTION
-
-    CS_CREATEACTOR msg;
-    if(msg.ParseFromArray(pMsg->GetMsgBody(), pMsg->GetBodySize()) == false)
-    {
-        return false;
-    }
-
-    auto itFind = m_setAccountBySocket.find(pMsg->GetFrom());
-    if(itFind == m_setAccountBySocket.end())
-        return true;
-    CAccount* pAccount = itFind->second;
-    CHECKF(pAccount->IsWait() == false);
-
-    pAccount->CreateActor(msg.name(), msg.prof(), msg.baselook());
-
-    return true;
-    __LEAVE_FUNCTION
-    return false;
-}
-
-bool CAccountManager::OnMsgSelectActor(CNetworkMessage* pMsg)
-{
-    __ENTER_FUNCTION
-    CS_SELECTACTOR msg;
-    if(msg.ParseFromArray(pMsg->GetMsgBody(), pMsg->GetBodySize()) == false)
-    {
-        return false;
-    }
-
-    auto itFind = m_setAccountBySocket.find(pMsg->GetFrom());
-    if(itFind == m_setAccountBySocket.end())
-        return false;
-    CAccount* pAccount = itFind->second;
-    CHECKF(pAccount->IsWait() == false);
-    pAccount->SelectActor(msg.actor_idx());
-
-    return true;
-    __LEAVE_FUNCTION
-    return false;
-}
 
 size_t CAccountManager::GetAccountSize() const
 {

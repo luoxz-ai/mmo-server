@@ -1,10 +1,10 @@
 #ifndef MSGZONEPROCESS_H
 #define MSGZONEPROCESS_H
 
-#include <array>
 #include <functional>
 #include <memory>
 #include <utility>
+#include <unordered_map>
 
 #include "BaseCode.h"
 #include "NetworkMessage.h"
@@ -53,23 +53,21 @@ struct ZoneMsgProcRegCenter
         static ZoneMsgProcRegCenter s_instance;
         return s_instance;
     }
-    void reg(int cmd, MsgProcessFunc&& func)
+    void reg(int cmd, MsgProcessFunc&& func) 
     {
-        m_MsgProc.emplace(cmd, std::move(func));
+        CHECK_FMT(m_MsgProc.find(cmd) == m_MsgProc.end(), "dup register msg:{}", cmd);
+        m_MsgProc.emplace(cmd, std::move(func)); 
     }
     std::unordered_map<uint32_t, MsgProcessFunc> m_MsgProc;
 };
 
 struct ZoneMsgProcRegister
 {
-    ZoneMsgProcRegister(int cmd, MsgProcessFunc&& func)
-    {
-        ZoneMsgProcRegCenter::instance().reg(cmd, std::move(func));
-    }
+    ZoneMsgProcRegister(int cmd, MsgProcessFunc&& func) { ZoneMsgProcRegCenter::instance().reg(cmd, std::move(func)); }
 };
 
 #define ON_PLAYERMSG(MsgType)                                                                                    \
-    void OnMsg_##MsgType(CPlayer* pPlayer, const MsgType& msg, CNetworkMessage* pMsg);                            \
+    void OnMsg_##MsgType(CPlayer* pPlayer, const MsgType& msg, CNetworkMessage* pMsg);                           \
                                                                                                                  \
     ZoneMsgProcRegister register_##MsgType(                                                                      \
         CMD_##MsgType,                                                                                           \
@@ -96,14 +94,11 @@ struct ZoneMsgProcRegister
                                                                                                                  \
     void OnMsg_##MsgType(const ServerMSG::MsgType& msg, CNetworkMessage* pMsg)
 
-#define ON_RAWMSG(MsgType)                                                                                    \
-    void OnMsg_##MsgType(CNetworkMessage* pMsg);                                                              \
-                                                                                                              \
-    ZoneMsgProcRegister register_##MsgType(                                                                   \
-        CMD_##MsgType,                                                                                        \
-        std::bind(&ProcessMsg<MsgType, decltype(OnMsg_##MsgType)>, std::placeholders::_1, &OnMsg_##MsgType)); \
-                                                                                                              \
+#define ON_RAWMSG(MsgID, MsgType)                                                                      \
+    void OnMsg_##MsgType(CNetworkMessage* pMsg);                                                       \
+                                                                                                       \
+    ZoneMsgProcRegister register_##MsgType(MsgID, std::bind(&OnMsg_##MsgType, std::placeholders::_1)); \
+                                                                                                       \
     void OnMsg_##MsgType(CNetworkMessage* pMsg)
-
 
 #endif /* MSGZONEPROCESS_H */

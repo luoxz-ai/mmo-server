@@ -36,8 +36,8 @@ public:
     void Destory();
     void RegisterMessageHandler();
 
-    CAIScene* CreateScene(CNetworkMessage* pMsg);
-    void      DestoryDynaScene(CNetworkMessage* pMsg);
+    CAIScene* CreateScene(const SceneID& idScene);
+    void      DestoryDynaScene(const SceneID& idScene);
 
     CAIScene* QueryScene(const SceneID& idScene);
     void      OnTimer();

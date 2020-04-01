@@ -2,6 +2,7 @@
 #include "AIActorManager.h"
 #include "AIFuzzyLogic.h"
 #include "AIGroup.h"
+#include "AIMessageHandler.h"
 #include "AIMonster.h"
 #include "AIPathFinder.h"
 #include "AIPlayer.h"
