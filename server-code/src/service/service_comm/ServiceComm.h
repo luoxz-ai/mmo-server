@@ -85,7 +85,7 @@ protected:
     std::unique_ptr<CNetMSGProcess> m_pNetMsgProcess;
     CUIDFactory                     m_UIDFactory;
     std::string                     m_ServiceName;
-    uint32_t                        m_nMessageProcess;
+    uint32_t                        m_nMessageProcess = 0;
 
 
 };

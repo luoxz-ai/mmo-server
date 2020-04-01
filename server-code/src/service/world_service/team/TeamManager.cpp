@@ -9,7 +9,6 @@
 
 CTeamManager::CTeamManager()
 {
-    RegisterMessageHandler();
 }
 
 CTeamManager::~CTeamManager() {}

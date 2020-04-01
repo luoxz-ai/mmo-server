@@ -25,8 +25,6 @@ public:
     CTeam* QueryTeam(uint64_t idTeam);
     bool   DestoryTeam(uint64_t idTeam);
 
-    void RegisterMessageHandler();
-
 private:
     std::map<uint64_t, CTeam*> m_setTeam;
 };

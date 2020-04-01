@@ -34,7 +34,6 @@ public:
 
     
     void Destory();
-    void RegisterMessageHandler();
 
     CAIScene* CreateScene(const SceneID& idScene);
     void      DestoryDynaScene(const SceneID& idScene);

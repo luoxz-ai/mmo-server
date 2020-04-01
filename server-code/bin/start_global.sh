@@ -8,8 +8,8 @@ cd binary
 ln -sf ../service_loader global_all
 cd -
 
-export ASAN_OPTIONS=include_if_exists=${DIR_file}/asan_options
-export LSAN_OPTIONS=include_if_exists=${DIR_file}/lsan_options
-export UBSAN_OPTIONS=include_if_exists=${DIR_file}/ubsan_options
+export ASAN_OPTIONS=include_if_exists=${DIR_file}/options_asan
+export LSAN_OPTIONS=include_if_exists=${DIR_file}/options_lsan
+export UBSAN_OPTIONS=include_if_exists=${DIR_file}/options_ubsan
 
 ${DIR_file}/binary/global_all --worldid=0 --start --logpath=/data/log/global_all -d

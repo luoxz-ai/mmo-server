@@ -14,9 +14,9 @@ ln -sf ../service_loader gmproxy_5
 ln -sf ../service_loader route
 cd -
 
-export ASAN_OPTIONS=include_if_exists=${DIR_file}/asan_options
-export LSAN_OPTIONS=include_if_exists=${DIR_file}/lsan_options
-export UBSAN_OPTIONS=include_if_exists=${DIR_file}/ubsan_options
+export ASAN_OPTIONS=include_if_exists=${DIR_file}/options_asan
+export LSAN_OPTIONS=include_if_exists=${DIR_file}/options_lsan
+export UBSAN_OPTIONS=include_if_exists=${DIR_file}/options_ubsan
 route()
 {
    ${DIR_file}/binary/route --worldid=0 --start=60 --logpath=/data/log/route -d 
