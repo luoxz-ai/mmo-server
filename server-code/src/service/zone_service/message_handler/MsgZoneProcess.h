@@ -44,11 +44,66 @@ void ProcessMsg(CNetworkMessage* pMsg, FuncType func)
     __LEAVE_FUNCTION
 }
 
-void ZoneItemMessageHandlerRegister();
-void ZoneMapMessageHandlerRegister();
-void ZoneSkillMessageHandlerRegister();
-void ZoneTaskMessageHandlerRegister();
-void ZoneTeamMessageHandlerRegister();
-void ZonePlayerMessageHandlerRegister();
+using MsgProcessFunc = std::function<void(CNetworkMessage*)>;
+
+struct ZoneMsgProcRegCenter
+{
+    static ZoneMsgProcRegCenter& instance()
+    {
+        static ZoneMsgProcRegCenter s_instance;
+        return s_instance;
+    }
+    void reg(int cmd, MsgProcessFunc&& func)
+    {
+        m_MsgProc.emplace(cmd, std::move(func));
+    }
+    std::unordered_map<uint32_t, MsgProcessFunc> m_MsgProc;
+};
+
+struct ZoneMsgProcRegister
+{
+    ZoneMsgProcRegister(int cmd, MsgProcessFunc&& func)
+    {
+        ZoneMsgProcRegCenter::instance().reg(cmd, std::move(func));
+    }
+};
+
+#define ON_PLAYERMSG(MsgType)                                                                                    \
+    void OnMsg_##MsgType(CPlayer* pPlayer, const MsgType& msg, CNetworkMessage* pMsg);                            \
+                                                                                                                 \
+    ZoneMsgProcRegister register_##MsgType(                                                                      \
+        CMD_##MsgType,                                                                                           \
+        std::bind(&ProcPlayerMsg<MsgType, decltype(OnMsg_##MsgType)>, std::placeholders::_1, &OnMsg_##MsgType)); \
+                                                                                                                 \
+    void OnMsg_##MsgType(CPlayer* pPlayer, const MsgType& msg, CNetworkMessage* pMsg)
+
+#define ON_MSG(MsgType)                                                                                       \
+    void OnMsg_##MsgType(const MsgType& msg, CNetworkMessage* pMsg);                                          \
+                                                                                                              \
+    ZoneMsgProcRegister register_##MsgType(                                                                   \
+        CMD_##MsgType,                                                                                        \
+        std::bind(&ProcessMsg<MsgType, decltype(OnMsg_##MsgType)>, std::placeholders::_1, &OnMsg_##MsgType)); \
+                                                                                                              \
+    void OnMsg_##MsgType(const MsgType& msg, CNetworkMessage* pMsg)
+
+#define ON_SERVERMSG(MsgType)                                                                                    \
+    void OnMsg_##MsgType(const ServerMSG::MsgType& msg, CNetworkMessage* pMsg);                                  \
+                                                                                                                 \
+    ZoneMsgProcRegister register_##MsgType(ServerMSG::MsgID_##MsgType,                                           \
+                                           std::bind(&ProcessMsg<ServerMSG::MsgType, decltype(OnMsg_##MsgType)>, \
+                                                     std::placeholders::_1,                                      \
+                                                     &OnMsg_##MsgType));                                         \
+                                                                                                                 \
+    void OnMsg_##MsgType(const ServerMSG::MsgType& msg, CNetworkMessage* pMsg)
+
+#define ON_RAWMSG(MsgType)                                                                                    \
+    void OnMsg_##MsgType(CNetworkMessage* pMsg);                                                              \
+                                                                                                              \
+    ZoneMsgProcRegister register_##MsgType(                                                                   \
+        CMD_##MsgType,                                                                                        \
+        std::bind(&ProcessMsg<MsgType, decltype(OnMsg_##MsgType)>, std::placeholders::_1, &OnMsg_##MsgType)); \
+                                                                                                              \
+    void OnMsg_##MsgType(CNetworkMessage* pMsg)
+
 
 #endif /* MSGZONEPROCESS_H */

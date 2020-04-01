@@ -6,7 +6,7 @@
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"
 
-void OnMsg_CS_TEAMCREATE(CPlayer* pPlayer, const CS_TEAMCREATE& msg, CNetworkMessage* pMsg)
+ON_PLAYERMSG(CS_TEAMCREATE)
 {
     __ENTER_FUNCTION
     if(pPlayer->GetCurrentScene() == nullptr)
@@ -17,7 +17,7 @@ void OnMsg_CS_TEAMCREATE(CPlayer* pPlayer, const CS_TEAMCREATE& msg, CNetworkMes
     __LEAVE_FUNCTION
 }
 
-void OnMsg_CS_TEAMQUIT(CPlayer* pPlayer, const CS_TEAMQUIT& msg, CNetworkMessage* pMsg)
+ON_PLAYERMSG(CS_TEAMQUIT)
 {
     __ENTER_FUNCTION
     if(pPlayer->GetCurrentScene() == nullptr)
@@ -27,7 +27,7 @@ void OnMsg_CS_TEAMQUIT(CPlayer* pPlayer, const CS_TEAMQUIT& msg, CNetworkMessage
     __LEAVE_FUNCTION
 }
 
-void OnMsg_CS_TEAMKICKMEMBER(CPlayer* pPlayer, const CS_TEAMKICKMEMBER& msg, CNetworkMessage* pMsg)
+ON_PLAYERMSG(CS_TEAMKICKMEMBER)
 {
     __ENTER_FUNCTION
     if(pPlayer->GetCurrentScene() == nullptr)
@@ -37,7 +37,7 @@ void OnMsg_CS_TEAMKICKMEMBER(CPlayer* pPlayer, const CS_TEAMKICKMEMBER& msg, CNe
     __LEAVE_FUNCTION
 }
 
-void OnMsg_CS_TEAMINVITEMEMBER(CPlayer* pPlayer, const CS_TEAMINVITEMEMBER& msg, CNetworkMessage* pMsg)
+ON_PLAYERMSG(CS_TEAMINVITEMEMBER)
 {
     __ENTER_FUNCTION
     if(pPlayer->GetCurrentScene() == nullptr)
@@ -48,7 +48,7 @@ void OnMsg_CS_TEAMINVITEMEMBER(CPlayer* pPlayer, const CS_TEAMINVITEMEMBER& msg,
     __LEAVE_FUNCTION
 }
 
-void OnMsg_CS_TEAMACCEPTINVITE(CPlayer* pPlayer, const CS_TEAMACCEPTINVITE& msg, CNetworkMessage* pMsg)
+ON_PLAYERMSG(CS_TEAMACCEPTINVITE)
 {
     __ENTER_FUNCTION
     if(pPlayer->GetCurrentScene() == nullptr)
@@ -59,7 +59,7 @@ void OnMsg_CS_TEAMACCEPTINVITE(CPlayer* pPlayer, const CS_TEAMACCEPTINVITE& msg,
     __LEAVE_FUNCTION
 }
 
-void OnMsg_CS_TEAMAPPLYMEMBER(CPlayer* pPlayer, const CS_TEAMAPPLYMEMBER& msg, CNetworkMessage* pMsg)
+ON_PLAYERMSG(CS_TEAMAPPLYMEMBER)
 {
     __ENTER_FUNCTION
     if(pPlayer->GetCurrentScene() == nullptr)
@@ -70,7 +70,7 @@ void OnMsg_CS_TEAMAPPLYMEMBER(CPlayer* pPlayer, const CS_TEAMAPPLYMEMBER& msg, C
     __LEAVE_FUNCTION
 }
 
-void OnMsg_CS_TEAMACCEPTAPPLY(CPlayer* pPlayer, const CS_TEAMACCEPTAPPLY& msg, CNetworkMessage* pMsg)
+ON_PLAYERMSG(CS_TEAMACCEPTAPPLY)
 {
     __ENTER_FUNCTION
     if(pPlayer->GetCurrentScene() == nullptr)
@@ -81,7 +81,7 @@ void OnMsg_CS_TEAMACCEPTAPPLY(CPlayer* pPlayer, const CS_TEAMACCEPTAPPLY& msg, C
     __LEAVE_FUNCTION
 }
 
-void OnMsg_CS_TEAMNEWLEADER(CPlayer* pPlayer, const CS_TEAMNEWLEADER& msg, CNetworkMessage* pMsg)
+ON_PLAYERMSG(CS_TEAMNEWLEADER)
 {
     __ENTER_FUNCTION
     if(pPlayer->GetCurrentScene() == nullptr)
@@ -92,28 +92,3 @@ void OnMsg_CS_TEAMNEWLEADER(CPlayer* pPlayer, const CS_TEAMNEWLEADER& msg, CNetw
     __LEAVE_FUNCTION
 }
 
-/////////////////////////////////////////////////////////////////////////
-
-void ZoneTeamMessageHandlerRegister()
-{
-    __ENTER_FUNCTION
-
-    auto pNetMsgProcess = ZoneService()->GetNetMsgProcess();
-#define REGISTER_MSG(MsgT)    \
-    pNetMsgProcess->Register( \
-        CMD_##MsgT,           \
-        std::bind(&ProcPlayerMsg<MsgT, decltype(OnMsg_##MsgT)>, std::placeholders::_1, &OnMsg_##MsgT));
-
-    REGISTER_MSG(CS_TEAMCREATE);
-    REGISTER_MSG(CS_TEAMQUIT);
-    REGISTER_MSG(CS_TEAMKICKMEMBER);
-    REGISTER_MSG(CS_TEAMINVITEMEMBER);
-    REGISTER_MSG(CS_TEAMACCEPTINVITE);
-
-    REGISTER_MSG(CS_TEAMAPPLYMEMBER);
-    REGISTER_MSG(CS_TEAMACCEPTAPPLY);
-    REGISTER_MSG(CS_TEAMNEWLEADER);
-
-#undef REGISTER_MSG
-    __LEAVE_FUNCTION
-}

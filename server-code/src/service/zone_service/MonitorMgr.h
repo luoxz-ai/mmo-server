@@ -8,7 +8,8 @@
     ({                                                                                  \
         auto beginTime = std::chrono::high_resolution_clock::now();                     \
         Func;                                                                           \
-        auto                      endTime = std::chrono::high_resolution_clock::now();  \
+        auto endTime = std::chrono::high_resolution_clock::now();                       \
+                                                                                        \
         std::chrono::microseconds costTime =                                            \
             std::chrono::duration_cast<std::chrono::microseconds>(endTime - beginTime); \
         MonitorMgr()->Add(#Func, costTime.count());                                     \

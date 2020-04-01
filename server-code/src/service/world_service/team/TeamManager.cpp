@@ -5,6 +5,7 @@
 #include "UserManager.h"
 #include "WorldService.h"
 #include "msg/zone_service.pb.h"
+#include "MsgWorldProcess.h"
 
 CTeamManager::CTeamManager()
 {
@@ -73,40 +74,42 @@ bool CTeamManager::DestoryTeam(uint64_t idTeam)
     return true;
 }
 
-void OnMsg_TeamCreate(const ServerMSG::TeamCreate& msg)
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+ON_SERVERMSG(TeamCreate)
 {
     TeamManager()->CreateTeam(msg.team_id(), msg.leader_id());
 }
 
-void OnMsg_TeamQuit(const ServerMSG::TeamQuit& msg)
+ON_SERVERMSG(TeamQuit)
 {
     CTeam* pTeam = TeamManager()->QueryTeam(msg.team_id());
     CHECK(pTeam);
     pTeam->QuitTeam(msg.operator_id());
 }
 
-void OnMsg_TeamKickMember(const ServerMSG::TeamKickMember& msg)
+ON_SERVERMSG(TeamKickMember)
 {
     CTeam* pTeam = TeamManager()->QueryTeam(msg.team_id());
     CHECK(pTeam);
     pTeam->KickMember(msg.operator_id(), msg.kick_id());
 }
 
-void OnMsg_TeamInviteMember(const ServerMSG::TeamInviteMember& msg)
+ON_SERVERMSG(TeamInviteMember)
 {
     CTeam* pTeam = TeamManager()->QueryTeam(msg.team_id());
     CHECK(pTeam);
     pTeam->InviteMember(msg.operator_id(), msg.invitee_id());
 }
 
-void OnMsg_TeamAcceptInvite(const ServerMSG::TeamAcceptInvite& msg)
+ON_SERVERMSG(TeamAcceptInvite)
 {
 
     CTeam* pTeam = TeamManager()->QueryTeam(msg.team_id());
     pTeam->AcceptInvite(msg.inviter_id(), msg.invitee_id(), msg.result());
 }
 
-void OnMsg_TeamApplyMember(const ServerMSG::TeamApplyMember& msg)
+ON_SERVERMSG(TeamApplyMember)
 {
     CUser* pApplicant = UserManager()->QueryUser(msg.applicant_id());
     if(pApplicant == nullptr)
@@ -136,7 +139,7 @@ void OnMsg_TeamApplyMember(const ServerMSG::TeamApplyMember& msg)
     }
 }
 
-void OnMsg_TeamAcceptApply(const ServerMSG::TeamAcceptApply& msg)
+ON_SERVERMSG(TeamAcceptApply)
 {
 
     CUser* pUser = UserManager()->QueryUser(msg.respondent_id());
@@ -175,38 +178,10 @@ void OnMsg_TeamAcceptApply(const ServerMSG::TeamAcceptApply& msg)
     }
 }
 
-void OnMsg_TeamNewLeader(const ServerMSG::TeamNewLeader& msg)
+ON_SERVERMSG(TeamNewLeader)
 {
     CTeam* pTeam = TeamManager()->QueryTeam(msg.team_id());
     CHECK(pTeam);
     pTeam->SetLeader(msg.operator_id(), msg.new_leader_id());
 }
 
-template<class T, class Func>
-void ProcessTeamMsg(CNetworkMessage* pMsg, Func func)
-{
-    T msg;
-    if(msg.ParseFromArray(pMsg->GetMsgBody(), pMsg->GetBodySize()) == false)
-        return;
-    func(msg);
-}
-
-void CTeamManager::RegisterMessageHandler()
-{
-#define REG_CMD(msg_t)                            \
-    WorldService()->GetNetMsgProcess()->Register( \
-        MsgID_##msg_t,                            \
-        std::bind(&ProcessTeamMsg<msg_t, decltype(OnMsg_##msg_t)>, std::placeholders::_1, &OnMsg_##msg_t));
-
-    using namespace ServerMSG;
-    REG_CMD(TeamCreate);
-    REG_CMD(TeamQuit);
-    REG_CMD(TeamKickMember);
-    REG_CMD(TeamInviteMember);
-    REG_CMD(TeamAcceptInvite);
-    REG_CMD(TeamApplyMember);
-    REG_CMD(TeamAcceptApply);
-    REG_CMD(TeamNewLeader);
-
-#undef REG_CMD
-}

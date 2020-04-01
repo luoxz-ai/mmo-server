@@ -5,7 +5,7 @@
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"
 
-void OnMsg_CS_TALK(CPlayer* pPlayer, const CS_TALK& msg, CNetworkMessage* pMsg)
+ON_PLAYERMSG(CS_TALK)
 {
     __ENTER_FUNCTION
     if(pPlayer->GetCurrentScene() == nullptr)

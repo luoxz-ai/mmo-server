@@ -7,7 +7,7 @@
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"
 
-void OnMsg_CS_TASK_SUBMIT(CPlayer* pPlayer, const CS_TASK_SUBMIT& msg, CNetworkMessage* pMsg)
+ON_PLAYERMSG(CS_TASK_SUBMIT)
 {
     __ENTER_FUNCTION
     if(pPlayer->GetCurrentScene() == nullptr)
@@ -20,7 +20,7 @@ void OnMsg_CS_TASK_SUBMIT(CPlayer* pPlayer, const CS_TASK_SUBMIT& msg, CNetworkM
     __LEAVE_FUNCTION
 }
 
-void OnMsg_CS_ACTIVE_NPC(CPlayer* pPlayer, const CS_ACTIVE_NPC& msg, CNetworkMessage* pMsg)
+ON_PLAYERMSG(CS_ACTIVE_NPC)
 {
     __ENTER_FUNCTION
     if(pPlayer->GetCurrentScene() == nullptr)
@@ -44,7 +44,7 @@ void OnMsg_CS_ACTIVE_NPC(CPlayer* pPlayer, const CS_ACTIVE_NPC& msg, CNetworkMes
     __LEAVE_FUNCTION
 }
 
-void OnMsg_CS_DIALOG_CLICK(CPlayer* pPlayer, const CS_DIALOG_CLICK& msg, CNetworkMessage* pMsg)
+ON_PLAYERMSG(CS_DIALOG_CLICK)
 {
     __ENTER_FUNCTION
     if(pPlayer->GetCurrentScene() == nullptr)
@@ -54,25 +54,5 @@ void OnMsg_CS_DIALOG_CLICK(CPlayer* pPlayer, const CS_DIALOG_CLICK& msg, CNetwor
         return;
 
     pPlayer->OnDialogClick(msg.dialog_id(), msg.dialog_button_idx());
-    __LEAVE_FUNCTION
-}
-
-/////////////////////////////////////////////////////////////////////////
-
-void ZoneTaskMessageHandlerRegister()
-{
-    __ENTER_FUNCTION
-
-    auto pNetMsgProcess = ZoneService()->GetNetMsgProcess();
-#define REGISTER_MSG(MsgT)    \
-    pNetMsgProcess->Register( \
-        CMD_##MsgT,           \
-        std::bind(&ProcPlayerMsg<MsgT, decltype(OnMsg_##MsgT)>, std::placeholders::_1, &OnMsg_##MsgT));
-
-    REGISTER_MSG(CS_DIALOG_CLICK);
-    REGISTER_MSG(CS_ACTIVE_NPC);
-    REGISTER_MSG(CS_TASK_SUBMIT);
-
-#undef REGISTER_MSG
     __LEAVE_FUNCTION
 }

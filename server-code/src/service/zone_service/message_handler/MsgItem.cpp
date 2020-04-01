@@ -5,7 +5,7 @@
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"
 
-void OnMsg_CS_ITEM_SWAP(CPlayer* pPlayer, const CS_ITEM_SWAP& msg, CNetworkMessage* pMsg)
+ON_PLAYERMSG(CS_ITEM_SWAP)
 {
     __ENTER_FUNCTION
     if(pPlayer->GetCurrentScene() == nullptr)
@@ -20,7 +20,7 @@ void OnMsg_CS_ITEM_SWAP(CPlayer* pPlayer, const CS_ITEM_SWAP& msg, CNetworkMessa
     __LEAVE_FUNCTION
 }
 
-void OnMsg_CS_ITEM_SPLIT(CPlayer* pPlayer, const CS_ITEM_SPLIT& msg, CNetworkMessage* pMsg)
+ON_PLAYERMSG(CS_ITEM_SPLIT)
 {
     __ENTER_FUNCTION
     if(pPlayer->GetCurrentScene() == nullptr)
@@ -35,7 +35,7 @@ void OnMsg_CS_ITEM_SPLIT(CPlayer* pPlayer, const CS_ITEM_SPLIT& msg, CNetworkMes
     __LEAVE_FUNCTION
 }
 
-void OnMsg_CS_ITEM_COMBINE(CPlayer* pPlayer, const CS_ITEM_COMBINE& msg, CNetworkMessage* pMsg)
+ON_PLAYERMSG(CS_ITEM_COMBINE)
 {
     __ENTER_FUNCTION
     if(pPlayer->GetCurrentScene() == nullptr)
@@ -50,7 +50,7 @@ void OnMsg_CS_ITEM_COMBINE(CPlayer* pPlayer, const CS_ITEM_COMBINE& msg, CNetwor
     __LEAVE_FUNCTION
 }
 
-void OnMsg_CS_ITEM_TIDY(CPlayer* pPlayer, const CS_ITEM_TIDY& msg, CNetworkMessage* pMsg)
+ON_PLAYERMSG(CS_ITEM_TIDY)
 {
     __ENTER_FUNCTION
     if(pPlayer->GetCurrentScene() == nullptr)
@@ -65,7 +65,7 @@ void OnMsg_CS_ITEM_TIDY(CPlayer* pPlayer, const CS_ITEM_TIDY& msg, CNetworkMessa
     __LEAVE_FUNCTION
 }
 
-void OnMsg_CS_ITEM_USE(CPlayer* pPlayer, const CS_ITEM_USE& msg, CNetworkMessage* pMsg)
+ON_PLAYERMSG(CS_ITEM_USE)
 {
     __ENTER_FUNCTION
     if(pPlayer->GetCurrentScene() == nullptr)
@@ -78,7 +78,7 @@ void OnMsg_CS_ITEM_USE(CPlayer* pPlayer, const CS_ITEM_USE& msg, CNetworkMessage
     __LEAVE_FUNCTION
 }
 
-void OnMsg_CS_ITEM_STORAGE_OPEN(CPlayer* pPlayer, const CS_ITEM_STORAGE_OPEN& msg, CNetworkMessage* pMsg)
+ON_PLAYERMSG(CS_ITEM_STORAGE_OPEN)
 {
     __ENTER_FUNCTION
     if(pPlayer->GetCurrentScene() == nullptr)
@@ -93,7 +93,7 @@ void OnMsg_CS_ITEM_STORAGE_OPEN(CPlayer* pPlayer, const CS_ITEM_STORAGE_OPEN& ms
     __LEAVE_FUNCTION
 }
 
-void OnMsg_CS_ITEM_STORAGE_CHECKIN(CPlayer* pPlayer, const CS_ITEM_STORAGE_CHECKIN& msg, CNetworkMessage* pMsg)
+ON_PLAYERMSG(CS_ITEM_STORAGE_CHECKIN)
 {
     __ENTER_FUNCTION
     if(pPlayer->GetCurrentScene() == nullptr)
@@ -108,7 +108,7 @@ void OnMsg_CS_ITEM_STORAGE_CHECKIN(CPlayer* pPlayer, const CS_ITEM_STORAGE_CHECK
     __LEAVE_FUNCTION
 }
 
-void OnMsg_CS_ITEM_STORAGE_CHECKOUT(CPlayer* pPlayer, const CS_ITEM_STORAGE_CHECKOUT& msg, CNetworkMessage* pMsg)
+ON_PLAYERMSG(CS_ITEM_STORAGE_CHECKOUT)
 {
     __ENTER_FUNCTION
     if(pPlayer->GetCurrentScene() == nullptr)
@@ -123,7 +123,7 @@ void OnMsg_CS_ITEM_STORAGE_CHECKOUT(CPlayer* pPlayer, const CS_ITEM_STORAGE_CHEC
     __LEAVE_FUNCTION
 }
 
-void OnMsg_CS_EQUIP(CPlayer* pPlayer, const CS_EQUIP& msg, CNetworkMessage* pMsg)
+ON_PLAYERMSG(CS_EQUIP)
 {
     __ENTER_FUNCTION
     if(pPlayer->GetCurrentScene() == nullptr)
@@ -136,7 +136,7 @@ void OnMsg_CS_EQUIP(CPlayer* pPlayer, const CS_EQUIP& msg, CNetworkMessage* pMsg
     __LEAVE_FUNCTION
 }
 
-void OnMsg_CS_UNEQUIP(CPlayer* pPlayer, const CS_UNEQUIP& msg, CNetworkMessage* pMsg)
+ON_PLAYERMSG(CS_UNEQUIP)
 {
     __ENTER_FUNCTION
     if(pPlayer->GetCurrentScene() == nullptr)
@@ -145,32 +145,5 @@ void OnMsg_CS_UNEQUIP(CPlayer* pPlayer, const CS_UNEQUIP& msg, CNetworkMessage* 
     if(pPlayer->IsDead() == false)
         return;
     pPlayer->GetEquipmentSet()->UnequipItem(msg.grid_in_equip(), SYNC_TRUE, true, true);
-    __LEAVE_FUNCTION
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////
-
-void ZoneItemMessageHandlerRegister()
-{
-    __ENTER_FUNCTION
-
-    auto pNetMsgProcess = ZoneService()->GetNetMsgProcess();
-#define REGISTER_MSG(MsgT)    \
-    pNetMsgProcess->Register( \
-        CMD_##MsgT,           \
-        std::bind(&ProcPlayerMsg<MsgT, decltype(OnMsg_##MsgT)>, std::placeholders::_1, &OnMsg_##MsgT));
-
-    REGISTER_MSG(CS_ITEM_SWAP);
-    REGISTER_MSG(CS_ITEM_SPLIT);
-    REGISTER_MSG(CS_ITEM_COMBINE);
-    REGISTER_MSG(CS_ITEM_TIDY);
-    REGISTER_MSG(CS_ITEM_USE);
-    REGISTER_MSG(CS_ITEM_STORAGE_OPEN);
-    REGISTER_MSG(CS_ITEM_STORAGE_CHECKIN);
-    REGISTER_MSG(CS_ITEM_STORAGE_CHECKOUT);
-    REGISTER_MSG(CS_EQUIP);
-    REGISTER_MSG(CS_UNEQUIP);
-
-#undef REGISTER_MSG
     __LEAVE_FUNCTION
 }

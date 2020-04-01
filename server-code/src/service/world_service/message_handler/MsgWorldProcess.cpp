@@ -3,10 +3,11 @@
 #include "WorldService.h"
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
+#include "MsgWorldProcess.h"
 
-void OnMsg_SC_TALK(const SC_TALK& msg, CNetworkMessage* pMsg)
+
+ON_MSG(SC_TALK)
 {
-
     switch(msg.channel())
     {
         case CHANNEL_PRIVATE: //私聊
@@ -56,7 +57,7 @@ void OnMsg_SC_TALK(const SC_TALK& msg, CNetworkMessage* pMsg)
     }
 }
 
-void OnMsg_PlayerChangeZone(const ServerMSG::PlayerChangeZone& msg, CNetworkMessage* pMsg)
+ON_SERVERMSG(PlayerChangeZone)
 {
     CUser* pUser = UserManager()->QueryUser(msg.socket());
     if(pUser == nullptr)
@@ -71,7 +72,7 @@ void OnMsg_PlayerChangeZone(const ServerMSG::PlayerChangeZone& msg, CNetworkMess
     WorldService()->SendMsg(*pMsg);
 }
 
-void OnMsg_PlayerChangeZone_Data(const ServerMSG::PlayerChangeZone_Data& msg, CNetworkMessage* pMsg)
+ON_SERVERMSG(PlayerChangeZone_Data)
 {
     CUser* pUser = UserManager()->QueryUser(msg.socket());
     if(pUser == nullptr)
@@ -84,30 +85,16 @@ void OnMsg_PlayerChangeZone_Data(const ServerMSG::PlayerChangeZone_Data& msg, CN
     WorldService()->SendMsg(*pMsg);
 }
 
-void OnMsg_ServiceReady(const ServerMSG::ServiceReady& msg, CNetworkMessage* pMsg)
+ON_SERVERMSG(ServiceReady)
 {
     WorldService()->SetServiceReady(ServerPort(msg.serverport()).GetServiceID());
 }
 
-void OnMsg_ServiceCmd(const ServerMSG::ServiceCmd& msg, CNetworkMessage* pMsg)
+ON_SERVERMSG(ServiceCmd)
 {
     LOGDEBUG("ServiceCmd recv, cmd:{}", msg.cmds(0).c_str());
 }
 
-template<class MsgType, class FuncType>
-void ProcWorldMsg(CNetworkMessage* pMsg, FuncType func)
-{
-    __ENTER_FUNCTION
-
-    MsgType msg;
-    if(msg.ParseFromArray(pMsg->GetMsgBody(), pMsg->GetBodySize()) == false)
-    {
-        return;
-    }
-    std::invoke(func, msg, pMsg);
-
-    __LEAVE_FUNCTION
-}
 
 //////////////////////////////////////////////////////////////////////////
 void RegisterWorldMessageHandler()
@@ -115,24 +102,10 @@ void RegisterWorldMessageHandler()
     __ENTER_FUNCTION
 
     auto pNetMsgProcess = WorldService()->GetNetMsgProcess();
-#define REGISTER_MSG(MsgT)    \
-    pNetMsgProcess->Register( \
-        CMD_##MsgT,           \
-        std::bind(&ProcWorldMsg<MsgT, decltype(OnMsg_##MsgT)>, std::placeholders::_1, &OnMsg_##MsgT));
-#define REGISTER_SERVERMSG(MsgT) \
-    pNetMsgProcess->Register(    \
-        ServerMSG::MsgID_##MsgT, \
-        std::bind(&ProcWorldMsg<ServerMSG::MsgT, decltype(OnMsg_##MsgT)>, std::placeholders::_1, &OnMsg_##MsgT));
+    for(const auto& [k,v] : WorldMsgProcRegCenter::instance().m_MsgProc)
+    {
+        pNetMsgProcess->Register(k,v);
+    }
 
-    REGISTER_MSG(SC_TALK);
-
-    REGISTER_SERVERMSG(PlayerChangeZone);
-    REGISTER_SERVERMSG(PlayerChangeZone);
-    REGISTER_SERVERMSG(PlayerChangeZone_Data);
-    REGISTER_SERVERMSG(ServiceReady);
-    REGISTER_SERVERMSG(ServiceCmd);
-
-#undef REGISTER_MSG
-#undef REGISTER_SERVERMSG
     __LEAVE_FUNCTION
 }
