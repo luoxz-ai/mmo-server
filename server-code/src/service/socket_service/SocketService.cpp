@@ -472,7 +472,7 @@ void CSocketService::OnLogicThreadProc()
     {
         std::string buf =
             std::string("\n======================================================================") +
-            fmt::format(FMT_STRING("\nMessageProcess:{}\tSocketMsg:{}"), GetMessageProcess(), m_nSocketMessageProcess) +
+            fmt::format(FMT_STRING("\nMessageProcess:{}\tSocketMsg:{}\tMem:{}"), GetMessageProcess(), m_nSocketMessageProcess, get_thread_memory_allocted()) +
             fmt::format(FMT_STRING("\nRecvTotal:{}\tRecvAvg:{}"),
                         GetNetworkService()->GetRecvBPS().GetTotal(),
                         GetNetworkService()->GetRecvBPS().GetAvgBPS()) +

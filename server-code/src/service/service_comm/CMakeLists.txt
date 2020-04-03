@@ -30,7 +30,7 @@ TARGET_LINK_LIBRARIES(service_comm
  libmyproto.so
  libmydb.so
  message_route
- libbrpc.a
+ libbrpc.so
  libgflags.a
  libleveldb.a
  libsnappy.a

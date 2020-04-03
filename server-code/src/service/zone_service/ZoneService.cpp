@@ -456,7 +456,7 @@ void CZoneService::OnLogicThreadProc()
     {
         std::string buf = std::string("\n======================================================================") +
                           fmt::format(FMT_STRING("\nMessageProcess:{}"), GetMessageProcess()) +
-                          fmt::format(FMT_STRING("\nEvent:{}\t"), EventManager()->GetEventCount()) +
+                          fmt::format(FMT_STRING("\nEvent:{}\tMem:{}"), EventManager()->GetEventCount(), get_thread_memory_allocted()) +
                           fmt::format(FMT_STRING("\nUser:{}\tMonster:{}"),
                                       ActorManager()->GetUserCount(),
                                       ActorManager()->GetMonsterCount()) +

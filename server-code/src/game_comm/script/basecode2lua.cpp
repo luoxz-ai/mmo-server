@@ -22,6 +22,7 @@
 #include "SettingMap.h"
 #include "Singleton.h"
 #include "SkipList.h"
+#include "StaticReflection.h"
 #include "StringAlgo.h"
 #include "T_GameDataMap.h"
 #include "Thread.h"
@@ -38,6 +39,7 @@
 #include "lua_tinker.h"
 #include "type_traits_ext.h"
 #include "x86_64-signal.h"
+#include "xml2struct.h"
 void basecode2lua(lua_State* L)
 {
     lua_tinker::class_add<CMyTimer>(L, "CMyTimer", true);

@@ -35,7 +35,7 @@ TARGET_LINK_LIBRARIES(gm_service
   mydb 
   mydbtable 
   service_comm
-  libbrpc.a
+  libbrpc.so
   fmt
   pthread
   rt

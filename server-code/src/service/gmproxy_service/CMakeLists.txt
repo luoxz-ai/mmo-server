@@ -40,7 +40,7 @@ TARGET_LINK_LIBRARIES(gmproxy_service
  myproto 
  mydbtable 
  service_comm 
- libbrpc.a
+ libbrpc.so
  fmt
  pthread
  rt
