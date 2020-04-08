@@ -574,4 +574,6 @@ void ai2lua(lua_State* L)
     lua_tinker::set(L, "WORLD_SERVICE", WORLD_SERVICE);
     lua_tinker::set(L, "WORLD_SERVICE_ID", WORLD_SERVICE_ID);
     lua_tinker::set(L, "ZONE_SERVICE", ZONE_SERVICE);
+    lua_tinker::class_alias<Vector2, CPos2D>(L, "CPos2D");
+    lua_tinker::class_alias<Vector3, CPos3D>(L, "CPos3D");
 }

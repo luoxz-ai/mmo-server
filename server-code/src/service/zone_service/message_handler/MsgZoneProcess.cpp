@@ -75,7 +75,7 @@ ON_SERVERMSG(PlayerLogout)
         return;
     }
 
-    CPlayer* pPlayer = pActor->ConvertToDerived<CPlayer>();
+    CPlayer* pPlayer = pActor->CastTo<CPlayer>();
     pPlayer->OnLogout();
 }
 

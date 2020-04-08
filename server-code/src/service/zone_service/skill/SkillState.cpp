@@ -106,7 +106,7 @@ bool CSkillFSM::CanIntone(const CSkillType* pSkillType, CActor* pTarget, const V
 
     if(pSkillType->GetUseItemType() != 0 && m_pOwner->IsPlayer())
     {
-        CPlayer* pPlayer = m_pOwner->ConvertToDerived<CPlayer>();
+        CPlayer* pPlayer = m_pOwner->CastTo<CPlayer>();
         if(pPlayer->CheckItem(pSkillType->GetUseItemType(), 1) == false)
         {
             LOGSKILLDEBUG(pSkillType->IsDebug(),

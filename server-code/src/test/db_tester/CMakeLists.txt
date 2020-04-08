@@ -20,10 +20,10 @@ TARGET_LINK_LIBRARIES(db_tester
  libbasecode.so
  libmydb.so
  libmysqlclient.a
- mydbtable
+ libmydbtable.so
+ libfmt.so
  ssl
  crypto
- fmt
  z
  ${JEMALLOC_LIB_NAME}
  dl

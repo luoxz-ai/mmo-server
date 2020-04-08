@@ -42,15 +42,15 @@ ADD_DEPENDENCIES(zone_service basecode network mydb myproto mydbtable service_co
 
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(zone_service
- basecode 
- network 
- mydb 
- myproto 
- mydbtable 
- service_comm 
- gamemap 
- script
- fmt
+ libbasecode.so 
+ libnetwork.so 
+ libmydb.so 
+ libmyproto.so 
+ libmydbtable.so 
+ libservice_comm.so 
+ libgamemap.so 
+ libscript.so
+ libfmt.so
  pthread
  rt
  dl

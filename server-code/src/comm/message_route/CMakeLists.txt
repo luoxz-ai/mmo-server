@@ -34,7 +34,7 @@ TARGET_LINK_LIBRARIES(message_route
  cpp_redis
  tinyxml2
  tacopie
- fmt
+ libfmt.so
  ${JEMALLOC_LIB_NAME}
 )
 

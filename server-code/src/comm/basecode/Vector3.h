@@ -544,4 +544,6 @@ public:
     export_lua static const Vector3 UNIT_SCALE;
 };
 
+export_lua using CPos3D = Vector3;
+
 #endif // Vector3_h__

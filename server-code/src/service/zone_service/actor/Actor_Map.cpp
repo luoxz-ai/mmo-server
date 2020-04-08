@@ -83,7 +83,7 @@ void CActor::AddToViewList(CSceneObject* pActor, bool bChkDuplicate, bool bSendS
     //如果自己是怪物
     if(GetActorType() == ACT_MONSTER)
     {
-        ConvertToDerived<CMonster>()->SetIsAISleep(false);
+        CastTo<CMonster>()->SetIsAISleep(false);
     }
 
     if(GetActorType() == ACT_PLAYER && bSendShow)
@@ -270,7 +270,7 @@ bool CActor::IsMustAddToBroadCastSet(CSceneObject* pActor)
     //必须加入视野的, BOSS怪, 组队成员
     if(pActor->GetActorType() == ACT_MONSTER)
     {
-        CMonster* pMonster = pActor->ConvertToDerived<CMonster>();
+        CMonster* pMonster = pActor->CastTo<CMonster>();
         if(pMonster == nullptr)
             return false;
 
@@ -280,7 +280,7 @@ bool CActor::IsMustAddToBroadCastSet(CSceneObject* pActor)
     }
     else
     {
-        CPlayer* pPlayer = pActor->ConvertToDerived<CPlayer>();
+        CPlayer* pPlayer = pActor->CastTo<CPlayer>();
         if(pPlayer == nullptr)
             return false;
 

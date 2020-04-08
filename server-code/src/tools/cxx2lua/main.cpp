@@ -125,6 +125,7 @@ struct Visitor_Content
     std::string                             m_name;
     std::string                             m_accessname;
     Visitor_Content*                        m_pParent = nullptr;
+    std::vector<std::string>                m_aliasname_list;
     std::map<std::string, Visitor_Content*> m_setChildClass;
     std::map<std::string, Visitor_Content*> m_setChildNameSpace;
     typedef std::vector<std::string>        ParamsDefaultVal;
@@ -1045,6 +1046,57 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
             visit_function(cursor, pContent);
         }
         break;
+    case CXCursor_TypedefDecl:
+    case CXCursor_TypeAliasDecl:
+        {
+            if(g_bSkip_class)
+                return CXChildVisit_Continue;
+            auto source_loc = clang_getCursorLocation(cursor);
+            if(clang_Location_isInSystemHeader(source_loc))
+                return CXChildVisit_Continue;
+            debug_display_debug_cursor(cursor, kind, source_loc);
+
+            CXFile   file;
+            unsigned line;
+            unsigned column;
+            unsigned offset;
+            clang_getExpansionLocation(source_loc, &file, &line, &column, &offset);
+            // std::string filename = getClangString(clang_getFileName(file));
+
+            CXFileUniqueID id;
+            clang_getFileUniqueID(file, &id);
+            if(NeedSkipByFile(id) == true)
+                return CXChildVisit_Continue;
+            if(g_strKeyword.empty() == false)
+            {
+                auto itFind = g_export_loc.find(id);
+                if(itFind == g_export_loc.end())
+                {
+                    return CXChildVisit_Continue;
+                }
+
+                auto& refSet = itFind->second;
+                if(refSet.find(line) == refSet.end())
+                {
+                    return CXChildVisit_Continue;
+                }
+            }
+
+            std::string nsname = getClangString(clang_getCursorSpelling(cursor));
+            std::string tname  = getClangString(clang_getTypeSpelling(clang_getCursorType(cursor)));
+            std::string canon_name = getClangString(clang_getTypeSpelling(clang_getCanonicalType(clang_getCursorType(cursor)) ));
+
+            debug_printf("do:class_alias\n");
+            if(pContent)
+            {
+                auto pRealType = pContent->m_setChildClass[canon_name];
+                if(pRealType)
+                {
+                    pRealType->m_aliasname_list.push_back(nsname);
+                }
+            }
+        }
+        break;
         default:
         {
         }
@@ -1162,6 +1214,12 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
             continue;
 
         snprintf(szBuf, 4096, "lua_tinker::class_inh<%s,%s>(L);\n", pContent->getAccessName().c_str(), v.c_str());
+        os_second += szBuf;
+    }
+
+    for(const auto& v: pContent->m_aliasname_list)
+    {
+        snprintf(szBuf, 4096, "lua_tinker::class_alias<%s,%s>(L, \"%s\");\n", pContent->getAccessName().c_str(), v.c_str(), v.c_str());
         os_second += szBuf;
     }
 

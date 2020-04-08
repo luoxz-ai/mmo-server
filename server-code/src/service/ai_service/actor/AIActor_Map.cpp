@@ -12,7 +12,7 @@ void CAIActor::AddToViewList(CSceneObject* pActor, bool bChkDuplicate, bool bSen
 	//如果自己是怪物
 	if(GetActorType() == ACT_MONSTER)
 	{
-		ConvertToDerived<CAIMonster>()->SetIsAISleep(false);
+		CastTo<CAIMonster>()->SetIsAISleep(false);
 	}
 
 }
@@ -41,7 +41,7 @@ bool CAIActor::IsNeedAddToBroadCastSet(CSceneObject* pActor)
 	//特殊怪物需要将其他怪物加入自己视野的,这里处理	
     if(GetActorType() == ACT_MONSTER)
     {
-        CAIMonster* pMonster = this->ConvertToDerived<CAIMonster>();
+        CAIMonster* pMonster = this->CastTo<CAIMonster>();
 		// 只看到敌人单位
         return pMonster->IsEnemy(pActor);
     }

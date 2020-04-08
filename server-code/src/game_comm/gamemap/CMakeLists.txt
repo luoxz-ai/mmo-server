@@ -17,8 +17,8 @@ ADD_DEPENDENCIES(gamemap basecode myproto)
 cotire(gamemap)
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(gamemap
-myproto
-basecode
+libmyproto.so
+libbasecode.so
 ${JEMALLOC_LIB_NAME}
 )
 

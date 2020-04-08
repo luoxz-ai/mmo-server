@@ -90,4 +90,9 @@ private:
     std::deque<std::function<void()>> m_data;
 };
 
+
+#define unknown(p) (p?p:"unknown")
+
+
+
 #endif /* MISC_H */

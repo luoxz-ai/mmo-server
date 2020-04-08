@@ -39,7 +39,7 @@ ON_PLAYERMSG(CS_ACTIVE_NPC)
     if(GameMath::distance(pActor->GetPos(), pPlayer->GetPos()) < MIN_INTERACT_DIS)
         return;
 
-    CNpc* pNpc = pActor->ConvertToDerived<CNpc>();
+    CNpc* pNpc = pActor->CastTo<CNpc>();
     pNpc->ActiveNpc(pPlayer);
     __LEAVE_FUNCTION
 }

@@ -141,9 +141,12 @@ public:
     }
 
 public:
-    export_lua CMysqlConnection* GetGlobalDB() const { return m_pGlobalDB.get(); }
+    std::unique_ptr<CMysqlConnection> ConnectGlobalDB();
+
     export_lua CMysqlConnection* GetGameDB(uint16_t nWorldID);
     void                         ReleaseGameDB(uint16_t nWorldID);
+    
+    CMysqlConnection* _ConnectGameDB(uint16_t nWorldID, CMysqlConnection* pGlobalDB);
 
     export_lua CLUAScriptManager* GetScriptManager() const { return m_pScriptManager.get(); }
     export_lua CMapManager* GetMapManager() const { return m_pMapManager.get(); }
@@ -160,7 +163,7 @@ private:
     void ProcessPortMessage();
 
 private:
-    std::unique_ptr<CMysqlConnection>                               m_pGlobalDB;
+    std::unique_ptr<CMysqlConnection> m_pGlobalDB;
     std::unordered_map<uint16_t, std::unique_ptr<CMysqlConnection>> m_GameDBMap;
 
     CMyTimer m_tLastDisplayTime;

@@ -36,8 +36,8 @@ ENDIF()
 
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(mydbtable
- basecode
- mydb
+ libbasecode.so
+ libmydb.so
  ${JEMALLOC_LIB_NAME}
 )
 

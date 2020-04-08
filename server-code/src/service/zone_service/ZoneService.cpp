@@ -91,27 +91,15 @@ bool CZoneService::Init(const ServerPort& nServerPort)
     
     m_MessagePoolBySocket.reserve(GUESS_MAX_PLAYER_COUNT);
     m_tLastDisplayTime.Startup(20);
-    const auto& settings = GetMessageRoute()->GetSettingMap();
+    auto pGlobalDB = ConnectGlobalDB();
+    CHECKF(pGlobalDB.get());
+    if(GetWorldID() != 0)
     {
-        const auto& settingGlobalDB = settings["GlobalMYSQL"][0];
-
-        auto pDB = std::make_unique<CMysqlConnection>();
-
-        if(pDB->Connect(settingGlobalDB.Query("host"),
-                        settingGlobalDB.Query("user"),
-                        settingGlobalDB.Query("passwd"),
-                        settingGlobalDB.Query("dbname"),
-                        settingGlobalDB.QueryULong("port")) == false)
-        {
-            return false;
-        }
-        m_pGlobalDB.reset(pDB.release());
-
-        if(GetWorldID() != 0)
-        {
-            GetGameDB(GetWorldID());
-        }
+        _ConnectGameDB(GetWorldID(), pGlobalDB.get());
     }
+    
+    
+
 
     //配置读取
 #define DEFINE_CONFIG_LOAD(T, path)   \
@@ -141,7 +129,7 @@ bool CZoneService::Init(const ServerPort& nServerPort)
     CHECKF(m_pActorManager.get());
     m_pTeamInfoManager.reset(CTeamInfoManager::CreateNew());
     CHECKF(m_pTeamInfoManager.get());
-    m_pGMManager.reset(CGMManager::CreateNew());
+    m_pGMManager.reset(CGMManager::CreateNew(pGlobalDB.get()));
     CHECKF(m_pGMManager.get());
 
     //脚本加载
@@ -179,6 +167,11 @@ bool CZoneService::Init(const ServerPort& nServerPort)
         ServerMSG::ServiceReady msg;
         msg.set_serverport(GetServerPort());
         SendMsgToWorld(GetWorldID(), ServerMSG::MsgID_ServiceReady, msg);
+    }
+    else
+    {
+        //share_zone store globaldb
+        m_pGlobalDB.reset(pGlobalDB.release());
     }
 
     return true;
@@ -383,7 +376,7 @@ void CZoneService::_ID2VS(OBJID id, CZoneService::VSMap_t& VSMap)
     CActor* pActor = GetActorManager()->QueryActor(id);
     if(pActor && pActor->IsPlayer())
     {
-        CPlayer* pPlayer = pActor->ConvertToDerived<CPlayer>();
+        CPlayer* pPlayer = pActor->CastTo<CPlayer>();
         VSMap[pPlayer->GetSocket().GetServerPort()].push_back(pPlayer->GetSocket());
     }
     __LEAVE_FUNCTION
@@ -400,6 +393,54 @@ void CZoneService::ReleaseGameDB(uint16_t nWorldID)
     __LEAVE_FUNCTION
 }
 
+std::unique_ptr<CMysqlConnection> CZoneService::ConnectGlobalDB()
+{
+    const auto& settings = GetMessageRoute()->GetSettingMap();
+    const auto& settingGlobalDB = settings["GlobalMYSQL"][0];
+    auto pGlobalDB = std::make_unique<CMysqlConnection>();
+    if(pGlobalDB->Connect(settingGlobalDB.Query("host"),
+                    settingGlobalDB.Query("user"),
+                    settingGlobalDB.Query("passwd"),
+                    settingGlobalDB.Query("dbname"),
+                    settingGlobalDB.QueryULong("port")) == false)
+    {
+        return nullptr;
+    }
+    return pGlobalDB;
+}
+
+CMysqlConnection* CZoneService::_ConnectGameDB(uint16_t nWorldID, CMysqlConnection* pGlobalDB)
+{
+    __ENTER_FUNCTION
+    CHECKF(pGlobalDB);
+    //通过globaldb查询localdb
+    auto result = pGlobalDB->Query(
+        TBLD_DBINFO::table_name,
+        fmt::format(FMT_STRING("SELECT * FROM {} WHERE worldid={} LIMIT 1"), TBLD_DBINFO::table_name, nWorldID));
+    if(result)
+    {
+        auto row = result->fetch_row(false);
+        if(row)
+        {
+            std::string host   = row->Field(TBLD_DBINFO::DB_IP);
+            uint32_t    port   = row->Field(TBLD_DBINFO::DB_PORT);
+            std::string user   = row->Field(TBLD_DBINFO::DB_USER);
+            std::string passwd = row->Field(TBLD_DBINFO::DB_PASSWD);
+            std::string dbname = row->Field(TBLD_DBINFO::DB_NAME);
+
+            auto pDB = std::make_unique<CMysqlConnection>();
+            if(pDB->Connect(host, user, passwd, dbname, port) == false)
+            {
+                return nullptr;
+            }
+            m_GameDBMap[nWorldID].reset(pDB.release());
+            return m_GameDBMap[nWorldID].get();
+        }
+    }
+    __LEAVE_FUNCTION
+    return nullptr;
+}
+
 CMysqlConnection* CZoneService::GetGameDB(uint16_t nWorldID)
 {
     __ENTER_FUNCTION
@@ -410,32 +451,16 @@ CMysqlConnection* CZoneService::GetGameDB(uint16_t nWorldID)
     }
     else
     {
-        //通过globaldb查询localdb
-        auto result = m_pGlobalDB->Query(
-            TBLD_DBINFO::table_name,
-            fmt::format(FMT_STRING("SELECT * FROM {} WHERE worldid={} LIMIT 1"), TBLD_DBINFO::table_name, nWorldID));
-        if(result)
+        if(m_pGlobalDB)
         {
-            auto row = result->fetch_row(false);
-            if(row)
-            {
-                std::string host   = row->Field(TBLD_DBINFO::DB_IP);
-                uint32_t    port   = row->Field(TBLD_DBINFO::DB_PORT);
-                std::string user   = row->Field(TBLD_DBINFO::DB_USER);
-                std::string passwd = row->Field(TBLD_DBINFO::DB_PASSWD);
-                std::string dbname = row->Field(TBLD_DBINFO::DB_NAME);
-
-                auto pDB = std::make_unique<CMysqlConnection>();
-                if(pDB->Connect(host, user, passwd, dbname, port) == false)
-                {
-                    return nullptr;
-                }
-                m_GameDBMap[nWorldID].reset(pDB.release());
-                return m_GameDBMap[nWorldID].get();
-            }
+            return _ConnectGameDB(nWorldID, m_pGlobalDB.get());
+        }
+        else
+        {
+            auto pGlobalDB = ConnectGlobalDB();
+            return _ConnectGameDB(nWorldID, pGlobalDB.get());
         }
     }
-    LOGERROR("can find dbinfo worldid:{}", nWorldID);
     __LEAVE_FUNCTION
     return nullptr;
 }

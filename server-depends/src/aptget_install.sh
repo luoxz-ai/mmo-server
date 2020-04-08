@@ -1,4 +1,39 @@
 #sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
 sudo apt-get update -y
-#sudo apt-get install autoconf gcc-7 g++-7 libcurl4-openssl-dev libclang-3.9-dev binutils-dev build-essential libtool libmysqlclient-dev ccache cmake3 libreadline6-dev  -y
-sudo apt-get install autoconf gcc-7 g++-7 libcurl4-openssl-dev libclang-3.9-dev binutils-dev build-essential libtool libmysqlclient-dev ccache cmake libreadline-dev libssl-dev -y
+
+sudo apt-get update -y --fix-missing \
+ && apt-get install -y --fix-missing \
+ apt-utils \
+ && apt-get install -y --fix-missing \
+ sudo \
+ vim \
+ less \
+ autoconf \
+ binutils-dev \
+ build-essential \
+ curl \
+ ccache \
+ cmake \
+ libtool \
+ language-pack-zh-hans \
+ subversion \
+ git \
+ python \
+ net-tools \
+ linux-tools-generic \
+ gdb \
+ gcc-7 \
+ g++-7 \
+ clang-9 \
+ clang-format-9 \
+ clang-tidy-9 \
+ libclang-9-dev \
+ lldb-9 \
+ lld-9 \
+ libc++-9-dev \
+ libmysqlclient-dev \
+ mysql-client \
+ libcurl4-openssl-dev \
+ libreadline6-dev \
+ libssl-dev \
+ libasan5 

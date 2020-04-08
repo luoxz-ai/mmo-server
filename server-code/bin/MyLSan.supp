@@ -1,1 +1,3 @@
 leak:brpc
+leak:dlopen
+leak:bfd

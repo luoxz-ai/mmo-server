@@ -4,4 +4,5 @@ detect_leaks=1
 detect_stack_use_after_return=1
 fast_unwind_on_malloc=1
 log_exe_name=true
-#malloc_context_size=4
+verbosity=0
+malloc_context_size=30

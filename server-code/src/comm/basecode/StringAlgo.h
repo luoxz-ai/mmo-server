@@ -156,4 +156,8 @@ export_lua bool FindNameError(const std::string& utf8);
 
 export_lua bool RegexStrCheck(const std::string& str);
 export_lua bool RegexStrReload();
+
+
+
+
 #endif /* STRINGALGO_H */

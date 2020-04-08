@@ -15,6 +15,8 @@ RUN /data/mmorpg/server-depends/src/build_depends.sh curlpp;
 RUN /data/mmorpg/server-depends/src/build_depends.sh xlnt;
 RUN /data/mmorpg/server-depends/src/build_depends.sh fmt;
 RUN /data/mmorpg/server-depends/src/build_depends.sh libwebsockets;
+RUN /data/mmorpg/server-depends/src/build_depends.sh recastnavigation;
+RUN /data/mmorpg/server-depends/src/build_depends.sh box2d;
 
 
 ENV CCACHE_SLOPPINESS pch_defines,time_macros

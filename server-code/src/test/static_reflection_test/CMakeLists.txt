@@ -18,7 +18,7 @@ ADD_DEPENDENCIES(static_reflection_test basecode)
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(static_reflection_test
  libbasecode.so
- fmt
+ libfmt.so
  tinyxml2
  ${JEMALLOC_LIB_NAME}
  dl

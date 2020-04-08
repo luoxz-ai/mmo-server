@@ -40,7 +40,7 @@ void OnGMCMD_chgmap(CPlayer* pPlayer, const std::vector<std::string>& vecCMD)
 
 void CGMManager::GMCmdHandlerRegister()
 {
-#define REG_GMCMD(name) RegisterGMCmd(#name, OnGMCMD_##name);
+#define REG_GMCMD(name) RegisterGMCmd(#name, &OnGMCMD_##name);
     REG_GMCMD(help);
     REG_GMCMD(additem);
     REG_GMCMD(chgmap);

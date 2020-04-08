@@ -29,12 +29,8 @@ TARGET_LINK_LIBRARIES(service_comm
  libbasecode.so
  libmyproto.so
  libmydb.so
- message_route
- libbrpc.so
- libgflags.a
- libleveldb.a
- libsnappy.a
- fmt
+ libmessage_route.so
+ libfmt.so
  pthread
  rt
  dl

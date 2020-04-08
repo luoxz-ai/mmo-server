@@ -28,13 +28,13 @@ SET(LIBRARY_OUTPUT_PATH ${LIBRARIES})
 ADD_DEPENDENCIES(market_service basecode network mydb myproto mydbtable service_comm)
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(market_service
- basecode 
- network 
- mydb 
- myproto 
- mydbtable 
- service_comm  
- fmt
+ libbasecode.so 
+ libnetwork.so 
+ libmydb.so 
+ libmyproto.so 
+ libmydbtable.so 
+ libservice_comm.so  
+ libfmt.so
  pthread
  rt
  dl

@@ -2,10 +2,12 @@
 #define GMMANAGER_H
 #include "BaseCode.h"
 
+class CMysqlConnection;
 class CGMManager: public Noncopyable<CGMManager>
 {
     CGMManager();
     bool Init();
+    bool Init(CMysqlConnection* pGlobalDB);
 public:
     CreateNewImpl(CGMManager);
 public:

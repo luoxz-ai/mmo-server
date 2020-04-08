@@ -629,7 +629,7 @@ bool CPlayer::CanDamage(CActor* pTarget) const
     }
     if(pTarget->IsPlayer())
     {
-        pTargetPlayer = pTarget->ConvertToDerived<CPlayer>();
+        pTargetPlayer = pTarget->CastTo<CPlayer>();
     }
 
     if(pTargetPlayer)
@@ -693,7 +693,7 @@ void CPlayer::BeKillBy(CActor* pAttacker)
 
     if(pAttacker && pAttacker->IsPlayer())
     {
-        CPlayer* pPlayer = pAttacker->ConvertToDerived<CPlayer>();
+        CPlayer* pPlayer = pAttacker->CastTo<CPlayer>();
         if(GetCurrentScene()->IsPvPFree(GetPos().x, GetPos().y) == false)
         {
             //计算PK值
@@ -1121,7 +1121,7 @@ bool CPlayer::ActiveNpc(OBJID idNpc)
     if(GameMath::distance(pActor->GetPos(), GetPos()) < MIN_INTERACT_DIS)
         return false;
 
-    CNpc* pNpc = pActor->ConvertToDerived<CNpc>();
+    CNpc* pNpc = pActor->CastTo<CNpc>();
     pNpc->ActiveNpc(this);
     return true;
     __LEAVE_FUNCTION

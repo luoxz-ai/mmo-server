@@ -52,6 +52,13 @@ void CNetworkService::Destroy()
         m_pIOTimeOutEvent = nullptr;
     }
 
+    if(m_pCloseSocketEvent)
+    {
+        event_del(m_pCloseSocketEvent);
+        event_free(m_pCloseSocketEvent);
+        m_pCloseSocketEvent = nullptr;
+    }
+
     for(auto& v: m_setListener)
     {
         evconnlistener_free(v.first);
@@ -453,6 +460,10 @@ void CNetworkService::StartIOThread(const std::string&    thread_name,
     }
     m_IOThreadTimeOutFunc = std::move(time_out_func);
     m_pIOTimeOutEvent     = event_new(m_pBase, -1, EV_PERSIST, _IOThreadTimeOut, this);
+    m_pCloseSocketEvent   = event_new(m_pBase, -1, 0, [](int32_t, short, void* ctx){
+        CNetworkService* pThis = (CNetworkService*)ctx;
+        pThis->_ProceseCloseingSocket();
+    }, this);
     struct timeval tv
     {
         time_out_ms / 1000, time_out_ms % 1000
@@ -481,7 +492,6 @@ void CNetworkService::RunOnce()
         lws_service(m_pLwsContext, 0);
     }
 
-    _ProceseCloseingSocket();
     __LEAVE_FUNCTION
 }
 
@@ -610,14 +620,27 @@ void CNetworkService::_AddCloseingSocket(CNetSocket* pSocket)
 {
     __ENTER_FUNCTION
     CHECK(pSocket);
-    std::lock_guard<std::mutex> lock(m_mutex);
-    m_setCloseingSocket.insert(pSocket);
+    {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        m_setCloseingSocket.insert(pSocket);
+    }
+    if(m_bWaitingProcessCloseSocketEvent == false)
+    {
+        //add a remove event
+        m_bWaitingProcessCloseSocketEvent = true;
+        struct timeval tv
+        {
+            0,0
+        };
+        evtimer_add(m_pCloseSocketEvent, &tv);
+    }
     __LEAVE_FUNCTION
 }
 
 void CNetworkService::_ProceseCloseingSocket()
 {
     __ENTER_FUNCTION
+    m_bWaitingProcessCloseSocketEvent = false;
     std::lock_guard<std::mutex> lock(m_mutex);
 
     for(auto it = m_setCloseingSocket.begin(); it != m_setCloseingSocket.end();)

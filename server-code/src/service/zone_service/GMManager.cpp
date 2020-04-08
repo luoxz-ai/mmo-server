@@ -8,7 +8,14 @@ CGMManager::~CGMManager() {}
 
 bool CGMManager::Init()
 {
-    auto result = ZoneService()->GetGlobalDB()->Query(TBLD_GMLIST::table_name);
+    auto pGlobalDB = ZoneService()->ConnectGlobalDB();
+    return Init(pGlobalDB.get());
+}
+
+bool CGMManager::Init(CMysqlConnection* pGlobalDB)
+{
+    __ENTER_FUNCTION
+    auto result = pGlobalDB->Query(TBLD_GMLIST::table_name);
     if(result)
     {
         for(size_t i = 0; i < result->get_num_row(); i++)
@@ -24,7 +31,12 @@ bool CGMManager::Init()
     }
     GMCmdHandlerRegister();
     return true;
+    __LEAVE_FUNCTION
+    return false;
 }
+
+
+
 
 void CGMManager::Destory()
 {
@@ -64,7 +76,7 @@ void CGMManager::ProcessGMCmd(CPlayer* pPlayer, const std::string& cmd)
     it->second(pPlayer, vecCmd);
 }
 
-void CGMManager::RegisterGMCmd(const std::string& cmd, GMCmdHandle handle)
+void CGMManager::RegisterGMCmd(const std::string& cmd, GMCmdHandle&& handle)
 {
-    m_GMCmdHandle[cmd] = handle;
+    m_GMCmdHandle[cmd] = std::move(handle);
 }

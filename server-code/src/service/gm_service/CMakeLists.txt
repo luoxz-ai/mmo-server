@@ -26,17 +26,15 @@ set_target_properties(gm_service PROPERTIES CXX_VISIBILITY_PRESET hidden)
 cotire(gm_service)
 #指定库输出路径
 SET(LIBRARY_OUTPUT_PATH ${LIBRARIES})
-ADD_DEPENDENCIES(gm_service basecode network myproto mydb mydbtable service_comm)
+ADD_DEPENDENCIES(gm_service basecode network myproto mydb mydbtable service_comm rpcservice_comm)
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(gm_service
-  basecode 
-  network 
-  myproto 
-  mydb 
-  mydbtable 
-  service_comm
-  libbrpc.so
-  fmt
+  libbasecode.so 
+  libnetwork.so 
+  libmyproto.so 
+  libservice_comm.so
+  librpcservice_comm.so
+  libfmt.so
   pthread
   rt
   dl

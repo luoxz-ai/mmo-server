@@ -80,7 +80,7 @@ bool CActorManager::AddActor(CActor* pActor)
             {
 
                 // log error twice
-                CPlayer* pOldPlayer = pOldActor->ConvertToDerived<CPlayer>();
+                CPlayer* pOldPlayer = pOldActor->CastTo<CPlayer>();
                 auto     it         = m_PlayerRefMap.find(pOldPlayer->GetSocket());
                 if(it != m_PlayerRefMap.end())
                 {
@@ -110,7 +110,7 @@ bool CActorManager::AddActor(CActor* pActor)
         break;
         case ACT_PLAYER:
         {
-            CPlayer* pPlayer                     = pActor->ConvertToDerived<CPlayer>();
+            CPlayer* pPlayer                     = pActor->CastTo<CPlayer>();
             m_PlayerRefMap[pPlayer->GetSocket()] = pPlayer;
         }
         break;
@@ -153,7 +153,7 @@ bool CActorManager::DelActorByID(OBJID id, bool bDelete /* = true*/)
         break;
         case ACT_PLAYER:
         {
-            CPlayer* pPlayer      = pActor->ConvertToDerived<CPlayer>();
+            CPlayer* pPlayer      = pActor->CastTo<CPlayer>();
             auto     itFindPlayer = m_PlayerRefMap.find(pPlayer->GetSocket());
             if(itFindPlayer != m_PlayerRefMap.end())
             {

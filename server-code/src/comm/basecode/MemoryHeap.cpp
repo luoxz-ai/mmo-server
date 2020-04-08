@@ -80,7 +80,14 @@ size_t get_thread_memory_allocted()
     size_t   len         = sizeof(uint64_t);
     je_mallctl("thread.allocated", &allocated, &len, NULL, 0);
     je_mallctl("thread.deallocated", &deallocated, &len, NULL, 0);
-    return allocated - deallocated;
+    if(allocated > deallocated)
+    {
+        return allocated - deallocated;
+    }
+    else
+    {
+        return 0;
+    }
 #else
     return 0;
 #endif

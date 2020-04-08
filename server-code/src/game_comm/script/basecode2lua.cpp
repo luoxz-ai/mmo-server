@@ -291,4 +291,6 @@ void basecode2lua(lua_State* L)
     lua_tinker::set(L, "SYNC_ALL_DELAY", SYNC_ALL_DELAY);
     lua_tinker::set(L, "SYNC_FALSE", SYNC_FALSE);
     lua_tinker::set(L, "SYNC_TRUE", SYNC_TRUE);
+    lua_tinker::class_alias<Vector2, CPos2D>(L, "CPos2D");
+    lua_tinker::class_alias<Vector3, CPos3D>(L, "CPos3D");
 }

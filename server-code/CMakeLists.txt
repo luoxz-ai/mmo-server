@@ -37,10 +37,10 @@ SET(CMAKE_CXX_ERROR_FLAGS
  -Wno-nonportable-include-path \
  -Wno-undefined-var-template")
 
-SET(CMAKE_C_FLAGS_DEBUG "$ENV{CFLAGS} -g -DDEBUG ")
-SET(CMAKE_C_FLAGS_RELEASE "$ENV{CFLAGS} -g -O3 -DNDEBUG ")
-SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -std=c++17 -g -DDEBUG ${CMAKE_CXX_ERROR_FLAGS} ")
-SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -std=c++17 -g -O3 -DNDEBUG ${CMAKE_CXX_ERROR_FLAGS} ")
+SET(CMAKE_C_FLAGS_DEBUG "$ENV{CFLAGS} -g -pipe -DDEBUG -pthread")
+SET(CMAKE_C_FLAGS_RELEASE "$ENV{CFLAGS} -g -pipe -O3 -DNDEBUG -pthread")
+SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -std=c++17 -g -pipe -DDEBUG ${CMAKE_CXX_ERROR_FLAGS} -pthread")
+SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -std=c++17 -g -pipe -O3 -DNDEBUG ${CMAKE_CXX_ERROR_FLAGS} -pthread")
 
 add_compile_options("-fPIC")
 
@@ -143,6 +143,7 @@ include_directories(${PROJECT_SOURCE_DIR}/src/game_comm/mydbtable/)
 include_directories(${PROJECT_SOURCE_DIR}/src/game_comm/script/)
 include_directories(${PROJECT_SOURCE_DIR}/src/game_comm/gamemap/)
 include_directories(${PROJECT_SOURCE_DIR}/src/service/service_comm/)
+include_directories(${PROJECT_SOURCE_DIR}/src/service/rpcservice_comm/)
 include_directories(${PROJECT_SOURCE_DIR}/src/)
 
 macro(source_group_by_dir source_files)

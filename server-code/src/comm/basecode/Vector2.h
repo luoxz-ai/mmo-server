@@ -424,6 +424,6 @@ public:
     export_lua static const Vector2 UNIT_SCALE;
 };
 
-using CPos2D = Vector2;
+export_lua using CPos2D = Vector2;
 
 #endif // VECTOR2_H__

@@ -206,19 +206,27 @@ void process_section(bfd* abfd, asection* section, void* _data)
 
     // Finds the line corresponding to the offset
 
-    const char *filename = NULL, *function_name = NULL;
-    data->line_found =
-        bfd_find_nearest_line(abfd, section, data->symbol_table, offset, &filename, &function_name, &data->line);
+    const char *filename = NULL;
+    const char *function_name = NULL;
+    data->line_found = bfd_find_nearest_line(abfd, section, data->symbol_table, offset, &filename, &function_name, &data->line);
 
     if(filename == NULL)
+    {
         data->filename = "";
+    }
     else
+    {
         data->filename = filename;
+    }
 
     if(function_name == NULL)
+    {
         data->function_name = "";
+    }
     else
+    {
         data->function_name = function_name;
+    }
 }
 
 /* Loads the symbol table into 'data->symbol_table'.  */
@@ -253,18 +261,30 @@ int32_t load_symbol_table(bfd* abfd, line_data* data)
     return 0;
 }
 
-std::string addr2str(const std::string& file_name, size_t addr)
+std::string addr2line(const std::string& file_name, size_t addr)
 {
     bfd* abfd;
     abfd = bfd_openr(file_name.c_str(), NULL);
     if(abfd == NULL)
         return "Cannot open the binary file '" + file_name + "'\n";
 
+    line_data data;
+    data.addr         = addr;
+    data.symbol_table = NULL;
+    data.line_found   = false;
+
     scope_guards scope_exit;
     scope_exit += [&abfd]() 
     {
         bfd_close(abfd);
     };
+    scope_exit += [&data]() 
+    {
+        if(data.symbol_table != NULL)
+        {
+            free(data.symbol_table);
+        }
+    }; 
 
     if(bfd_check_format(abfd, bfd_archive))
     {
@@ -276,18 +296,7 @@ std::string addr2str(const std::string& file_name, size_t addr)
         return "Unknown format of the binary file '" + file_name + "'\n";
     }
 
-    line_data data;
-    data.addr         = addr;
-    data.symbol_table = NULL;
-    data.line_found   = false;
-
-    scope_exit += [&data]() 
-    {
-        if(data.symbol_table != NULL)
-        {
-            free(data.symbol_table);
-        }
-    }; 
+ 
     // This allocates the symbol_table:
     if(load_symbol_table(abfd, &data) == 1)
     {
@@ -299,7 +308,7 @@ std::string addr2str(const std::string& file_name, size_t addr)
     if(data.line_found)
         return data.filename + ":" + std::to_string(data.line);
     else
-        return "Failed to find from '" + file_name + "'\n";
+        return fmt::format("Failed to find {:X} from {}", addr, file_name);
 }
 
 std::string GetStackTraceString(const CallFrameMap& data)
@@ -320,12 +329,13 @@ std::string GetStackTraceString(const CallFrameMap& data)
         {
             std::string symbol = DemangleSymbol(pair_v.second.c_str());
             size_t      addr   = (size_t)(pair_v.first) - (size_t)(dlinfo.dli_fbase);
-            if((size_t)dlinfo.dli_fbase == 0x400000)
+            if((size_t)(dlinfo.dli_fbase) <= 0x400000)
                 addr = (size_t)(pair_v.first);
-            result += fmt::format("TRACE:[{:X}]{}\nADDR::{} \n",
+            result += fmt::format("TRACE:[ADDR][{:X}]{}\n"
+                                  "FILE:{}",
                                   addr,
                                   symbol.c_str(),
-                                  addr2str(dlinfo.dli_fname, addr).c_str());
+                                  addr2line(dlinfo.dli_fname, addr).c_str());
         }
         else
         {
@@ -356,12 +366,12 @@ std::string GetStackTraceString(const CALLFRAME_NODE* pFrame)
         {
             std::string symbol = DemangleSymbol(*funcnamearry);
             size_t      addr   = (size_t)(pFrame->m_pCallFunc) - (size_t)(dlinfo.dli_fbase);
-            if((size_t)dlinfo.dli_fbase == 0x400000)
+           if((size_t)(dlinfo.dli_fbase) <= 0x400000)
                 addr = (size_t)(pFrame->m_pCallFunc);
             result += fmt::format("TRACE:[{:X}]{}\nADDR::{} \n",
                                   addr,
                                   symbol.c_str(),
-                                  addr2str(dlinfo.dli_fname, addr).c_str());
+                                  addr2line(dlinfo.dli_fname, addr).c_str());
             ;
         }
         else

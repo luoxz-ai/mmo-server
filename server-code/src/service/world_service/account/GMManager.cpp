@@ -8,7 +8,14 @@ CGMManager::~CGMManager() {}
 
 bool CGMManager::Init()
 {
-    auto result = WorldService()->GetGlobalDB()->Query(TBLD_GMLIST::table_name);
+    auto pGlobalDB = WorldService()->ConnectGlobalDB();
+    return Init(pGlobalDB.get());
+}
+
+bool CGMManager::Init(CMysqlConnection* pGlobalDB)
+{
+    CHECKF(pGlobalDB);
+    auto result = pGlobalDB->Query(TBLD_GMLIST::table_name);
     if(result)
     {
         for(size_t i = 0; i < result->get_num_row(); i++)

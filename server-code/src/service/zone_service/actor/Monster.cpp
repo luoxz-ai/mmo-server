@@ -107,13 +107,13 @@ void CMonster::BeKillBy(CActor* pAttacker)
     {
         if(pAttacker->IsPlayer())
         {
-            pKillerPlayer = pAttacker->ConvertToDerived<CPlayer>();
+            pKillerPlayer = pAttacker->CastTo<CPlayer>();
         }
         else if(pAttacker->IsPet())
         {
             auto pActor = ActorManager()->QueryActor(pAttacker->GetOwnerID());
             if(pActor)
-                pKillerPlayer = pActor->ConvertToDerived<CPlayer>();
+                pKillerPlayer = pActor->CastTo<CPlayer>();
         }
     }
 
@@ -145,7 +145,7 @@ void CMonster::BeKillBy(CActor* pAttacker)
                     ;
                     if(GameMath::distance(pMember->GetPos(), GetPos()) <= MIN_EXP_SHARED_DIS)
                     {
-                        setMember.push_back(pMember->ConvertToDerived<CPlayer>());
+                        setMember.push_back(pMember->CastTo<CPlayer>());
                         nTotalMemberLev += pMember->GetLev();
                     }
                 }

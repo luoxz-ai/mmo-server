@@ -25,14 +25,15 @@ cotire(script)
 SET(LIBRARY_OUTPUT_PATH ${LIBRARIES})
 
 if(AUTO_GEN_EXPORT_LUA)
-add_dependencies(script basecode2lua)
+add_dependencies(script basecode basecode2lua)
 else()
+add_dependencies(script basecode)
 endif()
 
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(script
   liblua.a
-  basecode
+  libbasecode.so
   ${JEMALLOC_LIB_NAME}
 )
 

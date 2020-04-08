@@ -25,7 +25,7 @@ void CTeamInfo::OnAddMember(OBJID idMember)
     CActor* pActor = ActorManager()->QueryActor(idMember);
     if(pActor)
     {
-        CPlayer* pPlayer = pActor->ConvertToDerived<CPlayer>();
+        CPlayer* pPlayer = pActor->CastTo<CPlayer>();
         pPlayer->SetTeamID(m_idTeam);
     }
     m_setMemberID.push_back(idMember);
@@ -36,7 +36,7 @@ void CTeamInfo::OnDelMember(OBJID idMember)
     CActor* pActor = ActorManager()->QueryActor(idMember);
     if(pActor)
     {
-        CPlayer* pPlayer = pActor->ConvertToDerived<CPlayer>();
+        CPlayer* pPlayer = pActor->CastTo<CPlayer>();
         pPlayer->SetTeamID(0);
     }
     m_setMemberID.erase(std::find(m_setMemberID.begin(), m_setMemberID.end(), idMember));
@@ -50,7 +50,7 @@ void CTeamInfo::OnDestory()
         if(pActor == nullptr)
             continue;
         ;
-        CPlayer* pPlayer = pActor->ConvertToDerived<CPlayer>();
+        CPlayer* pPlayer = pActor->CastTo<CPlayer>();
         pPlayer->SetTeamID(0);
     }
 }

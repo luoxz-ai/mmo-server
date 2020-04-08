@@ -56,11 +56,11 @@ bool CMysqlConnection::Connect(const std::string& host,
     // mysql_options(m_pHandle.get(), MYSQL_SET_CHARSET_NAME, MYSQL_AUTODETECT_CHARSET_NAME);
     nError                  = mysql_options(m_pHandle.get(), MYSQL_SET_CHARSET_NAME, "utf8");
     nError                  = mysql_set_character_set(m_pHandle.get(), "utf8");
-    int32_t nConnectTimeOut = 10;
+    int32_t nConnectTimeOut = 5;
     nError                  = mysql_options(m_pHandle.get(), MYSQL_OPT_CONNECT_TIMEOUT, &nConnectTimeOut);
-    int32_t nWriteTimeOut   = 5;
+    int32_t nWriteTimeOut   = 1;
     nError                  = mysql_options(m_pHandle.get(), MYSQL_OPT_WRITE_TIMEOUT, &nWriteTimeOut);
-    int32_t nReadTimeOut    = 5;
+    int32_t nReadTimeOut    = 1;
     nError                  = mysql_options(m_pHandle.get(), MYSQL_OPT_READ_TIMEOUT, &nReadTimeOut);
     bool bReconnect         = true;
     nError                  = mysql_options(m_pHandle.get(), MYSQL_OPT_RECONNECT, &bReconnect);

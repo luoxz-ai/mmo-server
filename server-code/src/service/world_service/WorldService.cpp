@@ -92,80 +92,65 @@ bool CWorldService::Init(const ServerPort& nServerPort)
     extern void RegisterWorldMessageHandler();
     RegisterWorldMessageHandler();
 
-    const auto& settings = GetMessageRoute()->GetSettingMap();
+    auto pGlobalDB = ConnectGlobalDB();
+    //通过globaldb查询localdb
+
+    auto result = pGlobalDB->Query(TBLD_DBINFO::table_name,
+                                        fmt::format(FMT_STRING("SELECT * FROM {} WHERE worldid={} LIMIT 1"),
+                                                    TBLD_DBINFO::table_name,
+                                                    GetWorldID()));
+    if(result == nullptr || result->get_num_row() == 0)
     {
-        const auto& settingGlobalDB = settings["GlobalMYSQL"][0];
+        LOGFATAL("CWorldService::Create fail:gamedb info error");
+        return false;
+    }
+
+    auto row = result->fetch_row(false);
+    if(row)
+    {
+        std::string host   = (const char*)row->Field(TBLD_DBINFO::DB_IP);
+        uint32_t    port   = row->Field(TBLD_DBINFO::DB_PORT);
+        std::string user   = (const char*)row->Field(TBLD_DBINFO::DB_USER);
+        std::string passwd = (const char*)row->Field(TBLD_DBINFO::DB_PASSWD);
+        std::string dbname = (const char*)row->Field(TBLD_DBINFO::DB_NAME);
 
         auto pDB = std::make_unique<CMysqlConnection>();
-
-        if(pDB->Connect(settingGlobalDB.Query("host"),
-                        settingGlobalDB.Query("user"),
-                        settingGlobalDB.Query("passwd"),
-                        settingGlobalDB.Query("dbname"),
-                        settingGlobalDB.QueryULong("port")) == false)
+        if(pDB->Connect(host, user, passwd, dbname, port) == false)
         {
+            
             return false;
         }
-        m_pGlobalDB.reset(pDB.release());
+        m_pGameDB.reset(pDB.release());
 
-        //通过globaldb查询localdb
-
-        auto result = m_pGlobalDB->Query(TBLD_DBINFO::table_name,
-                                         fmt::format(FMT_STRING("SELECT * FROM {} WHERE worldid={} LIMIT 1"),
-                                                     TBLD_DBINFO::table_name,
-                                                     GetWorldID()));
-        if(result == nullptr || result->get_num_row() == 0)
         {
-            LOGFATAL("CWorldService::Create fail:gamedb info error");
-            return false;
+            CHECKF(m_pGameDB->CheckTable<TBLD_PLAYER>());
+            CHECKF(m_pGameDB->CheckTable<TBLD_ITEM>());
+            CHECKF(m_pGameDB->CheckTable<TBLD_SKILL>());
+            CHECKF(m_pGameDB->CheckTable<TBLD_STATUS>());
+            CHECKF(m_pGameDB->CheckTable<TBLD_GUILD>());
+            CHECKF(m_pGameDB->CheckTable<TBLD_MAIL>());
+            CHECKF(m_pGameDB->CheckTable<TBLD_PET>());
         }
 
-        auto row = result->fetch_row(false);
-        if(row)
+        m_nCurPlayerMaxID       = GetDefaultPlayerID(GetWorldID());
+        auto result_playercount = m_pGameDB->UnionQuery(
+            fmt::format(FMT_STRING("SELECT ifnull(max(id),{}) as id FROM tbld_player"), m_nCurPlayerMaxID));
+        if(result_playercount && result_playercount->get_num_row() == 1)
         {
-            std::string host   = (const char*)row->Field(TBLD_DBINFO::DB_IP);
-            uint32_t    port   = row->Field(TBLD_DBINFO::DB_PORT);
-            std::string user   = (const char*)row->Field(TBLD_DBINFO::DB_USER);
-            std::string passwd = (const char*)row->Field(TBLD_DBINFO::DB_PASSWD);
-            std::string dbname = (const char*)row->Field(TBLD_DBINFO::DB_NAME);
-
-            auto pDB = std::make_unique<CMysqlConnection>();
-            if(pDB->Connect(host, user, passwd, dbname, port) == false)
+            auto row_result = result_playercount->fetch_row(false);
+            if(row_result)
             {
-                
-                return false;
+                m_nCurPlayerMaxID = (int64_t)row_result->Field(TBLD_PLAYER::ID);
+                m_nCurPlayerMaxID++;
             }
-            m_pGameDB.reset(pDB.release());
-
-            {
-                CHECKF(m_pGameDB->CheckTable<TBLD_PLAYER>());
-                CHECKF(m_pGameDB->CheckTable<TBLD_ITEM>());
-                CHECKF(m_pGameDB->CheckTable<TBLD_SKILL>());
-                CHECKF(m_pGameDB->CheckTable<TBLD_STATUS>());
-                CHECKF(m_pGameDB->CheckTable<TBLD_GUILD>());
-                CHECKF(m_pGameDB->CheckTable<TBLD_MAIL>());
-                CHECKF(m_pGameDB->CheckTable<TBLD_PET>());
-            }
-
-            m_nCurPlayerMaxID       = GetDefaultPlayerID(GetWorldID());
-            auto result_playercount = m_pGameDB->UnionQuery(
-                fmt::format(FMT_STRING("SELECT ifnull(max(id),{}) as id FROM tbld_player"), m_nCurPlayerMaxID));
-            if(result_playercount && result_playercount->get_num_row() == 1)
-            {
-                auto row_result = result_playercount->fetch_row(false);
-                if(row_result)
-                {
-                    m_nCurPlayerMaxID = (int64_t)row_result->Field(TBLD_PLAYER::ID);
-                    m_nCurPlayerMaxID++;
-                }
-            }
-        }
-        else
-        {
-            LOGFATAL("CWorldService::Create fail:gamedb info error");
-            return false;
         }
     }
+    else
+    {
+        LOGFATAL("CWorldService::Create fail:gamedb info error");
+        return false;
+    }
+    
 
     m_pUserAttrSet.reset(CUserAttrSet::CreateNew("res/config/Cfg_UserAttr.bytes"));
     CHECKF(m_pUserAttrSet.get());
@@ -176,7 +161,7 @@ bool CWorldService::Init(const ServerPort& nServerPort)
     m_pMapManager.reset(CMapManager::CreateNew(0));
     CHECKF(m_pMapManager.get());
 
-    m_pGMManager.reset(CGMManager::CreateNew());
+    m_pGMManager.reset(CGMManager::CreateNew(pGlobalDB.get()));
     CHECKF(m_pGMManager.get());
 
     m_pSystemVarSet.reset(CSystemVarSet::CreateNew());
@@ -259,6 +244,22 @@ void CWorldService::RecyclePlayerID(OBJID idPlayer)
 bool CWorldService::CheckProgVer(const std::string& prog_ver)
 {
     return true;
+}
+
+std::unique_ptr<CMysqlConnection> CWorldService::ConnectGlobalDB()
+{
+    const auto& settings = GetMessageRoute()->GetSettingMap();
+    const auto& settingGlobalDB = settings["GlobalMYSQL"][0];
+    auto pGlobalDB = std::make_unique<CMysqlConnection>();
+    if(pGlobalDB->Connect(settingGlobalDB.Query("host"),
+                    settingGlobalDB.Query("user"),
+                    settingGlobalDB.Query("passwd"),
+                    settingGlobalDB.Query("dbname"),
+                    settingGlobalDB.QueryULong("port")) == false)
+    {
+        return nullptr;
+    }
+    return pGlobalDB;
 }
 
 void CWorldService::SetServiceReady(uint16_t idService)

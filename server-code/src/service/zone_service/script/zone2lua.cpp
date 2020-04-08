@@ -835,7 +835,6 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CZoneService>(L, "GetActorManager", &CZoneService::GetActorManager);
     lua_tinker::class_def<CZoneService>(L, "GetGMManager", &CZoneService::GetGMManager);
     lua_tinker::class_def<CZoneService>(L, "GetGameDB", &CZoneService::GetGameDB);
-    lua_tinker::class_def<CZoneService>(L, "GetGlobalDB", &CZoneService::GetGlobalDB);
     lua_tinker::class_def<CZoneService>(L, "GetLoadingThread", &CZoneService::GetLoadingThread);
     lua_tinker::class_def<CZoneService>(L, "GetMapManager", &CZoneService::GetMapManager);
     lua_tinker::class_def<CZoneService>(L, "GetMonitorMgr", &CZoneService::GetMonitorMgr);
@@ -1427,4 +1426,6 @@ void zone2lua(lua_State* L)
     lua_tinker::class_inh<CPlayerCoolDownSet, CCoolDownSet>(L);
     lua_tinker::class_inh<CStoragePackage, CPackage>(L);
     lua_tinker::class_inh<CZoneService, CServiceCommon>(L);
+    lua_tinker::class_alias<Vector2, CPos2D>(L, "CPos2D");
+    lua_tinker::class_alias<Vector3, CPos3D>(L, "CPos3D");
 }

@@ -150,6 +150,10 @@ void class_con(lua_State* L, F&& func, DefaultArgs&&... default_args);
 // Tinker Class Inheritance
 template<typename T, typename P>
 void class_inh(lua_State* L);
+// Tinker Class alias
+template<typename T, typename Alias>
+void class_alias(lua_State* L, const char* name);
+
 
 // Tinker Class Functions
 template<typename T, typename Func, typename... DefaultArgs>
@@ -2027,6 +2031,33 @@ T namespace_get(lua_State* L, const char* namespace_name, const char* name)
     namespace_meta.remove();
 
     return pop<T>::apply(L);
+}
+
+// class alias
+template<typename T, typename Alias>
+void class_alias(lua_State* L, const char* name)
+{
+    using namespace detail;
+    stack_scope_exit scope_exit(L);
+    if(push_meta(L, get_class_name<T>()) != LUA_TTABLE)
+    {
+        return;
+    }
+
+    
+    class_name<Alias>::name(name);
+    lua_setglobal(L, name);
+
+
+    if(push_meta(L, get_class_name<std::shared_ptr<T>>()) == LUA_TTABLE)
+    {
+        std::string strSharedName = (std::string(name) + S_SHARED_PTR_NAME);
+        class_name<std::shared_ptr<Alias>>::name(strSharedName.c_str());
+        lua_setglobal(L, strSharedName.c_str());
+    }
+
+      
+    
 }
 
 // class init

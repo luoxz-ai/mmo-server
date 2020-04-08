@@ -1,4 +1,4 @@
-# test-proj
+# server-code
 
 ## depends第三方库
 
@@ -14,32 +14,59 @@
 * depends/src/curlpp curl库
 
 ## src目录
+* CMake cmake额外依赖
+* comm 全局公共库
+* game_comm 游戏公共库
+* server_share 服务间共享目录
+* service 服务
+* service_loader 服务加载器
+* test 测试项目
+* tools 工具项目
 
-* share 公共头文件
-* proto 消息结构和配置文件结构
+### src/comm目录
 * basecode 基础代码库
-* network 网络库封装
-* service_comm 服务器集群化互联封装
 * mydb 封装mysql访问
-* mydbtable mysql数据库结构
-* mapdata 场景数据读取
-* script 脚本封装
+* network 网络库封装
+* message_route 服务间通信组件
+
+### src/game_comm目录
+* gamemap 地图数据封装
+* mydbtable 数据库 结构定义
+* proto 消息结构和配置文件结构
+* script 脚本管理封装
+
+### src/service_loader目录
 * service_loader 服务器装载器, 读取service.xml加载配置, 使用service_loader -d --start=1,11,12,13,14 启动服务 service_loader --stop=1,11,12,13,14 关闭服务
 
+### src/service目录
+* service_comm 服务封装
+* rpcservice_comm rpc服务封装
+#### 具体service
 * socket_service 网关(玩家前端接入)
 * world_service 账号登录,角色创建,角色选择, 帮派,组队,排行榜等全局唯一功能
 * zone_service 游戏核心服务
 * ai_service 一个zone对应一个ai服务
 * gm_serivce 接入运营控制(一个区一个)
+* dlog 数据日志上报
+* market_serice 拍卖行服务
+*   
 * gmproxy_service 全局外部回调模块(根据外部http端口回调地址, 发送内部消息给对应区分的gm_service)
 * route_service 全局服务控制模块
-* dlog 彩虹数据日志上报
-* makret_serice 拍卖行服务
+* maybe还有toplist_service排行榜服务等
+
+### src/tools目录
+* cxx2lua       解析项目中头文件上的export_lua标记，自动生成lua binding代码
+* excel2pb      解析xlsx文件，转换为proto文件 
+* pbbin2txt     解析proto文件，转换为文本
+* sql2cpp       解析sql文件，转换为struct
+* robotclient   压测机器人工具 使用lua编写实例
+
 
 ## 建立vcproj文件
 * 在windows上执行make_proj.bat
 
 ## 执行步骤
+
 ```
 #编译第三方库
 cd depends/src
@@ -56,17 +83,15 @@ link_depends_lib.sh
 
 
 #初始化数据库
-cd db
-mysql -h 127.0.0.1 -u root --password=123456 global < globaldb.sql
-mysql -h 127.0.0.1 -u root --password=123456 global < init_globalservice.sql
-mysql -h 127.0.0.1 -u root --password=123456 global < add_new_server.sql
-mysql -h 127.0.0.1 -u root --password=123456 zone_1001 < gamedb.sql
+init_globaldb.sh
+init_zonedb.sh zone_1.config
 
 
 #启动global
 ./start_global.sh
 #分离式启动global
 ./start_all_global.sh
+
 #启动zone
 ./start_zone.sh 1001
 #分离式启动zone进程

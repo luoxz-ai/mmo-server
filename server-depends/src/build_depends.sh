@@ -177,6 +177,31 @@ cp lib/libwebsockets.so* ../../../lib/ -rp
 cd ../..
 }
 
+recastnavigation()
+{
+cd recastnavigation
+mkdir -p build
+cd build
+CC=${CC_COMPILER} CXX=${CXX_COMPILER} CFLAGS=${CC_FLAGS} CXXFLAGS=${CXX_FLAGS} LD_FLAG=${LINK_FLAGS} cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
+make -j4
+cp Recast/libRecast.so* ../../../lib/ -rp
+cp Detour/libDetour.so* ../../../lib/ -rp
+cp DetourCrowd/libDetourCrowd.so* ../../../lib/ -rp
+cp DetourTileCache/libDetourTileCache.so* ../../../lib/ -rp
+cd ../..
+}
+
+box2d()
+{
+cd box2d
+mkdir -p build
+cd build
+CC=${CC_COMPILER} CXX=${CXX_COMPILER} CFLAGS=${CC_FLAGS} CXXFLAGS=${CXX_FLAGS} LD_FLAG=${LINK_FLAGS} cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
+make -j4
+cp src/libbox2d.a ../../../lib/ -rp
+cd ../..
+}
+
 
 
 $1;

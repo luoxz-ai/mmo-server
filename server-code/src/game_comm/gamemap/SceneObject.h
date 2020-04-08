@@ -23,41 +23,44 @@ public:
 
 public:
     template<typename T>
-    T* ConvertToDerived()
+    T* CastTo()
     {
-        if(CanConvertTo(T::GetActorTypeStatic()) == true)
+        if(CanCastTo(T::GetActorTypeStatic()) == true)
             return static_cast<T*>(this);
         else
             return nullptr;
     }
-    virtual bool CanConvertTo(ActorType actor_type) { return GetActorType() == actor_type; }
+    virtual bool CanCastTo(ActorType actor_type) { return GetActorType() == actor_type; }
 
     export_lua virtual ActorType GetActorType() const = 0;
-    export_lua bool              IsPlayer() const { return GetActorType() == ACT_PLAYER; }
-    export_lua bool              IsMonster() const { return GetActorType() == ACT_MONSTER; }
-    export_lua bool              IsNpc() const { return GetActorType() == ACT_NPC; }
-    export_lua bool              IsPet() const { return GetActorType() == ACT_PET; }
+
+    export_lua bool IsPlayer() const { return GetActorType() == ACT_PLAYER; }
+    export_lua bool IsMonster() const { return GetActorType() == ACT_MONSTER; }
+    export_lua bool IsNpc() const { return GetActorType() == ACT_NPC; }
+    export_lua bool IsPet() const { return GetActorType() == ACT_PET; }
+
     export_lua CSceneBase* GetCurrentScene() const { return m_pScene; }
     export_lua CSceneNode* GetSceneNode() const { return m_pSceneNode; }
     export_lua CSceneCollisionNode* GetCollisionNode() const { return m_pCollisionNode; }
-    export_lua void                 SetSceneNode(CSceneNode* val);
-    export_lua void                 SetCollisionNode(CSceneCollisionNode* val);
+
+    export_lua void SetSceneNode(CSceneNode* val);
+    export_lua void SetCollisionNode(CSceneCollisionNode* val);
 
     export_lua OBJID GetID() const { return m_ID; }
     void             SetID(OBJID v) { m_ID = v; }
 
-    export_lua virtual const Vector2& GetPos() const { return m_Pos; }
-    export_lua virtual Vector2&       GetPosRef() { return m_Pos; }
-    export_lua virtual float          GetPosX() const { return m_Pos.x; }
-    export_lua virtual float          GetPosY() const { return m_Pos.y; }
-    export_lua virtual float          GetFace() const { return m_Face; }
-    export_lua virtual void           SetPos(const Vector2& pos);
-    export_lua virtual void           SetFace(float face)
+    export_lua virtual const CPos2D& GetPos() const { return m_Pos; }
+    export_lua virtual CPos2D&       GetPosRef() { return m_Pos; }
+    export_lua virtual float         GetPosX() const { return m_Pos.x; }
+    export_lua virtual float         GetPosY() const { return m_Pos.y; }
+    export_lua virtual float         GetFace() const { return m_Face; }
+    export_lua virtual void          SetPos(const CPos2D& pos);
+    export_lua virtual void          SetFace(float face)
     {
         if(Math::isNaN(face) == false)
             m_Face = face;
     }
-    export_lua void FaceTo(const Vector2& pos);
+    export_lua void FaceTo(const CPos2D& pos);
 
 public:
     // AOI
@@ -74,9 +77,11 @@ public:
     export_lua uint32_t GetCurrentViewActorCount() const;
     export_lua uint32_t GetCurrentViewPlayerCount();
     export_lua uint32_t GetCurrentViewMonsterCount();
+
     export_lua const BROADCAST_SET& _GetViewList() const { return m_ViewActors; }
     export_lua const BROADCAST_SET_BYTYPE& _GetViewListByType() const { return m_ViewActorsByType; }
-    export_lua void                        ForeachViewActorList(const std::function<void(OBJID)>& func);
+
+    export_lua void ForeachViewActorList(const std::function<void(OBJID)>& func);
 
 protected:
     // AOI
@@ -88,6 +93,7 @@ protected:
                                               int32_t              nCanReserveDelCount,
                                               uint32_t             view_range_out_square)                            = 0;
     virtual void AOIProcessPosUpdate(){};
+
     virtual bool IsNeedAddToBroadCastSet(CSceneObject* pActor) { return false; }
     virtual bool IsMustAddToBroadCastSet(CSceneObject* pActor) { return false; }
 
@@ -101,12 +107,12 @@ public:
 
 protected:
     OBJID                m_ID             = 0;       // id
-    CSceneBase*          m_pScene         = nullptr; //����
+    CSceneBase*          m_pScene         = nullptr; //场景
     CSceneNode*          m_pSceneNode     = nullptr;
     CSceneCollisionNode* m_pCollisionNode = nullptr;
-    Vector2              m_Pos;        //��ǰ��λ��
-    float                m_Face;       //��ǰ�ĳ���
-    BROADCAST_SET        m_ViewActors; // ��Ұ�ڵ�����
+    CPos2D               m_Pos;         //当前的位置
+    float                m_Face = 0.0f; //当前的朝向
+    BROADCAST_SET        m_ViewActors;  // 视野内的生物
     BROADCAST_SET_BYTYPE m_ViewActorsByType;
     int32_t              m_nHideCount = 0;
 };

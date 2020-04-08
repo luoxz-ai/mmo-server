@@ -31,15 +31,16 @@ SET(LIBRARY_OUTPUT_PATH ${LIBRARIES})
 ADD_DEPENDENCIES(world_service basecode network mydb myproto mydbtable service_comm gamemap)
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(world_service
- basecode 
- network 
- mydb 
- myproto 
- mydbtable 
- service_comm 
- gamemap
- fmt
+ libbasecode.so 
+ libnetwork.so 
+ libmydb.so 
+ libmyproto.so 
+ libmydbtable.so 
+ libservice_comm.so
+ libgamemap.so
+ libfmt.so
  pthread
+ libbrpc.so
  rt
  dl
  ${JEMALLOC_LIB_NAME}

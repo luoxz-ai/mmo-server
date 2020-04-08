@@ -311,7 +311,7 @@ void CScene::KickAllPlayer(const char* pszReason)
     while(m_setPlayer.empty() == false)
     {
         auto     it      = m_setPlayer.begin();
-        CPlayer* pPlayer = it->second->ConvertToDerived<CPlayer>();
+        CPlayer* pPlayer = it->second->CastTo<CPlayer>();
         m_setPlayer.erase(it);
         if(pPlayer)
         {

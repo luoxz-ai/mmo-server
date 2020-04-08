@@ -4,9 +4,11 @@
 #include "BaseCode.h"
 
 class CPlayer;
+class CMysqlConnection;
 class CGMManager: public Noncopyable<CGMManager>
 {
     CGMManager();
+    bool Init(CMysqlConnection* pGlobalDB);
     bool Init();
 public:
     CreateNewImpl(CGMManager);
@@ -21,7 +23,7 @@ public:
     typedef std::function<void(CPlayer*, const std::vector<std::string>&)> GMCmdHandle;
 
     void ProcessGMCmd(CPlayer* pPlayer, const std::string& cmd);
-    void RegisterGMCmd(const std::string& cmd, GMCmdHandle handle);
+    void RegisterGMCmd(const std::string& cmd, GMCmdHandle&& handle);
     void GMCmdHandlerRegister();
 
 private:

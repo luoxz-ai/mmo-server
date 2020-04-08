@@ -105,18 +105,16 @@ public:
     CUserAttrSet*     GetUserAttrSet() const { return m_pUserAttrSet.get(); }
     CBornPosSet*      GetBornPosSet() const { return m_pBornPosSet.get(); }
     CMapManager*      GetMapManager() const { return m_pMapManager.get(); }
-    CMysqlConnection* GetGlobalDB() const { return m_pGlobalDB.get(); }
     CMysqlConnection* GetGameDB() const { return m_pGameDB.get(); }
     CSystemVarSet*    GetSystemVarSet() const { return m_pSystemVarSet.get(); }
     CGMManager*       GetGMManager() const { return m_pGMManager.get(); }
     CTeamManager*     GetTeamManager() const { return m_pTeamManager.get(); }
-
+    std::unique_ptr<CMysqlConnection> ConnectGlobalDB();
 private:
     uint64_t                     m_nCurPlayerMaxID;
     std::deque<OBJID>            m_setPlayerIDPool;
     std::unordered_set<uint16_t> m_setServiceNeedReady;
 
-    std::unique_ptr<CMysqlConnection> m_pGlobalDB;
     std::unique_ptr<CMysqlConnection> m_pGameDB;
 
     std::unique_ptr<CUserManager>    m_pUserManager;

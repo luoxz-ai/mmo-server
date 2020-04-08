@@ -220,7 +220,12 @@ int main(int argc, char* argv[])
 
     if(g_pLoader->Load(setting_filename, nWorldID, create_service_set) == false)
     {
+        g_pLoader->Destory();
+        plock->unlock();
+        plock.reset();
+        BaseCode::StopLog();
         fmt::print(stderr, "service {} load fail.\n", start_service_set);
+        SAFE_DELETE(g_pLoader);
         exit(-1);
     }
     fmt::print("service {} load succ.\n", start_service_set);
@@ -228,8 +233,15 @@ int main(int argc, char* argv[])
     FILE* pStdOutFile = fopen((logpath + "/stdout.log").c_str(), "w+");
     if(pStdOutFile == NULL)
     {
+        g_pLoader->Destory();
+        plock->unlock();
+        plock.reset();
+        BaseCode::StopLog();
+        fmt::print(stderr, "open stdout.log fail.\n");
+        SAFE_DELETE(g_pLoader);
         exit(-1);
     }
+    
     savefd_out = dup(STDOUT_FILENO);
     savefd_err = dup(STDERR_FILENO);
     dup2(fileno(pStdOutFile), STDOUT_FILENO);

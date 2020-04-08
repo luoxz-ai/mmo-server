@@ -1,4 +1,5 @@
 ADD_SUBDIRECTORY(service_comm)
+ADD_SUBDIRECTORY(rpcservice_comm)
 
 ADD_SUBDIRECTORY(socket_service)
 ADD_SUBDIRECTORY(world_service)

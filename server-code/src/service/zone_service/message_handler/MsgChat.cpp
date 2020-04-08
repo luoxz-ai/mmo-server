@@ -23,7 +23,7 @@ ON_PLAYERMSG(CS_TALK)
     if(nGMLev > 0)
     {
         // gm发言全部记录
-        LOGGM("{}", msg.words().c_str());
+        LOGGM("[{}]{}", pPlayer->GetName(), msg.words());
         if(msg.words()[0] == GMCMD_PREFIX)
         {
             GMManager()->ProcessGMCmd(pPlayer, msg.words());
