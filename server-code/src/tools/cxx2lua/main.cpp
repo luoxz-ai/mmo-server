@@ -1203,7 +1203,7 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
     {
         snprintf(szBuf,
                  4096,
-                 "lua_tinker::class_add<%s>(L, \"%s\",true);\n",
+                 "lua_tinker::class_add<%s>(L, \"%s\",false);\n",
                  pContent->getAccessName().c_str(),
                  pContent->getAccessName().c_str()); // class_add
         os += szBuf;

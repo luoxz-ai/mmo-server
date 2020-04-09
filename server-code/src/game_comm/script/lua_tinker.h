@@ -144,6 +144,9 @@ void namespace_def(lua_State*  L,
 // class init
 template<typename T>
 void class_add(lua_State* L, const char* name, bool bInitShared = false);
+//reg shared_ptr<T>
+template<typename T>
+void class_add_shared(lua_State* L, const char* name);
 // Tinker Class Constructor
 template<typename T, typename F, typename... DefaultArgs>
 void class_con(lua_State* L, F&& func, DefaultArgs&&... default_args);
@@ -2087,44 +2090,51 @@ void class_add(lua_State* L, const char* name, bool bInitShared)
 
     if(bInitShared)
     {
-        std::string strSharedName = (std::string(name) + S_SHARED_PTR_NAME);
-        detail::class_name<std::shared_ptr<T>>::name(strSharedName.c_str());
-        int32_t nReserveSize = 3;
-
-#ifdef _ALLOW_SHAREDPTR_INVOKE
-        nReserveSize = 6;
-#endif
-
-        lua_createtable(L, 0, nReserveSize);
-        lua_pushstring(L, "__name");
-        lua_pushstring(L, strSharedName.c_str());
-        lua_rawset(L, -3);
-
-        lua_pushstring(L, "__gc");
-        lua_pushcclosure(L, detail::destroyer<detail::UserDataWapper>, 0);
-        lua_rawset(L, -3);
-
-#ifdef _ALLOW_SHAREDPTR_INVOKE
-        lua_pushstring(L, "__index");
-        lua_pushcclosure(L, detail::meta_get, 0);
-        lua_rawset(L, -3);
-
-        lua_pushstring(L, "__newindex");
-        lua_pushcclosure(L, detail::meta_set, 0);
-        lua_rawset(L, -3);
-
-        lua_pushstring(L, "__parent");
-        detail::push_meta(L, name);
-        lua_rawset(L, -3);
-#endif
-        { // register _get_raw_ptr func
-            lua_pushstring(L, "_get_raw_ptr");
-            lua_pushcclosure(L, &detail::_get_raw_ptr<T>, 0);
-            lua_rawset(L, -3);
-        }
-
-        lua_setglobal(L, strSharedName.c_str());
+        class_add_shared<T>(L,name);
     }
+}
+
+// class init
+template<typename T>
+void class_add_shared(lua_State* L, const char* name)
+{
+    std::string strSharedName = (std::string(name) + S_SHARED_PTR_NAME);
+    detail::class_name<std::shared_ptr<T>>::name(strSharedName.c_str());
+    int32_t nReserveSize = 3;
+
+#ifdef _ALLOW_SHAREDPTR_INVOKE
+    nReserveSize = 6;
+#endif
+
+    lua_createtable(L, 0, nReserveSize);
+    lua_pushstring(L, "__name");
+    lua_pushstring(L, strSharedName.c_str());
+    lua_rawset(L, -3);
+
+    lua_pushstring(L, "__gc");
+    lua_pushcclosure(L, detail::destroyer<detail::UserDataWapper>, 0);
+    lua_rawset(L, -3);
+
+#ifdef _ALLOW_SHAREDPTR_INVOKE
+    lua_pushstring(L, "__index");
+    lua_pushcclosure(L, detail::meta_get, 0);
+    lua_rawset(L, -3);
+
+    lua_pushstring(L, "__newindex");
+    lua_pushcclosure(L, detail::meta_set, 0);
+    lua_rawset(L, -3);
+
+    lua_pushstring(L, "__parent");
+    detail::push_meta(L, name);
+    lua_rawset(L, -3);
+#endif
+    { // register _get_raw_ptr func
+        lua_pushstring(L, "_get_raw_ptr");
+        lua_pushcclosure(L, &detail::_get_raw_ptr<T>, 0);
+        lua_rawset(L, -3);
+    }
+
+    lua_setglobal(L, strSharedName.c_str());
 }
 
 // Tinker Class Inheritance

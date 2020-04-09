@@ -59,8 +59,8 @@
 #include "lua_tinker.h"
 void zone2lua(lua_State* L)
 {
-    lua_tinker::class_add<Angle>(L, "Angle", true);
-    lua_tinker::class_add<AxisAlignedBox>(L, "AxisAlignedBox", true);
+    lua_tinker::class_add<Angle>(L, "Angle", false);
+    lua_tinker::class_add<AxisAlignedBox>(L, "AxisAlignedBox", false);
     lua_tinker::class_def<AxisAlignedBox>(
         L,
         "contains",
@@ -170,7 +170,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_var_static<AxisAlignedBox>(L, "NEAR_LEFT_TOP", AxisAlignedBox::NEAR_LEFT_TOP);
     lua_tinker::class_var_static<AxisAlignedBox>(L, "NEAR_RIGHT_BOTTOM", AxisAlignedBox::NEAR_RIGHT_BOTTOM);
     lua_tinker::class_var_static<AxisAlignedBox>(L, "NEAR_RIGHT_TOP", AxisAlignedBox::NEAR_RIGHT_TOP);
-    lua_tinker::class_add<CActor>(L, "CActor", true);
+    lua_tinker::class_add<CActor>(L, "CActor", false);
     lua_tinker::class_def<CActor>(L, "AddDelayAttribChange", &CActor::AddDelayAttribChange);
     lua_tinker::class_def<CActor>(L, "AddDelaySendShowToAllViewPlayer", &CActor::AddDelaySendShowToAllViewPlayer);
     lua_tinker::class_def<CActor>(L, "AddHide", &CActor::AddHide);
@@ -236,7 +236,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CActor>(L, "_SetMP", &CActor::_SetMP);
     lua_tinker::class_def<CActor>(L, "_SetNP", &CActor::_SetNP);
     lua_tinker::class_def<CActor>(L, "_SetProperty", &CActor::_SetProperty, SYNC_TRUE);
-    lua_tinker::class_add<CActorStatus>(L, "CActorStatus", true);
+    lua_tinker::class_add<CActorStatus>(L, "CActorStatus", false);
     lua_tinker::class_def<CActorStatus>(L, "AttachStatus", &CActorStatus::AttachStatus);
     lua_tinker::class_def<CActorStatus>(L, "DetachStatus", &CActorStatus::DetachStatus);
     lua_tinker::class_def<CActorStatus>(L, "DetachStatusByFlag", &CActorStatus::DetachStatusByFlag, true);
@@ -247,14 +247,14 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CActorStatus>(L, "TestStatusByFlag", &CActorStatus::TestStatusByFlag);
     lua_tinker::class_def<CActorStatus>(L, "TestStatusByType", &CActorStatus::TestStatusByType);
     lua_tinker::class_def<CActorStatus>(L, "size", &CActorStatus::size);
-    lua_tinker::class_add<CBullet>(L, "CBullet", true);
+    lua_tinker::class_add<CBullet>(L, "CBullet", false);
     lua_tinker::class_def<CBullet>(L, "BeKillBy", &CBullet::BeKillBy);
     lua_tinker::class_def<CBullet>(L, "CanDamage", &CBullet::CanDamage);
     lua_tinker::class_def<CBullet>(L, "GetActorType", &CBullet::GetActorType);
     lua_tinker::class_def_static<CBullet>(L, "GetActorTypeStatic", &CBullet::GetActorTypeStatic);
     lua_tinker::class_def<CBullet>(L, "GetOwnerID", &CBullet::GetOwnerID);
     lua_tinker::class_def<CBullet>(L, "IsEnemy", &CBullet::IsEnemy);
-    lua_tinker::class_add<CCommonData>(L, "CCommonData", true);
+    lua_tinker::class_add<CCommonData>(L, "CCommonData", false);
     lua_tinker::class_def<CCommonData>(L, "AddData", &CCommonData::AddData, false, false);
     lua_tinker::class_def<CCommonData>(L, "DeleteRecord", &CCommonData::DeleteRecord);
     lua_tinker::class_def<CCommonData>(L, "GetData", &CCommonData::GetData);
@@ -262,14 +262,14 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CCommonData>(L, "Save", &CCommonData::Save);
     lua_tinker::class_def<CCommonData>(L, "SetData", &CCommonData::SetData, false, false);
     lua_tinker::class_def<CCommonData>(L, "Sync", &CCommonData::Sync);
-    lua_tinker::class_add<CCommonDataSet>(L, "CCommonDataSet", true);
+    lua_tinker::class_add<CCommonDataSet>(L, "CCommonDataSet", false);
     lua_tinker::class_def<CCommonDataSet>(L, "CreateData", &CCommonDataSet::CreateData);
     lua_tinker::class_def<CCommonDataSet>(L, "DeleteData", &CCommonDataSet::DeleteData);
     lua_tinker::class_def<CCommonDataSet>(L, "QueryData", &CCommonDataSet::QueryData, false);
     lua_tinker::class_def<CCommonDataSet>(L, "Save", &CCommonDataSet::Save);
     lua_tinker::class_def<CCommonDataSet>(L, "SyncAll", &CCommonDataSet::SyncAll);
-    lua_tinker::class_add<CCoolDown>(L, "CCoolDown", true);
-    lua_tinker::class_add<CCoolDownSet>(L, "CCoolDownSet", true);
+    lua_tinker::class_add<CCoolDown>(L, "CCoolDown", false);
+    lua_tinker::class_add<CCoolDownSet>(L, "CCoolDownSet", false);
     lua_tinker::class_def<CCoolDownSet>(L, "ClearCoolDown", &CCoolDownSet::ClearCoolDown, false, true);
     lua_tinker::class_def<CCoolDownSet>(
         L,
@@ -282,7 +282,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CCoolDownSet>(L, "Save", &CCoolDownSet::Save);
     lua_tinker::class_def<CCoolDownSet>(L, "StartCoolDown", &CCoolDownSet::StartCoolDown, false, true);
     lua_tinker::class_def<CCoolDownSet>(L, "SyncAll", &CCoolDownSet::SyncAll);
-    lua_tinker::class_add<CDataCount>(L, "CDataCount", true);
+    lua_tinker::class_add<CDataCount>(L, "CDataCount", false);
     lua_tinker::class_def<CDataCount>(L, "AddData", &CDataCount::AddData);
     lua_tinker::class_def<CDataCount>(L, "DeleteRecord", &CDataCount::DeleteRecord);
     lua_tinker::class_def<CDataCount>(L, "GetDataNum", &CDataCount::GetDataNum);
@@ -292,7 +292,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CDataCount>(L, "Save", &CDataCount::Save);
     lua_tinker::class_def<CDataCount>(L, "SetData", &CDataCount::SetData);
     lua_tinker::class_def<CDataCount>(L, "Sync", &CDataCount::Sync);
-    lua_tinker::class_add<CDataCountSet>(L, "CDataCountSet", true);
+    lua_tinker::class_add<CDataCountSet>(L, "CDataCountSet", false);
     lua_tinker::class_def<CDataCountSet>(L, "AddCount", &CDataCountSet::AddCount, false);
     lua_tinker::class_def<CDataCountSet>(L, "DeleteCount", &CDataCountSet::DeleteCount);
     lua_tinker::class_def<CDataCountSet>(L, "GetCount", &CDataCountSet::GetCount);
@@ -301,9 +301,9 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CDataCountSet>(L, "SetCount", &CDataCountSet::SetCount, false);
     lua_tinker::class_def<CDataCountSet>(L, "SyncAll", &CDataCountSet::SyncAll);
     lua_tinker::class_def<CDataCountSet>(L, "_AddCount", &CDataCountSet::_AddCount, false);
-    lua_tinker::class_add<CDynaMonster>(L, "CDynaMonster", true);
-    lua_tinker::class_add<CDynaNpc>(L, "CDynaNpc", true);
-    lua_tinker::class_add<CEquipment>(L, "CEquipment", true);
+    lua_tinker::class_add<CDynaMonster>(L, "CDynaMonster", false);
+    lua_tinker::class_add<CDynaNpc>(L, "CDynaNpc", false);
+    lua_tinker::class_add<CEquipment>(L, "CEquipment", false);
     lua_tinker::class_def<CEquipment>(L, "AddEquipmentDurability", &CEquipment::AddEquipmentDurability);
     lua_tinker::class_def<CEquipment>(L, "CanEquip", &CEquipment::CanEquip);
     lua_tinker::class_def<CEquipment>(L, "CanEquipByItemType", &CEquipment::CanEquipByItemType);
@@ -318,7 +318,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CEquipment>(L, "SaveAll", &CEquipment::SaveAll);
     lua_tinker::class_def<CEquipment>(L, "SendInfo", &CEquipment::SendInfo);
     lua_tinker::class_def<CEquipment>(L, "UnequipItem", &CEquipment::UnequipItem, true, true, true);
-    lua_tinker::class_add<CGameMap>(L, "CGameMap", true);
+    lua_tinker::class_add<CGameMap>(L, "CGameMap", false);
     lua_tinker::class_def<CGameMap>(L, "FindPosNearby", &CGameMap::FindPosNearby);
     lua_tinker::class_def<CGameMap>(L, "GetEnterPointByIdx", &CGameMap::GetEnterPointByIdx);
     lua_tinker::class_def<CGameMap>(L, "GetGeneratorData", &CGameMap::GetGeneratorData);
@@ -353,7 +353,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CGameMap>(L, "IsZoneMap", &CGameMap::IsZoneMap);
     lua_tinker::class_def<CGameMap>(L, "LineFindCanJump", &CGameMap::LineFindCanJump);
     lua_tinker::class_def<CGameMap>(L, "LineFindCanStand", &CGameMap::LineFindCanStand);
-    lua_tinker::class_add<CItem>(L, "CItem", true);
+    lua_tinker::class_add<CItem>(L, "CItem", false);
     lua_tinker::class_def<CItem>(L, "ChangeAddition", &CItem::ChangeAddition, true);
     lua_tinker::class_def<CItem>(L, "ChangeType", &CItem::ChangeType, true);
     lua_tinker::class_def<CItem>(L, "ChkEquipPosition", &CItem::ChkEquipPosition);
@@ -387,7 +387,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CItem>(L, "SyncExpireData", &CItem::SyncExpireData);
     lua_tinker::class_def<CItem>(L, "SyncGridData", &CItem::SyncGridData);
     lua_tinker::class_def<CItem>(L, "SyncPileNum", &CItem::SyncPileNum);
-    lua_tinker::class_add<CItemData>(L, "CItemData", true);
+    lua_tinker::class_add<CItemData>(L, "CItemData", false);
     lua_tinker::class_def<CItemData>(L, "AddPileNum", &CItemData::AddPileNum, false);
     lua_tinker::class_def<CItemData>(L, "AdditionType", &CItemData::AdditionType);
     lua_tinker::class_def<CItemData>(L, "DecPileNum", &CItemData::DecPileNum, false);
@@ -424,7 +424,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CItemData>(L, "SetPosition", &CItemData::SetPosition, true);
     lua_tinker::class_def<CItemData>(L, "SetTypeID", &CItemData::SetTypeID, true);
     lua_tinker::class_def<CItemData>(L, "_GetFlag", &CItemData::_GetFlag);
-    lua_tinker::class_add<CMapData>(L, "CMapData", true);
+    lua_tinker::class_add<CMapData>(L, "CMapData", false);
     lua_tinker::class_def<CMapData>(L, "CanCollision", &CMapData::CanCollision);
     lua_tinker::class_def<CMapData>(L, "GetGirdCount", &CMapData::GetGirdCount);
     lua_tinker::class_def<CMapData>(L, "GetHeight", &CMapData::GetHeight);
@@ -450,11 +450,11 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CMapData>(L, "Pos2Grid", &CMapData::Pos2Grid);
     lua_tinker::class_def<CMapData>(L, "Pos2Idx", &CMapData::Pos2Idx);
     lua_tinker::class_def<CMapData>(L, "_getGridData", &CMapData::_getGridData);
-    lua_tinker::class_add<CMapItem>(L, "CMapItem", true);
+    lua_tinker::class_add<CMapItem>(L, "CMapItem", false);
     lua_tinker::class_def<CMapItem>(L, "GetActorType", &CMapItem::GetActorType);
     lua_tinker::class_def_static<CMapItem>(L, "GetActorTypeStatic", &CMapItem::GetActorTypeStatic);
     lua_tinker::class_def<CMapItem>(L, "GetTypeID", &CMapItem::GetTypeID);
-    lua_tinker::class_add<CMonster>(L, "CMonster", true);
+    lua_tinker::class_add<CMonster>(L, "CMonster", false);
     lua_tinker::class_def<CMonster>(L, "BeKillBy", &CMonster::BeKillBy);
     lua_tinker::class_def<CMonster>(L, "CanDamage", &CMonster::CanDamage);
     lua_tinker::class_def<CMonster>(L, "GetActorType", &CMonster::GetActorType);
@@ -471,7 +471,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CMonster>(L, "SendMsg", &CMonster::SendMsg);
     lua_tinker::class_def<CMonster>(L, "_SetHP", &CMonster::_SetHP);
     lua_tinker::class_def<CMonster>(L, "_SetMP", &CMonster::_SetMP);
-    lua_tinker::class_add<CMyTimer>(L, "CMyTimer", true);
+    lua_tinker::class_add<CMyTimer>(L, "CMyTimer", false);
     lua_tinker::class_def<CMyTimer>(L, "Clear", &CMyTimer::Clear);
     lua_tinker::class_def<CMyTimer>(L, "DecInterval", &CMyTimer::DecInterval);
     lua_tinker::class_def<CMyTimer>(L, "GetRemain", &CMyTimer::GetRemain);
@@ -496,7 +496,7 @@ void zone2lua(lua_State* L)
             lua_tinker::make_member_functor_ptr((bool (CMyTimer::*)(int32_t))(&CMyTimer::ToNextTime))));
     lua_tinker::class_def<CMyTimer>(L, "Update", &CMyTimer::Update);
     lua_tinker::class_con<CMyTimer>(L, lua_tinker::constructor<CMyTimer, int32_t>::invoke, 0);
-    lua_tinker::class_add<CNetworkMessage>(L, "CNetworkMessage", true);
+    lua_tinker::class_add<CNetworkMessage>(L, "CNetworkMessage", false);
     lua_tinker::class_def<CNetworkMessage>(L, "CopyBuffer", &CNetworkMessage::CopyBuffer);
     lua_tinker::class_def<CNetworkMessage>(L, "GetBodySize", &CNetworkMessage::GetBodySize);
     lua_tinker::class_def<CNetworkMessage>(L, "GetBuf", &CNetworkMessage::GetBuf);
@@ -572,7 +572,7 @@ void zone2lua(lua_State* L)
         0,
         0,
         0);
-    lua_tinker::class_add<CNpc>(L, "CNpc", true);
+    lua_tinker::class_add<CNpc>(L, "CNpc", false);
     lua_tinker::class_def<CNpc>(L, "ActiveNpc", &CNpc::ActiveNpc);
     lua_tinker::class_def<CNpc>(L, "GetActorType", &CNpc::GetActorType);
     lua_tinker::class_def_static<CNpc>(L, "GetActorTypeStatic", &CNpc::GetActorTypeStatic);
@@ -582,7 +582,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CNpc>(L, "GetTypeID", &CNpc::GetTypeID);
     lua_tinker::class_def<CNpc>(L, "_ActiveNpc", &CNpc::_ActiveNpc);
     lua_tinker::class_def<CNpc>(L, "_SetHP", &CNpc::_SetHP);
-    lua_tinker::class_add<CPackage>(L, "CPackage", true);
+    lua_tinker::class_add<CPackage>(L, "CPackage", false);
     lua_tinker::class_def<CPackage>(L, "AddItem", &CPackage::AddItem, false, true, true);
     lua_tinker::class_def<CPackage>(L, "AwardItem", &CPackage::AwardItem, 0);
     lua_tinker::class_def<CPackage>(L, "ChangeMaxSize", &CPackage::ChangeMaxSize);
@@ -632,7 +632,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CPackage>(L, "SplitItem", &CPackage::SplitItem);
     lua_tinker::class_def<CPackage>(L, "SwapItem", &CPackage::SwapItem);
     lua_tinker::class_def<CPackage>(L, "TidyItem", &CPackage::TidyItem);
-    lua_tinker::class_add<CPet>(L, "CPet", true);
+    lua_tinker::class_add<CPet>(L, "CPet", false);
     lua_tinker::class_def<CPet>(L, "BeKillBy", &CPet::BeKillBy);
     lua_tinker::class_def<CPet>(L, "CallBack", &CPet::CallBack);
     lua_tinker::class_def<CPet>(L, "CallOut", &CPet::CallOut);
@@ -650,7 +650,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CPet>(L, "_SetHP", &CPet::_SetHP);
     lua_tinker::class_def<CPet>(L, "_SetMP", &CPet::_SetMP);
     lua_tinker::class_def<CPet>(L, "_SetNP", &CPet::_SetNP);
-    lua_tinker::class_add<CPlayer>(L, "CPlayer", true);
+    lua_tinker::class_add<CPlayer>(L, "CPlayer", false);
     lua_tinker::class_def<CPlayer>(L, "ActiveNpc", &CPlayer::ActiveNpc);
     lua_tinker::class_def<CPlayer>(L, "AwardBattleExp", &CPlayer::AwardBattleExp);
     lua_tinker::class_def<CPlayer>(L, "AwardExp", &CPlayer::AwardExp);
@@ -740,14 +740,14 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CPlayer>(L, "_SetMP", &CPlayer::_SetMP);
     lua_tinker::class_def<CPlayer>(L, "_SetNP", &CPlayer::_SetNP);
     lua_tinker::class_def<CPlayer>(L, "_SetProperty", &CPlayer::_SetProperty, SYNC_TRUE);
-    lua_tinker::class_add<CPlayerAchievement>(L, "CPlayerAchievement", true);
+    lua_tinker::class_add<CPlayerAchievement>(L, "CPlayerAchievement", false);
     lua_tinker::class_def<CPlayerAchievement>(L, "CheckAchiCondition", &CPlayerAchievement::CheckAchiCondition, 0, 0);
     lua_tinker::class_def<CPlayerAchievement>(L, "SyncAll", &CPlayerAchievement::SyncAll);
     lua_tinker::class_def<CPlayerAchievement>(L, "TakeAll", &CPlayerAchievement::TakeAll);
     lua_tinker::class_def<CPlayerAchievement>(L, "TakeReward", &CPlayerAchievement::TakeReward);
-    lua_tinker::class_add<CPlayerCoolDown>(L, "CPlayerCoolDown", true);
-    lua_tinker::class_add<CPlayerCoolDownSet>(L, "CPlayerCoolDownSet", true);
-    lua_tinker::class_add<CPlayerTask>(L, "CPlayerTask", true);
+    lua_tinker::class_add<CPlayerCoolDown>(L, "CPlayerCoolDown", false);
+    lua_tinker::class_add<CPlayerCoolDownSet>(L, "CPlayerCoolDownSet", false);
+    lua_tinker::class_add<CPlayerTask>(L, "CPlayerTask", false);
     lua_tinker::class_def<CPlayerTask>(L, "AcceptTask", &CPlayerTask::AcceptTask, true, false);
     lua_tinker::class_def<CPlayerTask>(
         L,
@@ -778,7 +778,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CPlayerTask>(L, "ShowTaskDialog", &CPlayerTask::ShowTaskDialog);
     lua_tinker::class_def<CPlayerTask>(L, "SubmitTask", &CPlayerTask::SubmitTask);
     lua_tinker::class_def<CPlayerTask>(L, "SubmitTaskByMessage", &CPlayerTask::SubmitTaskByMessage);
-    lua_tinker::class_add<CPlayerTaskData>(L, "CPlayerTaskData", true);
+    lua_tinker::class_add<CPlayerTaskData>(L, "CPlayerTaskData", false);
     lua_tinker::class_def<CPlayerTaskData>(L, "GetAcceptTime", &CPlayerTaskData::GetAcceptTime);
     lua_tinker::class_def<CPlayerTaskData>(L, "GetAcceptUserLev", &CPlayerTaskData::GetAcceptUserLev);
     lua_tinker::class_def<CPlayerTaskData>(L, "GetDayCount", &CPlayerTaskData::GetDayCount);
@@ -799,7 +799,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CPlayerTaskData>(L, "SetFinishTime", &CPlayerTaskData::SetFinishTime, true);
     lua_tinker::class_def<CPlayerTaskData>(L, "SetNum", &CPlayerTaskData::SetNum, true);
     lua_tinker::class_def<CPlayerTaskData>(L, "SetState", &CPlayerTaskData::SetState, true);
-    lua_tinker::class_add<CScene>(L, "CScene", true);
+    lua_tinker::class_add<CScene>(L, "CScene", false);
     lua_tinker::class_def<CScene>(L, "AddDynaRegion", &CScene::AddDynaRegion);
     lua_tinker::class_def<CScene>(L, "AddMapUserVal", &CScene::AddMapUserVal, false);
     lua_tinker::class_def<CScene>(L, "AddMapVal", &CScene::AddMapVal, false);
@@ -828,7 +828,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CScene>(L, "SetSceneState", &CScene::SetSceneState);
     lua_tinker::class_def<CScene>(L, "SyncAllMapVal", &CScene::SyncAllMapVal);
     lua_tinker::class_def<CScene>(L, "_KickPlayer", &CScene::_KickPlayer);
-    lua_tinker::class_add<CSceneManager>(L, "CSceneManager", true);
+    lua_tinker::class_add<CSceneManager>(L, "CSceneManager", false);
     lua_tinker::class_def<CSceneManager>(L, "CreateDynaScene", &CSceneManager::CreateDynaScene);
     lua_tinker::class_def<CSceneManager>(L, "DestoryDynaScene", &CSceneManager::DestoryDynaScene);
     lua_tinker::class_def<CSceneManager>(L, "ForEach", &CSceneManager::ForEach);
@@ -837,7 +837,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CSceneManager>(L, "QueryScene", &CSceneManager::QueryScene);
     lua_tinker::class_def<CSceneManager>(L, "QueryStaticScene", &CSceneManager::QueryStaticScene);
     lua_tinker::class_def<CSceneManager>(L, "_CreateStaticScene", &CSceneManager::_CreateStaticScene);
-    lua_tinker::class_add<CServiceCommon>(L, "CServiceCommon", true);
+    lua_tinker::class_add<CServiceCommon>(L, "CServiceCommon", false);
     lua_tinker::class_def<CServiceCommon>(L, "CreateUID", &CServiceCommon::CreateUID);
     lua_tinker::class_def<CServiceCommon>(L, "GetAIServerVirtualSocket", &CServiceCommon::GetAIServerVirtualSocket);
     lua_tinker::class_def<CServiceCommon>(L, "GetEventManager", &CServiceCommon::GetEventManager);
@@ -849,7 +849,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CServiceCommon>(L, "GetServiceName", &CServiceCommon::GetServiceName);
     lua_tinker::class_def<CServiceCommon>(L, "GetWorldID", &CServiceCommon::GetWorldID);
     lua_tinker::class_def<CServiceCommon>(L, "SetServerPort", &CServiceCommon::SetServerPort);
-    lua_tinker::class_add<CSkillFSM>(L, "CSkillFSM", true);
+    lua_tinker::class_add<CSkillFSM>(L, "CSkillFSM", false);
     lua_tinker::class_def_static<CSkillFSM>(L, "AddBullet", &CSkillFSM::AddBullet);
     lua_tinker::class_def_static<CSkillFSM>(L, "AttachStatus", &CSkillFSM::AttachStatus);
     lua_tinker::class_def<CSkillFSM>(L, "BreakIntone", &CSkillFSM::BreakIntone);
@@ -867,7 +867,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CSkillFSM>(L, "StartSkillCoolDown", &CSkillFSM::StartSkillCoolDown);
     lua_tinker::class_def<CSkillFSM>(L, "_BreakIntone", &CSkillFSM::_BreakIntone);
     lua_tinker::class_def<CSkillFSM>(L, "_BreakLaunch", &CSkillFSM::_BreakLaunch);
-    lua_tinker::class_add<CStatus>(L, "CStatus", true);
+    lua_tinker::class_add<CStatus>(L, "CStatus", false);
     lua_tinker::class_def<CStatus>(L, "AddSecs", &CStatus::AddSecs);
     lua_tinker::class_def<CStatus>(L, "AddTimes", &CStatus::AddTimes);
     lua_tinker::class_def<CStatus>(L, "CancelEvent", &CStatus::CancelEvent);
@@ -902,10 +902,10 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CStatus>(L, "SendStatus", &CStatus::SendStatus);
     lua_tinker::class_def<CStatus>(L, "SetPower", &CStatus::SetPower);
     lua_tinker::class_def<CStatus>(L, "Type", &CStatus::Type);
-    lua_tinker::class_add<CStoragePackage>(L, "CStoragePackage", true);
+    lua_tinker::class_add<CStoragePackage>(L, "CStoragePackage", false);
     lua_tinker::class_def<CStoragePackage>(L, "CheckIn", &CStoragePackage::CheckIn);
     lua_tinker::class_def<CStoragePackage>(L, "CheckOut", &CStoragePackage::CheckOut);
-    lua_tinker::class_add<CSystemVar>(L, "CSystemVar", true);
+    lua_tinker::class_add<CSystemVar>(L, "CSystemVar", false);
     lua_tinker::class_def<CSystemVar>(L, "AddData", &CSystemVar::AddData, false, false);
     lua_tinker::class_def<CSystemVar>(L, "Broadcast", &CSystemVar::Broadcast);
     lua_tinker::class_def<CSystemVar>(L, "ClearDirty", &CSystemVar::ClearDirty);
@@ -917,30 +917,30 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CSystemVar>(L, "SendToPlayer", &CSystemVar::SendToPlayer);
     lua_tinker::class_def<CSystemVar>(L, "SetData", &CSystemVar::SetData, false, false);
     lua_tinker::class_def<CSystemVar>(L, "SetStr", &CSystemVar::SetStr, false, false);
-    lua_tinker::class_add<CSystemVarSet>(L, "CSystemVarSet", true);
+    lua_tinker::class_add<CSystemVarSet>(L, "CSystemVarSet", false);
     lua_tinker::class_def<CSystemVarSet>(L, "CreateVar", &CSystemVarSet::CreateVar);
     lua_tinker::class_def<CSystemVarSet>(L, "DeleteVar", &CSystemVarSet::DeleteVar);
     lua_tinker::class_def<CSystemVarSet>(L, "QueryVar", &CSystemVarSet::QueryVar, false);
     lua_tinker::class_def<CSystemVarSet>(L, "SyncToClient", &CSystemVarSet::SyncToClient);
-    lua_tinker::class_add<CTeamInfo>(L, "CTeamInfo", true);
+    lua_tinker::class_add<CTeamInfo>(L, "CTeamInfo", false);
     lua_tinker::class_def<CTeamInfo>(L, "GetMemberIDByIdx", &CTeamInfo::GetMemberIDByIdx);
     lua_tinker::class_def<CTeamInfo>(L, "GetMemeberAmount", &CTeamInfo::GetMemeberAmount);
     lua_tinker::class_def<CTeamInfo>(L, "GetTeamLeaderID", &CTeamInfo::GetTeamLeaderID);
     lua_tinker::class_def<CTeamInfo>(L, "IsTeamLeader", &CTeamInfo::IsTeamLeader);
     lua_tinker::class_def<CTeamInfo>(L, "IsTeamMember", &CTeamInfo::IsTeamMember);
-    lua_tinker::class_add<CTeamInfoManager>(L, "CTeamInfoManager", true);
+    lua_tinker::class_add<CTeamInfoManager>(L, "CTeamInfoManager", false);
     lua_tinker::class_def<CTeamInfoManager>(L, "QueryTeam", &CTeamInfoManager::QueryTeam);
-    lua_tinker::class_add<CUserSkillData>(L, "CUserSkillData", true);
+    lua_tinker::class_add<CUserSkillData>(L, "CUserSkillData", false);
     lua_tinker::class_def<CUserSkillData>(L, "GetSkillLev", &CUserSkillData::GetSkillLev);
     lua_tinker::class_def<CUserSkillData>(L, "GetSkillSort", &CUserSkillData::GetSkillSort);
     lua_tinker::class_def<CUserSkillData>(L, "SetSkillLev", &CUserSkillData::SetSkillLev, true);
     lua_tinker::class_def<CUserSkillData>(L, "Update", &CUserSkillData::Update);
-    lua_tinker::class_add<CUserSkillManager>(L, "CUserSkillManager", true);
+    lua_tinker::class_add<CUserSkillManager>(L, "CUserSkillManager", false);
     lua_tinker::class_def<CUserSkillManager>(L, "CastSkill", &CUserSkillManager::CastSkill);
     lua_tinker::class_def<CUserSkillManager>(L, "LearnSkill", &CUserSkillManager::LearnSkill);
     lua_tinker::class_def<CUserSkillManager>(L, "UpgradeSkill", &CUserSkillManager::UpgradeSkill);
     lua_tinker::class_def<CUserSkillManager>(L, "_QuerySkill", &CUserSkillManager::_QuerySkill);
-    lua_tinker::class_add<CZoneService>(L, "CZoneService", true);
+    lua_tinker::class_add<CZoneService>(L, "CZoneService", false);
     lua_tinker::class_def<CZoneService>(L, "BroadcastToAllPlayer", &CZoneService::BroadcastToAllPlayer);
     lua_tinker::class_def<CZoneService>(L, "BroadcastToZone", &CZoneService::BroadcastToZone);
     lua_tinker::class_def<CZoneService>(L, "GetActorManager", &CZoneService::GetActorManager);
@@ -957,7 +957,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CZoneService>(L, "SendMsgToPlayer", &CZoneService::SendMsgToPlayer);
     lua_tinker::class_def<CZoneService>(L, "SendMsgToWorld", &CZoneService::SendMsgToWorld);
     lua_tinker::class_def<CZoneService>(L, "TransmiteMsgFromWorldToOther", &CZoneService::TransmiteMsgFromWorldToOther);
-    lua_tinker::class_add<Degree>(L, "Degree", true);
+    lua_tinker::class_add<Degree>(L, "Degree", false);
     lua_tinker::class_def<Degree>(L, "operator!=", &Degree::operator!=);
     lua_tinker::class_def<Degree>(
         L,
@@ -1002,7 +1002,7 @@ void zone2lua(lua_State* L)
             new lua_tinker::constructor<Degree, const Radian&>(),
             new lua_tinker::constructor<Degree, float>(1 /*default_args_count*/, 1 /*default_args_start*/)),
         0);
-    lua_tinker::class_add<FloatRect>(L, "FloatRect", true);
+    lua_tinker::class_add<FloatRect>(L, "FloatRect", false);
     lua_tinker::class_def<FloatRect>(L, "height", &FloatRect::height);
     lua_tinker::class_def<FloatRect>(L, "isIntersect", &FloatRect::isIntersect);
     lua_tinker::class_def<FloatRect>(L, "width", &FloatRect::width);
@@ -1015,13 +1015,13 @@ void zone2lua(lua_State* L)
     lua_tinker::class_mem<FloatRect>(L, "left", &FloatRect::left);
     lua_tinker::class_mem<FloatRect>(L, "right", &FloatRect::right);
     lua_tinker::class_mem<FloatRect>(L, "top", &FloatRect::top);
-    lua_tinker::class_add<ICoolDown>(L, "ICoolDown", true);
+    lua_tinker::class_add<ICoolDown>(L, "ICoolDown", false);
     lua_tinker::class_def<ICoolDown>(L, "ClearCoolDown", &ICoolDown::ClearCoolDown, false, true);
     lua_tinker::class_def<ICoolDown>(L, "GetExpireTime", &ICoolDown::GetExpireTime);
     lua_tinker::class_def<ICoolDown>(L, "StartCoolDown", &ICoolDown::StartCoolDown, false, true);
-    lua_tinker::class_add<MapGridData>(L, "MapGridData", true);
+    lua_tinker::class_add<MapGridData>(L, "MapGridData", false);
     lua_tinker::class_con<MapGridData>(L, lua_tinker::constructor<MapGridData, uint32_t>::invoke, 0);
-    lua_tinker::class_add<Math>(L, "Math", true);
+    lua_tinker::class_add<Math>(L, "Math", false);
     lua_tinker::class_def_static<Math>(L, "ACos", &Math::ACos);
     lua_tinker::class_def_static<Math>(L, "ASin", &Math::ASin);
     lua_tinker::class_def_static<Math>(L, "ATan", &Math::ATan);
@@ -1111,7 +1111,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_mem_static_readonly<Math>(L, "HALF_PI", &Math::HALF_PI);
     lua_tinker::class_mem_static_readonly<Math>(L, "PI", &Math::PI);
     lua_tinker::class_mem_static_readonly<Math>(L, "TWO_PI", &Math::TWO_PI);
-    lua_tinker::class_add<Ray>(L, "Ray", true);
+    lua_tinker::class_add<Ray>(L, "Ray", false);
     lua_tinker::class_def<Ray>(L, "getDirection", &Ray::getDirection);
     lua_tinker::class_def<Ray>(L, "getOrigin", &Ray::getOrigin);
     lua_tinker::class_def<Ray>(L, "getPoint", &Ray::getPoint);
@@ -1122,7 +1122,7 @@ void zone2lua(lua_State* L)
         L,
         lua_tinker::args_type_overload_constructor(new lua_tinker::constructor<Ray>(),
                                                    new lua_tinker::constructor<Ray, const Vector3&, const Vector3&>()));
-    lua_tinker::class_add<Rect>(L, "Rect", true);
+    lua_tinker::class_add<Rect>(L, "Rect", false);
     lua_tinker::class_def<Rect>(L, "height", &Rect::height);
     lua_tinker::class_def<Rect>(L, "isIntersect", &Rect::isIntersect);
     lua_tinker::class_def<Rect>(L, "operator=", &Rect::operator=);
@@ -1136,7 +1136,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_mem<Rect>(L, "left", &Rect::left);
     lua_tinker::class_mem<Rect>(L, "right", &Rect::right);
     lua_tinker::class_mem<Rect>(L, "top", &Rect::top);
-    lua_tinker::class_add<ST_ITEMINFO>(L, "ST_ITEMINFO", true);
+    lua_tinker::class_add<ST_ITEMINFO>(L, "ST_ITEMINFO", false);
     lua_tinker::class_mem<ST_ITEMINFO>(L, "dwFlag", &ST_ITEMINFO::dwFlag);
     lua_tinker::class_mem<ST_ITEMINFO>(L, "idItem", &ST_ITEMINFO::idItem);
     lua_tinker::class_mem<ST_ITEMINFO>(L, "idOwner", &ST_ITEMINFO::idOwner);
@@ -1145,7 +1145,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_mem<ST_ITEMINFO>(L, "nGrid", &ST_ITEMINFO::nGrid);
     lua_tinker::class_mem<ST_ITEMINFO>(L, "nNum", &ST_ITEMINFO::nNum);
     lua_tinker::class_mem<ST_ITEMINFO>(L, "nPosition", &ST_ITEMINFO::nPosition);
-    lua_tinker::class_add<ServerPort>(L, "ServerPort", true);
+    lua_tinker::class_add<ServerPort>(L, "ServerPort", false);
     lua_tinker::class_def<ServerPort>(L, "GetData", &ServerPort::GetData);
     lua_tinker::class_def<ServerPort>(L, "GetServiceID", &ServerPort::GetServiceID);
     lua_tinker::class_def<ServerPort>(L, "GetWorldID", &ServerPort::GetWorldID);
@@ -1162,7 +1162,7 @@ void zone2lua(lua_State* L)
             new lua_tinker::constructor<ServerPort, uint16_t, uint16_t>(),
             new lua_tinker::constructor<ServerPort, uint32_t>(1 /*default_args_count*/, 1 /*default_args_start*/)),
         0);
-    lua_tinker::class_add<Vector2>(L, "Vector2", true);
+    lua_tinker::class_add<Vector2>(L, "Vector2", false);
     lua_tinker::class_def<Vector2>(L, "crossProduct", &Vector2::crossProduct);
     lua_tinker::class_def<Vector2>(L, "distance", &Vector2::distance);
     lua_tinker::class_def<Vector2>(L, "dotProduct", &Vector2::dotProduct);
@@ -1196,7 +1196,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_mem_static_readonly<Vector2>(L, "ZERO", &Vector2::ZERO);
     lua_tinker::class_mem<Vector2>(L, "x", &Vector2::x);
     lua_tinker::class_mem<Vector2>(L, "y", &Vector2::y);
-    lua_tinker::class_add<Vector3>(L, "Vector3", true);
+    lua_tinker::class_add<Vector3>(L, "Vector3", false);
     lua_tinker::class_def<Vector3>(L, "absDotProduct", &Vector3::absDotProduct);
     lua_tinker::class_def<Vector3>(L, "crossProduct", &Vector3::crossProduct);
     lua_tinker::class_def<Vector3>(L, "distance", &Vector3::distance);
@@ -1237,7 +1237,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_mem<Vector3>(L, "x", &Vector3::x);
     lua_tinker::class_mem<Vector3>(L, "y", &Vector3::y);
     lua_tinker::class_mem<Vector3>(L, "z", &Vector3::z);
-    lua_tinker::class_add<VirtualSocket>(L, "VirtualSocket", true);
+    lua_tinker::class_add<VirtualSocket>(L, "VirtualSocket", false);
     lua_tinker::class_def_static<VirtualSocket>(L, "CreateVirtualSocket", &VirtualSocket::CreateVirtualSocket);
     lua_tinker::class_def<VirtualSocket>(L, "GetData64", &VirtualSocket::GetData64);
     lua_tinker::class_def<VirtualSocket>(L, "GetServerPort", &VirtualSocket::GetServerPort);

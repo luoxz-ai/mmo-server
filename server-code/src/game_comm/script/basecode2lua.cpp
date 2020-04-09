@@ -47,8 +47,8 @@
 #include "xml2struct.h"
 void basecode2lua(lua_State* L)
 {
-    lua_tinker::class_add<Angle>(L, "Angle", true);
-    lua_tinker::class_add<AxisAlignedBox>(L, "AxisAlignedBox", true);
+    lua_tinker::class_add<Angle>(L, "Angle", false);
+    lua_tinker::class_add<AxisAlignedBox>(L, "AxisAlignedBox", false);
     lua_tinker::class_def<AxisAlignedBox>(
         L,
         "contains",
@@ -158,7 +158,7 @@ void basecode2lua(lua_State* L)
     lua_tinker::class_var_static<AxisAlignedBox>(L, "NEAR_LEFT_TOP", AxisAlignedBox::NEAR_LEFT_TOP);
     lua_tinker::class_var_static<AxisAlignedBox>(L, "NEAR_RIGHT_BOTTOM", AxisAlignedBox::NEAR_RIGHT_BOTTOM);
     lua_tinker::class_var_static<AxisAlignedBox>(L, "NEAR_RIGHT_TOP", AxisAlignedBox::NEAR_RIGHT_TOP);
-    lua_tinker::class_add<CMyTimer>(L, "CMyTimer", true);
+    lua_tinker::class_add<CMyTimer>(L, "CMyTimer", false);
     lua_tinker::class_def<CMyTimer>(L, "Clear", &CMyTimer::Clear);
     lua_tinker::class_def<CMyTimer>(L, "DecInterval", &CMyTimer::DecInterval);
     lua_tinker::class_def<CMyTimer>(L, "GetRemain", &CMyTimer::GetRemain);
@@ -183,7 +183,7 @@ void basecode2lua(lua_State* L)
             lua_tinker::make_member_functor_ptr((bool (CMyTimer::*)(int32_t))(&CMyTimer::ToNextTime))));
     lua_tinker::class_def<CMyTimer>(L, "Update", &CMyTimer::Update);
     lua_tinker::class_con<CMyTimer>(L, lua_tinker::constructor<CMyTimer, int32_t>::invoke, 0);
-    lua_tinker::class_add<Degree>(L, "Degree", true);
+    lua_tinker::class_add<Degree>(L, "Degree", false);
     lua_tinker::class_def<Degree>(L, "operator!=", &Degree::operator!=);
     lua_tinker::class_def<Degree>(
         L,
@@ -228,7 +228,7 @@ void basecode2lua(lua_State* L)
             new lua_tinker::constructor<Degree, const Radian&>(),
             new lua_tinker::constructor<Degree, float>(1 /*default_args_count*/, 1 /*default_args_start*/)),
         0);
-    lua_tinker::class_add<FloatRect>(L, "FloatRect", true);
+    lua_tinker::class_add<FloatRect>(L, "FloatRect", false);
     lua_tinker::class_def<FloatRect>(L, "height", &FloatRect::height);
     lua_tinker::class_def<FloatRect>(L, "isIntersect", &FloatRect::isIntersect);
     lua_tinker::class_def<FloatRect>(L, "width", &FloatRect::width);
@@ -241,7 +241,7 @@ void basecode2lua(lua_State* L)
     lua_tinker::class_mem<FloatRect>(L, "left", &FloatRect::left);
     lua_tinker::class_mem<FloatRect>(L, "right", &FloatRect::right);
     lua_tinker::class_mem<FloatRect>(L, "top", &FloatRect::top);
-    lua_tinker::class_add<Math>(L, "Math", true);
+    lua_tinker::class_add<Math>(L, "Math", false);
     lua_tinker::class_def_static<Math>(L, "ACos", &Math::ACos);
     lua_tinker::class_def_static<Math>(L, "ASin", &Math::ASin);
     lua_tinker::class_def_static<Math>(L, "ATan", &Math::ATan);
@@ -331,7 +331,7 @@ void basecode2lua(lua_State* L)
     lua_tinker::class_mem_static_readonly<Math>(L, "HALF_PI", &Math::HALF_PI);
     lua_tinker::class_mem_static_readonly<Math>(L, "PI", &Math::PI);
     lua_tinker::class_mem_static_readonly<Math>(L, "TWO_PI", &Math::TWO_PI);
-    lua_tinker::class_add<Ray>(L, "Ray", true);
+    lua_tinker::class_add<Ray>(L, "Ray", false);
     lua_tinker::class_def<Ray>(L, "getDirection", &Ray::getDirection);
     lua_tinker::class_def<Ray>(L, "getOrigin", &Ray::getOrigin);
     lua_tinker::class_def<Ray>(L, "getPoint", &Ray::getPoint);
@@ -342,7 +342,7 @@ void basecode2lua(lua_State* L)
         L,
         lua_tinker::args_type_overload_constructor(new lua_tinker::constructor<Ray>(),
                                                    new lua_tinker::constructor<Ray, const Vector3&, const Vector3&>()));
-    lua_tinker::class_add<Rect>(L, "Rect", true);
+    lua_tinker::class_add<Rect>(L, "Rect", false);
     lua_tinker::class_def<Rect>(L, "height", &Rect::height);
     lua_tinker::class_def<Rect>(L, "isIntersect", &Rect::isIntersect);
     lua_tinker::class_def<Rect>(L, "operator=", &Rect::operator=);
@@ -356,7 +356,7 @@ void basecode2lua(lua_State* L)
     lua_tinker::class_mem<Rect>(L, "left", &Rect::left);
     lua_tinker::class_mem<Rect>(L, "right", &Rect::right);
     lua_tinker::class_mem<Rect>(L, "top", &Rect::top);
-    lua_tinker::class_add<Vector2>(L, "Vector2", true);
+    lua_tinker::class_add<Vector2>(L, "Vector2", false);
     lua_tinker::class_def<Vector2>(L, "crossProduct", &Vector2::crossProduct);
     lua_tinker::class_def<Vector2>(L, "distance", &Vector2::distance);
     lua_tinker::class_def<Vector2>(L, "dotProduct", &Vector2::dotProduct);
@@ -390,7 +390,7 @@ void basecode2lua(lua_State* L)
     lua_tinker::class_mem_static_readonly<Vector2>(L, "ZERO", &Vector2::ZERO);
     lua_tinker::class_mem<Vector2>(L, "x", &Vector2::x);
     lua_tinker::class_mem<Vector2>(L, "y", &Vector2::y);
-    lua_tinker::class_add<Vector3>(L, "Vector3", true);
+    lua_tinker::class_add<Vector3>(L, "Vector3", false);
     lua_tinker::class_def<Vector3>(L, "absDotProduct", &Vector3::absDotProduct);
     lua_tinker::class_def<Vector3>(L, "crossProduct", &Vector3::crossProduct);
     lua_tinker::class_def<Vector3>(L, "distance", &Vector3::distance);

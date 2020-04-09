@@ -39,7 +39,7 @@ IncludeCategories:
 IndentCaseLabels: true
 #IndentCaseBlocks: true
 #Language: Cpp
-NamespaceIndentation: Inner
+NamespaceIndentation: All
 PointerAlignment: Left
 SortIncludes: true
 SpaceAfterCStyleCast: false

@@ -20,8 +20,8 @@
 #include "trapezoid.h"
 void ai2lua(lua_State* L)
 {
-    lua_tinker::class_add<Angle>(L, "Angle", true);
-    lua_tinker::class_add<AxisAlignedBox>(L, "AxisAlignedBox", true);
+    lua_tinker::class_add<Angle>(L, "Angle", false);
+    lua_tinker::class_add<AxisAlignedBox>(L, "AxisAlignedBox", false);
     lua_tinker::class_def<AxisAlignedBox>(
         L,
         "contains",
@@ -131,7 +131,7 @@ void ai2lua(lua_State* L)
     lua_tinker::class_var_static<AxisAlignedBox>(L, "NEAR_LEFT_TOP", AxisAlignedBox::NEAR_LEFT_TOP);
     lua_tinker::class_var_static<AxisAlignedBox>(L, "NEAR_RIGHT_BOTTOM", AxisAlignedBox::NEAR_RIGHT_BOTTOM);
     lua_tinker::class_var_static<AxisAlignedBox>(L, "NEAR_RIGHT_TOP", AxisAlignedBox::NEAR_RIGHT_TOP);
-    lua_tinker::class_add<CGameMap>(L, "CGameMap", true);
+    lua_tinker::class_add<CGameMap>(L, "CGameMap", false);
     lua_tinker::class_def<CGameMap>(L, "FindPosNearby", &CGameMap::FindPosNearby);
     lua_tinker::class_def<CGameMap>(L, "GetEnterPointByIdx", &CGameMap::GetEnterPointByIdx);
     lua_tinker::class_def<CGameMap>(L, "GetGeneratorData", &CGameMap::GetGeneratorData);
@@ -166,7 +166,7 @@ void ai2lua(lua_State* L)
     lua_tinker::class_def<CGameMap>(L, "IsZoneMap", &CGameMap::IsZoneMap);
     lua_tinker::class_def<CGameMap>(L, "LineFindCanJump", &CGameMap::LineFindCanJump);
     lua_tinker::class_def<CGameMap>(L, "LineFindCanStand", &CGameMap::LineFindCanStand);
-    lua_tinker::class_add<CMapData>(L, "CMapData", true);
+    lua_tinker::class_add<CMapData>(L, "CMapData", false);
     lua_tinker::class_def<CMapData>(L, "CanCollision", &CMapData::CanCollision);
     lua_tinker::class_def<CMapData>(L, "GetGirdCount", &CMapData::GetGirdCount);
     lua_tinker::class_def<CMapData>(L, "GetHeight", &CMapData::GetHeight);
@@ -192,7 +192,7 @@ void ai2lua(lua_State* L)
     lua_tinker::class_def<CMapData>(L, "Pos2Grid", &CMapData::Pos2Grid);
     lua_tinker::class_def<CMapData>(L, "Pos2Idx", &CMapData::Pos2Idx);
     lua_tinker::class_def<CMapData>(L, "_getGridData", &CMapData::_getGridData);
-    lua_tinker::class_add<CMyTimer>(L, "CMyTimer", true);
+    lua_tinker::class_add<CMyTimer>(L, "CMyTimer", false);
     lua_tinker::class_def<CMyTimer>(L, "Clear", &CMyTimer::Clear);
     lua_tinker::class_def<CMyTimer>(L, "DecInterval", &CMyTimer::DecInterval);
     lua_tinker::class_def<CMyTimer>(L, "GetRemain", &CMyTimer::GetRemain);
@@ -217,7 +217,7 @@ void ai2lua(lua_State* L)
             lua_tinker::make_member_functor_ptr((bool (CMyTimer::*)(int32_t))(&CMyTimer::ToNextTime))));
     lua_tinker::class_def<CMyTimer>(L, "Update", &CMyTimer::Update);
     lua_tinker::class_con<CMyTimer>(L, lua_tinker::constructor<CMyTimer, int32_t>::invoke, 0);
-    lua_tinker::class_add<CNetworkMessage>(L, "CNetworkMessage", true);
+    lua_tinker::class_add<CNetworkMessage>(L, "CNetworkMessage", false);
     lua_tinker::class_def<CNetworkMessage>(L, "CopyBuffer", &CNetworkMessage::CopyBuffer);
     lua_tinker::class_def<CNetworkMessage>(L, "GetBodySize", &CNetworkMessage::GetBodySize);
     lua_tinker::class_def<CNetworkMessage>(L, "GetBuf", &CNetworkMessage::GetBuf);
@@ -293,7 +293,7 @@ void ai2lua(lua_State* L)
         0,
         0,
         0);
-    lua_tinker::class_add<CServiceCommon>(L, "CServiceCommon", true);
+    lua_tinker::class_add<CServiceCommon>(L, "CServiceCommon", false);
     lua_tinker::class_def<CServiceCommon>(L, "CreateUID", &CServiceCommon::CreateUID);
     lua_tinker::class_def<CServiceCommon>(L, "GetAIServerVirtualSocket", &CServiceCommon::GetAIServerVirtualSocket);
     lua_tinker::class_def<CServiceCommon>(L, "GetEventManager", &CServiceCommon::GetEventManager);
@@ -305,7 +305,7 @@ void ai2lua(lua_State* L)
     lua_tinker::class_def<CServiceCommon>(L, "GetServiceName", &CServiceCommon::GetServiceName);
     lua_tinker::class_def<CServiceCommon>(L, "GetWorldID", &CServiceCommon::GetWorldID);
     lua_tinker::class_def<CServiceCommon>(L, "SetServerPort", &CServiceCommon::SetServerPort);
-    lua_tinker::class_add<Degree>(L, "Degree", true);
+    lua_tinker::class_add<Degree>(L, "Degree", false);
     lua_tinker::class_def<Degree>(L, "operator!=", &Degree::operator!=);
     lua_tinker::class_def<Degree>(
         L,
@@ -350,7 +350,7 @@ void ai2lua(lua_State* L)
             new lua_tinker::constructor<Degree, const Radian&>(),
             new lua_tinker::constructor<Degree, float>(1 /*default_args_count*/, 1 /*default_args_start*/)),
         0);
-    lua_tinker::class_add<FloatRect>(L, "FloatRect", true);
+    lua_tinker::class_add<FloatRect>(L, "FloatRect", false);
     lua_tinker::class_def<FloatRect>(L, "height", &FloatRect::height);
     lua_tinker::class_def<FloatRect>(L, "isIntersect", &FloatRect::isIntersect);
     lua_tinker::class_def<FloatRect>(L, "width", &FloatRect::width);
@@ -363,9 +363,9 @@ void ai2lua(lua_State* L)
     lua_tinker::class_mem<FloatRect>(L, "left", &FloatRect::left);
     lua_tinker::class_mem<FloatRect>(L, "right", &FloatRect::right);
     lua_tinker::class_mem<FloatRect>(L, "top", &FloatRect::top);
-    lua_tinker::class_add<MapGridData>(L, "MapGridData", true);
+    lua_tinker::class_add<MapGridData>(L, "MapGridData", false);
     lua_tinker::class_con<MapGridData>(L, lua_tinker::constructor<MapGridData, uint32_t>::invoke, 0);
-    lua_tinker::class_add<Math>(L, "Math", true);
+    lua_tinker::class_add<Math>(L, "Math", false);
     lua_tinker::class_def_static<Math>(L, "ACos", &Math::ACos);
     lua_tinker::class_def_static<Math>(L, "ASin", &Math::ASin);
     lua_tinker::class_def_static<Math>(L, "ATan", &Math::ATan);
@@ -455,7 +455,7 @@ void ai2lua(lua_State* L)
     lua_tinker::class_mem_static_readonly<Math>(L, "HALF_PI", &Math::HALF_PI);
     lua_tinker::class_mem_static_readonly<Math>(L, "PI", &Math::PI);
     lua_tinker::class_mem_static_readonly<Math>(L, "TWO_PI", &Math::TWO_PI);
-    lua_tinker::class_add<Ray>(L, "Ray", true);
+    lua_tinker::class_add<Ray>(L, "Ray", false);
     lua_tinker::class_def<Ray>(L, "getDirection", &Ray::getDirection);
     lua_tinker::class_def<Ray>(L, "getOrigin", &Ray::getOrigin);
     lua_tinker::class_def<Ray>(L, "getPoint", &Ray::getPoint);
@@ -466,7 +466,7 @@ void ai2lua(lua_State* L)
         L,
         lua_tinker::args_type_overload_constructor(new lua_tinker::constructor<Ray>(),
                                                    new lua_tinker::constructor<Ray, const Vector3&, const Vector3&>()));
-    lua_tinker::class_add<Rect>(L, "Rect", true);
+    lua_tinker::class_add<Rect>(L, "Rect", false);
     lua_tinker::class_def<Rect>(L, "height", &Rect::height);
     lua_tinker::class_def<Rect>(L, "isIntersect", &Rect::isIntersect);
     lua_tinker::class_def<Rect>(L, "operator=", &Rect::operator=);
@@ -480,7 +480,7 @@ void ai2lua(lua_State* L)
     lua_tinker::class_mem<Rect>(L, "left", &Rect::left);
     lua_tinker::class_mem<Rect>(L, "right", &Rect::right);
     lua_tinker::class_mem<Rect>(L, "top", &Rect::top);
-    lua_tinker::class_add<ServerPort>(L, "ServerPort", true);
+    lua_tinker::class_add<ServerPort>(L, "ServerPort", false);
     lua_tinker::class_def<ServerPort>(L, "GetData", &ServerPort::GetData);
     lua_tinker::class_def<ServerPort>(L, "GetServiceID", &ServerPort::GetServiceID);
     lua_tinker::class_def<ServerPort>(L, "GetWorldID", &ServerPort::GetWorldID);
@@ -497,7 +497,7 @@ void ai2lua(lua_State* L)
             new lua_tinker::constructor<ServerPort, uint16_t, uint16_t>(),
             new lua_tinker::constructor<ServerPort, uint32_t>(1 /*default_args_count*/, 1 /*default_args_start*/)),
         0);
-    lua_tinker::class_add<Vector2>(L, "Vector2", true);
+    lua_tinker::class_add<Vector2>(L, "Vector2", false);
     lua_tinker::class_def<Vector2>(L, "crossProduct", &Vector2::crossProduct);
     lua_tinker::class_def<Vector2>(L, "distance", &Vector2::distance);
     lua_tinker::class_def<Vector2>(L, "dotProduct", &Vector2::dotProduct);
@@ -531,7 +531,7 @@ void ai2lua(lua_State* L)
     lua_tinker::class_mem_static_readonly<Vector2>(L, "ZERO", &Vector2::ZERO);
     lua_tinker::class_mem<Vector2>(L, "x", &Vector2::x);
     lua_tinker::class_mem<Vector2>(L, "y", &Vector2::y);
-    lua_tinker::class_add<Vector3>(L, "Vector3", true);
+    lua_tinker::class_add<Vector3>(L, "Vector3", false);
     lua_tinker::class_def<Vector3>(L, "absDotProduct", &Vector3::absDotProduct);
     lua_tinker::class_def<Vector3>(L, "crossProduct", &Vector3::crossProduct);
     lua_tinker::class_def<Vector3>(L, "distance", &Vector3::distance);
@@ -572,7 +572,7 @@ void ai2lua(lua_State* L)
     lua_tinker::class_mem<Vector3>(L, "x", &Vector3::x);
     lua_tinker::class_mem<Vector3>(L, "y", &Vector3::y);
     lua_tinker::class_mem<Vector3>(L, "z", &Vector3::z);
-    lua_tinker::class_add<VirtualSocket>(L, "VirtualSocket", true);
+    lua_tinker::class_add<VirtualSocket>(L, "VirtualSocket", false);
     lua_tinker::class_def_static<VirtualSocket>(L, "CreateVirtualSocket", &VirtualSocket::CreateVirtualSocket);
     lua_tinker::class_def<VirtualSocket>(L, "GetData64", &VirtualSocket::GetData64);
     lua_tinker::class_def<VirtualSocket>(L, "GetServerPort", &VirtualSocket::GetServerPort);
