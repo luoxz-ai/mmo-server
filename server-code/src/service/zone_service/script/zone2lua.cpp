@@ -59,6 +59,117 @@
 #include "lua_tinker.h"
 void zone2lua(lua_State* L)
 {
+    lua_tinker::class_add<Angle>(L, "Angle", true);
+    lua_tinker::class_add<AxisAlignedBox>(L, "AxisAlignedBox", true);
+    lua_tinker::class_def<AxisAlignedBox>(
+        L,
+        "contains",
+        lua_tinker::args_type_overload_member_functor(lua_tinker::make_member_functor_ptr((bool (AxisAlignedBox::*)(
+                                                          const AxisAlignedBox&) const)(&AxisAlignedBox::contains)),
+                                                      lua_tinker::make_member_functor_ptr((bool (AxisAlignedBox::*)(
+                                                          const Vector3&) const)(&AxisAlignedBox::contains))));
+    lua_tinker::class_def<AxisAlignedBox>(L, "distance", &AxisAlignedBox::distance);
+    lua_tinker::class_def<AxisAlignedBox>(L, "getAllCorners", &AxisAlignedBox::getAllCorners);
+    lua_tinker::class_def<AxisAlignedBox>(L, "getCenter", &AxisAlignedBox::getCenter);
+    lua_tinker::class_def<AxisAlignedBox>(L, "getCorner", &AxisAlignedBox::getCorner);
+    lua_tinker::class_def<AxisAlignedBox>(L, "getHalfSize", &AxisAlignedBox::getHalfSize);
+    lua_tinker::class_def<AxisAlignedBox>(
+        L,
+        "getMaximum",
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr((Vector3 & (AxisAlignedBox::*)())(&AxisAlignedBox::getMaximum)),
+            lua_tinker::make_member_functor_ptr(
+                (const Vector3& (AxisAlignedBox::*)() const)(&AxisAlignedBox::getMaximum))));
+    lua_tinker::class_def<AxisAlignedBox>(
+        L,
+        "getMinimum",
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr((Vector3 & (AxisAlignedBox::*)())(&AxisAlignedBox::getMinimum)),
+            lua_tinker::make_member_functor_ptr(
+                (const Vector3& (AxisAlignedBox::*)() const)(&AxisAlignedBox::getMinimum))));
+    lua_tinker::class_def<AxisAlignedBox>(L, "getSize", &AxisAlignedBox::getSize);
+    lua_tinker::class_def<AxisAlignedBox>(L, "intersection", &AxisAlignedBox::intersection);
+    lua_tinker::class_def<AxisAlignedBox>(
+        L,
+        "intersects",
+        lua_tinker::args_type_overload_member_functor(lua_tinker::make_member_functor_ptr((bool (AxisAlignedBox::*)(
+                                                          const AxisAlignedBox&) const)(&AxisAlignedBox::intersects)),
+                                                      lua_tinker::make_member_functor_ptr((bool (AxisAlignedBox::*)(
+                                                          const Vector3&) const)(&AxisAlignedBox::intersects))));
+    lua_tinker::class_def<AxisAlignedBox>(L, "isFinite", &AxisAlignedBox::isFinite);
+    lua_tinker::class_def<AxisAlignedBox>(L, "isInfinite", &AxisAlignedBox::isInfinite);
+    lua_tinker::class_def<AxisAlignedBox>(L, "isNull", &AxisAlignedBox::isNull);
+    lua_tinker::class_def<AxisAlignedBox>(
+        L,
+        "merge",
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr(
+                (void (AxisAlignedBox::*)(const AxisAlignedBox&))(&AxisAlignedBox::merge)),
+            lua_tinker::make_member_functor_ptr((void (AxisAlignedBox::*)(const Vector3&))(&AxisAlignedBox::merge))));
+    lua_tinker::class_def<AxisAlignedBox>(L, "operator!=", &AxisAlignedBox::operator!=);
+    lua_tinker::class_def<AxisAlignedBox>(L, "__eq", &AxisAlignedBox::operator==);
+    lua_tinker::class_def<AxisAlignedBox>(L, "scale", &AxisAlignedBox::scale);
+    lua_tinker::class_def<AxisAlignedBox>(
+        L,
+        "setExtents",
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr(
+                (void (AxisAlignedBox::*)(const Vector3&, const Vector3&))(&AxisAlignedBox::setExtents)),
+            lua_tinker::make_member_functor_ptr(
+                (void (AxisAlignedBox::*)(float, float, float, float, float, float))(&AxisAlignedBox::setExtents))));
+    lua_tinker::class_def<AxisAlignedBox>(L, "setInfinite", &AxisAlignedBox::setInfinite);
+    lua_tinker::class_def<AxisAlignedBox>(
+        L,
+        "setMaximum",
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr(
+                (void (AxisAlignedBox::*)(const Vector3&))(&AxisAlignedBox::setMaximum)),
+            lua_tinker::make_member_functor_ptr(
+                (void (AxisAlignedBox::*)(float, float, float))(&AxisAlignedBox::setMaximum))));
+    lua_tinker::class_def<AxisAlignedBox>(L, "setMaximumX", &AxisAlignedBox::setMaximumX);
+    lua_tinker::class_def<AxisAlignedBox>(L, "setMaximumY", &AxisAlignedBox::setMaximumY);
+    lua_tinker::class_def<AxisAlignedBox>(L, "setMaximumZ", &AxisAlignedBox::setMaximumZ);
+    lua_tinker::class_def<AxisAlignedBox>(
+        L,
+        "setMinimum",
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr(
+                (void (AxisAlignedBox::*)(const Vector3&))(&AxisAlignedBox::setMinimum)),
+            lua_tinker::make_member_functor_ptr(
+                (void (AxisAlignedBox::*)(float, float, float))(&AxisAlignedBox::setMinimum))));
+    lua_tinker::class_def<AxisAlignedBox>(L, "setMinimumX", &AxisAlignedBox::setMinimumX);
+    lua_tinker::class_def<AxisAlignedBox>(L, "setMinimumY", &AxisAlignedBox::setMinimumY);
+    lua_tinker::class_def<AxisAlignedBox>(L, "setMinimumZ", &AxisAlignedBox::setMinimumZ);
+    lua_tinker::class_def<AxisAlignedBox>(L, "setNull", &AxisAlignedBox::setNull);
+    lua_tinker::class_def<AxisAlignedBox>(L, "squaredDistance", &AxisAlignedBox::squaredDistance);
+    lua_tinker::class_def<AxisAlignedBox>(
+        L,
+        "transform",
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr((void (AxisAlignedBox::*)(const Affine3&))(&AxisAlignedBox::transform)),
+            lua_tinker::make_member_functor_ptr(
+                (void (AxisAlignedBox::*)(const Matrix4&))(&AxisAlignedBox::transform))));
+    lua_tinker::class_def<AxisAlignedBox>(L, "volume", &AxisAlignedBox::volume);
+    lua_tinker::class_con<AxisAlignedBox>(
+        L,
+        lua_tinker::args_type_overload_constructor(
+            new lua_tinker::constructor<AxisAlignedBox>(),
+            new lua_tinker::constructor<AxisAlignedBox, AxisAlignedBox::Extent>(),
+            new lua_tinker::constructor<AxisAlignedBox, const Vector3&, const Vector3&>(),
+            new lua_tinker::constructor<AxisAlignedBox, float, float, float, float, float, float>()));
+    lua_tinker::class_mem_static_readonly<AxisAlignedBox>(L, "BOX_INFINITE", &AxisAlignedBox::BOX_INFINITE);
+    lua_tinker::class_mem_static_readonly<AxisAlignedBox>(L, "BOX_NULL", &AxisAlignedBox::BOX_NULL);
+    lua_tinker::class_var_static<AxisAlignedBox>(L, "EXTENT_FINITE", AxisAlignedBox::EXTENT_FINITE);
+    lua_tinker::class_var_static<AxisAlignedBox>(L, "EXTENT_INFINITE", AxisAlignedBox::EXTENT_INFINITE);
+    lua_tinker::class_var_static<AxisAlignedBox>(L, "EXTENT_NULL", AxisAlignedBox::EXTENT_NULL);
+    lua_tinker::class_var_static<AxisAlignedBox>(L, "FAR_LEFT_BOTTOM", AxisAlignedBox::FAR_LEFT_BOTTOM);
+    lua_tinker::class_var_static<AxisAlignedBox>(L, "FAR_LEFT_TOP", AxisAlignedBox::FAR_LEFT_TOP);
+    lua_tinker::class_var_static<AxisAlignedBox>(L, "FAR_RIGHT_BOTTOM", AxisAlignedBox::FAR_RIGHT_BOTTOM);
+    lua_tinker::class_var_static<AxisAlignedBox>(L, "FAR_RIGHT_TOP", AxisAlignedBox::FAR_RIGHT_TOP);
+    lua_tinker::class_var_static<AxisAlignedBox>(L, "NEAR_LEFT_BOTTOM", AxisAlignedBox::NEAR_LEFT_BOTTOM);
+    lua_tinker::class_var_static<AxisAlignedBox>(L, "NEAR_LEFT_TOP", AxisAlignedBox::NEAR_LEFT_TOP);
+    lua_tinker::class_var_static<AxisAlignedBox>(L, "NEAR_RIGHT_BOTTOM", AxisAlignedBox::NEAR_RIGHT_BOTTOM);
+    lua_tinker::class_var_static<AxisAlignedBox>(L, "NEAR_RIGHT_TOP", AxisAlignedBox::NEAR_RIGHT_TOP);
     lua_tinker::class_add<CActor>(L, "CActor", true);
     lua_tinker::class_def<CActor>(L, "AddDelayAttribChange", &CActor::AddDelayAttribChange);
     lua_tinker::class_def<CActor>(L, "AddDelaySendShowToAllViewPlayer", &CActor::AddDelaySendShowToAllViewPlayer);
@@ -846,6 +957,51 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CZoneService>(L, "SendMsgToPlayer", &CZoneService::SendMsgToPlayer);
     lua_tinker::class_def<CZoneService>(L, "SendMsgToWorld", &CZoneService::SendMsgToWorld);
     lua_tinker::class_def<CZoneService>(L, "TransmiteMsgFromWorldToOther", &CZoneService::TransmiteMsgFromWorldToOther);
+    lua_tinker::class_add<Degree>(L, "Degree", true);
+    lua_tinker::class_def<Degree>(L, "operator!=", &Degree::operator!=);
+    lua_tinker::class_def<Degree>(
+        L,
+        "__mul",
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr((Degree(Degree::*)(const Degree&) const)(&Degree::operator*)),
+            lua_tinker::make_member_functor_ptr((Degree(Degree::*)(float) const)(&Degree::operator*))));
+    lua_tinker::class_def<Degree>(
+        L,
+        "__add",
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr((Degree(Degree::*)(const Degree&) const)(&Degree::operator+)),
+            lua_tinker::make_member_functor_ptr((Degree(Degree::*)(const Radian&) const)(&Degree::operator+)),
+            lua_tinker::make_member_functor_ptr((const Degree& (Degree::*)() const)(&Degree::operator+))));
+    lua_tinker::class_def<Degree>(
+        L,
+        "__sub",
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr((Degree(Degree::*)() const)(&Degree::operator-)),
+            lua_tinker::make_member_functor_ptr((Degree(Degree::*)(const Degree&) const)(&Degree::operator-)),
+            lua_tinker::make_member_functor_ptr((Degree(Degree::*)(const Radian&) const)(&Degree::operator-))));
+    lua_tinker::class_def<Degree>(L, "__div", &Degree::operator/);
+    lua_tinker::class_def<Degree>(L, "__lt", &Degree::operator<);
+    lua_tinker::class_def<Degree>(L, "__le", &Degree::operator<=);
+    lua_tinker::class_def<Degree>(
+        L,
+        "operator=",
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr((Degree & (Degree::*)(const Degree&))(&Degree::operator=)),
+            lua_tinker::make_member_functor_ptr((Degree & (Degree::*)(const Radian&))(&Degree::operator=)),
+            lua_tinker::make_member_functor_ptr((Degree & (Degree::*)(const float&))(&Degree::operator=))));
+    lua_tinker::class_def<Degree>(L, "__eq", &Degree::operator==);
+    lua_tinker::class_def<Degree>(L, "operator>", &Degree::operator>);
+    lua_tinker::class_def<Degree>(L, "operator>=", &Degree::operator>=);
+    lua_tinker::class_def<Degree>(L, "valueAngleUnits", &Degree::valueAngleUnits);
+    lua_tinker::class_def<Degree>(L, "valueDegrees", &Degree::valueDegrees);
+    lua_tinker::class_def<Degree>(L, "valueRadians", &Degree::valueRadians);
+    lua_tinker::class_con<Degree>(
+        L,
+        lua_tinker::args_type_overload_constructor(
+            new lua_tinker::constructor<Degree, const Degree&>(),
+            new lua_tinker::constructor<Degree, const Radian&>(),
+            new lua_tinker::constructor<Degree, float>(1 /*default_args_count*/, 1 /*default_args_start*/)),
+        0);
     lua_tinker::class_add<FloatRect>(L, "FloatRect", true);
     lua_tinker::class_def<FloatRect>(L, "height", &FloatRect::height);
     lua_tinker::class_def<FloatRect>(L, "isIntersect", &FloatRect::isIntersect);
@@ -866,9 +1022,106 @@ void zone2lua(lua_State* L)
     lua_tinker::class_add<MapGridData>(L, "MapGridData", true);
     lua_tinker::class_con<MapGridData>(L, lua_tinker::constructor<MapGridData, uint32_t>::invoke, 0);
     lua_tinker::class_add<Math>(L, "Math", true);
+    lua_tinker::class_def_static<Math>(L, "ACos", &Math::ACos);
+    lua_tinker::class_def_static<Math>(L, "ASin", &Math::ASin);
+    lua_tinker::class_def_static<Math>(L, "ATan", &Math::ATan);
+    lua_tinker::class_def_static<Math>(L, "ATan2", &Math::ATan2);
+    lua_tinker::class_def_static<Math>(
+        L,
+        "Abs",
+        lua_tinker::args_type_overload_functor(lua_tinker::make_functor_ptr((Degree(*)(const Degree&))(&Math::Abs)),
+                                               lua_tinker::make_functor_ptr((Radian(*)(const Radian&))(&Math::Abs)),
+                                               lua_tinker::make_functor_ptr((float (*)(float))(&Math::Abs))));
+    lua_tinker::class_def_static<Math>(L, "AngleUnitsToDegrees", &Math::AngleUnitsToDegrees);
+    lua_tinker::class_def_static<Math>(L, "AngleUnitsToRadians", &Math::AngleUnitsToRadians);
+    lua_tinker::class_def_static<Math>(L, "Ceil", &Math::Ceil);
+    lua_tinker::class_def_static<Math>(L,
+                                       "Cos",
+                                       lua_tinker::args_type_overload_functor(
+                                           lua_tinker::make_functor_ptr((float (*)(const Radian&, bool))(&Math::Cos),
+                                                                        1 /*default_args_count*/,
+                                                                        1 /*default_args_start*/),
+                                           lua_tinker::make_functor_ptr((float (*)(float, bool))(&Math::Cos),
+                                                                        1 /*default_args_count*/,
+                                                                        2 /*default_args_start*/)),
+                                       false,
+                                       false);
+    lua_tinker::class_def_static<Math>(L, "DegreesToAngleUnits", &Math::DegreesToAngleUnits);
+    lua_tinker::class_def_static<Math>(L, "DegreesToRadians", &Math::DegreesToRadians);
+    lua_tinker::class_def_static<Math>(L, "Exp", &Math::Exp);
+    lua_tinker::class_def_static<Math>(L, "FloatEqual", &Math::FloatEqual, std::numeric_limits<float>::epsilon());
+    lua_tinker::class_def_static<Math>(L, "Floor", &Math::Floor);
+    lua_tinker::class_def_static<Math>(L, "IAbs", &Math::IAbs);
+    lua_tinker::class_def_static<Math>(L, "ICeil", &Math::ICeil);
+    lua_tinker::class_def_static<Math>(L, "IFloor", &Math::IFloor);
+    lua_tinker::class_def_static<Math>(L, "ISign", &Math::ISign);
+    lua_tinker::class_def_static<Math>(L, "InvSqrt", &Math::InvSqrt);
+    lua_tinker::class_def_static<Math>(L, "Log", &Math::Log);
+    lua_tinker::class_def_static<Math>(L, "Log2", &Math::Log2);
+    lua_tinker::class_def_static<Math>(L, "LogN", &Math::LogN);
+    lua_tinker::class_def_static<Math>(L, "Pow", &Math::Pow);
+    lua_tinker::class_def_static<Math>(L, "RadiansToAngleUnits", &Math::RadiansToAngleUnits);
+    lua_tinker::class_def_static<Math>(L, "RadiansToDegrees", &Math::RadiansToDegrees);
+    lua_tinker::class_def_static<Math>(
+        L,
+        "Sign",
+        lua_tinker::args_type_overload_functor(lua_tinker::make_functor_ptr((Degree(*)(const Degree&))(&Math::Sign)),
+                                               lua_tinker::make_functor_ptr((Radian(*)(const Radian&))(&Math::Sign)),
+                                               lua_tinker::make_functor_ptr((float (*)(float))(&Math::Sign))));
+    lua_tinker::class_def_static<Math>(L,
+                                       "Sin",
+                                       lua_tinker::args_type_overload_functor(
+                                           lua_tinker::make_functor_ptr((float (*)(const Radian&, bool))(&Math::Sin),
+                                                                        1 /*default_args_count*/,
+                                                                        1 /*default_args_start*/),
+                                           lua_tinker::make_functor_ptr((float (*)(float, bool))(&Math::Sin),
+                                                                        1 /*default_args_count*/,
+                                                                        2 /*default_args_start*/)),
+                                       false,
+                                       false);
+    lua_tinker::class_def_static<Math>(L, "Sqr", &Math::Sqr);
+    lua_tinker::class_def_static<Math>(
+        L,
+        "Sqrt",
+        lua_tinker::args_type_overload_functor(lua_tinker::make_functor_ptr((Degree(*)(const Degree&))(&Math::Sqrt)),
+                                               lua_tinker::make_functor_ptr((Radian(*)(const Radian&))(&Math::Sqrt)),
+                                               lua_tinker::make_functor_ptr((float (*)(float))(&Math::Sqrt))));
+    lua_tinker::class_def_static<Math>(L,
+                                       "Tan",
+                                       lua_tinker::args_type_overload_functor(
+                                           lua_tinker::make_functor_ptr((float (*)(const Radian&, bool))(&Math::Tan),
+                                                                        1 /*default_args_count*/,
+                                                                        1 /*default_args_start*/),
+                                           lua_tinker::make_functor_ptr((float (*)(float, bool))(&Math::Tan),
+                                                                        1 /*default_args_count*/,
+                                                                        2 /*default_args_start*/)),
+                                       false,
+                                       false);
     lua_tinker::class_def_static<Math>(L, "get2Pow", &Math::get2Pow);
+    lua_tinker::class_def_static<Math>(L, "getAngleUnit", &Math::getAngleUnit);
+    lua_tinker::class_def_static<Math>(L, "ilog2", &Math::ilog2);
     lua_tinker::class_def_static<Math>(L, "is2Pow", &Math::is2Pow);
     lua_tinker::class_def_static<Math>(L, "isNaN", &Math::isNaN);
+    lua_tinker::class_def_static<Math>(L, "nextPow2", &Math::nextPow2);
+    lua_tinker::class_def_static<Math>(
+        L,
+        "saturate",
+        lua_tinker::args_type_overload_functor(lua_tinker::make_functor_ptr((double (*)(double))(&Math::saturate)),
+                                               lua_tinker::make_functor_ptr((float (*)(float))(&Math::saturate))));
+    lua_tinker::class_mem_static_readonly<Math>(L, "HALF_PI", &Math::HALF_PI);
+    lua_tinker::class_mem_static_readonly<Math>(L, "PI", &Math::PI);
+    lua_tinker::class_mem_static_readonly<Math>(L, "TWO_PI", &Math::TWO_PI);
+    lua_tinker::class_add<Ray>(L, "Ray", true);
+    lua_tinker::class_def<Ray>(L, "getDirection", &Ray::getDirection);
+    lua_tinker::class_def<Ray>(L, "getOrigin", &Ray::getOrigin);
+    lua_tinker::class_def<Ray>(L, "getPoint", &Ray::getPoint);
+    lua_tinker::class_def<Ray>(L, "__mul", &Ray::operator*);
+    lua_tinker::class_def<Ray>(L, "setDirection", &Ray::setDirection);
+    lua_tinker::class_def<Ray>(L, "setOrigin", &Ray::setOrigin);
+    lua_tinker::class_con<Ray>(
+        L,
+        lua_tinker::args_type_overload_constructor(new lua_tinker::constructor<Ray>(),
+                                                   new lua_tinker::constructor<Ray, const Vector3&, const Vector3&>()));
     lua_tinker::class_add<Rect>(L, "Rect", true);
     lua_tinker::class_def<Rect>(L, "height", &Rect::height);
     lua_tinker::class_def<Rect>(L, "isIntersect", &Rect::isIntersect);
@@ -924,7 +1177,6 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<Vector2>(L, "operator!=", &Vector2::operator!=);
     lua_tinker::class_def<Vector2>(L, "__lt", &Vector2::operator<);
     lua_tinker::class_def<Vector2>(L, "__eq", &Vector2::operator==);
-    lua_tinker::class_def<Vector2>(L, "operator>", &Vector2::operator>);
     lua_tinker::class_def<Vector2>(L, "perpendicular", &Vector2::perpendicular);
     lua_tinker::class_def<Vector2>(L, "randomDeviant", &Vector2::randomDeviant);
     lua_tinker::class_def<Vector2>(L, "reflect", &Vector2::reflect);
@@ -1034,18 +1286,23 @@ void zone2lua(lua_State* L)
     lua_tinker::namespace_set(L, "GameMath", "VECTOR2_SOUTH", GameMath::VECTOR2_SOUTH);
     lua_tinker::namespace_set(L, "GameMath", "VECTOR2_WEST", GameMath::VECTOR2_WEST);
     lua_tinker::namespace_add(L, "GameMath::Intersection");
-    lua_tinker::namespace_def(L,
-                              "GameMath::Intersection",
-                              "LineIntersection2D",
-                              &GameMath::Intersection::LineIntersection2D);
-    lua_tinker::namespace_def(L, "GameMath::Intersection", "getNearestPoint", &GameMath::Intersection::getNearestPoint);
-    lua_tinker::namespace_def(L, "GameMath::Intersection", "isInABBox", &GameMath::Intersection::isInABBox);
-    lua_tinker::namespace_def(L, "GameMath::Intersection", "isInFOV", &GameMath::Intersection::isInFOV);
-    lua_tinker::namespace_def(L,
-                              "GameMath::Intersection",
-                              "lineIntersection2D",
-                              &GameMath::Intersection::lineIntersection2D);
     lua_tinker::scope_inner(L, "GameMath", "Intersection", "GameMath::Intersection");
+    lua_tinker::namespace_add(L, "GameMath::Intersection2D");
+    lua_tinker::namespace_def(L,
+                              "GameMath::Intersection2D",
+                              "LineIntersection2D",
+                              &GameMath::Intersection2D::LineIntersection2D);
+    lua_tinker::namespace_def(L,
+                              "GameMath::Intersection2D",
+                              "getNearestPoint",
+                              &GameMath::Intersection2D::getNearestPoint);
+    lua_tinker::namespace_def(L, "GameMath::Intersection2D", "isInABBox", &GameMath::Intersection2D::isInABBox);
+    lua_tinker::namespace_def(L, "GameMath::Intersection2D", "isInFOV", &GameMath::Intersection2D::isInFOV);
+    lua_tinker::namespace_def(L,
+                              "GameMath::Intersection2D",
+                              "lineIntersection2D",
+                              &GameMath::Intersection2D::lineIntersection2D);
+    lua_tinker::scope_inner(L, "GameMath", "Intersection2D", "GameMath::Intersection2D");
     lua_tinker::def(L, "AchievementTypeSet", &AchievementTypeSet);
     lua_tinker::def(L, "ActorManager", &ActorManager);
     lua_tinker::def(L, "BulletTypeSet", &BulletTypeSet);

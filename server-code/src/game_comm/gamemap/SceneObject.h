@@ -9,7 +9,7 @@ class CSceneNode;
 class CSceneCollisionNode;
 
 class CSceneObject;
-typedef std::deque<OBJID>                                       BROADCAST_SET;
+typedef std::set<OBJID>                                         BROADCAST_SET;
 typedef std::unordered_map<uint32_t, std::unordered_set<OBJID>> BROADCAST_SET_BYTYPE;
 typedef std::unordered_map<OBJID, CSceneObject*>                ACTOR_MAP;
 
@@ -30,7 +30,7 @@ public:
         else
             return nullptr;
     }
-    virtual bool CanCastTo(ActorType actor_type) { return GetActorType() == actor_type; }
+    export_lua virtual bool CanCastTo(ActorType actor_type) { return GetActorType() == actor_type; }
 
     export_lua virtual ActorType GetActorType() const = 0;
 
@@ -86,13 +86,13 @@ public:
 protected:
     // AOI
     virtual void RemoveFromViewList(CSceneObject* pActor, OBJID idActor, bool bErase);
-    virtual void AddToViewList(CSceneObject* pActor, bool bChkDuplicate, bool bSendShow);
-    virtual void AOIProcessActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_MAP& mapAllViewActor) = 0;
-    virtual void AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
+    virtual void AddToViewList(CSceneObject* pActor);
+    virtual void OnAOIProcess_ActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_MAP& mapAllViewActor) = 0;
+    virtual void OnAOIProcess_ActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
                                               BROADCAST_SET&       setBCActor,
                                               int32_t              nCanReserveDelCount,
                                               uint32_t             view_range_out_square)                            = 0;
-    virtual void AOIProcessPosUpdate(){};
+    virtual void OnAOIProcess_PosUpdate(){};
 
     virtual bool IsNeedAddToBroadCastSet(CSceneObject* pActor) { return false; }
     virtual bool IsMustAddToBroadCastSet(CSceneObject* pActor) { return false; }

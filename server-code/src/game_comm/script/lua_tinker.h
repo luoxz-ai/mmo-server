@@ -2826,10 +2826,14 @@ namespace detail
             // set
             pContainer->emplace(detail::read<typename T::value_type>(L, 2));
         }
+        else if constexpr(has_allocator_type<T>::value)
+		{
+            //vector or string
+            pContainer->emplace_back(detail::read<typename T::value_type>(L, 2));
+        }
         else
         {
-            // vector
-            pContainer->emplace_back(detail::read<typename T::value_type>(L, 2));
+            // array
         }
 
         return 0;
@@ -2858,12 +2862,15 @@ namespace detail
             // set
             pContainer->erase(detail::read<typename T::value_type>(L, 2));
         }
-        else
-        {
-            // vector
-            pContainer->erase(
-                std::find(pContainer->begin(), pContainer->end(), detail::read<typename T::value_type>(L, 2)));
-        }
+		else if constexpr(has_allocator_type<T>::value)
+		{
+			//vector or string
+			pContainer->erase(std::find(pContainer->begin(), pContainer->end(), detail::read<typename T::value_type>(L, 2)));
+		}
+		else
+		{
+			//maybe std::array
+		}
 
         return 0;
     }

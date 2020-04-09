@@ -62,9 +62,9 @@ public:
     virtual void            ClearViewList(bool bSendMsgToSelf) override;
 
 protected:
-    virtual void AddToViewList(CSceneObject* pActor, bool bChkDuplicate, bool bSendShow) override;
-    virtual void AOIProcessActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_MAP& mapAllViewActor) override;
-    virtual void AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
+    virtual void AddToViewList(CSceneObject* pActor) override;
+    virtual void OnAOIProcess_ActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_MAP& mapAllViewActor) override;
+    virtual void OnAOIProcess_ActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
                                               BROADCAST_SET&       setBCActor,
                                               int32_t              nCanReserveDelCount,
                                               uint32_t             view_range_out_square) override;

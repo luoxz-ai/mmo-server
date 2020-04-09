@@ -301,7 +301,7 @@ void CSkillFSM::FindTarget(CActor*               pOwner,
                     {
                         if(pSkillType->CanAttackActor(pOwner, pActor) == true)
                         {
-                            if(GameMath::Intersection::isInABBox(pOwner->GetPos(),
+                            if(GameMath::Intersection2D::isInABBox(pOwner->GetPos(),
                                                                  Face,
                                                                  pActor->GetPos(),
                                                                  FaceNormal,
@@ -347,7 +347,7 @@ void CSkillFSM::FindTarget(CActor*               pOwner,
                     {
                         if(GameMath::simpleDistance(pOwner->GetPos(), pActor->GetPos()) < fRangeSquare)
                         {
-                            if(GameMath::Intersection::isInFOV(pOwner->GetPos(),
+                            if(GameMath::Intersection2D::isInFOV(pOwner->GetPos(),
                                                                Face,
                                                                pActor->GetPos(),
                                                                pSkillType->GetWidth()) == true)

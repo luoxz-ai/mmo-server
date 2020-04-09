@@ -104,16 +104,16 @@ protected:
     void         AddDelaySendShowTo(OBJID id);
     void         RemoveDelaySendShowTo(OBJID id);
     virtual void RemoveFromViewList(CSceneObject* pActor, OBJID idActor, bool bErase) override;
-    virtual void AddToViewList(CSceneObject* pActor, bool bChkDuplicate, bool bSendShow) override;
+    virtual void AddToViewList(CSceneObject* PowerActionReserved) override;
     virtual bool IsNeedAddToBroadCastSet(CSceneObject* pActor) override;
     virtual bool IsMustAddToBroadCastSet(CSceneObject* pActor) override;
 
-    virtual void AOIProcessActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_MAP& mapAllViewActor) override;
-    virtual void AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
+    virtual void OnAOIProcess_ActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_MAP& mapAllViewActor) override;
+    virtual void OnAOIProcess_ActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
                                               BROADCAST_SET&       setBCActor,
                                               int32_t              nCanReserveDelCount,
                                               uint32_t             view_range_out_square) override;
-    virtual void AOIProcessPosUpdate() override;
+    virtual void OnAOIProcess_PosUpdate() override;
 
 private:
     template<class T>

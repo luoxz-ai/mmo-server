@@ -133,6 +133,7 @@ include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/depends/src/)
 
 include_directories(${PROJECT_SOURCE_DIR}/src/server_share/)
 include_directories(${PROJECT_SOURCE_DIR}/src/comm/basecode/)
+include_directories(${PROJECT_SOURCE_DIR}/src/comm/basecode/math)
 include_directories(${PROJECT_SOURCE_DIR}/src/comm/network/)
 include_directories(${PROJECT_SOURCE_DIR}/src/comm/message_route/)
 include_directories(${PROJECT_SOURCE_DIR}/src/comm/mydb/)

@@ -312,7 +312,7 @@ public:
     /** Returns true if the vector's scalar components are all smaller
         that the ones of the vector it is compared against.
     */
-    export_lua inline bool operator>(const Vector2& rhs) const
+    inline bool operator>(const Vector2& rhs) const
     {
         if(x > rhs.x && y > rhs.y)
             return true;
@@ -383,7 +383,7 @@ public:
     export_lua inline Vector2 randomDeviant(float angle) const
     {
 
-        angle *= random_float() * TWO_PI;
+        angle *= random_float() * Math::TWO_PI;
         float cosa = cos(angle);
         float sina = sin(angle);
         return Vector2(cosa * x - sina * y, sina * x + cosa * y);

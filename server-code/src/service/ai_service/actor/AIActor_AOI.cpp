@@ -5,9 +5,9 @@
 #include "AIService.h"
 
 //////////////////////////////////////////////////////////////////////
-void CAIActor::AddToViewList(CSceneObject* pActor, bool bChkDuplicate, bool bSendShow)
+void CAIActor::AddToViewList(CSceneObject* pActor)
 {
-    CSceneObject::AddToViewList(pActor, bChkDuplicate, bSendShow);
+    CSceneObject::AddToViewList(pActor);
 
 	//如果自己是怪物
 	if(GetActorType() == ACT_MONSTER)
@@ -52,7 +52,7 @@ bool CAIActor::IsNeedAddToBroadCastSet(CSceneObject* pActor)
     }
 }
 
-void CAIActor::AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
+void CAIActor::OnAOIProcess_ActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
                                             BROADCAST_SET&       setBCActor,
                                             int32_t              nCanReserveDelCount,
                                             uint32_t             view_range_out_square)
@@ -76,7 +76,7 @@ void CAIActor::AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
 				if(distance_square < view_range_out_square)	// 在脱离视野半径内的，不需要离开广播区域)
                 {
                     nCanReserveDelCount--;
-                    setBCActor.insert(std::lower_bound(setBCActor.begin(), setBCActor.end(), id), id);
+                    setBCActor.insert(id);
                     continue;
                 }
             }
@@ -95,20 +95,24 @@ void CAIActor::AOIProcessActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
 
 //////////////////////////////////////////////////////////////////////////
 //
-void CAIActor::AOIProcessActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_MAP& mapAllViewActor)
+void CAIActor::OnAOIProcess_ActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_MAP& mapAllViewActor)
 {
     for(auto it = setBCActorAdd.begin(); it != setBCActorAdd.end(); it++)
     {
         auto itr = mapAllViewActor.find(*it);
-        if(itr != mapAllViewActor.end())
+        if(itr == mapAllViewActor.end())
         {
-            CAIActor* pActor = static_cast<CAIActor*>(itr->second);
-
-			// 通知自己,需要发送对方的信息给自己
-            AddToViewList(pActor, false, true);
-
-			// 通知目标,不要发送自己的信息给对方,后面会统一广播
-            pActor->AddToViewList(this, true, false);
+            it = setBCActorAdd.erase(it);
+            continue;
         }
+
+        CAIActor* pActor = static_cast<CAIActor*>(itr->second);
+
+        // 通知自己,需要发送对方的信息给自己
+        AddToViewList(pActor);
+
+        // 通知目标,不要发送自己的信息给对方,后面会统一广播
+        pActor->AddToViewList(this);
+    
     }
 }
