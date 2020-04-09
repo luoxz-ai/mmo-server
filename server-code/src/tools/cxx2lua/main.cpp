@@ -210,17 +210,24 @@ std::string get_default_params(CXCursor cursor, int32_t params_idx)
 std::string function_name_conver(const std::string& name)
 {
     static std::map<std::string, std::string> map_name = {
+        {"operator+", "__add"},
+        {"operator-", "__sub"},
+        {"operator*", "__mul"},
+        {"operator/", "__div"},
+        {"operator%", "__mod"},
+        {"operator^", "__pow"},
+        //{"operator//", "__idiv"},     //浮点触发
+        //{"operator-", "__unm"},      //1元运算符
+        //{"operator..", "__concat"},  //连接符
         {"operator==", "__eq"},
         {"operator<=", "__le"},
         {"operator<", "__lt"},
-        {"operator/", "__idiv"},
-        {"operator-", "__sub"},
-        {"operator+", "__add"},
-        {"operator*", "__mul"},
+
         {"operator&", "__band"},
         {"operator|", "__bor"},
         {"operator^", "__bxor"},
         {"operator!", "__bnot"},
+        
         {"operator<<", "__shl"},
         {"operator>>", "__shr"},
     };
@@ -254,11 +261,13 @@ void visit_function(CXCursor cursor, Visitor_Content* pContent)
     if(refMap.find(typestr) != refMap.end())
         return;
     auto& overload_data = refMap[typestr];
+    overload_data.is_static = clang_CXXMethod_isStatic(cursor) != 0;
+
     {
         overload_data.funcptr_type =
             getClangString(clang_getTypeSpelling(clang_getResultType(clang_getCursorType(cursor))));
 
-        if(pContent->m_ContentType == CT_CLASS)
+        if(pContent->m_ContentType == CT_CLASS && overload_data.is_static == false)
         {
             overload_data.funcptr_type += "(";
             overload_data.funcptr_type += pContent->getAccessName();
@@ -270,7 +279,7 @@ void visit_function(CXCursor cursor, Visitor_Content* pContent)
         }
     }
     overload_data.func_type = typestr;
-    overload_data.is_static = clang_CXXMethod_isStatic(cursor) != 0;
+    
     // reg gloabl_func
     int32_t nArgs = clang_Cursor_getNumArguments(cursor);
     {
@@ -1266,9 +1275,11 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
                 std::string overload_params;
                 size_t      nDefaultParamsStart = 1;
                 std::string def_params;
+                bool bStatic = false;
                 for(const auto& it_refData: refDataSet)
                 {
                     const auto& refData = it_refData.second;
+                    bStatic |= refData.is_static;
                     std::string def_params_decl;
                     for(const auto& dv: refData.default_val)
                     {
@@ -1288,22 +1299,48 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 
                     if(overload_params.empty() == false)
                         overload_params += ", ";
-                    snprintf(szBuf,
+                    if(bStatic)
+                    {
+                        snprintf(szBuf,
+                             4096,
+                             "\n\tlua_tinker::make_functor_ptr((%s)(&%s)%s)",
+                             refData.funcptr_type.c_str(),
+                             (pContent->getAccessPrifix() + v.first).c_str(),
+                             def_params_decl.c_str());
+                    }
+                    else
+                    {
+                        snprintf(szBuf,
                              4096,
                              "\n\tlua_tinker::make_member_functor_ptr((%s)(&%s)%s)",
                              refData.funcptr_type.c_str(),
                              (pContent->getAccessPrifix() + v.first).c_str(),
                              def_params_decl.c_str());
+                    }
                     overload_params += szBuf;
                 }
 
-                snprintf(szBuf,
+                if(bStatic)
+                {
+                    snprintf(szBuf,
+                         4096,
+                         "lua_tinker::class_def_static<%s>(L, \"%s\", lua_tinker::args_type_overload_functor(%s)%s);\n",
+                         pContent->getAccessName().c_str(),
+                         function_name_conver(v.first).c_str(),
+                         overload_params.c_str(),
+                         def_params.c_str());
+                }
+                else
+                {
+                    snprintf(szBuf,
                          4096,
                          "lua_tinker::class_def<%s>(L, \"%s\", lua_tinker::args_type_overload_member_functor(%s)%s);\n",
                          pContent->getAccessName().c_str(),
-                         v.first.c_str(),
+                         function_name_conver(v.first).c_str(),
                          overload_params.c_str(),
                          def_params.c_str());
+                }
+               
 
                 os += szBuf;
             }
