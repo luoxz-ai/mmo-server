@@ -18,7 +18,7 @@ export_lua enum TaskFlag {
     TASKFLAG_AUTO_ACITVE_NPC = 0x0100, // 接受任务/提交任务/快速完成处理完以后，重新激活NPC
 };
 
-class CTaskType : public Noncopyable<CTaskType>
+class CTaskType : public NoncopyableT<CTaskType>
 {
     CTaskType() {}
     bool Init(const Cfg_Task_Row& row)
@@ -34,7 +34,7 @@ public:
     
 
     using PB_T = Cfg_Task;
-    static uint32_t getIDFromPBRow(const Cfg_Task_Row& row) { return row.id(); }
+    static uint32_t GetKey(const Cfg_Task_Row& row) { return row.id(); }
 
     uint32_t           GetID() const { return m_Data.id(); }
     uint32_t           GetType() const { return m_Data.type(); }
@@ -60,7 +60,7 @@ public:
     const std::string& GetDoingText() const { return m_Data.doing_txt(); }
     const std::string& GetSubmitText() const { return m_Data.submit_txt(); }
     uint32_t           GetNextAuotAcceptTaskID() const { return m_Data.next_auto_accept_task_id(); }
-
+    uint64_t           GetTaskPhaseID() const { return m_Data.task_phase_id(); }
     bool HasFlag(uint32_t flag) const { return ::HasFlag(flag, GetFlag()); }
 
 public:
@@ -71,21 +71,18 @@ private:
 };
 
 //////////////////////////////////////////////////////////////////////
-class CTaskTypeSet : public Noncopyable<CTaskTypeSet>
+class CTaskTypeSet: public CGameDataContainer<CTaskType> 
 {
     CTaskTypeSet();
-    bool Init(const char* szFileName);
 public:
     CreateNewImpl(CTaskTypeSet);
 public:
     virtual ~CTaskTypeSet();
+public:
+    virtual void Clear() override;
+    virtual void BuildIndex() override;
 
 public:
-    
-    
-    bool Reload(const char* szFileName);
-    void Destroy();
-
     const CTaskType*                     QueryObj(uint32_t idType) const;
     const std::vector<CTaskType*>* QueryTaskByAcceptNpcID(uint32_t idNpc) const;
     const std::vector<CTaskType*>* QueryTaskBySubmitNpcID(uint32_t idNpc) const;

@@ -1,5 +1,0 @@
-XSym
-0042
-4bcc367432346ccf148a473e067ab3f8
-../../../../server-res/res/db/globaldb.sql
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     

@@ -5,8 +5,10 @@
 #include "AIMessageHandler.h"
 #include "AIMonster.h"
 #include "AIPathFinder.h"
+#include "AIPhase.h"
 #include "AIPlayer.h"
 #include "AIScene.h"
+#include "AISceneManagr.h"
 #include "AIService.h"
 #include "AISkill.h"
 #include "AIType.h"
@@ -144,6 +146,8 @@ void ai2lua(lua_State* L)
     lua_tinker::class_def<CGameMap>(L, "GetMapType", &CGameMap::GetMapType);
     lua_tinker::class_def<CGameMap>(L, "GetPatrolData", &CGameMap::GetPatrolData);
     lua_tinker::class_def<CGameMap>(L, "GetPatrolDataByIdx", &CGameMap::GetPatrolDataByIdx);
+    lua_tinker::class_def<CGameMap>(L, "GetPhaseData", &CGameMap::GetPhaseData);
+    lua_tinker::class_def<CGameMap>(L, "GetPhaseDataById", &CGameMap::GetPhaseDataById);
     lua_tinker::class_def<CGameMap>(L, "GetRebornData", &CGameMap::GetRebornData);
     lua_tinker::class_def<CGameMap>(L, "GetRebornDataByIdx", &CGameMap::GetRebornDataByIdx);
     lua_tinker::class_def<CGameMap>(L, "GetSPRegionIdx", &CGameMap::GetSPRegionIdx);
@@ -192,6 +196,10 @@ void ai2lua(lua_State* L)
     lua_tinker::class_def<CMapData>(L, "Pos2Grid", &CMapData::Pos2Grid);
     lua_tinker::class_def<CMapData>(L, "Pos2Idx", &CMapData::Pos2Idx);
     lua_tinker::class_def<CMapData>(L, "_getGridData", &CMapData::_getGridData);
+    lua_tinker::class_add<CMapManager>(L, "CMapManager", false);
+    lua_tinker::class_def<CMapManager>(L, "ForEach", &CMapManager::ForEach);
+    lua_tinker::class_def<CMapManager>(L, "QueryMap", &CMapManager::QueryMap);
+    lua_tinker::class_def<CMapManager>(L, "QueryMapData", &CMapManager::QueryMapData);
     lua_tinker::class_add<CMyTimer>(L, "CMyTimer", false);
     lua_tinker::class_def<CMyTimer>(L, "Clear", &CMyTimer::Clear);
     lua_tinker::class_def<CMyTimer>(L, "DecInterval", &CMyTimer::DecInterval);
@@ -297,6 +305,7 @@ void ai2lua(lua_State* L)
     lua_tinker::class_def<CServiceCommon>(L, "CreateUID", &CServiceCommon::CreateUID);
     lua_tinker::class_def<CServiceCommon>(L, "GetAIServerVirtualSocket", &CServiceCommon::GetAIServerVirtualSocket);
     lua_tinker::class_def<CServiceCommon>(L, "GetEventManager", &CServiceCommon::GetEventManager);
+    lua_tinker::class_def<CServiceCommon>(L, "GetMonitorMgr", &CServiceCommon::GetMonitorMgr);
     lua_tinker::class_def<CServiceCommon>(L, "GetNetMsgProcess", &CServiceCommon::GetNetMsgProcess);
     lua_tinker::class_def<CServiceCommon>(L, "GetNetworkService", &CServiceCommon::GetNetworkService);
     lua_tinker::class_def<CServiceCommon>(L, "GetServerPort", &CServiceCommon::GetServerPort);
@@ -480,6 +489,23 @@ void ai2lua(lua_State* L)
     lua_tinker::class_mem<Rect>(L, "left", &Rect::left);
     lua_tinker::class_mem<Rect>(L, "right", &Rect::right);
     lua_tinker::class_mem<Rect>(L, "top", &Rect::top);
+    lua_tinker::class_add<SceneID>(L, "SceneID", false);
+    lua_tinker::class_def<SceneID>(L, "GetMapID", &SceneID::GetMapID);
+    lua_tinker::class_def<SceneID>(L, "GetPhaseIdx", &SceneID::GetPhaseIdx);
+    lua_tinker::class_def<SceneID>(L, "GetSceneID", &SceneID::GetSceneID);
+    lua_tinker::class_def<SceneID>(L, "GetStaticPhaseSceneID", &SceneID::GetStaticPhaseSceneID);
+    lua_tinker::class_def<SceneID>(L, "GetZoneID", &SceneID::GetZoneID);
+    lua_tinker::class_def<SceneID>(L, "IsPhaseIdxVaild", &SceneID::IsPhaseIdxVaild);
+    lua_tinker::class_def<SceneID>(L, "__lt", &SceneID::operator<);
+    lua_tinker::class_def<SceneID>(L, "__eq", &SceneID::operator==);
+    lua_tinker::class_con<SceneID>(
+        L,
+        lua_tinker::args_type_overload_constructor(
+            new lua_tinker::constructor<SceneID, const SceneID&>(),
+            new lua_tinker::constructor<SceneID, uint16_t, uint16_t, uint32_t>(),
+            new lua_tinker::constructor<SceneID, uint64_t>(1 /*default_args_count*/, 1 /*default_args_start*/)),
+        0);
+    lua_tinker::class_mem<SceneID>(L, "data64", &SceneID::data64);
     lua_tinker::class_add<ServerPort>(L, "ServerPort", false);
     lua_tinker::class_def<ServerPort>(L, "GetData", &ServerPort::GetData);
     lua_tinker::class_def<ServerPort>(L, "GetServiceID", &ServerPort::GetServiceID);

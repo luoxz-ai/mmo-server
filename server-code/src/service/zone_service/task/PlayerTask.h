@@ -15,7 +15,7 @@ export_lua constexpr const char* STR_TASK_QUICK_FINISH = "快速完成";
 
 //每一条未完成的任务占据一条数据
 class CPlayer;
-export_lua class CPlayerTaskData : public Noncopyable<CPlayerTaskData>
+export_lua class CPlayerTaskData : public NoncopyableT<CPlayerTaskData>
 {
     CPlayerTaskData();
 public:
@@ -62,7 +62,7 @@ private:
 
 export_lua const uint32_t MAX_ACCEPT_TASK = 20;
 
-export_lua class CPlayerTask : public Noncopyable<CPlayerTask>
+export_lua class CPlayerTask : public NoncopyableT<CPlayerTask>
 {
     CPlayerTask();
     bool Init(CPlayer* pPlayer);

@@ -25,7 +25,7 @@ struct MonsterGenData
     std::unordered_set<CAIMonster*>       m_setMonster;
 };
 
-class CAIScene;
+class CAIPhase;
 class CMonsterGenerator
 {
 public:
@@ -33,20 +33,20 @@ public:
     ~CMonsterGenerator();
 
 public:
-    void            Init(CAIScene* pScene);
+    void            Init(CAIPhase* pScene);
     void            Generator();
     void            ActiveAll(bool bActive);
     void            ActiveGen(uint32_t idGen, bool bActive);
     void            KillAllGen();
     void            KillGen(uint32_t idGen);
-    void            GenOnce(uint32_t idGen);
+    void            GenOnce(uint32_t idGen, uint64_t idPhase = 0);
     MonsterGenData* QueryGen(uint32_t idGen);
     void            OnMonsterBorn(CAIMonster* pMonster);
     void            OnMonsterDead(CAIMonster* pMonster);
 
 private:
     void OnGenTimer(MonsterGenData* pData);
-    void _GenMonster(MonsterGenData* pData);
+    void _GenMonster(MonsterGenData* pData, uint64_t idPhase = 0);
 
     void StartGen(MonsterGenData* pData, bool bCheckRunning = true);
     void StopGen(MonsterGenData* pData);

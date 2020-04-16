@@ -3,6 +3,7 @@
 
 #include "AIFuzzyLogic.h"
 #include "Cfg_AIType.pb.h"
+#include "AIService.h"
 
 enum AIType
 {
@@ -10,10 +11,17 @@ enum AIType
     AITYPE_PASSIVE = 1, //被动
     AITYPE_ACTIVE  = 2, //主动
 };
-class CAIType: public Noncopyable<CAIType>
+
+class CAIType: public NoncopyableT<CAIType>
 {
     CAIType() {}
-    bool Init(const Cfg_AIType_Row& row);
+    bool Init(const Cfg_AIType_Row& row)
+    {
+        m_Data       = row;
+        m_pTargetFAM = TargetFAMSet()->QueryObj(row.targetfam_id());
+
+        return true;
+    }
 public:
     CreateNewImpl(CAIType);
 public:
@@ -24,7 +32,6 @@ public:
     uint32_t GetID() const { return m_Data.idmonster(); }
 
     const TargetFAM* GetTargetFAM()const { return m_pTargetFAM; }
-
 public:
     const Cfg_AIType_Row& GetDataRef() const { return m_Data; }
 
@@ -34,6 +41,6 @@ private:
     const TargetFAM* m_pTargetFAM;
 };
 
-typedef CGameDataMap<CAIType> CAITypeSet;
+DEFINE_GAMEMAPDATA(CAITypeSet,CAIType);
 
 #endif /* AITYPE_H */

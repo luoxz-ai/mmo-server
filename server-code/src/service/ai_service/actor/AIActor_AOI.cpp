@@ -2,7 +2,55 @@
 #include "AIMonster.h"
 #include "AIPlayer.h"
 #include "AIScene.h"
+#include "AIActorManager.h"
 #include "AIService.h"
+
+
+class NEED_ADD_TO_BROADCASTSET_T
+{
+public:
+    NEED_ADD_TO_BROADCASTSET_T()
+    {
+        m_DataMap[ACT_MONSTER][ACT_MONSTER] = [](auto self, auto target) 
+        {
+            bool bSamePhase = self->GetPhaseID() == target->GetPhaseID();
+            return bSamePhase && self->IsEnemy(target);
+        };
+        m_DataMap[ACT_MONSTER][ACT_PET] = [](CSceneObject* self, CSceneObject* target) 
+        {
+            return self->GetPhaseID() == target->GetPhaseID() ||
+                   self->GetPhaseID() == target->GetOwnerID();
+        };
+        m_DataMap[ACT_MONSTER][ACT_BULLET] = [](auto self, auto target) 
+        {
+             return self->GetPhaseID() == target->GetPhaseID() ||
+                   self->GetPhaseID() == target->GetOwnerID();
+        };
+        m_DataMap[ACT_MONSTER][ACT_PLAYER] = [](CSceneObject* self, CSceneObject* target) 
+        {
+            return self->GetPhaseID() == target->GetPhaseID() ||
+                   self->GetID() == target->GetPhaseID();
+        };
+    }
+    bool test(CSceneObject* pSelfActor, CSceneObject* pTargetActor) const
+    {
+        uint32_t key1 = pSelfActor->GetActorType();
+        uint32_t key2 = pTargetActor->GetActorType();
+        if(pSelfActor->GetActorType() > pTargetActor->GetActorType())
+        {
+            key2 = pSelfActor->GetActorType();
+            key1 = pTargetActor->GetActorType();
+        }
+        const auto& func = m_DataMap[key1][key2];
+        if(func)
+            return func(pSelfActor, pTargetActor);
+        else
+            return false;
+    }
+
+private:
+    std::function<bool(CSceneObject*, CSceneObject*)> m_DataMap[ACT_MAX][ACT_MAX];
+} const NEED_ADD_TO_BROADCASTSET;
 
 //////////////////////////////////////////////////////////////////////
 void CAIActor::AddToViewList(CSceneObject* pActor)
@@ -10,7 +58,7 @@ void CAIActor::AddToViewList(CSceneObject* pActor)
     CSceneObject::AddToViewList(pActor);
 
 	//如果自己是怪物
-	if(GetActorType() == ACT_MONSTER)
+	if(IsMonster())
 	{
 		CastTo<CAIMonster>()->SetIsAISleep(false);
 	}
@@ -38,18 +86,7 @@ void CAIActor::ClearViewList(bool bSendMsgToSelf)
 
 bool CAIActor::IsNeedAddToBroadCastSet(CSceneObject* pActor)
 {
-	//特殊怪物需要将其他怪物加入自己视野的,这里处理	
-    if(GetActorType() == ACT_MONSTER)
-    {
-        CAIMonster* pMonster = this->CastTo<CAIMonster>();
-		// 只看到敌人单位
-        return pMonster->IsEnemy(pActor);
-    }
-    else
-    {
-        // player need add all to view list
-        return true;
-    }
+    return NEED_ADD_TO_BROADCASTSET.test(this, pActor);
 }
 
 void CAIActor::OnAOIProcess_ActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,

@@ -174,6 +174,7 @@ class Cfg_Scene_MonsterGenerator_Row :
     kPerGenFieldNumber = 10,
     kWaitTimeFieldNumber = 11,
     kGenMaxFieldNumber = 12,
+    kPhaseIdFieldNumber = 14,
     kCampIdFieldNumber = 13,
   };
   // uint32 idmap = 1;
@@ -284,6 +285,15 @@ class Cfg_Scene_MonsterGenerator_Row :
   void _internal_set_gen_max(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
+  // uint64 phase_id = 14;
+  void clear_phase_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 phase_id() const;
+  void set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_phase_id() const;
+  void _internal_set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
   // uint32 camp_id = 13;
   void clear_camp_id();
   ::PROTOBUF_NAMESPACE_ID::uint32 camp_id() const;
@@ -310,6 +320,7 @@ class Cfg_Scene_MonsterGenerator_Row :
   ::PROTOBUF_NAMESPACE_ID::uint32 per_gen_;
   ::PROTOBUF_NAMESPACE_ID::uint32 wait_time_;
   ::PROTOBUF_NAMESPACE_ID::uint32 gen_max_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 phase_id_;
   ::PROTOBUF_NAMESPACE_ID::uint32 camp_id_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_config_2fCfg_5fScene_5fMonsterGenerator_2eproto;
@@ -711,6 +722,26 @@ inline void Cfg_Scene_MonsterGenerator_Row::_internal_set_camp_id(::PROTOBUF_NAM
 inline void Cfg_Scene_MonsterGenerator_Row::set_camp_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_camp_id(value);
   // @@protoc_insertion_point(field_set:Cfg_Scene_MonsterGenerator.Row.camp_id)
+}
+
+// uint64 phase_id = 14;
+inline void Cfg_Scene_MonsterGenerator_Row::clear_phase_id() {
+  phase_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 Cfg_Scene_MonsterGenerator_Row::_internal_phase_id() const {
+  return phase_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 Cfg_Scene_MonsterGenerator_Row::phase_id() const {
+  // @@protoc_insertion_point(field_get:Cfg_Scene_MonsterGenerator.Row.phase_id)
+  return _internal_phase_id();
+}
+inline void Cfg_Scene_MonsterGenerator_Row::_internal_set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  phase_id_ = value;
+}
+inline void Cfg_Scene_MonsterGenerator_Row::set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_phase_id(value);
+  // @@protoc_insertion_point(field_set:Cfg_Scene_MonsterGenerator.Row.phase_id)
 }
 
 // -------------------------------------------------------------------

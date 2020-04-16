@@ -9,6 +9,7 @@
 #include "NetSocket.h"
 #include "NetworkMessage.h"
 #include "SettingMap.h"
+#include "MonitorMgr.h"
 
 static thread_local CRouteService* tls_pService = nullptr;
 CRouteService*                     RouteService()

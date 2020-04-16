@@ -5,7 +5,7 @@
 
 class CPlayer;
 class CMysqlConnection;
-class CGMManager: public Noncopyable<CGMManager>
+class CGMManager: public NoncopyableT<CGMManager>
 {
     CGMManager();
     bool Init(CMysqlConnection* pGlobalDB);

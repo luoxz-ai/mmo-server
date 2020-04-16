@@ -1,44 +1,27 @@
 #ifndef ZoneService_h__
 #define ZoneService_h__
 
-#include "AchievementType.h"
-#include "ActorManager.h"
-#include "BulletType.h"
-#include "DataCount.h"
-#include "GMManager.h"
-#include "GameEventDef.h"
-#include "IService.h"
-#include "IStatus.h"
-#include "ItemAddition.h"
-#include "ItemFormula.h"
-#include "ItemType.h"
-#include "ItemUpgrade.h"
-#include "LoadingThread.h"
-#include "MapManager.h"
-#include "MonitorMgr.h"
-#include "MonsterType.h"
+
+
 #include "MyTimer.h"
 #include "NetSocket.h"
-#include "NpcType.h"
-#include "PetType.h"
-#include "SceneManager.h"
+#include "IService.h"
 #include "ScriptManager.h"
 #include "ServiceComm.h"
-#include "SkillType.h"
-#include "SuitEquip.h"
-#include "SystemVars.h"
-#include "TaskType.h"
-#include "TeamInfoManager.h"
-#include "UserAttr.h"
 #include "game_common_def.h"
-#include "gamedb.h"
-#include "globaldb.h"
-#include "msg/ts_cmd.pb.h"
-#include "msg/zone_service.pb.h"
-#include "server_msg/server_side.pb.h"
 
-struct event;
-class CNetMSGProcess;
+
+class CMysqlConnection;
+class CMapManager;
+class CSystemVarSet;
+class CActorManager;
+class CSceneManager;
+class CLoadingThread;
+class CGMManager;
+class CMonitorMgr;
+class CTeamInfoManager;
+
+
 export_lua class CZoneService : public IService, public CServiceCommon
 {
     CZoneService();
@@ -52,7 +35,7 @@ public:
     void Release() override { Destory();delete this; }
     CreateNewRealeaseImpl(CZoneService);
     
-
+    uint16_t GetZoneID() const { return GetServiceID() - MIN_ZONE_SERVICE_ID + 1; }
 public:
     virtual void OnLogicThreadProc() override;
     virtual void OnLogicThreadCreate() override;
@@ -83,62 +66,7 @@ public:
     export_lua bool SendMsgToAIService(uint16_t nCmd, const google::protobuf::Message& msg);
 
     //发送广播包给玩家
-    using VSMap_t = std::unordered_map<ServerPort, std::vector<VirtualSocket>>;
-    void _ID2VS(OBJID id, VSMap_t& VSMap);
-    template<class T>
-    bool BroadcastMessageToPlayer(T&&                              idList,
-                                  uint16_t                         nCmd,
-                                  const google::protobuf::Message& msg,
-                                  OBJID                            idExtInclude = 0)
-    {
-        VSMap_t setSocketMap;
-        if constexpr(is_container<base_type<T>>::value)
-        {
-            if constexpr(is_associative_container<base_type<T>>::value)
-            {
-                for(const auto& [id, v]: idList)
-                {
-                    _ID2VS(id, setSocketMap);
-                }
-            }
-            else
-            {
-                for(OBJID id: idList)
-                {
-                    _ID2VS(id, setSocketMap);
-                }
-            }
-        }
-        else if constexpr(std::is_invocable<base_type<T>>::value)
-        {
-            idList([this, &setSocketMap](OBJID id) { _ID2VS(id, setSocketMap); });
-        }
-        else
-        {
-            static_assert(!std::is_same<T, T>::value, "T can't convert idList");
-            return false;
-        }
-
-        if(idExtInclude != 0)
-            _ID2VS(idExtInclude, setSocketMap);
-
-        CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket());
-        for(auto& [nServerPort, socket_list]: setSocketMap)
-        {
-            if(socket_list.size() == 1)
-            {
-                _msg.SetTo(socket_list.front());
-                m_MonitorMgr.AddSendInfo(nCmd, _msg.GetSize());
-                SendMsg(_msg);
-            }
-            else
-            {
-                m_MonitorMgr.AddSendInfo_some(nCmd, _msg.GetSize(), socket_list.size());
-                SendPortMultiMsg(nServerPort, socket_list, _msg);
-            }
-        }
-        return true;
-    }
+    void _ID2VS(OBJID id, VirtualSocketMap_t& VSMap) override;
 
 public:
     std::unique_ptr<CMysqlConnection> ConnectGlobalDB();
@@ -155,7 +83,7 @@ public:
     export_lua CActorManager* GetActorManager() { return m_pActorManager.get(); }
     export_lua CSceneManager* GetSceneManager() { return m_pSceneManager.get(); }
     export_lua CLoadingThread* GetLoadingThread() { return m_pLoadingThread.get(); }
-    export_lua CMonitorMgr* GetMonitorMgr() { return &m_MonitorMgr; }
+    
     export_lua CGMManager* GetGMManager() { return m_pGMManager.get(); }
     export_lua CTeamInfoManager* GetTeamInfoManager() { return m_pTeamInfoManager.get(); }
 
@@ -179,19 +107,11 @@ private:
     std::unique_ptr<CLUAScriptManager> m_pScriptManager;
     std::unique_ptr<CMapManager>       m_pMapManager;
     std::unique_ptr<CSystemVarSet>     m_pSystemVarSet;
-    CMonitorMgr                        m_MonitorMgr;
+
     std::unique_ptr<CTeamInfoManager>  m_pTeamInfoManager;
 
 public:
     //配置文件
-
-#define DEFINE_CONFIG_SET(T)                   \
-public:                                        \
-    T* Get##T() const { return m_p##T.get(); } \
-                                               \
-private:                                       \
-    std::unique_ptr<T> m_p##T;
-
     DEFINE_CONFIG_SET(CStatusTypeSet);
     DEFINE_CONFIG_SET(CUserAttrSet);
     DEFINE_CONFIG_SET(CDataCountLimitSet);
@@ -209,7 +129,6 @@ private:                                       \
     DEFINE_CONFIG_SET(CAchievementTypeSet);
     DEFINE_CONFIG_SET(CNpcTypeSet);
     DEFINE_CONFIG_SET(CPetTypeSet);
-#undef DEFINE_CONFIG_SET
 };
 
 export_lua CZoneService* ZoneService();

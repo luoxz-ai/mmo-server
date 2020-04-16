@@ -16,6 +16,7 @@ message Cfg_Scene_EnterPoint
 		uint32 lev_req	   = 12; //玩家等级
 		uint32 prof_req	   = 13; //玩家职业
 		uint32 vip_lev_req = 14; // vip等级
+		int32  idphase	   = 15; //位面id,  -1:代表自己的私有位面
 	};
 	repeated Row rows = 1;
 }

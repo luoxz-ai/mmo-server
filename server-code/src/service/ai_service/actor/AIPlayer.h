@@ -18,9 +18,14 @@ public:
     virtual ActorType GetActorType() const override { return ActorType::ACT_PLAYER; }
     static ActorType  GetActorTypeStatic() { return ActorType::ACT_PLAYER; }
 
+    void ClearTaskPhase();
+    bool CheckTaskPhase(uint64_t idPhase);
+    void AddTaskPhase(uint64_t idPhase);
+    void RemoveTaskPhase(uint64_t idPhase);
 public:
     MEMORYHEAP_DECLARATION(s_heap);
 
 private:
+    std::unordered_map<uint64_t, uint32_t> m_TaskPhase;
 };
 #endif /* AIPLAYER_H */

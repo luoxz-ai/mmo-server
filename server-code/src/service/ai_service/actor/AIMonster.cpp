@@ -3,6 +3,7 @@
 #include "AIService.h"
 #include "AIType.h"
 #include "ActorAI.h"
+#include "AIPhase.h"
 
 MEMORYHEAP_IMPLEMENTATION(CAIMonster, s_heap);
 CAIMonster::CAIMonster() {}
@@ -21,6 +22,7 @@ bool CAIMonster::Init(const ServerMSG::ActorCreate& msg)
     SetMoveSPD(msg.movespd());
     SetName(msg.name());
     SetCampID(msg.campid());
+    _SetPhaseID(msg.phase_id());
     SetHP(msg.hp());
     SetHPMax(msg.hpmax());
     SetMP(msg.mp());
@@ -55,7 +57,7 @@ void CAIMonster::SetIsAISleep(bool bSleep)
 void CAIMonster::OnBorn()
 {
     // create ai
-    static_cast<CAIScene*>(GetCurrentScene())->GetMonsterGen().OnMonsterBorn(this);
+    static_cast<CAIPhase*>(GetCurrentScene())->GetMonsterGen().OnMonsterBorn(this);
     if(m_pAIType)
     {
         m_pAI = CActorAI::CreateNew(this, m_pAIType);
@@ -70,7 +72,7 @@ void CAIMonster::OnUnderAttack(OBJID idTarget, int32_t nDamage)
 
 void CAIMonster::OnDead()
 {
-    static_cast<CAIScene*>(GetCurrentScene())->GetMonsterGen().OnMonsterDead(this);
+    static_cast<CAIPhase*>(GetCurrentScene())->GetMonsterGen().OnMonsterDead(this);
 }
 
 bool CAIMonster::IsEnemy(CSceneObject* pTarget) const

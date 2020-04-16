@@ -3,7 +3,7 @@
 #include "BaseCode.h"
 
 class CMysqlConnection;
-class CGMManager: public Noncopyable<CGMManager>
+class CGMManager: public NoncopyableT<CGMManager>
 {
     CGMManager();
     bool Init();

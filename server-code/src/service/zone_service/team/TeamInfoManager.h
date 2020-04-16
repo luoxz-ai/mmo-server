@@ -3,7 +3,7 @@
 
 #include "BaseCode.h"
 
-export_lua class CTeamInfo : public Noncopyable<CTeamInfo>
+export_lua class CTeamInfo : public NoncopyableT<CTeamInfo>
 {
     CTeamInfo() {}
 public:
@@ -34,7 +34,7 @@ public:
     MEMORYHEAP_DECLARATION(s_heap);
 };
 
-export_lua class CTeamInfoManager : public Noncopyable<CTeamInfoManager>
+export_lua class CTeamInfoManager : public NoncopyableT<CTeamInfoManager>
 {
     CTeamInfoManager();
 public:

@@ -47,7 +47,7 @@ struct TableStruct_config_2fCfg_5fScene_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[2]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[3]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -60,12 +60,199 @@ extern Cfg_SceneDefaultTypeInternal _Cfg_Scene_default_instance_;
 class Cfg_Scene_Row;
 class Cfg_Scene_RowDefaultTypeInternal;
 extern Cfg_Scene_RowDefaultTypeInternal _Cfg_Scene_Row_default_instance_;
+class PhaseData;
+class PhaseDataDefaultTypeInternal;
+extern PhaseDataDefaultTypeInternal _PhaseData_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
 template<> ::Cfg_Scene* Arena::CreateMaybeMessage<::Cfg_Scene>(Arena*);
 template<> ::Cfg_Scene_Row* Arena::CreateMaybeMessage<::Cfg_Scene_Row>(Arena*);
+template<> ::PhaseData* Arena::CreateMaybeMessage<::PhaseData>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 
 // ===================================================================
+
+class PhaseData :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:PhaseData) */ {
+ public:
+  PhaseData();
+  virtual ~PhaseData();
+
+  PhaseData(const PhaseData& from);
+  PhaseData(PhaseData&& from) noexcept
+    : PhaseData() {
+    *this = ::std::move(from);
+  }
+
+  inline PhaseData& operator=(const PhaseData& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline PhaseData& operator=(PhaseData&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const PhaseData& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const PhaseData* internal_default_instance() {
+    return reinterpret_cast<const PhaseData*>(
+               &_PhaseData_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    0;
+
+  friend void swap(PhaseData& a, PhaseData& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(PhaseData* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline PhaseData* New() const final {
+    return CreateMaybeMessage<PhaseData>(nullptr);
+  }
+
+  PhaseData* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<PhaseData>(arena);
+  }
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(PhaseData* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "PhaseData";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_config_2fCfg_5fScene_2eproto);
+    return ::descriptor_table_config_2fCfg_5fScene_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kIdFieldNumber = 1,
+    kViewgridWidthFieldNumber = 2,
+    kLeftFieldNumber = 5,
+    kTopFieldNumber = 6,
+    kRightFieldNumber = 7,
+    kBottomFieldNumber = 8,
+    kLinkPhaseFieldNumber = 9,
+  };
+  // uint64 id = 1;
+  void clear_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 id() const;
+  void set_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_id() const;
+  void _internal_set_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // float viewgrid_width = 2;
+  void clear_viewgrid_width();
+  float viewgrid_width() const;
+  void set_viewgrid_width(float value);
+  private:
+  float _internal_viewgrid_width() const;
+  void _internal_set_viewgrid_width(float value);
+  public:
+
+  // float left = 5;
+  void clear_left();
+  float left() const;
+  void set_left(float value);
+  private:
+  float _internal_left() const;
+  void _internal_set_left(float value);
+  public:
+
+  // float top = 6;
+  void clear_top();
+  float top() const;
+  void set_top(float value);
+  private:
+  float _internal_top() const;
+  void _internal_set_top(float value);
+  public:
+
+  // float right = 7;
+  void clear_right();
+  float right() const;
+  void set_right(float value);
+  private:
+  float _internal_right() const;
+  void _internal_set_right(float value);
+  public:
+
+  // float bottom = 8;
+  void clear_bottom();
+  float bottom() const;
+  void set_bottom(float value);
+  private:
+  float _internal_bottom() const;
+  void _internal_set_bottom(float value);
+  public:
+
+  // uint64 link_phase = 9;
+  void clear_link_phase();
+  ::PROTOBUF_NAMESPACE_ID::uint64 link_phase() const;
+  void set_link_phase(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_link_phase() const;
+  void _internal_set_link_phase(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:PhaseData)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 id_;
+  float viewgrid_width_;
+  float left_;
+  float top_;
+  float right_;
+  float bottom_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 link_phase_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_config_2fCfg_5fScene_2eproto;
+};
+// -------------------------------------------------------------------
 
 class Cfg_Scene_Row :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Cfg_Scene.Row) */ {
@@ -109,7 +296,7 @@ class Cfg_Scene_Row :
                &_Cfg_Scene_Row_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    0;
+    1;
 
   friend void swap(Cfg_Scene_Row& a, Cfg_Scene_Row& b) {
     a.Swap(&b);
@@ -162,6 +349,7 @@ class Cfg_Scene_Row :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kPhaseDataFieldNumber = 10,
     kNameFieldNumber = 2,
     kIdmapFieldNumber = 1,
     kIdmapdataFieldNumber = 3,
@@ -170,6 +358,24 @@ class Cfg_Scene_Row :
     kIdscriptFieldNumber = 7,
     kMapflagFieldNumber = 6,
   };
+  // repeated .PhaseData phase_data = 10;
+  int phase_data_size() const;
+  private:
+  int _internal_phase_data_size() const;
+  public:
+  void clear_phase_data();
+  ::PhaseData* mutable_phase_data(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PhaseData >*
+      mutable_phase_data();
+  private:
+  const ::PhaseData& _internal_phase_data(int index) const;
+  ::PhaseData* _internal_add_phase_data();
+  public:
+  const ::PhaseData& phase_data(int index) const;
+  ::PhaseData* add_phase_data();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PhaseData >&
+      phase_data() const;
+
   // string name = 2;
   void clear_name();
   const std::string& name() const;
@@ -245,6 +451,7 @@ class Cfg_Scene_Row :
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PhaseData > phase_data_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
   ::PROTOBUF_NAMESPACE_ID::uint32 idmap_;
   ::PROTOBUF_NAMESPACE_ID::uint32 idmapdata_;
@@ -299,7 +506,7 @@ class Cfg_Scene :
                &_Cfg_Scene_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    2;
 
   friend void swap(Cfg_Scene& a, Cfg_Scene& b) {
     a.Swap(&b);
@@ -392,6 +599,150 @@ class Cfg_Scene :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
+// PhaseData
+
+// uint64 id = 1;
+inline void PhaseData::clear_id() {
+  id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 PhaseData::_internal_id() const {
+  return id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 PhaseData::id() const {
+  // @@protoc_insertion_point(field_get:PhaseData.id)
+  return _internal_id();
+}
+inline void PhaseData::_internal_set_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  id_ = value;
+}
+inline void PhaseData::set_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_id(value);
+  // @@protoc_insertion_point(field_set:PhaseData.id)
+}
+
+// float viewgrid_width = 2;
+inline void PhaseData::clear_viewgrid_width() {
+  viewgrid_width_ = 0;
+}
+inline float PhaseData::_internal_viewgrid_width() const {
+  return viewgrid_width_;
+}
+inline float PhaseData::viewgrid_width() const {
+  // @@protoc_insertion_point(field_get:PhaseData.viewgrid_width)
+  return _internal_viewgrid_width();
+}
+inline void PhaseData::_internal_set_viewgrid_width(float value) {
+  
+  viewgrid_width_ = value;
+}
+inline void PhaseData::set_viewgrid_width(float value) {
+  _internal_set_viewgrid_width(value);
+  // @@protoc_insertion_point(field_set:PhaseData.viewgrid_width)
+}
+
+// float left = 5;
+inline void PhaseData::clear_left() {
+  left_ = 0;
+}
+inline float PhaseData::_internal_left() const {
+  return left_;
+}
+inline float PhaseData::left() const {
+  // @@protoc_insertion_point(field_get:PhaseData.left)
+  return _internal_left();
+}
+inline void PhaseData::_internal_set_left(float value) {
+  
+  left_ = value;
+}
+inline void PhaseData::set_left(float value) {
+  _internal_set_left(value);
+  // @@protoc_insertion_point(field_set:PhaseData.left)
+}
+
+// float top = 6;
+inline void PhaseData::clear_top() {
+  top_ = 0;
+}
+inline float PhaseData::_internal_top() const {
+  return top_;
+}
+inline float PhaseData::top() const {
+  // @@protoc_insertion_point(field_get:PhaseData.top)
+  return _internal_top();
+}
+inline void PhaseData::_internal_set_top(float value) {
+  
+  top_ = value;
+}
+inline void PhaseData::set_top(float value) {
+  _internal_set_top(value);
+  // @@protoc_insertion_point(field_set:PhaseData.top)
+}
+
+// float right = 7;
+inline void PhaseData::clear_right() {
+  right_ = 0;
+}
+inline float PhaseData::_internal_right() const {
+  return right_;
+}
+inline float PhaseData::right() const {
+  // @@protoc_insertion_point(field_get:PhaseData.right)
+  return _internal_right();
+}
+inline void PhaseData::_internal_set_right(float value) {
+  
+  right_ = value;
+}
+inline void PhaseData::set_right(float value) {
+  _internal_set_right(value);
+  // @@protoc_insertion_point(field_set:PhaseData.right)
+}
+
+// float bottom = 8;
+inline void PhaseData::clear_bottom() {
+  bottom_ = 0;
+}
+inline float PhaseData::_internal_bottom() const {
+  return bottom_;
+}
+inline float PhaseData::bottom() const {
+  // @@protoc_insertion_point(field_get:PhaseData.bottom)
+  return _internal_bottom();
+}
+inline void PhaseData::_internal_set_bottom(float value) {
+  
+  bottom_ = value;
+}
+inline void PhaseData::set_bottom(float value) {
+  _internal_set_bottom(value);
+  // @@protoc_insertion_point(field_set:PhaseData.bottom)
+}
+
+// uint64 link_phase = 9;
+inline void PhaseData::clear_link_phase() {
+  link_phase_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 PhaseData::_internal_link_phase() const {
+  return link_phase_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 PhaseData::link_phase() const {
+  // @@protoc_insertion_point(field_get:PhaseData.link_phase)
+  return _internal_link_phase();
+}
+inline void PhaseData::_internal_set_link_phase(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  link_phase_ = value;
+}
+inline void PhaseData::set_link_phase(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_link_phase(value);
+  // @@protoc_insertion_point(field_set:PhaseData.link_phase)
+}
+
+// -------------------------------------------------------------------
+
 // Cfg_Scene_Row
 
 // uint32 idmap = 1;
@@ -574,6 +925,45 @@ inline void Cfg_Scene_Row::set_idscript(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   // @@protoc_insertion_point(field_set:Cfg_Scene.Row.idscript)
 }
 
+// repeated .PhaseData phase_data = 10;
+inline int Cfg_Scene_Row::_internal_phase_data_size() const {
+  return phase_data_.size();
+}
+inline int Cfg_Scene_Row::phase_data_size() const {
+  return _internal_phase_data_size();
+}
+inline void Cfg_Scene_Row::clear_phase_data() {
+  phase_data_.Clear();
+}
+inline ::PhaseData* Cfg_Scene_Row::mutable_phase_data(int index) {
+  // @@protoc_insertion_point(field_mutable:Cfg_Scene.Row.phase_data)
+  return phase_data_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PhaseData >*
+Cfg_Scene_Row::mutable_phase_data() {
+  // @@protoc_insertion_point(field_mutable_list:Cfg_Scene.Row.phase_data)
+  return &phase_data_;
+}
+inline const ::PhaseData& Cfg_Scene_Row::_internal_phase_data(int index) const {
+  return phase_data_.Get(index);
+}
+inline const ::PhaseData& Cfg_Scene_Row::phase_data(int index) const {
+  // @@protoc_insertion_point(field_get:Cfg_Scene.Row.phase_data)
+  return _internal_phase_data(index);
+}
+inline ::PhaseData* Cfg_Scene_Row::_internal_add_phase_data() {
+  return phase_data_.Add();
+}
+inline ::PhaseData* Cfg_Scene_Row::add_phase_data() {
+  // @@protoc_insertion_point(field_add:Cfg_Scene.Row.phase_data)
+  return _internal_add_phase_data();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::PhaseData >&
+Cfg_Scene_Row::phase_data() const {
+  // @@protoc_insertion_point(field_list:Cfg_Scene.Row.phase_data)
+  return phase_data_;
+}
+
 // -------------------------------------------------------------------
 
 // Cfg_Scene
@@ -620,6 +1010,8 @@ Cfg_Scene::rows() const {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 

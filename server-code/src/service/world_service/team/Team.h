@@ -7,7 +7,7 @@
 #include "server_msg/server_side.pb.h"
 
 class CUser;
-class CTeam: public Noncopyable<CTeam>
+class CTeam: public NoncopyableT<CTeam>
 {
     CTeam();
     bool Init(uint64_t idTeam, OBJID idLeader);

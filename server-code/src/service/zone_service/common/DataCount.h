@@ -25,7 +25,7 @@ export_lua enum {
     DATA_ACC_SYSTEM_KILL_BOSS       = 6, //累计击杀BOSS数量
 };
 
-class CDataCountLimit : public Noncopyable<CDataCountLimit>
+class CDataCountLimit : public NoncopyableT<CDataCountLimit>
 {
     CDataCountLimit() {}
     bool Init(const Cfg_DataCountLimit_Row& row)
@@ -61,7 +61,8 @@ protected:
     uint32_t m_nMaxCount;
     uint32_t m_nResetTime;
 };
-typedef CGameDataMap<CDataCountLimit> CDataCountLimitSet;
+
+DEFINE_GAMEMAPDATA(CDataCountLimitSet,CDataCountLimit);
 
 class CPlayer;
 
@@ -90,7 +91,7 @@ private:
     MEMORYHEAP_DECLARATION(s_heap);
 };
 
-export_lua class CDataCountSet : public Noncopyable<CDataCountSet>
+export_lua class CDataCountSet : public NoncopyableT<CDataCountSet>
 {
     CDataCountSet();
 public:

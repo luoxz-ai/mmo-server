@@ -13,6 +13,8 @@ enum ZONE_CS_CMD
 	CMD_CS_CHANGE_PKMODE	  = 1007;
 	CMD_CS_REBORN			  = 1008; //请求复活
 
+
+
 	CMD_CS_ITEM_SWAP	= 1020; //物品交换
 	CMD_CS_ITEM_SPLIT	= 1021; //物品分离
 	CMD_CS_ITEM_COMBINE = 1022; //物品合并
@@ -26,12 +28,17 @@ enum ZONE_CS_CMD
 	CMD_CS_EQUIP   = 1030; //穿装备
 	CMD_CS_UNEQUIP = 1031; //脱装备
 
+
+
 	CMD_CS_TALK		   = 1040; //聊天信息
 	CMD_CS_TASK_SUBMIT = 1041; //手动提交任务
 
 	CMD_CS_ACTIVE_NPC	= 1042; //点击NPC
 	CMD_CS_DIALOG_CLICK = 1043; //点击对话框按钮
 	CMD_CS_ACHI_TAKE	= 1044; //成就领取
+
+
+
 
 	CMD_CS_TEAMCREATE		= 1050; //创建队伍
 	CMD_CS_TEAMQUIT			= 1051; //退出队伍
@@ -42,6 +49,9 @@ enum ZONE_CS_CMD
 	CMD_CS_TEAMNEWLEADER	= 1055; //提升为队长
 	CMD_CS_TEAMAPPLYMEMBER	= 1056; //申请加入
 	CMD_CS_TEAMACCEPTAPPLY	= 1057; //同意申请
+
+
+
 };
 
 enum ZONE_SC_CMD
@@ -55,37 +65,41 @@ enum ZONE_SC_CMD
 	CMD_SC_DATACOUNT	 = 1006; //主角计数器数据
 	CMD_SC_SYSVAR		 = 1007; //系统变量通知
 	CMD_SC_COOLDOWN		 = 1008; //冷却器数据
-	CMD_SC_AOI_NEW		 = 1009; //广播建立对象
-	CMD_SC_AOI_REMOVE	 = 1010; //广播删除对象
-	CMD_SC_AOI_UPDATE	 = 1011; //广播移动
-	CMD_SC_CASTSKILL	 = 1012; //广播技能释放
-	CMD_SC_SKILL_BREAK	 = 1013; //广播技能打断
-	CMD_SC_SKILL_DAMAGE	 = 1014; //自己收到技能伤害列表
-	CMD_SC_SKILL_STUN	 = 1015; //广播技能进入僵直阶段
-	CMD_SC_SKILL_EFFACT	 = 1016; //广播技能伤害1次
-	CMD_SC_DAMAGE		 = 1017; //通知自己被伤害
-	CMD_SC_DEAD			 = 1018; //广播死亡
-	CMD_SC_ATTRIB_CHANGE = 1019; //属性变化
+	CMD_CS_MAPVAL		 = 1009; //sync mapval
 
-	CMD_SC_CHANGE_PKMODE = 1020;
-	CMD_SC_STATUS_LIST	 = 1021; //状态列表
-	CMD_SC_STATUS_INFO	 = 1023; //状态数据
-	CMD_SC_STATUS_ACTION = 1024; //状态作用1次
+	CMD_SC_AOI_NEW		 = 1020; //广播建立对象
+	CMD_SC_AOI_REMOVE	 = 1021; //广播删除对象
+	CMD_SC_AOI_UPDATE	 = 1022; //广播移动
 
-	CMD_SC_ITEM_DELETE = 1030; //发送物品信息
-	CMD_SC_ITEM_INFO   = 1031; //发送物品信息
-	CMD_SC_ITEM_CHANGE = 1032; //发送物品信息改变
-	CMD_SC_TALK		   = 1033; //聊天信息
+	CMD_SC_CASTSKILL	 = 1031; //广播技能释放
+	CMD_SC_SKILL_BREAK	 = 1032; //广播技能打断
+	CMD_SC_SKILL_DAMAGE	 = 1033; //自己收到技能伤害列表
+	CMD_SC_SKILL_STUN	 = 1034; //广播技能进入僵直阶段
+	CMD_SC_SKILL_EFFACT	 = 1035; //广播技能伤害1次
+	CMD_SC_DAMAGE		 = 1036; //通知自己被伤害
+	CMD_SC_DEAD			 = 1037; //广播死亡
+	CMD_SC_ATTRIB_CHANGE = 1038; //属性变化
 
-	CMD_SC_TASK_INFO = 1040; //任务信息
-	CMD_SC_TASK_DATA = 1041; //任务数据变化
-	CMD_SC_DIALOG	 = 1042; //打开对话框
-	CMD_SC_ACHI_INFO = 1043; //成就达成情况
+	CMD_SC_CHANGE_PKMODE = 1040;
+	CMD_SC_STATUS_LIST	 = 1041; //状态列表
+	CMD_SC_STATUS_INFO	 = 1043; //状态数据
+	CMD_SC_STATUS_ACTION = 1044; //状态作用1次
 
-	CMD_SC_TEAMMEMBER_INFO	 = 1050; //队员信息
-	CMD_SC_TEAMMEMBER_ACTION = 1051; //成员加入/离开/被kick
-	CMD_SC_TEAMINVITEMEMBER	 = 1052; //邀请队员
-	CMD_SC_TEAMAPPLYMEMBER	 = 1053; //申请加入
+	CMD_SC_ITEM_DELETE = 1050; //发送物品信息
+	CMD_SC_ITEM_INFO   = 1051; //发送物品信息
+	CMD_SC_ITEM_CHANGE = 1052; //发送物品信息改变
+	CMD_SC_TALK		   = 1053; //聊天信息
+
+	CMD_SC_TASK_INFO = 1060; //任务信息
+	CMD_SC_TASK_DATA = 1061; //任务数据变化
+	CMD_SC_DIALOG	 = 1062; //打开对话框
+	CMD_SC_ACHI_INFO = 1063; //成就达成情况
+
+	CMD_SC_TEAMMEMBER_INFO	 = 1070; //队员信息
+	CMD_SC_TEAMMEMBER_ACTION = 1071; //成员加入/离开/被kick
+	CMD_SC_TEAMINVITEMEMBER	 = 1072; //邀请队员
+	CMD_SC_TEAMAPPLYMEMBER	 = 1073; //申请加入
+
 };
 
 //通知前端读取地图
@@ -244,6 +258,28 @@ message SC_AOI_UPDATE
 	float  posx		= 3;
 	float  posy		= 4;
 }
+
+//sync mapval
+message SC_MAPVAL
+{
+	message MapVal
+	{
+		uint32 key = 1;
+		int64 value = 2;
+	}
+
+	enum State
+	{
+		SYNC_MAPVAL_ALL = 0;
+		SYNC_MAPVAL_ONE = 1;
+	}
+
+	State state = 1;
+
+	repeated MapVal map_val_set = 2;
+	repeated MapVal user_map_val_set = 3;
+	
+};
 
 //属性变化通知
 message SC_ATTRIB_CHANGE

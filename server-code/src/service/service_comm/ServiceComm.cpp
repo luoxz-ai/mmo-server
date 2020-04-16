@@ -5,7 +5,7 @@
 #include "EventManager.h"
 #include "MessagePort.h"
 #include "MessageRoute.h"
-
+#include "MonitorMgr.h"
 
 CServiceCommon::CServiceCommon()
     : m_pNetworkService(nullptr)
@@ -46,7 +46,9 @@ bool CServiceCommon::Init(const ServerPort& nServerPort)
     m_ServiceName = ::GetServiceName(nServerPort.GetServiceID());
     m_pNetMsgProcess = std::make_unique<CNetMSGProcess>();
     m_pEventManager.reset(CEventManager::CreateNew(nullptr));
-    
+    CHECKF(m_pEventManager.get());
+    m_pMonitorMgr.reset(CMonitorMgr::CreateNew());
+    CHECKF(m_pMonitorMgr.get());
     return true;
 }
 
@@ -297,6 +299,7 @@ bool CServiceCommon::SendMsg(const CNetworkMessage& msg)
     VirtualSocket vs(msg.GetTo());
     if(GetMessageRoute() && vs.GetServerPort() != 0)
     {
+        m_pMonitorMgr->AddSendInfo(msg.GetCmd(), msg.GetSize());
         CMessagePort* pMessagePort = GetMessageRoute()->QueryMessagePort(vs.GetServerPort());
         if(pMessagePort)
         {
@@ -313,6 +316,7 @@ bool CServiceCommon::SendMsg(const CNetworkMessage& msg)
     }
     else if(vs.GetServerPort() == m_nServerPort && vs.GetSocketIdx() != 0)
     {
+        m_pMonitorMgr->AddSendInfo(msg.GetCmd(), msg.GetSize());
         // direct send message
         if(m_pNetworkService)
             return m_pNetworkService->SendSocketMsgByIdx(msg.GetTo().GetSocketIdx(), msg.GetBuf(), msg.GetSize());
@@ -339,6 +343,7 @@ bool CServiceCommon::SendBroadcastMsg(const CNetworkMessage& msg)
     VirtualSocket vs(msg.GetTo());
     if(GetMessageRoute() && vs.GetServerPort() != 0)
     {
+        m_pMonitorMgr->AddSendInfo_broad(msg.GetCmd(), msg.GetSize());
         CMessagePort* pMessagePort = GetMessageRoute()->QueryMessagePort(vs.GetServerPort());
         if(pMessagePort)
         {
@@ -355,6 +360,7 @@ bool CServiceCommon::SendBroadcastMsg(const CNetworkMessage& msg)
     }
     else if(vs.GetServerPort() == m_nServerPort)
     {
+        m_pMonitorMgr->AddSendInfo_broad(msg.GetCmd(), msg.GetSize());
         // direct send message
         if(m_pNetworkService)
         {
@@ -371,6 +377,32 @@ bool CServiceCommon::SendBroadcastMsg(const CNetworkMessage& msg)
                    msg.GetTo().GetSocketIdx());
         return false;
     }
+    __LEAVE_FUNCTION
+    return false;
+}
+
+
+
+bool CServiceCommon::SendMsgTo(uint16_t nCmd, const google::protobuf::Message& msg,const VirtualSocketMap_t& setSocketMap)
+{
+    __ENTER_FUNCTION
+
+    CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket());
+    for(auto& [nServerPort, socket_list]: setSocketMap)
+    {
+        if(socket_list.size() == 1)
+        {
+            _msg.SetTo(socket_list.front());
+            m_pMonitorMgr->AddSendInfo(nCmd, _msg.GetSize());
+            SendMsg(_msg);
+        }
+        else
+        {
+            m_pMonitorMgr->AddSendInfo_some(nCmd, _msg.GetSize(), socket_list.size());
+            SendPortMultiMsg(nServerPort, socket_list, _msg);
+        }
+    }
+    return true;
     __LEAVE_FUNCTION
     return false;
 }

@@ -70,7 +70,7 @@ private:
     CDBRecordPtr m_pRecord;
 };
 
-export_lua class CCoolDownSet : public Noncopyable<CCoolDownSet>
+export_lua class CCoolDownSet : public NoncopyableT<CCoolDownSet>
 {
 protected:
     CCoolDownSet();

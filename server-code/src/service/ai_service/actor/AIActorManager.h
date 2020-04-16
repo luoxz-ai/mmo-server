@@ -9,7 +9,7 @@ class CAIActor;
 class CAIMonster;
 class CAIPlayer;
 
-class CAIActorManager: public Noncopyable<CAIActorManager>
+class CAIActorManager: public NoncopyableT<CAIActorManager>
 {
     CAIActorManager();
     bool Init();

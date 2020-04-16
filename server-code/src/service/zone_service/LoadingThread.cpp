@@ -63,25 +63,10 @@ void CLoadingThread::Destory()
     __LEAVE_FUNCTION
 }
 
-bool CLoadingThread::AddLoginPlayer(OBJID                idPlayer,
-                                    const VirtualSocket& socket,
-                                    bool                 bChangeZone,
-                                    uint64_t             idScene,
-                                    float                fPosX,
-                                    float                fPosY,
-                                    float                fRange,
-                                    float                fFace)
+bool CLoadingThread::AddLoginPlayer(ST_LOADINGTHREAD_PROCESS_DATA&& data)
 {
-    auto pData = new ST_LOADINGTHREAD_PROCESS_DATA{LPT_LOADING,
-                                                   idPlayer,
-                                                   bChangeZone,
-                                                   socket,
-                                                   idScene,
-                                                   fPosX,
-                                                   fPosY,
-                                                   fRange,
-                                                   fFace,
-                                                   nullptr};
+    auto pData = new ST_LOADINGTHREAD_PROCESS_DATA(std::move(data));
+    
     m_nLoadingCount++;
     {
         std::lock_guard locker(m_csWaitingList);
@@ -93,23 +78,10 @@ bool CLoadingThread::AddLoginPlayer(OBJID                idPlayer,
     return true;
 }
 
-bool CLoadingThread::AddClosePlayer(CPlayer* pPlayer,
-                                    uint64_t idScene,
-                                    float    fPosX,
-                                    float    fPosY,
-                                    float    fRange,
-                                    float    fFace)
+bool CLoadingThread::AddClosePlayer(ST_LOADINGTHREAD_PROCESS_DATA&& data)
 {
-    auto pData = new ST_LOADINGTHREAD_PROCESS_DATA{LPT_SAVE,
-                                                   pPlayer->GetID(),
-                                                   idScene != 0,
-                                                   pPlayer->GetSocket(),
-                                                   idScene,
-                                                   fPosX,
-                                                   fPosY,
-                                                   fRange,
-                                                   fFace,
-                                                   pPlayer};
+    auto pData = new ST_LOADINGTHREAD_PROCESS_DATA(std::move(data));
+
     m_nSaveingCount++;
     {
         std::lock_guard locker(m_csWaitingList);

@@ -4,6 +4,8 @@
 #include "MapData.h"
 #include "MapManager.h"
 #include "WorldService.h"
+#include "server_msg/server_side.pb.h"
+#include "msg/world_service.pb.h"
 
 MEMORYHEAP_IMPLEMENTATION(CUser, s_heap);
 

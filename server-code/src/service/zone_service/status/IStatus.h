@@ -61,7 +61,7 @@ export_lua enum StatusFlag {
 
 };
 
-class CStatusType : public Noncopyable<CStatusType>
+class CStatusType : public NoncopyableT<CStatusType>
 {
     CStatusType() {}
     bool Init(const Cfg_Status_Row& row)
@@ -107,10 +107,10 @@ private:
     std::vector<CActorAttribChange> m_AttribChangeList;
 };
 
-typedef CGameDataMap<CStatusType> CStatusTypeSet;
+DEFINE_GAMEMAPDATA(CStatusTypeSet,CStatusType);
 
 class CActor;
-export_lua class CStatus : public Noncopyable<CStatus>
+export_lua class CStatus : public NoncopyableT<CStatus>
 {
     CStatus();
     bool Init(CActor* pOwner, CDBRecordPtr&& pRow);

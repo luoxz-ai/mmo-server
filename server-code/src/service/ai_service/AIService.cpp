@@ -12,6 +12,14 @@
 #include "NetworkMessage.h"
 #include "SettingMap.h"
 #include "tinyxml2/tinyxml2.h"
+#include "AISceneManagr.h"
+#include "AIActorManager.h"
+
+#include "AIFuzzyLogic.h"
+#include "AISkill.h"
+#include "AIType.h"
+#include "MonitorMgr.h"
+#include "MonsterType.h"
 
 static thread_local CAIService* tls_pService;
 CAIService*                     AIService()
@@ -84,16 +92,11 @@ bool CAIService::Init(const ServerPort& nServerPort)
     m_pMapManager.reset(CMapManager::CreateNew(GetZoneID()));
     CHECKF(m_pMapManager.get());
 
-    m_pTargetFAMSet.reset(CTargetFAMSet::CreateNew("res/config/Cfg_TargetFAM.bytes"));
-    CHECKF(m_pTargetFAMSet.get());
-    m_pSkillFAMSet.reset(CSkillFAMSet::CreateNew("res/config/Cfg_SkillFAM.bytes"));
-    CHECKF(m_pSkillFAMSet.get());
-    m_pSkillTypeSet.reset(CSkillTypeSet::CreateNew("res/config/Cfg_Skill.bytes"));
-    CHECKF(m_pSkillTypeSet.get());
-    m_pAITypeSet.reset(CAITypeSet::CreateNew("res/config/Cfg_AIType.bytes"));
-    CHECKF(m_pAITypeSet.get());
-    m_pMonsterTypeSet.reset(CMonsterTypeSet::CreateNew("res/config/Cfg_Monster.bytes"));
-    CHECKF(m_pMonsterTypeSet.get());
+    DEFINE_CONFIG_LOAD(CTargetFAMSet);
+    DEFINE_CONFIG_LOAD(CSkillFAMSet);
+    DEFINE_CONFIG_LOAD(CSkillTypeSet);
+    DEFINE_CONFIG_LOAD(CAITypeSet);
+    DEFINE_CONFIG_LOAD(CMonsterTypeSet);
 
     m_pAISceneManager.reset(CAISceneManager::CreateNew(GetZoneID()));
     CHECKF(m_pAISceneManager.get());
@@ -150,6 +153,8 @@ void CAIService::OnLogicThreadProc()
                 fmt::format(FMT_STRING("\nMsgPort:{}\tSendBuff:{}"), GetZoneID(), pMessagePort->GetWriteBufferSize());
         }
         LOGMONITOR("{}", buf.c_str());
+        m_pMonitorMgr->Print();
+        SetMessageProcess(0);
     }
     __LEAVE_FUNCTION
 }

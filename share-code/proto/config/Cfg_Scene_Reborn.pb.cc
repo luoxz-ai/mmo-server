@@ -63,12 +63,14 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_config_2fCfg_5fScene_5fReborn_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::Cfg_Scene_Reborn_Row, idmap_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Scene_Reborn_Row, idcamp_),
   PROTOBUF_FIELD_OFFSET(::Cfg_Scene_Reborn_Row, idx_),
   PROTOBUF_FIELD_OFFSET(::Cfg_Scene_Reborn_Row, reborn_map_),
   PROTOBUF_FIELD_OFFSET(::Cfg_Scene_Reborn_Row, reborn_x_),
   PROTOBUF_FIELD_OFFSET(::Cfg_Scene_Reborn_Row, reborn_y_),
   PROTOBUF_FIELD_OFFSET(::Cfg_Scene_Reborn_Row, reborn_range_),
   PROTOBUF_FIELD_OFFSET(::Cfg_Scene_Reborn_Row, reborn_face_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Scene_Reborn_Row, reborn_this_phase_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Cfg_Scene_Reborn, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -78,7 +80,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_config_2fCfg_5fScene_5fReborn_
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::Cfg_Scene_Reborn_Row)},
-  { 12, -1, sizeof(::Cfg_Scene_Reborn)},
+  { 14, -1, sizeof(::Cfg_Scene_Reborn)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -87,12 +89,13 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 };
 
 const char descriptor_table_protodef_config_2fCfg_5fScene_5fReborn_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\035config/Cfg_Scene_Reborn.proto\"\276\001\n\020Cfg_"
+  "\n\035config/Cfg_Scene_Reborn.proto\"\351\001\n\020Cfg_"
   "Scene_Reborn\022#\n\004rows\030\001 \003(\0132\025.Cfg_Scene_R"
-  "eborn.Row\032\204\001\n\003Row\022\r\n\005idmap\030\001 \001(\r\022\013\n\003idx\030"
-  "\002 \001(\r\022\022\n\nreborn_map\030\010 \001(\r\022\020\n\010reborn_x\030\t "
-  "\001(\002\022\020\n\010reborn_y\030\n \001(\002\022\024\n\014reborn_range\030\013 "
-  "\001(\002\022\023\n\013reborn_face\030\014 \001(\002B\002H\002b\006proto3"
+  "eborn.Row\032\257\001\n\003Row\022\r\n\005idmap\030\001 \001(\r\022\016\n\006idca"
+  "mp\030\002 \001(\r\022\013\n\003idx\030\003 \001(\r\022\022\n\nreborn_map\030\010 \001("
+  "\r\022\020\n\010reborn_x\030\t \001(\002\022\020\n\010reborn_y\030\n \001(\002\022\024\n"
+  "\014reborn_range\030\013 \001(\002\022\023\n\013reborn_face\030\014 \001(\002"
+  "\022\031\n\021reborn_this_phase\030\r \001(\010B\002H\002b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_config_2fCfg_5fScene_5fReborn_2eproto_deps[1] = {
 };
@@ -103,7 +106,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_con
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_config_2fCfg_5fScene_5fReborn_2eproto_once;
 static bool descriptor_table_config_2fCfg_5fScene_5fReborn_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_config_2fCfg_5fScene_5fReborn_2eproto = {
-  &descriptor_table_config_2fCfg_5fScene_5fReborn_2eproto_initialized, descriptor_table_protodef_config_2fCfg_5fScene_5fReborn_2eproto, "config/Cfg_Scene_Reborn.proto", 236,
+  &descriptor_table_config_2fCfg_5fScene_5fReborn_2eproto_initialized, descriptor_table_protodef_config_2fCfg_5fScene_5fReborn_2eproto, "config/Cfg_Scene_Reborn.proto", 279,
   &descriptor_table_config_2fCfg_5fScene_5fReborn_2eproto_once, descriptor_table_config_2fCfg_5fScene_5fReborn_2eproto_sccs, descriptor_table_config_2fCfg_5fScene_5fReborn_2eproto_deps, 2, 0,
   schemas, file_default_instances, TableStruct_config_2fCfg_5fScene_5fReborn_2eproto::offsets,
   file_level_metadata_config_2fCfg_5fScene_5fReborn_2eproto, 2, file_level_enum_descriptors_config_2fCfg_5fScene_5fReborn_2eproto, file_level_service_descriptors_config_2fCfg_5fScene_5fReborn_2eproto,
@@ -130,15 +133,15 @@ Cfg_Scene_Reborn_Row::Cfg_Scene_Reborn_Row(const Cfg_Scene_Reborn_Row& from)
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&idmap_, &from.idmap_,
-    static_cast<size_t>(reinterpret_cast<char*>(&reborn_range_) -
-    reinterpret_cast<char*>(&idmap_)) + sizeof(reborn_range_));
+    static_cast<size_t>(reinterpret_cast<char*>(&reborn_face_) -
+    reinterpret_cast<char*>(&idmap_)) + sizeof(reborn_face_));
   // @@protoc_insertion_point(copy_constructor:Cfg_Scene_Reborn.Row)
 }
 
 void Cfg_Scene_Reborn_Row::SharedCtor() {
   ::memset(&idmap_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&reborn_range_) -
-      reinterpret_cast<char*>(&idmap_)) + sizeof(reborn_range_));
+      reinterpret_cast<char*>(&reborn_face_) -
+      reinterpret_cast<char*>(&idmap_)) + sizeof(reborn_face_));
 }
 
 Cfg_Scene_Reborn_Row::~Cfg_Scene_Reborn_Row() {

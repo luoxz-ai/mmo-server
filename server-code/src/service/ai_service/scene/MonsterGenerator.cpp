@@ -1,9 +1,11 @@
 #include "MonsterGenerator.h"
 
 #include "AIMonster.h"
-#include "AIScene.h"
+#include "AIPhase.h"
 #include "AIService.h"
+#include "AIActorManager.h"
 #include "GameMap.h"
+
 CMonsterGenerator::CMonsterGenerator() {}
 
 CMonsterGenerator::~CMonsterGenerator()
@@ -15,7 +17,7 @@ CMonsterGenerator::~CMonsterGenerator()
     m_setGen.clear();
 }
 
-void CMonsterGenerator::Init(CAIScene* pScene)
+void CMonsterGenerator::Init(CAIPhase* pScene)
 {
     m_pMap               = pScene->GetMap();
     m_idScene            = pScene->GetSceneID();
@@ -48,7 +50,7 @@ void CMonsterGenerator::OnGenTimer(MonsterGenData* pData)
     StartGen(pData, false);
 }
 
-void CMonsterGenerator::_GenMonster(MonsterGenData* pData)
+void CMonsterGenerator::_GenMonster(MonsterGenData* pData, uint64_t idPhase)
 {
     for(size_t i = 0; i < pData->gen_data.per_gen(); i++)
     {
@@ -75,7 +77,14 @@ void CMonsterGenerator::_GenMonster(MonsterGenData* pData)
         msg.set_monster_type(pData->gen_data.monsterid());
         msg.set_posx(newPos.x);
         msg.set_posy(newPos.y);
-
+        if(idPhase == 0)
+        {
+            msg.set_phase_id(pData->gen_data.phase_id());
+        }
+        else
+        {
+            msg.set_phase_id(idPhase);
+        }
         AIService()->SendMsgToZone(ServerMSG::MsgID_MonsterGen, msg);
         pData->nCurGen++;
     }
@@ -188,12 +197,12 @@ void CMonsterGenerator::KillGen(uint32_t idGen)
     pData->m_pEvent.Clear();
 }
 
-void CMonsterGenerator::GenOnce(uint32_t idGen)
+void CMonsterGenerator::GenOnce(uint32_t idGen, uint64_t idPhase)
 {
     auto pData = QueryGen(idGen);
     if(pData)
     {
-        _GenMonster(pData);
+        _GenMonster(pData, idPhase);
     }
 }
 

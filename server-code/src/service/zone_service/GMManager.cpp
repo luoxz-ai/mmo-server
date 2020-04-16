@@ -1,6 +1,8 @@
 #include "GMManager.h"
 
 #include "ZoneService.h"
+#include "globaldb.h"
+#include "MysqlConnection.h"
 
 CGMManager::CGMManager() {}
 

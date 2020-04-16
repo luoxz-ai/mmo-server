@@ -1,49 +1,39 @@
 #ifndef AISCENE_H
 #define AISCENE_H
 
-#include "MonsterGenerator.h"
 #include "NetworkMessage.h"
-#include "SceneBase.h"
+#include <unordered_map>
+#include "MapManager.h"
 
-class CAIScene : public CSceneBase
+class CAIPhase;
+class PhaseData;
+class CAISceneManager;
+class CAIPhase;
+
+class CAIScene
 {
 protected:
     CAIScene();
- public:
+    bool         Init(const SceneID& idScene);
+public:
     CreateNewImpl(CAIScene);
 public:
     virtual ~CAIScene();
 
 public:
-    bool               Init(const SceneID& idScene);
-    CMonsterGenerator& GetMonsterGen() { return m_MonsterGen; }
+    
+    CAIPhase* CreatePhase(const SceneID& idScene, uint64_t idPhase);
+    CAIPhase* CreatePhase(const SceneID& idScene, uint64_t idPhase, const PhaseData* pPhaseData);
 
+    bool DestoryPhase(uint64_t idPhase);
+    bool DestoryPhaseBySceneID(const SceneID& idScene);
+
+    CAIPhase* QueryPhaseBySceneID(const SceneID& idScene) const;
+    CAIPhase* QueryPhaseByID(uint64_t idPhase) const;
 private:
-    CMonsterGenerator m_MonsterGen;
+    SceneID m_SceneID;
+    std::unordered_map<uint64_t, std::unique_ptr<CAIPhase>> m_pPhaseSet;
+    std::unordered_map<uint32_t, CAIPhase*> m_pPhaseSetByIdx;
 };
 
-class CAISceneManager: public Noncopyable<CAISceneManager>
-{
-    CAISceneManager();
-    bool Init(uint32_t idZone);
-public:
-    CreateNewImpl(CAISceneManager);
-public:
-    ~CAISceneManager();
-    
-
-    
-    void Destory();
-
-    CAIScene* CreateScene(const SceneID& idScene);
-    void      DestoryDynaScene(const SceneID& idScene);
-
-    CAIScene* QueryScene(const SceneID& idScene);
-    void      OnTimer();
-
-protected:
-private:
-    std::unordered_map<SceneID, CAIScene*> m_mapScene;
-    size_t                                 m_nStaticScene;
-};
 #endif /* AISCENE_H */

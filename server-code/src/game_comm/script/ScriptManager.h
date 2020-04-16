@@ -61,7 +61,7 @@ export_lua enum ScriptCallBack {
     SCB_NPC_ONACTIVE = 701,
 };
 
-class CLUAScriptManager: public Noncopyable<CLUAScriptManager>
+class CLUAScriptManager: public NoncopyableT<CLUAScriptManager>
 {
 public:
     //每个lua被创建时都会调用一下该函数来向lua注册一些必备的c++函数,比如类注册函数等

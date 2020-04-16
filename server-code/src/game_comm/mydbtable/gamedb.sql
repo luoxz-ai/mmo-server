@@ -1,5 +1,0 @@
-XSym
-0040
-77f26994fe19642472bf2334bf9aa29b
-../../../../server-res/res/db/gamedb.sql
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       

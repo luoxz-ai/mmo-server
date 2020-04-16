@@ -1,27 +1,24 @@
 #ifndef WorldService_h__
 #define WorldService_h__
 
-#include "AccountManager.h"
-#include "BornPos.h"
-#include "GMManager.h"
-#include "IService.h"
-#include "MapManager.h"
+
 #include "MyTimer.h"
 #include "NetMSGProcess.h"
 #include "NetSocket.h"
+#include "IService.h"
 #include "ServiceComm.h"
-#include "SystemVars.h"
-#include "TeamManager.h"
-#include "UIDFactory.h"
-#include "UserAttr.h"
-#include "UserManager.h"
-#include "globaldb.h"
-#include "msg/ts_cmd.pb.h"
-#include "msg/world_service.pb.h"
-#include "server_msg/server_side.pb.h"
 
-struct event;
-class CNetMSGProcess;
+class CMysqlConnection;
+class CAccountManager;
+class CUserManager;
+class CSystemVarSet;
+class CGMManager;
+class CTeamManager;
+class CMapManager;
+class CUserAttrSet;
+class CBornPosSet;
+
+
 
 class CWorldService : public IService, public CServiceCommon
 {
@@ -52,58 +49,10 @@ public:
     bool BroadcastToZone(uint16_t nCmd, const google::protobuf::Message& msg);
     bool BroadcastToAllPlayer(uint16_t nCmd, const google::protobuf::Message& msg);
     //发送广播包给玩家
-    using VSMap_t = std::unordered_map<ServerPort, std::vector<VirtualSocket>>;
-    void _ID2VS(OBJID id, VSMap_t& VSMap);
-    template<class T>
-    bool BroadcastMessageToPlayer(const T&                         idList,
-                                  uint16_t                         nCmd,
-                                  const google::protobuf::Message& msg,
-                                  OBJID                            idExtInclude = 0)
-    {
-        VSMap_t setSocketMap;
-        if constexpr(std::is_same<typename T::value_type, OBJID>::value)
-        {
-            for(OBJID id: idList)
-            {
-                _ID2VS(id, setSocketMap);
-            }
-        }
-        else if constexpr(std::is_function<T>::value)
-        {
-            idList([this, &setSocketMap](OBJID id) { _ID2VS(id, setSocketMap); });
-        }
-        else
-        {
-            for(const auto& [id, v]: idList)
-            {
-                _ID2VS(id, setSocketMap);
-            }
-        }
-
-        if(idExtInclude != 0)
-            _ID2VS(idExtInclude, setSocketMap);
-
-        CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket());
-        for(auto& [nServerPort, socket_list]: setSocketMap)
-        {
-            if(socket_list.size() == 1)
-            {
-                _msg.SetTo(socket_list.front());
-                SendMsg(_msg);
-            }
-            else
-            {
-                SendPortMultiMsg(nServerPort, socket_list, _msg);
-            }
-        }
-        return true;
-    }
-
+    void _ID2VS(OBJID id, VirtualSocketMap_t& VSMap)override;
 public:
     CAccountManager*  GetAccountManager() const { return m_pAccountManager.get(); }
     CUserManager*     GetUserManager() const { return m_pUserManager.get(); }
-    CUserAttrSet*     GetUserAttrSet() const { return m_pUserAttrSet.get(); }
-    CBornPosSet*      GetBornPosSet() const { return m_pBornPosSet.get(); }
     CMapManager*      GetMapManager() const { return m_pMapManager.get(); }
     CMysqlConnection* GetGameDB() const { return m_pGameDB.get(); }
     CSystemVarSet*    GetSystemVarSet() const { return m_pSystemVarSet.get(); }
@@ -128,6 +77,10 @@ private:
     std::unique_ptr<CTeamManager>  m_pTeamManager;
 
     CMyTimer m_tLastDisplayTime;
+
+    DEFINE_CONFIG_SET(CUserAttrSet);
+    DEFINE_CONFIG_SET(CBornPosSet);
+
 };
 
 CWorldService* WorldService();
@@ -155,11 +108,11 @@ inline auto UserManager()
 }
 inline auto UserAttrSet()
 {
-    return WorldService()->GetUserAttrSet();
+    return WorldService()->GetCUserAttrSet();
 }
 inline auto BornPosSet()
 {
-    return WorldService()->GetBornPosSet();
+    return WorldService()->GetCBornPosSet();
 }
 inline auto MapManager()
 {

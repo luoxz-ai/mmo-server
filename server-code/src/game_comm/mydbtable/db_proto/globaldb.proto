@@ -1,0 +1,67 @@
+syntax = "proto3";
+import "sql_options/sql_options.proto";
+ 
+package db;
+  
+message tbld_dbinfo
+{
+
+    uint32 worldid = 1 [(sql).primary_key = "idx_id"]; //游戏服编号
+
+    string db_ip   = 2 [(sql).size = 255]; //游戏数据mysql地址
+    uint32 db_port = 3;                    //游戏数据mysql端口
+    string db_name = 4 [(sql).size = 255]; //游戏数据mysql表名
+    string db_user = 5 [(sql).size = 255]; //游戏数据mysql用户
+    string db_passwd = 6 [(sql).size = 255]; //游戏数据mysql密码
+}
+
+message tbld_globalvar
+{
+    uint32 key        = 1 [(sql).primary_key = "idx_id"]; // key
+    uint64 value0     = 2;                                // value
+    uint64 value1     = 3;                                // value
+    uint64 value2     = 4;                                // value
+    uint64 value3     = 5;                                // value
+    string value_str0 = 6 [(sql).size = 255];             // value_str
+    string value_str1 = 7 [(sql).size = 255];             // value_str
+    string value_str2 = 8 [(sql).size = 255];             // value_str
+    string value_str3 = 9 [(sql).size = 255];             // value_str
+}
+
+message tbld_gmlist
+{
+    uint64 id       = 1[(sql).primary_key="idx_id", (sql).auto_increment=true];  
+    string openid   = 2 [(sql).size = 255];             // openid
+    uint32 gmlev    = 3;                                // gm等级
+    
+}
+
+message tbld_serverlist
+{
+
+    uint32 worldid = 1 [(sql).primary_key = "idx_id"]; //游戏服编号
+
+    string server_name  = 2[(sql).size = 255];                     //服务器名
+    uint64 open_time    = 3;                     //开服时间戳
+    uint32 open_status  = 4;                     //开放状态
+    string publish_addr = 5[(sql).size = 255] ; //入口地址
+    uint32 mergeto      = 6;                     //已经被合服到哪个服了
+}
+
+
+message tbld_servicedetail
+{
+
+    uint32 worldid      = 1 [(sql).primary_key = "idx_id", (sql).unique="idx_worldid"]; //游戏服编号
+    uint32 serviceid    = 2 [(sql).unique = "idx_worldid"];                               //服务编号
+    string service_type = 3 [(sql).size = 255];             // lib库名
+    string route_addr   = 4 [(sql).size = 255];             //内网通讯地址
+    uint32 route_port   = 5;                                //内网通讯端口
+    string publish_addr = 6 [(sql).size = 255];             //外网地址
+    uint32 publish_port = 7;                                //外网端口
+    uint32 debug_port   = 8;                                // debug端口
+    string bind_addr    = 9 [(sql).size = 255];             //监听绑定地址
+
+}
+
+

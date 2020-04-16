@@ -3,9 +3,13 @@
 #include "ActorManager.h"
 #include "Monster.h"
 #include "Player.h"
+#include "Phase.h"
 #include "Scene.h"
 #include "SceneTree.h"
 #include "ZoneService.h"
+#include "GameEventDef.h"
+#include "server_msg/server_side.pb.h"
+
 
 CActor::CActor()
     : m_SkillFSM(this)
@@ -534,10 +538,30 @@ void CActor::BeKillBy(CActor* pAttacker)
 
     LOGDEBUG("BeKillBy:{} Attacker:{}", GetID(), pAttacker ? pAttacker->GetID() : 0);
     if(m_pScene)
-        static_cast<CScene*>(m_pScene)->TryExecScript<void>(SCB_MAP_ONACTORBEKILL, this, pAttacker);
+        static_cast<CPhase*>(m_pScene)->TryExecScript<void>(SCB_MAP_ONACTORBEKILL, this, pAttacker);
 
     GetStatus()->OnDead(pAttacker);
     GetStatus()->AttachStatus(STATUSTYPE_DEAD, 1, GetID(), 0, 0, 0);
 
     __LEAVE_FUNCTION
+}
+
+void CActor::BroadcastShowTo(const VirtualSocketMap_t& VSMap)
+{
+    SC_AOI_NEW msg;
+    MakeShowData(msg);
+    ZoneService()->SendMsgTo(CMD_SC_AOI_NEW, msg, VSMap);
+    if(m_pStatus->size() > 0)
+    {
+        SC_STATUS_LIST status_msg;
+        m_pStatus->FillStatusMsg(status_msg);
+        ZoneService()->SendMsgTo(CMD_SC_STATUS_LIST, status_msg, VSMap);
+    }
+}
+
+void CActor::BroadcastMessageTo(uint32_t cmd, const google::protobuf::Message& msg, const VirtualSocketMap_t& setSocketMap)
+{
+    //如果有需要发送new数据的,这里要优先发送一次
+    SendShowToDealyList();
+    ZoneService()->SendMsgTo(cmd, msg, setSocketMap);
 }

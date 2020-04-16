@@ -2,6 +2,7 @@
 
 #include "CallStackDumper.h"
 #include "ProtobuffUtil.h"
+#include "game_common_def.h"
 
 CMapManager::CMapManager() {}
 
@@ -14,9 +15,9 @@ bool CMapManager::Init(uint16_t idZone)
     //读取配置文件
     {
         Cfg_Scene cfg;
-        if(pb_util::LoadFromBinaryFile("res/config/Cfg_Scene.bytes", cfg) == false)
+        if(pb_util::LoadFromBinaryFile(GetCfgFilePath() + "Cfg_Scene.bytes", cfg) == false)
         {
-            LOGERROR("InitFromFile res/config/Cfg_Scene.bytes Fail");
+            LOGERROR("InitFromFile Cfg_Scene.bytes Fail");
             return false;
         }
 
@@ -54,9 +55,9 @@ bool CMapManager::Init(uint16_t idZone)
     //进入点
     {
         Cfg_Scene_EnterPoint cfg;
-        if(pb_util::LoadFromBinaryFile("res/config/Cfg_Scene_EnterPoint.bytes", cfg) == false)
+        if(pb_util::LoadFromBinaryFile(GetCfgFilePath() + "Cfg_Scene_EnterPoint.bytes", cfg) == false)
         {
-            LOGERROR("InitFromFile res/config/Cfg_Scene_EnterPoint.bytes Fail");
+            LOGERROR("InitFromFile Cfg_Scene_EnterPoint.bytes Fail");
             return false;
         }
 
@@ -75,9 +76,9 @@ bool CMapManager::Init(uint16_t idZone)
     //进入点
     {
         Cfg_Scene_LeavePoint cfg;
-        if(pb_util::LoadFromBinaryFile("res/config/Cfg_Scene_LeavePoint.bytes", cfg) == false)
+        if(pb_util::LoadFromBinaryFile(GetCfgFilePath() + "Cfg_Scene_LeavePoint.bytes", cfg) == false)
         {
-            LOGERROR("InitFromFile res/config/Cfg_Scene_LeavePoint.bytes Fail");
+            LOGERROR("InitFromFile Cfg_Scene_LeavePoint.bytes Fail");
             return false;
         }
 
@@ -96,9 +97,9 @@ bool CMapManager::Init(uint16_t idZone)
     //刷怪点
     {
         Cfg_Scene_MonsterGenerator cfg;
-        if(pb_util::LoadFromBinaryFile("res/config/Cfg_Scene_MonsterGenerator.bytes", cfg) == false)
+        if(pb_util::LoadFromBinaryFile(GetCfgFilePath() + "Cfg_Scene_MonsterGenerator.bytes", cfg) == false)
         {
-            LOGERROR("InitFromFile res/config/Cfg_Scene_MonsterGenerator.bytes Fail");
+            LOGERROR("InitFromFile Cfg_Scene_MonsterGenerator.bytes Fail");
             return false;
         }
 
@@ -116,32 +117,32 @@ bool CMapManager::Init(uint16_t idZone)
 
     //巡逻路径
     {
-        /*Cfg_Scene_Patrol cfg;
-        if (pb_util::LoadFromBinaryFile("res/config/Cfg_Scene_Patrol.bytes", cfg) == false)
+        Cfg_Scene_Patrol cfg;
+        if (pb_util::LoadFromBinaryFile(GetCfgFilePath() + "Cfg_Scene_Patrol.bytes", cfg) == false)
         {
-            LOGERROR("InitFromFile res/config/Cfg_Scene_Patrol.bytes Fail");
+            LOGERROR("InitFromFile Cfg_Scene_Patrol.bytes Fail");
             return false;
         }
 
         for (const auto &iter : cfg.rows())
         {
-            CGameMap* pGameMap = QueryMap(iter.idmap());
+            CGameMap* pGameMap = _QueryMap(iter.idmap());
             if(pGameMap == nullptr)
                 continue;
 
             pGameMap->_AddPatrol(iter);
         }
 
-        LOGMESSAGE("Cfg_Scene_Patrol LoadSucc.");*/
+        LOGMESSAGE("Cfg_Scene_Patrol LoadSucc.");
 
     }
 
     // rebornData
     {
         Cfg_Scene_Reborn cfg;
-        if(pb_util::LoadFromBinaryFile("res/config/Cfg_Scene_Reborn.bytes", cfg) == false)
+        if(pb_util::LoadFromBinaryFile(GetCfgFilePath() + "Cfg_Scene_Reborn.bytes", cfg) == false)
         {
-            LOGERROR("InitFromFile res/config/Cfg_Scene_Reborn.bytes Fail");
+            LOGERROR("InitFromFile Cfg_Scene_Reborn.bytes Fail");
             return false;
         }
 

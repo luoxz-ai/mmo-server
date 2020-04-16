@@ -48,7 +48,7 @@ struct TableStruct_msg_2fzone_5fservice_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[78]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[80]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -226,6 +226,12 @@ extern SC_ITEM_INFODefaultTypeInternal _SC_ITEM_INFO_default_instance_;
 class SC_LOADMAP;
 class SC_LOADMAPDefaultTypeInternal;
 extern SC_LOADMAPDefaultTypeInternal _SC_LOADMAP_default_instance_;
+class SC_MAPVAL;
+class SC_MAPVALDefaultTypeInternal;
+extern SC_MAPVALDefaultTypeInternal _SC_MAPVAL_default_instance_;
+class SC_MAPVAL_MapVal;
+class SC_MAPVAL_MapValDefaultTypeInternal;
+extern SC_MAPVAL_MapValDefaultTypeInternal _SC_MAPVAL_MapVal_default_instance_;
 class SC_PLAYERINFO;
 class SC_PLAYERINFODefaultTypeInternal;
 extern SC_PLAYERINFODefaultTypeInternal _SC_PLAYERINFO_default_instance_;
@@ -347,6 +353,8 @@ template<> ::SC_ITEM_CHANGE_ChangeData* Arena::CreateMaybeMessage<::SC_ITEM_CHAN
 template<> ::SC_ITEM_DELETE* Arena::CreateMaybeMessage<::SC_ITEM_DELETE>(Arena*);
 template<> ::SC_ITEM_INFO* Arena::CreateMaybeMessage<::SC_ITEM_INFO>(Arena*);
 template<> ::SC_LOADMAP* Arena::CreateMaybeMessage<::SC_LOADMAP>(Arena*);
+template<> ::SC_MAPVAL* Arena::CreateMaybeMessage<::SC_MAPVAL>(Arena*);
+template<> ::SC_MAPVAL_MapVal* Arena::CreateMaybeMessage<::SC_MAPVAL_MapVal>(Arena*);
 template<> ::SC_PLAYERINFO* Arena::CreateMaybeMessage<::SC_PLAYERINFO>(Arena*);
 template<> ::SC_SKILL_BREAK* Arena::CreateMaybeMessage<::SC_SKILL_BREAK>(Arena*);
 template<> ::SC_SKILL_DAMAGE* Arena::CreateMaybeMessage<::SC_SKILL_DAMAGE>(Arena*);
@@ -370,6 +378,31 @@ template<> ::SC_TEAMMEMBER_INFO* Arena::CreateMaybeMessage<::SC_TEAMMEMBER_INFO>
 template<> ::SC_TEAMMEMBER_INFO_MemberInfo* Arena::CreateMaybeMessage<::SC_TEAMMEMBER_INFO_MemberInfo>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 
+enum SC_MAPVAL_State : int {
+  SC_MAPVAL_State_SYNC_MAPVAL_ALL = 0,
+  SC_MAPVAL_State_SYNC_MAPVAL_ONE = 1,
+  SC_MAPVAL_State_SC_MAPVAL_State_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  SC_MAPVAL_State_SC_MAPVAL_State_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool SC_MAPVAL_State_IsValid(int value);
+constexpr SC_MAPVAL_State SC_MAPVAL_State_State_MIN = SC_MAPVAL_State_SYNC_MAPVAL_ALL;
+constexpr SC_MAPVAL_State SC_MAPVAL_State_State_MAX = SC_MAPVAL_State_SYNC_MAPVAL_ONE;
+constexpr int SC_MAPVAL_State_State_ARRAYSIZE = SC_MAPVAL_State_State_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* SC_MAPVAL_State_descriptor();
+template<typename T>
+inline const std::string& SC_MAPVAL_State_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, SC_MAPVAL_State>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function SC_MAPVAL_State_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    SC_MAPVAL_State_descriptor(), enum_t_value);
+}
+inline bool SC_MAPVAL_State_Parse(
+    const std::string& name, SC_MAPVAL_State* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<SC_MAPVAL_State>(
+    SC_MAPVAL_State_descriptor(), name, value);
+}
 enum SC_STATUS_ACTION_ACTION : int {
   SC_STATUS_ACTION_ACTION_STATUS_ATTACH = 0,
   SC_STATUS_ACTION_ACTION_STATUS_DETACH = 1,
@@ -521,33 +554,34 @@ enum ZONE_SC_CMD : int {
   CMD_SC_DATACOUNT = 1006,
   CMD_SC_SYSVAR = 1007,
   CMD_SC_COOLDOWN = 1008,
-  CMD_SC_AOI_NEW = 1009,
-  CMD_SC_AOI_REMOVE = 1010,
-  CMD_SC_AOI_UPDATE = 1011,
-  CMD_SC_CASTSKILL = 1012,
-  CMD_SC_SKILL_BREAK = 1013,
-  CMD_SC_SKILL_DAMAGE = 1014,
-  CMD_SC_SKILL_STUN = 1015,
-  CMD_SC_SKILL_EFFACT = 1016,
-  CMD_SC_DAMAGE = 1017,
-  CMD_SC_DEAD = 1018,
-  CMD_SC_ATTRIB_CHANGE = 1019,
-  CMD_SC_CHANGE_PKMODE = 1020,
-  CMD_SC_STATUS_LIST = 1021,
-  CMD_SC_STATUS_INFO = 1023,
-  CMD_SC_STATUS_ACTION = 1024,
-  CMD_SC_ITEM_DELETE = 1030,
-  CMD_SC_ITEM_INFO = 1031,
-  CMD_SC_ITEM_CHANGE = 1032,
-  CMD_SC_TALK = 1033,
-  CMD_SC_TASK_INFO = 1040,
-  CMD_SC_TASK_DATA = 1041,
-  CMD_SC_DIALOG = 1042,
-  CMD_SC_ACHI_INFO = 1043,
-  CMD_SC_TEAMMEMBER_INFO = 1050,
-  CMD_SC_TEAMMEMBER_ACTION = 1051,
-  CMD_SC_TEAMINVITEMEMBER = 1052,
-  CMD_SC_TEAMAPPLYMEMBER = 1053,
+  CMD_CS_MAPVAL = 1009,
+  CMD_SC_AOI_NEW = 1020,
+  CMD_SC_AOI_REMOVE = 1021,
+  CMD_SC_AOI_UPDATE = 1022,
+  CMD_SC_CASTSKILL = 1031,
+  CMD_SC_SKILL_BREAK = 1032,
+  CMD_SC_SKILL_DAMAGE = 1033,
+  CMD_SC_SKILL_STUN = 1034,
+  CMD_SC_SKILL_EFFACT = 1035,
+  CMD_SC_DAMAGE = 1036,
+  CMD_SC_DEAD = 1037,
+  CMD_SC_ATTRIB_CHANGE = 1038,
+  CMD_SC_CHANGE_PKMODE = 1040,
+  CMD_SC_STATUS_LIST = 1041,
+  CMD_SC_STATUS_INFO = 1043,
+  CMD_SC_STATUS_ACTION = 1044,
+  CMD_SC_ITEM_DELETE = 1050,
+  CMD_SC_ITEM_INFO = 1051,
+  CMD_SC_ITEM_CHANGE = 1052,
+  CMD_SC_TALK = 1053,
+  CMD_SC_TASK_INFO = 1060,
+  CMD_SC_TASK_DATA = 1061,
+  CMD_SC_DIALOG = 1062,
+  CMD_SC_ACHI_INFO = 1063,
+  CMD_SC_TEAMMEMBER_INFO = 1070,
+  CMD_SC_TEAMMEMBER_ACTION = 1071,
+  CMD_SC_TEAMINVITEMEMBER = 1072,
+  CMD_SC_TEAMAPPLYMEMBER = 1073,
   ZONE_SC_CMD_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   ZONE_SC_CMD_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
@@ -3503,6 +3537,345 @@ class SC_AOI_UPDATE :
 };
 // -------------------------------------------------------------------
 
+class SC_MAPVAL_MapVal :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:SC_MAPVAL.MapVal) */ {
+ public:
+  SC_MAPVAL_MapVal();
+  virtual ~SC_MAPVAL_MapVal();
+
+  SC_MAPVAL_MapVal(const SC_MAPVAL_MapVal& from);
+  SC_MAPVAL_MapVal(SC_MAPVAL_MapVal&& from) noexcept
+    : SC_MAPVAL_MapVal() {
+    *this = ::std::move(from);
+  }
+
+  inline SC_MAPVAL_MapVal& operator=(const SC_MAPVAL_MapVal& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SC_MAPVAL_MapVal& operator=(SC_MAPVAL_MapVal&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const SC_MAPVAL_MapVal& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SC_MAPVAL_MapVal* internal_default_instance() {
+    return reinterpret_cast<const SC_MAPVAL_MapVal*>(
+               &_SC_MAPVAL_MapVal_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    16;
+
+  friend void swap(SC_MAPVAL_MapVal& a, SC_MAPVAL_MapVal& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SC_MAPVAL_MapVal* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SC_MAPVAL_MapVal* New() const final {
+    return CreateMaybeMessage<SC_MAPVAL_MapVal>(nullptr);
+  }
+
+  SC_MAPVAL_MapVal* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<SC_MAPVAL_MapVal>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const SC_MAPVAL_MapVal& from);
+  void MergeFrom(const SC_MAPVAL_MapVal& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SC_MAPVAL_MapVal* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "SC_MAPVAL.MapVal";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_msg_2fzone_5fservice_2eproto);
+    return ::descriptor_table_msg_2fzone_5fservice_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kValueFieldNumber = 2,
+    kKeyFieldNumber = 1,
+  };
+  // int64 value = 2;
+  void clear_value();
+  ::PROTOBUF_NAMESPACE_ID::int64 value() const;
+  void set_value(::PROTOBUF_NAMESPACE_ID::int64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int64 _internal_value() const;
+  void _internal_set_value(::PROTOBUF_NAMESPACE_ID::int64 value);
+  public:
+
+  // uint32 key = 1;
+  void clear_key();
+  ::PROTOBUF_NAMESPACE_ID::uint32 key() const;
+  void set_key(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_key() const;
+  void _internal_set_key(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:SC_MAPVAL.MapVal)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::int64 value_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 key_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_msg_2fzone_5fservice_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SC_MAPVAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:SC_MAPVAL) */ {
+ public:
+  SC_MAPVAL();
+  virtual ~SC_MAPVAL();
+
+  SC_MAPVAL(const SC_MAPVAL& from);
+  SC_MAPVAL(SC_MAPVAL&& from) noexcept
+    : SC_MAPVAL() {
+    *this = ::std::move(from);
+  }
+
+  inline SC_MAPVAL& operator=(const SC_MAPVAL& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SC_MAPVAL& operator=(SC_MAPVAL&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const SC_MAPVAL& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SC_MAPVAL* internal_default_instance() {
+    return reinterpret_cast<const SC_MAPVAL*>(
+               &_SC_MAPVAL_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    17;
+
+  friend void swap(SC_MAPVAL& a, SC_MAPVAL& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SC_MAPVAL* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SC_MAPVAL* New() const final {
+    return CreateMaybeMessage<SC_MAPVAL>(nullptr);
+  }
+
+  SC_MAPVAL* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<SC_MAPVAL>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const SC_MAPVAL& from);
+  void MergeFrom(const SC_MAPVAL& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SC_MAPVAL* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "SC_MAPVAL";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_msg_2fzone_5fservice_2eproto);
+    return ::descriptor_table_msg_2fzone_5fservice_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  typedef SC_MAPVAL_MapVal MapVal;
+
+  typedef SC_MAPVAL_State State;
+  static constexpr State SYNC_MAPVAL_ALL =
+    SC_MAPVAL_State_SYNC_MAPVAL_ALL;
+  static constexpr State SYNC_MAPVAL_ONE =
+    SC_MAPVAL_State_SYNC_MAPVAL_ONE;
+  static inline bool State_IsValid(int value) {
+    return SC_MAPVAL_State_IsValid(value);
+  }
+  static constexpr State State_MIN =
+    SC_MAPVAL_State_State_MIN;
+  static constexpr State State_MAX =
+    SC_MAPVAL_State_State_MAX;
+  static constexpr int State_ARRAYSIZE =
+    SC_MAPVAL_State_State_ARRAYSIZE;
+  static inline const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor*
+  State_descriptor() {
+    return SC_MAPVAL_State_descriptor();
+  }
+  template<typename T>
+  static inline const std::string& State_Name(T enum_t_value) {
+    static_assert(::std::is_same<T, State>::value ||
+      ::std::is_integral<T>::value,
+      "Incorrect type passed to function State_Name.");
+    return SC_MAPVAL_State_Name(enum_t_value);
+  }
+  static inline bool State_Parse(const std::string& name,
+      State* value) {
+    return SC_MAPVAL_State_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kMapValSetFieldNumber = 2,
+    kUserMapValSetFieldNumber = 3,
+    kStateFieldNumber = 1,
+  };
+  // repeated .SC_MAPVAL.MapVal map_val_set = 2;
+  int map_val_set_size() const;
+  private:
+  int _internal_map_val_set_size() const;
+  public:
+  void clear_map_val_set();
+  ::SC_MAPVAL_MapVal* mutable_map_val_set(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SC_MAPVAL_MapVal >*
+      mutable_map_val_set();
+  private:
+  const ::SC_MAPVAL_MapVal& _internal_map_val_set(int index) const;
+  ::SC_MAPVAL_MapVal* _internal_add_map_val_set();
+  public:
+  const ::SC_MAPVAL_MapVal& map_val_set(int index) const;
+  ::SC_MAPVAL_MapVal* add_map_val_set();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SC_MAPVAL_MapVal >&
+      map_val_set() const;
+
+  // repeated .SC_MAPVAL.MapVal user_map_val_set = 3;
+  int user_map_val_set_size() const;
+  private:
+  int _internal_user_map_val_set_size() const;
+  public:
+  void clear_user_map_val_set();
+  ::SC_MAPVAL_MapVal* mutable_user_map_val_set(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SC_MAPVAL_MapVal >*
+      mutable_user_map_val_set();
+  private:
+  const ::SC_MAPVAL_MapVal& _internal_user_map_val_set(int index) const;
+  ::SC_MAPVAL_MapVal* _internal_add_user_map_val_set();
+  public:
+  const ::SC_MAPVAL_MapVal& user_map_val_set(int index) const;
+  ::SC_MAPVAL_MapVal* add_user_map_val_set();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SC_MAPVAL_MapVal >&
+      user_map_val_set() const;
+
+  // .SC_MAPVAL.State state = 1;
+  void clear_state();
+  ::SC_MAPVAL_State state() const;
+  void set_state(::SC_MAPVAL_State value);
+  private:
+  ::SC_MAPVAL_State _internal_state() const;
+  void _internal_set_state(::SC_MAPVAL_State value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:SC_MAPVAL)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SC_MAPVAL_MapVal > map_val_set_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SC_MAPVAL_MapVal > user_map_val_set_;
+  int state_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_msg_2fzone_5fservice_2eproto;
+};
+// -------------------------------------------------------------------
+
 class SC_ATTRIB_CHANGE_Data :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:SC_ATTRIB_CHANGE.Data) */ {
  public:
@@ -3545,7 +3918,7 @@ class SC_ATTRIB_CHANGE_Data :
                &_SC_ATTRIB_CHANGE_Data_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    16;
+    18;
 
   friend void swap(SC_ATTRIB_CHANGE_Data& a, SC_ATTRIB_CHANGE_Data& b) {
     a.Swap(&b);
@@ -3702,7 +4075,7 @@ class SC_ATTRIB_CHANGE :
                &_SC_ATTRIB_CHANGE_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    17;
+    19;
 
   friend void swap(SC_ATTRIB_CHANGE& a, SC_ATTRIB_CHANGE& b) {
     a.Swap(&b);
@@ -3852,7 +4225,7 @@ class SC_STATUS_LIST :
                &_SC_STATUS_LIST_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    18;
+    20;
 
   friend void swap(SC_STATUS_LIST& a, SC_STATUS_LIST& b) {
     a.Swap(&b);
@@ -4030,7 +4403,7 @@ class SC_STATUS_INFO_Data :
                &_SC_STATUS_INFO_Data_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    19;
+    21;
 
   friend void swap(SC_STATUS_INFO_Data& a, SC_STATUS_INFO_Data& b) {
     a.Swap(&b);
@@ -4235,7 +4608,7 @@ class SC_STATUS_INFO :
                &_SC_STATUS_INFO_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    20;
+    22;
 
   friend void swap(SC_STATUS_INFO& a, SC_STATUS_INFO& b) {
     a.Swap(&b);
@@ -4385,7 +4758,7 @@ class SC_STATUS_ACTION :
                &_SC_STATUS_ACTION_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    21;
+    23;
 
   friend void swap(SC_STATUS_ACTION& a, SC_STATUS_ACTION& b) {
     a.Swap(&b);
@@ -4578,7 +4951,7 @@ class CS_MOVE :
                &_CS_MOVE_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    22;
+    24;
 
   friend void swap(CS_MOVE& a, CS_MOVE& b) {
     a.Swap(&b);
@@ -4739,7 +5112,7 @@ class CS_CHANGEMAP :
                &_CS_CHANGEMAP_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    23;
+    25;
 
   friend void swap(CS_CHANGEMAP& a, CS_CHANGEMAP& b) {
     a.Swap(&b);
@@ -4878,7 +5251,7 @@ class CS_CASTSKILL :
                &_CS_CASTSKILL_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    24;
+    26;
 
   friend void swap(CS_CASTSKILL& a, CS_CASTSKILL& b) {
     a.Swap(&b);
@@ -5050,7 +5423,7 @@ class SC_CASTSKILL :
                &_SC_CASTSKILL_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    25;
+    27;
 
   friend void swap(SC_CASTSKILL& a, SC_CASTSKILL& b) {
     a.Swap(&b);
@@ -5233,7 +5606,7 @@ class SC_SKILL_DAMAGE_DamageInfo :
                &_SC_SKILL_DAMAGE_DamageInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    26;
+    28;
 
   friend void swap(SC_SKILL_DAMAGE_DamageInfo& a, SC_SKILL_DAMAGE_DamageInfo& b) {
     a.Swap(&b);
@@ -5372,7 +5745,7 @@ class SC_SKILL_DAMAGE :
                &_SC_SKILL_DAMAGE_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    27;
+    29;
 
   friend void swap(SC_SKILL_DAMAGE& a, SC_SKILL_DAMAGE& b) {
     a.Swap(&b);
@@ -5544,7 +5917,7 @@ class CS_SKILL_BREAK :
                &_CS_SKILL_BREAK_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    28;
+    30;
 
   friend void swap(CS_SKILL_BREAK& a, CS_SKILL_BREAK& b) {
     a.Swap(&b);
@@ -5672,7 +6045,7 @@ class SC_SKILL_BREAK :
                &_SC_SKILL_BREAK_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    29;
+    31;
 
   friend void swap(SC_SKILL_BREAK& a, SC_SKILL_BREAK& b) {
     a.Swap(&b);
@@ -5811,7 +6184,7 @@ class CS_SKILL_CHGTARGETPOS :
                &_CS_SKILL_CHGTARGETPOS_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    30;
+    32;
 
   friend void swap(CS_SKILL_CHGTARGETPOS& a, CS_SKILL_CHGTARGETPOS& b) {
     a.Swap(&b);
@@ -5950,7 +6323,7 @@ class SC_SKILL_STUN :
                &_SC_SKILL_STUN_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    31;
+    33;
 
   friend void swap(SC_SKILL_STUN& a, SC_SKILL_STUN& b) {
     a.Swap(&b);
@@ -6111,7 +6484,7 @@ class SC_SKILL_EFFACT :
                &_SC_SKILL_EFFACT_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    32;
+    34;
 
   friend void swap(SC_SKILL_EFFACT& a, SC_SKILL_EFFACT& b) {
     a.Swap(&b);
@@ -6261,7 +6634,7 @@ class SC_DAMAGE :
                &_SC_DAMAGE_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    33;
+    35;
 
   friend void swap(SC_DAMAGE& a, SC_DAMAGE& b) {
     a.Swap(&b);
@@ -6433,7 +6806,7 @@ class SC_DEAD :
                &_SC_DEAD_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    34;
+    36;
 
   friend void swap(SC_DEAD& a, SC_DEAD& b) {
     a.Swap(&b);
@@ -6572,7 +6945,7 @@ class CS_CHANGE_PKMODE :
                &_CS_CHANGE_PKMODE_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    35;
+    37;
 
   friend void swap(CS_CHANGE_PKMODE& a, CS_CHANGE_PKMODE& b) {
     a.Swap(&b);
@@ -6700,7 +7073,7 @@ class SC_CHANGE_PKMODE :
                &_SC_CHANGE_PKMODE_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    36;
+    38;
 
   friend void swap(SC_CHANGE_PKMODE& a, SC_CHANGE_PKMODE& b) {
     a.Swap(&b);
@@ -6828,7 +7201,7 @@ class CS_REBORN :
                &_CS_REBORN_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    37;
+    39;
 
   friend void swap(CS_REBORN& a, CS_REBORN& b) {
     a.Swap(&b);
@@ -6956,7 +7329,7 @@ class SC_ITEM_INFO :
                &_SC_ITEM_INFO_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    38;
+    40;
 
   friend void swap(SC_ITEM_INFO& a, SC_ITEM_INFO& b) {
     a.Swap(&b);
@@ -7183,7 +7556,7 @@ class SC_ITEM_CHANGE_ChangeData :
                &_SC_ITEM_CHANGE_ChangeData_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    39;
+    41;
 
   friend void swap(SC_ITEM_CHANGE_ChangeData& a, SC_ITEM_CHANGE_ChangeData& b) {
     a.Swap(&b);
@@ -7322,7 +7695,7 @@ class SC_ITEM_CHANGE :
                &_SC_ITEM_CHANGE_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    40;
+    42;
 
   friend void swap(SC_ITEM_CHANGE& a, SC_ITEM_CHANGE& b) {
     a.Swap(&b);
@@ -7519,7 +7892,7 @@ class SC_ITEM_DELETE :
                &_SC_ITEM_DELETE_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    41;
+    43;
 
   friend void swap(SC_ITEM_DELETE& a, SC_ITEM_DELETE& b) {
     a.Swap(&b);
@@ -7669,7 +8042,7 @@ class CS_ITEM_SWAP :
                &_CS_ITEM_SWAP_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    42;
+    44;
 
   friend void swap(CS_ITEM_SWAP& a, CS_ITEM_SWAP& b) {
     a.Swap(&b);
@@ -7819,7 +8192,7 @@ class CS_ITEM_SPLIT :
                &_CS_ITEM_SPLIT_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    43;
+    45;
 
   friend void swap(CS_ITEM_SPLIT& a, CS_ITEM_SPLIT& b) {
     a.Swap(&b);
@@ -7980,7 +8353,7 @@ class CS_ITEM_COMBINE :
                &_CS_ITEM_COMBINE_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    44;
+    46;
 
   friend void swap(CS_ITEM_COMBINE& a, CS_ITEM_COMBINE& b) {
     a.Swap(&b);
@@ -8130,7 +8503,7 @@ class CS_ITEM_TIDY :
                &_CS_ITEM_TIDY_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    45;
+    47;
 
   friend void swap(CS_ITEM_TIDY& a, CS_ITEM_TIDY& b) {
     a.Swap(&b);
@@ -8258,7 +8631,7 @@ class CS_ITEM_USE :
                &_CS_ITEM_USE_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    46;
+    48;
 
   friend void swap(CS_ITEM_USE& a, CS_ITEM_USE& b) {
     a.Swap(&b);
@@ -8397,7 +8770,7 @@ class CS_ITEM_STORAGE_OPEN :
                &_CS_ITEM_STORAGE_OPEN_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    47;
+    49;
 
   friend void swap(CS_ITEM_STORAGE_OPEN& a, CS_ITEM_STORAGE_OPEN& b) {
     a.Swap(&b);
@@ -8512,7 +8885,7 @@ class CS_ITEM_STORAGE_CHECKOUT :
                &_CS_ITEM_STORAGE_CHECKOUT_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    48;
+    50;
 
   friend void swap(CS_ITEM_STORAGE_CHECKOUT& a, CS_ITEM_STORAGE_CHECKOUT& b) {
     a.Swap(&b);
@@ -8640,7 +9013,7 @@ class CS_ITEM_STORAGE_CHECKIN :
                &_CS_ITEM_STORAGE_CHECKIN_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    49;
+    51;
 
   friend void swap(CS_ITEM_STORAGE_CHECKIN& a, CS_ITEM_STORAGE_CHECKIN& b) {
     a.Swap(&b);
@@ -8768,7 +9141,7 @@ class CS_EQUIP :
                &_CS_EQUIP_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    50;
+    52;
 
   friend void swap(CS_EQUIP& a, CS_EQUIP& b) {
     a.Swap(&b);
@@ -8907,7 +9280,7 @@ class CS_UNEQUIP :
                &_CS_UNEQUIP_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    51;
+    53;
 
   friend void swap(CS_UNEQUIP& a, CS_UNEQUIP& b) {
     a.Swap(&b);
@@ -9035,7 +9408,7 @@ class CS_TALK :
                &_CS_TALK_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    52;
+    54;
 
   friend void swap(CS_TALK& a, CS_TALK& b) {
     a.Swap(&b);
@@ -9192,7 +9565,7 @@ class SC_TALK :
                &_SC_TALK_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    53;
+    55;
 
   friend void swap(SC_TALK& a, SC_TALK& b) {
     a.Swap(&b);
@@ -9431,7 +9804,7 @@ class SC_TASK_INFO_Info :
                &_SC_TASK_INFO_Info_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    54;
+    56;
 
   friend void swap(SC_TASK_INFO_Info& a, SC_TASK_INFO_Info& b) {
     a.Swap(&b);
@@ -9669,7 +10042,7 @@ class SC_TASK_INFO :
                &_SC_TASK_INFO_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    55;
+    57;
 
   friend void swap(SC_TASK_INFO& a, SC_TASK_INFO& b) {
     a.Swap(&b);
@@ -9808,7 +10181,7 @@ class SC_TASK_DATA :
                &_SC_TASK_DATA_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    56;
+    58;
 
   friend void swap(SC_TASK_DATA& a, SC_TASK_DATA& b) {
     a.Swap(&b);
@@ -9958,7 +10331,7 @@ class CS_TASK_SUBMIT :
                &_CS_TASK_SUBMIT_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    57;
+    59;
 
   friend void swap(CS_TASK_SUBMIT& a, CS_TASK_SUBMIT& b) {
     a.Swap(&b);
@@ -10097,7 +10470,7 @@ class CS_ACTIVE_NPC :
                &_CS_ACTIVE_NPC_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    58;
+    60;
 
   friend void swap(CS_ACTIVE_NPC& a, CS_ACTIVE_NPC& b) {
     a.Swap(&b);
@@ -10225,7 +10598,7 @@ class SC_DIALOG_dialog_link :
                &_SC_DIALOG_dialog_link_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    59;
+    61;
 
   friend void swap(SC_DIALOG_dialog_link& a, SC_DIALOG_dialog_link& b) {
     a.Swap(&b);
@@ -10371,7 +10744,7 @@ class SC_DIALOG :
                &_SC_DIALOG_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    60;
+    62;
 
   friend void swap(SC_DIALOG& a, SC_DIALOG& b) {
     a.Swap(&b);
@@ -10576,7 +10949,7 @@ class CS_DIALOG_CLICK :
                &_CS_DIALOG_CLICK_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    61;
+    63;
 
   friend void swap(CS_DIALOG_CLICK& a, CS_DIALOG_CLICK& b) {
     a.Swap(&b);
@@ -10715,7 +11088,7 @@ class SC_ACHI_INFO_Info :
                &_SC_ACHI_INFO_Info_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    62;
+    64;
 
   friend void swap(SC_ACHI_INFO_Info& a, SC_ACHI_INFO_Info& b) {
     a.Swap(&b);
@@ -10854,7 +11227,7 @@ class SC_ACHI_INFO :
                &_SC_ACHI_INFO_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    63;
+    65;
 
   friend void swap(SC_ACHI_INFO& a, SC_ACHI_INFO& b) {
     a.Swap(&b);
@@ -10993,7 +11366,7 @@ class CS_ACHI_TAKE :
                &_CS_ACHI_TAKE_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    64;
+    66;
 
   friend void swap(CS_ACHI_TAKE& a, CS_ACHI_TAKE& b) {
     a.Swap(&b);
@@ -11121,7 +11494,7 @@ class CS_TEAMCREATE :
                &_CS_TEAMCREATE_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    65;
+    67;
 
   friend void swap(CS_TEAMCREATE& a, CS_TEAMCREATE& b) {
     a.Swap(&b);
@@ -11236,7 +11609,7 @@ class CS_TEAMQUIT :
                &_CS_TEAMQUIT_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    66;
+    68;
 
   friend void swap(CS_TEAMQUIT& a, CS_TEAMQUIT& b) {
     a.Swap(&b);
@@ -11351,7 +11724,7 @@ class CS_TEAMKICKMEMBER :
                &_CS_TEAMKICKMEMBER_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    67;
+    69;
 
   friend void swap(CS_TEAMKICKMEMBER& a, CS_TEAMKICKMEMBER& b) {
     a.Swap(&b);
@@ -11479,7 +11852,7 @@ class CS_TEAMINVITEMEMBER :
                &_CS_TEAMINVITEMEMBER_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    68;
+    70;
 
   friend void swap(CS_TEAMINVITEMEMBER& a, CS_TEAMINVITEMEMBER& b) {
     a.Swap(&b);
@@ -11607,7 +11980,7 @@ class SC_TEAMINVITEMEMBER :
                &_SC_TEAMINVITEMEMBER_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    69;
+    71;
 
   friend void swap(SC_TEAMINVITEMEMBER& a, SC_TEAMINVITEMEMBER& b) {
     a.Swap(&b);
@@ -11764,7 +12137,7 @@ class CS_TEAMACCEPTINVITE :
                &_CS_TEAMACCEPTINVITE_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    70;
+    72;
 
   friend void swap(CS_TEAMACCEPTINVITE& a, CS_TEAMACCEPTINVITE& b) {
     a.Swap(&b);
@@ -11914,7 +12287,7 @@ class CS_TEAMNEWLEADER :
                &_CS_TEAMNEWLEADER_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    71;
+    73;
 
   friend void swap(CS_TEAMNEWLEADER& a, CS_TEAMNEWLEADER& b) {
     a.Swap(&b);
@@ -12042,7 +12415,7 @@ class SC_TEAMMEMBER_INFO_MemberInfo :
                &_SC_TEAMMEMBER_INFO_MemberInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    72;
+    74;
 
   friend void swap(SC_TEAMMEMBER_INFO_MemberInfo& a, SC_TEAMMEMBER_INFO_MemberInfo& b) {
     a.Swap(&b);
@@ -12210,7 +12583,7 @@ class SC_TEAMMEMBER_INFO :
                &_SC_TEAMMEMBER_INFO_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    73;
+    75;
 
   friend void swap(SC_TEAMMEMBER_INFO& a, SC_TEAMMEMBER_INFO& b) {
     a.Swap(&b);
@@ -12349,7 +12722,7 @@ class SC_TEAMMEMBER_ACTION :
                &_SC_TEAMMEMBER_ACTION_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    74;
+    76;
 
   friend void swap(SC_TEAMMEMBER_ACTION& a, SC_TEAMMEMBER_ACTION& b) {
     a.Swap(&b);
@@ -12583,7 +12956,7 @@ class CS_TEAMAPPLYMEMBER :
                &_CS_TEAMAPPLYMEMBER_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    75;
+    77;
 
   friend void swap(CS_TEAMAPPLYMEMBER& a, CS_TEAMAPPLYMEMBER& b) {
     a.Swap(&b);
@@ -12711,7 +13084,7 @@ class SC_TEAMAPPLYMEMBER :
                &_SC_TEAMAPPLYMEMBER_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    76;
+    78;
 
   friend void swap(SC_TEAMAPPLYMEMBER& a, SC_TEAMAPPLYMEMBER& b) {
     a.Swap(&b);
@@ -12857,7 +13230,7 @@ class CS_TEAMACCEPTAPPLY :
                &_CS_TEAMACCEPTAPPLY_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    77;
+    79;
 
   friend void swap(CS_TEAMACCEPTAPPLY& a, CS_TEAMACCEPTAPPLY& b) {
     a.Swap(&b);
@@ -15031,6 +15404,152 @@ inline void SC_AOI_UPDATE::_internal_set_posy(float value) {
 inline void SC_AOI_UPDATE::set_posy(float value) {
   _internal_set_posy(value);
   // @@protoc_insertion_point(field_set:SC_AOI_UPDATE.posy)
+}
+
+// -------------------------------------------------------------------
+
+// SC_MAPVAL_MapVal
+
+// uint32 key = 1;
+inline void SC_MAPVAL_MapVal::clear_key() {
+  key_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_MAPVAL_MapVal::_internal_key() const {
+  return key_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_MAPVAL_MapVal::key() const {
+  // @@protoc_insertion_point(field_get:SC_MAPVAL.MapVal.key)
+  return _internal_key();
+}
+inline void SC_MAPVAL_MapVal::_internal_set_key(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  key_ = value;
+}
+inline void SC_MAPVAL_MapVal::set_key(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_key(value);
+  // @@protoc_insertion_point(field_set:SC_MAPVAL.MapVal.key)
+}
+
+// int64 value = 2;
+inline void SC_MAPVAL_MapVal::clear_value() {
+  value_ = PROTOBUF_LONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 SC_MAPVAL_MapVal::_internal_value() const {
+  return value_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 SC_MAPVAL_MapVal::value() const {
+  // @@protoc_insertion_point(field_get:SC_MAPVAL.MapVal.value)
+  return _internal_value();
+}
+inline void SC_MAPVAL_MapVal::_internal_set_value(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  
+  value_ = value;
+}
+inline void SC_MAPVAL_MapVal::set_value(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  _internal_set_value(value);
+  // @@protoc_insertion_point(field_set:SC_MAPVAL.MapVal.value)
+}
+
+// -------------------------------------------------------------------
+
+// SC_MAPVAL
+
+// .SC_MAPVAL.State state = 1;
+inline void SC_MAPVAL::clear_state() {
+  state_ = 0;
+}
+inline ::SC_MAPVAL_State SC_MAPVAL::_internal_state() const {
+  return static_cast< ::SC_MAPVAL_State >(state_);
+}
+inline ::SC_MAPVAL_State SC_MAPVAL::state() const {
+  // @@protoc_insertion_point(field_get:SC_MAPVAL.state)
+  return _internal_state();
+}
+inline void SC_MAPVAL::_internal_set_state(::SC_MAPVAL_State value) {
+  
+  state_ = value;
+}
+inline void SC_MAPVAL::set_state(::SC_MAPVAL_State value) {
+  _internal_set_state(value);
+  // @@protoc_insertion_point(field_set:SC_MAPVAL.state)
+}
+
+// repeated .SC_MAPVAL.MapVal map_val_set = 2;
+inline int SC_MAPVAL::_internal_map_val_set_size() const {
+  return map_val_set_.size();
+}
+inline int SC_MAPVAL::map_val_set_size() const {
+  return _internal_map_val_set_size();
+}
+inline void SC_MAPVAL::clear_map_val_set() {
+  map_val_set_.Clear();
+}
+inline ::SC_MAPVAL_MapVal* SC_MAPVAL::mutable_map_val_set(int index) {
+  // @@protoc_insertion_point(field_mutable:SC_MAPVAL.map_val_set)
+  return map_val_set_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SC_MAPVAL_MapVal >*
+SC_MAPVAL::mutable_map_val_set() {
+  // @@protoc_insertion_point(field_mutable_list:SC_MAPVAL.map_val_set)
+  return &map_val_set_;
+}
+inline const ::SC_MAPVAL_MapVal& SC_MAPVAL::_internal_map_val_set(int index) const {
+  return map_val_set_.Get(index);
+}
+inline const ::SC_MAPVAL_MapVal& SC_MAPVAL::map_val_set(int index) const {
+  // @@protoc_insertion_point(field_get:SC_MAPVAL.map_val_set)
+  return _internal_map_val_set(index);
+}
+inline ::SC_MAPVAL_MapVal* SC_MAPVAL::_internal_add_map_val_set() {
+  return map_val_set_.Add();
+}
+inline ::SC_MAPVAL_MapVal* SC_MAPVAL::add_map_val_set() {
+  // @@protoc_insertion_point(field_add:SC_MAPVAL.map_val_set)
+  return _internal_add_map_val_set();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SC_MAPVAL_MapVal >&
+SC_MAPVAL::map_val_set() const {
+  // @@protoc_insertion_point(field_list:SC_MAPVAL.map_val_set)
+  return map_val_set_;
+}
+
+// repeated .SC_MAPVAL.MapVal user_map_val_set = 3;
+inline int SC_MAPVAL::_internal_user_map_val_set_size() const {
+  return user_map_val_set_.size();
+}
+inline int SC_MAPVAL::user_map_val_set_size() const {
+  return _internal_user_map_val_set_size();
+}
+inline void SC_MAPVAL::clear_user_map_val_set() {
+  user_map_val_set_.Clear();
+}
+inline ::SC_MAPVAL_MapVal* SC_MAPVAL::mutable_user_map_val_set(int index) {
+  // @@protoc_insertion_point(field_mutable:SC_MAPVAL.user_map_val_set)
+  return user_map_val_set_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SC_MAPVAL_MapVal >*
+SC_MAPVAL::mutable_user_map_val_set() {
+  // @@protoc_insertion_point(field_mutable_list:SC_MAPVAL.user_map_val_set)
+  return &user_map_val_set_;
+}
+inline const ::SC_MAPVAL_MapVal& SC_MAPVAL::_internal_user_map_val_set(int index) const {
+  return user_map_val_set_.Get(index);
+}
+inline const ::SC_MAPVAL_MapVal& SC_MAPVAL::user_map_val_set(int index) const {
+  // @@protoc_insertion_point(field_get:SC_MAPVAL.user_map_val_set)
+  return _internal_user_map_val_set(index);
+}
+inline ::SC_MAPVAL_MapVal* SC_MAPVAL::_internal_add_user_map_val_set() {
+  return user_map_val_set_.Add();
+}
+inline ::SC_MAPVAL_MapVal* SC_MAPVAL::add_user_map_val_set() {
+  // @@protoc_insertion_point(field_add:SC_MAPVAL.user_map_val_set)
+  return _internal_add_user_map_val_set();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SC_MAPVAL_MapVal >&
+SC_MAPVAL::user_map_val_set() const {
+  // @@protoc_insertion_point(field_list:SC_MAPVAL.user_map_val_set)
+  return user_map_val_set_;
 }
 
 // -------------------------------------------------------------------
@@ -19537,12 +20056,21 @@ inline void CS_TEAMACCEPTAPPLY::set_result(bool value) {
 
 // -------------------------------------------------------------------
 
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 
 
 PROTOBUF_NAMESPACE_OPEN
 
+template <> struct is_proto_enum< ::SC_MAPVAL_State> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::SC_MAPVAL_State>() {
+  return ::SC_MAPVAL_State_descriptor();
+}
 template <> struct is_proto_enum< ::SC_STATUS_ACTION_ACTION> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::SC_STATUS_ACTION_ACTION>() {

@@ -20,6 +20,7 @@ message Cfg_Scene_MonsterGenerator
 		uint32 wait_time = 11; //每次生成间隔时间
 		uint32 gen_max	 = 12; //生成多少个
 		uint32 camp_id	 = 13; //阵营ID
+		uint64 phase_id	 = 14; //位面ID
 	}
 
 	repeated Row rows = 1;

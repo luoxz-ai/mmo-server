@@ -96,7 +96,7 @@ public:
      */
     void add(Rule&& r) { _rules.push_back(std::move(r)); }
 
-    void merge(RuleSet& rht)
+    void merge(const RuleSet& rht)
     {
         _rules.reserve(_rules.size() + rht._rules.size());
         _rules.insert(_rules.end(), rht._rules.begin(), rht._rules.end());

@@ -14,6 +14,21 @@
 #include "User.h"
 #include "UserManager.h"
 
+#include "AccountManager.h"
+#include "GMManager.h"
+#include "MapManager.h"
+#include "SystemVars.h"
+#include "TeamManager.h"
+
+#include "UserAttr.h"
+#include "BornPos.h"
+
+#include "gamedb.h"
+#include "globaldb.h"
+#include "MonitorMgr.h"
+
+
+
 static thread_local CWorldService* tls_pService = nullptr;
 CWorldService*                     WorldService()
 {
@@ -151,12 +166,8 @@ bool CWorldService::Init(const ServerPort& nServerPort)
         return false;
     }
     
-
-    m_pUserAttrSet.reset(CUserAttrSet::CreateNew("res/config/Cfg_UserAttr.bytes"));
-    CHECKF(m_pUserAttrSet.get());
-
-    m_pBornPosSet.reset(CBornPosSet::CreateNew("res/config/Cfg_BornPos.bytes"));
-    CHECKF(m_pBornPosSet.get());
+    DEFINE_CONFIG_LOAD(CUserAttrSet);
+    DEFINE_CONFIG_LOAD(CBornPosSet);
 
     m_pMapManager.reset(CMapManager::CreateNew(0));
     CHECKF(m_pMapManager.get());
@@ -211,7 +222,7 @@ void CWorldService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
     __LEAVE_FUNCTION
 }
 
-void CWorldService::_ID2VS(OBJID id, CWorldService::VSMap_t& VSMap)
+void CWorldService::_ID2VS(OBJID id, VirtualSocketMap_t& VSMap)
 {
     __ENTER_FUNCTION
     CUser* pUser = GetUserManager()->QueryUser(id);
@@ -351,6 +362,7 @@ void CWorldService::OnLogicThreadProc()
         }
 
         LOGMONITOR("{}", buf.c_str());
+        m_pMonitorMgr->Print();
         SetMessageProcess(0);
     }
 

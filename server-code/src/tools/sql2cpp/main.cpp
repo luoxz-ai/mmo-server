@@ -7,6 +7,7 @@
 
 #include "fmt/format.h"
 #include "fmt/printf.h"
+#include "get_opt.h"
 
 //////////////////////////////////////////////////////////////////////
 std::string ReplaceStr(std::string& strSource, const std::string& strRepl, const std::string& strNew)
@@ -44,15 +45,17 @@ int main(int argc, char** argv)
         std::cout << "ddl2cpp [in_file_name] [out_dir] [out_file_name]" << std::endl;
         return 0;
     }
-
-    std::string in_file_name{argv[1]};
-    std::string out_dir{argv[2]};
-    std::string out_file_name{argv[3]};
+     get_opt                  opt(argc, (const char**)argv);
+    
+    std::string in_file_name = opt["--input"];
+    std::string out_dir = opt["--outdir"];
+    std::string out_file_name= opt["--output"];
+    bool bDebug = opt.has("--debug");
 
     std::ifstream input_file(in_file_name);
     if(input_file.is_open() == false)
     {
-        std::cout << "gamedb.sql open fail" << std::endl;
+        std::cout << in_file_name << " open fail" << std::endl;
         return -1;
     }
     std::string input_string((std::istreambuf_iterator<char>(input_file)), std::istreambuf_iterator<char>());
@@ -63,7 +66,10 @@ int main(int argc, char** argv)
     auto        vecString = split_string(input_string, ";");
     for(auto& v: vecString)
     {
-        std::cout << "string1:" << v << std::endl;
+        if(bDebug)
+        {
+            std::cout << "string1:" << v << std::endl;
+        }
 
         std::string regextxt = R"(CREATE TABLE `(.*)` \(([\s\S]*)\) ENGINE=InnoDB (.*))";
         std::smatch base_match;
@@ -165,7 +171,7 @@ int main(int argc, char** argv)
                                 field_type_enum = "DB_FIELD_TYPE_LONGLONG";
                             }
                         }
-                        else if(field_type == "int32_t")
+                        else if(field_type == "int")
                         {
                             if(bUnsigned)
                             {
@@ -269,7 +275,10 @@ struct {0}
                            is_pri_key_list.c_str());
 
             output_header += szBuf;
-            fmt::printf("%s", szBuf);
+            if(bDebug)
+            {
+                fmt::printf("%s", szBuf);
+            }
 
             {
                 std::string output_format = R"(
@@ -290,7 +299,10 @@ constexpr bool {}::pri_key_idx[];
                                table_name_UP.c_str());
 
                 output_cpp += szBuf;
-                fmt::printf("%s", szBuf);
+                if(bDebug)
+                {
+                    fmt::printf("%s", szBuf);
+                }
             }
         }
     }

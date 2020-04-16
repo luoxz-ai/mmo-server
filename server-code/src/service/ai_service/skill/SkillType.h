@@ -77,7 +77,7 @@ export_lua enum SkillFlag {
     SKILLFLAG_LAUNCH_CANBREAK = 0x00200000, // 该技能释放时是否允许自行打断
 };
 
-class CSkillType: public Noncopyable<CSkillType>
+class CSkillType: public NoncopyableT<CSkillType>
 {
     CSkillType() {}
     bool Init(const Cfg_Skill_Row& row)
@@ -147,9 +147,9 @@ private:
     std::vector<CActorAttribChange> m_AttribChangeList;
 };
 
-typedef CGameDataMap<CSkillType> CSkillTypeSet;
+DEFINE_GAMEMAPDATA(CSkillTypeSet,CSkillType);
 
-class CSkillAttachStatusData : public Noncopyable<CSkillAttachStatusData>
+class CSkillAttachStatusData : public NoncopyableT<CSkillAttachStatusData>
 {
     CSkillAttachStatusData() {}
     bool Init(const Cfg_SkillAttachStatus_Row& row)
@@ -182,9 +182,10 @@ private:
     Cfg_SkillAttachStatus_Row m_Data;
 };
 
-typedef CGameMultiDataMap<CSkillAttachStatusData> CSkillAttachStatusDataSet;
+DEFINE_MULTIGAMEMAPDATA(CSkillAttachStatusDataSet,CSkillAttachStatusData);
 
-class CSkillDetachStatusData : public Noncopyable<CSkillDetachStatusData>
+
+class CSkillDetachStatusData : public NoncopyableT<CSkillDetachStatusData>
 {
     CSkillDetachStatusData() {}
     bool Init(const Cfg_SkillDetachStatus_Row& row)
@@ -213,7 +214,6 @@ public:
 private:
     Cfg_SkillDetachStatus_Row m_Data;
 };
-
-typedef CGameMultiDataMap<CSkillDetachStatusData> CSkillDetachStatusDataSet;
+DEFINE_MULTIGAMEMAPDATA(CSkillDetachStatusDataSet,CSkillDetachStatusData);
 
 #endif /* SKILLTYPE_H */

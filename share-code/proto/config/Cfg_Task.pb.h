@@ -545,6 +545,7 @@ class Cfg_Task_Row :
     kSubmitMultipleCostFieldNumber = 17,
     kQuickSubmitCostFieldNumber = 18,
     kNextAutoAcceptTaskIdFieldNumber = 19,
+    kTaskPhaseIdFieldNumber = 23,
     kAwardExpFieldNumber = 20,
     kScriptidFieldNumber = 30,
   };
@@ -830,6 +831,15 @@ class Cfg_Task_Row :
   void _internal_set_next_auto_accept_task_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
+  // uint64 task_phase_id = 23;
+  void clear_task_phase_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 task_phase_id() const;
+  void set_task_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_task_phase_id() const;
+  void _internal_set_task_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
   // uint32 award_exp = 20;
   void clear_award_exp();
   ::PROTOBUF_NAMESPACE_ID::uint32 award_exp() const;
@@ -877,6 +887,7 @@ class Cfg_Task_Row :
   ::PROTOBUF_NAMESPACE_ID::uint32 submit_multiple_cost_;
   ::PROTOBUF_NAMESPACE_ID::uint32 quick_submit_cost_;
   ::PROTOBUF_NAMESPACE_ID::uint32 next_auto_accept_task_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 task_phase_id_;
   ::PROTOBUF_NAMESPACE_ID::uint32 award_exp_;
   ::PROTOBUF_NAMESPACE_ID::int64 scriptid_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -1772,6 +1783,26 @@ inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Cfg_Task_Row_TaskFinis
 Cfg_Task_Row::finish_data_list() const {
   // @@protoc_insertion_point(field_list:Cfg_Task.Row.finish_data_list)
   return finish_data_list_;
+}
+
+// uint64 task_phase_id = 23;
+inline void Cfg_Task_Row::clear_task_phase_id() {
+  task_phase_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 Cfg_Task_Row::_internal_task_phase_id() const {
+  return task_phase_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 Cfg_Task_Row::task_phase_id() const {
+  // @@protoc_insertion_point(field_get:Cfg_Task.Row.task_phase_id)
+  return _internal_task_phase_id();
+}
+inline void Cfg_Task_Row::_internal_set_task_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  task_phase_id_ = value;
+}
+inline void Cfg_Task_Row::set_task_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_task_phase_id(value);
+  // @@protoc_insertion_point(field_set:Cfg_Task.Row.task_phase_id)
 }
 
 // int64 scriptid = 30;

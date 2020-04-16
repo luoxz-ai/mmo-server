@@ -12,7 +12,6 @@
 #include "DropRule.h"
 #include "DynaMonster.h"
 #include "DynaNpc.h"
-#include "DynaScene.h"
 #include "Equipment.h"
 #include "Frield.h"
 #include "FrieldSet.h"
@@ -30,7 +29,7 @@
 #include "MailBox.h"
 #include "Mall.h"
 #include "MapItem.h"
-#include "MonitorMgr.h"
+#include "MapVal.h"
 #include "Monster.h"
 #include "MonsterType.h"
 #include "MsgZoneProcess.h"
@@ -40,6 +39,7 @@
 #include "Pet.h"
 #include "PetSet.h"
 #include "PetType.h"
+#include "Phase.h"
 #include "Player.h"
 #include "PlayerAchievement.h"
 #include "PlayerTask.h"
@@ -180,6 +180,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CActor>(L, "CalcDefence", &CActor::CalcDefence);
     lua_tinker::class_def<CActor>(L, "CanDamage", &CActor::CanDamage);
     lua_tinker::class_def<CActor>(L, "CanMove", &CActor::CanMove);
+    lua_tinker::class_def<CActor>(L, "ChangePhase", &CActor::ChangePhase);
     lua_tinker::class_def<CActor>(L, "CheckCanMove", &CActor::CheckCanMove, true);
     lua_tinker::class_def<CActor>(L, "ClearViewList", &CActor::ClearViewList);
     lua_tinker::class_def<CActor>(L, "DelThis", &CActor::DelThis);
@@ -206,7 +207,6 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CActor>(L, "GetNP", &CActor::GetNP);
     lua_tinker::class_def<CActor>(L, "GetNPMax", &CActor::GetNPMax);
     lua_tinker::class_def<CActor>(L, "GetName", &CActor::GetName);
-    lua_tinker::class_def<CActor>(L, "GetOwnerID", &CActor::GetOwnerID);
     lua_tinker::class_def<CActor>(L, "GetProperty", &CActor::GetProperty);
     lua_tinker::class_def<CActor>(L, "GetPropertyMax", &CActor::GetPropertyMax);
     lua_tinker::class_def<CActor>(L, "GetSceneID", &CActor::GetSceneID);
@@ -331,6 +331,8 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CGameMap>(L, "GetMapType", &CGameMap::GetMapType);
     lua_tinker::class_def<CGameMap>(L, "GetPatrolData", &CGameMap::GetPatrolData);
     lua_tinker::class_def<CGameMap>(L, "GetPatrolDataByIdx", &CGameMap::GetPatrolDataByIdx);
+    lua_tinker::class_def<CGameMap>(L, "GetPhaseData", &CGameMap::GetPhaseData);
+    lua_tinker::class_def<CGameMap>(L, "GetPhaseDataById", &CGameMap::GetPhaseDataById);
     lua_tinker::class_def<CGameMap>(L, "GetRebornData", &CGameMap::GetRebornData);
     lua_tinker::class_def<CGameMap>(L, "GetRebornDataByIdx", &CGameMap::GetRebornDataByIdx);
     lua_tinker::class_def<CGameMap>(L, "GetSPRegionIdx", &CGameMap::GetSPRegionIdx);
@@ -454,6 +456,23 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CMapItem>(L, "GetActorType", &CMapItem::GetActorType);
     lua_tinker::class_def_static<CMapItem>(L, "GetActorTypeStatic", &CMapItem::GetActorTypeStatic);
     lua_tinker::class_def<CMapItem>(L, "GetTypeID", &CMapItem::GetTypeID);
+    lua_tinker::class_add<CMapManager>(L, "CMapManager", false);
+    lua_tinker::class_def<CMapManager>(L, "ForEach", &CMapManager::ForEach);
+    lua_tinker::class_def<CMapManager>(L, "QueryMap", &CMapManager::QueryMap);
+    lua_tinker::class_def<CMapManager>(L, "QueryMapData", &CMapManager::QueryMapData);
+    lua_tinker::class_add<CMapValSet>(L, "CMapValSet", false);
+    lua_tinker::class_def<CMapValSet>(L, "AddMapUserVal", &CMapValSet::AddMapUserVal, false);
+    lua_tinker::class_def<CMapValSet>(L, "AddMapVal", &CMapValSet::AddMapVal, false);
+    lua_tinker::class_def<CMapValSet>(L, "ClearAllMapUserVal", &CMapValSet::ClearAllMapUserVal);
+    lua_tinker::class_def<CMapValSet>(L, "ClearAllMapVal", &CMapValSet::ClearAllMapVal);
+    lua_tinker::class_def<CMapValSet>(L, "ClearMapUserVal", &CMapValSet::ClearMapUserVal);
+    lua_tinker::class_def<CMapValSet>(L, "ClearMapVal", &CMapValSet::ClearMapVal);
+    lua_tinker::class_def<CMapValSet>(L, "GetMapUserVal", &CMapValSet::GetMapUserVal);
+    lua_tinker::class_def<CMapValSet>(L, "GetMapVal", &CMapValSet::GetMapVal);
+    lua_tinker::class_def<CMapValSet>(L, "SendAllMapValToClient", &CMapValSet::SendAllMapValToClient);
+    lua_tinker::class_def<CMapValSet>(L, "SetMapUserVal", &CMapValSet::SetMapUserVal, false);
+    lua_tinker::class_def<CMapValSet>(L, "SetMapVal", &CMapValSet::SetMapVal, false);
+    lua_tinker::class_def<CMapValSet>(L, "SyncAllMapVal", &CMapValSet::SyncAllMapVal);
     lua_tinker::class_add<CMonster>(L, "CMonster", false);
     lua_tinker::class_def<CMonster>(L, "BeKillBy", &CMonster::BeKillBy);
     lua_tinker::class_def<CMonster>(L, "CanDamage", &CMonster::CanDamage);
@@ -650,6 +669,24 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CPet>(L, "_SetHP", &CPet::_SetHP);
     lua_tinker::class_def<CPet>(L, "_SetMP", &CPet::_SetMP);
     lua_tinker::class_def<CPet>(L, "_SetNP", &CPet::_SetNP);
+    lua_tinker::class_add<CPhase>(L, "CPhase", false);
+    lua_tinker::class_def<CPhase>(L, "AddDynaRegion", &CPhase::AddDynaRegion);
+    lua_tinker::class_def<CPhase>(L, "AddTimedCallback", &CPhase::AddTimedCallback);
+    lua_tinker::class_def<CPhase>(L, "CanDestory", &CPhase::CanDestory);
+    lua_tinker::class_def<CPhase>(L, "ClearAllCllback", &CPhase::ClearAllCllback);
+    lua_tinker::class_def<CPhase>(L, "ClearDynaRegion", &CPhase::ClearDynaRegion);
+    lua_tinker::class_def<CPhase>(L, "CreateMonster", &CPhase::CreateMonster);
+    lua_tinker::class_def<CPhase>(L, "CreateMultiMonster", &CPhase::CreateMultiMonster);
+    lua_tinker::class_def<CPhase>(L, "CreateNpc", &CPhase::CreateNpc);
+    lua_tinker::class_def<CPhase>(L, "GetMapValSet", &CPhase::GetMapValSet);
+    lua_tinker::class_def<CPhase>(L, "GetPhaseID", &CPhase::GetPhaseID);
+    lua_tinker::class_def<CPhase>(L, "GetPhaseIdx", &CPhase::GetPhaseIdx);
+    lua_tinker::class_def<CPhase>(L, "GetSceneState", &CPhase::GetSceneState);
+    lua_tinker::class_def<CPhase>(L, "KickAllPlayer", &CPhase::KickAllPlayer, "");
+    lua_tinker::class_def<CPhase>(L, "NeedDestory", &CPhase::NeedDestory);
+    lua_tinker::class_def<CPhase>(L, "SendSceneMessage", &CPhase::SendSceneMessage);
+    lua_tinker::class_def<CPhase>(L, "SetSceneState", &CPhase::SetSceneState);
+    lua_tinker::class_def<CPhase>(L, "_KickPlayer", &CPhase::_KickPlayer);
     lua_tinker::class_add<CPlayer>(L, "CPlayer", false);
     lua_tinker::class_def<CPlayer>(L, "ActiveNpc", &CPlayer::ActiveNpc);
     lua_tinker::class_def<CPlayer>(L, "AwardBattleExp", &CPlayer::AwardBattleExp);
@@ -657,7 +694,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CPlayer>(L, "AwardItem", &CPlayer::AwardItem);
     lua_tinker::class_def<CPlayer>(L, "AwardMeony", &CPlayer::AwardMeony);
     lua_tinker::class_def<CPlayer>(L, "BeKillBy", &CPlayer::BeKillBy);
-    lua_tinker::class_def<CPlayer>(L, "BrodacastShow", &CPlayer::BrodacastShow);
+    lua_tinker::class_def<CPlayer>(L, "BroadcastShow", &CPlayer::BroadcastShow);
     lua_tinker::class_def<CPlayer>(L, "CanDamage", &CPlayer::CanDamage);
     lua_tinker::class_def<CPlayer>(L, "CheckItem", &CPlayer::CheckItem, 1, 0);
     lua_tinker::class_def<CPlayer>(L, "CheckMoney", &CPlayer::CheckMoney);
@@ -665,7 +702,6 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CPlayer>(L, "DialogAddText", &CPlayer::DialogAddText);
     lua_tinker::class_def<CPlayer>(L, "DialogBegin", &CPlayer::DialogBegin);
     lua_tinker::class_def<CPlayer>(L, "DialogSend", &CPlayer::DialogSend, 0);
-    lua_tinker::class_def<CPlayer>(L, "EnterDynaScene", &CPlayer::EnterDynaScene);
     lua_tinker::class_def<CPlayer>(L, "FlyMap", &CPlayer::FlyMap);
     lua_tinker::class_def<CPlayer>(L, "GetAchiPoint", &CPlayer::GetAchiPoint);
     lua_tinker::class_def<CPlayer>(L, "GetAchievement", &CPlayer::GetAchievement);
@@ -800,47 +836,32 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CPlayerTaskData>(L, "SetNum", &CPlayerTaskData::SetNum, true);
     lua_tinker::class_def<CPlayerTaskData>(L, "SetState", &CPlayerTaskData::SetState, true);
     lua_tinker::class_add<CScene>(L, "CScene", false);
-    lua_tinker::class_def<CScene>(L, "AddDynaRegion", &CScene::AddDynaRegion);
-    lua_tinker::class_def<CScene>(L, "AddMapUserVal", &CScene::AddMapUserVal, false);
-    lua_tinker::class_def<CScene>(L, "AddMapVal", &CScene::AddMapVal, false);
-    lua_tinker::class_def<CScene>(L, "AddTimedCallback", &CScene::AddTimedCallback);
-    lua_tinker::class_def<CScene>(L, "CanDestory", &CScene::CanDestory);
-    lua_tinker::class_def<CScene>(L, "ClearAllCllback", &CScene::ClearAllCllback);
-    lua_tinker::class_def<CScene>(L, "ClearAllMapUserVal", &CScene::ClearAllMapUserVal);
-    lua_tinker::class_def<CScene>(L, "ClearAllMapVal", &CScene::ClearAllMapVal);
-    lua_tinker::class_def<CScene>(L, "ClearDynaRegion", &CScene::ClearDynaRegion);
-    lua_tinker::class_def<CScene>(L, "ClearMapUserVal", &CScene::ClearMapUserVal);
-    lua_tinker::class_def<CScene>(L, "ClearMapVal", &CScene::ClearMapVal);
-    lua_tinker::class_def<CScene>(L, "CreateMonster", &CScene::CreateMonster);
-    lua_tinker::class_def<CScene>(L, "CreateMultiMonster", &CScene::CreateMultiMonster);
-    lua_tinker::class_def<CScene>(L, "CreateNpc", &CScene::CreateNpc);
-    lua_tinker::class_def<CScene>(L, "GetMapUserVal", &CScene::GetMapUserVal);
-    lua_tinker::class_def<CScene>(L, "GetMapVal", &CScene::GetMapVal);
-    lua_tinker::class_def<CScene>(L, "GetSceneState", &CScene::GetSceneState);
+    lua_tinker::class_def<CScene>(
+        L,
+        "CreatePhase",
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr((CPhase * (CScene::*)(uint64_t))(&CScene::CreatePhase)),
+            lua_tinker::make_member_functor_ptr((CPhase * (CScene::*)(uint64_t, PhaseData*))(&CScene::CreatePhase))));
+    lua_tinker::class_def<CScene>(L, "DestoryPhase", &CScene::DestoryPhase);
+    lua_tinker::class_def<CScene>(L, "ForEach", &CScene::ForEach);
     lua_tinker::class_def<CScene>(L, "KickAllPlayer", &CScene::KickAllPlayer, "");
-    lua_tinker::class_def<CScene>(L, "NeedDestory", &CScene::NeedDestory);
-    lua_tinker::class_def<CScene>(L, "OnMsgCreateMonster", &CScene::OnMsgCreateMonster);
-    lua_tinker::class_def<CScene>(L, "OnMsgCreateMultiMonster", &CScene::OnMsgCreateMultiMonster);
-    lua_tinker::class_def<CScene>(L, "SendAllMapValToClient", &CScene::SendAllMapValToClient);
-    lua_tinker::class_def<CScene>(L, "SendSceneMessage", &CScene::SendSceneMessage);
-    lua_tinker::class_def<CScene>(L, "SetMapUserVal", &CScene::SetMapUserVal, false);
-    lua_tinker::class_def<CScene>(L, "SetMapVal", &CScene::SetMapVal, false);
-    lua_tinker::class_def<CScene>(L, "SetSceneState", &CScene::SetSceneState);
-    lua_tinker::class_def<CScene>(L, "SyncAllMapVal", &CScene::SyncAllMapVal);
+    lua_tinker::class_def<CScene>(L, "QueryPhase", &CScene::QueryPhase);
     lua_tinker::class_def<CScene>(L, "_KickPlayer", &CScene::_KickPlayer);
     lua_tinker::class_add<CSceneManager>(L, "CSceneManager", false);
     lua_tinker::class_def<CSceneManager>(L, "CreateDynaScene", &CSceneManager::CreateDynaScene);
-    lua_tinker::class_def<CSceneManager>(L, "DestoryDynaScene", &CSceneManager::DestoryDynaScene);
+    lua_tinker::class_def<CSceneManager>(L, "CreatePhase", &CSceneManager::CreatePhase);
     lua_tinker::class_def<CSceneManager>(L, "ForEach", &CSceneManager::ForEach);
     lua_tinker::class_def<CSceneManager>(L, "GetDynaSceneCount", &CSceneManager::GetDynaSceneCount);
     lua_tinker::class_def<CSceneManager>(L, "GetSceneCount", &CSceneManager::GetSceneCount);
-    lua_tinker::class_def<CSceneManager>(L, "QueryScene", &CSceneManager::QueryScene);
+    lua_tinker::class_def<CSceneManager>(L, "QueryPhase", &CSceneManager::QueryPhase);
     lua_tinker::class_def<CSceneManager>(L, "QueryStaticScene", &CSceneManager::QueryStaticScene);
     lua_tinker::class_def<CSceneManager>(L, "_CreateStaticScene", &CSceneManager::_CreateStaticScene);
+    lua_tinker::class_def<CSceneManager>(L, "_QueryScene", &CSceneManager::_QueryScene);
     lua_tinker::class_add<CServiceCommon>(L, "CServiceCommon", false);
     lua_tinker::class_def<CServiceCommon>(L, "CreateUID", &CServiceCommon::CreateUID);
     lua_tinker::class_def<CServiceCommon>(L, "GetAIServerVirtualSocket", &CServiceCommon::GetAIServerVirtualSocket);
     lua_tinker::class_def<CServiceCommon>(L, "GetEventManager", &CServiceCommon::GetEventManager);
+    lua_tinker::class_def<CServiceCommon>(L, "GetMonitorMgr", &CServiceCommon::GetMonitorMgr);
     lua_tinker::class_def<CServiceCommon>(L, "GetNetMsgProcess", &CServiceCommon::GetNetMsgProcess);
     lua_tinker::class_def<CServiceCommon>(L, "GetNetworkService", &CServiceCommon::GetNetworkService);
     lua_tinker::class_def<CServiceCommon>(L, "GetServerPort", &CServiceCommon::GetServerPort);
@@ -948,7 +969,6 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CZoneService>(L, "GetGameDB", &CZoneService::GetGameDB);
     lua_tinker::class_def<CZoneService>(L, "GetLoadingThread", &CZoneService::GetLoadingThread);
     lua_tinker::class_def<CZoneService>(L, "GetMapManager", &CZoneService::GetMapManager);
-    lua_tinker::class_def<CZoneService>(L, "GetMonitorMgr", &CZoneService::GetMonitorMgr);
     lua_tinker::class_def<CZoneService>(L, "GetSceneManager", &CZoneService::GetSceneManager);
     lua_tinker::class_def<CZoneService>(L, "GetScriptManager", &CZoneService::GetScriptManager);
     lua_tinker::class_def<CZoneService>(L, "GetSystemVarSet", &CZoneService::GetSystemVarSet);
@@ -957,6 +977,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CZoneService>(L, "SendMsgToPlayer", &CZoneService::SendMsgToPlayer);
     lua_tinker::class_def<CZoneService>(L, "SendMsgToWorld", &CZoneService::SendMsgToWorld);
     lua_tinker::class_def<CZoneService>(L, "TransmiteMsgFromWorldToOther", &CZoneService::TransmiteMsgFromWorldToOther);
+    lua_tinker::class_add<CreateMonsterParam>(L, "CreateMonsterParam", false);
     lua_tinker::class_add<Degree>(L, "Degree", false);
     lua_tinker::class_def<Degree>(L, "operator!=", &Degree::operator!=);
     lua_tinker::class_def<Degree>(
@@ -1145,6 +1166,23 @@ void zone2lua(lua_State* L)
     lua_tinker::class_mem<ST_ITEMINFO>(L, "nGrid", &ST_ITEMINFO::nGrid);
     lua_tinker::class_mem<ST_ITEMINFO>(L, "nNum", &ST_ITEMINFO::nNum);
     lua_tinker::class_mem<ST_ITEMINFO>(L, "nPosition", &ST_ITEMINFO::nPosition);
+    lua_tinker::class_add<SceneID>(L, "SceneID", false);
+    lua_tinker::class_def<SceneID>(L, "GetMapID", &SceneID::GetMapID);
+    lua_tinker::class_def<SceneID>(L, "GetPhaseIdx", &SceneID::GetPhaseIdx);
+    lua_tinker::class_def<SceneID>(L, "GetSceneID", &SceneID::GetSceneID);
+    lua_tinker::class_def<SceneID>(L, "GetStaticPhaseSceneID", &SceneID::GetStaticPhaseSceneID);
+    lua_tinker::class_def<SceneID>(L, "GetZoneID", &SceneID::GetZoneID);
+    lua_tinker::class_def<SceneID>(L, "IsPhaseIdxVaild", &SceneID::IsPhaseIdxVaild);
+    lua_tinker::class_def<SceneID>(L, "__lt", &SceneID::operator<);
+    lua_tinker::class_def<SceneID>(L, "__eq", &SceneID::operator==);
+    lua_tinker::class_con<SceneID>(
+        L,
+        lua_tinker::args_type_overload_constructor(
+            new lua_tinker::constructor<SceneID, const SceneID&>(),
+            new lua_tinker::constructor<SceneID, uint16_t, uint16_t, uint32_t>(),
+            new lua_tinker::constructor<SceneID, uint64_t>(1 /*default_args_count*/, 1 /*default_args_start*/)),
+        0);
+    lua_tinker::class_mem<SceneID>(L, "data64", &SceneID::data64);
     lua_tinker::class_add<ServerPort>(L, "ServerPort", false);
     lua_tinker::class_def<ServerPort>(L, "GetData", &ServerPort::GetData);
     lua_tinker::class_def<ServerPort>(L, "GetServiceID", &ServerPort::GetServiceID);

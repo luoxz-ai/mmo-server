@@ -2,6 +2,8 @@
 
 #include "Player.h"
 #include "ZoneService.h"
+#include "ItemAddition.h"
+
 MEMORYHEAP_IMPLEMENTATION(CItemData, s_heap);
 
 std::string SaveItemExtraToJson(const ItemExtraData& extraData)

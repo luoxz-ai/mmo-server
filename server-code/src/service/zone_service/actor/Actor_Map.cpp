@@ -2,16 +2,32 @@
 #include "ActorManager.h"
 #include "Monster.h"
 #include "Player.h"
+#include "Phase.h"
 #include "Scene.h"
 #include "SceneTree.h"
+#include "SceneManager.h"
 #include "ZoneService.h"
+#include "server_msg/server_side.pb.h"
+
+void CActor::ChangePhase(uint64_t idPhaseID)
+{
+    if(GetPhaseID() == idPhaseID)
+    {
+        return;
+    }
+    //make sure scene have this phase
+    SceneManager()->CreatePhase(m_pScene->GetSceneID(), idPhaseID);
+
+    _SetPhaseID(idPhaseID);
+    UpdateViewList();
+}
 
 void CActor::OnEnterMap(CSceneBase* pScene)
 {
     CHECK(pScene);
     CSceneObject::OnEnterMap(pScene);
 
-    static_cast<CScene*>(pScene)->TryExecScript<void>(SCB_MAP_ONENTERMAP, this);
+    static_cast<CPhase*>(pScene)->TryExecScript<void>(SCB_MAP_ONENTERMAP, this);
 }
 
 void CActor::OnLeaveMap(uint64_t idTargetScene)
@@ -26,7 +42,7 @@ void CActor::OnLeaveMap(uint64_t idTargetScene)
     }
 
     if(m_pScene)
-        static_cast<CScene*>(m_pScene)->TryExecScript<void>(SCB_MAP_ONLEAVEMAP, this, idTargetScene);
+        static_cast<CPhase*>(m_pScene)->TryExecScript<void>(SCB_MAP_ONLEAVEMAP, this, idTargetScene);
 
     CSceneObject::OnLeaveMap(idTargetScene);
 
@@ -52,12 +68,8 @@ uint64_t CActor::GetSceneID() const
 void CActor::SendRoomMessage(uint16_t cmd, const google::protobuf::Message& msg, bool bIncludeSelf /*= true*/)
 {
     SendShowToDealyList();
-
-    if(bIncludeSelf)
-        ZoneService()->BroadcastMessageToPlayer(m_ViewActorsByType[ACT_PLAYER], cmd, msg, GetID());
-    else
-        ZoneService()->BroadcastMessageToPlayer(m_ViewActorsByType[ACT_PLAYER], cmd, msg, 0);
-
+    auto setSocketMap = ZoneService()->IDList2VSMap(m_ViewActorsByType[ACT_PLAYER], (bIncludeSelf) ?0:GetID());
+    ZoneService()->SendMsgTo(cmd, msg, setSocketMap);
     // send message to ai_service
     if( (IsMonster() || IsPlayer()) &&
         (cmd == CMD_SC_AOI_UPDATE || cmd == CMD_SC_CASTSKILL || cmd == CMD_SC_ATTRIB_CHANGE) )

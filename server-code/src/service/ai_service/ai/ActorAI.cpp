@@ -4,6 +4,8 @@
 #include "AIActor.h"
 #include "AIPathFinder.h"
 #include "AIService.h"
+#include "AIPhase.h"
+#include "AIActorManager.h"
 
 constexpr int32_t MOVE_PER_WAIT_MS = 500; //每500ms向zone发送一次移动消息
 

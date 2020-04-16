@@ -55,6 +55,7 @@ message Cfg_Task
 		}
 
 		repeated TaskFinishData finish_data_list = 22;
+		uint64 task_phase_id = 23; //任务相关位面
 
 		int64  scriptid	  = 30; //脚本id
 		string accept_txt = 31; //接取任务时的文本

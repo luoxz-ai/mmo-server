@@ -10,7 +10,7 @@ class CUser;
 class CTeam;
 
 class CNetworkMessage;
-class CTeamManager: public Noncopyable<CTeamManager>
+class CTeamManager: public NoncopyableT<CTeamManager>
 {
     CTeamManager();
 public:

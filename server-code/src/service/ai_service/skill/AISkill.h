@@ -4,7 +4,7 @@
 #include "AIFuzzyLogic.h"
 #include "SkillType.h"
 
-class CAISkillData: public Noncopyable<CAISkillData>
+class CAISkillData: public NoncopyableT<CAISkillData>
 {
     CAISkillData();
     bool Init(uint32_t idSkill);

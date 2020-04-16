@@ -163,12 +163,14 @@ class Cfg_Scene_Reborn_Row :
 
   enum : int {
     kIdmapFieldNumber = 1,
-    kIdxFieldNumber = 2,
-    kRebornFaceFieldNumber = 12,
+    kIdcampFieldNumber = 2,
+    kIdxFieldNumber = 3,
     kRebornMapFieldNumber = 8,
     kRebornXFieldNumber = 9,
     kRebornYFieldNumber = 10,
+    kRebornThisPhaseFieldNumber = 13,
     kRebornRangeFieldNumber = 11,
+    kRebornFaceFieldNumber = 12,
   };
   // uint32 idmap = 1;
   void clear_idmap();
@@ -179,22 +181,22 @@ class Cfg_Scene_Reborn_Row :
   void _internal_set_idmap(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 idx = 2;
+  // uint32 idcamp = 2;
+  void clear_idcamp();
+  ::PROTOBUF_NAMESPACE_ID::uint32 idcamp() const;
+  void set_idcamp(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_idcamp() const;
+  void _internal_set_idcamp(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 idx = 3;
   void clear_idx();
   ::PROTOBUF_NAMESPACE_ID::uint32 idx() const;
   void set_idx(::PROTOBUF_NAMESPACE_ID::uint32 value);
   private:
   ::PROTOBUF_NAMESPACE_ID::uint32 _internal_idx() const;
   void _internal_set_idx(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
-  // float reborn_face = 12;
-  void clear_reborn_face();
-  float reborn_face() const;
-  void set_reborn_face(float value);
-  private:
-  float _internal_reborn_face() const;
-  void _internal_set_reborn_face(float value);
   public:
 
   // uint32 reborn_map = 8;
@@ -224,6 +226,15 @@ class Cfg_Scene_Reborn_Row :
   void _internal_set_reborn_y(float value);
   public:
 
+  // bool reborn_this_phase = 13;
+  void clear_reborn_this_phase();
+  bool reborn_this_phase() const;
+  void set_reborn_this_phase(bool value);
+  private:
+  bool _internal_reborn_this_phase() const;
+  void _internal_set_reborn_this_phase(bool value);
+  public:
+
   // float reborn_range = 11;
   void clear_reborn_range();
   float reborn_range() const;
@@ -233,18 +244,29 @@ class Cfg_Scene_Reborn_Row :
   void _internal_set_reborn_range(float value);
   public:
 
+  // float reborn_face = 12;
+  void clear_reborn_face();
+  float reborn_face() const;
+  void set_reborn_face(float value);
+  private:
+  float _internal_reborn_face() const;
+  void _internal_set_reborn_face(float value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Cfg_Scene_Reborn.Row)
  private:
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
   ::PROTOBUF_NAMESPACE_ID::uint32 idmap_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 idcamp_;
   ::PROTOBUF_NAMESPACE_ID::uint32 idx_;
-  float reborn_face_;
   ::PROTOBUF_NAMESPACE_ID::uint32 reborn_map_;
   float reborn_x_;
   float reborn_y_;
+  bool reborn_this_phase_;
   float reborn_range_;
+  float reborn_face_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_config_2fCfg_5fScene_5fReborn_2eproto;
 };
@@ -407,7 +429,27 @@ inline void Cfg_Scene_Reborn_Row::set_idmap(::PROTOBUF_NAMESPACE_ID::uint32 valu
   // @@protoc_insertion_point(field_set:Cfg_Scene_Reborn.Row.idmap)
 }
 
-// uint32 idx = 2;
+// uint32 idcamp = 2;
+inline void Cfg_Scene_Reborn_Row::clear_idcamp() {
+  idcamp_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Scene_Reborn_Row::_internal_idcamp() const {
+  return idcamp_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Scene_Reborn_Row::idcamp() const {
+  // @@protoc_insertion_point(field_get:Cfg_Scene_Reborn.Row.idcamp)
+  return _internal_idcamp();
+}
+inline void Cfg_Scene_Reborn_Row::_internal_set_idcamp(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  idcamp_ = value;
+}
+inline void Cfg_Scene_Reborn_Row::set_idcamp(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_idcamp(value);
+  // @@protoc_insertion_point(field_set:Cfg_Scene_Reborn.Row.idcamp)
+}
+
+// uint32 idx = 3;
 inline void Cfg_Scene_Reborn_Row::clear_idx() {
   idx_ = 0u;
 }
@@ -525,6 +567,26 @@ inline void Cfg_Scene_Reborn_Row::_internal_set_reborn_face(float value) {
 inline void Cfg_Scene_Reborn_Row::set_reborn_face(float value) {
   _internal_set_reborn_face(value);
   // @@protoc_insertion_point(field_set:Cfg_Scene_Reborn.Row.reborn_face)
+}
+
+// bool reborn_this_phase = 13;
+inline void Cfg_Scene_Reborn_Row::clear_reborn_this_phase() {
+  reborn_this_phase_ = false;
+}
+inline bool Cfg_Scene_Reborn_Row::_internal_reborn_this_phase() const {
+  return reborn_this_phase_;
+}
+inline bool Cfg_Scene_Reborn_Row::reborn_this_phase() const {
+  // @@protoc_insertion_point(field_get:Cfg_Scene_Reborn.Row.reborn_this_phase)
+  return _internal_reborn_this_phase();
+}
+inline void Cfg_Scene_Reborn_Row::_internal_set_reborn_this_phase(bool value) {
+  
+  reborn_this_phase_ = value;
+}
+inline void Cfg_Scene_Reborn_Row::set_reborn_this_phase(bool value) {
+  _internal_set_reborn_this_phase(value);
+  // @@protoc_insertion_point(field_set:Cfg_Scene_Reborn.Row.reborn_this_phase)
 }
 
 // -------------------------------------------------------------------

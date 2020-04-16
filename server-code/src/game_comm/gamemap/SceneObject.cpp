@@ -18,8 +18,8 @@ void CSceneObject::SetPos(const Vector2& pos)
     m_Pos = pos;
     if(m_pScene)
     {
-        SetSceneNode(m_pScene->GetSceneNodeByPos(GetPosX(), GetPosY()));
-        SetCollisionNode(m_pScene->GetCollisionNodeByPos(GetPosX(), GetPosY(), GetActorType()));
+        SetSceneTile(m_pScene->GetSceneTree()->GetSceneTileByPos(GetPosX(), GetPosY()));
+        SetCollisionTile(m_pScene->GetSceneTree()->GetCollisionTileByPos(GetPosX(), GetPosY(), GetActorType()));
     }
     __LEAVE_FUNCTION
 }
@@ -33,14 +33,14 @@ void CSceneObject::FaceTo(const Vector2& pos)
 void CSceneObject::OnEnterMap(CSceneBase* pScene)
 {
     m_pScene = pScene;
-    SetSceneNode(pScene->GetSceneNodeByPos(GetPosX(), GetPosY()));
-    SetCollisionNode(pScene->GetCollisionNodeByPos(GetPosX(), GetPosY(), GetActorType()));
+    SetSceneTile(pScene->GetSceneTree()->GetSceneTileByPos(GetPosX(), GetPosY()));
+    SetCollisionTile(pScene->GetSceneTree()->GetCollisionTileByPos(GetPosX(), GetPosY(), GetActorType()));
 }
 
 void CSceneObject::OnLeaveMap(uint64_t idTargetScene)
 {
-    SetSceneNode(nullptr);
-    SetCollisionNode(nullptr);
+    SetSceneTile(nullptr);
+    SetCollisionTile(nullptr);
     m_pScene = nullptr;
 }
 
@@ -49,21 +49,21 @@ void CSceneObject::SetHideCoude(int32_t nHideCount)
     if(nHideCount == 0)
     {
         m_nHideCount = nHideCount;
-        SetSceneNode(GetCurrentScene()->GetSceneNodeByPos(GetPosX(), GetPosY()));
-        SetCollisionNode(GetCurrentScene()->GetCollisionNodeByPos(GetPosX(), GetPosY(), GetActorType()));
+        SetSceneTile(GetCurrentScene()->GetSceneTree()->GetSceneTileByPos(GetPosX(), GetPosY()));
+        SetCollisionTile(GetCurrentScene()->GetSceneTree()->GetCollisionTileByPos(GetPosX(), GetPosY(), GetActorType()));
     }
     else
     {
-        SetSceneNode(nullptr);
-        SetCollisionNode(nullptr);
+        SetSceneTile(nullptr);
+        SetCollisionTile(nullptr);
         m_nHideCount = nHideCount;
     }
 }
 
 void CSceneObject::AddHide()
 {
-    SetSceneNode(nullptr);
-    SetCollisionNode(nullptr);
+    SetSceneTile(nullptr);
+    SetCollisionTile(nullptr);
 
     m_nHideCount++;
 }
@@ -73,8 +73,8 @@ void CSceneObject::RemoveHide()
     m_nHideCount--;
     if(m_nHideCount == 0)
     {
-        SetSceneNode(m_pScene->GetSceneNodeByPos(GetPosX(), GetPosY()));
-        SetCollisionNode(m_pScene->GetCollisionNodeByPos(GetPosX(), GetPosY(), GetActorType()));
+        SetSceneTile(m_pScene->GetSceneTree()->GetSceneTileByPos(GetPosX(), GetPosY()));
+        SetCollisionTile(m_pScene->GetSceneTree()->GetCollisionTileByPos(GetPosX(), GetPosY(), GetActorType()));
     }
 }
 
@@ -93,38 +93,49 @@ uint32_t CSceneObject::GetCurrentViewMonsterCount()
     return m_ViewActorsByType[ACT_MONSTER].size();
 }
 
-void CSceneObject::SetSceneNode(CSceneNode* val)
+void CSceneObject::SetSceneTile(CSceneTile* val)
 {
     __ENTER_FUNCTION
 
-    if(m_pSceneNode == val)
+    if(m_pSceneTile == val)
         return;
     if(m_nHideCount != 0)
         return;
 
-    if(m_pSceneNode)
-        m_pSceneNode->RemoveActor(this);
-    m_pSceneNode = val;
-    if(m_pSceneNode)
-        m_pSceneNode->AddActor(this);
+    if(m_pSceneTile)
+        m_pSceneTile->RemoveActor(this);
+    m_pSceneTile = val;
+    if(m_pSceneTile)
+        m_pSceneTile->AddActor(this);
     __LEAVE_FUNCTION
 }
 
-void CSceneObject::SetCollisionNode(CSceneCollisionNode* val)
+void CSceneObject::SetCollisionTile(CSceneCollisionTile* val)
 {
     __ENTER_FUNCTION
 
-    if(m_pCollisionNode == val)
+    if(m_pCollisionTile == val)
         return;
     if(m_nHideCount > 0)
         return;
 
-    if(m_pCollisionNode)
-        m_pCollisionNode->RemoveActor(this);
-    m_pCollisionNode = val;
-    if(m_pCollisionNode)
-        m_pCollisionNode->AddActor(this);
+    if(m_pCollisionTile)
+        m_pCollisionTile->RemoveActor(this);
+    m_pCollisionTile = val;
+    if(m_pCollisionTile)
+        m_pCollisionTile->AddActor(this);
     __LEAVE_FUNCTION
+}
+
+void CSceneObject::ChangePhase(uint64_t idPhaseID)
+{
+    if(GetPhaseID() == idPhaseID)
+    {
+        return;
+    }
+
+    _SetPhaseID(idPhaseID);
+    UpdateViewList();
 }
 
 bool CSceneObject::IsEnemy(CSceneObject* pTarget) const
@@ -191,6 +202,8 @@ void CSceneObject::AddToViewList(CSceneObject* pActor)
 //////////////////////////////////////////////////////////////////////
 bool CSceneObject::UpdateViewList()
 {
+    CHECKF(GetCurrentScene());
+    CHECKF(GetSceneTile());
     //////////////////////////////////////////////////////////////////////////
     // 为了减少重新搜索广播集的次数，这里采用的策略是划分3*3格的逻辑格子，
     // 只有首次进入地图或逻辑格子发生变化的时候才重新进行搜索
@@ -206,14 +219,14 @@ bool CSceneObject::UpdateViewList()
     typedef std::deque<ACTOR_MAP_BY_DIS_DATA> ACTOR_MAP_BY_DIS;
     ACTOR_MAP_BY_DIS                          sortedAllViewActorByDist;
 
-    uint32_t viewcount_max         = GetCurrentScene()->GetViewCount();
-    uint32_t view_range_in_square  = GetCurrentScene()->GetViewRangeInSquare();
-    uint32_t view_range_out_square = GetCurrentScene()->GetViewRangeOutSquare();
+    uint32_t viewcount_max         = GetCurrentScene()->GetSceneTree()->GetViewCount();
+    uint32_t view_range_in_square  = GetCurrentScene()->GetSceneTree()->GetViewRangeInSquare();
+    uint32_t view_range_out_square = GetCurrentScene()->GetSceneTree()->GetViewRangeOutSquare();
     // 广播集算法修改测试
     //////////////////////////////////////////////////////////////////////////
     // step1: 获取当前广播集范围内的对象
     {
-        GetCurrentScene()->foreach_SceneNodeInSight(
+        GetCurrentScene()->GetSceneTree()->foreach_SceneTileInSight(
             GetPosX(),
             GetPosY(),
             [thisActor = this,
@@ -221,9 +234,9 @@ bool CSceneObject::UpdateViewList()
              &mapAllViewActor,
              &sortedAllViewActorByDist,
              view_range_in_square,
-             viewcount_max](CSceneNode* pSceneNode) 
+             viewcount_max](CSceneTile* pSceneTile) 
              {
-                const auto& actor_list = *pSceneNode;
+                const auto& actor_list = *pSceneTile;
                 for(CSceneObject* pActor: actor_list)
                 {
                     if(pActor == thisActor)

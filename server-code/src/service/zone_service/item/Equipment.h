@@ -9,7 +9,7 @@
 class CItem;
 class CItemType;
 class CPlayer;
-export_lua class CEquipment : public Noncopyable<CEquipment>
+export_lua class CEquipment : public NoncopyableT<CEquipment>
 {
 protected:
     CEquipment();

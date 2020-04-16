@@ -8,9 +8,11 @@
 
 class CMessageRoute;
 class CMessagePort;
+class CMonitorMgr;
 
+using VirtualSocketMap_t = std::unordered_map<ServerPort, std::vector<VirtualSocket>>;
 
-export_lua class CServiceCommon : public Noncopyable<CServiceCommon>
+export_lua class CServiceCommon : public NoncopyableT<CServiceCommon>
 {
 protected:
     CServiceCommon();
@@ -71,10 +73,40 @@ public:
                           const CNetworkMessage&            msg);
     bool SendPortMultiIDMsg(const ServerPort& nServerPort, const std::vector<OBJID>& setVS, const CNetworkMessage& msg);
 
+    template<class T>
+    VirtualSocketMap_t IDList2VSMap(const T& idList, OBJID idExtInclude = 0)
+    {
+        VirtualSocketMap_t setSocketMap;
+        if constexpr(std::is_invocable<T>::value)
+        {
+            idList([this, &setSocketMap](OBJID id) { _ID2VS(id, setSocketMap); });
+        }
+        else if constexpr(std::is_same<typename T::value_type, OBJID>::value)
+        {
+            for(OBJID id: idList)
+            {
+                _ID2VS(id, setSocketMap);
+            }
+        }
+        else
+        {
+            for(const auto& [id, v]: idList)
+            {
+                _ID2VS(id, setSocketMap);
+            }
+        }
+
+        if(idExtInclude != 0)
+            _ID2VS(idExtInclude, setSocketMap);
+
+        return setSocketMap;
+    }
+    virtual void _ID2VS(OBJID id, VirtualSocketMap_t& VSMap){}
+    bool SendMsgTo(uint16_t nCmd, const google::protobuf::Message& msg,const VirtualSocketMap_t& setSocketMap);
 public:
     export_lua CEventManager* GetEventManager() const { return m_pEventManager.get(); }
     export_lua CNetMSGProcess* GetNetMsgProcess() const { return m_pNetMsgProcess.get(); }
-
+    export_lua CMonitorMgr* GetMonitorMgr() { return m_pMonitorMgr.get(); }
 protected:
     std::unique_ptr<CNetworkService> m_pNetworkService;
     CMessagePort*    m_pMessagePort;
@@ -86,7 +118,7 @@ protected:
     CUIDFactory                     m_UIDFactory;
     std::string                     m_ServiceName;
     uint32_t                        m_nMessageProcess = 0;
-
+    std::unique_ptr<CMonitorMgr>    m_pMonitorMgr;
 
 };
 #endif /* SERVICECOMM_H */

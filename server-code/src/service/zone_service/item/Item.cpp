@@ -2,6 +2,8 @@
 
 #include "Actor.h"
 #include "ZoneService.h"
+#include "ItemAddition.h"
+
 CItem::CItem() {}
 
 CItem::~CItem() {}

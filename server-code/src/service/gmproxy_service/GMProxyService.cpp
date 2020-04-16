@@ -23,6 +23,7 @@
 #include "proxy_service.pb.h"
 #include "server_msg/server_side.pb.h"
 #include "tinyxml2/tinyxml2.h"
+#include "MonitorMgr.h"
 
 // handle HTTP response of accessing builtin services of the target server.
 static void handle_response(brpc::Controller*          client_cntl,

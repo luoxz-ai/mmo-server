@@ -10,6 +10,7 @@
 #include "NetworkMessage.h"
 #include "Player.h"
 #include "ZoneService.h"
+#include "ActorManager.h"
 #include "server_msg/server_side.pb.h"
 
 class CNetworkMessage;

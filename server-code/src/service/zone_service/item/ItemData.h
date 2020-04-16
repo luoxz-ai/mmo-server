@@ -3,6 +3,8 @@
 
 #include "DBRecord.h"
 #include "ItemType.h"
+#include "gamedb.h"
+
 //////////////////////////////////////////////////////////////////////
 export_lua struct ST_ITEMINFO
 {
@@ -17,7 +19,7 @@ export_lua struct ST_ITEMINFO
 };
 
 class CItemAdditionData;
-export_lua class CItemData : public Noncopyable<CItemData>
+export_lua class CItemData : public NoncopyableT<CItemData>
 {
 protected:
     CItemData();

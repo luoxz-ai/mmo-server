@@ -2,6 +2,8 @@
 
 #include "Item.h"
 #include "Player.h"
+#include "SuitEquip.h"
+#include "ItemAddition.h"
 #include "ZoneService.h"
 CEquipment::CEquipment() {}
 
@@ -431,7 +433,7 @@ void CEquipment::CheckItemExpire(uint32_t dwTimeNow)
     if(bRecalcAbility)
     {
         m_pOwner->RecalcAttrib();
-        m_pOwner->BrodacastShow();
+        m_pOwner->BroadcastShow();
     }
     __LEAVE_FUNCTION
 }

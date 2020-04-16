@@ -79,6 +79,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_config_2fCfg_5fNpc_2eproto::of
   PROTOBUF_FIELD_OFFSET(::Cfg_Npc_Row, face_),
   PROTOBUF_FIELD_OFFSET(::Cfg_Npc_Row, high_),
   PROTOBUF_FIELD_OFFSET(::Cfg_Npc_Row, volume_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Npc_Row, phase_id_),
   PROTOBUF_FIELD_OFFSET(::Cfg_Npc_Row, attr_data_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Cfg_Npc, _internal_metadata_),
@@ -89,7 +90,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_config_2fCfg_5fNpc_2eproto::of
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::Cfg_Npc_Row)},
-  { 21, -1, sizeof(::Cfg_Npc)},
+  { 22, -1, sizeof(::Cfg_Npc)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -99,15 +100,16 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_config_2fCfg_5fNpc_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\024config/Cfg_Npc.proto\032\"common/AttribCha"
-  "ngeDataProto.proto\"\303\002\n\007Cfg_Npc\022\032\n\004rows\030\001"
-  " \003(\0132\014.Cfg_Npc.Row\032\233\002\n\003Row\022\n\n\002id\030\001 \001(\r\022\r"
+  "ngeDataProto.proto\"\325\002\n\007Cfg_Npc\022\032\n\004rows\030\001"
+  " \003(\0132\014.Cfg_Npc.Row\032\255\002\n\003Row\022\n\n\002id\030\001 \001(\r\022\r"
   "\n\005level\030\002 \001(\r\022\014\n\004name\030\003 \001(\t\022\022\n\ndialog_tx"
   "t\030\004 \001(\t\022\021\n\ttype_flag\030\005 \001(\r\022\017\n\007shop_id\030\006 "
   "\001(\r\022\025\n\rshop_linkname\030\007 \001(\t\022\016\n\006idcamp\030\010 \001"
   "(\r\022\020\n\010scriptid\030\t \001(\004\022\r\n\005mapid\030\n \001(\r\022\014\n\004p"
   "osx\030\013 \001(\002\022\014\n\004posy\030\014 \001(\002\022\014\n\004face\030\r \001(\002\022\014\n"
-  "\004high\030\016 \001(\002\022\016\n\006volume\030\017 \001(\002\022#\n\tattr_data"
-  "\030\024 \001(\0132\020.AttribDataProtoB\002H\002b\006proto3"
+  "\004high\030\016 \001(\002\022\016\n\006volume\030\017 \001(\002\022\020\n\010phase_id\030"
+  "\020 \001(\004\022#\n\tattr_data\030\024 \001(\0132\020.AttribDataPro"
+  "toB\002H\002b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_config_2fCfg_5fNpc_2eproto_deps[1] = {
   &::descriptor_table_common_2fAttribChangeDataProto_2eproto,
@@ -119,7 +121,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_con
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_config_2fCfg_5fNpc_2eproto_once;
 static bool descriptor_table_config_2fCfg_5fNpc_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_config_2fCfg_5fNpc_2eproto = {
-  &descriptor_table_config_2fCfg_5fNpc_2eproto_initialized, descriptor_table_protodef_config_2fCfg_5fNpc_2eproto, "config/Cfg_Npc.proto", 396,
+  &descriptor_table_config_2fCfg_5fNpc_2eproto_initialized, descriptor_table_protodef_config_2fCfg_5fNpc_2eproto, "config/Cfg_Npc.proto", 414,
   &descriptor_table_config_2fCfg_5fNpc_2eproto_once, descriptor_table_config_2fCfg_5fNpc_2eproto_sccs, descriptor_table_config_2fCfg_5fNpc_2eproto_deps, 2, 1,
   schemas, file_default_instances, TableStruct_config_2fCfg_5fNpc_2eproto::offsets,
   file_level_metadata_config_2fCfg_5fNpc_2eproto, 2, file_level_enum_descriptors_config_2fCfg_5fNpc_2eproto, file_level_service_descriptors_config_2fCfg_5fNpc_2eproto,

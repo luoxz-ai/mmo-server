@@ -3,6 +3,11 @@
 
 #include "Common.pb.h"
 
+static inline std::string GetCfgFilePath() 
+{
+    return "res/config/";
+} 
+
 constexpr char GMCMD_PREFIX = '@';
 //多少个账号以后开始排队,缓慢进入
 constexpr int32_t _START_WAITING_ACCOUNT_COUNT = 2000;
@@ -62,11 +67,12 @@ enum ActorType
 {
     ACT_UNKNOW  = 0,
     ACT_MONSTER = 1, //怪物
-    ACT_NPC     = 2, // NPC
+    ACT_NPC     = 2, //NPC
     ACT_PET     = 3, //宠物
-    ACT_PLAYER  = 4, //玩家
-    ACT_MAPITEM = 5, //掉落物
-    ACT_BULLET  = 6, //子弹对象
+    ACT_MAPITEM = 4, //掉落物
+    ACT_BULLET  = 5, //子弹对象
+
+    ACT_PLAYER  = 9, //玩家
     ACT_MAX
 };
 

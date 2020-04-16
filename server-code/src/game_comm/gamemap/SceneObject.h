@@ -5,15 +5,15 @@
 #include "game_common_def.h"
 
 class CSceneBase;
-class CSceneNode;
-class CSceneCollisionNode;
+class CSceneTile;
+class CSceneCollisionTile;
 
 class CSceneObject;
 typedef std::set<OBJID>                                         BROADCAST_SET;
 typedef std::unordered_map<uint32_t, std::unordered_set<OBJID>> BROADCAST_SET_BYTYPE;
 typedef std::unordered_map<OBJID, CSceneObject*>                ACTOR_MAP;
 
-class CSceneObject : public Noncopyable<CSceneObject>
+class CSceneObject : public NoncopyableT<CSceneObject>
 {
 protected:
     CSceneObject();
@@ -40,15 +40,21 @@ public:
     export_lua bool IsPet() const { return GetActorType() == ACT_PET; }
 
     export_lua CSceneBase* GetCurrentScene() const { return m_pScene; }
-    export_lua CSceneNode* GetSceneNode() const { return m_pSceneNode; }
-    export_lua CSceneCollisionNode* GetCollisionNode() const { return m_pCollisionNode; }
+    export_lua CSceneTile* GetSceneTile() const { return m_pSceneTile; }
+    export_lua CSceneCollisionTile* GetCollisionTile() const { return m_pCollisionTile; }
 
-    export_lua void SetSceneNode(CSceneNode* val);
-    export_lua void SetCollisionNode(CSceneCollisionNode* val);
+    export_lua void SetSceneTile(CSceneTile* val);
+    export_lua void SetCollisionTile(CSceneCollisionTile* val);
+
+    export_lua uint64_t         GetPhaseID() const {return m_idPhaseID;}
+    export_lua void             _SetPhaseID(uint64_t idPhaseID) {m_idPhaseID = idPhaseID;}
+    export_lua virtual void     ChangePhase(uint64_t idPhaseID);
 
     export_lua OBJID GetID() const { return m_ID; }
     void             SetID(OBJID v) { m_ID = v; }
 
+    export_lua virtual OBJID         GetOwnerID() const { return 0; }
+    
     export_lua virtual const CPos2D& GetPos() const { return m_Pos; }
     export_lua virtual CPos2D&       GetPosRef() { return m_Pos; }
     export_lua virtual float         GetPosX() const { return m_Pos.x; }
@@ -107,9 +113,11 @@ public:
 
 protected:
     OBJID                m_ID             = 0;       // id
+    uint64_t             m_idPhaseID      = 0; //位面ID
+
     CSceneBase*          m_pScene         = nullptr; //场景
-    CSceneNode*          m_pSceneNode     = nullptr;
-    CSceneCollisionNode* m_pCollisionNode = nullptr;
+    CSceneTile*          m_pSceneTile     = nullptr;
+    CSceneCollisionTile* m_pCollisionTile = nullptr;
     CPos2D               m_Pos;         //当前的位置
     float                m_Face = 0.0f; //当前的朝向
     BROADCAST_SET        m_ViewActors;  // 视野内的生物

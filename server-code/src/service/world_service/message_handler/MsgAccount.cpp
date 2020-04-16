@@ -2,6 +2,7 @@
 #include "WorldService.h"
 #include "Account.h"
 #include "AccountManager.h"
+#include "GMManager.h"
 #include "msg/zone_service.pb.h"
 #include "msg/world_service.pb.h"
 #include "MD5.h"

@@ -6,7 +6,7 @@
 #include "DBRecord.h"
 
 class CPlayer;
-export_lua class CPlayerAchievement : public Noncopyable<CPlayerAchievement>
+export_lua class CPlayerAchievement : public NoncopyableT<CPlayerAchievement>
 {
     CPlayerAchievement();
     bool Init(CPlayer* pPlayer);

@@ -179,21 +179,39 @@ bool CPlayerTask::Init(CPlayer* pPlayer)
                 LOGERROR("load player {} task:{} fail", m_pOwner->GetID(), i);
                 continue;
             }
+            auto pType = TaskTypeSet()->QueryObj(pData->GetTaskID());
+            if(pType == nullptr)
+            {
+                LOGERROR("load player {} taskid:{} is already deleted!!!!", m_pOwner->GetID(), pTaskData->GetTaskID());
+                pTaskData->DelRecord();
+                SAFE_DELETE(pTaskData);
+                continue;
+            }
 
             auto it = m_setTask.find(pTaskData->GetTaskID());
             if(it != m_setTask.end())
             {
                 LOGERROR("load player {} taskid:{} twice!!!!", m_pOwner->GetID(), pTaskData->GetTaskID());
                 auto pOldTaskData = it->second;
-                pOldTaskData->DelRecord();
-                if(pTaskData->IsTaskDoing())
+                if(pOldTaskData->IsTaskDoing() && pType->HasFlag(TASKFLAG_HIDE) == false)
+                {
                     --m_nCurAcceptNum;
+                }
+                RemoveTaskPhase(pOldTaskData, false);
+                pOldTaskData->DelRecord();
                 SAFE_DELETE(pOldTaskData);
             }
 
             m_setTask[pTaskData->GetTaskID()] = pTaskData;
             if(pTaskData->IsTaskDoing())
-                ++m_nCurAcceptNum;
+            {
+                AddTaskPhase(pTaskData, false);
+                if(pType->HasFlag(TASKFLAG_HIDE) == false)
+                {
+                    ++m_nCurAcceptNum;
+                }
+            }
+            
         }
     }
 
@@ -212,6 +230,28 @@ CPlayerTaskData* CPlayerTask::QueryTaskData(uint32_t idTask)
     }
     __LEAVE_FUNCTION
     return nullptr;
+}
+
+void CPlayerTask::AddTaskPhase(CPlayerTaskData* pData)
+{
+    CHECK(pData);
+    auto pType = TaskTypeSet()->QueryObj(pData->GetTaskID());
+    CHECKF(pType);
+    if(pType->GetTaskPhaseID() != 0)
+    {
+        m_pOwner->AddTaskPhase(pType->GetTaskPhaseID());
+    }
+}
+
+void CPlayerTask::RemoveTaskPhase(CPlayerTaskData* pData)
+{
+    CHECK(pData);
+    auto pType = TaskTypeSet()->QueryObj(pData->GetTaskID());
+    CHECKF(pType);
+    if(pType->GetTaskPhaseID() != 0)
+    {
+        m_pOwner->RemoveTaskPhase(pType->GetTaskPhaseID());
+    }
 }
 
 bool CPlayerTask::AcceptTask(uint32_t idTask, bool bChkCondition /*= true*/, bool bIgnoreChkNum /*= false*/)
@@ -287,7 +327,12 @@ bool CPlayerTask::AcceptTask(uint32_t idTask, bool bChkCondition /*= true*/, boo
     pData->SetState(TASKSTATE_ACCEPTED);
     for(uint32_t i = 0; i < MAX_TASKDATA_NUM; i++)
         pData->SetNum(i, 0, UPDATE_FALSE);
-    ++m_nCurAcceptNum;
+
+    if(pType->HasFlag(TASKFLAG_HIDE) == false)
+    {
+        ++m_nCurAcceptNum;
+    }
+    AddTaskPhase(pData);
 
     if(pType->GetScriptID() != 0)
         ScriptManager()->TryExecScript<void>(pType->GetScriptID(), SCB_TASK_ON_ACCEPT, m_pOwner, pData);
@@ -340,6 +385,7 @@ bool CPlayerTask::AcceptTask(uint32_t idTask, bool bChkCondition /*= true*/, boo
         }
     }
     pData->SaveInfo();
+    
 
     if(pType->HasFlag(TASKFLAG_HIDE) == false)
         SendTaskInfo(pData);
@@ -396,6 +442,7 @@ bool CPlayerTask::SubmitTask(uint32_t idTask, uint32_t nSubmitMultiple)
         m_nCurAcceptNum--;
         SendTaskInfo(pData);
     }
+    RemoveTaskPhase(pData);
 
     if(nSubmitMultiple > 0 && nSubmitMultiple <= pType->GetSubmitMultipleMax() && pType->GetSubmitMultipleCost() > 0)
     {
@@ -477,7 +524,7 @@ bool CPlayerTask::GiveupTask(uint32_t idTask)
 
     pData->SetFinishTime(TimeGetSecond(), UPDATE_FALSE);
     pData->SetState(TASKSTATE_FINISHED, UPDATE_TRUE);
-
+    RemoveTaskPhase(pData);
     if(pTaskType->GetScriptID() != 0)
         ScriptManager()->TryExecScript<void>(pTaskType->GetScriptID(), SCB_TASK_ON_GIVEUP, m_pOwner, pData);
     return true;

@@ -51,7 +51,7 @@ struct TableStruct_server_5fmsg_2fserver_5fside_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[35]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[41]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -80,6 +80,9 @@ extern ActorMoveDefaultTypeInternal _ActorMove_default_instance_;
 class ActorSetHide;
 class ActorSetHideDefaultTypeInternal;
 extern ActorSetHideDefaultTypeInternal _ActorSetHide_default_instance_;
+class AddTaskPhase;
+class AddTaskPhaseDefaultTypeInternal;
+extern AddTaskPhaseDefaultTypeInternal _AddTaskPhase_default_instance_;
 class KillGen;
 class KillGenDefaultTypeInternal;
 extern KillGenDefaultTypeInternal _KillGen_default_instance_;
@@ -89,6 +92,18 @@ extern MonsterDestoryDefaultTypeInternal _MonsterDestory_default_instance_;
 class MonsterGen;
 class MonsterGenDefaultTypeInternal;
 extern MonsterGenDefaultTypeInternal _MonsterGen_default_instance_;
+class MonsterGenMulti;
+class MonsterGenMultiDefaultTypeInternal;
+extern MonsterGenMultiDefaultTypeInternal _MonsterGenMulti_default_instance_;
+class MonsterGenOnce;
+class MonsterGenOnceDefaultTypeInternal;
+extern MonsterGenOnceDefaultTypeInternal _MonsterGenOnce_default_instance_;
+class PhaseCreate;
+class PhaseCreateDefaultTypeInternal;
+extern PhaseCreateDefaultTypeInternal _PhaseCreate_default_instance_;
+class PhaseDestory;
+class PhaseDestoryDefaultTypeInternal;
+extern PhaseDestoryDefaultTypeInternal _PhaseDestory_default_instance_;
 class PlayerChangeZone;
 class PlayerChangeZoneDefaultTypeInternal;
 extern PlayerChangeZoneDefaultTypeInternal _PlayerChangeZone_default_instance_;
@@ -101,12 +116,12 @@ extern PlayerEnterZoneDefaultTypeInternal _PlayerEnterZone_default_instance_;
 class PlayerLogout;
 class PlayerLogoutDefaultTypeInternal;
 extern PlayerLogoutDefaultTypeInternal _PlayerLogout_default_instance_;
+class RemoveTaskPhase;
+class RemoveTaskPhaseDefaultTypeInternal;
+extern RemoveTaskPhaseDefaultTypeInternal _RemoveTaskPhase_default_instance_;
 class SceneCreate;
 class SceneCreateDefaultTypeInternal;
 extern SceneCreateDefaultTypeInternal _SceneCreate_default_instance_;
-class SceneDestory;
-class SceneDestoryDefaultTypeInternal;
-extern SceneDestoryDefaultTypeInternal _SceneDestory_default_instance_;
 class ServiceCmd;
 class ServiceCmdDefaultTypeInternal;
 extern ServiceCmdDefaultTypeInternal _ServiceCmd_default_instance_;
@@ -122,6 +137,9 @@ extern ServiceHttpResponseDefaultTypeInternal _ServiceHttpResponse_default_insta
 class ServiceReady;
 class ServiceReadyDefaultTypeInternal;
 extern ServiceReadyDefaultTypeInternal _ServiceReady_default_instance_;
+class SyncTaskPhase;
+class SyncTaskPhaseDefaultTypeInternal;
+extern SyncTaskPhaseDefaultTypeInternal _SyncTaskPhase_default_instance_;
 class SystemVarChange;
 class SystemVarChangeDefaultTypeInternal;
 extern SystemVarChangeDefaultTypeInternal _SystemVarChange_default_instance_;
@@ -173,20 +191,26 @@ template<> ::ServerMSG::ActorCreate* Arena::CreateMaybeMessage<::ServerMSG::Acto
 template<> ::ServerMSG::ActorDestory* Arena::CreateMaybeMessage<::ServerMSG::ActorDestory>(Arena*);
 template<> ::ServerMSG::ActorMove* Arena::CreateMaybeMessage<::ServerMSG::ActorMove>(Arena*);
 template<> ::ServerMSG::ActorSetHide* Arena::CreateMaybeMessage<::ServerMSG::ActorSetHide>(Arena*);
+template<> ::ServerMSG::AddTaskPhase* Arena::CreateMaybeMessage<::ServerMSG::AddTaskPhase>(Arena*);
 template<> ::ServerMSG::KillGen* Arena::CreateMaybeMessage<::ServerMSG::KillGen>(Arena*);
 template<> ::ServerMSG::MonsterDestory* Arena::CreateMaybeMessage<::ServerMSG::MonsterDestory>(Arena*);
 template<> ::ServerMSG::MonsterGen* Arena::CreateMaybeMessage<::ServerMSG::MonsterGen>(Arena*);
+template<> ::ServerMSG::MonsterGenMulti* Arena::CreateMaybeMessage<::ServerMSG::MonsterGenMulti>(Arena*);
+template<> ::ServerMSG::MonsterGenOnce* Arena::CreateMaybeMessage<::ServerMSG::MonsterGenOnce>(Arena*);
+template<> ::ServerMSG::PhaseCreate* Arena::CreateMaybeMessage<::ServerMSG::PhaseCreate>(Arena*);
+template<> ::ServerMSG::PhaseDestory* Arena::CreateMaybeMessage<::ServerMSG::PhaseDestory>(Arena*);
 template<> ::ServerMSG::PlayerChangeZone* Arena::CreateMaybeMessage<::ServerMSG::PlayerChangeZone>(Arena*);
 template<> ::ServerMSG::PlayerChangeZone_Data* Arena::CreateMaybeMessage<::ServerMSG::PlayerChangeZone_Data>(Arena*);
 template<> ::ServerMSG::PlayerEnterZone* Arena::CreateMaybeMessage<::ServerMSG::PlayerEnterZone>(Arena*);
 template<> ::ServerMSG::PlayerLogout* Arena::CreateMaybeMessage<::ServerMSG::PlayerLogout>(Arena*);
+template<> ::ServerMSG::RemoveTaskPhase* Arena::CreateMaybeMessage<::ServerMSG::RemoveTaskPhase>(Arena*);
 template<> ::ServerMSG::SceneCreate* Arena::CreateMaybeMessage<::ServerMSG::SceneCreate>(Arena*);
-template<> ::ServerMSG::SceneDestory* Arena::CreateMaybeMessage<::ServerMSG::SceneDestory>(Arena*);
 template<> ::ServerMSG::ServiceCmd* Arena::CreateMaybeMessage<::ServerMSG::ServiceCmd>(Arena*);
 template<> ::ServerMSG::ServiceHttpRequest* Arena::CreateMaybeMessage<::ServerMSG::ServiceHttpRequest>(Arena*);
 template<> ::ServerMSG::ServiceHttpRequest_KvmapEntry_DoNotUse* Arena::CreateMaybeMessage<::ServerMSG::ServiceHttpRequest_KvmapEntry_DoNotUse>(Arena*);
 template<> ::ServerMSG::ServiceHttpResponse* Arena::CreateMaybeMessage<::ServerMSG::ServiceHttpResponse>(Arena*);
 template<> ::ServerMSG::ServiceReady* Arena::CreateMaybeMessage<::ServerMSG::ServiceReady>(Arena*);
+template<> ::ServerMSG::SyncTaskPhase* Arena::CreateMaybeMessage<::ServerMSG::SyncTaskPhase>(Arena*);
 template<> ::ServerMSG::SystemVarChange* Arena::CreateMaybeMessage<::ServerMSG::SystemVarChange>(Arena*);
 template<> ::ServerMSG::TeamAcceptApply* Arena::CreateMaybeMessage<::ServerMSG::TeamAcceptApply>(Arena*);
 template<> ::ServerMSG::TeamAcceptInvite* Arena::CreateMaybeMessage<::ServerMSG::TeamAcceptInvite>(Arena*);
@@ -244,17 +268,22 @@ enum OMsgID : int {
   MsgID_PlayerLogout = 20024,
   MsgID_SystemVarChange = 20030,
   MsgID_SceneCreate = 20031,
-  MsgID_SceneDestory = 20032,
-  MsgID_MonsterGen = 20033,
-  MsgID_MonsterDestory = 20034,
-  MsgID_ActiveGen = 20035,
-  MsgID_KillGen = 20036,
+  MsgID_PhaseCreate = 20032,
+  MsgID_PhaseDestory = 20033,
+  MsgID_MonsterGen = 20041,
+  MsgID_MonsterDestory = 20042,
+  MsgID_ActiveGen = 20043,
+  MsgID_KillGen = 20044,
+  MsgID_MonsterGenOnce = 20045,
   MsgID_ActorCreate = 20100,
   MsgID_ActorDestory = 20101,
   MsgID_ActorMove = 20102,
   MsgID_ActorCastSkill = 20103,
   MsgID_ActorCastSkill_Fail = 20104,
   MsgID_ActorSetHide = 20105,
+  MsgID_SyncTaskPhase = 20106,
+  MsgID_AddTaskPhase = 20107,
+  MsgID_RemoveTaskPhase = 20108,
   MsgID_TeamCreate = 20110,
   MsgID_TeamDestory = 20111,
   MsgID_TeamQuit = 20112,
@@ -1932,23 +1961,23 @@ class SceneCreate :
 };
 // -------------------------------------------------------------------
 
-class SceneDestory :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.SceneDestory) */ {
+class PhaseCreate :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.PhaseCreate) */ {
  public:
-  SceneDestory();
-  virtual ~SceneDestory();
+  PhaseCreate();
+  virtual ~PhaseCreate();
 
-  SceneDestory(const SceneDestory& from);
-  SceneDestory(SceneDestory&& from) noexcept
-    : SceneDestory() {
+  PhaseCreate(const PhaseCreate& from);
+  PhaseCreate(PhaseCreate&& from) noexcept
+    : PhaseCreate() {
     *this = ::std::move(from);
   }
 
-  inline SceneDestory& operator=(const SceneDestory& from) {
+  inline PhaseCreate& operator=(const PhaseCreate& from) {
     CopyFrom(from);
     return *this;
   }
-  inline SceneDestory& operator=(SceneDestory&& from) noexcept {
+  inline PhaseCreate& operator=(PhaseCreate&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -1966,37 +1995,37 @@ class SceneDestory :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return GetMetadataStatic().reflection;
   }
-  static const SceneDestory& default_instance();
+  static const PhaseCreate& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const SceneDestory* internal_default_instance() {
-    return reinterpret_cast<const SceneDestory*>(
-               &_SceneDestory_default_instance_);
+  static inline const PhaseCreate* internal_default_instance() {
+    return reinterpret_cast<const PhaseCreate*>(
+               &_PhaseCreate_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     11;
 
-  friend void swap(SceneDestory& a, SceneDestory& b) {
+  friend void swap(PhaseCreate& a, PhaseCreate& b) {
     a.Swap(&b);
   }
-  inline void Swap(SceneDestory* other) {
+  inline void Swap(PhaseCreate* other) {
     if (other == this) return;
     InternalSwap(other);
   }
 
   // implements Message ----------------------------------------------
 
-  inline SceneDestory* New() const final {
-    return CreateMaybeMessage<SceneDestory>(nullptr);
+  inline PhaseCreate* New() const final {
+    return CreateMaybeMessage<PhaseCreate>(nullptr);
   }
 
-  SceneDestory* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<SceneDestory>(arena);
+  PhaseCreate* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<PhaseCreate>(arena);
   }
   void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
   void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const SceneDestory& from);
-  void MergeFrom(const SceneDestory& from);
+  void CopyFrom(const PhaseCreate& from);
+  void MergeFrom(const PhaseCreate& from);
   PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -2010,10 +2039,10 @@ class SceneDestory :
   inline void SharedCtor();
   inline void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(SceneDestory* other);
+  void InternalSwap(PhaseCreate* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "ServerMSG.SceneDestory";
+    return "ServerMSG.PhaseCreate";
   }
   private:
   inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
@@ -2039,6 +2068,7 @@ class SceneDestory :
 
   enum : int {
     kSceneIdFieldNumber = 1,
+    kPhaseIdFieldNumber = 2,
   };
   // uint64 scene_id = 1;
   void clear_scene_id();
@@ -2049,12 +2079,161 @@ class SceneDestory :
   void _internal_set_scene_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
   public:
 
-  // @@protoc_insertion_point(class_scope:ServerMSG.SceneDestory)
+  // uint64 phase_id = 2;
+  void clear_phase_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 phase_id() const;
+  void set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_phase_id() const;
+  void _internal_set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.PhaseCreate)
  private:
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
   ::PROTOBUF_NAMESPACE_ID::uint64 scene_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 phase_id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
+class PhaseDestory :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.PhaseDestory) */ {
+ public:
+  PhaseDestory();
+  virtual ~PhaseDestory();
+
+  PhaseDestory(const PhaseDestory& from);
+  PhaseDestory(PhaseDestory&& from) noexcept
+    : PhaseDestory() {
+    *this = ::std::move(from);
+  }
+
+  inline PhaseDestory& operator=(const PhaseDestory& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline PhaseDestory& operator=(PhaseDestory&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const PhaseDestory& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const PhaseDestory* internal_default_instance() {
+    return reinterpret_cast<const PhaseDestory*>(
+               &_PhaseDestory_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    12;
+
+  friend void swap(PhaseDestory& a, PhaseDestory& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(PhaseDestory* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline PhaseDestory* New() const final {
+    return CreateMaybeMessage<PhaseDestory>(nullptr);
+  }
+
+  PhaseDestory* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<PhaseDestory>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const PhaseDestory& from);
+  void MergeFrom(const PhaseDestory& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(PhaseDestory* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.PhaseDestory";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kSceneIdFieldNumber = 1,
+    kPhaseIdFieldNumber = 2,
+  };
+  // uint64 scene_id = 1;
+  void clear_scene_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 scene_id() const;
+  void set_scene_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_scene_id() const;
+  void _internal_set_scene_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 phase_id = 2;
+  void clear_phase_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 phase_id() const;
+  void set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_phase_id() const;
+  void _internal_set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.PhaseDestory)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 scene_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 phase_id_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
 };
@@ -2102,7 +2281,7 @@ class MonsterGen :
                &_MonsterGen_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    12;
+    13;
 
   friend void swap(MonsterGen& a, MonsterGen& b) {
     a.Swap(&b);
@@ -2167,12 +2346,13 @@ class MonsterGen :
 
   enum : int {
     kSceneIdFieldNumber = 1,
-    kGenIdFieldNumber = 2,
-    kMonsterTypeFieldNumber = 3,
-    kPosxFieldNumber = 4,
-    kPosyFieldNumber = 5,
-    kCampIdFieldNumber = 6,
-    kMonsterIdFieldNumber = 7,
+    kPhaseIdFieldNumber = 2,
+    kGenIdFieldNumber = 3,
+    kMonsterTypeFieldNumber = 4,
+    kPosxFieldNumber = 5,
+    kPosyFieldNumber = 6,
+    kCampIdFieldNumber = 7,
+    kMonsterIdFieldNumber = 8,
   };
   // uint64 scene_id = 1;
   void clear_scene_id();
@@ -2183,7 +2363,16 @@ class MonsterGen :
   void _internal_set_scene_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
   public:
 
-  // uint32 gen_id = 2;
+  // uint64 phase_id = 2;
+  void clear_phase_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 phase_id() const;
+  void set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_phase_id() const;
+  void _internal_set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint32 gen_id = 3;
   void clear_gen_id();
   ::PROTOBUF_NAMESPACE_ID::uint32 gen_id() const;
   void set_gen_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -2192,7 +2381,7 @@ class MonsterGen :
   void _internal_set_gen_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 monster_type = 3;
+  // uint32 monster_type = 4;
   void clear_monster_type();
   ::PROTOBUF_NAMESPACE_ID::uint32 monster_type() const;
   void set_monster_type(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -2201,7 +2390,7 @@ class MonsterGen :
   void _internal_set_monster_type(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // float posx = 4;
+  // float posx = 5;
   void clear_posx();
   float posx() const;
   void set_posx(float value);
@@ -2210,7 +2399,7 @@ class MonsterGen :
   void _internal_set_posx(float value);
   public:
 
-  // float posy = 5;
+  // float posy = 6;
   void clear_posy();
   float posy() const;
   void set_posy(float value);
@@ -2219,7 +2408,7 @@ class MonsterGen :
   void _internal_set_posy(float value);
   public:
 
-  // uint32 camp_id = 6;
+  // uint32 camp_id = 7;
   void clear_camp_id();
   ::PROTOBUF_NAMESPACE_ID::uint32 camp_id() const;
   void set_camp_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -2228,7 +2417,7 @@ class MonsterGen :
   void _internal_set_camp_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 monster_id = 7;
+  // uint32 monster_id = 8;
   void clear_monster_id();
   ::PROTOBUF_NAMESPACE_ID::uint32 monster_id() const;
   void set_monster_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -2243,12 +2432,240 @@ class MonsterGen :
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
   ::PROTOBUF_NAMESPACE_ID::uint64 scene_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 phase_id_;
   ::PROTOBUF_NAMESPACE_ID::uint32 gen_id_;
   ::PROTOBUF_NAMESPACE_ID::uint32 monster_type_;
   float posx_;
   float posy_;
   ::PROTOBUF_NAMESPACE_ID::uint32 camp_id_;
   ::PROTOBUF_NAMESPACE_ID::uint32 monster_id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
+class MonsterGenMulti :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.MonsterGenMulti) */ {
+ public:
+  MonsterGenMulti();
+  virtual ~MonsterGenMulti();
+
+  MonsterGenMulti(const MonsterGenMulti& from);
+  MonsterGenMulti(MonsterGenMulti&& from) noexcept
+    : MonsterGenMulti() {
+    *this = ::std::move(from);
+  }
+
+  inline MonsterGenMulti& operator=(const MonsterGenMulti& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline MonsterGenMulti& operator=(MonsterGenMulti&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const MonsterGenMulti& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const MonsterGenMulti* internal_default_instance() {
+    return reinterpret_cast<const MonsterGenMulti*>(
+               &_MonsterGenMulti_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    14;
+
+  friend void swap(MonsterGenMulti& a, MonsterGenMulti& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(MonsterGenMulti* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline MonsterGenMulti* New() const final {
+    return CreateMaybeMessage<MonsterGenMulti>(nullptr);
+  }
+
+  MonsterGenMulti* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<MonsterGenMulti>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const MonsterGenMulti& from);
+  void MergeFrom(const MonsterGenMulti& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(MonsterGenMulti* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.MonsterGenMulti";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kSceneIdFieldNumber = 1,
+    kPhaseIdFieldNumber = 2,
+    kGenIdFieldNumber = 3,
+    kMonsterTypeFieldNumber = 4,
+    kPosxFieldNumber = 5,
+    kPosyFieldNumber = 6,
+    kCampIdFieldNumber = 7,
+    kMonsterIdFieldNumber = 8,
+    kNumFieldNumber = 9,
+    kRangeFieldNumber = 10,
+  };
+  // uint64 scene_id = 1;
+  void clear_scene_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 scene_id() const;
+  void set_scene_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_scene_id() const;
+  void _internal_set_scene_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 phase_id = 2;
+  void clear_phase_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 phase_id() const;
+  void set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_phase_id() const;
+  void _internal_set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint32 gen_id = 3;
+  void clear_gen_id();
+  ::PROTOBUF_NAMESPACE_ID::uint32 gen_id() const;
+  void set_gen_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_gen_id() const;
+  void _internal_set_gen_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 monster_type = 4;
+  void clear_monster_type();
+  ::PROTOBUF_NAMESPACE_ID::uint32 monster_type() const;
+  void set_monster_type(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_monster_type() const;
+  void _internal_set_monster_type(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // float posx = 5;
+  void clear_posx();
+  float posx() const;
+  void set_posx(float value);
+  private:
+  float _internal_posx() const;
+  void _internal_set_posx(float value);
+  public:
+
+  // float posy = 6;
+  void clear_posy();
+  float posy() const;
+  void set_posy(float value);
+  private:
+  float _internal_posy() const;
+  void _internal_set_posy(float value);
+  public:
+
+  // uint32 camp_id = 7;
+  void clear_camp_id();
+  ::PROTOBUF_NAMESPACE_ID::uint32 camp_id() const;
+  void set_camp_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_camp_id() const;
+  void _internal_set_camp_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 monster_id = 8;
+  void clear_monster_id();
+  ::PROTOBUF_NAMESPACE_ID::uint32 monster_id() const;
+  void set_monster_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_monster_id() const;
+  void _internal_set_monster_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 num = 9;
+  void clear_num();
+  ::PROTOBUF_NAMESPACE_ID::uint32 num() const;
+  void set_num(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_num() const;
+  void _internal_set_num(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // float range = 10;
+  void clear_range();
+  float range() const;
+  void set_range(float value);
+  private:
+  float _internal_range() const;
+  void _internal_set_range(float value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.MonsterGenMulti)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 scene_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 phase_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 gen_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 monster_type_;
+  float posx_;
+  float posy_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 camp_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 monster_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 num_;
+  float range_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
 };
@@ -2296,7 +2713,7 @@ class MonsterDestory :
                &_MonsterDestory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    13;
+    15;
 
   friend void swap(MonsterDestory& a, MonsterDestory& b) {
     a.Swap(&b);
@@ -2396,6 +2813,156 @@ class MonsterDestory :
 };
 // -------------------------------------------------------------------
 
+class MonsterGenOnce :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.MonsterGenOnce) */ {
+ public:
+  MonsterGenOnce();
+  virtual ~MonsterGenOnce();
+
+  MonsterGenOnce(const MonsterGenOnce& from);
+  MonsterGenOnce(MonsterGenOnce&& from) noexcept
+    : MonsterGenOnce() {
+    *this = ::std::move(from);
+  }
+
+  inline MonsterGenOnce& operator=(const MonsterGenOnce& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline MonsterGenOnce& operator=(MonsterGenOnce&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const MonsterGenOnce& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const MonsterGenOnce* internal_default_instance() {
+    return reinterpret_cast<const MonsterGenOnce*>(
+               &_MonsterGenOnce_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    16;
+
+  friend void swap(MonsterGenOnce& a, MonsterGenOnce& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(MonsterGenOnce* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline MonsterGenOnce* New() const final {
+    return CreateMaybeMessage<MonsterGenOnce>(nullptr);
+  }
+
+  MonsterGenOnce* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<MonsterGenOnce>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const MonsterGenOnce& from);
+  void MergeFrom(const MonsterGenOnce& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(MonsterGenOnce* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.MonsterGenOnce";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kSceneIdFieldNumber = 1,
+    kPhaseIdFieldNumber = 3,
+    kGenIdFieldNumber = 2,
+  };
+  // uint64 scene_id = 1;
+  void clear_scene_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 scene_id() const;
+  void set_scene_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_scene_id() const;
+  void _internal_set_scene_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 phase_id = 3;
+  void clear_phase_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 phase_id() const;
+  void set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_phase_id() const;
+  void _internal_set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint32 gen_id = 2;
+  void clear_gen_id();
+  ::PROTOBUF_NAMESPACE_ID::uint32 gen_id() const;
+  void set_gen_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_gen_id() const;
+  void _internal_set_gen_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.MonsterGenOnce)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 scene_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 phase_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 gen_id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
 class ActiveGen :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.ActiveGen) */ {
  public:
@@ -2438,7 +3005,7 @@ class ActiveGen :
                &_ActiveGen_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    14;
+    17;
 
   friend void swap(ActiveGen& a, ActiveGen& b) {
     a.Swap(&b);
@@ -2588,7 +3155,7 @@ class KillGen :
                &_KillGen_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    15;
+    18;
 
   friend void swap(KillGen& a, KillGen& b) {
     a.Swap(&b);
@@ -2727,7 +3294,7 @@ class ActorCreate :
                &_ActorCreate_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    16;
+    19;
 
   friend void swap(ActorCreate& a, ActorCreate& b) {
     a.Swap(&b);
@@ -2809,6 +3376,7 @@ class ActorCreate :
     kPosyFieldNumber = 17,
     kFaceFieldNumber = 18,
     kMonsterGenIdFieldNumber = 20,
+    kPhaseIdFieldNumber = 21,
   };
   // string name = 4;
   void clear_name();
@@ -2979,6 +3547,15 @@ class ActorCreate :
   void _internal_set_monster_gen_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
+  // uint64 phase_id = 21;
+  void clear_phase_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 phase_id() const;
+  void set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_phase_id() const;
+  void _internal_set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:ServerMSG.ActorCreate)
  private:
   class _Internal;
@@ -3002,6 +3579,7 @@ class ActorCreate :
   float posy_;
   float face_;
   ::PROTOBUF_NAMESPACE_ID::uint32 monster_gen_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 phase_id_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
 };
@@ -3049,7 +3627,7 @@ class ActorDestory :
                &_ActorDestory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    17;
+    20;
 
   friend void swap(ActorDestory& a, ActorDestory& b) {
     a.Swap(&b);
@@ -3177,7 +3755,7 @@ class ActorMove :
                &_ActorMove_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    18;
+    21;
 
   friend void swap(ActorMove& a, ActorMove& b) {
     a.Swap(&b);
@@ -3327,7 +3905,7 @@ class ActorCastSkill :
                &_ActorCastSkill_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    19;
+    22;
 
   friend void swap(ActorCastSkill& a, ActorCastSkill& b) {
     a.Swap(&b);
@@ -3477,7 +4055,7 @@ class ActorCastSkill_Fail :
                &_ActorCastSkill_Fail_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    20;
+    23;
 
   friend void swap(ActorCastSkill_Fail& a, ActorCastSkill_Fail& b) {
     a.Swap(&b);
@@ -3605,7 +4183,7 @@ class ActorSetHide :
                &_ActorSetHide_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    21;
+    24;
 
   friend void swap(ActorSetHide& a, ActorSetHide& b) {
     a.Swap(&b);
@@ -3744,7 +4322,7 @@ class TeamCreate :
                &_TeamCreate_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    22;
+    25;
 
   friend void swap(TeamCreate& a, TeamCreate& b) {
     a.Swap(&b);
@@ -3883,7 +4461,7 @@ class TeamDestory :
                &_TeamDestory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    23;
+    26;
 
   friend void swap(TeamDestory& a, TeamDestory& b) {
     a.Swap(&b);
@@ -4011,7 +4589,7 @@ class TeamQuit :
                &_TeamQuit_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    24;
+    27;
 
   friend void swap(TeamQuit& a, TeamQuit& b) {
     a.Swap(&b);
@@ -4150,7 +4728,7 @@ class TeamKickMember :
                &_TeamKickMember_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    25;
+    28;
 
   friend void swap(TeamKickMember& a, TeamKickMember& b) {
     a.Swap(&b);
@@ -4300,7 +4878,7 @@ class TeamInviteMember :
                &_TeamInviteMember_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    26;
+    29;
 
   friend void swap(TeamInviteMember& a, TeamInviteMember& b) {
     a.Swap(&b);
@@ -4450,7 +5028,7 @@ class TeamAcceptInvite :
                &_TeamAcceptInvite_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    27;
+    30;
 
   friend void swap(TeamAcceptInvite& a, TeamAcceptInvite& b) {
     a.Swap(&b);
@@ -4611,7 +5189,7 @@ class TeamApplyMember :
                &_TeamApplyMember_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    28;
+    31;
 
   friend void swap(TeamApplyMember& a, TeamApplyMember& b) {
     a.Swap(&b);
@@ -4750,7 +5328,7 @@ class TeamAcceptApply :
                &_TeamAcceptApply_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    29;
+    32;
 
   friend void swap(TeamAcceptApply& a, TeamAcceptApply& b) {
     a.Swap(&b);
@@ -4900,7 +5478,7 @@ class TeamNewLeader :
                &_TeamNewLeader_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    30;
+    33;
 
   friend void swap(TeamNewLeader& a, TeamNewLeader& b) {
     a.Swap(&b);
@@ -5050,7 +5628,7 @@ class TeamAddMember :
                &_TeamAddMember_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    31;
+    34;
 
   friend void swap(TeamAddMember& a, TeamAddMember& b) {
     a.Swap(&b);
@@ -5189,7 +5767,7 @@ class TeamDelMember :
                &_TeamDelMember_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    32;
+    35;
 
   friend void swap(TeamDelMember& a, TeamDelMember& b) {
     a.Swap(&b);
@@ -5328,7 +5906,7 @@ class TeamMemberInfo_Info :
                &_TeamMemberInfo_Info_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    33;
+    36;
 
   friend void swap(TeamMemberInfo_Info& a, TeamMemberInfo_Info& b) {
     a.Swap(&b);
@@ -5496,7 +6074,7 @@ class TeamMemberInfo :
                &_TeamMemberInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    34;
+    37;
 
   friend void swap(TeamMemberInfo& a, TeamMemberInfo& b) {
     a.Swap(&b);
@@ -5588,6 +6166,437 @@ class TeamMemberInfo :
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ServerMSG::TeamMemberInfo_Info > member_list_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SyncTaskPhase :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.SyncTaskPhase) */ {
+ public:
+  SyncTaskPhase();
+  virtual ~SyncTaskPhase();
+
+  SyncTaskPhase(const SyncTaskPhase& from);
+  SyncTaskPhase(SyncTaskPhase&& from) noexcept
+    : SyncTaskPhase() {
+    *this = ::std::move(from);
+  }
+
+  inline SyncTaskPhase& operator=(const SyncTaskPhase& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SyncTaskPhase& operator=(SyncTaskPhase&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const SyncTaskPhase& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SyncTaskPhase* internal_default_instance() {
+    return reinterpret_cast<const SyncTaskPhase*>(
+               &_SyncTaskPhase_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    38;
+
+  friend void swap(SyncTaskPhase& a, SyncTaskPhase& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SyncTaskPhase* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SyncTaskPhase* New() const final {
+    return CreateMaybeMessage<SyncTaskPhase>(nullptr);
+  }
+
+  SyncTaskPhase* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<SyncTaskPhase>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const SyncTaskPhase& from);
+  void MergeFrom(const SyncTaskPhase& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SyncTaskPhase* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.SyncTaskPhase";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kTaskPhaseIdFieldNumber = 2,
+    kPlayerIdFieldNumber = 1,
+  };
+  // repeated uint64 task_phase_id = 2;
+  int task_phase_id_size() const;
+  private:
+  int _internal_task_phase_id_size() const;
+  public:
+  void clear_task_phase_id();
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_task_phase_id(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint64 >&
+      _internal_task_phase_id() const;
+  void _internal_add_task_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint64 >*
+      _internal_mutable_task_phase_id();
+  public:
+  ::PROTOBUF_NAMESPACE_ID::uint64 task_phase_id(int index) const;
+  void set_task_phase_id(int index, ::PROTOBUF_NAMESPACE_ID::uint64 value);
+  void add_task_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint64 >&
+      task_phase_id() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint64 >*
+      mutable_task_phase_id();
+
+  // uint64 player_id = 1;
+  void clear_player_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 player_id() const;
+  void set_player_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_player_id() const;
+  void _internal_set_player_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.SyncTaskPhase)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint64 > task_phase_id_;
+  mutable std::atomic<int> _task_phase_id_cached_byte_size_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 player_id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
+class AddTaskPhase :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.AddTaskPhase) */ {
+ public:
+  AddTaskPhase();
+  virtual ~AddTaskPhase();
+
+  AddTaskPhase(const AddTaskPhase& from);
+  AddTaskPhase(AddTaskPhase&& from) noexcept
+    : AddTaskPhase() {
+    *this = ::std::move(from);
+  }
+
+  inline AddTaskPhase& operator=(const AddTaskPhase& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline AddTaskPhase& operator=(AddTaskPhase&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const AddTaskPhase& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const AddTaskPhase* internal_default_instance() {
+    return reinterpret_cast<const AddTaskPhase*>(
+               &_AddTaskPhase_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    39;
+
+  friend void swap(AddTaskPhase& a, AddTaskPhase& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(AddTaskPhase* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline AddTaskPhase* New() const final {
+    return CreateMaybeMessage<AddTaskPhase>(nullptr);
+  }
+
+  AddTaskPhase* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<AddTaskPhase>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const AddTaskPhase& from);
+  void MergeFrom(const AddTaskPhase& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(AddTaskPhase* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.AddTaskPhase";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kPlayerIdFieldNumber = 1,
+    kTaskPhaseIdFieldNumber = 2,
+  };
+  // uint64 player_id = 1;
+  void clear_player_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 player_id() const;
+  void set_player_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_player_id() const;
+  void _internal_set_player_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 task_phase_id = 2;
+  void clear_task_phase_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 task_phase_id() const;
+  void set_task_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_task_phase_id() const;
+  void _internal_set_task_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.AddTaskPhase)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 player_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 task_phase_id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
+class RemoveTaskPhase :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.RemoveTaskPhase) */ {
+ public:
+  RemoveTaskPhase();
+  virtual ~RemoveTaskPhase();
+
+  RemoveTaskPhase(const RemoveTaskPhase& from);
+  RemoveTaskPhase(RemoveTaskPhase&& from) noexcept
+    : RemoveTaskPhase() {
+    *this = ::std::move(from);
+  }
+
+  inline RemoveTaskPhase& operator=(const RemoveTaskPhase& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline RemoveTaskPhase& operator=(RemoveTaskPhase&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const RemoveTaskPhase& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const RemoveTaskPhase* internal_default_instance() {
+    return reinterpret_cast<const RemoveTaskPhase*>(
+               &_RemoveTaskPhase_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    40;
+
+  friend void swap(RemoveTaskPhase& a, RemoveTaskPhase& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(RemoveTaskPhase* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline RemoveTaskPhase* New() const final {
+    return CreateMaybeMessage<RemoveTaskPhase>(nullptr);
+  }
+
+  RemoveTaskPhase* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<RemoveTaskPhase>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const RemoveTaskPhase& from);
+  void MergeFrom(const RemoveTaskPhase& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(RemoveTaskPhase* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.RemoveTaskPhase";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kPlayerIdFieldNumber = 1,
+    kTaskPhaseIdFieldNumber = 2,
+  };
+  // uint64 player_id = 1;
+  void clear_player_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 player_id() const;
+  void set_player_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_player_id() const;
+  void _internal_set_player_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 task_phase_id = 2;
+  void clear_task_phase_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 task_phase_id() const;
+  void set_task_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_task_phase_id() const;
+  void _internal_set_task_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.RemoveTaskPhase)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 player_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 task_phase_id_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
 };
@@ -6465,26 +7474,90 @@ inline void SceneCreate::set_scene_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
 
 // -------------------------------------------------------------------
 
-// SceneDestory
+// PhaseCreate
 
 // uint64 scene_id = 1;
-inline void SceneDestory::clear_scene_id() {
+inline void PhaseCreate::clear_scene_id() {
   scene_id_ = PROTOBUF_ULONGLONG(0);
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint64 SceneDestory::_internal_scene_id() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint64 PhaseCreate::_internal_scene_id() const {
   return scene_id_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint64 SceneDestory::scene_id() const {
-  // @@protoc_insertion_point(field_get:ServerMSG.SceneDestory.scene_id)
+inline ::PROTOBUF_NAMESPACE_ID::uint64 PhaseCreate::scene_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.PhaseCreate.scene_id)
   return _internal_scene_id();
 }
-inline void SceneDestory::_internal_set_scene_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+inline void PhaseCreate::_internal_set_scene_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   
   scene_id_ = value;
 }
-inline void SceneDestory::set_scene_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+inline void PhaseCreate::set_scene_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   _internal_set_scene_id(value);
-  // @@protoc_insertion_point(field_set:ServerMSG.SceneDestory.scene_id)
+  // @@protoc_insertion_point(field_set:ServerMSG.PhaseCreate.scene_id)
+}
+
+// uint64 phase_id = 2;
+inline void PhaseCreate::clear_phase_id() {
+  phase_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 PhaseCreate::_internal_phase_id() const {
+  return phase_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 PhaseCreate::phase_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.PhaseCreate.phase_id)
+  return _internal_phase_id();
+}
+inline void PhaseCreate::_internal_set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  phase_id_ = value;
+}
+inline void PhaseCreate::set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_phase_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.PhaseCreate.phase_id)
+}
+
+// -------------------------------------------------------------------
+
+// PhaseDestory
+
+// uint64 scene_id = 1;
+inline void PhaseDestory::clear_scene_id() {
+  scene_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 PhaseDestory::_internal_scene_id() const {
+  return scene_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 PhaseDestory::scene_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.PhaseDestory.scene_id)
+  return _internal_scene_id();
+}
+inline void PhaseDestory::_internal_set_scene_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  scene_id_ = value;
+}
+inline void PhaseDestory::set_scene_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_scene_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.PhaseDestory.scene_id)
+}
+
+// uint64 phase_id = 2;
+inline void PhaseDestory::clear_phase_id() {
+  phase_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 PhaseDestory::_internal_phase_id() const {
+  return phase_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 PhaseDestory::phase_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.PhaseDestory.phase_id)
+  return _internal_phase_id();
+}
+inline void PhaseDestory::_internal_set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  phase_id_ = value;
+}
+inline void PhaseDestory::set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_phase_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.PhaseDestory.phase_id)
 }
 
 // -------------------------------------------------------------------
@@ -6511,7 +7584,27 @@ inline void MonsterGen::set_scene_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   // @@protoc_insertion_point(field_set:ServerMSG.MonsterGen.scene_id)
 }
 
-// uint32 gen_id = 2;
+// uint64 phase_id = 2;
+inline void MonsterGen::clear_phase_id() {
+  phase_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 MonsterGen::_internal_phase_id() const {
+  return phase_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 MonsterGen::phase_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.MonsterGen.phase_id)
+  return _internal_phase_id();
+}
+inline void MonsterGen::_internal_set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  phase_id_ = value;
+}
+inline void MonsterGen::set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_phase_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.MonsterGen.phase_id)
+}
+
+// uint32 gen_id = 3;
 inline void MonsterGen::clear_gen_id() {
   gen_id_ = 0u;
 }
@@ -6531,7 +7624,7 @@ inline void MonsterGen::set_gen_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   // @@protoc_insertion_point(field_set:ServerMSG.MonsterGen.gen_id)
 }
 
-// uint32 monster_type = 3;
+// uint32 monster_type = 4;
 inline void MonsterGen::clear_monster_type() {
   monster_type_ = 0u;
 }
@@ -6551,7 +7644,7 @@ inline void MonsterGen::set_monster_type(::PROTOBUF_NAMESPACE_ID::uint32 value) 
   // @@protoc_insertion_point(field_set:ServerMSG.MonsterGen.monster_type)
 }
 
-// float posx = 4;
+// float posx = 5;
 inline void MonsterGen::clear_posx() {
   posx_ = 0;
 }
@@ -6571,7 +7664,7 @@ inline void MonsterGen::set_posx(float value) {
   // @@protoc_insertion_point(field_set:ServerMSG.MonsterGen.posx)
 }
 
-// float posy = 5;
+// float posy = 6;
 inline void MonsterGen::clear_posy() {
   posy_ = 0;
 }
@@ -6591,7 +7684,7 @@ inline void MonsterGen::set_posy(float value) {
   // @@protoc_insertion_point(field_set:ServerMSG.MonsterGen.posy)
 }
 
-// uint32 camp_id = 6;
+// uint32 camp_id = 7;
 inline void MonsterGen::clear_camp_id() {
   camp_id_ = 0u;
 }
@@ -6611,7 +7704,7 @@ inline void MonsterGen::set_camp_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   // @@protoc_insertion_point(field_set:ServerMSG.MonsterGen.camp_id)
 }
 
-// uint32 monster_id = 7;
+// uint32 monster_id = 8;
 inline void MonsterGen::clear_monster_id() {
   monster_id_ = 0u;
 }
@@ -6629,6 +7722,210 @@ inline void MonsterGen::_internal_set_monster_id(::PROTOBUF_NAMESPACE_ID::uint32
 inline void MonsterGen::set_monster_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_monster_id(value);
   // @@protoc_insertion_point(field_set:ServerMSG.MonsterGen.monster_id)
+}
+
+// -------------------------------------------------------------------
+
+// MonsterGenMulti
+
+// uint64 scene_id = 1;
+inline void MonsterGenMulti::clear_scene_id() {
+  scene_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 MonsterGenMulti::_internal_scene_id() const {
+  return scene_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 MonsterGenMulti::scene_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.MonsterGenMulti.scene_id)
+  return _internal_scene_id();
+}
+inline void MonsterGenMulti::_internal_set_scene_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  scene_id_ = value;
+}
+inline void MonsterGenMulti::set_scene_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_scene_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.MonsterGenMulti.scene_id)
+}
+
+// uint64 phase_id = 2;
+inline void MonsterGenMulti::clear_phase_id() {
+  phase_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 MonsterGenMulti::_internal_phase_id() const {
+  return phase_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 MonsterGenMulti::phase_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.MonsterGenMulti.phase_id)
+  return _internal_phase_id();
+}
+inline void MonsterGenMulti::_internal_set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  phase_id_ = value;
+}
+inline void MonsterGenMulti::set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_phase_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.MonsterGenMulti.phase_id)
+}
+
+// uint32 gen_id = 3;
+inline void MonsterGenMulti::clear_gen_id() {
+  gen_id_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 MonsterGenMulti::_internal_gen_id() const {
+  return gen_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 MonsterGenMulti::gen_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.MonsterGenMulti.gen_id)
+  return _internal_gen_id();
+}
+inline void MonsterGenMulti::_internal_set_gen_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  gen_id_ = value;
+}
+inline void MonsterGenMulti::set_gen_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_gen_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.MonsterGenMulti.gen_id)
+}
+
+// uint32 monster_type = 4;
+inline void MonsterGenMulti::clear_monster_type() {
+  monster_type_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 MonsterGenMulti::_internal_monster_type() const {
+  return monster_type_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 MonsterGenMulti::monster_type() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.MonsterGenMulti.monster_type)
+  return _internal_monster_type();
+}
+inline void MonsterGenMulti::_internal_set_monster_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  monster_type_ = value;
+}
+inline void MonsterGenMulti::set_monster_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_monster_type(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.MonsterGenMulti.monster_type)
+}
+
+// float posx = 5;
+inline void MonsterGenMulti::clear_posx() {
+  posx_ = 0;
+}
+inline float MonsterGenMulti::_internal_posx() const {
+  return posx_;
+}
+inline float MonsterGenMulti::posx() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.MonsterGenMulti.posx)
+  return _internal_posx();
+}
+inline void MonsterGenMulti::_internal_set_posx(float value) {
+  
+  posx_ = value;
+}
+inline void MonsterGenMulti::set_posx(float value) {
+  _internal_set_posx(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.MonsterGenMulti.posx)
+}
+
+// float posy = 6;
+inline void MonsterGenMulti::clear_posy() {
+  posy_ = 0;
+}
+inline float MonsterGenMulti::_internal_posy() const {
+  return posy_;
+}
+inline float MonsterGenMulti::posy() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.MonsterGenMulti.posy)
+  return _internal_posy();
+}
+inline void MonsterGenMulti::_internal_set_posy(float value) {
+  
+  posy_ = value;
+}
+inline void MonsterGenMulti::set_posy(float value) {
+  _internal_set_posy(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.MonsterGenMulti.posy)
+}
+
+// uint32 camp_id = 7;
+inline void MonsterGenMulti::clear_camp_id() {
+  camp_id_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 MonsterGenMulti::_internal_camp_id() const {
+  return camp_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 MonsterGenMulti::camp_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.MonsterGenMulti.camp_id)
+  return _internal_camp_id();
+}
+inline void MonsterGenMulti::_internal_set_camp_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  camp_id_ = value;
+}
+inline void MonsterGenMulti::set_camp_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_camp_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.MonsterGenMulti.camp_id)
+}
+
+// uint32 monster_id = 8;
+inline void MonsterGenMulti::clear_monster_id() {
+  monster_id_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 MonsterGenMulti::_internal_monster_id() const {
+  return monster_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 MonsterGenMulti::monster_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.MonsterGenMulti.monster_id)
+  return _internal_monster_id();
+}
+inline void MonsterGenMulti::_internal_set_monster_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  monster_id_ = value;
+}
+inline void MonsterGenMulti::set_monster_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_monster_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.MonsterGenMulti.monster_id)
+}
+
+// uint32 num = 9;
+inline void MonsterGenMulti::clear_num() {
+  num_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 MonsterGenMulti::_internal_num() const {
+  return num_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 MonsterGenMulti::num() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.MonsterGenMulti.num)
+  return _internal_num();
+}
+inline void MonsterGenMulti::_internal_set_num(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  num_ = value;
+}
+inline void MonsterGenMulti::set_num(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_num(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.MonsterGenMulti.num)
+}
+
+// float range = 10;
+inline void MonsterGenMulti::clear_range() {
+  range_ = 0;
+}
+inline float MonsterGenMulti::_internal_range() const {
+  return range_;
+}
+inline float MonsterGenMulti::range() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.MonsterGenMulti.range)
+  return _internal_range();
+}
+inline void MonsterGenMulti::_internal_set_range(float value) {
+  
+  range_ = value;
+}
+inline void MonsterGenMulti::set_range(float value) {
+  _internal_set_range(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.MonsterGenMulti.range)
 }
 
 // -------------------------------------------------------------------
@@ -6680,6 +7977,70 @@ inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint64 >
 MonsterDestory::mutable_monster_id() {
   // @@protoc_insertion_point(field_mutable_list:ServerMSG.MonsterDestory.monster_id)
   return _internal_mutable_monster_id();
+}
+
+// -------------------------------------------------------------------
+
+// MonsterGenOnce
+
+// uint64 scene_id = 1;
+inline void MonsterGenOnce::clear_scene_id() {
+  scene_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 MonsterGenOnce::_internal_scene_id() const {
+  return scene_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 MonsterGenOnce::scene_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.MonsterGenOnce.scene_id)
+  return _internal_scene_id();
+}
+inline void MonsterGenOnce::_internal_set_scene_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  scene_id_ = value;
+}
+inline void MonsterGenOnce::set_scene_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_scene_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.MonsterGenOnce.scene_id)
+}
+
+// uint32 gen_id = 2;
+inline void MonsterGenOnce::clear_gen_id() {
+  gen_id_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 MonsterGenOnce::_internal_gen_id() const {
+  return gen_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 MonsterGenOnce::gen_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.MonsterGenOnce.gen_id)
+  return _internal_gen_id();
+}
+inline void MonsterGenOnce::_internal_set_gen_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  gen_id_ = value;
+}
+inline void MonsterGenOnce::set_gen_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_gen_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.MonsterGenOnce.gen_id)
+}
+
+// uint64 phase_id = 3;
+inline void MonsterGenOnce::clear_phase_id() {
+  phase_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 MonsterGenOnce::_internal_phase_id() const {
+  return phase_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 MonsterGenOnce::phase_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.MonsterGenOnce.phase_id)
+  return _internal_phase_id();
+}
+inline void MonsterGenOnce::_internal_set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  phase_id_ = value;
+}
+inline void MonsterGenOnce::set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_phase_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.MonsterGenOnce.phase_id)
 }
 
 // -------------------------------------------------------------------
@@ -7192,6 +8553,26 @@ inline void ActorCreate::_internal_set_monster_gen_id(::PROTOBUF_NAMESPACE_ID::u
 inline void ActorCreate::set_monster_gen_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_monster_gen_id(value);
   // @@protoc_insertion_point(field_set:ServerMSG.ActorCreate.monster_gen_id)
+}
+
+// uint64 phase_id = 21;
+inline void ActorCreate::clear_phase_id() {
+  phase_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 ActorCreate::_internal_phase_id() const {
+  return phase_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 ActorCreate::phase_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.ActorCreate.phase_id)
+  return _internal_phase_id();
+}
+inline void ActorCreate::_internal_set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  phase_id_ = value;
+}
+inline void ActorCreate::set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_phase_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.ActorCreate.phase_id)
 }
 
 // -------------------------------------------------------------------
@@ -8165,9 +9546,180 @@ TeamMemberInfo::member_list() const {
   return member_list_;
 }
 
+// -------------------------------------------------------------------
+
+// SyncTaskPhase
+
+// uint64 player_id = 1;
+inline void SyncTaskPhase::clear_player_id() {
+  player_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 SyncTaskPhase::_internal_player_id() const {
+  return player_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 SyncTaskPhase::player_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.SyncTaskPhase.player_id)
+  return _internal_player_id();
+}
+inline void SyncTaskPhase::_internal_set_player_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  player_id_ = value;
+}
+inline void SyncTaskPhase::set_player_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_player_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.SyncTaskPhase.player_id)
+}
+
+// repeated uint64 task_phase_id = 2;
+inline int SyncTaskPhase::_internal_task_phase_id_size() const {
+  return task_phase_id_.size();
+}
+inline int SyncTaskPhase::task_phase_id_size() const {
+  return _internal_task_phase_id_size();
+}
+inline void SyncTaskPhase::clear_task_phase_id() {
+  task_phase_id_.Clear();
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 SyncTaskPhase::_internal_task_phase_id(int index) const {
+  return task_phase_id_.Get(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 SyncTaskPhase::task_phase_id(int index) const {
+  // @@protoc_insertion_point(field_get:ServerMSG.SyncTaskPhase.task_phase_id)
+  return _internal_task_phase_id(index);
+}
+inline void SyncTaskPhase::set_task_phase_id(int index, ::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  task_phase_id_.Set(index, value);
+  // @@protoc_insertion_point(field_set:ServerMSG.SyncTaskPhase.task_phase_id)
+}
+inline void SyncTaskPhase::_internal_add_task_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  task_phase_id_.Add(value);
+}
+inline void SyncTaskPhase::add_task_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_add_task_phase_id(value);
+  // @@protoc_insertion_point(field_add:ServerMSG.SyncTaskPhase.task_phase_id)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint64 >&
+SyncTaskPhase::_internal_task_phase_id() const {
+  return task_phase_id_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint64 >&
+SyncTaskPhase::task_phase_id() const {
+  // @@protoc_insertion_point(field_list:ServerMSG.SyncTaskPhase.task_phase_id)
+  return _internal_task_phase_id();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint64 >*
+SyncTaskPhase::_internal_mutable_task_phase_id() {
+  return &task_phase_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint64 >*
+SyncTaskPhase::mutable_task_phase_id() {
+  // @@protoc_insertion_point(field_mutable_list:ServerMSG.SyncTaskPhase.task_phase_id)
+  return _internal_mutable_task_phase_id();
+}
+
+// -------------------------------------------------------------------
+
+// AddTaskPhase
+
+// uint64 player_id = 1;
+inline void AddTaskPhase::clear_player_id() {
+  player_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 AddTaskPhase::_internal_player_id() const {
+  return player_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 AddTaskPhase::player_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.AddTaskPhase.player_id)
+  return _internal_player_id();
+}
+inline void AddTaskPhase::_internal_set_player_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  player_id_ = value;
+}
+inline void AddTaskPhase::set_player_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_player_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.AddTaskPhase.player_id)
+}
+
+// uint64 task_phase_id = 2;
+inline void AddTaskPhase::clear_task_phase_id() {
+  task_phase_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 AddTaskPhase::_internal_task_phase_id() const {
+  return task_phase_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 AddTaskPhase::task_phase_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.AddTaskPhase.task_phase_id)
+  return _internal_task_phase_id();
+}
+inline void AddTaskPhase::_internal_set_task_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  task_phase_id_ = value;
+}
+inline void AddTaskPhase::set_task_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_task_phase_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.AddTaskPhase.task_phase_id)
+}
+
+// -------------------------------------------------------------------
+
+// RemoveTaskPhase
+
+// uint64 player_id = 1;
+inline void RemoveTaskPhase::clear_player_id() {
+  player_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 RemoveTaskPhase::_internal_player_id() const {
+  return player_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 RemoveTaskPhase::player_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.RemoveTaskPhase.player_id)
+  return _internal_player_id();
+}
+inline void RemoveTaskPhase::_internal_set_player_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  player_id_ = value;
+}
+inline void RemoveTaskPhase::set_player_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_player_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.RemoveTaskPhase.player_id)
+}
+
+// uint64 task_phase_id = 2;
+inline void RemoveTaskPhase::clear_task_phase_id() {
+  task_phase_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 RemoveTaskPhase::_internal_task_phase_id() const {
+  return task_phase_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 RemoveTaskPhase::task_phase_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.RemoveTaskPhase.task_phase_id)
+  return _internal_task_phase_id();
+}
+inline void RemoveTaskPhase::_internal_set_task_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  task_phase_id_ = value;
+}
+inline void RemoveTaskPhase::set_task_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_task_phase_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.RemoveTaskPhase.task_phase_id)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

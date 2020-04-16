@@ -64,7 +64,7 @@ enum REBORN_TYPE
 };
 
 class CMapManager;
-export_lua class CGameMap : public Noncopyable<CGameMap>
+export_lua class CGameMap : public NoncopyableT<CGameMap>
 {
     CGameMap();
     bool Init(CMapManager* pManager, const Cfg_Scene_Row& data,const CMapData* pMapData);
@@ -111,6 +111,8 @@ public:
 
 public:
     export_lua const CMapData* GetMapData() const { return m_pMapData; }
+    export_lua const auto& GetPhaseData() const {return m_PhaseDataSet;}
+    export_lua const PhaseData* GetPhaseDataById(uint64_t idPhase) const;
 
     export_lua const Cfg_Scene_EnterPoint_Row* GetEnterPointByIdx(uint32_t idx) const;
     void                                       _setEnterPoint(const Cfg_Scene_EnterPoint_Row& iter);
@@ -155,6 +157,7 @@ private:
     uint32_t     m_nMapFlag      = 0;
     uint64_t     m_idScript      = 0;
 
+    std::unordered_map<uint64_t, PhaseData>                      m_PhaseDataSet;
     std::unordered_map<uint32_t, Cfg_Scene_EnterPoint_Row>       m_EnterPointSet;
     std::unordered_map<uint32_t, Cfg_Scene_LeavePoint_Row>       m_LeavePointSet;
     std::unordered_map<uint32_t, Cfg_Scene_MonsterGenerator_Row> m_MonsterGeneratorList;

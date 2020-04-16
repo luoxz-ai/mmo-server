@@ -1,86 +1,98 @@
+
 #include "AIScene.h"
 
-#include "AIActor.h"
+#include "AIPhase.h"
 #include "AIService.h"
 #include "NetMSGProcess.h"
+#include "config/Cfg_Scene.pb.h"
+#include "MapManager.h"
+
 CAIScene::CAIScene() {}
 
 CAIScene::~CAIScene()
 {
-    while(m_setActor.empty() == false)
-    {
-        CAIActor* pActor = static_cast<CAIActor*>(m_setActor.begin()->second);
-        LeaveMap(pActor);
-        AIActorManager()->DelActor(pActor);
-    }
+   
 }
 
 bool CAIScene::Init(const SceneID& idScene)
 {
-    CSceneBase::_Init(idScene, MapManager());
-    m_MonsterGen.Init(this);
+    m_SceneID = idScene;
     return true;
 }
 
-CAISceneManager::CAISceneManager() {}
-
-CAISceneManager::~CAISceneManager()
+CAIPhase* CAIScene::CreatePhase(const SceneID& idScene, uint64_t idPhase)
 {
-    Destory();
-}
-
-bool CAISceneManager::Init(uint32_t idZone)
-{
-    return true;
-}
-
-void CAISceneManager::Destory()
-{
-    for(auto& pair_val: m_mapScene)
-    {
-        LOGDEBUG("AIScene {} Destroy", pair_val.first.GetMapID());
-        SAFE_DELETE(pair_val.second);
-    }
-    m_mapScene.clear();
-}
-
-CAIScene* CAISceneManager::CreateScene(const SceneID& idScene)
-{
-    auto pMap    = MapManager()->QueryMap(idScene.GetMapID());
+    __ENTER_FUNCTION
+    auto pMap = MapManager()->QueryMap(m_SceneID.GetMapID());
     CHECKF(pMap);
-
-    CAIScene* pScene = CAIScene::CreateNew(idScene);
-    CHECKF(pScene);
-
-    m_mapScene[idScene] = pScene;
-
-    LOGDEBUG("AIScene {} Created", idScene.GetMapID());
-    m_nStaticScene++;
-    return pScene;
+    auto pPhaseData = pMap->GetPhaseDataById(idPhase);
+    CAIPhase* pPhase = CAIPhase::CreateNew(this, idScene, idPhase, pPhaseData);
+    CHECKF(pPhase);
+    m_pPhaseSet[idPhase].reset(pPhase);
+    m_pPhaseSetByIdx[idScene.GetPhaseIdx()] = pPhase;
+    return pPhase;
+    __LEAVE_FUNCTION
+    return nullptr;
 }
 
-void CAISceneManager::DestoryDynaScene(const SceneID& idScene)
+CAIPhase* CAIScene::CreatePhase(const SceneID& idScene, uint64_t idPhase, const PhaseData* pPhaseData)
 {
-    auto itFind = m_mapScene.find(idScene);
-    if(itFind == m_mapScene.end())
-        return;
-
-    CAIScene* pScene = itFind->second;
-
-    LOGDEBUG("AIScene {} Destroy", itFind->first.GetMapID());
-
-    m_mapScene.erase(itFind);
-    SAFE_DELETE(pScene);
+    __ENTER_FUNCTION
+    CAIPhase* pPhase = CAIPhase::CreateNew(this, idScene, idPhase, pPhaseData);
+    CHECKF(pPhase);
+    m_pPhaseSet[idPhase].reset(pPhase);
+    m_pPhaseSetByIdx[idScene.GetPhaseIdx()] = pPhase;
+    return pPhase;
+    __LEAVE_FUNCTION
+    return nullptr;
 }
 
-CAIScene* CAISceneManager::QueryScene(const SceneID& idScene)
+bool CAIScene::DestoryPhase(uint64_t idPhase)
 {
-    auto itFind = m_mapScene.find(idScene);
-    if(itFind == m_mapScene.end())
-        return nullptr;
-
-    CAIScene* pScene = itFind->second;
-    return pScene;
+    __ENTER_FUNCTION
+    CAIPhase* pPhase = QueryPhaseByID(idPhase);
+    CHECKF(pPhase);
+    
+    m_pPhaseSetByIdx.erase(pPhase->GetSceneID().GetPhaseIdx());
+    m_pPhaseSet.erase(pPhase->GetPhaseID());
+    return true;
+    __LEAVE_FUNCTION
+    return false;
 }
 
-void CAISceneManager::OnTimer() {}
+bool CAIScene::DestoryPhaseBySceneID(const SceneID& idScene)
+{
+    __ENTER_FUNCTION
+    CAIPhase* pPhase = QueryPhaseBySceneID(idScene);
+    CHECKF(pPhase);
+    
+    m_pPhaseSetByIdx.erase(pPhase->GetSceneID().GetPhaseIdx());
+    m_pPhaseSet.erase(pPhase->GetPhaseID());
+    return true;
+    __LEAVE_FUNCTION
+    return false;
+}
+
+CAIPhase* CAIScene::QueryPhaseByID(uint64_t idPhase) const
+{
+    __ENTER_FUNCTION
+    auto it = m_pPhaseSet.find(idPhase);
+    if(it != m_pPhaseSet.end())
+    {
+        return it->second.get();
+    }
+    __LEAVE_FUNCTION
+    return nullptr;
+}
+
+CAIPhase* CAIScene::QueryPhaseBySceneID(const SceneID& idScene) const
+{
+    __ENTER_FUNCTION
+    auto it = m_pPhaseSetByIdx.find(idScene);
+    if(it != m_pPhaseSetByIdx.end())
+    {
+        return it->second;
+    }
+    __LEAVE_FUNCTION
+    return nullptr;
+}

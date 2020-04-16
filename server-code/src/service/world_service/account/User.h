@@ -8,7 +8,7 @@
 class CAccount;
 struct ST_ROLE_INFO;
 
-class CUser: public Noncopyable<CUser>
+class CUser: public NoncopyableT<CUser>
 {   
     CUser();
     bool Init(CAccount* pAccount, ST_ROLE_INFO* pInfo);

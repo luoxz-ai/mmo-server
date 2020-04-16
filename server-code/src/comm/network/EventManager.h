@@ -12,7 +12,7 @@
 struct event_base;
 struct event;
 
-class CEventManager : public Noncopyable<CEventManager>
+class CEventManager : public NoncopyableT<CEventManager>
 {
     CEventManager();
     bool Init(event_base* base);

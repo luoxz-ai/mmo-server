@@ -46,7 +46,7 @@ const fuzzy::Trapezoid like_fuzzy[] = {fuzzy::Trapezoid(0, 0, 20, 50),
                                        fuzzy::Trapezoid(30, 50, 70, 90),
                                        fuzzy::Trapezoid(50, 80, 100, 100)};
 
-class SkillFAM: public Noncopyable<SkillFAM>
+class SkillFAM: public NoncopyableT<SkillFAM>
 {
     
     SkillFAM()
@@ -56,17 +56,6 @@ class SkillFAM: public Noncopyable<SkillFAM>
     bool Init(const Cfg_SkillFAM_Row& row)
     {
         m_ID = row.idskill();
-        Merge(row);
-        return true;
-    }
-public:
-    CreateNewImpl(SkillFAM);
-public:
-    ~SkillFAM() {}
-    
-    using PB_T = Cfg_SkillFAM;
-    void Merge(const Cfg_SkillFAM_Row& row)
-    {
         // Set up our rules.
         uint32_t           dis_idx       = row.dis();
         uint32_t           hp_idx        = row.self_hp();
@@ -80,9 +69,20 @@ public:
                                                                  hp_fuzzy[target_hp_idx]},
                                    oper_type,
                                    like_fuzzy[like_idx]});    
+        return true;
+    }
+public:
+    CreateNewImpl(SkillFAM);
+public:
+    ~SkillFAM() {}
+    
+    using PB_T = Cfg_SkillFAM;
+    void Merge(SkillFAM* pData)
+    {
+        pData->m_rule_set.merge(m_rule_set);
     }
     
-    static uint32_t GetIDFromPBRow(const Cfg_SkillFAM_Row& row) { return row.idskill(); }
+    static uint32_t GetKey(const Cfg_SkillFAM_Row& row) { return row.idskill(); }
     uint32_t        GetID() { return m_ID; }
 
     double calculate(double dist, double self_hp, double self_mp, double target_hp) const
@@ -96,9 +96,9 @@ private:
     // The rules that will tie the logic together
     fuzzy::RuleSet m_rule_set;
 };
-typedef CGameDataMap<SkillFAM> CSkillFAMSet;
+DEFINE_GAMEMAPDATA(CSkillFAMSet,SkillFAM);
 
-class TargetFAM: public Noncopyable<TargetFAM>
+class TargetFAM: public NoncopyableT<TargetFAM>
 {
 
     TargetFAM()
@@ -108,17 +108,6 @@ class TargetFAM: public Noncopyable<TargetFAM>
     bool Init(const Cfg_TargetFAM_Row& row)
     {
         m_ID = row.idmonster();
-        Merge(row);
-        return true;
-    }
-public:
-    CreateNewImpl(TargetFAM);
-public:
-    ~TargetFAM() {}
-    
-    using PB_T = Cfg_TargetFAM;
-    void Merge(const Cfg_TargetFAM_Row& row)
-    {
         // Set up our rules.
         uint32_t dis_idx       = row.dis();
         uint32_t hp_idx        = row.hp();
@@ -130,9 +119,20 @@ public:
             std::vector<fuzzy::Trapezoid>{distance_fuzzy[dis_idx], hp_fuzzy[hp_idx], hp_fuzzy[target_hp_idx]},
             oper_type,
             like_fuzzy[like_idx]});
+        return true;
+    }
+public:
+    CreateNewImpl(TargetFAM);
+public:
+    ~TargetFAM() {}
+    
+    using PB_T = Cfg_TargetFAM;
+    void Merge(TargetFAM* pData) const
+    {
+        pData->m_rule_set.merge(m_rule_set);
     }
     
-    static uint32_t GetIDFromPBRow(const Cfg_TargetFAM_Row& row) { return row.idmonster(); }
+    static uint32_t GetKey(const Cfg_TargetFAM_Row& row) { return row.idmonster(); }
     uint32_t        GetID() { return m_ID; }
 
     double calculate(double dist, double self_hp, double target_hp) const
@@ -145,7 +145,6 @@ private:
     // The rules that will tie the logic together
     fuzzy::RuleSet m_rule_set;
 };
-
-typedef CGameDataMap<TargetFAM> CTargetFAMSet;
+DEFINE_GAMEMAPDATA(CTargetFAMSet,TargetFAM);
 
 #endif /* AIFUZZYLOGIC_H */

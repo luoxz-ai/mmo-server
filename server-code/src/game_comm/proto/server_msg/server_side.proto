@@ -18,11 +18,14 @@ enum OMsgID
 
     MsgID_SystemVarChange = 20030;
     MsgID_SceneCreate     = 20031;
-    MsgID_SceneDestory    = 20032;
-    MsgID_MonsterGen      = 20033;
-    MsgID_MonsterDestory  = 20034;
-    MsgID_ActiveGen       = 20035;
-    MsgID_KillGen         = 20036;
+    MsgID_PhaseCreate     = 20032;
+    MsgID_PhaseDestory    = 20033;
+
+    MsgID_MonsterGen      = 20041;
+    MsgID_MonsterDestory  = 20042;
+    MsgID_ActiveGen       = 20043;
+    MsgID_KillGen         = 20044;
+    MsgID_MonsterGenOnce  = 20045;
 
     MsgID_ActorCreate         = 20100;
     MsgID_ActorDestory        = 20101;
@@ -30,6 +33,9 @@ enum OMsgID
     MsgID_ActorCastSkill      = 20103;
     MsgID_ActorCastSkill_Fail = 20104;
     MsgID_ActorSetHide        = 20105;
+    MsgID_SyncTaskPhase       = 20106;
+    MsgID_AddTaskPhase        = 20107;
+    MsgID_RemoveTaskPhase     = 20108;
 
     MsgID_TeamCreate       = 20110;
     MsgID_TeamDestory      = 20111;
@@ -127,25 +133,54 @@ message SceneCreate
     uint64 scene_id = 1;
 };
 
-message SceneDestory
+message PhaseCreate
 {
     uint64 scene_id = 1;
+    uint64 phase_id = 2;
+};
+
+message PhaseDestory
+{
+    uint64 scene_id = 1;
+    uint64 phase_id = 2;
 };
 
 message MonsterGen
 {
     uint64 scene_id     = 1;
-    uint32 gen_id       = 2;
-    uint32 monster_type = 3;
-    float  posx         = 4;
-    float  posy         = 5;
-    uint32 camp_id      = 6;
-    uint32 monster_id   = 7;
+    uint64 phase_id      = 2;
+    uint32 gen_id       = 3;
+    uint32 monster_type = 4;
+    float  posx         = 5;
+    float  posy         = 6;
+    uint32 camp_id      = 7;
+    uint32 monster_id   = 8;
+};
+
+message MonsterGenMulti
+{
+    uint64 scene_id     = 1;
+    uint64 phase_id      = 2;
+    uint32 gen_id       = 3;
+    uint32 monster_type = 4;
+    float  posx         = 5;
+    float  posy         = 6;
+    uint32 camp_id      = 7;
+    uint32 monster_id   = 8;
+    uint32 num          = 9;
+    float  range        = 10;
 };
 
 message MonsterDestory
 {
     repeated uint64 monster_id = 1;
+};
+
+message MonsterGenOnce
+{
+    uint64 scene_id = 1;
+    uint32 gen_id   = 2;
+    uint64 phase_id = 3;
 };
 
 message ActiveGen
@@ -166,7 +201,7 @@ message ActorCreate
     uint64 actor_id  = 1;
     uint64 scene_id  = 2;
     string name      = 4;
-    uint32 actortype = 5; // 1=怪,2=npc,3=pet,4=player
+    uint32 actortype = 5; //ACTOR_TYPE
     uint32 baselook  = 6; //基本外观数据
     uint32 prof      = 7; //玩家代表职业, 怪物/宠物/NPC代表类型ID
     uint32 lev       = 8;
@@ -177,12 +212,14 @@ message ActorCreate
     uint32 mpmax     = 13;
     uint32 movespd   = 14;
     uint64 ownerid   = 15;
+    
 
     float posx = 16;
     float posy = 17;
     float face = 18;
 
     uint32 monster_gen_id = 20;
+    uint64 phase_id   = 21;
 };
 
 message ActorDestory
@@ -293,4 +330,23 @@ message TeamMemberInfo
         string member_name   = 4;
     }
     repeated Info member_list = 1;
+}
+
+
+message SyncTaskPhase
+{
+    uint64 player_id = 1;
+    repeated uint64 task_phase_id = 2;
+}
+
+message AddTaskPhase
+{
+    uint64 player_id = 1;
+    uint64 task_phase_id = 2;
+}
+
+message RemoveTaskPhase
+{
+    uint64 player_id = 1;
+    uint64 task_phase_id = 2;
 }

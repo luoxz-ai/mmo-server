@@ -9,6 +9,7 @@
 #include "SettingMap.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/world_service.pb.h"
+#include "MonitorMgr.h"
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
@@ -493,6 +494,7 @@ void CSocketService::OnLogicThreadProc()
         }
 
         LOGMONITOR("{}", buf.c_str());
+        m_pMonitorMgr->Print();
         SetMessageProcess(0);
         m_nSocketMessageProcess = 0;
     }

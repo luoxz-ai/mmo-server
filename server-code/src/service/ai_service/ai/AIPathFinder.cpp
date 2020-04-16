@@ -2,6 +2,7 @@
 
 #include "AIActor.h"
 #include "AIScene.h"
+#include "AIPhase.h"
 CAIPathFinder::CAIPathFinder(CAIActor* pActor)
     : m_pActor(pActor)
 {

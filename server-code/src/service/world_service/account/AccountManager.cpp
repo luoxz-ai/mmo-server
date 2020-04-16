@@ -5,6 +5,8 @@
 #include "Account.h"
 #include "MD5.h"
 #include "WorldService.h"
+#include "msg/world_service.pb.h"
+#include "GMManager.h"
 
 const char* AUTH_URL = "https://example.com";
 

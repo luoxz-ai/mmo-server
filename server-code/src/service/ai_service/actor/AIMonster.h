@@ -31,7 +31,7 @@ public:
 
     virtual void OnCastSkillFinish(uint32_t stun_ms) override;
 
-    OBJID GetOwnerID() const { return m_idOwner; }
+    virtual OBJID GetOwnerID() const override{ return m_idOwner; }
     void  SetOwnerID(OBJID val) { m_idOwner = val; }
 
 public:

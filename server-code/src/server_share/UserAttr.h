@@ -10,7 +10,7 @@
 #include "gamedb.h"
 //////////////////////////////////////////////////////////////////////
 //
-class CUserAttrData: public Noncopyable<CUserAttrData>
+class CUserAttrData : public NoncopyableT<CUserAttrData>
 {
     CUserAttrData() {}
     bool Init(const Cfg_UserAttr_Row& row)
@@ -22,16 +22,14 @@ class CUserAttrData: public Noncopyable<CUserAttrData>
 
         return true;
     }
+
 public:
     CreateNewImpl(CUserAttrData);
 
     using PB_T = Cfg_UserAttr;
     virtual ~CUserAttrData() {}
-    
 
 public:
-
-
     uint32_t GetID() { return CUserAttrData::MakeID(m_dwProfession, m_nLevel); }
 
 public:
@@ -53,6 +51,6 @@ protected:
 };
 
 //////////////////////////////////////////////////////////////////////
-typedef CGameDataMap<CUserAttrData> CUserAttrSet;
+DEFINE_GAMEMAPDATA(CUserAttrSet, CUserAttrData);
 
 #endif //__USERATTR_H__

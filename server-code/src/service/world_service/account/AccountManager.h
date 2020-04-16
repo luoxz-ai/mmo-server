@@ -21,7 +21,7 @@ class CAccount;
 constexpr const char* AUTH_SERVER_SIGNATURE = "test";
 constexpr int32_t     AUTH_KEY_CANUSE_SECS  = 180;
 
-class CAccountManager: public Noncopyable<CAccountManager>
+class CAccountManager: public NoncopyableT<CAccountManager>
 {
     CAccountManager();
     bool Init(class CWorldService* pWorld);

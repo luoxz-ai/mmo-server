@@ -6,18 +6,44 @@ CSceneBase::CSceneBase() {}
 
 CSceneBase::~CSceneBase() {}
 
-bool CSceneBase::_Init(const SceneID& idScene, CMapManager* pMapManager)
+bool CSceneBase::Init(const SceneID& idScene, CMapManager* pMapManager)
 {
     m_idScene = idScene;
     m_pMap    = pMapManager->QueryMap(idScene.GetMapID());
     CHECKF(m_pMap);
     CHECKF(m_pMap->GetMapData());
-    InitSceneTree();
+
     return true;
 }
 
-void CSceneBase::EnterMap(CSceneObject* pActor, float fPosX, float fPosY, float fFace)
+bool CSceneBase::InitSceneTree(const CPos2D& vBasePos, float fWidth, float fHeight, uint32_t nTileGridRange)
 {
+    if(m_pSceneTree)
+    {
+        return false;
+    }
+    CSceneTree* pSceneTree = CSceneTree::CreateNew(m_pMap, vBasePos, fWidth, fHeight, nTileGridRange);
+    CHECKF(pSceneTree);
+    m_pSceneTree.reset(pSceneTree);
+    return true;
+}
+
+bool CSceneBase::LinkSceneTree(CSceneBase* pLinkScene)
+{
+    if(m_pSceneTree)
+    {
+        return false;
+    }
+
+    m_pSceneTree = pLinkScene->m_pSceneTree;
+    return true;
+}
+
+bool CSceneBase::EnterMap(CSceneObject* pActor, float fPosX, float fPosY, float fFace)
+{
+    CHECKF(m_pSceneTree->IsInsideScene(fPosX, fPosY));
+
+
     if(pActor->IsPlayer())
         m_setPlayer[pActor->GetID()] = pActor;
     m_setActor[pActor->GetID()] = pActor;
@@ -25,7 +51,8 @@ void CSceneBase::EnterMap(CSceneObject* pActor, float fPosX, float fPosY, float 
     pActor->SetFace(fFace);
     pActor->OnEnterMap(this);
     pActor->UpdateViewList();
-    CheckNeedResizeSceneNode(m_setPlayer.size());
+    m_pSceneTree->CheckNeedResizeSceneTile(m_setPlayer.size());
+    return true;
 }
 
 void CSceneBase::LeaveMap(CSceneObject* pActor, uint64_t idTargetScene /*= 0*/)
@@ -38,7 +65,7 @@ void CSceneBase::LeaveMap(CSceneObject* pActor, uint64_t idTargetScene /*= 0*/)
     //将玩家从场景树移除
     pActor->OnLeaveMap(idTargetScene);
     pActor->ClearViewList(true);
-    CheckNeedResizeSceneNode(m_setPlayer.size());
+    m_pSceneTree->CheckNeedResizeSceneTile(m_setPlayer.size());
 }
 
 Vector2 CSceneBase::FindPosNearby(const Vector2& pos, float range) const
@@ -71,7 +98,7 @@ bool CSceneBase::IsPassDisable(float x, float y, uint32_t actor_type) const
     // Collision layer
     if(m_pMap->HasMapFlag(MAPFLAG_COLLISION_ENABLE) == true)
     {
-        if(CollisionTest(x, y, actor_type) == true)
+        if(m_pSceneTree->CollisionTest(x, y, actor_type) == true)
             return false;
     }
 
@@ -127,7 +154,7 @@ bool CSceneBase::IsDropDisable(float x, float y) const
         return true;
 
     // Drop layer
-    if(CollisionTest(x, y, ActorType::ACT_MAPITEM) == true)
+    if(m_pSceneTree->CollisionTest(x, y, ActorType::ACT_MAPITEM) == true)
         return false;
 
     return false;
@@ -154,7 +181,7 @@ bool CSceneBase::IsStallDisable(float x, float y) const
     if(it != m_DynaRegionDataSet.end() && it->second.IsIntersect(x, y) == true)
         return true;
 
-    if(CollisionTest(x, y, ActorType::ACT_NPC) == true)
+    if(m_pSceneTree->CollisionTest(x, y, ActorType::ACT_NPC) == true)
         return false;
 
     return false;
@@ -169,7 +196,7 @@ bool CSceneBase::IsPlaceDisable(float x, float y) const
     if(it != m_DynaRegionDataSet.end() && it->second.IsIntersect(x, y) == true)
         return true;
 
-    if(CollisionTest(x, y, ActorType::ACT_NPC) == true)
+    if(m_pSceneTree->CollisionTest(x, y, ActorType::ACT_NPC) == true)
         return false;
 
     return false;

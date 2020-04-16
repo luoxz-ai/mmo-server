@@ -46,7 +46,7 @@ private:
     MEMORYHEAP_DECLARATION(s_heap);
 };
 
-export_lua class CCommonDataSet : public Noncopyable<CCommonDataSet>
+export_lua class CCommonDataSet : public NoncopyableT<CCommonDataSet>
 {
     CCommonDataSet();
 public:

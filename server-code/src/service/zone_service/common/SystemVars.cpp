@@ -2,6 +2,9 @@
 
 #include "Player.h"
 #include "ZoneService.h"
+#include "server_msg/server_side.pb.h"
+#include "MysqlConnection.h"
+
 constexpr uint32_t AUTO_SYNC_SYSTEMVAR_LIST[] = {
     SYSTEMVAR_SERVER_START,
 };

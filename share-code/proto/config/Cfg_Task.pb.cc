@@ -142,6 +142,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_config_2fCfg_5fTask_2eproto::o
   PROTOBUF_FIELD_OFFSET(::Cfg_Task_Row, award_exp_),
   PROTOBUF_FIELD_OFFSET(::Cfg_Task_Row, award_item_list_),
   PROTOBUF_FIELD_OFFSET(::Cfg_Task_Row, finish_data_list_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Task_Row, task_phase_id_),
   PROTOBUF_FIELD_OFFSET(::Cfg_Task_Row, scriptid_),
   PROTOBUF_FIELD_OFFSET(::Cfg_Task_Row, accept_txt_),
   PROTOBUF_FIELD_OFFSET(::Cfg_Task_Row, doing_txt_),
@@ -158,7 +159,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 0, -1, sizeof(::Cfg_Task_Row_TaskAwardItemData)},
   { 8, -1, sizeof(::Cfg_Task_Row_TaskFinishData)},
   { 19, -1, sizeof(::Cfg_Task_Row)},
-  { 50, -1, sizeof(::Cfg_Task)},
+  { 51, -1, sizeof(::Cfg_Task)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -169,8 +170,8 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 };
 
 const char descriptor_table_protodef_config_2fCfg_5fTask_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\025config/Cfg_Task.proto\"\321\006\n\010Cfg_Task\022\033\n\004"
-  "rows\030\001 \003(\0132\r.Cfg_Task.Row\032\247\006\n\003Row\022\n\n\002id\030"
+  "\n\025config/Cfg_Task.proto\"\350\006\n\010Cfg_Task\022\033\n\004"
+  "rows\030\001 \003(\0132\r.Cfg_Task.Row\032\276\006\n\003Row\022\n\n\002id\030"
   "\001 \001(\r\022\014\n\004sort\030\002 \001(\r\022\014\n\004type\030\004 \001(\r\022\014\n\004nam"
   "e\030\005 \001(\t\022\021\n\tlevel_req\030\006 \001(\r\022\020\n\010prof_req\030\007"
   " \001(\r\022\020\n\010task_req\030\010 \003(\r\022\022\n\nexpire_sec\030\t \001"
@@ -183,18 +184,18 @@ const char descriptor_table_protodef_config_2fCfg_5fTask_2eproto[] PROTOBUF_SECT
   "sk_id\030\023 \001(\r\022\021\n\taward_exp\030\024 \001(\r\0228\n\017award_"
   "item_list\030\025 \003(\0132\037.Cfg_Task.Row.TaskAward"
   "ItemData\0226\n\020finish_data_list\030\026 \003(\0132\034.Cfg"
-  "_Task.Row.TaskFinishData\022\020\n\010scriptid\030\036 \001"
-  "(\003\022\022\n\naccept_txt\030\037 \001(\t\022\021\n\tdoing_txt\030  \001("
-  "\t\022\022\n\nsubmit_txt\030! \001(\t\022\014\n\004desc\030\" \001(\t\032K\n\021T"
-  "askAwardItemData\022\020\n\010itemtype\030\001 \001(\r\022\020\n\010it"
-  "emflag\030\002 \001(\r\022\022\n\nitemamount\030\003 \001(\r\032y\n\016Task"
-  "FinishData\022\023\n\013finish_type\030\001 \001(\r\022\023\n\013finis"
-  "h_data\030\002 \001(\r\022\022\n\nfinish_num\030\003 \001(\r\022\014\n\004rate"
-  "\030\004 \001(\002\022\r\n\005share\030\005 \001(\010\022\014\n\004desc\030\n \001(\t*\177\n\016T"
-  "askFinishType\022\017\n\013TFTYPE_NONE\020\000\022\022\n\016TFTYPE"
-  "_MONSTER\020\001\022\017\n\013TFTYPE_ITEM\020\002\022\017\n\013TFTYPE_AC"
-  "HI\020\003\022\025\n\021TFTYPE_FINISHTASK\020\004\022\017\n\013TFTYPE_DA"
-  "TA\020\005B\002H\002b\006proto3"
+  "_Task.Row.TaskFinishData\022\025\n\rtask_phase_i"
+  "d\030\027 \001(\004\022\020\n\010scriptid\030\036 \001(\003\022\022\n\naccept_txt\030"
+  "\037 \001(\t\022\021\n\tdoing_txt\030  \001(\t\022\022\n\nsubmit_txt\030!"
+  " \001(\t\022\014\n\004desc\030\" \001(\t\032K\n\021TaskAwardItemData\022"
+  "\020\n\010itemtype\030\001 \001(\r\022\020\n\010itemflag\030\002 \001(\r\022\022\n\ni"
+  "temamount\030\003 \001(\r\032y\n\016TaskFinishData\022\023\n\013fin"
+  "ish_type\030\001 \001(\r\022\023\n\013finish_data\030\002 \001(\r\022\022\n\nf"
+  "inish_num\030\003 \001(\r\022\014\n\004rate\030\004 \001(\002\022\r\n\005share\030\005"
+  " \001(\010\022\014\n\004desc\030\n \001(\t*\177\n\016TaskFinishType\022\017\n\013"
+  "TFTYPE_NONE\020\000\022\022\n\016TFTYPE_MONSTER\020\001\022\017\n\013TFT"
+  "YPE_ITEM\020\002\022\017\n\013TFTYPE_ACHI\020\003\022\025\n\021TFTYPE_FI"
+  "NISHTASK\020\004\022\017\n\013TFTYPE_DATA\020\005B\002H\002b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_config_2fCfg_5fTask_2eproto_deps[1] = {
 };
@@ -207,7 +208,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_con
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_config_2fCfg_5fTask_2eproto_once;
 static bool descriptor_table_config_2fCfg_5fTask_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_config_2fCfg_5fTask_2eproto = {
-  &descriptor_table_config_2fCfg_5fTask_2eproto_initialized, descriptor_table_protodef_config_2fCfg_5fTask_2eproto, "config/Cfg_Task.proto", 1016,
+  &descriptor_table_config_2fCfg_5fTask_2eproto_initialized, descriptor_table_protodef_config_2fCfg_5fTask_2eproto, "config/Cfg_Task.proto", 1039,
   &descriptor_table_config_2fCfg_5fTask_2eproto_once, descriptor_table_config_2fCfg_5fTask_2eproto_sccs, descriptor_table_config_2fCfg_5fTask_2eproto_deps, 4, 0,
   schemas, file_default_instances, TableStruct_config_2fCfg_5fTask_2eproto::offsets,
   file_level_metadata_config_2fCfg_5fTask_2eproto, 4, file_level_enum_descriptors_config_2fCfg_5fTask_2eproto, file_level_service_descriptors_config_2fCfg_5fTask_2eproto,

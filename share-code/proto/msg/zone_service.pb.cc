@@ -22,6 +22,7 @@ extern PROTOBUF_INTERNAL_EXPORT_msg_2fzone_5fservice_2eproto ::PROTOBUF_NAMESPAC
 extern PROTOBUF_INTERNAL_EXPORT_msg_2fzone_5fservice_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_SC_DIALOG_dialog_link_msg_2fzone_5fservice_2eproto;
 extern PROTOBUF_INTERNAL_EXPORT_msg_2fzone_5fservice_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_SC_ITEM_CHANGE_ChangeData_msg_2fzone_5fservice_2eproto;
 extern PROTOBUF_INTERNAL_EXPORT_msg_2fzone_5fservice_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_SC_ITEM_INFO_msg_2fzone_5fservice_2eproto;
+extern PROTOBUF_INTERNAL_EXPORT_msg_2fzone_5fservice_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_SC_MAPVAL_MapVal_msg_2fzone_5fservice_2eproto;
 extern PROTOBUF_INTERNAL_EXPORT_msg_2fzone_5fservice_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_SC_SKILL_DAMAGE_DamageInfo_msg_2fzone_5fservice_2eproto;
 extern PROTOBUF_INTERNAL_EXPORT_msg_2fzone_5fservice_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_SC_STATUS_INFO_Data_msg_2fzone_5fservice_2eproto;
 extern PROTOBUF_INTERNAL_EXPORT_msg_2fzone_5fservice_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_SC_SYSVAR_Data_msg_2fzone_5fservice_2eproto;
@@ -91,6 +92,14 @@ class SC_AOI_UPDATEDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<SC_AOI_UPDATE> _instance;
 } _SC_AOI_UPDATE_default_instance_;
+class SC_MAPVAL_MapValDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<SC_MAPVAL_MapVal> _instance;
+} _SC_MAPVAL_MapVal_default_instance_;
+class SC_MAPVALDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<SC_MAPVAL> _instance;
+} _SC_MAPVAL_default_instance_;
 class SC_ATTRIB_CHANGE_DataDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<SC_ATTRIB_CHANGE_Data> _instance;
@@ -1144,6 +1153,35 @@ static void InitDefaultsscc_info_SC_LOADMAP_msg_2fzone_5fservice_2eproto() {
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_SC_LOADMAP_msg_2fzone_5fservice_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_SC_LOADMAP_msg_2fzone_5fservice_2eproto}, {}};
 
+static void InitDefaultsscc_info_SC_MAPVAL_msg_2fzone_5fservice_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::_SC_MAPVAL_default_instance_;
+    new (ptr) ::SC_MAPVAL();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::SC_MAPVAL::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_SC_MAPVAL_msg_2fzone_5fservice_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_SC_MAPVAL_msg_2fzone_5fservice_2eproto}, {
+      &scc_info_SC_MAPVAL_MapVal_msg_2fzone_5fservice_2eproto.base,}};
+
+static void InitDefaultsscc_info_SC_MAPVAL_MapVal_msg_2fzone_5fservice_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::_SC_MAPVAL_MapVal_default_instance_;
+    new (ptr) ::SC_MAPVAL_MapVal();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::SC_MAPVAL_MapVal::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_SC_MAPVAL_MapVal_msg_2fzone_5fservice_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_SC_MAPVAL_MapVal_msg_2fzone_5fservice_2eproto}, {}};
+
 static void InitDefaultsscc_info_SC_PLAYERINFO_msg_2fzone_5fservice_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -1444,8 +1482,8 @@ static void InitDefaultsscc_info_SC_TEAMMEMBER_INFO_MemberInfo_msg_2fzone_5fserv
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_SC_TEAMMEMBER_INFO_MemberInfo_msg_2fzone_5fservice_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_SC_TEAMMEMBER_INFO_MemberInfo_msg_2fzone_5fservice_2eproto}, {}};
 
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_msg_2fzone_5fservice_2eproto[78];
-static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_msg_2fzone_5fservice_2eproto[7];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_msg_2fzone_5fservice_2eproto[80];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_msg_2fzone_5fservice_2eproto[8];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_msg_2fzone_5fservice_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_msg_2fzone_5fservice_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -1609,6 +1647,21 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_msg_2fzone_5fservice_2eproto::
   PROTOBUF_FIELD_OFFSET(::SC_AOI_UPDATE, actor_id_),
   PROTOBUF_FIELD_OFFSET(::SC_AOI_UPDATE, posx_),
   PROTOBUF_FIELD_OFFSET(::SC_AOI_UPDATE, posy_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::SC_MAPVAL_MapVal, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::SC_MAPVAL_MapVal, key_),
+  PROTOBUF_FIELD_OFFSET(::SC_MAPVAL_MapVal, value_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::SC_MAPVAL, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::SC_MAPVAL, state_),
+  PROTOBUF_FIELD_OFFSET(::SC_MAPVAL, map_val_set_),
+  PROTOBUF_FIELD_OFFSET(::SC_MAPVAL, user_map_val_set_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::SC_ATTRIB_CHANGE_Data, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -2108,68 +2161,70 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 120, -1, sizeof(::SC_AOI_NEW)},
   { 144, -1, sizeof(::SC_AOI_REMOVE)},
   { 151, -1, sizeof(::SC_AOI_UPDATE)},
-  { 160, -1, sizeof(::SC_ATTRIB_CHANGE_Data)},
-  { 168, -1, sizeof(::SC_ATTRIB_CHANGE)},
-  { 175, -1, sizeof(::SC_STATUS_LIST)},
-  { 183, -1, sizeof(::SC_STATUS_INFO_Data)},
-  { 196, -1, sizeof(::SC_STATUS_INFO)},
-  { 203, -1, sizeof(::SC_STATUS_ACTION)},
-  { 212, -1, sizeof(::CS_MOVE)},
-  { 221, -1, sizeof(::CS_CHANGEMAP)},
-  { 228, -1, sizeof(::CS_CASTSKILL)},
-  { 238, -1, sizeof(::SC_CASTSKILL)},
-  { 249, -1, sizeof(::SC_SKILL_DAMAGE_DamageInfo)},
-  { 256, -1, sizeof(::SC_SKILL_DAMAGE)},
-  { 265, -1, sizeof(::CS_SKILL_BREAK)},
-  { 271, -1, sizeof(::SC_SKILL_BREAK)},
-  { 278, -1, sizeof(::CS_SKILL_CHGTARGETPOS)},
-  { 285, -1, sizeof(::SC_SKILL_STUN)},
-  { 294, -1, sizeof(::SC_SKILL_EFFACT)},
-  { 302, -1, sizeof(::SC_DAMAGE)},
-  { 312, -1, sizeof(::SC_DEAD)},
-  { 319, -1, sizeof(::CS_CHANGE_PKMODE)},
-  { 325, -1, sizeof(::SC_CHANGE_PKMODE)},
-  { 331, -1, sizeof(::CS_REBORN)},
-  { 337, -1, sizeof(::SC_ITEM_INFO)},
-  { 352, -1, sizeof(::SC_ITEM_CHANGE_ChangeData)},
-  { 359, -1, sizeof(::SC_ITEM_CHANGE)},
-  { 367, -1, sizeof(::SC_ITEM_DELETE)},
-  { 375, -1, sizeof(::CS_ITEM_SWAP)},
-  { 383, -1, sizeof(::CS_ITEM_SPLIT)},
-  { 392, -1, sizeof(::CS_ITEM_COMBINE)},
-  { 400, -1, sizeof(::CS_ITEM_TIDY)},
-  { 406, -1, sizeof(::CS_ITEM_USE)},
-  { 413, -1, sizeof(::CS_ITEM_STORAGE_OPEN)},
-  { 418, -1, sizeof(::CS_ITEM_STORAGE_CHECKOUT)},
-  { 424, -1, sizeof(::CS_ITEM_STORAGE_CHECKIN)},
-  { 430, -1, sizeof(::CS_EQUIP)},
-  { 437, -1, sizeof(::CS_UNEQUIP)},
-  { 443, -1, sizeof(::CS_TALK)},
-  { 451, -1, sizeof(::SC_TALK)},
-  { 465, -1, sizeof(::SC_TASK_INFO_Info)},
-  { 481, -1, sizeof(::SC_TASK_INFO)},
-  { 487, -1, sizeof(::SC_TASK_DATA)},
-  { 495, -1, sizeof(::CS_TASK_SUBMIT)},
-  { 502, -1, sizeof(::CS_ACTIVE_NPC)},
-  { 508, -1, sizeof(::SC_DIALOG_dialog_link)},
-  { 515, -1, sizeof(::SC_DIALOG)},
-  { 525, -1, sizeof(::CS_DIALOG_CLICK)},
-  { 532, -1, sizeof(::SC_ACHI_INFO_Info)},
-  { 539, -1, sizeof(::SC_ACHI_INFO)},
-  { 545, -1, sizeof(::CS_ACHI_TAKE)},
-  { 551, -1, sizeof(::CS_TEAMCREATE)},
-  { 556, -1, sizeof(::CS_TEAMQUIT)},
-  { 561, -1, sizeof(::CS_TEAMKICKMEMBER)},
-  { 567, -1, sizeof(::CS_TEAMINVITEMEMBER)},
-  { 573, -1, sizeof(::SC_TEAMINVITEMEMBER)},
-  { 581, -1, sizeof(::CS_TEAMACCEPTINVITE)},
-  { 589, -1, sizeof(::CS_TEAMNEWLEADER)},
-  { 595, -1, sizeof(::SC_TEAMMEMBER_INFO_MemberInfo)},
-  { 604, -1, sizeof(::SC_TEAMMEMBER_INFO)},
-  { 610, -1, sizeof(::SC_TEAMMEMBER_ACTION)},
-  { 621, -1, sizeof(::CS_TEAMAPPLYMEMBER)},
-  { 627, -1, sizeof(::SC_TEAMAPPLYMEMBER)},
-  { 634, -1, sizeof(::CS_TEAMACCEPTAPPLY)},
+  { 160, -1, sizeof(::SC_MAPVAL_MapVal)},
+  { 167, -1, sizeof(::SC_MAPVAL)},
+  { 175, -1, sizeof(::SC_ATTRIB_CHANGE_Data)},
+  { 183, -1, sizeof(::SC_ATTRIB_CHANGE)},
+  { 190, -1, sizeof(::SC_STATUS_LIST)},
+  { 198, -1, sizeof(::SC_STATUS_INFO_Data)},
+  { 211, -1, sizeof(::SC_STATUS_INFO)},
+  { 218, -1, sizeof(::SC_STATUS_ACTION)},
+  { 227, -1, sizeof(::CS_MOVE)},
+  { 236, -1, sizeof(::CS_CHANGEMAP)},
+  { 243, -1, sizeof(::CS_CASTSKILL)},
+  { 253, -1, sizeof(::SC_CASTSKILL)},
+  { 264, -1, sizeof(::SC_SKILL_DAMAGE_DamageInfo)},
+  { 271, -1, sizeof(::SC_SKILL_DAMAGE)},
+  { 280, -1, sizeof(::CS_SKILL_BREAK)},
+  { 286, -1, sizeof(::SC_SKILL_BREAK)},
+  { 293, -1, sizeof(::CS_SKILL_CHGTARGETPOS)},
+  { 300, -1, sizeof(::SC_SKILL_STUN)},
+  { 309, -1, sizeof(::SC_SKILL_EFFACT)},
+  { 317, -1, sizeof(::SC_DAMAGE)},
+  { 327, -1, sizeof(::SC_DEAD)},
+  { 334, -1, sizeof(::CS_CHANGE_PKMODE)},
+  { 340, -1, sizeof(::SC_CHANGE_PKMODE)},
+  { 346, -1, sizeof(::CS_REBORN)},
+  { 352, -1, sizeof(::SC_ITEM_INFO)},
+  { 367, -1, sizeof(::SC_ITEM_CHANGE_ChangeData)},
+  { 374, -1, sizeof(::SC_ITEM_CHANGE)},
+  { 382, -1, sizeof(::SC_ITEM_DELETE)},
+  { 390, -1, sizeof(::CS_ITEM_SWAP)},
+  { 398, -1, sizeof(::CS_ITEM_SPLIT)},
+  { 407, -1, sizeof(::CS_ITEM_COMBINE)},
+  { 415, -1, sizeof(::CS_ITEM_TIDY)},
+  { 421, -1, sizeof(::CS_ITEM_USE)},
+  { 428, -1, sizeof(::CS_ITEM_STORAGE_OPEN)},
+  { 433, -1, sizeof(::CS_ITEM_STORAGE_CHECKOUT)},
+  { 439, -1, sizeof(::CS_ITEM_STORAGE_CHECKIN)},
+  { 445, -1, sizeof(::CS_EQUIP)},
+  { 452, -1, sizeof(::CS_UNEQUIP)},
+  { 458, -1, sizeof(::CS_TALK)},
+  { 466, -1, sizeof(::SC_TALK)},
+  { 480, -1, sizeof(::SC_TASK_INFO_Info)},
+  { 496, -1, sizeof(::SC_TASK_INFO)},
+  { 502, -1, sizeof(::SC_TASK_DATA)},
+  { 510, -1, sizeof(::CS_TASK_SUBMIT)},
+  { 517, -1, sizeof(::CS_ACTIVE_NPC)},
+  { 523, -1, sizeof(::SC_DIALOG_dialog_link)},
+  { 530, -1, sizeof(::SC_DIALOG)},
+  { 540, -1, sizeof(::CS_DIALOG_CLICK)},
+  { 547, -1, sizeof(::SC_ACHI_INFO_Info)},
+  { 554, -1, sizeof(::SC_ACHI_INFO)},
+  { 560, -1, sizeof(::CS_ACHI_TAKE)},
+  { 566, -1, sizeof(::CS_TEAMCREATE)},
+  { 571, -1, sizeof(::CS_TEAMQUIT)},
+  { 576, -1, sizeof(::CS_TEAMKICKMEMBER)},
+  { 582, -1, sizeof(::CS_TEAMINVITEMEMBER)},
+  { 588, -1, sizeof(::SC_TEAMINVITEMEMBER)},
+  { 596, -1, sizeof(::CS_TEAMACCEPTINVITE)},
+  { 604, -1, sizeof(::CS_TEAMNEWLEADER)},
+  { 610, -1, sizeof(::SC_TEAMMEMBER_INFO_MemberInfo)},
+  { 619, -1, sizeof(::SC_TEAMMEMBER_INFO)},
+  { 625, -1, sizeof(::SC_TEAMMEMBER_ACTION)},
+  { 636, -1, sizeof(::CS_TEAMAPPLYMEMBER)},
+  { 642, -1, sizeof(::SC_TEAMAPPLYMEMBER)},
+  { 649, -1, sizeof(::CS_TEAMACCEPTAPPLY)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -2189,6 +2244,8 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_SC_AOI_NEW_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_SC_AOI_REMOVE_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_SC_AOI_UPDATE_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_SC_MAPVAL_MapVal_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_SC_MAPVAL_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_SC_ATTRIB_CHANGE_Data_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_SC_ATTRIB_CHANGE_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_SC_STATUS_LIST_default_instance_),
@@ -2293,183 +2350,189 @@ const char descriptor_table_protodef_msg_2fzone_5fservice_2eproto[] PROTOBUF_SEC
   "name\030\037 \001(\t\".\n\rSC_AOI_REMOVE\022\r\n\005mapid\030\001 \001"
   "(\r\022\016\n\006idlist\030\002 \003(\004\"L\n\rSC_AOI_UPDATE\022\r\n\005m"
   "apid\030\001 \001(\r\022\020\n\010actor_id\030\002 \001(\004\022\014\n\004posx\030\003 \001"
-  "(\002\022\014\n\004posy\030\004 \001(\002\"\203\001\n\020SC_ATTRIB_CHANGE\022\020\n"
-  "\010actor_id\030\001 \001(\004\022(\n\010datalist\030\002 \003(\0132\026.SC_A"
-  "TTRIB_CHANGE.Data\0323\n\004Data\022\016\n\006actype\030\001 \001("
-  "\r\022\013\n\003val\030\002 \001(\r\022\016\n\006valstr\030\003 \001(\t\"W\n\016SC_STA"
-  "TUS_LIST\022\020\n\010actor_id\030\001 \001(\004\022\032\n\022status_typ"
-  "eid_list\030\002 \003(\r\022\027\n\017status_lev_list\030\003 \003(\r\""
-  "\333\001\n\016SC_STATUS_INFO\022\020\n\010actor_id\030\001 \001(\004\022(\n\n"
-  "statuslist\030\002 \003(\0132\024.SC_STATUS_INFO.Data\032\214"
-  "\001\n\004Data\022\020\n\010statusid\030\001 \001(\r\022\021\n\tstatuslev\030\002"
-  " \001(\r\022\r\n\005power\030\003 \001(\005\022\013\n\003sec\030\004 \001(\005\022\r\n\005time"
-  "s\030\005 \001(\005\022\021\n\tlaststamp\030\006 \001(\r\022\020\n\010idcaster\030\007"
-  " \001(\004\022\017\n\007ispause\030\010 \001(\010\"\266\001\n\020SC_STATUS_ACTI"
-  "ON\022\020\n\010actor_id\030\001 \001(\004\022(\n\006action\030\002 \001(\0162\030.S"
-  "C_STATUS_ACTION.ACTION\022\020\n\010statusid\030\003 \001(\r"
-  "\022\021\n\tstatuslev\030\004 \001(\r\"A\n\006ACTION\022\021\n\rSTATUS_"
-  "ATTACH\020\000\022\021\n\rSTATUS_DETACH\020\001\022\021\n\rSTATUS_EF"
-  "FECT\020\002\"<\n\007CS_MOVE\022\r\n\005mapid\030\001 \001(\004\022\t\n\001x\030\002 "
-  "\001(\002\022\t\n\001y\030\003 \001(\002\022\014\n\004face\030\004 \001(\002\"5\n\014CS_CHANG"
-  "EMAP\022\r\n\005mapid\030\001 \001(\004\022\026\n\016leavepoint_idx\030\002 "
-  "\001(\r\"X\n\014CS_CASTSKILL\022\r\n\005mapid\030\001 \001(\004\022\020\n\010sk"
-  "ill_id\030\002 \001(\r\022\021\n\ttarget_id\030\003 \001(\004\022\t\n\001x\030\004 \001"
-  "(\002\022\t\n\001y\030\005 \001(\002\"j\n\014SC_CASTSKILL\022\r\n\005mapid\030\001"
-  " \001(\004\022\020\n\010actor_id\030\002 \001(\004\022\020\n\010skill_id\030\003 \001(\r"
-  "\022\021\n\ttarget_id\030\004 \001(\004\022\t\n\001x\030\005 \001(\002\022\t\n\001y\030\006 \001("
-  "\002\"\246\001\n\017SC_SKILL_DAMAGE\022\r\n\005mapid\030\001 \001(\004\022\020\n\010"
-  "actor_id\030\002 \001(\004\022\020\n\010skill_id\030\003 \001(\r\022/\n\ndama"
-  "gelist\030\005 \003(\0132\033.SC_SKILL_DAMAGE.DamageInf"
-  "o\032/\n\nDamageInfo\022\021\n\ttarget_id\030\001 \001(\004\022\016\n\006da"
-  "mage\030\002 \001(\005\"\037\n\016CS_SKILL_BREAK\022\r\n\005mapid\030\001 "
-  "\001(\004\"1\n\016SC_SKILL_BREAK\022\r\n\005mapid\030\001 \001(\004\022\020\n\010"
-  "actor_id\030\002 \001(\004\"-\n\025CS_SKILL_CHGTARGETPOS\022"
-  "\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\"S\n\rSC_SKILL_STUN\022\r"
-  "\n\005mapid\030\001 \001(\004\022\020\n\010actor_id\030\002 \001(\004\022\020\n\010skill"
-  "_id\030\003 \001(\r\022\017\n\007stun_ms\030\004 \001(\r\"D\n\017SC_SKILL_E"
-  "FFACT\022\r\n\005mapid\030\001 \001(\004\022\020\n\010actor_id\030\002 \001(\004\022\020"
-  "\n\010skill_id\030\003 \001(\r\"d\n\tSC_DAMAGE\022\020\n\010actor_i"
-  "d\030\001 \001(\004\022\023\n\013attacker_id\030\002 \001(\004\022\016\n\006damage\030\003"
-  " \001(\r\022\017\n\007hittype\030\004 \001(\r\022\017\n\007crtical\030\005 \001(\010\"0"
-  "\n\007SC_DEAD\022\020\n\010actor_id\030\001 \001(\004\022\023\n\013attacker_"
-  "id\030\002 \001(\004\"\"\n\020CS_CHANGE_PKMODE\022\016\n\006pkmode\030\001"
-  " \001(\r\"\"\n\020SC_CHANGE_PKMODE\022\016\n\006pkmode\030\001 \001(\r"
-  "\" \n\tCS_REBORN\022\023\n\013reborn_type\030\001 \001(\r\"\276\001\n\014S"
-  "C_ITEM_INFO\022\020\n\010actor_id\030\001 \001(\004\022\017\n\007item_id"
-  "\030\002 \001(\004\022\020\n\010position\030\003 \001(\r\022\014\n\004grid\030\004 \001(\r\022\020"
-  "\n\010pile_num\030\005 \001(\r\022\014\n\004dura\030\006 \001(\r\022\022\n\ndura_l"
-  "imit\030\007 \001(\r\022\023\n\013expire_time\030\010 \001(\r\022\024\n\014addit"
-  "ion_lev\030\t \001(\r\022\014\n\004flag\030\n \001(\r\"\236\002\n\016SC_ITEM_"
-  "CHANGE\022\017\n\007item_id\030\001 \001(\004\022\020\n\010position\030\002 \001("
-  "\r\022/\n\013change_list\030\003 \003(\0132\032.SC_ITEM_CHANGE."
-  "ChangeData\032L\n\nChangeData\022/\n\013change_type\030"
-  "\001 \001(\0162\032.SC_ITEM_CHANGE.ChangeType\022\r\n\005val"
-  "ue\030\002 \001(\r\"j\n\nChangeType\022\016\n\nChangeGrid\020\000\022\021"
-  "\n\rChangePileNum\020\001\022\024\n\020ChangeExpireData\020\002\022"
-  "\016\n\nChangeDura\020\003\022\023\n\017ChangeDuraLimit\020\004\"A\n\016"
-  "SC_ITEM_DELETE\022\017\n\007item_id\030\001 \001(\004\022\020\n\010posit"
-  "ion\030\002 \001(\r\022\014\n\004grid\030\003 \001(\r\">\n\014CS_ITEM_SWAP\022"
-  "\020\n\010position\030\001 \001(\r\022\r\n\005grid1\030\002 \001(\r\022\r\n\005grid"
-  "2\030\003 \001(\r\"R\n\rCS_ITEM_SPLIT\022\020\n\010position\030\001 \001"
-  "(\r\022\r\n\005grid1\030\002 \001(\r\022\r\n\005grid2\030\003 \001(\r\022\021\n\tspli"
-  "t_num\030\004 \001(\r\"A\n\017CS_ITEM_COMBINE\022\020\n\010positi"
-  "on\030\001 \001(\r\022\r\n\005grid1\030\002 \001(\r\022\r\n\005grid2\030\003 \001(\r\" "
-  "\n\014CS_ITEM_TIDY\022\020\n\010position\030\001 \001(\r\"*\n\013CS_I"
-  "TEM_USE\022\014\n\004grid\030\001 \001(\r\022\r\n\005count\030\002 \001(\r\"\026\n\024"
-  "CS_ITEM_STORAGE_OPEN\"3\n\030CS_ITEM_STORAGE_"
-  "CHECKOUT\022\027\n\017grid_in_storage\030\001 \001(\r\"2\n\027CS_"
-  "ITEM_STORAGE_CHECKIN\022\027\n\017grid_in_package\030"
-  "\001 \001(\r\":\n\010CS_EQUIP\022\027\n\017grid_in_package\030\001 \001"
-  "(\r\022\025\n\rgrid_in_equip\030\002 \001(\r\"#\n\nCS_UNEQUIP\022"
-  "\025\n\rgrid_in_equip\030\001 \001(\r\"K\n\007CS_TALK\022\035\n\007cha"
-  "nnel\030\001 \001(\0162\014.TalkChannel\022\r\n\005words\030\002 \001(\t\022"
-  "\022\n\nreciver_id\030\003 \001(\004\"\324\001\n\007SC_TALK\022\035\n\007chann"
-  "el\030\001 \001(\0162\014.TalkChannel\022\r\n\005words\030\002 \001(\t\022\021\n"
-  "\tsender_id\030\004 \001(\004\022\023\n\013sender_name\030\005 \001(\t\022\023\n"
-  "\013sender_sign\030\006 \001(\r\022\025\n\rsender_viplev\030\007 \001("
-  "\r\022\021\n\tsend_time\030\010 \001(\r\022\022\n\nreciver_id\030\t \001(\004"
-  "\022 \n\titem_list\030\024 \003(\0132\r.SC_ITEM_INFO\"\202\002\n\014S"
-  "C_TASK_INFO\022*\n\016task_info_list\030\001 \003(\0132\022.SC"
-  "_TASK_INFO.Info\032\305\001\n\004Info\022\017\n\007task_id\030\001 \001("
-  "\004\022\023\n\013accept_time\030\002 \001(\r\022\023\n\013finish_time\030\003 "
-  "\001(\r\022\023\n\013expire_time\030\004 \001(\r\022\020\n\010daycount\030\005 \001"
-  "(\r\022\024\n\014daycount_max\030\006 \001(\r\022\r\n\005state\030\007 \001(\r\022"
-  "\014\n\004num1\030\n \001(\r\022\014\n\004num2\030\013 \001(\r\022\014\n\004num3\030\014 \001("
-  "\r\022\014\n\004num4\030\r \001(\r\"9\n\014SC_TASK_DATA\022\017\n\007task_"
-  "id\030\001 \001(\004\022\013\n\003idx\030\002 \001(\r\022\013\n\003num\030\003 \001(\r\":\n\016CS"
-  "_TASK_SUBMIT\022\017\n\007task_id\030\001 \001(\004\022\027\n\017submit_"
-  "multiple\030\002 \001(\r\"\037\n\rCS_ACTIVE_NPC\022\016\n\006npc_i"
-  "d\030\001 \001(\004\"\272\001\n\tSC_DIALOG\022\021\n\tdialog_id\030\001 \001(\004"
-  "\022\023\n\013dialog_type\030\002 \001(\r\022\024\n\014dialog_title\030\003 "
-  "\001(\t\022\022\n\ndialog_txt\030\004 \003(\t\0220\n\020dialog_link_l"
-  "ist\030\005 \003(\0132\026.SC_DIALOG.dialog_link\032)\n\013dia"
-  "log_link\022\r\n\005style\030\001 \001(\r\022\013\n\003txt\030\002 \001(\t\"\?\n\017"
-  "CS_DIALOG_CLICK\022\021\n\tdialog_id\030\001 \001(\004\022\031\n\021di"
-  "alog_button_idx\030\002 \001(\r\"^\n\014SC_ACHI_INFO\022\'\n"
-  "\013finish_list\030\001 \003(\0132\022.SC_ACHI_INFO.Info\032%"
-  "\n\004Info\022\017\n\007achi_id\030\001 \001(\r\022\014\n\004take\030\002 \001(\r\"\037\n"
-  "\014CS_ACHI_TAKE\022\017\n\007achi_id\030\001 \001(\r\"\017\n\rCS_TEA"
-  "MCREATE\"\r\n\013CS_TEAMQUIT\"&\n\021CS_TEAMKICKMEM"
-  "BER\022\021\n\tmember_id\030\001 \001(\004\")\n\023CS_TEAMINVITEM"
-  "EMBER\022\022\n\ninvitee_id\030\001 \001(\004\"P\n\023SC_TEAMINVI"
-  "TEMEMBER\022\017\n\007team_id\030\001 \001(\004\022\022\n\ninviter_id\030"
-  "\002 \001(\004\022\024\n\014inviter_name\030\003 \001(\t\"J\n\023CS_TEAMAC"
-  "CEPTINVITE\022\017\n\007team_id\030\001 \001(\004\022\022\n\ninviter_i"
-  "d\030\002 \001(\004\022\016\n\006result\030\003 \001(\010\")\n\020CS_TEAMNEWLEA"
-  "DER\022\025\n\rnew_leader_id\030\002 \001(\004\"\252\001\n\022SC_TEAMME"
-  "MBER_INFO\0223\n\013member_list\030\001 \003(\0132\036.SC_TEAM"
-  "MEMBER_INFO.MemberInfo\032_\n\nMemberInfo\022\021\n\t"
-  "member_id\030\001 \001(\004\022\022\n\nmember_lev\030\002 \001(\r\022\025\n\rm"
-  "ember_online\030\003 \001(\010\022\023\n\013member_name\030\004 \001(\t\""
-  "\370\002\n\024SC_TEAMMEMBER_ACTION\022,\n\006action\030\001 \001(\016"
-  "2\034.SC_TEAMMEMBER_ACTION.Action\022\023\n\013operat"
-  "or_id\030\002 \001(\004\022\021\n\tmember_id\030\003 \001(\004\022\022\n\nmember"
-  "_lev\030\004 \001(\r\022\023\n\013member_name\030\005 \001(\t\022\025\n\rmembe"
-  "r_online\030\006 \001(\010\"\311\001\n\006Action\022\017\n\013TEAM_CREATE"
-  "\020\000\022\020\n\014TEAM_DESTORY\020\001\022\021\n\rTEAM_ADDMEBER\020\002\022"
-  "\026\n\022TEAM_CHANGE_LEADER\020\003\022\r\n\tTEAM_QUIT\020\004\022\023"
-  "\n\017TEAM_KICKMEMBER\020\005\022\027\n\023TEAM_MEMBER_LEV_C"
-  "HG\020\006\022\030\n\024TEAM_MEMBER_NAME_CHG\020\007\022\032\n\026TEAM_M"
-  "EMBER_ONLINE_CHG\020\010\"+\n\022CS_TEAMAPPLYMEMBER"
-  "\022\025\n\rrespondent_id\030\001 \001(\004\"B\n\022SC_TEAMAPPLYM"
-  "EMBER\022\024\n\014applicant_id\030\001 \001(\004\022\026\n\016applicant"
-  "_name\030\002 \001(\t\":\n\022CS_TEAMACCEPTAPPLY\022\024\n\014app"
-  "licant_id\030\001 \001(\004\022\016\n\006result\030\002 \001(\010*\266\006\n\013ZONE"
-  "_CS_CMD\022\024\n\020ZONE_CS_CMD_NONE\020\000\022\030\n\023CMD_CS_"
-  "LOADMAP_SUCC\020\351\007\022\020\n\013CMD_CS_MOVE\020\352\007\022\025\n\020CMD"
-  "_CS_CHANGEMAP\020\353\007\022\025\n\020CMD_CS_CASTSKILL\020\354\007\022"
-  "\027\n\022CMD_CS_SKILL_BREAK\020\355\007\022\036\n\031CMD_CS_SKILL"
-  "_CHGTARGETPOS\020\356\007\022\031\n\024CMD_CS_CHANGE_PKMODE"
-  "\020\357\007\022\022\n\rCMD_CS_REBORN\020\360\007\022\025\n\020CMD_CS_ITEM_S"
-  "WAP\020\374\007\022\026\n\021CMD_CS_ITEM_SPLIT\020\375\007\022\030\n\023CMD_CS"
-  "_ITEM_COMBINE\020\376\007\022\025\n\020CMD_CS_ITEM_TIDY\020\377\007\022"
-  "\024\n\017CMD_CS_ITEM_USE\020\200\010\022\035\n\030CMD_CS_ITEM_STO"
-  "RAGE_OPEN\020\201\010\022 \n\033CMD_CS_ITEM_STORAGE_CHEC"
-  "KIN\020\202\010\022!\n\034CMD_CS_ITEM_STORAGE_CHECKOUT\020\203"
-  "\010\022\021\n\014CMD_CS_EQUIP\020\206\010\022\023\n\016CMD_CS_UNEQUIP\020\207"
-  "\010\022\020\n\013CMD_CS_TALK\020\220\010\022\027\n\022CMD_CS_TASK_SUBMI"
-  "T\020\221\010\022\026\n\021CMD_CS_ACTIVE_NPC\020\222\010\022\030\n\023CMD_CS_D"
-  "IALOG_CLICK\020\223\010\022\025\n\020CMD_CS_ACHI_TAKE\020\224\010\022\026\n"
-  "\021CMD_CS_TEAMCREATE\020\232\010\022\024\n\017CMD_CS_TEAMQUIT"
-  "\020\233\010\022\032\n\025CMD_CS_TEAMKICKMEMBER\020\234\010\022\034\n\027CMD_C"
-  "S_TEAMINVITEMEMBER\020\235\010\022\034\n\027CMD_CS_TEAMACCE"
-  "PTINVITE\020\236\010\022\031\n\024CMD_CS_TEAMNEWLEADER\020\237\010\022\033"
-  "\n\026CMD_CS_TEAMAPPLYMEMBER\020\240\010\022\033\n\026CMD_CS_TE"
-  "AMACCEPTAPPLY\020\241\010*\355\006\n\013ZONE_SC_CMD\022\024\n\020ZONE"
-  "_SC_CMD_NONE\020\000\022\023\n\016CMD_SC_LOADMAP\020\351\007\022\024\n\017C"
-  "MD_SC_ENTERMAP\020\352\007\022\026\n\021CMD_SC_PLAYERINFO\020\353"
-  "\007\022\027\n\022CMD_SC_ACTORATTRIB\020\354\007\022\026\n\021CMD_SC_COM"
-  "MONDATA\020\355\007\022\025\n\020CMD_SC_DATACOUNT\020\356\007\022\022\n\rCMD"
-  "_SC_SYSVAR\020\357\007\022\024\n\017CMD_SC_COOLDOWN\020\360\007\022\023\n\016C"
-  "MD_SC_AOI_NEW\020\361\007\022\026\n\021CMD_SC_AOI_REMOVE\020\362\007"
-  "\022\026\n\021CMD_SC_AOI_UPDATE\020\363\007\022\025\n\020CMD_SC_CASTS"
-  "KILL\020\364\007\022\027\n\022CMD_SC_SKILL_BREAK\020\365\007\022\030\n\023CMD_"
-  "SC_SKILL_DAMAGE\020\366\007\022\026\n\021CMD_SC_SKILL_STUN\020"
-  "\367\007\022\030\n\023CMD_SC_SKILL_EFFACT\020\370\007\022\022\n\rCMD_SC_D"
-  "AMAGE\020\371\007\022\020\n\013CMD_SC_DEAD\020\372\007\022\031\n\024CMD_SC_ATT"
-  "RIB_CHANGE\020\373\007\022\031\n\024CMD_SC_CHANGE_PKMODE\020\374\007"
-  "\022\027\n\022CMD_SC_STATUS_LIST\020\375\007\022\027\n\022CMD_SC_STAT"
-  "US_INFO\020\377\007\022\031\n\024CMD_SC_STATUS_ACTION\020\200\010\022\027\n"
-  "\022CMD_SC_ITEM_DELETE\020\206\010\022\025\n\020CMD_SC_ITEM_IN"
-  "FO\020\207\010\022\027\n\022CMD_SC_ITEM_CHANGE\020\210\010\022\020\n\013CMD_SC"
-  "_TALK\020\211\010\022\025\n\020CMD_SC_TASK_INFO\020\220\010\022\025\n\020CMD_S"
-  "C_TASK_DATA\020\221\010\022\022\n\rCMD_SC_DIALOG\020\222\010\022\025\n\020CM"
-  "D_SC_ACHI_INFO\020\223\010\022\033\n\026CMD_SC_TEAMMEMBER_I"
-  "NFO\020\232\010\022\035\n\030CMD_SC_TEAMMEMBER_ACTION\020\233\010\022\034\n"
-  "\027CMD_SC_TEAMINVITEMEMBER\020\234\010\022\033\n\026CMD_SC_TE"
-  "AMAPPLYMEMBER\020\235\010*\321\001\n\013TalkChannel\022\022\n\016CHAN"
-  "NEL_NORMAL\020\000\022\021\n\rCHANNEL_SCENE\020\001\022\023\n\017CHANN"
-  "EL_PRIVATE\020\002\022\020\n\014CHANNEL_TEAM\020\003\022\021\n\rCHANNE"
-  "L_GUILD\020\004\022\021\n\rCHANNEL_WORLD\020\005\022\023\n\017CHANNEL_"
-  "TRUMPET\020\006\022\022\n\016CHANNEL_GLOBAL\020\007\022\022\n\016CHANNEL"
-  "_SYSTEM\020\010\022\021\n\rCHANNEL_RUMOR\020\t*j\n\tTaskStat"
-  "e\022\027\n\023TASKSTATE_NOTACCEPT\020\000\022\026\n\022TASKSTATE_"
-  "ACCEPTED\020\001\022\024\n\020TASKSTATE_GIVEUP\020\002\022\026\n\022TASK"
-  "STATE_FINISHED\020\003b\006proto3"
+  "(\002\022\014\n\004posy\030\004 \001(\002\"\332\001\n\tSC_MAPVAL\022\037\n\005state\030"
+  "\001 \001(\0162\020.SC_MAPVAL.State\022&\n\013map_val_set\030\002"
+  " \003(\0132\021.SC_MAPVAL.MapVal\022+\n\020user_map_val_"
+  "set\030\003 \003(\0132\021.SC_MAPVAL.MapVal\032$\n\006MapVal\022\013"
+  "\n\003key\030\001 \001(\r\022\r\n\005value\030\002 \001(\003\"1\n\005State\022\023\n\017S"
+  "YNC_MAPVAL_ALL\020\000\022\023\n\017SYNC_MAPVAL_ONE\020\001\"\203\001"
+  "\n\020SC_ATTRIB_CHANGE\022\020\n\010actor_id\030\001 \001(\004\022(\n\010"
+  "datalist\030\002 \003(\0132\026.SC_ATTRIB_CHANGE.Data\0323"
+  "\n\004Data\022\016\n\006actype\030\001 \001(\r\022\013\n\003val\030\002 \001(\r\022\016\n\006v"
+  "alstr\030\003 \001(\t\"W\n\016SC_STATUS_LIST\022\020\n\010actor_i"
+  "d\030\001 \001(\004\022\032\n\022status_typeid_list\030\002 \003(\r\022\027\n\017s"
+  "tatus_lev_list\030\003 \003(\r\"\333\001\n\016SC_STATUS_INFO\022"
+  "\020\n\010actor_id\030\001 \001(\004\022(\n\nstatuslist\030\002 \003(\0132\024."
+  "SC_STATUS_INFO.Data\032\214\001\n\004Data\022\020\n\010statusid"
+  "\030\001 \001(\r\022\021\n\tstatuslev\030\002 \001(\r\022\r\n\005power\030\003 \001(\005"
+  "\022\013\n\003sec\030\004 \001(\005\022\r\n\005times\030\005 \001(\005\022\021\n\tlaststam"
+  "p\030\006 \001(\r\022\020\n\010idcaster\030\007 \001(\004\022\017\n\007ispause\030\010 \001"
+  "(\010\"\266\001\n\020SC_STATUS_ACTION\022\020\n\010actor_id\030\001 \001("
+  "\004\022(\n\006action\030\002 \001(\0162\030.SC_STATUS_ACTION.ACT"
+  "ION\022\020\n\010statusid\030\003 \001(\r\022\021\n\tstatuslev\030\004 \001(\r"
+  "\"A\n\006ACTION\022\021\n\rSTATUS_ATTACH\020\000\022\021\n\rSTATUS_"
+  "DETACH\020\001\022\021\n\rSTATUS_EFFECT\020\002\"<\n\007CS_MOVE\022\r"
+  "\n\005mapid\030\001 \001(\004\022\t\n\001x\030\002 \001(\002\022\t\n\001y\030\003 \001(\002\022\014\n\004f"
+  "ace\030\004 \001(\002\"5\n\014CS_CHANGEMAP\022\r\n\005mapid\030\001 \001(\004"
+  "\022\026\n\016leavepoint_idx\030\002 \001(\r\"X\n\014CS_CASTSKILL"
+  "\022\r\n\005mapid\030\001 \001(\004\022\020\n\010skill_id\030\002 \001(\r\022\021\n\ttar"
+  "get_id\030\003 \001(\004\022\t\n\001x\030\004 \001(\002\022\t\n\001y\030\005 \001(\002\"j\n\014SC"
+  "_CASTSKILL\022\r\n\005mapid\030\001 \001(\004\022\020\n\010actor_id\030\002 "
+  "\001(\004\022\020\n\010skill_id\030\003 \001(\r\022\021\n\ttarget_id\030\004 \001(\004"
+  "\022\t\n\001x\030\005 \001(\002\022\t\n\001y\030\006 \001(\002\"\246\001\n\017SC_SKILL_DAMA"
+  "GE\022\r\n\005mapid\030\001 \001(\004\022\020\n\010actor_id\030\002 \001(\004\022\020\n\010s"
+  "kill_id\030\003 \001(\r\022/\n\ndamagelist\030\005 \003(\0132\033.SC_S"
+  "KILL_DAMAGE.DamageInfo\032/\n\nDamageInfo\022\021\n\t"
+  "target_id\030\001 \001(\004\022\016\n\006damage\030\002 \001(\005\"\037\n\016CS_SK"
+  "ILL_BREAK\022\r\n\005mapid\030\001 \001(\004\"1\n\016SC_SKILL_BRE"
+  "AK\022\r\n\005mapid\030\001 \001(\004\022\020\n\010actor_id\030\002 \001(\004\"-\n\025C"
+  "S_SKILL_CHGTARGETPOS\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001"
+  "(\002\"S\n\rSC_SKILL_STUN\022\r\n\005mapid\030\001 \001(\004\022\020\n\010ac"
+  "tor_id\030\002 \001(\004\022\020\n\010skill_id\030\003 \001(\r\022\017\n\007stun_m"
+  "s\030\004 \001(\r\"D\n\017SC_SKILL_EFFACT\022\r\n\005mapid\030\001 \001("
+  "\004\022\020\n\010actor_id\030\002 \001(\004\022\020\n\010skill_id\030\003 \001(\r\"d\n"
+  "\tSC_DAMAGE\022\020\n\010actor_id\030\001 \001(\004\022\023\n\013attacker"
+  "_id\030\002 \001(\004\022\016\n\006damage\030\003 \001(\r\022\017\n\007hittype\030\004 \001"
+  "(\r\022\017\n\007crtical\030\005 \001(\010\"0\n\007SC_DEAD\022\020\n\010actor_"
+  "id\030\001 \001(\004\022\023\n\013attacker_id\030\002 \001(\004\"\"\n\020CS_CHAN"
+  "GE_PKMODE\022\016\n\006pkmode\030\001 \001(\r\"\"\n\020SC_CHANGE_P"
+  "KMODE\022\016\n\006pkmode\030\001 \001(\r\" \n\tCS_REBORN\022\023\n\013re"
+  "born_type\030\001 \001(\r\"\276\001\n\014SC_ITEM_INFO\022\020\n\010acto"
+  "r_id\030\001 \001(\004\022\017\n\007item_id\030\002 \001(\004\022\020\n\010position\030"
+  "\003 \001(\r\022\014\n\004grid\030\004 \001(\r\022\020\n\010pile_num\030\005 \001(\r\022\014\n"
+  "\004dura\030\006 \001(\r\022\022\n\ndura_limit\030\007 \001(\r\022\023\n\013expir"
+  "e_time\030\010 \001(\r\022\024\n\014addition_lev\030\t \001(\r\022\014\n\004fl"
+  "ag\030\n \001(\r\"\236\002\n\016SC_ITEM_CHANGE\022\017\n\007item_id\030\001"
+  " \001(\004\022\020\n\010position\030\002 \001(\r\022/\n\013change_list\030\003 "
+  "\003(\0132\032.SC_ITEM_CHANGE.ChangeData\032L\n\nChang"
+  "eData\022/\n\013change_type\030\001 \001(\0162\032.SC_ITEM_CHA"
+  "NGE.ChangeType\022\r\n\005value\030\002 \001(\r\"j\n\nChangeT"
+  "ype\022\016\n\nChangeGrid\020\000\022\021\n\rChangePileNum\020\001\022\024"
+  "\n\020ChangeExpireData\020\002\022\016\n\nChangeDura\020\003\022\023\n\017"
+  "ChangeDuraLimit\020\004\"A\n\016SC_ITEM_DELETE\022\017\n\007i"
+  "tem_id\030\001 \001(\004\022\020\n\010position\030\002 \001(\r\022\014\n\004grid\030\003"
+  " \001(\r\">\n\014CS_ITEM_SWAP\022\020\n\010position\030\001 \001(\r\022\r"
+  "\n\005grid1\030\002 \001(\r\022\r\n\005grid2\030\003 \001(\r\"R\n\rCS_ITEM_"
+  "SPLIT\022\020\n\010position\030\001 \001(\r\022\r\n\005grid1\030\002 \001(\r\022\r"
+  "\n\005grid2\030\003 \001(\r\022\021\n\tsplit_num\030\004 \001(\r\"A\n\017CS_I"
+  "TEM_COMBINE\022\020\n\010position\030\001 \001(\r\022\r\n\005grid1\030\002"
+  " \001(\r\022\r\n\005grid2\030\003 \001(\r\" \n\014CS_ITEM_TIDY\022\020\n\010p"
+  "osition\030\001 \001(\r\"*\n\013CS_ITEM_USE\022\014\n\004grid\030\001 \001"
+  "(\r\022\r\n\005count\030\002 \001(\r\"\026\n\024CS_ITEM_STORAGE_OPE"
+  "N\"3\n\030CS_ITEM_STORAGE_CHECKOUT\022\027\n\017grid_in"
+  "_storage\030\001 \001(\r\"2\n\027CS_ITEM_STORAGE_CHECKI"
+  "N\022\027\n\017grid_in_package\030\001 \001(\r\":\n\010CS_EQUIP\022\027"
+  "\n\017grid_in_package\030\001 \001(\r\022\025\n\rgrid_in_equip"
+  "\030\002 \001(\r\"#\n\nCS_UNEQUIP\022\025\n\rgrid_in_equip\030\001 "
+  "\001(\r\"K\n\007CS_TALK\022\035\n\007channel\030\001 \001(\0162\014.TalkCh"
+  "annel\022\r\n\005words\030\002 \001(\t\022\022\n\nreciver_id\030\003 \001(\004"
+  "\"\324\001\n\007SC_TALK\022\035\n\007channel\030\001 \001(\0162\014.TalkChan"
+  "nel\022\r\n\005words\030\002 \001(\t\022\021\n\tsender_id\030\004 \001(\004\022\023\n"
+  "\013sender_name\030\005 \001(\t\022\023\n\013sender_sign\030\006 \001(\r\022"
+  "\025\n\rsender_viplev\030\007 \001(\r\022\021\n\tsend_time\030\010 \001("
+  "\r\022\022\n\nreciver_id\030\t \001(\004\022 \n\titem_list\030\024 \003(\013"
+  "2\r.SC_ITEM_INFO\"\202\002\n\014SC_TASK_INFO\022*\n\016task"
+  "_info_list\030\001 \003(\0132\022.SC_TASK_INFO.Info\032\305\001\n"
+  "\004Info\022\017\n\007task_id\030\001 \001(\004\022\023\n\013accept_time\030\002 "
+  "\001(\r\022\023\n\013finish_time\030\003 \001(\r\022\023\n\013expire_time\030"
+  "\004 \001(\r\022\020\n\010daycount\030\005 \001(\r\022\024\n\014daycount_max\030"
+  "\006 \001(\r\022\r\n\005state\030\007 \001(\r\022\014\n\004num1\030\n \001(\r\022\014\n\004nu"
+  "m2\030\013 \001(\r\022\014\n\004num3\030\014 \001(\r\022\014\n\004num4\030\r \001(\r\"9\n\014"
+  "SC_TASK_DATA\022\017\n\007task_id\030\001 \001(\004\022\013\n\003idx\030\002 \001"
+  "(\r\022\013\n\003num\030\003 \001(\r\":\n\016CS_TASK_SUBMIT\022\017\n\007tas"
+  "k_id\030\001 \001(\004\022\027\n\017submit_multiple\030\002 \001(\r\"\037\n\rC"
+  "S_ACTIVE_NPC\022\016\n\006npc_id\030\001 \001(\004\"\272\001\n\tSC_DIAL"
+  "OG\022\021\n\tdialog_id\030\001 \001(\004\022\023\n\013dialog_type\030\002 \001"
+  "(\r\022\024\n\014dialog_title\030\003 \001(\t\022\022\n\ndialog_txt\030\004"
+  " \003(\t\0220\n\020dialog_link_list\030\005 \003(\0132\026.SC_DIAL"
+  "OG.dialog_link\032)\n\013dialog_link\022\r\n\005style\030\001"
+  " \001(\r\022\013\n\003txt\030\002 \001(\t\"\?\n\017CS_DIALOG_CLICK\022\021\n\t"
+  "dialog_id\030\001 \001(\004\022\031\n\021dialog_button_idx\030\002 \001"
+  "(\r\"^\n\014SC_ACHI_INFO\022\'\n\013finish_list\030\001 \003(\0132"
+  "\022.SC_ACHI_INFO.Info\032%\n\004Info\022\017\n\007achi_id\030\001"
+  " \001(\r\022\014\n\004take\030\002 \001(\r\"\037\n\014CS_ACHI_TAKE\022\017\n\007ac"
+  "hi_id\030\001 \001(\r\"\017\n\rCS_TEAMCREATE\"\r\n\013CS_TEAMQ"
+  "UIT\"&\n\021CS_TEAMKICKMEMBER\022\021\n\tmember_id\030\001 "
+  "\001(\004\")\n\023CS_TEAMINVITEMEMBER\022\022\n\ninvitee_id"
+  "\030\001 \001(\004\"P\n\023SC_TEAMINVITEMEMBER\022\017\n\007team_id"
+  "\030\001 \001(\004\022\022\n\ninviter_id\030\002 \001(\004\022\024\n\014inviter_na"
+  "me\030\003 \001(\t\"J\n\023CS_TEAMACCEPTINVITE\022\017\n\007team_"
+  "id\030\001 \001(\004\022\022\n\ninviter_id\030\002 \001(\004\022\016\n\006result\030\003"
+  " \001(\010\")\n\020CS_TEAMNEWLEADER\022\025\n\rnew_leader_i"
+  "d\030\002 \001(\004\"\252\001\n\022SC_TEAMMEMBER_INFO\0223\n\013member"
+  "_list\030\001 \003(\0132\036.SC_TEAMMEMBER_INFO.MemberI"
+  "nfo\032_\n\nMemberInfo\022\021\n\tmember_id\030\001 \001(\004\022\022\n\n"
+  "member_lev\030\002 \001(\r\022\025\n\rmember_online\030\003 \001(\010\022"
+  "\023\n\013member_name\030\004 \001(\t\"\370\002\n\024SC_TEAMMEMBER_A"
+  "CTION\022,\n\006action\030\001 \001(\0162\034.SC_TEAMMEMBER_AC"
+  "TION.Action\022\023\n\013operator_id\030\002 \001(\004\022\021\n\tmemb"
+  "er_id\030\003 \001(\004\022\022\n\nmember_lev\030\004 \001(\r\022\023\n\013membe"
+  "r_name\030\005 \001(\t\022\025\n\rmember_online\030\006 \001(\010\"\311\001\n\006"
+  "Action\022\017\n\013TEAM_CREATE\020\000\022\020\n\014TEAM_DESTORY\020"
+  "\001\022\021\n\rTEAM_ADDMEBER\020\002\022\026\n\022TEAM_CHANGE_LEAD"
+  "ER\020\003\022\r\n\tTEAM_QUIT\020\004\022\023\n\017TEAM_KICKMEMBER\020\005"
+  "\022\027\n\023TEAM_MEMBER_LEV_CHG\020\006\022\030\n\024TEAM_MEMBER"
+  "_NAME_CHG\020\007\022\032\n\026TEAM_MEMBER_ONLINE_CHG\020\010\""
+  "+\n\022CS_TEAMAPPLYMEMBER\022\025\n\rrespondent_id\030\001"
+  " \001(\004\"B\n\022SC_TEAMAPPLYMEMBER\022\024\n\014applicant_"
+  "id\030\001 \001(\004\022\026\n\016applicant_name\030\002 \001(\t\":\n\022CS_T"
+  "EAMACCEPTAPPLY\022\024\n\014applicant_id\030\001 \001(\004\022\016\n\006"
+  "result\030\002 \001(\010*\266\006\n\013ZONE_CS_CMD\022\024\n\020ZONE_CS_"
+  "CMD_NONE\020\000\022\030\n\023CMD_CS_LOADMAP_SUCC\020\351\007\022\020\n\013"
+  "CMD_CS_MOVE\020\352\007\022\025\n\020CMD_CS_CHANGEMAP\020\353\007\022\025\n"
+  "\020CMD_CS_CASTSKILL\020\354\007\022\027\n\022CMD_CS_SKILL_BRE"
+  "AK\020\355\007\022\036\n\031CMD_CS_SKILL_CHGTARGETPOS\020\356\007\022\031\n"
+  "\024CMD_CS_CHANGE_PKMODE\020\357\007\022\022\n\rCMD_CS_REBOR"
+  "N\020\360\007\022\025\n\020CMD_CS_ITEM_SWAP\020\374\007\022\026\n\021CMD_CS_IT"
+  "EM_SPLIT\020\375\007\022\030\n\023CMD_CS_ITEM_COMBINE\020\376\007\022\025\n"
+  "\020CMD_CS_ITEM_TIDY\020\377\007\022\024\n\017CMD_CS_ITEM_USE\020"
+  "\200\010\022\035\n\030CMD_CS_ITEM_STORAGE_OPEN\020\201\010\022 \n\033CMD"
+  "_CS_ITEM_STORAGE_CHECKIN\020\202\010\022!\n\034CMD_CS_IT"
+  "EM_STORAGE_CHECKOUT\020\203\010\022\021\n\014CMD_CS_EQUIP\020\206"
+  "\010\022\023\n\016CMD_CS_UNEQUIP\020\207\010\022\020\n\013CMD_CS_TALK\020\220\010"
+  "\022\027\n\022CMD_CS_TASK_SUBMIT\020\221\010\022\026\n\021CMD_CS_ACTI"
+  "VE_NPC\020\222\010\022\030\n\023CMD_CS_DIALOG_CLICK\020\223\010\022\025\n\020C"
+  "MD_CS_ACHI_TAKE\020\224\010\022\026\n\021CMD_CS_TEAMCREATE\020"
+  "\232\010\022\024\n\017CMD_CS_TEAMQUIT\020\233\010\022\032\n\025CMD_CS_TEAMK"
+  "ICKMEMBER\020\234\010\022\034\n\027CMD_CS_TEAMINVITEMEMBER\020"
+  "\235\010\022\034\n\027CMD_CS_TEAMACCEPTINVITE\020\236\010\022\031\n\024CMD_"
+  "CS_TEAMNEWLEADER\020\237\010\022\033\n\026CMD_CS_TEAMAPPLYM"
+  "EMBER\020\240\010\022\033\n\026CMD_CS_TEAMACCEPTAPPLY\020\241\010*\201\007"
+  "\n\013ZONE_SC_CMD\022\024\n\020ZONE_SC_CMD_NONE\020\000\022\023\n\016C"
+  "MD_SC_LOADMAP\020\351\007\022\024\n\017CMD_SC_ENTERMAP\020\352\007\022\026"
+  "\n\021CMD_SC_PLAYERINFO\020\353\007\022\027\n\022CMD_SC_ACTORAT"
+  "TRIB\020\354\007\022\026\n\021CMD_SC_COMMONDATA\020\355\007\022\025\n\020CMD_S"
+  "C_DATACOUNT\020\356\007\022\022\n\rCMD_SC_SYSVAR\020\357\007\022\024\n\017CM"
+  "D_SC_COOLDOWN\020\360\007\022\022\n\rCMD_CS_MAPVAL\020\361\007\022\023\n\016"
+  "CMD_SC_AOI_NEW\020\374\007\022\026\n\021CMD_SC_AOI_REMOVE\020\375"
+  "\007\022\026\n\021CMD_SC_AOI_UPDATE\020\376\007\022\025\n\020CMD_SC_CAST"
+  "SKILL\020\207\010\022\027\n\022CMD_SC_SKILL_BREAK\020\210\010\022\030\n\023CMD"
+  "_SC_SKILL_DAMAGE\020\211\010\022\026\n\021CMD_SC_SKILL_STUN"
+  "\020\212\010\022\030\n\023CMD_SC_SKILL_EFFACT\020\213\010\022\022\n\rCMD_SC_"
+  "DAMAGE\020\214\010\022\020\n\013CMD_SC_DEAD\020\215\010\022\031\n\024CMD_SC_AT"
+  "TRIB_CHANGE\020\216\010\022\031\n\024CMD_SC_CHANGE_PKMODE\020\220"
+  "\010\022\027\n\022CMD_SC_STATUS_LIST\020\221\010\022\027\n\022CMD_SC_STA"
+  "TUS_INFO\020\223\010\022\031\n\024CMD_SC_STATUS_ACTION\020\224\010\022\027"
+  "\n\022CMD_SC_ITEM_DELETE\020\232\010\022\025\n\020CMD_SC_ITEM_I"
+  "NFO\020\233\010\022\027\n\022CMD_SC_ITEM_CHANGE\020\234\010\022\020\n\013CMD_S"
+  "C_TALK\020\235\010\022\025\n\020CMD_SC_TASK_INFO\020\244\010\022\025\n\020CMD_"
+  "SC_TASK_DATA\020\245\010\022\022\n\rCMD_SC_DIALOG\020\246\010\022\025\n\020C"
+  "MD_SC_ACHI_INFO\020\247\010\022\033\n\026CMD_SC_TEAMMEMBER_"
+  "INFO\020\256\010\022\035\n\030CMD_SC_TEAMMEMBER_ACTION\020\257\010\022\034"
+  "\n\027CMD_SC_TEAMINVITEMEMBER\020\260\010\022\033\n\026CMD_SC_T"
+  "EAMAPPLYMEMBER\020\261\010*\321\001\n\013TalkChannel\022\022\n\016CHA"
+  "NNEL_NORMAL\020\000\022\021\n\rCHANNEL_SCENE\020\001\022\023\n\017CHAN"
+  "NEL_PRIVATE\020\002\022\020\n\014CHANNEL_TEAM\020\003\022\021\n\rCHANN"
+  "EL_GUILD\020\004\022\021\n\rCHANNEL_WORLD\020\005\022\023\n\017CHANNEL"
+  "_TRUMPET\020\006\022\022\n\016CHANNEL_GLOBAL\020\007\022\022\n\016CHANNE"
+  "L_SYSTEM\020\010\022\021\n\rCHANNEL_RUMOR\020\t*j\n\tTaskSta"
+  "te\022\027\n\023TASKSTATE_NOTACCEPT\020\000\022\026\n\022TASKSTATE"
+  "_ACCEPTED\020\001\022\024\n\020TASKSTATE_GIVEUP\020\002\022\026\n\022TAS"
+  "KSTATE_FINISHED\020\003b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_msg_2fzone_5fservice_2eproto_deps[1] = {
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_msg_2fzone_5fservice_2eproto_sccs[78] = {
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_msg_2fzone_5fservice_2eproto_sccs[80] = {
   &scc_info_CS_ACHI_TAKE_msg_2fzone_5fservice_2eproto.base,
   &scc_info_CS_ACTIVE_NPC_msg_2fzone_5fservice_2eproto.base,
   &scc_info_CS_CASTSKILL_msg_2fzone_5fservice_2eproto.base,
@@ -2527,6 +2590,8 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_msg
   &scc_info_SC_ITEM_DELETE_msg_2fzone_5fservice_2eproto.base,
   &scc_info_SC_ITEM_INFO_msg_2fzone_5fservice_2eproto.base,
   &scc_info_SC_LOADMAP_msg_2fzone_5fservice_2eproto.base,
+  &scc_info_SC_MAPVAL_msg_2fzone_5fservice_2eproto.base,
+  &scc_info_SC_MAPVAL_MapVal_msg_2fzone_5fservice_2eproto.base,
   &scc_info_SC_PLAYERINFO_msg_2fzone_5fservice_2eproto.base,
   &scc_info_SC_SKILL_BREAK_msg_2fzone_5fservice_2eproto.base,
   &scc_info_SC_SKILL_DAMAGE_msg_2fzone_5fservice_2eproto.base,
@@ -2552,17 +2617,38 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_msg
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_msg_2fzone_5fservice_2eproto_once;
 static bool descriptor_table_msg_2fzone_5fservice_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_msg_2fzone_5fservice_2eproto = {
-  &descriptor_table_msg_2fzone_5fservice_2eproto_initialized, descriptor_table_protodef_msg_2fzone_5fservice_2eproto, "msg/zone_service.proto", 8464,
-  &descriptor_table_msg_2fzone_5fservice_2eproto_once, descriptor_table_msg_2fzone_5fservice_2eproto_sccs, descriptor_table_msg_2fzone_5fservice_2eproto_deps, 78, 0,
+  &descriptor_table_msg_2fzone_5fservice_2eproto_initialized, descriptor_table_protodef_msg_2fzone_5fservice_2eproto, "msg/zone_service.proto", 8705,
+  &descriptor_table_msg_2fzone_5fservice_2eproto_once, descriptor_table_msg_2fzone_5fservice_2eproto_sccs, descriptor_table_msg_2fzone_5fservice_2eproto_deps, 80, 0,
   schemas, file_default_instances, TableStruct_msg_2fzone_5fservice_2eproto::offsets,
-  file_level_metadata_msg_2fzone_5fservice_2eproto, 78, file_level_enum_descriptors_msg_2fzone_5fservice_2eproto, file_level_service_descriptors_msg_2fzone_5fservice_2eproto,
+  file_level_metadata_msg_2fzone_5fservice_2eproto, 80, file_level_enum_descriptors_msg_2fzone_5fservice_2eproto, file_level_service_descriptors_msg_2fzone_5fservice_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
 static bool dynamic_init_dummy_msg_2fzone_5fservice_2eproto = (  ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_msg_2fzone_5fservice_2eproto), true);
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* SC_STATUS_ACTION_ACTION_descriptor() {
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* SC_MAPVAL_State_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_msg_2fzone_5fservice_2eproto);
   return file_level_enum_descriptors_msg_2fzone_5fservice_2eproto[0];
+}
+bool SC_MAPVAL_State_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#if (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+constexpr SC_MAPVAL_State SC_MAPVAL::SYNC_MAPVAL_ALL;
+constexpr SC_MAPVAL_State SC_MAPVAL::SYNC_MAPVAL_ONE;
+constexpr SC_MAPVAL_State SC_MAPVAL::State_MIN;
+constexpr SC_MAPVAL_State SC_MAPVAL::State_MAX;
+constexpr int SC_MAPVAL::State_ARRAYSIZE;
+#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* SC_STATUS_ACTION_ACTION_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_msg_2fzone_5fservice_2eproto);
+  return file_level_enum_descriptors_msg_2fzone_5fservice_2eproto[1];
 }
 bool SC_STATUS_ACTION_ACTION_IsValid(int value) {
   switch (value) {
@@ -2585,7 +2671,7 @@ constexpr int SC_STATUS_ACTION::ACTION_ARRAYSIZE;
 #endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* SC_ITEM_CHANGE_ChangeType_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_msg_2fzone_5fservice_2eproto);
-  return file_level_enum_descriptors_msg_2fzone_5fservice_2eproto[1];
+  return file_level_enum_descriptors_msg_2fzone_5fservice_2eproto[2];
 }
 bool SC_ITEM_CHANGE_ChangeType_IsValid(int value) {
   switch (value) {
@@ -2612,7 +2698,7 @@ constexpr int SC_ITEM_CHANGE::ChangeType_ARRAYSIZE;
 #endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* SC_TEAMMEMBER_ACTION_Action_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_msg_2fzone_5fservice_2eproto);
-  return file_level_enum_descriptors_msg_2fzone_5fservice_2eproto[2];
+  return file_level_enum_descriptors_msg_2fzone_5fservice_2eproto[3];
 }
 bool SC_TEAMMEMBER_ACTION_Action_IsValid(int value) {
   switch (value) {
@@ -2647,7 +2733,7 @@ constexpr int SC_TEAMMEMBER_ACTION::Action_ARRAYSIZE;
 #endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ZONE_CS_CMD_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_msg_2fzone_5fservice_2eproto);
-  return file_level_enum_descriptors_msg_2fzone_5fservice_2eproto[3];
+  return file_level_enum_descriptors_msg_2fzone_5fservice_2eproto[4];
 }
 bool ZONE_CS_CMD_IsValid(int value) {
   switch (value) {
@@ -2691,7 +2777,7 @@ bool ZONE_CS_CMD_IsValid(int value) {
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ZONE_SC_CMD_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_msg_2fzone_5fservice_2eproto);
-  return file_level_enum_descriptors_msg_2fzone_5fservice_2eproto[4];
+  return file_level_enum_descriptors_msg_2fzone_5fservice_2eproto[5];
 }
 bool ZONE_SC_CMD_IsValid(int value) {
   switch (value) {
@@ -2705,32 +2791,33 @@ bool ZONE_SC_CMD_IsValid(int value) {
     case 1007:
     case 1008:
     case 1009:
-    case 1010:
-    case 1011:
-    case 1012:
-    case 1013:
-    case 1014:
-    case 1015:
-    case 1016:
-    case 1017:
-    case 1018:
-    case 1019:
     case 1020:
     case 1021:
-    case 1023:
-    case 1024:
-    case 1030:
+    case 1022:
     case 1031:
     case 1032:
     case 1033:
+    case 1034:
+    case 1035:
+    case 1036:
+    case 1037:
+    case 1038:
     case 1040:
     case 1041:
-    case 1042:
     case 1043:
+    case 1044:
     case 1050:
     case 1051:
     case 1052:
     case 1053:
+    case 1060:
+    case 1061:
+    case 1062:
+    case 1063:
+    case 1070:
+    case 1071:
+    case 1072:
+    case 1073:
       return true;
     default:
       return false;
@@ -2739,7 +2826,7 @@ bool ZONE_SC_CMD_IsValid(int value) {
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* TalkChannel_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_msg_2fzone_5fservice_2eproto);
-  return file_level_enum_descriptors_msg_2fzone_5fservice_2eproto[5];
+  return file_level_enum_descriptors_msg_2fzone_5fservice_2eproto[6];
 }
 bool TalkChannel_IsValid(int value) {
   switch (value) {
@@ -2761,7 +2848,7 @@ bool TalkChannel_IsValid(int value) {
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* TaskState_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_msg_2fzone_5fservice_2eproto);
-  return file_level_enum_descriptors_msg_2fzone_5fservice_2eproto[6];
+  return file_level_enum_descriptors_msg_2fzone_5fservice_2eproto[7];
 }
 bool TaskState_IsValid(int value) {
   switch (value) {
@@ -7461,6 +7548,472 @@ void SC_AOI_UPDATE::InternalSwap(SC_AOI_UPDATE* other) {
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata SC_AOI_UPDATE::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void SC_MAPVAL_MapVal::InitAsDefaultInstance() {
+}
+class SC_MAPVAL_MapVal::_Internal {
+ public:
+};
+
+SC_MAPVAL_MapVal::SC_MAPVAL_MapVal()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:SC_MAPVAL.MapVal)
+}
+SC_MAPVAL_MapVal::SC_MAPVAL_MapVal(const SC_MAPVAL_MapVal& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&value_, &from.value_,
+    static_cast<size_t>(reinterpret_cast<char*>(&key_) -
+    reinterpret_cast<char*>(&value_)) + sizeof(key_));
+  // @@protoc_insertion_point(copy_constructor:SC_MAPVAL.MapVal)
+}
+
+void SC_MAPVAL_MapVal::SharedCtor() {
+  ::memset(&value_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&key_) -
+      reinterpret_cast<char*>(&value_)) + sizeof(key_));
+}
+
+SC_MAPVAL_MapVal::~SC_MAPVAL_MapVal() {
+  // @@protoc_insertion_point(destructor:SC_MAPVAL.MapVal)
+  SharedDtor();
+}
+
+void SC_MAPVAL_MapVal::SharedDtor() {
+}
+
+void SC_MAPVAL_MapVal::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const SC_MAPVAL_MapVal& SC_MAPVAL_MapVal::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_SC_MAPVAL_MapVal_msg_2fzone_5fservice_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void SC_MAPVAL_MapVal::Clear() {
+// @@protoc_insertion_point(message_clear_start:SC_MAPVAL.MapVal)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&value_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&key_) -
+      reinterpret_cast<char*>(&value_)) + sizeof(key_));
+  _internal_metadata_.Clear();
+}
+
+const char* SC_MAPVAL_MapVal::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // uint32 key = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          key_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int64 value = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          value_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* SC_MAPVAL_MapVal::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:SC_MAPVAL.MapVal)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint32 key = 1;
+  if (this->key() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(1, this->_internal_key(), target);
+  }
+
+  // int64 value = 2;
+  if (this->value() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt64ToArray(2, this->_internal_value(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:SC_MAPVAL.MapVal)
+  return target;
+}
+
+size_t SC_MAPVAL_MapVal::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:SC_MAPVAL.MapVal)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // int64 value = 2;
+  if (this->value() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int64Size(
+        this->_internal_value());
+  }
+
+  // uint32 key = 1;
+  if (this->key() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_key());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void SC_MAPVAL_MapVal::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:SC_MAPVAL.MapVal)
+  GOOGLE_DCHECK_NE(&from, this);
+  const SC_MAPVAL_MapVal* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<SC_MAPVAL_MapVal>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:SC_MAPVAL.MapVal)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:SC_MAPVAL.MapVal)
+    MergeFrom(*source);
+  }
+}
+
+void SC_MAPVAL_MapVal::MergeFrom(const SC_MAPVAL_MapVal& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:SC_MAPVAL.MapVal)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.value() != 0) {
+    _internal_set_value(from._internal_value());
+  }
+  if (from.key() != 0) {
+    _internal_set_key(from._internal_key());
+  }
+}
+
+void SC_MAPVAL_MapVal::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:SC_MAPVAL.MapVal)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void SC_MAPVAL_MapVal::CopyFrom(const SC_MAPVAL_MapVal& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:SC_MAPVAL.MapVal)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SC_MAPVAL_MapVal::IsInitialized() const {
+  return true;
+}
+
+void SC_MAPVAL_MapVal::InternalSwap(SC_MAPVAL_MapVal* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(value_, other->value_);
+  swap(key_, other->key_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SC_MAPVAL_MapVal::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void SC_MAPVAL::InitAsDefaultInstance() {
+}
+class SC_MAPVAL::_Internal {
+ public:
+};
+
+SC_MAPVAL::SC_MAPVAL()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:SC_MAPVAL)
+}
+SC_MAPVAL::SC_MAPVAL(const SC_MAPVAL& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr),
+      map_val_set_(from.map_val_set_),
+      user_map_val_set_(from.user_map_val_set_) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  state_ = from.state_;
+  // @@protoc_insertion_point(copy_constructor:SC_MAPVAL)
+}
+
+void SC_MAPVAL::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_SC_MAPVAL_msg_2fzone_5fservice_2eproto.base);
+  state_ = 0;
+}
+
+SC_MAPVAL::~SC_MAPVAL() {
+  // @@protoc_insertion_point(destructor:SC_MAPVAL)
+  SharedDtor();
+}
+
+void SC_MAPVAL::SharedDtor() {
+}
+
+void SC_MAPVAL::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const SC_MAPVAL& SC_MAPVAL::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_SC_MAPVAL_msg_2fzone_5fservice_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void SC_MAPVAL::Clear() {
+// @@protoc_insertion_point(message_clear_start:SC_MAPVAL)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  map_val_set_.Clear();
+  user_map_val_set_.Clear();
+  state_ = 0;
+  _internal_metadata_.Clear();
+}
+
+const char* SC_MAPVAL::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // .SC_MAPVAL.State state = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+          _internal_set_state(static_cast<::SC_MAPVAL_State>(val));
+        } else goto handle_unusual;
+        continue;
+      // repeated .SC_MAPVAL.MapVal map_val_set = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_map_val_set(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
+        } else goto handle_unusual;
+        continue;
+      // repeated .SC_MAPVAL.MapVal user_map_val_set = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_user_map_val_set(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<26>(ptr));
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* SC_MAPVAL::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:SC_MAPVAL)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .SC_MAPVAL.State state = 1;
+  if (this->state() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      1, this->_internal_state(), target);
+  }
+
+  // repeated .SC_MAPVAL.MapVal map_val_set = 2;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->_internal_map_val_set_size()); i < n; i++) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(2, this->_internal_map_val_set(i), target, stream);
+  }
+
+  // repeated .SC_MAPVAL.MapVal user_map_val_set = 3;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->_internal_user_map_val_set_size()); i < n; i++) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(3, this->_internal_user_map_val_set(i), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:SC_MAPVAL)
+  return target;
+}
+
+size_t SC_MAPVAL::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:SC_MAPVAL)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .SC_MAPVAL.MapVal map_val_set = 2;
+  total_size += 1UL * this->_internal_map_val_set_size();
+  for (const auto& msg : this->map_val_set_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // repeated .SC_MAPVAL.MapVal user_map_val_set = 3;
+  total_size += 1UL * this->_internal_user_map_val_set_size();
+  for (const auto& msg : this->user_map_val_set_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // .SC_MAPVAL.State state = 1;
+  if (this->state() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_state());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void SC_MAPVAL::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:SC_MAPVAL)
+  GOOGLE_DCHECK_NE(&from, this);
+  const SC_MAPVAL* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<SC_MAPVAL>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:SC_MAPVAL)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:SC_MAPVAL)
+    MergeFrom(*source);
+  }
+}
+
+void SC_MAPVAL::MergeFrom(const SC_MAPVAL& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:SC_MAPVAL)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  map_val_set_.MergeFrom(from.map_val_set_);
+  user_map_val_set_.MergeFrom(from.user_map_val_set_);
+  if (from.state() != 0) {
+    _internal_set_state(from._internal_state());
+  }
+}
+
+void SC_MAPVAL::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:SC_MAPVAL)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void SC_MAPVAL::CopyFrom(const SC_MAPVAL& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:SC_MAPVAL)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SC_MAPVAL::IsInitialized() const {
+  return true;
+}
+
+void SC_MAPVAL::InternalSwap(SC_MAPVAL* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  map_val_set_.InternalSwap(&other->map_val_set_);
+  user_map_val_set_.InternalSwap(&other->user_map_val_set_);
+  swap(state_, other->state_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SC_MAPVAL::GetMetadata() const {
   return GetMetadataStatic();
 }
 
@@ -22095,6 +22648,12 @@ template<> PROTOBUF_NOINLINE ::SC_AOI_REMOVE* Arena::CreateMaybeMessage< ::SC_AO
 }
 template<> PROTOBUF_NOINLINE ::SC_AOI_UPDATE* Arena::CreateMaybeMessage< ::SC_AOI_UPDATE >(Arena* arena) {
   return Arena::CreateInternal< ::SC_AOI_UPDATE >(arena);
+}
+template<> PROTOBUF_NOINLINE ::SC_MAPVAL_MapVal* Arena::CreateMaybeMessage< ::SC_MAPVAL_MapVal >(Arena* arena) {
+  return Arena::CreateInternal< ::SC_MAPVAL_MapVal >(arena);
+}
+template<> PROTOBUF_NOINLINE ::SC_MAPVAL* Arena::CreateMaybeMessage< ::SC_MAPVAL >(Arena* arena) {
+  return Arena::CreateInternal< ::SC_MAPVAL >(arena);
 }
 template<> PROTOBUF_NOINLINE ::SC_ATTRIB_CHANGE_Data* Arena::CreateMaybeMessage< ::SC_ATTRIB_CHANGE_Data >(Arena* arena) {
   return Arena::CreateInternal< ::SC_ATTRIB_CHANGE_Data >(arena);

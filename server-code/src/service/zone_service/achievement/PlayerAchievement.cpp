@@ -2,6 +2,8 @@
 
 #include "Player.h"
 #include "ZoneService.h"
+#include "gamedb.h"
+
 CPlayerAchievement::CPlayerAchievement() {}
 
 CPlayerAchievement::~CPlayerAchievement()

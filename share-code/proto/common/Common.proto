@@ -78,3 +78,4 @@ enum PK_MODE
 	PKMODE_CAMP	   = 4;
 	PKMODE_ALL	   = 5;
 };
+

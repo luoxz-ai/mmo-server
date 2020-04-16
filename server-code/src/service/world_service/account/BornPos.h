@@ -9,7 +9,7 @@
 #include "config/Cfg_BornPos.pb.h"
 //////////////////////////////////////////////////////////////////////
 //
-class CBornPos: public Noncopyable<CBornPos>
+class CBornPos: public NoncopyableT<CBornPos>
 {
     CBornPos() {}
     bool Init(const Cfg_BornPos_Row& row)
@@ -21,10 +21,10 @@ public:
     CreateNewImpl(CBornPos);
 public:
     ~CBornPos() {}
-
+    using PB_T = Cfg_BornPos;
 public:
     
-
+    static uint32_t GetKey(const Cfg_BornPos_Row& row) { return row.prof(); }
     uint32_t GetID() const { return m_row.id(); }
     uint32_t GetProf() const { return m_row.prof(); }
     uint32_t GetMapID() const { return m_row.mapid(); }
@@ -37,61 +37,32 @@ protected:
     Cfg_BornPos::Row m_row;
 };
 
-class CBornPosSet: public Noncopyable<CBornPosSet>
+class CBornPosSet: public CGameMultiDataMap<CBornPos> 
 {
     CBornPosSet() {}
-    bool Init(const char* pszFileName)
-    {
-        Cfg_BornPos cfg;
-        if(pb_util::LoadFromBinaryFile(pszFileName, cfg) == false)
-        {
-            LOGERROR("InitFromFile {} Fail.", pszFileName);
-            return false;
-        }
-
-        for(const auto& iter: cfg.rows())
-        {
-            CBornPos* pData = CBornPos::CreateNew(iter);
-            if(pData == nullptr)
-            {
-                return false;
-            }
-             
-            m_vecData[pData->GetProf()].push_back(std::unique_ptr<CBornPos>{pData});
-        }
-        return true;
-    }
- public:
+public:
     CreateNewImpl(CBornPosSet);
 public:
-    
     ~CBornPosSet() { Clear(); }
 
 public:
-    void Clear()
-    {
-    }
-
-    
-    bool Reload(const char* pszFileName)
-    {
-        Clear();
-        return Init(pszFileName);
-    }
-
     const CBornPos* RandGet(uint32_t dwProf)const
     {
-        auto it = m_vecData.find(dwProf);
-        if(it == m_vecData.end())
+        auto iter = QueryObj(dwProf);
+        if(iter.HasMore() == false)
         {
             return nullptr;
         }
-        const auto& refVecData = it->second;
-        return refVecData[random_uint32_range(0, refVecData.size() - 1)].get();
-    }
+        size_t count = iter.Count();
+        size_t idx = random_uint32_range(0, count - 1);
 
-private:
-    std::unordered_map<uint32_t, std::vector<std::unique_ptr<CBornPos>>> m_vecData;
+        while(iter.HasMore() && idx > 0)
+        {
+            idx--;
+            iter.MoveNext();
+        }
+        return iter.PeekVal();
+    }
 };
 
 #endif /* BORNPOS_H */

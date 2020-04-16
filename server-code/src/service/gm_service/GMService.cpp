@@ -17,6 +17,7 @@
 #include "event2/http.h"
 #include "event2/keyvalq_struct.h"
 #include "gm_service.pb.h"
+#include "MonitorMgr.h"
 
 namespace Game
 {

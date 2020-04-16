@@ -17,7 +17,7 @@ export_lua enum SYSTEMVAR_KEYIDX {
 
 };
 class CPlayer;
-export_lua class CSystemVar : public Noncopyable<CSystemVar>
+export_lua class CSystemVar : public NoncopyableT<CSystemVar>
 {
 public:
     CSystemVar();
@@ -46,7 +46,7 @@ private:
     MEMORYHEAP_DECLARATION(s_heap);
 };
 
-export_lua class CSystemVarSet : public Noncopyable<CSystemVarSet>
+export_lua class CSystemVarSet : public NoncopyableT<CSystemVarSet>
 {
     CSystemVarSet();
 public:

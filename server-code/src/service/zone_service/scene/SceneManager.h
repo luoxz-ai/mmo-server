@@ -5,7 +5,7 @@
 #include "MapManager.h"
 
 class CScene;
-export_lua class CSceneManager : public Noncopyable<CSceneManager>
+export_lua class CSceneManager : public NoncopyableT<CSceneManager>
 {
     CSceneManager();
 public:
@@ -17,10 +17,11 @@ public:
     bool       Init(uint32_t idZone);
     void       Destory();
     export_lua CScene* _CreateStaticScene(uint16_t idMap);
-    export_lua CScene* CreateDynaScene(uint16_t idMap);
-    export_lua void    DestoryDynaScene(const SceneID& idScene);
-
-    export_lua CScene* QueryScene(const SceneID& idScene);
+    export_lua CScene* CreateDynaScene(uint16_t idMap, uint64_t idMainPhase);
+    export_lua CPhase* CreatePhase(uint16_t idMap, uint64_t idPhase);
+    
+    export_lua CScene* _QueryScene(const SceneID& idScene);
+    export_lua CPhase* QueryPhase(const SceneID& idScene);
     export_lua CScene* QueryStaticScene(uint16_t idMap);
     export_lua size_t  GetSceneCount();
     export_lua size_t  GetDynaSceneCount();
@@ -30,13 +31,7 @@ public:
 
 protected:
 private:
-    std::unordered_map<SceneID, CScene*> m_mapScene;
-    struct DynaSceneIDPool
-    {
-        std::deque<uint32_t> m_IDPool;
-        uint32_t             m_lastID;
-    };
-    std::unordered_map<uint16_t, DynaSceneIDPool> m_setDynaSceneIDPool;
+    std::unordered_map<uint32_t, CScene*> m_mapScene;
     size_t                                        m_nStaticScene;
 };
 #endif /* SCENEMANAGER_H */

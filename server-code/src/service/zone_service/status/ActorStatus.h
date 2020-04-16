@@ -6,7 +6,7 @@
 #include "msg/zone_service.pb.h"
 
 class CActor;
-export_lua class CActorStatus : public Noncopyable<CActorStatus>
+export_lua class CActorStatus : public NoncopyableT<CActorStatus>
 {
     CActorStatus();
     bool Init(CActor* pActor);

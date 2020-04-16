@@ -1,0 +1,16 @@
+syntax = "proto3";
+import "google/protobuf/descriptor.proto";
+
+
+message SqlOptions {  
+    uint32 size = 1;
+    bool auto_increment = 2;
+    string primary_key = 3;
+    string keys = 4;
+    string default_val = 5;
+    string unique = 6;
+}
+
+extend google.protobuf.FieldOptions {
+    SqlOptions sql = 1010;
+}

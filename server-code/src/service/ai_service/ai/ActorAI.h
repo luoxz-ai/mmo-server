@@ -49,7 +49,7 @@ struct STATE_DATA
 
 class CAIActor;
 class CAIPathFinder;
-class CActorAI: public Noncopyable<CActorAI>
+class CActorAI: public NoncopyableT<CActorAI>
 {
     CActorAI();
     bool Init(CAIActor* pActor, const CAIType* pAIType);

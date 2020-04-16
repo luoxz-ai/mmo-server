@@ -61,18 +61,30 @@ class SceneCreateDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<SceneCreate> _instance;
 } _SceneCreate_default_instance_;
-class SceneDestoryDefaultTypeInternal {
+class PhaseCreateDefaultTypeInternal {
  public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<SceneDestory> _instance;
-} _SceneDestory_default_instance_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<PhaseCreate> _instance;
+} _PhaseCreate_default_instance_;
+class PhaseDestoryDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<PhaseDestory> _instance;
+} _PhaseDestory_default_instance_;
 class MonsterGenDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<MonsterGen> _instance;
 } _MonsterGen_default_instance_;
+class MonsterGenMultiDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<MonsterGenMulti> _instance;
+} _MonsterGenMulti_default_instance_;
 class MonsterDestoryDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<MonsterDestory> _instance;
 } _MonsterDestory_default_instance_;
+class MonsterGenOnceDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<MonsterGenOnce> _instance;
+} _MonsterGenOnce_default_instance_;
 class ActiveGenDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ActiveGen> _instance;
@@ -157,6 +169,18 @@ class TeamMemberInfoDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<TeamMemberInfo> _instance;
 } _TeamMemberInfo_default_instance_;
+class SyncTaskPhaseDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<SyncTaskPhase> _instance;
+} _SyncTaskPhase_default_instance_;
+class AddTaskPhaseDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<AddTaskPhase> _instance;
+} _AddTaskPhase_default_instance_;
+class RemoveTaskPhaseDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<RemoveTaskPhase> _instance;
+} _RemoveTaskPhase_default_instance_;
 }  // namespace ServerMSG
 static void InitDefaultsscc_info_ActiveGen_server_5fmsg_2fserver_5fside_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -256,6 +280,20 @@ static void InitDefaultsscc_info_ActorSetHide_server_5fmsg_2fserver_5fside_2epro
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ActorSetHide_server_5fmsg_2fserver_5fside_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_ActorSetHide_server_5fmsg_2fserver_5fside_2eproto}, {}};
 
+static void InitDefaultsscc_info_AddTaskPhase_server_5fmsg_2fserver_5fside_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::ServerMSG::_AddTaskPhase_default_instance_;
+    new (ptr) ::ServerMSG::AddTaskPhase();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ServerMSG::AddTaskPhase::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_AddTaskPhase_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_AddTaskPhase_server_5fmsg_2fserver_5fside_2eproto}, {}};
+
 static void InitDefaultsscc_info_KillGen_server_5fmsg_2fserver_5fside_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -297,6 +335,62 @@ static void InitDefaultsscc_info_MonsterGen_server_5fmsg_2fserver_5fside_2eproto
 
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_MonsterGen_server_5fmsg_2fserver_5fside_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_MonsterGen_server_5fmsg_2fserver_5fside_2eproto}, {}};
+
+static void InitDefaultsscc_info_MonsterGenMulti_server_5fmsg_2fserver_5fside_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::ServerMSG::_MonsterGenMulti_default_instance_;
+    new (ptr) ::ServerMSG::MonsterGenMulti();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ServerMSG::MonsterGenMulti::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_MonsterGenMulti_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_MonsterGenMulti_server_5fmsg_2fserver_5fside_2eproto}, {}};
+
+static void InitDefaultsscc_info_MonsterGenOnce_server_5fmsg_2fserver_5fside_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::ServerMSG::_MonsterGenOnce_default_instance_;
+    new (ptr) ::ServerMSG::MonsterGenOnce();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ServerMSG::MonsterGenOnce::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_MonsterGenOnce_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_MonsterGenOnce_server_5fmsg_2fserver_5fside_2eproto}, {}};
+
+static void InitDefaultsscc_info_PhaseCreate_server_5fmsg_2fserver_5fside_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::ServerMSG::_PhaseCreate_default_instance_;
+    new (ptr) ::ServerMSG::PhaseCreate();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ServerMSG::PhaseCreate::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_PhaseCreate_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_PhaseCreate_server_5fmsg_2fserver_5fside_2eproto}, {}};
+
+static void InitDefaultsscc_info_PhaseDestory_server_5fmsg_2fserver_5fside_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::ServerMSG::_PhaseDestory_default_instance_;
+    new (ptr) ::ServerMSG::PhaseDestory();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ServerMSG::PhaseDestory::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_PhaseDestory_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_PhaseDestory_server_5fmsg_2fserver_5fside_2eproto}, {}};
 
 static void InitDefaultsscc_info_PlayerChangeZone_server_5fmsg_2fserver_5fside_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -354,6 +448,20 @@ static void InitDefaultsscc_info_PlayerLogout_server_5fmsg_2fserver_5fside_2epro
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_PlayerLogout_server_5fmsg_2fserver_5fside_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_PlayerLogout_server_5fmsg_2fserver_5fside_2eproto}, {}};
 
+static void InitDefaultsscc_info_RemoveTaskPhase_server_5fmsg_2fserver_5fside_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::ServerMSG::_RemoveTaskPhase_default_instance_;
+    new (ptr) ::ServerMSG::RemoveTaskPhase();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ServerMSG::RemoveTaskPhase::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_RemoveTaskPhase_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_RemoveTaskPhase_server_5fmsg_2fserver_5fside_2eproto}, {}};
+
 static void InitDefaultsscc_info_SceneCreate_server_5fmsg_2fserver_5fside_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -367,20 +475,6 @@ static void InitDefaultsscc_info_SceneCreate_server_5fmsg_2fserver_5fside_2eprot
 
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_SceneCreate_server_5fmsg_2fserver_5fside_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_SceneCreate_server_5fmsg_2fserver_5fside_2eproto}, {}};
-
-static void InitDefaultsscc_info_SceneDestory_server_5fmsg_2fserver_5fside_2eproto() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::ServerMSG::_SceneDestory_default_instance_;
-    new (ptr) ::ServerMSG::SceneDestory();
-    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::ServerMSG::SceneDestory::InitAsDefaultInstance();
-}
-
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_SceneDestory_server_5fmsg_2fserver_5fside_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_SceneDestory_server_5fmsg_2fserver_5fside_2eproto}, {}};
 
 static void InitDefaultsscc_info_ServiceCmd_server_5fmsg_2fserver_5fside_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -451,6 +545,20 @@ static void InitDefaultsscc_info_ServiceReady_server_5fmsg_2fserver_5fside_2epro
 
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ServiceReady_server_5fmsg_2fserver_5fside_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_ServiceReady_server_5fmsg_2fserver_5fside_2eproto}, {}};
+
+static void InitDefaultsscc_info_SyncTaskPhase_server_5fmsg_2fserver_5fside_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::ServerMSG::_SyncTaskPhase_default_instance_;
+    new (ptr) ::ServerMSG::SyncTaskPhase();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ServerMSG::SyncTaskPhase::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_SyncTaskPhase_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_SyncTaskPhase_server_5fmsg_2fserver_5fside_2eproto}, {}};
 
 static void InitDefaultsscc_info_SystemVarChange_server_5fmsg_2fserver_5fside_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -649,7 +757,7 @@ static void InitDefaultsscc_info_TeamQuit_server_5fmsg_2fserver_5fside_2eproto()
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_TeamQuit_server_5fmsg_2fserver_5fside_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_TeamQuit_server_5fmsg_2fserver_5fside_2eproto}, {}};
 
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_server_5fmsg_2fserver_5fside_2eproto[35];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_server_5fmsg_2fserver_5fside_2eproto[41];
 static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_server_5fmsg_2fserver_5fside_2eproto[2];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_server_5fmsg_2fserver_5fside_2eproto = nullptr;
 
@@ -746,17 +854,26 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_server_5fmsg_2fserver_5fside_2
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::ServerMSG::SceneCreate, scene_id_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::ServerMSG::SceneDestory, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::PhaseCreate, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::ServerMSG::SceneDestory, scene_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::PhaseCreate, scene_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::PhaseCreate, phase_id_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::PhaseDestory, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::PhaseDestory, scene_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::PhaseDestory, phase_id_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ServerMSG::MonsterGen, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::ServerMSG::MonsterGen, scene_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::MonsterGen, phase_id_),
   PROTOBUF_FIELD_OFFSET(::ServerMSG::MonsterGen, gen_id_),
   PROTOBUF_FIELD_OFFSET(::ServerMSG::MonsterGen, monster_type_),
   PROTOBUF_FIELD_OFFSET(::ServerMSG::MonsterGen, posx_),
@@ -764,11 +881,34 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_server_5fmsg_2fserver_5fside_2
   PROTOBUF_FIELD_OFFSET(::ServerMSG::MonsterGen, camp_id_),
   PROTOBUF_FIELD_OFFSET(::ServerMSG::MonsterGen, monster_id_),
   ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::MonsterGenMulti, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::MonsterGenMulti, scene_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::MonsterGenMulti, phase_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::MonsterGenMulti, gen_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::MonsterGenMulti, monster_type_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::MonsterGenMulti, posx_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::MonsterGenMulti, posy_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::MonsterGenMulti, camp_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::MonsterGenMulti, monster_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::MonsterGenMulti, num_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::MonsterGenMulti, range_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ServerMSG::MonsterDestory, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::ServerMSG::MonsterDestory, monster_id_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::MonsterGenOnce, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::MonsterGenOnce, scene_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::MonsterGenOnce, gen_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::MonsterGenOnce, phase_id_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ServerMSG::ActiveGen, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -807,6 +947,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_server_5fmsg_2fserver_5fside_2
   PROTOBUF_FIELD_OFFSET(::ServerMSG::ActorCreate, posy_),
   PROTOBUF_FIELD_OFFSET(::ServerMSG::ActorCreate, face_),
   PROTOBUF_FIELD_OFFSET(::ServerMSG::ActorCreate, monster_gen_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::ActorCreate, phase_id_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ServerMSG::ActorDestory, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -939,6 +1080,27 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_server_5fmsg_2fserver_5fside_2
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::ServerMSG::TeamMemberInfo, member_list_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::SyncTaskPhase, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::SyncTaskPhase, player_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::SyncTaskPhase, task_phase_id_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::AddTaskPhase, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::AddTaskPhase, player_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::AddTaskPhase, task_phase_id_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::RemoveTaskPhase, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::RemoveTaskPhase, player_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::RemoveTaskPhase, task_phase_id_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::ServerMSG::ServiceCmd)},
@@ -952,30 +1114,36 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 68, -1, sizeof(::ServerMSG::PlayerLogout)},
   { 75, -1, sizeof(::ServerMSG::SystemVarChange)},
   { 85, -1, sizeof(::ServerMSG::SceneCreate)},
-  { 91, -1, sizeof(::ServerMSG::SceneDestory)},
-  { 97, -1, sizeof(::ServerMSG::MonsterGen)},
-  { 109, -1, sizeof(::ServerMSG::MonsterDestory)},
-  { 115, -1, sizeof(::ServerMSG::ActiveGen)},
-  { 123, -1, sizeof(::ServerMSG::KillGen)},
-  { 130, -1, sizeof(::ServerMSG::ActorCreate)},
-  { 153, -1, sizeof(::ServerMSG::ActorDestory)},
-  { 159, -1, sizeof(::ServerMSG::ActorMove)},
-  { 167, -1, sizeof(::ServerMSG::ActorCastSkill)},
-  { 175, -1, sizeof(::ServerMSG::ActorCastSkill_Fail)},
-  { 181, -1, sizeof(::ServerMSG::ActorSetHide)},
-  { 188, -1, sizeof(::ServerMSG::TeamCreate)},
-  { 195, -1, sizeof(::ServerMSG::TeamDestory)},
-  { 201, -1, sizeof(::ServerMSG::TeamQuit)},
-  { 208, -1, sizeof(::ServerMSG::TeamKickMember)},
-  { 216, -1, sizeof(::ServerMSG::TeamInviteMember)},
-  { 224, -1, sizeof(::ServerMSG::TeamAcceptInvite)},
-  { 233, -1, sizeof(::ServerMSG::TeamApplyMember)},
-  { 240, -1, sizeof(::ServerMSG::TeamAcceptApply)},
-  { 248, -1, sizeof(::ServerMSG::TeamNewLeader)},
-  { 256, -1, sizeof(::ServerMSG::TeamAddMember)},
-  { 263, -1, sizeof(::ServerMSG::TeamDelMember)},
-  { 270, -1, sizeof(::ServerMSG::TeamMemberInfo_Info)},
-  { 279, -1, sizeof(::ServerMSG::TeamMemberInfo)},
+  { 91, -1, sizeof(::ServerMSG::PhaseCreate)},
+  { 98, -1, sizeof(::ServerMSG::PhaseDestory)},
+  { 105, -1, sizeof(::ServerMSG::MonsterGen)},
+  { 118, -1, sizeof(::ServerMSG::MonsterGenMulti)},
+  { 133, -1, sizeof(::ServerMSG::MonsterDestory)},
+  { 139, -1, sizeof(::ServerMSG::MonsterGenOnce)},
+  { 147, -1, sizeof(::ServerMSG::ActiveGen)},
+  { 155, -1, sizeof(::ServerMSG::KillGen)},
+  { 162, -1, sizeof(::ServerMSG::ActorCreate)},
+  { 186, -1, sizeof(::ServerMSG::ActorDestory)},
+  { 192, -1, sizeof(::ServerMSG::ActorMove)},
+  { 200, -1, sizeof(::ServerMSG::ActorCastSkill)},
+  { 208, -1, sizeof(::ServerMSG::ActorCastSkill_Fail)},
+  { 214, -1, sizeof(::ServerMSG::ActorSetHide)},
+  { 221, -1, sizeof(::ServerMSG::TeamCreate)},
+  { 228, -1, sizeof(::ServerMSG::TeamDestory)},
+  { 234, -1, sizeof(::ServerMSG::TeamQuit)},
+  { 241, -1, sizeof(::ServerMSG::TeamKickMember)},
+  { 249, -1, sizeof(::ServerMSG::TeamInviteMember)},
+  { 257, -1, sizeof(::ServerMSG::TeamAcceptInvite)},
+  { 266, -1, sizeof(::ServerMSG::TeamApplyMember)},
+  { 273, -1, sizeof(::ServerMSG::TeamAcceptApply)},
+  { 281, -1, sizeof(::ServerMSG::TeamNewLeader)},
+  { 289, -1, sizeof(::ServerMSG::TeamAddMember)},
+  { 296, -1, sizeof(::ServerMSG::TeamDelMember)},
+  { 303, -1, sizeof(::ServerMSG::TeamMemberInfo_Info)},
+  { 312, -1, sizeof(::ServerMSG::TeamMemberInfo)},
+  { 318, -1, sizeof(::ServerMSG::SyncTaskPhase)},
+  { 325, -1, sizeof(::ServerMSG::AddTaskPhase)},
+  { 332, -1, sizeof(::ServerMSG::RemoveTaskPhase)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -990,9 +1158,12 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_PlayerLogout_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_SystemVarChange_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_SceneCreate_default_instance_),
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_SceneDestory_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_PhaseCreate_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_PhaseDestory_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_MonsterGen_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_MonsterGenMulti_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_MonsterDestory_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_MonsterGenOnce_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_ActiveGen_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_KillGen_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_ActorCreate_default_instance_),
@@ -1014,6 +1185,9 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_TeamDelMember_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_TeamMemberInfo_Info_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_TeamMemberInfo_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_SyncTaskPhase_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_AddTaskPhase_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_RemoveTaskPhase_default_instance_),
 };
 
 const char descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -1041,79 +1215,96 @@ const char descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto[] PROT
   "VarChangeType\"^\n\023SystemVarChangeType\022\017\n\013"
   "SVCT_CREATE\020\000\022\021\n\rSVCT_SET_DATA\020\001\022\021\n\rSVCT"
   "_ADD_DATA\020\002\022\020\n\014SVCT_SET_STR\020\003\"\037\n\013SceneCr"
-  "eate\022\020\n\010scene_id\030\001 \001(\004\" \n\014SceneDestory\022\020"
-  "\n\010scene_id\030\001 \001(\004\"\205\001\n\nMonsterGen\022\020\n\010scene"
-  "_id\030\001 \001(\004\022\016\n\006gen_id\030\002 \001(\r\022\024\n\014monster_typ"
-  "e\030\003 \001(\r\022\014\n\004posx\030\004 \001(\002\022\014\n\004posy\030\005 \001(\002\022\017\n\007c"
-  "amp_id\030\006 \001(\r\022\022\n\nmonster_id\030\007 \001(\r\"$\n\016Mons"
-  "terDestory\022\022\n\nmonster_id\030\001 \003(\004\"=\n\tActive"
-  "Gen\022\020\n\010scene_id\030\001 \001(\004\022\016\n\006gen_id\030\002 \001(\r\022\016\n"
-  "\006active\030\003 \001(\010\"+\n\007KillGen\022\020\n\010scene_id\030\001 \001"
-  "(\004\022\016\n\006gen_id\030\002 \001(\r\"\251\002\n\013ActorCreate\022\020\n\010ac"
-  "tor_id\030\001 \001(\004\022\020\n\010scene_id\030\002 \001(\004\022\014\n\004name\030\004"
-  " \001(\t\022\021\n\tactortype\030\005 \001(\r\022\020\n\010baselook\030\006 \001("
-  "\r\022\014\n\004prof\030\007 \001(\r\022\013\n\003lev\030\010 \001(\r\022\016\n\006campid\030\t"
-  " \001(\r\022\n\n\002hp\030\n \001(\r\022\r\n\005hpmax\030\013 \001(\r\022\n\n\002mp\030\014 "
-  "\001(\r\022\r\n\005mpmax\030\r \001(\r\022\017\n\007movespd\030\016 \001(\r\022\017\n\007o"
-  "wnerid\030\017 \001(\004\022\014\n\004posx\030\020 \001(\002\022\014\n\004posy\030\021 \001(\002"
-  "\022\014\n\004face\030\022 \001(\002\022\026\n\016monster_gen_id\030\024 \001(\r\" "
-  "\n\014ActorDestory\022\020\n\010actor_id\030\001 \001(\004\"3\n\tActo"
-  "rMove\022\020\n\010actor_id\030\001 \001(\004\022\t\n\001x\030\002 \001(\002\022\t\n\001y\030"
-  "\003 \001(\002\"G\n\016ActorCastSkill\022\020\n\010actor_id\030\001 \001("
-  "\004\022\021\n\ttarget_id\030\002 \001(\004\022\020\n\010skill_id\030\003 \001(\r\"\'"
-  "\n\023ActorCastSkill_Fail\022\020\n\010actor_id\030\001 \001(\004\""
-  "4\n\014ActorSetHide\022\020\n\010actor_id\030\001 \001(\004\022\022\n\nhid"
-  "e_count\030\002 \001(\005\"0\n\nTeamCreate\022\017\n\007team_id\030\001"
-  " \001(\004\022\021\n\tleader_id\030\002 \001(\004\"\036\n\013TeamDestory\022\017"
-  "\n\007team_id\030\001 \001(\004\"0\n\010TeamQuit\022\017\n\007team_id\030\001"
-  " \001(\004\022\023\n\013operator_id\030\002 \001(\004\"G\n\016TeamKickMem"
-  "ber\022\017\n\007team_id\030\001 \001(\004\022\023\n\013operator_id\030\002 \001("
-  "\004\022\017\n\007kick_id\030\003 \001(\004\"L\n\020TeamInviteMember\022\017"
-  "\n\007team_id\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\022\022\n\n"
-  "invitee_id\030\003 \001(\004\"[\n\020TeamAcceptInvite\022\017\n\007"
-  "team_id\030\001 \001(\004\022\022\n\ninviter_id\030\002 \001(\004\022\022\n\ninv"
-  "itee_id\030\003 \001(\004\022\016\n\006result\030\004 \001(\010\">\n\017TeamApp"
-  "lyMember\022\024\n\014applicant_id\030\001 \001(\004\022\025\n\rrespon"
-  "dent_id\030\002 \001(\004\"N\n\017TeamAcceptApply\022\024\n\014appl"
-  "icant_id\030\001 \001(\004\022\025\n\rrespondent_id\030\002 \001(\004\022\016\n"
-  "\006result\030\003 \001(\010\"L\n\rTeamNewLeader\022\017\n\007team_i"
-  "d\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\022\025\n\rnew_lead"
-  "er_id\030\003 \001(\004\"3\n\rTeamAddMember\022\017\n\007team_id\030"
-  "\001 \001(\004\022\021\n\tmember_id\030\002 \001(\004\"3\n\rTeamDelMembe"
-  "r\022\017\n\007team_id\030\001 \001(\004\022\021\n\tmember_id\030\002 \001(\004\"\240\001"
-  "\n\016TeamMemberInfo\0223\n\013member_list\030\001 \003(\0132\036."
-  "ServerMSG.TeamMemberInfo.Info\032Y\n\004Info\022\021\n"
-  "\tmember_id\030\001 \001(\004\022\022\n\nmember_lev\030\002 \001(\r\022\025\n\r"
-  "member_online\030\003 \001(\010\022\023\n\013member_name\030\004 \001(\t"
-  "*\277\007\n\006OMsgID\022\017\n\013OMSGID_NONE\020\000\022\021\n\013MsgID_BE"
-  "GIN\020\240\234\001\022\026\n\020MsgID_ServiceCmd\020\241\234\001\022\036\n\030MsgID"
-  "_ServiceHttpRequest\020\242\234\001\022\037\n\031MsgID_Service"
-  "HttpResponse\020\243\234\001\022\030\n\022MsgID_ServiceReady\020\252"
-  "\234\001\022\033\n\025MsgID_PlayerEnterZone\020\265\234\001\022\034\n\026MsgID"
-  "_PlayerChangeZone\020\266\234\001\022!\n\033MsgID_PlayerCha"
-  "ngeZone_Data\020\267\234\001\022\030\n\022MsgID_PlayerLogout\020\270"
-  "\234\001\022\033\n\025MsgID_SystemVarChange\020\276\234\001\022\027\n\021MsgID"
-  "_SceneCreate\020\277\234\001\022\030\n\022MsgID_SceneDestory\020\300"
-  "\234\001\022\026\n\020MsgID_MonsterGen\020\301\234\001\022\032\n\024MsgID_Mons"
-  "terDestory\020\302\234\001\022\025\n\017MsgID_ActiveGen\020\303\234\001\022\023\n"
-  "\rMsgID_KillGen\020\304\234\001\022\027\n\021MsgID_ActorCreate\020"
-  "\204\235\001\022\030\n\022MsgID_ActorDestory\020\205\235\001\022\025\n\017MsgID_A"
-  "ctorMove\020\206\235\001\022\032\n\024MsgID_ActorCastSkill\020\207\235\001"
-  "\022\037\n\031MsgID_ActorCastSkill_Fail\020\210\235\001\022\030\n\022Msg"
-  "ID_ActorSetHide\020\211\235\001\022\026\n\020MsgID_TeamCreate\020"
-  "\216\235\001\022\027\n\021MsgID_TeamDestory\020\217\235\001\022\024\n\016MsgID_Te"
-  "amQuit\020\220\235\001\022\032\n\024MsgID_TeamKickMember\020\221\235\001\022\034"
-  "\n\026MsgID_TeamInviteMember\020\222\235\001\022\034\n\026MsgID_Te"
-  "amAcceptInvite\020\223\235\001\022\033\n\025MsgID_TeamApplyMem"
-  "ber\020\224\235\001\022\033\n\025MsgID_TeamAcceptApply\020\225\235\001\022\031\n\023"
-  "MsgID_TeamNewLeader\020\226\235\001\022\032\n\024MsgID_TeamMem"
-  "berInfo\020\227\235\001\022\031\n\023MsgID_TeamAddMember\020\230\235\001\022\031"
-  "\n\023MsgID_TeamDelMember\020\231\235\001\022\017\n\tMsgID_END\020\260"
-  "\352\001b\006proto3"
+  "eate\022\020\n\010scene_id\030\001 \001(\004\"1\n\013PhaseCreate\022\020\n"
+  "\010scene_id\030\001 \001(\004\022\020\n\010phase_id\030\002 \001(\004\"2\n\014Pha"
+  "seDestory\022\020\n\010scene_id\030\001 \001(\004\022\020\n\010phase_id\030"
+  "\002 \001(\004\"\227\001\n\nMonsterGen\022\020\n\010scene_id\030\001 \001(\004\022\020"
+  "\n\010phase_id\030\002 \001(\004\022\016\n\006gen_id\030\003 \001(\r\022\024\n\014mons"
+  "ter_type\030\004 \001(\r\022\014\n\004posx\030\005 \001(\002\022\014\n\004posy\030\006 \001"
+  "(\002\022\017\n\007camp_id\030\007 \001(\r\022\022\n\nmonster_id\030\010 \001(\r\""
+  "\270\001\n\017MonsterGenMulti\022\020\n\010scene_id\030\001 \001(\004\022\020\n"
+  "\010phase_id\030\002 \001(\004\022\016\n\006gen_id\030\003 \001(\r\022\024\n\014monst"
+  "er_type\030\004 \001(\r\022\014\n\004posx\030\005 \001(\002\022\014\n\004posy\030\006 \001("
+  "\002\022\017\n\007camp_id\030\007 \001(\r\022\022\n\nmonster_id\030\010 \001(\r\022\013"
+  "\n\003num\030\t \001(\r\022\r\n\005range\030\n \001(\002\"$\n\016MonsterDes"
+  "tory\022\022\n\nmonster_id\030\001 \003(\004\"D\n\016MonsterGenOn"
+  "ce\022\020\n\010scene_id\030\001 \001(\004\022\016\n\006gen_id\030\002 \001(\r\022\020\n\010"
+  "phase_id\030\003 \001(\004\"=\n\tActiveGen\022\020\n\010scene_id\030"
+  "\001 \001(\004\022\016\n\006gen_id\030\002 \001(\r\022\016\n\006active\030\003 \001(\010\"+\n"
+  "\007KillGen\022\020\n\010scene_id\030\001 \001(\004\022\016\n\006gen_id\030\002 \001"
+  "(\r\"\273\002\n\013ActorCreate\022\020\n\010actor_id\030\001 \001(\004\022\020\n\010"
+  "scene_id\030\002 \001(\004\022\014\n\004name\030\004 \001(\t\022\021\n\tactortyp"
+  "e\030\005 \001(\r\022\020\n\010baselook\030\006 \001(\r\022\014\n\004prof\030\007 \001(\r\022"
+  "\013\n\003lev\030\010 \001(\r\022\016\n\006campid\030\t \001(\r\022\n\n\002hp\030\n \001(\r"
+  "\022\r\n\005hpmax\030\013 \001(\r\022\n\n\002mp\030\014 \001(\r\022\r\n\005mpmax\030\r \001"
+  "(\r\022\017\n\007movespd\030\016 \001(\r\022\017\n\007ownerid\030\017 \001(\004\022\014\n\004"
+  "posx\030\020 \001(\002\022\014\n\004posy\030\021 \001(\002\022\014\n\004face\030\022 \001(\002\022\026"
+  "\n\016monster_gen_id\030\024 \001(\r\022\020\n\010phase_id\030\025 \001(\004"
+  "\" \n\014ActorDestory\022\020\n\010actor_id\030\001 \001(\004\"3\n\tAc"
+  "torMove\022\020\n\010actor_id\030\001 \001(\004\022\t\n\001x\030\002 \001(\002\022\t\n\001"
+  "y\030\003 \001(\002\"G\n\016ActorCastSkill\022\020\n\010actor_id\030\001 "
+  "\001(\004\022\021\n\ttarget_id\030\002 \001(\004\022\020\n\010skill_id\030\003 \001(\r"
+  "\"\'\n\023ActorCastSkill_Fail\022\020\n\010actor_id\030\001 \001("
+  "\004\"4\n\014ActorSetHide\022\020\n\010actor_id\030\001 \001(\004\022\022\n\nh"
+  "ide_count\030\002 \001(\005\"0\n\nTeamCreate\022\017\n\007team_id"
+  "\030\001 \001(\004\022\021\n\tleader_id\030\002 \001(\004\"\036\n\013TeamDestory"
+  "\022\017\n\007team_id\030\001 \001(\004\"0\n\010TeamQuit\022\017\n\007team_id"
+  "\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\"G\n\016TeamKickM"
+  "ember\022\017\n\007team_id\030\001 \001(\004\022\023\n\013operator_id\030\002 "
+  "\001(\004\022\017\n\007kick_id\030\003 \001(\004\"L\n\020TeamInviteMember"
+  "\022\017\n\007team_id\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\022\022"
+  "\n\ninvitee_id\030\003 \001(\004\"[\n\020TeamAcceptInvite\022\017"
+  "\n\007team_id\030\001 \001(\004\022\022\n\ninviter_id\030\002 \001(\004\022\022\n\ni"
+  "nvitee_id\030\003 \001(\004\022\016\n\006result\030\004 \001(\010\">\n\017TeamA"
+  "pplyMember\022\024\n\014applicant_id\030\001 \001(\004\022\025\n\rresp"
+  "ondent_id\030\002 \001(\004\"N\n\017TeamAcceptApply\022\024\n\014ap"
+  "plicant_id\030\001 \001(\004\022\025\n\rrespondent_id\030\002 \001(\004\022"
+  "\016\n\006result\030\003 \001(\010\"L\n\rTeamNewLeader\022\017\n\007team"
+  "_id\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\022\025\n\rnew_le"
+  "ader_id\030\003 \001(\004\"3\n\rTeamAddMember\022\017\n\007team_i"
+  "d\030\001 \001(\004\022\021\n\tmember_id\030\002 \001(\004\"3\n\rTeamDelMem"
+  "ber\022\017\n\007team_id\030\001 \001(\004\022\021\n\tmember_id\030\002 \001(\004\""
+  "\240\001\n\016TeamMemberInfo\0223\n\013member_list\030\001 \003(\0132"
+  "\036.ServerMSG.TeamMemberInfo.Info\032Y\n\004Info\022"
+  "\021\n\tmember_id\030\001 \001(\004\022\022\n\nmember_lev\030\002 \001(\r\022\025"
+  "\n\rmember_online\030\003 \001(\010\022\023\n\013member_name\030\004 \001"
+  "(\t\"9\n\rSyncTaskPhase\022\021\n\tplayer_id\030\001 \001(\004\022\025"
+  "\n\rtask_phase_id\030\002 \003(\004\"8\n\014AddTaskPhase\022\021\n"
+  "\tplayer_id\030\001 \001(\004\022\025\n\rtask_phase_id\030\002 \001(\004\""
+  ";\n\017RemoveTaskPhase\022\021\n\tplayer_id\030\001 \001(\004\022\025\n"
+  "\rtask_phase_id\030\002 \001(\004*\306\010\n\006OMsgID\022\017\n\013OMSGI"
+  "D_NONE\020\000\022\021\n\013MsgID_BEGIN\020\240\234\001\022\026\n\020MsgID_Ser"
+  "viceCmd\020\241\234\001\022\036\n\030MsgID_ServiceHttpRequest\020"
+  "\242\234\001\022\037\n\031MsgID_ServiceHttpResponse\020\243\234\001\022\030\n\022"
+  "MsgID_ServiceReady\020\252\234\001\022\033\n\025MsgID_PlayerEn"
+  "terZone\020\265\234\001\022\034\n\026MsgID_PlayerChangeZone\020\266\234"
+  "\001\022!\n\033MsgID_PlayerChangeZone_Data\020\267\234\001\022\030\n\022"
+  "MsgID_PlayerLogout\020\270\234\001\022\033\n\025MsgID_SystemVa"
+  "rChange\020\276\234\001\022\027\n\021MsgID_SceneCreate\020\277\234\001\022\027\n\021"
+  "MsgID_PhaseCreate\020\300\234\001\022\030\n\022MsgID_PhaseDest"
+  "ory\020\301\234\001\022\026\n\020MsgID_MonsterGen\020\311\234\001\022\032\n\024MsgID"
+  "_MonsterDestory\020\312\234\001\022\025\n\017MsgID_ActiveGen\020\313"
+  "\234\001\022\023\n\rMsgID_KillGen\020\314\234\001\022\032\n\024MsgID_Monster"
+  "GenOnce\020\315\234\001\022\027\n\021MsgID_ActorCreate\020\204\235\001\022\030\n\022"
+  "MsgID_ActorDestory\020\205\235\001\022\025\n\017MsgID_ActorMov"
+  "e\020\206\235\001\022\032\n\024MsgID_ActorCastSkill\020\207\235\001\022\037\n\031Msg"
+  "ID_ActorCastSkill_Fail\020\210\235\001\022\030\n\022MsgID_Acto"
+  "rSetHide\020\211\235\001\022\031\n\023MsgID_SyncTaskPhase\020\212\235\001\022"
+  "\030\n\022MsgID_AddTaskPhase\020\213\235\001\022\033\n\025MsgID_Remov"
+  "eTaskPhase\020\214\235\001\022\026\n\020MsgID_TeamCreate\020\216\235\001\022\027"
+  "\n\021MsgID_TeamDestory\020\217\235\001\022\024\n\016MsgID_TeamQui"
+  "t\020\220\235\001\022\032\n\024MsgID_TeamKickMember\020\221\235\001\022\034\n\026Msg"
+  "ID_TeamInviteMember\020\222\235\001\022\034\n\026MsgID_TeamAcc"
+  "eptInvite\020\223\235\001\022\033\n\025MsgID_TeamApplyMember\020\224"
+  "\235\001\022\033\n\025MsgID_TeamAcceptApply\020\225\235\001\022\031\n\023MsgID"
+  "_TeamNewLeader\020\226\235\001\022\032\n\024MsgID_TeamMemberIn"
+  "fo\020\227\235\001\022\031\n\023MsgID_TeamAddMember\020\230\235\001\022\031\n\023Msg"
+  "ID_TeamDelMember\020\231\235\001\022\017\n\tMsgID_END\020\260\352\001b\006p"
+  "roto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_server_5fmsg_2fserver_5fside_2eproto_deps[1] = {
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_server_5fmsg_2fserver_5fside_2eproto_sccs[35] = {
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_server_5fmsg_2fserver_5fside_2eproto_sccs[41] = {
   &scc_info_ActiveGen_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_ActorCastSkill_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_ActorCastSkill_Fail_server_5fmsg_2fserver_5fside_2eproto.base,
@@ -1121,20 +1312,26 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_ser
   &scc_info_ActorDestory_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_ActorMove_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_ActorSetHide_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_AddTaskPhase_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_KillGen_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_MonsterDestory_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_MonsterGen_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_MonsterGenMulti_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_MonsterGenOnce_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_PhaseCreate_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_PhaseDestory_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_PlayerChangeZone_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_PlayerChangeZone_Data_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_PlayerEnterZone_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_PlayerLogout_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_RemoveTaskPhase_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_SceneCreate_server_5fmsg_2fserver_5fside_2eproto.base,
-  &scc_info_SceneDestory_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_ServiceCmd_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_ServiceHttpRequest_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_ServiceHttpRequest_KvmapEntry_DoNotUse_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_ServiceHttpResponse_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_ServiceReady_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_SyncTaskPhase_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_SystemVarChange_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_TeamAcceptApply_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_TeamAcceptInvite_server_5fmsg_2fserver_5fside_2eproto.base,
@@ -1153,10 +1350,10 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_ser
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_server_5fmsg_2fserver_5fside_2eproto_once;
 static bool descriptor_table_server_5fmsg_2fserver_5fside_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_server_5fmsg_2fserver_5fside_2eproto = {
-  &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_initialized, descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto, "server_msg/server_side.proto", 3690,
-  &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_once, descriptor_table_server_5fmsg_2fserver_5fside_2eproto_sccs, descriptor_table_server_5fmsg_2fserver_5fside_2eproto_deps, 35, 0,
+  &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_initialized, descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto, "server_msg/server_side.proto", 4365,
+  &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_once, descriptor_table_server_5fmsg_2fserver_5fside_2eproto_sccs, descriptor_table_server_5fmsg_2fserver_5fside_2eproto_deps, 41, 0,
   schemas, file_default_instances, TableStruct_server_5fmsg_2fserver_5fside_2eproto::offsets,
-  file_level_metadata_server_5fmsg_2fserver_5fside_2eproto, 35, file_level_enum_descriptors_server_5fmsg_2fserver_5fside_2eproto, file_level_service_descriptors_server_5fmsg_2fserver_5fside_2eproto,
+  file_level_metadata_server_5fmsg_2fserver_5fside_2eproto, 41, file_level_enum_descriptors_server_5fmsg_2fserver_5fside_2eproto, file_level_service_descriptors_server_5fmsg_2fserver_5fside_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
@@ -1207,15 +1404,20 @@ bool OMsgID_IsValid(int value) {
     case 20031:
     case 20032:
     case 20033:
-    case 20034:
-    case 20035:
-    case 20036:
+    case 20041:
+    case 20042:
+    case 20043:
+    case 20044:
+    case 20045:
     case 20100:
     case 20101:
     case 20102:
     case 20103:
     case 20104:
     case 20105:
+    case 20106:
+    case 20107:
+    case 20108:
     case 20110:
     case 20111:
     case 20112:
@@ -3765,57 +3967,63 @@ void SceneCreate::InternalSwap(SceneCreate* other) {
 
 // ===================================================================
 
-void SceneDestory::InitAsDefaultInstance() {
+void PhaseCreate::InitAsDefaultInstance() {
 }
-class SceneDestory::_Internal {
+class PhaseCreate::_Internal {
  public:
 };
 
-SceneDestory::SceneDestory()
+PhaseCreate::PhaseCreate()
   : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:ServerMSG.SceneDestory)
+  // @@protoc_insertion_point(constructor:ServerMSG.PhaseCreate)
 }
-SceneDestory::SceneDestory(const SceneDestory& from)
+PhaseCreate::PhaseCreate(const PhaseCreate& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  scene_id_ = from.scene_id_;
-  // @@protoc_insertion_point(copy_constructor:ServerMSG.SceneDestory)
+  ::memcpy(&scene_id_, &from.scene_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&phase_id_) -
+    reinterpret_cast<char*>(&scene_id_)) + sizeof(phase_id_));
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.PhaseCreate)
 }
 
-void SceneDestory::SharedCtor() {
-  scene_id_ = PROTOBUF_ULONGLONG(0);
+void PhaseCreate::SharedCtor() {
+  ::memset(&scene_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&phase_id_) -
+      reinterpret_cast<char*>(&scene_id_)) + sizeof(phase_id_));
 }
 
-SceneDestory::~SceneDestory() {
-  // @@protoc_insertion_point(destructor:ServerMSG.SceneDestory)
+PhaseCreate::~PhaseCreate() {
+  // @@protoc_insertion_point(destructor:ServerMSG.PhaseCreate)
   SharedDtor();
 }
 
-void SceneDestory::SharedDtor() {
+void PhaseCreate::SharedDtor() {
 }
 
-void SceneDestory::SetCachedSize(int size) const {
+void PhaseCreate::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const SceneDestory& SceneDestory::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_SceneDestory_server_5fmsg_2fserver_5fside_2eproto.base);
+const PhaseCreate& PhaseCreate::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_PhaseCreate_server_5fmsg_2fserver_5fside_2eproto.base);
   return *internal_default_instance();
 }
 
 
-void SceneDestory::Clear() {
-// @@protoc_insertion_point(message_clear_start:ServerMSG.SceneDestory)
+void PhaseCreate::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.PhaseCreate)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  scene_id_ = PROTOBUF_ULONGLONG(0);
+  ::memset(&scene_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&phase_id_) -
+      reinterpret_cast<char*>(&scene_id_)) + sizeof(phase_id_));
   _internal_metadata_.Clear();
 }
 
-const char* SceneDestory::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+const char* PhaseCreate::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
@@ -3826,6 +4034,13 @@ const char* SceneDestory::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_I
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
           scene_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint64 phase_id = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          phase_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -3849,9 +4064,9 @@ failure:
 #undef CHK_
 }
 
-::PROTOBUF_NAMESPACE_ID::uint8* SceneDestory::_InternalSerialize(
+::PROTOBUF_NAMESPACE_ID::uint8* PhaseCreate::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.SceneDestory)
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.PhaseCreate)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -3861,16 +4076,22 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_scene_id(), target);
   }
 
+  // uint64 phase_id = 2;
+  if (this->phase_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(2, this->_internal_phase_id(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields(), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.SceneDestory)
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.PhaseCreate)
   return target;
 }
 
-size_t SceneDestory::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:ServerMSG.SceneDestory)
+size_t PhaseCreate::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.PhaseCreate)
   size_t total_size = 0;
 
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -3884,6 +4105,13 @@ size_t SceneDestory::ByteSizeLong() const {
         this->_internal_scene_id());
   }
 
+  // uint64 phase_id = 2;
+  if (this->phase_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_phase_id());
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
         _internal_metadata_, total_size, &_cached_size_);
@@ -3893,23 +4121,23 @@ size_t SceneDestory::ByteSizeLong() const {
   return total_size;
 }
 
-void SceneDestory::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.SceneDestory)
+void PhaseCreate::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.PhaseCreate)
   GOOGLE_DCHECK_NE(&from, this);
-  const SceneDestory* source =
-      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<SceneDestory>(
+  const PhaseCreate* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<PhaseCreate>(
           &from);
   if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.SceneDestory)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.PhaseCreate)
     ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.SceneDestory)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.PhaseCreate)
     MergeFrom(*source);
   }
 }
 
-void SceneDestory::MergeFrom(const SceneDestory& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.SceneDestory)
+void PhaseCreate::MergeFrom(const PhaseCreate& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.PhaseCreate)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -3918,33 +4146,253 @@ void SceneDestory::MergeFrom(const SceneDestory& from) {
   if (from.scene_id() != 0) {
     _internal_set_scene_id(from._internal_scene_id());
   }
+  if (from.phase_id() != 0) {
+    _internal_set_phase_id(from._internal_phase_id());
+  }
 }
 
-void SceneDestory::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.SceneDestory)
+void PhaseCreate::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.PhaseCreate)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void SceneDestory::CopyFrom(const SceneDestory& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.SceneDestory)
+void PhaseCreate::CopyFrom(const PhaseCreate& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.PhaseCreate)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool SceneDestory::IsInitialized() const {
+bool PhaseCreate::IsInitialized() const {
   return true;
 }
 
-void SceneDestory::InternalSwap(SceneDestory* other) {
+void PhaseCreate::InternalSwap(PhaseCreate* other) {
   using std::swap;
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(scene_id_, other->scene_id_);
+  swap(phase_id_, other->phase_id_);
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata SceneDestory::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata PhaseCreate::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void PhaseDestory::InitAsDefaultInstance() {
+}
+class PhaseDestory::_Internal {
+ public:
+};
+
+PhaseDestory::PhaseDestory()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:ServerMSG.PhaseDestory)
+}
+PhaseDestory::PhaseDestory(const PhaseDestory& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&scene_id_, &from.scene_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&phase_id_) -
+    reinterpret_cast<char*>(&scene_id_)) + sizeof(phase_id_));
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.PhaseDestory)
+}
+
+void PhaseDestory::SharedCtor() {
+  ::memset(&scene_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&phase_id_) -
+      reinterpret_cast<char*>(&scene_id_)) + sizeof(phase_id_));
+}
+
+PhaseDestory::~PhaseDestory() {
+  // @@protoc_insertion_point(destructor:ServerMSG.PhaseDestory)
+  SharedDtor();
+}
+
+void PhaseDestory::SharedDtor() {
+}
+
+void PhaseDestory::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const PhaseDestory& PhaseDestory::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_PhaseDestory_server_5fmsg_2fserver_5fside_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void PhaseDestory::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.PhaseDestory)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&scene_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&phase_id_) -
+      reinterpret_cast<char*>(&scene_id_)) + sizeof(phase_id_));
+  _internal_metadata_.Clear();
+}
+
+const char* PhaseDestory::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // uint64 scene_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          scene_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint64 phase_id = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          phase_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* PhaseDestory::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.PhaseDestory)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 scene_id = 1;
+  if (this->scene_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_scene_id(), target);
+  }
+
+  // uint64 phase_id = 2;
+  if (this->phase_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(2, this->_internal_phase_id(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.PhaseDestory)
+  return target;
+}
+
+size_t PhaseDestory::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.PhaseDestory)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // uint64 scene_id = 1;
+  if (this->scene_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_scene_id());
+  }
+
+  // uint64 phase_id = 2;
+  if (this->phase_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_phase_id());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void PhaseDestory::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.PhaseDestory)
+  GOOGLE_DCHECK_NE(&from, this);
+  const PhaseDestory* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<PhaseDestory>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.PhaseDestory)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.PhaseDestory)
+    MergeFrom(*source);
+  }
+}
+
+void PhaseDestory::MergeFrom(const PhaseDestory& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.PhaseDestory)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.scene_id() != 0) {
+    _internal_set_scene_id(from._internal_scene_id());
+  }
+  if (from.phase_id() != 0) {
+    _internal_set_phase_id(from._internal_phase_id());
+  }
+}
+
+void PhaseDestory::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.PhaseDestory)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void PhaseDestory::CopyFrom(const PhaseDestory& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.PhaseDestory)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool PhaseDestory::IsInitialized() const {
+  return true;
+}
+
+void PhaseDestory::InternalSwap(PhaseDestory* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(scene_id_, other->scene_id_);
+  swap(phase_id_, other->phase_id_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata PhaseDestory::GetMetadata() const {
   return GetMetadataStatic();
 }
 
@@ -4021,44 +4469,51 @@ const char* MonsterGen::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint32 gen_id = 2;
+      // uint64 phase_id = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          phase_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 gen_id = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
           gen_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint32 monster_type = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+      // uint32 monster_type = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
           monster_type_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // float posx = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 37)) {
+      // float posx = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 45)) {
           posx_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
           ptr += sizeof(float);
         } else goto handle_unusual;
         continue;
-      // float posy = 5;
-      case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 45)) {
+      // float posy = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 53)) {
           posy_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
           ptr += sizeof(float);
         } else goto handle_unusual;
         continue;
-      // uint32 camp_id = 6;
-      case 6:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48)) {
+      // uint32 camp_id = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 56)) {
           camp_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint32 monster_id = 7;
-      case 7:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 56)) {
+      // uint32 monster_id = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 64)) {
           monster_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
@@ -4095,40 +4550,46 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_scene_id(), target);
   }
 
-  // uint32 gen_id = 2;
+  // uint64 phase_id = 2;
+  if (this->phase_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(2, this->_internal_phase_id(), target);
+  }
+
+  // uint32 gen_id = 3;
   if (this->gen_id() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->_internal_gen_id(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(3, this->_internal_gen_id(), target);
   }
 
-  // uint32 monster_type = 3;
+  // uint32 monster_type = 4;
   if (this->monster_type() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(3, this->_internal_monster_type(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(4, this->_internal_monster_type(), target);
   }
 
-  // float posx = 4;
+  // float posx = 5;
   if (!(this->posx() <= 0 && this->posx() >= 0)) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(4, this->_internal_posx(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(5, this->_internal_posx(), target);
   }
 
-  // float posy = 5;
+  // float posy = 6;
   if (!(this->posy() <= 0 && this->posy() >= 0)) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(5, this->_internal_posy(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(6, this->_internal_posy(), target);
   }
 
-  // uint32 camp_id = 6;
+  // uint32 camp_id = 7;
   if (this->camp_id() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(6, this->_internal_camp_id(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(7, this->_internal_camp_id(), target);
   }
 
-  // uint32 monster_id = 7;
+  // uint32 monster_id = 8;
   if (this->monster_id() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(7, this->_internal_monster_id(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(8, this->_internal_monster_id(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -4154,38 +4615,45 @@ size_t MonsterGen::ByteSizeLong() const {
         this->_internal_scene_id());
   }
 
-  // uint32 gen_id = 2;
+  // uint64 phase_id = 2;
+  if (this->phase_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_phase_id());
+  }
+
+  // uint32 gen_id = 3;
   if (this->gen_id() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_gen_id());
   }
 
-  // uint32 monster_type = 3;
+  // uint32 monster_type = 4;
   if (this->monster_type() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_monster_type());
   }
 
-  // float posx = 4;
+  // float posx = 5;
   if (!(this->posx() <= 0 && this->posx() >= 0)) {
     total_size += 1 + 4;
   }
 
-  // float posy = 5;
+  // float posy = 6;
   if (!(this->posy() <= 0 && this->posy() >= 0)) {
     total_size += 1 + 4;
   }
 
-  // uint32 camp_id = 6;
+  // uint32 camp_id = 7;
   if (this->camp_id() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_camp_id());
   }
 
-  // uint32 monster_id = 7;
+  // uint32 monster_id = 8;
   if (this->monster_id() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
@@ -4225,6 +4693,9 @@ void MonsterGen::MergeFrom(const MonsterGen& from) {
 
   if (from.scene_id() != 0) {
     _internal_set_scene_id(from._internal_scene_id());
+  }
+  if (from.phase_id() != 0) {
+    _internal_set_phase_id(from._internal_phase_id());
   }
   if (from.gen_id() != 0) {
     _internal_set_gen_id(from._internal_gen_id());
@@ -4268,6 +4739,7 @@ void MonsterGen::InternalSwap(MonsterGen* other) {
   using std::swap;
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(scene_id_, other->scene_id_);
+  swap(phase_id_, other->phase_id_);
   swap(gen_id_, other->gen_id_);
   swap(monster_type_, other->monster_type_);
   swap(posx_, other->posx_);
@@ -4277,6 +4749,408 @@ void MonsterGen::InternalSwap(MonsterGen* other) {
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata MonsterGen::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void MonsterGenMulti::InitAsDefaultInstance() {
+}
+class MonsterGenMulti::_Internal {
+ public:
+};
+
+MonsterGenMulti::MonsterGenMulti()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:ServerMSG.MonsterGenMulti)
+}
+MonsterGenMulti::MonsterGenMulti(const MonsterGenMulti& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&scene_id_, &from.scene_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&range_) -
+    reinterpret_cast<char*>(&scene_id_)) + sizeof(range_));
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.MonsterGenMulti)
+}
+
+void MonsterGenMulti::SharedCtor() {
+  ::memset(&scene_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&range_) -
+      reinterpret_cast<char*>(&scene_id_)) + sizeof(range_));
+}
+
+MonsterGenMulti::~MonsterGenMulti() {
+  // @@protoc_insertion_point(destructor:ServerMSG.MonsterGenMulti)
+  SharedDtor();
+}
+
+void MonsterGenMulti::SharedDtor() {
+}
+
+void MonsterGenMulti::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const MonsterGenMulti& MonsterGenMulti::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_MonsterGenMulti_server_5fmsg_2fserver_5fside_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void MonsterGenMulti::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.MonsterGenMulti)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&scene_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&range_) -
+      reinterpret_cast<char*>(&scene_id_)) + sizeof(range_));
+  _internal_metadata_.Clear();
+}
+
+const char* MonsterGenMulti::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // uint64 scene_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          scene_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint64 phase_id = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          phase_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 gen_id = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          gen_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 monster_type = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
+          monster_type_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // float posx = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 45)) {
+          posx_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else goto handle_unusual;
+        continue;
+      // float posy = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 53)) {
+          posy_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else goto handle_unusual;
+        continue;
+      // uint32 camp_id = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 56)) {
+          camp_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 monster_id = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 64)) {
+          monster_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 num = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 72)) {
+          num_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // float range = 10;
+      case 10:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 85)) {
+          range_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* MonsterGenMulti::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.MonsterGenMulti)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 scene_id = 1;
+  if (this->scene_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_scene_id(), target);
+  }
+
+  // uint64 phase_id = 2;
+  if (this->phase_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(2, this->_internal_phase_id(), target);
+  }
+
+  // uint32 gen_id = 3;
+  if (this->gen_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(3, this->_internal_gen_id(), target);
+  }
+
+  // uint32 monster_type = 4;
+  if (this->monster_type() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(4, this->_internal_monster_type(), target);
+  }
+
+  // float posx = 5;
+  if (!(this->posx() <= 0 && this->posx() >= 0)) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(5, this->_internal_posx(), target);
+  }
+
+  // float posy = 6;
+  if (!(this->posy() <= 0 && this->posy() >= 0)) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(6, this->_internal_posy(), target);
+  }
+
+  // uint32 camp_id = 7;
+  if (this->camp_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(7, this->_internal_camp_id(), target);
+  }
+
+  // uint32 monster_id = 8;
+  if (this->monster_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(8, this->_internal_monster_id(), target);
+  }
+
+  // uint32 num = 9;
+  if (this->num() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(9, this->_internal_num(), target);
+  }
+
+  // float range = 10;
+  if (!(this->range() <= 0 && this->range() >= 0)) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(10, this->_internal_range(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.MonsterGenMulti)
+  return target;
+}
+
+size_t MonsterGenMulti::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.MonsterGenMulti)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // uint64 scene_id = 1;
+  if (this->scene_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_scene_id());
+  }
+
+  // uint64 phase_id = 2;
+  if (this->phase_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_phase_id());
+  }
+
+  // uint32 gen_id = 3;
+  if (this->gen_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_gen_id());
+  }
+
+  // uint32 monster_type = 4;
+  if (this->monster_type() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_monster_type());
+  }
+
+  // float posx = 5;
+  if (!(this->posx() <= 0 && this->posx() >= 0)) {
+    total_size += 1 + 4;
+  }
+
+  // float posy = 6;
+  if (!(this->posy() <= 0 && this->posy() >= 0)) {
+    total_size += 1 + 4;
+  }
+
+  // uint32 camp_id = 7;
+  if (this->camp_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_camp_id());
+  }
+
+  // uint32 monster_id = 8;
+  if (this->monster_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_monster_id());
+  }
+
+  // uint32 num = 9;
+  if (this->num() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_num());
+  }
+
+  // float range = 10;
+  if (!(this->range() <= 0 && this->range() >= 0)) {
+    total_size += 1 + 4;
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void MonsterGenMulti::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.MonsterGenMulti)
+  GOOGLE_DCHECK_NE(&from, this);
+  const MonsterGenMulti* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<MonsterGenMulti>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.MonsterGenMulti)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.MonsterGenMulti)
+    MergeFrom(*source);
+  }
+}
+
+void MonsterGenMulti::MergeFrom(const MonsterGenMulti& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.MonsterGenMulti)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.scene_id() != 0) {
+    _internal_set_scene_id(from._internal_scene_id());
+  }
+  if (from.phase_id() != 0) {
+    _internal_set_phase_id(from._internal_phase_id());
+  }
+  if (from.gen_id() != 0) {
+    _internal_set_gen_id(from._internal_gen_id());
+  }
+  if (from.monster_type() != 0) {
+    _internal_set_monster_type(from._internal_monster_type());
+  }
+  if (!(from.posx() <= 0 && from.posx() >= 0)) {
+    _internal_set_posx(from._internal_posx());
+  }
+  if (!(from.posy() <= 0 && from.posy() >= 0)) {
+    _internal_set_posy(from._internal_posy());
+  }
+  if (from.camp_id() != 0) {
+    _internal_set_camp_id(from._internal_camp_id());
+  }
+  if (from.monster_id() != 0) {
+    _internal_set_monster_id(from._internal_monster_id());
+  }
+  if (from.num() != 0) {
+    _internal_set_num(from._internal_num());
+  }
+  if (!(from.range() <= 0 && from.range() >= 0)) {
+    _internal_set_range(from._internal_range());
+  }
+}
+
+void MonsterGenMulti::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.MonsterGenMulti)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void MonsterGenMulti::CopyFrom(const MonsterGenMulti& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.MonsterGenMulti)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool MonsterGenMulti::IsInitialized() const {
+  return true;
+}
+
+void MonsterGenMulti::InternalSwap(MonsterGenMulti* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(scene_id_, other->scene_id_);
+  swap(phase_id_, other->phase_id_);
+  swap(gen_id_, other->gen_id_);
+  swap(monster_type_, other->monster_type_);
+  swap(posx_, other->posx_);
+  swap(posy_, other->posy_);
+  swap(camp_id_, other->camp_id_);
+  swap(monster_id_, other->monster_id_);
+  swap(num_, other->num_);
+  swap(range_, other->range_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata MonsterGenMulti::GetMetadata() const {
   return GetMetadataStatic();
 }
 
@@ -4474,6 +5348,246 @@ void MonsterDestory::InternalSwap(MonsterDestory* other) {
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata MonsterDestory::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void MonsterGenOnce::InitAsDefaultInstance() {
+}
+class MonsterGenOnce::_Internal {
+ public:
+};
+
+MonsterGenOnce::MonsterGenOnce()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:ServerMSG.MonsterGenOnce)
+}
+MonsterGenOnce::MonsterGenOnce(const MonsterGenOnce& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&scene_id_, &from.scene_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&gen_id_) -
+    reinterpret_cast<char*>(&scene_id_)) + sizeof(gen_id_));
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.MonsterGenOnce)
+}
+
+void MonsterGenOnce::SharedCtor() {
+  ::memset(&scene_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&gen_id_) -
+      reinterpret_cast<char*>(&scene_id_)) + sizeof(gen_id_));
+}
+
+MonsterGenOnce::~MonsterGenOnce() {
+  // @@protoc_insertion_point(destructor:ServerMSG.MonsterGenOnce)
+  SharedDtor();
+}
+
+void MonsterGenOnce::SharedDtor() {
+}
+
+void MonsterGenOnce::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const MonsterGenOnce& MonsterGenOnce::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_MonsterGenOnce_server_5fmsg_2fserver_5fside_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void MonsterGenOnce::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.MonsterGenOnce)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&scene_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&gen_id_) -
+      reinterpret_cast<char*>(&scene_id_)) + sizeof(gen_id_));
+  _internal_metadata_.Clear();
+}
+
+const char* MonsterGenOnce::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // uint64 scene_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          scene_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 gen_id = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          gen_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint64 phase_id = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          phase_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* MonsterGenOnce::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.MonsterGenOnce)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 scene_id = 1;
+  if (this->scene_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_scene_id(), target);
+  }
+
+  // uint32 gen_id = 2;
+  if (this->gen_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->_internal_gen_id(), target);
+  }
+
+  // uint64 phase_id = 3;
+  if (this->phase_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(3, this->_internal_phase_id(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.MonsterGenOnce)
+  return target;
+}
+
+size_t MonsterGenOnce::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.MonsterGenOnce)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // uint64 scene_id = 1;
+  if (this->scene_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_scene_id());
+  }
+
+  // uint64 phase_id = 3;
+  if (this->phase_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_phase_id());
+  }
+
+  // uint32 gen_id = 2;
+  if (this->gen_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_gen_id());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void MonsterGenOnce::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.MonsterGenOnce)
+  GOOGLE_DCHECK_NE(&from, this);
+  const MonsterGenOnce* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<MonsterGenOnce>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.MonsterGenOnce)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.MonsterGenOnce)
+    MergeFrom(*source);
+  }
+}
+
+void MonsterGenOnce::MergeFrom(const MonsterGenOnce& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.MonsterGenOnce)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.scene_id() != 0) {
+    _internal_set_scene_id(from._internal_scene_id());
+  }
+  if (from.phase_id() != 0) {
+    _internal_set_phase_id(from._internal_phase_id());
+  }
+  if (from.gen_id() != 0) {
+    _internal_set_gen_id(from._internal_gen_id());
+  }
+}
+
+void MonsterGenOnce::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.MonsterGenOnce)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void MonsterGenOnce::CopyFrom(const MonsterGenOnce& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.MonsterGenOnce)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool MonsterGenOnce::IsInitialized() const {
+  return true;
+}
+
+void MonsterGenOnce::InternalSwap(MonsterGenOnce* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(scene_id_, other->scene_id_);
+  swap(phase_id_, other->phase_id_);
+  swap(gen_id_, other->gen_id_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata MonsterGenOnce::GetMetadata() const {
   return GetMetadataStatic();
 }
 
@@ -4954,8 +6068,8 @@ ActorCreate::ActorCreate(const ActorCreate& from)
     name_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.name_);
   }
   ::memcpy(&actor_id_, &from.actor_id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&monster_gen_id_) -
-    reinterpret_cast<char*>(&actor_id_)) + sizeof(monster_gen_id_));
+    static_cast<size_t>(reinterpret_cast<char*>(&phase_id_) -
+    reinterpret_cast<char*>(&actor_id_)) + sizeof(phase_id_));
   // @@protoc_insertion_point(copy_constructor:ServerMSG.ActorCreate)
 }
 
@@ -4963,8 +6077,8 @@ void ActorCreate::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_ActorCreate_server_5fmsg_2fserver_5fside_2eproto.base);
   name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   ::memset(&actor_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&monster_gen_id_) -
-      reinterpret_cast<char*>(&actor_id_)) + sizeof(monster_gen_id_));
+      reinterpret_cast<char*>(&phase_id_) -
+      reinterpret_cast<char*>(&actor_id_)) + sizeof(phase_id_));
 }
 
 ActorCreate::~ActorCreate() {
@@ -4993,8 +6107,8 @@ void ActorCreate::Clear() {
 
   name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   ::memset(&actor_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&monster_gen_id_) -
-      reinterpret_cast<char*>(&actor_id_)) + sizeof(monster_gen_id_));
+      reinterpret_cast<char*>(&phase_id_) -
+      reinterpret_cast<char*>(&actor_id_)) + sizeof(phase_id_));
   _internal_metadata_.Clear();
 }
 
@@ -5130,6 +6244,13 @@ const char* ActorCreate::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID
       case 20:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 160)) {
           monster_gen_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint64 phase_id = 21;
+      case 21:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 168)) {
+          phase_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -5271,6 +6392,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(20, this->_internal_monster_gen_id(), target);
   }
 
+  // uint64 phase_id = 21;
+  if (this->phase_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(21, this->_internal_phase_id(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields(), target, stream);
@@ -5407,6 +6534,13 @@ size_t ActorCreate::ByteSizeLong() const {
         this->_internal_monster_gen_id());
   }
 
+  // uint64 phase_id = 21;
+  if (this->phase_id() != 0) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_phase_id());
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
         _internal_metadata_, total_size, &_cached_size_);
@@ -5493,6 +6627,9 @@ void ActorCreate::MergeFrom(const ActorCreate& from) {
   if (from.monster_gen_id() != 0) {
     _internal_set_monster_gen_id(from._internal_monster_gen_id());
   }
+  if (from.phase_id() != 0) {
+    _internal_set_phase_id(from._internal_phase_id());
+  }
 }
 
 void ActorCreate::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -5535,6 +6672,7 @@ void ActorCreate::InternalSwap(ActorCreate* other) {
   swap(posy_, other->posy_);
   swap(face_, other->face_);
   swap(monster_gen_id_, other->monster_gen_id_);
+  swap(phase_id_, other->phase_id_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata ActorCreate::GetMetadata() const {
@@ -9561,6 +10699,662 @@ void TeamMemberInfo::InternalSwap(TeamMemberInfo* other) {
 }
 
 
+// ===================================================================
+
+void SyncTaskPhase::InitAsDefaultInstance() {
+}
+class SyncTaskPhase::_Internal {
+ public:
+};
+
+SyncTaskPhase::SyncTaskPhase()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:ServerMSG.SyncTaskPhase)
+}
+SyncTaskPhase::SyncTaskPhase(const SyncTaskPhase& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr),
+      task_phase_id_(from.task_phase_id_) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  player_id_ = from.player_id_;
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.SyncTaskPhase)
+}
+
+void SyncTaskPhase::SharedCtor() {
+  player_id_ = PROTOBUF_ULONGLONG(0);
+}
+
+SyncTaskPhase::~SyncTaskPhase() {
+  // @@protoc_insertion_point(destructor:ServerMSG.SyncTaskPhase)
+  SharedDtor();
+}
+
+void SyncTaskPhase::SharedDtor() {
+}
+
+void SyncTaskPhase::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const SyncTaskPhase& SyncTaskPhase::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_SyncTaskPhase_server_5fmsg_2fserver_5fside_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void SyncTaskPhase::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.SyncTaskPhase)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  task_phase_id_.Clear();
+  player_id_ = PROTOBUF_ULONGLONG(0);
+  _internal_metadata_.Clear();
+}
+
+const char* SyncTaskPhase::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // uint64 player_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          player_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // repeated uint64 task_phase_id = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedUInt64Parser(_internal_mutable_task_phase_id(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16) {
+          _internal_add_task_phase_id(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* SyncTaskPhase::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.SyncTaskPhase)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 player_id = 1;
+  if (this->player_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_player_id(), target);
+  }
+
+  // repeated uint64 task_phase_id = 2;
+  {
+    int byte_size = _task_phase_id_cached_byte_size_.load(std::memory_order_relaxed);
+    if (byte_size > 0) {
+      target = stream->WriteUInt64Packed(
+          2, _internal_task_phase_id(), byte_size, target);
+    }
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.SyncTaskPhase)
+  return target;
+}
+
+size_t SyncTaskPhase::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.SyncTaskPhase)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated uint64 task_phase_id = 2;
+  {
+    size_t data_size = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      UInt64Size(this->task_phase_id_);
+    if (data_size > 0) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+            static_cast<::PROTOBUF_NAMESPACE_ID::int32>(data_size));
+    }
+    int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(data_size);
+    _task_phase_id_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
+    total_size += data_size;
+  }
+
+  // uint64 player_id = 1;
+  if (this->player_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_player_id());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void SyncTaskPhase::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.SyncTaskPhase)
+  GOOGLE_DCHECK_NE(&from, this);
+  const SyncTaskPhase* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<SyncTaskPhase>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.SyncTaskPhase)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.SyncTaskPhase)
+    MergeFrom(*source);
+  }
+}
+
+void SyncTaskPhase::MergeFrom(const SyncTaskPhase& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.SyncTaskPhase)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  task_phase_id_.MergeFrom(from.task_phase_id_);
+  if (from.player_id() != 0) {
+    _internal_set_player_id(from._internal_player_id());
+  }
+}
+
+void SyncTaskPhase::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.SyncTaskPhase)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void SyncTaskPhase::CopyFrom(const SyncTaskPhase& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.SyncTaskPhase)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SyncTaskPhase::IsInitialized() const {
+  return true;
+}
+
+void SyncTaskPhase::InternalSwap(SyncTaskPhase* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  task_phase_id_.InternalSwap(&other->task_phase_id_);
+  swap(player_id_, other->player_id_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SyncTaskPhase::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void AddTaskPhase::InitAsDefaultInstance() {
+}
+class AddTaskPhase::_Internal {
+ public:
+};
+
+AddTaskPhase::AddTaskPhase()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:ServerMSG.AddTaskPhase)
+}
+AddTaskPhase::AddTaskPhase(const AddTaskPhase& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&player_id_, &from.player_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&task_phase_id_) -
+    reinterpret_cast<char*>(&player_id_)) + sizeof(task_phase_id_));
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.AddTaskPhase)
+}
+
+void AddTaskPhase::SharedCtor() {
+  ::memset(&player_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&task_phase_id_) -
+      reinterpret_cast<char*>(&player_id_)) + sizeof(task_phase_id_));
+}
+
+AddTaskPhase::~AddTaskPhase() {
+  // @@protoc_insertion_point(destructor:ServerMSG.AddTaskPhase)
+  SharedDtor();
+}
+
+void AddTaskPhase::SharedDtor() {
+}
+
+void AddTaskPhase::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const AddTaskPhase& AddTaskPhase::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_AddTaskPhase_server_5fmsg_2fserver_5fside_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void AddTaskPhase::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.AddTaskPhase)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&player_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&task_phase_id_) -
+      reinterpret_cast<char*>(&player_id_)) + sizeof(task_phase_id_));
+  _internal_metadata_.Clear();
+}
+
+const char* AddTaskPhase::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // uint64 player_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          player_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint64 task_phase_id = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          task_phase_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* AddTaskPhase::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.AddTaskPhase)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 player_id = 1;
+  if (this->player_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_player_id(), target);
+  }
+
+  // uint64 task_phase_id = 2;
+  if (this->task_phase_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(2, this->_internal_task_phase_id(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.AddTaskPhase)
+  return target;
+}
+
+size_t AddTaskPhase::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.AddTaskPhase)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // uint64 player_id = 1;
+  if (this->player_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_player_id());
+  }
+
+  // uint64 task_phase_id = 2;
+  if (this->task_phase_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_task_phase_id());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void AddTaskPhase::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.AddTaskPhase)
+  GOOGLE_DCHECK_NE(&from, this);
+  const AddTaskPhase* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<AddTaskPhase>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.AddTaskPhase)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.AddTaskPhase)
+    MergeFrom(*source);
+  }
+}
+
+void AddTaskPhase::MergeFrom(const AddTaskPhase& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.AddTaskPhase)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.player_id() != 0) {
+    _internal_set_player_id(from._internal_player_id());
+  }
+  if (from.task_phase_id() != 0) {
+    _internal_set_task_phase_id(from._internal_task_phase_id());
+  }
+}
+
+void AddTaskPhase::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.AddTaskPhase)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void AddTaskPhase::CopyFrom(const AddTaskPhase& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.AddTaskPhase)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool AddTaskPhase::IsInitialized() const {
+  return true;
+}
+
+void AddTaskPhase::InternalSwap(AddTaskPhase* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(player_id_, other->player_id_);
+  swap(task_phase_id_, other->task_phase_id_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata AddTaskPhase::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void RemoveTaskPhase::InitAsDefaultInstance() {
+}
+class RemoveTaskPhase::_Internal {
+ public:
+};
+
+RemoveTaskPhase::RemoveTaskPhase()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:ServerMSG.RemoveTaskPhase)
+}
+RemoveTaskPhase::RemoveTaskPhase(const RemoveTaskPhase& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&player_id_, &from.player_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&task_phase_id_) -
+    reinterpret_cast<char*>(&player_id_)) + sizeof(task_phase_id_));
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.RemoveTaskPhase)
+}
+
+void RemoveTaskPhase::SharedCtor() {
+  ::memset(&player_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&task_phase_id_) -
+      reinterpret_cast<char*>(&player_id_)) + sizeof(task_phase_id_));
+}
+
+RemoveTaskPhase::~RemoveTaskPhase() {
+  // @@protoc_insertion_point(destructor:ServerMSG.RemoveTaskPhase)
+  SharedDtor();
+}
+
+void RemoveTaskPhase::SharedDtor() {
+}
+
+void RemoveTaskPhase::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const RemoveTaskPhase& RemoveTaskPhase::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_RemoveTaskPhase_server_5fmsg_2fserver_5fside_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void RemoveTaskPhase::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.RemoveTaskPhase)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&player_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&task_phase_id_) -
+      reinterpret_cast<char*>(&player_id_)) + sizeof(task_phase_id_));
+  _internal_metadata_.Clear();
+}
+
+const char* RemoveTaskPhase::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // uint64 player_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          player_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint64 task_phase_id = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          task_phase_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* RemoveTaskPhase::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.RemoveTaskPhase)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 player_id = 1;
+  if (this->player_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_player_id(), target);
+  }
+
+  // uint64 task_phase_id = 2;
+  if (this->task_phase_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(2, this->_internal_task_phase_id(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.RemoveTaskPhase)
+  return target;
+}
+
+size_t RemoveTaskPhase::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.RemoveTaskPhase)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // uint64 player_id = 1;
+  if (this->player_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_player_id());
+  }
+
+  // uint64 task_phase_id = 2;
+  if (this->task_phase_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_task_phase_id());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void RemoveTaskPhase::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.RemoveTaskPhase)
+  GOOGLE_DCHECK_NE(&from, this);
+  const RemoveTaskPhase* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<RemoveTaskPhase>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.RemoveTaskPhase)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.RemoveTaskPhase)
+    MergeFrom(*source);
+  }
+}
+
+void RemoveTaskPhase::MergeFrom(const RemoveTaskPhase& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.RemoveTaskPhase)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.player_id() != 0) {
+    _internal_set_player_id(from._internal_player_id());
+  }
+  if (from.task_phase_id() != 0) {
+    _internal_set_task_phase_id(from._internal_task_phase_id());
+  }
+}
+
+void RemoveTaskPhase::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.RemoveTaskPhase)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void RemoveTaskPhase::CopyFrom(const RemoveTaskPhase& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.RemoveTaskPhase)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool RemoveTaskPhase::IsInitialized() const {
+  return true;
+}
+
+void RemoveTaskPhase::InternalSwap(RemoveTaskPhase* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(player_id_, other->player_id_);
+  swap(task_phase_id_, other->task_phase_id_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata RemoveTaskPhase::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace ServerMSG
 PROTOBUF_NAMESPACE_OPEN
@@ -9597,14 +11391,23 @@ template<> PROTOBUF_NOINLINE ::ServerMSG::SystemVarChange* Arena::CreateMaybeMes
 template<> PROTOBUF_NOINLINE ::ServerMSG::SceneCreate* Arena::CreateMaybeMessage< ::ServerMSG::SceneCreate >(Arena* arena) {
   return Arena::CreateInternal< ::ServerMSG::SceneCreate >(arena);
 }
-template<> PROTOBUF_NOINLINE ::ServerMSG::SceneDestory* Arena::CreateMaybeMessage< ::ServerMSG::SceneDestory >(Arena* arena) {
-  return Arena::CreateInternal< ::ServerMSG::SceneDestory >(arena);
+template<> PROTOBUF_NOINLINE ::ServerMSG::PhaseCreate* Arena::CreateMaybeMessage< ::ServerMSG::PhaseCreate >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::PhaseCreate >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ServerMSG::PhaseDestory* Arena::CreateMaybeMessage< ::ServerMSG::PhaseDestory >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::PhaseDestory >(arena);
 }
 template<> PROTOBUF_NOINLINE ::ServerMSG::MonsterGen* Arena::CreateMaybeMessage< ::ServerMSG::MonsterGen >(Arena* arena) {
   return Arena::CreateInternal< ::ServerMSG::MonsterGen >(arena);
 }
+template<> PROTOBUF_NOINLINE ::ServerMSG::MonsterGenMulti* Arena::CreateMaybeMessage< ::ServerMSG::MonsterGenMulti >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::MonsterGenMulti >(arena);
+}
 template<> PROTOBUF_NOINLINE ::ServerMSG::MonsterDestory* Arena::CreateMaybeMessage< ::ServerMSG::MonsterDestory >(Arena* arena) {
   return Arena::CreateInternal< ::ServerMSG::MonsterDestory >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ServerMSG::MonsterGenOnce* Arena::CreateMaybeMessage< ::ServerMSG::MonsterGenOnce >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::MonsterGenOnce >(arena);
 }
 template<> PROTOBUF_NOINLINE ::ServerMSG::ActiveGen* Arena::CreateMaybeMessage< ::ServerMSG::ActiveGen >(Arena* arena) {
   return Arena::CreateInternal< ::ServerMSG::ActiveGen >(arena);
@@ -9668,6 +11471,15 @@ template<> PROTOBUF_NOINLINE ::ServerMSG::TeamMemberInfo_Info* Arena::CreateMayb
 }
 template<> PROTOBUF_NOINLINE ::ServerMSG::TeamMemberInfo* Arena::CreateMaybeMessage< ::ServerMSG::TeamMemberInfo >(Arena* arena) {
   return Arena::CreateInternal< ::ServerMSG::TeamMemberInfo >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ServerMSG::SyncTaskPhase* Arena::CreateMaybeMessage< ::ServerMSG::SyncTaskPhase >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::SyncTaskPhase >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ServerMSG::AddTaskPhase* Arena::CreateMaybeMessage< ::ServerMSG::AddTaskPhase >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::AddTaskPhase >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ServerMSG::RemoveTaskPhase* Arena::CreateMaybeMessage< ::ServerMSG::RemoveTaskPhase >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::RemoveTaskPhase >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

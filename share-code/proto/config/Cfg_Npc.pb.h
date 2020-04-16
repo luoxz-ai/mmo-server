@@ -178,6 +178,7 @@ class Cfg_Npc_Row :
     kPosyFieldNumber = 12,
     kFaceFieldNumber = 13,
     kHighFieldNumber = 14,
+    kPhaseIdFieldNumber = 16,
     kVolumeFieldNumber = 15,
   };
   // string name = 3;
@@ -342,6 +343,15 @@ class Cfg_Npc_Row :
   void _internal_set_high(float value);
   public:
 
+  // uint64 phase_id = 16;
+  void clear_phase_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 phase_id() const;
+  void set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_phase_id() const;
+  void _internal_set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
   // float volume = 15;
   void clear_volume();
   float volume() const;
@@ -371,6 +381,7 @@ class Cfg_Npc_Row :
   float posy_;
   float face_;
   float high_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 phase_id_;
   float volume_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_config_2fCfg_5fNpc_2eproto;
@@ -932,6 +943,26 @@ inline void Cfg_Npc_Row::_internal_set_volume(float value) {
 inline void Cfg_Npc_Row::set_volume(float value) {
   _internal_set_volume(value);
   // @@protoc_insertion_point(field_set:Cfg_Npc.Row.volume)
+}
+
+// uint64 phase_id = 16;
+inline void Cfg_Npc_Row::clear_phase_id() {
+  phase_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 Cfg_Npc_Row::_internal_phase_id() const {
+  return phase_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 Cfg_Npc_Row::phase_id() const {
+  // @@protoc_insertion_point(field_get:Cfg_Npc.Row.phase_id)
+  return _internal_phase_id();
+}
+inline void Cfg_Npc_Row::_internal_set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  phase_id_ = value;
+}
+inline void Cfg_Npc_Row::set_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_phase_id(value);
+  // @@protoc_insertion_point(field_set:Cfg_Npc.Row.phase_id)
 }
 
 // .AttribDataProto attr_data = 20;

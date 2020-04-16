@@ -85,7 +85,7 @@ struct ST_ROLE_INFO
 using ST_ROLE_INFO_PTR = std::unique_ptr<ST_ROLE_INFO>;
 
 class CUser;
-class CAccount : public Noncopyable<CAccount>
+class CAccount : public NoncopyableT<CAccount>
 {
    
 private:

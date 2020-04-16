@@ -232,6 +232,16 @@ bool CDBField::IsDirty() const
     return false;
 }
 
+int32_t CDBField::GetFieldIndex() const
+{
+    return m_pFieldInfo ? m_pFieldInfo->GetFieldIdx() : -1;
+}
+
+const char* CDBField::GetFieldName() const 
+{
+    return m_pFieldInfo ? m_pFieldInfo->GetFieldName() : "";
+}
+
 CMysqlFieldInfoList::CMysqlFieldInfoList(MYSQL_RES* res)
 {
     int32_t nFields = mysql_num_fields(res);

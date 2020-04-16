@@ -8,7 +8,7 @@
 class CUser;
 class CNetworkMessage;
 
-class CUserManager: public Noncopyable<CUserManager>
+class CUserManager: public NoncopyableT<CUserManager>
 {
     CUserManager();
     bool Init();

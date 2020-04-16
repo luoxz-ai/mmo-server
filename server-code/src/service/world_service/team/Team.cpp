@@ -1,6 +1,8 @@
 #include "Team.h"
 
 #include "User.h"
+#include "UserManager.h"
+#include "TeamManager.h"
 #include "WorldService.h"
 #include "msg/zone_service.pb.h"
 

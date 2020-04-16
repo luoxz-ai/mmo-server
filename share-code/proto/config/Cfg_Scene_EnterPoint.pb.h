@@ -170,9 +170,10 @@ class Cfg_Scene_EnterPoint_Row :
     kFaceFieldNumber = 6,
     kTeamReqFieldNumber = 10,
     kGuildReqFieldNumber = 11,
-    kVipLevReqFieldNumber = 14,
     kLevReqFieldNumber = 12,
     kProfReqFieldNumber = 13,
+    kVipLevReqFieldNumber = 14,
+    kIdphaseFieldNumber = 15,
   };
   // uint32 idmap = 1;
   void clear_idmap();
@@ -246,15 +247,6 @@ class Cfg_Scene_EnterPoint_Row :
   void _internal_set_guild_req(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 vip_lev_req = 14;
-  void clear_vip_lev_req();
-  ::PROTOBUF_NAMESPACE_ID::uint32 vip_lev_req() const;
-  void set_vip_lev_req(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_vip_lev_req() const;
-  void _internal_set_vip_lev_req(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
   // uint32 lev_req = 12;
   void clear_lev_req();
   ::PROTOBUF_NAMESPACE_ID::uint32 lev_req() const;
@@ -273,6 +265,24 @@ class Cfg_Scene_EnterPoint_Row :
   void _internal_set_prof_req(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
+  // uint32 vip_lev_req = 14;
+  void clear_vip_lev_req();
+  ::PROTOBUF_NAMESPACE_ID::uint32 vip_lev_req() const;
+  void set_vip_lev_req(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_vip_lev_req() const;
+  void _internal_set_vip_lev_req(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // int32 idphase = 15;
+  void clear_idphase();
+  ::PROTOBUF_NAMESPACE_ID::int32 idphase() const;
+  void set_idphase(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_idphase() const;
+  void _internal_set_idphase(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:Cfg_Scene_EnterPoint.Row)
  private:
   class _Internal;
@@ -286,9 +296,10 @@ class Cfg_Scene_EnterPoint_Row :
   float face_;
   ::PROTOBUF_NAMESPACE_ID::uint32 team_req_;
   ::PROTOBUF_NAMESPACE_ID::uint32 guild_req_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 vip_lev_req_;
   ::PROTOBUF_NAMESPACE_ID::uint32 lev_req_;
   ::PROTOBUF_NAMESPACE_ID::uint32 prof_req_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 vip_lev_req_;
+  ::PROTOBUF_NAMESPACE_ID::int32 idphase_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_config_2fCfg_5fScene_5fEnterPoint_2eproto;
 };
@@ -649,6 +660,26 @@ inline void Cfg_Scene_EnterPoint_Row::_internal_set_vip_lev_req(::PROTOBUF_NAMES
 inline void Cfg_Scene_EnterPoint_Row::set_vip_lev_req(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_vip_lev_req(value);
   // @@protoc_insertion_point(field_set:Cfg_Scene_EnterPoint.Row.vip_lev_req)
+}
+
+// int32 idphase = 15;
+inline void Cfg_Scene_EnterPoint_Row::clear_idphase() {
+  idphase_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 Cfg_Scene_EnterPoint_Row::_internal_idphase() const {
+  return idphase_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 Cfg_Scene_EnterPoint_Row::idphase() const {
+  // @@protoc_insertion_point(field_get:Cfg_Scene_EnterPoint.Row.idphase)
+  return _internal_idphase();
+}
+inline void Cfg_Scene_EnterPoint_Row::_internal_set_idphase(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  idphase_ = value;
+}
+inline void Cfg_Scene_EnterPoint_Row::set_idphase(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_idphase(value);
+  // @@protoc_insertion_point(field_set:Cfg_Scene_EnterPoint.Row.idphase)
 }
 
 // -------------------------------------------------------------------

@@ -18,6 +18,13 @@ bool CGameMap::Init(CMapManager* pManager, const Cfg_Scene_Row& data, const CMap
     m_nMapFlag = data.mapflag();
     m_idScript = data.idscript();
     m_pMapData = pMapData;
+    for(int i = 0; i < data.phase_data_size(); i++)
+    {
+        //copy
+        auto phase_data = data.phase_data(i);
+        auto idPhase = phase_data.id();
+        m_PhaseDataSet.emplace(idPhase, std::move(phase_data));
+    }
     return true;
 }
 
@@ -174,6 +181,17 @@ bool CGameMap::IsDeadNoDrop(float x, float y) const
     return m_pMapData->IsDeadNoDrop(x, y);
     __LEAVE_FUNCTION
     return false;
+}
+
+const PhaseData* CGameMap::GetPhaseDataById(uint64_t idPhase) const
+{
+    __ENTER_FUNCTION
+    auto it = m_PhaseDataSet.find(idPhase);
+    if(it == m_PhaseDataSet.end())
+        return nullptr;
+    return &it->second;
+    __LEAVE_FUNCTION
+    return nullptr;
 }
 
 const Cfg_Scene_EnterPoint_Row* CGameMap::GetEnterPointByIdx(uint32_t idx) const

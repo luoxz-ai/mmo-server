@@ -6,8 +6,12 @@
 #include "MapManager.h"
 #include "User.h"
 #include "UserManager.h"
+#include "GMManager.h"
 #include "WorldService.h"
 #include "gamedb.h"
+#include "UserAttr.h"
+#include "msg/world_service.pb.h"
+#include "server_msg/server_side.pb.h"
 
 MEMORYHEAP_IMPLEMENTATION(CAccount, s_heap);
 

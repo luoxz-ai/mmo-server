@@ -8,24 +8,30 @@
 
 class CSceneObject;
 
-class CSceneBase : public CSceneTree
+class CSceneBase: NoncopyableT<CSceneBase>
 {
 protected:
     CSceneBase();
 
 public:
+    CreateNewImpl(CSceneBase);
     virtual ~CSceneBase();
 
 public:
-    bool                    _Init(const SceneID& idScene, CMapManager* pMapManager);
-    export_lua virtual bool IsDynaScene() const { return false; }
+    bool                    Init(const SceneID& idScene, CMapManager* pMapManager);
+    export_lua virtual bool IsStatic() const { return true; }
 
     export_lua OBJID    GetID() const { return m_idScene; }
     export_lua uint32_t GetMapID() const { return m_pMap->GetMapID(); }
 
     export_lua const SceneID& GetSceneID() const { return m_idScene; }
 
-    virtual void      EnterMap(CSceneObject* pActor, float fPosX, float fPosY, float fFace);
+    const CGameMap* GetMap()const { return m_pMap; }
+    CSceneTree* GetSceneTree() const {return m_pSceneTree.get();}
+    bool InitSceneTree(const CPos2D& vBasePos, float fWidth, float fHeight, uint32_t nTileGridRange);
+    bool LinkSceneTree(CSceneBase* pLinkScene);
+
+    virtual bool      EnterMap(CSceneObject* pActor, float fPosX, float fPosY, float fFace);
     virtual void      LeaveMap(CSceneObject* pActor, uint64_t idTargetScene = 0);
     export_lua size_t GetActorCount() const { return m_setActor.size(); }
     export_lua size_t GetPlayerCount() const { return m_setPlayer.size(); }
@@ -47,8 +53,9 @@ public:
     export_lua virtual void ClearDynaRegion(uint32_t nRegionType);
 
 protected:
+    const CGameMap* m_pMap = nullptr;
     SceneID m_idScene;
-
+    std::shared_ptr<CSceneTree> m_pSceneTree;
     std::unordered_map<OBJID, CSceneObject*> m_setPlayer;
     std::unordered_map<OBJID, CSceneObject*> m_setActor;
 

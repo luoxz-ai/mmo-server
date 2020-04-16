@@ -94,5 +94,14 @@ private:
 #define unknown(p) (p?p:"unknown")
 
 
+#define DEFINE_CONFIG_SET(T)                   \
+public:                                        \
+    class T* Get##T() const { return m_p##T.get(); } \
+private:                                       \
+    std::unique_ptr<class T> m_p##T;
+
+#define DEFINE_CONFIG_LOAD(T)   \
+    m_p##T.reset(T::CreateNew(GetCfgFilePath()+T::GetCfgFileName())); \
+    CHECKF(m_p##T.get());
 
 #endif /* MISC_H */

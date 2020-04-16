@@ -410,6 +410,8 @@ public:
     bool                IsDirty() const;
     void                MakeDirty();
     const CDBFieldInfo* GetFieldInfo() const { return m_pFieldInfo; }
+    int32_t             GetFieldIndex() const;
+    const char*         GetFieldName() const;
 
 public:
     MEMORYHEAP_DECLARATION(s_Heap);

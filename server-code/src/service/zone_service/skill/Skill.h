@@ -6,7 +6,7 @@
 #include "SkillType.h"
 #include "gamedb.h"
 //每一条技能记录
-export_lua class CUserSkillData : public Noncopyable<CUserSkillData>
+export_lua class CUserSkillData : public NoncopyableT<CUserSkillData>
 {
     CUserSkillData();
     bool Init(CActor* pOwner, uint32_t idSkillSort, uint32_t nLev);
@@ -32,7 +32,7 @@ private:
 
 //玩家的技能表
 class CPlayer;
-export_lua class CUserSkillManager : public Noncopyable<CUserSkillManager>
+export_lua class CUserSkillManager : public NoncopyableT<CUserSkillManager>
 {
     CUserSkillManager();
     bool Init(CPlayer* pOwner);

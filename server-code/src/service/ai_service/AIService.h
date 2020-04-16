@@ -1,24 +1,19 @@
 #ifndef AISERVICE_H
 #define AISERVICE_H
-#include "AIActorManager.h"
-#include "AIFuzzyLogic.h"
-#include "AIScene.h"
-#include "AISkill.h"
-#include "AIType.h"
+
 #include "BaseCode.h"
 #include "IService.h"
-#include "MonsterType.h"
 #include "MyTimer.h"
 #include "NetSocket.h"
 #include "ScriptManager.h"
 #include "ServiceComm.h"
 #include "UIDFactory.h"
-#include "msg/ts_cmd.pb.h"
-#include "msg/zone_service.pb.h"
-#include "server_msg/server_side.pb.h"
 
-struct event;
-class CNetMSGProcess;
+
+class CAIActorManager;
+class CAISceneManager;
+class CMapManager;
+
 class CAIService : public IService, public CServiceCommon
 {
     CAIService();
@@ -35,7 +30,7 @@ public:
     {
         return VirtualSocket(ServerPort(GetWorldID(), GetZoneID()), 0);
     }
-    uint16_t GetZoneID() const { return GetServiceID() - 10; }
+    uint16_t GetZoneID() const { return GetServiceID() - MIN_ZONE_SERVICE_ID + 1; }
 
 public:
     virtual void OnLogicThreadProc() override;
@@ -49,28 +44,29 @@ public:
 
 public:
     CLUAScriptManager* GetScriptManager() const { return m_pScriptManager.get(); }
-    CTargetFAMSet*     GetTargetFAMSet() const { return m_pTargetFAMSet.get(); }
-    CSkillFAMSet*      GetSkillFAMSet() const { return m_pSkillFAMSet.get(); }
-    CAITypeSet*        GetAITypeSet() const { return m_pAITypeSet.get(); }
-    CMonsterTypeSet*   GetMonsterTypeSet() const { return m_pMonsterTypeSet.get(); }
     CAISceneManager*   GetAISceneManager() const { return m_pAISceneManager.get(); }
     CAIActorManager*   GetAIActorManager() const { return m_pAIActorManager.get(); }
-    CSkillTypeSet*     GetSkillTypeSet() const { return m_pSkillTypeSet.get(); }
-
-    CMapManager* GetMapManager() const { return m_pMapManager.get(); }
+    CMapManager*       GetMapManager() const { return m_pMapManager.get(); }
 
 private:
     CMyTimer m_tLastDisplayTime;
 
     std::unique_ptr<CLUAScriptManager> m_pScriptManager;
-    std::unique_ptr<CTargetFAMSet>     m_pTargetFAMSet;
-    std::unique_ptr<CSkillFAMSet>      m_pSkillFAMSet;
-    std::unique_ptr<CAITypeSet>        m_pAITypeSet;
-    std::unique_ptr<CMonsterTypeSet>   m_pMonsterTypeSet;
     std::unique_ptr<CAISceneManager>   m_pAISceneManager;
     std::unique_ptr<CAIActorManager>   m_pAIActorManager;
-    std::unique_ptr<CSkillTypeSet>     m_pSkillTypeSet;
     std::unique_ptr<CMapManager>       m_pMapManager;
+
+public:
+    //配置文件
+
+
+
+    DEFINE_CONFIG_SET(CTargetFAMSet);
+    DEFINE_CONFIG_SET(CSkillFAMSet);
+    DEFINE_CONFIG_SET(CAITypeSet);
+    DEFINE_CONFIG_SET(CMonsterTypeSet);
+    DEFINE_CONFIG_SET(CSkillTypeSet);
+
 };
 
 CAIService* AIService();
@@ -83,22 +79,6 @@ inline auto ScriptManager()
 {
     return AIService()->GetScriptManager();
 }
-inline auto NetMsgProcess()
-{
-    return AIService()->GetNetMsgProcess();
-}
-inline auto TargetFAMSet()
-{
-    return AIService()->GetTargetFAMSet();
-}
-inline auto SkillFAMSet()
-{
-    return AIService()->GetSkillFAMSet();
-}
-inline auto AITypeSet()
-{
-    return AIService()->GetAITypeSet();
-}
 inline auto AISceneManager()
 {
     return AIService()->GetAISceneManager();
@@ -107,9 +87,25 @@ inline auto AIActorManager()
 {
     return AIService()->GetAIActorManager();
 }
+inline auto NetMsgProcess()
+{
+    return AIService()->GetNetMsgProcess();
+}
+inline auto TargetFAMSet()
+{
+    return AIService()->GetCTargetFAMSet();
+}
+inline auto SkillFAMSet()
+{
+    return AIService()->GetCSkillFAMSet();
+}
+inline auto AITypeSet()
+{
+    return AIService()->GetCAITypeSet();
+}
 inline auto SkillTypeSet()
 {
-    return AIService()->GetSkillTypeSet();
+    return AIService()->GetCSkillTypeSet();
 }
 inline auto MapManager()
 {
@@ -117,7 +113,7 @@ inline auto MapManager()
 }
 inline auto MonsterTypeSet()
 {
-    return AIService()->GetMonsterTypeSet();
+    return AIService()->GetCMonsterTypeSet();
 }
 
 #endif /* AISERVICE_H */

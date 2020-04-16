@@ -40,6 +40,18 @@ static inline Type* CreateNew(Args&&... args)                               \
 }
 
 template<class Type>
+class NoncopyableT
+{
+protected:
+    NoncopyableT(){}
+    virtual ~NoncopyableT(){}
+
+public:
+    NoncopyableT(const NoncopyableT&) = delete;
+    const NoncopyableT& operator=(const NoncopyableT&) = delete;
+
+};
+
 class Noncopyable
 {
 protected:
@@ -49,8 +61,8 @@ protected:
 public:
     Noncopyable(const Noncopyable&) = delete;
     const Noncopyable& operator=(const Noncopyable&) = delete;
-
 };
+
 
 
 

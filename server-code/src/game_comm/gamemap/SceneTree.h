@@ -5,19 +5,19 @@
 
 class CSceneObject;
 
-class CSceneNode : public std::unordered_set<CSceneObject*>
+class CSceneTile : public std::unordered_set<CSceneObject*>
 {
 public:
-    CSceneNode() = default;
+    CSceneTile() = default;
 
     void AddActor(CSceneObject* pActor) { this->insert(pActor); }
     void RemoveActor(CSceneObject* pActor) { this->erase(pActor); }
 };
 
-class CSceneCollisionNode
+class CSceneCollisionTile
 {
 public:
-    CSceneCollisionNode() = default;
+    CSceneCollisionTile() = default;
 
     void                                 AddActor(CSceneObject* pActor);
     void                                 RemoveActor(CSceneObject* pActor);
@@ -27,17 +27,20 @@ public:
 };
 
 class CGameMap;
-class CSceneTree : Noncopyable<CSceneTree>
+class CSceneTree : NoncopyableT<CSceneTree>
 {
 protected:
     CSceneTree();
 
 public:
     virtual ~CSceneTree();
+    CreateNewImpl(CSceneTree);
 
-    bool InitSceneTree(uint32_t nNodeGridRange = 0);
+    bool Init(const CGameMap* pMap, const CPos2D& vBasePos, float fWidth, float fHeight, uint32_t nTileGridRange = 0);
 
     const CGameMap* GetMap()const { return m_pMap; }
+
+    bool IsInsideScene(float x, float y) const;
 
     uint32_t GetViewRangeIn() const { return m_nViewRangeIn; }
     void     SetViewRangeIn(uint32_t val)
@@ -58,44 +61,46 @@ public:
     uint32_t GetViewCount() const { return m_nViewCount; }
     void     SetViewCount(uint32_t val) { m_nViewCount = val; }
 
-    uint32_t GetCurNodeDynamicLevel() const { return m_nCurNodeDynamicLevel; }
-    void     SetCurNodeDynamicLevel(uint32_t val) { m_nCurNodeDynamicLevel = val; }
+    uint32_t GetCurTileDynamicLevel() const { return m_nCurTileDynamicLevel; }
+    void     SetCurTileDynamicLevel(uint32_t val) { m_nCurTileDynamicLevel = val; }
 
     // AOI相关的
-    CSceneNode* GetSceneNodeByPos(float x, float y);
-    uint32_t    GetSceneNodeIndexByPos(float x, float y);
-    // 遍历自己视野内的SceneNode
-    bool foreach_SceneNodeInSight(float x, float y, std::function<void(CSceneNode*)>&& func);
+    CSceneTile* GetSceneTileByPos(float x, float y);
+    uint32_t    GetSceneTileIndexByPos(float x, float y)const;
+    // 遍历自己视野内的SceneTile
+    bool foreach_SceneTileInSight(float x, float y, std::function<void(CSceneTile*)>&& func);
 
-    void       CheckNeedResizeSceneNode(uint32_t nPlayerCount);
-    export_lua CSceneCollisionNode* GetCollisionNodeByPos(float x, float y, uint32_t actor_type);
+    void       CheckNeedResizeSceneTile(uint32_t nPlayerCount);
+
+    export_lua CSceneCollisionTile* GetCollisionTileByPos(float x, float y, uint32_t actor_type);
     export_lua bool                 CollisionTest(float x, float y, uint32_t actor_type) const;
 
 private:
-    void _SetSceneNodeGridRange(uint32_t v);
+    void _SetSceneTileGridRange(uint32_t v);
 
 protected:
-    std::deque<CSceneNode>          m_setNode;
-    std::deque<CSceneCollisionNode> m_setCollision;
+    std::deque<CSceneTile>          m_setTile;
+    std::deque<CSceneCollisionTile> m_setCollision;
 
     const CGameMap* m_pMap = nullptr;
     //左上角坐标
     CPos2D m_BasePos;
+    float  m_fWidth = 0.0f;
+    float  m_fHeight = 0.0f;
+    uint32_t m_nTileDefaultGridRange = 0;   //一个Tile默认的XY
+    uint32_t m_nTileGridRange        = 0;   //一个Tile当前的XY
+    uint32_t m_nTileWidth            = 0;   //场景x轴多少个Tile
+    uint32_t m_nTileHeight           = 0;   //场景y轴多少个Tile
 
-    uint32_t m_nNodeDefaultGridRange = 0;
-    uint32_t m_nNodeGridRange        = 0;
-    uint32_t m_nNodeWidth            = 0;
-    uint32_t m_nNodeHeight           = 0;
-
-    uint32_t m_nViewRangeIn       = 0;
+    uint32_t m_nViewRangeIn       = 0;      //view in
     uint32_t m_nViewRangeInSquare = 0;
 
-    uint32_t m_nViewRangeOut       = 0;
+    uint32_t m_nViewRangeOut       = 0;     //view out
     uint32_t m_nViewRangeOutSquare = 0;
-    uint32_t m_nViewCount          = 0;
+    uint32_t m_nViewCount          = 0;     //view count
     uint32_t m_nViewCountDefault   = 0;
 
-    uint32_t m_nCurNodeDynamicLevel    = 0;
-    bool     m_bDynamicAdjustNodeLevel = false;
+    uint32_t m_nCurTileDynamicLevel    = 0;     //视野动态扩缩等级
+    bool     m_bDynamicAdjustTileLevel = false;
 };
 #endif /* SCENETREE_H */

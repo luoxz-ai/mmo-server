@@ -4,6 +4,7 @@
 #include "BaseCode.h"
 #include "NetworkDefine.h"
 #include "game_common_def.h"
+#include "IDGenPool.h"
 
 class CActor;
 class CMonster;
@@ -25,7 +26,7 @@ class CPlayer;
 // 0000 2 00 0000 0000 0000
 //
 
-class CActorManager : public Noncopyable<CActorManager>
+class CActorManager : public NoncopyableT<CActorManager>
 {
     CActorManager();
     bool Init();
@@ -71,14 +72,8 @@ private:
     std::unordered_map<OBJID, CActor*>          m_ActorMap;
     std::unordered_map<VirtualSocket, CPlayer*> m_PlayerRefMap;
 
-    std::deque<OBJID> m_idMonsterPool;
-    std::deque<OBJID> m_idNpcPool;
-    uint64_t          m_nNpcIDGen;
-    uint64_t          m_nMonsterIDGen;
-
-    std::deque<OBJID> m_idMapItemPool;
-    std::deque<OBJID> m_idBulletPool;
-    uint64_t          m_nMapItemIDGen;
-    uint64_t          m_nBulletIDGen;
+    
+    std::array<IDGenPool<OBJID>, ACT_MAX>       m_idPool;
+    
 };
 #endif /* ACTORMANAGER_H */

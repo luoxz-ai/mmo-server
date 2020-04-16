@@ -1,4 +1,8 @@
-ln -sf ../../build/bin/release/* tools_bin/
+mkdir -p tools_bin
+cd tools_bin
+ln -sf ../../build/bin/release/* .
+
+cd -
 ln -sf ../build/bin/release/service_loader .
 
 mkdir -p libs

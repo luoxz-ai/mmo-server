@@ -17,7 +17,7 @@ enum SYSTEMVAR_KEYIDX
     SYSTEMVAR_NOT_SAVE = 10000, //这后面的都不会回写数据库,
 
 };
-class CSystemVar : public Noncopyable<CSystemVar>
+class CSystemVar : public NoncopyableT<CSystemVar>
 {
 public:
     CSystemVar();
@@ -45,7 +45,7 @@ private:
     CDBRecordPtr m_pRecord;
 };
 
-class CSystemVarSet : public Noncopyable<CSystemVarSet>
+class CSystemVarSet : public NoncopyableT<CSystemVarSet>
 {
     CSystemVarSet();
 public:

@@ -14,7 +14,12 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
-extern PROTOBUF_INTERNAL_EXPORT_config_2fCfg_5fScene_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Cfg_Scene_Row_config_2fCfg_5fScene_2eproto;
+extern PROTOBUF_INTERNAL_EXPORT_config_2fCfg_5fScene_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_Cfg_Scene_Row_config_2fCfg_5fScene_2eproto;
+extern PROTOBUF_INTERNAL_EXPORT_config_2fCfg_5fScene_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_PhaseData_config_2fCfg_5fScene_2eproto;
+class PhaseDataDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<PhaseData> _instance;
+} _PhaseData_default_instance_;
 class Cfg_Scene_RowDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<Cfg_Scene_Row> _instance;
@@ -49,14 +54,41 @@ static void InitDefaultsscc_info_Cfg_Scene_Row_config_2fCfg_5fScene_2eproto() {
   ::Cfg_Scene_Row::InitAsDefaultInstance();
 }
 
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Cfg_Scene_Row_config_2fCfg_5fScene_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_Cfg_Scene_Row_config_2fCfg_5fScene_2eproto}, {}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_Cfg_Scene_Row_config_2fCfg_5fScene_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_Cfg_Scene_Row_config_2fCfg_5fScene_2eproto}, {
+      &scc_info_PhaseData_config_2fCfg_5fScene_2eproto.base,}};
 
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_config_2fCfg_5fScene_2eproto[2];
+static void InitDefaultsscc_info_PhaseData_config_2fCfg_5fScene_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::_PhaseData_default_instance_;
+    new (ptr) ::PhaseData();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::PhaseData::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_PhaseData_config_2fCfg_5fScene_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_PhaseData_config_2fCfg_5fScene_2eproto}, {}};
+
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_config_2fCfg_5fScene_2eproto[3];
 static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_config_2fCfg_5fScene_2eproto = nullptr;
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_config_2fCfg_5fScene_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_config_2fCfg_5fScene_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::PhaseData, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::PhaseData, id_),
+  PROTOBUF_FIELD_OFFSET(::PhaseData, viewgrid_width_),
+  PROTOBUF_FIELD_OFFSET(::PhaseData, left_),
+  PROTOBUF_FIELD_OFFSET(::PhaseData, top_),
+  PROTOBUF_FIELD_OFFSET(::PhaseData, right_),
+  PROTOBUF_FIELD_OFFSET(::PhaseData, bottom_),
+  PROTOBUF_FIELD_OFFSET(::PhaseData, link_phase_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Cfg_Scene_Row, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -69,6 +101,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_config_2fCfg_5fScene_2eproto::
   PROTOBUF_FIELD_OFFSET(::Cfg_Scene_Row, maptype_),
   PROTOBUF_FIELD_OFFSET(::Cfg_Scene_Row, mapflag_),
   PROTOBUF_FIELD_OFFSET(::Cfg_Scene_Row, idscript_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Scene_Row, phase_data_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Cfg_Scene, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -77,40 +110,102 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_config_2fCfg_5fScene_2eproto::
   PROTOBUF_FIELD_OFFSET(::Cfg_Scene, rows_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::Cfg_Scene_Row)},
-  { 12, -1, sizeof(::Cfg_Scene)},
+  { 0, -1, sizeof(::PhaseData)},
+  { 12, -1, sizeof(::Cfg_Scene_Row)},
+  { 25, -1, sizeof(::Cfg_Scene)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_PhaseData_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_Cfg_Scene_Row_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_Cfg_Scene_default_instance_),
 };
 
 const char descriptor_table_protodef_config_2fCfg_5fScene_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\026config/Cfg_Scene.proto\"\244\001\n\tCfg_Scene\022\034"
-  "\n\004rows\030\001 \003(\0132\016.Cfg_Scene.Row\032y\n\003Row\022\r\n\005i"
-  "dmap\030\001 \001(\r\022\014\n\004name\030\002 \001(\t\022\021\n\tidmapdata\030\003 "
-  "\001(\r\022\016\n\006idzone\030\004 \001(\r\022\017\n\007maptype\030\005 \001(\r\022\017\n\007"
-  "mapflag\030\006 \001(\r\022\020\n\010idscript\030\007 \001(\004B\002H\002b\006pro"
+  "\n\026config/Cfg_Scene.proto\"}\n\tPhaseData\022\n\n"
+  "\002id\030\001 \001(\004\022\026\n\016viewgrid_width\030\002 \001(\002\022\014\n\004lef"
+  "t\030\005 \001(\002\022\013\n\003top\030\006 \001(\002\022\r\n\005right\030\007 \001(\002\022\016\n\006b"
+  "ottom\030\010 \001(\002\022\022\n\nlink_phase\030\t \001(\004\"\305\001\n\tCfg_"
+  "Scene\022\034\n\004rows\030\001 \003(\0132\016.Cfg_Scene.Row\032\231\001\n\003"
+  "Row\022\r\n\005idmap\030\001 \001(\r\022\014\n\004name\030\002 \001(\t\022\021\n\tidma"
+  "pdata\030\003 \001(\r\022\016\n\006idzone\030\004 \001(\r\022\017\n\007maptype\030\005"
+  " \001(\r\022\017\n\007mapflag\030\006 \001(\r\022\020\n\010idscript\030\007 \001(\004\022"
+  "\036\n\nphase_data\030\n \003(\0132\n.PhaseDataB\002H\002b\006pro"
   "to3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_config_2fCfg_5fScene_2eproto_deps[1] = {
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_config_2fCfg_5fScene_2eproto_sccs[2] = {
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_config_2fCfg_5fScene_2eproto_sccs[3] = {
   &scc_info_Cfg_Scene_config_2fCfg_5fScene_2eproto.base,
   &scc_info_Cfg_Scene_Row_config_2fCfg_5fScene_2eproto.base,
+  &scc_info_PhaseData_config_2fCfg_5fScene_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_config_2fCfg_5fScene_2eproto_once;
 static bool descriptor_table_config_2fCfg_5fScene_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_config_2fCfg_5fScene_2eproto = {
-  &descriptor_table_config_2fCfg_5fScene_2eproto_initialized, descriptor_table_protodef_config_2fCfg_5fScene_2eproto, "config/Cfg_Scene.proto", 203,
-  &descriptor_table_config_2fCfg_5fScene_2eproto_once, descriptor_table_config_2fCfg_5fScene_2eproto_sccs, descriptor_table_config_2fCfg_5fScene_2eproto_deps, 2, 0,
+  &descriptor_table_config_2fCfg_5fScene_2eproto_initialized, descriptor_table_protodef_config_2fCfg_5fScene_2eproto, "config/Cfg_Scene.proto", 363,
+  &descriptor_table_config_2fCfg_5fScene_2eproto_once, descriptor_table_config_2fCfg_5fScene_2eproto_sccs, descriptor_table_config_2fCfg_5fScene_2eproto_deps, 3, 0,
   schemas, file_default_instances, TableStruct_config_2fCfg_5fScene_2eproto::offsets,
-  file_level_metadata_config_2fCfg_5fScene_2eproto, 2, file_level_enum_descriptors_config_2fCfg_5fScene_2eproto, file_level_service_descriptors_config_2fCfg_5fScene_2eproto,
+  file_level_metadata_config_2fCfg_5fScene_2eproto, 3, file_level_enum_descriptors_config_2fCfg_5fScene_2eproto, file_level_service_descriptors_config_2fCfg_5fScene_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
 static bool dynamic_init_dummy_config_2fCfg_5fScene_2eproto = (  ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_config_2fCfg_5fScene_2eproto), true);
+
+// ===================================================================
+
+void PhaseData::InitAsDefaultInstance() {
+}
+class PhaseData::_Internal {
+ public:
+};
+
+PhaseData::PhaseData()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:PhaseData)
+}
+PhaseData::PhaseData(const PhaseData& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&id_, &from.id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&link_phase_) -
+    reinterpret_cast<char*>(&id_)) + sizeof(link_phase_));
+  // @@protoc_insertion_point(copy_constructor:PhaseData)
+}
+
+void PhaseData::SharedCtor() {
+  ::memset(&id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&link_phase_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(link_phase_));
+}
+
+PhaseData::~PhaseData() {
+  // @@protoc_insertion_point(destructor:PhaseData)
+  SharedDtor();
+}
+
+void PhaseData::SharedDtor() {
+}
+
+void PhaseData::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const PhaseData& PhaseData::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_PhaseData_config_2fCfg_5fScene_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void PhaseData::InternalSwap(PhaseData* other) {
+  using std::swap;
+  GetReflection()->Swap(this, other);}
+
+::PROTOBUF_NAMESPACE_ID::Metadata PhaseData::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
 
 // ===================================================================
 
@@ -127,7 +222,8 @@ Cfg_Scene_Row::Cfg_Scene_Row()
 }
 Cfg_Scene_Row::Cfg_Scene_Row(const Cfg_Scene_Row& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
-      _internal_metadata_(nullptr) {
+      _internal_metadata_(nullptr),
+      phase_data_(from.phase_data_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (!from._internal_name().empty()) {
@@ -227,6 +323,9 @@ void Cfg_Scene::InternalSwap(Cfg_Scene* other) {
 
 // @@protoc_insertion_point(namespace_scope)
 PROTOBUF_NAMESPACE_OPEN
+template<> PROTOBUF_NOINLINE ::PhaseData* Arena::CreateMaybeMessage< ::PhaseData >(Arena* arena) {
+  return Arena::CreateInternal< ::PhaseData >(arena);
+}
 template<> PROTOBUF_NOINLINE ::Cfg_Scene_Row* Arena::CreateMaybeMessage< ::Cfg_Scene_Row >(Arena* arena) {
   return Arena::CreateInternal< ::Cfg_Scene_Row >(arena);
 }

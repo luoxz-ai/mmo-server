@@ -11,7 +11,7 @@ enum MonsterType
     MONSTER_TYPE_BOSS,
 };
 
-class CMonsterType: public Noncopyable<CMonsterType>
+class CMonsterType: public NoncopyableT<CMonsterType>
 {
     CMonsterType() {}
     bool Init(const Cfg_Monster_Row& row)
@@ -43,6 +43,6 @@ private:
     AttribList_t    m_ability;
 };
 
-typedef CGameDataMap<CMonsterType> CMonsterTypeSet;
+DEFINE_GAMEMAPDATA(CMonsterTypeSet,CMonsterType);
 
 #endif /* MONSTERTYPE_H */

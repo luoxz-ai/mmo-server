@@ -2,6 +2,7 @@
 #include "MsgZoneProcess.h"
 #include "Player.h"
 #include "ZoneService.h"
+#include "GMManager.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"
 
@@ -96,7 +97,7 @@ ON_PLAYERMSG(CS_TALK)
         break;
         case CHANNEL_SCENE: //场景内聊天
         {
-            static_cast<CScene*>(pPlayer->GetCurrentScene())->SendSceneMessage(CMD_SC_TALK, send_msg);
+            static_cast<CPhase*>(pPlayer->GetCurrentScene())->SendSceneMessage(CMD_SC_TALK, send_msg);
         }
         break;
         case CHANNEL_PRIVATE: //私聊

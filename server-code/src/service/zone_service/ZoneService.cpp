@@ -2,18 +2,47 @@
 
 #include <functional>
 
+#include "AchievementType.h"
 #include "Actor.h"
+#include "ActorManager.h"
+#include "BulletType.h"
+#include "DataCount.h"
 #include "EventManager.h"
+#include "GMManager.h"
+#include "GameEventDef.h"
+#include "IService.h"
+#include "IStatus.h"
+#include "ItemAddition.h"
+#include "ItemFormula.h"
+#include "ItemType.h"
+#include "ItemUpgrade.h"
+#include "LoadingThread.h"
+#include "MapManager.h"
 #include "MessagePort.h"
 #include "MessageRoute.h"
+#include "MonitorMgr.h"
 #include "Monster.h"
+#include "MonsterType.h"
+#include "MysqlConnection.h"
 #include "NetMSGProcess.h"
 #include "NetSocket.h"
 #include "NetworkMessage.h"
+#include "NpcType.h"
+#include "PetType.h"
 #include "Player.h"
 #include "Scene.h"
+#include "SceneManager.h"
+#include "ScriptManager.h"
 #include "SettingMap.h"
+#include "SkillType.h"
+#include "SuitEquip.h"
+#include "SystemVars.h"
+#include "TaskType.h"
+#include "TeamInfoManager.h"
+#include "UserAttr.h"
 #include "globaldb.h"
+#include "msg/ts_cmd.pb.h"
+#include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
 
 static thread_local CZoneService* tls_pService = nullptr;
@@ -33,15 +62,9 @@ extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16
 }
 
 //////////////////////////////////////////////////////////////////////////
-CZoneService::CZoneService()
-{
-   
-}
+CZoneService::CZoneService() {}
 
-CZoneService::~CZoneService()
-{
-   
-}
+CZoneService::~CZoneService() {}
 
 void CZoneService::Destory()
 {
@@ -60,6 +83,7 @@ void CZoneService::Destory()
     if(GetActorManager())
         GetActorManager()->Destory();
     m_pActorManager.reset();
+
     for(auto& [k, refQueue]: m_MessagePoolBySocket)
     {
         for(auto& msg: refQueue)
@@ -88,7 +112,7 @@ bool CZoneService::Init(const ServerPort& nServerPort)
         BaseCode::SetNdc(oldNdc);
         ;
     };
-    
+
     m_MessagePoolBySocket.reserve(GUESS_MAX_PLAYER_COUNT);
     m_tLastDisplayTime.Startup(20);
     auto pGlobalDB = ConnectGlobalDB();
@@ -97,31 +121,24 @@ bool CZoneService::Init(const ServerPort& nServerPort)
     {
         _ConnectGameDB(GetWorldID(), pGlobalDB.get());
     }
-    
-    
-
 
     //配置读取
-#define DEFINE_CONFIG_LOAD(T, path)   \
-    m_p##T.reset(T::CreateNew(path)); \
-    CHECKF(m_p##T.get());
-    DEFINE_CONFIG_LOAD(CStatusTypeSet, "res/config/Cfg_Status.bytes");
-    DEFINE_CONFIG_LOAD(CUserAttrSet, "res/config/Cfg_UserAttr.bytes");
-    DEFINE_CONFIG_LOAD(CDataCountLimitSet, "res/config/Cfg_DataCountLimit.bytes");
-    DEFINE_CONFIG_LOAD(CSkillTypeSet, "res/config/Cfg_Skill.bytes");
-    DEFINE_CONFIG_LOAD(CSkillAttachStatusDataSet, "res/config/Cfg_SkillAttachStatus.bytes");
-    DEFINE_CONFIG_LOAD(CSkillDetachStatusDataSet, "res/config/Cfg_SkillDetachStatus.bytes");
-    DEFINE_CONFIG_LOAD(CMonsterTypeSet, "res/config/Cfg_Monster.bytes");
-    DEFINE_CONFIG_LOAD(CBulletTypeSet, "res/config/Cfg_Bullet.bytes");
-    DEFINE_CONFIG_LOAD(CItemTypeSet, "res/config/Cfg_Item.bytes");
-    DEFINE_CONFIG_LOAD(CItemAdditionSet, "res/config/Cfg_ItemAddition.bytes");
-    DEFINE_CONFIG_LOAD(CItemFormulaDataSet, "res/config/Cfg_ItemFormula.bytes");
-    DEFINE_CONFIG_LOAD(CItemUpgradeDataSet, "res/config/Cfg_ItemUpgrade.bytes");
-    DEFINE_CONFIG_LOAD(CSuitEquipSet, "res/config/Cfg_Suit.bytes");
-    DEFINE_CONFIG_LOAD(CTaskTypeSet, "res/config/Cfg_Task.bytes");
-    DEFINE_CONFIG_LOAD(CAchievementTypeSet, "res/config/Cfg_Achievement.bytes");
-    DEFINE_CONFIG_LOAD(CNpcTypeSet, "res/config/Cfg_Npc.bytes");
-#undef DEFINE_CONFIG_LOAD
+    DEFINE_CONFIG_LOAD(CStatusTypeSet);
+    DEFINE_CONFIG_LOAD(CUserAttrSet);
+    DEFINE_CONFIG_LOAD(CDataCountLimitSet);
+    DEFINE_CONFIG_LOAD(CSkillTypeSet);
+    DEFINE_CONFIG_LOAD(CSkillAttachStatusDataSet);
+    DEFINE_CONFIG_LOAD(CSkillDetachStatusDataSet);
+    DEFINE_CONFIG_LOAD(CMonsterTypeSet);
+    DEFINE_CONFIG_LOAD(CBulletTypeSet);
+    DEFINE_CONFIG_LOAD(CItemTypeSet);
+    DEFINE_CONFIG_LOAD(CItemAdditionSet);
+    DEFINE_CONFIG_LOAD(CItemFormulaDataSet);
+    DEFINE_CONFIG_LOAD(CItemUpgradeDataSet);
+    DEFINE_CONFIG_LOAD(CSuitEquipSet);
+    DEFINE_CONFIG_LOAD(CTaskTypeSet);
+    DEFINE_CONFIG_LOAD(CAchievementTypeSet);
+    DEFINE_CONFIG_LOAD(CNpcTypeSet);
 
     m_pMapManager.reset(CMapManager::CreateNew(GetServerPort().GetServiceID()));
     CHECKF(m_pMapManager.get());
@@ -170,7 +187,7 @@ bool CZoneService::Init(const ServerPort& nServerPort)
     }
     else
     {
-        //share_zone store globaldb
+        // share_zone store globaldb
         m_pGlobalDB.reset(pGlobalDB.release());
     }
 
@@ -329,7 +346,6 @@ bool CZoneService::BroadcastToAllPlayer(uint16_t nCmd, const google::protobuf::M
 {
     __ENTER_FUNCTION
     CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), 0);
-    m_MonitorMgr.AddSendInfo_broad(nCmd, _msg.GetSize());
 
     if(GetWorldID() != 0)
     {
@@ -349,7 +365,9 @@ bool CZoneService::BroadcastToAllPlayer(uint16_t nCmd, const google::protobuf::M
             return 0;
         };
         auto func = std::bind(&CActorManager::ForeachPlayer, GetActorManager(), std::move(func_callback));
-        BroadcastMessageToPlayer(func, nCmd, msg);
+
+        auto setSocketMap = ZoneService()->IDList2VSMap(func, 0);
+        ZoneService()->SendMsgTo(nCmd, msg, setSocketMap);
     }
 
     return true;
@@ -360,7 +378,6 @@ bool CZoneService::BroadcastToAllPlayer(uint16_t nCmd, const google::protobuf::M
 bool CZoneService::SendMsgToPlayer(const VirtualSocket& vs, uint16_t nCmd, const google::protobuf::Message& msg)
 {
     CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), vs);
-    m_MonitorMgr.AddSendInfo(nCmd, _msg.GetSize());
     return SendMsg(_msg);
 }
 
@@ -370,7 +387,7 @@ bool CZoneService::SendMsgToAIService(uint16_t nCmd, const google::protobuf::Mes
     return SendMsg(_msg);
 }
 
-void CZoneService::_ID2VS(OBJID id, CZoneService::VSMap_t& VSMap)
+void CZoneService::_ID2VS(OBJID id, VirtualSocketMap_t& VSMap)
 {
     __ENTER_FUNCTION
     CActor* pActor = GetActorManager()->QueryActor(id);
@@ -395,14 +412,14 @@ void CZoneService::ReleaseGameDB(uint16_t nWorldID)
 
 std::unique_ptr<CMysqlConnection> CZoneService::ConnectGlobalDB()
 {
-    const auto& settings = GetMessageRoute()->GetSettingMap();
+    const auto& settings        = GetMessageRoute()->GetSettingMap();
     const auto& settingGlobalDB = settings["GlobalMYSQL"][0];
-    auto pGlobalDB = std::make_unique<CMysqlConnection>();
+    auto        pGlobalDB       = std::make_unique<CMysqlConnection>();
     if(pGlobalDB->Connect(settingGlobalDB.Query("host"),
-                    settingGlobalDB.Query("user"),
-                    settingGlobalDB.Query("passwd"),
-                    settingGlobalDB.Query("dbname"),
-                    settingGlobalDB.QueryULong("port")) == false)
+                          settingGlobalDB.Query("user"),
+                          settingGlobalDB.Query("passwd"),
+                          settingGlobalDB.Query("dbname"),
+                          settingGlobalDB.QueryULong("port")) == false)
     {
         return nullptr;
     }
@@ -481,7 +498,9 @@ void CZoneService::OnLogicThreadProc()
     {
         std::string buf = std::string("\n======================================================================") +
                           fmt::format(FMT_STRING("\nMessageProcess:{}"), GetMessageProcess()) +
-                          fmt::format(FMT_STRING("\nEvent:{}\tMem:{}"), EventManager()->GetEventCount(), get_thread_memory_allocted()) +
+                          fmt::format(FMT_STRING("\nEvent:{}\tMem:{}"),
+                                      EventManager()->GetEventCount(),
+                                      get_thread_memory_allocted()) +
                           fmt::format(FMT_STRING("\nUser:{}\tMonster:{}"),
                                       ActorManager()->GetUserCount(),
                                       ActorManager()->GetMonsterCount()) +
@@ -492,14 +511,16 @@ void CZoneService::OnLogicThreadProc()
                           fmt::format(FMT_STRING("\nScene:{}\tDynaScene:{}"),
                                       SceneManager()->GetSceneCount(),
                                       SceneManager()->GetDynaSceneCount());
-        SceneManager()->ForEach([&buf](CScene* pScene) {
-            if(pScene->IsDynaScene() == false)
+        SceneManager()->ForEach([&buf](CScene* pScene)
+        {
+            pScene->ForEach([&buf](CPhase* pPhase)
             {
-                buf += fmt::format(FMT_STRING("\nScene{}\tPlayer:{}\tActor:{}"),
-                                   pScene->GetMapID(),
-                                   pScene->GetPlayerCount(),
-                                   pScene->GetActorCount());
-            }
+                buf += fmt::format(FMT_STRING("\nPhase {}:{}\tPlayer:{}\tActor:{}"),
+                               pPhase->GetMapID(), pPhase->GetID(),
+                               pPhase->GetPlayerCount(),
+                               pPhase->GetActorCount());
+            });
+            
         });
         static const uint16_t ServiceID[] = {WORLD_SERVICE_ID, uint16_t(GetServiceID() + 10), 31, 32, 33, 34, 35};
 
@@ -515,7 +536,7 @@ void CZoneService::OnLogicThreadProc()
         }
 
         LOGMONITOR("{}", buf.c_str());
-        m_MonitorMgr.Print();
+        m_pMonitorMgr->Print();
         SetMessageProcess(0);
     }
 

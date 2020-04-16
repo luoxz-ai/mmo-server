@@ -73,6 +73,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_config_2fCfg_5fScene_5fEnterPo
   PROTOBUF_FIELD_OFFSET(::Cfg_Scene_EnterPoint_Row, lev_req_),
   PROTOBUF_FIELD_OFFSET(::Cfg_Scene_EnterPoint_Row, prof_req_),
   PROTOBUF_FIELD_OFFSET(::Cfg_Scene_EnterPoint_Row, vip_lev_req_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Scene_EnterPoint_Row, idphase_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Cfg_Scene_EnterPoint, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -82,7 +83,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_config_2fCfg_5fScene_5fEnterPo
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::Cfg_Scene_EnterPoint_Row)},
-  { 16, -1, sizeof(::Cfg_Scene_EnterPoint)},
+  { 17, -1, sizeof(::Cfg_Scene_EnterPoint)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -91,14 +92,14 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 };
 
 const char descriptor_table_protodef_config_2fCfg_5fScene_5fEnterPoint_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n!config/Cfg_Scene_EnterPoint.proto\"\363\001\n\024"
+  "\n!config/Cfg_Scene_EnterPoint.proto\"\204\002\n\024"
   "Cfg_Scene_EnterPoint\022\'\n\004rows\030\001 \003(\0132\031.Cfg"
-  "_Scene_EnterPoint.Row\032\261\001\n\003Row\022\r\n\005idmap\030\001"
+  "_Scene_EnterPoint.Row\032\302\001\n\003Row\022\r\n\005idmap\030\001"
   " \001(\r\022\013\n\003idx\030\002 \001(\r\022\t\n\001x\030\003 \001(\002\022\t\n\001y\030\004 \001(\002\022"
   "\r\n\005range\030\005 \001(\002\022\014\n\004face\030\006 \001(\002\022\020\n\010team_req"
   "\030\n \001(\r\022\021\n\tguild_req\030\013 \001(\r\022\017\n\007lev_req\030\014 \001"
   "(\r\022\020\n\010prof_req\030\r \001(\r\022\023\n\013vip_lev_req\030\016 \001("
-  "\rB\002H\002b\006proto3"
+  "\r\022\017\n\007idphase\030\017 \001(\005B\002H\002b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_config_2fCfg_5fScene_5fEnterPoint_2eproto_deps[1] = {
 };
@@ -109,7 +110,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_con
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_config_2fCfg_5fScene_5fEnterPoint_2eproto_once;
 static bool descriptor_table_config_2fCfg_5fScene_5fEnterPoint_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_config_2fCfg_5fScene_5fEnterPoint_2eproto = {
-  &descriptor_table_config_2fCfg_5fScene_5fEnterPoint_2eproto_initialized, descriptor_table_protodef_config_2fCfg_5fScene_5fEnterPoint_2eproto, "config/Cfg_Scene_EnterPoint.proto", 293,
+  &descriptor_table_config_2fCfg_5fScene_5fEnterPoint_2eproto_initialized, descriptor_table_protodef_config_2fCfg_5fScene_5fEnterPoint_2eproto, "config/Cfg_Scene_EnterPoint.proto", 310,
   &descriptor_table_config_2fCfg_5fScene_5fEnterPoint_2eproto_once, descriptor_table_config_2fCfg_5fScene_5fEnterPoint_2eproto_sccs, descriptor_table_config_2fCfg_5fScene_5fEnterPoint_2eproto_deps, 2, 0,
   schemas, file_default_instances, TableStruct_config_2fCfg_5fScene_5fEnterPoint_2eproto::offsets,
   file_level_metadata_config_2fCfg_5fScene_5fEnterPoint_2eproto, 2, file_level_enum_descriptors_config_2fCfg_5fScene_5fEnterPoint_2eproto, file_level_service_descriptors_config_2fCfg_5fScene_5fEnterPoint_2eproto,
@@ -136,15 +137,15 @@ Cfg_Scene_EnterPoint_Row::Cfg_Scene_EnterPoint_Row(const Cfg_Scene_EnterPoint_Ro
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&idmap_, &from.idmap_,
-    static_cast<size_t>(reinterpret_cast<char*>(&prof_req_) -
-    reinterpret_cast<char*>(&idmap_)) + sizeof(prof_req_));
+    static_cast<size_t>(reinterpret_cast<char*>(&idphase_) -
+    reinterpret_cast<char*>(&idmap_)) + sizeof(idphase_));
   // @@protoc_insertion_point(copy_constructor:Cfg_Scene_EnterPoint.Row)
 }
 
 void Cfg_Scene_EnterPoint_Row::SharedCtor() {
   ::memset(&idmap_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&prof_req_) -
-      reinterpret_cast<char*>(&idmap_)) + sizeof(prof_req_));
+      reinterpret_cast<char*>(&idphase_) -
+      reinterpret_cast<char*>(&idmap_)) + sizeof(idphase_));
 }
 
 Cfg_Scene_EnterPoint_Row::~Cfg_Scene_EnterPoint_Row() {
