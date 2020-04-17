@@ -275,6 +275,7 @@ enum OMsgID : int {
   MsgID_ActiveGen = 20043,
   MsgID_KillGen = 20044,
   MsgID_MonsterGenOnce = 20045,
+  MsgID_MonsterGenMulti = 20046,
   MsgID_ActorCreate = 20100,
   MsgID_ActorDestory = 20101,
   MsgID_ActorMove = 20102,

@@ -3,6 +3,7 @@
 #include "MsgZoneProcess.h"
 #include "Player.h"
 #include "ZoneService.h"
+#include "LoadingThread.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"
 

@@ -1272,7 +1272,7 @@ const char descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto[] PROT
   "\n\rtask_phase_id\030\002 \003(\004\"8\n\014AddTaskPhase\022\021\n"
   "\tplayer_id\030\001 \001(\004\022\025\n\rtask_phase_id\030\002 \001(\004\""
   ";\n\017RemoveTaskPhase\022\021\n\tplayer_id\030\001 \001(\004\022\025\n"
-  "\rtask_phase_id\030\002 \001(\004*\306\010\n\006OMsgID\022\017\n\013OMSGI"
+  "\rtask_phase_id\030\002 \001(\004*\343\010\n\006OMsgID\022\017\n\013OMSGI"
   "D_NONE\020\000\022\021\n\013MsgID_BEGIN\020\240\234\001\022\026\n\020MsgID_Ser"
   "viceCmd\020\241\234\001\022\036\n\030MsgID_ServiceHttpRequest\020"
   "\242\234\001\022\037\n\031MsgID_ServiceHttpResponse\020\243\234\001\022\030\n\022"
@@ -1285,22 +1285,22 @@ const char descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto[] PROT
   "ory\020\301\234\001\022\026\n\020MsgID_MonsterGen\020\311\234\001\022\032\n\024MsgID"
   "_MonsterDestory\020\312\234\001\022\025\n\017MsgID_ActiveGen\020\313"
   "\234\001\022\023\n\rMsgID_KillGen\020\314\234\001\022\032\n\024MsgID_Monster"
-  "GenOnce\020\315\234\001\022\027\n\021MsgID_ActorCreate\020\204\235\001\022\030\n\022"
-  "MsgID_ActorDestory\020\205\235\001\022\025\n\017MsgID_ActorMov"
-  "e\020\206\235\001\022\032\n\024MsgID_ActorCastSkill\020\207\235\001\022\037\n\031Msg"
-  "ID_ActorCastSkill_Fail\020\210\235\001\022\030\n\022MsgID_Acto"
-  "rSetHide\020\211\235\001\022\031\n\023MsgID_SyncTaskPhase\020\212\235\001\022"
-  "\030\n\022MsgID_AddTaskPhase\020\213\235\001\022\033\n\025MsgID_Remov"
-  "eTaskPhase\020\214\235\001\022\026\n\020MsgID_TeamCreate\020\216\235\001\022\027"
-  "\n\021MsgID_TeamDestory\020\217\235\001\022\024\n\016MsgID_TeamQui"
-  "t\020\220\235\001\022\032\n\024MsgID_TeamKickMember\020\221\235\001\022\034\n\026Msg"
-  "ID_TeamInviteMember\020\222\235\001\022\034\n\026MsgID_TeamAcc"
-  "eptInvite\020\223\235\001\022\033\n\025MsgID_TeamApplyMember\020\224"
-  "\235\001\022\033\n\025MsgID_TeamAcceptApply\020\225\235\001\022\031\n\023MsgID"
-  "_TeamNewLeader\020\226\235\001\022\032\n\024MsgID_TeamMemberIn"
-  "fo\020\227\235\001\022\031\n\023MsgID_TeamAddMember\020\230\235\001\022\031\n\023Msg"
-  "ID_TeamDelMember\020\231\235\001\022\017\n\tMsgID_END\020\260\352\001b\006p"
-  "roto3"
+  "GenOnce\020\315\234\001\022\033\n\025MsgID_MonsterGenMulti\020\316\234\001"
+  "\022\027\n\021MsgID_ActorCreate\020\204\235\001\022\030\n\022MsgID_Actor"
+  "Destory\020\205\235\001\022\025\n\017MsgID_ActorMove\020\206\235\001\022\032\n\024Ms"
+  "gID_ActorCastSkill\020\207\235\001\022\037\n\031MsgID_ActorCas"
+  "tSkill_Fail\020\210\235\001\022\030\n\022MsgID_ActorSetHide\020\211\235"
+  "\001\022\031\n\023MsgID_SyncTaskPhase\020\212\235\001\022\030\n\022MsgID_Ad"
+  "dTaskPhase\020\213\235\001\022\033\n\025MsgID_RemoveTaskPhase\020"
+  "\214\235\001\022\026\n\020MsgID_TeamCreate\020\216\235\001\022\027\n\021MsgID_Tea"
+  "mDestory\020\217\235\001\022\024\n\016MsgID_TeamQuit\020\220\235\001\022\032\n\024Ms"
+  "gID_TeamKickMember\020\221\235\001\022\034\n\026MsgID_TeamInvi"
+  "teMember\020\222\235\001\022\034\n\026MsgID_TeamAcceptInvite\020\223"
+  "\235\001\022\033\n\025MsgID_TeamApplyMember\020\224\235\001\022\033\n\025MsgID"
+  "_TeamAcceptApply\020\225\235\001\022\031\n\023MsgID_TeamNewLea"
+  "der\020\226\235\001\022\032\n\024MsgID_TeamMemberInfo\020\227\235\001\022\031\n\023M"
+  "sgID_TeamAddMember\020\230\235\001\022\031\n\023MsgID_TeamDelM"
+  "ember\020\231\235\001\022\017\n\tMsgID_END\020\260\352\001b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_server_5fmsg_2fserver_5fside_2eproto_deps[1] = {
 };
@@ -1350,7 +1350,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_ser
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_server_5fmsg_2fserver_5fside_2eproto_once;
 static bool descriptor_table_server_5fmsg_2fserver_5fside_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_server_5fmsg_2fserver_5fside_2eproto = {
-  &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_initialized, descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto, "server_msg/server_side.proto", 4365,
+  &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_initialized, descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto, "server_msg/server_side.proto", 4394,
   &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_once, descriptor_table_server_5fmsg_2fserver_5fside_2eproto_sccs, descriptor_table_server_5fmsg_2fserver_5fside_2eproto_deps, 41, 0,
   schemas, file_default_instances, TableStruct_server_5fmsg_2fserver_5fside_2eproto::offsets,
   file_level_metadata_server_5fmsg_2fserver_5fside_2eproto, 41, file_level_enum_descriptors_server_5fmsg_2fserver_5fside_2eproto, file_level_service_descriptors_server_5fmsg_2fserver_5fside_2eproto,
@@ -1409,6 +1409,7 @@ bool OMsgID_IsValid(int value) {
     case 20043:
     case 20044:
     case 20045:
+    case 20046:
     case 20100:
     case 20101:
     case 20102:

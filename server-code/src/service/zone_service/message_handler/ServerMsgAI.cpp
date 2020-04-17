@@ -1,5 +1,8 @@
 #include "MsgZoneProcess.h"
 #include "Player.h"
+#include "Monster.h"
+#include "Phase.h"
+#include "SceneManager.h"
 #include "ZoneService.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"

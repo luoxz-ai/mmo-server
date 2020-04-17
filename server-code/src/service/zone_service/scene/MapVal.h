@@ -4,6 +4,7 @@
 #include "BaseCode.h"
 
 class CActor;
+class CSceneBase;
 export_lua class CMapValSet : NoncopyableT<CMapValSet>
 {
 protected:
@@ -11,7 +12,7 @@ protected:
 public:
     CreateNewImpl(CMapValSet);
     virtual ~CMapValSet();
-    void Init(){}
+    bool Init(CSceneBase* pScene){m_pScene = pScene; return true;}
 public:
     //发送所有mapval以及和该玩家id一样的mapuserval 给玩家
     export_lua virtual void SendAllMapValToClient(CActor* pPlayer);
@@ -34,6 +35,7 @@ public:
     export_lua void    ClearAllMapUserVal();
 
 protected:
+    CSceneBase* m_pScene;
     std::map<uint32_t, int64_t>                     m_MapVal;
     std::map<uint64_t, std::map<uint32_t, int64_t>> m_MapUserVal;
 };

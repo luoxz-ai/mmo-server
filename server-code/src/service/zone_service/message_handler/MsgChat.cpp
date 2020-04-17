@@ -3,7 +3,8 @@
 #include "Player.h"
 #include "ZoneService.h"
 #include "GMManager.h"
-#include "msg/ts_cmd.pb.h"
+#include "Phase.h"
+
 #include "msg/zone_service.pb.h"
 
 ON_PLAYERMSG(CS_TALK)

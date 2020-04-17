@@ -1,5 +1,8 @@
 #include "MapVal.h"
 #include "Player.h"
+#include "Phase.h"
+#include "ActorManager.h"
+#include "msg/zone_service.pb.h"
 
 CMapValSet::CMapValSet()
 {
@@ -15,7 +18,7 @@ void CMapValSet::SendAllMapValToClient(CActor* pPlayer)
 {
     __ENTER_FUNCTION
     SC_MAPVAL send;
-    send.set_state(SYNC_MAPVAL_ALL);
+    send.set_state(SC_MAPVAL::SYNC_MAPVAL_ALL);
     // send map val
     for(const auto&[k,v] : m_MapVal)
     {
@@ -55,11 +58,11 @@ void CMapValSet::SetMapVal(uint32_t nIdx, int64_t nVal, bool bSync /*= false*/)
     {
         // send msg
         SC_MAPVAL send;
-        send.set_state(SYNC_MAPVAL_ONE);
+        send.set_state(SC_MAPVAL::SYNC_MAPVAL_ONE);
         auto pMapVal = send.add_map_val_set();
         pMapVal->set_key(nIdx);
         pMapVal->set_value(nVal);
-        m_pScene->SendSceneMessage(CMD_SC_MAPVAL, send);
+        static_cast<CPhase*>(m_pScene)->SendSceneMessage(CMD_SC_MAPVAL, send);
     }
     __LEAVE_FUNCTION
 }
@@ -78,11 +81,11 @@ int64_t CMapValSet::AddMapVal(uint32_t nIdx, int64_t nVal, bool bSync /*= false*
     {
         // send msg
         SC_MAPVAL send;
-        send.set_state(SYNC_MAPVAL_ONE);
+        send.set_state(SC_MAPVAL::SYNC_MAPVAL_ONE);
         auto pMapVal = send.add_map_val_set();
         pMapVal->set_key(nIdx);
         pMapVal->set_value(refData);
-        m_pScene->SendSceneMessage(CMD_SC_MAPVAL, send);
+        static_cast<CPhase*>(m_pScene)->SendSceneMessage(CMD_SC_MAPVAL, send);
     }
 
     return refData;
@@ -99,7 +102,7 @@ void CMapValSet::SyncAllMapVal()
 {
     __ENTER_FUNCTION
     SC_MAPVAL send;
-    send.set_state(SYNC_MAPVAL_ALL);
+    send.set_state(SC_MAPVAL::SYNC_MAPVAL_ALL);
     // send map val
     for(const auto&[k,v] : m_MapVal)
     {
@@ -121,11 +124,11 @@ void CMapValSet::SetMapUserVal(uint64_t idUser, uint32_t nIdx, int64_t nVal, boo
     {
         // send msg
         SC_MAPVAL send;
-        send.set_state(SYNC_MAPVAL_ONE);
+        send.set_state(SC_MAPVAL::SYNC_MAPVAL_ONE);
         auto pMapVal = send.add_user_map_val_set();
         pMapVal->set_key(nIdx);
         pMapVal->set_value(nVal);
-        CPlyaer* pPlayer = ActorManager()->QueryPlayer(idUser);
+        CPlayer* pPlayer = ActorManager()->QueryPlayer(idUser);
         if(pPlayer)
         {
             pPlayer->SendMsg(CMD_SC_MAPVAL, send);
@@ -148,11 +151,11 @@ int64_t CMapValSet::AddMapUserVal(uint64_t idUser, uint32_t nIdx, int64_t nVal, 
     {
         // send msg
         SC_MAPVAL send;
-        send.set_state(SYNC_MAPVAL_ONE);
+        send.set_state(SC_MAPVAL::SYNC_MAPVAL_ONE);
         auto pMapVal = send.add_user_map_val_set();
         pMapVal->set_key(nIdx);
         pMapVal->set_value(refData);
-        CPlyaer* pPlayer = ActorManager()->QueryPlayer(idUser);
+        CPlayer* pPlayer = ActorManager()->QueryPlayer(idUser);
         if(pPlayer)
         {
             pPlayer->SendMsg(CMD_SC_MAPVAL, send);
