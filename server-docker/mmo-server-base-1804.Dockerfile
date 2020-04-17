@@ -41,13 +41,14 @@ RUN apt-get update -y --fix-missing \
  libasan5 \
  tzdata
 
-RUN ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-RUN dpkg-reconfigure -f noninteractive tzdata
+
+
 
 ENV LC_CTYPE=zh_CN.UTF-8 
 ENV TZ=Asia/Shanghai
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-RUN echo "/corefile/core-%e-%p-%t" > /proc/sys/kernel/core_pattern
+RUN dpkg-reconfigure -f noninteractive tzdata
+#RUN echo "/corefile/core-%e-%p-%t" > /proc/sys/kernel/core_pattern
 
 RUN useradd --create-home --no-log-init --shell /bin/bash ubuntu
 RUN adduser ubuntu sudo
