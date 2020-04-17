@@ -1,5 +1,7 @@
 FROM mmo-server-depends:base
 
+USER ubuntu
+
 RUN /data/mmorpg/server-depends/src/build_depends.sh base;
 RUN /data/mmorpg/server-depends/src/build_depends.sh jemalloc;
 RUN /data/mmorpg/server-depends/src/build_depends.sh protobuf;
