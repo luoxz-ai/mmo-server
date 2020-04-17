@@ -1,8 +1,8 @@
 FROM ubuntu:18.04
+ENV DEBIAN_FRONTEND noninteractive
 
 ADD mirror.list /root/mirror.list
 RUN cp /root/mirror.list /etc/apt/sources.list
-RUN apk add --no-cache tzdata
 RUN apt-get update -y --fix-missing \
  && apt-get install -y --fix-missing \
  apt-utils \
@@ -38,8 +38,11 @@ RUN apt-get update -y --fix-missing \
  libcurl4-openssl-dev \
  libreadline6-dev \
  libssl-dev \
- libasan5 
+ libasan5 \
+ tzdata
 
+RUN ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN dpkg-reconfigure -f noninteractive tzdata
 
 ENV LC_CTYPE=zh_CN.UTF-8 
 ENV TZ=Asia/Shanghai
