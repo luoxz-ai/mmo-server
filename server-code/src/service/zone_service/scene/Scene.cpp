@@ -134,4 +134,6 @@ bool CScene::DestoryPhase(uint64_t idPhase)
     msg.set_scene_id(idSceneID);
     msg.set_phase_id(idPhase);
     ZoneService()->SendMsgToAIService(ServerMSG::MsgID_PhaseDestory, msg);
+
+    return true;
 }

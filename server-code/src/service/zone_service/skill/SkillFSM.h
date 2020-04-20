@@ -1,5 +1,5 @@
-#ifndef SKILLSTATE_H
-#define SKILLSTATE_H
+#ifndef SKILLFSM_H
+#define SKILLFSM_H
 
 #include "EventManager.h"
 #include "SkillType.h"
@@ -86,4 +86,4 @@ private:
     SkillState                   m_curState    = SKILLSTATE_IDLE;
     std::map<uint32_t, uint32_t> m_SkillCD;
 };
-#endif /* SKILLSTATE_H */
+#endif /* SKILLFSM_H */

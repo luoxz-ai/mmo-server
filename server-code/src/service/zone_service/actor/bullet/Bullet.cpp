@@ -3,7 +3,7 @@
 #include "Phase.h"
 #include "Scene.h"
 #include "Phase.h"
-#include "SkillState.h"
+#include "SkillFSM.h"
 #include "ActorManager.h"
 #include "ZoneService.h"
 #include "GameEventDef.h"

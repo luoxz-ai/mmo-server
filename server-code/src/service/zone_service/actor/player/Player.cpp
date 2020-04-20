@@ -63,7 +63,7 @@ bool CPlayer::Init(OBJID idPlayer, const VirtualSocket& socket)
     m_pPetSet.reset(CPetSet::CreateNew(this));
     CHECKF(m_pPetSet.get());
 
-    m_pUserSkillManager.reset(CUserSkillManager::CreateNew(this));
+    m_pUserSkillManager.reset(CPlayerSkillManager::CreateNew(this));
     CHECKF(m_pUserSkillManager.get());
 
     m_pCDSet.reset(CPlayerCoolDownSet::CreateNew(this));

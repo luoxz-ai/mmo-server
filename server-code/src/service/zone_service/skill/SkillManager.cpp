@@ -1,56 +1,10 @@
-#include "Skill.h"
+#include "SkillManager.h"
 
 #include "Player.h"
 #include "ZoneService.h"
-CUserSkillData::CUserSkillData() {}
+CPlayerSkillManager::CPlayerSkillManager() {}
 
-CUserSkillData::~CUserSkillData() {}
-
-bool CUserSkillData::Init(CActor* pOwner, uint32_t idSkillSort, uint32_t nLev)
-{
-    __ENTER_FUNCTION
-    auto pDB = ZoneService()->GetGameDB(pOwner->GetWorldID());
-    CHECKF(pDB);
-    m_pData                               = pDB->MakeRecord(TBLD_SKILL::table_name);
-    m_pData->Field(TBLD_SKILL::ID)        = ZoneService()->CreateUID();
-    m_pData->Field(TBLD_SKILL::USERID)    = pOwner->GetID();
-    m_pData->Field(TBLD_SKILL::SKILLTYPE) = idSkillSort;
-    m_pData->Field(TBLD_SKILL::LEV)       = nLev;
-    CHECKF(m_pData->Update(true));
-    return true;
-    __LEAVE_FUNCTION
-    return false;
-}
-
-bool CUserSkillData::Init(CActor* pOwner, CDBRecordPtr&& pRow)
-{
-    __ENTER_FUNCTION
-    m_pData.reset(pRow.release());
-    return true;
-    __LEAVE_FUNCTION
-    return false;
-}
-
-void CUserSkillData::SetSkillLev(uint32_t nLev, bool bUpdate /*= true*/)
-{
-    __ENTER_FUNCTION
-    m_pData->Field(TBLD_SKILL::LEV) = nLev;
-    if(bUpdate)
-        m_pData->Update();
-    __LEAVE_FUNCTION
-}
-
-void CUserSkillData::Update()
-{
-    __ENTER_FUNCTION
-    m_pData->Update();
-    __LEAVE_FUNCTION
-}
-
-//////////////////////////////////////////////////////////////////////////
-CUserSkillManager::CUserSkillManager() {}
-
-CUserSkillManager::~CUserSkillManager()
+CPlayerSkillManager::~CPlayerSkillManager()
 {
     __ENTER_FUNCTION
     for(auto& [k, v]: m_setSkillData)
@@ -61,7 +15,7 @@ CUserSkillManager::~CUserSkillManager()
     __LEAVE_FUNCTION
 }
 
-bool CUserSkillManager::Init(CPlayer* pOwner)
+bool CPlayerSkillManager::Init(CPlayer* pOwner)
 {
     __ENTER_FUNCTION
     m_pOwner = pOwner;
@@ -75,7 +29,8 @@ bool CUserSkillManager::Init(CPlayer* pOwner)
         for(size_t i = 0; i < pResult->get_num_row(); i++)
         {
             auto            row   = pResult->fetch_row(true);
-            CUserSkillData* pData = CUserSkillData::CreateNew(m_pOwner, std::move(row));
+
+            CSkillData* pData = CSkillData::CreateNew(m_pOwner, std::move(row));
             if(pData)
             {
                 m_setSkillData[pData->GetSkillSort()] = pData;
@@ -98,7 +53,7 @@ bool CUserSkillManager::Init(CPlayer* pOwner)
     return false;
 }
 
-bool CUserSkillManager::LearnSkill(uint32_t idSkillSort)
+bool CPlayerSkillManager::LearnSkill(uint32_t idSkillSort)
 {
     __ENTER_FUNCTION
     auto pSkillData = _QuerySkill(idSkillSort);
@@ -110,9 +65,13 @@ bool CUserSkillManager::LearnSkill(uint32_t idSkillSort)
         return false;
 
     //检查各种学习需求
+    if(CheckSkillReq(pSkillType) == false)
+    {
+        return false;
+    }
 
     //学习技能
-    CUserSkillData* pData = CUserSkillData::CreateNew(m_pOwner, idSkillSort, 1);
+    CSkillData* pData = CSkillData::CreateNew(m_pOwner, idSkillSort, 1);
     if(pData)
     {
         m_setSkillData[pData->GetSkillSort()] = pData;
@@ -139,7 +98,7 @@ bool CUserSkillManager::LearnSkill(uint32_t idSkillSort)
     return false;
 }
 
-bool CUserSkillManager::CastSkill(uint32_t idSkillSort, OBJID idTarget, const Vector2& pos)
+bool CPlayerSkillManager::CastSkill(uint32_t idSkillSort, OBJID idTarget, const Vector2& pos)
 {
     __ENTER_FUNCTION
     auto pSkillData = _QuerySkill(idSkillSort);
@@ -151,7 +110,21 @@ bool CUserSkillManager::CastSkill(uint32_t idSkillSort, OBJID idTarget, const Ve
     return false;
 }
 
-bool CUserSkillManager::UpgradeSkill(uint32_t idSkillSort)
+bool CPlayerSkillManager::CheckSkillReq( const CSkillType* pSkillType)
+{
+    CHECKF(pSkillType);
+    if(HasFlag(m_pOwner->GetProf(), pSkillType->GetProfReq()) == false)
+    {
+        return false;
+    }
+    if(m_pOwner->GetLev() < pSkillType->GetLearnLevel())
+    {
+        return false;
+    }
+    return true;
+}
+
+bool CPlayerSkillManager::UpgradeSkill(uint32_t idSkillSort)
 {
     __ENTER_FUNCTION
     auto pSkillData = _QuerySkill(idSkillSort);
@@ -163,7 +136,10 @@ bool CUserSkillManager::UpgradeSkill(uint32_t idSkillSort)
         return false;
 
     //检查各种学习需求
-
+    if(CheckSkillReq(pSkillType) == false)
+    {
+        return false;
+    }
     //属性
     if(pSkillType->GetSkillType() == SKILLTYPE_PASSIVE)
     {
@@ -190,7 +166,7 @@ bool CUserSkillManager::UpgradeSkill(uint32_t idSkillSort)
     return false;
 }
 
-CUserSkillData* CUserSkillManager::_QuerySkill(uint32_t idSkillSort) const
+CSkillData* CPlayerSkillManager::_QuerySkill(uint32_t idSkillSort) const
 {
     __ENTER_FUNCTION
     auto it = m_setSkillData.find(idSkillSort);

@@ -11,7 +11,7 @@
 #include "PetSet.h"
 #include "PlayerAchievement.h"
 #include "PlayerTask.h"
-#include "Skill.h"
+#include "SkillManager.h"
 #include "StoragePackage.h"
 #include "gamedb.h"
 #include "MapManager.h"
@@ -136,7 +136,7 @@ public:
     export_lua CCommonDataSet* GetCommonDataSet() const { return m_pCommonDataSet.get(); }
     export_lua CDataCountSet* GetDataCountSet() const { return m_pDataCountSet.get(); }
     export_lua CPetSet* GetPetSet() const { return m_pPetSet.get(); }
-    export_lua CUserSkillManager* GetSkillManager() const { return m_pUserSkillManager.get(); }
+    export_lua CPlayerSkillManager* GetSkillManager() const { return m_pUserSkillManager.get(); }
     export_lua CPackage* QueryPackage(uint32_t nPosition);
     export_lua CPackage* GetBag() { return m_pBag.get(); }
     export_lua CStoragePackage* GetStroagePackage();
@@ -243,7 +243,7 @@ private:
     std::unique_ptr<CCommonDataSet>    m_pCommonDataSet;
     std::unique_ptr<CDataCountSet>     m_pDataCountSet;
     std::unique_ptr<CPetSet>           m_pPetSet;
-    std::unique_ptr<CUserSkillManager> m_pUserSkillManager;
+    std::unique_ptr<CPlayerSkillManager> m_pUserSkillManager;
 
     uint64_t m_idLoadingScene = 0;
     float    m_fLoadingPosX   = 0.0f;

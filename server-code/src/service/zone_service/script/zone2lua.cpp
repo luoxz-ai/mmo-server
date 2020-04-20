@@ -43,10 +43,12 @@
 #include "Player.h"
 #include "PlayerAchievement.h"
 #include "PlayerTask.h"
+#include "PlayerTaskData.h"
 #include "Scene.h"
 #include "SceneManager.h"
-#include "Skill.h"
-#include "SkillState.h"
+#include "SkillData.h"
+#include "SkillFSM.h"
+#include "SkillManager.h"
 #include "SkillType.h"
 #include "StoragePackage.h"
 #include "SuitEquip.h"
@@ -783,6 +785,11 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CPlayerAchievement>(L, "TakeReward", &CPlayerAchievement::TakeReward);
     lua_tinker::class_add<CPlayerCoolDown>(L, "CPlayerCoolDown", false);
     lua_tinker::class_add<CPlayerCoolDownSet>(L, "CPlayerCoolDownSet", false);
+    lua_tinker::class_add<CPlayerSkillManager>(L, "CPlayerSkillManager", false);
+    lua_tinker::class_def<CPlayerSkillManager>(L, "CastSkill", &CPlayerSkillManager::CastSkill);
+    lua_tinker::class_def<CPlayerSkillManager>(L, "LearnSkill", &CPlayerSkillManager::LearnSkill);
+    lua_tinker::class_def<CPlayerSkillManager>(L, "UpgradeSkill", &CPlayerSkillManager::UpgradeSkill);
+    lua_tinker::class_def<CPlayerSkillManager>(L, "_QuerySkill", &CPlayerSkillManager::_QuerySkill);
     lua_tinker::class_add<CPlayerTask>(L, "CPlayerTask", false);
     lua_tinker::class_def<CPlayerTask>(L, "AcceptTask", &CPlayerTask::AcceptTask, true, false);
     lua_tinker::class_def<CPlayerTask>(
@@ -872,6 +879,11 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CServiceCommon>(L, "GetServiceName", &CServiceCommon::GetServiceName);
     lua_tinker::class_def<CServiceCommon>(L, "GetWorldID", &CServiceCommon::GetWorldID);
     lua_tinker::class_def<CServiceCommon>(L, "SetServerPort", &CServiceCommon::SetServerPort);
+    lua_tinker::class_add<CSkillData>(L, "CSkillData", false);
+    lua_tinker::class_def<CSkillData>(L, "GetSkillLev", &CSkillData::GetSkillLev);
+    lua_tinker::class_def<CSkillData>(L, "GetSkillSort", &CSkillData::GetSkillSort);
+    lua_tinker::class_def<CSkillData>(L, "SetSkillLev", &CSkillData::SetSkillLev, true);
+    lua_tinker::class_def<CSkillData>(L, "Update", &CSkillData::Update);
     lua_tinker::class_add<CSkillFSM>(L, "CSkillFSM", false);
     lua_tinker::class_def_static<CSkillFSM>(L, "AddBullet", &CSkillFSM::AddBullet);
     lua_tinker::class_def_static<CSkillFSM>(L, "AttachStatus", &CSkillFSM::AttachStatus);
@@ -953,16 +965,6 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CTeamInfo>(L, "IsTeamMember", &CTeamInfo::IsTeamMember);
     lua_tinker::class_add<CTeamInfoManager>(L, "CTeamInfoManager", false);
     lua_tinker::class_def<CTeamInfoManager>(L, "QueryTeam", &CTeamInfoManager::QueryTeam);
-    lua_tinker::class_add<CUserSkillData>(L, "CUserSkillData", false);
-    lua_tinker::class_def<CUserSkillData>(L, "GetSkillLev", &CUserSkillData::GetSkillLev);
-    lua_tinker::class_def<CUserSkillData>(L, "GetSkillSort", &CUserSkillData::GetSkillSort);
-    lua_tinker::class_def<CUserSkillData>(L, "SetSkillLev", &CUserSkillData::SetSkillLev, true);
-    lua_tinker::class_def<CUserSkillData>(L, "Update", &CUserSkillData::Update);
-    lua_tinker::class_add<CUserSkillManager>(L, "CUserSkillManager", false);
-    lua_tinker::class_def<CUserSkillManager>(L, "CastSkill", &CUserSkillManager::CastSkill);
-    lua_tinker::class_def<CUserSkillManager>(L, "LearnSkill", &CUserSkillManager::LearnSkill);
-    lua_tinker::class_def<CUserSkillManager>(L, "UpgradeSkill", &CUserSkillManager::UpgradeSkill);
-    lua_tinker::class_def<CUserSkillManager>(L, "_QuerySkill", &CUserSkillManager::_QuerySkill);
     lua_tinker::class_add<CZoneService>(L, "CZoneService", false);
     lua_tinker::class_def<CZoneService>(L, "BroadcastToAllPlayer", &CZoneService::BroadcastToAllPlayer);
     lua_tinker::class_def<CZoneService>(L, "BroadcastToZone", &CZoneService::BroadcastToZone);
