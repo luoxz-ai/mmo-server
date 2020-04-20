@@ -4,6 +4,7 @@
 #include "BaseCode.h"
 #include "DBRecord.h"
 #include "gamedb.h"
+#include "common/Common.pb.h"
 
 constexpr uint32_t MAX_TASKDATA_NUM = 4;
 //每一条未完成的任务占据一条数据

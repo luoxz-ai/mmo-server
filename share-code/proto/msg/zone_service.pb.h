@@ -637,33 +637,6 @@ inline bool TalkChannel_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<TalkChannel>(
     TalkChannel_descriptor(), name, value);
 }
-enum TaskState : int {
-  TASKSTATE_NOTACCEPT = 0,
-  TASKSTATE_ACCEPTED = 1,
-  TASKSTATE_GIVEUP = 2,
-  TASKSTATE_FINISHED = 3,
-  TaskState_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
-  TaskState_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
-};
-bool TaskState_IsValid(int value);
-constexpr TaskState TaskState_MIN = TASKSTATE_NOTACCEPT;
-constexpr TaskState TaskState_MAX = TASKSTATE_FINISHED;
-constexpr int TaskState_ARRAYSIZE = TaskState_MAX + 1;
-
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* TaskState_descriptor();
-template<typename T>
-inline const std::string& TaskState_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, TaskState>::value ||
-    ::std::is_integral<T>::value,
-    "Incorrect type passed to function TaskState_Name.");
-  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    TaskState_descriptor(), enum_t_value);
-}
-inline bool TaskState_Parse(
-    const std::string& name, TaskState* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<TaskState>(
-    TaskState_descriptor(), name, value);
-}
 // ===================================================================
 
 class SC_LOADMAP :
@@ -20100,11 +20073,6 @@ template <> struct is_proto_enum< ::TalkChannel> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::TalkChannel>() {
   return ::TalkChannel_descriptor();
-}
-template <> struct is_proto_enum< ::TaskState> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::TaskState>() {
-  return ::TaskState_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

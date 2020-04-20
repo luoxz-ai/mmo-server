@@ -15,7 +15,7 @@
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 static constexpr ::PROTOBUF_NAMESPACE_ID::Metadata* file_level_metadata_common_2fCommon_2eproto = nullptr;
-static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_common_2fCommon_2eproto[4];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_common_2fCommon_2eproto[5];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_common_2fCommon_2eproto = nullptr;
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_common_2fCommon_2eproto::offsets[1] = {};
 static constexpr ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema* schemas = nullptr;
@@ -47,8 +47,10 @@ const char descriptor_table_protodef_common_2fCommon_2eproto[] PROTOBUF_SECTION_
   "YBIND\020\002\022\013\n\007MT_GOLD\020\003\022\017\n\013MT_GOLDBIND\020\004*s\n"
   "\007PK_MODE\022\020\n\014PKMODE_PEACE\020\000\022\022\n\016PKMODE_RED"
   "NAME\020\001\022\017\n\013PKMODE_TEAM\020\002\022\020\n\014PKMODE_GUILD\020"
-  "\003\022\017\n\013PKMODE_CAMP\020\004\022\016\n\nPKMODE_ALL\020\005B\002H\002b\006"
-  "proto3"
+  "\003\022\017\n\013PKMODE_CAMP\020\004\022\016\n\nPKMODE_ALL\020\005*j\n\tTa"
+  "skState\022\027\n\023TASKSTATE_NOTACCEPT\020\000\022\026\n\022TASK"
+  "STATE_ACCEPTED\020\001\022\024\n\020TASKSTATE_GIVEUP\020\002\022\026"
+  "\n\022TASKSTATE_FINISHED\020\003B\002H\002b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_common_2fCommon_2eproto_deps[1] = {
 };
@@ -57,7 +59,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_com
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_common_2fCommon_2eproto_once;
 static bool descriptor_table_common_2fCommon_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_common_2fCommon_2eproto = {
-  &descriptor_table_common_2fCommon_2eproto_initialized, descriptor_table_protodef_common_2fCommon_2eproto, "common/Common.proto", 1046,
+  &descriptor_table_common_2fCommon_2eproto_initialized, descriptor_table_protodef_common_2fCommon_2eproto, "common/Common.proto", 1154,
   &descriptor_table_common_2fCommon_2eproto_once, descriptor_table_common_2fCommon_2eproto_sccs, descriptor_table_common_2fCommon_2eproto_deps, 0, 0,
   schemas, file_default_instances, TableStruct_common_2fCommon_2eproto::offsets,
   file_level_metadata_common_2fCommon_2eproto, 0, file_level_enum_descriptors_common_2fCommon_2eproto, file_level_service_descriptors_common_2fCommon_2eproto,
@@ -159,6 +161,22 @@ bool PK_MODE_IsValid(int value) {
     case 3:
     case 4:
     case 5:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* TaskState_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_common_2fCommon_2eproto);
+  return file_level_enum_descriptors_common_2fCommon_2eproto[4];
+}
+bool TaskState_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
       return true;
     default:
       return false;

@@ -79,3 +79,10 @@ enum PK_MODE
 	PKMODE_ALL	   = 5;
 };
 
+enum TaskState
+{
+	TASKSTATE_NOTACCEPT = 0; //还没接受
+	TASKSTATE_ACCEPTED	= 1; //已经接受
+	TASKSTATE_GIVEUP	= 2; //手动放弃了
+	TASKSTATE_FINISHED	= 3; //已经提交了
+};

@@ -1483,7 +1483,7 @@ static void InitDefaultsscc_info_SC_TEAMMEMBER_INFO_MemberInfo_msg_2fzone_5fserv
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_SC_TEAMMEMBER_INFO_MemberInfo_msg_2fzone_5fservice_2eproto}, {}};
 
 static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_msg_2fzone_5fservice_2eproto[80];
-static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_msg_2fzone_5fservice_2eproto[8];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_msg_2fzone_5fservice_2eproto[7];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_msg_2fzone_5fservice_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_msg_2fzone_5fservice_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -2525,10 +2525,7 @@ const char descriptor_table_protodef_msg_2fzone_5fservice_2eproto[] PROTOBUF_SEC
   "NEL_PRIVATE\020\002\022\020\n\014CHANNEL_TEAM\020\003\022\021\n\rCHANN"
   "EL_GUILD\020\004\022\021\n\rCHANNEL_WORLD\020\005\022\023\n\017CHANNEL"
   "_TRUMPET\020\006\022\022\n\016CHANNEL_GLOBAL\020\007\022\022\n\016CHANNE"
-  "L_SYSTEM\020\010\022\021\n\rCHANNEL_RUMOR\020\t*j\n\tTaskSta"
-  "te\022\027\n\023TASKSTATE_NOTACCEPT\020\000\022\026\n\022TASKSTATE"
-  "_ACCEPTED\020\001\022\024\n\020TASKSTATE_GIVEUP\020\002\022\026\n\022TAS"
-  "KSTATE_FINISHED\020\003b\006proto3"
+  "L_SYSTEM\020\010\022\021\n\rCHANNEL_RUMOR\020\tb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_msg_2fzone_5fservice_2eproto_deps[1] = {
 };
@@ -2617,7 +2614,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_msg
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_msg_2fzone_5fservice_2eproto_once;
 static bool descriptor_table_msg_2fzone_5fservice_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_msg_2fzone_5fservice_2eproto = {
-  &descriptor_table_msg_2fzone_5fservice_2eproto_initialized, descriptor_table_protodef_msg_2fzone_5fservice_2eproto, "msg/zone_service.proto", 8705,
+  &descriptor_table_msg_2fzone_5fservice_2eproto_initialized, descriptor_table_protodef_msg_2fzone_5fservice_2eproto, "msg/zone_service.proto", 8597,
   &descriptor_table_msg_2fzone_5fservice_2eproto_once, descriptor_table_msg_2fzone_5fservice_2eproto_sccs, descriptor_table_msg_2fzone_5fservice_2eproto_deps, 80, 0,
   schemas, file_default_instances, TableStruct_msg_2fzone_5fservice_2eproto::offsets,
   file_level_metadata_msg_2fzone_5fservice_2eproto, 80, file_level_enum_descriptors_msg_2fzone_5fservice_2eproto, file_level_service_descriptors_msg_2fzone_5fservice_2eproto,
@@ -2840,22 +2837,6 @@ bool TalkChannel_IsValid(int value) {
     case 7:
     case 8:
     case 9:
-      return true;
-    default:
-      return false;
-  }
-}
-
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* TaskState_descriptor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_msg_2fzone_5fservice_2eproto);
-  return file_level_enum_descriptors_msg_2fzone_5fservice_2eproto[7];
-}
-bool TaskState_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1:
-    case 2:
-    case 3:
       return true;
     default:
       return false;
