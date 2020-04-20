@@ -102,7 +102,7 @@ struct TBLD_SERVICEDETAIL
 	static constexpr const char* field_name[] = { "worldid","serviceid","service_type","route_addr","route_port","publish_addr","publish_port","debug_port","bind_addr" };
 	using field_type_t = type_list<int32_t ,int32_t ,char[255] ,char[255] ,int32_t ,char[255] ,int32_t ,int32_t ,char[255] >;
 	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_VARCHAR };
-	static constexpr bool pri_key_idx[] = { true,false,false,false,false,false,false,false,false };
+	static constexpr bool pri_key_idx[] = { true,true,false,false,false,false,false,false,false };
 };
 
 		

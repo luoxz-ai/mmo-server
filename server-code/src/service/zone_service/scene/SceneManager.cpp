@@ -1,7 +1,7 @@
 #include "SceneManager.h"
 
-#include "DynaScene.h"
 #include "Scene.h"
+#include "Phase.h"
 #include "ZoneService.h"
 
 CSceneManager::CSceneManager()
@@ -38,7 +38,7 @@ void CSceneManager::Destory()
     m_mapScene.clear();
 }
 
-CScene* CSceneManager::CreatePhase(uint16_t idMap, uint64_t idMainPhase)
+CPhase* CSceneManager::CreatePhase(uint16_t idMap, uint64_t idMainPhase)
 {
     const CGameMap* pMap = MapManager()->QueryMap(idMap);
     CHECKF(pMap && pMap->IsZoneMap(ZoneService()->GetZoneID()));
@@ -47,15 +47,19 @@ CScene* CSceneManager::CreatePhase(uint16_t idMap, uint64_t idMainPhase)
     {
         return pScene->CreatePhase(idMainPhase);
     }
+    else
+    {
+        SceneID idScene(ZoneService()->GetServiceID(), idMap, 0);
+        CScene* pScene = CScene::CreateNew(idScene, idMainPhase);
 
-    SceneID idScene(ZoneService()->GetServiceID(), idMap, 0);
-    CScene* pScene = CScene::CreateNew(idScene, idMainPhase);
+        m_mapScene[idScene.GetSceneID()] = pScene;
 
-    m_mapScene[idScene.GetSceneID()] = pScene;
+        LOGMESSAGE("DynaScene {} Created", idMap);
+    
+        return pScene->QueryPhase(idMainPhase);
+    }
 
-    LOGMESSAGE("DynaScene {} Created", idMap);
-   
-    return pScene->QueryPhase(idMainPhase);
+  
 }
 
 CScene* CSceneManager::_CreateStaticScene(uint16_t idMap)

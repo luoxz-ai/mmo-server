@@ -52,8 +52,8 @@ message tbld_serverlist
 message tbld_servicedetail
 {
 
-    uint32 worldid      = 1 [(sql).primary_key = "idx_id", (sql).unique="idx_worldid"]; //游戏服编号
-    uint32 serviceid    = 2 [(sql).unique = "idx_worldid"];                               //服务编号
+    uint32 worldid      = 1 [(sql).primary_key = "idx_worldid"];   //游戏服编号
+    uint32 serviceid    = 2 [(sql).primary_key = "idx_worldid"]; //服务编号
     string service_type = 3 [(sql).size = 255];             // lib库名
     string route_addr   = 4 [(sql).size = 255];             //内网通讯地址
     uint32 route_port   = 5;                                //内网通讯端口

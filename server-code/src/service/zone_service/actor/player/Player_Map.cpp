@@ -26,7 +26,7 @@ bool CPlayer::FlyMap(uint16_t idMap, uint32_t idxPhase, float fPosX, float fPosY
 
     SceneID newSceneID(ZoneService()->GetZoneID(), idMap, idxPhase);
 
-    CScene* pScene = SceneManager()->QueryStaticScene(idMap);
+    CScene* pScene = SceneManager()->QueryScene(idMap);
     if(pScene || pMap->IsZoneMap(ZoneService()->GetZoneID()))
     {
         //场景在本地

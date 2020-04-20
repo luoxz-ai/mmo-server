@@ -31,6 +31,7 @@
 #include "PetType.h"
 #include "Player.h"
 #include "Scene.h"
+#include "Phase.h"
 #include "SceneManager.h"
 #include "ScriptManager.h"
 #include "SettingMap.h"
@@ -513,7 +514,7 @@ void CZoneService::OnLogicThreadProc()
                                       SceneManager()->GetDynaSceneCount());
         SceneManager()->ForEach([&buf](CScene* pScene)
         {
-            pScene->ForEach([&buf](CPhase* pPhase)
+            pScene->ForEach([&buf](const CPhase* pPhase)
             {
                 buf += fmt::format(FMT_STRING("\nPhase {}:{}\tPlayer:{}\tActor:{}"),
                                pPhase->GetMapID(), pPhase->GetID(),

@@ -30,7 +30,7 @@ void CMapValSet::SendAllMapValToClient(CActor* pPlayer)
     auto it = m_MapUserVal.find(pPlayer->GetID());
     if(it != m_MapUserVal.end())
     {
-        const auto& refMap = *it;
+        const auto& refMap = it->second;
         for(const auto&[k,v] : refMap)
         {
             auto pMapVal = send.add_map_val_set();
@@ -110,8 +110,8 @@ void CMapValSet::SyncAllMapVal()
         pMapVal->set_key(k);
         pMapVal->set_value(k);
     }
+    static_cast<CPhase*>(m_pScene)->SendSceneMessage(CMD_SC_MAPVAL, send);
     
-    pPlayer->SendMsg(CMD_SC_MAPVAL, send);
     __LEAVE_FUNCTION
 }
 

@@ -28,6 +28,7 @@ export_lua struct CreateMonsterParam
 class CScene;
 class CNpc;
 class CMonster;
+class CPlayer;
 
 
 export_lua class CPhase : public CSceneBase 
@@ -41,7 +42,7 @@ public:
     
 
 public:
-    bool            Init(CScene* pScene, const SceneID& idScene, uint64_t idPhase, PhaseData* pPhaseData);
+    bool            Init(CScene* pScene, const SceneID& idScene, uint64_t idPhase, const PhaseData* pPhaseData);
     
     export_lua bool NeedDestory() const;
     export_lua bool CanDestory();

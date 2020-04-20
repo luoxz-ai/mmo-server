@@ -4,18 +4,21 @@
 #include "Monster.h"
 #include "Npc.h"
 #include "Player.h"
+#include "Phase.h"
 #include "ZoneService.h"
+#include "ActorManager.h"
+#include "MapManager.h"
+
+#include "msg/zone_service.pb.h"
+#include "server_msg/server_side.pb.h"
+
 CScene::CScene() {}
 
 CScene::~CScene()
 {
     __ENTER_FUNCTION
-    while(m_setActor.empty() == false)
-    {
-        CActor* pActor = static_cast<CActor*>(m_setActor.begin()->second);
-        LeaveMap(pActor);
-        ActorManager()->DelActor(pActor);
-    }
+    m_setPhase.clear();
+    m_setPhaseByIdx.clear();
 
     __LEAVE_FUNCTION
 }
@@ -23,7 +26,7 @@ CScene::~CScene()
 bool CScene::Init(const SceneID& idScene, uint64_t idMainPhase)
 {
     __ENTER_FUNCTION
-    auto pMap = pMapManager->QueryMap(idScene.GetMapID());
+    auto pMap = MapManager()->QueryMap(idScene.GetMapID());
     CHECKF(pMap);
     m_idSceneID = idScene;
     //通知AI服务器,创建场景
@@ -33,14 +36,12 @@ bool CScene::Init(const SceneID& idScene, uint64_t idMainPhase)
 
     
     //创建静态位面
-    auto pPhaseDataSet = pMap->GetPhaseData();
-    if(pPhaseDataSet)
+    const auto& phaseDataSet = pMap->GetPhaseData();
+    for(const auto& [idPhase,v]: phaseDataSet)
     {
-        for(const auto& [idPhase,v]: *pPhaseDataSet)
-        {
-            CreatePhase(idPhase);
-        }
+        CreatePhase(idPhase);
     }
+    
     
 
     //创建主位面,可能已经创建过了
@@ -53,12 +54,13 @@ bool CScene::Init(const SceneID& idScene, uint64_t idMainPhase)
 
 CPhase* CScene::CreatePhase(uint64_t idPhase)
 {
-    auto pPhaseData = m_pMap->GetPhaseDataById(idPhase);
-    CreatePhase(idPhase, pPhaseData);
+    auto pMap = MapManager()->QueryMap(m_idSceneID.GetMapID());
+    auto pPhaseData = pMap->GetPhaseDataById(idPhase);
+    auto pPhase = CreatePhase(idPhase, pPhaseData);
     return pPhase;
 }
 
-CPhase* CScene::CreatePhase(uint64_t idPhase, PhaseData* pPhaseData)
+CPhase* CScene::CreatePhase(uint64_t idPhase, const PhaseData* pPhaseData)
 {
     CPhase* pPhase = QueryPhase(idPhase);
     if(pPhase != nullptr)
@@ -66,19 +68,19 @@ CPhase* CScene::CreatePhase(uint64_t idPhase, PhaseData* pPhaseData)
         return pPhase;
     }
     auto idxPhase = m_DynaIDPool.get();
-    SceneID newSceneID(m_idScene.GetZoneID(), m_idScene.GetMapID(), idxPhase);
-    pPhase = CPhase::CreateNew(newSceneID, idPhase, pPhaseData);
+    SceneID newSceneID(m_idSceneID.GetZoneID(), m_idSceneID.GetMapID(), idxPhase);
+    pPhase = CPhase::CreateNew(this, newSceneID, idPhase, pPhaseData);
     CHECKF(pPhase);
     m_setPhase[idPhase].reset(pPhase);
     m_setPhaseByIdx[idxPhase] = pPhase;
     return pPhase;
 }
 
-void CScene::ForEach(std::function<void(CPhase*)>&& func)
+void CScene::ForEach(std::function<void(const CPhase*)> func) const
 {
-    for(const auto& v: m_setPhase)
+    for(const auto& [k,v]: m_setPhaseByIdx)
     {
-        func(v);
+        std::invoke(func,v);
     }
 }
 

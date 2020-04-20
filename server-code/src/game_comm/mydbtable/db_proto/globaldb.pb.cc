@@ -204,14 +204,14 @@ const char descriptor_table_protodef_db_5fproto_2fglobaldb_2eproto[] PROTOBUF_SE
   "\001 \001(\rB\013\222\?\010\032\006idx_id\022\033\n\013server_name\030\002 \001(\tB"
   "\006\222\?\003\010\377\001\022\021\n\topen_time\030\003 \001(\004\022\023\n\013open_statu"
   "s\030\004 \001(\r\022\034\n\014publish_addr\030\005 \001(\tB\006\222\?\003\010\377\001\022\017\n"
-  "\007mergeto\030\006 \001(\r\"\230\002\n\022tbld_servicedetail\022,\n"
-  "\007worldid\030\001 \001(\rB\033\222\?\010\032\006idx_id\222\?\r2\013idx_worl"
-  "did\022#\n\tserviceid\030\002 \001(\rB\020\222\?\r2\013idx_worldid"
-  "\022\034\n\014service_type\030\003 \001(\tB\006\222\?\003\010\377\001\022\032\n\nroute_"
-  "addr\030\004 \001(\tB\006\222\?\003\010\377\001\022\022\n\nroute_port\030\005 \001(\r\022\034"
-  "\n\014publish_addr\030\006 \001(\tB\006\222\?\003\010\377\001\022\024\n\014publish_"
-  "port\030\007 \001(\r\022\022\n\ndebug_port\030\010 \001(\r\022\031\n\tbind_a"
-  "ddr\030\t \001(\tB\006\222\?\003\010\377\001b\006proto3"
+  "\007mergeto\030\006 \001(\r\"\215\002\n\022tbld_servicedetail\022!\n"
+  "\007worldid\030\001 \001(\rB\020\222\?\r\032\013idx_worldid\022#\n\tserv"
+  "iceid\030\002 \001(\rB\020\222\?\r\032\013idx_worldid\022\034\n\014service"
+  "_type\030\003 \001(\tB\006\222\?\003\010\377\001\022\032\n\nroute_addr\030\004 \001(\tB"
+  "\006\222\?\003\010\377\001\022\022\n\nroute_port\030\005 \001(\r\022\034\n\014publish_a"
+  "ddr\030\006 \001(\tB\006\222\?\003\010\377\001\022\024\n\014publish_port\030\007 \001(\r\022"
+  "\022\n\ndebug_port\030\010 \001(\r\022\031\n\tbind_addr\030\t \001(\tB\006"
+  "\222\?\003\010\377\001b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_db_5fproto_2fglobaldb_2eproto_deps[1] = {
   &::descriptor_table_sql_5foptions_2fsql_5foptions_2eproto,
@@ -226,7 +226,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_db_
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_db_5fproto_2fglobaldb_2eproto_once;
 static bool descriptor_table_db_5fproto_2fglobaldb_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_db_5fproto_2fglobaldb_2eproto = {
-  &descriptor_table_db_5fproto_2fglobaldb_2eproto_initialized, descriptor_table_protodef_db_5fproto_2fglobaldb_2eproto, "db_proto/globaldb.proto", 985,
+  &descriptor_table_db_5fproto_2fglobaldb_2eproto_initialized, descriptor_table_protodef_db_5fproto_2fglobaldb_2eproto, "db_proto/globaldb.proto", 974,
   &descriptor_table_db_5fproto_2fglobaldb_2eproto_once, descriptor_table_db_5fproto_2fglobaldb_2eproto_sccs, descriptor_table_db_5fproto_2fglobaldb_2eproto_deps, 5, 1,
   schemas, file_default_instances, TableStruct_db_5fproto_2fglobaldb_2eproto::offsets,
   file_level_metadata_db_5fproto_2fglobaldb_2eproto, 5, file_level_enum_descriptors_db_5fproto_2fglobaldb_2eproto, file_level_service_descriptors_db_5fproto_2fglobaldb_2eproto,

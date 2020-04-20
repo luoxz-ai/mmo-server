@@ -1,3 +1,5 @@
+#include "Phase.h"
+
 #include "Actor.h"
 #include "Monster.h"
 #include "Npc.h"
@@ -6,10 +8,19 @@
 #include "ZoneService.h"
 #include "EventManager.h"
 #include "ScriptManager.h"
+#include "ActorManager.h"
+#include "SceneManager.h"
+#include "LoadingThread.h"
+#include "GameEventDef.h"
+#include "msg/zone_service.pb.h"
+#include "server_msg/server_side.pb.h"
 
-CPhase::CScene() {}
+constexpr int WAIT_PLAYER_LOADING_MS = 5*60*1000;
+constexpr int WAIT_DESTORY_MS = 1*60*1000;
 
-CPhase::~CScene()
+CPhase::CPhase() {}
+
+CPhase::~CPhase()
 {
     __ENTER_FUNCTION
     while(m_setActor.empty() == false)
@@ -22,10 +33,10 @@ CPhase::~CScene()
     __LEAVE_FUNCTION
 }
 
-bool CPhase::Init(CScene* pScene, const SceneID& idScene, uint64_t idPhase, PhaseData* pPhaseData)
+bool CPhase::Init(CScene* pScene, const SceneID& idScene, uint64_t idPhase,const PhaseData* pPhaseData)
 {
     __ENTER_FUNCTION
-    m_pMapValSet = CMapValSet::CreateNew();
+    m_pMapValSet.reset(CMapValSet::CreateNew(this));
     CSceneBase::Init(idScene, MapManager());
     if(pPhaseData)
     {   
@@ -300,7 +311,7 @@ bool CPhase::EnterMap(CSceneObject* pActor, float fPosX, float fPosY, float fFac
 
 void CPhase::ScheduleDelPhase(uint32_t wait_ms)
 {
-    auto del_func = [sceneID = GetSceneID(), idPhaseID = m_idPhaseID]() 
+    auto del_func = [sceneID = GetSceneID(), idPhaseID = m_idPhase]() 
     {
         auto pScene = SceneManager()->_QueryScene(sceneID.GetStaticPhaseSceneID());
         if(pScene)

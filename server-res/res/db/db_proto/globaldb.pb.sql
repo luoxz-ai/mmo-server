@@ -57,8 +57,7 @@ CREATE TABLE `tbld_servicedetail` (
   `publish_port` int(11) UNSIGNED  NOT NULL COMMENT '外网端口',
   `debug_port` int(11) UNSIGNED  NOT NULL COMMENT 'debug端口',
   `bind_addr` varchar(255) CHARACTER SET utf8 NOT NULL COMMENT '监听绑定地址',
-  PRIMARY KEY (`worldid`),
-  UNIQUE KEY `idx_worldid`(`worldid`,`serviceid`)
+  PRIMARY KEY (`worldid`,`serviceid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 

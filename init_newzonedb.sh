@@ -3,7 +3,7 @@ source $1
 echo "create database ${ZONE_NAME};" | docker exec -i ${MYSQL_DOCKER_NAME} sh -c 'exec mysql -v -uroot -p"3Killyou"'
 
 sql_cmd="exec mysql -v -uroot -p'3Killyou' ${ZONE_NAME}"
-cat server-res/res/db/db_protogamedb.sql | docker exec -i ${MYSQL_DOCKER_NAME} sh -c "${sql_cmd}"
+cat server-res/res/db/db_proto/gamedb.pb.sql | docker exec -i ${MYSQL_DOCKER_NAME} sh -c "${sql_cmd}"
 
 
 

@@ -5,6 +5,7 @@
 #include "MapManager.h"
 
 class CScene;
+class CPhase;
 export_lua class CSceneManager : public NoncopyableT<CSceneManager>
 {
     CSceneManager();
@@ -22,7 +23,7 @@ public:
     
     export_lua CScene* _QueryScene(const SceneID& idScene);
     export_lua CPhase* QueryPhase(const SceneID& idScene);
-    export_lua CScene* QueryStaticScene(uint16_t idMap);
+    export_lua CScene* QueryScene(uint16_t idMap);
     export_lua size_t  GetSceneCount();
     export_lua size_t  GetDynaSceneCount();
 

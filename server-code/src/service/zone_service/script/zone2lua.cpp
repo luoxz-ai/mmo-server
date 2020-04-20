@@ -841,11 +841,13 @@ void zone2lua(lua_State* L)
         "CreatePhase",
         lua_tinker::args_type_overload_member_functor(
             lua_tinker::make_member_functor_ptr((CPhase * (CScene::*)(uint64_t))(&CScene::CreatePhase)),
-            lua_tinker::make_member_functor_ptr((CPhase * (CScene::*)(uint64_t, PhaseData*))(&CScene::CreatePhase))));
+            lua_tinker::make_member_functor_ptr(
+                (CPhase * (CScene::*)(uint64_t, const PhaseData*))(&CScene::CreatePhase))));
     lua_tinker::class_def<CScene>(L, "DestoryPhase", &CScene::DestoryPhase);
     lua_tinker::class_def<CScene>(L, "ForEach", &CScene::ForEach);
     lua_tinker::class_def<CScene>(L, "KickAllPlayer", &CScene::KickAllPlayer, "");
     lua_tinker::class_def<CScene>(L, "QueryPhase", &CScene::QueryPhase);
+    lua_tinker::class_def<CScene>(L, "QueryPhaseByIdx", &CScene::QueryPhaseByIdx);
     lua_tinker::class_def<CScene>(L, "_KickPlayer", &CScene::_KickPlayer);
     lua_tinker::class_add<CSceneManager>(L, "CSceneManager", false);
     lua_tinker::class_def<CSceneManager>(L, "CreateDynaScene", &CSceneManager::CreateDynaScene);
@@ -854,7 +856,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CSceneManager>(L, "GetDynaSceneCount", &CSceneManager::GetDynaSceneCount);
     lua_tinker::class_def<CSceneManager>(L, "GetSceneCount", &CSceneManager::GetSceneCount);
     lua_tinker::class_def<CSceneManager>(L, "QueryPhase", &CSceneManager::QueryPhase);
-    lua_tinker::class_def<CSceneManager>(L, "QueryStaticScene", &CSceneManager::QueryStaticScene);
+    lua_tinker::class_def<CSceneManager>(L, "QueryScene", &CSceneManager::QueryScene);
     lua_tinker::class_def<CSceneManager>(L, "_CreateStaticScene", &CSceneManager::_CreateStaticScene);
     lua_tinker::class_def<CSceneManager>(L, "_QueryScene", &CSceneManager::_QueryScene);
     lua_tinker::class_add<CServiceCommon>(L, "CServiceCommon", false);

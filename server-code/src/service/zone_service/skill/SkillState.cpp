@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Scene.h"
 #include "ZoneService.h"
+#include "ActorManager.h"
 
 CSkillFSM::CSkillFSM(CActor* pOwner)
     : m_pOwner(pOwner)
