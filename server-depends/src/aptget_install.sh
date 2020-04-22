@@ -36,4 +36,5 @@ sudo apt-get update -y --fix-missing \
  libcurl4-openssl-dev \
  libreadline6-dev \
  libssl-dev \
- libasan5 
+ libasan5 \
+ tzdata
