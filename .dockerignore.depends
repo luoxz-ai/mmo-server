@@ -2,7 +2,6 @@
 .git
 data
 server-code
-!server-code/bin
 server-docker
-server-depends
+server-res
 share-code

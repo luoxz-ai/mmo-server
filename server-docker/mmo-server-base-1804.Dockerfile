@@ -52,6 +52,7 @@ RUN dpkg-reconfigure -f noninteractive tzdata
 
 RUN useradd --create-home --no-log-init --shell /bin/bash ubuntu
 RUN adduser ubuntu sudo
+RUN adduser ubuntu root
 RUN passwd -d ubuntu
 USER ubuntu
 WORKDIR /home/ubuntu

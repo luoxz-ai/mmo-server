@@ -1,11 +1,14 @@
 mkdir -p tools_bin
 cd tools_bin
-ln -sf ../../build/bin/debug/* .
+rm -f *
+ln -sfv ../../build/bin/debug/* .
 
 cd -
-ln -sf ../build/bin/debug/service_loader .
+rm -f service_loader
+ln -sfv ../build/bin/debug/service_loader .
 
 mkdir -p libs
 cd libs
-ln -sf ../../build/lib/debug/*.so .
+rm -f *
+ln -sfv ../../build/lib/debug/*.so .
 cd ..

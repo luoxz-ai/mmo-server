@@ -1,7 +1,11 @@
-cp -rp ../../build/bin/release/* tools_bin/
-cp -rp ../build/bin/release/service_loader .
+rm -f tools_bin/*
+rm -f service_loader
+
+cp -vrdf ../build/bin/release/* tools_bin/
+cp -vrdf ../build/bin/release/service_loader .
 
 mkdir -p libs
 cd libs
-cp -rp ../../build/lib/release/*.so .
-cd ..
+rm -rf *
+cp -vrdf ../../build/lib/release/*.so .
+cd -
