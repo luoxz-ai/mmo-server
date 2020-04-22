@@ -39,7 +39,7 @@ bool CMapData::Init(uint32_t idMapTemplate)
         m_pGridData[i] = cfg.griddata().Get(i);
     }
 
-    LOGMESSAGE("MapData {} LoadSucc.", file_path.c_str());
+    LOGDEBUG("MapData {} LoadSucc.", file_path.c_str());
 
     return true;
     __LEAVE_FUNCTION

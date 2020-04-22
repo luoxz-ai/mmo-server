@@ -70,7 +70,7 @@ bool CMapManager::Init(uint16_t idZone)
             pGameMap->_setEnterPoint(iter);
         }
 
-        LOGMESSAGE("Cfg_Scene_EnterPoint LoadSucc.");
+        LOGDEBUG("Cfg_Scene_EnterPoint LoadSucc.");
     }
 
     //进入点
@@ -91,7 +91,7 @@ bool CMapManager::Init(uint16_t idZone)
             pGameMap->_setLeavePoint(iter);
         }
 
-        LOGMESSAGE("Cfg_Scene_LeavePoint LoadSucc.");
+        LOGDEBUG("Cfg_Scene_LeavePoint LoadSucc.");
     }
 
     //刷怪点
@@ -112,7 +112,7 @@ bool CMapManager::Init(uint16_t idZone)
             pGameMap->_AddMonsterGenerator(iter);
         }
 
-        LOGMESSAGE("Cfg_Scene_MonsterGenerator LoadSucc.");
+        LOGDEBUG("Cfg_Scene_MonsterGenerator LoadSucc.");
     }
 
     //巡逻路径
@@ -134,7 +134,7 @@ bool CMapManager::Init(uint16_t idZone)
             pGameMap->_AddPatrol(iter);
         }
 
-        LOGMESSAGE("Cfg_Scene_Patrol LoadSucc.");
+        LOGDEBUG("Cfg_Scene_Patrol LoadSucc.");
 
     }
 
@@ -156,9 +156,10 @@ bool CMapManager::Init(uint16_t idZone)
             pGameMap->_AddRebornData(iter);
         }
 
-        LOGMESSAGE("Cfg_Scene_Reborn LoadSucc.");
+        LOGDEBUG("Cfg_Scene_Reborn LoadSucc.");
     }
 
+    LOGDEBUG("MapManager LoadSucc.");
     return true;
 }
 
