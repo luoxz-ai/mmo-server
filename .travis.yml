@@ -6,6 +6,7 @@ dist: bionic
 jobs:
   include:
     - name: "ubuntu 16.04"
+      stages:
       - stage: build_depends
         before_install:
           - bash build_base1804_image.sh
@@ -15,11 +16,12 @@ jobs:
         before_install: 
         - bash docker_pull_depends.sh
         - bash create_network.sh
-        - bash link_codedir.sh
+        - link_codedir.sh
         script: bash build_publish_image.sh
       - stage: deploy
-        script: bash ./docker_push_publish.sh
+        script: ./docker_push_publish.sh
     - name: "ubuntu 18.04"
+      stages:
       - stage: build_depends
         before_install: server-depends/src/aptget_install.sh
         script: bash server-depends/src/build_all.sh
