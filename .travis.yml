@@ -1,41 +1,34 @@
 language: cpp
+os: linux
+dist:  xenial
+sudo: true
 
-stages:
-  - name: docker_build_depends
-  - name: docker_build_publish
-  - name: docker_deploy
-  - name: build_depends
-  - name: build_publish
 
 jobs:
   include:
-      - stage: docker_build_depends
-        services: docker
-        dist: xenial
-        before_install:
-          - bash build_base1804_image.sh
-          - bash build_mmo-server-depends.sh
-        script: bash ./docker_push_depends.sh
-      - stage: docker_build_publish
+      - stage: build
         services: docker
         dist: xenial
         before_install: 
-        - bash docker_pull_depends.sh
-        - bash create_network.sh
-        - link_codedir.sh
-        script: bash build_publish_image.sh
-      - stage: docker_deploy
-        services: docker
-        dist: xenial
-        script: ./docker_push_publish.sh
+          - bash ./docker_pull_depends.sh
+          - bash ./build_base1804_image.sh
+          - bash ./build_mmo-server-depends.sh
+        install: bash ./docker_push_depends.sh
+        after_install: 
+        - bash ./docker_pull_depends.sh
+        - bash ./create_network.sh
+        - bash ./link_codedir.sh
+        script: bash ./build_publish_image.sh
+        after_success: bash ./docker_push_publish.sh
 
-      - stage: build_depends
+      - stage: build
         dist: bionic
-        sudo: true
         before_install: server-depends/src/aptget_install.sh
-        script: bash server-depends/src/build_all.sh
-      - stage: build_publish
-        dist: bionic
-        sudo: true
-        script: server-code/releasebuild.sh
+        install: bash server-depends/src/build_all.sh
+        script: bash server-code/releasebuild.sh
+        
+
+
+        
+      
 
