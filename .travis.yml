@@ -3,15 +3,23 @@ language: c++
 services:
   - docker
 
-before_install:
-#  - docker build --rm -f "server-docker/mmo-server-base-1804.Dockerfile" -t mmo-server-base:18.04 server-docker
-#  - docker build --rm -f "server-docker/mmo-server-depends-base.Dockerfile" -t mmo-server-depends:base "."
-#  - docker build --rm -f "server-docker/mmo-server-depends.Dockerfile" -t mmo-server-depends "server-docker"
-  - docker pull ${DOCKER_REPO_URL}/mmo-server-depends
-  - docker tag ${DOCKER_REPO_URL}/mmo-server-depends mmo-server-depends
-  - docker network create --driver=bridge --subnet=172.28.0.0/16 --ip-range=172.28.0.0/16 --gateway=172.28.1.1 --attachable network-mmo
-  - docker run --network=network-mmo --ip=172.28.1.3 --name mmo-server-code  --ulimit core=-1 --security-opt seccomp=unconfined -v /$(pwd)/server-code:/data/mmorpg/server-code -v /$(pwd)/server-res:/data/mmorpg/server-res -v /$(pwd)/share-code:/data/mmorpg/share-code -v /$(pwd)/data/log:/data/log  --user=ubuntu mmo-server-depends
-  - docker run -it --network=network-mmo --ip=172.28.2.3 --name mmo-server-build --volumes-from mmo-server-code --privileged --ulimit core=-1 --security-opt seccomp=unconfined mmo-server-depends /bin/sh -c "cd /data/mmorpg/server-code&&pwd&&bash ./build.sh"
+jobs:
+  include:
+    - stage: build_depends
+      before_install:
+        - docker build --rm -f "server-docker/mmo-server-base-1804.Dockerfile" -t mmo-server-base:18.04 server-docker
+        - docker build --rm -f "server-docker/mmo-server-depends-base.Dockerfile" -t mmo-server-depends:base "."
+        - docker build --rm -f "server-docker/mmo-server-depends.Dockerfile" -t mmo-server-depends "server-docker"
+      script: ./docker_push_depends.sh
+    - stage: build_publish
+      before_install: 
+      - docker pull ${DOCKER_REPO_URL}/mmo-server-depends
+      - docker tag ${DOCKER_REPO_URL}/mmo-server-depends mmo-server-depends
+      - docker network create --driver=bridge --subnet=172.28.0.0/16 --ip-range=172.28.0.0/16 --gateway=172.28.1.1 --attachable network-mmo
+      - docker run --network=network-mmo --ip=172.28.1.3 --name mmo-server-code  --ulimit core=-1 --security-opt seccomp=unconfined -v /$(pwd)/server-code:/data/mmorpg/server-code -v /$(pwd)/server-res:/data/mmorpg/server-res -v /$(pwd)/share-code:/data/mmorpg/share-code -v /$(pwd)/data/log:/data/log  --user=ubuntu mmo-server-depends
+      - docker run -it --network=network-mmo --ip=172.28.2.3 --name mmo-server-build --volumes-from mmo-server-code --privileged --ulimit core=-1 --security-opt seccomp=unconfined mmo-server-depends /bin/sh -c "cd /data/mmorpg/server-code&&pwd&&bash ./releasebuild.sh"
+      script: build_publish_image.sh
+    - stage: deploy
+      script: ./docker_push_publish.sh
 
-script:
-  - build.sh
+
