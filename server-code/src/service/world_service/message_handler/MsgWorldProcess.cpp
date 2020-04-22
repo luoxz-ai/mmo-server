@@ -26,32 +26,32 @@ ON_MSG(SC_TALK)
                 return;
             }
 
-            WorldService()->SendToVirtualSocket(pUser->GetSocket(), CMD_SC_TALK, msg);
+            WorldService()->SendToVirtualSocket(pUser->GetSocket(), msg);
         }
         break;
         case CHANNEL_TEAM: //组队
         {
             // auto pTeam = TeamManager()->QueryTeam(pSender->GetTeamID());
-            // pTeam->BroadcastToAllMember(CMD_SC_TALK, msg);
+            // pTeam->BroadcastToAllMember(msg);
         }
         break;
         case CHANNEL_GUILD: //公会
         {
             // auto pGuild = GuildManager()->QueryGuild(pSender->GetGuildID());
-            // pGuild->BroadcastToAllMember(CMD_SC_TALK, msg);
+            // pGuild->BroadcastToAllMember(msg);
         }
         break;
         case CHANNEL_WORLD:   //世界
         case CHANNEL_TRUMPET: //小喇叭
         {
-            WorldService()->BroadcastToAllPlayer(CMD_SC_TALK, msg);
+            WorldService()->BroadcastToAllPlayer(msg);
         }
         break;
         case CHANNEL_GLOBAL: //全游戏
         case CHANNEL_SYSTEM: //系统
         case CHANNEL_RUMOR:  //广播
         {
-            WorldService()->BroadcastToAllPlayer(CMD_SC_TALK, msg);
+            WorldService()->BroadcastToAllPlayer(msg);
         }
         break;
         default:

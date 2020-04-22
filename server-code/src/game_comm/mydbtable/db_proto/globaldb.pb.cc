@@ -188,30 +188,31 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_db_5fproto_2fglobaldb_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\027db_proto/globaldb.proto\022\002db\032\035sql_optio"
-  "ns/sql_options.proto\"\240\001\n\013tbld_dbinfo\022\034\n\007"
+  "ns/sql_options.proto\"\247\001\n\013tbld_dbinfo\022\034\n\007"
   "worldid\030\001 \001(\rB\013\222\?\010\032\006idx_id\022\025\n\005db_ip\030\002 \001("
-  "\tB\006\222\?\003\010\377\001\022\017\n\007db_port\030\003 \001(\r\022\027\n\007db_name\030\004 "
-  "\001(\tB\006\222\?\003\010\377\001\022\027\n\007db_user\030\005 \001(\tB\006\222\?\003\010\377\001\022\031\n\t"
-  "db_passwd\030\006 \001(\tB\006\222\?\003\010\377\001\"\332\001\n\016tbld_globalv"
-  "ar\022\030\n\003key\030\001 \001(\rB\013\222\?\010\032\006idx_id\022\016\n\006value0\030\002"
-  " \001(\004\022\016\n\006value1\030\003 \001(\004\022\016\n\006value2\030\004 \001(\004\022\016\n\006"
-  "value3\030\005 \001(\004\022\032\n\nvalue_str0\030\006 \001(\tB\006\222\?\003\010\377\001"
-  "\022\032\n\nvalue_str1\030\007 \001(\tB\006\222\?\003\010\377\001\022\032\n\nvalue_st"
-  "r2\030\010 \001(\tB\006\222\?\003\010\377\001\022\032\n\nvalue_str3\030\t \001(\tB\006\222\?"
-  "\003\010\377\001\"R\n\013tbld_gmlist\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006id"
-  "x_id\222\?\002\020\001\022\026\n\006openid\030\002 \001(\tB\006\222\?\003\010\377\001\022\r\n\005gml"
-  "ev\030\003 \001(\r\"\243\001\n\017tbld_serverlist\022\034\n\007worldid\030"
-  "\001 \001(\rB\013\222\?\010\032\006idx_id\022\033\n\013server_name\030\002 \001(\tB"
-  "\006\222\?\003\010\377\001\022\021\n\topen_time\030\003 \001(\004\022\023\n\013open_statu"
-  "s\030\004 \001(\r\022\034\n\014publish_addr\030\005 \001(\tB\006\222\?\003\010\377\001\022\017\n"
-  "\007mergeto\030\006 \001(\r\"\215\002\n\022tbld_servicedetail\022!\n"
-  "\007worldid\030\001 \001(\rB\020\222\?\r\032\013idx_worldid\022#\n\tserv"
-  "iceid\030\002 \001(\rB\020\222\?\r\032\013idx_worldid\022\034\n\014service"
-  "_type\030\003 \001(\tB\006\222\?\003\010\377\001\022\032\n\nroute_addr\030\004 \001(\tB"
-  "\006\222\?\003\010\377\001\022\022\n\nroute_port\030\005 \001(\r\022\034\n\014publish_a"
-  "ddr\030\006 \001(\tB\006\222\?\003\010\377\001\022\024\n\014publish_port\030\007 \001(\r\022"
-  "\022\n\ndebug_port\030\010 \001(\r\022\031\n\tbind_addr\030\t \001(\tB\006"
-  "\222\?\003\010\377\001b\006proto3"
+  "\tB\006\222\?\003\010\377\001\022\026\n\007db_port\030\003 \001(\rB\005\222\?\0028\020\022\027\n\007db_"
+  "name\030\004 \001(\tB\006\222\?\003\010\377\001\022\027\n\007db_user\030\005 \001(\tB\006\222\?\003"
+  "\010\377\001\022\031\n\tdb_passwd\030\006 \001(\tB\006\222\?\003\010\377\001\"\332\001\n\016tbld_"
+  "globalvar\022\030\n\003key\030\001 \001(\rB\013\222\?\010\032\006idx_id\022\016\n\006v"
+  "alue0\030\002 \001(\004\022\016\n\006value1\030\003 \001(\004\022\016\n\006value2\030\004 "
+  "\001(\004\022\016\n\006value3\030\005 \001(\004\022\032\n\nvalue_str0\030\006 \001(\tB"
+  "\006\222\?\003\010\377\001\022\032\n\nvalue_str1\030\007 \001(\tB\006\222\?\003\010\377\001\022\032\n\nv"
+  "alue_str2\030\010 \001(\tB\006\222\?\003\010\377\001\022\032\n\nvalue_str3\030\t "
+  "\001(\tB\006\222\?\003\010\377\001\"R\n\013tbld_gmlist\022\034\n\002id\030\001 \001(\004B\020"
+  "\222\?\010\032\006idx_id\222\?\002\020\001\022\026\n\006openid\030\002 \001(\tB\006\222\?\003\010\377\001"
+  "\022\r\n\005gmlev\030\003 \001(\r\"\257\001\n\017tbld_serverlist\022!\n\007w"
+  "orldid\030\001 \001(\rB\020\222\?\0028\020\222\?\010\032\006idx_id\022\033\n\013server"
+  "_name\030\002 \001(\tB\006\222\?\003\010\377\001\022\021\n\topen_time\030\003 \001(\004\022\023"
+  "\n\013open_status\030\004 \001(\r\022\034\n\014publish_addr\030\005 \001("
+  "\tB\006\222\?\003\010\377\001\022\026\n\007mergeto\030\006 \001(\rB\005\222\?\0028\020\"\254\002\n\022tb"
+  "ld_servicedetail\022&\n\007worldid\030\001 \001(\rB\025\222\?\0028\020"
+  "\222\?\r\032\013idx_worldid\022(\n\tserviceid\030\002 \001(\rB\025\222\?\002"
+  "8\020\222\?\r\032\013idx_worldid\022\034\n\014service_type\030\003 \001(\t"
+  "B\006\222\?\003\010\377\001\022\032\n\nroute_addr\030\004 \001(\tB\006\222\?\003\010\377\001\022\031\n\n"
+  "route_port\030\005 \001(\rB\005\222\?\0028\020\022\034\n\014publish_addr\030"
+  "\006 \001(\tB\006\222\?\003\010\377\001\022\033\n\014publish_port\030\007 \001(\rB\005\222\?\002"
+  "8\020\022\031\n\ndebug_port\030\010 \001(\rB\005\222\?\0028\020\022\031\n\tbind_ad"
+  "dr\030\t \001(\tB\006\222\?\003\010\377\001b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_db_5fproto_2fglobaldb_2eproto_deps[1] = {
   &::descriptor_table_sql_5foptions_2fsql_5foptions_2eproto,
@@ -226,7 +227,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_db_
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_db_5fproto_2fglobaldb_2eproto_once;
 static bool descriptor_table_db_5fproto_2fglobaldb_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_db_5fproto_2fglobaldb_2eproto = {
-  &descriptor_table_db_5fproto_2fglobaldb_2eproto_initialized, descriptor_table_protodef_db_5fproto_2fglobaldb_2eproto, "db_proto/globaldb.proto", 974,
+  &descriptor_table_db_5fproto_2fglobaldb_2eproto_initialized, descriptor_table_protodef_db_5fproto_2fglobaldb_2eproto, "db_proto/globaldb.proto", 1024,
   &descriptor_table_db_5fproto_2fglobaldb_2eproto_once, descriptor_table_db_5fproto_2fglobaldb_2eproto_sccs, descriptor_table_db_5fproto_2fglobaldb_2eproto_deps, 5, 1,
   schemas, file_default_instances, TableStruct_db_5fproto_2fglobaldb_2eproto::offsets,
   file_level_metadata_db_5fproto_2fglobaldb_2eproto, 5, file_level_enum_descriptors_db_5fproto_2fglobaldb_2eproto, file_level_service_descriptors_db_5fproto_2fglobaldb_2eproto,
@@ -346,7 +347,7 @@ const char* tbld_dbinfo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint32 db_port = 3;
+      // uint32 db_port = 3 [(.sql) = {
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
           db_port_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
@@ -422,7 +423,7 @@ failure:
         2, this->_internal_db_ip(), target);
   }
 
-  // uint32 db_port = 3;
+  // uint32 db_port = 3 [(.sql) = {
   if (this->db_port() != 0) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(3, this->_internal_db_port(), target);
@@ -509,7 +510,7 @@ size_t tbld_dbinfo::ByteSizeLong() const {
         this->_internal_worldid());
   }
 
-  // uint32 db_port = 3;
+  // uint32 db_port = 3 [(.sql) = {
   if (this->db_port() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
@@ -1429,7 +1430,7 @@ const char* tbld_serverlist::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPAC
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint32 mergeto = 6;
+      // uint32 mergeto = 6 [(.sql) = {
       case 6:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48)) {
           mergeto_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
@@ -1500,7 +1501,7 @@ failure:
         5, this->_internal_publish_addr(), target);
   }
 
-  // uint32 mergeto = 6;
+  // uint32 mergeto = 6 [(.sql) = {
   if (this->mergeto() != 0) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(6, this->_internal_mergeto(), target);
@@ -1557,7 +1558,7 @@ size_t tbld_serverlist::ByteSizeLong() const {
         this->_internal_open_time());
   }
 
-  // uint32 mergeto = 6;
+  // uint32 mergeto = 6 [(.sql) = {
   if (this->mergeto() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
@@ -1779,7 +1780,7 @@ const char* tbld_servicedetail::_InternalParse(const char* ptr, ::PROTOBUF_NAMES
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint32 route_port = 5;
+      // uint32 route_port = 5 [(.sql) = {
       case 5:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
           route_port_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
@@ -1795,14 +1796,14 @@ const char* tbld_servicedetail::_InternalParse(const char* ptr, ::PROTOBUF_NAMES
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint32 publish_port = 7;
+      // uint32 publish_port = 7 [(.sql) = {
       case 7:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 56)) {
           publish_port_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint32 debug_port = 8;
+      // uint32 debug_port = 8 [(.sql) = {
       case 8:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 64)) {
           debug_port_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
@@ -1876,7 +1877,7 @@ failure:
         4, this->_internal_route_addr(), target);
   }
 
-  // uint32 route_port = 5;
+  // uint32 route_port = 5 [(.sql) = {
   if (this->route_port() != 0) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(5, this->_internal_route_port(), target);
@@ -1892,13 +1893,13 @@ failure:
         6, this->_internal_publish_addr(), target);
   }
 
-  // uint32 publish_port = 7;
+  // uint32 publish_port = 7 [(.sql) = {
   if (this->publish_port() != 0) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(7, this->_internal_publish_port(), target);
   }
 
-  // uint32 debug_port = 8;
+  // uint32 debug_port = 8 [(.sql) = {
   if (this->debug_port() != 0) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(8, this->_internal_debug_port(), target);
@@ -1972,21 +1973,21 @@ size_t tbld_servicedetail::ByteSizeLong() const {
         this->_internal_serviceid());
   }
 
-  // uint32 route_port = 5;
+  // uint32 route_port = 5 [(.sql) = {
   if (this->route_port() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_route_port());
   }
 
-  // uint32 publish_port = 7;
+  // uint32 publish_port = 7 [(.sql) = {
   if (this->publish_port() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_publish_port());
   }
 
-  // uint32 debug_port = 8;
+  // uint32 debug_port = 8 [(.sql) = {
   if (this->debug_port() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(

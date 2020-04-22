@@ -33,6 +33,7 @@
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
+#include "msg/ts_cmd.pb.h"
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 #define PROTOBUF_INTERNAL_EXPORT_msg_2fworld_5fservice_2eproto
@@ -174,62 +175,6 @@ inline bool SC_SELECTACTOR_ErrorCode_Parse(
     const std::string& name, SC_SELECTACTOR_ErrorCode* value) {
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<SC_SELECTACTOR_ErrorCode>(
     SC_SELECTACTOR_ErrorCode_descriptor(), name, value);
-}
-enum WORLD_CS_CMD : int {
-  WORLD_CS_CMD_NONE = 0,
-  CMD_CS_LOGIN = 10,
-  CMD_CS_CREATEACTOR = 11,
-  CMD_CS_SELECTACTOR = 12,
-  WORLD_CS_CMD_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
-  WORLD_CS_CMD_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
-};
-bool WORLD_CS_CMD_IsValid(int value);
-constexpr WORLD_CS_CMD WORLD_CS_CMD_MIN = WORLD_CS_CMD_NONE;
-constexpr WORLD_CS_CMD WORLD_CS_CMD_MAX = CMD_CS_SELECTACTOR;
-constexpr int WORLD_CS_CMD_ARRAYSIZE = WORLD_CS_CMD_MAX + 1;
-
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* WORLD_CS_CMD_descriptor();
-template<typename T>
-inline const std::string& WORLD_CS_CMD_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, WORLD_CS_CMD>::value ||
-    ::std::is_integral<T>::value,
-    "Incorrect type passed to function WORLD_CS_CMD_Name.");
-  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    WORLD_CS_CMD_descriptor(), enum_t_value);
-}
-inline bool WORLD_CS_CMD_Parse(
-    const std::string& name, WORLD_CS_CMD* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<WORLD_CS_CMD>(
-    WORLD_CS_CMD_descriptor(), name, value);
-}
-enum WORLD_SC_CMD : int {
-  WORLD_SC_CMD_NONE = 0,
-  CMD_SC_LOGIN = 10,
-  CMD_SC_ACTORINFOLIST = 11,
-  CMD_SC_WAITINFO = 12,
-  CMD_SC_CREATEACTOR = 13,
-  CMD_SC_SELECTACTOR = 14,
-  WORLD_SC_CMD_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
-  WORLD_SC_CMD_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
-};
-bool WORLD_SC_CMD_IsValid(int value);
-constexpr WORLD_SC_CMD WORLD_SC_CMD_MIN = WORLD_SC_CMD_NONE;
-constexpr WORLD_SC_CMD WORLD_SC_CMD_MAX = CMD_SC_SELECTACTOR;
-constexpr int WORLD_SC_CMD_ARRAYSIZE = WORLD_SC_CMD_MAX + 1;
-
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* WORLD_SC_CMD_descriptor();
-template<typename T>
-inline const std::string& WORLD_SC_CMD_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, WORLD_SC_CMD>::value ||
-    ::std::is_integral<T>::value,
-    "Incorrect type passed to function WORLD_SC_CMD_Name.");
-  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    WORLD_SC_CMD_descriptor(), enum_t_value);
-}
-inline bool WORLD_SC_CMD_Parse(
-    const std::string& name, WORLD_SC_CMD* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<WORLD_SC_CMD>(
-    WORLD_SC_CMD_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -2430,16 +2375,6 @@ template <> struct is_proto_enum< ::SC_SELECTACTOR_ErrorCode> : ::std::true_type
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::SC_SELECTACTOR_ErrorCode>() {
   return ::SC_SELECTACTOR_ErrorCode_descriptor();
-}
-template <> struct is_proto_enum< ::WORLD_CS_CMD> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::WORLD_CS_CMD>() {
-  return ::WORLD_CS_CMD_descriptor();
-}
-template <> struct is_proto_enum< ::WORLD_SC_CMD> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::WORLD_SC_CMD>() {
-  return ::WORLD_SC_CMD_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

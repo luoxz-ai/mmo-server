@@ -25,7 +25,8 @@ public:
     void OnChangeZone(uint16_t idZone);
     //退出游戏
     void Logout();
-    void SendMsg(uint16_t usCmd, const google::protobuf::Message& msg);
+    bool SendMsg(const google::protobuf::Message& msg);
+    bool SendMsg(uint16_t usCmd, const google::protobuf::Message& msg);
 
     uint32_t           GetLev() const;
     const std::string& GetName() const;

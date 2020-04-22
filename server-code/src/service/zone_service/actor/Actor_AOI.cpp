@@ -109,7 +109,7 @@ void CActor::_AddToAOIRemoveMessage(SC_AOI_REMOVE& removeMsg, OBJID id)
         constexpr int32_t MAX_AOI_SIZE_IN_ONE_PACKET = 64;
         if(removeMsg.idlist_size() > MAX_AOI_SIZE_IN_ONE_PACKET)
         {
-            SendMsg(CMD_SC_AOI_REMOVE, removeMsg);
+            SendMsg(removeMsg);
             removeMsg.clear_idlist();
         }
     }
@@ -119,7 +119,7 @@ void CActor::_TrySendAOIRemoveMessage(const SC_AOI_REMOVE& removeMsg)
 {
     if(removeMsg.idlist_size() > 0)
     {
-        SendMsg(CMD_SC_AOI_REMOVE, removeMsg);
+        SendMsg(removeMsg);
     }
 }
 
@@ -175,7 +175,7 @@ void CActor::ClearViewList(bool bSendMsgToSelf)
     SC_AOI_REMOVE ntc_aoiInfo;
     ntc_aoiInfo.set_mapid(GetMapID());
     ntc_aoiInfo.add_idlist(GetID());
-    SendRoomMessage(CMD_SC_AOI_REMOVE, ntc_aoiInfo, false);
+    SendRoomMessage(ntc_aoiInfo, false);
 
     if(bSendMsgToSelf)
         _TrySendAOIRemoveMessage(hold_info);
@@ -250,7 +250,7 @@ void CActor::SendShowTo(CPlayer* pPlayer)
 
     SC_AOI_NEW msg;
     MakeShowData(msg);
-    pPlayer->SendMsg(CMD_SC_AOI_NEW, msg);
+    pPlayer->SendMsg(msg);
 }
 
 bool CActor::IsNeedAddToBroadCastSet(CSceneObject* pActor)
@@ -366,7 +366,7 @@ void CActor::OnAOIProcess_ActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
             ntc_aoiInfo.add_idlist(GetID());
             
             auto setSocketMap = ZoneService()->IDList2VSMap(setBCActorDelPlayer, 0);
-            ZoneService()->SendMsgTo(CMD_SC_AOI_REMOVE, ntc_aoiInfo, setSocketMap);
+            ZoneService()->SendMsgTo(setSocketMap, ntc_aoiInfo);
         }
     }
     //通知自己删除del列表
@@ -383,7 +383,7 @@ void CActor::OnAOIProcess_PosUpdate()
     ntc.set_posx(GetPosX());
     ntc.set_posy(GetPosY());
 
-    SendRoomMessage(CMD_SC_AOI_UPDATE, ntc);
+    SendRoomMessage(ntc);
 }
 
 void CActor::OnAOIProcess_ActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_MAP& mapAllViewActor)

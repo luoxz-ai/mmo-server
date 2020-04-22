@@ -50,6 +50,7 @@ public:
     export_lua void KickAllPlayer(const char* pszReason = "");
     export_lua void _KickPlayer(const char* pszReason, CPlayer* pPlayer);
 
+    export_lua CScene*      GetScene() const { return m_pScene; }
     export_lua uint32_t     GetSceneState() const { return m_curSceneState; }
     export_lua void         SetSceneState(uint32_t val) { m_curSceneState = val; }
     export_lua virtual void AddDynaRegion(uint32_t nRegionType, const FloatRect& rect) override;
@@ -59,7 +60,8 @@ public:
     export_lua uint64_t GetPhaseID()const {return m_idPhase;}
     export_lua uint32_t GetPhaseIdx()const {return GetSceneID().GetPhaseIdx();}
 public:
-    export_lua bool SendSceneMessage(uint16_t cmd, const google::protobuf::Message& msg);
+    export_lua bool SendSceneMessage(const google::protobuf::Message& msg) const;
+    export_lua bool SendSceneMessage(uint16_t cmd, const google::protobuf::Message& msg) const;
 
     
 
@@ -101,6 +103,7 @@ private:
     void ScheduleDelPhase(uint32_t wait_ms);
 private:
     uint64_t        m_idPhase = 0;
+    CScene*         m_pScene = nullptr;
     
     uint32_t        m_curSceneState;
     bool            m_bDelThis = false;

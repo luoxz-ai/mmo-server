@@ -10,7 +10,7 @@ class PhaseData;
 class CAISceneManager;
 class CAIPhase;
 
-class CAIScene
+export_lua class CAIScene
 {
 protected:
     CAIScene();
@@ -22,14 +22,14 @@ public:
 
 public:
     
-    CAIPhase* CreatePhase(const SceneID& idScene, uint64_t idPhase);
-    CAIPhase* CreatePhase(const SceneID& idScene, uint64_t idPhase, const PhaseData* pPhaseData);
+    export_lua CAIPhase* CreatePhase(const SceneID& idScene, uint64_t idPhase);
+    export_lua CAIPhase* CreatePhase(const SceneID& idScene, uint64_t idPhase, const PhaseData* pPhaseData);
 
-    bool DestoryPhase(uint64_t idPhase);
-    bool DestoryPhaseBySceneID(const SceneID& idScene);
+    export_lua bool DestoryPhase(uint64_t idPhase);
+    export_lua bool DestoryPhaseByIdx(uint32_t idxPhase);
 
-    CAIPhase* QueryPhaseBySceneID(const SceneID& idScene) const;
-    CAIPhase* QueryPhaseByID(uint64_t idPhase) const;
+    export_lua CAIPhase* QueryPhaseByIdx(uint32_t idxPhase) const;
+    export_lua CAIPhase* QueryPhaseByID(uint64_t idPhase) const;
 private:
     SceneID m_SceneID;
     std::unordered_map<uint64_t, std::unique_ptr<CAIPhase>> m_pPhaseSet;

@@ -628,58 +628,58 @@ const char descriptor_table_protodef_db_5fproto_2fgamedb_2eproto[] PROTOBUF_SECT
   "\n\010tbld_pet\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001"
   "\022!\n\007ownerid\030\002 \001(\004B\020\222\?\r\"\013idx_ownerid\022#\n\010p"
   "et_type\030\003 \001(\rB\021\222\?\016\"\014idx_pet_type\022\n\n\002hp\030\004"
-  " \001(\r\022\013\n\003exp\030\005 \001(\004\"\370\006\n\013tbld_player\022\034\n\002id\030"
-  "\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022!\n\007worldid\030\002 \001(\r"
-  "B\020\222\?\r\"\013idx_worldid\022\022\n\noriworldid\030\003 \001(\r\022%"
-  "\n\006openid\030\004 \001(\tB\025\222\?\003\010\377\001\222\?\014\"\nidx_openid\022 \n"
-  "\004name\030\005 \001(\tB\022\222\?\002\010 \222\?\n2\010idx_name\022\033\n\004prof\030"
-  "\006 \001(\rB\r\222\?\n\"\010idx_prof\022\020\n\010baselook\030\007 \001(\r\022\031"
-  "\n\003lev\030\010 \001(\rB\014\222\?\t\"\007idx_lev\022\016\n\006viplev\030\t \001("
-  "\r\022\026\n\016record_sceneid\030\n \001(\004\022\020\n\010record_x\030\013 "
-  "\001(\002\022\020\n\010record_y\030\014 \001(\002\022\023\n\013record_face\030\r \001"
-  "(\002\022\024\n\014home_sceneid\030\016 \001(\004\022\016\n\006home_x\030\017 \001(\002"
-  "\022\016\n\006home_y\030\020 \001(\002\022\021\n\thome_face\030\021 \001(\002\022\017\n\007m"
-  "ate_id\030\022 \001(\004\022\030\n\tmate_name\030\023 \001(\tB\005\222\?\002\010 \022\016"
-  "\n\006teamid\030\024 \001(\004\022\017\n\007guildid\030\025 \001(\004\022\013\n\003exp\030\026"
-  " \001(\004\022\r\n\005money\030\027 \001(\004\022\022\n\nmoney_bind\030\030 \001(\004\022"
-  "\014\n\004gold\030\031 \001(\004\022\021\n\tgold_bind\030\032 \001(\004\022\n\n\002hp\030\033"
-  " \001(\r\022\n\n\002mp\030\034 \001(\r\022\n\n\002fp\030\035 \001(\r\022\n\n\002np\030\036 \001(\r"
-  "\022\r\n\005pkval\030\037 \001(\r\022\r\n\005honor\030  \001(\r\022\021\n\tachipo"
-  "int\030! \001(\r\022\020\n\010bag_size\030\" \001(\r\022\023\n\013stroge_si"
-  "ze\030# \001(\r\022)\n\013create_time\030$ \001(\004B\024\222\?\021\"\017idx_"
-  "create_time\022/\n\016last_logintime\030% \001(\004B\027\222\?\024"
-  "\"\022idx_last_logintime\0221\n\017last_logouttime\030"
-  "& \001(\004B\030\222\?\025\"\023idx_last_logouttime\022#\n\010del_t"
-  "ime\030\' \001(\004B\021\222\?\016\"\014idx_del_time\"z\n\025tbld_pla"
-  "yer_guildinfo\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?"
-  "\002\020\001\022\014\n\004rank\030\002 \001(\r\022\r\n\005score\030\003 \001(\r\022\023\n\013tota"
-  "l_score\030\004 \001(\r\022\021\n\tjoin_time\030\005 \001(\004\"k\n\ntbld"
-  "_skill\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022\037\n\006"
-  "userid\030\002 \001(\004B\017\222\?\014\"\nidx_userid\022\021\n\tskillty"
-  "pe\030\003 \001(\r\022\013\n\003lev\030\004 \001(\r\"\261\002\n\ttbld_task\022\034\n\002i"
-  "d\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022\037\n\006userid\030\002 \001("
-  "\004B\017\222\?\014\"\nidx_userid\022\037\n\006taskid\030\003 \001(\rB\017\222\?\014\""
-  "\nidx_taskid\022\014\n\004num0\030\004 \001(\r\022\014\n\004num1\030\005 \001(\r\022"
-  "\014\n\004num2\030\006 \001(\r\022\014\n\004num3\030\007 \001(\r\022\026\n\016accept_us"
-  "erlev\030\010 \001(\r\022\023\n\013accept_time\030\t \001(\004\022\023\n\013fini"
-  "sh_time\030\n \001(\004\022\023\n\013expire_time\030\013 \001(\004\022\020\n\010da"
-  "ycount\030\014 \001(\r\022\024\n\014daycount_max\030\r \001(\r\022\r\n\005st"
-  "ate\030\016 \001(\r\"\200\001\n\020tbld_achievement\022\034\n\002id\030\001 \001"
-  "(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022\037\n\006userid\030\002 \001(\004B\017\222\?"
-  "\014\"\nidx_userid\022\037\n\006achiid\030\003 \001(\rB\017\222\?\014\"\nidx_"
-  "achiid\022\014\n\004take\030\004 \001(\r\"\353\001\n\013tbld_status\022\034\n\002"
-  "id\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022\037\n\006userid\030\002 \001"
-  "(\004B\017\222\?\014\"\nidx_userid\022\037\n\006typeid\030\003 \001(\rB\017\222\?\014"
-  "\"\nidx_taskid\022\034\n\003lev\030\004 \001(\rB\017\222\?\014\"\nidx_task"
-  "id\022\r\n\005power\030\005 \001(\r\022\014\n\004secs\030\006 \001(\r\022\r\n\005times"
-  "\030\007 \001(\r\022\021\n\tlaststamp\030\010 \001(\r\022\020\n\010casterid\030\t "
-  "\001(\004\022\r\n\005pause\030\n \001(\004\"\334\001\n\016tbld_systemvar\022 \n"
-  "\006keyidx\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022\024\n\004name\030"
-  "\002 \001(\tB\006\222\?\003\010\377\001\022\r\n\005data0\030\003 \001(\004\022\r\n\005data1\030\004 "
-  "\001(\004\022\r\n\005data2\030\005 \001(\004\022\r\n\005data3\030\006 \001(\004\022\024\n\004str"
-  "0\030\007 \001(\tB\006\222\?\003\010\377\001\022\024\n\004str1\030\010 \001(\tB\006\222\?\003\010\377\001\022\024\n"
-  "\004str2\030\t \001(\tB\006\222\?\003\010\377\001\022\024\n\004str3\030\n \001(\tB\006\222\?\003\010\377"
-  "\001b\006proto3"
+  " \001(\r\022\013\n\003exp\030\005 \001(\004\"\204\007\n\013tbld_player\022\034\n\002id\030"
+  "\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022&\n\007worldid\030\002 \001(\r"
+  "B\025\222\?\0028\020\222\?\r\"\013idx_worldid\022\031\n\noriworldid\030\003 "
+  "\001(\rB\005\222\?\0028\020\022%\n\006openid\030\004 \001(\tB\025\222\?\003\010\377\001\222\?\014\"\ni"
+  "dx_openid\022 \n\004name\030\005 \001(\tB\022\222\?\002\010 \222\?\n2\010idx_n"
+  "ame\022\033\n\004prof\030\006 \001(\rB\r\222\?\n\"\010idx_prof\022\020\n\010base"
+  "look\030\007 \001(\r\022\031\n\003lev\030\010 \001(\rB\014\222\?\t\"\007idx_lev\022\016\n"
+  "\006viplev\030\t \001(\r\022\026\n\016record_sceneid\030\n \001(\004\022\020\n"
+  "\010record_x\030\013 \001(\002\022\020\n\010record_y\030\014 \001(\002\022\023\n\013rec"
+  "ord_face\030\r \001(\002\022\024\n\014home_sceneid\030\016 \001(\004\022\016\n\006"
+  "home_x\030\017 \001(\002\022\016\n\006home_y\030\020 \001(\002\022\021\n\thome_fac"
+  "e\030\021 \001(\002\022\017\n\007mate_id\030\022 \001(\004\022\030\n\tmate_name\030\023 "
+  "\001(\tB\005\222\?\002\010 \022\016\n\006teamid\030\024 \001(\004\022\017\n\007guildid\030\025 "
+  "\001(\004\022\013\n\003exp\030\026 \001(\004\022\r\n\005money\030\027 \001(\004\022\022\n\nmoney"
+  "_bind\030\030 \001(\004\022\014\n\004gold\030\031 \001(\004\022\021\n\tgold_bind\030\032"
+  " \001(\004\022\n\n\002hp\030\033 \001(\r\022\n\n\002mp\030\034 \001(\r\022\n\n\002fp\030\035 \001(\r"
+  "\022\n\n\002np\030\036 \001(\r\022\r\n\005pkval\030\037 \001(\r\022\r\n\005honor\030  \001"
+  "(\r\022\021\n\tachipoint\030! \001(\r\022\020\n\010bag_size\030\" \001(\r\022"
+  "\023\n\013stroge_size\030# \001(\r\022)\n\013create_time\030$ \001("
+  "\004B\024\222\?\021\"\017idx_create_time\022/\n\016last_logintim"
+  "e\030% \001(\004B\027\222\?\024\"\022idx_last_logintime\0221\n\017last"
+  "_logouttime\030& \001(\004B\030\222\?\025\"\023idx_last_logoutt"
+  "ime\022#\n\010del_time\030\' \001(\004B\021\222\?\016\"\014idx_del_time"
+  "\"z\n\025tbld_player_guildinfo\022\034\n\002id\030\001 \001(\004B\020\222"
+  "\?\010\032\006idx_id\222\?\002\020\001\022\014\n\004rank\030\002 \001(\r\022\r\n\005score\030\003"
+  " \001(\r\022\023\n\013total_score\030\004 \001(\r\022\021\n\tjoin_time\030\005"
+  " \001(\004\"k\n\ntbld_skill\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx"
+  "_id\222\?\002\020\001\022\037\n\006userid\030\002 \001(\004B\017\222\?\014\"\nidx_useri"
+  "d\022\021\n\tskilltype\030\003 \001(\r\022\013\n\003lev\030\004 \001(\r\"\261\002\n\ttb"
+  "ld_task\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022\037\n"
+  "\006userid\030\002 \001(\004B\017\222\?\014\"\nidx_userid\022\037\n\006taskid"
+  "\030\003 \001(\rB\017\222\?\014\"\nidx_taskid\022\014\n\004num0\030\004 \001(\r\022\014\n"
+  "\004num1\030\005 \001(\r\022\014\n\004num2\030\006 \001(\r\022\014\n\004num3\030\007 \001(\r\022"
+  "\026\n\016accept_userlev\030\010 \001(\r\022\023\n\013accept_time\030\t"
+  " \001(\004\022\023\n\013finish_time\030\n \001(\004\022\023\n\013expire_time"
+  "\030\013 \001(\004\022\020\n\010daycount\030\014 \001(\r\022\024\n\014daycount_max"
+  "\030\r \001(\r\022\r\n\005state\030\016 \001(\r\"\200\001\n\020tbld_achieveme"
+  "nt\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022\037\n\006user"
+  "id\030\002 \001(\004B\017\222\?\014\"\nidx_userid\022\037\n\006achiid\030\003 \001("
+  "\rB\017\222\?\014\"\nidx_achiid\022\014\n\004take\030\004 \001(\r\"\353\001\n\013tbl"
+  "d_status\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022\037"
+  "\n\006userid\030\002 \001(\004B\017\222\?\014\"\nidx_userid\022\037\n\006typei"
+  "d\030\003 \001(\rB\017\222\?\014\"\nidx_taskid\022\034\n\003lev\030\004 \001(\rB\017\222"
+  "\?\014\"\nidx_taskid\022\r\n\005power\030\005 \001(\r\022\014\n\004secs\030\006 "
+  "\001(\r\022\r\n\005times\030\007 \001(\r\022\021\n\tlaststamp\030\010 \001(\r\022\020\n"
+  "\010casterid\030\t \001(\004\022\r\n\005pause\030\n \001(\004\"\334\001\n\016tbld_"
+  "systemvar\022 \n\006keyidx\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?"
+  "\002\020\001\022\024\n\004name\030\002 \001(\tB\006\222\?\003\010\377\001\022\r\n\005data0\030\003 \001(\004"
+  "\022\r\n\005data1\030\004 \001(\004\022\r\n\005data2\030\005 \001(\004\022\r\n\005data3\030"
+  "\006 \001(\004\022\024\n\004str0\030\007 \001(\tB\006\222\?\003\010\377\001\022\024\n\004str1\030\010 \001("
+  "\tB\006\222\?\003\010\377\001\022\024\n\004str2\030\t \001(\tB\006\222\?\003\010\377\001\022\024\n\004str3\030"
+  "\n \001(\tB\006\222\?\003\010\377\001b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_db_5fproto_2fgamedb_2eproto_deps[1] = {
   &::descriptor_table_sql_5foptions_2fsql_5foptions_2eproto,
@@ -705,7 +705,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_db_
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_db_5fproto_2fgamedb_2eproto_once;
 static bool descriptor_table_db_5fproto_2fgamedb_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_db_5fproto_2fgamedb_2eproto = {
-  &descriptor_table_db_5fproto_2fgamedb_2eproto_initialized, descriptor_table_protodef_db_5fproto_2fgamedb_2eproto, "db_proto/gamedb.proto", 3969,
+  &descriptor_table_db_5fproto_2fgamedb_2eproto_initialized, descriptor_table_protodef_db_5fproto_2fgamedb_2eproto, "db_proto/gamedb.proto", 3981,
   &descriptor_table_db_5fproto_2fgamedb_2eproto_once, descriptor_table_db_5fproto_2fgamedb_2eproto_sccs, descriptor_table_db_5fproto_2fgamedb_2eproto_deps, 16, 1,
   schemas, file_default_instances, TableStruct_db_5fproto_2fgamedb_2eproto::offsets,
   file_level_metadata_db_5fproto_2fgamedb_2eproto, 16, file_level_enum_descriptors_db_5fproto_2fgamedb_2eproto, file_level_service_descriptors_db_5fproto_2fgamedb_2eproto,
@@ -4032,7 +4032,7 @@ const char* tbld_player::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint32 oriworldid = 3;
+      // uint32 oriworldid = 3 [(.sql) = {
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
           oriworldid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
@@ -4335,7 +4335,7 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->_internal_worldid(), target);
   }
 
-  // uint32 oriworldid = 3;
+  // uint32 oriworldid = 3 [(.sql) = {
   if (this->oriworldid() != 0) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(3, this->_internal_oriworldid(), target);
@@ -4620,7 +4620,7 @@ size_t tbld_player::ByteSizeLong() const {
         this->_internal_worldid());
   }
 
-  // uint32 oriworldid = 3;
+  // uint32 oriworldid = 3 [(.sql) = {
   if (this->oriworldid() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(

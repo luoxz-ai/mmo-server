@@ -60,7 +60,7 @@ time_t _TimeGetSecondLocal()
 struct TimeGetCacheData
 {
     bool   bUserCache        = false;
-    time_t Last              = 0;
+    time_t LastMono              = 0;
     time_t Now               = 0;
     time_t NowOffset         = 0;
     time_t NowOffsetSec      = 0;
@@ -77,20 +77,20 @@ void TimeOffset(time_t offset)
 void TimeGetCacheCreate()
 {
     g_TimeGetCacheData.bUserCache = true;
-    g_TimeGetCacheData.Last       = _TimeGetMillisecond();
-    g_TimeGetCacheData.Now        = g_TimeGetCacheData.Last;
+    g_TimeGetCacheData.LastMono   = _TimeGetMonotonic();    //取得MONO时间戳
+    g_TimeGetCacheData.Now        = _TimeGetMillisecond();  //取得系统时间戳
 }
 
 void TimeGetCacheUpdate()
 {
     if(g_TimeGetCacheData.bUserCache)
     {
-        time_t now = _TimeGetMillisecond();
-        if(now > g_TimeGetCacheData.Last)
+        time_t now_mono = _TimeGetMonotonic();
+        if(now_mono > g_TimeGetCacheData.LastMono)
         {
-            g_TimeGetCacheData.Now += now - g_TimeGetCacheData.Last;
+            g_TimeGetCacheData.Now += (now_mono - g_TimeGetCacheData.LastMono);
         }
-        g_TimeGetCacheData.Last              = now;
+        g_TimeGetCacheData.LastMono          = now_mono;
         g_TimeGetCacheData.NowOffset         = g_TimeGetCacheData.Now + g_TimeOffset;
         g_TimeGetCacheData.NowOffsetSec      = g_TimeGetCacheData.NowOffset / 1000;
         g_TimeGetCacheData.NowOffsetLocalSec = gmt2local(g_TimeGetCacheData.NowOffsetSec);

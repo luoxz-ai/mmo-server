@@ -106,7 +106,7 @@ void CActorStatus::SyncTo(CActor* pActor)
         pInfo->set_ispause(pStatus->IsPaused());
     }
 
-    pActor->SendMsg(CMD_SC_STATUS_INFO, msg);
+    pActor->SendMsg(msg);
     __LEAVE_FUNCTION
 }
 

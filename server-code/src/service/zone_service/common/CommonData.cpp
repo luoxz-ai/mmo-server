@@ -72,7 +72,7 @@ void CCommonData::Sync()
     pData->set_data2(GetData(2));
     pData->set_data3(GetData(3));
 
-    m_pOwner->SendMsg(CMD_SC_COMMONDATA, msg);
+    m_pOwner->SendMsg(msg);
     __LEAVE_FUNCTION
 }
 
@@ -148,14 +148,14 @@ void CCommonDataSet::SyncAll()
         constexpr int32_t MAX_DATA_PER_MSG = 50;
         if(msg.datalist_size() > MAX_DATA_PER_MSG)
         {
-            m_pOwner->SendMsg(CMD_SC_COMMONDATA, msg);
+            m_pOwner->SendMsg(msg);
             msg.clear_datalist();
         }
     }
 
     if(msg.datalist_size() > 0)
     {
-        m_pOwner->SendMsg(CMD_SC_COMMONDATA, msg);
+        m_pOwner->SendMsg(msg);
     }
     __LEAVE_FUNCTION
 }

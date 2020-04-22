@@ -17,7 +17,7 @@ class CGMProxyService : public IService, public CServiceCommon
     void Destory();
 public:
     
-    void Release() override { Destory();delete this; }
+    void Release() override;
     CreateNewRealeaseImpl(CGMProxyService);
 
 public:

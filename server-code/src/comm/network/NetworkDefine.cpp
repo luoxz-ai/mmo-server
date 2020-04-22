@@ -21,11 +21,11 @@ ServiceNameRegister::ServiceNameRegister()
     }
     for(int32_t i = MIN_SOCKET_SERVICE_ID; i <= MAX_SOCKET_SERVICE_ID; i++ )
     {
-        s_ServiceName[i] = std::string("Socket") + std::to_string(i-MAX_SOCKET_SERVICE_ID+1);
+        s_ServiceName[i] = std::string("Socket_") + std::to_string(i-MIN_AI_SERVICE_ID+1);
     }
     for(int32_t i = MIN_GM_PROYX_SERVICE_ID; i <= MAX_GM_PROYX_SERVICE_ID; i++ )
     {
-        s_ServiceName[i] = std::string("GMProxy") + std::to_string(i-MIN_GM_PROYX_SERVICE_ID+1);
+        s_ServiceName[i] = std::string("GMProxy_") + std::to_string(i-MIN_GM_PROYX_SERVICE_ID+1);
     }
 
 }

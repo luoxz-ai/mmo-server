@@ -58,16 +58,6 @@ std::string string_concat(std::vector<std::string> vecStr, const std::string& de
 
 SQLCodeGenerator::SQLCodeGenerator(const std::string& name)
 {
-    sqltypes["int32"]   = "int(11)";
-    sqltypes["int64"]   = "bigint(20)";
-    sqltypes["uint32"]  = "int(11)";
-    sqltypes["uint64"]  = "bigint(20)";
-    sqltypes["double"]  = "double";
-    sqltypes["float"]   = "float";
-    sqltypes["bool"]    = "tinyint(1)";
-    sqltypes["enum"]    = "enum";
-    sqltypes["string"]  = "text";
-    sqltypes["message"] = "";
 }
 
 SQLCodeGenerator::~SQLCodeGenerator() {}
@@ -121,25 +111,39 @@ std::string getSuffix(const google::protobuf::FieldDescriptor* fd)
     return ss.str();
 }
 
-const char* PrimitiveTypeName(google::protobuf::FieldDescriptor::Type type)
+const char* PrimitiveTypeName(const google::protobuf::FieldDescriptor* field_desc)
 {
     using namespace google::protobuf;
-    switch(type)
+    switch(field_desc->type())
     {
         case FieldDescriptor::TYPE_DOUBLE:
             return "double";
         case FieldDescriptor::TYPE_FLOAT:
             return "float";
         case FieldDescriptor::TYPE_INT64:
-            return "bigint";
+        case FieldDescriptor::TYPE_SINT64:
         case FieldDescriptor::TYPE_UINT64:
+        case FieldDescriptor::TYPE_FIXED64:
+        case FieldDescriptor::TYPE_SFIXED64:
             return "bigint";
         case FieldDescriptor::TYPE_INT32:
-            return "int";
-        case FieldDescriptor::TYPE_FIXED64:
-            return "bigint";
+        case FieldDescriptor::TYPE_SINT32:
+        case FieldDescriptor::TYPE_UINT32:
         case FieldDescriptor::TYPE_FIXED32:
-            return "int";
+        case FieldDescriptor::TYPE_SFIXED32:
+            {
+                auto options   = field_desc->options();
+                auto extension = options.GetExtension(sql);
+                if(extension.int_size() > 0 && extension.int_size() < 16)
+                {
+                    return "tinyint";
+                }
+                else if(extension.int_size() >= 16 && extension.int_size() < 32)
+                {
+                    return "smallint";
+                }
+                return "int";
+            }
         case FieldDescriptor::TYPE_BOOL:
             return "tinyint";
         case FieldDescriptor::TYPE_STRING:
@@ -150,18 +154,10 @@ const char* PrimitiveTypeName(google::protobuf::FieldDescriptor::Type type)
             return NULL;
         case FieldDescriptor::TYPE_BYTES:
             return "blob";
-        case FieldDescriptor::TYPE_UINT32:
-            return "int";
         case FieldDescriptor::TYPE_ENUM:
-            return NULL;
-        case FieldDescriptor::TYPE_SFIXED32:
             return "int";
-        case FieldDescriptor::TYPE_SFIXED64:
-            return "bigint";
-        case FieldDescriptor::TYPE_SINT32:
-            return "int";
-        case FieldDescriptor::TYPE_SINT64:
-            return "bigint";
+
+
 
             // No default because we want the compiler to complain if any new
             // CppTypes are added.
@@ -180,6 +176,8 @@ std::string FieldUnsigned(google::protobuf::FieldDescriptor::Type type)
 
         case FieldDescriptor::TYPE_UINT64:
         case FieldDescriptor::TYPE_UINT32:
+        case FieldDescriptor::TYPE_FIXED64:
+        case FieldDescriptor::TYPE_FIXED32:
             return "UNSIGNED ";
 			break;
 		default:
@@ -309,7 +307,7 @@ void PrintMessage(const google::protobuf::Descriptor& message_descriptor, google
     {
         auto desc           = message_descriptor.field(i);
 
-        auto type_str       = PrimitiveTypeName(desc->type());
+        auto type_str       = PrimitiveTypeName(desc);
         auto name_str       = FieldName(desc);
         auto unsigned_str   = FieldUnsigned(desc->type());
         auto utf8_str       = FieldUTF8(desc->type());

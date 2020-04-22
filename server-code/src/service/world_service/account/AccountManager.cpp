@@ -158,7 +158,7 @@ void CAccountManager::_OnAuthFail(uint64_t call_id, std::string str_detail)
     SC_LOGIN msg;
     msg.set_result_code(SC_LOGIN::EC_AUTH);
     msg.set_detail(str_detail);
-    WorldService()->SendToVirtualSocket(auth_data.from, CMD_SC_LOGIN, msg);
+    WorldService()->SendToVirtualSocket(auth_data.from, msg);
 
     m_AuthList.erase(auth_data.open_id);
     m_AuthDataList.erase(it);
@@ -184,7 +184,7 @@ void CAccountManager::_OnAuthSucc(uint64_t call_id)
     std::string md5str =
         md5(auth_data.open_id + std::to_string(TimeGetSecond() / AUTH_KEY_CANUSE_SECS) + AUTH_SERVER_SIGNATURE);
     result_msg.set_last_succ_key(md5str);
-    WorldService()->SendToVirtualSocket(pAccount->GetSocket(), CMD_SC_LOGIN, result_msg);
+    WorldService()->SendToVirtualSocket(pAccount->GetSocket(), result_msg);
 
     Login(auth_data.open_id, pAccount);
     m_AuthList.erase(auth_data.open_id);

@@ -33,6 +33,7 @@
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
+#include "msg/ts_cmd.pb.h"
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 #define PROTOBUF_INTERNAL_EXPORT_msg_2fzone_5fservice_2eproto
@@ -489,125 +490,10 @@ inline bool SC_TEAMMEMBER_ACTION_Action_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<SC_TEAMMEMBER_ACTION_Action>(
     SC_TEAMMEMBER_ACTION_Action_descriptor(), name, value);
 }
-enum ZONE_CS_CMD : int {
-  ZONE_CS_CMD_NONE = 0,
-  CMD_CS_LOADMAP_SUCC = 1001,
-  CMD_CS_MOVE = 1002,
-  CMD_CS_CHANGEMAP = 1003,
-  CMD_CS_CASTSKILL = 1004,
-  CMD_CS_SKILL_BREAK = 1005,
-  CMD_CS_SKILL_CHGTARGETPOS = 1006,
-  CMD_CS_CHANGE_PKMODE = 1007,
-  CMD_CS_REBORN = 1008,
-  CMD_CS_ITEM_SWAP = 1020,
-  CMD_CS_ITEM_SPLIT = 1021,
-  CMD_CS_ITEM_COMBINE = 1022,
-  CMD_CS_ITEM_TIDY = 1023,
-  CMD_CS_ITEM_USE = 1024,
-  CMD_CS_ITEM_STORAGE_OPEN = 1025,
-  CMD_CS_ITEM_STORAGE_CHECKIN = 1026,
-  CMD_CS_ITEM_STORAGE_CHECKOUT = 1027,
-  CMD_CS_EQUIP = 1030,
-  CMD_CS_UNEQUIP = 1031,
-  CMD_CS_TALK = 1040,
-  CMD_CS_TASK_SUBMIT = 1041,
-  CMD_CS_ACTIVE_NPC = 1042,
-  CMD_CS_DIALOG_CLICK = 1043,
-  CMD_CS_ACHI_TAKE = 1044,
-  CMD_CS_TEAMCREATE = 1050,
-  CMD_CS_TEAMQUIT = 1051,
-  CMD_CS_TEAMKICKMEMBER = 1052,
-  CMD_CS_TEAMINVITEMEMBER = 1053,
-  CMD_CS_TEAMACCEPTINVITE = 1054,
-  CMD_CS_TEAMNEWLEADER = 1055,
-  CMD_CS_TEAMAPPLYMEMBER = 1056,
-  CMD_CS_TEAMACCEPTAPPLY = 1057,
-  ZONE_CS_CMD_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
-  ZONE_CS_CMD_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
-};
-bool ZONE_CS_CMD_IsValid(int value);
-constexpr ZONE_CS_CMD ZONE_CS_CMD_MIN = ZONE_CS_CMD_NONE;
-constexpr ZONE_CS_CMD ZONE_CS_CMD_MAX = CMD_CS_TEAMACCEPTAPPLY;
-constexpr int ZONE_CS_CMD_ARRAYSIZE = ZONE_CS_CMD_MAX + 1;
-
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ZONE_CS_CMD_descriptor();
-template<typename T>
-inline const std::string& ZONE_CS_CMD_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, ZONE_CS_CMD>::value ||
-    ::std::is_integral<T>::value,
-    "Incorrect type passed to function ZONE_CS_CMD_Name.");
-  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    ZONE_CS_CMD_descriptor(), enum_t_value);
-}
-inline bool ZONE_CS_CMD_Parse(
-    const std::string& name, ZONE_CS_CMD* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<ZONE_CS_CMD>(
-    ZONE_CS_CMD_descriptor(), name, value);
-}
-enum ZONE_SC_CMD : int {
-  ZONE_SC_CMD_NONE = 0,
-  CMD_SC_LOADMAP = 1001,
-  CMD_SC_ENTERMAP = 1002,
-  CMD_SC_PLAYERINFO = 1003,
-  CMD_SC_ACTORATTRIB = 1004,
-  CMD_SC_COMMONDATA = 1005,
-  CMD_SC_DATACOUNT = 1006,
-  CMD_SC_SYSVAR = 1007,
-  CMD_SC_COOLDOWN = 1008,
-  CMD_SC_MAPVAL = 1009,
-  CMD_SC_AOI_NEW = 1020,
-  CMD_SC_AOI_REMOVE = 1021,
-  CMD_SC_AOI_UPDATE = 1022,
-  CMD_SC_CASTSKILL = 1031,
-  CMD_SC_SKILL_BREAK = 1032,
-  CMD_SC_SKILL_DAMAGE = 1033,
-  CMD_SC_SKILL_STUN = 1034,
-  CMD_SC_SKILL_EFFACT = 1035,
-  CMD_SC_DAMAGE = 1036,
-  CMD_SC_DEAD = 1037,
-  CMD_SC_ATTRIB_CHANGE = 1038,
-  CMD_SC_CHANGE_PKMODE = 1040,
-  CMD_SC_STATUS_LIST = 1041,
-  CMD_SC_STATUS_INFO = 1043,
-  CMD_SC_STATUS_ACTION = 1044,
-  CMD_SC_ITEM_DELETE = 1050,
-  CMD_SC_ITEM_INFO = 1051,
-  CMD_SC_ITEM_CHANGE = 1052,
-  CMD_SC_TALK = 1053,
-  CMD_SC_TASK_INFO = 1060,
-  CMD_SC_TASK_DATA = 1061,
-  CMD_SC_DIALOG = 1062,
-  CMD_SC_ACHI_INFO = 1063,
-  CMD_SC_TEAMMEMBER_INFO = 1070,
-  CMD_SC_TEAMMEMBER_ACTION = 1071,
-  CMD_SC_TEAMINVITEMEMBER = 1072,
-  CMD_SC_TEAMAPPLYMEMBER = 1073,
-  ZONE_SC_CMD_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
-  ZONE_SC_CMD_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
-};
-bool ZONE_SC_CMD_IsValid(int value);
-constexpr ZONE_SC_CMD ZONE_SC_CMD_MIN = ZONE_SC_CMD_NONE;
-constexpr ZONE_SC_CMD ZONE_SC_CMD_MAX = CMD_SC_TEAMAPPLYMEMBER;
-constexpr int ZONE_SC_CMD_ARRAYSIZE = ZONE_SC_CMD_MAX + 1;
-
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ZONE_SC_CMD_descriptor();
-template<typename T>
-inline const std::string& ZONE_SC_CMD_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, ZONE_SC_CMD>::value ||
-    ::std::is_integral<T>::value,
-    "Incorrect type passed to function ZONE_SC_CMD_Name.");
-  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    ZONE_SC_CMD_descriptor(), enum_t_value);
-}
-inline bool ZONE_SC_CMD_Parse(
-    const std::string& name, ZONE_SC_CMD* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<ZONE_SC_CMD>(
-    ZONE_SC_CMD_descriptor(), name, value);
-}
 enum TalkChannel : int {
   CHANNEL_NORMAL = 0,
   CHANNEL_SCENE = 1,
-  CHANNEL_PRIVATE = 2,
+  CHANNEL_PHASE = 2,
   CHANNEL_TEAM = 3,
   CHANNEL_GUILD = 4,
   CHANNEL_WORLD = 5,
@@ -615,12 +501,13 @@ enum TalkChannel : int {
   CHANNEL_GLOBAL = 7,
   CHANNEL_SYSTEM = 8,
   CHANNEL_RUMOR = 9,
+  CHANNEL_PRIVATE = 10,
   TalkChannel_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   TalkChannel_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
 bool TalkChannel_IsValid(int value);
 constexpr TalkChannel TalkChannel_MIN = CHANNEL_NORMAL;
-constexpr TalkChannel TalkChannel_MAX = CHANNEL_RUMOR;
+constexpr TalkChannel TalkChannel_MAX = CHANNEL_PRIVATE;
 constexpr int TalkChannel_ARRAYSIZE = TalkChannel_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* TalkChannel_descriptor();
@@ -20058,16 +19945,6 @@ template <> struct is_proto_enum< ::SC_TEAMMEMBER_ACTION_Action> : ::std::true_t
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::SC_TEAMMEMBER_ACTION_Action>() {
   return ::SC_TEAMMEMBER_ACTION_Action_descriptor();
-}
-template <> struct is_proto_enum< ::ZONE_CS_CMD> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::ZONE_CS_CMD>() {
-  return ::ZONE_CS_CMD_descriptor();
-}
-template <> struct is_proto_enum< ::ZONE_SC_CMD> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::ZONE_SC_CMD>() {
-  return ::ZONE_SC_CMD_descriptor();
 }
 template <> struct is_proto_enum< ::TalkChannel> : ::std::true_type {};
 template <>

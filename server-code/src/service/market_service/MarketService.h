@@ -17,7 +17,7 @@ class CMarketService : public IService, public CServiceCommon
 public:
     
 
-    void Release() override { Destory();delete this; }
+    void Release() override;
     CreateNewRealeaseImpl(CMarketService);
 
 public:

@@ -82,14 +82,14 @@ bool CAccount::CreateActor(const std::string& name, uint32_t dwProf, uint32_t dw
     {
         SC_CREATEACTOR msg;
         msg.set_result_code(SC_CREATEACTOR::EC_MAX_ACTOR);
-        WorldService()->SendToVirtualSocket(m_Socket, CMD_SC_CREATEACTOR, msg);
+        WorldService()->SendToVirtualSocket(m_Socket, msg);
         return false;
     }
     if(name.size() > _MAX_NAME_SIZE)
     {
         SC_CREATEACTOR msg;
         msg.set_result_code(SC_CREATEACTOR::EC_NAME_TOO_LONG);
-        WorldService()->SendToVirtualSocket(m_Socket, CMD_SC_CREATEACTOR, msg);
+        WorldService()->SendToVirtualSocket(m_Socket, msg);
         return false;
     }
     auto pDB = WorldService()->GetGameDB();
@@ -100,7 +100,7 @@ bool CAccount::CreateActor(const std::string& name, uint32_t dwProf, uint32_t dw
     {
         SC_CREATEACTOR msg;
         msg.set_result_code(SC_CREATEACTOR::EC_NAME_ILLEGAL);
-        WorldService()->SendToVirtualSocket(m_Socket, CMD_SC_CREATEACTOR, msg);
+        WorldService()->SendToVirtualSocket(m_Socket, msg);
         return false;
     }
 
@@ -108,7 +108,7 @@ bool CAccount::CreateActor(const std::string& name, uint32_t dwProf, uint32_t dw
     {
         SC_CREATEACTOR msg;
         msg.set_result_code(SC_CREATEACTOR::EC_NAME_TOO_SHORT);
-        WorldService()->SendToVirtualSocket(m_Socket, CMD_SC_CREATEACTOR, msg);
+        WorldService()->SendToVirtualSocket(m_Socket, msg);
         return false;
     }
 
@@ -119,7 +119,7 @@ bool CAccount::CreateActor(const std::string& name, uint32_t dwProf, uint32_t dw
         {
             SC_CREATEACTOR msg;
             msg.set_result_code(SC_CREATEACTOR::EC_NAME_ILLEGAL);
-            WorldService()->SendToVirtualSocket(m_Socket, CMD_SC_CREATEACTOR, msg);
+            WorldService()->SendToVirtualSocket(m_Socket, msg);
             return false;
         }
     }
@@ -192,7 +192,7 @@ bool CAccount::CreateActor(const std::string& name, uint32_t dwProf, uint32_t dw
 
             SC_CREATEACTOR msg;
             msg.set_result_code(SC_CREATEACTOR::EC_SUCC);
-            WorldService()->SendToVirtualSocket(m_Socket, CMD_SC_CREATEACTOR, msg);
+            WorldService()->SendToVirtualSocket(m_Socket, msg);
 
             // todo:DLOG记录玩家创建角色日志
             return true;
@@ -203,7 +203,7 @@ bool CAccount::CreateActor(const std::string& name, uint32_t dwProf, uint32_t dw
             WorldService()->RecyclePlayerID(idPlayer);
             SC_CREATEACTOR msg;
             msg.set_result_code(SC_CREATEACTOR::EC_SAME_NAME);
-            WorldService()->SendToVirtualSocket(m_Socket, CMD_SC_CREATEACTOR, msg);
+            WorldService()->SendToVirtualSocket(m_Socket, msg);
         }
         return false;
     }
@@ -326,14 +326,14 @@ void CAccount::SendActorInfo()
         // pInfo->set_name(pActorInfo->GetRecordMapID());
         // pInfo->set_name(pActorInfo->GetHomeMapID());
     }
-    WorldService()->SendToVirtualSocket(m_Socket, CMD_SC_ACTORINFOLIST, msg);
+    WorldService()->SendToVirtualSocket(m_Socket, msg);
     __LEAVE_FUNCTION
 }
 
 void CAccount::SendWaitInfo()
 {
     SC_WAITINFO msg;
-    WorldService()->SendToVirtualSocket(m_Socket, CMD_SC_WAITINFO, msg);
+    WorldService()->SendToVirtualSocket(m_Socket, msg);
 }
 
 void CAccount::SetWait(bool bWait)

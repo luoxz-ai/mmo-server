@@ -18,6 +18,8 @@ set(JEMALLOC_LIB_NAME "libjemalloc.so")
 ELSE()
 ENDIF()
 
+link_libraries("-Wl,--no-allow-shlib-undefined")
+
 # 生成库文件
 ADD_LIBRARY(zone_service SHARED ${SRCS})
 #SET_TARGET_PROPERTIES(zone_service PROPERTIES CLEAN_DIRECT_OUTPUT 1)

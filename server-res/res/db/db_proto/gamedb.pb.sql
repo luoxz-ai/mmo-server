@@ -136,8 +136,8 @@ CREATE TABLE `tbld_pet` (
 DROP TABLE IF EXISTS `tbld_player`;
 CREATE TABLE `tbld_player` (
   `id` bigint(20) UNSIGNED  NOT NULL AUTO_INCREMENT COMMENT '',
-  `worldid` int(11) UNSIGNED  NOT NULL COMMENT '服务器编号',
-  `oriworldid` int(11) UNSIGNED  NOT NULL COMMENT '创建角色时的服务器编号',
+  `worldid` smallint(11) UNSIGNED  NOT NULL COMMENT '服务器编号',
+  `oriworldid` smallint(11) UNSIGNED  NOT NULL COMMENT '创建角色时的服务器编号',
   `openid` varchar(255) CHARACTER SET utf8 NOT NULL COMMENT '玩家账号',
   `name` varchar(32) CHARACTER SET utf8 NOT NULL COMMENT '玩家名字',
   `prof` int(11) UNSIGNED  NOT NULL COMMENT '玩家职业',

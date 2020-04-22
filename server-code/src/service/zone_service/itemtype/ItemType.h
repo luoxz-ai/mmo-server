@@ -51,30 +51,35 @@ export_lua enum ITEM_SUBTYPE_EQUIP {
 export_lua enum ITEMPOSITION {
     ITEMPOSITION_BAG   = 0, //背包
     ITEMPOSITION_EQUIP = 1, //装备槽
-
+    
+    ITEMPOSITION_EXCHANGE     = 99, //交易
     ITEMPOSITION_STORAGE      = 100, //仓库
-    ITEMPOSITION_GUILDSTORAGE = 101, //帮派仓库
-    ITEMPOSITION_BUYBACK      = 102, //回购列表
-    ITEMPOSITION_MAILL        = 103, //邮箱
-    ITEMPOSITION_MARKET       = 104, //拍卖行'
+
+    ITEMPOSITION_GUILDSTORAGE = 200, //帮派仓库
+    ITEMPOSITION_BUYBACK      = 201, //回购列表
+    ITEMPOSITION_MAILL        = 202, //邮箱
+    ITEMPOSITION_MARKET       = 203, //拍卖行'
 };
 
 export_lua enum EQUIPPOSITION {
     EQUIPPOSITION_NONE           = 0,
-    EQUIPPOSITION_WEAPON         = 1,
-    EQUIPPOSITION_FASHION_WEAPON = 2,
-    EQUIPPOSITION_HELMET         = 10,
-    EQUIPPOSITION_ARMOR          = 11,
-    EQUIPPOSITION_GIRDLE         = 12,
-    EQUIPPOSITION_SHOES          = 13,
-    EQUIPPOSITION_HAND_L         = 14,
-    EQUIPPOSITION_HAND_R         = 15,
-    EQUIPPOSITION_FASHION_DRESS  = 19,
-    EQUIPPOSITION_NECKLACE       = 20,
-    EQUIPPOSITION_RING_L         = 21,
-    EQUIPPOSITION_RING_R         = 22,
-    EQUIPPOSITION_WING           = 23,
-    EQUIPPOSITION_RUNE           = 24,
+    EQUIPPOSITION_WEAPON         = 1,       //武器
+    EQUIPPOSITION_FASHION_WEAPON = 2,       //时装武器
+
+    EQUIPPOSITION_HELMET         = 10,      //头
+    EQUIPPOSITION_ARMOR          = 11,      //身
+    EQUIPPOSITION_GIRDLE         = 12,      //腰带
+    EQUIPPOSITION_SHOES          = 13,      //鞋
+    EQUIPPOSITION_HAND_L         = 14,      //左手腕
+    EQUIPPOSITION_HAND_R         = 15,      //右手腕
+    EQUIPPOSITION_RING_L         = 16,      //左戒指
+    EQUIPPOSITION_RING_R         = 17,      //右戒指
+    EQUIPPOSITION_NECKLACE       = 18,      //项链
+
+    EQUIPPOSITION_FASHION_DRESS  = 19,      //时装衣服
+
+    EQUIPPOSITION_WING           = 23,      //翅膀
+    EQUIPPOSITION_RUNE           = 24,      //符石
 };
 
 export_lua enum ITEMFLAG_MASK {

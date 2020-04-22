@@ -331,8 +331,8 @@ std::string GetStackTraceString(const CallFrameMap& data)
             size_t      addr   = (size_t)(pair_v.first) - (size_t)(dlinfo.dli_fbase);
             if((size_t)(dlinfo.dli_fbase) <= 0x400000)
                 addr = (size_t)(pair_v.first);
-            result += fmt::format("TRACE:[ADDR][{:X}]{}\n"
-                                  "FILE:{}",
+            result += fmt::format("ADDR:[{:X}]{}\n"
+                                  "FILE:{}\n",
                                   addr,
                                   symbol.c_str(),
                                   addr2line(dlinfo.dli_fname, addr).c_str());
@@ -368,17 +368,16 @@ std::string GetStackTraceString(const CALLFRAME_NODE* pFrame)
             size_t      addr   = (size_t)(pFrame->m_pCallFunc) - (size_t)(dlinfo.dli_fbase);
            if((size_t)(dlinfo.dli_fbase) <= 0x400000)
                 addr = (size_t)(pFrame->m_pCallFunc);
-            result += fmt::format("TRACE:[{:X}]{}\nADDR::{} \n",
+            result += fmt::format("ADDR:[{:X}]{}\n"
+                                  "FILE:{}\n",
                                   addr,
                                   symbol.c_str(),
                                   addr2line(dlinfo.dli_fname, addr).c_str());
-            ;
         }
         else
         {
             std::string symbol = DemangleSymbol(*funcnamearry);
             result += fmt::format("TRACEADDR:{}\n", symbol.c_str());
-            ;
         }
         free(funcnamearry);
         pFrame = pFrame->m_pParent;

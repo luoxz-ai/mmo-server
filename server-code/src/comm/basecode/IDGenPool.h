@@ -1,27 +1,34 @@
 #ifndef IDGENPOOL_H
 #define IDGENPOOL_H
 
-#include<deque>
+#include <deque>
+#include "LoggingMgr.h"
 
 template<class IDType>
 class IDGenPool
 {
 public:  
-    IDGenPool(IDType startID = 0)
-    :m_lastID(startID)
-    {
-    }
+    IDGenPool(){}
+    ~IDGenPool(){}
     
-    void start(IDType startID)
+    void start(IDType startID, IDType max_count)
     {
         m_lastID = startID;
+        m_maxID = startID + max_count;
     }
+    
 
     IDType get()
     {
         if(m_idPool.empty())
         {
-            return m_lastID++;
+            m_lastID++;
+            if(m_lastID >= m_maxID)
+            {
+                LOGFATAL("id overflow id:{}", m_lastID);
+                m_lastID = m_maxID;
+            }
+            return m_lastID;
         }
         else
         {
@@ -37,7 +44,8 @@ public:
     }
 private:
     std::deque<IDType> m_idPool;
-    IDType m_lastID;
+    IDType m_lastID = 0;
+    IDType m_maxID = 0;
     
 };
 

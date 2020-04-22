@@ -67,7 +67,7 @@ class CSocketService : public IService, public CServiceCommon, public CNetEventH
 public:
     
 
-    void Release() override { Destory();delete this; }
+    void Release() override;
     
     CreateNewRealeaseImpl(CSocketService);
 public:

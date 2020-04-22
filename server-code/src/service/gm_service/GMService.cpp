@@ -118,6 +118,17 @@ CGMService::~CGMService()
 
 }
 
+void CGMService::Release()  
+{   
+    scope_guards scope_exit;
+    auto oldNdc = BaseCode::SetNdc(GetServiceName());
+    scope_exit += [oldNdc]() {
+        BaseCode::SetNdc(oldNdc);
+    };
+    Destory();
+    delete this; 
+}
+
 
 void CGMService::Destory()
 {
@@ -205,6 +216,7 @@ void CGMService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
             msg.idWorld     = GetWorldID();
             msg.update_time = TimeGetSecond();
             SendPortMsg(ServerPort(0, ROUTE_SERVICE_ID), (byte*)&msg, sizeof(msg));
+            
             LOGMESSAGE("WorldReady: {}", GetWorldID());
             EventManager()->ScheduleEvent(
                 0,
@@ -226,7 +238,7 @@ void CGMService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
                 ServerMSG::ServiceHttpResponse send_msg;
                 send_msg.set_uid(msg.uid());
                 send_msg.set_response_code(HTTP_BADMETHOD);
-                SendPortMsg(pNetworkMsg->GetFrom().GetServerPort(), ServerMSG::MsgID_ServiceHttpResponse, send_msg);
+                SendPortMsg(pNetworkMsg->GetFrom().GetServerPort(), send_msg);
                 return;
             }
             it->second(pNetworkMsg->GetFrom().GetServerPort(), msg);

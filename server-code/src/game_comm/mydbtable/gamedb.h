@@ -19,8 +19,8 @@ struct TBLD_COMMONDATA
 
 	};
 	static constexpr const char* field_name[] = { "id","playerid","keytype","keyidx","data0","data1","data2","data3" };
-	using field_type_t = type_list<int64_t ,int64_t ,int32_t ,int64_t ,int64_t ,int64_t ,int64_t ,int64_t >;
-	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG };
+	using field_type_t = type_list<uint64_t ,uint64_t ,uint32_t ,uint64_t ,uint64_t ,uint64_t ,uint64_t ,uint64_t >;
+	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED };
 	static constexpr bool pri_key_idx[] = { true,false,false,false,false,false,false,false };
 };
 
@@ -38,8 +38,8 @@ struct TBLD_COOLDOWN
 
 	};
 	static constexpr const char* field_name[] = { "id","playerid","keytype","keyidx","expire_time" };
-	using field_type_t = type_list<int64_t ,int64_t ,int32_t ,int64_t ,int64_t >;
-	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG };
+	using field_type_t = type_list<uint64_t ,uint64_t ,uint32_t ,uint64_t ,uint64_t >;
+	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED };
 	static constexpr bool pri_key_idx[] = { true,false,false,false,false };
 };
 
@@ -58,8 +58,8 @@ struct TBLD_DATACOUNT
 
 	};
 	static constexpr const char* field_name[] = { "id","playerid","keytype","keyidx","data_num","last_reset_time" };
-	using field_type_t = type_list<int64_t ,int64_t ,int32_t ,int64_t ,int64_t ,int64_t >;
-	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG };
+	using field_type_t = type_list<uint64_t ,uint64_t ,uint32_t ,uint64_t ,uint64_t ,uint64_t >;
+	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED };
 	static constexpr bool pri_key_idx[] = { true,false,false,false,false,false };
 };
 
@@ -79,8 +79,8 @@ struct TBLD_GUILD
 
 	};
 	static constexpr const char* field_name[] = { "id","lev","name","leaderid","leadername","create_time","del_time" };
-	using field_type_t = type_list<int64_t ,int64_t ,char[255] ,int64_t ,char[32] ,int64_t ,int64_t >;
-	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG };
+	using field_type_t = type_list<uint64_t ,uint64_t ,char[255] ,uint64_t ,char[32] ,uint64_t ,uint64_t >;
+	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED };
 	static constexpr bool pri_key_idx[] = { true,false,false,false,false,false,false };
 };
 
@@ -105,8 +105,8 @@ struct TBLD_ITEM
 
 	};
 	static constexpr const char* field_name[] = { "id","owner_id","itemtype","position","grid","flag","pilenum","expire_time","dura","dura_limit","addition_lev","extra" };
-	using field_type_t = type_list<int64_t ,int64_t ,int32_t ,int32_t ,int32_t ,int32_t ,int32_t ,int32_t ,int32_t ,int32_t ,int32_t ,std::string >;
-	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_BLOB };
+	using field_type_t = type_list<uint64_t ,uint64_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,std::string >;
+	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_BLOB };
 	static constexpr bool pri_key_idx[] = { true,false,false,false,false,false,false,false,false,false,false,false };
 };
 
@@ -127,8 +127,8 @@ struct TBLD_MAIL
 
 	};
 	static constexpr const char* field_name[] = { "id","ownerid","senderid","sendername","create_time","flag","subject","content" };
-	using field_type_t = type_list<int64_t ,int64_t ,int64_t ,char[255] ,int64_t ,int64_t ,char[255] ,char[1024] >;
-	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_VARCHAR };
+	using field_type_t = type_list<uint64_t ,uint64_t ,uint64_t ,char[255] ,uint64_t ,uint64_t ,char[255] ,char[1024] >;
+	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_VARCHAR };
 	static constexpr bool pri_key_idx[] = { true,false,false,false,false,false,false,false };
 };
 
@@ -145,8 +145,8 @@ struct TBLD_MAIL_ATTACHMENT
 
 	};
 	static constexpr const char* field_name[] = { "id","mailid","attach_type","attach_data" };
-	using field_type_t = type_list<int64_t ,int64_t ,int64_t ,int64_t >;
-	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG };
+	using field_type_t = type_list<uint64_t ,uint64_t ,uint64_t ,uint64_t >;
+	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED };
 	static constexpr bool pri_key_idx[] = { true,false,false,false };
 };
 
@@ -164,8 +164,8 @@ struct TBLD_PET
 
 	};
 	static constexpr const char* field_name[] = { "id","ownerid","pet_type","hp","exp" };
-	using field_type_t = type_list<int64_t ,int64_t ,int32_t ,int32_t ,int64_t >;
-	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONGLONG };
+	using field_type_t = type_list<uint64_t ,uint64_t ,uint32_t ,uint32_t ,uint64_t >;
+	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED };
 	static constexpr bool pri_key_idx[] = { true,false,false,false,false };
 };
 
@@ -217,8 +217,8 @@ struct TBLD_PLAYER
 
 	};
 	static constexpr const char* field_name[] = { "id","worldid","oriworldid","openid","name","prof","baselook","lev","viplev","record_sceneid","record_x","record_y","record_face","home_sceneid","home_x","home_y","home_face","mate_id","mate_name","teamid","guildid","exp","money","money_bind","gold","gold_bind","hp","mp","fp","np","pkval","honor","achipoint","bag_size","stroge_size","create_time","last_logintime","last_logouttime","del_time" };
-	using field_type_t = type_list<int64_t ,int32_t ,int32_t ,char[255] ,char[32] ,int32_t ,int32_t ,int32_t ,int32_t ,int64_t ,float ,float ,float ,int64_t ,float ,float ,float ,int64_t ,char[32] ,int64_t ,int64_t ,int64_t ,int64_t ,int64_t ,int64_t ,int64_t ,int32_t ,int32_t ,int32_t ,int32_t ,int32_t ,int32_t ,int32_t ,int32_t ,int32_t ,int64_t ,int64_t ,int64_t ,int64_t >;
-	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_FLOAT,DB_FIELD_TYPE_FLOAT,DB_FIELD_TYPE_FLOAT,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_FLOAT,DB_FIELD_TYPE_FLOAT,DB_FIELD_TYPE_FLOAT,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG };
+	using field_type_t = type_list<uint64_t ,uint16_t ,uint16_t ,char[255] ,char[32] ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint64_t ,float ,float ,float ,uint64_t ,float ,float ,float ,uint64_t ,char[32] ,uint64_t ,uint64_t ,uint64_t ,uint64_t ,uint64_t ,uint64_t ,uint64_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint64_t ,uint64_t ,uint64_t ,uint64_t >;
+	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_SHORT_UNSIGNED,DB_FIELD_TYPE_SHORT_UNSIGNED,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_FLOAT,DB_FIELD_TYPE_FLOAT,DB_FIELD_TYPE_FLOAT,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_FLOAT,DB_FIELD_TYPE_FLOAT,DB_FIELD_TYPE_FLOAT,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED };
 	static constexpr bool pri_key_idx[] = { true,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false };
 };
 
@@ -236,8 +236,8 @@ struct TBLD_PLAYER_GUILDINFO
 
 	};
 	static constexpr const char* field_name[] = { "id","rank","score","total_score","join_time" };
-	using field_type_t = type_list<int64_t ,int32_t ,int32_t ,int32_t ,int64_t >;
-	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONGLONG };
+	using field_type_t = type_list<uint64_t ,uint32_t ,uint32_t ,uint32_t ,uint64_t >;
+	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED };
 	static constexpr bool pri_key_idx[] = { true,false,false,false,false };
 };
 
@@ -254,8 +254,8 @@ struct TBLD_SKILL
 
 	};
 	static constexpr const char* field_name[] = { "id","userid","skilltype","lev" };
-	using field_type_t = type_list<int64_t ,int64_t ,int32_t ,int32_t >;
-	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG };
+	using field_type_t = type_list<uint64_t ,uint64_t ,uint32_t ,uint32_t >;
+	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED };
 	static constexpr bool pri_key_idx[] = { true,false,false,false };
 };
 
@@ -282,8 +282,8 @@ struct TBLD_TASK
 
 	};
 	static constexpr const char* field_name[] = { "id","userid","taskid","num0","num1","num2","num3","accept_userlev","accept_time","finish_time","expire_time","daycount","daycount_max","state" };
-	using field_type_t = type_list<int64_t ,int64_t ,int32_t ,int32_t ,int32_t ,int32_t ,int32_t ,int32_t ,int64_t ,int64_t ,int64_t ,int32_t ,int32_t ,int32_t >;
-	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG };
+	using field_type_t = type_list<uint64_t ,uint64_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint64_t ,uint64_t ,uint64_t ,uint32_t ,uint32_t ,uint32_t >;
+	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED };
 	static constexpr bool pri_key_idx[] = { true,false,false,false,false,false,false,false,false,false,false,false,false,false };
 };
 
@@ -300,8 +300,8 @@ struct TBLD_ACHIEVEMENT
 
 	};
 	static constexpr const char* field_name[] = { "id","userid","achiid","take" };
-	using field_type_t = type_list<int64_t ,int64_t ,int32_t ,int32_t >;
-	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG };
+	using field_type_t = type_list<uint64_t ,uint64_t ,uint32_t ,uint32_t >;
+	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED };
 	static constexpr bool pri_key_idx[] = { true,false,false,false };
 };
 
@@ -324,8 +324,8 @@ struct TBLD_STATUS
 
 	};
 	static constexpr const char* field_name[] = { "id","userid","typeid","lev","power","secs","times","laststamp","casterid","pause" };
-	using field_type_t = type_list<int64_t ,int64_t ,int32_t ,int32_t ,int32_t ,int32_t ,int32_t ,int32_t ,int64_t ,int64_t >;
-	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG };
+	using field_type_t = type_list<uint64_t ,uint64_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint32_t ,uint64_t ,uint64_t >;
+	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED };
 	static constexpr bool pri_key_idx[] = { true,false,false,false,false,false,false,false,false,false };
 };
 
@@ -348,8 +348,8 @@ struct TBLD_SYSTEMVAR
 
 	};
 	static constexpr const char* field_name[] = { "keyidx","name","data0","data1","data2","data3","str0","str1","str2","str3" };
-	using field_type_t = type_list<int64_t ,char[255] ,int64_t ,int64_t ,int64_t ,int64_t ,char[255] ,char[255] ,char[255] ,char[255] >;
-	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_LONGLONG,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_VARCHAR };
+	using field_type_t = type_list<uint64_t ,char[255] ,uint64_t ,uint64_t ,uint64_t ,uint64_t ,char[255] ,char[255] ,char[255] ,char[255] >;
+	static constexpr DB_FIELD_TYPES field_type_enum_list[] = { DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_LONGLONG_UNSIGNED,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_VARCHAR,DB_FIELD_TYPE_VARCHAR };
 	static constexpr bool pri_key_idx[] = { true,false,false,false,false,false,false,false,false,false };
 };
 

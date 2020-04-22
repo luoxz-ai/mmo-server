@@ -269,7 +269,7 @@ class tbld_dbinfo :
   void _internal_set_worldid(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 db_port = 3;
+  // uint32 db_port = 3 [(.sql) = {
   void clear_db_port();
   ::PROTOBUF_NAMESPACE_ID::uint32 db_port() const;
   void set_db_port(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -867,7 +867,7 @@ class tbld_serverlist :
   void _internal_set_open_time(::PROTOBUF_NAMESPACE_ID::uint64 value);
   public:
 
-  // uint32 mergeto = 6;
+  // uint32 mergeto = 6 [(.sql) = {
   void clear_mergeto();
   ::PROTOBUF_NAMESPACE_ID::uint32 mergeto() const;
   void set_mergeto(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -1090,7 +1090,7 @@ class tbld_servicedetail :
   void _internal_set_serviceid(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 route_port = 5;
+  // uint32 route_port = 5 [(.sql) = {
   void clear_route_port();
   ::PROTOBUF_NAMESPACE_ID::uint32 route_port() const;
   void set_route_port(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -1099,7 +1099,7 @@ class tbld_servicedetail :
   void _internal_set_route_port(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 publish_port = 7;
+  // uint32 publish_port = 7 [(.sql) = {
   void clear_publish_port();
   ::PROTOBUF_NAMESPACE_ID::uint32 publish_port() const;
   void set_publish_port(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -1108,7 +1108,7 @@ class tbld_servicedetail :
   void _internal_set_publish_port(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 debug_port = 8;
+  // uint32 debug_port = 8 [(.sql) = {
   void clear_debug_port();
   ::PROTOBUF_NAMESPACE_ID::uint32 debug_port() const;
   void set_debug_port(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -1225,7 +1225,7 @@ inline void tbld_dbinfo::set_allocated_db_ip(std::string* db_ip) {
   // @@protoc_insertion_point(field_set_allocated:db.tbld_dbinfo.db_ip)
 }
 
-// uint32 db_port = 3;
+// uint32 db_port = 3 [(.sql) = {
 inline void tbld_dbinfo::clear_db_port() {
   db_port_ = 0u;
 }
@@ -2057,7 +2057,7 @@ inline void tbld_serverlist::set_allocated_publish_addr(std::string* publish_add
   // @@protoc_insertion_point(field_set_allocated:db.tbld_serverlist.publish_addr)
 }
 
-// uint32 mergeto = 6;
+// uint32 mergeto = 6 [(.sql) = {
 inline void tbld_serverlist::clear_mergeto() {
   mergeto_ = 0u;
 }
@@ -2241,7 +2241,7 @@ inline void tbld_servicedetail::set_allocated_route_addr(std::string* route_addr
   // @@protoc_insertion_point(field_set_allocated:db.tbld_servicedetail.route_addr)
 }
 
-// uint32 route_port = 5;
+// uint32 route_port = 5 [(.sql) = {
 inline void tbld_servicedetail::clear_route_port() {
   route_port_ = 0u;
 }
@@ -2321,7 +2321,7 @@ inline void tbld_servicedetail::set_allocated_publish_addr(std::string* publish_
   // @@protoc_insertion_point(field_set_allocated:db.tbld_servicedetail.publish_addr)
 }
 
-// uint32 publish_port = 7;
+// uint32 publish_port = 7 [(.sql) = {
 inline void tbld_servicedetail::clear_publish_port() {
   publish_port_ = 0u;
 }
@@ -2341,7 +2341,7 @@ inline void tbld_servicedetail::set_publish_port(::PROTOBUF_NAMESPACE_ID::uint32
   // @@protoc_insertion_point(field_set:db.tbld_servicedetail.publish_port)
 }
 
-// uint32 debug_port = 8;
+// uint32 debug_port = 8 [(.sql) = {
 inline void tbld_servicedetail::clear_debug_port() {
   debug_port_ = 0u;
 }

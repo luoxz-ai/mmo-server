@@ -270,7 +270,7 @@ void CEquipment::DeleteAll(bool bSync /*=true*/, bool bTraceTaskItem)
                 msg.set_item_id(pItem->GetID());
                 msg.set_position(pItem->GetPosition());
                 msg.set_grid(pItem->GetGrid());
-                m_pOwner->SendMsg(CMD_SC_ITEM_DELETE, msg);
+                m_pOwner->SendMsg(msg);
             }
 
             pItem->DelRecord();

@@ -4,6 +4,7 @@
 #include "ZoneService.h"
 #include "server_msg/server_side.pb.h"
 #include "MysqlConnection.h"
+#include "MsgZoneProcess.h"
 
 constexpr uint32_t AUTO_SYNC_SYSTEMVAR_LIST[] = {
     SYSTEMVAR_SERVER_START,
@@ -57,8 +58,8 @@ void CSystemVar::AddData(uint32_t nIdx, int64_t nVal, bool bUpdate /*= false*/, 
         msg.set_idx(nIdx);
         msg.set_val(nVal);
         msg.set_type(ServerMSG::SystemVarChange::SVCT_ADD_DATA);
-        ZoneService()->BroadcastToZone(ServerMSG::MsgID_SystemVarChange, msg);
-        ZoneService()->SendMsgToWorld(ZoneService()->GetWorldID(), ServerMSG::MsgID_SystemVarChange, msg);
+        ZoneService()->BroadcastToZone(to_server_msgid(msg), msg);
+        ZoneService()->SendMsgToWorld(ZoneService()->GetWorldID(), to_server_msgid(msg), msg);
     }
 }
 
@@ -80,8 +81,8 @@ void CSystemVar::SetData(uint32_t nIdx, uint64_t nVal, bool bUpdate /*= false*/,
         msg.set_idx(nIdx);
         msg.set_val(nVal);
         msg.set_type(ServerMSG::SystemVarChange::SVCT_SET_DATA);
-        ZoneService()->BroadcastToZone(ServerMSG::MsgID_SystemVarChange, msg);
-        ZoneService()->SendMsgToWorld(ZoneService()->GetWorldID(), ServerMSG::MsgID_SystemVarChange, msg);
+        ZoneService()->BroadcastToZone(to_server_msgid(msg), msg);
+        ZoneService()->SendMsgToWorld(ZoneService()->GetWorldID(), to_server_msgid(msg), msg);
     }
 }
 
@@ -102,8 +103,8 @@ void CSystemVar::SetStr(uint32_t nIdx, const std::string& strVal, bool bUpdate /
         msg.set_idx(nIdx);
         msg.set_str(strVal);
         msg.set_type(ServerMSG::SystemVarChange::SVCT_SET_STR);
-        ZoneService()->BroadcastToZone(ServerMSG::MsgID_SystemVarChange, msg);
-        ZoneService()->SendMsgToWorld(ZoneService()->GetWorldID(), ServerMSG::MsgID_SystemVarChange, msg);
+        ZoneService()->BroadcastToZone(to_server_msgid(msg), msg);
+        ZoneService()->SendMsgToWorld(ZoneService()->GetWorldID(), to_server_msgid(msg), msg);
     }
 }
 
@@ -131,7 +132,7 @@ void CSystemVar::Broadcast()
     if(GetStr(3).empty() == false)
         pData->set_str3(GetStr(3));
 
-    ZoneService()->BroadcastToAllPlayer(CMD_SC_SYSVAR, msg);
+    ZoneService()->BroadcastToAllPlayer(msg);
 }
 
 void CSystemVar::SendToPlayer(CPlayer* pPlayer)
@@ -158,7 +159,7 @@ void CSystemVar::SendToPlayer(CPlayer* pPlayer)
     if(GetStr(3).empty() == false)
         pData->set_str3(GetStr(3));
 
-    pPlayer->SendMsg(CMD_SC_SYSVAR, msg);
+    pPlayer->SendMsg(msg);
 }
 
 void CSystemVar::Save()
@@ -183,9 +184,6 @@ void CSystemVar::DeleteRecord()
 
 CSystemVarSet::CSystemVarSet()
 {
-    auto pNetMsgProcess = ZoneService()->GetNetMsgProcess();
-    using namespace std::placeholders;
-    pNetMsgProcess->Register(ServerMSG::MsgID_SystemVarChange, std::bind(&CSystemVarSet::OnSystemVarChange, this, _1));
 }
 
 CSystemVarSet::~CSystemVarSet()
@@ -193,16 +191,9 @@ CSystemVarSet::~CSystemVarSet()
     m_setData.clear();
 }
 
-void CSystemVarSet::OnSystemVarChange(CNetworkMessage* pMsg)
+ON_SERVERMSG(SystemVarChange)
 {
-
-    ServerMSG::SystemVarChange msg;
-    if(msg.ParseFromArray(pMsg->GetMsgBody(), pMsg->GetBodySize()) == false)
-    {
-        return;
-    }
-
-    auto pVar = QueryVar(msg.keyidx(), true);
+    auto pVar = ZoneService()->GetSystemVarSet()->QueryVar(msg.keyidx(), true);
     switch(msg.type())
     {
         case ServerMSG::SystemVarChange::SVCT_ADD_DATA:
@@ -282,8 +273,8 @@ CSystemVar* CSystemVarSet::CreateVar(uint32_t nIdx)
     ServerMSG::SystemVarChange msg;
     msg.set_keyidx(nIdx);
     msg.set_type(ServerMSG::SystemVarChange::SVCT_CREATE);
-    ZoneService()->BroadcastToZone(ServerMSG::MsgID_SystemVarChange, msg);
-    ZoneService()->SendMsgToWorld(ZoneService()->GetWorldID(), ServerMSG::MsgID_SystemVarChange, msg);
+    ZoneService()->BroadcastToZone(to_server_msgid(msg), msg);
+    ZoneService()->SendMsgToWorld(ZoneService()->GetWorldID(), to_server_msgid(msg), msg);
 
     return m_setData[nIdx].get();
 }
@@ -322,12 +313,12 @@ void CSystemVarSet::SyncToClient(CPlayer* pPlayer)
             constexpr int32_t MAX_DATA_PER_MSG = 64;
             if(msg.datalist_size() > MAX_DATA_PER_MSG)
             {
-                pPlayer->SendMsg(CMD_SC_SYSVAR, msg);
+                pPlayer->SendMsg(msg);
                 msg.clear_datalist();
             }
         }
     }
 
     if(msg.datalist_size() > 0)
-        pPlayer->SendMsg(CMD_SC_SYSVAR, msg);
+        pPlayer->SendMsg(msg);
 }

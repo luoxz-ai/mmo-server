@@ -17,7 +17,7 @@ ON_MSG(CS_LOGIN)
         //当前正在验证，通知客户端
         SC_LOGIN result_msg;
         result_msg.set_result_code(SC_LOGIN::EC_WAIT_AUTH);
-        WorldService()->SendToVirtualSocket(pMsg->GetFrom(), CMD_SC_LOGIN, result_msg);
+        WorldService()->SendToVirtualSocket(pMsg->GetFrom(), result_msg);
         return;
     }
     auto nGMLev = GMManager()->GetGMLevel(msg.openid());
@@ -28,7 +28,7 @@ ON_MSG(CS_LOGIN)
         LOGLOGIN("Actor:{} CheckProgVerFail.", msg.openid().c_str());
         SC_LOGIN result_msg;
         result_msg.set_result_code(SC_LOGIN::EC_PROG_VER);
-        WorldService()->SendToVirtualSocket(pMsg->GetFrom(), CMD_SC_LOGIN, result_msg);
+        WorldService()->SendToVirtualSocket(pMsg->GetFrom(), result_msg);
         return;
     }
 
@@ -44,7 +44,7 @@ ON_MSG(CS_LOGIN)
 
             SC_LOGIN result_msg;
             result_msg.set_result_code(SC_LOGIN::EC_LAST_KEY);
-            WorldService()->SendToVirtualSocket(pMsg->GetFrom(), CMD_SC_LOGIN, result_msg);
+            WorldService()->SendToVirtualSocket(pMsg->GetFrom(), result_msg);
             return;
         }
         else
@@ -58,7 +58,7 @@ ON_MSG(CS_LOGIN)
             SC_LOGIN result_msg;
             result_msg.set_result_code(SC_LOGIN::EC_SUCC);
             result_msg.set_last_succ_key(md5str);
-            WorldService()->SendToVirtualSocket(pMsg->GetFrom(), CMD_SC_LOGIN, result_msg);
+            WorldService()->SendToVirtualSocket(pMsg->GetFrom(), result_msg);
 
             CAccount* pAccount = CAccount::CreateNew(msg.openid(), pMsg->GetFrom());
             //将准备好的Account放入Result列表,等待主线程处理
@@ -71,7 +71,7 @@ ON_MSG(CS_LOGIN)
     {
         SC_LOGIN result_msg;
         result_msg.set_result_code(SC_LOGIN::EC_AUTH);
-        WorldService()->SendToVirtualSocket(pMsg->GetFrom(), CMD_SC_LOGIN, result_msg);
+        WorldService()->SendToVirtualSocket(pMsg->GetFrom(), result_msg);
         return;
     }
 

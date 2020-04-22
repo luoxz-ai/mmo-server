@@ -58,6 +58,11 @@ bool CMonster::Init(uint32_t idMonsterType, OBJID idOwner, uint32_t idGen, uint6
     return false;
 }
 
+bool CMonster::SendMsg(const google::protobuf::Message& msg) const
+{
+    return SendMsg(to_sc_cmd(msg), msg);
+}
+
 bool CMonster::SendMsg(uint16_t cmd, const google::protobuf::Message& msg) const
 {
     __ENTER_FUNCTION
@@ -225,7 +230,7 @@ void CMonster::OnEnterMap(CSceneBase* pScene)
     ai_msg.set_monster_gen_id(m_idGen);
     ai_msg.set_ownerid(GetOwnerID());
 
-    ZoneService()->SendMsgToAIService(ServerMSG::MsgID_ActorCreate, ai_msg);
+    ZoneService()->SendPortMsgToAIService(ai_msg);
     __LEAVE_FUNCTION
 }
 

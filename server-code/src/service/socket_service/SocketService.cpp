@@ -60,6 +60,18 @@ CSocketService::CSocketService()
 CSocketService::~CSocketService()
 {
 }
+
+void CSocketService::Release()  
+{   
+    scope_guards scope_exit;
+    auto oldNdc = BaseCode::SetNdc(GetServiceName());
+    scope_exit += [oldNdc]() {
+        BaseCode::SetNdc(oldNdc);
+    };
+    Destory();
+    delete this; 
+}
+
 void CSocketService::Destory()
 {
     tls_pService = this;

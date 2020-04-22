@@ -79,7 +79,7 @@ ON_SERVERMSG(SceneCreate)
 }
 
 ON_SERVERMSG(PhaseCreate)
-{
+{   
     CAIScene* pScene = AISceneManager()->QueryScene(msg.scene_id());
     CHECK(pScene);
     pScene->CreatePhase(msg.scene_id(), msg.phase_id());

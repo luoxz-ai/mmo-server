@@ -10,7 +10,7 @@ void CPlayer::SendAttribToClient()
         msg.add_attrib_list(m_ActorAttrib.get(i));
     }
 
-    SendMsg(CMD_SC_ACTORATTRIB, msg);
+    SendMsg(msg);
     __LEAVE_FUNCTION
 }
 
@@ -55,7 +55,7 @@ void CPlayer::SetPKMode(uint32_t val)
 
     SC_CHANGE_PKMODE msg;
     msg.set_pkmode(m_nPKMode);
-    SendMsg(CMD_SC_CHANGE_PKMODE, msg);
+    SendMsg(msg);
     __LEAVE_FUNCTION
 }
 

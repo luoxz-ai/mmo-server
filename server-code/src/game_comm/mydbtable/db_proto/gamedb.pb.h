@@ -2177,7 +2177,7 @@ class tbld_player :
   void _internal_set_worldid(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 oriworldid = 3;
+  // uint32 oriworldid = 3 [(.sql) = {
   void clear_oriworldid();
   ::PROTOBUF_NAMESPACE_ID::uint32 oriworldid() const;
   void set_oriworldid(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -5571,7 +5571,7 @@ inline void tbld_player::set_worldid(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   // @@protoc_insertion_point(field_set:db.tbld_player.worldid)
 }
 
-// uint32 oriworldid = 3;
+// uint32 oriworldid = 3 [(.sql) = {
 inline void tbld_player::clear_oriworldid() {
   oriworldid_ = 0u;
 }

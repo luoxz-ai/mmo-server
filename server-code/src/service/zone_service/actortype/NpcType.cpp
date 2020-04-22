@@ -6,10 +6,6 @@ CNpcTypeSet::CNpcTypeSet() {}
 CNpcTypeSet::~CNpcTypeSet()
 {
     __ENTER_FUNCTION
-    for(auto& [k, v]: m_setData)
-    {
-        SAFE_DELETE(v);
-    }
     m_setData.clear();
     m_setDataByMapID.clear();
     __LEAVE_FUNCTION

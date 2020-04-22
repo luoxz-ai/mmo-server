@@ -23,6 +23,7 @@ CPhase::CPhase() {}
 CPhase::~CPhase()
 {
     __ENTER_FUNCTION
+    LOGDEBUG("PhaseDestory:{} {} idPhase:{}", GetSceneID().GetMapID(), GetSceneID().GetPhaseIdx(),  m_idPhase);
     while(m_setActor.empty() == false)
     {
         CActor* pActor = static_cast<CActor*>(m_setActor.begin()->second);
@@ -36,6 +37,7 @@ CPhase::~CPhase()
 bool CPhase::Init(CScene* pScene, const SceneID& idScene, uint64_t idPhase,const PhaseData* pPhaseData)
 {
     __ENTER_FUNCTION
+    m_pScene = pScene;
     m_pMapValSet.reset(CMapValSet::CreateNew(this));
     CSceneBase::Init(idScene, MapManager());
     if(pPhaseData)
@@ -65,7 +67,7 @@ bool CPhase::Init(CScene* pScene, const SceneID& idScene, uint64_t idPhase,const
     ServerMSG::PhaseCreate msg;
     msg.set_scene_id(idScene);
     msg.set_phase_id(idPhase);
-    ZoneService()->SendMsgToAIService(ServerMSG::MsgID_SceneCreate, msg);
+    ZoneService()->SendPortMsgToAIService(msg);
 
     TryExecScript<void>(SCB_MAP_ONCREATE, this);
 
@@ -89,6 +91,8 @@ bool CPhase::Init(CScene* pScene, const SceneID& idScene, uint64_t idPhase,const
         ScheduleDelPhase(WAIT_PLAYER_LOADING_MS);
     }
 
+    LOGDEBUG("Phase {} Created, Map:{} Idx:{}", idPhase, idScene.GetMapID(), idScene.GetPhaseIdx());
+
     return true;
     __LEAVE_FUNCTION
     return false;
@@ -106,11 +110,16 @@ export_lua void CPhase::ClearDynaRegion(uint32_t nRegionType)
     CSceneBase::ClearDynaRegion(nRegionType);
 }
 
-bool CPhase::SendSceneMessage(uint16_t cmd, const google::protobuf::Message& msg)
+bool CPhase::SendSceneMessage(const google::protobuf::Message& msg) const
+{
+    return SendSceneMessage(to_sc_cmd(msg), msg);
+}
+
+bool CPhase::SendSceneMessage(uint16_t cmd, const google::protobuf::Message& msg) const
 {
     __ENTER_FUNCTION
     auto setSocketMap = ZoneService()->IDList2VSMap(m_setPlayer, 0);
-    return ZoneService()->SendMsgTo(cmd, msg, setSocketMap);
+    return ZoneService()->SendMsgTo(setSocketMap, cmd, msg);
     __LEAVE_FUNCTION
     return false;
 }
@@ -298,7 +307,8 @@ bool CPhase::EnterMap(CSceneObject* pActor, float fPosX, float fPosY, float fFac
     {
         return false;
     }
-    
+    pActor->_SetPhaseID(m_idPhase);
+
     if(IsStatic() == false)
     {
         SetSceneState(SCENESTATE_NORMAL);
@@ -313,7 +323,7 @@ void CPhase::ScheduleDelPhase(uint32_t wait_ms)
 {
     auto del_func = [sceneID = GetSceneID(), idPhaseID = m_idPhase]() 
     {
-        auto pScene = SceneManager()->_QueryScene(sceneID.GetStaticPhaseSceneID());
+        auto pScene = SceneManager()->_QueryScene(sceneID);
         if(pScene)
         {
             pScene->DestoryPhase(idPhaseID);
@@ -326,6 +336,7 @@ void CPhase::ScheduleDelPhase(uint32_t wait_ms)
 void CPhase::LeaveMap(CSceneObject* pActor, uint64_t idTargetScene /*= 0*/)
 {
     CSceneBase::LeaveMap(pActor, idTargetScene);
+    pActor->_SetPhaseID(0);
     if(IsStatic())
         return;
 

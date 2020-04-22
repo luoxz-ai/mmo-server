@@ -31,6 +31,17 @@ CMarketService::~CMarketService()
 
 }
 
+void CMarketService::Release()  
+{   
+    scope_guards scope_exit;
+    auto oldNdc = BaseCode::SetNdc(GetServiceName());
+    scope_exit += [oldNdc]() {
+        BaseCode::SetNdc(oldNdc);
+    };
+    Destory();
+    delete this; 
+}
+
 void CMarketService::Destory()
 {
     tls_pService = this;

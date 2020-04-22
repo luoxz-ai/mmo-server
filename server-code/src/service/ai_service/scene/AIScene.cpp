@@ -11,6 +11,8 @@ CAIScene::CAIScene() {}
 
 CAIScene::~CAIScene()
 {
+    m_pPhaseSetByIdx.clear();
+    m_pPhaseSet.clear();
    
 }
 
@@ -60,10 +62,10 @@ bool CAIScene::DestoryPhase(uint64_t idPhase)
     return false;
 }
 
-bool CAIScene::DestoryPhaseBySceneID(const SceneID& idScene)
+bool CAIScene::DestoryPhaseByIdx(uint32_t idxPhase)
 {
     __ENTER_FUNCTION
-    CAIPhase* pPhase = QueryPhaseBySceneID(idScene);
+    CAIPhase* pPhase = QueryPhaseByIdx(idxPhase);
     CHECKF(pPhase);
     
     m_pPhaseSetByIdx.erase(pPhase->GetSceneID().GetPhaseIdx());
@@ -85,10 +87,10 @@ CAIPhase* CAIScene::QueryPhaseByID(uint64_t idPhase) const
     return nullptr;
 }
 
-CAIPhase* CAIScene::QueryPhaseBySceneID(const SceneID& idScene) const
+CAIPhase* CAIScene::QueryPhaseByIdx(uint32_t idxPhase) const
 {
     __ENTER_FUNCTION
-    auto it = m_pPhaseSetByIdx.find(idScene);
+    auto it = m_pPhaseSetByIdx.find(idxPhase);
     if(it != m_pPhaseSetByIdx.end())
     {
         return it->second;

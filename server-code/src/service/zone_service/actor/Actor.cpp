@@ -45,7 +45,7 @@ void CActor::AddHide()
     ServerMSG::ActorSetHide msg;
     msg.set_actor_id(GetID());
     msg.set_hide_count(m_nHideCount);
-    ZoneService()->SendMsgToAIService(ServerMSG::MsgID_ActorSetHide, msg);
+    ZoneService()->SendPortMsgToAIService(msg);
 }
 
 void CActor::RemoveHide()
@@ -55,7 +55,7 @@ void CActor::RemoveHide()
     ServerMSG::ActorSetHide msg;
     msg.set_actor_id(GetID());
     msg.set_hide_count(m_nHideCount);
-    ZoneService()->SendMsgToAIService(ServerMSG::MsgID_ActorSetHide, msg);
+    ZoneService()->SendPortMsgToAIService(msg);
 }
 
 void CActor::SetCampID(uint32_t id, uint32_t nSync)
@@ -144,7 +144,7 @@ void CActor::_SetProperty(uint32_t nType, uint32_t nVal, uint32_t nSync)
         auto attr = msg.add_datalist();
         attr->set_actype(nType);
         attr->set_val(nVal);
-        SendMsg(CMD_SC_ATTRIB_CHANGE, msg);
+        SendMsg(msg);
     }
     else if(nSync == SYNC_ALL)
     {
@@ -154,7 +154,7 @@ void CActor::_SetProperty(uint32_t nType, uint32_t nVal, uint32_t nSync)
         auto attr = msg.add_datalist();
         attr->set_actype(nType);
         attr->set_val(nVal);
-        SendRoomMessage(CMD_SC_ATTRIB_CHANGE, msg);
+        SendRoomMessage(msg);
     }
     else if(nSync == SYNC_ALL_DELAY)
     {
@@ -260,7 +260,7 @@ void CActor::SendDelayAttribChage()
         pInfo->set_actype(k);
         pInfo->set_val(v);
     }
-    SendRoomMessage(CMD_SC_ATTRIB_CHANGE, msg);
+    SendRoomMessage(msg);
     m_DelayAttribChangeMap.clear();
     __LEAVE_FUNCTION
 }
@@ -451,7 +451,7 @@ int32_t CActor::BeAttack(CActor*  pAttacker,
     msg.set_damage(nRealDamage);
     msg.set_hittype(nHitType);
     msg.set_crtical((uint32_t)nPowerBase == nMaxPower);
-    SendMsg(CMD_SC_DAMAGE, msg);
+    SendMsg(msg);
 
     OnBeAttack(pAttacker, nRealDamage);
 
@@ -534,7 +534,7 @@ void CActor::BeKillBy(CActor* pAttacker)
     SC_DEAD msg;
     msg.set_actor_id(GetID());
     msg.set_attacker_id(pAttacker ? pAttacker->GetID() : 0);
-    SendRoomMessage(CMD_SC_DEAD, msg);
+    SendRoomMessage(msg);
 
     LOGDEBUG("BeKillBy:{} Attacker:{}", GetID(), pAttacker ? pAttacker->GetID() : 0);
     if(m_pScene)
@@ -546,16 +546,21 @@ void CActor::BeKillBy(CActor* pAttacker)
     __LEAVE_FUNCTION
 }
 
+bool CActor::SendMsg(const google::protobuf::Message& msg) const
+{
+    return SendMsg(to_sc_cmd(msg), msg);
+}
+
 void CActor::BroadcastShowTo(const VirtualSocketMap_t& VSMap)
 {
     SC_AOI_NEW msg;
     MakeShowData(msg);
-    ZoneService()->SendMsgTo(CMD_SC_AOI_NEW, msg, VSMap);
+    ZoneService()->SendMsgTo(VSMap, msg);
     if(m_pStatus->size() > 0)
     {
         SC_STATUS_LIST status_msg;
         m_pStatus->FillStatusMsg(status_msg);
-        ZoneService()->SendMsgTo(CMD_SC_STATUS_LIST, status_msg, VSMap);
+        ZoneService()->SendMsgTo(VSMap, msg);
     }
 }
 
@@ -563,5 +568,5 @@ void CActor::BroadcastMessageTo(uint32_t cmd, const google::protobuf::Message& m
 {
     //如果有需要发送new数据的,这里要优先发送一次
     SendShowToDealyList();
-    ZoneService()->SendMsgTo(cmd, msg, setSocketMap);
+    ZoneService()->SendMsgTo(setSocketMap, cmd, msg);
 }

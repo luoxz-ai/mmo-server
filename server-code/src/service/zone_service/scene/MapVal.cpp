@@ -38,7 +38,7 @@ void CMapValSet::SendAllMapValToClient(CActor* pPlayer)
             pMapVal->set_value(k);
         }
     }
-    pPlayer->SendMsg(CMD_SC_MAPVAL, send);
+    pPlayer->SendMsg(send);
     __LEAVE_FUNCTION
 }
 
@@ -62,7 +62,7 @@ void CMapValSet::SetMapVal(uint32_t nIdx, int64_t nVal, bool bSync /*= false*/)
         auto pMapVal = send.add_map_val_set();
         pMapVal->set_key(nIdx);
         pMapVal->set_value(nVal);
-        static_cast<CPhase*>(m_pScene)->SendSceneMessage(CMD_SC_MAPVAL, send);
+        static_cast<CPhase*>(m_pScene)->SendSceneMessage(send);
     }
     __LEAVE_FUNCTION
 }
@@ -85,7 +85,7 @@ int64_t CMapValSet::AddMapVal(uint32_t nIdx, int64_t nVal, bool bSync /*= false*
         auto pMapVal = send.add_map_val_set();
         pMapVal->set_key(nIdx);
         pMapVal->set_value(refData);
-        static_cast<CPhase*>(m_pScene)->SendSceneMessage(CMD_SC_MAPVAL, send);
+        static_cast<CPhase*>(m_pScene)->SendSceneMessage(send);
     }
 
     return refData;
@@ -110,7 +110,7 @@ void CMapValSet::SyncAllMapVal()
         pMapVal->set_key(k);
         pMapVal->set_value(k);
     }
-    static_cast<CPhase*>(m_pScene)->SendSceneMessage(CMD_SC_MAPVAL, send);
+    static_cast<CPhase*>(m_pScene)->SendSceneMessage(send);
     
     __LEAVE_FUNCTION
 }
@@ -131,7 +131,7 @@ void CMapValSet::SetMapUserVal(uint64_t idUser, uint32_t nIdx, int64_t nVal, boo
         CPlayer* pPlayer = ActorManager()->QueryPlayer(idUser);
         if(pPlayer)
         {
-            pPlayer->SendMsg(CMD_SC_MAPVAL, send);
+            pPlayer->SendMsg(send);
         }
     }
     __LEAVE_FUNCTION
@@ -158,7 +158,7 @@ int64_t CMapValSet::AddMapUserVal(uint64_t idUser, uint32_t nIdx, int64_t nVal, 
         CPlayer* pPlayer = ActorManager()->QueryPlayer(idUser);
         if(pPlayer)
         {
-            pPlayer->SendMsg(CMD_SC_MAPVAL, send);
+            pPlayer->SendMsg(send);
         }
     }
 

@@ -32,7 +32,7 @@ public:
     
 
     
-    void Release() override { Destory();delete this; }
+    void Release() override;
     CreateNewRealeaseImpl(CZoneService);
     
     uint16_t GetZoneID() const { return GetServiceID() - MIN_ZONE_SERVICE_ID + 1; }
@@ -50,23 +50,26 @@ public:
     std::deque<CNetworkMessage*>& GetMessagePoolRef(const VirtualSocket& vs);
     bool                          PopMsgFromMessagePool(const VirtualSocket& vs, CNetworkMessage*& pMsg);
     //发送消息给World
-    export_lua bool SendMsgToWorld(uint16_t idWorld, uint16_t nCmd, const google::protobuf::Message& msg);
+    export_lua bool SendMsgToWorld(uint16_t idWorld, uint16_t nCmd, const google::protobuf::Message& msg)const;
     //通过World转发消息
     export_lua bool TransmiteMsgFromWorldToOther(uint16_t                         idWorld,
                                                  uint16_t                         idService,
                                                  uint16_t                         nCmd,
-                                                 const google::protobuf::Message& msg);
+                                                 const google::protobuf::Message& msg)const;
     //转发消息给其他的zone
-    export_lua bool BroadcastToZone(uint16_t nCmd, const google::protobuf::Message& msg);
+    export_lua bool BroadcastToZone(uint16_t nCmd, const google::protobuf::Message& msg)const;
     //广播消息给所有的玩家
-    export_lua bool BroadcastToAllPlayer(uint16_t nCmd, const google::protobuf::Message& msg);
+    export_lua bool BroadcastToAllPlayer(const google::protobuf::Message& msg)const;
+    export_lua bool BroadcastToAllPlayer(uint16_t nCmd, const google::protobuf::Message& msg)const;
     //发送消息给玩家
-    export_lua bool SendMsgToPlayer(const VirtualSocket& vs, uint16_t nCmd, const google::protobuf::Message& msg);
+    export_lua bool SendMsgToPlayer(const VirtualSocket& vs, const google::protobuf::Message& msg)const;
+    export_lua bool SendMsgToPlayer(const VirtualSocket& vs, uint16_t nCmd, const google::protobuf::Message& msg)const;
     //发送消息给AIService
-    export_lua bool SendMsgToAIService(uint16_t nCmd, const google::protobuf::Message& msg);
+    export_lua bool SendPortMsgToAIService(const google::protobuf::Message& msg)const;
+    export_lua bool SendMsgToAIService(uint16_t nCmd, const google::protobuf::Message& msg)const;
 
     //发送广播包给玩家
-    void _ID2VS(OBJID id, VirtualSocketMap_t& VSMap) override;
+    void _ID2VS(OBJID id, VirtualSocketMap_t& VSMap)const override;
 
 public:
     std::unique_ptr<CMysqlConnection> ConnectGlobalDB();
@@ -80,12 +83,12 @@ public:
     export_lua CMapManager* GetMapManager() const { return m_pMapManager.get(); }
     export_lua CSystemVarSet* GetSystemVarSet() const { return m_pSystemVarSet.get(); }
 
-    export_lua CActorManager* GetActorManager() { return m_pActorManager.get(); }
-    export_lua CSceneManager* GetSceneManager() { return m_pSceneManager.get(); }
-    export_lua CLoadingThread* GetLoadingThread() { return m_pLoadingThread.get(); }
+    export_lua CActorManager* GetActorManager()const { return m_pActorManager.get(); }
+    export_lua CSceneManager* GetSceneManager()const { return m_pSceneManager.get(); }
+    export_lua CLoadingThread* GetLoadingThread()const { return m_pLoadingThread.get(); }
     
-    export_lua CGMManager* GetGMManager() { return m_pGMManager.get(); }
-    export_lua CTeamInfoManager* GetTeamInfoManager() { return m_pTeamInfoManager.get(); }
+    export_lua CGMManager* GetGMManager()const { return m_pGMManager.get(); }
+    export_lua CTeamInfoManager* GetTeamInfoManager()const { return m_pTeamInfoManager.get(); }
 
 private:
     void ProcessPortMessage();

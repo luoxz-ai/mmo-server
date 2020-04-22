@@ -41,7 +41,7 @@ bool CSkillFSM::CastSkill(uint32_t idSkill, OBJID idTarget, const Vector2& pos)
     msg.set_target_id(m_idTarget);
     msg.set_x(m_posTarget.x);
     msg.set_y(m_posTarget.y);
-    m_pOwner->SendRoomMessage(CMD_SC_CASTSKILL, msg);
+    m_pOwner->SendRoomMessage(msg);
 
     DoIntone(pSkillType);
     return true;
@@ -177,7 +177,7 @@ bool CSkillFSM::_BreakIntone()
     SC_SKILL_BREAK msg;
     msg.set_mapid(m_pOwner->GetMapID());
     msg.set_actor_id(m_pOwner->GetID());
-    m_pOwner->SendRoomMessage(CMD_SC_SKILL_BREAK, msg);
+    m_pOwner->SendRoomMessage(msg);
     return true;
 }
 
@@ -229,7 +229,7 @@ bool CSkillFSM::_BreakLaunch()
     SC_SKILL_BREAK msg;
     msg.set_mapid(m_pOwner->GetMapID());
     msg.set_actor_id(m_pOwner->GetID());
-    m_pOwner->SendRoomMessage(CMD_SC_SKILL_BREAK, msg);
+    m_pOwner->SendRoomMessage(msg);
     return true;
 }
 
@@ -400,7 +400,7 @@ void _SkillEffectInRange(CActor*        pOwner,
     send_msg.set_mapid(pOwner->GetMapID());
     send_msg.set_actor_id(pOwner->GetID());
     send_msg.set_skill_id(pSkillType->GetSkillID());
-    pOwner->SendRoomMessage(CMD_SC_SKILL_EFFACT, send_msg);
+    pOwner->SendRoomMessage(send_msg);
 
     std::vector<CActor*> vecTarget;
     CSkillFSM::FindTarget(pOwner, pSkillType, idTarget, posTarget, vecTarget);
@@ -472,7 +472,7 @@ void CSkillFSM::DoStun()
     msg.set_actor_id(m_pOwner->GetID());
     msg.set_skill_id(m_pCurSkillType->GetSkillID());
     msg.set_stun_ms(m_pCurSkillType->GetStunMS());
-    m_pOwner->SendMsg(CMD_SC_SKILL_STUN, msg);
+    m_pOwner->SendMsg(msg);
 
     m_curState = SKILLSTATE_STUN;
     if(m_pCurSkillType->GetStunMS() == 0)
@@ -541,13 +541,13 @@ void CSkillFSM::DoMultiDamage(CActor*                     pOwner,
 
                 if(msg.damagelist_size() > 64)
                 {
-                    pOwner->SendMsg(CMD_SC_SKILL_DAMAGE, msg);
+                    pOwner->SendMsg(msg);
                     msg.clear_damagelist();
                 }
             }
         }
         if(msg.damagelist_size() > 0)
-            pOwner->SendMsg(CMD_SC_SKILL_DAMAGE, msg);
+            pOwner->SendMsg(msg);
     }
 }
 

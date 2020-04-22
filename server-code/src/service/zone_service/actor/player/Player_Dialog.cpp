@@ -43,7 +43,7 @@ bool CPlayer::DialogSend(uint32_t nDialogType /*=0*/)
 {
     __ENTER_FUNCTION
     m_dialog_msg.set_dialog_type(nDialogType);
-    SendMsg(CMD_SC_DIALOG, m_dialog_msg);
+    SendMsg(m_dialog_msg);
     return true;
     __LEAVE_FUNCTION
     return false;

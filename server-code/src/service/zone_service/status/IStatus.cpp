@@ -318,7 +318,7 @@ void CStatus::OnAttach()
     msg.set_action(SC_STATUS_ACTION::STATUS_ATTACH);
     msg.set_statusid(GetStatusTypeID());
     msg.set_statuslev(GetLevel());
-    m_pOwner->SendRoomMessage(CMD_SC_STATUS_ACTION, msg);
+    m_pOwner->SendRoomMessage(msg);
     __LEAVE_FUNCTION
 }
 
@@ -345,7 +345,7 @@ void CStatus::OnDeatch()
     msg.set_action(SC_STATUS_ACTION::STATUS_DETACH);
     msg.set_statusid(GetStatusTypeID());
     msg.set_statuslev(GetLevel());
-    m_pOwner->SendRoomMessage(CMD_SC_STATUS_ACTION, msg);
+    m_pOwner->SendRoomMessage(msg);
     __LEAVE_FUNCTION
 }
 
@@ -497,7 +497,7 @@ void CStatus::SendStatus()
     pInfo->set_laststamp(GetLastTimeStamp());
     pInfo->set_idcaster(GetCasterID());
     pInfo->set_ispause(IsPaused());
-    m_pOwner->SendMsg(CMD_SC_STATUS_INFO, status_msg);
+    m_pOwner->SendMsg(status_msg);
 
     __LEAVE_FUNCTION
 }
@@ -515,7 +515,7 @@ void CStatus::OnEffect()
     msg.set_action(SC_STATUS_ACTION::STATUS_EFFECT);
     msg.set_statusid(GetStatusTypeID());
     msg.set_statuslev(GetLevel());
-    m_pOwner->SendRoomMessage(CMD_SC_STATUS_ACTION, msg);
+    m_pOwner->SendRoomMessage(msg);
 
     __LEAVE_FUNCTION
 }

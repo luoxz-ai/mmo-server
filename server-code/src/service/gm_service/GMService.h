@@ -22,7 +22,7 @@ class CGMService : public IService, public CServiceCommon
 public:
    
     
-    void Release() override { Destory();delete this; }
+    void Release() override;
    
     CreateNewRealeaseImpl(CGMService);
 

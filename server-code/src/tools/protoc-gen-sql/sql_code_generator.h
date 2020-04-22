@@ -10,7 +10,6 @@ typedef std::vector<const google::protobuf::Descriptor*> messagetypes;
 
 class SQLCodeGenerator : public google::protobuf::compiler::CodeGenerator {
 	public:
-		std::map<std::string, std::string> sqltypes;
 		SQLCodeGenerator(const std::string& name);
 		virtual ~SQLCodeGenerator();
 		virtual bool Generate(const google::protobuf::FileDescriptor* file, const std::string& parameter, google::protobuf::compiler::GeneratorContext* context, std::string* error) const;

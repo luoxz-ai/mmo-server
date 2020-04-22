@@ -28,18 +28,6 @@ constexpr float MIN_INTERACT_DIS = 5;
 //经验分享距离
 constexpr float MIN_EXP_SHARED_DIS = 30;
 
-constexpr uint64_t  PLAYER_ID_FACTOR_BYWORLD = 1000000000000000ull;
-constexpr uint64_t  PLAYER_ID_FACTOR_BYTYPE  = 400000000000000ull;
-inline uint32_t GetWorldIDFromPlayerID(uint64_t idPlayer)
-{
-    return idPlayer / PLAYER_ID_FACTOR_BYWORLD;
-}
-
-inline OBJID GetDefaultPlayerID(uint32_t idWorld)
-{
-    return idWorld * PLAYER_ID_FACTOR_BYWORLD + PLAYER_ID_FACTOR_BYTYPE;
-}
-
 //每个账号最多几个角色
 constexpr int32_t _MAX_ROLES_PER_ACCOUNT = 4;
 
@@ -75,6 +63,26 @@ enum ActorType
     ACT_PLAYER  = 9, //玩家
     ACT_MAX
 };
+
+
+// max uint64_t = 1844 6744 0737 0955 1614
+// 0999 09 00 0000 0000 0000
+// world type 0~00 0000 0000 0000
+// playerid range [0~00 0000 0000 0000]
+constexpr uint64_t  ID_FACTOR_BYWORLD        = 10000ull*10000ull*10000ull*10000ull;
+
+constexpr uint64_t  ID_GEN_FACTOR            =   100ull*10000ull*10000ull*10000ull;
+constexpr uint64_t  PLAYER_ID_FACTOR_BYTYPE  = ACT_PLAYER*ID_GEN_FACTOR;
+
+inline uint32_t GetWorldIDFromPlayerID(uint64_t idPlayer)
+{
+    return idPlayer / ID_FACTOR_BYWORLD;
+}
+
+inline OBJID GetDefaultPlayerID(uint32_t idWorld)
+{
+    return idWorld * ID_FACTOR_BYWORLD + PLAYER_ID_FACTOR_BYTYPE;
+}
 
 //职业
 enum PROFESSION

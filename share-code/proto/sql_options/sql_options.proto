@@ -9,6 +9,7 @@ message SqlOptions {
     string keys = 4;
     string default_val = 5;
     string unique = 6;
+    uint32 int_size= 7;
 }
 
 extend google.protobuf.FieldOptions {

@@ -43,6 +43,17 @@ CAIService::~CAIService()
 
 }
 
+void CAIService::Release()  
+{   
+    scope_guards scope_exit;
+    auto oldNdc = BaseCode::SetNdc(GetServiceName());
+    scope_exit += [oldNdc]() {
+        BaseCode::SetNdc(oldNdc);
+    };
+    Destory();
+    delete this; 
+}
+
 void CAIService::Destory()
 {
     tls_pService = this;
@@ -78,7 +89,6 @@ bool CAIService::Init(const ServerPort& nServerPort)
     auto oldNdc = BaseCode::SetNdc(GetServiceName());
     scope_exit += [oldNdc]() {
         BaseCode::SetNdc(oldNdc);
-        ;
     };
 
     extern void export_to_lua(lua_State*, void*);
@@ -127,6 +137,11 @@ void CAIService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
         }
         break;
     }
+}
+
+bool CAIService::SendMsgToZone(const google::protobuf::Message& msg)
+{
+    return SendMsgToZone(to_server_msgid(msg), msg);
 }
 
 bool CAIService::SendMsgToZone(uint16_t nCmd, const google::protobuf::Message& msg)

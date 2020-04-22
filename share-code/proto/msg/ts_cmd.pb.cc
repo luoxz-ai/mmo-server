@@ -33,7 +33,7 @@ static void InitDefaultsscc_info_SC_KEY_msg_2fts_5fcmd_2eproto() {
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_SC_KEY_msg_2fts_5fcmd_2eproto}, {}};
 
 static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_msg_2fts_5fcmd_2eproto[1];
-static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_msg_2fts_5fcmd_2eproto[1];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_msg_2fts_5fcmd_2eproto[3];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_msg_2fts_5fcmd_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_msg_2fts_5fcmd_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -58,7 +58,54 @@ const char descriptor_table_protodef_msg_2fts_5fcmd_2eproto[] PROTOBUF_SECTION_V
   "Y\020\001\022\014\n\010CMD_PING\020\002\022\014\n\010CMD_PONG\020\003\022\023\n\017CMD_W"
   "ORLD_BEGIN\020\n\022\022\n\rCMD_WORLD_END\020\347\007\022\023\n\016CMD_"
   "ZONE_BEGIN\020\350\007\022\021\n\014CMD_ZONE_END\020\237\037\022\016\n\tCMD_"
-  "CLOSE\020\217N\022\014\n\007CMD_MAX\020\220Nb\006proto3"
+  "CLOSE\020\217N\022\014\n\007CMD_MAX\020\220N*\356\006\n\006CS_CMD\022\017\n\013CS_"
+  "CMD_NONE\020\000\022\020\n\014CMD_CS_LOGIN\020\n\022\026\n\022CMD_CS_C"
+  "REATEACTOR\020\013\022\026\n\022CMD_CS_SELECTACTOR\020\014\022\030\n\023"
+  "CMD_CS_LOADMAP_SUCC\020\351\007\022\020\n\013CMD_CS_MOVE\020\352\007"
+  "\022\025\n\020CMD_CS_CHANGEMAP\020\353\007\022\025\n\020CMD_CS_CASTSK"
+  "ILL\020\354\007\022\027\n\022CMD_CS_SKILL_BREAK\020\355\007\022\036\n\031CMD_C"
+  "S_SKILL_CHGTARGETPOS\020\356\007\022\031\n\024CMD_CS_CHANGE"
+  "_PKMODE\020\357\007\022\022\n\rCMD_CS_REBORN\020\360\007\022\025\n\020CMD_CS"
+  "_ITEM_SWAP\020\374\007\022\026\n\021CMD_CS_ITEM_SPLIT\020\375\007\022\030\n"
+  "\023CMD_CS_ITEM_COMBINE\020\376\007\022\025\n\020CMD_CS_ITEM_T"
+  "IDY\020\377\007\022\024\n\017CMD_CS_ITEM_USE\020\200\010\022\035\n\030CMD_CS_I"
+  "TEM_STORAGE_OPEN\020\201\010\022 \n\033CMD_CS_ITEM_STORA"
+  "GE_CHECKIN\020\202\010\022!\n\034CMD_CS_ITEM_STORAGE_CHE"
+  "CKOUT\020\203\010\022\021\n\014CMD_CS_EQUIP\020\206\010\022\023\n\016CMD_CS_UN"
+  "EQUIP\020\207\010\022\020\n\013CMD_CS_TALK\020\220\010\022\027\n\022CMD_CS_TAS"
+  "K_SUBMIT\020\221\010\022\026\n\021CMD_CS_ACTIVE_NPC\020\222\010\022\030\n\023C"
+  "MD_CS_DIALOG_CLICK\020\223\010\022\025\n\020CMD_CS_ACHI_TAK"
+  "E\020\224\010\022\026\n\021CMD_CS_TEAMCREATE\020\232\010\022\024\n\017CMD_CS_T"
+  "EAMQUIT\020\233\010\022\032\n\025CMD_CS_TEAMKICKMEMBER\020\234\010\022\034"
+  "\n\027CMD_CS_TEAMINVITEMEMBER\020\235\010\022\034\n\027CMD_CS_T"
+  "EAMACCEPTINVITE\020\236\010\022\031\n\024CMD_CS_TEAMNEWLEAD"
+  "ER\020\237\010\022\033\n\026CMD_CS_TEAMAPPLYMEMBER\020\240\010\022\033\n\026CM"
+  "D_CS_TEAMACCEPTAPPLY\020\241\010*\350\007\n\006SC_CMD\022\017\n\013SC"
+  "_CMD_NONE\020\000\022\020\n\014CMD_SC_LOGIN\020\n\022\030\n\024CMD_SC_"
+  "ACTORINFOLIST\020\013\022\023\n\017CMD_SC_WAITINFO\020\014\022\026\n\022"
+  "CMD_SC_CREATEACTOR\020\r\022\026\n\022CMD_SC_SELECTACT"
+  "OR\020\016\022\023\n\016CMD_SC_LOADMAP\020\351\007\022\024\n\017CMD_SC_ENTE"
+  "RMAP\020\352\007\022\026\n\021CMD_SC_PLAYERINFO\020\353\007\022\027\n\022CMD_S"
+  "C_ACTORATTRIB\020\354\007\022\026\n\021CMD_SC_COMMONDATA\020\355\007"
+  "\022\025\n\020CMD_SC_DATACOUNT\020\356\007\022\022\n\rCMD_SC_SYSVAR"
+  "\020\357\007\022\024\n\017CMD_SC_COOLDOWN\020\360\007\022\022\n\rCMD_SC_MAPV"
+  "AL\020\361\007\022\023\n\016CMD_SC_AOI_NEW\020\374\007\022\026\n\021CMD_SC_AOI"
+  "_REMOVE\020\375\007\022\026\n\021CMD_SC_AOI_UPDATE\020\376\007\022\025\n\020CM"
+  "D_SC_CASTSKILL\020\207\010\022\027\n\022CMD_SC_SKILL_BREAK\020"
+  "\210\010\022\030\n\023CMD_SC_SKILL_DAMAGE\020\211\010\022\026\n\021CMD_SC_S"
+  "KILL_STUN\020\212\010\022\030\n\023CMD_SC_SKILL_EFFACT\020\213\010\022\022"
+  "\n\rCMD_SC_DAMAGE\020\214\010\022\020\n\013CMD_SC_DEAD\020\215\010\022\031\n\024"
+  "CMD_SC_ATTRIB_CHANGE\020\216\010\022\031\n\024CMD_SC_CHANGE"
+  "_PKMODE\020\220\010\022\027\n\022CMD_SC_STATUS_LIST\020\221\010\022\027\n\022C"
+  "MD_SC_STATUS_INFO\020\223\010\022\031\n\024CMD_SC_STATUS_AC"
+  "TION\020\224\010\022\027\n\022CMD_SC_ITEM_DELETE\020\232\010\022\025\n\020CMD_"
+  "SC_ITEM_INFO\020\233\010\022\027\n\022CMD_SC_ITEM_CHANGE\020\234\010"
+  "\022\020\n\013CMD_SC_TALK\020\235\010\022\025\n\020CMD_SC_TASK_INFO\020\244"
+  "\010\022\025\n\020CMD_SC_TASK_DATA\020\245\010\022\022\n\rCMD_SC_DIALO"
+  "G\020\246\010\022\025\n\020CMD_SC_ACHI_INFO\020\247\010\022\033\n\026CMD_SC_TE"
+  "AMMEMBER_INFO\020\256\010\022\035\n\030CMD_SC_TEAMMEMBER_AC"
+  "TION\020\257\010\022\034\n\027CMD_SC_TEAMINVITEMEMBER\020\260\010\022\033\n"
+  "\026CMD_SC_TEAMAPPLYMEMBER\020\261\010b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_msg_2fts_5fcmd_2eproto_deps[1] = {
 };
@@ -68,7 +115,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_msg
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_msg_2fts_5fcmd_2eproto_once;
 static bool descriptor_table_msg_2fts_5fcmd_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_msg_2fts_5fcmd_2eproto = {
-  &descriptor_table_msg_2fts_5fcmd_2eproto_initialized, descriptor_table_protodef_msg_2fts_5fcmd_2eproto, "msg/ts_cmd.proto", 230,
+  &descriptor_table_msg_2fts_5fcmd_2eproto_initialized, descriptor_table_protodef_msg_2fts_5fcmd_2eproto, "msg/ts_cmd.proto", 2114,
   &descriptor_table_msg_2fts_5fcmd_2eproto_once, descriptor_table_msg_2fts_5fcmd_2eproto_sccs, descriptor_table_msg_2fts_5fcmd_2eproto_deps, 1, 0,
   schemas, file_default_instances, TableStruct_msg_2fts_5fcmd_2eproto::offsets,
   file_level_metadata_msg_2fts_5fcmd_2eproto, 1, file_level_enum_descriptors_msg_2fts_5fcmd_2eproto, file_level_service_descriptors_msg_2fts_5fcmd_2eproto,
@@ -92,6 +139,107 @@ bool TS_CMD_IsValid(int value) {
     case 3999:
     case 9999:
     case 10000:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* CS_CMD_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_msg_2fts_5fcmd_2eproto);
+  return file_level_enum_descriptors_msg_2fts_5fcmd_2eproto[1];
+}
+bool CS_CMD_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 10:
+    case 11:
+    case 12:
+    case 1001:
+    case 1002:
+    case 1003:
+    case 1004:
+    case 1005:
+    case 1006:
+    case 1007:
+    case 1008:
+    case 1020:
+    case 1021:
+    case 1022:
+    case 1023:
+    case 1024:
+    case 1025:
+    case 1026:
+    case 1027:
+    case 1030:
+    case 1031:
+    case 1040:
+    case 1041:
+    case 1042:
+    case 1043:
+    case 1044:
+    case 1050:
+    case 1051:
+    case 1052:
+    case 1053:
+    case 1054:
+    case 1055:
+    case 1056:
+    case 1057:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* SC_CMD_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_msg_2fts_5fcmd_2eproto);
+  return file_level_enum_descriptors_msg_2fts_5fcmd_2eproto[2];
+}
+bool SC_CMD_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+    case 14:
+    case 1001:
+    case 1002:
+    case 1003:
+    case 1004:
+    case 1005:
+    case 1006:
+    case 1007:
+    case 1008:
+    case 1009:
+    case 1020:
+    case 1021:
+    case 1022:
+    case 1031:
+    case 1032:
+    case 1033:
+    case 1034:
+    case 1035:
+    case 1036:
+    case 1037:
+    case 1038:
+    case 1040:
+    case 1041:
+    case 1043:
+    case 1044:
+    case 1050:
+    case 1051:
+    case 1052:
+    case 1053:
+    case 1060:
+    case 1061:
+    case 1062:
+    case 1063:
+    case 1070:
+    case 1071:
+    case 1072:
+    case 1073:
       return true;
     default:
       return false;

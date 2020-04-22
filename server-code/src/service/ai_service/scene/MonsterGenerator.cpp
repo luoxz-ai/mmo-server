@@ -17,10 +17,10 @@ CMonsterGenerator::~CMonsterGenerator()
     m_setGen.clear();
 }
 
-void CMonsterGenerator::Init(CAIPhase* pScene)
+void CMonsterGenerator::Init(CAIPhase* pPhase)
 {
-    m_pMap               = pScene->GetMap();
-    m_idScene            = pScene->GetSceneID();
+    m_pMap               = pPhase->GetMap();
+    m_idScene            = pPhase->GetSceneID();
     const auto& gen_list = m_pMap->GetGeneratorData();
     for(const auto& pair_val: gen_list)
     {
@@ -85,10 +85,10 @@ void CMonsterGenerator::_GenMonster(MonsterGenData* pData, uint64_t idPhase)
         {
             msg.set_phase_id(idPhase);
         }
-        AIService()->SendMsgToZone(ServerMSG::MsgID_MonsterGen, msg);
+        AIService()->SendMsgToZone(msg);
         pData->nCurGen++;
     }
-    LOGDEBUG("MonsterGen:{} - {} GenOnce", m_pMap->GetMapID(), pData->nIdxGen);
+    LOGDEBUG("MonsterGen:{} {} - {} GenOnce", m_idScene.GetMapID(), m_idScene.GetPhaseIdx(), pData->nIdxGen);
 }
 
 void CMonsterGenerator::StartGen(MonsterGenData* pData, bool bCheckRunning)
@@ -166,7 +166,7 @@ void CMonsterGenerator::KillAllGen()
             AIActorManager()->DelActor(pMonster);
         }
         if(msg.monster_id_size() > 0)
-            AIService()->SendMsgToZone(ServerMSG::MsgID_MonsterDestory, msg);
+            AIService()->SendMsgToZone(msg);
 
         pData->nCurGen = 0;
         pData->m_pEvent.Clear();
@@ -191,7 +191,7 @@ void CMonsterGenerator::KillGen(uint32_t idGen)
         AIActorManager()->DelActor(pMonster);
     }
     if(msg.monster_id_size() > 0)
-        AIService()->SendMsgToZone(ServerMSG::MsgID_MonsterDestory, msg);
+        AIService()->SendMsgToZone(msg);
 
     pData->nCurGen = 0;
     pData->m_pEvent.Clear();

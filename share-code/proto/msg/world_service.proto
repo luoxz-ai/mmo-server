@@ -1,21 +1,5 @@
 syntax = "proto3";
-
-enum WORLD_CS_CMD
-{
-	WORLD_CS_CMD_NONE  = 0;
-	CMD_CS_LOGIN	   = 10; //登录
-	CMD_CS_CREATEACTOR = 11; //创建角色
-	CMD_CS_SELECTACTOR = 12; //选择角色进入游戏
-};
-enum WORLD_SC_CMD
-{
-	WORLD_SC_CMD_NONE	 = 0;
-	CMD_SC_LOGIN		 = 10; //登录结果
-	CMD_SC_ACTORINFOLIST = 11; //角色列表
-	CMD_SC_WAITINFO		 = 12; //进入等待队列
-	CMD_SC_CREATEACTOR	 = 13; //创建角色结果
-	CMD_SC_SELECTACTOR	 = 14; //选择角色进入游戏结果
-};
+import "msg/ts_cmd.proto";
 
 //登录消息
 message CS_LOGIN

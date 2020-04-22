@@ -23,7 +23,7 @@ class CAIService : public IService, public CServiceCommon
 public:
     
 
-    void Release() override { Destory();delete this; }
+    void Release() override;
     CreateNewRealeaseImpl(CAIService);
 
     VirtualSocket GetZoneServiceVirtualSocket() const
@@ -40,6 +40,7 @@ public:
     virtual void OnProcessMessage(CNetworkMessage*) override;
 
     //发送消息给AIService
+    bool SendMsgToZone(const google::protobuf::Message& msg);
     bool SendMsgToZone(uint16_t nCmd, const google::protobuf::Message& msg);
 
 public:

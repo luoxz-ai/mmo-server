@@ -38,7 +38,7 @@ void CActor::OnLeaveMap(uint64_t idTargetScene)
     {
         ServerMSG::ActorDestory ai_msg;
         ai_msg.set_actor_id(GetID());
-        ZoneService()->SendMsgToAIService(ServerMSG::MsgID_ActorDestory, ai_msg);
+        ZoneService()->SendPortMsgToAIService(ai_msg);
     }
 
     if(m_pScene)
@@ -64,12 +64,16 @@ uint64_t CActor::GetSceneID() const
     return 0;
 }
 
+void CActor::SendRoomMessage(const google::protobuf::Message& msg, bool bIncludeSelf /*= true*/)
+{
+    return SendRoomMessage(to_sc_cmd(msg), msg, bIncludeSelf);
+}
 
 void CActor::SendRoomMessage(uint16_t cmd, const google::protobuf::Message& msg, bool bIncludeSelf /*= true*/)
 {
     SendShowToDealyList();
     auto setSocketMap = ZoneService()->IDList2VSMap(m_ViewActorsByType[ACT_PLAYER], (bIncludeSelf) ?0:GetID());
-    ZoneService()->SendMsgTo(cmd, msg, setSocketMap);
+    ZoneService()->SendMsgTo(setSocketMap, cmd, msg);
     // send message to ai_service
     if( (IsMonster() || IsPlayer()) &&
         (cmd == CMD_SC_AOI_UPDATE || cmd == CMD_SC_CASTSKILL || cmd == CMD_SC_ATTRIB_CHANGE) )
@@ -81,5 +85,7 @@ void CActor::SendRoomMessage(uint16_t cmd, const google::protobuf::Message& msg,
 void CActor::SendWorldMessage(uint16_t cmd, const google::protobuf::Message& msg)
 {
     if(GetWorldID() != 0)
-        ZoneService()->SendPortMsg(ServerPort(GetWorldID(), WORLD_SERVICE_ID), cmd, msg);
+    {
+        ZoneService()->SendMsgToWorld(GetWorldID(), cmd, msg);
+    }   
 }

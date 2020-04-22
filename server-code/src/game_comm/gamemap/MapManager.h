@@ -10,12 +10,16 @@
 
 export_lua struct SceneID
 {
-    static constexpr uint64_t IDZONE_FACTOR = 1000000000000ull;
-    static constexpr uint64_t IDMAP_FACTOR  = 100000000000000ull;
+    static constexpr uint64_t IDZONE_FACTOR =   1ull *10000ull *10000ull *10000ull;
+    static constexpr uint64_t IDMAP_FACTOR  = 100ull *10000ull *10000ull *10000ull;
 
     export_lua SceneID(uint16_t _idZone, uint16_t _idMap, uint32_t _nPhaseIdx)
         : data64(_idMap * IDMAP_FACTOR + _idZone * IDZONE_FACTOR + _nPhaseIdx)
     {
+        if(_idZone == 0 || _idZone > 10)
+        {
+            throw std::runtime_error("zoneid overflow");
+        }
     }
     export_lua SceneID(uint64_t _data64 = 0)
         : data64(_data64)
@@ -38,7 +42,6 @@ export_lua struct SceneID
     export_lua uint32_t GetPhaseIdx() const { return data64 % IDZONE_FACTOR; }
     export_lua SceneID  GetStaticPhaseSceneID() const { return {GetZoneID(), GetMapID(), 0};}
 
-    export_lua uint32_t GetSceneID() const { return data64 % IDMAP_FACTOR;}
     export_lua uint16_t GetZoneID() const { return (data64 % IDMAP_FACTOR) / IDZONE_FACTOR; }
     export_lua uint16_t GetMapID() const { return data64 / IDMAP_FACTOR; }
 };

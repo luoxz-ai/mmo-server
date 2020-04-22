@@ -28,6 +28,6 @@ private:
     bool CheckSkillReq( const CSkillType* pSkillType);
 private:
     CPlayer*  m_pOwner = nullptr;
-    std::map<uint32_t, CSkillData*> m_setSkillData;
+    std::map<uint32_t, std::unique_ptr<CSkillData>> m_setSkillData;
 };
 #endif /* SKILLMANAGER_H */

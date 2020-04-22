@@ -30,7 +30,7 @@ void CItem::SendItemInfo(CActor* pActor)
     CHECK(pActor);
     SC_ITEM_INFO msg;
     FillItemInfo(&msg);
-    pActor->SendMsg(CMD_SC_ITEM_INFO, msg);
+    pActor->SendMsg(msg);
     __LEAVE_FUNCTION
 }
 
@@ -44,7 +44,7 @@ void CItem::SyncExpireData(CActor* pActor)
     auto pData = msg.add_change_list();
     pData->set_change_type(SC_ITEM_CHANGE::ChangeExpireData);
     pData->set_value(GetExpireTime());
-    pActor->SendMsg(CMD_SC_ITEM_CHANGE, msg);
+    pActor->SendMsg(msg);
     __LEAVE_FUNCTION
 }
 
@@ -58,7 +58,7 @@ void CItem::SyncDuraData(CActor* pActor)
     auto pData = msg.add_change_list();
     pData->set_change_type(SC_ITEM_CHANGE::ChangeDura);
     pData->set_value(GetDura());
-    pActor->SendMsg(CMD_SC_ITEM_CHANGE, msg);
+    pActor->SendMsg(msg);
     __LEAVE_FUNCTION
 }
 
@@ -72,7 +72,7 @@ void CItem::SyncPileNum(CActor* pActor)
     auto pData = msg.add_change_list();
     pData->set_change_type(SC_ITEM_CHANGE::ChangePileNum);
     pData->set_value(GetPileNum());
-    pActor->SendMsg(CMD_SC_ITEM_CHANGE, msg);
+    pActor->SendMsg(msg);
     __LEAVE_FUNCTION
 }
 
@@ -86,7 +86,7 @@ void CItem::SyncGridData(CActor* pActor)
     auto pData = msg.add_change_list();
     pData->set_change_type(SC_ITEM_CHANGE::ChangeGrid);
     pData->set_value(GetGrid());
-    pActor->SendMsg(CMD_SC_ITEM_CHANGE, msg);
+    pActor->SendMsg(msg);
     __LEAVE_FUNCTION
 }
 
@@ -98,7 +98,7 @@ void CItem::SendDeleteMsg(CActor* pActor)
     msg.set_item_id(GetID());
     msg.set_position(GetPosition());
     msg.set_grid(GetGrid());
-    pActor->SendMsg(CMD_SC_ITEM_DELETE, msg);
+    pActor->SendMsg(msg);
     __LEAVE_FUNCTION
 }
 

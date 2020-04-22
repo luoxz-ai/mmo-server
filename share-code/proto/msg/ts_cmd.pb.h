@@ -95,6 +95,129 @@ inline bool TS_CMD_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<TS_CMD>(
     TS_CMD_descriptor(), name, value);
 }
+enum CS_CMD : int {
+  CS_CMD_NONE = 0,
+  CMD_CS_LOGIN = 10,
+  CMD_CS_CREATEACTOR = 11,
+  CMD_CS_SELECTACTOR = 12,
+  CMD_CS_LOADMAP_SUCC = 1001,
+  CMD_CS_MOVE = 1002,
+  CMD_CS_CHANGEMAP = 1003,
+  CMD_CS_CASTSKILL = 1004,
+  CMD_CS_SKILL_BREAK = 1005,
+  CMD_CS_SKILL_CHGTARGETPOS = 1006,
+  CMD_CS_CHANGE_PKMODE = 1007,
+  CMD_CS_REBORN = 1008,
+  CMD_CS_ITEM_SWAP = 1020,
+  CMD_CS_ITEM_SPLIT = 1021,
+  CMD_CS_ITEM_COMBINE = 1022,
+  CMD_CS_ITEM_TIDY = 1023,
+  CMD_CS_ITEM_USE = 1024,
+  CMD_CS_ITEM_STORAGE_OPEN = 1025,
+  CMD_CS_ITEM_STORAGE_CHECKIN = 1026,
+  CMD_CS_ITEM_STORAGE_CHECKOUT = 1027,
+  CMD_CS_EQUIP = 1030,
+  CMD_CS_UNEQUIP = 1031,
+  CMD_CS_TALK = 1040,
+  CMD_CS_TASK_SUBMIT = 1041,
+  CMD_CS_ACTIVE_NPC = 1042,
+  CMD_CS_DIALOG_CLICK = 1043,
+  CMD_CS_ACHI_TAKE = 1044,
+  CMD_CS_TEAMCREATE = 1050,
+  CMD_CS_TEAMQUIT = 1051,
+  CMD_CS_TEAMKICKMEMBER = 1052,
+  CMD_CS_TEAMINVITEMEMBER = 1053,
+  CMD_CS_TEAMACCEPTINVITE = 1054,
+  CMD_CS_TEAMNEWLEADER = 1055,
+  CMD_CS_TEAMAPPLYMEMBER = 1056,
+  CMD_CS_TEAMACCEPTAPPLY = 1057,
+  CS_CMD_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  CS_CMD_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool CS_CMD_IsValid(int value);
+constexpr CS_CMD CS_CMD_MIN = CS_CMD_NONE;
+constexpr CS_CMD CS_CMD_MAX = CMD_CS_TEAMACCEPTAPPLY;
+constexpr int CS_CMD_ARRAYSIZE = CS_CMD_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* CS_CMD_descriptor();
+template<typename T>
+inline const std::string& CS_CMD_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, CS_CMD>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function CS_CMD_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    CS_CMD_descriptor(), enum_t_value);
+}
+inline bool CS_CMD_Parse(
+    const std::string& name, CS_CMD* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<CS_CMD>(
+    CS_CMD_descriptor(), name, value);
+}
+enum SC_CMD : int {
+  SC_CMD_NONE = 0,
+  CMD_SC_LOGIN = 10,
+  CMD_SC_ACTORINFOLIST = 11,
+  CMD_SC_WAITINFO = 12,
+  CMD_SC_CREATEACTOR = 13,
+  CMD_SC_SELECTACTOR = 14,
+  CMD_SC_LOADMAP = 1001,
+  CMD_SC_ENTERMAP = 1002,
+  CMD_SC_PLAYERINFO = 1003,
+  CMD_SC_ACTORATTRIB = 1004,
+  CMD_SC_COMMONDATA = 1005,
+  CMD_SC_DATACOUNT = 1006,
+  CMD_SC_SYSVAR = 1007,
+  CMD_SC_COOLDOWN = 1008,
+  CMD_SC_MAPVAL = 1009,
+  CMD_SC_AOI_NEW = 1020,
+  CMD_SC_AOI_REMOVE = 1021,
+  CMD_SC_AOI_UPDATE = 1022,
+  CMD_SC_CASTSKILL = 1031,
+  CMD_SC_SKILL_BREAK = 1032,
+  CMD_SC_SKILL_DAMAGE = 1033,
+  CMD_SC_SKILL_STUN = 1034,
+  CMD_SC_SKILL_EFFACT = 1035,
+  CMD_SC_DAMAGE = 1036,
+  CMD_SC_DEAD = 1037,
+  CMD_SC_ATTRIB_CHANGE = 1038,
+  CMD_SC_CHANGE_PKMODE = 1040,
+  CMD_SC_STATUS_LIST = 1041,
+  CMD_SC_STATUS_INFO = 1043,
+  CMD_SC_STATUS_ACTION = 1044,
+  CMD_SC_ITEM_DELETE = 1050,
+  CMD_SC_ITEM_INFO = 1051,
+  CMD_SC_ITEM_CHANGE = 1052,
+  CMD_SC_TALK = 1053,
+  CMD_SC_TASK_INFO = 1060,
+  CMD_SC_TASK_DATA = 1061,
+  CMD_SC_DIALOG = 1062,
+  CMD_SC_ACHI_INFO = 1063,
+  CMD_SC_TEAMMEMBER_INFO = 1070,
+  CMD_SC_TEAMMEMBER_ACTION = 1071,
+  CMD_SC_TEAMINVITEMEMBER = 1072,
+  CMD_SC_TEAMAPPLYMEMBER = 1073,
+  SC_CMD_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  SC_CMD_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool SC_CMD_IsValid(int value);
+constexpr SC_CMD SC_CMD_MIN = SC_CMD_NONE;
+constexpr SC_CMD SC_CMD_MAX = CMD_SC_TEAMAPPLYMEMBER;
+constexpr int SC_CMD_ARRAYSIZE = SC_CMD_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* SC_CMD_descriptor();
+template<typename T>
+inline const std::string& SC_CMD_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, SC_CMD>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function SC_CMD_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    SC_CMD_descriptor(), enum_t_value);
+}
+inline bool SC_CMD_Parse(
+    const std::string& name, SC_CMD* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<SC_CMD>(
+    SC_CMD_descriptor(), name, value);
+}
 // ===================================================================
 
 class SC_KEY :
@@ -267,6 +390,16 @@ template <> struct is_proto_enum< ::TS_CMD> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::TS_CMD>() {
   return ::TS_CMD_descriptor();
+}
+template <> struct is_proto_enum< ::CS_CMD> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::CS_CMD>() {
+  return ::CS_CMD_descriptor();
+}
+template <> struct is_proto_enum< ::SC_CMD> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::SC_CMD>() {
+  return ::SC_CMD_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

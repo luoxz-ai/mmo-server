@@ -102,7 +102,7 @@ void CPlayer::OnChangeZoneSaveFinish(const SceneID& idScene, float fPosX, float 
     msg.set_range(fRange);
     msg.set_face(fFace);
 
-    ZoneService()->SendMsgToWorld(GetWorldID(), ServerMSG::MsgID_PlayerChangeZone, msg);
+    ZoneService()->SendMsgToWorld(GetWorldID(), to_server_msgid(msg), msg);
 
     SendGameData(idScene);
     ZoneService()->DelSocketMessagePool(GetSocket());
@@ -128,7 +128,7 @@ void CPlayer::SendGameData(const SceneID& idScene)
     ServerMSG::PlayerChangeZone_Data msg;
 
     //通过World发送
-    ZoneService()->SendMsgToWorld(GetWorldID(), ServerMSG::MsgID_PlayerChangeZone_Data, msg);
+    ZoneService()->SendMsgToWorld(GetWorldID(), to_server_msgid(msg), msg);
     __LEAVE_FUNCTION
 }
 void CPlayer::OnRecvGameData(CNetworkMessage* pMsg)
@@ -179,7 +179,7 @@ void CPlayer::OnEnterMap(CSceneBase* pScene)
     ai_msg.set_posx(GetPosX());
     ai_msg.set_posy(GetPosY());
 
-    ZoneService()->SendMsgToAIService(ServerMSG::MsgID_ActorCreate, ai_msg);
+    ZoneService()->SendPortMsgToAIService(ai_msg);
 
     {
         ServerMSG::SyncTaskPhase send;
@@ -188,7 +188,7 @@ void CPlayer::OnEnterMap(CSceneBase* pScene)
         {
             send.add_task_phase_id(k);
         }
-        ZoneService()->SendMsgToAIService(ServerMSG::MsgID_SyncTaskPhase, ai_msg);
+        ZoneService()->SendPortMsgToAIService(ai_msg);
     }
 
     LOGLOGIN("CPlayer::OnEnterMapEnd: {} mapid: {}", GetID(), GetSceneID());
@@ -197,7 +197,7 @@ void CPlayer::OnEnterMap(CSceneBase* pScene)
     msg.set_x(GetPosX());
     msg.set_y(GetPosY());
     msg.set_face(GetFace());
-    SendMsg(CMD_SC_ENTERMAP, msg);
+    SendMsg(msg);
 
     __LEAVE_FUNCTION
 }
@@ -234,7 +234,7 @@ void CPlayer::_FlyMap(const SceneID& idScene, float fPosX, float fPosY, float fR
     CHECK(GetCurrentScene());
 
     //只要地图一样就不需要reloading
-    if(m_pScene->GetSceneID().GetSceneID() == idScene.GetSceneID())
+    if(m_pScene->GetSceneID().GetMapID() == idScene.GetMapID())
     {
         LOGLOGIN("Player FlySamePhase:{} {} pos:{:.2f} {:.2f} {:.2f}s",
                  GetID(),
@@ -299,7 +299,7 @@ void CPlayer::_FlyMap(const SceneID& idScene, float fPosX, float fPosY, float fR
         msg.set_posy(m_fLoadingPosY);
         msg.set_face(m_fLoadingFace);
 
-        SendMsg(CMD_SC_LOADMAP, msg);
+        SendMsg(msg);
     }
 
     __LEAVE_FUNCTION

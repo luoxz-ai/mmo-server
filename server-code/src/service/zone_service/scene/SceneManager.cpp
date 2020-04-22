@@ -49,10 +49,10 @@ CPhase* CSceneManager::CreatePhase(uint16_t idMap, uint64_t idMainPhase)
     }
     else
     {
-        SceneID idScene(ZoneService()->GetServiceID(), idMap, 0);
+        SceneID idScene(ZoneService()->GetZoneID(), idMap, 0);
         CScene* pScene = CScene::CreateNew(idScene, idMainPhase);
 
-        m_mapScene[idScene.GetSceneID()] = pScene;
+        m_mapScene[idMap] = pScene;
 
         LOGMESSAGE("DynaScene {} Created", idMap);
     
@@ -67,10 +67,11 @@ CScene* CSceneManager::_CreateStaticScene(uint16_t idMap)
     const CGameMap* pMap = MapManager()->QueryMap(idMap);
     CHECKF(pMap && pMap->IsDynaMap() == false);
 
-    SceneID idScene(ZoneService()->GetServiceID(), idMap, 0);
+    SceneID idScene(ZoneService()->GetZoneID(), idMap, 0);
+    CHECKF(_QueryScene(idScene) == nullptr);
     CScene* pScene = CScene::CreateNew(idScene, 0);
 
-    m_mapScene[idScene.GetSceneID()] = pScene;
+    m_mapScene[idMap] = pScene;
 
     LOGMESSAGE("StaticScene {} Created", idMap);
     m_nStaticScene++;
@@ -79,7 +80,7 @@ CScene* CSceneManager::_CreateStaticScene(uint16_t idMap)
 
 CScene* CSceneManager::_QueryScene(const SceneID& idScene)
 {
-    auto itFind = m_mapScene.find(idScene.GetSceneID());
+    auto itFind = m_mapScene.find(idScene.GetMapID());
     if(itFind != m_mapScene.end())
         return itFind->second;
     return nullptr;

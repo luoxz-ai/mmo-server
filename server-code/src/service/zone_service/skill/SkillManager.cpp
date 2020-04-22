@@ -7,10 +7,6 @@ CPlayerSkillManager::CPlayerSkillManager() {}
 CPlayerSkillManager::~CPlayerSkillManager()
 {
     __ENTER_FUNCTION
-    for(auto& [k, v]: m_setSkillData)
-    {
-        SAFE_DELETE(v);
-    }
     m_setSkillData.clear();
     __LEAVE_FUNCTION
 }
@@ -33,7 +29,7 @@ bool CPlayerSkillManager::Init(CPlayer* pOwner)
             CSkillData* pData = CSkillData::CreateNew(m_pOwner, std::move(row));
             if(pData)
             {
-                m_setSkillData[pData->GetSkillSort()] = pData;
+                m_setSkillData[pData->GetSkillSort()].reset(pData);
                 const CSkillType* pSkillType =
                     SkillTypeSet()->QueryObj(CSkillType::MakeID(pData->GetSkillSort(), pData->GetSkillLev()));
                 if(pSkillType && pSkillType->GetSkillType() == SKILLTYPE_PASSIVE)
@@ -74,7 +70,7 @@ bool CPlayerSkillManager::LearnSkill(uint32_t idSkillSort)
     CSkillData* pData = CSkillData::CreateNew(m_pOwner, idSkillSort, 1);
     if(pData)
     {
-        m_setSkillData[pData->GetSkillSort()] = pData;
+        m_setSkillData[pData->GetSkillSort()].reset( pData);
         if(pSkillType && pSkillType->GetSkillType() == SKILLTYPE_PASSIVE)
         {
             const auto& refList = pSkillType->GetAttrib();
@@ -172,7 +168,7 @@ CSkillData* CPlayerSkillManager::_QuerySkill(uint32_t idSkillSort) const
     auto it = m_setSkillData.find(idSkillSort);
     if(it == m_setSkillData.end())
         return nullptr;
-    return it->second;
+    return it->second.get();
     __LEAVE_FUNCTION
     return nullptr;
 }

@@ -49,6 +49,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_sql_5foptions_2fsql_5foptions_
   PROTOBUF_FIELD_OFFSET(::SqlOptions, keys_),
   PROTOBUF_FIELD_OFFSET(::SqlOptions, default_val_),
   PROTOBUF_FIELD_OFFSET(::SqlOptions, unique_),
+  PROTOBUF_FIELD_OFFSET(::SqlOptions, int_size_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::SqlOptions)},
@@ -60,12 +61,12 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_sql_5foptions_2fsql_5foptions_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\035sql_options/sql_options.proto\032 google/"
-  "protobuf/descriptor.proto\"z\n\nSqlOptions\022"
-  "\014\n\004size\030\001 \001(\r\022\026\n\016auto_increment\030\002 \001(\010\022\023\n"
-  "\013primary_key\030\003 \001(\t\022\014\n\004keys\030\004 \001(\t\022\023\n\013defa"
-  "ult_val\030\005 \001(\t\022\016\n\006unique\030\006 \001(\t:8\n\003sql\022\035.g"
-  "oogle.protobuf.FieldOptions\030\362\007 \001(\0132\013.Sql"
-  "Optionsb\006proto3"
+  "protobuf/descriptor.proto\"\214\001\n\nSqlOptions"
+  "\022\014\n\004size\030\001 \001(\r\022\026\n\016auto_increment\030\002 \001(\010\022\023"
+  "\n\013primary_key\030\003 \001(\t\022\014\n\004keys\030\004 \001(\t\022\023\n\013def"
+  "ault_val\030\005 \001(\t\022\016\n\006unique\030\006 \001(\t\022\020\n\010int_si"
+  "ze\030\007 \001(\r:8\n\003sql\022\035.google.protobuf.FieldO"
+  "ptions\030\362\007 \001(\0132\013.SqlOptionsb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_sql_5foptions_2fsql_5foptions_2eproto_deps[1] = {
   &::descriptor_table_google_2fprotobuf_2fdescriptor_2eproto,
@@ -76,7 +77,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_sql
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_sql_5foptions_2fsql_5foptions_2eproto_once;
 static bool descriptor_table_sql_5foptions_2fsql_5foptions_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_sql_5foptions_2fsql_5foptions_2eproto = {
-  &descriptor_table_sql_5foptions_2fsql_5foptions_2eproto_initialized, descriptor_table_protodef_sql_5foptions_2fsql_5foptions_2eproto, "sql_options/sql_options.proto", 255,
+  &descriptor_table_sql_5foptions_2fsql_5foptions_2eproto_initialized, descriptor_table_protodef_sql_5foptions_2fsql_5foptions_2eproto, "sql_options/sql_options.proto", 274,
   &descriptor_table_sql_5foptions_2fsql_5foptions_2eproto_once, descriptor_table_sql_5foptions_2fsql_5foptions_2eproto_sccs, descriptor_table_sql_5foptions_2fsql_5foptions_2eproto_deps, 1, 1,
   schemas, file_default_instances, TableStruct_sql_5foptions_2fsql_5foptions_2eproto::offsets,
   file_level_metadata_sql_5foptions_2fsql_5foptions_2eproto, 1, file_level_enum_descriptors_sql_5foptions_2fsql_5foptions_2eproto, file_level_service_descriptors_sql_5foptions_2fsql_5foptions_2eproto,
@@ -119,8 +120,8 @@ SqlOptions::SqlOptions(const SqlOptions& from)
     unique_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.unique_);
   }
   ::memcpy(&size_, &from.size_,
-    static_cast<size_t>(reinterpret_cast<char*>(&auto_increment_) -
-    reinterpret_cast<char*>(&size_)) + sizeof(auto_increment_));
+    static_cast<size_t>(reinterpret_cast<char*>(&int_size_) -
+    reinterpret_cast<char*>(&size_)) + sizeof(int_size_));
   // @@protoc_insertion_point(copy_constructor:SqlOptions)
 }
 
@@ -131,8 +132,8 @@ void SqlOptions::SharedCtor() {
   default_val_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   unique_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   ::memset(&size_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&auto_increment_) -
-      reinterpret_cast<char*>(&size_)) + sizeof(auto_increment_));
+      reinterpret_cast<char*>(&int_size_) -
+      reinterpret_cast<char*>(&size_)) + sizeof(int_size_));
 }
 
 SqlOptions::~SqlOptions() {
@@ -167,8 +168,8 @@ void SqlOptions::Clear() {
   default_val_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   unique_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   ::memset(&size_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&auto_increment_) -
-      reinterpret_cast<char*>(&size_)) + sizeof(auto_increment_));
+      reinterpret_cast<char*>(&int_size_) -
+      reinterpret_cast<char*>(&size_)) + sizeof(int_size_));
   _internal_metadata_.Clear();
 }
 
@@ -226,6 +227,13 @@ const char* SqlOptions::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
           auto str = _internal_mutable_unique();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "SqlOptions.unique"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 int_size = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 56)) {
+          int_size_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -307,6 +315,12 @@ failure:
         6, this->_internal_unique(), target);
   }
 
+  // uint32 int_size = 7;
+  if (this->int_size() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(7, this->_internal_int_size(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields(), target, stream);
@@ -363,6 +377,13 @@ size_t SqlOptions::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
+  // uint32 int_size = 7;
+  if (this->int_size() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_int_size());
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
         _internal_metadata_, total_size, &_cached_size_);
@@ -416,6 +437,9 @@ void SqlOptions::MergeFrom(const SqlOptions& from) {
   if (from.auto_increment() != 0) {
     _internal_set_auto_increment(from._internal_auto_increment());
   }
+  if (from.int_size() != 0) {
+    _internal_set_int_size(from._internal_int_size());
+  }
 }
 
 void SqlOptions::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -449,6 +473,7 @@ void SqlOptions::InternalSwap(SqlOptions* other) {
     GetArenaNoVirtual());
   swap(size_, other->size_);
   swap(auto_increment_, other->auto_increment_);
+  swap(int_size_, other->int_size_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata SqlOptions::GetMetadata() const {

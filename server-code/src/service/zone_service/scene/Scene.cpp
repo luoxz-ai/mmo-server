@@ -29,10 +29,11 @@ bool CScene::Init(const SceneID& idScene, uint64_t idMainPhase)
     auto pMap = MapManager()->QueryMap(idScene.GetMapID());
     CHECKF(pMap);
     m_idSceneID = idScene;
+    m_DynaIDPool.start(0, 0xFFFFFFFF);
     //通知AI服务器,创建场景
     ServerMSG::SceneCreate msg;
     msg.set_scene_id(idScene);
-    ZoneService()->SendMsgToAIService(ServerMSG::MsgID_SceneCreate, msg);
+    ZoneService()->SendPortMsgToAIService(msg);
 
     
     //创建静态位面
@@ -46,6 +47,8 @@ bool CScene::Init(const SceneID& idScene, uint64_t idMainPhase)
 
     //创建主位面,可能已经创建过了
     CreatePhase(idMainPhase);
+
+    LOGINFO("Scene {} Created", idScene.GetMapID());
 
     return true;
     __LEAVE_FUNCTION
@@ -62,7 +65,7 @@ CPhase* CScene::CreatePhase(uint64_t idPhase)
 
 CPhase* CScene::CreatePhase(uint64_t idPhase, const PhaseData* pPhaseData)
 {
-    CPhase* pPhase = QueryPhase(idPhase);
+    CPhase* pPhase = _QueryPhase(idPhase);
     if(pPhase != nullptr)
     {
         return pPhase;
@@ -100,6 +103,18 @@ CPhase* CScene::QueryPhase(uint64_t idPhase) const
     return nullptr;
 }
 
+CPhase* CScene::_QueryPhase(uint64_t idPhase) const
+{
+    auto it = m_setPhase.find(idPhase);
+    if(it != m_setPhase.end())
+    {
+        auto pPhase = it->second.get();
+        CHECKF(pPhase);
+        return pPhase;
+    }
+    return nullptr;
+}
+
 CPhase* CScene::QueryPhaseByIdx(uint32_t idxPhase) const
 {
     auto it = m_setPhaseByIdx.find(idxPhase);
@@ -118,7 +133,7 @@ CPhase* CScene::QueryPhaseByIdx(uint32_t idxPhase) const
 
 bool CScene::DestoryPhase(uint64_t idPhase)
 {
-    CPhase* pPhase =QueryPhase(idPhase);
+    CPhase* pPhase = _QueryPhase(idPhase);
     CHECKF(pPhase);
     CHECKF(pPhase->IsStatic() == false);
 
@@ -128,12 +143,12 @@ bool CScene::DestoryPhase(uint64_t idPhase)
     CHECKF(pPhase->CanDestory() == true);
     m_setPhaseByIdx.erase(idxPhase);
     m_setPhase.erase(idPhase);
-    
+    m_DynaIDPool.put(idxPhase);
     // send msg to AI
     ServerMSG::PhaseDestory msg;
     msg.set_scene_id(idSceneID);
     msg.set_phase_id(idPhase);
-    ZoneService()->SendMsgToAIService(ServerMSG::MsgID_PhaseDestory, msg);
+    ZoneService()->SendPortMsgToAIService(msg);
 
     return true;
 }

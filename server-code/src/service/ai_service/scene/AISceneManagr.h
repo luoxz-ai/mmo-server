@@ -30,7 +30,7 @@ public:
 
 protected:
 private:
-    std::unordered_map<SceneID, CAIScene*> m_mapScene;
+    std::unordered_map<uint16_t, CAIScene*> m_mapScene;
     size_t                                 m_nStaticScene;
 };
 #endif /* AISCENEMANAGR_H */

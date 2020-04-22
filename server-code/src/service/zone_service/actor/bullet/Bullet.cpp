@@ -91,7 +91,7 @@ void CBullet::OnEnterMap(CSceneBase* pScene)
     // ai_msg.set_posy(GetPosY());
     // ai_msg.set_ownerid(GetOwnerID());
 
-    // ZoneService()->SendMsgToAIService(ServerMSG::MsgID_ActorCreate, ai_msg);
+    // ZoneService()->SendMsgToAIService(ai_msg);
 }
 
 void CBullet::OnLeaveMap(uint64_t idTargetScene)

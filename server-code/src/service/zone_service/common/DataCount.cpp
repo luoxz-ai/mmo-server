@@ -100,7 +100,7 @@ void CDataCount::Sync()
     pData->set_data(GetDataNum());
     pData->set_last_reset_time(GetLastResetTime());
 
-    m_pOwner->SendMsg(CMD_SC_DATACOUNT, msg);
+    m_pOwner->SendMsg(msg);
     __LEAVE_FUNCTION
 }
 
@@ -172,7 +172,7 @@ void CDataCountSet::SyncAll()
         pData->set_data(pDataAcc->GetDataNum());
         pData->set_last_reset_time(pDataAcc->GetLastResetTime());
     }
-    m_pOwner->SendMsg(CMD_SC_DATACOUNT, msg);
+    m_pOwner->SendMsg(msg);
 }
 
 void CDataCountSet::Save()

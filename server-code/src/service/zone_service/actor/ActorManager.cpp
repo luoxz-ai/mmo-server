@@ -3,7 +3,7 @@
 #include "Actor.h"
 #include "Player.h"
 
-constexpr OBJID ID_GEN_FACTOR = 100000000000000ull;
+
 CActorManager::CActorManager()
 {
 }
@@ -19,10 +19,10 @@ bool CActorManager::Init()
     m_ActorMap.reserve(GUESS_MAX_ACTOR_COUNT);
     m_PlayerRefMap.reserve(GUESS_MAX_PLAYER_COUNT);
 
-    m_idPool[ACT_NPC].start(ACT_NPC * ID_GEN_FACTOR);
-    m_idPool[ACT_MONSTER].start(ACT_MONSTER * ID_GEN_FACTOR);
-    m_idPool[ACT_MAPITEM].start(ACT_MAPITEM * ID_GEN_FACTOR);
-    m_idPool[ACT_BULLET].start(ACT_BULLET * ID_GEN_FACTOR);
+    m_idPool[ACT_NPC].start(ACT_NPC * ID_GEN_FACTOR, ID_GEN_FACTOR);
+    m_idPool[ACT_MONSTER].start(ACT_MONSTER * ID_GEN_FACTOR, ID_GEN_FACTOR);
+    m_idPool[ACT_MAPITEM].start(ACT_MAPITEM * ID_GEN_FACTOR, ID_GEN_FACTOR);
+    m_idPool[ACT_BULLET].start(ACT_BULLET * ID_GEN_FACTOR, ID_GEN_FACTOR);
     return true;
 }
 

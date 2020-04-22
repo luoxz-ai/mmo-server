@@ -219,7 +219,7 @@ void CPlayerAchievement::SyncAll()
         pData->set_achi_id(idAchiType);
         pData->set_take(row->Field(TBLD_ACHIEVEMENT::TAKE));
     }
-    m_pOwner->SendMsg(CMD_SC_ACHI_INFO, msg);
+    m_pOwner->SendMsg(msg);
 }
 
 void CPlayerAchievement::SendAchiToClient(uint32_t idAchiType, bool bTake)
@@ -228,7 +228,7 @@ void CPlayerAchievement::SendAchiToClient(uint32_t idAchiType, bool bTake)
     auto         pData = msg.add_finish_list();
     pData->set_achi_id(idAchiType);
     pData->set_take(bTake);
-    m_pOwner->SendMsg(CMD_SC_ACHI_INFO, msg);
+    m_pOwner->SendMsg(msg);
 }
 
 bool CPlayerAchievement::IsFinish(uint32_t idAchiType)

@@ -116,6 +116,7 @@ bool CMapManager::Init(uint16_t idZone)
     }
 
     //巡逻路径
+    if(false)
     {
         Cfg_Scene_Patrol cfg;
         if (pb_util::LoadFromBinaryFile(GetCfgFilePath() + "Cfg_Scene_Patrol.bytes", cfg) == false)

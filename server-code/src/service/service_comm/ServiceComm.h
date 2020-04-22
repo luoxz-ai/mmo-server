@@ -59,24 +59,29 @@ public:
     bool ListenMessagePort(const std::string& service_name, class CMessagePortEventHandler* pEventHandler = nullptr);
 
 public:
-    bool SendMsg(const CNetworkMessage& msg);
-    bool SendToVirtualSocket(const VirtualSocket& vsTo, uint16_t usCmd, const google::protobuf::Message& msg);
-    bool SendBroadcastMsg(const CNetworkMessage& msg);
+    bool SendMsg(const CNetworkMessage& msg)const;
+    bool SendToVirtualSocket(const VirtualSocket& vsTo, const google::protobuf::Message& msg)const;
+    bool SendToVirtualSocket(const VirtualSocket& vsTo, uint16_t usCmd, const google::protobuf::Message& msg)const;
+    bool SendBroadcastMsg(const CNetworkMessage& msg)const;
     //发送消息给MessagePort
-    bool SendPortMsg(const ServerPort& nServerPort, byte* buf, size_t len);
-    bool SendPortMsg(const ServerPort& nServerPort, uint16_t usCmd, const google::protobuf::Message& msg);
-    bool SendPortBroadcastMsg(const ServerPort& nServerPort, byte* buf, size_t len);
-    bool SendPortBroadcastMsg(const ServerPort& nServerPort, uint16_t usCmd, const google::protobuf::Message& msg);
+    bool SendPortMsg(const ServerPort& nServerPort, byte* buf, size_t len)const;
+    bool SendPortMsg(const ServerPort& nServerPort, const google::protobuf::Message& msg)const;
+    bool SendPortMsg(const ServerPort& nServerPort, uint16_t usCmd, const google::protobuf::Message& msg)const;
+    bool SendPortBroadcastMsg(const ServerPort& nServerPort, byte* buf, size_t len)const;
+    bool SendPortBroadcastMsg(const ServerPort& nServerPort, const google::protobuf::Message& msg)const;
+    bool SendPortBroadcastMsg(const ServerPort& nServerPort, uint16_t usCmd, const google::protobuf::Message& msg)const;
     //发送多播的消息给MessagePort
     bool SendPortMultiMsg(const ServerPort&                 nServerPort,
                           const std::vector<VirtualSocket>& setVS,
-                          const CNetworkMessage&            msg);
-    bool SendPortMultiIDMsg(const ServerPort& nServerPort, const std::vector<OBJID>& setVS, const CNetworkMessage& msg);
+                          const CNetworkMessage&            msg)const;
+    bool SendPortMultiIDMsg(const ServerPort& nServerPort, const std::vector<OBJID>& setVS, const CNetworkMessage& msg)const;
 
     template<class T>
-    VirtualSocketMap_t IDList2VSMap(const T& idList, OBJID idExtInclude = 0)
+    VirtualSocketMap_t IDList2VSMap(const T& idList, OBJID idExtInclude = 0)const
     {
         VirtualSocketMap_t setSocketMap;
+        __ENTER_FUNCTION
+
         if constexpr(std::is_invocable<T>::value)
         {
             idList([this, &setSocketMap](OBJID id) { _ID2VS(id, setSocketMap); });
@@ -99,14 +104,17 @@ public:
         if(idExtInclude != 0)
             _ID2VS(idExtInclude, setSocketMap);
 
+        __LEAVE_FUNCTION
         return setSocketMap;
     }
-    virtual void _ID2VS(OBJID id, VirtualSocketMap_t& VSMap){}
-    bool SendMsgTo(uint16_t nCmd, const google::protobuf::Message& msg,const VirtualSocketMap_t& setSocketMap);
+    virtual void _ID2VS(OBJID id, VirtualSocketMap_t& VSMap)const{}
+
+    bool SendMsgTo(const VirtualSocketMap_t& setSocketMap, const google::protobuf::Message& msg)const;
+    bool SendMsgTo(const VirtualSocketMap_t& setSocketMap, uint16_t nCmd, const google::protobuf::Message& msg)const;
 public:
     export_lua CEventManager* GetEventManager() const { return m_pEventManager.get(); }
     export_lua CNetMSGProcess* GetNetMsgProcess() const { return m_pNetMsgProcess.get(); }
-    export_lua CMonitorMgr* GetMonitorMgr() { return m_pMonitorMgr.get(); }
+    export_lua CMonitorMgr* GetMonitorMgr() const{ return m_pMonitorMgr.get(); }
 protected:
     std::unique_ptr<CNetworkService> m_pNetworkService;
     CMessagePort*    m_pMessagePort;
@@ -121,4 +129,35 @@ protected:
     std::unique_ptr<CMonitorMgr>    m_pMonitorMgr;
 
 };
+
+#define to_sc_cmd(msg) to_cmd<SC_CMD>(msg, &SC_CMD_Parse)
+#define to_server_msgid(msg) to_msgid<ServerMSG::OMsgID>(msg, &ServerMSG::OMsgID_Parse)
+
+template<class CMD_T, class ParseFunc>
+inline uint32_t to_cmd(const google::protobuf::Message& msg, ParseFunc func)
+{
+    __ENTER_FUNCTION
+    std::string name = "CMD_" + msg.GetDescriptor()->name();
+    CMD_T cmd;
+    bool result = func(name, &cmd);
+    CHECKF_FMT(result, "{} can't convert to cmd", name);
+    return cmd;
+    __LEAVE_FUNCTION
+    return 0;
+}
+
+template<class CMD_T, class ParseFunc>
+inline uint32_t to_msgid(const google::protobuf::Message& msg, ParseFunc func)
+{
+    __ENTER_FUNCTION
+    std::string name = "MsgID_" + msg.GetDescriptor()->name();
+    CMD_T cmd;
+    bool result = func(name, &cmd);
+    CHECKF_FMT(result, "{} can't convert to cmd", name);
+    return cmd;
+    __LEAVE_FUNCTION
+    return 0;
+}
+
+        
 #endif /* SERVICECOMM_H */

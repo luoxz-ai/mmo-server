@@ -6,6 +6,8 @@
 #include "MessagePort.h"
 #include "MessageRoute.h"
 #include "MonitorMgr.h"
+#include "msg/ts_cmd.pb.h"
+#include "server_msg/server_side.pb.h"
 
 CServiceCommon::CServiceCommon()
     : m_pNetworkService(nullptr)
@@ -174,7 +176,7 @@ void CServiceCommon::OnLogicThreadExit()
     ;
 }
 
-bool CServiceCommon::SendPortBroadcastMsg(const ServerPort& nServerPort, byte* buf, size_t len)
+bool CServiceCommon::SendPortBroadcastMsg(const ServerPort& nServerPort, byte* buf, size_t len)const
 {
     __ENTER_FUNCTION
     if(GetMessageRoute() && nServerPort.IsVaild())
@@ -194,9 +196,16 @@ bool CServiceCommon::SendPortBroadcastMsg(const ServerPort& nServerPort, byte* b
     return false;
 }
 
+
+bool CServiceCommon::SendPortBroadcastMsg(const ServerPort&                nServerPort,
+                                          const google::protobuf::Message& msg)const
+{
+    return SendPortBroadcastMsg(nServerPort, to_server_msgid(msg), msg);
+}
+
 bool CServiceCommon::SendPortBroadcastMsg(const ServerPort&                nServerPort,
                                           uint16_t                         usCmd,
-                                          const google::protobuf::Message& msg)
+                                          const google::protobuf::Message& msg)const
 {
     __ENTER_FUNCTION
     if(GetMessageRoute() && nServerPort.IsVaild())
@@ -219,7 +228,7 @@ bool CServiceCommon::SendPortBroadcastMsg(const ServerPort&                nServ
 
 bool CServiceCommon::SendPortMultiMsg(const ServerPort&                 nServerPort,
                                       const std::vector<VirtualSocket>& setVS,
-                                      const CNetworkMessage&            msg)
+                                      const CNetworkMessage&            msg)const
 {
     __ENTER_FUNCTION
     if(GetMessageRoute() && nServerPort.IsVaild())
@@ -240,7 +249,7 @@ bool CServiceCommon::SendPortMultiMsg(const ServerPort&                 nServerP
 
 bool CServiceCommon::SendPortMultiIDMsg(const ServerPort&         nServerPort,
                                         const std::vector<OBJID>& setVS,
-                                        const CNetworkMessage&    msg)
+                                        const CNetworkMessage&    msg)const
 {
     __ENTER_FUNCTION
     if(GetMessageRoute() && nServerPort.IsVaild())
@@ -259,7 +268,7 @@ bool CServiceCommon::SendPortMultiIDMsg(const ServerPort&         nServerPort,
     return false;
 }
 
-bool CServiceCommon::SendPortMsg(const ServerPort& nServerPort, byte* buf, size_t len)
+bool CServiceCommon::SendPortMsg(const ServerPort& nServerPort, byte* buf, size_t len)const
 {
     __ENTER_FUNCTION
     if(GetMessageRoute() && nServerPort.IsVaild())
@@ -279,21 +288,32 @@ bool CServiceCommon::SendPortMsg(const ServerPort& nServerPort, byte* buf, size_
     return false;
 }
 
-bool CServiceCommon::SendPortMsg(const ServerPort& nServerPort, uint16_t usCmd, const google::protobuf::Message& msg)
+bool CServiceCommon::SendPortMsg(const ServerPort& nServerPort, const google::protobuf::Message& msg)const
+{
+    return SendPortMsg(nServerPort, to_server_msgid(msg), msg);
+}
+
+bool CServiceCommon::SendPortMsg(const ServerPort& nServerPort, uint16_t usCmd, const google::protobuf::Message& msg)const
 {
     CNetworkMessage _msg(usCmd, msg, GetServerVirtualSocket(), nServerPort);
     return SendMsg(_msg);
 }
 
 bool CServiceCommon::SendToVirtualSocket(const VirtualSocket&             vsTo,
+                                         const google::protobuf::Message& msg)const
+{
+    return SendToVirtualSocket(vsTo, to_sc_cmd(msg), msg);
+}
+
+bool CServiceCommon::SendToVirtualSocket(const VirtualSocket&             vsTo,
                                          uint16_t                         usCmd,
-                                         const google::protobuf::Message& msg)
+                                         const google::protobuf::Message& msg)const
 {
     CNetworkMessage _msg(usCmd, msg, GetServerVirtualSocket(), vsTo);
     return SendMsg(_msg);
 }
 
-bool CServiceCommon::SendMsg(const CNetworkMessage& msg)
+bool CServiceCommon::SendMsg(const CNetworkMessage& msg)const
 {
     __ENTER_FUNCTION
     VirtualSocket vs(msg.GetTo());
@@ -337,7 +357,7 @@ bool CServiceCommon::SendMsg(const CNetworkMessage& msg)
     return false;
 }
 
-bool CServiceCommon::SendBroadcastMsg(const CNetworkMessage& msg)
+bool CServiceCommon::SendBroadcastMsg(const CNetworkMessage& msg)const
 {
     __ENTER_FUNCTION
     VirtualSocket vs(msg.GetTo());
@@ -382,8 +402,12 @@ bool CServiceCommon::SendBroadcastMsg(const CNetworkMessage& msg)
 }
 
 
+bool CServiceCommon::SendMsgTo(const VirtualSocketMap_t& setSocketMap,const google::protobuf::Message& msg)const
+{
+    return SendMsgTo(setSocketMap, to_sc_cmd(msg), msg);
+}
 
-bool CServiceCommon::SendMsgTo(uint16_t nCmd, const google::protobuf::Message& msg,const VirtualSocketMap_t& setSocketMap)
+bool CServiceCommon::SendMsgTo(const VirtualSocketMap_t& setSocketMap, uint16_t nCmd, const google::protobuf::Message& msg)const
 {
     __ENTER_FUNCTION
 

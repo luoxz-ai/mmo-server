@@ -11,7 +11,7 @@
 ON_SERVERMSG(MonsterGen)
 {
     CPhase* pPhase = SceneManager()->QueryPhase(msg.scene_id());
-    CHECK(pPhase);
+    CHECK_FMT(pPhase, "msg.scene_id:{}", msg.scene_id());
     
     CreateMonsterParam param;
     param.idMonsterType = msg.monster_type();
@@ -71,7 +71,7 @@ ON_SERVERMSG(ActorCastSkill)
     {
         ServerMSG::ActorCastSkill_Fail send_msg;
         send_msg.set_actor_id(msg.actor_id());
-        ZoneService()->SendMsgToAIService(ServerMSG::MsgID_ActorCastSkill_Fail, send_msg);
+        ZoneService()->SendPortMsgToAIService(send_msg);
     }
 }
         

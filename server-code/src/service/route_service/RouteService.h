@@ -18,7 +18,7 @@ class CRouteService : public IService, public CServiceCommon, public CMessagePor
 public:
     
 
-    void Release() override { Destory();delete this; }
+    void Release() override;
     
     CreateNewRealeaseImpl(CRouteService);
 public:

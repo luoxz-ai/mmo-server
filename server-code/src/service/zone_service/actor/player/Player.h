@@ -51,6 +51,7 @@ public:
     export_lua bool FlyMap(uint16_t idMap, uint32_t idxPhase, float fPosX, float fPosY, float fRange, float fFace);
 
 public:
+    export_lua bool SendMsg(const google::protobuf::Message& msg) const;
     export_lua virtual bool SendMsg(uint16_t cmd, const google::protobuf::Message& msg) const override;
 
 public:

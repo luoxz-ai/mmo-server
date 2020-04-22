@@ -1483,7 +1483,7 @@ static void InitDefaultsscc_info_SC_TEAMMEMBER_INFO_MemberInfo_msg_2fzone_5fserv
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_SC_TEAMMEMBER_INFO_MemberInfo_msg_2fzone_5fservice_2eproto}, {}};
 
 static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_msg_2fzone_5fservice_2eproto[80];
-static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_msg_2fzone_5fservice_2eproto[7];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_msg_2fzone_5fservice_2eproto[5];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_msg_2fzone_5fservice_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_msg_2fzone_5fservice_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -2311,223 +2311,182 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 };
 
 const char descriptor_table_protodef_msg_2fzone_5fservice_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\026msg/zone_service.proto\"E\n\nSC_LOADMAP\022\r"
-  "\n\005mapid\030\001 \001(\r\022\014\n\004posx\030\003 \001(\002\022\014\n\004posy\030\004 \001("
-  "\002\022\014\n\004face\030\005 \001(\002\"\021\n\017CS_LOADMAP_SUCC\"\351\002\n\rS"
-  "C_PLAYERINFO\022\020\n\010playerid\030\001 \001(\004\022\017\n\007worldi"
-  "d\030\002 \001(\r\022\014\n\004name\030\003 \001(\t\022\014\n\004prof\030\004 \001(\r\022\020\n\010b"
-  "aselook\030\005 \001(\r\022\013\n\003exp\030\006 \001(\r\022\r\n\005level\030\007 \001("
-  "\r\022\016\n\006viplev\030\010 \001(\r\022\r\n\005pkval\030\t \001(\r\022\r\n\005hono"
-  "r\030\n \001(\r\022\016\n\006campid\030\013 \001(\r\022\r\n\005money\030\014 \001(\r\022\022"
-  "\n\nmoney_bind\030\r \001(\r\022\014\n\004gold\030\016 \001(\r\022\021\n\tgold"
-  "_bind\030\017 \001(\r\022\020\n\010bag_size\030\020 \001(\r\022\023\n\013stroge_"
-  "size\030\021 \001(\r\022\022\n\nachi_point\030\022 \001(\r\022\n\n\002hp\030\036 \001"
-  "(\r\022\n\n\002mp\030\037 \001(\r\022\n\n\002fp\030  \001(\r\022\n\n\002np\030! \001(\r\"%"
-  "\n\016SC_ACTORATTRIB\022\023\n\013attrib_list\030\001 \003(\r\"\212\001"
-  "\n\rSC_COMMONDATA\022%\n\010datalist\030\001 \003(\0132\023.SC_C"
-  "OMMONDATA.Data\032R\n\004Data\022\016\n\006keyidx\030\001 \001(\r\022\r"
-  "\n\005data0\030\002 \001(\004\022\r\n\005data1\030\003 \001(\004\022\r\n\005data2\030\004 "
-  "\001(\004\022\r\n\005data3\030\005 \001(\004\"~\n\014SC_DATACOUNT\022$\n\010da"
-  "talist\030\001 \003(\0132\022.SC_DATACOUNT.Data\032H\n\004Data"
-  "\022\014\n\004type\030\001 \001(\r\022\013\n\003idx\030\002 \001(\r\022\014\n\004data\030\003 \001("
-  "\004\022\027\n\017last_reset_time\030\004 \001(\r\"i\n\013SC_COOLDOW"
-  "N\022#\n\010datalist\030\001 \003(\0132\021.SC_COOLDOWN.Data\0325"
-  "\n\004Data\022\014\n\004type\030\001 \001(\r\022\013\n\003idx\030\002 \001(\r\022\022\n\nexp"
-  "iretime\030\003 \001(\r\"\273\001\n\tSC_SYSVAR\022!\n\010datalist\030"
-  "\001 \003(\0132\017.SC_SYSVAR.Data\032\212\001\n\004Data\022\016\n\006keyid"
-  "x\030\001 \001(\r\022\r\n\005data0\030\002 \001(\004\022\r\n\005data1\030\003 \001(\004\022\r\n"
-  "\005data2\030\004 \001(\004\022\r\n\005data3\030\005 \001(\004\022\014\n\004str0\030\006 \001("
-  "\t\022\014\n\004str1\030\007 \001(\t\022\014\n\004str2\030\010 \001(\t\022\014\n\004str3\030\t "
-  "\001(\t\"1\n\013SC_ENTERMAP\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002"
-  "\022\014\n\004face\030\003 \001(\002\"\271\002\n\nSC_AOI_NEW\022\r\n\005mapid\030\001"
-  " \001(\r\022\020\n\010actor_id\030\002 \001(\004\022\014\n\004name\030\003 \001(\t\022\021\n\t"
-  "actortype\030\004 \001(\r\022\020\n\010baselook\030\005 \001(\r\022\014\n\004pro"
-  "f\030\006 \001(\r\022\013\n\003lev\030\007 \001(\r\022\016\n\006campid\030\010 \001(\r\022\n\n\002"
-  "hp\030\t \001(\r\022\r\n\005hpmax\030\n \001(\r\022\017\n\007movespd\030\013 \001(\r"
-  "\022\017\n\007ownerid\030\014 \001(\004\022\014\n\004posx\030\r \001(\002\022\014\n\004posy\030"
-  "\016 \001(\002\022\014\n\004face\030\017 \001(\002\022\020\n\010weaponid\030\024 \001(\r\022\017\n"
-  "\007armorid\030\025 \001(\r\022\017\n\007guildid\030\036 \001(\r\022\021\n\tguild"
-  "name\030\037 \001(\t\".\n\rSC_AOI_REMOVE\022\r\n\005mapid\030\001 \001"
-  "(\r\022\016\n\006idlist\030\002 \003(\004\"L\n\rSC_AOI_UPDATE\022\r\n\005m"
-  "apid\030\001 \001(\r\022\020\n\010actor_id\030\002 \001(\004\022\014\n\004posx\030\003 \001"
-  "(\002\022\014\n\004posy\030\004 \001(\002\"\332\001\n\tSC_MAPVAL\022\037\n\005state\030"
-  "\001 \001(\0162\020.SC_MAPVAL.State\022&\n\013map_val_set\030\002"
-  " \003(\0132\021.SC_MAPVAL.MapVal\022+\n\020user_map_val_"
-  "set\030\003 \003(\0132\021.SC_MAPVAL.MapVal\032$\n\006MapVal\022\013"
-  "\n\003key\030\001 \001(\r\022\r\n\005value\030\002 \001(\003\"1\n\005State\022\023\n\017S"
-  "YNC_MAPVAL_ALL\020\000\022\023\n\017SYNC_MAPVAL_ONE\020\001\"\203\001"
-  "\n\020SC_ATTRIB_CHANGE\022\020\n\010actor_id\030\001 \001(\004\022(\n\010"
-  "datalist\030\002 \003(\0132\026.SC_ATTRIB_CHANGE.Data\0323"
-  "\n\004Data\022\016\n\006actype\030\001 \001(\r\022\013\n\003val\030\002 \001(\r\022\016\n\006v"
-  "alstr\030\003 \001(\t\"W\n\016SC_STATUS_LIST\022\020\n\010actor_i"
-  "d\030\001 \001(\004\022\032\n\022status_typeid_list\030\002 \003(\r\022\027\n\017s"
-  "tatus_lev_list\030\003 \003(\r\"\333\001\n\016SC_STATUS_INFO\022"
-  "\020\n\010actor_id\030\001 \001(\004\022(\n\nstatuslist\030\002 \003(\0132\024."
-  "SC_STATUS_INFO.Data\032\214\001\n\004Data\022\020\n\010statusid"
-  "\030\001 \001(\r\022\021\n\tstatuslev\030\002 \001(\r\022\r\n\005power\030\003 \001(\005"
-  "\022\013\n\003sec\030\004 \001(\005\022\r\n\005times\030\005 \001(\005\022\021\n\tlaststam"
-  "p\030\006 \001(\r\022\020\n\010idcaster\030\007 \001(\004\022\017\n\007ispause\030\010 \001"
-  "(\010\"\266\001\n\020SC_STATUS_ACTION\022\020\n\010actor_id\030\001 \001("
-  "\004\022(\n\006action\030\002 \001(\0162\030.SC_STATUS_ACTION.ACT"
-  "ION\022\020\n\010statusid\030\003 \001(\r\022\021\n\tstatuslev\030\004 \001(\r"
-  "\"A\n\006ACTION\022\021\n\rSTATUS_ATTACH\020\000\022\021\n\rSTATUS_"
-  "DETACH\020\001\022\021\n\rSTATUS_EFFECT\020\002\"<\n\007CS_MOVE\022\r"
-  "\n\005mapid\030\001 \001(\004\022\t\n\001x\030\002 \001(\002\022\t\n\001y\030\003 \001(\002\022\014\n\004f"
-  "ace\030\004 \001(\002\"5\n\014CS_CHANGEMAP\022\r\n\005mapid\030\001 \001(\004"
-  "\022\026\n\016leavepoint_idx\030\002 \001(\r\"X\n\014CS_CASTSKILL"
-  "\022\r\n\005mapid\030\001 \001(\004\022\020\n\010skill_id\030\002 \001(\r\022\021\n\ttar"
-  "get_id\030\003 \001(\004\022\t\n\001x\030\004 \001(\002\022\t\n\001y\030\005 \001(\002\"j\n\014SC"
-  "_CASTSKILL\022\r\n\005mapid\030\001 \001(\004\022\020\n\010actor_id\030\002 "
-  "\001(\004\022\020\n\010skill_id\030\003 \001(\r\022\021\n\ttarget_id\030\004 \001(\004"
-  "\022\t\n\001x\030\005 \001(\002\022\t\n\001y\030\006 \001(\002\"\246\001\n\017SC_SKILL_DAMA"
-  "GE\022\r\n\005mapid\030\001 \001(\004\022\020\n\010actor_id\030\002 \001(\004\022\020\n\010s"
-  "kill_id\030\003 \001(\r\022/\n\ndamagelist\030\005 \003(\0132\033.SC_S"
-  "KILL_DAMAGE.DamageInfo\032/\n\nDamageInfo\022\021\n\t"
-  "target_id\030\001 \001(\004\022\016\n\006damage\030\002 \001(\005\"\037\n\016CS_SK"
-  "ILL_BREAK\022\r\n\005mapid\030\001 \001(\004\"1\n\016SC_SKILL_BRE"
-  "AK\022\r\n\005mapid\030\001 \001(\004\022\020\n\010actor_id\030\002 \001(\004\"-\n\025C"
-  "S_SKILL_CHGTARGETPOS\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001"
-  "(\002\"S\n\rSC_SKILL_STUN\022\r\n\005mapid\030\001 \001(\004\022\020\n\010ac"
-  "tor_id\030\002 \001(\004\022\020\n\010skill_id\030\003 \001(\r\022\017\n\007stun_m"
-  "s\030\004 \001(\r\"D\n\017SC_SKILL_EFFACT\022\r\n\005mapid\030\001 \001("
-  "\004\022\020\n\010actor_id\030\002 \001(\004\022\020\n\010skill_id\030\003 \001(\r\"d\n"
-  "\tSC_DAMAGE\022\020\n\010actor_id\030\001 \001(\004\022\023\n\013attacker"
-  "_id\030\002 \001(\004\022\016\n\006damage\030\003 \001(\r\022\017\n\007hittype\030\004 \001"
-  "(\r\022\017\n\007crtical\030\005 \001(\010\"0\n\007SC_DEAD\022\020\n\010actor_"
-  "id\030\001 \001(\004\022\023\n\013attacker_id\030\002 \001(\004\"\"\n\020CS_CHAN"
-  "GE_PKMODE\022\016\n\006pkmode\030\001 \001(\r\"\"\n\020SC_CHANGE_P"
-  "KMODE\022\016\n\006pkmode\030\001 \001(\r\" \n\tCS_REBORN\022\023\n\013re"
-  "born_type\030\001 \001(\r\"\276\001\n\014SC_ITEM_INFO\022\020\n\010acto"
-  "r_id\030\001 \001(\004\022\017\n\007item_id\030\002 \001(\004\022\020\n\010position\030"
-  "\003 \001(\r\022\014\n\004grid\030\004 \001(\r\022\020\n\010pile_num\030\005 \001(\r\022\014\n"
-  "\004dura\030\006 \001(\r\022\022\n\ndura_limit\030\007 \001(\r\022\023\n\013expir"
-  "e_time\030\010 \001(\r\022\024\n\014addition_lev\030\t \001(\r\022\014\n\004fl"
-  "ag\030\n \001(\r\"\236\002\n\016SC_ITEM_CHANGE\022\017\n\007item_id\030\001"
-  " \001(\004\022\020\n\010position\030\002 \001(\r\022/\n\013change_list\030\003 "
-  "\003(\0132\032.SC_ITEM_CHANGE.ChangeData\032L\n\nChang"
-  "eData\022/\n\013change_type\030\001 \001(\0162\032.SC_ITEM_CHA"
-  "NGE.ChangeType\022\r\n\005value\030\002 \001(\r\"j\n\nChangeT"
-  "ype\022\016\n\nChangeGrid\020\000\022\021\n\rChangePileNum\020\001\022\024"
-  "\n\020ChangeExpireData\020\002\022\016\n\nChangeDura\020\003\022\023\n\017"
-  "ChangeDuraLimit\020\004\"A\n\016SC_ITEM_DELETE\022\017\n\007i"
-  "tem_id\030\001 \001(\004\022\020\n\010position\030\002 \001(\r\022\014\n\004grid\030\003"
-  " \001(\r\">\n\014CS_ITEM_SWAP\022\020\n\010position\030\001 \001(\r\022\r"
-  "\n\005grid1\030\002 \001(\r\022\r\n\005grid2\030\003 \001(\r\"R\n\rCS_ITEM_"
-  "SPLIT\022\020\n\010position\030\001 \001(\r\022\r\n\005grid1\030\002 \001(\r\022\r"
-  "\n\005grid2\030\003 \001(\r\022\021\n\tsplit_num\030\004 \001(\r\"A\n\017CS_I"
-  "TEM_COMBINE\022\020\n\010position\030\001 \001(\r\022\r\n\005grid1\030\002"
-  " \001(\r\022\r\n\005grid2\030\003 \001(\r\" \n\014CS_ITEM_TIDY\022\020\n\010p"
-  "osition\030\001 \001(\r\"*\n\013CS_ITEM_USE\022\014\n\004grid\030\001 \001"
-  "(\r\022\r\n\005count\030\002 \001(\r\"\026\n\024CS_ITEM_STORAGE_OPE"
-  "N\"3\n\030CS_ITEM_STORAGE_CHECKOUT\022\027\n\017grid_in"
-  "_storage\030\001 \001(\r\"2\n\027CS_ITEM_STORAGE_CHECKI"
-  "N\022\027\n\017grid_in_package\030\001 \001(\r\":\n\010CS_EQUIP\022\027"
-  "\n\017grid_in_package\030\001 \001(\r\022\025\n\rgrid_in_equip"
-  "\030\002 \001(\r\"#\n\nCS_UNEQUIP\022\025\n\rgrid_in_equip\030\001 "
-  "\001(\r\"K\n\007CS_TALK\022\035\n\007channel\030\001 \001(\0162\014.TalkCh"
-  "annel\022\r\n\005words\030\002 \001(\t\022\022\n\nreciver_id\030\003 \001(\004"
-  "\"\324\001\n\007SC_TALK\022\035\n\007channel\030\001 \001(\0162\014.TalkChan"
-  "nel\022\r\n\005words\030\002 \001(\t\022\021\n\tsender_id\030\004 \001(\004\022\023\n"
-  "\013sender_name\030\005 \001(\t\022\023\n\013sender_sign\030\006 \001(\r\022"
-  "\025\n\rsender_viplev\030\007 \001(\r\022\021\n\tsend_time\030\010 \001("
-  "\r\022\022\n\nreciver_id\030\t \001(\004\022 \n\titem_list\030\024 \003(\013"
-  "2\r.SC_ITEM_INFO\"\202\002\n\014SC_TASK_INFO\022*\n\016task"
-  "_info_list\030\001 \003(\0132\022.SC_TASK_INFO.Info\032\305\001\n"
-  "\004Info\022\017\n\007task_id\030\001 \001(\004\022\023\n\013accept_time\030\002 "
-  "\001(\r\022\023\n\013finish_time\030\003 \001(\r\022\023\n\013expire_time\030"
-  "\004 \001(\r\022\020\n\010daycount\030\005 \001(\r\022\024\n\014daycount_max\030"
-  "\006 \001(\r\022\r\n\005state\030\007 \001(\r\022\014\n\004num1\030\n \001(\r\022\014\n\004nu"
-  "m2\030\013 \001(\r\022\014\n\004num3\030\014 \001(\r\022\014\n\004num4\030\r \001(\r\"9\n\014"
-  "SC_TASK_DATA\022\017\n\007task_id\030\001 \001(\004\022\013\n\003idx\030\002 \001"
-  "(\r\022\013\n\003num\030\003 \001(\r\":\n\016CS_TASK_SUBMIT\022\017\n\007tas"
-  "k_id\030\001 \001(\004\022\027\n\017submit_multiple\030\002 \001(\r\"\037\n\rC"
-  "S_ACTIVE_NPC\022\016\n\006npc_id\030\001 \001(\004\"\272\001\n\tSC_DIAL"
-  "OG\022\021\n\tdialog_id\030\001 \001(\004\022\023\n\013dialog_type\030\002 \001"
-  "(\r\022\024\n\014dialog_title\030\003 \001(\t\022\022\n\ndialog_txt\030\004"
-  " \003(\t\0220\n\020dialog_link_list\030\005 \003(\0132\026.SC_DIAL"
-  "OG.dialog_link\032)\n\013dialog_link\022\r\n\005style\030\001"
-  " \001(\r\022\013\n\003txt\030\002 \001(\t\"\?\n\017CS_DIALOG_CLICK\022\021\n\t"
-  "dialog_id\030\001 \001(\004\022\031\n\021dialog_button_idx\030\002 \001"
-  "(\r\"^\n\014SC_ACHI_INFO\022\'\n\013finish_list\030\001 \003(\0132"
-  "\022.SC_ACHI_INFO.Info\032%\n\004Info\022\017\n\007achi_id\030\001"
-  " \001(\r\022\014\n\004take\030\002 \001(\r\"\037\n\014CS_ACHI_TAKE\022\017\n\007ac"
-  "hi_id\030\001 \001(\r\"\017\n\rCS_TEAMCREATE\"\r\n\013CS_TEAMQ"
-  "UIT\"&\n\021CS_TEAMKICKMEMBER\022\021\n\tmember_id\030\001 "
-  "\001(\004\")\n\023CS_TEAMINVITEMEMBER\022\022\n\ninvitee_id"
-  "\030\001 \001(\004\"P\n\023SC_TEAMINVITEMEMBER\022\017\n\007team_id"
-  "\030\001 \001(\004\022\022\n\ninviter_id\030\002 \001(\004\022\024\n\014inviter_na"
-  "me\030\003 \001(\t\"J\n\023CS_TEAMACCEPTINVITE\022\017\n\007team_"
-  "id\030\001 \001(\004\022\022\n\ninviter_id\030\002 \001(\004\022\016\n\006result\030\003"
-  " \001(\010\")\n\020CS_TEAMNEWLEADER\022\025\n\rnew_leader_i"
-  "d\030\002 \001(\004\"\252\001\n\022SC_TEAMMEMBER_INFO\0223\n\013member"
-  "_list\030\001 \003(\0132\036.SC_TEAMMEMBER_INFO.MemberI"
-  "nfo\032_\n\nMemberInfo\022\021\n\tmember_id\030\001 \001(\004\022\022\n\n"
-  "member_lev\030\002 \001(\r\022\025\n\rmember_online\030\003 \001(\010\022"
-  "\023\n\013member_name\030\004 \001(\t\"\370\002\n\024SC_TEAMMEMBER_A"
-  "CTION\022,\n\006action\030\001 \001(\0162\034.SC_TEAMMEMBER_AC"
-  "TION.Action\022\023\n\013operator_id\030\002 \001(\004\022\021\n\tmemb"
-  "er_id\030\003 \001(\004\022\022\n\nmember_lev\030\004 \001(\r\022\023\n\013membe"
-  "r_name\030\005 \001(\t\022\025\n\rmember_online\030\006 \001(\010\"\311\001\n\006"
-  "Action\022\017\n\013TEAM_CREATE\020\000\022\020\n\014TEAM_DESTORY\020"
-  "\001\022\021\n\rTEAM_ADDMEBER\020\002\022\026\n\022TEAM_CHANGE_LEAD"
-  "ER\020\003\022\r\n\tTEAM_QUIT\020\004\022\023\n\017TEAM_KICKMEMBER\020\005"
-  "\022\027\n\023TEAM_MEMBER_LEV_CHG\020\006\022\030\n\024TEAM_MEMBER"
-  "_NAME_CHG\020\007\022\032\n\026TEAM_MEMBER_ONLINE_CHG\020\010\""
-  "+\n\022CS_TEAMAPPLYMEMBER\022\025\n\rrespondent_id\030\001"
-  " \001(\004\"B\n\022SC_TEAMAPPLYMEMBER\022\024\n\014applicant_"
-  "id\030\001 \001(\004\022\026\n\016applicant_name\030\002 \001(\t\":\n\022CS_T"
-  "EAMACCEPTAPPLY\022\024\n\014applicant_id\030\001 \001(\004\022\016\n\006"
-  "result\030\002 \001(\010*\266\006\n\013ZONE_CS_CMD\022\024\n\020ZONE_CS_"
-  "CMD_NONE\020\000\022\030\n\023CMD_CS_LOADMAP_SUCC\020\351\007\022\020\n\013"
-  "CMD_CS_MOVE\020\352\007\022\025\n\020CMD_CS_CHANGEMAP\020\353\007\022\025\n"
-  "\020CMD_CS_CASTSKILL\020\354\007\022\027\n\022CMD_CS_SKILL_BRE"
-  "AK\020\355\007\022\036\n\031CMD_CS_SKILL_CHGTARGETPOS\020\356\007\022\031\n"
-  "\024CMD_CS_CHANGE_PKMODE\020\357\007\022\022\n\rCMD_CS_REBOR"
-  "N\020\360\007\022\025\n\020CMD_CS_ITEM_SWAP\020\374\007\022\026\n\021CMD_CS_IT"
-  "EM_SPLIT\020\375\007\022\030\n\023CMD_CS_ITEM_COMBINE\020\376\007\022\025\n"
-  "\020CMD_CS_ITEM_TIDY\020\377\007\022\024\n\017CMD_CS_ITEM_USE\020"
-  "\200\010\022\035\n\030CMD_CS_ITEM_STORAGE_OPEN\020\201\010\022 \n\033CMD"
-  "_CS_ITEM_STORAGE_CHECKIN\020\202\010\022!\n\034CMD_CS_IT"
-  "EM_STORAGE_CHECKOUT\020\203\010\022\021\n\014CMD_CS_EQUIP\020\206"
-  "\010\022\023\n\016CMD_CS_UNEQUIP\020\207\010\022\020\n\013CMD_CS_TALK\020\220\010"
-  "\022\027\n\022CMD_CS_TASK_SUBMIT\020\221\010\022\026\n\021CMD_CS_ACTI"
-  "VE_NPC\020\222\010\022\030\n\023CMD_CS_DIALOG_CLICK\020\223\010\022\025\n\020C"
-  "MD_CS_ACHI_TAKE\020\224\010\022\026\n\021CMD_CS_TEAMCREATE\020"
-  "\232\010\022\024\n\017CMD_CS_TEAMQUIT\020\233\010\022\032\n\025CMD_CS_TEAMK"
-  "ICKMEMBER\020\234\010\022\034\n\027CMD_CS_TEAMINVITEMEMBER\020"
-  "\235\010\022\034\n\027CMD_CS_TEAMACCEPTINVITE\020\236\010\022\031\n\024CMD_"
-  "CS_TEAMNEWLEADER\020\237\010\022\033\n\026CMD_CS_TEAMAPPLYM"
-  "EMBER\020\240\010\022\033\n\026CMD_CS_TEAMACCEPTAPPLY\020\241\010*\201\007"
-  "\n\013ZONE_SC_CMD\022\024\n\020ZONE_SC_CMD_NONE\020\000\022\023\n\016C"
-  "MD_SC_LOADMAP\020\351\007\022\024\n\017CMD_SC_ENTERMAP\020\352\007\022\026"
-  "\n\021CMD_SC_PLAYERINFO\020\353\007\022\027\n\022CMD_SC_ACTORAT"
-  "TRIB\020\354\007\022\026\n\021CMD_SC_COMMONDATA\020\355\007\022\025\n\020CMD_S"
-  "C_DATACOUNT\020\356\007\022\022\n\rCMD_SC_SYSVAR\020\357\007\022\024\n\017CM"
-  "D_SC_COOLDOWN\020\360\007\022\022\n\rCMD_SC_MAPVAL\020\361\007\022\023\n\016"
-  "CMD_SC_AOI_NEW\020\374\007\022\026\n\021CMD_SC_AOI_REMOVE\020\375"
-  "\007\022\026\n\021CMD_SC_AOI_UPDATE\020\376\007\022\025\n\020CMD_SC_CAST"
-  "SKILL\020\207\010\022\027\n\022CMD_SC_SKILL_BREAK\020\210\010\022\030\n\023CMD"
-  "_SC_SKILL_DAMAGE\020\211\010\022\026\n\021CMD_SC_SKILL_STUN"
-  "\020\212\010\022\030\n\023CMD_SC_SKILL_EFFACT\020\213\010\022\022\n\rCMD_SC_"
-  "DAMAGE\020\214\010\022\020\n\013CMD_SC_DEAD\020\215\010\022\031\n\024CMD_SC_AT"
-  "TRIB_CHANGE\020\216\010\022\031\n\024CMD_SC_CHANGE_PKMODE\020\220"
-  "\010\022\027\n\022CMD_SC_STATUS_LIST\020\221\010\022\027\n\022CMD_SC_STA"
-  "TUS_INFO\020\223\010\022\031\n\024CMD_SC_STATUS_ACTION\020\224\010\022\027"
-  "\n\022CMD_SC_ITEM_DELETE\020\232\010\022\025\n\020CMD_SC_ITEM_I"
-  "NFO\020\233\010\022\027\n\022CMD_SC_ITEM_CHANGE\020\234\010\022\020\n\013CMD_S"
-  "C_TALK\020\235\010\022\025\n\020CMD_SC_TASK_INFO\020\244\010\022\025\n\020CMD_"
-  "SC_TASK_DATA\020\245\010\022\022\n\rCMD_SC_DIALOG\020\246\010\022\025\n\020C"
-  "MD_SC_ACHI_INFO\020\247\010\022\033\n\026CMD_SC_TEAMMEMBER_"
-  "INFO\020\256\010\022\035\n\030CMD_SC_TEAMMEMBER_ACTION\020\257\010\022\034"
-  "\n\027CMD_SC_TEAMINVITEMEMBER\020\260\010\022\033\n\026CMD_SC_T"
-  "EAMAPPLYMEMBER\020\261\010*\321\001\n\013TalkChannel\022\022\n\016CHA"
-  "NNEL_NORMAL\020\000\022\021\n\rCHANNEL_SCENE\020\001\022\023\n\017CHAN"
-  "NEL_PRIVATE\020\002\022\020\n\014CHANNEL_TEAM\020\003\022\021\n\rCHANN"
-  "EL_GUILD\020\004\022\021\n\rCHANNEL_WORLD\020\005\022\023\n\017CHANNEL"
-  "_TRUMPET\020\006\022\022\n\016CHANNEL_GLOBAL\020\007\022\022\n\016CHANNE"
-  "L_SYSTEM\020\010\022\021\n\rCHANNEL_RUMOR\020\tb\006proto3"
+  "\n\026msg/zone_service.proto\032\020msg/ts_cmd.pro"
+  "to\"E\n\nSC_LOADMAP\022\r\n\005mapid\030\001 \001(\r\022\014\n\004posx\030"
+  "\003 \001(\002\022\014\n\004posy\030\004 \001(\002\022\014\n\004face\030\005 \001(\002\"\021\n\017CS_"
+  "LOADMAP_SUCC\"\351\002\n\rSC_PLAYERINFO\022\020\n\010player"
+  "id\030\001 \001(\004\022\017\n\007worldid\030\002 \001(\r\022\014\n\004name\030\003 \001(\t\022"
+  "\014\n\004prof\030\004 \001(\r\022\020\n\010baselook\030\005 \001(\r\022\013\n\003exp\030\006"
+  " \001(\r\022\r\n\005level\030\007 \001(\r\022\016\n\006viplev\030\010 \001(\r\022\r\n\005p"
+  "kval\030\t \001(\r\022\r\n\005honor\030\n \001(\r\022\016\n\006campid\030\013 \001("
+  "\r\022\r\n\005money\030\014 \001(\r\022\022\n\nmoney_bind\030\r \001(\r\022\014\n\004"
+  "gold\030\016 \001(\r\022\021\n\tgold_bind\030\017 \001(\r\022\020\n\010bag_siz"
+  "e\030\020 \001(\r\022\023\n\013stroge_size\030\021 \001(\r\022\022\n\nachi_poi"
+  "nt\030\022 \001(\r\022\n\n\002hp\030\036 \001(\r\022\n\n\002mp\030\037 \001(\r\022\n\n\002fp\030 "
+  " \001(\r\022\n\n\002np\030! \001(\r\"%\n\016SC_ACTORATTRIB\022\023\n\013at"
+  "trib_list\030\001 \003(\r\"\212\001\n\rSC_COMMONDATA\022%\n\010dat"
+  "alist\030\001 \003(\0132\023.SC_COMMONDATA.Data\032R\n\004Data"
+  "\022\016\n\006keyidx\030\001 \001(\r\022\r\n\005data0\030\002 \001(\004\022\r\n\005data1"
+  "\030\003 \001(\004\022\r\n\005data2\030\004 \001(\004\022\r\n\005data3\030\005 \001(\004\"~\n\014"
+  "SC_DATACOUNT\022$\n\010datalist\030\001 \003(\0132\022.SC_DATA"
+  "COUNT.Data\032H\n\004Data\022\014\n\004type\030\001 \001(\r\022\013\n\003idx\030"
+  "\002 \001(\r\022\014\n\004data\030\003 \001(\004\022\027\n\017last_reset_time\030\004"
+  " \001(\r\"i\n\013SC_COOLDOWN\022#\n\010datalist\030\001 \003(\0132\021."
+  "SC_COOLDOWN.Data\0325\n\004Data\022\014\n\004type\030\001 \001(\r\022\013"
+  "\n\003idx\030\002 \001(\r\022\022\n\nexpiretime\030\003 \001(\r\"\273\001\n\tSC_S"
+  "YSVAR\022!\n\010datalist\030\001 \003(\0132\017.SC_SYSVAR.Data"
+  "\032\212\001\n\004Data\022\016\n\006keyidx\030\001 \001(\r\022\r\n\005data0\030\002 \001(\004"
+  "\022\r\n\005data1\030\003 \001(\004\022\r\n\005data2\030\004 \001(\004\022\r\n\005data3\030"
+  "\005 \001(\004\022\014\n\004str0\030\006 \001(\t\022\014\n\004str1\030\007 \001(\t\022\014\n\004str"
+  "2\030\010 \001(\t\022\014\n\004str3\030\t \001(\t\"1\n\013SC_ENTERMAP\022\t\n\001"
+  "x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\014\n\004face\030\003 \001(\002\"\271\002\n\nSC_"
+  "AOI_NEW\022\r\n\005mapid\030\001 \001(\r\022\020\n\010actor_id\030\002 \001(\004"
+  "\022\014\n\004name\030\003 \001(\t\022\021\n\tactortype\030\004 \001(\r\022\020\n\010bas"
+  "elook\030\005 \001(\r\022\014\n\004prof\030\006 \001(\r\022\013\n\003lev\030\007 \001(\r\022\016"
+  "\n\006campid\030\010 \001(\r\022\n\n\002hp\030\t \001(\r\022\r\n\005hpmax\030\n \001("
+  "\r\022\017\n\007movespd\030\013 \001(\r\022\017\n\007ownerid\030\014 \001(\004\022\014\n\004p"
+  "osx\030\r \001(\002\022\014\n\004posy\030\016 \001(\002\022\014\n\004face\030\017 \001(\002\022\020\n"
+  "\010weaponid\030\024 \001(\r\022\017\n\007armorid\030\025 \001(\r\022\017\n\007guil"
+  "did\030\036 \001(\r\022\021\n\tguildname\030\037 \001(\t\".\n\rSC_AOI_R"
+  "EMOVE\022\r\n\005mapid\030\001 \001(\r\022\016\n\006idlist\030\002 \003(\004\"L\n\r"
+  "SC_AOI_UPDATE\022\r\n\005mapid\030\001 \001(\r\022\020\n\010actor_id"
+  "\030\002 \001(\004\022\014\n\004posx\030\003 \001(\002\022\014\n\004posy\030\004 \001(\002\"\332\001\n\tS"
+  "C_MAPVAL\022\037\n\005state\030\001 \001(\0162\020.SC_MAPVAL.Stat"
+  "e\022&\n\013map_val_set\030\002 \003(\0132\021.SC_MAPVAL.MapVa"
+  "l\022+\n\020user_map_val_set\030\003 \003(\0132\021.SC_MAPVAL."
+  "MapVal\032$\n\006MapVal\022\013\n\003key\030\001 \001(\r\022\r\n\005value\030\002"
+  " \001(\003\"1\n\005State\022\023\n\017SYNC_MAPVAL_ALL\020\000\022\023\n\017SY"
+  "NC_MAPVAL_ONE\020\001\"\203\001\n\020SC_ATTRIB_CHANGE\022\020\n\010"
+  "actor_id\030\001 \001(\004\022(\n\010datalist\030\002 \003(\0132\026.SC_AT"
+  "TRIB_CHANGE.Data\0323\n\004Data\022\016\n\006actype\030\001 \001(\r"
+  "\022\013\n\003val\030\002 \001(\r\022\016\n\006valstr\030\003 \001(\t\"W\n\016SC_STAT"
+  "US_LIST\022\020\n\010actor_id\030\001 \001(\004\022\032\n\022status_type"
+  "id_list\030\002 \003(\r\022\027\n\017status_lev_list\030\003 \003(\r\"\333"
+  "\001\n\016SC_STATUS_INFO\022\020\n\010actor_id\030\001 \001(\004\022(\n\ns"
+  "tatuslist\030\002 \003(\0132\024.SC_STATUS_INFO.Data\032\214\001"
+  "\n\004Data\022\020\n\010statusid\030\001 \001(\r\022\021\n\tstatuslev\030\002 "
+  "\001(\r\022\r\n\005power\030\003 \001(\005\022\013\n\003sec\030\004 \001(\005\022\r\n\005times"
+  "\030\005 \001(\005\022\021\n\tlaststamp\030\006 \001(\r\022\020\n\010idcaster\030\007 "
+  "\001(\004\022\017\n\007ispause\030\010 \001(\010\"\266\001\n\020SC_STATUS_ACTIO"
+  "N\022\020\n\010actor_id\030\001 \001(\004\022(\n\006action\030\002 \001(\0162\030.SC"
+  "_STATUS_ACTION.ACTION\022\020\n\010statusid\030\003 \001(\r\022"
+  "\021\n\tstatuslev\030\004 \001(\r\"A\n\006ACTION\022\021\n\rSTATUS_A"
+  "TTACH\020\000\022\021\n\rSTATUS_DETACH\020\001\022\021\n\rSTATUS_EFF"
+  "ECT\020\002\"<\n\007CS_MOVE\022\r\n\005mapid\030\001 \001(\004\022\t\n\001x\030\002 \001"
+  "(\002\022\t\n\001y\030\003 \001(\002\022\014\n\004face\030\004 \001(\002\"5\n\014CS_CHANGE"
+  "MAP\022\r\n\005mapid\030\001 \001(\004\022\026\n\016leavepoint_idx\030\002 \001"
+  "(\r\"X\n\014CS_CASTSKILL\022\r\n\005mapid\030\001 \001(\004\022\020\n\010ski"
+  "ll_id\030\002 \001(\r\022\021\n\ttarget_id\030\003 \001(\004\022\t\n\001x\030\004 \001("
+  "\002\022\t\n\001y\030\005 \001(\002\"j\n\014SC_CASTSKILL\022\r\n\005mapid\030\001 "
+  "\001(\004\022\020\n\010actor_id\030\002 \001(\004\022\020\n\010skill_id\030\003 \001(\r\022"
+  "\021\n\ttarget_id\030\004 \001(\004\022\t\n\001x\030\005 \001(\002\022\t\n\001y\030\006 \001(\002"
+  "\"\246\001\n\017SC_SKILL_DAMAGE\022\r\n\005mapid\030\001 \001(\004\022\020\n\010a"
+  "ctor_id\030\002 \001(\004\022\020\n\010skill_id\030\003 \001(\r\022/\n\ndamag"
+  "elist\030\005 \003(\0132\033.SC_SKILL_DAMAGE.DamageInfo"
+  "\032/\n\nDamageInfo\022\021\n\ttarget_id\030\001 \001(\004\022\016\n\006dam"
+  "age\030\002 \001(\005\"\037\n\016CS_SKILL_BREAK\022\r\n\005mapid\030\001 \001"
+  "(\004\"1\n\016SC_SKILL_BREAK\022\r\n\005mapid\030\001 \001(\004\022\020\n\010a"
+  "ctor_id\030\002 \001(\004\"-\n\025CS_SKILL_CHGTARGETPOS\022\t"
+  "\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\"S\n\rSC_SKILL_STUN\022\r\n"
+  "\005mapid\030\001 \001(\004\022\020\n\010actor_id\030\002 \001(\004\022\020\n\010skill_"
+  "id\030\003 \001(\r\022\017\n\007stun_ms\030\004 \001(\r\"D\n\017SC_SKILL_EF"
+  "FACT\022\r\n\005mapid\030\001 \001(\004\022\020\n\010actor_id\030\002 \001(\004\022\020\n"
+  "\010skill_id\030\003 \001(\r\"d\n\tSC_DAMAGE\022\020\n\010actor_id"
+  "\030\001 \001(\004\022\023\n\013attacker_id\030\002 \001(\004\022\016\n\006damage\030\003 "
+  "\001(\r\022\017\n\007hittype\030\004 \001(\r\022\017\n\007crtical\030\005 \001(\010\"0\n"
+  "\007SC_DEAD\022\020\n\010actor_id\030\001 \001(\004\022\023\n\013attacker_i"
+  "d\030\002 \001(\004\"\"\n\020CS_CHANGE_PKMODE\022\016\n\006pkmode\030\001 "
+  "\001(\r\"\"\n\020SC_CHANGE_PKMODE\022\016\n\006pkmode\030\001 \001(\r\""
+  " \n\tCS_REBORN\022\023\n\013reborn_type\030\001 \001(\r\"\276\001\n\014SC"
+  "_ITEM_INFO\022\020\n\010actor_id\030\001 \001(\004\022\017\n\007item_id\030"
+  "\002 \001(\004\022\020\n\010position\030\003 \001(\r\022\014\n\004grid\030\004 \001(\r\022\020\n"
+  "\010pile_num\030\005 \001(\r\022\014\n\004dura\030\006 \001(\r\022\022\n\ndura_li"
+  "mit\030\007 \001(\r\022\023\n\013expire_time\030\010 \001(\r\022\024\n\014additi"
+  "on_lev\030\t \001(\r\022\014\n\004flag\030\n \001(\r\"\236\002\n\016SC_ITEM_C"
+  "HANGE\022\017\n\007item_id\030\001 \001(\004\022\020\n\010position\030\002 \001(\r"
+  "\022/\n\013change_list\030\003 \003(\0132\032.SC_ITEM_CHANGE.C"
+  "hangeData\032L\n\nChangeData\022/\n\013change_type\030\001"
+  " \001(\0162\032.SC_ITEM_CHANGE.ChangeType\022\r\n\005valu"
+  "e\030\002 \001(\r\"j\n\nChangeType\022\016\n\nChangeGrid\020\000\022\021\n"
+  "\rChangePileNum\020\001\022\024\n\020ChangeExpireData\020\002\022\016"
+  "\n\nChangeDura\020\003\022\023\n\017ChangeDuraLimit\020\004\"A\n\016S"
+  "C_ITEM_DELETE\022\017\n\007item_id\030\001 \001(\004\022\020\n\010positi"
+  "on\030\002 \001(\r\022\014\n\004grid\030\003 \001(\r\">\n\014CS_ITEM_SWAP\022\020"
+  "\n\010position\030\001 \001(\r\022\r\n\005grid1\030\002 \001(\r\022\r\n\005grid2"
+  "\030\003 \001(\r\"R\n\rCS_ITEM_SPLIT\022\020\n\010position\030\001 \001("
+  "\r\022\r\n\005grid1\030\002 \001(\r\022\r\n\005grid2\030\003 \001(\r\022\021\n\tsplit"
+  "_num\030\004 \001(\r\"A\n\017CS_ITEM_COMBINE\022\020\n\010positio"
+  "n\030\001 \001(\r\022\r\n\005grid1\030\002 \001(\r\022\r\n\005grid2\030\003 \001(\r\" \n"
+  "\014CS_ITEM_TIDY\022\020\n\010position\030\001 \001(\r\"*\n\013CS_IT"
+  "EM_USE\022\014\n\004grid\030\001 \001(\r\022\r\n\005count\030\002 \001(\r\"\026\n\024C"
+  "S_ITEM_STORAGE_OPEN\"3\n\030CS_ITEM_STORAGE_C"
+  "HECKOUT\022\027\n\017grid_in_storage\030\001 \001(\r\"2\n\027CS_I"
+  "TEM_STORAGE_CHECKIN\022\027\n\017grid_in_package\030\001"
+  " \001(\r\":\n\010CS_EQUIP\022\027\n\017grid_in_package\030\001 \001("
+  "\r\022\025\n\rgrid_in_equip\030\002 \001(\r\"#\n\nCS_UNEQUIP\022\025"
+  "\n\rgrid_in_equip\030\001 \001(\r\"K\n\007CS_TALK\022\035\n\007chan"
+  "nel\030\001 \001(\0162\014.TalkChannel\022\r\n\005words\030\002 \001(\t\022\022"
+  "\n\nreciver_id\030\003 \001(\004\"\324\001\n\007SC_TALK\022\035\n\007channe"
+  "l\030\001 \001(\0162\014.TalkChannel\022\r\n\005words\030\002 \001(\t\022\021\n\t"
+  "sender_id\030\004 \001(\004\022\023\n\013sender_name\030\005 \001(\t\022\023\n\013"
+  "sender_sign\030\006 \001(\r\022\025\n\rsender_viplev\030\007 \001(\r"
+  "\022\021\n\tsend_time\030\010 \001(\r\022\022\n\nreciver_id\030\t \001(\004\022"
+  " \n\titem_list\030\024 \003(\0132\r.SC_ITEM_INFO\"\202\002\n\014SC"
+  "_TASK_INFO\022*\n\016task_info_list\030\001 \003(\0132\022.SC_"
+  "TASK_INFO.Info\032\305\001\n\004Info\022\017\n\007task_id\030\001 \001(\004"
+  "\022\023\n\013accept_time\030\002 \001(\r\022\023\n\013finish_time\030\003 \001"
+  "(\r\022\023\n\013expire_time\030\004 \001(\r\022\020\n\010daycount\030\005 \001("
+  "\r\022\024\n\014daycount_max\030\006 \001(\r\022\r\n\005state\030\007 \001(\r\022\014"
+  "\n\004num1\030\n \001(\r\022\014\n\004num2\030\013 \001(\r\022\014\n\004num3\030\014 \001(\r"
+  "\022\014\n\004num4\030\r \001(\r\"9\n\014SC_TASK_DATA\022\017\n\007task_i"
+  "d\030\001 \001(\004\022\013\n\003idx\030\002 \001(\r\022\013\n\003num\030\003 \001(\r\":\n\016CS_"
+  "TASK_SUBMIT\022\017\n\007task_id\030\001 \001(\004\022\027\n\017submit_m"
+  "ultiple\030\002 \001(\r\"\037\n\rCS_ACTIVE_NPC\022\016\n\006npc_id"
+  "\030\001 \001(\004\"\272\001\n\tSC_DIALOG\022\021\n\tdialog_id\030\001 \001(\004\022"
+  "\023\n\013dialog_type\030\002 \001(\r\022\024\n\014dialog_title\030\003 \001"
+  "(\t\022\022\n\ndialog_txt\030\004 \003(\t\0220\n\020dialog_link_li"
+  "st\030\005 \003(\0132\026.SC_DIALOG.dialog_link\032)\n\013dial"
+  "og_link\022\r\n\005style\030\001 \001(\r\022\013\n\003txt\030\002 \001(\t\"\?\n\017C"
+  "S_DIALOG_CLICK\022\021\n\tdialog_id\030\001 \001(\004\022\031\n\021dia"
+  "log_button_idx\030\002 \001(\r\"^\n\014SC_ACHI_INFO\022\'\n\013"
+  "finish_list\030\001 \003(\0132\022.SC_ACHI_INFO.Info\032%\n"
+  "\004Info\022\017\n\007achi_id\030\001 \001(\r\022\014\n\004take\030\002 \001(\r\"\037\n\014"
+  "CS_ACHI_TAKE\022\017\n\007achi_id\030\001 \001(\r\"\017\n\rCS_TEAM"
+  "CREATE\"\r\n\013CS_TEAMQUIT\"&\n\021CS_TEAMKICKMEMB"
+  "ER\022\021\n\tmember_id\030\001 \001(\004\")\n\023CS_TEAMINVITEME"
+  "MBER\022\022\n\ninvitee_id\030\001 \001(\004\"P\n\023SC_TEAMINVIT"
+  "EMEMBER\022\017\n\007team_id\030\001 \001(\004\022\022\n\ninviter_id\030\002"
+  " \001(\004\022\024\n\014inviter_name\030\003 \001(\t\"J\n\023CS_TEAMACC"
+  "EPTINVITE\022\017\n\007team_id\030\001 \001(\004\022\022\n\ninviter_id"
+  "\030\002 \001(\004\022\016\n\006result\030\003 \001(\010\")\n\020CS_TEAMNEWLEAD"
+  "ER\022\025\n\rnew_leader_id\030\002 \001(\004\"\252\001\n\022SC_TEAMMEM"
+  "BER_INFO\0223\n\013member_list\030\001 \003(\0132\036.SC_TEAMM"
+  "EMBER_INFO.MemberInfo\032_\n\nMemberInfo\022\021\n\tm"
+  "ember_id\030\001 \001(\004\022\022\n\nmember_lev\030\002 \001(\r\022\025\n\rme"
+  "mber_online\030\003 \001(\010\022\023\n\013member_name\030\004 \001(\t\"\370"
+  "\002\n\024SC_TEAMMEMBER_ACTION\022,\n\006action\030\001 \001(\0162"
+  "\034.SC_TEAMMEMBER_ACTION.Action\022\023\n\013operato"
+  "r_id\030\002 \001(\004\022\021\n\tmember_id\030\003 \001(\004\022\022\n\nmember_"
+  "lev\030\004 \001(\r\022\023\n\013member_name\030\005 \001(\t\022\025\n\rmember"
+  "_online\030\006 \001(\010\"\311\001\n\006Action\022\017\n\013TEAM_CREATE\020"
+  "\000\022\020\n\014TEAM_DESTORY\020\001\022\021\n\rTEAM_ADDMEBER\020\002\022\026"
+  "\n\022TEAM_CHANGE_LEADER\020\003\022\r\n\tTEAM_QUIT\020\004\022\023\n"
+  "\017TEAM_KICKMEMBER\020\005\022\027\n\023TEAM_MEMBER_LEV_CH"
+  "G\020\006\022\030\n\024TEAM_MEMBER_NAME_CHG\020\007\022\032\n\026TEAM_ME"
+  "MBER_ONLINE_CHG\020\010\"+\n\022CS_TEAMAPPLYMEMBER\022"
+  "\025\n\rrespondent_id\030\001 \001(\004\"B\n\022SC_TEAMAPPLYME"
+  "MBER\022\024\n\014applicant_id\030\001 \001(\004\022\026\n\016applicant_"
+  "name\030\002 \001(\t\":\n\022CS_TEAMACCEPTAPPLY\022\024\n\014appl"
+  "icant_id\030\001 \001(\004\022\016\n\006result\030\002 \001(\010*\344\001\n\013TalkC"
+  "hannel\022\022\n\016CHANNEL_NORMAL\020\000\022\021\n\rCHANNEL_SC"
+  "ENE\020\001\022\021\n\rCHANNEL_PHASE\020\002\022\020\n\014CHANNEL_TEAM"
+  "\020\003\022\021\n\rCHANNEL_GUILD\020\004\022\021\n\rCHANNEL_WORLD\020\005"
+  "\022\023\n\017CHANNEL_TRUMPET\020\006\022\022\n\016CHANNEL_GLOBAL\020"
+  "\007\022\022\n\016CHANNEL_SYSTEM\020\010\022\021\n\rCHANNEL_RUMOR\020\t"
+  "\022\023\n\017CHANNEL_PRIVATE\020\nb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_msg_2fzone_5fservice_2eproto_deps[1] = {
+  &::descriptor_table_msg_2fts_5fcmd_2eproto,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_msg_2fzone_5fservice_2eproto_sccs[80] = {
   &scc_info_CS_ACHI_TAKE_msg_2fzone_5fservice_2eproto.base,
@@ -2614,8 +2573,8 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_msg
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_msg_2fzone_5fservice_2eproto_once;
 static bool descriptor_table_msg_2fzone_5fservice_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_msg_2fzone_5fservice_2eproto = {
-  &descriptor_table_msg_2fzone_5fservice_2eproto_initialized, descriptor_table_protodef_msg_2fzone_5fservice_2eproto, "msg/zone_service.proto", 8597,
-  &descriptor_table_msg_2fzone_5fservice_2eproto_once, descriptor_table_msg_2fzone_5fservice_2eproto_sccs, descriptor_table_msg_2fzone_5fservice_2eproto_deps, 80, 0,
+  &descriptor_table_msg_2fzone_5fservice_2eproto_initialized, descriptor_table_protodef_msg_2fzone_5fservice_2eproto, "msg/zone_service.proto", 6909,
+  &descriptor_table_msg_2fzone_5fservice_2eproto_once, descriptor_table_msg_2fzone_5fservice_2eproto_sccs, descriptor_table_msg_2fzone_5fservice_2eproto_deps, 80, 1,
   schemas, file_default_instances, TableStruct_msg_2fzone_5fservice_2eproto::offsets,
   file_level_metadata_msg_2fzone_5fservice_2eproto, 80, file_level_enum_descriptors_msg_2fzone_5fservice_2eproto, file_level_service_descriptors_msg_2fzone_5fservice_2eproto,
 };
@@ -2728,102 +2687,9 @@ constexpr SC_TEAMMEMBER_ACTION_Action SC_TEAMMEMBER_ACTION::Action_MIN;
 constexpr SC_TEAMMEMBER_ACTION_Action SC_TEAMMEMBER_ACTION::Action_MAX;
 constexpr int SC_TEAMMEMBER_ACTION::Action_ARRAYSIZE;
 #endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ZONE_CS_CMD_descriptor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_msg_2fzone_5fservice_2eproto);
-  return file_level_enum_descriptors_msg_2fzone_5fservice_2eproto[4];
-}
-bool ZONE_CS_CMD_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1001:
-    case 1002:
-    case 1003:
-    case 1004:
-    case 1005:
-    case 1006:
-    case 1007:
-    case 1008:
-    case 1020:
-    case 1021:
-    case 1022:
-    case 1023:
-    case 1024:
-    case 1025:
-    case 1026:
-    case 1027:
-    case 1030:
-    case 1031:
-    case 1040:
-    case 1041:
-    case 1042:
-    case 1043:
-    case 1044:
-    case 1050:
-    case 1051:
-    case 1052:
-    case 1053:
-    case 1054:
-    case 1055:
-    case 1056:
-    case 1057:
-      return true;
-    default:
-      return false;
-  }
-}
-
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ZONE_SC_CMD_descriptor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_msg_2fzone_5fservice_2eproto);
-  return file_level_enum_descriptors_msg_2fzone_5fservice_2eproto[5];
-}
-bool ZONE_SC_CMD_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 1001:
-    case 1002:
-    case 1003:
-    case 1004:
-    case 1005:
-    case 1006:
-    case 1007:
-    case 1008:
-    case 1009:
-    case 1020:
-    case 1021:
-    case 1022:
-    case 1031:
-    case 1032:
-    case 1033:
-    case 1034:
-    case 1035:
-    case 1036:
-    case 1037:
-    case 1038:
-    case 1040:
-    case 1041:
-    case 1043:
-    case 1044:
-    case 1050:
-    case 1051:
-    case 1052:
-    case 1053:
-    case 1060:
-    case 1061:
-    case 1062:
-    case 1063:
-    case 1070:
-    case 1071:
-    case 1072:
-    case 1073:
-      return true;
-    default:
-      return false;
-  }
-}
-
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* TalkChannel_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_msg_2fzone_5fservice_2eproto);
-  return file_level_enum_descriptors_msg_2fzone_5fservice_2eproto[6];
+  return file_level_enum_descriptors_msg_2fzone_5fservice_2eproto[4];
 }
 bool TalkChannel_IsValid(int value) {
   switch (value) {
@@ -2837,6 +2703,7 @@ bool TalkChannel_IsValid(int value) {
     case 7:
     case 8:
     case 9:
+    case 10:
       return true;
     default:
       return false;

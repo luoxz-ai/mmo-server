@@ -586,14 +586,14 @@ void CPlayerTask::SendTaskInfo()
             pData->set_num4(pTaskData->GetNum(3));
             if(msg.task_info_list_size() > 50)
             {
-                m_pOwner->SendMsg(CMD_SC_TASK_INFO, msg);
+                m_pOwner->SendMsg(msg);
                 msg.clear_task_info_list();
             }
         }
     }
 
     if(msg.task_info_list_size() > 0)
-        m_pOwner->SendMsg(CMD_SC_TASK_INFO, msg);
+        m_pOwner->SendMsg(msg);
     __LEAVE_FUNCTION
 }
 
@@ -604,7 +604,7 @@ void CPlayerTask::SendTaskDataChange(CPlayerTaskData* pTaskData, uint32_t i)
     msg.set_task_id(pTaskData->GetTaskID());
     msg.set_idx(i);
     msg.set_num(pTaskData->GetNum(i));
-    m_pOwner->SendMsg(CMD_SC_TASK_DATA, msg);
+    m_pOwner->SendMsg(msg);
     __LEAVE_FUNCTION
 }
 
@@ -624,7 +624,7 @@ void CPlayerTask::SendTaskInfo(CPlayerTaskData* pTaskData)
     pData->set_num2(pTaskData->GetNum(1));
     pData->set_num3(pTaskData->GetNum(2));
     pData->set_num4(pTaskData->GetNum(3));
-    m_pOwner->SendMsg(CMD_SC_TASK_INFO, msg);
+    m_pOwner->SendMsg(msg);
     __LEAVE_FUNCTION
 }
 

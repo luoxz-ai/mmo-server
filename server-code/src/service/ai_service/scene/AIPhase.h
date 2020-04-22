@@ -7,7 +7,7 @@
 
 class CAIScene;
 
-class CAIPhase : public CSceneBase
+export_lua class CAIPhase : public CSceneBase
 {
 protected:
     CAIPhase();
@@ -20,7 +20,7 @@ public:
 public:
     
     CMonsterGenerator& GetMonsterGen() { return m_MonsterGen; }
-    uint64_t GetPhaseID() const {return m_idPhase;}
+    export_lua uint64_t GetPhaseID() const {return m_idPhase;}
 private:
     uint64_t m_idPhase;
     CMonsterGenerator m_MonsterGen;

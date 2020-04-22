@@ -113,41 +113,7 @@ bool IsUTF8_NoneControl(const char* pszString, long nSize)
     return true;
 }
 
-//////////////////////////////////////////////////////////////////////
-std::string ReplaceStr(std::string& strSource, const std::string& strRepl, const std::string& strNew)
-{
-    std::string::size_type pos = 0;
-    while((pos = strSource.find(strRepl, pos)) != std::string::npos)
-    {
-        strSource.replace(pos, strRepl.length(), strNew);
-        pos += strNew.length();
-    }
-    return strSource;
-}
 
-//////////////////////////////////////////////////////////////////////////
-
-std::string& ltrim(std::string& ss)
-{
-    std::string::iterator p =
-        std::find_if(ss.begin(), ss.end(), std::not1(std::ptr_fun<int32_t, int32_t>(std::isspace)));
-    ss.erase(ss.begin(), p);
-    return ss;
-}
-
-std::string& rtrim(std::string& ss)
-{
-    std::string::reverse_iterator p =
-        std::find_if(ss.rbegin(), ss.rend(), std::not1(std::ptr_fun<int32_t, int32_t>(std::isspace)));
-    ss.erase(p.base(), ss.end());
-    return ss;
-}
-
-std::string& trim(std::string& st)
-{
-    ltrim(rtrim(st));
-    return st;
-}
 
 //////////////////////////////////////////////////////////////////////
 std::string URLEncode(const char* pszStr)

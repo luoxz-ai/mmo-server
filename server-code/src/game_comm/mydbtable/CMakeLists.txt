@@ -25,7 +25,7 @@ ENDIF()
 
 
 # 搜索当前目录下所有文件
-file(GLOB_RECURSE SRCS "*.cc" "*.cpp" "*.c" "*.h" "*.hpp")
+file(GLOB_RECURSE SRCS FOLLOW_SYMLINKS "*.cc" "*.cpp" "*.c" "*.h" "*.hpp")
 source_group_by_dir(SRCS)
 # 生成库文件
 ADD_LIBRARY(mydbtable SHARED ${SRCS})

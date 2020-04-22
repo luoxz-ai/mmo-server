@@ -179,7 +179,7 @@ static void InitDefaultsscc_info_SC_WAITINFO_msg_2fworld_5fservice_2eproto() {
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_SC_WAITINFO_msg_2fworld_5fservice_2eproto}, {}};
 
 static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_msg_2fworld_5fservice_2eproto[9];
-static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_msg_2fworld_5fservice_2eproto[5];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_msg_2fworld_5fservice_2eproto[3];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_msg_2fworld_5fservice_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_msg_2fworld_5fservice_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -272,36 +272,31 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 };
 
 const char descriptor_table_protodef_msg_2fworld_5fservice_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\027msg/world_service.proto\"Q\n\010CS_LOGIN\022\016\n"
-  "\006openid\030\001 \001(\t\022\014\n\004auth\030\002 \001(\t\022\025\n\rlast_succ"
-  "_key\030\003 \001(\t\022\020\n\010prog_ver\030\004 \001(\t\"\266\001\n\010SC_LOGI"
-  "N\022(\n\013result_code\030\001 \001(\0162\023.SC_LOGIN.ErrorC"
-  "ode\022\016\n\006detail\030\002 \001(\t\022\025\n\rlast_succ_key\030\003 \001"
-  "(\t\"Y\n\tErrorCode\022\013\n\007EC_SUCC\020\000\022\017\n\013EC_PROG_"
-  "VER\020\001\022\017\n\013EC_LAST_KEY\020\002\022\013\n\007EC_AUTH\020\003\022\020\n\014E"
-  "C_WAIT_AUTH\020\004\"\r\n\013SC_WAITINFO\"\215\001\n\020SC_ACTO"
-  "RINFOLIST\022-\n\004list\030\001 \003(\0132\037.SC_ACTORINFOLI"
-  "ST.SC_ACTOR_INFO\032J\n\rSC_ACTOR_INFO\022\014\n\004nam"
-  "e\030\001 \001(\t\022\014\n\004prof\030\002 \001(\r\022\020\n\010baselook\030\003 \001(\r\022"
-  "\013\n\003lev\030\004 \001(\r\">\n\016CS_CREATEACTOR\022\014\n\004name\030\001"
-  " \001(\t\022\014\n\004prof\030\002 \001(\r\022\020\n\010baselook\030\003 \001(\r\"\300\001\n"
-  "\016SC_CREATEACTOR\022.\n\013result_code\030\001 \001(\0162\031.S"
-  "C_CREATEACTOR.ErrorCode\"~\n\tErrorCode\022\013\n\007"
-  "EC_SUCC\020\000\022\020\n\014EC_SAME_NAME\020\001\022\024\n\020EC_NAME_T"
-  "OO_LONG\020\002\022\025\n\021EC_NAME_TOO_SHORT\020\003\022\023\n\017EC_N"
-  "AME_ILLEGAL\020\004\022\020\n\014EC_MAX_ACTOR\020\005\"#\n\016CS_SE"
-  "LECTACTOR\022\021\n\tactor_idx\030\001 \001(\r\"Z\n\016SC_SELEC"
-  "TACTOR\022.\n\013result_code\030\001 \001(\0162\031.SC_SELECTA"
-  "CTOR.ErrorCode\"\030\n\tErrorCode\022\013\n\007EC_SUCC\020\000"
-  "*g\n\014WORLD_CS_CMD\022\025\n\021WORLD_CS_CMD_NONE\020\000\022"
-  "\020\n\014CMD_CS_LOGIN\020\n\022\026\n\022CMD_CS_CREATEACTOR\020"
-  "\013\022\026\n\022CMD_CS_SELECTACTOR\020\014*\226\001\n\014WORLD_SC_C"
-  "MD\022\025\n\021WORLD_SC_CMD_NONE\020\000\022\020\n\014CMD_SC_LOGI"
-  "N\020\n\022\030\n\024CMD_SC_ACTORINFOLIST\020\013\022\023\n\017CMD_SC_"
-  "WAITINFO\020\014\022\026\n\022CMD_SC_CREATEACTOR\020\r\022\026\n\022CM"
-  "D_SC_SELECTACTOR\020\016b\006proto3"
+  "\n\027msg/world_service.proto\032\020msg/ts_cmd.pr"
+  "oto\"Q\n\010CS_LOGIN\022\016\n\006openid\030\001 \001(\t\022\014\n\004auth\030"
+  "\002 \001(\t\022\025\n\rlast_succ_key\030\003 \001(\t\022\020\n\010prog_ver"
+  "\030\004 \001(\t\"\266\001\n\010SC_LOGIN\022(\n\013result_code\030\001 \001(\016"
+  "2\023.SC_LOGIN.ErrorCode\022\016\n\006detail\030\002 \001(\t\022\025\n"
+  "\rlast_succ_key\030\003 \001(\t\"Y\n\tErrorCode\022\013\n\007EC_"
+  "SUCC\020\000\022\017\n\013EC_PROG_VER\020\001\022\017\n\013EC_LAST_KEY\020\002"
+  "\022\013\n\007EC_AUTH\020\003\022\020\n\014EC_WAIT_AUTH\020\004\"\r\n\013SC_WA"
+  "ITINFO\"\215\001\n\020SC_ACTORINFOLIST\022-\n\004list\030\001 \003("
+  "\0132\037.SC_ACTORINFOLIST.SC_ACTOR_INFO\032J\n\rSC"
+  "_ACTOR_INFO\022\014\n\004name\030\001 \001(\t\022\014\n\004prof\030\002 \001(\r\022"
+  "\020\n\010baselook\030\003 \001(\r\022\013\n\003lev\030\004 \001(\r\">\n\016CS_CRE"
+  "ATEACTOR\022\014\n\004name\030\001 \001(\t\022\014\n\004prof\030\002 \001(\r\022\020\n\010"
+  "baselook\030\003 \001(\r\"\300\001\n\016SC_CREATEACTOR\022.\n\013res"
+  "ult_code\030\001 \001(\0162\031.SC_CREATEACTOR.ErrorCod"
+  "e\"~\n\tErrorCode\022\013\n\007EC_SUCC\020\000\022\020\n\014EC_SAME_N"
+  "AME\020\001\022\024\n\020EC_NAME_TOO_LONG\020\002\022\025\n\021EC_NAME_T"
+  "OO_SHORT\020\003\022\023\n\017EC_NAME_ILLEGAL\020\004\022\020\n\014EC_MA"
+  "X_ACTOR\020\005\"#\n\016CS_SELECTACTOR\022\021\n\tactor_idx"
+  "\030\001 \001(\r\"Z\n\016SC_SELECTACTOR\022.\n\013result_code\030"
+  "\001 \001(\0162\031.SC_SELECTACTOR.ErrorCode\"\030\n\tErro"
+  "rCode\022\013\n\007EC_SUCC\020\000b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_msg_2fworld_5fservice_2eproto_deps[1] = {
+  &::descriptor_table_msg_2fts_5fcmd_2eproto,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_msg_2fworld_5fservice_2eproto_sccs[9] = {
   &scc_info_CS_CREATEACTOR_msg_2fworld_5fservice_2eproto.base,
@@ -317,8 +312,8 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_msg
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_msg_2fworld_5fservice_2eproto_once;
 static bool descriptor_table_msg_2fworld_5fservice_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_msg_2fworld_5fservice_2eproto = {
-  &descriptor_table_msg_2fworld_5fservice_2eproto_initialized, descriptor_table_protodef_msg_2fworld_5fservice_2eproto, "msg/world_service.proto", 1106,
-  &descriptor_table_msg_2fworld_5fservice_2eproto_once, descriptor_table_msg_2fworld_5fservice_2eproto_sccs, descriptor_table_msg_2fworld_5fservice_2eproto_deps, 9, 0,
+  &descriptor_table_msg_2fworld_5fservice_2eproto_initialized, descriptor_table_protodef_msg_2fworld_5fservice_2eproto, "msg/world_service.proto", 866,
+  &descriptor_table_msg_2fworld_5fservice_2eproto_once, descriptor_table_msg_2fworld_5fservice_2eproto_sccs, descriptor_table_msg_2fworld_5fservice_2eproto_deps, 9, 1,
   schemas, file_default_instances, TableStruct_msg_2fworld_5fservice_2eproto::offsets,
   file_level_metadata_msg_2fworld_5fservice_2eproto, 9, file_level_enum_descriptors_msg_2fworld_5fservice_2eproto, file_level_service_descriptors_msg_2fworld_5fservice_2eproto,
 };
@@ -400,40 +395,6 @@ constexpr SC_SELECTACTOR_ErrorCode SC_SELECTACTOR::ErrorCode_MIN;
 constexpr SC_SELECTACTOR_ErrorCode SC_SELECTACTOR::ErrorCode_MAX;
 constexpr int SC_SELECTACTOR::ErrorCode_ARRAYSIZE;
 #endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* WORLD_CS_CMD_descriptor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_msg_2fworld_5fservice_2eproto);
-  return file_level_enum_descriptors_msg_2fworld_5fservice_2eproto[3];
-}
-bool WORLD_CS_CMD_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 10:
-    case 11:
-    case 12:
-      return true;
-    default:
-      return false;
-  }
-}
-
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* WORLD_SC_CMD_descriptor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_msg_2fworld_5fservice_2eproto);
-  return file_level_enum_descriptors_msg_2fworld_5fservice_2eproto[4];
-}
-bool WORLD_SC_CMD_IsValid(int value) {
-  switch (value) {
-    case 0:
-    case 10:
-    case 11:
-    case 12:
-    case 13:
-    case 14:
-      return true;
-    default:
-      return false;
-  }
-}
-
 
 // ===================================================================
 

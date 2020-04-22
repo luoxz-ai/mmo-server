@@ -176,6 +176,7 @@ class SqlOptions :
     kUniqueFieldNumber = 6,
     kSizeFieldNumber = 1,
     kAutoIncrementFieldNumber = 2,
+    kIntSizeFieldNumber = 7,
   };
   // string primary_key = 3;
   void clear_primary_key();
@@ -259,6 +260,15 @@ class SqlOptions :
   void _internal_set_auto_increment(bool value);
   public:
 
+  // uint32 int_size = 7;
+  void clear_int_size();
+  ::PROTOBUF_NAMESPACE_ID::uint32 int_size() const;
+  void set_int_size(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_int_size() const;
+  void _internal_set_int_size(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:SqlOptions)
  private:
   class _Internal;
@@ -270,6 +280,7 @@ class SqlOptions :
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr unique_;
   ::PROTOBUF_NAMESPACE_ID::uint32 size_;
   bool auto_increment_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 int_size_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_sql_5foptions_2fsql_5foptions_2eproto;
 };
@@ -566,6 +577,26 @@ inline void SqlOptions::set_allocated_unique(std::string* unique) {
   }
   unique_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), unique);
   // @@protoc_insertion_point(field_set_allocated:SqlOptions.unique)
+}
+
+// uint32 int_size = 7;
+inline void SqlOptions::clear_int_size() {
+  int_size_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 SqlOptions::_internal_int_size() const {
+  return int_size_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 SqlOptions::int_size() const {
+  // @@protoc_insertion_point(field_get:SqlOptions.int_size)
+  return _internal_int_size();
+}
+inline void SqlOptions::_internal_set_int_size(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  int_size_ = value;
+}
+inline void SqlOptions::set_int_size(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_int_size(value);
+  // @@protoc_insertion_point(field_set:SqlOptions.int_size)
 }
 
 #ifdef __GNUC__

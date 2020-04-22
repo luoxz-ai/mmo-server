@@ -114,9 +114,14 @@ void CUser::Logout()
     __LEAVE_FUNCTION
 }
 
-void CUser::SendMsg(uint16_t usCmd, const google::protobuf::Message& msg)
+bool CUser::SendMsg(const google::protobuf::Message& msg)
 {
-    WorldService()->SendToVirtualSocket(GetSocket(), CMD_SC_ACTORINFOLIST, msg);
+    return SendMsg(to_sc_cmd(msg), msg);
+}
+
+bool CUser::SendMsg(uint16_t usCmd, const google::protobuf::Message& msg)
+{
+    return WorldService()->SendToVirtualSocket(GetSocket(), usCmd, msg);
 }
 
 uint32_t CUser::GetLev() const

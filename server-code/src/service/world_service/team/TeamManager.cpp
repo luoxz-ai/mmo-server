@@ -42,7 +42,7 @@ CTeam* CTeamManager::CreateTeam(uint64_t idTeam, OBJID idLeader)
     ServerMSG::TeamCreate msg;
     msg.set_team_id(idTeam);
     msg.set_leader_id(idLeader);
-    WorldService()->BroadcastToZone(ServerMSG::MsgID_TeamCreate, msg);
+    WorldService()->BroadcastToZone(msg);
 
     pTeam->_AddMember(pUser);
     return pTeam;
@@ -64,7 +64,7 @@ bool CTeamManager::DestoryTeam(uint64_t idTeam)
 
     ServerMSG::TeamCreate msg;
     msg.set_team_id(idTeam);
-    WorldService()->BroadcastToZone(ServerMSG::MsgID_TeamDestory, msg);
+    WorldService()->BroadcastToZone(msg);
     CTeam* pTeam = it->second;
     pTeam->SendTeamAction(SC_TEAMMEMBER_ACTION::TEAM_DESTORY, 0, 0);
 
@@ -134,7 +134,7 @@ ON_SERVERMSG(TeamApplyMember)
         SC_TEAMAPPLYMEMBER msg;
         msg.set_applicant_id(msg.applicant_id());
         msg.set_applicant_name(pApplicant->GetName());
-        pUser->SendMsg(CMD_SC_TEAMAPPLYMEMBER, msg);
+        pUser->SendMsg(msg);
     }
 }
 

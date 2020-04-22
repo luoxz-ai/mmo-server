@@ -32,6 +32,17 @@ CRouteService::~CRouteService()
 
 }
 
+void CRouteService::Release()  
+{   
+    scope_guards scope_exit;
+    auto oldNdc = BaseCode::SetNdc(GetServiceName());
+    scope_exit += [oldNdc]() {
+        BaseCode::SetNdc(oldNdc);
+    };
+    Destory();
+    delete this; 
+}
+
 void CRouteService::Destory()
 {
     tls_pService = this;

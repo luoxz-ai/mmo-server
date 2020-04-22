@@ -8,35 +8,7 @@
 #include "fmt/format.h"
 #include "fmt/printf.h"
 #include "get_opt.h"
-
-//////////////////////////////////////////////////////////////////////
-std::string ReplaceStr(std::string& strSource, const std::string& strRepl, const std::string& strNew)
-{
-    std::string::size_type pos = 0;
-    while((pos = strSource.find(strRepl, pos)) != std::string::npos)
-    {
-        strSource.replace(pos, strRepl.length(), strNew);
-        pos += strNew.length();
-    }
-    return strSource;
-}
-
-inline std::vector<std::string> split_string(const std::string& str, const std::string& delimiters)
-{
-    std::vector<std::string> v;
-    std::string::size_type   start = 0;
-    auto                     pos   = str.find_first_of(delimiters, start);
-    while(pos != std::string::npos)
-    {
-        if(pos != start) // ignore empty tokens
-            v.emplace_back(str, start, pos - start);
-        start = pos + 1;
-        pos   = str.find_first_of(delimiters, start);
-    }
-    if(start < str.length())                              // ignore trailing delimiter
-        v.emplace_back(str, start, str.length() - start); // add what's left of the string
-    return v;
-}
+#include "StringAlgo.h"
 
 int main(int argc, char** argv)
 {
@@ -155,7 +127,7 @@ int main(int argc, char** argv)
                     {
                         std::string field_type = field_match[1];
                         std::string field_bits = field_match[2];
-                        bool        bUnsigned  = field_match.size() > 2 && field_match[3] == " unsigned";
+                        bool        bUnsigned  = field_match.size() > 2 && lower_cast_copy(trim_copy(field_match[3])) == "unsigned";
                         std::string field_type_cpp;
                         std::string field_type_enum;
                         if(field_type == "bigint")

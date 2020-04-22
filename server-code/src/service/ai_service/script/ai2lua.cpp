@@ -133,6 +133,21 @@ void ai2lua(lua_State* L)
     lua_tinker::class_var_static<AxisAlignedBox>(L, "NEAR_LEFT_TOP", AxisAlignedBox::NEAR_LEFT_TOP);
     lua_tinker::class_var_static<AxisAlignedBox>(L, "NEAR_RIGHT_BOTTOM", AxisAlignedBox::NEAR_RIGHT_BOTTOM);
     lua_tinker::class_var_static<AxisAlignedBox>(L, "NEAR_RIGHT_TOP", AxisAlignedBox::NEAR_RIGHT_TOP);
+    lua_tinker::class_add<CAIPhase>(L, "CAIPhase", false);
+    lua_tinker::class_def<CAIPhase>(L, "GetPhaseID", &CAIPhase::GetPhaseID);
+    lua_tinker::class_add<CAIScene>(L, "CAIScene", false);
+    lua_tinker::class_def<CAIScene>(
+        L,
+        "CreatePhase",
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr(
+                (CAIPhase * (CAIScene::*)(const SceneID&, uint64_t))(&CAIScene::CreatePhase)),
+            lua_tinker::make_member_functor_ptr(
+                (CAIPhase * (CAIScene::*)(const SceneID&, uint64_t, const PhaseData*))(&CAIScene::CreatePhase))));
+    lua_tinker::class_def<CAIScene>(L, "DestoryPhase", &CAIScene::DestoryPhase);
+    lua_tinker::class_def<CAIScene>(L, "DestoryPhaseByIdx", &CAIScene::DestoryPhaseByIdx);
+    lua_tinker::class_def<CAIScene>(L, "QueryPhaseByID", &CAIScene::QueryPhaseByID);
+    lua_tinker::class_def<CAIScene>(L, "QueryPhaseByIdx", &CAIScene::QueryPhaseByIdx);
     lua_tinker::class_add<CGameMap>(L, "CGameMap", false);
     lua_tinker::class_def<CGameMap>(L, "FindPosNearby", &CGameMap::FindPosNearby);
     lua_tinker::class_def<CGameMap>(L, "GetEnterPointByIdx", &CGameMap::GetEnterPointByIdx);
@@ -492,7 +507,6 @@ void ai2lua(lua_State* L)
     lua_tinker::class_add<SceneID>(L, "SceneID", false);
     lua_tinker::class_def<SceneID>(L, "GetMapID", &SceneID::GetMapID);
     lua_tinker::class_def<SceneID>(L, "GetPhaseIdx", &SceneID::GetPhaseIdx);
-    lua_tinker::class_def<SceneID>(L, "GetSceneID", &SceneID::GetSceneID);
     lua_tinker::class_def<SceneID>(L, "GetStaticPhaseSceneID", &SceneID::GetStaticPhaseSceneID);
     lua_tinker::class_def<SceneID>(L, "GetZoneID", &SceneID::GetZoneID);
     lua_tinker::class_def<SceneID>(L, "IsPhaseIdxVaild", &SceneID::IsPhaseIdxVaild);
@@ -717,17 +731,24 @@ void ai2lua(lua_State* L)
     lua_tinker::def(L, "hex_set", &hex_set);
     lua_tinker::def(L, "isleap", &isleap);
     lua_tinker::def(L, "local2gmt", &local2gmt);
+    lua_tinker::def(L, "lower_cast", &lower_cast);
+    lua_tinker::def(L, "lower_cast_copy", &lower_cast_copy);
     lua_tinker::def(L, "ltrim", &ltrim);
+    lua_tinker::def(L, "ltrim_copy", &ltrim_copy);
     lua_tinker::def(L, "random_float", &random_float, 0.0f, 1.0f);
     lua_tinker::def(L, "random_hit", &random_hit);
     lua_tinker::def(L, "random_uint32", &random_uint32);
     lua_tinker::def(L, "random_uint32_range", &random_uint32_range);
     lua_tinker::def(L, "rtrim", &rtrim);
+    lua_tinker::def(L, "rtrim_copy", &rtrim_copy);
     lua_tinker::def(L, "skip_utf8_bom", &skip_utf8_bom);
     lua_tinker::def(L, "split_string", &split_string);
     lua_tinker::def(L, "split_string_view", &split_string_view);
     lua_tinker::def(L, "toHex", &toHex);
     lua_tinker::def(L, "trim", &trim);
+    lua_tinker::def(L, "trim_copy", &trim_copy);
+    lua_tinker::def(L, "upper_cast", &upper_cast);
+    lua_tinker::def(L, "upper_cast_copy", &upper_cast_copy);
     lua_tinker::def(L, "utf8_length", &utf8_length, 0);
     lua_tinker::set(L, "UPDATE_FALSE", UPDATE_FALSE);
     lua_tinker::set(L, "UPDATE_TRUE", UPDATE_TRUE);

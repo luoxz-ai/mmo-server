@@ -80,7 +80,7 @@ void CPlayerCoolDown::Sync()
     pData->set_idx(GetIdx());
     pData->set_expiretime(GetExpireTime());
 
-    m_pOwner->SendMsg(CMD_SC_COOLDOWN, msg);
+    m_pOwner->SendMsg(msg);
     __LEAVE_FUNCTION
 }
 
@@ -233,7 +233,7 @@ void CPlayerCoolDownSet::SyncAll()
             pData->set_expiretime(pCD->GetExpireTime());
         }
     }
-    m_pOwner->SendMsg(CMD_SC_COOLDOWN, msg);
+    m_pOwner->SendMsg(msg);
 
     __LEAVE_FUNCTION
 }

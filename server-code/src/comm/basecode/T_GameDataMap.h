@@ -122,7 +122,7 @@ protected:
 
         BuildIndex();
     
-        LOGINFO("Init {} Succ.", szFileName);
+        LOGDEBUG("Init {} Succ.", szFileName);
         return true;
     }
 

@@ -86,6 +86,11 @@ bool CPlayer::Init(OBJID idPlayer, const VirtualSocket& socket)
     return false;
 }
 
+bool CPlayer::SendMsg(const google::protobuf::Message& msg) const
+{
+    return SendMsg(to_sc_cmd(msg), msg);
+}
+
 bool CPlayer::SendMsg(uint16_t cmd, const google::protobuf::Message& msg) const
 {
     __ENTER_FUNCTION
@@ -227,7 +232,7 @@ void CPlayer::OnLogin(bool bLogin, const SceneID& idScene, float fPosX, float fP
     msg.set_posy(m_fLoadingPosY);
     msg.set_face(m_fLoadingFace);
 
-    SendMsg(CMD_SC_LOADMAP, msg);
+    SendMsg(msg);
 
     EventManager()->ScheduleEvent(0, std::bind(&CPlayer::OnTimer, this), 100, true, m_pEventOnTimer);
     __LEAVE_FUNCTION
@@ -263,7 +268,7 @@ void CPlayer::SendPlayerInfoToClient()
     msg.set_fp(GetFP());
     msg.set_np(GetNP());
 
-    SendMsg(CMD_SC_PLAYERINFO, msg);
+    SendMsg(msg);
     __LEAVE_FUNCTION
 }
 
@@ -366,7 +371,7 @@ void CPlayer::SendTalkMsg(uint32_t nTalkChannel, const std::string& txt)
     msg.set_words(txt);
     msg.set_channel(TalkChannel(nTalkChannel));
     msg.set_send_time(TimeGetSecond());
-    SendMsg(CMD_SC_TALK, msg);
+    SendMsg(msg);
 }
 
 void CPlayer::MakeShowData(SC_AOI_NEW& msg)

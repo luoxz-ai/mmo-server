@@ -61,6 +61,17 @@ CWorldService::~CWorldService()
     
 }
 
+void CWorldService::Release()  
+{   
+    scope_guards scope_exit;
+    auto oldNdc = BaseCode::SetNdc(GetServiceName());
+    scope_exit += [oldNdc]() {
+        BaseCode::SetNdc(oldNdc);
+    };
+    Destory();
+    delete this; 
+}
+
 void CWorldService::Destory()
 {
     tls_pService = this;
@@ -124,7 +135,7 @@ bool CWorldService::Init(const ServerPort& nServerPort)
     if(row)
     {
         std::string host   = (const char*)row->Field(TBLD_DBINFO::DB_IP);
-        uint32_t    port   = row->Field(TBLD_DBINFO::DB_PORT);
+        uint16_t    port   = row->Field(TBLD_DBINFO::DB_PORT);
         std::string user   = (const char*)row->Field(TBLD_DBINFO::DB_USER);
         std::string passwd = (const char*)row->Field(TBLD_DBINFO::DB_PASSWD);
         std::string dbname = (const char*)row->Field(TBLD_DBINFO::DB_NAME);
@@ -207,11 +218,22 @@ void CWorldService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
         break;
         default:
         {
+           
             //需要转发的，直接转发
-            if(pNetworkMsg->GetForward().IsVaild())
+            if(pNetworkMsg->GetForward().IsVaild() &&
+               pNetworkMsg->GetForward().GetServerPort() != GetServerPort() )
             {
-                pNetworkMsg->SetTo(pNetworkMsg->GetForward());
-                SendMsg(*pNetworkMsg);
+                if(GetMessageRoute()->IsConnected(pNetworkMsg->GetForward().GetServerPort()) == true)
+                {
+                    pNetworkMsg->SetTo(pNetworkMsg->GetForward());
+                    SendMsg(*pNetworkMsg);
+                }
+                else
+                {
+                    //尝试使用route来中转
+                    pNetworkMsg->SetTo(ServerPort(0, ROUTE_SERVICE_ID));
+                    SendMsg(*pNetworkMsg);
+                }
                 return;
             }
 
@@ -222,7 +244,7 @@ void CWorldService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
     __LEAVE_FUNCTION
 }
 
-void CWorldService::_ID2VS(OBJID id, VirtualSocketMap_t& VSMap)
+void CWorldService::_ID2VS(OBJID id, VirtualSocketMap_t& VSMap)const
 {
     __ENTER_FUNCTION
     CUser* pUser = GetUserManager()->QueryUser(id);
@@ -252,7 +274,7 @@ void CWorldService::RecyclePlayerID(OBJID idPlayer)
     m_setPlayerIDPool.push_back(idPlayer);
 }
 
-bool CWorldService::CheckProgVer(const std::string& prog_ver)
+bool CWorldService::CheckProgVer(const std::string& prog_ver)const
 {
     return true;
 }
@@ -301,7 +323,12 @@ void CWorldService::SetServiceReady(uint16_t idService)
     __LEAVE_FUNCTION
 }
 
-bool CWorldService::BroadcastToAllPlayer(uint16_t nCmd, const google::protobuf::Message& msg)
+bool CWorldService::BroadcastToAllPlayer(const google::protobuf::Message& msg)const
+{
+    return BroadcastToAllPlayer(to_sc_cmd(msg), msg);
+}
+
+bool CWorldService::BroadcastToAllPlayer(uint16_t nCmd, const google::protobuf::Message& msg)const
 {
     __ENTER_FUNCTION
     CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), 0);
@@ -315,16 +342,19 @@ bool CWorldService::BroadcastToAllPlayer(uint16_t nCmd, const google::protobuf::
     return false;
 }
 
-bool CWorldService::BroadcastToZone(uint16_t nCmd, const google::protobuf::Message& msg)
+bool CWorldService::BroadcastToZone(const google::protobuf::Message& msg)const
+{
+    return BroadcastToZone(to_server_msgid(msg), msg);
+}
+
+bool CWorldService::BroadcastToZone(uint16_t nCmd, const google::protobuf::Message& msg)const
 {
     __ENTER_FUNCTION
     for(uint32_t i = MIN_ZONE_SERVICE_ID; i <= MAX_ZONE_SERVICE_ID; i++)
     {
         if(i == GetServiceID())
             continue;
-
-        CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), VirtualSocket(ServerPort(GetWorldID(), i), 0));
-        SendMsg(_msg);
+        SendPortMsg(ServerPort(GetWorldID(), i), nCmd, msg);
     }
     return true;
     __LEAVE_FUNCTION

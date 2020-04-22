@@ -53,7 +53,7 @@ void CSystemVar::AddData(uint32_t nIdx, int64_t nVal, bool bUpdate /*= false*/, 
         msg.set_idx(nIdx);
         msg.set_val(nVal);
         msg.set_type(ServerMSG::SystemVarChange::SVCT_ADD_DATA);
-        WorldService()->BroadcastToZone(ServerMSG::MsgID_SystemVarChange, msg);
+        WorldService()->BroadcastToZone(msg);
     }
 }
 
@@ -75,7 +75,7 @@ void CSystemVar::SetData(uint32_t nIdx, uint64_t nVal, bool bUpdate /*= false*/,
         msg.set_idx(nIdx);
         msg.set_val(nVal);
         msg.set_type(ServerMSG::SystemVarChange::SVCT_SET_DATA);
-        WorldService()->BroadcastToZone(ServerMSG::MsgID_SystemVarChange, msg);
+        WorldService()->BroadcastToZone(msg);
     }
 }
 
@@ -96,7 +96,7 @@ void CSystemVar::SetStr(uint32_t nIdx, const std::string& strVal, bool bUpdate /
         msg.set_idx(nIdx);
         msg.set_str(strVal);
         msg.set_type(ServerMSG::SystemVarChange::SVCT_SET_STR);
-        WorldService()->BroadcastToZone(ServerMSG::MsgID_SystemVarChange, msg);
+        WorldService()->BroadcastToZone(msg);
     }
 }
 
@@ -124,7 +124,7 @@ void CSystemVar::Broadcast()
     if(GetStr(3).empty() == false)
         pData->set_str3(GetStr(3));
 
-    WorldService()->BroadcastToAllPlayer(CMD_SC_SYSVAR, msg);
+    WorldService()->BroadcastToAllPlayer(msg);
 }
 
 void CSystemVar::Save()
@@ -246,7 +246,7 @@ CSystemVar* CSystemVarSet::CreateVar(uint32_t nIdx)
     ServerMSG::SystemVarChange msg;
     msg.set_keyidx(nIdx);
     msg.set_type(ServerMSG::SystemVarChange::SVCT_CREATE);
-    WorldService()->BroadcastToZone(ServerMSG::MsgID_SystemVarChange, msg);
+    WorldService()->BroadcastToZone(msg);
 
     return m_setData[nIdx].get();
 }

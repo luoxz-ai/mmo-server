@@ -69,13 +69,13 @@ const OBJID ID_NONE = static_cast<OBJID>(0);
 #define __max(a, b) (((a) > (b)) ? (a) : (b))
 #define __min(a, b) (((a) < (b)) ? (a) : (b))
 
-// #define MAGIC_ENUM_RANGE_MIN 0
-// #define MAGIC_ENUM_RANGE_MAX 256
-// #include "magic_enum.h"
+#define MAGIC_ENUM_RANGE_MIN 0
+#define MAGIC_ENUM_RANGE_MAX INT16_MAX-1
+#include "magic_enum.h"
 
-// #define NAMEOF_ENUM_RANGE_MIN 0
-// #define NAMEOF_ENUM_RANGE_MAX 256
-// #include "nameof.h"
+#define NAMEOF_ENUM_RANGE_MIN 0
+#define NAMEOF_ENUM_RANGE_MAX INT16_MAX-1
+#include "nameof.h"
 
 
 #endif //__BASETYPE_H__

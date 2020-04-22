@@ -223,8 +223,28 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CActor>(L, "RecalcAttrib", &CActor::RecalcAttrib, false);
     lua_tinker::class_def<CActor>(L, "RemoveHide", &CActor::RemoveHide);
     lua_tinker::class_def<CActor>(L, "SendDelayAttribChage", &CActor::SendDelayAttribChage);
-    lua_tinker::class_def<CActor>(L, "SendMsg", &CActor::SendMsg);
-    lua_tinker::class_def<CActor>(L, "SendRoomMessage", &CActor::SendRoomMessage, true);
+    lua_tinker::class_def<CActor>(
+        L,
+        "SendMsg",
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr(
+                (bool (CActor::*)(const google::protobuf::Message&) const)(&CActor::SendMsg)),
+            lua_tinker::make_member_functor_ptr(
+                (bool (CActor::*)(uint16_t, const google::protobuf::Message&) const)(&CActor::SendMsg))));
+    lua_tinker::class_def<CActor>(
+        L,
+        "SendRoomMessage",
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr(
+                (void (CActor::*)(const google::protobuf::Message&, bool))(&CActor::SendRoomMessage),
+                1 /*default_args_count*/,
+                1 /*default_args_start*/),
+            lua_tinker::make_member_functor_ptr(
+                (void (CActor::*)(uint16_t, const google::protobuf::Message&, bool))(&CActor::SendRoomMessage),
+                1 /*default_args_count*/,
+                2 /*default_args_start*/)),
+        true,
+        true);
     lua_tinker::class_def<CActor>(L, "SendShowTo", &CActor::SendShowTo);
     lua_tinker::class_def<CActor>(L, "SendShowToDealyList", &CActor::SendShowToDealyList);
     lua_tinker::class_def<CActor>(L, "SendWorldMessage", &CActor::SendWorldMessage);
@@ -489,7 +509,14 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CMonster>(L, "IsBoss", &CMonster::IsBoss);
     lua_tinker::class_def<CMonster>(L, "IsElit", &CMonster::IsElit);
     lua_tinker::class_def<CMonster>(L, "IsEnemy", &CMonster::IsEnemy);
-    lua_tinker::class_def<CMonster>(L, "SendMsg", &CMonster::SendMsg);
+    lua_tinker::class_def<CMonster>(
+        L,
+        "SendMsg",
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr(
+                (bool (CMonster::*)(const google::protobuf::Message&) const)(&CMonster::SendMsg)),
+            lua_tinker::make_member_functor_ptr(
+                (bool (CMonster::*)(uint16_t, const google::protobuf::Message&) const)(&CMonster::SendMsg))));
     lua_tinker::class_def<CMonster>(L, "_SetHP", &CMonster::_SetHP);
     lua_tinker::class_def<CMonster>(L, "_SetMP", &CMonster::_SetMP);
     lua_tinker::class_add<CMyTimer>(L, "CMyTimer", false);
@@ -683,10 +710,18 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CPhase>(L, "GetMapValSet", &CPhase::GetMapValSet);
     lua_tinker::class_def<CPhase>(L, "GetPhaseID", &CPhase::GetPhaseID);
     lua_tinker::class_def<CPhase>(L, "GetPhaseIdx", &CPhase::GetPhaseIdx);
+    lua_tinker::class_def<CPhase>(L, "GetScene", &CPhase::GetScene);
     lua_tinker::class_def<CPhase>(L, "GetSceneState", &CPhase::GetSceneState);
     lua_tinker::class_def<CPhase>(L, "KickAllPlayer", &CPhase::KickAllPlayer, "");
     lua_tinker::class_def<CPhase>(L, "NeedDestory", &CPhase::NeedDestory);
-    lua_tinker::class_def<CPhase>(L, "SendSceneMessage", &CPhase::SendSceneMessage);
+    lua_tinker::class_def<CPhase>(
+        L,
+        "SendSceneMessage",
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr(
+                (bool (CPhase::*)(const google::protobuf::Message&) const)(&CPhase::SendSceneMessage)),
+            lua_tinker::make_member_functor_ptr(
+                (bool (CPhase::*)(uint16_t, const google::protobuf::Message&) const)(&CPhase::SendSceneMessage))));
     lua_tinker::class_def<CPhase>(L, "SetSceneState", &CPhase::SetSceneState);
     lua_tinker::class_def<CPhase>(L, "_KickPlayer", &CPhase::_KickPlayer);
     lua_tinker::class_add<CPlayer>(L, "CPlayer", false);
@@ -765,7 +800,14 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CPlayer>(L, "QueryPackage", &CPlayer::QueryPackage);
     lua_tinker::class_def<CPlayer>(L, "Reborn", &CPlayer::Reborn);
     lua_tinker::class_def<CPlayer>(L, "RecalcAttrib", &CPlayer::RecalcAttrib, false);
-    lua_tinker::class_def<CPlayer>(L, "SendMsg", &CPlayer::SendMsg);
+    lua_tinker::class_def<CPlayer>(
+        L,
+        "SendMsg",
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr(
+                (bool (CPlayer::*)(const google::protobuf::Message&) const)(&CPlayer::SendMsg)),
+            lua_tinker::make_member_functor_ptr(
+                (bool (CPlayer::*)(uint16_t, const google::protobuf::Message&) const)(&CPlayer::SendMsg))));
     lua_tinker::class_def<CPlayer>(L, "SendTalkMsg", &CPlayer::SendTalkMsg);
     lua_tinker::class_def<CPlayer>(L, "SetGuildID", &CPlayer::SetGuildID);
     lua_tinker::class_def<CPlayer>(L, "SetPKMode", &CPlayer::SetPKMode);
@@ -852,12 +894,10 @@ void zone2lua(lua_State* L)
                 (CPhase * (CScene::*)(uint64_t, const PhaseData*))(&CScene::CreatePhase))));
     lua_tinker::class_def<CScene>(L, "DestoryPhase", &CScene::DestoryPhase);
     lua_tinker::class_def<CScene>(L, "ForEach", &CScene::ForEach);
-    lua_tinker::class_def<CScene>(L, "KickAllPlayer", &CScene::KickAllPlayer, "");
     lua_tinker::class_def<CScene>(L, "QueryPhase", &CScene::QueryPhase);
     lua_tinker::class_def<CScene>(L, "QueryPhaseByIdx", &CScene::QueryPhaseByIdx);
-    lua_tinker::class_def<CScene>(L, "_KickPlayer", &CScene::_KickPlayer);
+    lua_tinker::class_def<CScene>(L, "_QueryPhase", &CScene::_QueryPhase);
     lua_tinker::class_add<CSceneManager>(L, "CSceneManager", false);
-    lua_tinker::class_def<CSceneManager>(L, "CreateDynaScene", &CSceneManager::CreateDynaScene);
     lua_tinker::class_def<CSceneManager>(L, "CreatePhase", &CSceneManager::CreatePhase);
     lua_tinker::class_def<CSceneManager>(L, "ForEach", &CSceneManager::ForEach);
     lua_tinker::class_def<CSceneManager>(L, "GetDynaSceneCount", &CSceneManager::GetDynaSceneCount);
@@ -966,7 +1006,14 @@ void zone2lua(lua_State* L)
     lua_tinker::class_add<CTeamInfoManager>(L, "CTeamInfoManager", false);
     lua_tinker::class_def<CTeamInfoManager>(L, "QueryTeam", &CTeamInfoManager::QueryTeam);
     lua_tinker::class_add<CZoneService>(L, "CZoneService", false);
-    lua_tinker::class_def<CZoneService>(L, "BroadcastToAllPlayer", &CZoneService::BroadcastToAllPlayer);
+    lua_tinker::class_def<CZoneService>(
+        L,
+        "BroadcastToAllPlayer",
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr(
+                (bool (CZoneService::*)(const google::protobuf::Message&) const)(&CZoneService::BroadcastToAllPlayer)),
+            lua_tinker::make_member_functor_ptr((bool (CZoneService::*)(uint16_t, const google::protobuf::Message&)
+                                                     const)(&CZoneService::BroadcastToAllPlayer))));
     lua_tinker::class_def<CZoneService>(L, "BroadcastToZone", &CZoneService::BroadcastToZone);
     lua_tinker::class_def<CZoneService>(L, "GetActorManager", &CZoneService::GetActorManager);
     lua_tinker::class_def<CZoneService>(L, "GetGMManager", &CZoneService::GetGMManager);
@@ -978,8 +1025,18 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CZoneService>(L, "GetSystemVarSet", &CZoneService::GetSystemVarSet);
     lua_tinker::class_def<CZoneService>(L, "GetTeamInfoManager", &CZoneService::GetTeamInfoManager);
     lua_tinker::class_def<CZoneService>(L, "SendMsgToAIService", &CZoneService::SendMsgToAIService);
-    lua_tinker::class_def<CZoneService>(L, "SendMsgToPlayer", &CZoneService::SendMsgToPlayer);
+    lua_tinker::class_def<CZoneService>(
+        L,
+        "SendMsgToPlayer",
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr(
+                (bool (CZoneService::*)(const VirtualSocket&, const google::protobuf::Message&)
+                     const)(&CZoneService::SendMsgToPlayer)),
+            lua_tinker::make_member_functor_ptr(
+                (bool (CZoneService::*)(const VirtualSocket&, uint16_t, const google::protobuf::Message&)
+                     const)(&CZoneService::SendMsgToPlayer))));
     lua_tinker::class_def<CZoneService>(L, "SendMsgToWorld", &CZoneService::SendMsgToWorld);
+    lua_tinker::class_def<CZoneService>(L, "SendPortMsgToAIService", &CZoneService::SendPortMsgToAIService);
     lua_tinker::class_def<CZoneService>(L, "TransmiteMsgFromWorldToOther", &CZoneService::TransmiteMsgFromWorldToOther);
     lua_tinker::class_add<CreateMonsterParam>(L, "CreateMonsterParam", false);
     lua_tinker::class_add<Degree>(L, "Degree", false);
@@ -1173,7 +1230,6 @@ void zone2lua(lua_State* L)
     lua_tinker::class_add<SceneID>(L, "SceneID", false);
     lua_tinker::class_def<SceneID>(L, "GetMapID", &SceneID::GetMapID);
     lua_tinker::class_def<SceneID>(L, "GetPhaseIdx", &SceneID::GetPhaseIdx);
-    lua_tinker::class_def<SceneID>(L, "GetSceneID", &SceneID::GetSceneID);
     lua_tinker::class_def<SceneID>(L, "GetStaticPhaseSceneID", &SceneID::GetStaticPhaseSceneID);
     lua_tinker::class_def<SceneID>(L, "GetZoneID", &SceneID::GetZoneID);
     lua_tinker::class_def<SceneID>(L, "IsPhaseIdxVaild", &SceneID::IsPhaseIdxVaild);
@@ -1426,17 +1482,24 @@ void zone2lua(lua_State* L)
     lua_tinker::def(L, "hex_set", &hex_set);
     lua_tinker::def(L, "isleap", &isleap);
     lua_tinker::def(L, "local2gmt", &local2gmt);
+    lua_tinker::def(L, "lower_cast", &lower_cast);
+    lua_tinker::def(L, "lower_cast_copy", &lower_cast_copy);
     lua_tinker::def(L, "ltrim", &ltrim);
+    lua_tinker::def(L, "ltrim_copy", &ltrim_copy);
     lua_tinker::def(L, "random_float", &random_float, 0.0f, 1.0f);
     lua_tinker::def(L, "random_hit", &random_hit);
     lua_tinker::def(L, "random_uint32", &random_uint32);
     lua_tinker::def(L, "random_uint32_range", &random_uint32_range);
     lua_tinker::def(L, "rtrim", &rtrim);
+    lua_tinker::def(L, "rtrim_copy", &rtrim_copy);
     lua_tinker::def(L, "skip_utf8_bom", &skip_utf8_bom);
     lua_tinker::def(L, "split_string", &split_string);
     lua_tinker::def(L, "split_string_view", &split_string_view);
     lua_tinker::def(L, "toHex", &toHex);
     lua_tinker::def(L, "trim", &trim);
+    lua_tinker::def(L, "trim_copy", &trim_copy);
+    lua_tinker::def(L, "upper_cast", &upper_cast);
+    lua_tinker::def(L, "upper_cast_copy", &upper_cast_copy);
     lua_tinker::def(L, "utf8_length", &utf8_length, 0);
     lua_tinker::set(L, "DEFAULT_BAG_SIZE", DEFAULT_BAG_SIZE);
     lua_tinker::set(L, "DEFAULT_STROGE_SIZE", DEFAULT_STROGE_SIZE);
@@ -1520,6 +1583,7 @@ void zone2lua(lua_State* L)
     lua_tinker::set(L, "ITEMPOSITION_BAG", ITEMPOSITION_BAG);
     lua_tinker::set(L, "ITEMPOSITION_BUYBACK", ITEMPOSITION_BUYBACK);
     lua_tinker::set(L, "ITEMPOSITION_EQUIP", ITEMPOSITION_EQUIP);
+    lua_tinker::set(L, "ITEMPOSITION_EXCHANGE", ITEMPOSITION_EXCHANGE);
     lua_tinker::set(L, "ITEMPOSITION_GUILDSTORAGE", ITEMPOSITION_GUILDSTORAGE);
     lua_tinker::set(L, "ITEMPOSITION_MAILL", ITEMPOSITION_MAILL);
     lua_tinker::set(L, "ITEMPOSITION_MARKET", ITEMPOSITION_MARKET);

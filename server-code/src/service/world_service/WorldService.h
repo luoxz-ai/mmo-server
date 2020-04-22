@@ -30,7 +30,7 @@ public:
     
 
    
-    void Release() override { Destory();delete this; }
+    void Release() override;
     
     CreateNewRealeaseImpl(CWorldService);
 public:
@@ -45,11 +45,13 @@ public:
     void     RecyclePlayerID(OBJID idPlayer);
     void     SetServiceReady(uint16_t idService);
 
-    bool CheckProgVer(const std::string& prog_ver);
-    bool BroadcastToZone(uint16_t nCmd, const google::protobuf::Message& msg);
-    bool BroadcastToAllPlayer(uint16_t nCmd, const google::protobuf::Message& msg);
+    bool CheckProgVer(const std::string& prog_ver)const;
+    bool BroadcastToZone(const google::protobuf::Message& msg)const;
+    bool BroadcastToZone(uint16_t nCmd, const google::protobuf::Message& msg)const;
+    bool BroadcastToAllPlayer(const google::protobuf::Message& msg)const;
+    bool BroadcastToAllPlayer(uint16_t nCmd, const google::protobuf::Message& msg)const;
     //发送广播包给玩家
-    void _ID2VS(OBJID id, VirtualSocketMap_t& VSMap)override;
+    void _ID2VS(OBJID id, VirtualSocketMap_t& VSMap) const override;
 public:
     CAccountManager*  GetAccountManager() const { return m_pAccountManager.get(); }
     CUserManager*     GetUserManager() const { return m_pUserManager.get(); }

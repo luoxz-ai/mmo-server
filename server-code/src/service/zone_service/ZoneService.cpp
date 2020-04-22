@@ -67,6 +67,17 @@ CZoneService::CZoneService() {}
 
 CZoneService::~CZoneService() {}
 
+void CZoneService::Release()  
+{   
+    scope_guards scope_exit;
+    auto oldNdc = BaseCode::SetNdc(GetServiceName());
+    scope_exit += [oldNdc]() {
+        BaseCode::SetNdc(oldNdc);
+    };
+    Destory();
+    delete this; 
+}
+
 void CZoneService::Destory()
 {
     tls_pService = this;
@@ -184,6 +195,7 @@ bool CZoneService::Init(const ServerPort& nServerPort)
     {
         ServerMSG::ServiceReady msg;
         msg.set_serverport(GetServerPort());
+
         SendMsgToWorld(GetWorldID(), ServerMSG::MsgID_ServiceReady, msg);
     }
     else
@@ -307,26 +319,48 @@ bool CZoneService::PopMsgFromMessagePool(const VirtualSocket& vs, CNetworkMessag
     return false;
 }
 
-bool CZoneService::SendMsgToWorld(uint16_t idWorld, uint16_t nCmd, const google::protobuf::Message& msg)
+bool CZoneService::SendMsgToWorld(uint16_t idWorld, uint16_t nCmd, const google::protobuf::Message& msg)const
 {
-    CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), ServerPort(idWorld, WORLD_SERVICE_ID), 0);
-    return SendMsg(_msg);
+    auto server_port = ServerPort(idWorld, WORLD_SERVICE_ID);
+    if(GetMessageRoute()->IsConnected(server_port) == true)
+    {   
+        CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), ServerPort(idWorld, WORLD_SERVICE_ID), 0);
+        return SendMsg(_msg);
+    }
+    else
+    {
+        //通过Route转发
+        return TransmiteMsgFromWorldToOther(idWorld, WORLD_SERVICE_ID, nCmd, msg);
+    }
+    
 }
 
 bool CZoneService::TransmiteMsgFromWorldToOther(uint16_t                         idWorld,
                                                 uint16_t                         idService,
                                                 uint16_t                         nCmd,
-                                                const google::protobuf::Message& msg)
+                                                const google::protobuf::Message& msg)const
 {
-    CNetworkMessage _msg(nCmd,
+    if(GetWorldID() != 0)
+    {
+        CNetworkMessage _msg(nCmd,
+                         msg,
+                         GetServerVirtualSocket(),
+                         ServerPort(GetWorldID(), WORLD_SERVICE_ID),
+                         ServerPort(idWorld, idService));
+        return SendMsg(_msg);
+    }
+    else
+    {
+        CNetworkMessage _msg(nCmd,
                          msg,
                          GetServerVirtualSocket(),
                          ServerPort(idWorld, WORLD_SERVICE_ID),
-                         ServerPort(GetWorldID(), idService));
-    return SendMsg(_msg);
+                         ServerPort(idWorld, idService));
+        return SendMsg(_msg);
+    }
 }
 
-bool CZoneService::BroadcastToZone(uint16_t nCmd, const google::protobuf::Message& msg)
+bool CZoneService::BroadcastToZone(uint16_t nCmd, const google::protobuf::Message& msg)const
 {
     __ENTER_FUNCTION
 
@@ -343,7 +377,12 @@ bool CZoneService::BroadcastToZone(uint16_t nCmd, const google::protobuf::Messag
     return false;
 }
 
-bool CZoneService::BroadcastToAllPlayer(uint16_t nCmd, const google::protobuf::Message& msg)
+bool CZoneService::BroadcastToAllPlayer(const google::protobuf::Message& msg)const
+{
+    return BroadcastToAllPlayer(to_sc_cmd(msg), msg);
+}
+
+bool CZoneService::BroadcastToAllPlayer(uint16_t nCmd, const google::protobuf::Message& msg)const
 {
     __ENTER_FUNCTION
     CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), 0);
@@ -368,7 +407,7 @@ bool CZoneService::BroadcastToAllPlayer(uint16_t nCmd, const google::protobuf::M
         auto func = std::bind(&CActorManager::ForeachPlayer, GetActorManager(), std::move(func_callback));
 
         auto setSocketMap = ZoneService()->IDList2VSMap(func, 0);
-        ZoneService()->SendMsgTo(nCmd, msg, setSocketMap);
+        ZoneService()->SendMsgTo(setSocketMap, nCmd, msg);
     }
 
     return true;
@@ -376,19 +415,30 @@ bool CZoneService::BroadcastToAllPlayer(uint16_t nCmd, const google::protobuf::M
     return false;
 }
 
-bool CZoneService::SendMsgToPlayer(const VirtualSocket& vs, uint16_t nCmd, const google::protobuf::Message& msg)
+bool CZoneService::SendMsgToPlayer(const VirtualSocket& vs, const google::protobuf::Message& msg)const
+{
+    return SendMsgToPlayer(vs, to_sc_cmd(msg), msg);
+}
+
+bool CZoneService::SendMsgToPlayer(const VirtualSocket& vs, uint16_t nCmd, const google::protobuf::Message& msg)const
 {
     CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), vs);
     return SendMsg(_msg);
 }
 
-bool CZoneService::SendMsgToAIService(uint16_t nCmd, const google::protobuf::Message& msg)
+
+bool CZoneService::SendPortMsgToAIService(const google::protobuf::Message& msg)const
+{
+    return SendMsgToAIService(to_server_msgid(msg), msg);
+}
+
+bool CZoneService::SendMsgToAIService(uint16_t nCmd, const google::protobuf::Message& msg)const
 {
     CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), GetAIServerVirtualSocket());
     return SendMsg(_msg);
 }
 
-void CZoneService::_ID2VS(OBJID id, VirtualSocketMap_t& VSMap)
+void CZoneService::_ID2VS(OBJID id, VirtualSocketMap_t& VSMap)const
 {
     __ENTER_FUNCTION
     CActor* pActor = GetActorManager()->QueryActor(id);
@@ -441,7 +491,7 @@ CMysqlConnection* CZoneService::_ConnectGameDB(uint16_t nWorldID, CMysqlConnecti
         if(row)
         {
             std::string host   = row->Field(TBLD_DBINFO::DB_IP);
-            uint32_t    port   = row->Field(TBLD_DBINFO::DB_PORT);
+            uint16_t    port   = row->Field(TBLD_DBINFO::DB_PORT);
             std::string user   = row->Field(TBLD_DBINFO::DB_USER);
             std::string passwd = row->Field(TBLD_DBINFO::DB_PASSWD);
             std::string dbname = row->Field(TBLD_DBINFO::DB_NAME);

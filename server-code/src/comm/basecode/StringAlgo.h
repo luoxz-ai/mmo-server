@@ -20,45 +20,23 @@ export_lua char* ConvertEnc(const char* encFrom,
 //检查控制字符
 export_lua bool IsUTF8_NoneControl(const char* pszString, long nSize);
 
-export_lua std::string& ltrim(std::string& ss);
-export_lua std::string& rtrim(std::string& ss);
-export_lua std::string& trim(std::string& st);
+export_lua inline std::string& ltrim(std::string& ss);
+export_lua inline std::string& rtrim(std::string& ss);
+export_lua inline std::string& trim(std::string& st);
 
-export_lua inline std::vector<std::string> split_string(const std::string& str, const std::string& delimiters)
-{
-    std::vector<std::string> v;
-    std::string::size_type   start = 0;
-    auto                     pos   = str.find_first_of(delimiters, start);
-    while(pos != std::string::npos)
-    {
-        if(pos != start) // ignore empty tokens
-            v.emplace_back(str, start, pos - start);
-        start = pos + 1;
-        pos   = str.find_first_of(delimiters, start);
-    }
-    if(start < str.length())                              // ignore trailing delimiter
-        v.emplace_back(str, start, str.length() - start); // add what's left of the string
-    return v;
-}
+export_lua inline std::string ltrim_copy(std::string ss);
+export_lua inline std::string rtrim_copy(std::string ss);
+export_lua inline std::string trim_copy(std::string st);
 
-export_lua inline std::vector<std::string_view> split_string_view(const std::string& str, const std::string& delimiters)
-{
-    std::vector<std::string_view> v;
-    std::string::size_type        start = 0;
-    auto                          pos   = str.find_first_of(delimiters, start);
-    while(pos != std::string::npos)
-    {
-        if(pos != start) // ignore empty tokens
-            v.emplace_back(std::string_view{str.c_str() + start, pos - start});
-        start = pos + 1;
-        pos   = str.find_first_of(delimiters, start);
-    }
-    if(start < str.length())                                                         // ignore trailing delimiter
-        v.emplace_back(std::string_view{str.c_str() + start, str.length() - start}); // add what's left of the string
-    return v;
-}
+export_lua inline std::string& lower_cast(std::string& st);
+export_lua inline std::string lower_cast_copy(std::string st);
+export_lua inline std::string& upper_cast(std::string& st);
+export_lua inline std::string upper_cast_copy(std::string st);
 
-export_lua std::string ReplaceStr(std::string& strSource, const std::string& strRepl, const std::string& strNew);
+export_lua inline std::vector<std::string> split_string(const std::string& str, const std::string& delimiters);
+export_lua inline std::vector<std::string_view> split_string_view(const std::string& str, const std::string& delimiters);
+
+export_lua inline std::string ReplaceStr(std::string& strSource, const std::string& strRepl, const std::string& strNew);
 export_lua std::string URLDecode(const char* pszStr);
 export_lua std::string URLEncode(const char* pszStr);
 
@@ -159,5 +137,124 @@ export_lua bool RegexStrReload();
 
 
 
+
+
+
+
+//////////////////////////////////////////////////////////////////////////
+inline std::string ReplaceStr(std::string& strSource, const std::string& strRepl, const std::string& strNew)
+{
+    std::string::size_type pos = 0;
+    while((pos = strSource.find(strRepl, pos)) != std::string::npos)
+    {
+        strSource.replace(pos, strRepl.length(), strNew);
+        pos += strNew.length();
+    }
+    return strSource;
+}
+
+inline std::string& ltrim(std::string& ss)
+{
+    std::string::iterator p =
+        std::find_if_not(ss.begin(), ss.end(), [](unsigned char c) {return std::isspace(c);} );
+    ss.erase(ss.begin(), p);
+    return ss;
+}
+
+inline std::string& rtrim(std::string& ss)
+{
+    std::string::reverse_iterator p =
+        std::find_if_not(ss.rbegin(), ss.rend(), [](unsigned char c) {return std::isspace(c);} );
+    ss.erase(p.base(), ss.end());
+    return ss;
+}
+
+inline std::string& trim(std::string& st)
+{
+    ltrim(rtrim(st));
+    return st;
+}
+
+inline std::string ltrim_copy(std::string ss)
+{
+    std::string::iterator p =
+        std::find_if_not(ss.begin(), ss.end(),  [](unsigned char c) {return std::isspace(c);} );
+    ss.erase(ss.begin(), p);
+    return ss;
+}
+
+inline std::string rtrim_copy(std::string ss)
+{
+    std::string::reverse_iterator p =
+        std::find_if_not(ss.rbegin(), ss.rend(),  [](unsigned char c) {return std::isspace(c);} );
+    ss.erase(p.base(), ss.end());
+    return ss;
+}
+
+inline std::string trim_copy(std::string st)
+{
+    ltrim(rtrim(st));
+    return st;
+}
+
+inline std::string& lower_cast(std::string& st)
+{
+    std::transform(st.begin(), st.end(), st.begin(), [](unsigned char c){ return std::tolower(c); } );
+    return st;
+}
+
+inline std::string lower_cast_copy(std::string st)
+{
+    std::transform(st.begin(), st.end(), st.begin(), [](unsigned char c){ return std::tolower(c); } );
+    return st;
+}
+
+
+inline std::string& upper_cast(std::string& st)
+{
+    std::transform(st.begin(), st.end(), st.begin(), [](unsigned char c){ return std::toupper(c); } );
+    return st;
+}
+
+inline std::string upper_cast_copy(std::string st)
+{
+    std::transform(st.begin(), st.end(), st.begin(), [](unsigned char c){ return std::toupper(c); } );
+    return st;
+}
+
+
+inline std::vector<std::string> split_string(const std::string& str, const std::string& delimiters)
+{
+    std::vector<std::string> v;
+    std::string::size_type   start = 0;
+    auto                     pos   = str.find_first_of(delimiters, start);
+    while(pos != std::string::npos)
+    {
+        if(pos != start) // ignore empty tokens
+            v.emplace_back(str, start, pos - start);
+        start = pos + 1;
+        pos   = str.find_first_of(delimiters, start);
+    }
+    if(start < str.length())                              // ignore trailing delimiter
+        v.emplace_back(str, start, str.length() - start); // add what's left of the string
+    return v;
+}
+
+inline std::vector<std::string_view> split_string_view(const std::string& str, const std::string& delimiters)
+{
+    std::vector<std::string_view> v;
+    std::string::size_type        start = 0;
+    auto                          pos   = str.find_first_of(delimiters, start);
+    while(pos != std::string::npos)
+    {
+        if(pos != start) // ignore empty tokens
+            v.emplace_back(std::string_view{str.c_str() + start, pos - start});
+        start = pos + 1;
+        pos   = str.find_first_of(delimiters, start);
+    }
+    if(start < str.length())                                                         // ignore trailing delimiter
+        v.emplace_back(std::string_view{str.c_str() + start, str.length() - start}); // add what's left of the string
+    return v;
+}
 
 #endif /* STRINGALGO_H */

@@ -18,7 +18,6 @@ public:
     bool       Init(uint32_t idZone);
     void       Destory();
     export_lua CScene* _CreateStaticScene(uint16_t idMap);
-    export_lua CScene* CreateDynaScene(uint16_t idMap, uint64_t idMainPhase);
     export_lua CPhase* CreatePhase(uint16_t idMap, uint64_t idPhase);
     
     export_lua CScene* _QueryScene(const SceneID& idScene);
@@ -32,7 +31,7 @@ public:
 
 protected:
 private:
-    std::unordered_map<uint32_t, CScene*> m_mapScene;
+    std::unordered_map<uint16_t, CScene*> m_mapScene;
     size_t                                        m_nStaticScene;
 };
 #endif /* SCENEMANAGER_H */

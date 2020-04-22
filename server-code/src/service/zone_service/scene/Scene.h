@@ -25,14 +25,11 @@ public:
 
 public:
     bool            Init(const SceneID& idScene, uint64_t idMainPhase);
-
-    export_lua void KickAllPlayer(const char* pszReason = "");
-    export_lua void _KickPlayer(const char* pszReason, CPlayer* pPlayer);
-
-   
+  
     export_lua CPhase* CreatePhase(uint64_t idPhase);
     export_lua CPhase* CreatePhase(uint64_t idPhase, const PhaseData* pPhaseData);
     export_lua CPhase* QueryPhase(uint64_t idPhase) const;
+    export_lua CPhase* _QueryPhase(uint64_t idPhase) const;
     export_lua CPhase* QueryPhaseByIdx(uint32_t idxPhase) const;
     export_lua bool DestoryPhase(uint64_t idPhase);
     export_lua void ForEach(std::function<void(const CPhase*)> func)const;

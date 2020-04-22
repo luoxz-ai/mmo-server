@@ -30,7 +30,7 @@ void CTeam::SendTeamAction(uint32_t nAction, OBJID idOperator, OBJID idMember)
         CUser* pUser = UserManager()->QueryUser(v.member_id());
         if(pUser)
         {
-            pUser->SendMsg(CMD_SC_TEAMMEMBER_ACTION, msg);
+            pUser->SendMsg(msg);
         }
     }
 }
@@ -46,7 +46,7 @@ void CTeam::SendTeamMemberInfo(const SC_TEAMMEMBER_INFO::MemberInfo& info)
         CUser* pUser = UserManager()->QueryUser(v.member_id());
         if(pUser)
         {
-            pUser->SendMsg(CMD_SC_TEAMMEMBER_INFO, msg);
+            pUser->SendMsg(msg);
         }
     }
 }
@@ -61,7 +61,7 @@ void CTeam::SendAllTeamMemberInfo(CUser* pUser)
         pInfo->CopyFrom(v);
     }
 
-    pUser->SendMsg(CMD_SC_TEAMMEMBER_INFO, msg);
+    pUser->SendMsg(msg);
 }
 
 void CTeam::SetLeader(OBJID idOperator, OBJID idLeader)
@@ -77,7 +77,7 @@ void CTeam::SetLeader(OBJID idOperator, OBJID idLeader)
     msg.set_team_id(m_idTeam);
     msg.set_operator_id(idOperator);
     msg.set_new_leader_id(m_idLeader);
-    WorldService()->BroadcastToZone(ServerMSG::MsgID_TeamNewLeader, msg);
+    WorldService()->BroadcastToZone(msg);
 
     SendTeamAction(SC_TEAMMEMBER_ACTION::TEAM_CHANGE_LEADER, idOperator, idLeader);
 }
@@ -101,7 +101,7 @@ void CTeam::_AddMember(CUser* pUser)
     ServerMSG::TeamAddMember msg;
     msg.set_team_id(m_idTeam);
     msg.set_team_id(pUser->GetID());
-    WorldService()->BroadcastToZone(ServerMSG::MsgID_TeamAddMember, msg);
+    WorldService()->BroadcastToZone(msg);
     // send to all member,exclude pUser;
     SendTeamMemberInfo(info);
     // send all member info to pUser
@@ -126,7 +126,7 @@ void CTeam::KickMember(OBJID idOperator, OBJID idMember)
                 msg.set_team_id(m_idTeam);
                 msg.set_operator_id(idOperator);
                 msg.set_kick_id(idMember);
-                WorldService()->BroadcastToZone(ServerMSG::MsgID_TeamKickMember, msg);
+                WorldService()->BroadcastToZone(msg);
             }
 
             CUser* pUser = UserManager()->QueryUser(idMember);
@@ -163,7 +163,7 @@ void CTeam::QuitTeam(OBJID idOperator)
                 ServerMSG::TeamQuit msg;
                 msg.set_team_id(m_idTeam);
                 msg.set_operator_id(idOperator);
-                WorldService()->BroadcastToZone(ServerMSG::MsgID_TeamQuit, msg);
+                WorldService()->BroadcastToZone(msg);
 
                 SendTeamAction(SC_TEAMMEMBER_ACTION::TEAM_QUIT, idOperator, idOperator);
                 m_setMember.erase(it);
@@ -183,7 +183,7 @@ void CTeam::QuitTeam(OBJID idOperator)
                 ServerMSG::TeamQuit msg;
                 msg.set_team_id(m_idTeam);
                 msg.set_operator_id(idOperator);
-                WorldService()->BroadcastToZone(ServerMSG::MsgID_TeamQuit, msg);
+                WorldService()->BroadcastToZone(msg);
                 SendTeamAction(SC_TEAMMEMBER_ACTION::TEAM_QUIT, idOperator, idOperator);
                 m_setMember.erase(it);
                 return;
@@ -228,7 +228,7 @@ void CTeam::InviteMember(OBJID idInviter, OBJID idInvitee)
     msg.set_team_id(m_idTeam);
     msg.set_inviter_id(idInviter);
     msg.set_inviter_name(pInviter->GetName());
-    pInvitee->SendMsg(CMD_SC_TEAMINVITEMEMBER, msg);
+    pInvitee->SendMsg(msg);
 }
 
 void CTeam::AcceptInvite(OBJID idInviter, OBJID idInvitee, bool bResult)
@@ -301,7 +301,7 @@ void CTeam::ApplyMember(OBJID idApplicant)
     SC_TEAMAPPLYMEMBER msg;
     msg.set_applicant_id(idApplicant);
     msg.set_applicant_name(pApplicant->GetName());
-    pLeader->SendMsg(CMD_SC_TEAMAPPLYMEMBER, msg);
+    pLeader->SendMsg(msg);
 }
 
 void CTeam::AcceptApply(OBJID idApplicant, OBJID idRespondent, bool bResult)
