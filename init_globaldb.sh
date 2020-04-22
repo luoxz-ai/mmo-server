@@ -1,3 +1,8 @@
+#!/bin/bash
+cd `dirname $0`
+DIR_file=`pwd`
+
+
 GLOBAL_IP=172.28.1.3
 GLOBAL_PORT_START=17000
 GLOBAL_OUT_IP=172.28.1.3

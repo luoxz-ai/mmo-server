@@ -1,3 +1,7 @@
+#!/bin/bash
+cd `dirname $0`
+DIR_file=`pwd`
+
 set -e
 cmd="./releasebuild.sh && cd bin && ./cp_depends_lib.sh && ./cp_release.sh"
 

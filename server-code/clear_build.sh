@@ -1,3 +1,7 @@
+#!/bin/bash
+cd `dirname $0`
+DIR_file=`pwd`
+
 cd build/
 rm CMakeFiles -rf
 rm obj -rf

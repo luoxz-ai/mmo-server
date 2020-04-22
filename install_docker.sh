@@ -1,3 +1,7 @@
+#!/bin/bash
+cd `dirname $0`
+DIR_file=`pwd`
+
 # step 1: 安装必要的一些系统工具
 sudo cp -f aliyun1404.list /etc/apt/sources.list
 sudo apt-get update

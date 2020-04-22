@@ -1,4 +1,6 @@
-
+#!/bin/bash
+cd `dirname $0`
+DIR_file=`pwd`
 
 echo ${DOCKER_PASSWORD} | docker login --username=${DOCKER_USERNAME} --password-stdin ${DOCKER_REPO_BASE}
 

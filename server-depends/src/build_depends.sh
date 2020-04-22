@@ -1,3 +1,7 @@
+#!/bin/bash
+cd `dirname $0`
+DIR_file=`pwd`
+
 set -e
 CC_COMPILER=clang-9
 CXX_COMPILER=clang++-9

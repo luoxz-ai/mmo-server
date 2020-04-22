@@ -1,3 +1,8 @@
+#!/bin/bash
+cd `dirname $0`
+DIR_file=`pwd`
+
+
 source $1
 
 echo "create database ${ZONE_NAME};" | docker exec -i ${MYSQL_DOCKER_NAME} sh -c 'exec mysql -v -uroot -p"3Killyou"'

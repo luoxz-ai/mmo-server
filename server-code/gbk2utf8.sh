@@ -1,3 +1,7 @@
+#!/bin/bash
+cd `dirname $0`
+DIR_file=`pwd`
+
 path=$1
 ext=$2
 
