@@ -23,7 +23,7 @@ jobs:
 
       - 
         dist: bionic
-        before_install: server-depends/src/aptget_install.sh
+        before_install: sudo bash server-depends/src/aptget_install.sh
         install: bash server-depends/src/build_all.sh
         script: bash server-code/releasebuild.sh
         

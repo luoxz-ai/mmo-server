@@ -1,8 +1,8 @@
 #sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-sudo apt-get update -y --fix-missing \
- && sudo apt-get install -y --fix-missing \
+apt-get update -y --fix-missing \
+ && apt-get install -y --fix-missing \
  apt-utils \
- && sudo apt-get install -y --fix-missing \
+ && apt-get install -y --fix-missing \
  sudo \
  vim \
  less \
