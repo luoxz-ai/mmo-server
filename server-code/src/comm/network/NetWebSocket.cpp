@@ -60,7 +60,7 @@ int32_t CNetWebSocket::GetPort()
     return 0;
 }
 
-bool CNetWebSocket::SendMsg(byte* pBuffer, size_t len, bool bFlush)
+bool CNetWebSocket::SendSocketMsg(byte* pBuffer, size_t len, bool bFlush)
 {
     __ENTER_FUNCTION
     if(m_WebSocketStatus != NWSS_READY)
@@ -212,7 +212,7 @@ void CNetWebSocket::OnWsRecvData(byte* pBuffer, size_t len)
                 MSG_HEAD msg;
                 msg.usCmd  = COMMON_CMD_PONG;
                 msg.usSize = sizeof(MSG_HEAD);
-                SendMsg((byte*)&msg, sizeof(msg));
+                SendSocketMsg((byte*)&msg, sizeof(msg));
                 // LOGNETDEBUG("MSG_PING_RECV:{}:{}", GetAddrString().c_str(), GetPort());
                 _ConsumeBuffer(nPackLen);
                 return;

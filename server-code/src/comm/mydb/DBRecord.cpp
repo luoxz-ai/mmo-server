@@ -2,8 +2,8 @@
 
 #include "MysqlConnection.h"
 
-MEMORYHEAP_IMPLEMENTATION(CDBField, s_Heap);
-MEMORYHEAP_IMPLEMENTATION(CDBRecord, s_Heap);
+OBJECTHEAP_IMPLEMENTATION(CDBField, s_Heap);
+OBJECTHEAP_IMPLEMENTATION(CDBRecord, s_Heap);
 
 //////////////////////////////////////////////////////////////////////////
 

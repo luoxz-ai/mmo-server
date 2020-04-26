@@ -15,14 +15,14 @@ CActorManager::~CActorManager()
 
 bool CActorManager::Init()
 {
-    std::fill(m_ActorCount.begin(), m_ActorCount.end(), 0);
+   
     m_ActorMap.reserve(GUESS_MAX_ACTOR_COUNT);
     m_PlayerRefMap.reserve(GUESS_MAX_PLAYER_COUNT);
 
-    m_idPool[ACT_NPC].start(ACT_NPC * ID_GEN_FACTOR, ID_GEN_FACTOR);
-    m_idPool[ACT_MONSTER].start(ACT_MONSTER * ID_GEN_FACTOR, ID_GEN_FACTOR);
-    m_idPool[ACT_MAPITEM].start(ACT_MAPITEM * ID_GEN_FACTOR, ID_GEN_FACTOR);
-    m_idPool[ACT_BULLET].start(ACT_BULLET * ID_GEN_FACTOR, ID_GEN_FACTOR);
+    m_ActorInfos[ACT_NPC].m_idPool.start(ACT_NPC * ID_GEN_FACTOR, ID_GEN_FACTOR);
+    m_ActorInfos[ACT_MONSTER].m_idPool.start(ACT_MONSTER * ID_GEN_FACTOR, ID_GEN_FACTOR);
+    m_ActorInfos[ACT_MAPITEM].m_idPool.start(ACT_MAPITEM * ID_GEN_FACTOR, ID_GEN_FACTOR);
+    m_ActorInfos[ACT_BULLET].m_idPool.start(ACT_BULLET * ID_GEN_FACTOR, ID_GEN_FACTOR);
     return true;
 }
 
@@ -93,7 +93,7 @@ bool CActorManager::AddActor(CActor* pActor)
     }
 
     m_ActorMap[pActor->GetID()] = pActor;
-    m_ActorCount[pActor->GetActorType()]++;
+    m_ActorInfos[pActor->GetActorType()].m_ActorCount++;
     if(pActor->IsPlayer())
     {
         CPlayer* pPlayer                     = pActor->CastTo<CPlayer>();
@@ -128,10 +128,10 @@ bool CActorManager::DelActorByID(OBJID id, bool bDelete /* = true*/)
     }
     else
     {
-        m_idPool[pActor->GetActorType()].put(id);
+        m_ActorInfos[pActor->GetActorType()].m_idPool.put(id);
     }
    
-    m_ActorCount[pActor->GetActorType()]--;
+    m_ActorInfos[pActor->GetActorType()].m_ActorCount--;
 
     if(bDelete)
         SAFE_DELETE(pActor);
@@ -141,20 +141,20 @@ bool CActorManager::DelActorByID(OBJID id, bool bDelete /* = true*/)
 
 OBJID CActorManager::GenNpcID()
 {
-    return m_idPool[ACT_NPC].get();
+    return m_ActorInfos[ACT_NPC].m_idPool.get();
 }
 
 OBJID CActorManager::GenMonsterID()
 {
-    return m_idPool[ACT_MONSTER].get();
+    return m_ActorInfos[ACT_MONSTER].m_idPool.get();
 }
 
 OBJID CActorManager::GenMapItemID()
 {
-    return m_idPool[ACT_MAPITEM].get();
+    return m_ActorInfos[ACT_MAPITEM].m_idPool.get();
 }
 
 OBJID CActorManager::GenBulletID()
 {
-    return m_idPool[ACT_BULLET].get();
+    return m_ActorInfos[ACT_BULLET].m_idPool.get();
 }

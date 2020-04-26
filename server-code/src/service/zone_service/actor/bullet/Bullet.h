@@ -34,7 +34,7 @@ public:
     void MoveStep();
 
 public:
-    MEMORYHEAP_DECLARATION(s_heap);
+    OBJECTHEAP_DECLARATION(s_heap);
 
 private:
     OBJID        m_idOwner     = 0;

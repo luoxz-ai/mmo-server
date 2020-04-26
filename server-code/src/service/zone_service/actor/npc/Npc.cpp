@@ -5,7 +5,7 @@
 #include "ActorManager.h"
 #include "ZoneService.h"
 
-MEMORYHEAP_IMPLEMENTATION(CNpc, s_heap);
+OBJECTHEAP_IMPLEMENTATION(CNpc, s_heap);
 CNpc::CNpc()
 {
     SetCampID(CAMP_PLAYER);

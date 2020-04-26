@@ -15,6 +15,8 @@
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
 
+OBJECTHEAP_IMPLEMENTATION(CPhase, s_heap);
+
 constexpr int WAIT_PLAYER_LOADING_MS = 5*60*1000;
 constexpr int WAIT_DESTORY_MS = 1*60*1000;
 
@@ -67,7 +69,7 @@ bool CPhase::Init(CScene* pScene, const SceneID& idScene, uint64_t idPhase,const
     ServerMSG::PhaseCreate msg;
     msg.set_scene_id(idScene);
     msg.set_phase_id(idPhase);
-    ZoneService()->SendPortMsgToAIService(msg);
+    ZoneService()->SendServerMsgToAIService(msg);
 
     TryExecScript<void>(SCB_MAP_ONCREATE, this);
 

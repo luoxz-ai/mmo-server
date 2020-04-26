@@ -3,7 +3,7 @@
 #include "Player.h"
 #include "ZoneService.h"
 
-MEMORYHEAP_IMPLEMENTATION(CCommonData, s_heap);
+OBJECTHEAP_IMPLEMENTATION(CCommonData, s_heap);
 
 CCommonData::CCommonData(CPlayer* pPlayer, CDBRecordPtr&& pRecord)
     : m_pOwner(pPlayer)

@@ -8,7 +8,7 @@
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
 
-ON_SERVERMSG(MonsterGen)
+ON_SERVERMSG(CZoneService, MonsterGen)
 {
     CPhase* pPhase = SceneManager()->QueryPhase(msg.scene_id());
     CHECK_FMT(pPhase, "msg.scene_id:{}", msg.scene_id());
@@ -27,7 +27,7 @@ ON_SERVERMSG(MonsterGen)
 }
 
 
-ON_SERVERMSG(MonsterGenMulti)
+ON_SERVERMSG(CZoneService, MonsterGenMulti)
 {
     CPhase* pPhase = SceneManager()->QueryPhase(msg.scene_id());
     CHECK(pPhase);
@@ -45,7 +45,7 @@ ON_SERVERMSG(MonsterGenMulti)
     CHECK(bSucc);
 }
 
-ON_SERVERMSG(MonsterDestory)
+ON_SERVERMSG(CZoneService, MonsterDestory)
 {
     for(int32_t i = 0; i < msg.monster_id_size(); i++)
     {
@@ -53,7 +53,7 @@ ON_SERVERMSG(MonsterDestory)
     }
 }
 
-ON_SERVERMSG(ActorMove)
+ON_SERVERMSG(CZoneService, ActorMove)
 {
     CActor* pActor = ActorManager()->QueryActor(msg.actor_id());
     if(pActor == nullptr)
@@ -62,7 +62,7 @@ ON_SERVERMSG(ActorMove)
     pActor->FaceTo(Vector2(msg.x(), msg.y()));
 }
 
-ON_SERVERMSG(ActorCastSkill)
+ON_SERVERMSG(CZoneService, ActorCastSkill)
 {
     CActor* pActor = ActorManager()->QueryActor(msg.actor_id());
     if(pActor == nullptr)
@@ -71,7 +71,21 @@ ON_SERVERMSG(ActorCastSkill)
     {
         ServerMSG::ActorCastSkill_Fail send_msg;
         send_msg.set_actor_id(msg.actor_id());
-        ZoneService()->SendPortMsgToAIService(send_msg);
+        ZoneService()->SendServerMsgToAIService(send_msg);
     }
 }
         
+
+
+ON_SERVERMSG(CZoneService, ServiceReady)
+{
+    // send message to world, notify zone ready
+    if(ZoneService()->IsSharedZone() == false)
+    {
+        ServerMSG::ServiceReady msg;
+        msg.set_serverport(ZoneService()->GetServerPort());
+
+        ZoneService()->SendMsgToWorld(ZoneService()->GetWorldID(), ServerMSG::MsgID_ServiceReady, msg);
+    }
+    
+}

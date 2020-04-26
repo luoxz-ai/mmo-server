@@ -48,7 +48,7 @@ private:
     std::unordered_set<uint64_t>                m_setApply;
 
 public:
-    MEMORYHEAP_DECLARATION(s_heap);
+    OBJECTHEAP_DECLARATION(s_heap);
 };
 
 #endif /* TEAM_H */

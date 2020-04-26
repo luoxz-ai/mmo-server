@@ -4,7 +4,7 @@
 #include <memory>
 
 #include "BaseCode.h"
-#include "MemoryHeap.h"
+#include "ObjectHeap.h"
 #include "NetworkDefine.h"
 #include "google/protobuf/message.h"
 
@@ -77,7 +77,7 @@ private:
     void AllocBuffer(size_t len);
 
 public:
-    MEMORYHEAP_DECLARATION(s_Heap);
+    OBJECTHEAP_DECLARATION(s_Heap);
 
 private:
     VirtualSocket              m_nFrom;

@@ -26,6 +26,9 @@ class CPlayer;
 // 0000 2 00 0000 0000 0000
 //
 
+class CActor;
+class CPlayer;
+
 class CActorManager : public NoncopyableT<CActorManager>
 {
     CActorManager();
@@ -47,9 +50,9 @@ public:
     bool DelActorByID(OBJID id, bool bDelete = true);
 
     size_t GetUserCount() const { return m_PlayerRefMap.size(); }
-    size_t GetMonsterCount() const { return m_ActorCount[ACT_MONSTER]; }
-    size_t GetNpcCount() const { return m_ActorCount[ACT_NPC]; }
-    size_t GetPetCount() const { return m_ActorCount[ACT_PET]; }
+    size_t GetMonsterCount() const { return m_ActorInfos[ACT_MONSTER].m_ActorCount; }
+    size_t GetNpcCount() const { return m_ActorInfos[ACT_NPC].m_ActorCount; }
+    size_t GetPetCount() const { return m_ActorInfos[ACT_PET].m_ActorCount; }
 
     OBJID GenNpcID();
     OBJID GenMonsterID();
@@ -68,12 +71,16 @@ public:
 
 protected:
 private:
-    std::array<size_t, ACT_MAX>                 m_ActorCount;
-    std::unordered_map<OBJID, CActor*>          m_ActorMap;
-    std::unordered_map<VirtualSocket, CPlayer*> m_PlayerRefMap;
+    struct ActorGroupInfo
+    {
+        uint32_t m_ActorCount = 0;
+        IDGenPool<OBJID> m_idPool;
+    };
+    std::array<ActorGroupInfo, ACT_MAX> m_ActorInfos;
 
     
-    std::array<IDGenPool<OBJID>, ACT_MAX>       m_idPool;
+    std::unordered_map<OBJID, CActor*>          m_ActorMap;
+    std::unordered_map<VirtualSocket, CPlayer*> m_PlayerRefMap;
     
 };
 #endif /* ACTORMANAGER_H */

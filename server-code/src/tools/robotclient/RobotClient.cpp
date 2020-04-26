@@ -59,7 +59,7 @@ void RobotClient::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
     MSG_HEAD* pHeader = (MSG_HEAD*)pBuffer;
     switch(pHeader->usCmd)
     {
-        case NETMSG_INITIATIVE_CLOSE:
+        case CMD_CLOSE:
         {
             LOGDEBUG("INITATIVE_CLOSE:{}", m_idClient);
             pSocket->SetReconnectTimes(0);
@@ -132,13 +132,13 @@ void RobotClient::DisconnectServer()
 void RobotClient::SendToServer(CNetworkMessage& msg)
 {
     if(m_pServerSocket)
-        m_pServerSocket->SendMsg(msg.GetBuf(), msg.GetSize());
+        m_pServerSocket->SendSocketMsg(msg.GetBuf(), msg.GetSize());
 }
 
 void RobotClient::SendToServer(byte* buf, size_t len)
 {
     if(m_pServerSocket)
-        m_pServerSocket->SendMsg(buf, len);
+        m_pServerSocket->SendSocketMsg(buf, len);
 }
 
 void RobotClient::SendProtobufToServer(uint16_t cmd, google::protobuf::Message* pMsg)

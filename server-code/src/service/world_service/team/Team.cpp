@@ -6,7 +6,7 @@
 #include "WorldService.h"
 #include "msg/zone_service.pb.h"
 
-MEMORYHEAP_IMPLEMENTATION(CTeam, s_heap);
+OBJECTHEAP_IMPLEMENTATION(CTeam, s_heap);
 
 CTeam::CTeam() {}
 

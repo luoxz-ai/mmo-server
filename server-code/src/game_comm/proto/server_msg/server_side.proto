@@ -10,6 +10,14 @@ enum OMsgID
     MsgID_ServiceHttpRequest  = 20002;
     MsgID_ServiceHttpResponse = 20003;
     MsgID_ServiceReady        = 20010;
+    MsgID_ServiceRegister     = 20011;
+    
+    MsgID_SocketConnect       = 20012;  // sck->other 一个socket连接上来了
+    MsgID_SocketClose         = 20013;  // sck->other socket关闭
+    MsgID_SocketChangeDest    = 20014;  // other->sck 切换socket对应的服务器
+    MsgID_SocketAuth          = 20015;  // other->sck 设置socket的认证信息
+    MsgID_SocketStartAccept   = 20016;  // world->sck 开始监听
+    MsgID_SocketStopAccept    = 20017;  // world->sck 关闭监听
 
     MsgID_PlayerEnterZone       = 20021;
     MsgID_PlayerChangeZone      = 20022;
@@ -76,7 +84,49 @@ message ServiceHttpResponse
 message ServiceReady
 {
     uint32 serverport = 1;
+    bool ready = 2;
 };
+
+message ServiceRegister
+{
+    uint32 serverport = 1;
+    uint64 update_time = 2;
+}
+
+message SocketConnect
+{
+    uint64 vs = 1;
+}
+
+message SocketClose
+{
+    uint64 vs = 1;
+}
+
+
+message SocketChangeDest
+{
+    uint64 vs = 1;
+    uint32 destport=2;
+}
+
+
+message SocketAuth 
+{
+    uint64 vs = 1;
+}
+
+
+message SocketStartAccept 
+{
+
+}
+
+message SocketStopAccept 
+{
+
+}
+
 
 message PlayerEnterZone
 {

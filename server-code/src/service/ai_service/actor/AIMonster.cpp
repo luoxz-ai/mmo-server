@@ -5,7 +5,7 @@
 #include "ActorAI.h"
 #include "AIPhase.h"
 
-MEMORYHEAP_IMPLEMENTATION(CAIMonster, s_heap);
+OBJECTHEAP_IMPLEMENTATION(CAIMonster, s_heap);
 CAIMonster::CAIMonster() {}
 
 CAIMonster::~CAIMonster()

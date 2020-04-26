@@ -22,7 +22,7 @@ void CPlayer::AddTaskPhase(uint64_t idPhase, bool bNotify/* = true*/)
         ServerMSG::AddTaskPhase msg;
         msg.set_player_id(GetID());
         msg.set_task_phase_id(idPhase);
-        ZoneService()->SendPortMsgToAIService(msg);
+        ZoneService()->SendServerMsgToAIService(msg);
     }
 }
 
@@ -41,6 +41,6 @@ void CPlayer::RemoveTaskPhase(uint64_t idPhase, bool bNotify/* = true*/)
         ServerMSG::RemoveTaskPhase msg;
         msg.set_player_id(GetID());
         msg.set_task_phase_id(idPhase);
-        ZoneService()->SendPortMsgToAIService(msg);
+        ZoneService()->SendServerMsgToAIService(msg);
     }
 }

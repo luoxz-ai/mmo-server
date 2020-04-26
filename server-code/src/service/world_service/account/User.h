@@ -2,7 +2,7 @@
 #define USER_H
 
 #include "BaseCode.h"
-#include "MemoryHeap.h"
+#include "ObjectHeap.h"
 #include "NetworkDefine.h"
 #include "NetworkMessage.h"
 class CAccount;
@@ -44,7 +44,7 @@ public:
     uint16_t GetZoneID() const;
 
 public:
-    MEMORYHEAP_DECLARATION(s_heap);
+    OBJECTHEAP_DECLARATION(s_heap);
 
 private:
     CAccount*     m_pAccount = nullptr;

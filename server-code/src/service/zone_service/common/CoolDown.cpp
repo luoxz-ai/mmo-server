@@ -3,8 +3,8 @@
 #include "Player.h"
 #include "ZoneService.h"
 
-MEMORYHEAP_IMPLEMENTATION(ICoolDown, s_heap);
-MEMORYHEAP_IMPLEMENTATION(CCoolDownSet, s_heap);
+OBJECTHEAP_IMPLEMENTATION(ICoolDown, s_heap);
+OBJECTHEAP_IMPLEMENTATION(CCoolDownSet, s_heap);
 
 CPlayerCoolDown::CPlayerCoolDown(CPlayer* pPlayer, CDBRecordPtr&& pRecord)
     : m_pOwner(pPlayer)

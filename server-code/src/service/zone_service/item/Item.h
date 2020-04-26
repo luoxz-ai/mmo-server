@@ -71,5 +71,8 @@ public:
     export_lua uint32_t GetEquipPosition();
     export_lua bool     ChkEquipPosition(uint32_t nPosition);
     export_lua uint32_t GetCanPileNum();
+
+
+
 };
 #endif /* ITEM_H */

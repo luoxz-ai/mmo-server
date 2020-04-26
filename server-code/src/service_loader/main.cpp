@@ -11,10 +11,11 @@
 #include "BaseCode.h"
 #include "FileLock.h"
 #include "LoggingMgr.h"
-#include "MemoryHeap.h"
+#include "ObjectHeap.h"
 #include "SegvCatch.h"
 #include "ServiceLoader.h"
 #include "StringAlgo.h"
+#include "MemoryHelp.h"
 #include "fmt/format.h"
 #include "get_opt.h"
 #ifdef USE_JEMALLOC
@@ -261,10 +262,18 @@ int main(int argc, char* argv[])
         __ENTER_FUNCTION
         // std::this_thread::yield();
         // PurgeJemalloc();
+        auto alloc_from_obj_heap = get_alloc_from_object_heap();
         auto result = get_memory_status();
         LOGMONITOR(
-            "Allocated: {:.2f}, active: {:.2f}, metadata: {:.2f}, resident: {:.2f}, mapped: {:.2f}, retained: {:.2f}, "
+            "alloc_from_obj_heap: {:.2f}, "
+            "allocated: {:.2f}, "
+            "active: {:.2f}, "
+            "metadata: {:.2f}, "
+            "resident: {:.2f}, "
+            "mapped: {:.2f}, "
+            "retained: {:.2f}, "
             "num_threads: {}",
+            alloc_from_obj_heap  / 1024.0f / 1024.0f,
             result.allocted / 1024.0f / 1024.0f,
             result.active / 1024.0f / 1024.0f,
             result.metadata / 1024.0f / 1024.0f,

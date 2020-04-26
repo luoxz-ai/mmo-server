@@ -4,8 +4,9 @@
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
 #include "MysqlConnection.h"
+#include "MsgWorldProcess.h"
 
-MEMORYHEAP_IMPLEMENTATION(CSystemVar, s_heap);
+OBJECTHEAP_IMPLEMENTATION(CSystemVar, s_heap);
 
 CSystemVar::CSystemVar(CDBRecordPtr&& pRecord)
     : m_pRecord(pRecord.release())
@@ -143,9 +144,6 @@ void CSystemVar::DeleteRecord()
 
 CSystemVarSet::CSystemVarSet()
 {
-    auto pNetMsgProcess = WorldService()->GetNetMsgProcess();
-    using namespace std::placeholders;
-    pNetMsgProcess->Register(ServerMSG::MsgID_SystemVarChange, std::bind(&CSystemVarSet::OnSystemVarChange, this, _1));
 }
 
 CSystemVarSet::~CSystemVarSet()
@@ -153,37 +151,31 @@ CSystemVarSet::~CSystemVarSet()
     m_setData.clear();
 }
 
-void CSystemVarSet::OnSystemVarChange(CNetworkMessage* pMsg)
+ON_SERVERMSG(CWorldService, SystemVarChange)
 {
-
-    ServerMSG::SystemVarChange msg;
-    if(msg.ParseFromArray(pMsg->GetMsgBody(), pMsg->GetBodySize()) == false)
-    {
-        return;
-    }
-
+    
     switch(msg.type())
     {
         case ServerMSG::SystemVarChange::SVCT_CREATE:
         {
-            CreateVar(msg.keyidx());
+            SystemVarSet()->CreateVar(msg.keyidx());
         }
         break;
         case ServerMSG::SystemVarChange::SVCT_ADD_DATA:
         {
-            auto pVar = QueryVar(msg.keyidx(), true);
+            auto pVar = SystemVarSet()->QueryVar(msg.keyidx(), true);
             pVar->AddData(msg.idx(), msg.val(), false, false);
         }
         break;
         case ServerMSG::SystemVarChange::SVCT_SET_DATA:
         {
-            auto pVar = QueryVar(msg.keyidx(), true);
+            auto pVar = SystemVarSet()->QueryVar(msg.keyidx(), true);
             pVar->SetData(msg.idx(), msg.val(), false, false);
         }
         break;
         case ServerMSG::SystemVarChange::SVCT_SET_STR:
         {
-            auto pVar = QueryVar(msg.keyidx(), true);
+            auto pVar = SystemVarSet()->QueryVar(msg.keyidx(), true);
             pVar->SetStr(msg.idx(), msg.str(), false, false);
         }
         break;

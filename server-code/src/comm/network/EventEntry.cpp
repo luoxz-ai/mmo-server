@@ -3,7 +3,7 @@
 #include "EventManager.h"
 #include "event2/event.h"
 
-MEMORYHEAP_IMPLEMENTATION(CEventEntry, s_heap);
+OBJECTHEAP_IMPLEMENTATION(CEventEntry, s_heap);
 
 CEventEntry::CEventEntry(CEventManager*      pManager,
                          uint32_t            evType,

@@ -18,6 +18,8 @@
 #include "event2/keyvalq_struct.h"
 #include "gm_service.pb.h"
 #include "MonitorMgr.h"
+#include "MsgProcessRegister.h"
+#include "server_msg/server_side.pb.h"
 
 namespace Game
 {
@@ -120,11 +122,7 @@ CGMService::~CGMService()
 
 void CGMService::Release()  
 {   
-    scope_guards scope_exit;
-    auto oldNdc = BaseCode::SetNdc(GetServiceName());
-    scope_exit += [oldNdc]() {
-        BaseCode::SetNdc(oldNdc);
-    };
+
     Destory();
     delete this; 
 }
@@ -132,6 +130,7 @@ void CGMService::Release()
 
 void CGMService::Destory()
 {
+    __ENTER_FUNCTION
     tls_pService = this;
     scope_guards scope_exit;
     scope_exit += []() {
@@ -146,6 +145,8 @@ void CGMService::Destory()
     }
     
     DestoryServiceCommon();
+
+    __LEAVE_FUNCTION
 }
 
 bool CGMService::Init(const ServerPort& nServerPort)
@@ -161,11 +162,19 @@ bool CGMService::Init(const ServerPort& nServerPort)
     auto oldNdc = BaseCode::SetNdc(GetServiceName());
     scope_exit += [oldNdc]() {
         BaseCode::SetNdc(oldNdc);
-        ;
     };
 
     if(CreateService(20) == false)
         return false;
+
+    //注册消息
+    {
+        auto pNetMsgProcess = GetNetMsgProcess();
+        for(const auto& [k,v] : MsgProcRegCenter<CGMService>::instance().m_MsgProc)
+        {
+            pNetMsgProcess->Register(k,v);
+        }
+    }
 
     {
         const ServerAddrInfo* pAddrInfo = GetMessageRoute()->QueryServiceInfo(GetServerPort());
@@ -181,75 +190,83 @@ bool CGMService::Init(const ServerPort& nServerPort)
     }
     LOGMESSAGE("GMService {} Create", GetServerPort().GetServiceID());
 
+    ServerMSG::ServiceReady msg;
+    msg.set_serverport(GetServerPort());
+
+    SendPortMsg(ServerPort(GetWorldID(), WORLD_SERVICE_ID), ServerMSG::MsgID_ServiceReady, msg);
+
     return true;
 }
 
 void CGMService::SendServiceReady()
 {
-    MSG_INTERNAL_SERVICE_READY msg;
-    msg.idWorld = GetWorldID();
-    msg.bReady  = true;
-    SendPortMsg(ServerPort(0, ROUTE_SERVICE_ID), (byte*)&msg, sizeof(msg));
+    ServerMSG::ServiceReady send_msg;
+    send_msg.set_serverport(GMService()->GetServerPort());
+    send_msg.set_ready(true);
+    SendPortMsg(ServerPort(0, ROUTE_SERVICE_ID), send_msg);
 }
 
 void CGMService::SendServiceUnReady()
 {
-    MSG_INTERNAL_SERVICE_READY msg;
-    msg.idWorld = GetWorldID();
-    msg.bReady  = false;
-    SendPortMsg(ServerPort(0, ROUTE_SERVICE_ID), (byte*)&msg, sizeof(msg));
+    ServerMSG::ServiceReady send_msg;
+    send_msg.set_serverport(GMService()->GetServerPort());
+    send_msg.set_ready(false);
+    SendPortMsg(ServerPort(0, ROUTE_SERVICE_ID), send_msg);
+}
+
+ON_SERVERMSG(CGMService, ServiceReady)
+{
+    //发送一条消息给ServiceCtrl,通知有一个新的服被开启了, 要求ServiceCtrl通知所有GlobalRoute服,更新路由信息
+    ServerMSG::ServiceRegister send_msg;
+    send_msg.set_serverport(GMService()->GetServerPort());
+    send_msg.set_update_time(TimeGetSecond());
+    GMService()->SendPortMsg(ServerPort(0, ROUTE_SERVICE_ID), send_msg);
+    
+    LOGMESSAGE("WorldReady: {}", GMService()->GetServerPort().GetWorldID());
+    EventManager()->ScheduleEvent(
+        0,
+        []() { GMService()->SendServiceReady(); },
+        30 * 1000,
+        true);
+}
+
+ON_SERVERMSG(CGMService, ServiceHttpRequest)
+{
+    LOGMESSAGE("recv_httprequest:{}", msg.uid());
+    const std::string& mothed =  msg.kvmap().at("mothed");
+    auto handler = GMService()->QueryHttpRequestHandler(mothed);
+    if(handler)
+    {
+        std::invoke(*handler, pMsg->GetFrom().GetServerPort(), msg);
+        LOGMESSAGE("finish_httprequest:{}", msg.uid());
+    }
+    else
+    {
+        ServerMSG::ServiceHttpResponse send_msg;
+        send_msg.set_uid(msg.uid());
+        send_msg.set_response_code(HTTP_BADMETHOD);
+        GMService()->SendPortMsg(pMsg->GetFrom().GetServerPort(), send_msg);
+    }
+   
+    
+}
+
+const CGMService::HttpRequestHandleFunc* CGMService::QueryHttpRequestHandler(const std::string& mothed) const
+{
+    auto it = m_HttpRequestHandle.find(mothed);
+    if(it != m_HttpRequestHandle.end())
+    {
+        return &it->second;
+    }
+        
+    return nullptr;   
 }
 
 void CGMService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 {
-    switch(pNetworkMsg->GetMsgHead()->usCmd)
+    if(m_pNetMsgProcess->Process(pNetworkMsg) == false)
     {
-        case NETMSG_SCK_CLOSE:
-        {
-            MSG_SCK_CLOSE* pMsg = (MSG_SCK_CLOSE*)pNetworkMsg->GetBuf();
-        }
-        break;
-        case NETMSG_SERVICE_READY:
-        {
-            //发送一条消息给ServiceCtrl,通知有一个新的服被开启了, 要求ServiceCtrl通知所有GlobalRoute服,更新路由信息
-            MSG_INTERNAL_SERVICE_REGISTER msg;
-            msg.idWorld     = GetWorldID();
-            msg.update_time = TimeGetSecond();
-            SendPortMsg(ServerPort(0, ROUTE_SERVICE_ID), (byte*)&msg, sizeof(msg));
-            
-            LOGMESSAGE("WorldReady: {}", GetWorldID());
-            EventManager()->ScheduleEvent(
-                0,
-                [this]() { SendServiceReady(); },
-                30 * 1000,
-                true);
-        }
-        break;
-        case ServerMSG::MsgID_ServiceHttpRequest:
-        {
-            ServerMSG::ServiceHttpRequest msg;
-            if(msg.ParseFromArray(pNetworkMsg->GetMsgBody(), pNetworkMsg->GetBodySize()) == false)
-                return;
-            LOGMESSAGE("recv_httprequest:{}", msg.uid());
-
-            auto it = m_HttpRequestHandle.find(msg.kvmap().at("mothed"));
-            if(it == m_HttpRequestHandle.end())
-            {
-                ServerMSG::ServiceHttpResponse send_msg;
-                send_msg.set_uid(msg.uid());
-                send_msg.set_response_code(HTTP_BADMETHOD);
-                SendPortMsg(pNetworkMsg->GetFrom().GetServerPort(), send_msg);
-                return;
-            }
-            it->second(pNetworkMsg->GetFrom().GetServerPort(), msg);
-            LOGMESSAGE("finish_httprequest:{}", msg.uid());
-        }
-        break;
-        default:
-        {
-            m_pNetMsgProcess->Process(pNetworkMsg);
-        }
-        break;
+        LOGERROR("CMD {} didn't have ProcessHandler", pNetworkMsg->GetCmd());   
     }
 }
 

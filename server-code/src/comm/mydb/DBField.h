@@ -10,7 +10,7 @@
 
 #include "BaseCode.h"
 #include "CallStackDumper.h"
-#include "MemoryHeap.h"
+#include "ObjectHeap.h"
 #include "fmt/format.h"
 
 #include "DBFieldInfo.h"
@@ -232,7 +232,7 @@ private:
         return false;
     }
 public:
-    MEMORYHEAP_DECLARATION(s_Heap);
+    OBJECTHEAP_DECLARATION(s_Heap);
 
 private:
     CDBRecord*          m_pDBRecord;

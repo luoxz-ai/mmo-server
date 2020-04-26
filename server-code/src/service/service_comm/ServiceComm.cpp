@@ -76,7 +76,7 @@ bool CServiceCommon::CreateService(int32_t                         nWorkInterval
     if(ListenMessagePort(GetServiceName(), pEventHandler) == false)
         return false;
     //开启逻辑线程处理来自其他服务器的消息
-    StartLogicThread(nWorkInterval, GetServiceName());
+    StartLogicThread(nWorkInterval, GetServiceName()+"_Logic");
     LOGMESSAGE("{} {} Create", GetServiceName().c_str(), GetServerPort().GetServiceID());
     __LEAVE_FUNCTION
     return true;
@@ -133,7 +133,7 @@ void CServiceCommon::OnLogicThreadProc()
     if(m_pMessagePort)
     {
         // process message_port msg
-        while(nCount < MAX_PROCESS_PER_LOOP && m_pMessagePort->TakeMsg(pMsg))
+        while(nCount < MAX_PROCESS_PER_LOOP && m_pMessagePort->TakePortMsg(pMsg))
         {
             nCount++;
             OnProcessMessage(pMsg);
@@ -164,36 +164,11 @@ void CServiceCommon::OnLogicThreadProc()
 
 void CServiceCommon::OnLogicThreadCreate()
 {
-    BaseCode::SetNdc(m_ServiceName);
     BaseCode::InitMonitorLog(m_ServiceName);
-    LOGMESSAGE("ThreadID:{}", get_cur_thread_id());
 }
 
 void CServiceCommon::OnLogicThreadExit()
 {
-    LOGMESSAGE("ExitThreadID:{}", get_cur_thread_id());
-    BaseCode::ClearNdc();
-    ;
-}
-
-bool CServiceCommon::SendPortBroadcastMsg(const ServerPort& nServerPort, byte* buf, size_t len)const
-{
-    __ENTER_FUNCTION
-    if(GetMessageRoute() && nServerPort.IsVaild())
-    {
-        CMessagePort* pMessagePort = GetMessageRoute()->QueryMessagePort(nServerPort);
-        if(pMessagePort)
-        {
-            CNetworkMessage msg(buf, len, GetServerPort(), nServerPort);
-            return pMessagePort->SendBroadcastMsg(msg);
-        }
-        else
-        {
-            LOGWARNING("SendMsg To ServerPort:{} {} not find", nServerPort.GetWorldID(), nServerPort.GetServiceID());
-        }
-    }
-    __LEAVE_FUNCTION
-    return false;
 }
 
 
@@ -219,7 +194,7 @@ bool CServiceCommon::SendPortBroadcastMsg(const ServerPort&                nServ
         }
         else
         {
-            LOGWARNING("SendMsg To ServerPort:{} {}, not find", nServerPort.GetWorldID(), nServerPort.GetServiceID());
+            LOGWARNING("SendPortMsg To ServerPort:{} {}, not find", nServerPort.GetWorldID(), nServerPort.GetServiceID());
         }
     }
     __LEAVE_FUNCTION
@@ -240,7 +215,7 @@ bool CServiceCommon::SendPortMultiMsg(const ServerPort&                 nServerP
         }
         else
         {
-            LOGWARNING("SendMsg To ServerPort:{} {}, not find", nServerPort.GetWorldID(), nServerPort.GetServiceID());
+            LOGWARNING("SendPortMsg To ServerPort:{} {}, not find", nServerPort.GetWorldID(), nServerPort.GetServiceID());
         }
     }
     __LEAVE_FUNCTION
@@ -261,27 +236,7 @@ bool CServiceCommon::SendPortMultiIDMsg(const ServerPort&         nServerPort,
         }
         else
         {
-            LOGWARNING("SendMsg To ServerPort:{} {}, not find", nServerPort.GetWorldID(), nServerPort.GetServiceID());
-        }
-    }
-    __LEAVE_FUNCTION
-    return false;
-}
-
-bool CServiceCommon::SendPortMsg(const ServerPort& nServerPort, byte* buf, size_t len)const
-{
-    __ENTER_FUNCTION
-    if(GetMessageRoute() && nServerPort.IsVaild())
-    {
-        CMessagePort* pMessagePort = GetMessageRoute()->QueryMessagePort(nServerPort);
-        if(pMessagePort)
-        {
-            CNetworkMessage msg(buf, len, GetServerPort(), nServerPort);
-            return pMessagePort->SendMsg(msg);
-        }
-        else
-        {
-            LOGWARNING("SendMsg To ServerPort:{} {}, not find", nServerPort.GetWorldID(), nServerPort.GetServiceID());
+            LOGWARNING("SendPortMsg To ServerPort:{} {}, not find", nServerPort.GetWorldID(), nServerPort.GetServiceID());
         }
     }
     __LEAVE_FUNCTION
@@ -296,7 +251,7 @@ bool CServiceCommon::SendPortMsg(const ServerPort& nServerPort, const google::pr
 bool CServiceCommon::SendPortMsg(const ServerPort& nServerPort, uint16_t usCmd, const google::protobuf::Message& msg)const
 {
     CNetworkMessage _msg(usCmd, msg, GetServerVirtualSocket(), nServerPort);
-    return SendMsg(_msg);
+    return SendPortMsg(_msg);
 }
 
 bool CServiceCommon::SendToVirtualSocket(const VirtualSocket&             vsTo,
@@ -310,10 +265,19 @@ bool CServiceCommon::SendToVirtualSocket(const VirtualSocket&             vsTo,
                                          const google::protobuf::Message& msg)const
 {
     CNetworkMessage _msg(usCmd, msg, GetServerVirtualSocket(), vsTo);
-    return SendMsg(_msg);
+    return SendPortMsg(_msg);
 }
 
-bool CServiceCommon::SendMsg(const CNetworkMessage& msg)const
+bool CServiceCommon::TransmitPortMsg(const ServerPort& nServerPort, CNetworkMessage* pMsg)const
+{
+    CNetworkMessage _msg(*pMsg);
+    _msg.SetTo(nServerPort);
+    _msg.CopyBuffer();
+
+    return SendPortMsg(_msg);
+}
+
+bool CServiceCommon::SendPortMsg(const CNetworkMessage& msg)const
 {
     __ENTER_FUNCTION
     VirtualSocket vs(msg.GetTo());
@@ -323,11 +287,11 @@ bool CServiceCommon::SendMsg(const CNetworkMessage& msg)const
         CMessagePort* pMessagePort = GetMessageRoute()->QueryMessagePort(vs.GetServerPort());
         if(pMessagePort)
         {
-            return pMessagePort->SendMsg(msg);
+            return pMessagePort->SendPortMsg(msg);
         }
         else
         {
-            LOGWARNING("SendMsg To ServerPort:{} {} {}, not find",
+            LOGWARNING("SendPortMsg To ServerPort:{} {} {}, not find",
                        vs.GetServerPort().GetWorldID(),
                        vs.GetServerPort().GetServiceID(),
                        vs.GetSocketIdx());
@@ -418,7 +382,7 @@ bool CServiceCommon::SendMsgTo(const VirtualSocketMap_t& setSocketMap, uint16_t 
         {
             _msg.SetTo(socket_list.front());
             m_pMonitorMgr->AddSendInfo(nCmd, _msg.GetSize());
-            SendMsg(_msg);
+            SendPortMsg(_msg);
         }
         else
         {

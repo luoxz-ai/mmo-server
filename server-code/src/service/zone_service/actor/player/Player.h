@@ -234,7 +234,7 @@ public:
     void RemoveTaskPhase(uint64_t idPhase, bool bNotify = true);
 
 public:
-    MEMORYHEAP_DECLARATION(s_heap);
+    OBJECTHEAP_DECLARATION(s_heap);
 
 private:
     CDBRecordPtr                       m_pRecord;

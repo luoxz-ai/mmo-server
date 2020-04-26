@@ -101,7 +101,6 @@ bool CMysqlConnection::Connect(const std::string& host,
             "DB AsyncThread",
             [this, host, user, password, db, port, client_flag]() {
                 __ENTER_FUNCTION
-                BaseCode::SetNdc("DB AsyncThread");
                 LOGMESSAGE("ThreadID:{}", get_cur_thread_id());
 
                 int32_t nError = 0;

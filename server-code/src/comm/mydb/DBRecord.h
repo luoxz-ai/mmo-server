@@ -11,7 +11,7 @@
 
 #include "BaseCode.h"
 #include "DBField.h"
-#include "MemoryHeap.h"
+#include "ObjectHeap.h"
 #include "dynamic_bitset.h"
 
 class CDBRecord;
@@ -66,7 +66,7 @@ private:
     std::string BuildInsertSQL();
 
 public:
-    MEMORYHEAP_DECLARATION(s_Heap);
+    OBJECTHEAP_DECLARATION(s_Heap);
 
 private:
     CMysqlConnection*                          m_pMysqlConnection;

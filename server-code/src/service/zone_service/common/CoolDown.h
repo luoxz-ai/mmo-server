@@ -24,7 +24,7 @@ public:
     export_lua virtual bool     ClearCoolDown(bool bUpdate = false, bool bSync = true)                 = 0;
 
 public:
-    MEMORYHEAP_DECLARATION(s_heap);
+    OBJECTHEAP_DECLARATION(s_heap);
 };
 
 export_lua class CCoolDown : public ICoolDown
@@ -99,7 +99,7 @@ protected:
 protected:
     std::unordered_map<uint64_t, std::unique_ptr<ICoolDown> > m_setDataMap;
 
-    MEMORYHEAP_DECLARATION(s_heap);
+    OBJECTHEAP_DECLARATION(s_heap);
 };
 
 export_lua class CPlayerCoolDownSet : public CCoolDownSet 

@@ -23,7 +23,7 @@ public:
     void AddTaskPhase(uint64_t idPhase);
     void RemoveTaskPhase(uint64_t idPhase);
 public:
-    MEMORYHEAP_DECLARATION(s_heap);
+    OBJECTHEAP_DECLARATION(s_heap);
 
 private:
     std::unordered_map<uint64_t, uint32_t> m_TaskPhase;

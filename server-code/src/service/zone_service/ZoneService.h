@@ -34,8 +34,15 @@ public:
     
     void Release() override;
     CreateNewRealeaseImpl(CZoneService);
-    
-    uint16_t GetZoneID() const { return GetServiceID() - MIN_ZONE_SERVICE_ID + 1; }
+    export_lua const std::string& GetServiceName() const override{ return CServiceCommon::GetServiceName(); }
+public:
+    export_lua uint16_t GetZoneID() const { return GetServiceID() - MIN_ZONE_SERVICE_ID + 1; }
+    export_lua uint16_t GetAIServiceID() const {return MIN_AI_SERVICE_ID + GetZoneID() - 1;}
+    export_lua VirtualSocket GetAIServerVirtualSocket() const
+    {
+        return VirtualSocket(ServerPort(GetWorldID(), GetServiceID() + 10), 0);
+    }
+    export_lua bool IsSharedZone()const {return GetWorldID() == 0;}
 public:
     virtual void OnLogicThreadProc() override;
     virtual void OnLogicThreadCreate() override;
@@ -65,7 +72,7 @@ public:
     export_lua bool SendMsgToPlayer(const VirtualSocket& vs, const google::protobuf::Message& msg)const;
     export_lua bool SendMsgToPlayer(const VirtualSocket& vs, uint16_t nCmd, const google::protobuf::Message& msg)const;
     //发送消息给AIService
-    export_lua bool SendPortMsgToAIService(const google::protobuf::Message& msg)const;
+    export_lua bool SendServerMsgToAIService(const google::protobuf::Message& msg)const;
     export_lua bool SendMsgToAIService(uint16_t nCmd, const google::protobuf::Message& msg)const;
 
     //发送广播包给玩家

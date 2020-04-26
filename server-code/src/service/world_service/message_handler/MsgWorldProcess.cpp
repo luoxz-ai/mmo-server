@@ -8,7 +8,7 @@
 
 
 
-ON_MSG(SC_TALK)
+ON_MSG(CWorldService, SC_TALK)
 {
     switch(msg.channel())
     {
@@ -59,7 +59,7 @@ ON_MSG(SC_TALK)
     }
 }
 
-ON_SERVERMSG(PlayerChangeZone)
+ON_SERVERMSG(CWorldService, PlayerChangeZone)
 {
     CUser* pUser = UserManager()->QueryUser(msg.socket());
     if(pUser == nullptr)
@@ -71,10 +71,10 @@ ON_SERVERMSG(PlayerChangeZone)
 
     //将消息直接转发给对应的zone
     pMsg->SetTo(ServerPort(WorldService()->GetWorldID(), msg.idzone()));
-    WorldService()->SendMsg(*pMsg);
+    WorldService()->SendPortMsg(*pMsg);
 }
 
-ON_SERVERMSG(PlayerChangeZone_Data)
+ON_SERVERMSG(CWorldService, PlayerChangeZone_Data)
 {
     CUser* pUser = UserManager()->QueryUser(msg.socket());
     if(pUser == nullptr)
@@ -84,19 +84,27 @@ ON_SERVERMSG(PlayerChangeZone_Data)
 
     //将消息直接转发给对应的zone
     pMsg->SetTo(ServerPort(WorldService()->GetWorldID(), pUser->GetZoneID()));
-    WorldService()->SendMsg(*pMsg);
+    WorldService()->SendPortMsg(*pMsg);
 }
 
-ON_SERVERMSG(ServiceReady)
+ON_SERVERMSG(CWorldService, ServiceReady)
 {
     WorldService()->SetServiceReady(ServerPort(msg.serverport()).GetServiceID());
 }
 
-ON_SERVERMSG(ServiceCmd)
+ON_SERVERMSG(CWorldService, ServiceCmd)
 {
     LOGDEBUG("ServiceCmd recv, cmd:{}", msg.cmds(0).c_str());
 }
 
+ON_SERVERMSG(CWorldService, SocketConnect)
+{
+}
+
+ON_SERVERMSG(CWorldService, SocketClose)
+{
+    
+}
 
 //////////////////////////////////////////////////////////////////////////
 void RegisterWorldMessageHandler()
@@ -104,7 +112,7 @@ void RegisterWorldMessageHandler()
     __ENTER_FUNCTION
 
     auto pNetMsgProcess = WorldService()->GetNetMsgProcess();
-    for(const auto& [k,v] : WorldMsgProcRegCenter::instance().m_MsgProc)
+    for(const auto& [k,v] : MsgProcRegCenter<CWorldService>::instance().m_MsgProc)
     {
         pNetMsgProcess->Register(k,v);
     }

@@ -8,7 +8,7 @@
 #include "ZoneService.h"
 #include "GameEventDef.h"
 
-MEMORYHEAP_IMPLEMENTATION(CBullet, s_heap);
+OBJECTHEAP_IMPLEMENTATION(CBullet, s_heap);
 CBullet::CBullet()
 {
     SetCampID(CAMP_PLAYER);

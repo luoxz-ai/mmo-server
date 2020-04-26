@@ -5,6 +5,7 @@
 #include <sys/types.h>
 
 #include "LoggingMgr.h"
+#include "MemoryHelp.h"
 #include "NetworkService.h"
 #include "RobotClientManager.h"
 #include "event2/event.h"

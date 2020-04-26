@@ -20,8 +20,8 @@ void CAISceneManager::Destory()
 {
     for(auto& [k,v]: m_mapScene)
     {
-        LOGDEBUG("AIScene {} Destroy", k);
         SAFE_DELETE(v);
+        LOGDEBUG("AIScene {} Destroy", k);
     }
     m_mapScene.clear();
 }

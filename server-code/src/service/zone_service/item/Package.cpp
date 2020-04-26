@@ -5,7 +5,7 @@
 #include "ItemType.h"
 #include "Player.h"
 #include "ZoneService.h"
-MEMORYHEAP_IMPLEMENTATION(CPackage, s_heap);
+OBJECTHEAP_IMPLEMENTATION(CPackage, s_heap);
 
 CPackage::CPackage() {}
 

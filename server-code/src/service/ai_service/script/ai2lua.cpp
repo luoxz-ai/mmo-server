@@ -318,7 +318,6 @@ void ai2lua(lua_State* L)
         0);
     lua_tinker::class_add<CServiceCommon>(L, "CServiceCommon", false);
     lua_tinker::class_def<CServiceCommon>(L, "CreateUID", &CServiceCommon::CreateUID);
-    lua_tinker::class_def<CServiceCommon>(L, "GetAIServerVirtualSocket", &CServiceCommon::GetAIServerVirtualSocket);
     lua_tinker::class_def<CServiceCommon>(L, "GetEventManager", &CServiceCommon::GetEventManager);
     lua_tinker::class_def<CServiceCommon>(L, "GetMonitorMgr", &CServiceCommon::GetMonitorMgr);
     lua_tinker::class_def<CServiceCommon>(L, "GetNetMsgProcess", &CServiceCommon::GetNetMsgProcess);

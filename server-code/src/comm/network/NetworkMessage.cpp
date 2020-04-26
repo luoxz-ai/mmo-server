@@ -4,7 +4,7 @@
 #include "google/protobuf/descriptor.pb.h"
 //#include "proto/options.pb.h"
 
-MEMORYHEAP_IMPLEMENTATION(CNetworkMessage, s_Heap);
+OBJECTHEAP_IMPLEMENTATION(CNetworkMessage, s_Heap);
 
 CNetworkMessage::CNetworkMessage()
     : m_nFrom(0)

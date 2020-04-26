@@ -2,6 +2,11 @@
 
 #include "GameMap.h"
 #include "SceneObject.h"
+
+OBJECTHEAP_IMPLEMENTATION(CSceneTree, s_heap);
+OBJECTHEAP_IMPLEMENTATION(CSceneTile, s_heap);
+OBJECTHEAP_IMPLEMENTATION(CSceneCollisionTile, s_heap);
+
 constexpr int32_t CONST_SCENE_TILE_GRIDRANGE = 30;
 
 CSceneTree::CSceneTree() {}

@@ -92,7 +92,8 @@ void CNormalThread::ThreadFunc()
     {
         pthread_setname_np(pthread_self(), m_ThreadName.c_str());
     }
-
+    BaseCode::SetNdc(m_ThreadName);
+    LOGDEBUG("ThreadCreate:{} ThreadID:{}", m_ThreadName, get_cur_thread_id());
     if(m_funcThreadCreate)
     {
         m_funcThreadCreate();
@@ -132,6 +133,9 @@ void CNormalThread::ThreadFunc()
     {
         m_funcThreadFinish();
     }
+
+    LOGDEBUG("ThreadExit:{} ThreadID:{}", m_ThreadName, get_cur_thread_id());
+    BaseCode::ClearNdc();
     __LEAVE_FUNCTION
 }
 
@@ -158,7 +162,10 @@ void CWorkerThread::ThreadFunc()
     {
         pthread_setname_np(pthread_self(), m_ThreadName.c_str());
     }
-
+    
+    BaseCode::SetNdc(m_ThreadName);
+    LOGDEBUG("ThreadCreate:{} ThreadID:{}", m_ThreadName, get_cur_thread_id());
+    
     if(m_funcThreadCreate)
     {
         m_funcThreadCreate();
@@ -185,6 +192,8 @@ void CWorkerThread::ThreadFunc()
     {
         m_funcThreadFinish();
     }
+    LOGDEBUG("ThreadExit:{} ThreadID:{}", m_ThreadName, get_cur_thread_id());
+    BaseCode::ClearNdc();
     __LEAVE_FUNCTION
 }
 

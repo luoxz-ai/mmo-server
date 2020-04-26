@@ -123,7 +123,7 @@ public:
     void                 SetSocket(const VirtualSocket& val) { m_Socket = val; }
 
 public:
-    MEMORYHEAP_DECLARATION(s_heap);
+    OBJECTHEAP_DECLARATION(s_heap);
 
 private:
     VirtualSocket              m_Socket;

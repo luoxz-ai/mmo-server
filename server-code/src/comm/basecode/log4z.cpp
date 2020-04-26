@@ -87,7 +87,7 @@
 _ZSUMMER_BEGIN
 _ZSUMMER_LOG4Z_BEGIN
 
-MEMORYHEAP_IMPLEMENTATION(LogData, s_heap);
+OBJECTHEAP_IMPLEMENTATION(LogData, s_heap);
 
 constexpr const char* LOG_STRING[] = {
     "LOG_TRACE",

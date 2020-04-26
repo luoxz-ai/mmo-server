@@ -4,13 +4,13 @@
 #include "ZoneService.h"
 #include "server_msg/server_side.pb.h"
 #include "MysqlConnection.h"
-#include "MsgZoneProcess.h"
+#include "MsgProcessRegister.h"
 
 constexpr uint32_t AUTO_SYNC_SYSTEMVAR_LIST[] = {
     SYSTEMVAR_SERVER_START,
 };
 
-MEMORYHEAP_IMPLEMENTATION(CSystemVar, s_heap);
+OBJECTHEAP_IMPLEMENTATION(CSystemVar, s_heap);
 
 CSystemVar::CSystemVar(CDBRecordPtr&& pRecord)
     : m_pRecord(pRecord.release())
@@ -191,7 +191,7 @@ CSystemVarSet::~CSystemVarSet()
     m_setData.clear();
 }
 
-ON_SERVERMSG(SystemVarChange)
+ON_SERVERMSG(CZoneService, SystemVarChange)
 {
     auto pVar = ZoneService()->GetSystemVarSet()->QueryVar(msg.keyidx(), true);
     switch(msg.type())

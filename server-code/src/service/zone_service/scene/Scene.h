@@ -33,11 +33,16 @@ public:
     export_lua CPhase* QueryPhaseByIdx(uint32_t idxPhase) const;
     export_lua bool DestoryPhase(uint64_t idPhase);
     export_lua void ForEach(std::function<void(const CPhase*)> func)const;
+    export_lua size_t GetStaticPhaseCount() const { return m_nStaticPhaseCount;}
+    export_lua uint16_t GetMapID() const { return m_idSceneID.GetMapID();}
+public:
+    OBJECTHEAP_DECLARATION(s_heap);
 private:
     SceneID m_idSceneID;
     std::unordered_map<uint64_t, std::unique_ptr<CPhase>> m_setPhase;
     std::unordered_map<uint64_t, CPhase*> m_setPhaseByIdx;
     
     IDGenPool<uint32_t> m_DynaIDPool;
+    size_t m_nStaticPhaseCount = 0;
 };
 #endif /* SCENE_H */

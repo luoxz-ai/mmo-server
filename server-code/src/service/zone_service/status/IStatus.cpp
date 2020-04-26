@@ -4,7 +4,7 @@
 #include "ZoneService.h"
 #include "gamedb.h"
 
-MEMORYHEAP_IMPLEMENTATION(CStatus, s_heap);
+OBJECTHEAP_IMPLEMENTATION(CStatus, s_heap);
 CStatus::CStatus() {}
 
 CStatus::~CStatus() {}

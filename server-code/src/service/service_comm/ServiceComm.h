@@ -23,10 +23,6 @@ public:
     void DestoryServiceCommon();
 public:
     export_lua VirtualSocket GetServerVirtualSocket() const { return VirtualSocket(m_nServerPort, 0); }
-    export_lua VirtualSocket GetAIServerVirtualSocket() const
-    {
-        return VirtualSocket(ServerPort(GetWorldID(), GetServiceID() + 10), 0);
-    }
     export_lua const ServerPort& GetServerPort() const { return m_nServerPort; }
     export_lua void              SetServerPort(const ServerPort& val) { m_nServerPort = val; }
     export_lua uint16_t          GetWorldID() const { return m_nServerPort.GetWorldID(); }
@@ -59,15 +55,14 @@ public:
     bool ListenMessagePort(const std::string& service_name, class CMessagePortEventHandler* pEventHandler = nullptr);
 
 public:
-    bool SendMsg(const CNetworkMessage& msg)const;
+    bool SendPortMsg(const CNetworkMessage& msg)const;
     bool SendToVirtualSocket(const VirtualSocket& vsTo, const google::protobuf::Message& msg)const;
     bool SendToVirtualSocket(const VirtualSocket& vsTo, uint16_t usCmd, const google::protobuf::Message& msg)const;
     bool SendBroadcastMsg(const CNetworkMessage& msg)const;
     //发送消息给MessagePort
-    bool SendPortMsg(const ServerPort& nServerPort, byte* buf, size_t len)const;
     bool SendPortMsg(const ServerPort& nServerPort, const google::protobuf::Message& msg)const;
     bool SendPortMsg(const ServerPort& nServerPort, uint16_t usCmd, const google::protobuf::Message& msg)const;
-    bool SendPortBroadcastMsg(const ServerPort& nServerPort, byte* buf, size_t len)const;
+    bool TransmitPortMsg(const ServerPort& nServerPort, CNetworkMessage* pMsg)const;
     bool SendPortBroadcastMsg(const ServerPort& nServerPort, const google::protobuf::Message& msg)const;
     bool SendPortBroadcastMsg(const ServerPort& nServerPort, uint16_t usCmd, const google::protobuf::Message& msg)const;
     //发送多播的消息给MessagePort

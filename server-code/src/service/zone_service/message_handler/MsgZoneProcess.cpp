@@ -1,6 +1,4 @@
-#include "MsgZoneProcess.h"
-
-#include "Player.h"
+#include "MsgProcessRegister.h"
 #include "ZoneService.h"
 
 void ZoneMessageHandlerRegister()
@@ -8,7 +6,7 @@ void ZoneMessageHandlerRegister()
     __ENTER_FUNCTION
 
     auto pNetMsgProcess = ZoneService()->GetNetMsgProcess();
-    for(const auto& [k,v] : ZoneMsgProcRegCenter::instance().m_MsgProc)
+    for(const auto& [k,v] : MsgProcRegCenter<CZoneService>::instance().m_MsgProc)
     {
         pNetMsgProcess->Register(k,v);
     }

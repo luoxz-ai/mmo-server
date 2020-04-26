@@ -103,7 +103,7 @@ protected:
     typedef std::multimap<uint32_t, OBJID> EXPIRE_ITEM_SET;
     EXPIRE_ITEM_SET                        m_setExpireItem;
 
-    MEMORYHEAP_DECLARATION(s_heap)
+    OBJECTHEAP_DECLARATION(s_heap)
     uint32_t FindFirstEmptyGrid();
 };
 

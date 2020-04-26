@@ -179,7 +179,7 @@ void CPlayer::OnEnterMap(CSceneBase* pScene)
     ai_msg.set_posx(GetPosX());
     ai_msg.set_posy(GetPosY());
 
-    ZoneService()->SendPortMsgToAIService(ai_msg);
+    ZoneService()->SendServerMsgToAIService(ai_msg);
 
     {
         ServerMSG::SyncTaskPhase send;
@@ -188,7 +188,7 @@ void CPlayer::OnEnterMap(CSceneBase* pScene)
         {
             send.add_task_phase_id(k);
         }
-        ZoneService()->SendPortMsgToAIService(ai_msg);
+        ZoneService()->SendServerMsgToAIService(ai_msg);
     }
 
     LOGLOGIN("CPlayer::OnEnterMapEnd: {} mapid: {}", GetID(), GetSceneID());

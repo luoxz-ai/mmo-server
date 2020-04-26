@@ -5,9 +5,10 @@
 #include "GMManager.h"
 #include "msg/zone_service.pb.h"
 #include "msg/world_service.pb.h"
+#include "server_msg/server_side.pb.h"
 #include "MD5.h"
 
-ON_MSG(CS_LOGIN)
+ON_MSG(CWorldService, CS_LOGIN)
 {
     CHECK(msg.openid().empty() == false);
     if(AccountManager()->IsAuthing(msg.openid()))
@@ -51,9 +52,9 @@ ON_MSG(CS_LOGIN)
         {
             LOGLOGIN("Actor:{} LoginAuthByMD5.", msg.openid().c_str());
             //可以直接登陆了
-            MSG_SCK_AUTH auth_msg;
-            auth_msg.vs = pMsg->GetFrom();
-            WorldService()->SendPortMsg(pMsg->GetFrom().GetServerPort(), (byte*)&auth_msg, sizeof(auth_msg));
+            ServerMSG::SocketAuth auth_msg;
+            auth_msg.set_vs(pMsg->GetFrom());
+            WorldService()->SendPortMsg(pMsg->GetFrom().GetServerPort(), auth_msg);
 
             SC_LOGIN result_msg;
             result_msg.set_result_code(SC_LOGIN::EC_SUCC);
@@ -79,7 +80,7 @@ ON_MSG(CS_LOGIN)
     AccountManager()->Auth(msg.openid(), msg.auth(), pMsg->GetFrom());
 }
 
-ON_MSG(CS_CREATEACTOR)
+ON_MSG(CWorldService, CS_CREATEACTOR)
 {
     __ENTER_FUNCTION
 
@@ -90,7 +91,7 @@ ON_MSG(CS_CREATEACTOR)
     __LEAVE_FUNCTION
 }
 
-ON_MSG(CS_SELECTACTOR)
+ON_MSG(CWorldService, CS_SELECTACTOR)
 {
    __ENTER_FUNCTION
     CAccount* pAccount = AccountManager()->QueryAccountBySocket(pMsg->GetFrom());

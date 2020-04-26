@@ -894,6 +894,8 @@ void zone2lua(lua_State* L)
                 (CPhase * (CScene::*)(uint64_t, const PhaseData*))(&CScene::CreatePhase))));
     lua_tinker::class_def<CScene>(L, "DestoryPhase", &CScene::DestoryPhase);
     lua_tinker::class_def<CScene>(L, "ForEach", &CScene::ForEach);
+    lua_tinker::class_def<CScene>(L, "GetMapID", &CScene::GetMapID);
+    lua_tinker::class_def<CScene>(L, "GetStaticPhaseCount", &CScene::GetStaticPhaseCount);
     lua_tinker::class_def<CScene>(L, "QueryPhase", &CScene::QueryPhase);
     lua_tinker::class_def<CScene>(L, "QueryPhaseByIdx", &CScene::QueryPhaseByIdx);
     lua_tinker::class_def<CScene>(L, "_QueryPhase", &CScene::_QueryPhase);
@@ -908,7 +910,6 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CSceneManager>(L, "_QueryScene", &CSceneManager::_QueryScene);
     lua_tinker::class_add<CServiceCommon>(L, "CServiceCommon", false);
     lua_tinker::class_def<CServiceCommon>(L, "CreateUID", &CServiceCommon::CreateUID);
-    lua_tinker::class_def<CServiceCommon>(L, "GetAIServerVirtualSocket", &CServiceCommon::GetAIServerVirtualSocket);
     lua_tinker::class_def<CServiceCommon>(L, "GetEventManager", &CServiceCommon::GetEventManager);
     lua_tinker::class_def<CServiceCommon>(L, "GetMonitorMgr", &CServiceCommon::GetMonitorMgr);
     lua_tinker::class_def<CServiceCommon>(L, "GetNetMsgProcess", &CServiceCommon::GetNetMsgProcess);
@@ -1015,6 +1016,8 @@ void zone2lua(lua_State* L)
             lua_tinker::make_member_functor_ptr((bool (CZoneService::*)(uint16_t, const google::protobuf::Message&)
                                                      const)(&CZoneService::BroadcastToAllPlayer))));
     lua_tinker::class_def<CZoneService>(L, "BroadcastToZone", &CZoneService::BroadcastToZone);
+    lua_tinker::class_def<CZoneService>(L, "GetAIServerVirtualSocket", &CZoneService::GetAIServerVirtualSocket);
+    lua_tinker::class_def<CZoneService>(L, "GetAIServiceID", &CZoneService::GetAIServiceID);
     lua_tinker::class_def<CZoneService>(L, "GetActorManager", &CZoneService::GetActorManager);
     lua_tinker::class_def<CZoneService>(L, "GetGMManager", &CZoneService::GetGMManager);
     lua_tinker::class_def<CZoneService>(L, "GetGameDB", &CZoneService::GetGameDB);
@@ -1022,8 +1025,11 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CZoneService>(L, "GetMapManager", &CZoneService::GetMapManager);
     lua_tinker::class_def<CZoneService>(L, "GetSceneManager", &CZoneService::GetSceneManager);
     lua_tinker::class_def<CZoneService>(L, "GetScriptManager", &CZoneService::GetScriptManager);
+    lua_tinker::class_def<CZoneService>(L, "GetServiceName", &CZoneService::GetServiceName);
     lua_tinker::class_def<CZoneService>(L, "GetSystemVarSet", &CZoneService::GetSystemVarSet);
     lua_tinker::class_def<CZoneService>(L, "GetTeamInfoManager", &CZoneService::GetTeamInfoManager);
+    lua_tinker::class_def<CZoneService>(L, "GetZoneID", &CZoneService::GetZoneID);
+    lua_tinker::class_def<CZoneService>(L, "IsSharedZone", &CZoneService::IsSharedZone);
     lua_tinker::class_def<CZoneService>(L, "SendMsgToAIService", &CZoneService::SendMsgToAIService);
     lua_tinker::class_def<CZoneService>(
         L,
@@ -1036,7 +1042,7 @@ void zone2lua(lua_State* L)
                 (bool (CZoneService::*)(const VirtualSocket&, uint16_t, const google::protobuf::Message&)
                      const)(&CZoneService::SendMsgToPlayer))));
     lua_tinker::class_def<CZoneService>(L, "SendMsgToWorld", &CZoneService::SendMsgToWorld);
-    lua_tinker::class_def<CZoneService>(L, "SendPortMsgToAIService", &CZoneService::SendPortMsgToAIService);
+    lua_tinker::class_def<CZoneService>(L, "SendServerMsgToAIService", &CZoneService::SendServerMsgToAIService);
     lua_tinker::class_def<CZoneService>(L, "TransmiteMsgFromWorldToOther", &CZoneService::TransmiteMsgFromWorldToOther);
     lua_tinker::class_add<CreateMonsterParam>(L, "CreateMonsterParam", false);
     lua_tinker::class_add<Degree>(L, "Degree", false);

@@ -73,7 +73,6 @@ CScene* CSceneManager::_CreateStaticScene(uint16_t idMap)
 
     m_mapScene[idMap] = pScene;
 
-    LOGMESSAGE("StaticScene {} Created", idMap);
     m_nStaticScene++;
     return pScene;
 }

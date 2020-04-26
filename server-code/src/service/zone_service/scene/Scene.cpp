@@ -12,6 +12,8 @@
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
 
+OBJECTHEAP_IMPLEMENTATION(CScene, s_heap);
+
 CScene::CScene() {}
 
 CScene::~CScene()
@@ -33,7 +35,7 @@ bool CScene::Init(const SceneID& idScene, uint64_t idMainPhase)
     //通知AI服务器,创建场景
     ServerMSG::SceneCreate msg;
     msg.set_scene_id(idScene);
-    ZoneService()->SendPortMsgToAIService(msg);
+    ZoneService()->SendServerMsgToAIService(msg);
 
     
     //创建静态位面
@@ -42,6 +44,7 @@ bool CScene::Init(const SceneID& idScene, uint64_t idMainPhase)
     {
         CreatePhase(idPhase);
     }
+    m_nStaticPhaseCount = phaseDataSet.size();
     
     
 
@@ -148,7 +151,7 @@ bool CScene::DestoryPhase(uint64_t idPhase)
     ServerMSG::PhaseDestory msg;
     msg.set_scene_id(idSceneID);
     msg.set_phase_id(idPhase);
-    ZoneService()->SendPortMsgToAIService(msg);
+    ZoneService()->SendServerMsgToAIService(msg);
 
     return true;
 }

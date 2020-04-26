@@ -1,5 +1,5 @@
-#ifndef __MEMORYHEAP_H__
-#define __MEMORYHEAP_H__
+#ifndef __OBJECTHEAP_H__
+#define __OBJECTHEAP_H__
 
 #include <atomic>
 #include <mutex>
@@ -10,33 +10,20 @@
 #include "BaseType.h"
 #include "CallStackDumper.h"
 
-struct memory_status
-{
-    size_t allocted    = 0;
-    size_t active      = 0;
-    size_t metadata    = 0;
-    size_t resident    = 0;
-    size_t mapped      = 0;
-    size_t retained    = 0;
-    size_t num_threads = 0;
-};
 
-size_t        get_alloc_from_memory_heap();
-size_t        get_thread_memory_allocted();
-memory_status get_memory_status();
 
-void start_jemalloc_backgroud_thread();
-void stop_jemalloc_backgroud_thread();
+uint64_t      get_alloc_from_object_heap();
+
 
 //#ifdef DEBUG
 //#define HEAP_DEBUG
 //#endif
 
-class CMemoryHeap
+class CObjectHeap
 {
 public:
-    CMemoryHeap(const std::string& szClassName);
-    virtual ~CMemoryHeap();
+    CObjectHeap(const std::string& szClassName, size_t OneSize);
+    virtual ~CObjectHeap();
 
     bool   IsValidPt(void* p);
     void*  Alloc(size_t size);
@@ -45,6 +32,7 @@ public:
 
 protected:
     std::string           m_strName;
+    size_t                m_OneSize;
     std::atomic<uint32_t> m_lNumAllocsInHeap;
     std::atomic<uint32_t> m_lMaxAllocsInHeap;
 
@@ -55,7 +43,7 @@ protected:
 #endif
 };
 
-#define MEMORYHEAP_DECLARATION(VAR)                               \
+#define OBJECTHEAP_DECLARATION(VAR)                               \
 public:                                                           \
     void  operator delete(void* p) { VAR.Free(p); }               \
     void* operator new(size_t size) { return VAR.Alloc(size); }   \
@@ -66,8 +54,8 @@ public:                                                           \
     static bool IsValidPt(void* p) { return VAR.IsValidPt(p); }   \
                                                                   \
 public:                                                           \
-    static CMemoryHeap VAR;
+    static CObjectHeap VAR;
 
-#define MEMORYHEAP_IMPLEMENTATION(T, VAR) CMemoryHeap T::VAR(#T);
+#define OBJECTHEAP_IMPLEMENTATION(T, VAR) CObjectHeap T::VAR(#T, sizeof(T));
 
-#endif // __MEMORYHEAP_H__
+#endif // __OBJECTHEAP_H__

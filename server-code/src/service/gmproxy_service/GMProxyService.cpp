@@ -24,6 +24,7 @@
 #include "server_msg/server_side.pb.h"
 #include "tinyxml2/tinyxml2.h"
 #include "MonitorMgr.h"
+#include "MsgProcessRegister.h"
 
 // handle HTTP response of accessing builtin services of the target server.
 static void handle_response(brpc::Controller*          client_cntl,
@@ -186,11 +187,7 @@ CGMProxyService::~CGMProxyService()
 
 void CGMProxyService::Release()  
 {   
-    scope_guards scope_exit;
-    auto oldNdc = BaseCode::SetNdc(GetServiceName());
-    scope_exit += [oldNdc]() {
-        BaseCode::SetNdc(oldNdc);
-    };
+
     Destory();
     delete this; 
 }
@@ -198,6 +195,7 @@ void CGMProxyService::Release()
 
 void CGMProxyService::Destory()
 {
+    __ENTER_FUNCTION
     tls_pService = this;
     scope_guards scope_exit;
     scope_exit += []() {
@@ -210,6 +208,8 @@ void CGMProxyService::Destory()
         m_pRPCService.reset();
     }
     DestoryServiceCommon();
+
+    __LEAVE_FUNCTION
 }
 
 bool CGMProxyService::Init(const ServerPort& nServerPort)
@@ -225,11 +225,19 @@ bool CGMProxyService::Init(const ServerPort& nServerPort)
     auto oldNdc = BaseCode::SetNdc(GetServiceName());
     scope_exit += [oldNdc]() {
         BaseCode::SetNdc(oldNdc);
-        ;
     };
 
     if(CreateService(20) == false)
         return false;
+
+      //注册消息
+    {
+        auto pNetMsgProcess = GetNetMsgProcess();
+        for(const auto& [k,v] : MsgProcRegCenter<CGMProxyService>::instance().m_MsgProc)
+        {
+            pNetMsgProcess->Register(k,v);
+        }
+    }  
 
     {
         const ServerAddrInfo* pAddrInfo = GetMessageRoute()->QueryServiceInfo(GetServerPort());
@@ -249,74 +257,59 @@ bool CGMProxyService::Init(const ServerPort& nServerPort)
     return true;
 }
 
+ON_SERVERMSG(CGMProxyService, ServiceRegister)
+{
+    ServerPort server_port{msg.serverport()};
+    GetMessageRoute()->SetWorldReady(server_port.GetWorldID(), true);
+    GetMessageRoute()->ReloadServiceInfo(msg.update_time(), server_port.GetWorldID());
+}
+
+ON_SERVERMSG(CGMProxyService, ServiceReady)
+{
+    ServerPort server_port{msg.serverport()};
+    GetMessageRoute()->SetWorldReady(server_port.GetWorldID(), msg.ready());
+}
+
+ON_SERVERMSG(CGMProxyService, ServiceHttpResponse)
+{
+    LOGMESSAGE("recv_httpresponse:{}", msg.uid());
+
+    auto req = GMProxyService()->FindDelayResponse(msg.uid());
+    if(req == nullptr)
+    {
+        LOGERROR("notfind request:{}", msg.uid());
+        return;
+    }
+
+    if(msg.response_code() != HTTP_OK)
+    {
+        evhttp_send_error(req, msg.response_code(), msg.response_reason().c_str());
+    }
+    else
+    {
+        evbuffer* pbuf = nullptr;
+        if(msg.response_txt().empty() == false)
+        {
+            pbuf = evbuffer_new();
+            evbuffer_add(pbuf, msg.response_txt().c_str(), msg.response_txt().size());
+        }
+        evhttp_send_reply(req, msg.response_code(), msg.response_reason().c_str(), pbuf);
+        if(pbuf)
+            evbuffer_free(pbuf);
+    }
+
+    LOGMESSAGE("response_send:{} code:{} res:{} tt:{}",
+                msg.uid(),
+                msg.response_code(),
+                msg.response_reason().c_str(),
+                msg.response_txt().c_str());
+}
+
 void CGMProxyService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 {
-    switch(pNetworkMsg->GetMsgHead()->usCmd)
+    if(m_pNetMsgProcess->Process(pNetworkMsg) == false)
     {
-        case NETMSG_SCK_CLOSE:
-        {
-            MSG_SCK_CLOSE* pMsg = (MSG_SCK_CLOSE*)pNetworkMsg->GetBuf();
-        }
-        break;
-        case NETMSG_INTERNAL_SERVICE_REGISTER:
-        {
-            //通知所有的global_route更新
-            MSG_INTERNAL_SERVICE_REGISTER* pMsg = (MSG_INTERNAL_SERVICE_REGISTER*)pNetworkMsg->GetBuf();
-            GetMessageRoute()->SetWorldReady(pMsg->idWorld, true);
-            GetMessageRoute()->ReloadServiceInfo(pMsg->update_time, pMsg->idWorld);
-        }
-        break;
-        case NETMSG_INTERNAL_SERVICE_READY:
-        {
-            MSG_INTERNAL_SERVICE_READY* pMsg = (MSG_INTERNAL_SERVICE_READY*)pNetworkMsg->GetBuf();
-            //通知所有的global_route更新
-            GetMessageRoute()->SetWorldReady(pMsg->idWorld, pMsg->bReady);
-        }
-        break;
-        case ServerMSG::MsgID_ServiceHttpResponse:
-        {
-            ServerMSG::ServiceHttpResponse msg;
-            if(msg.ParseFromArray(pNetworkMsg->GetMsgBody(), pNetworkMsg->GetBodySize()) == false)
-                return;
-
-            LOGMESSAGE("recv_httpresponse:{}", msg.uid());
-
-            auto req = FindDelayResponse(msg.uid());
-            if(req == nullptr)
-            {
-                LOGERROR("notfind request:{}", msg.uid());
-                return;
-            }
-
-            if(msg.response_code() != HTTP_OK)
-            {
-                evhttp_send_error(req, msg.response_code(), msg.response_reason().c_str());
-            }
-            else
-            {
-                evbuffer* pbuf = nullptr;
-                if(msg.response_txt().empty() == false)
-                {
-                    pbuf = evbuffer_new();
-                    evbuffer_add(pbuf, msg.response_txt().c_str(), msg.response_txt().size());
-                }
-                evhttp_send_reply(req, msg.response_code(), msg.response_reason().c_str(), pbuf);
-                if(pbuf)
-                    evbuffer_free(pbuf);
-            }
-
-            LOGMESSAGE("response_send:{} code:{} res:{} tt:{}",
-                       msg.uid(),
-                       msg.response_code(),
-                       msg.response_reason().c_str(),
-                       msg.response_txt().c_str());
-        }
-        break;
-        default:
-        {
-            m_pNetMsgProcess->Process(pNetworkMsg);
-        }
-        break;
+        LOGERROR("CMD {} didn't have ProcessHandler", pNetworkMsg->GetCmd());   
     }
 }
 

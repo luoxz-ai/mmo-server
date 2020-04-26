@@ -14,6 +14,7 @@
 #include "tinyxml2/tinyxml2.h"
 #include "AISceneManagr.h"
 #include "AIActorManager.h"
+#include "MemoryHelp.h"
 
 #include "AIFuzzyLogic.h"
 #include "AISkill.h"
@@ -45,17 +46,15 @@ CAIService::~CAIService()
 
 void CAIService::Release()  
 {   
-    scope_guards scope_exit;
-    auto oldNdc = BaseCode::SetNdc(GetServiceName());
-    scope_exit += [oldNdc]() {
-        BaseCode::SetNdc(oldNdc);
-    };
+
     Destory();
     delete this; 
 }
 
 void CAIService::Destory()
 {
+    __ENTER_FUNCTION
+    
     tls_pService = this;
     scope_guards scope_exit;
     scope_exit += []() {
@@ -73,11 +72,14 @@ void CAIService::Destory()
         m_pAIActorManager.reset();
     }
     DestoryServiceCommon();
+
+    __LEAVE_FUNCTION
 }
 
 
 bool CAIService::Init(const ServerPort& nServerPort)
 {
+    __ENTER_FUNCTION
     //各种初始化
     scope_guards scope_exit;
     tls_pService = this;
@@ -119,23 +121,23 @@ bool CAIService::Init(const ServerPort& nServerPort)
     if(CreateService(20) == false)
         return false;
 
+
+    ServerMSG::ServiceReady msg;
+    msg.set_serverport(GetServerPort());
+
+    SendMsgToZone(ServerMSG::MsgID_ServiceReady, msg);
+
     return true;
+
+    __LEAVE_FUNCTION
+    return false;
 }
 
 void CAIService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 {
-    switch(pNetworkMsg->GetMsgHead()->usCmd)
+    if(m_pNetMsgProcess->Process(pNetworkMsg) == false)
     {
-        case NETMSG_SCK_CLOSE:
-        {
-            MSG_SCK_CLOSE* pMsg = (MSG_SCK_CLOSE*)pNetworkMsg->GetBuf();
-        }
-        break;
-        default:
-        {
-            m_pNetMsgProcess->Process(pNetworkMsg);
-        }
-        break;
+        LOGERROR("CMD {} didn't have ProcessHandler", pNetworkMsg->GetCmd());   
     }
 }
 
@@ -147,7 +149,7 @@ bool CAIService::SendMsgToZone(const google::protobuf::Message& msg)
 bool CAIService::SendMsgToZone(uint16_t nCmd, const google::protobuf::Message& msg)
 {
     CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), GetZoneServiceVirtualSocket());
-    return SendMsg(_msg);
+    return SendPortMsg(_msg);
 }
 
 void CAIService::OnLogicThreadProc()

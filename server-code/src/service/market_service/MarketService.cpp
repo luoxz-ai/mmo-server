@@ -9,6 +9,8 @@
 #include "NetSocket.h"
 #include "NetworkMessage.h"
 #include "SettingMap.h"
+#include "server_msg/server_side.pb.h"
+#include "MsgProcessRegister.h"
 
 static thread_local CMarketService* tls_pService = nullptr;
 CMarketService*                     MarketService()
@@ -33,11 +35,7 @@ CMarketService::~CMarketService()
 
 void CMarketService::Release()  
 {   
-    scope_guards scope_exit;
-    auto oldNdc = BaseCode::SetNdc(GetServiceName());
-    scope_exit += [oldNdc]() {
-        BaseCode::SetNdc(oldNdc);
-    };
+
     Destory();
     delete this; 
 }
@@ -65,29 +63,34 @@ bool CMarketService::Init(const ServerPort& nServerPort)
     auto oldNdc = BaseCode::SetNdc(GetServiceName());
     scope_exit += [oldNdc]() {
         BaseCode::SetNdc(oldNdc);
-        ;
     };
 
     if(CreateService(20) == false)
         return false;
 
+    //注册消息
+    {
+        auto pNetMsgProcess = GetNetMsgProcess();
+        for(const auto& [k,v] : MsgProcRegCenter<CMarketService>::instance().m_MsgProc)
+        {
+            pNetMsgProcess->Register(k,v);
+        }
+    }
+
+
+
+    ServerMSG::ServiceReady msg;
+    msg.set_serverport(GetServerPort());
+
+    SendPortMsg(ServerPort(GetWorldID(), WORLD_SERVICE_ID), ServerMSG::MsgID_ServiceReady, msg);
     return true;
 }
 
 void CMarketService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 {
-    switch(pNetworkMsg->GetMsgHead()->usCmd)
+    if(m_pNetMsgProcess->Process(pNetworkMsg) == false)
     {
-        case NETMSG_SCK_CLOSE:
-        {
-            MSG_SCK_CLOSE* pMsg = (MSG_SCK_CLOSE*)pNetworkMsg->GetBuf();
-        }
-        break;
-        default:
-        {
-            m_pNetMsgProcess->Process(pNetworkMsg);
-        }
-        break;
+        LOGERROR("CMD {} didn't have ProcessHandler", pNetworkMsg->GetCmd());   
     }
 }
 

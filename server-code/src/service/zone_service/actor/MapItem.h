@@ -25,7 +25,7 @@ public:
     virtual void                 OnLeaveMap(uint64_t idTargetScene) override;
 
 public:
-    MEMORYHEAP_DECLARATION(s_heap);
+    OBJECTHEAP_DECLARATION(s_heap);
 
 private:
     uint32_t m_idType;

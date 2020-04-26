@@ -45,7 +45,7 @@ void CActor::AddHide()
     ServerMSG::ActorSetHide msg;
     msg.set_actor_id(GetID());
     msg.set_hide_count(m_nHideCount);
-    ZoneService()->SendPortMsgToAIService(msg);
+    ZoneService()->SendServerMsgToAIService(msg);
 }
 
 void CActor::RemoveHide()
@@ -55,7 +55,7 @@ void CActor::RemoveHide()
     ServerMSG::ActorSetHide msg;
     msg.set_actor_id(GetID());
     msg.set_hide_count(m_nHideCount);
-    ZoneService()->SendPortMsgToAIService(msg);
+    ZoneService()->SendServerMsgToAIService(msg);
 }
 
 void CActor::SetCampID(uint32_t id, uint32_t nSync)

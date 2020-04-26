@@ -22,7 +22,7 @@ public:
         LOGNETDEBUG("RegisterMsgProc:{}", cmd);
     }
 
-    void Process(CNetworkMessage* pMsg, bool bLogNoPorcess = true) const;
+    bool Process(CNetworkMessage* pMsg) const;
     void SetDefaultFunc(DefaultMessageHandler&& func) { m_funcDefault = std::move(func); }
 
 private:

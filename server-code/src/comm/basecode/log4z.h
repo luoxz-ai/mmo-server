@@ -182,7 +182,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "MemoryHeap.h"
+#include "ObjectHeap.h"
 #ifdef WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
@@ -297,7 +297,7 @@ struct LogData
     int      _contentLen;
     char     _content[LOG4Z_LOG_BUF_SIZE]; // content
 
-    MEMORYHEAP_DECLARATION(s_heap);
+    OBJECTHEAP_DECLARATION(s_heap);
 };
 
 //! log4z class

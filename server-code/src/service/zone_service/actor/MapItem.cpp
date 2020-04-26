@@ -5,7 +5,7 @@
 #include "ActorManager.h"
 #include "ZoneService.h"
 
-MEMORYHEAP_IMPLEMENTATION(CMapItem, s_heap);
+OBJECTHEAP_IMPLEMENTATION(CMapItem, s_heap);
 CMapItem::CMapItem()
 {
     SetCampID(CAMP_PLAYER);

@@ -51,7 +51,7 @@ struct TableStruct_server_5fmsg_2fserver_5fside_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[41]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[48]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -137,6 +137,27 @@ extern ServiceHttpResponseDefaultTypeInternal _ServiceHttpResponse_default_insta
 class ServiceReady;
 class ServiceReadyDefaultTypeInternal;
 extern ServiceReadyDefaultTypeInternal _ServiceReady_default_instance_;
+class ServiceRegister;
+class ServiceRegisterDefaultTypeInternal;
+extern ServiceRegisterDefaultTypeInternal _ServiceRegister_default_instance_;
+class SocketAuth;
+class SocketAuthDefaultTypeInternal;
+extern SocketAuthDefaultTypeInternal _SocketAuth_default_instance_;
+class SocketChangeDest;
+class SocketChangeDestDefaultTypeInternal;
+extern SocketChangeDestDefaultTypeInternal _SocketChangeDest_default_instance_;
+class SocketClose;
+class SocketCloseDefaultTypeInternal;
+extern SocketCloseDefaultTypeInternal _SocketClose_default_instance_;
+class SocketConnect;
+class SocketConnectDefaultTypeInternal;
+extern SocketConnectDefaultTypeInternal _SocketConnect_default_instance_;
+class SocketStartAccept;
+class SocketStartAcceptDefaultTypeInternal;
+extern SocketStartAcceptDefaultTypeInternal _SocketStartAccept_default_instance_;
+class SocketStopAccept;
+class SocketStopAcceptDefaultTypeInternal;
+extern SocketStopAcceptDefaultTypeInternal _SocketStopAccept_default_instance_;
 class SyncTaskPhase;
 class SyncTaskPhaseDefaultTypeInternal;
 extern SyncTaskPhaseDefaultTypeInternal _SyncTaskPhase_default_instance_;
@@ -210,6 +231,13 @@ template<> ::ServerMSG::ServiceHttpRequest* Arena::CreateMaybeMessage<::ServerMS
 template<> ::ServerMSG::ServiceHttpRequest_KvmapEntry_DoNotUse* Arena::CreateMaybeMessage<::ServerMSG::ServiceHttpRequest_KvmapEntry_DoNotUse>(Arena*);
 template<> ::ServerMSG::ServiceHttpResponse* Arena::CreateMaybeMessage<::ServerMSG::ServiceHttpResponse>(Arena*);
 template<> ::ServerMSG::ServiceReady* Arena::CreateMaybeMessage<::ServerMSG::ServiceReady>(Arena*);
+template<> ::ServerMSG::ServiceRegister* Arena::CreateMaybeMessage<::ServerMSG::ServiceRegister>(Arena*);
+template<> ::ServerMSG::SocketAuth* Arena::CreateMaybeMessage<::ServerMSG::SocketAuth>(Arena*);
+template<> ::ServerMSG::SocketChangeDest* Arena::CreateMaybeMessage<::ServerMSG::SocketChangeDest>(Arena*);
+template<> ::ServerMSG::SocketClose* Arena::CreateMaybeMessage<::ServerMSG::SocketClose>(Arena*);
+template<> ::ServerMSG::SocketConnect* Arena::CreateMaybeMessage<::ServerMSG::SocketConnect>(Arena*);
+template<> ::ServerMSG::SocketStartAccept* Arena::CreateMaybeMessage<::ServerMSG::SocketStartAccept>(Arena*);
+template<> ::ServerMSG::SocketStopAccept* Arena::CreateMaybeMessage<::ServerMSG::SocketStopAccept>(Arena*);
 template<> ::ServerMSG::SyncTaskPhase* Arena::CreateMaybeMessage<::ServerMSG::SyncTaskPhase>(Arena*);
 template<> ::ServerMSG::SystemVarChange* Arena::CreateMaybeMessage<::ServerMSG::SystemVarChange>(Arena*);
 template<> ::ServerMSG::TeamAcceptApply* Arena::CreateMaybeMessage<::ServerMSG::TeamAcceptApply>(Arena*);
@@ -262,6 +290,13 @@ enum OMsgID : int {
   MsgID_ServiceHttpRequest = 20002,
   MsgID_ServiceHttpResponse = 20003,
   MsgID_ServiceReady = 20010,
+  MsgID_ServiceRegister = 20011,
+  MsgID_SocketConnect = 20012,
+  MsgID_SocketClose = 20013,
+  MsgID_SocketChangeDest = 20014,
+  MsgID_SocketAuth = 20015,
+  MsgID_SocketStartAccept = 20016,
+  MsgID_SocketStopAccept = 20017,
   MsgID_PlayerEnterZone = 20021,
   MsgID_PlayerChangeZone = 20022,
   MsgID_PlayerChangeZone_Data = 20023,
@@ -934,6 +969,7 @@ class ServiceReady :
 
   enum : int {
     kServerportFieldNumber = 1,
+    kReadyFieldNumber = 2,
   };
   // uint32 serverport = 1;
   void clear_serverport();
@@ -944,12 +980,914 @@ class ServiceReady :
   void _internal_set_serverport(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
+  // bool ready = 2;
+  void clear_ready();
+  bool ready() const;
+  void set_ready(bool value);
+  private:
+  bool _internal_ready() const;
+  void _internal_set_ready(bool value);
+  public:
+
   // @@protoc_insertion_point(class_scope:ServerMSG.ServiceReady)
  private:
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
   ::PROTOBUF_NAMESPACE_ID::uint32 serverport_;
+  bool ready_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
+class ServiceRegister :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.ServiceRegister) */ {
+ public:
+  ServiceRegister();
+  virtual ~ServiceRegister();
+
+  ServiceRegister(const ServiceRegister& from);
+  ServiceRegister(ServiceRegister&& from) noexcept
+    : ServiceRegister() {
+    *this = ::std::move(from);
+  }
+
+  inline ServiceRegister& operator=(const ServiceRegister& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ServiceRegister& operator=(ServiceRegister&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const ServiceRegister& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const ServiceRegister* internal_default_instance() {
+    return reinterpret_cast<const ServiceRegister*>(
+               &_ServiceRegister_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  friend void swap(ServiceRegister& a, ServiceRegister& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(ServiceRegister* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ServiceRegister* New() const final {
+    return CreateMaybeMessage<ServiceRegister>(nullptr);
+  }
+
+  ServiceRegister* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<ServiceRegister>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const ServiceRegister& from);
+  void MergeFrom(const ServiceRegister& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ServiceRegister* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.ServiceRegister";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kUpdateTimeFieldNumber = 2,
+    kServerportFieldNumber = 1,
+  };
+  // uint64 update_time = 2;
+  void clear_update_time();
+  ::PROTOBUF_NAMESPACE_ID::uint64 update_time() const;
+  void set_update_time(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_update_time() const;
+  void _internal_set_update_time(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint32 serverport = 1;
+  void clear_serverport();
+  ::PROTOBUF_NAMESPACE_ID::uint32 serverport() const;
+  void set_serverport(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_serverport() const;
+  void _internal_set_serverport(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.ServiceRegister)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 update_time_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 serverport_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SocketConnect :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.SocketConnect) */ {
+ public:
+  SocketConnect();
+  virtual ~SocketConnect();
+
+  SocketConnect(const SocketConnect& from);
+  SocketConnect(SocketConnect&& from) noexcept
+    : SocketConnect() {
+    *this = ::std::move(from);
+  }
+
+  inline SocketConnect& operator=(const SocketConnect& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SocketConnect& operator=(SocketConnect&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const SocketConnect& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SocketConnect* internal_default_instance() {
+    return reinterpret_cast<const SocketConnect*>(
+               &_SocketConnect_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    6;
+
+  friend void swap(SocketConnect& a, SocketConnect& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SocketConnect* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SocketConnect* New() const final {
+    return CreateMaybeMessage<SocketConnect>(nullptr);
+  }
+
+  SocketConnect* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<SocketConnect>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const SocketConnect& from);
+  void MergeFrom(const SocketConnect& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SocketConnect* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.SocketConnect";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kVsFieldNumber = 1,
+  };
+  // uint64 vs = 1;
+  void clear_vs();
+  ::PROTOBUF_NAMESPACE_ID::uint64 vs() const;
+  void set_vs(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_vs() const;
+  void _internal_set_vs(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.SocketConnect)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 vs_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SocketClose :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.SocketClose) */ {
+ public:
+  SocketClose();
+  virtual ~SocketClose();
+
+  SocketClose(const SocketClose& from);
+  SocketClose(SocketClose&& from) noexcept
+    : SocketClose() {
+    *this = ::std::move(from);
+  }
+
+  inline SocketClose& operator=(const SocketClose& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SocketClose& operator=(SocketClose&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const SocketClose& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SocketClose* internal_default_instance() {
+    return reinterpret_cast<const SocketClose*>(
+               &_SocketClose_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    7;
+
+  friend void swap(SocketClose& a, SocketClose& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SocketClose* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SocketClose* New() const final {
+    return CreateMaybeMessage<SocketClose>(nullptr);
+  }
+
+  SocketClose* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<SocketClose>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const SocketClose& from);
+  void MergeFrom(const SocketClose& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SocketClose* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.SocketClose";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kVsFieldNumber = 1,
+  };
+  // uint64 vs = 1;
+  void clear_vs();
+  ::PROTOBUF_NAMESPACE_ID::uint64 vs() const;
+  void set_vs(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_vs() const;
+  void _internal_set_vs(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.SocketClose)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 vs_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SocketChangeDest :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.SocketChangeDest) */ {
+ public:
+  SocketChangeDest();
+  virtual ~SocketChangeDest();
+
+  SocketChangeDest(const SocketChangeDest& from);
+  SocketChangeDest(SocketChangeDest&& from) noexcept
+    : SocketChangeDest() {
+    *this = ::std::move(from);
+  }
+
+  inline SocketChangeDest& operator=(const SocketChangeDest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SocketChangeDest& operator=(SocketChangeDest&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const SocketChangeDest& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SocketChangeDest* internal_default_instance() {
+    return reinterpret_cast<const SocketChangeDest*>(
+               &_SocketChangeDest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    8;
+
+  friend void swap(SocketChangeDest& a, SocketChangeDest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SocketChangeDest* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SocketChangeDest* New() const final {
+    return CreateMaybeMessage<SocketChangeDest>(nullptr);
+  }
+
+  SocketChangeDest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<SocketChangeDest>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const SocketChangeDest& from);
+  void MergeFrom(const SocketChangeDest& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SocketChangeDest* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.SocketChangeDest";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kVsFieldNumber = 1,
+    kDestportFieldNumber = 2,
+  };
+  // uint64 vs = 1;
+  void clear_vs();
+  ::PROTOBUF_NAMESPACE_ID::uint64 vs() const;
+  void set_vs(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_vs() const;
+  void _internal_set_vs(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint32 destport = 2;
+  void clear_destport();
+  ::PROTOBUF_NAMESPACE_ID::uint32 destport() const;
+  void set_destport(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_destport() const;
+  void _internal_set_destport(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.SocketChangeDest)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 vs_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 destport_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SocketAuth :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.SocketAuth) */ {
+ public:
+  SocketAuth();
+  virtual ~SocketAuth();
+
+  SocketAuth(const SocketAuth& from);
+  SocketAuth(SocketAuth&& from) noexcept
+    : SocketAuth() {
+    *this = ::std::move(from);
+  }
+
+  inline SocketAuth& operator=(const SocketAuth& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SocketAuth& operator=(SocketAuth&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const SocketAuth& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SocketAuth* internal_default_instance() {
+    return reinterpret_cast<const SocketAuth*>(
+               &_SocketAuth_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    9;
+
+  friend void swap(SocketAuth& a, SocketAuth& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SocketAuth* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SocketAuth* New() const final {
+    return CreateMaybeMessage<SocketAuth>(nullptr);
+  }
+
+  SocketAuth* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<SocketAuth>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const SocketAuth& from);
+  void MergeFrom(const SocketAuth& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SocketAuth* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.SocketAuth";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kVsFieldNumber = 1,
+  };
+  // uint64 vs = 1;
+  void clear_vs();
+  ::PROTOBUF_NAMESPACE_ID::uint64 vs() const;
+  void set_vs(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_vs() const;
+  void _internal_set_vs(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.SocketAuth)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 vs_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SocketStartAccept :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.SocketStartAccept) */ {
+ public:
+  SocketStartAccept();
+  virtual ~SocketStartAccept();
+
+  SocketStartAccept(const SocketStartAccept& from);
+  SocketStartAccept(SocketStartAccept&& from) noexcept
+    : SocketStartAccept() {
+    *this = ::std::move(from);
+  }
+
+  inline SocketStartAccept& operator=(const SocketStartAccept& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SocketStartAccept& operator=(SocketStartAccept&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const SocketStartAccept& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SocketStartAccept* internal_default_instance() {
+    return reinterpret_cast<const SocketStartAccept*>(
+               &_SocketStartAccept_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    10;
+
+  friend void swap(SocketStartAccept& a, SocketStartAccept& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SocketStartAccept* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SocketStartAccept* New() const final {
+    return CreateMaybeMessage<SocketStartAccept>(nullptr);
+  }
+
+  SocketStartAccept* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<SocketStartAccept>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const SocketStartAccept& from);
+  void MergeFrom(const SocketStartAccept& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SocketStartAccept* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.SocketStartAccept";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.SocketStartAccept)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SocketStopAccept :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.SocketStopAccept) */ {
+ public:
+  SocketStopAccept();
+  virtual ~SocketStopAccept();
+
+  SocketStopAccept(const SocketStopAccept& from);
+  SocketStopAccept(SocketStopAccept&& from) noexcept
+    : SocketStopAccept() {
+    *this = ::std::move(from);
+  }
+
+  inline SocketStopAccept& operator=(const SocketStopAccept& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SocketStopAccept& operator=(SocketStopAccept&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const SocketStopAccept& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SocketStopAccept* internal_default_instance() {
+    return reinterpret_cast<const SocketStopAccept*>(
+               &_SocketStopAccept_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    11;
+
+  friend void swap(SocketStopAccept& a, SocketStopAccept& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SocketStopAccept* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SocketStopAccept* New() const final {
+    return CreateMaybeMessage<SocketStopAccept>(nullptr);
+  }
+
+  SocketStopAccept* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<SocketStopAccept>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const SocketStopAccept& from);
+  void MergeFrom(const SocketStopAccept& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SocketStopAccept* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.SocketStopAccept";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.SocketStopAccept)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
 };
@@ -997,7 +1935,7 @@ class PlayerEnterZone :
                &_PlayerEnterZone_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    12;
 
   friend void swap(PlayerEnterZone& a, PlayerEnterZone& b) {
     a.Swap(&b);
@@ -1180,7 +2118,7 @@ class PlayerChangeZone :
                &_PlayerChangeZone_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    13;
 
   friend void swap(PlayerChangeZone& a, PlayerChangeZone& b) {
     a.Swap(&b);
@@ -1385,7 +2323,7 @@ class PlayerChangeZone_Data :
                &_PlayerChangeZone_Data_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    14;
 
   friend void swap(PlayerChangeZone_Data& a, PlayerChangeZone_Data& b) {
     a.Swap(&b);
@@ -1524,7 +2462,7 @@ class PlayerLogout :
                &_PlayerLogout_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    8;
+    15;
 
   friend void swap(PlayerLogout& a, PlayerLogout& b) {
     a.Swap(&b);
@@ -1663,7 +2601,7 @@ class SystemVarChange :
                &_SystemVarChange_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    16;
 
   friend void swap(SystemVarChange& a, SystemVarChange& b) {
     a.Swap(&b);
@@ -1876,7 +2814,7 @@ class SceneCreate :
                &_SceneCreate_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    10;
+    17;
 
   friend void swap(SceneCreate& a, SceneCreate& b) {
     a.Swap(&b);
@@ -2004,7 +2942,7 @@ class PhaseCreate :
                &_PhaseCreate_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    11;
+    18;
 
   friend void swap(PhaseCreate& a, PhaseCreate& b) {
     a.Swap(&b);
@@ -2143,7 +3081,7 @@ class PhaseDestory :
                &_PhaseDestory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    12;
+    19;
 
   friend void swap(PhaseDestory& a, PhaseDestory& b) {
     a.Swap(&b);
@@ -2282,7 +3220,7 @@ class MonsterGen :
                &_MonsterGen_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    13;
+    20;
 
   friend void swap(MonsterGen& a, MonsterGen& b) {
     a.Swap(&b);
@@ -2487,7 +3425,7 @@ class MonsterGenMulti :
                &_MonsterGenMulti_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    14;
+    21;
 
   friend void swap(MonsterGenMulti& a, MonsterGenMulti& b) {
     a.Swap(&b);
@@ -2714,7 +3652,7 @@ class MonsterDestory :
                &_MonsterDestory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    15;
+    22;
 
   friend void swap(MonsterDestory& a, MonsterDestory& b) {
     a.Swap(&b);
@@ -2856,7 +3794,7 @@ class MonsterGenOnce :
                &_MonsterGenOnce_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    16;
+    23;
 
   friend void swap(MonsterGenOnce& a, MonsterGenOnce& b) {
     a.Swap(&b);
@@ -3006,7 +3944,7 @@ class ActiveGen :
                &_ActiveGen_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    17;
+    24;
 
   friend void swap(ActiveGen& a, ActiveGen& b) {
     a.Swap(&b);
@@ -3156,7 +4094,7 @@ class KillGen :
                &_KillGen_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    18;
+    25;
 
   friend void swap(KillGen& a, KillGen& b) {
     a.Swap(&b);
@@ -3295,7 +4233,7 @@ class ActorCreate :
                &_ActorCreate_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    19;
+    26;
 
   friend void swap(ActorCreate& a, ActorCreate& b) {
     a.Swap(&b);
@@ -3628,7 +4566,7 @@ class ActorDestory :
                &_ActorDestory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    20;
+    27;
 
   friend void swap(ActorDestory& a, ActorDestory& b) {
     a.Swap(&b);
@@ -3756,7 +4694,7 @@ class ActorMove :
                &_ActorMove_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    21;
+    28;
 
   friend void swap(ActorMove& a, ActorMove& b) {
     a.Swap(&b);
@@ -3906,7 +4844,7 @@ class ActorCastSkill :
                &_ActorCastSkill_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    22;
+    29;
 
   friend void swap(ActorCastSkill& a, ActorCastSkill& b) {
     a.Swap(&b);
@@ -4056,7 +4994,7 @@ class ActorCastSkill_Fail :
                &_ActorCastSkill_Fail_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    23;
+    30;
 
   friend void swap(ActorCastSkill_Fail& a, ActorCastSkill_Fail& b) {
     a.Swap(&b);
@@ -4184,7 +5122,7 @@ class ActorSetHide :
                &_ActorSetHide_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    24;
+    31;
 
   friend void swap(ActorSetHide& a, ActorSetHide& b) {
     a.Swap(&b);
@@ -4323,7 +5261,7 @@ class TeamCreate :
                &_TeamCreate_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    25;
+    32;
 
   friend void swap(TeamCreate& a, TeamCreate& b) {
     a.Swap(&b);
@@ -4462,7 +5400,7 @@ class TeamDestory :
                &_TeamDestory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    26;
+    33;
 
   friend void swap(TeamDestory& a, TeamDestory& b) {
     a.Swap(&b);
@@ -4590,7 +5528,7 @@ class TeamQuit :
                &_TeamQuit_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    27;
+    34;
 
   friend void swap(TeamQuit& a, TeamQuit& b) {
     a.Swap(&b);
@@ -4729,7 +5667,7 @@ class TeamKickMember :
                &_TeamKickMember_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    28;
+    35;
 
   friend void swap(TeamKickMember& a, TeamKickMember& b) {
     a.Swap(&b);
@@ -4879,7 +5817,7 @@ class TeamInviteMember :
                &_TeamInviteMember_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    29;
+    36;
 
   friend void swap(TeamInviteMember& a, TeamInviteMember& b) {
     a.Swap(&b);
@@ -5029,7 +5967,7 @@ class TeamAcceptInvite :
                &_TeamAcceptInvite_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    30;
+    37;
 
   friend void swap(TeamAcceptInvite& a, TeamAcceptInvite& b) {
     a.Swap(&b);
@@ -5190,7 +6128,7 @@ class TeamApplyMember :
                &_TeamApplyMember_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    31;
+    38;
 
   friend void swap(TeamApplyMember& a, TeamApplyMember& b) {
     a.Swap(&b);
@@ -5329,7 +6267,7 @@ class TeamAcceptApply :
                &_TeamAcceptApply_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    32;
+    39;
 
   friend void swap(TeamAcceptApply& a, TeamAcceptApply& b) {
     a.Swap(&b);
@@ -5479,7 +6417,7 @@ class TeamNewLeader :
                &_TeamNewLeader_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    33;
+    40;
 
   friend void swap(TeamNewLeader& a, TeamNewLeader& b) {
     a.Swap(&b);
@@ -5629,7 +6567,7 @@ class TeamAddMember :
                &_TeamAddMember_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    34;
+    41;
 
   friend void swap(TeamAddMember& a, TeamAddMember& b) {
     a.Swap(&b);
@@ -5768,7 +6706,7 @@ class TeamDelMember :
                &_TeamDelMember_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    35;
+    42;
 
   friend void swap(TeamDelMember& a, TeamDelMember& b) {
     a.Swap(&b);
@@ -5907,7 +6845,7 @@ class TeamMemberInfo_Info :
                &_TeamMemberInfo_Info_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    36;
+    43;
 
   friend void swap(TeamMemberInfo_Info& a, TeamMemberInfo_Info& b) {
     a.Swap(&b);
@@ -6075,7 +7013,7 @@ class TeamMemberInfo :
                &_TeamMemberInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    37;
+    44;
 
   friend void swap(TeamMemberInfo& a, TeamMemberInfo& b) {
     a.Swap(&b);
@@ -6214,7 +7152,7 @@ class SyncTaskPhase :
                &_SyncTaskPhase_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    38;
+    45;
 
   friend void swap(SyncTaskPhase& a, SyncTaskPhase& b) {
     a.Swap(&b);
@@ -6367,7 +7305,7 @@ class AddTaskPhase :
                &_AddTaskPhase_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    39;
+    46;
 
   friend void swap(AddTaskPhase& a, AddTaskPhase& b) {
     a.Swap(&b);
@@ -6506,7 +7444,7 @@ class RemoveTaskPhase :
                &_RemoveTaskPhase_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    40;
+    47;
 
   friend void swap(RemoveTaskPhase& a, RemoveTaskPhase& b) {
     a.Swap(&b);
@@ -6928,6 +7866,194 @@ inline void ServiceReady::set_serverport(::PROTOBUF_NAMESPACE_ID::uint32 value) 
   _internal_set_serverport(value);
   // @@protoc_insertion_point(field_set:ServerMSG.ServiceReady.serverport)
 }
+
+// bool ready = 2;
+inline void ServiceReady::clear_ready() {
+  ready_ = false;
+}
+inline bool ServiceReady::_internal_ready() const {
+  return ready_;
+}
+inline bool ServiceReady::ready() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.ServiceReady.ready)
+  return _internal_ready();
+}
+inline void ServiceReady::_internal_set_ready(bool value) {
+  
+  ready_ = value;
+}
+inline void ServiceReady::set_ready(bool value) {
+  _internal_set_ready(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.ServiceReady.ready)
+}
+
+// -------------------------------------------------------------------
+
+// ServiceRegister
+
+// uint32 serverport = 1;
+inline void ServiceRegister::clear_serverport() {
+  serverport_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 ServiceRegister::_internal_serverport() const {
+  return serverport_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 ServiceRegister::serverport() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.ServiceRegister.serverport)
+  return _internal_serverport();
+}
+inline void ServiceRegister::_internal_set_serverport(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  serverport_ = value;
+}
+inline void ServiceRegister::set_serverport(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_serverport(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.ServiceRegister.serverport)
+}
+
+// uint64 update_time = 2;
+inline void ServiceRegister::clear_update_time() {
+  update_time_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 ServiceRegister::_internal_update_time() const {
+  return update_time_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 ServiceRegister::update_time() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.ServiceRegister.update_time)
+  return _internal_update_time();
+}
+inline void ServiceRegister::_internal_set_update_time(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  update_time_ = value;
+}
+inline void ServiceRegister::set_update_time(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_update_time(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.ServiceRegister.update_time)
+}
+
+// -------------------------------------------------------------------
+
+// SocketConnect
+
+// uint64 vs = 1;
+inline void SocketConnect::clear_vs() {
+  vs_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 SocketConnect::_internal_vs() const {
+  return vs_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 SocketConnect::vs() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.SocketConnect.vs)
+  return _internal_vs();
+}
+inline void SocketConnect::_internal_set_vs(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  vs_ = value;
+}
+inline void SocketConnect::set_vs(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_vs(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.SocketConnect.vs)
+}
+
+// -------------------------------------------------------------------
+
+// SocketClose
+
+// uint64 vs = 1;
+inline void SocketClose::clear_vs() {
+  vs_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 SocketClose::_internal_vs() const {
+  return vs_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 SocketClose::vs() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.SocketClose.vs)
+  return _internal_vs();
+}
+inline void SocketClose::_internal_set_vs(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  vs_ = value;
+}
+inline void SocketClose::set_vs(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_vs(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.SocketClose.vs)
+}
+
+// -------------------------------------------------------------------
+
+// SocketChangeDest
+
+// uint64 vs = 1;
+inline void SocketChangeDest::clear_vs() {
+  vs_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 SocketChangeDest::_internal_vs() const {
+  return vs_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 SocketChangeDest::vs() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.SocketChangeDest.vs)
+  return _internal_vs();
+}
+inline void SocketChangeDest::_internal_set_vs(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  vs_ = value;
+}
+inline void SocketChangeDest::set_vs(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_vs(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.SocketChangeDest.vs)
+}
+
+// uint32 destport = 2;
+inline void SocketChangeDest::clear_destport() {
+  destport_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 SocketChangeDest::_internal_destport() const {
+  return destport_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 SocketChangeDest::destport() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.SocketChangeDest.destport)
+  return _internal_destport();
+}
+inline void SocketChangeDest::_internal_set_destport(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  destport_ = value;
+}
+inline void SocketChangeDest::set_destport(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_destport(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.SocketChangeDest.destport)
+}
+
+// -------------------------------------------------------------------
+
+// SocketAuth
+
+// uint64 vs = 1;
+inline void SocketAuth::clear_vs() {
+  vs_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 SocketAuth::_internal_vs() const {
+  return vs_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 SocketAuth::vs() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.SocketAuth.vs)
+  return _internal_vs();
+}
+inline void SocketAuth::_internal_set_vs(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  vs_ = value;
+}
+inline void SocketAuth::set_vs(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_vs(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.SocketAuth.vs)
+}
+
+// -------------------------------------------------------------------
+
+// SocketStartAccept
+
+// -------------------------------------------------------------------
+
+// SocketStopAccept
 
 // -------------------------------------------------------------------
 
@@ -9709,6 +10835,20 @@ inline void RemoveTaskPhase::set_task_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 v
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

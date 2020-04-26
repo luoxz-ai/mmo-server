@@ -6,8 +6,10 @@
 #include "NetworkService.h"
 #include "event2/buffer.h"
 #include "event2/util.h"
+#include "EventManager.h"
+#include "NetworkMessage.h"
 
-MEMORYHEAP_IMPLEMENTATION(CNetSocket, s_Heap);
+OBJECTHEAP_IMPLEMENTATION(CNetSocket, s_Heap);
 
 CNetSocket::CNetSocket(CNetworkService* pService, CNetEventHandler* pEventHandler, bool bPassive, bool bReconnect)
     : m_pService(pService)
@@ -107,7 +109,7 @@ void CNetSocket::Close()
             MSG_HEAD msg;
             msg.usCmd  = COMMON_CMD_CLOSE;
             msg.usSize = sizeof(MSG_HEAD);
-            SendMsg((byte*)&msg, sizeof(msg), true);
+            SendSocketMsg((byte*)&msg, sizeof(msg), true);
             SetStatus(NSS_CLOSEING);
         }
         else
@@ -119,13 +121,80 @@ void CNetSocket::Close()
     __LEAVE_FUNCTION
 }
 
-bool CNetSocket::SendMsg(byte* pBuffer, size_t len, bool bFlush)
+CNetSocket::SendMsgData::SendMsgData(byte* _pBuffer, size_t _len, CNetworkMessage* _pMsg, bool _bFlush)
+:len(_len), bFlush(_bFlush)
+{
+    if(_pBuffer && len > 0)
+    {
+        pBuffer = new byte[len];
+        memcpy(pBuffer, _pBuffer, len);
+    }
+
+    if(_pMsg)
+    {
+        pMsg = new CNetworkMessage(*_pMsg);
+        pMsg->CopyBuffer();
+    }
+}
+
+CNetSocket::SendMsgData::~SendMsgData()
+{
+    SAFE_DELETE_ARRAY(pBuffer);
+    SAFE_DELETE(pMsg);
+}
+
+bool CNetSocket::SendSocketMsg(byte* pBuffer, size_t len, bool bFlush)
 {
     __ENTER_FUNCTION
-    std::unique_lock<std::mutex> lock(m_mutexSend);
-    return _SendMsg(pBuffer, len, bFlush);
+
+    SendMsgData* pData = new SendMsgData{pBuffer, len, nullptr, bFlush};
+    m_SendMsgQueue.push(pData);
+    PostSend();
+    return true;
     __LEAVE_FUNCTION
     return false;
+}
+
+bool CNetSocket::SendSocketMsg(byte* pHeaderBuffer, size_t head_len, CNetworkMessage* pMsg, bool bFlush)
+{
+    __ENTER_FUNCTION
+
+    SendMsgData* pData = new SendMsgData{pHeaderBuffer, head_len, pMsg, bFlush};
+    m_SendMsgQueue.push(pData);
+    PostSend();
+    return true;
+    __LEAVE_FUNCTION
+    return false;
+}
+
+void CNetSocket::PostSend()
+{
+    __ENTER_FUNCTION
+    if(m_Event.IsRunning() == false)
+    {
+        m_pService->GetEventManager()->ScheduleEvent(0, std::bind(&CNetSocket::_SendAllMsg, this), 0, false, m_Event);
+    }
+
+    __LEAVE_FUNCTION
+}
+
+void CNetSocket::_SendAllMsg()
+{
+    SendMsgData* pData = nullptr;
+    while(m_SendMsgQueue.get(pData))
+    {
+        __ENTER_FUNCTION
+            if(pData->pBuffer)
+            {
+                _SendMsg(pData->pBuffer, pData->len, pData->bFlush);
+            }
+            if(pData->pMsg)
+            {
+                _SendMsg(pData->pMsg->GetBuf(), pData->pMsg->GetSize(), pData->bFlush);
+            }
+            SAFE_DELETE(pData);
+        __LEAVE_FUNCTION
+    }
 }
 
 bool CNetSocket::_SendMsg(byte* pBuffer, size_t len, bool bFlush)
@@ -137,10 +206,12 @@ bool CNetSocket::_SendMsg(byte* pBuffer, size_t len, bool bFlush)
 
     if(m_pEncryptor)
     {
-        m_pEncryptor->Encryptor(pBuffer + sizeof(MSG_HEAD),
-                                len - sizeof(MSG_HEAD),
-                                pBuffer + sizeof(MSG_HEAD),
-                                len - sizeof(MSG_HEAD));
+        constexpr size_t sizeof_HEAD = sizeof(MSG_HEAD);
+
+        m_pEncryptor->Encryptor(pBuffer + sizeof_HEAD,
+                                len - sizeof_HEAD,
+                                pBuffer + sizeof_HEAD,
+                                len - sizeof_HEAD);
     }
 
     if(GetStatus() == NSS_CONNECTING || GetStatus() == NSS_WAIT_RECONNECT)
@@ -336,7 +407,7 @@ void CNetSocket::_OnSocketEvent(bufferevent* b, short what, void* ctx)
             MSG_HEAD msg;
             msg.usCmd  = COMMON_CMD_PING;
             msg.usSize = sizeof(MSG_HEAD);
-            pSocket->SendMsg(&msg);
+            pSocket->SendSocketMsg(&msg);
             bufferevent_enable(b, EV_READ);
         }
         else if(what & BEV_EVENT_WRITING)
@@ -510,7 +581,7 @@ void CNetSocket::OnRecvData(byte* pBuffer, size_t len)
             MSG_HEAD msg;
             msg.usCmd  = COMMON_CMD_PONG;
             msg.usSize = sizeof(MSG_HEAD);
-            SendMsg((byte*)&msg, sizeof(msg));
+            SendSocketMsg((byte*)&msg, sizeof(msg));
             // LOGNETDEBUG("MSG_PING_RECV:{}:{}", GetAddrString().c_str(), GetPort());
             return;
         }

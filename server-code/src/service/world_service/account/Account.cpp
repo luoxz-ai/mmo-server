@@ -13,7 +13,7 @@
 #include "msg/world_service.pb.h"
 #include "server_msg/server_side.pb.h"
 
-MEMORYHEAP_IMPLEMENTATION(CAccount, s_heap);
+OBJECTHEAP_IMPLEMENTATION(CAccount, s_heap);
 
 CAccount::CAccount() {}
 
@@ -306,9 +306,9 @@ void CAccount::ExitZone(bool bReload)
 void CAccount::KickOut()
 {
     ExitZone();
-    MSG_SCK_CLOSE kick_msg;
-    kick_msg.vs = GetSocket();
-    WorldService()->SendPortMsg(GetSocket().GetServerPort(), (byte*)&kick_msg, sizeof(kick_msg));
+    ServerMSG::SocketClose kick_msg;
+    kick_msg.set_vs(GetSocket());
+    WorldService()->SendPortMsg(GetSocket().GetServerPort(), kick_msg);
 }
 
 void CAccount::SendActorInfo()

@@ -116,13 +116,15 @@ public:
 
 public:
     event_base* GetEVBase() const { return m_pBase; }
-
+    CEventManager* GetEventManager() const {return m_pEventManager.get();}
     size_t GetSocketAmount();
     // socket广播消息
     void BrocastMsg(byte* buf, size_t len, SOCKET execpt_this = 0);
     //直接发送Socket消息
     bool SendSocketMsg(SOCKET _socket, byte* buf, size_t len);
+    bool SendSocketMsg(SOCKET _socket, CNetworkMessage* pMsg);
     bool SendSocketMsgByIdx(uint16_t nSocketIdx, byte* buf, size_t len);
+    bool SendSocketMsgByIdx(uint16_t nSocketIdx, CNetworkMessage* pMsg);
     //主动关闭一个连接
     bool KickSocket(SOCKET _socket);
 
@@ -172,6 +174,8 @@ protected:
     struct evhttp*                                  m_pHttpHandle = nullptr;
     std::function<void(struct evhttp_request* req)> m_funcOnReciveHttp;
     std::mutex                                      m_mutex;
+
+    std::unique_ptr<CEventManager>  m_pEventManager;
 
     std::map<SOCKET, CNetSocket*>   m_setSocket;
     std::deque<uint16_t>            m_SocketIdxPool;

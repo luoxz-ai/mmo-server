@@ -220,7 +220,7 @@ enum MSGTYPE_INTERNAL
     COMMON_CMD_PING         = 2,
     COMMON_CMD_PONG         = 3,
     COMMON_CMD_CLOSE        = 9999,
-    NETMSG_INITIATIVE_CLOSE = 10000, // sck->client 服务器主动关闭
+    
 
     NETMSG_INTERNAL                   = 10001, //内网消息传输
     NETMSG_INTERNAL_FORWARD           = 10002, //转发包
@@ -229,15 +229,6 @@ enum MSGTYPE_INTERNAL
     NETMSG_INTERNAL_BROCAST_BYID      = 10005, //组播包
     NETMSG_INTERNAL_BROCAST_BYGROUPID = 10006, //组播包
 
-    NETMSG_INTERNAL_SERVICE_REGISTER = 10010, // gmservice->servicectrl
-    NETMSG_INTERNAL_SERVICE_READY    = 10011,
-
-    NETMSG_SCK_CONNECT     = 10101, // sck->other 一个socket连接上来了
-    NETMSG_SCK_CLOSE       = 10102, // sck->other socket关闭
-    NETMSG_SCK_CHG_DEST    = 10103, // other->sck 切换socket对应的服务器
-    NETMSG_SCK_AUTH        = 10104, // other->sck 设置socket的认证信息
-    NETMSG_SERVICE_READY   = 10105, // world->sck 开始监听
-    NETMSG_SCK_STOP_ACCEPT = 10106, // world->sck 关闭监听
 };
 
 #pragma pack(push) //保存对齐状态
@@ -304,17 +295,6 @@ struct MSG_INTERNAL_TRANSMITE : public MSG_HEAD
 {
 };
 
-struct MSG_INTERNAL_SERVICE_REGISTER : public MSG_HEAD
-{
-    MSG_INTERNAL_SERVICE_REGISTER()
-    {
-        usCmd  = NETMSG_INTERNAL_SERVICE_REGISTER;
-        usSize = sizeof(MSG_INTERNAL_SERVICE_REGISTER);
-    }
-    uint16_t idWorld = 0;
-    uint32_t update_time;
-};
-
 struct MSG_PING : public MSG_HEAD
 {
     MSG_PING()
@@ -333,87 +313,7 @@ struct MSG_PONG : public MSG_HEAD
     }
 };
 
-struct MSG_SERVICE_READY : public MSG_HEAD
-{
-    MSG_SERVICE_READY()
-    {
-        usCmd  = NETMSG_SERVICE_READY;
-        usSize = sizeof(MSG_SERVICE_READY);
-    }
-};
 
-struct MSG_INTERNAL_SERVICE_READY : public MSG_HEAD
-{
-    MSG_INTERNAL_SERVICE_READY()
-    {
-        usCmd  = NETMSG_INTERNAL_SERVICE_READY;
-        usSize = sizeof(MSG_INTERNAL_SERVICE_READY);
-    }
-    uint16_t idWorld = 0;
-    bool     bReady  = false;
-};
-
-struct MSG_SCK_STOP_ACCEPT : public MSG_HEAD
-{
-    MSG_SCK_STOP_ACCEPT()
-    {
-        usCmd  = NETMSG_SCK_STOP_ACCEPT;
-        usSize = sizeof(MSG_SCK_STOP_ACCEPT);
-    }
-};
-
-struct MSG_SCK_CONNECT : public MSG_HEAD
-{
-    uint64_t vs;
-    uint64_t ip;
-    int32_t  port;
-    MSG_SCK_CONNECT()
-    {
-        usCmd  = NETMSG_SCK_CONNECT;
-        usSize = sizeof(MSG_SCK_CONNECT);
-    }
-};
-
-struct MSG_SCK_CLOSE : public MSG_HEAD
-{
-    uint64_t vs;
-    MSG_SCK_CLOSE()
-    {
-        usCmd  = NETMSG_SCK_CLOSE;
-        usSize = sizeof(MSG_SCK_CLOSE);
-    }
-};
-
-struct MSG_SCK_CHG_DEST : public MSG_HEAD
-{
-    uint64_t vs;
-    uint16_t idService;
-    MSG_SCK_CHG_DEST()
-    {
-        usCmd  = NETMSG_SCK_CHG_DEST;
-        usSize = sizeof(MSG_SCK_CHG_DEST);
-    }
-};
-
-struct MSG_SCK_AUTH : public MSG_HEAD
-{
-    uint64_t vs;
-    OBJID    idAccount;
-    MSG_SCK_AUTH()
-    {
-        usCmd  = NETMSG_SCK_AUTH;
-        usSize = sizeof(MSG_SCK_AUTH);
-    }
-};
-
-struct MSG_INITIATIVE_CLOSE : public MSG_HEAD
-{
-    MSG_INITIATIVE_CLOSE()
-    {
-        usCmd  = NETMSG_INITIATIVE_CLOSE;
-        usSize = sizeof(MSG_INITIATIVE_CLOSE);
-    }
-};
 #pragma pack(pop) //恢复对齐状态
 
 #endif // NetworkDefine_h__

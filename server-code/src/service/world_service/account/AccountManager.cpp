@@ -6,6 +6,7 @@
 #include "MD5.h"
 #include "WorldService.h"
 #include "msg/world_service.pb.h"
+#include "server_msg/server_side.pb.h"
 #include "GMManager.h"
 
 const char* AUTH_URL = "https://example.com";
@@ -40,14 +41,9 @@ bool CAccountManager::Init(class CWorldService* pWorld)
         "AuthThread",
         [pWorld]() {
             SetWorldServicePtr(pWorld);
-            BaseCode::SetNdc("AuthThread");
-            LOGMESSAGE("Create ThreadID:{}", get_cur_thread_id());
         },
         []() {
             SetWorldServicePtr(nullptr);
-            LOGMESSAGE("Exit ThreadID:{}", get_cur_thread_id());
-            BaseCode::ClearNdc();
-            ;
         });
 
     m_pAuthChannel = std::make_unique<brpc::Channel>();
@@ -175,9 +171,9 @@ void CAccountManager::_OnAuthSucc(uint64_t call_id)
     CHECK(pAccount);
     LOGLOGIN("Actor:{} AuthSucc.", auth_data.open_id.c_str());
 
-    MSG_SCK_AUTH auth_msg;
-    auth_msg.vs = pAccount->GetSocket();
-    WorldService()->SendPortMsg(pAccount->GetSocket().GetServerPort(), (byte*)&auth_msg, sizeof(auth_msg));
+    ServerMSG::SocketAuth auth_msg;
+    auth_msg.set_vs(pAccount->GetSocket());
+    WorldService()->SendPortMsg(pAccount->GetSocket().GetServerPort(), auth_msg);
 
     SC_LOGIN result_msg;
     result_msg.set_result_code(SC_LOGIN::EC_SUCC);

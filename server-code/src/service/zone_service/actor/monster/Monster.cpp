@@ -8,7 +8,7 @@
 #include "TeamInfoManager.h"
 #include "server_msg/server_side.pb.h"
 
-MEMORYHEAP_IMPLEMENTATION(CMonster, s_heap);
+OBJECTHEAP_IMPLEMENTATION(CMonster, s_heap);
 
 CMonster::CMonster() {}
 
@@ -72,7 +72,7 @@ bool CMonster::SendMsg(uint16_t cmd, const google::protobuf::Message& msg) const
                              msg,
                              ZoneService()->GetServerVirtualSocket(),
                              ZoneService()->GetAIServerVirtualSocket());
-        return ZoneService()->SendMsg(_msg);
+        return ZoneService()->SendPortMsg(_msg);
     }
     return true;
     __LEAVE_FUNCTION
@@ -230,7 +230,7 @@ void CMonster::OnEnterMap(CSceneBase* pScene)
     ai_msg.set_monster_gen_id(m_idGen);
     ai_msg.set_ownerid(GetOwnerID());
 
-    ZoneService()->SendPortMsgToAIService(ai_msg);
+    ZoneService()->SendServerMsgToAIService(ai_msg);
     __LEAVE_FUNCTION
 }
 

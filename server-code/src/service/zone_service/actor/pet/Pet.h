@@ -46,7 +46,7 @@ public:
     void Save();
 
 public:
-    MEMORYHEAP_DECLARATION(s_heap);
+    OBJECTHEAP_DECLARATION(s_heap);
 
 private:
     CPetSet*     m_pPetSet;

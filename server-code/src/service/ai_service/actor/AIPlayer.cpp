@@ -1,6 +1,6 @@
 #include "AIPlayer.h"
 
-MEMORYHEAP_IMPLEMENTATION(CAIPlayer, s_heap);
+OBJECTHEAP_IMPLEMENTATION(CAIPlayer, s_heap);
 CAIPlayer::CAIPlayer() {}
 
 CAIPlayer::~CAIPlayer() {}

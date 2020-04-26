@@ -29,7 +29,8 @@ public:
     }
 
     void Close();
-    bool SendMsg(byte* pBuffer, size_t len);
+    bool SendSocketMsg(byte* pBuffer, size_t len);
+    bool SendSocketMsg(CNetworkMessage* pMsg);
 
     CSocketService* GetService() const { return m_pService; }
     void            SetService(CSocketService* val) { m_pService = val; }
@@ -68,7 +69,7 @@ public:
     
 
     void Release() override;
-    
+    export_lua const std::string& GetServiceName() const override{ return CServiceCommon::GetServiceName(); }
     CreateNewRealeaseImpl(CSocketService);
 public:
     virtual void OnConnected(CNetSocket* pSocket) override;

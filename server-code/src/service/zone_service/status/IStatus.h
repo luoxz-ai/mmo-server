@@ -193,6 +193,6 @@ protected:
     CEventEntryPtr m_StatusEvent;
 
 public:
-    MEMORYHEAP_DECLARATION(s_heap)
+    OBJECTHEAP_DECLARATION(s_heap)
 };
 #endif /* ISTATUS_H */

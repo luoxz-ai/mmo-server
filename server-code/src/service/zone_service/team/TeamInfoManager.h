@@ -31,7 +31,7 @@ private:
     std::vector<OBJID> m_setMemberID;
 
 public:
-    MEMORYHEAP_DECLARATION(s_heap);
+    OBJECTHEAP_DECLARATION(s_heap);
 };
 
 export_lua class CTeamInfoManager : public NoncopyableT<CTeamInfoManager>

@@ -93,7 +93,7 @@ public:
 
     int32_t GetPort();
 
-    bool SendMsg(byte* pBuffer, size_t len, bool bFlush = true);
+    bool SendSocketMsg(byte* pBuffer, size_t len, bool bFlush = true);
 
     void Close();
 

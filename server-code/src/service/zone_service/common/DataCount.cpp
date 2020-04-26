@@ -3,7 +3,7 @@
 #include "Player.h"
 #include "ZoneService.h"
 
-MEMORYHEAP_IMPLEMENTATION(CDataCount, s_heap);
+OBJECTHEAP_IMPLEMENTATION(CDataCount, s_heap);
 
 CDataCount::CDataCount(CPlayer* pPlayer, CDBRecordPtr&& pRecord)
     : m_pOwner(pPlayer)

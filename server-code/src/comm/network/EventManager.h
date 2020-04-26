@@ -63,11 +63,11 @@ protected:
 
 protected:
     event_base*                        m_pBase;
-    bool                               m_bHasBaseOwnerShip;
+    bool                               m_bOwnBase;
     std::map<uint32_t, struct timeval> m_mapCommonTimeVal;
     std::map<CEventEntry*, bool>       m_mapEntry;
     std::set<CEventEntry*>             m_setWaitEntry;
     std::mutex                         m_mutex;
-    struct event*                      m_DefaultEvent = nullptr;
+    struct event*                      m_pScheduleWaitEvent = nullptr;
 };
 #endif // EventManager_h__

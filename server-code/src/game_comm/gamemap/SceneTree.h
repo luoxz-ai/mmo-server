@@ -12,6 +12,8 @@ public:
 
     void AddActor(CSceneObject* pActor) { this->insert(pActor); }
     void RemoveActor(CSceneObject* pActor) { this->erase(pActor); }
+public:
+    OBJECTHEAP_DECLARATION(s_heap);
 };
 
 class CSceneCollisionTile
@@ -24,6 +26,8 @@ public:
     size_t                               size(uint32_t actor_type) const;
     bool                                 find_if(std::function<bool(uint32_t, size_t)> func) const;
     std::unordered_map<uint32_t, size_t> m_setCount;
+public:
+    OBJECTHEAP_DECLARATION(s_heap);
 };
 
 class CGameMap;
@@ -77,7 +81,8 @@ public:
 
 private:
     void _SetSceneTileGridRange(uint32_t v);
-
+public:
+    OBJECTHEAP_DECLARATION(s_heap);
 protected:
     std::deque<CSceneTile>          m_setTile;
     std::deque<CSceneCollisionTile> m_setCollision;

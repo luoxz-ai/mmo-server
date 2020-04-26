@@ -6,9 +6,10 @@
 #include "LoadingThread.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"
+#include "server_msg/server_side.pb.h"
 
 //////////////////////////////////////////////////////////////////////////
-ON_SERVERMSG(PlayerEnterZone)
+ON_SERVERMSG(CZoneService, PlayerEnterZone)
 {
     CHECK(msg.idplayer() != 0);
     CHECK(msg.socket() != 0);
@@ -36,7 +37,7 @@ ON_SERVERMSG(PlayerEnterZone)
     ZoneService()->CreateSocketMessagePool(msg.socket());
 }
 
-ON_SERVERMSG(PlayerChangeZone)
+ON_SERVERMSG(CZoneService, PlayerChangeZone)
 {
     CHECK(msg.idplayer() != 0);
     CHECK(msg.socket() != 0);
@@ -67,7 +68,7 @@ ON_SERVERMSG(PlayerChangeZone)
     return;
 }
 
-ON_SERVERMSG(PlayerChangeZone_Data)
+ON_SERVERMSG(CZoneService, PlayerChangeZone_Data)
 {
     CHECK(msg.idplayer() != 0);
     CHECK(msg.socket() != 0);
@@ -75,7 +76,7 @@ ON_SERVERMSG(PlayerChangeZone_Data)
     ZoneService()->PushMsgToMessagePool(msg.socket(), pMsg);
 }
 
-ON_SERVERMSG(PlayerLogout)
+ON_SERVERMSG(CZoneService, PlayerLogout)
 {
     CHECK(msg.idplayer() != 0);
     CHECK(msg.socket() != 0);

@@ -4,7 +4,7 @@
 
 CEventManager::CEventManager()
     : m_pBase(nullptr)
-    , m_bHasBaseOwnerShip(false)
+    , m_bOwnBase(false)
 {
 }
 
@@ -18,27 +18,18 @@ bool CEventManager::Init(event_base* base)
     if(base == nullptr)
     {
         m_pBase             = event_base_new();
-        m_bHasBaseOwnerShip = true;
+        m_bOwnBase = true;
     }
     else
     {
-        m_pBase                    = base;
-        const uint32_t time_out_ms = 200;
-        m_DefaultEvent             = event_new(
+        m_pBase              = base;
+        m_pScheduleWaitEvent = evtimer_new(
             m_pBase,
-            -1,
-            EV_PERSIST,
             [](int32_t, short int32_t, void* ctx) {
                 CEventManager* pThis = (CEventManager*)ctx;
                 pThis->ScheduleWait();
             },
             (void*)this);
-        struct timeval tv
-        {
-            time_out_ms / 1000, time_out_ms % 1000
-        };
-        event_add(m_DefaultEvent, &tv);
-        //每200ms自动调用一次ScheduleWait
     }
 
     timeval set_tv_opt[] = {
@@ -73,16 +64,16 @@ bool CEventManager::Init(event_base* base)
 
 void CEventManager::Destory()
 {
-    if(m_bHasBaseOwnerShip)
+    if(m_bOwnBase)
     {
         event_base_free(m_pBase);
         m_pBase = nullptr;
     }
-    else if(m_DefaultEvent)
+    else if(m_pScheduleWaitEvent)
     {
-        event_del(m_DefaultEvent);
-        event_free(m_DefaultEvent);
-        m_DefaultEvent = nullptr;
+        event_del(m_pScheduleWaitEvent);
+        event_free(m_pScheduleWaitEvent);
+        m_pScheduleWaitEvent = nullptr;
         m_pBase        = nullptr;
     }
 
@@ -105,7 +96,7 @@ void CEventManager::Destory()
 
 void CEventManager::OnTimer()
 {
-    if(m_bHasBaseOwnerShip)
+    if(m_bOwnBase)
     {
         event_base_loop(m_pBase, EVLOOP_ONCE | EVLOOP_NONBLOCK);
         ScheduleWait();
@@ -240,21 +231,37 @@ CEventEntry* CEventManager::CreateEntry(uint32_t            evType,
 
 CEventEntry* CEventManager::PushWait(CEventEntry* pEntry)
 {
-    std::unique_lock<std::mutex> lock(m_mutex);
-    m_setWaitEntry.insert(pEntry);
+    {
+        std::unique_lock<std::mutex> lock(m_mutex);
+        m_setWaitEntry.insert(pEntry);
+    }
+
+
+    if(m_bOwnBase == false)
+    {
+        struct timeval tvout;
+        if(evtimer_pending(m_pScheduleWaitEvent, &tvout) == 0)
+        {
+            struct timeval tv
+            {
+                0, 0
+            };
+            evtimer_add(m_pScheduleWaitEvent, &tv);
+        }
+        
+    }
     return pEntry;
 }
 
 void CEventManager::ScheduleWait()
 {
-    std::unique_lock<std::mutex> lock(m_mutex);
     while(m_setWaitEntry.empty() == false)
     {
         CEventEntry* pEntry = *m_setWaitEntry.begin();
         m_setWaitEntry.erase(m_setWaitEntry.begin());
         if(pEntry == nullptr)
             continue;
-        ;
+
         if(pEntry->IsVaild() == false)
         {
             continue;
@@ -271,7 +278,8 @@ void CEventManager::ScheduleWait()
             else
             {
                 struct timeval tv = {(long)pEntry->m_tWaitTime / 1000, (long)pEntry->m_tWaitTime % 1000 * 1000};
-                nRet              = evtimer_add(pEntry->m_pevTimer, &tv);
+
+                nRet = evtimer_add(pEntry->m_pevTimer, &tv);
             }
 
             if(nRet == 0)

@@ -6,7 +6,7 @@
 #include <set>
 
 #include "BaseCode.h"
-#include "MemoryHeap.h"
+#include "ObjectHeap.h"
 
 struct event;
 struct event_base;
@@ -44,7 +44,7 @@ public:
     bool     IsVaild() const;
 
 public:
-    MEMORYHEAP_DECLARATION(s_heap);
+    OBJECTHEAP_DECLARATION(s_heap);
 
 private:
     CEventManager*    m_pManager;

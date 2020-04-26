@@ -3,6 +3,7 @@
 
 #include <functional>
 #include <unordered_map>
+#include <optional>
 
 #include "IService.h"
 #include "NetSocket.h"
@@ -23,14 +24,15 @@ public:
    
     
     void Release() override;
-   
+    export_lua const std::string& GetServiceName() const override{ return CServiceCommon::GetServiceName(); }
     CreateNewRealeaseImpl(CGMService);
 
 public:
 
     void SendServiceReady();
     void SendServiceUnReady();
-
+    using HttpRequestHandleFunc = std::function<void(const ServerPort&, const ServerMSG::ServiceHttpRequest&)>;
+    const CGMService::HttpRequestHandleFunc* QueryHttpRequestHandler(const std::string& mothed) const;
 public:
     virtual void OnLogicThreadProc() override;
     virtual void OnLogicThreadCreate() override;
@@ -39,7 +41,7 @@ public:
 
 public:
     std::unique_ptr<CRPCService> m_pRPCService;
-    using HttpRequestHandleFunc = std::function<void(const ServerPort&, const ServerMSG::ServiceHttpRequest&)>;
+    
     std::unordered_map<std::string, HttpRequestHandleFunc> m_HttpRequestHandle;
 };
 

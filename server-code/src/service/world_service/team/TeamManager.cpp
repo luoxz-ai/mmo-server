@@ -75,40 +75,40 @@ bool CTeamManager::DestoryTeam(uint64_t idTeam)
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-ON_SERVERMSG(TeamCreate)
+ON_SERVERMSG(CWorldService, TeamCreate)
 {
     TeamManager()->CreateTeam(msg.team_id(), msg.leader_id());
 }
 
-ON_SERVERMSG(TeamQuit)
+ON_SERVERMSG(CWorldService, TeamQuit)
 {
     CTeam* pTeam = TeamManager()->QueryTeam(msg.team_id());
     CHECK(pTeam);
     pTeam->QuitTeam(msg.operator_id());
 }
 
-ON_SERVERMSG(TeamKickMember)
+ON_SERVERMSG(CWorldService, TeamKickMember)
 {
     CTeam* pTeam = TeamManager()->QueryTeam(msg.team_id());
     CHECK(pTeam);
     pTeam->KickMember(msg.operator_id(), msg.kick_id());
 }
 
-ON_SERVERMSG(TeamInviteMember)
+ON_SERVERMSG(CWorldService, TeamInviteMember)
 {
     CTeam* pTeam = TeamManager()->QueryTeam(msg.team_id());
     CHECK(pTeam);
     pTeam->InviteMember(msg.operator_id(), msg.invitee_id());
 }
 
-ON_SERVERMSG(TeamAcceptInvite)
+ON_SERVERMSG(CWorldService, TeamAcceptInvite)
 {
 
     CTeam* pTeam = TeamManager()->QueryTeam(msg.team_id());
     pTeam->AcceptInvite(msg.inviter_id(), msg.invitee_id(), msg.result());
 }
 
-ON_SERVERMSG(TeamApplyMember)
+ON_SERVERMSG(CWorldService, TeamApplyMember)
 {
     CUser* pApplicant = UserManager()->QueryUser(msg.applicant_id());
     if(pApplicant == nullptr)
@@ -138,7 +138,7 @@ ON_SERVERMSG(TeamApplyMember)
     }
 }
 
-ON_SERVERMSG(TeamAcceptApply)
+ON_SERVERMSG(CWorldService, TeamAcceptApply)
 {
 
     CUser* pUser = UserManager()->QueryUser(msg.respondent_id());
@@ -177,7 +177,7 @@ ON_SERVERMSG(TeamAcceptApply)
     }
 }
 
-ON_SERVERMSG(TeamNewLeader)
+ON_SERVERMSG(CWorldService, TeamNewLeader)
 {
     CTeam* pTeam = TeamManager()->QueryTeam(msg.team_id());
     CHECK(pTeam);

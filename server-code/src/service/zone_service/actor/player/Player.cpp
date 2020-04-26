@@ -12,7 +12,7 @@
 #include "SystemVars.h"
 #include "ZoneService.h"
 
-MEMORYHEAP_IMPLEMENTATION(CPlayer, s_heap);
+OBJECTHEAP_IMPLEMENTATION(CPlayer, s_heap);
 
 CPlayer::CPlayer()
 {
@@ -96,7 +96,7 @@ bool CPlayer::SendMsg(uint16_t cmd, const google::protobuf::Message& msg) const
     __ENTER_FUNCTION
     CNetworkMessage _msg(cmd, msg, ZoneService()->GetServerVirtualSocket(), GetSocket());
     MonitorMgr()->AddSendInfo(cmd, _msg.GetSize());
-    return ZoneService()->SendMsg(_msg);
+    return ZoneService()->SendPortMsg(_msg);
     __LEAVE_FUNCTION
     return false;
 }

@@ -43,7 +43,7 @@ private:
     CPlayer*     m_pOwner = nullptr;
     CDBRecordPtr m_pRecord;
 
-    MEMORYHEAP_DECLARATION(s_heap);
+    OBJECTHEAP_DECLARATION(s_heap);
 };
 
 export_lua class CCommonDataSet : public NoncopyableT<CCommonDataSet>

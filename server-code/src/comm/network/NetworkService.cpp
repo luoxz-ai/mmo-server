@@ -28,6 +28,8 @@ CNetworkService::CNetworkService()
     {
         m_WebSocketIdxPool[i] = i + 1 + 0x8000;
     }
+
+    m_pEventManager.reset(CEventManager::CreateNew(m_pBase));
 }
 
 CNetworkService::~CNetworkService()
@@ -95,6 +97,9 @@ void CNetworkService::Destroy()
         evhttp_free(m_pHttpHandle);
         m_pHttpHandle = nullptr;
     }
+
+
+    m_pEventManager.reset();
 
     if(m_pBase)
     {
@@ -698,7 +703,7 @@ void CNetworkService::BrocastMsg(byte* buf, size_t len, SOCKET execpt_this)
         if(execpt_this != 0 && it->first == execpt_this)
             continue;
 
-        it->second->SendMsg(buf, len);
+        it->second->SendSocketMsg(buf, len);
     }
     __LEAVE_FUNCTION
 }
@@ -738,11 +743,26 @@ bool CNetworkService::SendSocketMsg(SOCKET _socket, byte* buf, size_t len)
     auto                        it = m_setSocket.find(_socket);
     if(it != m_setSocket.end())
     {
-        return it->second->SendMsg(buf, len);
+        return it->second->SendSocketMsg(buf, len);
     }
     __LEAVE_FUNCTION
     return false;
 }
+
+
+bool CNetworkService::SendSocketMsg(SOCKET _socket, CNetworkMessage* pMsg)
+{
+    __ENTER_FUNCTION
+    std::lock_guard<std::mutex> lock(m_mutex);
+    auto                        it = m_setSocket.find(_socket);
+    if(it != m_setSocket.end())
+    {
+        return it->second->SendSocketMsg(0,0,pMsg);
+    }
+    __LEAVE_FUNCTION
+    return false;
+}
+
 
 bool CNetworkService::SendSocketMsgByIdx(uint16_t nSocketIdx, byte* buf, size_t len)
 {
@@ -751,7 +771,20 @@ bool CNetworkService::SendSocketMsgByIdx(uint16_t nSocketIdx, byte* buf, size_t 
     auto                        pSocket = m_setSocketByIdx[nSocketIdx];
     if(pSocket)
     {
-        return pSocket->SendMsg(buf, len);
+        return pSocket->SendSocketMsg(buf, len);
+    }
+    __LEAVE_FUNCTION
+    return false;
+}
+
+bool CNetworkService::SendSocketMsgByIdx(uint16_t nSocketIdx, CNetworkMessage* pMsg)
+{
+    __ENTER_FUNCTION
+    std::lock_guard<std::mutex> lock(m_mutex);
+    auto                        pSocket = m_setSocketByIdx[nSocketIdx];
+    if(pSocket)
+    {
+        return pSocket->SendSocketMsg(0,0,pMsg);
     }
     __LEAVE_FUNCTION
     return false;

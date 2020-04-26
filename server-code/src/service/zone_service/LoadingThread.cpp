@@ -17,7 +17,7 @@ bool CLoadingThread::Init(CZoneService* pZoneRef)
 {
     m_pZone = pZoneRef;
     m_Thread = std::make_unique<CNormalThread>(50,
-               std::string("Loading") + std::to_string(pZoneRef->GetServerPort().GetServiceID()),
+                pZoneRef->GetServiceName() + "_Loading",
                std::bind(&CLoadingThread::OnThreadProcess, this),
                std::bind(&CLoadingThread::OnThreadCreate, this),
                std::bind(&CLoadingThread::OnThreadExit, this));
@@ -214,15 +214,10 @@ bool CLoadingThread::CancleWaiting(OBJID idPlayer)
 void CLoadingThread::OnThreadCreate()
 {
     SetZoneServicePtr(m_pZone);
-    std::string name = std::string("Zone") + std::to_string(m_pZone->GetServerPort().GetServiceID());
-    BaseCode::SetNdc(name);
-    LOGMESSAGE("Loading ThreadID:{} Start", get_cur_thread_id());
 }
 
 void CLoadingThread::OnThreadExit()
 {
-    LOGMESSAGE("Loading ThreadID:{} Stop", get_cur_thread_id());
-    BaseCode::ClearNdc();
     SetZoneServicePtr(nullptr);
 }
 

@@ -10,8 +10,10 @@
 #include "BytePerSecondCount.h"
 #include "Decryptor.h"
 #include "Encryptor.h"
-#include "MemoryHeap.h"
+#include "ObjectHeap.h"
 #include "NetworkDefine.h"
+#include "EventEntry.h"
+#include "LockfreeQueue.h"
 
 class CNetworkService;
 class CNetEventHandler;
@@ -28,6 +30,8 @@ enum NET_SOCKET_STATUS
 
 struct bufferevent;
 struct event;
+class CNetworkMessage;
+
 class CNetSocket
 {
 public:
@@ -40,14 +44,15 @@ public:
 
     virtual void Close();
     template<class T>
-    bool SendMsg(T* pBuffer, bool bFlush = true)
+    bool SendSocketMsg(T* pBuffer, bool bFlush = true)
     {
         static_assert(std::is_base_of<MSG_HEAD, T>::value, "Only Can Send Data inherit of MSG_HEAD");
-        return SendMsg((byte*)pBuffer, sizeof(*pBuffer), bFlush);
+        return SendSocketMsg((byte*)pBuffer, sizeof(*pBuffer), bFlush);
     }
 
-    bool SendMsg(byte* pBuffer, size_t len, bool bFlush = true);
-    bool _SendMsg(byte* pBuffer, size_t len, bool bFlush = true);
+    bool SendSocketMsg(byte* pBuffer, size_t len, bool bFlush = true);
+    bool SendSocketMsg(byte* pHeaderBuffer, size_t head_len, CNetworkMessage* pMsg, bool bFlush = true);
+
     bool GetReconnect() const { return m_bReconnect; }
     void SetReconnect(bool val) { m_bReconnect = val; }
     void InitDecryptor(uint32_t seed)
@@ -83,7 +88,7 @@ public:
 public:
     CNetworkService* GetService() const { return m_pService; }
     bufferevent*     GetBufferevent() const { return m_pBufferevent; }
-    std::mutex&      GetSendMutex() { return m_mutexSend; }
+
 
     NET_SOCKET_STATUS GetStatus() const { return m_Status; }
     void              SetStatus(NET_SOCKET_STATUS val) { m_Status = val; }
@@ -110,7 +115,25 @@ public:
     void        SetPacketSizeMax(size_t val);
 
 public:
-    MEMORYHEAP_DECLARATION(s_Heap);
+    OBJECTHEAP_DECLARATION(s_Heap);
+
+
+protected:
+    struct SendMsgData
+    {
+        SendMsgData(byte* _pBuffer, size_t _len, CNetworkMessage* _pMsg, bool _bFlush);
+        ~SendMsgData();
+
+        byte* pBuffer = nullptr;
+        size_t len = 0;
+        CNetworkMessage* pMsg = nullptr;
+        bool bFlush = false;
+    };
+    bool _SendMsg(byte* pBuffer, size_t len, bool bFlush);
+    void _SendAllMsg();
+    void PostSend();
+
+
 
 protected:
     CNetworkService*  m_pService;
@@ -118,7 +141,10 @@ protected:
     bufferevent*      m_pBufferevent;
     event*            m_pReconnectEvent;
     struct evbuffer*  m_Sendbuf;
-    std::mutex        m_mutexSend;
+
+
+    MPSCQueue<SendMsgData*> m_SendMsgQueue;
+    CEventEntryPtr          m_Event;
 
     bool        m_bPassive;
     std::string m_strAddr;

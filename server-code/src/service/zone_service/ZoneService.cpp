@@ -20,6 +20,7 @@
 #include "MapManager.h"
 #include "MessagePort.h"
 #include "MessageRoute.h"
+#include "MemoryHelp.h"
 #include "MonitorMgr.h"
 #include "Monster.h"
 #include "MonsterType.h"
@@ -69,22 +70,21 @@ CZoneService::~CZoneService() {}
 
 void CZoneService::Release()  
 {   
-    scope_guards scope_exit;
-    auto oldNdc = BaseCode::SetNdc(GetServiceName());
-    scope_exit += [oldNdc]() {
-        BaseCode::SetNdc(oldNdc);
-    };
+
     Destory();
     delete this; 
 }
 
 void CZoneService::Destory()
 {
+    __ENTER_FUNCTION
+
     tls_pService = this;
     scope_guards scope_exit;
     scope_exit += []() {
         tls_pService = nullptr;
     };
+
     StopLogicThread();
     if(m_pLoadingThread)
         m_pLoadingThread->Destory();
@@ -106,6 +106,8 @@ void CZoneService::Destory()
     m_MessagePoolBySocket.clear();
     DestoryServiceCommon();
     LOGMESSAGE("{} Close", GetServiceName());
+
+    __LEAVE_FUNCTION
 }
 
 bool CZoneService::Init(const ServerPort& nServerPort)
@@ -122,14 +124,13 @@ bool CZoneService::Init(const ServerPort& nServerPort)
     auto oldNdc = BaseCode::SetNdc(GetServiceName());
     scope_exit += [oldNdc]() {
         BaseCode::SetNdc(oldNdc);
-        ;
     };
 
     m_MessagePoolBySocket.reserve(GUESS_MAX_PLAYER_COUNT);
     m_tLastDisplayTime.Startup(20);
     auto pGlobalDB = ConnectGlobalDB();
     CHECKF(pGlobalDB.get());
-    if(GetWorldID() != 0)
+    if(IsSharedZone() == false)
     {
         _ConnectGameDB(GetWorldID(), pGlobalDB.get());
     }
@@ -176,7 +177,7 @@ bool CZoneService::Init(const ServerPort& nServerPort)
     extern void ZoneMessageHandlerRegister();
     ZoneMessageHandlerRegister();
 
-    if(GetWorldID() != 0)
+    if(IsSharedZone() == false)
     {
         //共享型Zone是没有自己的数据的
 
@@ -190,15 +191,7 @@ bool CZoneService::Init(const ServerPort& nServerPort)
     if(CreateService(20) == false)
         return false;
 
-    // send message to world, notify zone ready
-    if(GetWorldID() != 0)
-    {
-        ServerMSG::ServiceReady msg;
-        msg.set_serverport(GetServerPort());
-
-        SendMsgToWorld(GetWorldID(), ServerMSG::MsgID_ServiceReady, msg);
-    }
-    else
+    if(IsSharedZone())
     {
         // share_zone store globaldb
         m_pGlobalDB.reset(pGlobalDB.release());
@@ -213,47 +206,25 @@ void CZoneService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 {
     __ENTER_FUNCTION
 
-    switch(pNetworkMsg->GetMsgHead()->usCmd)
+
+    //如果是玩家的消息
+    if(pNetworkMsg->GetCmd() >= CLIENT_MSG_ID_BEGIN && pNetworkMsg->GetCmd() <= CLIENT_MSG_ID_END)
     {
-        case NETMSG_SCK_CONNECT:
-        {
-            // socket
-        }
-        break;
-        case NETMSG_SCK_CLOSE:
-        {
-            MSG_SCK_CLOSE* pMsg = (MSG_SCK_CLOSE*)pNetworkMsg->GetBuf();
-        }
-        break;
-        case NETMSG_INTERNAL_SERVICE_REGISTER:
-        {
-            MSG_INTERNAL_SERVICE_REGISTER* pMsg = (MSG_INTERNAL_SERVICE_REGISTER*)pNetworkMsg->GetBuf();
-            GetMessageRoute()->SetWorldReady(pMsg->idWorld, true);
-            GetMessageRoute()->ReloadServiceInfo(pMsg->update_time, pMsg->idWorld);
-        }
-        break;
-        case NETMSG_INTERNAL_SERVICE_READY:
-        {
-            MSG_INTERNAL_SERVICE_READY* pMsg = (MSG_INTERNAL_SERVICE_READY*)pNetworkMsg->GetBuf();
-            GetMessageRoute()->SetWorldReady(pMsg->idWorld, pMsg->bReady);
-        }
-        break;
-        default:
-        {
-            //如果是玩家的消息
-            if(pNetworkMsg->GetCmd() >= CLIENT_MSG_ID_BEGIN && pNetworkMsg->GetCmd() <= CLIENT_MSG_ID_END)
-            {
-                //玩家的消息，先丢到玩家身上去，等待后续处理
-                PushMsgToMessagePool(pNetworkMsg->GetFrom(), pNetworkMsg);
-            }
-            else
-            {
-                //服务器间的消息，现在就可以处理了
-                m_pNetMsgProcess->Process(pNetworkMsg);
-            }
-        }
-        break;
+        //玩家的消息，先丢到玩家身上去，等待后续处理
+        PushMsgToMessagePool(pNetworkMsg->GetFrom(), pNetworkMsg);
     }
+    else
+    {
+        //服务器间的消息，现在就可以处理了
+        if(m_pNetMsgProcess->Process(pNetworkMsg) == false)
+        {
+            LOGERROR("CMD {} didn't have ProcessHandler", pNetworkMsg->GetCmd());
+            return;
+        }
+        
+    }
+
+    
 
     __LEAVE_FUNCTION
 }
@@ -288,9 +259,10 @@ void CZoneService::PushMsgToMessagePool(const VirtualSocket& vs, CNetworkMessage
         // logerror
         LOGERROR("Player:{} {} Hold Too Many Message", vs.GetServerPort().GetServiceID(), vs.GetSocketIdx());
         // kick user
-        MSG_SCK_CLOSE msg;
-        msg.vs = vs;
-        SendPortMsg(vs.GetServerPort(), (byte*)&msg, sizeof(msg));
+        
+        ServerMSG::SocketClose kick_msg;
+        kick_msg.set_vs(vs);
+        SendPortMsg(vs.GetServerPort(), kick_msg);
     }
 
     __LEAVE_FUNCTION
@@ -325,7 +297,7 @@ bool CZoneService::SendMsgToWorld(uint16_t idWorld, uint16_t nCmd, const google:
     if(GetMessageRoute()->IsConnected(server_port) == true)
     {   
         CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), ServerPort(idWorld, WORLD_SERVICE_ID), 0);
-        return SendMsg(_msg);
+        return SendPortMsg(_msg);
     }
     else
     {
@@ -340,14 +312,14 @@ bool CZoneService::TransmiteMsgFromWorldToOther(uint16_t                        
                                                 uint16_t                         nCmd,
                                                 const google::protobuf::Message& msg)const
 {
-    if(GetWorldID() != 0)
+    if(IsSharedZone() == false)
     {
         CNetworkMessage _msg(nCmd,
                          msg,
                          GetServerVirtualSocket(),
                          ServerPort(GetWorldID(), WORLD_SERVICE_ID),
                          ServerPort(idWorld, idService));
-        return SendMsg(_msg);
+        return SendPortMsg(_msg);
     }
     else
     {
@@ -356,7 +328,7 @@ bool CZoneService::TransmiteMsgFromWorldToOther(uint16_t                        
                          GetServerVirtualSocket(),
                          ServerPort(idWorld, WORLD_SERVICE_ID),
                          ServerPort(idWorld, idService));
-        return SendMsg(_msg);
+        return SendPortMsg(_msg);
     }
 }
 
@@ -370,7 +342,7 @@ bool CZoneService::BroadcastToZone(uint16_t nCmd, const google::protobuf::Messag
             continue;
 
         CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), VirtualSocket(ServerPort(GetWorldID(), i), 0));
-        SendMsg(_msg);
+        SendPortMsg(_msg);
     }
     return true;
     __LEAVE_FUNCTION
@@ -387,7 +359,7 @@ bool CZoneService::BroadcastToAllPlayer(uint16_t nCmd, const google::protobuf::M
     __ENTER_FUNCTION
     CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), 0);
 
-    if(GetWorldID() != 0)
+    if(IsSharedZone() == false)
     {
         for(uint32_t i = MIN_SOCKET_SERVICE_ID; i <= MAX_SOCKET_SERVICE_ID; i++)
         {
@@ -423,11 +395,11 @@ bool CZoneService::SendMsgToPlayer(const VirtualSocket& vs, const google::protob
 bool CZoneService::SendMsgToPlayer(const VirtualSocket& vs, uint16_t nCmd, const google::protobuf::Message& msg)const
 {
     CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), vs);
-    return SendMsg(_msg);
+    return SendPortMsg(_msg);
 }
 
 
-bool CZoneService::SendPortMsgToAIService(const google::protobuf::Message& msg)const
+bool CZoneService::SendServerMsgToAIService(const google::protobuf::Message& msg)const
 {
     return SendMsgToAIService(to_server_msgid(msg), msg);
 }
@@ -435,7 +407,7 @@ bool CZoneService::SendPortMsgToAIService(const google::protobuf::Message& msg)c
 bool CZoneService::SendMsgToAIService(uint16_t nCmd, const google::protobuf::Message& msg)const
 {
     CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), GetAIServerVirtualSocket());
-    return SendMsg(_msg);
+    return SendPortMsg(_msg);
 }
 
 void CZoneService::_ID2VS(OBJID id, VirtualSocketMap_t& VSMap)const
@@ -564,27 +536,44 @@ void CZoneService::OnLogicThreadProc()
                                       SceneManager()->GetDynaSceneCount());
         SceneManager()->ForEach([&buf](CScene* pScene)
         {
-            pScene->ForEach([&buf](const CPhase* pPhase)
+            size_t player_count = 0;
+            size_t actor_count = 0;
+            size_t phase_count = 0;
+            pScene->ForEach([&phase_count,&player_count, &actor_count](const CPhase* pPhase)
             {
-                buf += fmt::format(FMT_STRING("\nPhase {}:{}\tPlayer:{}\tActor:{}"),
-                               pPhase->GetMapID(), pPhase->GetID(),
-                               pPhase->GetPlayerCount(),
-                               pPhase->GetActorCount());
+                phase_count++;
+                player_count += pPhase->GetPlayerCount();
+                actor_count += pPhase->GetActorCount();
             });
+
+            buf += fmt::format("\nScene: {} - PhaseCount:{}-{}\tPlayer:{}\tActor:{}",
+                pScene->GetMapID(), pScene->GetStaticPhaseCount(), phase_count, player_count, actor_count );
+            
             
         });
-        static const uint16_t ServiceID[] = {WORLD_SERVICE_ID, uint16_t(GetServiceID() + 10), 31, 32, 33, 34, 35};
-
-        for(size_t i = 0; i < sizeOfArray(ServiceID); i++)
+       
+        //检查ai,world,socket1-5如果是源端socket的话,有多少缓冲区堆积      
+        auto check_func = [this, &buf](uint16_t idService)
         {
-            auto pMessagePort = GetMessageRoute()->QueryMessagePort(ServerPort(GetWorldID(), ServiceID[i]), false);
-            if(pMessagePort)
+            auto pMessagePort = GetMessageRoute()->QueryMessagePort(ServerPort(GetWorldID(), idService), false);
+            if(pMessagePort && pMessagePort->GetWriteBufferSize() > 0)
             {
-                buf += fmt::format(FMT_STRING("\nMsgPort:{}\tSendBuff:{}"),
-                                   ServiceID[i],
+                buf += fmt::format(FMT_STRING("\nMsgPort:{}-{}\tSendBuff:{}"),
+                                   pMessagePort->GetServerPort().GetWorldID(),
+                                   pMessagePort->GetServerPort().GetServiceID(),
                                    pMessagePort->GetWriteBufferSize());
             }
+        };
+        check_func( GetAIServiceID());
+        if(IsSharedZone() == false)
+        {
+            check_func( WORLD_SERVICE_ID);
+            for(int i = MIN_SOCKET_SERVICE_ID; i <= MAX_SOCKET_SERVICE_ID; i++)
+            {
+                check_func(i);
+            }
         }
+
 
         LOGMONITOR("{}", buf.c_str());
         m_pMonitorMgr->Print();

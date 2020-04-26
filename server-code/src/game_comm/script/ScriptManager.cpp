@@ -134,7 +134,7 @@ bool CLUAScriptManager::Init(const std::string& name,
     // 调用初始化函数
     if(bExecMain)
         lua_tinker::call<void>(m_pLua, "main");
-    LOGINFO("ScriptManager Init Succ");
+    LOGDEBUG("ScriptManager Init Succ");
     return true;
 }
 
@@ -144,7 +144,7 @@ void CLUAScriptManager::Destory()
     {
         lua_close(m_pLua);
         m_pLua = nullptr;
-        LOGINFO("ScriptManager Destory Succ");
+        LOGDEBUG("ScriptManager Destory Succ");
     }
 }
 

@@ -31,7 +31,7 @@ public:
 
    
     void Release() override;
-    
+    export_lua const std::string& GetServiceName() const override{ return CServiceCommon::GetServiceName(); }
     CreateNewRealeaseImpl(CWorldService);
 public:
     virtual void OnLogicThreadProc() override;

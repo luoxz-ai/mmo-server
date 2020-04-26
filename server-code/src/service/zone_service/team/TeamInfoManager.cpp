@@ -6,7 +6,7 @@
 #include "ZoneService.h"
 #include "server_msg/server_side.pb.h"
 
-MEMORYHEAP_IMPLEMENTATION(CTeamInfo, s_heap);
+OBJECTHEAP_IMPLEMENTATION(CTeamInfo, s_heap);
 
 bool CTeamInfo::Init(OBJID idTeam, uint64_t idLeader)
 {

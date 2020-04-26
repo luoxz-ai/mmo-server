@@ -101,6 +101,9 @@ public:
     virtual void LeaveMap(CSceneObject* pActor, uint64_t idTargetScene = 0) override;
 private:
     void ScheduleDelPhase(uint32_t wait_ms);
+
+public:
+    OBJECTHEAP_DECLARATION(s_heap);
 private:
     uint64_t        m_idPhase = 0;
     CScene*         m_pScene = nullptr;

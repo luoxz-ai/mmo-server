@@ -43,7 +43,7 @@ private:
     std::string m_szStrData[4];
 
     CDBRecordPtr m_pRecord;
-    MEMORYHEAP_DECLARATION(s_heap);
+    OBJECTHEAP_DECLARATION(s_heap);
 };
 
 export_lua class CSystemVarSet : public NoncopyableT<CSystemVarSet>

@@ -13,6 +13,7 @@
 #include "Thread.h"
 #include "User.h"
 #include "UserManager.h"
+#include "MemoryHelp.h"
 
 #include "AccountManager.h"
 #include "GMManager.h"
@@ -26,7 +27,7 @@
 #include "gamedb.h"
 #include "globaldb.h"
 #include "MonitorMgr.h"
-
+#include "MemoryHelp.h"
 
 
 static thread_local CWorldService* tls_pService = nullptr;
@@ -48,10 +49,6 @@ extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16
 //////////////////////////////////////////////////////////////////////////
 CWorldService::CWorldService()
 {
-    for(uint16_t i = MIN_ZONE_SERVICE_ID; i <= MAX_ZONE_SERVICE_ID; i++)
-    {
-        m_setServiceNeedReady.emplace(i);
-    }
 
     m_tLastDisplayTime.Startup(30);
 }
@@ -63,17 +60,14 @@ CWorldService::~CWorldService()
 
 void CWorldService::Release()  
 {   
-    scope_guards scope_exit;
-    auto oldNdc = BaseCode::SetNdc(GetServiceName());
-    scope_exit += [oldNdc]() {
-        BaseCode::SetNdc(oldNdc);
-    };
+
     Destory();
     delete this; 
 }
 
 void CWorldService::Destory()
 {
+    __ENTER_FUNCTION
     tls_pService = this;
     scope_guards scope_exit;
     scope_exit += []() {
@@ -90,6 +84,8 @@ void CWorldService::Destory()
         m_pTeamManager->Destory();
     m_pTeamManager.reset();
     DestoryServiceCommon();
+
+    __LEAVE_FUNCTION
 }
 
 bool CWorldService::Init(const ServerPort& nServerPort)
@@ -105,7 +101,6 @@ bool CWorldService::Init(const ServerPort& nServerPort)
     auto oldNdc = BaseCode::SetNdc(GetServiceName());
     scope_exit += [oldNdc]() {
         BaseCode::SetNdc(oldNdc);
-        ;
     };
     
     m_pAccountManager.reset(CAccountManager::CreateNew(this));
@@ -192,6 +187,20 @@ bool CWorldService::Init(const ServerPort& nServerPort)
     if(CreateService(20) == false)
         return false;
 
+
+    GetMessageRoute()->ForeachServiceInfoByWorldID(GetWorldID(), false, [this](const ServerAddrInfo* info)
+    {
+        if(info->idService == WORLD_SERVICE_ID || 
+           (info->idService >= MIN_AI_SERVICE_ID && info->idService <= MAX_AI_SERVICE_ID))
+        {
+            return true;
+        }
+
+        m_setServiceNeedReady.emplace(info->idService);
+        return true;
+    });
+
+
     return true;
     __LEAVE_FUNCTION
     return false;
@@ -203,44 +212,31 @@ void CWorldService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
     //只需要处理来自其他服务器的消息
     //来自客户端的消息已经直接发往对应服务器了
     MSG_HEAD* pHead = pNetworkMsg->GetMsgHead();
-    switch(pHead->usCmd)
-    {
-        case NETMSG_SCK_CONNECT:
-        {
-            MSG_SCK_CONNECT* pMsg = (MSG_SCK_CONNECT*)pNetworkMsg->GetBuf();
-        }
-        break;
-        case NETMSG_SCK_CLOSE:
-        {
-            MSG_SCK_CLOSE* pMsg = (MSG_SCK_CLOSE*)pNetworkMsg->GetBuf();
-            m_pAccountManager->Logout(pMsg->vs);
-        }
-        break;
-        default:
-        {
-           
-            //需要转发的，直接转发
-            if(pNetworkMsg->GetForward().IsVaild() &&
-               pNetworkMsg->GetForward().GetServerPort() != GetServerPort() )
-            {
-                if(GetMessageRoute()->IsConnected(pNetworkMsg->GetForward().GetServerPort()) == true)
-                {
-                    pNetworkMsg->SetTo(pNetworkMsg->GetForward());
-                    SendMsg(*pNetworkMsg);
-                }
-                else
-                {
-                    //尝试使用route来中转
-                    pNetworkMsg->SetTo(ServerPort(0, ROUTE_SERVICE_ID));
-                    SendMsg(*pNetworkMsg);
-                }
-                return;
-            }
 
-            m_pNetMsgProcess->Process(pNetworkMsg);
+    //需要转发的，直接转发
+    if(pNetworkMsg->GetForward().IsVaild() &&
+        pNetworkMsg->GetForward().GetServerPort() != GetServerPort() )
+    {
+        if(GetMessageRoute()->IsConnected(pNetworkMsg->GetForward().GetServerPort()) == true)
+        {
+            pNetworkMsg->SetTo(pNetworkMsg->GetForward());
+            SendPortMsg(*pNetworkMsg);
         }
-        break;
+        else
+        {
+            //尝试使用route来中转
+            pNetworkMsg->SetTo(ServerPort(0, ROUTE_SERVICE_ID));
+            SendPortMsg(*pNetworkMsg);
+        }
+        return;
     }
+
+    if(m_pNetMsgProcess->Process(pNetworkMsg) == false)
+    {
+        LOGERROR("CMD {} didn't have ProcessHandler", pNetworkMsg->GetCmd());
+        return;
+    }
+        
     __LEAVE_FUNCTION
 }
 
@@ -302,7 +298,7 @@ void CWorldService::SetServiceReady(uint16_t idService)
     if(m_setServiceNeedReady.empty())
         return;
 
-    LOGMESSAGE("ServiceReady:{}", idService);
+    LOGMESSAGE("ServiceReady:{}", ::GetServiceName(idService));
 
     m_setServiceNeedReady.erase(idService);
     if(m_setServiceNeedReady.empty() == true)
@@ -310,13 +306,15 @@ void CWorldService::SetServiceReady(uint16_t idService)
         LOGMESSAGE("AllServiceReady");
 
         {
-            MSG_SERVICE_READY msg;
+            ServerMSG::ServiceReady msg;
+            msg.set_serverport(GetServerPort());
+            msg.set_ready(true);
             // send notify to socket
             for(uint32_t i = MIN_SOCKET_SERVICE_ID; i <= MAX_SOCKET_SERVICE_ID; i++)
             {
-                SendPortMsg(ServerPort(GetWorldID(), i), (byte*)&msg, sizeof(msg));
+                SendPortMsg(ServerPort(GetWorldID(), i), msg);
             }
-            SendPortMsg(ServerPort(GetWorldID(), GM_SERVICE_ID), (byte*)&msg, sizeof(msg));
+            SendPortMsg(ServerPort(GetWorldID(), GM_SERVICE_ID), msg);
         }
     }
 
@@ -378,18 +376,29 @@ void CWorldService::OnLogicThreadProc()
                           fmt::format(FMT_STRING("\nAccount:{}\tWait:{}"),
                                       AccountManager()->GetAccountSize(),
                                       AccountManager()->GetWaitAccountSize());
-        constexpr uint16_t ServiceID[] = {11, 12, 13, 14, 15, 31, 32, 33, 34, 35};
 
-        for(size_t i = 0; i < sizeOfArray(ServiceID); i++)
+        auto check_func = [this, &buf](uint16_t idService)
         {
-            auto pMessagePort = GetMessageRoute()->QueryMessagePort(ServerPort(GetWorldID(), ServiceID[i]), false);
-            if(pMessagePort)
+            auto pMessagePort = GetMessageRoute()->QueryMessagePort(ServerPort(GetWorldID(), idService), false);
+            if(pMessagePort && pMessagePort->GetWriteBufferSize() > 0)
             {
-                buf += fmt::format(FMT_STRING("\nMsgPort:{}\tSendBuff:{}"),
-                                   ServiceID[i],
+                buf += fmt::format(FMT_STRING("\nMsgPort:{}-{}\tSendBuff:{}"),
+                                   pMessagePort->GetServerPort().GetWorldID(),
+                                   pMessagePort->GetServerPort().GetServiceID(),
                                    pMessagePort->GetWriteBufferSize());
             }
+        };
+        
+
+        for(int i = MIN_SOCKET_SERVICE_ID; i <= MAX_SOCKET_SERVICE_ID; i++)
+        {
+            check_func(i);
         }
+        for(int i = MIN_ZONE_SERVICE_ID; i <= MAX_SHAREZONE_SERVICE_ID; i++)
+        {
+            check_func(i);
+        }
+        
 
         LOGMONITOR("{}", buf.c_str());
         m_pMonitorMgr->Print();

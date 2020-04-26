@@ -38,7 +38,7 @@ void CActor::OnLeaveMap(uint64_t idTargetScene)
     {
         ServerMSG::ActorDestory ai_msg;
         ai_msg.set_actor_id(GetID());
-        ZoneService()->SendPortMsgToAIService(ai_msg);
+        ZoneService()->SendServerMsgToAIService(ai_msg);
     }
 
     if(m_pScene)

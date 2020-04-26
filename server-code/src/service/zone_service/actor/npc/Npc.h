@@ -31,7 +31,7 @@ public:
     export_lua virtual void     _SetHP(uint32_t v) override { m_nHP = v; };
 
 public:
-    MEMORYHEAP_DECLARATION(s_heap);
+    OBJECTHEAP_DECLARATION(s_heap);
     export_lua void ActiveNpc(CPlayer* pPlayer);
     export_lua void _ActiveNpc(CPlayer* pPlayer);
 

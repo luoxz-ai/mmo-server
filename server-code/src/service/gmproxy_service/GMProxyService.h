@@ -18,6 +18,7 @@ class CGMProxyService : public IService, public CServiceCommon
 public:
     
     void Release() override;
+    export_lua const std::string& GetServiceName() const override{ return CServiceCommon::GetServiceName(); }
     CreateNewRealeaseImpl(CGMProxyService);
 
 public:

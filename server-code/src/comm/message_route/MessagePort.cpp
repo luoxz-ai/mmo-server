@@ -21,7 +21,7 @@ void CMessagePort::Destory()
 {
     __ENTER_FUNCTION
     CNetworkMessage* pMsg;
-    while(TakeMsg(pMsg))
+    while(TakePortMsg(pMsg))
     {
         SAFE_DELETE(pMsg);
     }
@@ -37,7 +37,7 @@ void CMessagePort::Destory()
     __LEAVE_FUNCTION 
 }
 
-bool CMessagePort::TakeMsg(CNetworkMessage*& msg)
+bool CMessagePort::TakePortMsg(CNetworkMessage*& msg)
 {
     __ENTER_FUNCTION
     return m_RecvMsgQueue.get(msg);
@@ -51,7 +51,7 @@ void CMessagePort::OnConnected(CNetSocket* pSocket)
     MSG_HEAD msg;
     msg.usCmd  = COMMON_CMD_PING;
     msg.usSize = sizeof(MSG_HEAD);
-    pSocket->SendMsg((byte*)&msg, sizeof(msg));
+    pSocket->SendSocketMsg((byte*)&msg, sizeof(msg));
     pSocket->SetPacketSizeMax(_MAX_MSGSIZE * 2);
     LOGNETDEBUG("MessagePort:{} OnConnected {}:{}",
                 GetServiceName(GetServerPort().GetServiceID()),
@@ -67,7 +67,7 @@ void CMessagePort::OnConnected(CNetSocket* pSocket)
 void CMessagePort::OnConnectFailed(CNetSocket* pSocket)
 {
     __ENTER_FUNCTION
-    LOGNETDEBUG("MessagePort:{} OnConnectFailed {}:{}",
+    LOGNETINFO("MessagePort:{} OnConnectFailed {}:{}",
                 GetServiceName(GetServerPort().GetServiceID()),
                 pSocket->GetAddrString().c_str(),
                 pSocket->GetPort());
@@ -81,7 +81,7 @@ void CMessagePort::OnConnectFailed(CNetSocket* pSocket)
 void CMessagePort::OnDisconnected(CNetSocket* pSocket)
 {
     __ENTER_FUNCTION
-    LOGNETDEBUG("MessagePort:{} OnDisconnected {}:{}",
+    LOGNETINFO("MessagePort:{} OnDisconnected {}:{}",
                 GetServiceName(GetServerPort().GetServiceID()),
                 pSocket->GetAddrString().c_str(),
                 pSocket->GetPort());
@@ -317,8 +317,8 @@ void CMessagePort::_SendAllMsg()
                     warp_msg_header.nTo    = pMsg->GetTo();
                     warp_msg_header.usSize = sizeof(MSG_INTERNAL_MSG_HEAD) + pMsg->GetSize();
                     warp_msg_header.usCmd  = NETMSG_INTERNAL;
-                    m_pRemoteServerSocket->SendMsg(&warp_msg_header, sizeof(warp_msg_header));
-                    m_pRemoteServerSocket->SendMsg(pMsg->GetBuf(), pMsg->GetSize());
+                    m_pRemoteServerSocket->SendSocketMsg((byte*)&warp_msg_header, sizeof(warp_msg_header), pMsg);
+                    
                 }
                 else
                 {
@@ -327,8 +327,7 @@ void CMessagePort::_SendAllMsg()
                     warp_msg_header.nTo    = pMsg->GetTo();
                     warp_msg_header.usSize = sizeof(MSG_INTERNAL_MSG_HEAD) + pMsg->GetSize();
                     warp_msg_header.usCmd  = NETMSG_INTERNAL;
-                    m_pRemoteServerSocket->SendMsg(&warp_msg_header, sizeof(warp_msg_header));
-                    m_pRemoteServerSocket->SendMsg(pMsg->GetBuf(), pMsg->GetSize());
+                    m_pRemoteServerSocket->SendSocketMsg((byte*)&warp_msg_header, sizeof(warp_msg_header), pMsg);
                 }
             }
             break;
@@ -339,8 +338,7 @@ void CMessagePort::_SendAllMsg()
                 warp_msg_header.nTo    = pMsg->GetTo();
                 warp_msg_header.usSize = sizeof(MSG_INTERNAL_MSG_HEAD) + pMsg->GetSize();
                 warp_msg_header.usCmd  = NETMSG_INTERNAL_BROCAST_ALL;
-                m_pRemoteServerSocket->SendMsg(&warp_msg_header, sizeof(warp_msg_header));
-                m_pRemoteServerSocket->SendMsg(pMsg->GetBuf(), pMsg->GetSize());
+                m_pRemoteServerSocket->SendSocketMsg((byte*)&warp_msg_header, sizeof(warp_msg_header), pMsg);
             }
             break;
             case MULTITYPE_VIRTUALSOCKET:
@@ -356,8 +354,7 @@ void CMessagePort::_SendAllMsg()
                     {
                         warp_msg_header.usSize = warp_msg_header.GetSize() + pMsg->GetSize();
                         {
-                            m_pRemoteServerSocket->SendMsg((byte*)&warp_msg_header, warp_msg_header.GetSize(), false);
-                            m_pRemoteServerSocket->SendMsg(pMsg->GetBuf(), pMsg->GetSize());
+                            m_pRemoteServerSocket->SendSocketMsg((byte*)&warp_msg_header, warp_msg_header.GetSize(), pMsg);
                         }
 
                         warp_msg_header.nAmount = 0;
@@ -367,8 +364,7 @@ void CMessagePort::_SendAllMsg()
                 {
                     warp_msg_header.usSize = warp_msg_header.GetSize() + pMsg->GetSize();
                     {
-                        m_pRemoteServerSocket->SendMsg((byte*)&warp_msg_header, warp_msg_header.GetSize(), false);
-                        m_pRemoteServerSocket->SendMsg(pMsg->GetBuf(), pMsg->GetSize());
+                        m_pRemoteServerSocket->SendSocketMsg((byte*)&warp_msg_header, warp_msg_header.GetSize(), pMsg);
                     }
                 }
             }
@@ -386,8 +382,7 @@ void CMessagePort::_SendAllMsg()
                     {
                         warp_msg_header.usSize = warp_msg_header.GetSize() + pMsg->GetSize();
                         {
-                            m_pRemoteServerSocket->SendMsg((byte*)&warp_msg_header, warp_msg_header.GetSize(), false);
-                            m_pRemoteServerSocket->SendMsg(pMsg->GetBuf(), pMsg->GetSize());
+                            m_pRemoteServerSocket->SendSocketMsg((byte*)&warp_msg_header, warp_msg_header.GetSize(), pMsg);
                         }
 
                         warp_msg_header.nAmount = 0;
@@ -397,8 +392,7 @@ void CMessagePort::_SendAllMsg()
                 {
                     warp_msg_header.usSize = warp_msg_header.GetSize() + pMsg->GetSize();
                     {
-                        m_pRemoteServerSocket->SendMsg((byte*)&warp_msg_header, warp_msg_header.GetSize(), false);
-                        m_pRemoteServerSocket->SendMsg(pMsg->GetBuf(), pMsg->GetSize());
+                        m_pRemoteServerSocket->SendSocketMsg((byte*)&warp_msg_header, warp_msg_header.GetSize(), pMsg);
                     }
                 }
             }
@@ -415,7 +409,7 @@ void CMessagePort::_SendAllMsg()
     __LEAVE_FUNCTION
 }
 
-bool CMessagePort::SendMsg(const CNetworkMessage& msg)
+bool CMessagePort::SendPortMsg(const CNetworkMessage& msg)
 {
     __ENTER_FUNCTION
     CNetworkMessage* pMsg = new CNetworkMessage(msg);

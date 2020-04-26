@@ -10,6 +10,8 @@
 #include "NetworkMessage.h"
 #include "SettingMap.h"
 #include "MonitorMgr.h"
+#include "MsgProcessRegister.h"
+#include "server_msg/server_side.pb.h"
 
 static thread_local CRouteService* tls_pService = nullptr;
 CRouteService*                     RouteService()
@@ -34,11 +36,7 @@ CRouteService::~CRouteService()
 
 void CRouteService::Release()  
 {   
-    scope_guards scope_exit;
-    auto oldNdc = BaseCode::SetNdc(GetServiceName());
-    scope_exit += [oldNdc]() {
-        BaseCode::SetNdc(oldNdc);
-    };
+
     Destory();
     delete this; 
 }
@@ -65,11 +63,19 @@ bool CRouteService::Init(const ServerPort& nServerPort)
     auto oldNdc = BaseCode::SetNdc(GetServiceName());
     scope_exit += [oldNdc]() {
         BaseCode::SetNdc(oldNdc);
-        ;
     };
 
     if(CreateService(20, this) == false)
         return false;
+
+    //注册消息
+    {
+        auto pNetMsgProcess = GetNetMsgProcess();
+        for(const auto& [k,v] : MsgProcRegCenter<CRouteService>::instance().m_MsgProc)
+        {
+            pNetMsgProcess->Register(k,v);
+        }
+    }
 
     return true;
 }
@@ -86,105 +92,99 @@ void CRouteService::OnPortRecvData(CNetSocket* pSocket, byte* pBuffer, size_t le
 
 void CRouteService::OnPortRecvTimeout(CNetSocket* pSocket) {}
 
+
+ON_SERVERMSG(CRouteService, ServiceRegister)
+{
+    ServerPort server_port{msg.serverport()};
+    LOGMESSAGE("World:{} start", server_port.GetWorldID());
+    GetMessageRoute()->SetWorldReady(server_port.GetWorldID(), true);
+    for(int32_t i = MIN_GM_PROYX_SERVICE_ID; i <= MAX_GM_PROYX_SERVICE_ID; i++)
+    {
+        RouteService()->TransmitPortMsg(ServerPort(0, i), pMsg);
+    }
+
+    for(int32_t i = MIN_SHAREZONE_SERVICE_ID; i <= MAX_SHAREZONE_SERVICE_ID; i++)
+    {
+        RouteService()->TransmitPortMsg(ServerPort(0, i), pMsg);
+    }
+}
+
+ON_SERVERMSG(CRouteService, ServiceReady)
+{
+    ServerPort server_port{msg.serverport()};
+    if(msg.ready() == false)
+    {
+        LOGMESSAGE("World:{} shutdown", server_port.GetWorldID());
+    }
+    else
+    {
+        LOGDEBUG("World:{} Ready", server_port.GetWorldID());
+    }
+
+    //通知所有的global_route更新
+    GetMessageRoute()->SetWorldReady(server_port.GetWorldID(), msg.ready());
+
+    for(int32_t i = MIN_GM_PROYX_SERVICE_ID; i <= MAX_GM_PROYX_SERVICE_ID; i++)
+    {
+        RouteService()->TransmitPortMsg(ServerPort(0, i),  pMsg);
+    }
+
+    for(int32_t i = MIN_SHAREZONE_SERVICE_ID; i <= MAX_SHAREZONE_SERVICE_ID; i++)
+    {
+        RouteService()->TransmitPortMsg(ServerPort(0, i),  pMsg);
+    }
+}
+
 void CRouteService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 {
-    switch(pNetworkMsg->GetMsgHead()->usCmd)
+
+    if(m_pNetMsgProcess->Process(pNetworkMsg) == true)
     {
-        case NETMSG_SCK_CLOSE:
+        return;
+    }
+
+    //需要转发的，直接转发
+    if(pNetworkMsg->GetForward().IsVaild())
+    {
+        pNetworkMsg->SetTo(pNetworkMsg->GetForward());
+        SendPortMsg(*pNetworkMsg);
+        return;
+    }
+
+    switch(pNetworkMsg->GetMultiType())
+    {
+        case MULTITYPE_BROADCAST:
         {
-            MSG_SCK_CLOSE* pMsg = (MSG_SCK_CLOSE*)pNetworkMsg->GetBuf();
+            //转发给所有的World
+            time_t now = TimeGetSecond();
+            for(const auto& [k, v]: GetMessageRoute()->GetWorldReadyList())
+            {
+                if(now < v)
+                {
+                    TransmitPortMsg(ServerPort(k, WORLD_SERVICE_ID), pNetworkMsg);
+                }
+            }
         }
         break;
-        case NETMSG_INTERNAL_SERVICE_REGISTER:
+        case MULTITYPE_VIRTUALSOCKET:
         {
-
-            //通知所有的global_route更新
-            MSG_INTERNAL_SERVICE_REGISTER* pMsg = (MSG_INTERNAL_SERVICE_REGISTER*)pNetworkMsg->GetBuf();
-            LOGMESSAGE("World:{} start", pMsg->idWorld);
-            GetMessageRoute()->SetWorldReady(pMsg->idWorld, true);
-            for(int32_t i = MIN_GM_PROYX_SERVICE_ID; i <= MAX_GM_PROYX_SERVICE_ID; i++)
+            //转发给对应的Service
+            CNetworkMessage send_msg(*pNetworkMsg);
+            const auto&     refSet = pNetworkMsg->GetMultiTo();
+            for(auto it = refSet.begin(); it != refSet.end(); it++)
             {
-                SendPortMsg(ServerPort(0, i), (byte*)pMsg, sizeof(*pMsg));
+                const auto& vs = *it;
+                send_msg.SetTo(vs);
+                SendPortMsg(send_msg);
             }
 
-            for(int32_t i = MIN_SHAREZONE_SERVICE_ID; i <= MAX_SHAREZONE_SERVICE_ID; i++)
-            {
-                SendPortMsg(ServerPort(0, i), (byte*)pMsg, sizeof(*pMsg));
-            }
-        }
-        break;
-        case NETMSG_INTERNAL_SERVICE_READY:
-        {
-            MSG_INTERNAL_SERVICE_READY* pMsg = (MSG_INTERNAL_SERVICE_READY*)pNetworkMsg->GetBuf();
-            if(pMsg->bReady == false)
-            {
-                LOGMESSAGE("World:{} shutdown", pMsg->idWorld);
-            }
-            else
-            {
-                LOGDEBUG("World:{} Ready", pMsg->idWorld);
-            }
-
-            //通知所有的global_route更新
-            GetMessageRoute()->SetWorldReady(pMsg->idWorld, pMsg->bReady);
-
-            for(int32_t i = MIN_GM_PROYX_SERVICE_ID; i <= MAX_GM_PROYX_SERVICE_ID; i++)
-            {
-                SendPortMsg(ServerPort(0, i), (byte*)pMsg, sizeof(*pMsg));
-            }
-
-            for(int32_t i = MIN_SHAREZONE_SERVICE_ID; i <= MAX_SHAREZONE_SERVICE_ID; i++)
-            {
-                SendPortMsg(ServerPort(0, i), (byte*)pMsg, sizeof(*pMsg));
-            }
         }
         break;
         default:
-        {
-            //需要转发的，直接转发
-            if(pNetworkMsg->GetForward().IsVaild())
-            {
-                pNetworkMsg->SetTo(pNetworkMsg->GetForward());
-                SendMsg(*pNetworkMsg);
-                return;
-            }
-
-            switch(pNetworkMsg->GetMultiType())
-            {
-                case MULTITYPE_BROADCAST:
-                {
-                    //转发给所有的World
-                    time_t now = TimeGetSecond();
-                    for(const auto& [k, v]: GetMessageRoute()->GetWorldReadyList())
-                    {
-                        if(now < v)
-                        {
-                            SendPortMsg(ServerPort(k, WORLD_SERVICE_ID), pNetworkMsg->GetBuf(), pNetworkMsg->GetSize());
-                        }
-                    }
-                }
-                break;
-                case MULTITYPE_VIRTUALSOCKET:
-                {
-                    //转发给对应的Service
-                    CNetworkMessage send_msg(*pNetworkMsg);
-                    const auto&     refSet = pNetworkMsg->GetMultiTo();
-                    for(auto it = refSet.begin(); it != refSet.end(); it++)
-                    {
-                        const auto& vs = *it;
-                        send_msg.SetTo(vs);
-                        SendMsg(send_msg);
-                    }
-                }
-                break;
-                default:
-                    break;
-            }
-
-            m_pNetMsgProcess->Process(pNetworkMsg);
-        }
-        break;
+            break;
     }
+
+   
 }
 
 void CRouteService::OnLogicThreadProc()
@@ -196,7 +196,7 @@ void CRouteService::OnLogicThreadProc()
     if(m_pMessagePort)
     {
         // process message_port msg
-        while(nCount < MAX_PROCESS_PER_LOOP && m_pMessagePort->TakeMsg(pMsg))
+        while(nCount < MAX_PROCESS_PER_LOOP && m_pMessagePort->TakePortMsg(pMsg))
         {
             OnProcessMessage(pMsg);
             SAFE_DELETE(pMsg);
@@ -207,13 +207,8 @@ void CRouteService::OnLogicThreadProc()
 void CRouteService::OnLogicThreadCreate()
 {
     tls_pService = this;
-    BaseCode::SetNdc("Route");
-    LOGMESSAGE("ThreadID:{}", get_cur_thread_id());
 }
 
 void CRouteService::OnLogicThreadExit()
 {
-    LOGMESSAGE("ExitThreadID:{}", get_cur_thread_id());
-    BaseCode::ClearNdc();
-    ;
 }

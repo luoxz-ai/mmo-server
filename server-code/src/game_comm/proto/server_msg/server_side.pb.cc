@@ -37,6 +37,34 @@ class ServiceReadyDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ServiceReady> _instance;
 } _ServiceReady_default_instance_;
+class ServiceRegisterDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ServiceRegister> _instance;
+} _ServiceRegister_default_instance_;
+class SocketConnectDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<SocketConnect> _instance;
+} _SocketConnect_default_instance_;
+class SocketCloseDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<SocketClose> _instance;
+} _SocketClose_default_instance_;
+class SocketChangeDestDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<SocketChangeDest> _instance;
+} _SocketChangeDest_default_instance_;
+class SocketAuthDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<SocketAuth> _instance;
+} _SocketAuth_default_instance_;
+class SocketStartAcceptDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<SocketStartAccept> _instance;
+} _SocketStartAccept_default_instance_;
+class SocketStopAcceptDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<SocketStopAccept> _instance;
+} _SocketStopAccept_default_instance_;
 class PlayerEnterZoneDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<PlayerEnterZone> _instance;
@@ -546,6 +574,104 @@ static void InitDefaultsscc_info_ServiceReady_server_5fmsg_2fserver_5fside_2epro
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ServiceReady_server_5fmsg_2fserver_5fside_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_ServiceReady_server_5fmsg_2fserver_5fside_2eproto}, {}};
 
+static void InitDefaultsscc_info_ServiceRegister_server_5fmsg_2fserver_5fside_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::ServerMSG::_ServiceRegister_default_instance_;
+    new (ptr) ::ServerMSG::ServiceRegister();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ServerMSG::ServiceRegister::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ServiceRegister_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_ServiceRegister_server_5fmsg_2fserver_5fside_2eproto}, {}};
+
+static void InitDefaultsscc_info_SocketAuth_server_5fmsg_2fserver_5fside_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::ServerMSG::_SocketAuth_default_instance_;
+    new (ptr) ::ServerMSG::SocketAuth();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ServerMSG::SocketAuth::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_SocketAuth_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_SocketAuth_server_5fmsg_2fserver_5fside_2eproto}, {}};
+
+static void InitDefaultsscc_info_SocketChangeDest_server_5fmsg_2fserver_5fside_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::ServerMSG::_SocketChangeDest_default_instance_;
+    new (ptr) ::ServerMSG::SocketChangeDest();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ServerMSG::SocketChangeDest::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_SocketChangeDest_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_SocketChangeDest_server_5fmsg_2fserver_5fside_2eproto}, {}};
+
+static void InitDefaultsscc_info_SocketClose_server_5fmsg_2fserver_5fside_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::ServerMSG::_SocketClose_default_instance_;
+    new (ptr) ::ServerMSG::SocketClose();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ServerMSG::SocketClose::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_SocketClose_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_SocketClose_server_5fmsg_2fserver_5fside_2eproto}, {}};
+
+static void InitDefaultsscc_info_SocketConnect_server_5fmsg_2fserver_5fside_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::ServerMSG::_SocketConnect_default_instance_;
+    new (ptr) ::ServerMSG::SocketConnect();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ServerMSG::SocketConnect::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_SocketConnect_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_SocketConnect_server_5fmsg_2fserver_5fside_2eproto}, {}};
+
+static void InitDefaultsscc_info_SocketStartAccept_server_5fmsg_2fserver_5fside_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::ServerMSG::_SocketStartAccept_default_instance_;
+    new (ptr) ::ServerMSG::SocketStartAccept();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ServerMSG::SocketStartAccept::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_SocketStartAccept_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_SocketStartAccept_server_5fmsg_2fserver_5fside_2eproto}, {}};
+
+static void InitDefaultsscc_info_SocketStopAccept_server_5fmsg_2fserver_5fside_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::ServerMSG::_SocketStopAccept_default_instance_;
+    new (ptr) ::ServerMSG::SocketStopAccept();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ServerMSG::SocketStopAccept::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_SocketStopAccept_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_SocketStopAccept_server_5fmsg_2fserver_5fside_2eproto}, {}};
+
 static void InitDefaultsscc_info_SyncTaskPhase_server_5fmsg_2fserver_5fside_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -757,7 +883,7 @@ static void InitDefaultsscc_info_TeamQuit_server_5fmsg_2fserver_5fside_2eproto()
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_TeamQuit_server_5fmsg_2fserver_5fside_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_TeamQuit_server_5fmsg_2fserver_5fside_2eproto}, {}};
 
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_server_5fmsg_2fserver_5fside_2eproto[41];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_server_5fmsg_2fserver_5fside_2eproto[48];
 static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_server_5fmsg_2fserver_5fside_2eproto[2];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_server_5fmsg_2fserver_5fside_2eproto = nullptr;
 
@@ -799,6 +925,49 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_server_5fmsg_2fserver_5fside_2
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::ServerMSG::ServiceReady, serverport_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::ServiceReady, ready_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::ServiceRegister, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::ServiceRegister, serverport_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::ServiceRegister, update_time_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::SocketConnect, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::SocketConnect, vs_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::SocketClose, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::SocketClose, vs_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::SocketChangeDest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::SocketChangeDest, vs_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::SocketChangeDest, destport_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::SocketAuth, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::SocketAuth, vs_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::SocketStartAccept, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::SocketStopAccept, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ServerMSG::PlayerEnterZone, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1108,42 +1277,49 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 15, -1, sizeof(::ServerMSG::ServiceHttpRequest)},
   { 22, -1, sizeof(::ServerMSG::ServiceHttpResponse)},
   { 31, -1, sizeof(::ServerMSG::ServiceReady)},
-  { 37, -1, sizeof(::ServerMSG::PlayerEnterZone)},
-  { 48, -1, sizeof(::ServerMSG::PlayerChangeZone)},
-  { 61, -1, sizeof(::ServerMSG::PlayerChangeZone_Data)},
-  { 68, -1, sizeof(::ServerMSG::PlayerLogout)},
-  { 75, -1, sizeof(::ServerMSG::SystemVarChange)},
-  { 85, -1, sizeof(::ServerMSG::SceneCreate)},
-  { 91, -1, sizeof(::ServerMSG::PhaseCreate)},
-  { 98, -1, sizeof(::ServerMSG::PhaseDestory)},
-  { 105, -1, sizeof(::ServerMSG::MonsterGen)},
-  { 118, -1, sizeof(::ServerMSG::MonsterGenMulti)},
-  { 133, -1, sizeof(::ServerMSG::MonsterDestory)},
-  { 139, -1, sizeof(::ServerMSG::MonsterGenOnce)},
-  { 147, -1, sizeof(::ServerMSG::ActiveGen)},
-  { 155, -1, sizeof(::ServerMSG::KillGen)},
-  { 162, -1, sizeof(::ServerMSG::ActorCreate)},
-  { 186, -1, sizeof(::ServerMSG::ActorDestory)},
-  { 192, -1, sizeof(::ServerMSG::ActorMove)},
-  { 200, -1, sizeof(::ServerMSG::ActorCastSkill)},
-  { 208, -1, sizeof(::ServerMSG::ActorCastSkill_Fail)},
-  { 214, -1, sizeof(::ServerMSG::ActorSetHide)},
-  { 221, -1, sizeof(::ServerMSG::TeamCreate)},
-  { 228, -1, sizeof(::ServerMSG::TeamDestory)},
-  { 234, -1, sizeof(::ServerMSG::TeamQuit)},
-  { 241, -1, sizeof(::ServerMSG::TeamKickMember)},
-  { 249, -1, sizeof(::ServerMSG::TeamInviteMember)},
-  { 257, -1, sizeof(::ServerMSG::TeamAcceptInvite)},
-  { 266, -1, sizeof(::ServerMSG::TeamApplyMember)},
-  { 273, -1, sizeof(::ServerMSG::TeamAcceptApply)},
-  { 281, -1, sizeof(::ServerMSG::TeamNewLeader)},
-  { 289, -1, sizeof(::ServerMSG::TeamAddMember)},
-  { 296, -1, sizeof(::ServerMSG::TeamDelMember)},
-  { 303, -1, sizeof(::ServerMSG::TeamMemberInfo_Info)},
-  { 312, -1, sizeof(::ServerMSG::TeamMemberInfo)},
-  { 318, -1, sizeof(::ServerMSG::SyncTaskPhase)},
-  { 325, -1, sizeof(::ServerMSG::AddTaskPhase)},
-  { 332, -1, sizeof(::ServerMSG::RemoveTaskPhase)},
+  { 38, -1, sizeof(::ServerMSG::ServiceRegister)},
+  { 45, -1, sizeof(::ServerMSG::SocketConnect)},
+  { 51, -1, sizeof(::ServerMSG::SocketClose)},
+  { 57, -1, sizeof(::ServerMSG::SocketChangeDest)},
+  { 64, -1, sizeof(::ServerMSG::SocketAuth)},
+  { 70, -1, sizeof(::ServerMSG::SocketStartAccept)},
+  { 75, -1, sizeof(::ServerMSG::SocketStopAccept)},
+  { 80, -1, sizeof(::ServerMSG::PlayerEnterZone)},
+  { 91, -1, sizeof(::ServerMSG::PlayerChangeZone)},
+  { 104, -1, sizeof(::ServerMSG::PlayerChangeZone_Data)},
+  { 111, -1, sizeof(::ServerMSG::PlayerLogout)},
+  { 118, -1, sizeof(::ServerMSG::SystemVarChange)},
+  { 128, -1, sizeof(::ServerMSG::SceneCreate)},
+  { 134, -1, sizeof(::ServerMSG::PhaseCreate)},
+  { 141, -1, sizeof(::ServerMSG::PhaseDestory)},
+  { 148, -1, sizeof(::ServerMSG::MonsterGen)},
+  { 161, -1, sizeof(::ServerMSG::MonsterGenMulti)},
+  { 176, -1, sizeof(::ServerMSG::MonsterDestory)},
+  { 182, -1, sizeof(::ServerMSG::MonsterGenOnce)},
+  { 190, -1, sizeof(::ServerMSG::ActiveGen)},
+  { 198, -1, sizeof(::ServerMSG::KillGen)},
+  { 205, -1, sizeof(::ServerMSG::ActorCreate)},
+  { 229, -1, sizeof(::ServerMSG::ActorDestory)},
+  { 235, -1, sizeof(::ServerMSG::ActorMove)},
+  { 243, -1, sizeof(::ServerMSG::ActorCastSkill)},
+  { 251, -1, sizeof(::ServerMSG::ActorCastSkill_Fail)},
+  { 257, -1, sizeof(::ServerMSG::ActorSetHide)},
+  { 264, -1, sizeof(::ServerMSG::TeamCreate)},
+  { 271, -1, sizeof(::ServerMSG::TeamDestory)},
+  { 277, -1, sizeof(::ServerMSG::TeamQuit)},
+  { 284, -1, sizeof(::ServerMSG::TeamKickMember)},
+  { 292, -1, sizeof(::ServerMSG::TeamInviteMember)},
+  { 300, -1, sizeof(::ServerMSG::TeamAcceptInvite)},
+  { 309, -1, sizeof(::ServerMSG::TeamApplyMember)},
+  { 316, -1, sizeof(::ServerMSG::TeamAcceptApply)},
+  { 324, -1, sizeof(::ServerMSG::TeamNewLeader)},
+  { 332, -1, sizeof(::ServerMSG::TeamAddMember)},
+  { 339, -1, sizeof(::ServerMSG::TeamDelMember)},
+  { 346, -1, sizeof(::ServerMSG::TeamMemberInfo_Info)},
+  { 355, -1, sizeof(::ServerMSG::TeamMemberInfo)},
+  { 361, -1, sizeof(::ServerMSG::SyncTaskPhase)},
+  { 368, -1, sizeof(::ServerMSG::AddTaskPhase)},
+  { 375, -1, sizeof(::ServerMSG::RemoveTaskPhase)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -1152,6 +1328,13 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_ServiceHttpRequest_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_ServiceHttpResponse_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_ServiceReady_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_ServiceRegister_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_SocketConnect_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_SocketClose_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_SocketChangeDest_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_SocketAuth_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_SocketStartAccept_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_SocketStopAccept_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_PlayerEnterZone_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_PlayerChangeZone_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_PlayerChangeZone_Data_default_instance_),
@@ -1198,113 +1381,124 @@ const char descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto[] PROT
   "ry\032,\n\nKvmapEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002"
   " \001(\t:\0028\001\"h\n\023ServiceHttpResponse\022\013\n\003uid\030\001"
   " \001(\004\022\025\n\rresponse_code\030\002 \001(\005\022\027\n\017response_"
-  "reason\030\003 \001(\t\022\024\n\014response_txt\030\004 \001(\014\"\"\n\014Se"
-  "rviceReady\022\022\n\nserverport\030\001 \001(\r\"n\n\017Player"
-  "EnterZone\022\020\n\010idplayer\030\001 \001(\004\022\016\n\006socket\030\002 "
-  "\001(\004\022\017\n\007idscene\030\003 \001(\004\022\014\n\004posx\030\004 \001(\002\022\014\n\004po"
-  "sy\030\005 \001(\002\022\014\n\004face\030\006 \001(\002\"\216\001\n\020PlayerChangeZ"
-  "one\022\020\n\010idplayer\030\001 \001(\004\022\016\n\006socket\030\002 \001(\004\022\016\n"
-  "\006idzone\030\003 \001(\r\022\017\n\007idscene\030\004 \001(\004\022\014\n\004posx\030\005"
-  " \001(\002\022\014\n\004posy\030\006 \001(\002\022\r\n\005range\030\007 \001(\002\022\014\n\004fac"
-  "e\030\010 \001(\002\"9\n\025PlayerChangeZone_Data\022\020\n\010idpl"
-  "ayer\030\001 \001(\004\022\016\n\006socket\030\002 \001(\004\"0\n\014PlayerLogo"
-  "ut\022\020\n\010idplayer\030\001 \001(\004\022\016\n\006socket\030\002 \001(\004\"\346\001\n"
-  "\017SystemVarChange\022\016\n\006keyidx\030\001 \001(\r\022\013\n\003idx\030"
-  "\002 \001(\r\022\013\n\003val\030\003 \001(\r\022\013\n\003str\030\004 \001(\t\022<\n\004type\030"
-  "\005 \001(\0162..ServerMSG.SystemVarChange.System"
-  "VarChangeType\"^\n\023SystemVarChangeType\022\017\n\013"
-  "SVCT_CREATE\020\000\022\021\n\rSVCT_SET_DATA\020\001\022\021\n\rSVCT"
-  "_ADD_DATA\020\002\022\020\n\014SVCT_SET_STR\020\003\"\037\n\013SceneCr"
-  "eate\022\020\n\010scene_id\030\001 \001(\004\"1\n\013PhaseCreate\022\020\n"
-  "\010scene_id\030\001 \001(\004\022\020\n\010phase_id\030\002 \001(\004\"2\n\014Pha"
-  "seDestory\022\020\n\010scene_id\030\001 \001(\004\022\020\n\010phase_id\030"
-  "\002 \001(\004\"\227\001\n\nMonsterGen\022\020\n\010scene_id\030\001 \001(\004\022\020"
-  "\n\010phase_id\030\002 \001(\004\022\016\n\006gen_id\030\003 \001(\r\022\024\n\014mons"
-  "ter_type\030\004 \001(\r\022\014\n\004posx\030\005 \001(\002\022\014\n\004posy\030\006 \001"
-  "(\002\022\017\n\007camp_id\030\007 \001(\r\022\022\n\nmonster_id\030\010 \001(\r\""
-  "\270\001\n\017MonsterGenMulti\022\020\n\010scene_id\030\001 \001(\004\022\020\n"
-  "\010phase_id\030\002 \001(\004\022\016\n\006gen_id\030\003 \001(\r\022\024\n\014monst"
-  "er_type\030\004 \001(\r\022\014\n\004posx\030\005 \001(\002\022\014\n\004posy\030\006 \001("
-  "\002\022\017\n\007camp_id\030\007 \001(\r\022\022\n\nmonster_id\030\010 \001(\r\022\013"
-  "\n\003num\030\t \001(\r\022\r\n\005range\030\n \001(\002\"$\n\016MonsterDes"
-  "tory\022\022\n\nmonster_id\030\001 \003(\004\"D\n\016MonsterGenOn"
-  "ce\022\020\n\010scene_id\030\001 \001(\004\022\016\n\006gen_id\030\002 \001(\r\022\020\n\010"
-  "phase_id\030\003 \001(\004\"=\n\tActiveGen\022\020\n\010scene_id\030"
-  "\001 \001(\004\022\016\n\006gen_id\030\002 \001(\r\022\016\n\006active\030\003 \001(\010\"+\n"
-  "\007KillGen\022\020\n\010scene_id\030\001 \001(\004\022\016\n\006gen_id\030\002 \001"
-  "(\r\"\273\002\n\013ActorCreate\022\020\n\010actor_id\030\001 \001(\004\022\020\n\010"
-  "scene_id\030\002 \001(\004\022\014\n\004name\030\004 \001(\t\022\021\n\tactortyp"
-  "e\030\005 \001(\r\022\020\n\010baselook\030\006 \001(\r\022\014\n\004prof\030\007 \001(\r\022"
-  "\013\n\003lev\030\010 \001(\r\022\016\n\006campid\030\t \001(\r\022\n\n\002hp\030\n \001(\r"
-  "\022\r\n\005hpmax\030\013 \001(\r\022\n\n\002mp\030\014 \001(\r\022\r\n\005mpmax\030\r \001"
-  "(\r\022\017\n\007movespd\030\016 \001(\r\022\017\n\007ownerid\030\017 \001(\004\022\014\n\004"
-  "posx\030\020 \001(\002\022\014\n\004posy\030\021 \001(\002\022\014\n\004face\030\022 \001(\002\022\026"
-  "\n\016monster_gen_id\030\024 \001(\r\022\020\n\010phase_id\030\025 \001(\004"
-  "\" \n\014ActorDestory\022\020\n\010actor_id\030\001 \001(\004\"3\n\tAc"
-  "torMove\022\020\n\010actor_id\030\001 \001(\004\022\t\n\001x\030\002 \001(\002\022\t\n\001"
-  "y\030\003 \001(\002\"G\n\016ActorCastSkill\022\020\n\010actor_id\030\001 "
-  "\001(\004\022\021\n\ttarget_id\030\002 \001(\004\022\020\n\010skill_id\030\003 \001(\r"
-  "\"\'\n\023ActorCastSkill_Fail\022\020\n\010actor_id\030\001 \001("
-  "\004\"4\n\014ActorSetHide\022\020\n\010actor_id\030\001 \001(\004\022\022\n\nh"
-  "ide_count\030\002 \001(\005\"0\n\nTeamCreate\022\017\n\007team_id"
-  "\030\001 \001(\004\022\021\n\tleader_id\030\002 \001(\004\"\036\n\013TeamDestory"
-  "\022\017\n\007team_id\030\001 \001(\004\"0\n\010TeamQuit\022\017\n\007team_id"
-  "\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\"G\n\016TeamKickM"
-  "ember\022\017\n\007team_id\030\001 \001(\004\022\023\n\013operator_id\030\002 "
-  "\001(\004\022\017\n\007kick_id\030\003 \001(\004\"L\n\020TeamInviteMember"
-  "\022\017\n\007team_id\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\022\022"
-  "\n\ninvitee_id\030\003 \001(\004\"[\n\020TeamAcceptInvite\022\017"
-  "\n\007team_id\030\001 \001(\004\022\022\n\ninviter_id\030\002 \001(\004\022\022\n\ni"
-  "nvitee_id\030\003 \001(\004\022\016\n\006result\030\004 \001(\010\">\n\017TeamA"
-  "pplyMember\022\024\n\014applicant_id\030\001 \001(\004\022\025\n\rresp"
-  "ondent_id\030\002 \001(\004\"N\n\017TeamAcceptApply\022\024\n\014ap"
-  "plicant_id\030\001 \001(\004\022\025\n\rrespondent_id\030\002 \001(\004\022"
-  "\016\n\006result\030\003 \001(\010\"L\n\rTeamNewLeader\022\017\n\007team"
-  "_id\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\022\025\n\rnew_le"
-  "ader_id\030\003 \001(\004\"3\n\rTeamAddMember\022\017\n\007team_i"
-  "d\030\001 \001(\004\022\021\n\tmember_id\030\002 \001(\004\"3\n\rTeamDelMem"
-  "ber\022\017\n\007team_id\030\001 \001(\004\022\021\n\tmember_id\030\002 \001(\004\""
-  "\240\001\n\016TeamMemberInfo\0223\n\013member_list\030\001 \003(\0132"
-  "\036.ServerMSG.TeamMemberInfo.Info\032Y\n\004Info\022"
-  "\021\n\tmember_id\030\001 \001(\004\022\022\n\nmember_lev\030\002 \001(\r\022\025"
-  "\n\rmember_online\030\003 \001(\010\022\023\n\013member_name\030\004 \001"
-  "(\t\"9\n\rSyncTaskPhase\022\021\n\tplayer_id\030\001 \001(\004\022\025"
-  "\n\rtask_phase_id\030\002 \003(\004\"8\n\014AddTaskPhase\022\021\n"
-  "\tplayer_id\030\001 \001(\004\022\025\n\rtask_phase_id\030\002 \001(\004\""
-  ";\n\017RemoveTaskPhase\022\021\n\tplayer_id\030\001 \001(\004\022\025\n"
-  "\rtask_phase_id\030\002 \001(\004*\343\010\n\006OMsgID\022\017\n\013OMSGI"
-  "D_NONE\020\000\022\021\n\013MsgID_BEGIN\020\240\234\001\022\026\n\020MsgID_Ser"
-  "viceCmd\020\241\234\001\022\036\n\030MsgID_ServiceHttpRequest\020"
-  "\242\234\001\022\037\n\031MsgID_ServiceHttpResponse\020\243\234\001\022\030\n\022"
-  "MsgID_ServiceReady\020\252\234\001\022\033\n\025MsgID_PlayerEn"
-  "terZone\020\265\234\001\022\034\n\026MsgID_PlayerChangeZone\020\266\234"
-  "\001\022!\n\033MsgID_PlayerChangeZone_Data\020\267\234\001\022\030\n\022"
-  "MsgID_PlayerLogout\020\270\234\001\022\033\n\025MsgID_SystemVa"
-  "rChange\020\276\234\001\022\027\n\021MsgID_SceneCreate\020\277\234\001\022\027\n\021"
-  "MsgID_PhaseCreate\020\300\234\001\022\030\n\022MsgID_PhaseDest"
-  "ory\020\301\234\001\022\026\n\020MsgID_MonsterGen\020\311\234\001\022\032\n\024MsgID"
-  "_MonsterDestory\020\312\234\001\022\025\n\017MsgID_ActiveGen\020\313"
-  "\234\001\022\023\n\rMsgID_KillGen\020\314\234\001\022\032\n\024MsgID_Monster"
-  "GenOnce\020\315\234\001\022\033\n\025MsgID_MonsterGenMulti\020\316\234\001"
-  "\022\027\n\021MsgID_ActorCreate\020\204\235\001\022\030\n\022MsgID_Actor"
-  "Destory\020\205\235\001\022\025\n\017MsgID_ActorMove\020\206\235\001\022\032\n\024Ms"
-  "gID_ActorCastSkill\020\207\235\001\022\037\n\031MsgID_ActorCas"
-  "tSkill_Fail\020\210\235\001\022\030\n\022MsgID_ActorSetHide\020\211\235"
-  "\001\022\031\n\023MsgID_SyncTaskPhase\020\212\235\001\022\030\n\022MsgID_Ad"
-  "dTaskPhase\020\213\235\001\022\033\n\025MsgID_RemoveTaskPhase\020"
-  "\214\235\001\022\026\n\020MsgID_TeamCreate\020\216\235\001\022\027\n\021MsgID_Tea"
-  "mDestory\020\217\235\001\022\024\n\016MsgID_TeamQuit\020\220\235\001\022\032\n\024Ms"
-  "gID_TeamKickMember\020\221\235\001\022\034\n\026MsgID_TeamInvi"
-  "teMember\020\222\235\001\022\034\n\026MsgID_TeamAcceptInvite\020\223"
-  "\235\001\022\033\n\025MsgID_TeamApplyMember\020\224\235\001\022\033\n\025MsgID"
-  "_TeamAcceptApply\020\225\235\001\022\031\n\023MsgID_TeamNewLea"
-  "der\020\226\235\001\022\032\n\024MsgID_TeamMemberInfo\020\227\235\001\022\031\n\023M"
-  "sgID_TeamAddMember\020\230\235\001\022\031\n\023MsgID_TeamDelM"
-  "ember\020\231\235\001\022\017\n\tMsgID_END\020\260\352\001b\006proto3"
+  "reason\030\003 \001(\t\022\024\n\014response_txt\030\004 \001(\014\"1\n\014Se"
+  "rviceReady\022\022\n\nserverport\030\001 \001(\r\022\r\n\005ready\030"
+  "\002 \001(\010\":\n\017ServiceRegister\022\022\n\nserverport\030\001"
+  " \001(\r\022\023\n\013update_time\030\002 \001(\004\"\033\n\rSocketConne"
+  "ct\022\n\n\002vs\030\001 \001(\004\"\031\n\013SocketClose\022\n\n\002vs\030\001 \001("
+  "\004\"0\n\020SocketChangeDest\022\n\n\002vs\030\001 \001(\004\022\020\n\010des"
+  "tport\030\002 \001(\r\"\030\n\nSocketAuth\022\n\n\002vs\030\001 \001(\004\"\023\n"
+  "\021SocketStartAccept\"\022\n\020SocketStopAccept\"n"
+  "\n\017PlayerEnterZone\022\020\n\010idplayer\030\001 \001(\004\022\016\n\006s"
+  "ocket\030\002 \001(\004\022\017\n\007idscene\030\003 \001(\004\022\014\n\004posx\030\004 \001"
+  "(\002\022\014\n\004posy\030\005 \001(\002\022\014\n\004face\030\006 \001(\002\"\216\001\n\020Playe"
+  "rChangeZone\022\020\n\010idplayer\030\001 \001(\004\022\016\n\006socket\030"
+  "\002 \001(\004\022\016\n\006idzone\030\003 \001(\r\022\017\n\007idscene\030\004 \001(\004\022\014"
+  "\n\004posx\030\005 \001(\002\022\014\n\004posy\030\006 \001(\002\022\r\n\005range\030\007 \001("
+  "\002\022\014\n\004face\030\010 \001(\002\"9\n\025PlayerChangeZone_Data"
+  "\022\020\n\010idplayer\030\001 \001(\004\022\016\n\006socket\030\002 \001(\004\"0\n\014Pl"
+  "ayerLogout\022\020\n\010idplayer\030\001 \001(\004\022\016\n\006socket\030\002"
+  " \001(\004\"\346\001\n\017SystemVarChange\022\016\n\006keyidx\030\001 \001(\r"
+  "\022\013\n\003idx\030\002 \001(\r\022\013\n\003val\030\003 \001(\r\022\013\n\003str\030\004 \001(\t\022"
+  "<\n\004type\030\005 \001(\0162..ServerMSG.SystemVarChang"
+  "e.SystemVarChangeType\"^\n\023SystemVarChange"
+  "Type\022\017\n\013SVCT_CREATE\020\000\022\021\n\rSVCT_SET_DATA\020\001"
+  "\022\021\n\rSVCT_ADD_DATA\020\002\022\020\n\014SVCT_SET_STR\020\003\"\037\n"
+  "\013SceneCreate\022\020\n\010scene_id\030\001 \001(\004\"1\n\013PhaseC"
+  "reate\022\020\n\010scene_id\030\001 \001(\004\022\020\n\010phase_id\030\002 \001("
+  "\004\"2\n\014PhaseDestory\022\020\n\010scene_id\030\001 \001(\004\022\020\n\010p"
+  "hase_id\030\002 \001(\004\"\227\001\n\nMonsterGen\022\020\n\010scene_id"
+  "\030\001 \001(\004\022\020\n\010phase_id\030\002 \001(\004\022\016\n\006gen_id\030\003 \001(\r"
+  "\022\024\n\014monster_type\030\004 \001(\r\022\014\n\004posx\030\005 \001(\002\022\014\n\004"
+  "posy\030\006 \001(\002\022\017\n\007camp_id\030\007 \001(\r\022\022\n\nmonster_i"
+  "d\030\010 \001(\r\"\270\001\n\017MonsterGenMulti\022\020\n\010scene_id\030"
+  "\001 \001(\004\022\020\n\010phase_id\030\002 \001(\004\022\016\n\006gen_id\030\003 \001(\r\022"
+  "\024\n\014monster_type\030\004 \001(\r\022\014\n\004posx\030\005 \001(\002\022\014\n\004p"
+  "osy\030\006 \001(\002\022\017\n\007camp_id\030\007 \001(\r\022\022\n\nmonster_id"
+  "\030\010 \001(\r\022\013\n\003num\030\t \001(\r\022\r\n\005range\030\n \001(\002\"$\n\016Mo"
+  "nsterDestory\022\022\n\nmonster_id\030\001 \003(\004\"D\n\016Mons"
+  "terGenOnce\022\020\n\010scene_id\030\001 \001(\004\022\016\n\006gen_id\030\002"
+  " \001(\r\022\020\n\010phase_id\030\003 \001(\004\"=\n\tActiveGen\022\020\n\010s"
+  "cene_id\030\001 \001(\004\022\016\n\006gen_id\030\002 \001(\r\022\016\n\006active\030"
+  "\003 \001(\010\"+\n\007KillGen\022\020\n\010scene_id\030\001 \001(\004\022\016\n\006ge"
+  "n_id\030\002 \001(\r\"\273\002\n\013ActorCreate\022\020\n\010actor_id\030\001"
+  " \001(\004\022\020\n\010scene_id\030\002 \001(\004\022\014\n\004name\030\004 \001(\t\022\021\n\t"
+  "actortype\030\005 \001(\r\022\020\n\010baselook\030\006 \001(\r\022\014\n\004pro"
+  "f\030\007 \001(\r\022\013\n\003lev\030\010 \001(\r\022\016\n\006campid\030\t \001(\r\022\n\n\002"
+  "hp\030\n \001(\r\022\r\n\005hpmax\030\013 \001(\r\022\n\n\002mp\030\014 \001(\r\022\r\n\005m"
+  "pmax\030\r \001(\r\022\017\n\007movespd\030\016 \001(\r\022\017\n\007ownerid\030\017"
+  " \001(\004\022\014\n\004posx\030\020 \001(\002\022\014\n\004posy\030\021 \001(\002\022\014\n\004face"
+  "\030\022 \001(\002\022\026\n\016monster_gen_id\030\024 \001(\r\022\020\n\010phase_"
+  "id\030\025 \001(\004\" \n\014ActorDestory\022\020\n\010actor_id\030\001 \001"
+  "(\004\"3\n\tActorMove\022\020\n\010actor_id\030\001 \001(\004\022\t\n\001x\030\002"
+  " \001(\002\022\t\n\001y\030\003 \001(\002\"G\n\016ActorCastSkill\022\020\n\010act"
+  "or_id\030\001 \001(\004\022\021\n\ttarget_id\030\002 \001(\004\022\020\n\010skill_"
+  "id\030\003 \001(\r\"\'\n\023ActorCastSkill_Fail\022\020\n\010actor"
+  "_id\030\001 \001(\004\"4\n\014ActorSetHide\022\020\n\010actor_id\030\001 "
+  "\001(\004\022\022\n\nhide_count\030\002 \001(\005\"0\n\nTeamCreate\022\017\n"
+  "\007team_id\030\001 \001(\004\022\021\n\tleader_id\030\002 \001(\004\"\036\n\013Tea"
+  "mDestory\022\017\n\007team_id\030\001 \001(\004\"0\n\010TeamQuit\022\017\n"
+  "\007team_id\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\"G\n\016T"
+  "eamKickMember\022\017\n\007team_id\030\001 \001(\004\022\023\n\013operat"
+  "or_id\030\002 \001(\004\022\017\n\007kick_id\030\003 \001(\004\"L\n\020TeamInvi"
+  "teMember\022\017\n\007team_id\030\001 \001(\004\022\023\n\013operator_id"
+  "\030\002 \001(\004\022\022\n\ninvitee_id\030\003 \001(\004\"[\n\020TeamAccept"
+  "Invite\022\017\n\007team_id\030\001 \001(\004\022\022\n\ninviter_id\030\002 "
+  "\001(\004\022\022\n\ninvitee_id\030\003 \001(\004\022\016\n\006result\030\004 \001(\010\""
+  ">\n\017TeamApplyMember\022\024\n\014applicant_id\030\001 \001(\004"
+  "\022\025\n\rrespondent_id\030\002 \001(\004\"N\n\017TeamAcceptApp"
+  "ly\022\024\n\014applicant_id\030\001 \001(\004\022\025\n\rrespondent_i"
+  "d\030\002 \001(\004\022\016\n\006result\030\003 \001(\010\"L\n\rTeamNewLeader"
+  "\022\017\n\007team_id\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\022\025"
+  "\n\rnew_leader_id\030\003 \001(\004\"3\n\rTeamAddMember\022\017"
+  "\n\007team_id\030\001 \001(\004\022\021\n\tmember_id\030\002 \001(\004\"3\n\rTe"
+  "amDelMember\022\017\n\007team_id\030\001 \001(\004\022\021\n\tmember_i"
+  "d\030\002 \001(\004\"\240\001\n\016TeamMemberInfo\0223\n\013member_lis"
+  "t\030\001 \003(\0132\036.ServerMSG.TeamMemberInfo.Info\032"
+  "Y\n\004Info\022\021\n\tmember_id\030\001 \001(\004\022\022\n\nmember_lev"
+  "\030\002 \001(\r\022\025\n\rmember_online\030\003 \001(\010\022\023\n\013member_"
+  "name\030\004 \001(\t\"9\n\rSyncTaskPhase\022\021\n\tplayer_id"
+  "\030\001 \001(\004\022\025\n\rtask_phase_id\030\002 \003(\004\"8\n\014AddTask"
+  "Phase\022\021\n\tplayer_id\030\001 \001(\004\022\025\n\rtask_phase_i"
+  "d\030\002 \001(\004\";\n\017RemoveTaskPhase\022\021\n\tplayer_id\030"
+  "\001 \001(\004\022\025\n\rtask_phase_id\030\002 \001(\004*\247\n\n\006OMsgID\022"
+  "\017\n\013OMSGID_NONE\020\000\022\021\n\013MsgID_BEGIN\020\240\234\001\022\026\n\020M"
+  "sgID_ServiceCmd\020\241\234\001\022\036\n\030MsgID_ServiceHttp"
+  "Request\020\242\234\001\022\037\n\031MsgID_ServiceHttpResponse"
+  "\020\243\234\001\022\030\n\022MsgID_ServiceReady\020\252\234\001\022\033\n\025MsgID_"
+  "ServiceRegister\020\253\234\001\022\031\n\023MsgID_SocketConne"
+  "ct\020\254\234\001\022\027\n\021MsgID_SocketClose\020\255\234\001\022\034\n\026MsgID"
+  "_SocketChangeDest\020\256\234\001\022\026\n\020MsgID_SocketAut"
+  "h\020\257\234\001\022\035\n\027MsgID_SocketStartAccept\020\260\234\001\022\034\n\026"
+  "MsgID_SocketStopAccept\020\261\234\001\022\033\n\025MsgID_Play"
+  "erEnterZone\020\265\234\001\022\034\n\026MsgID_PlayerChangeZon"
+  "e\020\266\234\001\022!\n\033MsgID_PlayerChangeZone_Data\020\267\234\001"
+  "\022\030\n\022MsgID_PlayerLogout\020\270\234\001\022\033\n\025MsgID_Syst"
+  "emVarChange\020\276\234\001\022\027\n\021MsgID_SceneCreate\020\277\234\001"
+  "\022\027\n\021MsgID_PhaseCreate\020\300\234\001\022\030\n\022MsgID_Phase"
+  "Destory\020\301\234\001\022\026\n\020MsgID_MonsterGen\020\311\234\001\022\032\n\024M"
+  "sgID_MonsterDestory\020\312\234\001\022\025\n\017MsgID_ActiveG"
+  "en\020\313\234\001\022\023\n\rMsgID_KillGen\020\314\234\001\022\032\n\024MsgID_Mon"
+  "sterGenOnce\020\315\234\001\022\033\n\025MsgID_MonsterGenMulti"
+  "\020\316\234\001\022\027\n\021MsgID_ActorCreate\020\204\235\001\022\030\n\022MsgID_A"
+  "ctorDestory\020\205\235\001\022\025\n\017MsgID_ActorMove\020\206\235\001\022\032"
+  "\n\024MsgID_ActorCastSkill\020\207\235\001\022\037\n\031MsgID_Acto"
+  "rCastSkill_Fail\020\210\235\001\022\030\n\022MsgID_ActorSetHid"
+  "e\020\211\235\001\022\031\n\023MsgID_SyncTaskPhase\020\212\235\001\022\030\n\022MsgI"
+  "D_AddTaskPhase\020\213\235\001\022\033\n\025MsgID_RemoveTaskPh"
+  "ase\020\214\235\001\022\026\n\020MsgID_TeamCreate\020\216\235\001\022\027\n\021MsgID"
+  "_TeamDestory\020\217\235\001\022\024\n\016MsgID_TeamQuit\020\220\235\001\022\032"
+  "\n\024MsgID_TeamKickMember\020\221\235\001\022\034\n\026MsgID_Team"
+  "InviteMember\020\222\235\001\022\034\n\026MsgID_TeamAcceptInvi"
+  "te\020\223\235\001\022\033\n\025MsgID_TeamApplyMember\020\224\235\001\022\033\n\025M"
+  "sgID_TeamAcceptApply\020\225\235\001\022\031\n\023MsgID_TeamNe"
+  "wLeader\020\226\235\001\022\032\n\024MsgID_TeamMemberInfo\020\227\235\001\022"
+  "\031\n\023MsgID_TeamAddMember\020\230\235\001\022\031\n\023MsgID_Team"
+  "DelMember\020\231\235\001\022\017\n\tMsgID_END\020\260\352\001b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_server_5fmsg_2fserver_5fside_2eproto_deps[1] = {
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_server_5fmsg_2fserver_5fside_2eproto_sccs[41] = {
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_server_5fmsg_2fserver_5fside_2eproto_sccs[48] = {
   &scc_info_ActiveGen_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_ActorCastSkill_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_ActorCastSkill_Fail_server_5fmsg_2fserver_5fside_2eproto.base,
@@ -1331,6 +1525,13 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_ser
   &scc_info_ServiceHttpRequest_KvmapEntry_DoNotUse_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_ServiceHttpResponse_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_ServiceReady_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_ServiceRegister_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_SocketAuth_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_SocketChangeDest_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_SocketClose_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_SocketConnect_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_SocketStartAccept_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_SocketStopAccept_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_SyncTaskPhase_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_SystemVarChange_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_TeamAcceptApply_server_5fmsg_2fserver_5fside_2eproto.base,
@@ -1350,10 +1551,10 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_ser
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_server_5fmsg_2fserver_5fside_2eproto_once;
 static bool descriptor_table_server_5fmsg_2fserver_5fside_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_server_5fmsg_2fserver_5fside_2eproto = {
-  &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_initialized, descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto, "server_msg/server_side.proto", 4394,
-  &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_once, descriptor_table_server_5fmsg_2fserver_5fside_2eproto_sccs, descriptor_table_server_5fmsg_2fserver_5fside_2eproto_deps, 41, 0,
+  &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_initialized, descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto, "server_msg/server_side.proto", 4838,
+  &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_once, descriptor_table_server_5fmsg_2fserver_5fside_2eproto_sccs, descriptor_table_server_5fmsg_2fserver_5fside_2eproto_deps, 48, 0,
   schemas, file_default_instances, TableStruct_server_5fmsg_2fserver_5fside_2eproto::offsets,
-  file_level_metadata_server_5fmsg_2fserver_5fside_2eproto, 41, file_level_enum_descriptors_server_5fmsg_2fserver_5fside_2eproto, file_level_service_descriptors_server_5fmsg_2fserver_5fside_2eproto,
+  file_level_metadata_server_5fmsg_2fserver_5fside_2eproto, 48, file_level_enum_descriptors_server_5fmsg_2fserver_5fside_2eproto, file_level_service_descriptors_server_5fmsg_2fserver_5fside_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
@@ -1396,6 +1597,13 @@ bool OMsgID_IsValid(int value) {
     case 20002:
     case 20003:
     case 20010:
+    case 20011:
+    case 20012:
+    case 20013:
+    case 20014:
+    case 20015:
+    case 20016:
+    case 20017:
     case 20021:
     case 20022:
     case 20023:
@@ -2216,12 +2424,16 @@ ServiceReady::ServiceReady(const ServiceReady& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  serverport_ = from.serverport_;
+  ::memcpy(&serverport_, &from.serverport_,
+    static_cast<size_t>(reinterpret_cast<char*>(&ready_) -
+    reinterpret_cast<char*>(&serverport_)) + sizeof(ready_));
   // @@protoc_insertion_point(copy_constructor:ServerMSG.ServiceReady)
 }
 
 void ServiceReady::SharedCtor() {
-  serverport_ = 0u;
+  ::memset(&serverport_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&ready_) -
+      reinterpret_cast<char*>(&serverport_)) + sizeof(ready_));
 }
 
 ServiceReady::~ServiceReady() {
@@ -2247,7 +2459,9 @@ void ServiceReady::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  serverport_ = 0u;
+  ::memset(&serverport_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&ready_) -
+      reinterpret_cast<char*>(&serverport_)) + sizeof(ready_));
   _internal_metadata_.Clear();
 }
 
@@ -2262,6 +2476,13 @@ const char* ServiceReady::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_I
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
           serverport_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // bool ready = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          ready_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -2297,6 +2518,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(1, this->_internal_serverport(), target);
   }
 
+  // bool ready = 2;
+  if (this->ready() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(2, this->_internal_ready(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields(), target, stream);
@@ -2318,6 +2545,11 @@ size_t ServiceReady::ByteSizeLong() const {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_serverport());
+  }
+
+  // bool ready = 2;
+  if (this->ready() != 0) {
+    total_size += 1 + 1;
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -2354,6 +2586,9 @@ void ServiceReady::MergeFrom(const ServiceReady& from) {
   if (from.serverport() != 0) {
     _internal_set_serverport(from._internal_serverport());
   }
+  if (from.ready() != 0) {
+    _internal_set_ready(from._internal_ready());
+  }
 }
 
 void ServiceReady::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -2378,9 +2613,1308 @@ void ServiceReady::InternalSwap(ServiceReady* other) {
   using std::swap;
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(serverport_, other->serverport_);
+  swap(ready_, other->ready_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata ServiceReady::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void ServiceRegister::InitAsDefaultInstance() {
+}
+class ServiceRegister::_Internal {
+ public:
+};
+
+ServiceRegister::ServiceRegister()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:ServerMSG.ServiceRegister)
+}
+ServiceRegister::ServiceRegister(const ServiceRegister& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&update_time_, &from.update_time_,
+    static_cast<size_t>(reinterpret_cast<char*>(&serverport_) -
+    reinterpret_cast<char*>(&update_time_)) + sizeof(serverport_));
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.ServiceRegister)
+}
+
+void ServiceRegister::SharedCtor() {
+  ::memset(&update_time_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&serverport_) -
+      reinterpret_cast<char*>(&update_time_)) + sizeof(serverport_));
+}
+
+ServiceRegister::~ServiceRegister() {
+  // @@protoc_insertion_point(destructor:ServerMSG.ServiceRegister)
+  SharedDtor();
+}
+
+void ServiceRegister::SharedDtor() {
+}
+
+void ServiceRegister::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ServiceRegister& ServiceRegister::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_ServiceRegister_server_5fmsg_2fserver_5fside_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void ServiceRegister::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.ServiceRegister)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&update_time_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&serverport_) -
+      reinterpret_cast<char*>(&update_time_)) + sizeof(serverport_));
+  _internal_metadata_.Clear();
+}
+
+const char* ServiceRegister::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // uint32 serverport = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          serverport_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint64 update_time = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          update_time_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* ServiceRegister::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.ServiceRegister)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint32 serverport = 1;
+  if (this->serverport() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(1, this->_internal_serverport(), target);
+  }
+
+  // uint64 update_time = 2;
+  if (this->update_time() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(2, this->_internal_update_time(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.ServiceRegister)
+  return target;
+}
+
+size_t ServiceRegister::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.ServiceRegister)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // uint64 update_time = 2;
+  if (this->update_time() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_update_time());
+  }
+
+  // uint32 serverport = 1;
+  if (this->serverport() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_serverport());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void ServiceRegister::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.ServiceRegister)
+  GOOGLE_DCHECK_NE(&from, this);
+  const ServiceRegister* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<ServiceRegister>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.ServiceRegister)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.ServiceRegister)
+    MergeFrom(*source);
+  }
+}
+
+void ServiceRegister::MergeFrom(const ServiceRegister& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.ServiceRegister)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.update_time() != 0) {
+    _internal_set_update_time(from._internal_update_time());
+  }
+  if (from.serverport() != 0) {
+    _internal_set_serverport(from._internal_serverport());
+  }
+}
+
+void ServiceRegister::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.ServiceRegister)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void ServiceRegister::CopyFrom(const ServiceRegister& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.ServiceRegister)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool ServiceRegister::IsInitialized() const {
+  return true;
+}
+
+void ServiceRegister::InternalSwap(ServiceRegister* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(update_time_, other->update_time_);
+  swap(serverport_, other->serverport_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata ServiceRegister::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void SocketConnect::InitAsDefaultInstance() {
+}
+class SocketConnect::_Internal {
+ public:
+};
+
+SocketConnect::SocketConnect()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:ServerMSG.SocketConnect)
+}
+SocketConnect::SocketConnect(const SocketConnect& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  vs_ = from.vs_;
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.SocketConnect)
+}
+
+void SocketConnect::SharedCtor() {
+  vs_ = PROTOBUF_ULONGLONG(0);
+}
+
+SocketConnect::~SocketConnect() {
+  // @@protoc_insertion_point(destructor:ServerMSG.SocketConnect)
+  SharedDtor();
+}
+
+void SocketConnect::SharedDtor() {
+}
+
+void SocketConnect::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const SocketConnect& SocketConnect::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_SocketConnect_server_5fmsg_2fserver_5fside_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void SocketConnect::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.SocketConnect)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  vs_ = PROTOBUF_ULONGLONG(0);
+  _internal_metadata_.Clear();
+}
+
+const char* SocketConnect::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // uint64 vs = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          vs_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* SocketConnect::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.SocketConnect)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 vs = 1;
+  if (this->vs() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_vs(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.SocketConnect)
+  return target;
+}
+
+size_t SocketConnect::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.SocketConnect)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // uint64 vs = 1;
+  if (this->vs() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_vs());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void SocketConnect::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.SocketConnect)
+  GOOGLE_DCHECK_NE(&from, this);
+  const SocketConnect* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<SocketConnect>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.SocketConnect)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.SocketConnect)
+    MergeFrom(*source);
+  }
+}
+
+void SocketConnect::MergeFrom(const SocketConnect& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.SocketConnect)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.vs() != 0) {
+    _internal_set_vs(from._internal_vs());
+  }
+}
+
+void SocketConnect::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.SocketConnect)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void SocketConnect::CopyFrom(const SocketConnect& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.SocketConnect)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SocketConnect::IsInitialized() const {
+  return true;
+}
+
+void SocketConnect::InternalSwap(SocketConnect* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(vs_, other->vs_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SocketConnect::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void SocketClose::InitAsDefaultInstance() {
+}
+class SocketClose::_Internal {
+ public:
+};
+
+SocketClose::SocketClose()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:ServerMSG.SocketClose)
+}
+SocketClose::SocketClose(const SocketClose& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  vs_ = from.vs_;
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.SocketClose)
+}
+
+void SocketClose::SharedCtor() {
+  vs_ = PROTOBUF_ULONGLONG(0);
+}
+
+SocketClose::~SocketClose() {
+  // @@protoc_insertion_point(destructor:ServerMSG.SocketClose)
+  SharedDtor();
+}
+
+void SocketClose::SharedDtor() {
+}
+
+void SocketClose::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const SocketClose& SocketClose::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_SocketClose_server_5fmsg_2fserver_5fside_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void SocketClose::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.SocketClose)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  vs_ = PROTOBUF_ULONGLONG(0);
+  _internal_metadata_.Clear();
+}
+
+const char* SocketClose::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // uint64 vs = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          vs_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* SocketClose::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.SocketClose)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 vs = 1;
+  if (this->vs() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_vs(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.SocketClose)
+  return target;
+}
+
+size_t SocketClose::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.SocketClose)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // uint64 vs = 1;
+  if (this->vs() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_vs());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void SocketClose::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.SocketClose)
+  GOOGLE_DCHECK_NE(&from, this);
+  const SocketClose* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<SocketClose>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.SocketClose)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.SocketClose)
+    MergeFrom(*source);
+  }
+}
+
+void SocketClose::MergeFrom(const SocketClose& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.SocketClose)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.vs() != 0) {
+    _internal_set_vs(from._internal_vs());
+  }
+}
+
+void SocketClose::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.SocketClose)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void SocketClose::CopyFrom(const SocketClose& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.SocketClose)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SocketClose::IsInitialized() const {
+  return true;
+}
+
+void SocketClose::InternalSwap(SocketClose* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(vs_, other->vs_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SocketClose::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void SocketChangeDest::InitAsDefaultInstance() {
+}
+class SocketChangeDest::_Internal {
+ public:
+};
+
+SocketChangeDest::SocketChangeDest()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:ServerMSG.SocketChangeDest)
+}
+SocketChangeDest::SocketChangeDest(const SocketChangeDest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&vs_, &from.vs_,
+    static_cast<size_t>(reinterpret_cast<char*>(&destport_) -
+    reinterpret_cast<char*>(&vs_)) + sizeof(destport_));
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.SocketChangeDest)
+}
+
+void SocketChangeDest::SharedCtor() {
+  ::memset(&vs_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&destport_) -
+      reinterpret_cast<char*>(&vs_)) + sizeof(destport_));
+}
+
+SocketChangeDest::~SocketChangeDest() {
+  // @@protoc_insertion_point(destructor:ServerMSG.SocketChangeDest)
+  SharedDtor();
+}
+
+void SocketChangeDest::SharedDtor() {
+}
+
+void SocketChangeDest::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const SocketChangeDest& SocketChangeDest::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_SocketChangeDest_server_5fmsg_2fserver_5fside_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void SocketChangeDest::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.SocketChangeDest)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&vs_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&destport_) -
+      reinterpret_cast<char*>(&vs_)) + sizeof(destport_));
+  _internal_metadata_.Clear();
+}
+
+const char* SocketChangeDest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // uint64 vs = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          vs_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 destport = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          destport_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* SocketChangeDest::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.SocketChangeDest)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 vs = 1;
+  if (this->vs() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_vs(), target);
+  }
+
+  // uint32 destport = 2;
+  if (this->destport() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->_internal_destport(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.SocketChangeDest)
+  return target;
+}
+
+size_t SocketChangeDest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.SocketChangeDest)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // uint64 vs = 1;
+  if (this->vs() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_vs());
+  }
+
+  // uint32 destport = 2;
+  if (this->destport() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_destport());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void SocketChangeDest::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.SocketChangeDest)
+  GOOGLE_DCHECK_NE(&from, this);
+  const SocketChangeDest* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<SocketChangeDest>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.SocketChangeDest)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.SocketChangeDest)
+    MergeFrom(*source);
+  }
+}
+
+void SocketChangeDest::MergeFrom(const SocketChangeDest& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.SocketChangeDest)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.vs() != 0) {
+    _internal_set_vs(from._internal_vs());
+  }
+  if (from.destport() != 0) {
+    _internal_set_destport(from._internal_destport());
+  }
+}
+
+void SocketChangeDest::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.SocketChangeDest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void SocketChangeDest::CopyFrom(const SocketChangeDest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.SocketChangeDest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SocketChangeDest::IsInitialized() const {
+  return true;
+}
+
+void SocketChangeDest::InternalSwap(SocketChangeDest* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(vs_, other->vs_);
+  swap(destport_, other->destport_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SocketChangeDest::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void SocketAuth::InitAsDefaultInstance() {
+}
+class SocketAuth::_Internal {
+ public:
+};
+
+SocketAuth::SocketAuth()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:ServerMSG.SocketAuth)
+}
+SocketAuth::SocketAuth(const SocketAuth& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  vs_ = from.vs_;
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.SocketAuth)
+}
+
+void SocketAuth::SharedCtor() {
+  vs_ = PROTOBUF_ULONGLONG(0);
+}
+
+SocketAuth::~SocketAuth() {
+  // @@protoc_insertion_point(destructor:ServerMSG.SocketAuth)
+  SharedDtor();
+}
+
+void SocketAuth::SharedDtor() {
+}
+
+void SocketAuth::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const SocketAuth& SocketAuth::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_SocketAuth_server_5fmsg_2fserver_5fside_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void SocketAuth::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.SocketAuth)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  vs_ = PROTOBUF_ULONGLONG(0);
+  _internal_metadata_.Clear();
+}
+
+const char* SocketAuth::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // uint64 vs = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          vs_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* SocketAuth::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.SocketAuth)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 vs = 1;
+  if (this->vs() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_vs(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.SocketAuth)
+  return target;
+}
+
+size_t SocketAuth::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.SocketAuth)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // uint64 vs = 1;
+  if (this->vs() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_vs());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void SocketAuth::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.SocketAuth)
+  GOOGLE_DCHECK_NE(&from, this);
+  const SocketAuth* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<SocketAuth>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.SocketAuth)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.SocketAuth)
+    MergeFrom(*source);
+  }
+}
+
+void SocketAuth::MergeFrom(const SocketAuth& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.SocketAuth)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.vs() != 0) {
+    _internal_set_vs(from._internal_vs());
+  }
+}
+
+void SocketAuth::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.SocketAuth)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void SocketAuth::CopyFrom(const SocketAuth& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.SocketAuth)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SocketAuth::IsInitialized() const {
+  return true;
+}
+
+void SocketAuth::InternalSwap(SocketAuth* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(vs_, other->vs_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SocketAuth::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void SocketStartAccept::InitAsDefaultInstance() {
+}
+class SocketStartAccept::_Internal {
+ public:
+};
+
+SocketStartAccept::SocketStartAccept()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:ServerMSG.SocketStartAccept)
+}
+SocketStartAccept::SocketStartAccept(const SocketStartAccept& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.SocketStartAccept)
+}
+
+void SocketStartAccept::SharedCtor() {
+}
+
+SocketStartAccept::~SocketStartAccept() {
+  // @@protoc_insertion_point(destructor:ServerMSG.SocketStartAccept)
+  SharedDtor();
+}
+
+void SocketStartAccept::SharedDtor() {
+}
+
+void SocketStartAccept::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const SocketStartAccept& SocketStartAccept::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_SocketStartAccept_server_5fmsg_2fserver_5fside_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void SocketStartAccept::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.SocketStartAccept)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _internal_metadata_.Clear();
+}
+
+const char* SocketStartAccept::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* SocketStartAccept::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.SocketStartAccept)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.SocketStartAccept)
+  return target;
+}
+
+size_t SocketStartAccept::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.SocketStartAccept)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void SocketStartAccept::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.SocketStartAccept)
+  GOOGLE_DCHECK_NE(&from, this);
+  const SocketStartAccept* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<SocketStartAccept>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.SocketStartAccept)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.SocketStartAccept)
+    MergeFrom(*source);
+  }
+}
+
+void SocketStartAccept::MergeFrom(const SocketStartAccept& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.SocketStartAccept)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+}
+
+void SocketStartAccept::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.SocketStartAccept)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void SocketStartAccept::CopyFrom(const SocketStartAccept& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.SocketStartAccept)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SocketStartAccept::IsInitialized() const {
+  return true;
+}
+
+void SocketStartAccept::InternalSwap(SocketStartAccept* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SocketStartAccept::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void SocketStopAccept::InitAsDefaultInstance() {
+}
+class SocketStopAccept::_Internal {
+ public:
+};
+
+SocketStopAccept::SocketStopAccept()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:ServerMSG.SocketStopAccept)
+}
+SocketStopAccept::SocketStopAccept(const SocketStopAccept& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.SocketStopAccept)
+}
+
+void SocketStopAccept::SharedCtor() {
+}
+
+SocketStopAccept::~SocketStopAccept() {
+  // @@protoc_insertion_point(destructor:ServerMSG.SocketStopAccept)
+  SharedDtor();
+}
+
+void SocketStopAccept::SharedDtor() {
+}
+
+void SocketStopAccept::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const SocketStopAccept& SocketStopAccept::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_SocketStopAccept_server_5fmsg_2fserver_5fside_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void SocketStopAccept::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.SocketStopAccept)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _internal_metadata_.Clear();
+}
+
+const char* SocketStopAccept::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* SocketStopAccept::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.SocketStopAccept)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.SocketStopAccept)
+  return target;
+}
+
+size_t SocketStopAccept::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.SocketStopAccept)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void SocketStopAccept::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.SocketStopAccept)
+  GOOGLE_DCHECK_NE(&from, this);
+  const SocketStopAccept* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<SocketStopAccept>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.SocketStopAccept)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.SocketStopAccept)
+    MergeFrom(*source);
+  }
+}
+
+void SocketStopAccept::MergeFrom(const SocketStopAccept& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.SocketStopAccept)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+}
+
+void SocketStopAccept::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.SocketStopAccept)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void SocketStopAccept::CopyFrom(const SocketStopAccept& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.SocketStopAccept)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SocketStopAccept::IsInitialized() const {
+  return true;
+}
+
+void SocketStopAccept::InternalSwap(SocketStopAccept* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SocketStopAccept::GetMetadata() const {
   return GetMetadataStatic();
 }
 
@@ -11373,6 +12907,27 @@ template<> PROTOBUF_NOINLINE ::ServerMSG::ServiceHttpResponse* Arena::CreateMayb
 }
 template<> PROTOBUF_NOINLINE ::ServerMSG::ServiceReady* Arena::CreateMaybeMessage< ::ServerMSG::ServiceReady >(Arena* arena) {
   return Arena::CreateInternal< ::ServerMSG::ServiceReady >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ServerMSG::ServiceRegister* Arena::CreateMaybeMessage< ::ServerMSG::ServiceRegister >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::ServiceRegister >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ServerMSG::SocketConnect* Arena::CreateMaybeMessage< ::ServerMSG::SocketConnect >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::SocketConnect >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ServerMSG::SocketClose* Arena::CreateMaybeMessage< ::ServerMSG::SocketClose >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::SocketClose >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ServerMSG::SocketChangeDest* Arena::CreateMaybeMessage< ::ServerMSG::SocketChangeDest >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::SocketChangeDest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ServerMSG::SocketAuth* Arena::CreateMaybeMessage< ::ServerMSG::SocketAuth >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::SocketAuth >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ServerMSG::SocketStartAccept* Arena::CreateMaybeMessage< ::ServerMSG::SocketStartAccept >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::SocketStartAccept >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ServerMSG::SocketStopAccept* Arena::CreateMaybeMessage< ::ServerMSG::SocketStopAccept >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::SocketStopAccept >(arena);
 }
 template<> PROTOBUF_NOINLINE ::ServerMSG::PlayerEnterZone* Arena::CreateMaybeMessage< ::ServerMSG::PlayerEnterZone >(Arena* arena) {
   return Arena::CreateInternal< ::ServerMSG::PlayerEnterZone >(arena);

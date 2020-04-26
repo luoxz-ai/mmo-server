@@ -49,8 +49,8 @@ public:
     bool              GetLocalPort() const { return m_bLocalPort; }
     void              SetLocalPort(bool val) { m_bLocalPort = val; }
 
-    bool   TakeMsg(CNetworkMessage*& msg);
-    bool   SendMsg(const CNetworkMessage& msg);
+    bool   TakePortMsg(CNetworkMessage*& msg);
+    bool   SendPortMsg(const CNetworkMessage& msg);
     bool   SendBroadcastMsg(const CNetworkMessage& msg);
     bool   SendMultiMsg(const std::vector<VirtualSocket>& setVS, const CNetworkMessage& msg);
     bool   SendMultiIDMsg(const std::vector<OBJID>& setID, const CNetworkMessage& msg);

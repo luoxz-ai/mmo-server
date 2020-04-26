@@ -7,7 +7,7 @@
 #include "server_msg/server_side.pb.h"
 #include "msg/world_service.pb.h"
 
-MEMORYHEAP_IMPLEMENTATION(CUser, s_heap);
+OBJECTHEAP_IMPLEMENTATION(CUser, s_heap);
 
 CUser::CUser() {}
 CUser::~CUser() {}
@@ -52,16 +52,16 @@ void CUser::EnterZone()
                              msg,
                              WorldService()->GetServerPort(),
                              ServerPort(WorldService()->GetWorldID(), idZone));
-        WorldService()->SendMsg(_msg);
+        WorldService()->SendPortMsg(_msg);
     }
 
     //通知Socket，玩家消息指向新的Zone
     {
-        MSG_SCK_CHG_DEST sock_msg;
-        sock_msg.idService = idZone;
-        sock_msg.vs        = GetSocket();
-
-        WorldService()->SendPortMsg(GetSocket().GetServerPort(), (byte*)&sock_msg, sizeof(sock_msg));
+        ServerMSG::SocketChangeDest sock_msg;
+        sock_msg.set_destport(ServerPort(WorldService()->GetWorldID(), idZone));
+        sock_msg.set_vs(GetSocket());
+        
+        WorldService()->SendPortMsg(GetSocket().GetServerPort(), sock_msg);
     }
 
     m_idZone = idZone;
@@ -75,11 +75,11 @@ void CUser::OnChangeZone(uint16_t idZone)
 
     //通知Socket，玩家消息指向新的Zone
     {
-        MSG_SCK_CHG_DEST sock_msg;
-        sock_msg.idService = idZone;
-        sock_msg.vs        = GetSocket();
-
-        WorldService()->SendPortMsg(GetSocket().GetServerPort(), (byte*)&sock_msg, sizeof(sock_msg));
+        ServerMSG::SocketChangeDest sock_msg;
+        sock_msg.set_destport(ServerPort(WorldService()->GetWorldID(), idZone));
+        sock_msg.set_vs(GetSocket());
+        
+        WorldService()->SendPortMsg(GetSocket().GetServerPort(), sock_msg);
     }
 
     m_idZone = idZone;
@@ -101,15 +101,15 @@ void CUser::Logout()
                              msg,
                              WorldService()->GetServerPort(),
                              ServerPort(WorldService()->GetWorldID(), m_idZone));
-        WorldService()->SendMsg(_msg);
+        WorldService()->SendPortMsg(_msg);
     }
     //通知Socket， 玩家消息指向回World
     {
-        MSG_SCK_CHG_DEST socket_msg;
-        socket_msg.idService = WorldService()->GetServiceID();
-        socket_msg.vs        = GetSocket();
-
-        WorldService()->SendPortMsg(GetSocket().GetServerPort(), (byte*)&socket_msg, sizeof(socket_msg));
+        ServerMSG::SocketChangeDest sock_msg;
+        sock_msg.set_destport(WorldService()->GetServerPort());
+        sock_msg.set_vs(GetSocket());
+        
+        WorldService()->SendPortMsg(GetSocket().GetServerPort(), sock_msg);
     }
     __LEAVE_FUNCTION
 }

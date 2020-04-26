@@ -89,7 +89,7 @@ public: // set attr
     export_lua void SaveInfo() { m_pRecord->Update(); }
 
 public:
-    MEMORYHEAP_DECLARATION(s_heap);
+    OBJECTHEAP_DECLARATION(s_heap);
 
 protected:
     CDBRecordPtr             m_pRecord; // 物品数据

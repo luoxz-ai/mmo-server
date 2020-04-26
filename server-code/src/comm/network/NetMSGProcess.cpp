@@ -2,24 +2,24 @@
 
 #include "LoggingMgr.h"
 
-void CNetMSGProcess::Process(CNetworkMessage* pMsg, bool bLogNoPorcess) const
+bool CNetMSGProcess::Process(CNetworkMessage* pMsg) const
 {
     __ENTER_FUNCTION
-    CHECK(pMsg);
+    CHECKF(pMsg);
     auto itFind = m_FuncMap.find(pMsg->GetCmd());
     if(itFind == m_FuncMap.end())
     {
         if(m_funcDefault)
         {
-            return m_funcDefault(pMsg->GetCmd(), pMsg);
+            m_funcDefault(pMsg->GetCmd(), pMsg);
+            return true;
         }
-        if(bLogNoPorcess)
-        {
-            LOGERROR("CMD {} didn't have ProcessHandler", pMsg->GetCmd());
-        }
-        return;
+
+        return false;
     }
 
-    return (itFind->second)(pMsg);
+    (itFind->second)(pMsg);
+    return true;
     __LEAVE_FUNCTION
+    return false;
 }
