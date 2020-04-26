@@ -1,10 +1,10 @@
 #include "SystemVars.h"
 
+#include "MsgWorldProcess.h"
+#include "MysqlConnection.h"
 #include "WorldService.h"
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
-#include "MysqlConnection.h"
-#include "MsgWorldProcess.h"
 
 OBJECTHEAP_IMPLEMENTATION(CSystemVar, s_heap);
 
@@ -142,9 +142,7 @@ void CSystemVar::DeleteRecord()
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-CSystemVarSet::CSystemVarSet()
-{
-}
+CSystemVarSet::CSystemVarSet() {}
 
 CSystemVarSet::~CSystemVarSet()
 {
@@ -153,7 +151,7 @@ CSystemVarSet::~CSystemVarSet()
 
 ON_SERVERMSG(CWorldService, SystemVarChange)
 {
-    
+
     switch(msg.type())
     {
         case ServerMSG::SystemVarChange::SVCT_CREATE:
@@ -194,9 +192,9 @@ bool CSystemVarSet::Init()
     {
         for(size_t i = 0; i < result->get_num_row(); i++)
         {
-            auto row = result->fetch_row(true);
+            auto row   = result->fetch_row(true);
             auto pData = std::make_unique<CSystemVar>(std::move(row));
-            auto key = pData->GetIdx();
+            auto key   = pData->GetIdx();
             m_setData.emplace(key, std::move(pData));
         }
     }
@@ -221,7 +219,7 @@ CSystemVar* CSystemVarSet::CreateVar(uint32_t nIdx)
 {
     auto* pDB = WorldService()->GetGameDB();
     CHECKF(pDB);
-    
+
     if(nIdx < SYSTEMVAR_NOT_SAVE)
     {
         auto pDBRecord = pDB->MakeRecord(TBLD_SYSTEMVAR::table_name);

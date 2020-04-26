@@ -24,7 +24,7 @@ void export_to_lua(lua_State* L, void* pManager)
 RobotClientManager::RobotClientManager(uint32_t nRobStart, uint32_t nRobAmount)
     : m_pNetMsgProcess(std::make_unique<CNetMSGProcess>())
 {
-    m_pEventManager.reset( CEventManager::CreateNew(GetEVBase()) );
+    m_pEventManager.reset(CEventManager::CreateNew(GetEVBase()));
 
     m_pScriptManager.reset(CLUAScriptManager::CreateNew("script", export_to_lua, this, "robot_client", false));
     m_pScriptManager->_ExecScript<void>("main", nRobStart, nRobAmount);
@@ -49,7 +49,6 @@ RobotClientManager::~RobotClientManager()
     }
     m_setClient.clear();
     Destroy();
-
 }
 
 RobotClient* RobotClientManager::ConnectServer(const char* addr, int32_t port)

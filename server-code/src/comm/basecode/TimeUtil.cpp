@@ -60,7 +60,7 @@ time_t _TimeGetSecondLocal()
 struct TimeGetCacheData
 {
     bool   bUserCache        = false;
-    time_t LastMono              = 0;
+    time_t LastMono          = 0;
     time_t Now               = 0;
     time_t NowOffset         = 0;
     time_t NowOffsetSec      = 0;
@@ -77,8 +77,8 @@ void TimeOffset(time_t offset)
 void TimeGetCacheCreate()
 {
     g_TimeGetCacheData.bUserCache = true;
-    g_TimeGetCacheData.LastMono   = _TimeGetMonotonic();    //取得MONO时间戳
-    g_TimeGetCacheData.Now        = _TimeGetMillisecond();  //取得系统时间戳
+    g_TimeGetCacheData.LastMono   = _TimeGetMonotonic();   //取得MONO时间戳
+    g_TimeGetCacheData.Now        = _TimeGetMillisecond(); //取得系统时间戳
 }
 
 void TimeGetCacheUpdate()

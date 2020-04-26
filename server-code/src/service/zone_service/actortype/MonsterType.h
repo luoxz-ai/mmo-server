@@ -11,7 +11,7 @@ enum MonsterType
     MONSTER_TYPE_BOSS,
 };
 
-class CMonsterType: public NoncopyableT<CMonsterType>
+class CMonsterType : public NoncopyableT<CMonsterType>
 {
     CMonsterType() {}
     bool Init(const Cfg_Monster_Row& row)
@@ -21,12 +21,12 @@ class CMonsterType: public NoncopyableT<CMonsterType>
 
         return true;
     }
+
 public:
     CreateNewImpl(CMonsterType);
+
 public:
     ~CMonsterType() {}
-    
-    
 
     using PB_T = Cfg_Monster;
     uint32_t            GetID() const { return m_Data.id(); }
@@ -46,6 +46,6 @@ private:
     CActorAttrib    m_ability;
 };
 
-DEFINE_GAMEMAPDATA(CMonsterTypeSet,CMonsterType);
+DEFINE_GAMEMAPDATA(CMonsterTypeSet, CMonsterType);
 
 #endif /* MONSTERTYPE_H */

@@ -1,6 +1,6 @@
 syntax = "proto3";
 import "sql_options/sql_options.proto";
- 
+
 package db;
 message tbld_commondata
 {
@@ -14,7 +14,7 @@ message tbld_commondata
     uint64 data2    = 7;                             //数据3
     uint64 data3    = 8;                             //数据4
 }
- 
+
 message tbld_cooldown
 {
 
@@ -67,8 +67,9 @@ message tbld_item
     uint64 id       = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true];
     uint64 owner_id = 2 [(sql).keys = "idx_owner,idx_owner_pack"]; //所有者id
     uint32 itemtype = 3 [(sql).keys = "idx_itemtype"];             //道具类型编号
-    uint32 position = 4 [(sql).keys = "idx_owner_pack"];  //所属包裹类型0:包裹 1:装备槽 100:仓库 101:帮派仓库 102:回购列表 103:邮箱 104:拍卖行
-    
+    uint32 position = 4
+        [(sql).keys =
+             "idx_owner_pack"]; //所属包裹类型0:包裹 1:装备槽 100:仓库 101:帮派仓库 102:回购列表 103:邮箱 104:拍卖行
 
     uint32 grid         = 5;                      //所属包裹位置
     uint32 flag         = 6;                      //物品掩码

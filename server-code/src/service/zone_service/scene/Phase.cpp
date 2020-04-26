@@ -1,31 +1,31 @@
 #include "Phase.h"
 
 #include "Actor.h"
+#include "ActorManager.h"
+#include "EventManager.h"
+#include "GameEventDef.h"
+#include "LoadingThread.h"
 #include "Monster.h"
 #include "Npc.h"
 #include "Player.h"
 #include "Scene.h"
-#include "ZoneService.h"
-#include "EventManager.h"
-#include "ScriptManager.h"
-#include "ActorManager.h"
 #include "SceneManager.h"
-#include "LoadingThread.h"
-#include "GameEventDef.h"
+#include "ScriptManager.h"
+#include "ZoneService.h"
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
 
 OBJECTHEAP_IMPLEMENTATION(CPhase, s_heap);
 
-constexpr int WAIT_PLAYER_LOADING_MS = 5*60*1000;
-constexpr int WAIT_DESTORY_MS = 1*60*1000;
+constexpr int WAIT_PLAYER_LOADING_MS = 5 * 60 * 1000;
+constexpr int WAIT_DESTORY_MS        = 1 * 60 * 1000;
 
 CPhase::CPhase() {}
 
 CPhase::~CPhase()
 {
     __ENTER_FUNCTION
-    LOGDEBUG("PhaseDestory:{} {} idPhase:{}", GetSceneID().GetMapID(), GetSceneID().GetPhaseIdx(),  m_idPhase);
+    LOGDEBUG("PhaseDestory:{} {} idPhase:{}", GetSceneID().GetMapID(), GetSceneID().GetPhaseIdx(), m_idPhase);
     while(m_setActor.empty() == false)
     {
         CActor* pActor = static_cast<CActor*>(m_setActor.begin()->second);
@@ -36,16 +36,16 @@ CPhase::~CPhase()
     __LEAVE_FUNCTION
 }
 
-bool CPhase::Init(CScene* pScene, const SceneID& idScene, uint64_t idPhase,const PhaseData* pPhaseData)
+bool CPhase::Init(CScene* pScene, const SceneID& idScene, uint64_t idPhase, const PhaseData* pPhaseData)
 {
     __ENTER_FUNCTION
     m_pScene = pScene;
     m_pMapValSet.reset(CMapValSet::CreateNew(this));
     CSceneBase::Init(idScene, MapManager());
     if(pPhaseData)
-    {   
+    {
         uint64_t idPhaseLink = pPhaseData->link_phase();
-        auto pPhase = pScene->QueryPhase(idPhaseLink);
+        auto     pPhase      = pScene->QueryPhase(idPhaseLink);
         if(pPhase)
         {
             LinkSceneTree(pPhase);
@@ -53,15 +53,14 @@ bool CPhase::Init(CScene* pScene, const SceneID& idScene, uint64_t idPhase,const
         else
         {
             CPos2D vBasePos{pPhaseData->left(), pPhaseData->top()};
-            float fWidth = pPhaseData->right() - pPhaseData->left();
-            float fHeight = pPhaseData->bottom() - pPhaseData->top();
+            float  fWidth  = pPhaseData->right() - pPhaseData->left();
+            float  fHeight = pPhaseData->bottom() - pPhaseData->top();
             InitSceneTree(vBasePos, fWidth, fHeight, pPhaseData->viewgrid_width());
         }
-    
     }
     else
     {
-        InitSceneTree({0.0f,0.0f}, 0.0f, 0.0f, 0);    
+        InitSceneTree({0.0f, 0.0f}, 0.0f, 0.0f, 0);
     }
 
     //通知AI服务器,创建场景
@@ -134,8 +133,7 @@ void CPhase::AddTimedCallback(uint32_t tIntervalMS, const std::string& func_name
 
     EventManager()->ScheduleEvent(
         0,
-        [pThis = this, _func_name = func_name]() 
-        {
+        [pThis = this, _func_name = func_name]() {
             ScriptManager()->ExecScript<void>(pThis->m_pMap->GetScriptID(), _func_name.c_str(), pThis);
         },
         tIntervalMS,
@@ -167,7 +165,8 @@ CNpc* CPhase::CreateNpc(uint32_t idNpcType, const CPos2D& pos, float face)
 CMonster* CPhase::CreateMonster(const CreateMonsterParam& param)
 {
     __ENTER_FUNCTION
-    CMonster* pMonster = CMonster::CreateNew(param.idMonsterType, param.idOwner, param.idGen, param.idPhase, param.idCamp);
+    CMonster* pMonster =
+        CMonster::CreateNew(param.idMonsterType, param.idOwner, param.idGen, param.idPhase, param.idCamp);
     if(pMonster)
     {
         // notify ai
@@ -186,10 +185,10 @@ bool CPhase::CreateMultiMonster(const CreateMonsterParam& param, uint32_t nNum, 
     __ENTER_FUNCTION
     for(size_t i = 0; i < nNum; i++)
     {
-        CPos2D newPos = param.pos + CPos2D::UNIT_X.randomDeviant(1.0f) * random_float(0.0f, range);
+        CPos2D             newPos   = param.pos + CPos2D::UNIT_X.randomDeviant(1.0f) * random_float(0.0f, range);
         CreateMonsterParam newParam = param;
-        newParam.pos = newPos;
-        newParam.face = random_float();
+        newParam.pos                = newPos;
+        newParam.face               = random_float();
         CreateMonster(newParam);
     }
 
@@ -317,14 +316,12 @@ bool CPhase::EnterMap(CSceneObject* pActor, float fPosX, float fPosY, float fFac
         m_OwnerIDSet[pActor->GetID()] = true;
     }
 
-
     return true;
 }
 
 void CPhase::ScheduleDelPhase(uint32_t wait_ms)
 {
-    auto del_func = [sceneID = GetSceneID(), idPhaseID = m_idPhase]() 
-    {
+    auto del_func = [sceneID = GetSceneID(), idPhaseID = m_idPhase]() {
         auto pScene = SceneManager()->_QueryScene(sceneID);
         if(pScene)
         {

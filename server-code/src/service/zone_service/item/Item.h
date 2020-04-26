@@ -9,11 +9,12 @@ export_lua class CItem : public CItemData
 {
 private:
     CItem();
+
 public:
     CreateNewImpl(CItem);
+
 public:
     virtual ~CItem();
-    
 
 public:
     //! 直接发送物品信息给pRole
@@ -71,8 +72,5 @@ public:
     export_lua uint32_t GetEquipPosition();
     export_lua bool     ChkEquipPosition(uint32_t nPosition);
     export_lua uint32_t GetCanPileNum();
-
-
-
 };
 #endif /* ITEM_H */

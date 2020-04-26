@@ -22,18 +22,12 @@
 
 namespace lua_tinker
 {
-const char*       S_SHARED_PTR_NAME = "__shared_ptr";
-const std::string S_EMPTY           = "";
+    const char*       S_SHARED_PTR_NAME = "__shared_ptr";
+    const std::string S_EMPTY           = "";
 
-error_call_back_fn g_error_call_back;
-error_call_back_fn get_error_callback()
-{
-    return g_error_call_back;
-}
-void set_error_callback(error_call_back_fn fn)
-{
-    g_error_call_back = fn;
-}
+    error_call_back_fn g_error_call_back;
+    error_call_back_fn get_error_callback() { return g_error_call_back; }
+    void               set_error_callback(error_call_back_fn fn) { g_error_call_back = fn; }
 
 } // namespace lua_tinker
 
@@ -884,79 +878,79 @@ lua_tinker::table_onstack::~table_onstack()
 
 namespace lua_tinker
 {
-namespace detail
-{
-
-    lua_ref_base::lua_ref_base(lua_State* L, int32_t regidx)
-        : m_L(L)
-        , m_regidx(regidx)
-        , m_pRef(new int32_t(0))
+    namespace detail
     {
-        inc_ref();
-    }
 
-    lua_ref_base::lua_ref_base(const lua_ref_base& rht)
-        : m_L(rht.m_L)
-        , m_regidx(rht.m_regidx)
-        , m_pRef(rht.m_pRef)
-    {
-        inc_ref();
-    }
-
-    lua_ref_base::lua_ref_base(lua_ref_base&& rht)
-        : m_L(rht.m_L)
-        , m_regidx(rht.m_regidx)
-        , m_pRef(rht.m_pRef)
-    {
-        rht.m_pRef = nullptr;
-    }
-
-    lua_ref_base& lua_ref_base::operator=(const lua_ref_base& rht)
-    {
-        if(this != &rht)
+        lua_ref_base::lua_ref_base(lua_State* L, int32_t regidx)
+            : m_L(L)
+            , m_regidx(regidx)
+            , m_pRef(new int32_t(0))
         {
-            dec_ref();
-            m_L      = rht.m_L;
-            m_regidx = rht.m_regidx;
-            m_pRef   = rht.m_pRef;
             inc_ref();
         }
-        return *this;
-    }
 
-    lua_ref_base::~lua_ref_base()
-    {
-        // if find it, than unref, else maybe lua is closed
-        dec_ref();
-    }
-
-    void lua_ref_base::destory()
-    {
-        luaL_unref(m_L, LUA_REGISTRYINDEX, m_regidx);
-        delete m_pRef;
-    }
-
-    void lua_ref_base::reset()
-    {
-        dec_ref();
-        m_L      = nullptr;
-        m_regidx = -1;
-        m_pRef   = nullptr;
-    }
-
-    void lua_ref_base::inc_ref()
-    {
-        if(m_pRef)
-            ++(*m_pRef);
-    }
-
-    void lua_ref_base::dec_ref()
-    {
-        if(m_pRef)
+        lua_ref_base::lua_ref_base(const lua_ref_base& rht)
+            : m_L(rht.m_L)
+            , m_regidx(rht.m_regidx)
+            , m_pRef(rht.m_pRef)
         {
-            if(--(*m_pRef) == 0)
-                destory();
+            inc_ref();
         }
-    }
-} // namespace detail
+
+        lua_ref_base::lua_ref_base(lua_ref_base&& rht)
+            : m_L(rht.m_L)
+            , m_regidx(rht.m_regidx)
+            , m_pRef(rht.m_pRef)
+        {
+            rht.m_pRef = nullptr;
+        }
+
+        lua_ref_base& lua_ref_base::operator=(const lua_ref_base& rht)
+        {
+            if(this != &rht)
+            {
+                dec_ref();
+                m_L      = rht.m_L;
+                m_regidx = rht.m_regidx;
+                m_pRef   = rht.m_pRef;
+                inc_ref();
+            }
+            return *this;
+        }
+
+        lua_ref_base::~lua_ref_base()
+        {
+            // if find it, than unref, else maybe lua is closed
+            dec_ref();
+        }
+
+        void lua_ref_base::destory()
+        {
+            luaL_unref(m_L, LUA_REGISTRYINDEX, m_regidx);
+            delete m_pRef;
+        }
+
+        void lua_ref_base::reset()
+        {
+            dec_ref();
+            m_L      = nullptr;
+            m_regidx = -1;
+            m_pRef   = nullptr;
+        }
+
+        void lua_ref_base::inc_ref()
+        {
+            if(m_pRef)
+                ++(*m_pRef);
+        }
+
+        void lua_ref_base::dec_ref()
+        {
+            if(m_pRef)
+            {
+                if(--(*m_pRef) == 0)
+                    destory();
+            }
+        }
+    } // namespace detail
 } // namespace lua_tinker

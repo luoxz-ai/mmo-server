@@ -1,8 +1,8 @@
 #include "GMManager.h"
 
+#include "MysqlConnection.h"
 #include "ZoneService.h"
 #include "globaldb.h"
-#include "MysqlConnection.h"
 
 CGMManager::CGMManager() {}
 
@@ -36,9 +36,6 @@ bool CGMManager::Init(CMysqlConnection* pGlobalDB)
     __LEAVE_FUNCTION
     return false;
 }
-
-
-
 
 void CGMManager::Destory()
 {

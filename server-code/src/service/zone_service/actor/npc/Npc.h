@@ -9,12 +9,13 @@ export_lua class CNpc : public CActor, NoncopyableT<CNpc>
 {
 protected:
     CNpc();
+
 public:
     CreateNewImpl(CNpc);
+
 public:
     virtual ~CNpc();
 
-    
     bool                                  Init(uint32_t idType);
     export_lua uint32_t                   GetTypeID() const { return m_idType; }
     export_lua virtual uint32_t           GetLev() const override { return m_pType->GetLevel(); }

@@ -18,35 +18,38 @@ class CItemAdditionData : public NoncopyableT<CItemAdditionData>
         }
         return true;
     }
+
 public:
     CreateNewImpl(CItemAdditionData);
+
 public:
     ~CItemAdditionData() {}
     using PB_T = Cfg_ItemAddition;
-    
 
 public:
-    uint32_t GetID()const {return m_id;}
+    uint32_t                               GetID() const { return m_id; }
     const std::vector<CActorAttribChange>& GetAttrib() const { return m_AttribChangeList; }
 
 private:
-    uint32_t m_id;
+    uint32_t                        m_id;
     std::vector<CActorAttribChange> m_AttribChangeList;
 };
 
 //////////////////////////////////////////////////////////////////////
-class CItemAdditionSet : public CGameDataContainer<CItemAdditionData> 
+class CItemAdditionSet : public CGameDataContainer<CItemAdditionData>
 {
     CItemAdditionSet();
+
 public:
     CreateNewImpl(CItemAdditionSet);
+
 public:
     virtual ~CItemAdditionSet();
 
 public:
     virtual void Clear() override;
     virtual void BuildIndex() override;
-    
+
     // 根据itemtype, 追加等级，查询对应的追加数据
     const CItemAdditionData* QueryItemAddition(uint32_t idType, int32_t nLevel);
 
@@ -57,6 +60,5 @@ public:
 protected:
     TYPE_SET m_setAddition;
 };
-
 
 #endif /* ITEMADDITION_H */

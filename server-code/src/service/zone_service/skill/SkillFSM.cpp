@@ -1,11 +1,11 @@
 #include "SkillFSM.h"
 
 #include "Actor.h"
+#include "ActorManager.h"
 #include "Bullet.h"
 #include "Player.h"
 #include "Scene.h"
 #include "ZoneService.h"
-#include "ActorManager.h"
 
 CSkillFSM::CSkillFSM(CActor* pOwner)
     : m_pOwner(pOwner)
@@ -246,7 +246,7 @@ void CSkillFSM::SetTargetPos(const Vector2& posTarget)
 }
 
 void CSkillFSM::FindTarget(CActor*               pOwner,
-                           const CSkillType*           pSkillType,
+                           const CSkillType*     pSkillType,
                            OBJID                 idTarget,
                            const Vector2&        posTarget,
                            std::vector<CActor*>& vecTarget)
@@ -303,11 +303,11 @@ void CSkillFSM::FindTarget(CActor*               pOwner,
                         if(pSkillType->CanAttackActor(pOwner, pActor) == true)
                         {
                             if(GameMath::Intersection2D::isInABBox(pOwner->GetPos(),
-                                                                 Face,
-                                                                 pActor->GetPos(),
-                                                                 FaceNormal,
-                                                                 pSkillType->GetWidth() * 0.5f,
-                                                                 pSkillType->GetRange()) == true)
+                                                                   Face,
+                                                                   pActor->GetPos(),
+                                                                   FaceNormal,
+                                                                   pSkillType->GetWidth() * 0.5f,
+                                                                   pSkillType->GetRange()) == true)
                             {
                                 vecTarget.push_back(pActor);
                             }
@@ -349,9 +349,9 @@ void CSkillFSM::FindTarget(CActor*               pOwner,
                         if(GameMath::simpleDistance(pOwner->GetPos(), pActor->GetPos()) < fRangeSquare)
                         {
                             if(GameMath::Intersection2D::isInFOV(pOwner->GetPos(),
-                                                               Face,
-                                                               pActor->GetPos(),
-                                                               pSkillType->GetWidth()) == true)
+                                                                 Face,
+                                                                 pActor->GetPos(),
+                                                                 pSkillType->GetWidth()) == true)
                             {
                                 vecTarget.push_back(pActor);
                             }
@@ -389,11 +389,11 @@ void CSkillFSM::FindTarget(CActor*               pOwner,
     }
 }
 
-void _SkillEffectInRange(CActor*        pOwner,
-                         const CSkillType*    pSkillType,
-                         OBJID          idTarget,
-                         const Vector2& posTarget,
-                         uint32_t       nApplyTimes)
+void _SkillEffectInRange(CActor*           pOwner,
+                         const CSkillType* pSkillType,
+                         OBJID             idTarget,
+                         const Vector2&    posTarget,
+                         uint32_t          nApplyTimes)
 {
     CHECK(pOwner);
     SC_SKILL_EFFACT send_msg;
@@ -423,7 +423,7 @@ void CSkillFSM::SkillEffectInRange(OBJID          idCaster,
                                    const Vector2& posTarget,
                                    uint32_t       nApplyTimes)
 {
-    CActor*     pOwner     = ActorManager()->QueryActor(idCaster);
+    CActor*           pOwner     = ActorManager()->QueryActor(idCaster);
     const CSkillType* pSkillType = SkillTypeSet()->QueryObj(idSkillType);
     CHECK(pSkillType);
     _SkillEffectInRange(pOwner, pSkillType, idTarget, posTarget, nApplyTimes);
@@ -517,7 +517,7 @@ bool CSkillFSM::IsSkillCoolDown(uint32_t cdType) const
 }
 
 void CSkillFSM::DoMultiDamage(CActor*                     pOwner,
-                              const CSkillType*                 pSkillType,
+                              const CSkillType*           pSkillType,
                               OBJID                       idTarget,
                               const Vector2&              posTarget,
                               const std::vector<CActor*>& vecTarget)
@@ -551,11 +551,11 @@ void CSkillFSM::DoMultiDamage(CActor*                     pOwner,
     }
 }
 
-int32_t CSkillFSM::DoDamage(CActor*        pOwner,
-                            const CSkillType*    pSkillType,
-                            CActor*        pTarget,
-                            OBJID          idTarget,
-                            const Vector2& posTarget)
+int32_t CSkillFSM::DoDamage(CActor*           pOwner,
+                            const CSkillType* pSkillType,
+                            CActor*           pTarget,
+                            OBJID             idTarget,
+                            const Vector2&    posTarget)
 {
     CHECKFR(pOwner, DR_NOTARGET);
     CHECKFR(pSkillType, DR_NOTARGET);
@@ -662,8 +662,8 @@ void CSkillFSM::AddBullet(CActor*                     pOwner,
         return;
 
     CHECK(pOwner);
-    const Vector2& posBorn = pOwner->GetPos();
-    const CBulletType*   pType   = BulletTypeSet()->QueryObj(idBulletType);
+    const Vector2&     posBorn = pOwner->GetPos();
+    const CBulletType* pType   = BulletTypeSet()->QueryObj(idBulletType);
     CHECK(pType);
 
     switch(pType->GetEmitType())

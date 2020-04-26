@@ -49,16 +49,16 @@ struct STATE_DATA
 
 class CAIActor;
 class CAIPathFinder;
-class CActorAI: public NoncopyableT<CActorAI>
+class CActorAI : public NoncopyableT<CActorAI>
 {
     CActorAI();
     bool Init(CAIActor* pActor, const CAIType* pAIType);
+
 public:
     CreateNewImpl(CActorAI);
+
 public:
     ~CActorAI();
-    
-    
 
     void OnUnderAttack(OBJID idTarget, int32_t nDamage);
     void OnDead();
@@ -152,15 +152,15 @@ private:
     }
 
 private:
-    uint32_t       m_nState        = 0;
-    CAIActor*      m_pActor        = nullptr;
-    const CAIType* m_pAIType       = nullptr;
+    uint32_t                       m_nState  = 0;
+    CAIActor*                      m_pActor  = nullptr;
+    const CAIType*                 m_pAIType = nullptr;
     std::unique_ptr<CAIPathFinder> m_pAIPathFinder;
-    OBJID          m_idTarget      = 0;
-    Vector2        m_posTarget;
-    Vector2        m_posRecord;
-    Vector2        m_posBorn;
-    float          m_fTargetDis = 0.0f;
+    OBJID                          m_idTarget = 0;
+    Vector2                        m_posTarget;
+    Vector2                        m_posRecord;
+    Vector2                        m_posBorn;
+    float                          m_fTargetDis = 0.0f;
 
     int32_t                     m_nCurPathNode    = 0;
     uint32_t                    m_nCurSkillTypeID = 0;

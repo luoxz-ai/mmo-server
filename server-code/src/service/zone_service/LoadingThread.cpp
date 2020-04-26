@@ -4,9 +4,7 @@
 #include "Player.h"
 #include "ZoneService.h"
 
-CLoadingThread::CLoadingThread()
-{ 
-}
+CLoadingThread::CLoadingThread() {}
 
 CLoadingThread::~CLoadingThread()
 {
@@ -15,12 +13,12 @@ CLoadingThread::~CLoadingThread()
 
 bool CLoadingThread::Init(CZoneService* pZoneRef)
 {
-    m_pZone = pZoneRef;
+    m_pZone  = pZoneRef;
     m_Thread = std::make_unique<CNormalThread>(50,
-                pZoneRef->GetServiceName() + "_Loading",
-               std::bind(&CLoadingThread::OnThreadProcess, this),
-               std::bind(&CLoadingThread::OnThreadCreate, this),
-               std::bind(&CLoadingThread::OnThreadExit, this));
+                                               pZoneRef->GetServiceName() + "_Loading",
+                                               std::bind(&CLoadingThread::OnThreadProcess, this),
+                                               std::bind(&CLoadingThread::OnThreadCreate, this),
+                                               std::bind(&CLoadingThread::OnThreadExit, this));
     return true;
 }
 
@@ -66,7 +64,7 @@ void CLoadingThread::Destory()
 bool CLoadingThread::AddLoginPlayer(ST_LOADINGTHREAD_PROCESS_DATA&& data)
 {
     auto pData = new ST_LOADINGTHREAD_PROCESS_DATA(std::move(data));
-    
+
     m_nLoadingCount++;
     {
         std::lock_guard locker(m_csWaitingList);

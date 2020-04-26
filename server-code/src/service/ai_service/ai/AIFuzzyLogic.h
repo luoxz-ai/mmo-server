@@ -46,9 +46,9 @@ const fuzzy::Trapezoid like_fuzzy[] = {fuzzy::Trapezoid(0, 0, 20, 50),
                                        fuzzy::Trapezoid(30, 50, 70, 90),
                                        fuzzy::Trapezoid(50, 80, 100, 100)};
 
-class SkillFAM: public NoncopyableT<SkillFAM>
+class SkillFAM : public NoncopyableT<SkillFAM>
 {
-    
+
     SkillFAM()
         : m_rule_set("SkillFAM", fuzzy::Implication::MAMDANI)
     {
@@ -68,20 +68,19 @@ class SkillFAM: public NoncopyableT<SkillFAM>
                                                                  mp_fuzzy[mp_idx],
                                                                  hp_fuzzy[target_hp_idx]},
                                    oper_type,
-                                   like_fuzzy[like_idx]});    
+                                   like_fuzzy[like_idx]});
         return true;
     }
+
 public:
     CreateNewImpl(SkillFAM);
+
 public:
     ~SkillFAM() {}
-    
+
     using PB_T = Cfg_SkillFAM;
-    void Merge(SkillFAM* pData)
-    {
-        pData->m_rule_set.merge(m_rule_set);
-    }
-    
+    void Merge(SkillFAM* pData) { pData->m_rule_set.merge(m_rule_set); }
+
     static uint32_t GetKey(const Cfg_SkillFAM_Row& row) { return row.idskill(); }
     uint32_t        GetID() { return m_ID; }
 
@@ -96,9 +95,9 @@ private:
     // The rules that will tie the logic together
     fuzzy::RuleSet m_rule_set;
 };
-DEFINE_GAMEMAPDATA(CSkillFAMSet,SkillFAM);
+DEFINE_GAMEMAPDATA(CSkillFAMSet, SkillFAM);
 
-class TargetFAM: public NoncopyableT<TargetFAM>
+class TargetFAM : public NoncopyableT<TargetFAM>
 {
 
     TargetFAM()
@@ -121,17 +120,16 @@ class TargetFAM: public NoncopyableT<TargetFAM>
             like_fuzzy[like_idx]});
         return true;
     }
+
 public:
     CreateNewImpl(TargetFAM);
+
 public:
     ~TargetFAM() {}
-    
+
     using PB_T = Cfg_TargetFAM;
-    void Merge(TargetFAM* pData) const
-    {
-        pData->m_rule_set.merge(m_rule_set);
-    }
-    
+    void Merge(TargetFAM* pData) const { pData->m_rule_set.merge(m_rule_set); }
+
     static uint32_t GetKey(const Cfg_TargetFAM_Row& row) { return row.idmonster(); }
     uint32_t        GetID() { return m_ID; }
 
@@ -145,6 +143,6 @@ private:
     // The rules that will tie the logic together
     fuzzy::RuleSet m_rule_set;
 };
-DEFINE_GAMEMAPDATA(CTargetFAMSet,TargetFAM);
+DEFINE_GAMEMAPDATA(CTargetFAMSet, TargetFAM);
 
 #endif /* AIFUZZYLOGIC_H */

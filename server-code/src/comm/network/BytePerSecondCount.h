@@ -11,9 +11,7 @@
 class BytePerSecondCount
 {
 public:
-    BytePerSecondCount()
-    {
-    }
+    BytePerSecondCount() {}
 
     size_t GetTotal() { return m_nTotal; }
     float  GetAvgBPS()
@@ -46,7 +44,7 @@ public:
 
 private:
     std::atomic<size_t> m_nTotal = 0;
-    std::atomic<size_t> m_nCur = 0;
+    std::atomic<size_t> m_nCur   = 0;
 
     float m_fAvgBPS = 0.0f;
 

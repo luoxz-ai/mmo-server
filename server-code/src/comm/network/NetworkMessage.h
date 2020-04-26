@@ -4,8 +4,8 @@
 #include <memory>
 
 #include "BaseCode.h"
-#include "ObjectHeap.h"
 #include "NetworkDefine.h"
+#include "ObjectHeap.h"
 #include "google/protobuf/message.h"
 
 export_lua enum MultiType {

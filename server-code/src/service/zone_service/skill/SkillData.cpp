@@ -1,7 +1,7 @@
 #include "SkillData.h"
-#include "ZoneService.h"
 
 #include "Actor.h"
+#include "ZoneService.h"
 
 CSkillData::CSkillData() {}
 

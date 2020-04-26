@@ -74,7 +74,13 @@ void CAIActor::MoveToTarget(const Vector2& posTarget)
         msg.set_x(posTarget.x);
         msg.set_y(posTarget.y);
         AIService()->SendMsgToZone(msg);
-        LOGAIDEBUG(true, "Actor: {} From {} {} MoveToTargetE {} {}", GetID(), m_Pos.x, m_Pos.y, posTarget.x, posTarget.y);
+        LOGAIDEBUG(true,
+                   "Actor: {} From {} {} MoveToTargetE {} {}",
+                   GetID(),
+                   m_Pos.x,
+                   m_Pos.y,
+                   posTarget.x,
+                   posTarget.y);
         SetLastMoveTime(TimeGetMonotonic());
     }
     else

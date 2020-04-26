@@ -6,16 +6,15 @@
 
 #include <assert.h>
 
+#include "AxisAlignedBox.h"
 #include "MathDef.h"
-#include "RandomGet.h"
-#include "Vector2.h"
-#include "Vector3.h"
-#include "Quaternion.h"
 #include "Matrix3.h"
 #include "Matrix4.h"
-#include "AxisAlignedBox.h"
+#include "Quaternion.h"
+#include "RandomGet.h"
 #include "Ray.h"
-
+#include "Vector2.h"
+#include "Vector3.h"
 #include "export_lua.h"
 
 export_lua struct Rect
@@ -92,7 +91,6 @@ export_lua struct FloatRect
         return (left - vDis <= pos.x && pos.x <= right + vDis && top - vDis <= pos.y && pos.y <= bottom + vDis);
     }
 };
-
 
 export_lua namespace GameMath
 {
@@ -324,8 +322,7 @@ export_lua namespace GameMath
                 If the point is outside the triangle, <b>false</b> is
                 returned.
         */
-        static bool pointInTri2D(const Vector2& p, const Vector2& a, 
-            const Vector2& b, const Vector2& c);
+        static bool pointInTri2D(const Vector2& p, const Vector2& a, const Vector2& b, const Vector2& c);
 
         export_lua inline bool isInFOV(const Vector2& posFirst,
                                        const Vector2& facingFirst,
@@ -452,35 +449,37 @@ export_lua namespace GameMath
         }
     }
 
-
     export_lua namespace Intersection
     {
-       /** Checks whether a given 3D point is inside a triangle.
-       @remarks
-            The vertices of the triangle must be given in either
-            trigonometrical (anticlockwise) or inverse trigonometrical
-            (clockwise) order, and the point must be guaranteed to be in the
-            same plane as the triangle
-        @param p
-            p The point.
-        @param a
-            The triangle's first vertex.
-        @param b
-            The triangle's second vertex.
-        @param c
-            The triangle's third vertex.
-        @param normal
-            The triangle plane's normal (passed in rather than calculated
-            on demand since the caller may already have it)
-        @return
-            If the point resides in the triangle, <b>true</b> is
-            returned.
-        @par
-            If the point is outside the triangle, <b>false</b> is
-            returned.
-        */
-        static bool pointInTri3D(const Vector3& p, const Vector3& a, 
-            const Vector3& b, const Vector3& c, const Vector3& normal);
+        /** Checks whether a given 3D point is inside a triangle.
+        @remarks
+             The vertices of the triangle must be given in either
+             trigonometrical (anticlockwise) or inverse trigonometrical
+             (clockwise) order, and the point must be guaranteed to be in the
+             same plane as the triangle
+         @param p
+             p The point.
+         @param a
+             The triangle's first vertex.
+         @param b
+             The triangle's second vertex.
+         @param c
+             The triangle's third vertex.
+         @param normal
+             The triangle plane's normal (passed in rather than calculated
+             on demand since the caller may already have it)
+         @return
+             If the point resides in the triangle, <b>true</b> is
+             returned.
+         @par
+             If the point is outside the triangle, <b>false</b> is
+             returned.
+         */
+        static bool pointInTri3D(const Vector3& p,
+                                 const Vector3& a,
+                                 const Vector3& b,
+                                 const Vector3& c,
+                                 const Vector3& normal);
         /** Ray / box intersection */
         static std::optional<float> intersects(const Ray& ray, const AxisAlignedBox& box);
 
@@ -506,8 +505,7 @@ export_lua namespace GameMath
             If the ray isn't intersects the box, <b>false</b> is returned, and
             <i>d1</i> and <i>d2</i> is unmodified.
         */
-        static bool intersects(const Ray& ray, const AxisAlignedBox& box,
-            float* d1, float* d2);
+        static bool intersects(const Ray& ray, const AxisAlignedBox& box, float* d1, float* d2);
 
         /** Ray / triangle intersection, returns boolean result and distance.
         @param ray
@@ -527,9 +525,13 @@ export_lua namespace GameMath
         @param negativeSide
             Intersect with "negative side" of the triangle
         */
-        static std::optional<float> intersects(const Ray& ray, const Vector3& a,
-            const Vector3& b, const Vector3& c, const Vector3& normal,
-            bool positiveSide = true, bool negativeSide = true);
+        static std::optional<float> intersects(const Ray&     ray,
+                                               const Vector3& a,
+                                               const Vector3& b,
+                                               const Vector3& c,
+                                               const Vector3& normal,
+                                               bool           positiveSide = true,
+                                               bool           negativeSide = true);
 
         /** Ray / triangle intersection, returns boolean result and distance.
         @param ray
@@ -545,9 +547,12 @@ export_lua namespace GameMath
         @param negativeSide
             Intersect with "negative side" of the triangle
         */
-        static std::optional<float> intersects(const Ray& ray, const Vector3& a,
-            const Vector3& b, const Vector3& c,
-            bool positiveSide = true, bool negativeSide = true);
+        static std::optional<float> intersects(const Ray&     ray,
+                                               const Vector3& a,
+                                               const Vector3& b,
+                                               const Vector3& c,
+                                               bool           positiveSide = true,
+                                               bool           negativeSide = true);
     }
 };
 

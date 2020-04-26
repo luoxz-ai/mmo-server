@@ -32,7 +32,6 @@ void CPlayer::RecalcAttrib(bool bClearCache /*= false*/)
     __LEAVE_FUNCTION
 }
 
-
 void CPlayer::SetPKMode(uint32_t val)
 {
     __ENTER_FUNCTION
@@ -250,8 +249,6 @@ uint32_t CPlayer::GetProperty(uint32_t nType) const
     __LEAVE_FUNCTION
     return 0;
 }
-
-
 
 bool CPlayer::CheckMoney(uint32_t nMoneyType, uint32_t nVal)
 {

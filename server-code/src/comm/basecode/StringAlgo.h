@@ -29,12 +29,13 @@ export_lua inline std::string rtrim_copy(std::string ss);
 export_lua inline std::string trim_copy(std::string st);
 
 export_lua inline std::string& lower_cast(std::string& st);
-export_lua inline std::string lower_cast_copy(std::string st);
+export_lua inline std::string  lower_cast_copy(std::string st);
 export_lua inline std::string& upper_cast(std::string& st);
-export_lua inline std::string upper_cast_copy(std::string st);
+export_lua inline std::string  upper_cast_copy(std::string st);
 
-export_lua inline std::vector<std::string> split_string(const std::string& str, const std::string& delimiters);
-export_lua inline std::vector<std::string_view> split_string_view(const std::string& str, const std::string& delimiters);
+export_lua inline std::vector<std::string>      split_string(const std::string& str, const std::string& delimiters);
+export_lua inline std::vector<std::string_view> split_string_view(const std::string& str,
+                                                                  const std::string& delimiters);
 
 export_lua inline std::string ReplaceStr(std::string& strSource, const std::string& strRepl, const std::string& strNew);
 export_lua std::string URLDecode(const char* pszStr);
@@ -135,12 +136,6 @@ export_lua bool FindNameError(const std::string& utf8);
 export_lua bool RegexStrCheck(const std::string& str);
 export_lua bool RegexStrReload();
 
-
-
-
-
-
-
 //////////////////////////////////////////////////////////////////////////
 inline std::string ReplaceStr(std::string& strSource, const std::string& strRepl, const std::string& strNew)
 {
@@ -155,8 +150,7 @@ inline std::string ReplaceStr(std::string& strSource, const std::string& strRepl
 
 inline std::string& ltrim(std::string& ss)
 {
-    std::string::iterator p =
-        std::find_if_not(ss.begin(), ss.end(), [](unsigned char c) {return std::isspace(c);} );
+    std::string::iterator p = std::find_if_not(ss.begin(), ss.end(), [](unsigned char c) { return std::isspace(c); });
     ss.erase(ss.begin(), p);
     return ss;
 }
@@ -164,7 +158,7 @@ inline std::string& ltrim(std::string& ss)
 inline std::string& rtrim(std::string& ss)
 {
     std::string::reverse_iterator p =
-        std::find_if_not(ss.rbegin(), ss.rend(), [](unsigned char c) {return std::isspace(c);} );
+        std::find_if_not(ss.rbegin(), ss.rend(), [](unsigned char c) { return std::isspace(c); });
     ss.erase(p.base(), ss.end());
     return ss;
 }
@@ -177,8 +171,7 @@ inline std::string& trim(std::string& st)
 
 inline std::string ltrim_copy(std::string ss)
 {
-    std::string::iterator p =
-        std::find_if_not(ss.begin(), ss.end(),  [](unsigned char c) {return std::isspace(c);} );
+    std::string::iterator p = std::find_if_not(ss.begin(), ss.end(), [](unsigned char c) { return std::isspace(c); });
     ss.erase(ss.begin(), p);
     return ss;
 }
@@ -186,7 +179,7 @@ inline std::string ltrim_copy(std::string ss)
 inline std::string rtrim_copy(std::string ss)
 {
     std::string::reverse_iterator p =
-        std::find_if_not(ss.rbegin(), ss.rend(),  [](unsigned char c) {return std::isspace(c);} );
+        std::find_if_not(ss.rbegin(), ss.rend(), [](unsigned char c) { return std::isspace(c); });
     ss.erase(p.base(), ss.end());
     return ss;
 }
@@ -199,29 +192,27 @@ inline std::string trim_copy(std::string st)
 
 inline std::string& lower_cast(std::string& st)
 {
-    std::transform(st.begin(), st.end(), st.begin(), [](unsigned char c){ return std::tolower(c); } );
+    std::transform(st.begin(), st.end(), st.begin(), [](unsigned char c) { return std::tolower(c); });
     return st;
 }
 
 inline std::string lower_cast_copy(std::string st)
 {
-    std::transform(st.begin(), st.end(), st.begin(), [](unsigned char c){ return std::tolower(c); } );
+    std::transform(st.begin(), st.end(), st.begin(), [](unsigned char c) { return std::tolower(c); });
     return st;
 }
 
-
 inline std::string& upper_cast(std::string& st)
 {
-    std::transform(st.begin(), st.end(), st.begin(), [](unsigned char c){ return std::toupper(c); } );
+    std::transform(st.begin(), st.end(), st.begin(), [](unsigned char c) { return std::toupper(c); });
     return st;
 }
 
 inline std::string upper_cast_copy(std::string st)
 {
-    std::transform(st.begin(), st.end(), st.begin(), [](unsigned char c){ return std::toupper(c); } );
+    std::transform(st.begin(), st.end(), st.begin(), [](unsigned char c) { return std::toupper(c); });
     return st;
 }
-
 
 inline std::vector<std::string> split_string(const std::string& str, const std::string& delimiters)
 {

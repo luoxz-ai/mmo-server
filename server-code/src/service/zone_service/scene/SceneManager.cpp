@@ -1,7 +1,7 @@
 #include "SceneManager.h"
 
-#include "Scene.h"
 #include "Phase.h"
+#include "Scene.h"
 #include "ZoneService.h"
 
 CSceneManager::CSceneManager()
@@ -17,8 +17,7 @@ CSceneManager::~CSceneManager()
 bool CSceneManager::Init(uint32_t idZone)
 {
     //将所有归属于本Zone的非副本地图进行加载
-    MapManager()->ForEach([pThis = this, idZone](CGameMap* pMap) 
-    {
+    MapManager()->ForEach([pThis = this, idZone](CGameMap* pMap) {
         //如果不是本Zone的Map, 不会读取MapData,  副本地图也不需要创建
         if(pMap->IsZoneMap(idZone) == false || pMap->IsDynaMap() == true)
             return;
@@ -55,11 +54,9 @@ CPhase* CSceneManager::CreatePhase(uint16_t idMap, uint64_t idMainPhase)
         m_mapScene[idMap] = pScene;
 
         LOGMESSAGE("DynaScene {} Created", idMap);
-    
+
         return pScene->QueryPhase(idMainPhase);
     }
-
-  
 }
 
 CScene* CSceneManager::_CreateStaticScene(uint16_t idMap)
@@ -87,7 +84,7 @@ CScene* CSceneManager::_QueryScene(const SceneID& idScene)
 
 CPhase* CSceneManager::QueryPhase(const SceneID& idScene)
 {
-    CScene* pScene = _QueryScene(idScene); 
+    CScene* pScene = _QueryScene(idScene);
     if(pScene == nullptr)
     {
         return nullptr;

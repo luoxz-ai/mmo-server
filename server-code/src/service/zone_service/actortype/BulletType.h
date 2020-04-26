@@ -32,17 +32,18 @@ enum BULLET_EXPIRE_TYPE
 class CBulletType : public NoncopyableT<CBulletType>
 {
     CBulletType() {}
-        
+
     bool Init(const Cfg_Bullet_Row& row)
     {
         m_Data = row;
         return true;
     }
+
 public:
     CreateNewImpl(CBulletType);
+
 public:
     ~CBulletType() {}
-
 
     using PB_T = Cfg_Bullet;
     uint32_t GetID() const { return m_Data.id(); }
@@ -63,6 +64,6 @@ private:
     Cfg_Bullet_Row m_Data;
 };
 
-DEFINE_GAMEMAPDATA(CBulletTypeSet,CBulletType);
+DEFINE_GAMEMAPDATA(CBulletTypeSet, CBulletType);
 
 #endif /* BULLETTYPE_H */

@@ -49,11 +49,12 @@ private:
 export_lua class CCommonDataSet : public NoncopyableT<CCommonDataSet>
 {
     CCommonDataSet();
+
 public:
     CreateNewImpl(CCommonDataSet);
+
 public:
     ~CCommonDataSet();
-    
 
     bool            Init(CPlayer* pPlayer);
     export_lua void SyncAll();
@@ -63,7 +64,7 @@ public:
     export_lua void         DeleteData(uint32_t nIdx);
 
 private:
-    CPlayer*                                   m_pOwner = nullptr;
+    CPlayer*                                                    m_pOwner = nullptr;
     std::unordered_map<uint32_t, std::unique_ptr<CCommonData> > m_setData;
 };
 #endif /* COMMONDATA_H */

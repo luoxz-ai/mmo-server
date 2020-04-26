@@ -1,15 +1,12 @@
 #ifndef ZoneService_h__
 #define ZoneService_h__
 
-
-
+#include "IService.h"
 #include "MyTimer.h"
 #include "NetSocket.h"
-#include "IService.h"
 #include "ScriptManager.h"
 #include "ServiceComm.h"
 #include "game_common_def.h"
-
 
 class CMysqlConnection;
 class CMapManager;
@@ -21,28 +18,27 @@ class CGMManager;
 class CMonitorMgr;
 class CTeamInfoManager;
 
-
 export_lua class CZoneService : public IService, public CServiceCommon
 {
     CZoneService();
     bool Init(const ServerPort& nServerPort);
     virtual ~CZoneService();
     void Destory();
-public:
-    
 
-    
+public:
     void Release() override;
     CreateNewRealeaseImpl(CZoneService);
-    export_lua const std::string& GetServiceName() const override{ return CServiceCommon::GetServiceName(); }
+    export_lua const std::string& GetServiceName() const override { return CServiceCommon::GetServiceName(); }
+
 public:
-    export_lua uint16_t GetZoneID() const { return GetServiceID() - MIN_ZONE_SERVICE_ID + 1; }
-    export_lua uint16_t GetAIServiceID() const {return MIN_AI_SERVICE_ID + GetZoneID() - 1;}
+    export_lua uint16_t      GetZoneID() const { return GetServiceID() - MIN_ZONE_SERVICE_ID + 1; }
+    export_lua uint16_t      GetAIServiceID() const { return MIN_AI_SERVICE_ID + GetZoneID() - 1; }
     export_lua VirtualSocket GetAIServerVirtualSocket() const
     {
         return VirtualSocket(ServerPort(GetWorldID(), GetServiceID() + 10), 0);
     }
-    export_lua bool IsSharedZone()const {return GetWorldID() == 0;}
+    export_lua bool IsSharedZone() const { return GetWorldID() == 0; }
+
 public:
     virtual void OnLogicThreadProc() override;
     virtual void OnLogicThreadCreate() override;
@@ -57,51 +53,51 @@ public:
     std::deque<CNetworkMessage*>& GetMessagePoolRef(const VirtualSocket& vs);
     bool                          PopMsgFromMessagePool(const VirtualSocket& vs, CNetworkMessage*& pMsg);
     //发送消息给World
-    export_lua bool SendMsgToWorld(uint16_t idWorld, uint16_t nCmd, const google::protobuf::Message& msg)const;
+    export_lua bool SendMsgToWorld(uint16_t idWorld, uint16_t nCmd, const google::protobuf::Message& msg) const;
     //通过World转发消息
     export_lua bool TransmiteMsgFromWorldToOther(uint16_t                         idWorld,
                                                  uint16_t                         idService,
                                                  uint16_t                         nCmd,
-                                                 const google::protobuf::Message& msg)const;
+                                                 const google::protobuf::Message& msg) const;
     //转发消息给其他的zone
-    export_lua bool BroadcastToZone(uint16_t nCmd, const google::protobuf::Message& msg)const;
+    export_lua bool BroadcastToZone(uint16_t nCmd, const google::protobuf::Message& msg) const;
     //广播消息给所有的玩家
-    export_lua bool BroadcastToAllPlayer(const google::protobuf::Message& msg)const;
-    export_lua bool BroadcastToAllPlayer(uint16_t nCmd, const google::protobuf::Message& msg)const;
+    export_lua bool BroadcastToAllPlayer(const google::protobuf::Message& msg) const;
+    export_lua bool BroadcastToAllPlayer(uint16_t nCmd, const google::protobuf::Message& msg) const;
     //发送消息给玩家
-    export_lua bool SendMsgToPlayer(const VirtualSocket& vs, const google::protobuf::Message& msg)const;
-    export_lua bool SendMsgToPlayer(const VirtualSocket& vs, uint16_t nCmd, const google::protobuf::Message& msg)const;
+    export_lua bool SendMsgToPlayer(const VirtualSocket& vs, const google::protobuf::Message& msg) const;
+    export_lua bool SendMsgToPlayer(const VirtualSocket& vs, uint16_t nCmd, const google::protobuf::Message& msg) const;
     //发送消息给AIService
-    export_lua bool SendServerMsgToAIService(const google::protobuf::Message& msg)const;
-    export_lua bool SendMsgToAIService(uint16_t nCmd, const google::protobuf::Message& msg)const;
+    export_lua bool SendServerMsgToAIService(const google::protobuf::Message& msg) const;
+    export_lua bool SendMsgToAIService(uint16_t nCmd, const google::protobuf::Message& msg) const;
 
     //发送广播包给玩家
-    void _ID2VS(OBJID id, VirtualSocketMap_t& VSMap)const override;
+    void _ID2VS(OBJID id, VirtualSocketMap_t& VSMap) const override;
 
 public:
     std::unique_ptr<CMysqlConnection> ConnectGlobalDB();
 
     export_lua CMysqlConnection* GetGameDB(uint16_t nWorldID);
     void                         ReleaseGameDB(uint16_t nWorldID);
-    
+
     CMysqlConnection* _ConnectGameDB(uint16_t nWorldID, CMysqlConnection* pGlobalDB);
 
     export_lua CLUAScriptManager* GetScriptManager() const { return m_pScriptManager.get(); }
     export_lua CMapManager* GetMapManager() const { return m_pMapManager.get(); }
     export_lua CSystemVarSet* GetSystemVarSet() const { return m_pSystemVarSet.get(); }
 
-    export_lua CActorManager* GetActorManager()const { return m_pActorManager.get(); }
-    export_lua CSceneManager* GetSceneManager()const { return m_pSceneManager.get(); }
-    export_lua CLoadingThread* GetLoadingThread()const { return m_pLoadingThread.get(); }
-    
-    export_lua CGMManager* GetGMManager()const { return m_pGMManager.get(); }
-    export_lua CTeamInfoManager* GetTeamInfoManager()const { return m_pTeamInfoManager.get(); }
+    export_lua CActorManager* GetActorManager() const { return m_pActorManager.get(); }
+    export_lua CSceneManager* GetSceneManager() const { return m_pSceneManager.get(); }
+    export_lua CLoadingThread* GetLoadingThread() const { return m_pLoadingThread.get(); }
+
+    export_lua CGMManager* GetGMManager() const { return m_pGMManager.get(); }
+    export_lua CTeamInfoManager* GetTeamInfoManager() const { return m_pTeamInfoManager.get(); }
 
 private:
     void ProcessPortMessage();
 
 private:
-    std::unique_ptr<CMysqlConnection> m_pGlobalDB;
+    std::unique_ptr<CMysqlConnection>                               m_pGlobalDB;
     std::unordered_map<uint16_t, std::unique_ptr<CMysqlConnection>> m_GameDBMap;
 
     CMyTimer m_tLastDisplayTime;
@@ -118,7 +114,7 @@ private:
     std::unique_ptr<CMapManager>       m_pMapManager;
     std::unique_ptr<CSystemVarSet>     m_pSystemVarSet;
 
-    std::unique_ptr<CTeamInfoManager>  m_pTeamInfoManager;
+    std::unique_ptr<CTeamInfoManager> m_pTeamInfoManager;
 
 public:
     //配置文件

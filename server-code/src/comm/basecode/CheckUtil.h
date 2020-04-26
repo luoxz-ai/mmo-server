@@ -125,22 +125,18 @@
     catch(...) { LOGSTACK("catch_error"); }        \
     }
 
-
-
-template<class Func, class ... Args>
-static inline std::optional<std::string> attempt(Func&& func, Args&& ... args)
+template<class Func, class... Args>
+static inline std::optional<std::string> attempt(Func&& func, Args&&... args)
 {
     try
     {
         std::invoke(std::forward<Func>(func), std::forward<Args>(args)...);
     }
-    catch(std::exception e)                 
-    {                                              
+    catch(std::exception e)
+    {
         return {e.what()};
     }
     return {};
 }
-
-
 
 #endif /* CHECKUTIL_H */

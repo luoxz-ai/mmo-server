@@ -10,13 +10,12 @@ export_lua class CPet : public CActor
 protected:
     CPet();
     bool Init(CPetSet* pPetSet, CDBRecordPtr&& pRecord);
+
 public:
     CreateNewImpl(CPet);
+
 public:
     virtual ~CPet();
-
-    
-    
 
 public:
     export_lua virtual ActorType GetActorType() const override { return ActorType::ACT_PET; }
@@ -49,12 +48,12 @@ public:
     OBJECTHEAP_DECLARATION(s_heap);
 
 private:
-    CPetSet*     m_pPetSet;
-    const CPetType*    m_pType;
-    uint32_t     m_nHP = 0;
-    uint32_t     m_nMP = 0;
-    uint32_t     m_nFP = 0;
-    uint32_t     m_nNP = 0;
-    CDBRecordPtr m_pRecord;
+    CPetSet*        m_pPetSet;
+    const CPetType* m_pType;
+    uint32_t        m_nHP = 0;
+    uint32_t        m_nMP = 0;
+    uint32_t        m_nFP = 0;
+    uint32_t        m_nNP = 0;
+    CDBRecordPtr    m_pRecord;
 };
 #endif /* PET_H */

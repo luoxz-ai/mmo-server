@@ -10,16 +10,15 @@ export_lua class CMonster : public CActor
 protected:
     CMonster();
     bool Init(uint32_t idMonsterType, OBJID idOwner, uint32_t idGen, uint64_t idPhase, uint32_t idCamp);
+
 public:
     CreateNewImpl(CMonster);
+
 public:
     virtual ~CMonster();
 
-    
-    
-
 public:
-    export_lua bool SendMsg(const google::protobuf::Message& msg) const;
+    export_lua bool         SendMsg(const google::protobuf::Message& msg) const;
     export_lua virtual bool SendMsg(uint16_t cmd, const google::protobuf::Message& msg) const override;
 
     export_lua virtual ActorType GetActorType() const override { return ActorType::ACT_MONSTER; }
@@ -66,9 +65,9 @@ private:
     uint32_t m_nHP = 0;
     uint32_t m_nMP = 0;
 
-    uint32_t      m_idGen;
-    OBJID         m_idOwner;
+    uint32_t            m_idGen;
+    OBJID               m_idOwner;
     const CMonsterType* m_pType = nullptr;
-    CHateList     m_HateList;
+    CHateList           m_HateList;
 };
 #endif /* MONSTER_H */

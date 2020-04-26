@@ -9,17 +9,18 @@ class CPhase;
 export_lua class CSceneManager : public NoncopyableT<CSceneManager>
 {
     CSceneManager();
+
 public:
     CreateNewImpl(CSceneManager);
+
 public:
     ~CSceneManager();
-    
 
     bool       Init(uint32_t idZone);
     void       Destory();
     export_lua CScene* _CreateStaticScene(uint16_t idMap);
     export_lua CPhase* CreatePhase(uint16_t idMap, uint64_t idPhase);
-    
+
     export_lua CScene* _QueryScene(const SceneID& idScene);
     export_lua CPhase* QueryPhase(const SceneID& idScene);
     export_lua CScene* QueryScene(uint16_t idMap);
@@ -32,6 +33,6 @@ public:
 protected:
 private:
     std::unordered_map<uint16_t, CScene*> m_mapScene;
-    size_t                                        m_nStaticScene;
+    size_t                                m_nStaticScene;
 };
 #endif /* SCENEMANAGER_H */

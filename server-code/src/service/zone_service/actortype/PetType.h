@@ -19,12 +19,12 @@ class CPetType : public NoncopyableT<CPetType>
 
         return true;
     }
+
 public:
     CreateNewImpl(CPetType);
+
 public:
     ~CPetType() {}
-     
-    
 
     using PB_T = Cfg_Pet;
     uint32_t               GetID() const { return m_Data.id(); }
@@ -42,6 +42,6 @@ private:
     AttribList_t m_ability;
 };
 
-DEFINE_GAMEMAPDATA(CPetTypeSet,CPetType);
+DEFINE_GAMEMAPDATA(CPetTypeSet, CPetType);
 
 #endif /* PETTYPE_H */

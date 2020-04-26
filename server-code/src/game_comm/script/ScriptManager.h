@@ -61,23 +61,23 @@ export_lua enum ScriptCallBack {
     SCB_NPC_ONACTIVE = 701,
 };
 
-class CLUAScriptManager: public NoncopyableT<CLUAScriptManager>
+class CLUAScriptManager : public NoncopyableT<CLUAScriptManager>
 {
 public:
     //每个lua被创建时都会调用一下该函数来向lua注册一些必备的c++函数,比如类注册函数等
-    using InitRegisterFunc = void(*)(lua_State*, void*);
+    using InitRegisterFunc = void (*)(lua_State*, void*);
+
 private:
     CLUAScriptManager();
     bool Init(const std::string& name,
-            InitRegisterFunc   func,
-            void*              pInitParam,
-            const char*        search_path = "script",
-            bool               bExecMain   = true);
+              InitRegisterFunc   func,
+              void*              pInitParam,
+              const char*        search_path = "script",
+              bool               bExecMain   = true);
+
 public:
     CreateNewImpl(CLUAScriptManager);
     ~CLUAScriptManager();
-    
-
 
     void Destory();
     void Reload(const std::string& name, bool bExecMain);

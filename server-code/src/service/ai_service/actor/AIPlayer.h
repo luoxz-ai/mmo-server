@@ -7,13 +7,12 @@ class CAIPlayer : public CAIActor
 {
     CAIPlayer();
     bool Init(const ServerMSG::ActorCreate& msg);
+
 public:
     CreateNewImpl(CAIPlayer);
+
 public:
-    
     ~CAIPlayer();
-    
-    
 
     virtual ActorType GetActorType() const override { return ActorType::ACT_PLAYER; }
     static ActorType  GetActorTypeStatic() { return ActorType::ACT_PLAYER; }
@@ -22,6 +21,7 @@ public:
     bool CheckTaskPhase(uint64_t idPhase);
     void AddTaskPhase(uint64_t idPhase);
     void RemoveTaskPhase(uint64_t idPhase);
+
 public:
     OBJECTHEAP_DECLARATION(s_heap);
 

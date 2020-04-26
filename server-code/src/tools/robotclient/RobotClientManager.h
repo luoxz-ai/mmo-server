@@ -46,13 +46,13 @@ public:
     }
 
 private:
-    std::unique_ptr<CNetMSGProcess>       m_pNetMsgProcess;
-    std::unique_ptr<CEventManager>        m_pEventManager;
-    std::set<RobotClient*> m_setClient;
-    CEventEntryPtr         m_Event;
+    std::unique_ptr<CNetMSGProcess> m_pNetMsgProcess;
+    std::unique_ptr<CEventManager>  m_pEventManager;
+    std::set<RobotClient*>          m_setClient;
+    CEventEntryPtr                  m_Event;
 
     std::unordered_map<uint16_t, std::string> m_CMDFuncMap;
-    std::unique_ptr<CLUAScriptManager>    m_pScriptManager;
+    std::unique_ptr<CLUAScriptManager>        m_pScriptManager;
 };
 
 #endif // RobotClient_h__

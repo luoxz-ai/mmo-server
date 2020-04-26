@@ -1,7 +1,6 @@
 #include "GameMap.h"
 
-CGameMap::CGameMap()
-{}
+CGameMap::CGameMap() {}
 
 CGameMap::~CGameMap() {}
 
@@ -9,20 +8,20 @@ bool CGameMap::Init(CMapManager* pManager, const Cfg_Scene_Row& data, const CMap
 {
     CHECKF(pManager);
     CHECKF(pMapData);
-    m_pManager = pManager;
-    m_idMap = data.idmap();
-    m_MapName = data.name();
-    m_idZone = data.idzone();
-    m_idMapTemplate =data.idmapdata();
-    m_nMapType = data.maptype();
-    m_nMapFlag = data.mapflag();
-    m_idScript = data.idscript();
-    m_pMapData = pMapData;
+    m_pManager      = pManager;
+    m_idMap         = data.idmap();
+    m_MapName       = data.name();
+    m_idZone        = data.idzone();
+    m_idMapTemplate = data.idmapdata();
+    m_nMapType      = data.maptype();
+    m_nMapFlag      = data.mapflag();
+    m_idScript      = data.idscript();
+    m_pMapData      = pMapData;
     for(int i = 0; i < data.phase_data_size(); i++)
     {
-        //copy
+        // copy
         auto phase_data = data.phase_data(i);
-        auto idPhase = phase_data.id();
+        auto idPhase    = phase_data.id();
         m_PhaseDataSet.emplace(idPhase, std::move(phase_data));
     }
     return true;
@@ -40,7 +39,7 @@ bool CGameMap::IsInsideMap(float x, float y) const
     return false;
 }
 
-bool CGameMap::IsNearLeavePoint(float x, float y, uint32_t& destMapID, uint32_t& destEnterPointIdx)const
+bool CGameMap::IsNearLeavePoint(float x, float y, uint32_t& destMapID, uint32_t& destEnterPointIdx) const
 {
     __ENTER_FUNCTION
     for(const auto& leave_point_pair: m_LeavePointSet)
@@ -64,7 +63,7 @@ bool CGameMap::IsNearLeavePointX(uint32_t  nLeavePointIdx,
                                  float     x,
                                  float     y,
                                  uint32_t& destMapID,
-                                 uint32_t& destEnterPointIdx)const
+                                 uint32_t& destEnterPointIdx) const
 {
     __ENTER_FUNCTION
     auto pLeavePoint = GetLeavePointByIdx(nLeavePointIdx);

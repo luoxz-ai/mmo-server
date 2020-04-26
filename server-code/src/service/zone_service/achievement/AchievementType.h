@@ -5,7 +5,7 @@
 #include "T_GameDataMap.h"
 #include "config/Cfg_Achievement.pb.h"
 
-class CAchievementType: public NoncopyableT<CAchievementType>
+class CAchievementType : public NoncopyableT<CAchievementType>
 {
     CAchievementType() {}
     bool Init(const Cfg_Achievement_Row& row)
@@ -16,10 +16,9 @@ class CAchievementType: public NoncopyableT<CAchievementType>
 
 public:
     CreateNewImpl(CAchievementType);
+
 public:
     ~CAchievementType() {}
-    
-
 
     using PB_T = Cfg_Achievement;
     static uint32_t GetKey(const Cfg_Achievement_Row& row) { return row.id(); }
@@ -44,28 +43,31 @@ private:
 };
 
 //////////////////////////////////////////////////////////////////////
-class CAchievementTypeSet: public CGameDataContainer<CAchievementType> 
+class CAchievementTypeSet : public CGameDataContainer<CAchievementType>
 {
     CAchievementTypeSet();
+
 public:
     CreateNewImpl(CAchievementTypeSet);
+
 public:
     virtual ~CAchievementTypeSet();
+
 public:
     typedef std::unordered_map<uint32_t, CAchievementType*> DATA_TYPE;
-    typedef std::vector<CAchievementType*>                                  SUB_DATA_LIST;
-    typedef std::unordered_map<uint32_t, SUB_DATA_LIST>                     DATA_MAP_BY_CHECKTYPE;
-    typedef std::unordered_map<uint32_t, SUB_DATA_LIST>                     DATA_MAP_BY_GROUPID;
+    typedef std::vector<CAchievementType*>                  SUB_DATA_LIST;
+    typedef std::unordered_map<uint32_t, SUB_DATA_LIST>     DATA_MAP_BY_CHECKTYPE;
+    typedef std::unordered_map<uint32_t, SUB_DATA_LIST>     DATA_MAP_BY_GROUPID;
 
 public:
     virtual void Clear() override;
     virtual void BuildIndex() override;
-    
+
     // 根据itemtype, 追加等级，查询对应的追加数据
-    const CAchievementType*    GetData(uint32_t idType) const;
-    const DATA_TYPE&     GetData() const;
-    const SUB_DATA_LIST* QueryAchiemenetByGroupID(uint32_t idGroup) const;
-    const SUB_DATA_LIST* QueryAchiemenetByCheckType(uint32_t idType) const;
+    const CAchievementType* GetData(uint32_t idType) const;
+    const DATA_TYPE&        GetData() const;
+    const SUB_DATA_LIST*    QueryAchiemenetByGroupID(uint32_t idGroup) const;
+    const SUB_DATA_LIST*    QueryAchiemenetByCheckType(uint32_t idType) const;
 
 protected:
     DATA_TYPE             m_setData;

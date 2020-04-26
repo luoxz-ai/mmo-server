@@ -15,15 +15,14 @@ export_lua class CPackage : public NoncopyableT<CPackage>
 protected:
     CPackage();
     virtual bool Init(CPlayer* pOwner, uint32_t nPackageType, uint32_t nMaxSize);
+
 public:
     CreateNewImpl(CPackage);
+
 public:
     virtual ~CPackage();
-    
 
 public:
-    
-
 public:
     export_lua virtual uint32_t GetPackageType() { return m_nPosition; }
     export_lua virtual uint32_t GetMaxSize() { return m_nMaxSize; }

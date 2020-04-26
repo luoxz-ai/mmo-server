@@ -22,7 +22,6 @@ bool CAIPlayer::Init(const ServerMSG::ActorCreate& msg)
     return true;
 }
 
-
 void CAIPlayer::ClearTaskPhase()
 {
     m_TaskPhase.clear();
@@ -43,7 +42,6 @@ void CAIPlayer::AddTaskPhase(uint64_t idPhase)
     auto& refData = m_TaskPhase[idPhase];
     refData++;
 }
-
 
 void CAIPlayer::RemoveTaskPhase(uint64_t idPhase)
 {

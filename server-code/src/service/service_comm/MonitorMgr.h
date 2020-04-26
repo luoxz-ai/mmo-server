@@ -3,6 +3,7 @@
 
 #include <chrono>
 #include <map>
+
 #include "BaseCode.h"
 
 #define TICK_EVAL(Func)                                                                 \
@@ -40,11 +41,12 @@ struct SendToClientMsgNode
 class CMonitorMgr
 {
     CMonitorMgr() {}
+
 public:
     ~CMonitorMgr() { Uninit(); }
     CreateNewImpl(CMonitorMgr);
 
-    bool Init() {return true;}
+    bool Init() { return true; }
     void Uninit()
     {
         m_TickEvalMap.clear();

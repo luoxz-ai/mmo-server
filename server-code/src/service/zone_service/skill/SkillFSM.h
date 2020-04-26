@@ -49,24 +49,26 @@ public:
                                               uint32_t       nApplyTimes);
 
     export_lua static void FindTarget(CActor*               pOwner,
-                                      const CSkillType*           pSkillType,
+                                      const CSkillType*     pSkillType,
                                       OBJID                 idTarget,
                                       const Vector2&        posTarget,
                                       std::vector<CActor*>& vecTarget);
 
     export_lua static void DoMultiDamage(CActor*                     pOwner,
-                                         const CSkillType*                 pSkillType,
+                                         const CSkillType*           pSkillType,
                                          OBJID                       idTarget,
                                          const Vector2&              posTarget,
                                          const std::vector<CActor*>& vecTarget);
 
-    export_lua static int32_t DoDamage(CActor*        pOwner,
-                                       const CSkillType*    pSkillType,
-                                       CActor*        pTarget,
-                                       OBJID          idTarget,
-                                       const Vector2& posTarget);
+    export_lua static int32_t DoDamage(CActor*           pOwner,
+                                       const CSkillType* pSkillType,
+                                       CActor*           pTarget,
+                                       OBJID             idTarget,
+                                       const Vector2&    posTarget);
 
-    export_lua static void AttachStatus(CActor* pOwner, const CSkillType* pSkillType, const std::vector<CActor*>& vecTarget);
+    export_lua static void AttachStatus(CActor*                     pOwner,
+                                        const CSkillType*           pSkillType,
+                                        const std::vector<CActor*>& vecTarget);
 
     export_lua static void AddBullet(CActor*                     pOwner,
                                      uint32_t                    idBulletType,
@@ -76,11 +78,11 @@ public:
     void                   Stop();
 
 private:
-    CActor*        m_pOwner;
-    CEventEntryPtr m_pEvent;
-    const CSkillType*    m_pCurSkillType = nullptr;
-    OBJID          m_idTarget;
-    Vector2        m_posTarget;
+    CActor*           m_pOwner;
+    CEventEntryPtr    m_pEvent;
+    const CSkillType* m_pCurSkillType = nullptr;
+    OBJID             m_idTarget;
+    Vector2           m_posTarget;
 
     uint32_t                     m_nApplyTimes = 0;
     SkillState                   m_curState    = SKILLSTATE_IDLE;

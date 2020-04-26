@@ -2,25 +2,24 @@
 
 #include <functional>
 
+#include "AIActorManager.h"
+#include "AIFuzzyLogic.h"
 #include "AIMonster.h"
 #include "AIPlayer.h"
+#include "AISceneManagr.h"
+#include "AISkill.h"
+#include "AIType.h"
 #include "EventManager.h"
+#include "MemoryHelp.h"
 #include "MessagePort.h"
 #include "MessageRoute.h"
+#include "MonitorMgr.h"
+#include "MonsterType.h"
 #include "NetMSGProcess.h"
 #include "NetSocket.h"
 #include "NetworkMessage.h"
 #include "SettingMap.h"
 #include "tinyxml2/tinyxml2.h"
-#include "AISceneManagr.h"
-#include "AIActorManager.h"
-#include "MemoryHelp.h"
-
-#include "AIFuzzyLogic.h"
-#include "AISkill.h"
-#include "AIType.h"
-#include "MonitorMgr.h"
-#include "MonsterType.h"
 
 static thread_local CAIService* tls_pService;
 CAIService*                     AIService()
@@ -39,22 +38,19 @@ CAIService::CAIService()
     m_tLastDisplayTime.Startup(60);
 }
 
-CAIService::~CAIService()
+CAIService::~CAIService() {}
+
+void CAIService::Release()
 {
 
-}
-
-void CAIService::Release()  
-{   
-
     Destory();
-    delete this; 
+    delete this;
 }
 
 void CAIService::Destory()
 {
     __ENTER_FUNCTION
-    
+
     tls_pService = this;
     scope_guards scope_exit;
     scope_exit += []() {
@@ -75,7 +71,6 @@ void CAIService::Destory()
 
     __LEAVE_FUNCTION
 }
-
 
 bool CAIService::Init(const ServerPort& nServerPort)
 {
@@ -121,7 +116,6 @@ bool CAIService::Init(const ServerPort& nServerPort)
     if(CreateService(20) == false)
         return false;
 
-
     ServerMSG::ServiceReady msg;
     msg.set_serverport(GetServerPort());
 
@@ -137,7 +131,7 @@ void CAIService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 {
     if(m_pNetMsgProcess->Process(pNetworkMsg) == false)
     {
-        LOGERROR("CMD {} didn't have ProcessHandler", pNetworkMsg->GetCmd());   
+        LOGERROR("CMD {} didn't have ProcessHandler", pNetworkMsg->GetCmd());
     }
 }
 
@@ -162,7 +156,9 @@ void CAIService::OnLogicThreadProc()
     if(m_tLastDisplayTime.ToNextTime())
     {
         std::string buf = std::string("\n======================================================================") +
-                          fmt::format(FMT_STRING("\nEvent:{}\tMem:{}"), EventManager()->GetEventCount(), get_thread_memory_allocted());
+                          fmt::format(FMT_STRING("\nEvent:{}\tMem:{}"),
+                                      EventManager()->GetEventCount(),
+                                      get_thread_memory_allocted());
         auto pMessagePort = GetMessageRoute()->QueryMessagePort(GetZoneServiceVirtualSocket().GetServerPort(), false);
         if(pMessagePort)
         {

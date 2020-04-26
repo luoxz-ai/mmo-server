@@ -1,15 +1,13 @@
 #include "TeamManager.h"
 
+#include "MsgWorldProcess.h"
 #include "Team.h"
 #include "User.h"
 #include "UserManager.h"
 #include "WorldService.h"
 #include "msg/zone_service.pb.h"
-#include "MsgWorldProcess.h"
 
-CTeamManager::CTeamManager()
-{
-}
+CTeamManager::CTeamManager() {}
 
 CTeamManager::~CTeamManager() {}
 
@@ -72,7 +70,6 @@ bool CTeamManager::DestoryTeam(uint64_t idTeam)
     m_setTeam.erase(it);
     return true;
 }
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 ON_SERVERMSG(CWorldService, TeamCreate)
@@ -183,4 +180,3 @@ ON_SERVERMSG(CWorldService, TeamNewLeader)
     CHECK(pTeam);
     pTeam->SetLeader(msg.operator_id(), msg.new_leader_id());
 }
-

@@ -73,7 +73,6 @@ bool CPlayerTask::Init(CPlayer* pPlayer)
                     ++m_nCurAcceptNum;
                 }
             }
-            
         }
     }
 
@@ -247,7 +246,6 @@ bool CPlayerTask::AcceptTask(uint32_t idTask, bool bChkCondition /*= true*/, boo
         }
     }
     pData->SaveInfo();
-    
 
     if(pType->HasFlag(TASKFLAG_HIDE) == false)
         SendTaskInfo(pData);

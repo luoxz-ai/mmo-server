@@ -22,7 +22,7 @@ void CAchievementTypeSet::BuildIndex()
     __ENTER_FUNCTION
     for(const auto& ptr: m_vecData)
     {
-        auto pData = ptr.get();
+        auto pData                = ptr.get();
         m_setData[pData->GetID()] = pData;
         m_setDataByCheckType[pData->GetCheckData().check_type()].push_back(pData);
         m_setDataByGroupID[pData->GetGroupID()].push_back(pData);

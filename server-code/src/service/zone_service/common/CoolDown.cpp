@@ -177,8 +177,8 @@ bool CCoolDownSet::ClearCoolDown(uint32_t nType, uint32_t nIdx, bool bUpdate /*=
 ICoolDown* CCoolDownSet::CreateData(uint32_t nType, uint32_t nIdx, uint32_t nMSec)
 {
     __ENTER_FUNCTION
-    uint64_t key = MAKE64(nType, nIdx);
-    auto pData = std::make_unique<CCoolDown>();
+    uint64_t key   = MAKE64(nType, nIdx);
+    auto     pData = std::make_unique<CCoolDown>();
     pData->StartCoolDown(nMSec);
     m_setDataMap[key] = std::move(pData);
     return m_setDataMap[key].get();
@@ -254,7 +254,7 @@ ICoolDown* CPlayerCoolDownSet::CreateData(uint32_t nType, uint32_t nIdx, uint32_
     __ENTER_FUNCTION
     auto* pDB = ZoneService()->GetGameDB(m_pOwner->GetWorldID());
 
-    auto pDBRecord                               = pDB->MakeRecord(TBLD_COOLDOWN::table_name);
+    auto pDBRecord = pDB->MakeRecord(TBLD_COOLDOWN::table_name);
 
     pDBRecord->Field(TBLD_COOLDOWN::PLAYERID)    = m_pOwner->GetID();
     pDBRecord->Field(TBLD_COOLDOWN::KEYTYPE)     = nType;
@@ -265,7 +265,7 @@ ICoolDown* CPlayerCoolDownSet::CreateData(uint32_t nType, uint32_t nIdx, uint32_
     uint64_t key = MAKE64(nType, nIdx);
 
     auto pData = std::make_unique<CPlayerCoolDown>(m_pOwner, std::move(pDBRecord));
-    m_setDataMap.emplace(key, std::move(pData) );
+    m_setDataMap.emplace(key, std::move(pData));
     return m_setDataMap[key].get();
     __LEAVE_FUNCTION
     return nullptr;

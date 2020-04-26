@@ -3,11 +3,11 @@
 #include <event2/bufferevent.h>
 #include <event2/event.h>
 
+#include "EventManager.h"
+#include "NetworkMessage.h"
 #include "NetworkService.h"
 #include "event2/buffer.h"
 #include "event2/util.h"
-#include "EventManager.h"
-#include "NetworkMessage.h"
 
 OBJECTHEAP_IMPLEMENTATION(CNetSocket, s_Heap);
 
@@ -28,7 +28,7 @@ CNetSocket::CNetSocket(CNetworkService* pService, CNetEventHandler* pEventHandle
     , m_pEncryptor(nullptr)
     , m_nPacketSizeMax(_MAX_MSGSIZE * 2)
     , m_socket(INVALID_SOCKET)
-    , m_ReadBuff{std::make_unique<byte[]>(m_nPacketSizeMax) }
+    , m_ReadBuff{std::make_unique<byte[]>(m_nPacketSizeMax)}
 {
 }
 
@@ -55,7 +55,7 @@ CNetSocket::~CNetSocket()
         evbuffer_free(m_Sendbuf);
         m_Sendbuf = nullptr;
     }
-    
+
     __LEAVE_FUNCTION
 }
 
@@ -122,7 +122,8 @@ void CNetSocket::Close()
 }
 
 CNetSocket::SendMsgData::SendMsgData(byte* _pBuffer, size_t _len, CNetworkMessage* _pMsg, bool _bFlush)
-:len(_len), bFlush(_bFlush)
+    : len(_len)
+    , bFlush(_bFlush)
 {
     if(_pBuffer && len > 0)
     {
@@ -184,15 +185,15 @@ void CNetSocket::_SendAllMsg()
     while(m_SendMsgQueue.get(pData))
     {
         __ENTER_FUNCTION
-            if(pData->pBuffer)
-            {
-                _SendMsg(pData->pBuffer, pData->len, pData->bFlush);
-            }
-            if(pData->pMsg)
-            {
-                _SendMsg(pData->pMsg->GetBuf(), pData->pMsg->GetSize(), pData->bFlush);
-            }
-            SAFE_DELETE(pData);
+        if(pData->pBuffer)
+        {
+            _SendMsg(pData->pBuffer, pData->len, pData->bFlush);
+        }
+        if(pData->pMsg)
+        {
+            _SendMsg(pData->pMsg->GetBuf(), pData->pMsg->GetSize(), pData->bFlush);
+        }
+        SAFE_DELETE(pData);
         __LEAVE_FUNCTION
     }
 }
@@ -208,10 +209,7 @@ bool CNetSocket::_SendMsg(byte* pBuffer, size_t len, bool bFlush)
     {
         constexpr size_t sizeof_HEAD = sizeof(MSG_HEAD);
 
-        m_pEncryptor->Encryptor(pBuffer + sizeof_HEAD,
-                                len - sizeof_HEAD,
-                                pBuffer + sizeof_HEAD,
-                                len - sizeof_HEAD);
+        m_pEncryptor->Encryptor(pBuffer + sizeof_HEAD, len - sizeof_HEAD, pBuffer + sizeof_HEAD, len - sizeof_HEAD);
     }
 
     if(GetStatus() == NSS_CONNECTING || GetStatus() == NSS_WAIT_RECONNECT)
@@ -516,7 +514,7 @@ void CNetSocket::SetPacketSizeMax(size_t val)
     if(m_nPacketSizeMax != val)
     {
         m_nPacketSizeMax = val;
-        m_ReadBuff = std::make_unique<byte[]>(val);
+        m_ReadBuff       = std::make_unique<byte[]>(val);
     }
 }
 

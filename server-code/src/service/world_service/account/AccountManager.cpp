@@ -3,18 +3,15 @@
 #include <brpc/channel.h>
 
 #include "Account.h"
+#include "GMManager.h"
 #include "MD5.h"
 #include "WorldService.h"
 #include "msg/world_service.pb.h"
 #include "server_msg/server_side.pb.h"
-#include "GMManager.h"
 
 const char* AUTH_URL = "https://example.com";
 
-
-CAccountManager::CAccountManager()
-{
-}
+CAccountManager::CAccountManager() {}
 
 CAccountManager::~CAccountManager()
 {
@@ -39,12 +36,8 @@ bool CAccountManager::Init(class CWorldService* pWorld)
 {
     m_threadAuth = std::make_unique<CWorkerThread>(
         "AuthThread",
-        [pWorld]() {
-            SetWorldServicePtr(pWorld);
-        },
-        []() {
-            SetWorldServicePtr(nullptr);
-        });
+        [pWorld]() { SetWorldServicePtr(pWorld); },
+        []() { SetWorldServicePtr(nullptr); });
 
     m_pAuthChannel = std::make_unique<brpc::Channel>();
     brpc::ChannelOptions options;
@@ -65,22 +58,22 @@ bool CAccountManager::Init(class CWorldService* pWorld)
 
 bool CAccountManager::IsAuthing(const std::string& openid) const
 {
-    return  m_AuthList.find(openid) != m_AuthList.end();
+    return m_AuthList.find(openid) != m_AuthList.end();
 }
 
 bool CAccountManager::Auth(const std::string& openid, const std::string& auth, const VirtualSocket& vs)
 {
     __ENTER_FUNCTION
-    brpc::Controller* cntl = new brpc::Controller;
+    brpc::Controller* cntl     = new brpc::Controller;
     cntl->http_request().uri() = AUTH_URL;
     cntl->http_request().set_method(brpc::HTTP_METHOD_POST);
     std::string post_data = fmt::format(FMT_STRING("open_id={}&auth={}"), openid, auth);
     cntl->request_attachment().append(post_data);
-    auto call_id             = cntl->call_id().value;
+    auto call_id       = cntl->call_id().value;
     m_AuthList[openid] = call_id;
-    auto& auth_data          = m_AuthDataList[call_id];
-    auth_data.open_id        = openid;
-    auth_data.from           = vs;
+    auto& auth_data    = m_AuthDataList[call_id];
+    auth_data.open_id  = openid;
+    auth_data.from     = vs;
 
     struct local
     {
@@ -297,7 +290,6 @@ void CAccountManager::OnTimer()
 
     __LEAVE_FUNCTION
 }
-
 
 size_t CAccountManager::GetAccountSize() const
 {

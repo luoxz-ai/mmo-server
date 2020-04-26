@@ -18,9 +18,9 @@
 #include "ItemUpgrade.h"
 #include "LoadingThread.h"
 #include "MapManager.h"
+#include "MemoryHelp.h"
 #include "MessagePort.h"
 #include "MessageRoute.h"
-#include "MemoryHelp.h"
 #include "MonitorMgr.h"
 #include "Monster.h"
 #include "MonsterType.h"
@@ -30,9 +30,9 @@
 #include "NetworkMessage.h"
 #include "NpcType.h"
 #include "PetType.h"
+#include "Phase.h"
 #include "Player.h"
 #include "Scene.h"
-#include "Phase.h"
 #include "SceneManager.h"
 #include "ScriptManager.h"
 #include "SettingMap.h"
@@ -68,11 +68,11 @@ CZoneService::CZoneService() {}
 
 CZoneService::~CZoneService() {}
 
-void CZoneService::Release()  
-{   
+void CZoneService::Release()
+{
 
     Destory();
-    delete this; 
+    delete this;
 }
 
 void CZoneService::Destory()
@@ -206,7 +206,6 @@ void CZoneService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 {
     __ENTER_FUNCTION
 
-
     //如果是玩家的消息
     if(pNetworkMsg->GetCmd() >= CLIENT_MSG_ID_BEGIN && pNetworkMsg->GetCmd() <= CLIENT_MSG_ID_END)
     {
@@ -221,10 +220,7 @@ void CZoneService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
             LOGERROR("CMD {} didn't have ProcessHandler", pNetworkMsg->GetCmd());
             return;
         }
-        
     }
-
-    
 
     __LEAVE_FUNCTION
 }
@@ -259,7 +255,7 @@ void CZoneService::PushMsgToMessagePool(const VirtualSocket& vs, CNetworkMessage
         // logerror
         LOGERROR("Player:{} {} Hold Too Many Message", vs.GetServerPort().GetServiceID(), vs.GetSocketIdx());
         // kick user
-        
+
         ServerMSG::SocketClose kick_msg;
         kick_msg.set_vs(vs);
         SendPortMsg(vs.GetServerPort(), kick_msg);
@@ -291,11 +287,11 @@ bool CZoneService::PopMsgFromMessagePool(const VirtualSocket& vs, CNetworkMessag
     return false;
 }
 
-bool CZoneService::SendMsgToWorld(uint16_t idWorld, uint16_t nCmd, const google::protobuf::Message& msg)const
+bool CZoneService::SendMsgToWorld(uint16_t idWorld, uint16_t nCmd, const google::protobuf::Message& msg) const
 {
     auto server_port = ServerPort(idWorld, WORLD_SERVICE_ID);
     if(GetMessageRoute()->IsConnected(server_port) == true)
-    {   
+    {
         CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), ServerPort(idWorld, WORLD_SERVICE_ID), 0);
         return SendPortMsg(_msg);
     }
@@ -304,35 +300,34 @@ bool CZoneService::SendMsgToWorld(uint16_t idWorld, uint16_t nCmd, const google:
         //通过Route转发
         return TransmiteMsgFromWorldToOther(idWorld, WORLD_SERVICE_ID, nCmd, msg);
     }
-    
 }
 
 bool CZoneService::TransmiteMsgFromWorldToOther(uint16_t                         idWorld,
                                                 uint16_t                         idService,
                                                 uint16_t                         nCmd,
-                                                const google::protobuf::Message& msg)const
+                                                const google::protobuf::Message& msg) const
 {
     if(IsSharedZone() == false)
     {
         CNetworkMessage _msg(nCmd,
-                         msg,
-                         GetServerVirtualSocket(),
-                         ServerPort(GetWorldID(), WORLD_SERVICE_ID),
-                         ServerPort(idWorld, idService));
+                             msg,
+                             GetServerVirtualSocket(),
+                             ServerPort(GetWorldID(), WORLD_SERVICE_ID),
+                             ServerPort(idWorld, idService));
         return SendPortMsg(_msg);
     }
     else
     {
         CNetworkMessage _msg(nCmd,
-                         msg,
-                         GetServerVirtualSocket(),
-                         ServerPort(idWorld, WORLD_SERVICE_ID),
-                         ServerPort(idWorld, idService));
+                             msg,
+                             GetServerVirtualSocket(),
+                             ServerPort(idWorld, WORLD_SERVICE_ID),
+                             ServerPort(idWorld, idService));
         return SendPortMsg(_msg);
     }
 }
 
-bool CZoneService::BroadcastToZone(uint16_t nCmd, const google::protobuf::Message& msg)const
+bool CZoneService::BroadcastToZone(uint16_t nCmd, const google::protobuf::Message& msg) const
 {
     __ENTER_FUNCTION
 
@@ -349,12 +344,12 @@ bool CZoneService::BroadcastToZone(uint16_t nCmd, const google::protobuf::Messag
     return false;
 }
 
-bool CZoneService::BroadcastToAllPlayer(const google::protobuf::Message& msg)const
+bool CZoneService::BroadcastToAllPlayer(const google::protobuf::Message& msg) const
 {
     return BroadcastToAllPlayer(to_sc_cmd(msg), msg);
 }
 
-bool CZoneService::BroadcastToAllPlayer(uint16_t nCmd, const google::protobuf::Message& msg)const
+bool CZoneService::BroadcastToAllPlayer(uint16_t nCmd, const google::protobuf::Message& msg) const
 {
     __ENTER_FUNCTION
     CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), 0);
@@ -387,30 +382,29 @@ bool CZoneService::BroadcastToAllPlayer(uint16_t nCmd, const google::protobuf::M
     return false;
 }
 
-bool CZoneService::SendMsgToPlayer(const VirtualSocket& vs, const google::protobuf::Message& msg)const
+bool CZoneService::SendMsgToPlayer(const VirtualSocket& vs, const google::protobuf::Message& msg) const
 {
     return SendMsgToPlayer(vs, to_sc_cmd(msg), msg);
 }
 
-bool CZoneService::SendMsgToPlayer(const VirtualSocket& vs, uint16_t nCmd, const google::protobuf::Message& msg)const
+bool CZoneService::SendMsgToPlayer(const VirtualSocket& vs, uint16_t nCmd, const google::protobuf::Message& msg) const
 {
     CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), vs);
     return SendPortMsg(_msg);
 }
 
-
-bool CZoneService::SendServerMsgToAIService(const google::protobuf::Message& msg)const
+bool CZoneService::SendServerMsgToAIService(const google::protobuf::Message& msg) const
 {
     return SendMsgToAIService(to_server_msgid(msg), msg);
 }
 
-bool CZoneService::SendMsgToAIService(uint16_t nCmd, const google::protobuf::Message& msg)const
+bool CZoneService::SendMsgToAIService(uint16_t nCmd, const google::protobuf::Message& msg) const
 {
     CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), GetAIServerVirtualSocket());
     return SendPortMsg(_msg);
 }
 
-void CZoneService::_ID2VS(OBJID id, VirtualSocketMap_t& VSMap)const
+void CZoneService::_ID2VS(OBJID id, VirtualSocketMap_t& VSMap) const
 {
     __ENTER_FUNCTION
     CActor* pActor = GetActorManager()->QueryActor(id);
@@ -534,27 +528,26 @@ void CZoneService::OnLogicThreadProc()
                           fmt::format(FMT_STRING("\nScene:{}\tDynaScene:{}"),
                                       SceneManager()->GetSceneCount(),
                                       SceneManager()->GetDynaSceneCount());
-        SceneManager()->ForEach([&buf](CScene* pScene)
-        {
+        SceneManager()->ForEach([&buf](CScene* pScene) {
             size_t player_count = 0;
-            size_t actor_count = 0;
-            size_t phase_count = 0;
-            pScene->ForEach([&phase_count,&player_count, &actor_count](const CPhase* pPhase)
-            {
+            size_t actor_count  = 0;
+            size_t phase_count  = 0;
+            pScene->ForEach([&phase_count, &player_count, &actor_count](const CPhase* pPhase) {
                 phase_count++;
                 player_count += pPhase->GetPlayerCount();
                 actor_count += pPhase->GetActorCount();
             });
 
             buf += fmt::format("\nScene: {} - PhaseCount:{}-{}\tPlayer:{}\tActor:{}",
-                pScene->GetMapID(), pScene->GetStaticPhaseCount(), phase_count, player_count, actor_count );
-            
-            
+                               pScene->GetMapID(),
+                               pScene->GetStaticPhaseCount(),
+                               phase_count,
+                               player_count,
+                               actor_count);
         });
-       
-        //检查ai,world,socket1-5如果是源端socket的话,有多少缓冲区堆积      
-        auto check_func = [this, &buf](uint16_t idService)
-        {
+
+        //检查ai,world,socket1-5如果是源端socket的话,有多少缓冲区堆积
+        auto check_func = [this, &buf](uint16_t idService) {
             auto pMessagePort = GetMessageRoute()->QueryMessagePort(ServerPort(GetWorldID(), idService), false);
             if(pMessagePort && pMessagePort->GetWriteBufferSize() > 0)
             {
@@ -564,16 +557,15 @@ void CZoneService::OnLogicThreadProc()
                                    pMessagePort->GetWriteBufferSize());
             }
         };
-        check_func( GetAIServiceID());
+        check_func(GetAIServiceID());
         if(IsSharedZone() == false)
         {
-            check_func( WORLD_SERVICE_ID);
+            check_func(WORLD_SERVICE_ID);
             for(int i = MIN_SOCKET_SERVICE_ID; i <= MAX_SOCKET_SERVICE_ID; i++)
             {
                 check_func(i);
             }
         }
-
 
         LOGMONITOR("{}", buf.c_str());
         m_pMonitorMgr->Print();

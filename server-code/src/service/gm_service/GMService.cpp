@@ -8,95 +8,96 @@
 #include "EventManager.h"
 #include "MessagePort.h"
 #include "MessageRoute.h"
+#include "MonitorMgr.h"
+#include "MsgProcessRegister.h"
 #include "NetMSGProcess.h"
 #include "NetSocket.h"
 #include "NetworkMessage.h"
-#include "SettingMap.h"
 #include "RPCService.h"
+#include "SettingMap.h"
 #include "brpc/server.h"
 #include "event2/http.h"
 #include "event2/keyvalq_struct.h"
 #include "gm_service.pb.h"
-#include "MonitorMgr.h"
-#include "MsgProcessRegister.h"
 #include "server_msg/server_side.pb.h"
 
 namespace Game
 {
-// Service with static path.
-class GM_ServiceImpl : public GM_Service
-{
-    CGMService* m_pService;
-
-public:
-    GM_ServiceImpl(CGMService* pService)
-        : m_pService(pService){};
-    virtual ~GM_ServiceImpl(){};
-    virtual void SetGM(google::protobuf::RpcController* cntl_base,
-                       const SetGMRequest*              request,
-                       SetGMResponse*                   response,
-                       google::protobuf::Closure*       done) override
+    // Service with static path.
+    class GM_ServiceImpl : public GM_Service
     {
-        // This object helps you to call done->Run() in RAII style. If you need
-        // to process the request asynchronously, pass done_guard.release().
-        brpc::ClosureGuard done_guard(done);
+        CGMService* m_pService;
 
-        brpc::Controller* cntl = static_cast<brpc::Controller*>(cntl_base);
+    public:
+        GM_ServiceImpl(CGMService* pService)
+            : m_pService(pService){};
+        virtual ~GM_ServiceImpl(){};
+        virtual void SetGM(google::protobuf::RpcController* cntl_base,
+                           const SetGMRequest*              request,
+                           SetGMResponse*                   response,
+                           google::protobuf::Closure*       done) override
+        {
+            // This object helps you to call done->Run() in RAII style. If you need
+            // to process the request asynchronously, pass done_guard.release().
+            brpc::ClosureGuard done_guard(done);
 
-        LOGMESSAGE_NOFMT(fmt::format(FMT_STRING("Received SetGM[log_id={}]: open_id={} gm_level={} sign={}"),
-                                     cntl->log_id(),
-                                     request->open_id(),
-                                     request->gm_level(),
-                                     request->sign()));
-        UNUSED(m_pService);
-        // m_pService->ProcessGM(request, response, done_guard.release());
-    }
-    virtual void BlockLogin(google::protobuf::RpcController* cntl_base,
-                            const BlockLoginRequest*         request,
-                            BlockLoginResponse*              response,
-                            google::protobuf::Closure*       done) override
-    {
-        // This object helps you to call done->Run() in RAII style. If you need
-        // to process the request asynchronously, pass done_guard.release().
-        brpc::ClosureGuard done_guard(done);
+            brpc::Controller* cntl = static_cast<brpc::Controller*>(cntl_base);
 
-        brpc::Controller* cntl = static_cast<brpc::Controller*>(cntl_base);
+            LOGMESSAGE_NOFMT(fmt::format(FMT_STRING("Received SetGM[log_id={}]: open_id={} gm_level={} sign={}"),
+                                         cntl->log_id(),
+                                         request->open_id(),
+                                         request->gm_level(),
+                                         request->sign()));
+            UNUSED(m_pService);
+            // m_pService->ProcessGM(request, response, done_guard.release());
+        }
+        virtual void BlockLogin(google::protobuf::RpcController* cntl_base,
+                                const BlockLoginRequest*         request,
+                                BlockLoginResponse*              response,
+                                google::protobuf::Closure*       done) override
+        {
+            // This object helps you to call done->Run() in RAII style. If you need
+            // to process the request asynchronously, pass done_guard.release().
+            brpc::ClosureGuard done_guard(done);
 
-        LOGMESSAGE_NOFMT(fmt::format(
-            FMT_STRING(
-                "Received BlockLogin[log_id={}]: server_id={} open_id={} actor_id={} block_timestamp={} sign={}"),
-            cntl->log_id(),
-            request->server_id(),
-            request->open_id(),
-            request->actor_id(),
-            request->block_timestamp(),
-            request->sign()));
+            brpc::Controller* cntl = static_cast<brpc::Controller*>(cntl_base);
 
-        // send to server_x:gm_service
+            LOGMESSAGE_NOFMT(fmt::format(
+                FMT_STRING(
+                    "Received BlockLogin[log_id={}]: server_id={} open_id={} actor_id={} block_timestamp={} sign={}"),
+                cntl->log_id(),
+                request->server_id(),
+                request->open_id(),
+                request->actor_id(),
+                request->block_timestamp(),
+                request->sign()));
 
-        // wait for response
-    }
-    virtual void MuteChat(google::protobuf::RpcController* cntl_base,
-                          const MuteChatRequest*           request,
-                          MuteChatResponse*                response,
-                          google::protobuf::Closure*       done) override
-    {
-        // This object helps you to call done->Run() in RAII style. If you need
-        // to process the request asynchronously, pass done_guard.release().
-        brpc::ClosureGuard done_guard(done);
+            // send to server_x:gm_service
 
-        brpc::Controller* cntl = static_cast<brpc::Controller*>(cntl_base);
+            // wait for response
+        }
+        virtual void MuteChat(google::protobuf::RpcController* cntl_base,
+                              const MuteChatRequest*           request,
+                              MuteChatResponse*                response,
+                              google::protobuf::Closure*       done) override
+        {
+            // This object helps you to call done->Run() in RAII style. If you need
+            // to process the request asynchronously, pass done_guard.release().
+            brpc::ClosureGuard done_guard(done);
 
-        LOGMESSAGE_NOFMT(fmt::format(
-            FMT_STRING("Received MuteChat[log_id={}]: server_id={} open_id={} actor_id={} mute_timestamp={} sign={}"),
-            cntl->log_id(),
-            request->server_id(),
-            request->open_id(),
-            request->actor_id(),
-            request->mute_timestamp(),
-            request->sign()));
-    }
-};
+            brpc::Controller* cntl = static_cast<brpc::Controller*>(cntl_base);
+
+            LOGMESSAGE_NOFMT(fmt::format(
+                FMT_STRING(
+                    "Received MuteChat[log_id={}]: server_id={} open_id={} actor_id={} mute_timestamp={} sign={}"),
+                cntl->log_id(),
+                request->server_id(),
+                request->open_id(),
+                request->actor_id(),
+                request->mute_timestamp(),
+                request->sign()));
+        }
+    };
 } // namespace Game
 
 static thread_local CGMService* tls_pService = nullptr;
@@ -111,22 +112,16 @@ extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16
 }
 
 //////////////////////////////////////////////////////////////////////////
-CGMService::CGMService()
+CGMService::CGMService() {}
+
+CGMService::~CGMService() {}
+
+void CGMService::Release()
 {
-}
-
-CGMService::~CGMService()
-{
-
-}
-
-void CGMService::Release()  
-{   
 
     Destory();
-    delete this; 
+    delete this;
 }
-
 
 void CGMService::Destory()
 {
@@ -143,7 +138,7 @@ void CGMService::Destory()
         m_pRPCService->ClearRPCServices();
         m_pRPCService.reset();
     }
-    
+
     DestoryServiceCommon();
 
     __LEAVE_FUNCTION
@@ -170,9 +165,9 @@ bool CGMService::Init(const ServerPort& nServerPort)
     //注册消息
     {
         auto pNetMsgProcess = GetNetMsgProcess();
-        for(const auto& [k,v] : MsgProcRegCenter<CGMService>::instance().m_MsgProc)
+        for(const auto& [k, v]: MsgProcRegCenter<CGMService>::instance().m_MsgProc)
         {
-            pNetMsgProcess->Register(k,v);
+            pNetMsgProcess->Register(k, v);
         }
     }
 
@@ -221,7 +216,7 @@ ON_SERVERMSG(CGMService, ServiceReady)
     send_msg.set_serverport(GMService()->GetServerPort());
     send_msg.set_update_time(TimeGetSecond());
     GMService()->SendPortMsg(ServerPort(0, ROUTE_SERVICE_ID), send_msg);
-    
+
     LOGMESSAGE("WorldReady: {}", GMService()->GetServerPort().GetWorldID());
     EventManager()->ScheduleEvent(
         0,
@@ -233,8 +228,8 @@ ON_SERVERMSG(CGMService, ServiceReady)
 ON_SERVERMSG(CGMService, ServiceHttpRequest)
 {
     LOGMESSAGE("recv_httprequest:{}", msg.uid());
-    const std::string& mothed =  msg.kvmap().at("mothed");
-    auto handler = GMService()->QueryHttpRequestHandler(mothed);
+    const std::string& mothed  = msg.kvmap().at("mothed");
+    auto               handler = GMService()->QueryHttpRequestHandler(mothed);
     if(handler)
     {
         std::invoke(*handler, pMsg->GetFrom().GetServerPort(), msg);
@@ -247,8 +242,6 @@ ON_SERVERMSG(CGMService, ServiceHttpRequest)
         send_msg.set_response_code(HTTP_BADMETHOD);
         GMService()->SendPortMsg(pMsg->GetFrom().GetServerPort(), send_msg);
     }
-   
-    
 }
 
 const CGMService::HttpRequestHandleFunc* CGMService::QueryHttpRequestHandler(const std::string& mothed) const
@@ -258,15 +251,15 @@ const CGMService::HttpRequestHandleFunc* CGMService::QueryHttpRequestHandler(con
     {
         return &it->second;
     }
-        
-    return nullptr;   
+
+    return nullptr;
 }
 
 void CGMService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 {
     if(m_pNetMsgProcess->Process(pNetworkMsg) == false)
     {
-        LOGERROR("CMD {} didn't have ProcessHandler", pNetworkMsg->GetCmd());   
+        LOGERROR("CMD {} didn't have ProcessHandler", pNetworkMsg->GetCmd());
     }
 }
 

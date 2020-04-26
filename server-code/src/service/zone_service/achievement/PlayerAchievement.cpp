@@ -236,7 +236,10 @@ bool CPlayerAchievement::IsFinish(uint32_t idAchiType)
     return m_setFinish.find(idAchiType) != m_setFinish.end();
 }
 
-bool CPlayerAchievement::_CheckAchiCondition(const CAchievementType* pType, uint32_t nVal0, uint32_t nVal1, uint32_t nVal2)
+bool CPlayerAchievement::_CheckAchiCondition(const CAchievementType* pType,
+                                             uint32_t                nVal0,
+                                             uint32_t                nVal1,
+                                             uint32_t                nVal2)
 {
     switch(pType->GetCheckData().check_type())
     {

@@ -5,9 +5,8 @@
 #include <cmath>
 #include <valarray>
 
-#include "export_lua.h"
-
 #include "RandomGet.h"
+#include "export_lua.h"
 using Real = float;
 class Radian;
 class Degree;
@@ -51,30 +50,30 @@ public:
     export_lua const Radian& operator+() const { return *this; }
     export_lua Radian        operator+(const Radian& r) const { return Radian(mRad + r.mRad); }
     export_lua Radian        operator+(const Degree& d) const;
-    Radian& operator+=(const Radian& r)
+    Radian&                  operator+=(const Radian& r)
     {
         mRad += r.mRad;
         return *this;
     }
-    Radian& operator+=(const Degree& d);
-    export_lua Radian  operator-() const { return Radian(-mRad); }
-    export_lua Radian  operator-(const Radian& r) const { return Radian(mRad - r.mRad); }
-    export_lua Radian  operator-(const Degree& d) const;
-    Radian& operator-=(const Radian& r)
+    Radian&           operator+=(const Degree& d);
+    export_lua Radian operator-() const { return Radian(-mRad); }
+    export_lua Radian operator-(const Radian& r) const { return Radian(mRad - r.mRad); }
+    export_lua Radian operator-(const Degree& d) const;
+    Radian&           operator-=(const Radian& r)
     {
         mRad -= r.mRad;
         return *this;
     }
-    Radian& operator-=(const Degree& d);
-    export_lua Radian  operator*(float f) const { return Radian(mRad * f); }
-    export_lua Radian  operator*(const Radian& f) const { return Radian(mRad * f.mRad); }
-    Radian& operator*=(float f)
+    Radian&           operator-=(const Degree& d);
+    export_lua Radian operator*(float f) const { return Radian(mRad * f); }
+    export_lua Radian operator*(const Radian& f) const { return Radian(mRad * f.mRad); }
+    Radian&           operator*=(float f)
     {
         mRad *= f;
         return *this;
     }
     export_lua Radian operator/(float f) const { return Radian(mRad / f); }
-    Radian& operator/=(float f)
+    Radian&           operator/=(float f)
     {
         mRad /= f;
         return *this;
@@ -133,7 +132,7 @@ public:
     export_lua const Degree& operator+() const { return *this; }
     export_lua Degree        operator+(const Degree& d) const { return Degree(mDeg + d.mDeg); }
     export_lua Degree        operator+(const Radian& r) const { return Degree(mDeg + r.valueDegrees()); }
-    Degree& operator+=(const Degree& d)
+    Degree&                  operator+=(const Degree& d)
     {
         mDeg += d.mDeg;
         return *this;
@@ -146,7 +145,7 @@ public:
     export_lua Degree operator-() const { return Degree(-mDeg); }
     export_lua Degree operator-(const Degree& d) const { return Degree(mDeg - d.mDeg); }
     export_lua Degree operator-(const Radian& r) const { return Degree(mDeg - r.valueDegrees()); }
-    Degree& operator-=(const Degree& d)
+    Degree&           operator-=(const Degree& d)
     {
         mDeg -= d.mDeg;
         return *this;
@@ -158,13 +157,13 @@ public:
     }
     export_lua Degree operator*(float f) const { return Degree(mDeg * f); }
     export_lua Degree operator*(const Degree& f) const { return Degree(mDeg * f.mDeg); }
-    Degree& operator*=(float f)
+    Degree&           operator*=(float f)
     {
         mDeg *= f;
         return *this;
     }
     export_lua Degree operator/(float f) const { return Degree(mDeg / f); }
-    Degree& operator/=(float f)
+    Degree&           operator/=(float f)
     {
         mDeg /= f;
         return *this;
@@ -235,14 +234,14 @@ public:
         AU_DEGREE,
         AU_RADIAN,
     };
-    export_lua static constexpr float PI      = 3.1415926f;
-    export_lua static constexpr float TWO_PI  = 2.0f * PI;
-    export_lua static constexpr float HALF_PI = 0.5f * PI;
-    static constexpr float     POS_INFINITY = std::numeric_limits<float>::infinity();
-    static constexpr float     NEG_INFINITY = -std::numeric_limits<float>::infinity();
-    static constexpr float     fDeg2Rad     = PI / 180.0f;
-    static constexpr float     fRad2Deg     = 180.0f / PI;
-    static constexpr AngleUnit msAngleUnit  = AU_DEGREE;
+    export_lua static constexpr float PI           = 3.1415926f;
+    export_lua static constexpr float TWO_PI       = 2.0f * PI;
+    export_lua static constexpr float HALF_PI      = 0.5f * PI;
+    static constexpr float            POS_INFINITY = std::numeric_limits<float>::infinity();
+    static constexpr float            NEG_INFINITY = -std::numeric_limits<float>::infinity();
+    static constexpr float            fDeg2Rad     = PI / 180.0f;
+    static constexpr float            fRad2Deg     = 180.0f / PI;
+    static constexpr AngleUnit        msAngleUnit  = AU_DEGREE;
 
     export_lua static inline int IAbs(int iValue) { return (iValue >= 0 ? iValue : -iValue); }
     export_lua static inline int ICeil(float fValue) { return int(std::ceil(fValue)); }
@@ -525,7 +524,6 @@ public:
         static const TRIG_TABLE_t s_TRIG_TABLE;
         return s_TRIG_TABLE;
     }
-    
 };
 
 // these functions must be defined down here, because they rely on the

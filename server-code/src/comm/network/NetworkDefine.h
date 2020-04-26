@@ -42,20 +42,20 @@ export_lua enum {
     MAX_GM_PROYX_SERVICE_ID = 45,
 
     ROUTE_SERVICE_ID = 60,
-    MAX_SERVICE_ID         = 63,
+    MAX_SERVICE_ID   = 63,
 };
 
 struct ServiceNameRegister
 {
     ServiceNameRegister();
-    std::string GetServiceName(uint32_t nServiceID) const;
+    std::string                               GetServiceName(uint32_t nServiceID) const;
     std::unordered_map<uint32_t, std::string> s_ServiceName;
 };
 
 export_lua inline std::string GetServiceName(uint32_t nServiceID)
-{   
-   static ServiceNameRegister s_instance;
-   return s_instance.GetServiceName(nServiceID);
+{
+    static ServiceNameRegister s_instance;
+    return s_instance.GetServiceName(nServiceID);
 }
 
 export_lua class ServerPort
@@ -105,17 +105,17 @@ private:
 // custom specialization of std::hash can be injected in namespace std
 namespace std
 {
-template<>
-struct hash<ServerPort>
-{
-    typedef ServerPort  argument_type;
-    typedef std::size_t result_type;
-    result_type         operator()(argument_type const& s) const
+    template<>
+    struct hash<ServerPort>
     {
-        std::hash<uint32_t> hasher;
-        return hasher(s.GetData());
-    }
-};
+        typedef ServerPort  argument_type;
+        typedef std::size_t result_type;
+        result_type         operator()(argument_type const& s) const
+        {
+            std::hash<uint32_t> hasher;
+            return hasher(s.GetData());
+        }
+    };
 } // namespace std
 
 export_lua class VirtualSocket
@@ -179,17 +179,17 @@ private:
 
 namespace std
 {
-template<>
-struct hash<VirtualSocket>
-{
-    typedef VirtualSocket argument_type;
-    typedef std::size_t   result_type;
-    result_type           operator()(argument_type const& s) const
+    template<>
+    struct hash<VirtualSocket>
     {
-        std::hash<uint64_t> hasher;
-        return hasher(s.operator uint64_t());
-    }
-};
+        typedef VirtualSocket argument_type;
+        typedef std::size_t   result_type;
+        result_type           operator()(argument_type const& s) const
+        {
+            std::hash<uint64_t> hasher;
+            return hasher(s.operator uint64_t());
+        }
+    };
 } // namespace std
 
 struct ServerAddrInfo
@@ -215,12 +215,11 @@ const uint16_t CLIENT_MSG_ID_END   = 10000;
 //常用内部消息通信及消息结构
 enum MSGTYPE_INTERNAL
 {
-    COMMON_CMD_BEGIN        = 0,
-    COMMON_CMD_SC_KEY       = 1,
-    COMMON_CMD_PING         = 2,
-    COMMON_CMD_PONG         = 3,
-    COMMON_CMD_CLOSE        = 9999,
-    
+    COMMON_CMD_BEGIN  = 0,
+    COMMON_CMD_SC_KEY = 1,
+    COMMON_CMD_PING   = 2,
+    COMMON_CMD_PONG   = 3,
+    COMMON_CMD_CLOSE  = 9999,
 
     NETMSG_INTERNAL                   = 10001, //内网消息传输
     NETMSG_INTERNAL_FORWARD           = 10002, //转发包
@@ -312,7 +311,6 @@ struct MSG_PONG : public MSG_HEAD
         usSize = sizeof(MSG_PONG);
     }
 };
-
 
 #pragma pack(pop) //恢复对齐状态
 

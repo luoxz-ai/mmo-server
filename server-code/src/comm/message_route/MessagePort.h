@@ -33,7 +33,8 @@ class CMessagePort : public CNetEventHandler
 public:
     CMessagePort(const ServerPort& nServerPort, CMessageRoute* pRoute);
     virtual ~CMessagePort();
-    void     Destory();
+    void Destory();
+
 public:
     virtual void OnConnected(CNetSocket* pSocket);
     virtual void OnConnectFailed(CNetSocket*);

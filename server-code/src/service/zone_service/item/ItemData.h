@@ -32,12 +32,12 @@ protected:
               uint32_t          nNum,
               uint32_t          dwFlag,
               uint32_t          nPosition);
+
 public:
     CreateNewImpl(CItemData);
+
 public:
     virtual ~CItemData();
-    
-    
 
 public:
     export_lua bool DelRecord();
@@ -94,7 +94,7 @@ public:
 protected:
     CDBRecordPtr             m_pRecord; // 物品数据
     ItemExtraData            m_ExtraData;
-    const CItemType*               m_pType     = nullptr; // 物品类型数据
+    const CItemType*         m_pType     = nullptr; // 物品类型数据
     const CItemAdditionData* m_pAddition = nullptr; // 强化数据
 };
 #endif /* ITEMDATA_H */

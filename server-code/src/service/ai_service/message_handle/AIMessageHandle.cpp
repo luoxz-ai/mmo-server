@@ -3,8 +3,8 @@
 #include "AIMessageHandler.h"
 #include "AIMonster.h"
 #include "AIPhase.h"
-#include "AIScene.h"
 #include "AIPlayer.h"
+#include "AIScene.h"
 #include "AISceneManagr.h"
 #include "AIService.h"
 #include "NetMSGProcess.h"
@@ -79,7 +79,7 @@ ON_SERVERMSG(CAIService, SceneCreate)
 }
 
 ON_SERVERMSG(CAIService, PhaseCreate)
-{   
+{
     CAIScene* pScene = AISceneManager()->QueryScene(msg.scene_id());
     CHECK(pScene);
     pScene->CreatePhase(msg.scene_id(), msg.phase_id());
@@ -188,7 +188,6 @@ ON_SERVERMSG(CAIService, SyncTaskPhase)
     }
 }
 
-
 ON_SERVERMSG(CAIService, AddTaskPhase)
 {
     auto pActor = AIActorManager()->QueryActor(msg.player_id());
@@ -198,7 +197,6 @@ ON_SERVERMSG(CAIService, AddTaskPhase)
     pPlayer->AddTaskPhase(msg.task_phase_id());
 }
 
-
 ON_SERVERMSG(CAIService, RemoveTaskPhase)
 {
     auto pActor = AIActorManager()->QueryActor(msg.player_id());
@@ -207,7 +205,6 @@ ON_SERVERMSG(CAIService, RemoveTaskPhase)
     CHECK(pPlayer);
     pPlayer->RemoveTaskPhase(msg.task_phase_id());
 }
-
 
 void AIServiceMessageHandlerRegister()
 {

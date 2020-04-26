@@ -20,9 +20,9 @@ export_lua class CActor : public CSceneObject
 protected:
     CActor();
     bool Init();
+
 public:
     virtual ~CActor();
- 
 
     export_lua bool IsDelThis() const { return m_bDelThis; }
     export_lua void DelThis();
@@ -62,9 +62,6 @@ public:
     export_lua virtual void     _SetFP(uint32_t v) {}
     export_lua virtual void     _SetNP(uint32_t v) {}
     export_lua float            GetMoveSpeed() const;
-    
-
-
 
     export_lua virtual void     AddProperty(uint32_t nType, int32_t nVal, uint32_t nSync = SYNC_TRUE);
     export_lua virtual void     SetProperty(uint32_t nType, uint32_t nVal, uint32_t nSync = SYNC_TRUE);
@@ -82,7 +79,6 @@ public:
     export_lua void SendWorldMessage(uint16_t cmd, const google::protobuf::Message& msg);
     export_lua bool SendMsg(const google::protobuf::Message& msg) const;
     export_lua virtual bool SendMsg(uint16_t cmd, const google::protobuf::Message& msg) const { return false; }
-
 
     void BroadcastMessageTo(uint32_t cmd, const google::protobuf::Message& msg, const VirtualSocketMap_t& setSocketMap);
     virtual void MakeShowData(SC_AOI_NEW& msg) {}
@@ -108,14 +104,14 @@ protected:
 
     virtual void OnAOIProcess_ActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_MAP& mapAllViewActor) override;
     virtual void OnAOIProcess_ActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
-                                              BROADCAST_SET&       setBCActor,
-                                              int32_t              nCanReserveDelCount,
-                                              uint32_t             view_range_out_square) override;
+                                                 BROADCAST_SET&       setBCActor,
+                                                 int32_t              nCanReserveDelCount,
+                                                 uint32_t             view_range_out_square) override;
     virtual void OnAOIProcess_PosUpdate() override;
 
 private:
-    
     void BroadcastShowTo(const VirtualSocketMap_t& VSMap);
+
 public:
     export_lua CActorAttrib& GetAttrib() { return m_ActorAttrib; }
     export_lua const CActorAttrib& GetAttrib() const { return m_ActorAttrib; }
@@ -131,9 +127,10 @@ public:
     export_lua virtual void RecalcAttrib(bool bClearCache = false);
 
 public:
-    virtual void OnEnterMap(CSceneBase* pScene) override;
-    virtual void OnLeaveMap(uint64_t idTargetScene) override;
-    export_lua virtual void     ChangePhase(uint64_t idPhaseID) override;
+    virtual void            OnEnterMap(CSceneBase* pScene) override;
+    virtual void            OnLeaveMap(uint64_t idTargetScene) override;
+    export_lua virtual void ChangePhase(uint64_t idPhaseID) override;
+
 public:
     export_lua int32_t BeAttack(CActor*  pAttacker,
                                 uint32_t idSkill,
@@ -162,9 +159,9 @@ public:
 public:
 protected:
 protected:
-    uint32_t m_idCamp   = 0; //阵营ID
+    uint32_t m_idCamp = 0; //阵营ID
 
-    bool     m_bDelThis = false;
+    bool m_bDelThis = false;
 
     uint32_t  m_tLastMoveTime = 0;
     CSkillFSM m_SkillFSM;

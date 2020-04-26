@@ -6,9 +6,7 @@
 
 CMapManager::CMapManager() {}
 
-CMapManager::~CMapManager()
-{
-}
+CMapManager::~CMapManager() {}
 
 bool CMapManager::Init(uint16_t idZone)
 {
@@ -27,9 +25,9 @@ bool CMapManager::Init(uint16_t idZone)
             {
                 continue;
             }
-            
+
             CMapData* pMapData = nullptr;
-            auto itFind = m_vecMapData.find(iter.idmapdata());
+            auto      itFind   = m_vecMapData.find(iter.idmapdata());
             if(itFind != m_vecMapData.end())
             {
                 pMapData = itFind->second.get();
@@ -40,7 +38,6 @@ bool CMapManager::Init(uint16_t idZone)
                 CHECKF(pMapData);
                 m_vecMapData[pMapData->GetMapTemplateID()].reset(pMapData);
             }
-            
 
             CGameMap* pGameMap = CGameMap::CreateNew(this, iter, pMapData);
             if(pGameMap == nullptr)
@@ -119,13 +116,13 @@ bool CMapManager::Init(uint16_t idZone)
     if(false)
     {
         Cfg_Scene_Patrol cfg;
-        if (pb_util::LoadFromBinaryFile(GetCfgFilePath() + "Cfg_Scene_Patrol.bytes", cfg) == false)
+        if(pb_util::LoadFromBinaryFile(GetCfgFilePath() + "Cfg_Scene_Patrol.bytes", cfg) == false)
         {
             LOGERROR("InitFromFile Cfg_Scene_Patrol.bytes Fail");
             return false;
         }
 
-        for (const auto &iter : cfg.rows())
+        for(const auto& iter: cfg.rows())
         {
             CGameMap* pGameMap = _QueryMap(iter.idmap());
             if(pGameMap == nullptr)
@@ -135,7 +132,6 @@ bool CMapManager::Init(uint16_t idZone)
         }
 
         LOGDEBUG("Cfg_Scene_Patrol LoadSucc.");
-
     }
 
     // rebornData
@@ -163,7 +159,7 @@ bool CMapManager::Init(uint16_t idZone)
     return true;
 }
 
-void CMapManager::ForEach(const std::function<void(CGameMap*)>& func)const
+void CMapManager::ForEach(const std::function<void(CGameMap*)>& func) const
 {
     for(const auto& v: m_vecMap)
     {
@@ -179,7 +175,7 @@ const CGameMap* CMapManager::QueryMap(uint16_t idMap) const
     return nullptr;
 }
 
-CGameMap* CMapManager::_QueryMap(uint16_t idMap)const
+CGameMap* CMapManager::_QueryMap(uint16_t idMap) const
 {
     auto it_find = m_vecMap.find(idMap);
     if(it_find != m_vecMap.end())

@@ -50,7 +50,8 @@ void CSceneObject::SetHideCoude(int32_t nHideCount)
     {
         m_nHideCount = nHideCount;
         SetSceneTile(GetCurrentScene()->GetSceneTree()->GetSceneTileByPos(GetPosX(), GetPosY()));
-        SetCollisionTile(GetCurrentScene()->GetSceneTree()->GetCollisionTileByPos(GetPosX(), GetPosY(), GetActorType()));
+        SetCollisionTile(
+            GetCurrentScene()->GetSceneTree()->GetCollisionTileByPos(GetPosX(), GetPosY(), GetActorType()));
     }
     else
     {
@@ -234,8 +235,7 @@ bool CSceneObject::UpdateViewList()
              &mapAllViewActor,
              &sortedAllViewActorByDist,
              view_range_in_square,
-             viewcount_max](CSceneTile* pSceneTile) 
-             {
+             viewcount_max](CSceneTile* pSceneTile) {
                 const auto& actor_list = *pSceneTile;
                 for(CSceneObject* pActor: actor_list)
                 {
@@ -320,7 +320,7 @@ bool CSceneObject::UpdateViewList()
     }
 
     // 广播集必须先做好排序
-    //sort(setBCActor.begin(), setBCActor.end());
+    // sort(setBCActor.begin(), setBCActor.end());
 
     //////////////////////////////////////////////////////////////////////////
     // setp2: 计算当前广播集与旧广播集的差集——这部分是新进入视野的

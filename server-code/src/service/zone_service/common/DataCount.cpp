@@ -141,11 +141,10 @@ bool CDataCountSet::Init(CPlayer* pPlayer)
     {
         for(size_t i = 0; i < result->get_num_row(); i++)
         {
-            auto        row      = result->fetch_row(true);
+            auto row      = result->fetch_row(true);
             auto pDataAcc = std::make_unique<CDataCount>(pPlayer, std::move(row));
-            auto key = MAKE64(pDataAcc->GetType(), pDataAcc->GetIdx());
+            auto key      = MAKE64(pDataAcc->GetType(), pDataAcc->GetIdx());
             m_setDataMap.emplace(key, std::move(pDataAcc));
-            
         }
     }
     return true;
@@ -236,7 +235,7 @@ uint64_t CDataCountSet::AddCount(uint32_t nType, uint32_t nIdx, uint64_t nVal, b
     if(it != m_setDataMap.end())
     {
         auto& pData  = it->second;
-        auto pLimit = DataCountLimitSet()->QueryObj(CDataCountLimit::MakeID(pData->GetType(), pData->GetIdx()));
+        auto  pLimit = DataCountLimitSet()->QueryObj(CDataCountLimit::MakeID(pData->GetType(), pData->GetIdx()));
         if(pLimit == nullptr)
         {
             return pData->AddData(nVal, bUpdate);
@@ -315,7 +314,5 @@ void CDataCountSet::CreateData(uint32_t nType, uint32_t nIdx, uint32_t nVal)
 
     m_pOwner->GetAchievement()->CheckAchiCondition(CONDITION_DATA_COUNT, nType, nIdx, nVal);
 
-
     __LEAVE_FUNCTION
-
 }

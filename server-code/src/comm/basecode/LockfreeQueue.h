@@ -23,13 +23,13 @@ public:
         } while(!m_pHead.compare_exchange_weak(old, new_node, std::memory_order_release));
         m_nCount++;
     }
-    
+
     bool get(T& item)
     {
         if(m_pPollList)
         {
             Node* result = m_pPollList;
-            m_pPollList   = m_pPollList->next;
+            m_pPollList  = m_pPollList->next;
             item         = std::move(result->value);
             m_nCount--;
             delete result;
@@ -49,14 +49,14 @@ public:
             // Reverse list
             do
             {
-                Node* temp = head;
-                head       = head->next;
-                temp->next = m_pPollList;
+                Node* temp  = head;
+                head        = head->next;
+                temp->next  = m_pPollList;
                 m_pPollList = temp;
             } while(head != nullptr);
 
-            head       = m_pPollList;
-            item       = std::move(head->value);
+            head        = m_pPollList;
+            item        = std::move(head->value);
             m_pPollList = head->next;
             m_nCount--;
             delete head;
@@ -78,9 +78,9 @@ private:
         T     value;
     };
 
-    std::atomic<Node*> m_pHead      = nullptr;
-    std::atomic<size_t> m_nCount     = 0;
-    Node*              m_pPollList = nullptr; // for consumer only
+    std::atomic<Node*>  m_pHead     = nullptr;
+    std::atomic<size_t> m_nCount    = 0;
+    Node*               m_pPollList = nullptr; // for consumer only
 };
 
 template<class T>
@@ -96,7 +96,7 @@ MPSCQueue<T>::~MPSCQueue()
         while(m_pPollList)
         {
             Node* result = m_pPollList;
-            m_pPollList   = m_pPollList->next;
+            m_pPollList  = m_pPollList->next;
             delete result;
         }
         Node* head = m_pHead.exchange(nullptr, std::memory_order_acquire);

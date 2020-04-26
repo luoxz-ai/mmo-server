@@ -66,8 +66,7 @@ void CMessageRoute::Destory()
 
     m_pEventManager.reset();
     m_pNetworkService.reset();
-    
-    
+
     LOGDEBUG("MessageRoute Delete.");
 
     __LEAVE_FUNCTION
@@ -189,8 +188,8 @@ void CMessageRoute::ReloadServiceInfo(uint32_t update_time, uint16_t nNewWorldID
         std::string SQL;
         if(GetWorldID() == 0)
         {
-            //global服务 默认情况全读取
-            if(nNewWorldID == 0) 
+            // global服务 默认情况全读取
+            if(nNewWorldID == 0)
             {
                 SQL = "SELECT * FROM tbld_servicedetail";
             }
@@ -199,12 +198,12 @@ void CMessageRoute::ReloadServiceInfo(uint32_t update_time, uint16_t nNewWorldID
                 //某个特定World启动了, 只需要读取该World数据
                 SQL = fmt::format("SELECT * FROM tbld_servicedetail WHERE worldid={}", nNewWorldID);
             }
-        }   
+        }
         else
         {
             SQL =
                 fmt::format(FMT_STRING("SELECT * FROM tbld_servicedetail WHERE worldid={} OR worldid=0"), GetWorldID());
-        }   
+        }
         auto result = m_pGlobalDB->Query(TBLD_SERVICEDETAIL::table_name, SQL);
         CHECK_M(result, "GlobalDB can't query tbld_servicedetail");
         for(size_t i = 0; i < result->get_num_row(); i++)

@@ -9,11 +9,13 @@
 #include "MD5.h"
 #include "MessagePort.h"
 #include "MessageRoute.h"
+#include "MonitorMgr.h"
+#include "MsgProcessRegister.h"
 #include "NetMSGProcess.h"
 #include "NetSocket.h"
 #include "NetworkMessage.h"
-#include "SettingMap.h"
 #include "RPCService.h"
+#include "SettingMap.h"
 #include "brpc/channel.h"
 #include "brpc/server.h"
 #include "event2/buffer.h"
@@ -23,8 +25,6 @@
 #include "proxy_service.pb.h"
 #include "server_msg/server_side.pb.h"
 #include "tinyxml2/tinyxml2.h"
-#include "MonitorMgr.h"
-#include "MsgProcessRegister.h"
 
 // handle HTTP response of accessing builtin services of the target server.
 static void handle_response(brpc::Controller*          client_cntl,
@@ -50,7 +50,7 @@ static void handle_response(brpc::Controller*          client_cntl,
 class ProxyServiceImpl : public ProxyService
 {
     CGMProxyService* m_pService;
-    int32_t              m_internal_port;
+    int32_t          m_internal_port;
 
 public:
     ProxyServiceImpl(CGMProxyService* pService, int32_t internal_port)
@@ -175,23 +175,16 @@ extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16
 }
 
 //////////////////////////////////////////////////////////////////////////
-CGMProxyService::CGMProxyService()
+CGMProxyService::CGMProxyService() {}
+
+CGMProxyService::~CGMProxyService() {}
+
+void CGMProxyService::Release()
 {
-}
-
-CGMProxyService::~CGMProxyService()
-{
-
-    
-}
-
-void CGMProxyService::Release()  
-{   
 
     Destory();
-    delete this; 
+    delete this;
 }
-
 
 void CGMProxyService::Destory()
 {
@@ -230,14 +223,14 @@ bool CGMProxyService::Init(const ServerPort& nServerPort)
     if(CreateService(20) == false)
         return false;
 
-      //注册消息
+    //注册消息
     {
         auto pNetMsgProcess = GetNetMsgProcess();
-        for(const auto& [k,v] : MsgProcRegCenter<CGMProxyService>::instance().m_MsgProc)
+        for(const auto& [k, v]: MsgProcRegCenter<CGMProxyService>::instance().m_MsgProc)
         {
-            pNetMsgProcess->Register(k,v);
+            pNetMsgProcess->Register(k, v);
         }
-    }  
+    }
 
     {
         const ServerAddrInfo* pAddrInfo = GetMessageRoute()->QueryServiceInfo(GetServerPort());
@@ -249,9 +242,9 @@ bool CGMProxyService::Init(const ServerPort& nServerPort)
         m_pRPCService.reset(CRPCService::CreateNew(GetServerPort().GetServiceID()));
         CHECKF(m_pRPCService.get());
         CHECKF(m_pRPCService->StartRPCServer(pAddrInfo->publish_port,
-                              pAddrInfo->debug_port,
-                              true,
-                              new ProxyServiceImpl(this, pAddrInfo->debug_port)));
+                                             pAddrInfo->debug_port,
+                                             true,
+                                             new ProxyServiceImpl(this, pAddrInfo->debug_port)));
     }
 
     return true;
@@ -299,17 +292,17 @@ ON_SERVERMSG(CGMProxyService, ServiceHttpResponse)
     }
 
     LOGMESSAGE("response_send:{} code:{} res:{} tt:{}",
-                msg.uid(),
-                msg.response_code(),
-                msg.response_reason().c_str(),
-                msg.response_txt().c_str());
+               msg.uid(),
+               msg.response_code(),
+               msg.response_reason().c_str(),
+               msg.response_txt().c_str());
 }
 
 void CGMProxyService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 {
     if(m_pNetMsgProcess->Process(pNetworkMsg) == false)
     {
-        LOGERROR("CMD {} didn't have ProcessHandler", pNetworkMsg->GetCmd());   
+        LOGERROR("CMD {} didn't have ProcessHandler", pNetworkMsg->GetCmd());
     }
 }
 

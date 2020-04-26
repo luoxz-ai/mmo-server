@@ -26,12 +26,12 @@ class CTaskType : public NoncopyableT<CTaskType>
         m_Data = row;
         return true;
     }
+
 public:
     CreateNewImpl(CTaskType);
+
 public:
     ~CTaskType() {}
-    
-    
 
     using PB_T = Cfg_Task;
     static uint32_t GetKey(const Cfg_Task_Row& row) { return row.id(); }
@@ -61,7 +61,7 @@ public:
     const std::string& GetSubmitText() const { return m_Data.submit_txt(); }
     uint32_t           GetNextAuotAcceptTaskID() const { return m_Data.next_auto_accept_task_id(); }
     uint64_t           GetTaskPhaseID() const { return m_Data.task_phase_id(); }
-    bool HasFlag(uint32_t flag) const { return ::HasFlag(flag, GetFlag()); }
+    bool               HasFlag(uint32_t flag) const { return ::HasFlag(flag, GetFlag()); }
 
 public:
     const Cfg_Task_Row& GetDataRef() const { return m_Data; }
@@ -71,19 +71,22 @@ private:
 };
 
 //////////////////////////////////////////////////////////////////////
-class CTaskTypeSet: public CGameDataContainer<CTaskType> 
+class CTaskTypeSet : public CGameDataContainer<CTaskType>
 {
     CTaskTypeSet();
+
 public:
     CreateNewImpl(CTaskTypeSet);
+
 public:
     virtual ~CTaskTypeSet();
+
 public:
     virtual void Clear() override;
     virtual void BuildIndex() override;
 
 public:
-    const CTaskType*                     QueryObj(uint32_t idType) const;
+    const CTaskType*               QueryObj(uint32_t idType) const;
     const std::vector<CTaskType*>* QueryTaskByAcceptNpcID(uint32_t idNpc) const;
     const std::vector<CTaskType*>* QueryTaskBySubmitNpcID(uint32_t idNpc) const;
 

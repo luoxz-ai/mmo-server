@@ -8,12 +8,13 @@ export_lua class CMapItem : public CActor
 {
 protected:
     CMapItem();
+
 public:
     CreateNewImpl(CMapItem);
+
 public:
     virtual ~CMapItem();
 
-    
     bool                Init(uint32_t idType);
     export_lua uint32_t GetTypeID() const { return m_idType; }
 

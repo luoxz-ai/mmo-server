@@ -1,6 +1,6 @@
 #include "Player.h"
-#include "ZoneService.h"
 #include "TeamInfoManager.h"
+#include "ZoneService.h"
 #include "server_msg/server_side.pb.h"
 
 void CPlayer::TeamCreate()

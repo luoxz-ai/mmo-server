@@ -3,8 +3,8 @@
 
 #include "BaseCode.h"
 #include "DBRecord.h"
-#include "gamedb.h"
 #include "common/Common.pb.h"
+#include "gamedb.h"
 
 constexpr uint32_t MAX_TASKDATA_NUM = 4;
 //每一条未完成的任务占据一条数据
@@ -12,14 +12,14 @@ class CPlayer;
 export_lua class CPlayerTaskData : public NoncopyableT<CPlayerTaskData>
 {
     CPlayerTaskData();
+
 public:
     CreateNewImpl(CPlayerTaskData);
+
 public:
-    
     ~CPlayerTaskData();
 
 public:
-    
     bool                Init(CDBRecordPtr&& pRow);
     bool                Init(CPlayer* pPlayer, uint32_t idTask);
     void                DelRecord();
@@ -53,6 +53,5 @@ public:
 private:
     CDBRecordPtr m_pData;
 };
-
 
 #endif /* PLAYERTASKDATA_H */

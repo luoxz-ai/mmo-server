@@ -6,6 +6,7 @@
 #include "DBRecord.h"
 #include "DataCount.h"
 #include "Equipment.h"
+#include "MapManager.h"
 #include "NetworkDefine.h"
 #include "Package.h"
 #include "PetSet.h"
@@ -14,9 +15,8 @@
 #include "SkillManager.h"
 #include "StoragePackage.h"
 #include "gamedb.h"
-#include "MapManager.h"
 
-export_lua enum DIALOG_FUNC_TYPE{
+export_lua enum DIALOG_FUNC_TYPE {
     DIALOG_FUNC_ACCEPTTASK      = 1,
     DIALOG_FUNC_SUBMITTASK      = 2,
     DIALOG_FUNC_QUICKFINISHTASK = 3,
@@ -24,14 +24,14 @@ export_lua enum DIALOG_FUNC_TYPE{
     DIALOG_FUNC_OPENSHOP        = 5,
     DIALOG_FUNC_SCRIPT          = 6,
 };
-export_lua enum DIALOG_TYPE{
+export_lua enum DIALOG_TYPE {
     DIALOGTYPE_NORMAL          = 0,
     DIALOGTYPE_ACCEPT_TASK     = 1,
     DIALOGTYPE_WAITFINISH_TASK = 2,
     DIALOGTYPE_SUBMIT_TASK     = 3,
 };
 
-export_lua enum DIALOGLINK_TYPE{
+export_lua enum DIALOGLINK_TYPE {
     DIALOGLINK_TYPE_BUTTON = 0, //底部按钮
     DIALOGLINK_TYPE_LIST   = 1, //中间的列表式按钮
 };
@@ -43,15 +43,17 @@ export_lua class CPlayer : public CActor
 protected:
     CPlayer();
     bool Init(OBJID idPlayer, const VirtualSocket& socket);
+
 public:
     CreateNewImpl(CPlayer);
+
 public:
     virtual ~CPlayer();
 
     export_lua bool FlyMap(uint16_t idMap, uint32_t idxPhase, float fPosX, float fPosY, float fRange, float fFace);
 
 public:
-    export_lua bool SendMsg(const google::protobuf::Message& msg) const;
+    export_lua bool         SendMsg(const google::protobuf::Message& msg) const;
     export_lua virtual bool SendMsg(uint16_t cmd, const google::protobuf::Message& msg) const override;
 
 public:
@@ -130,7 +132,7 @@ public:
     export_lua virtual uint32_t GetPropertyMax(uint32_t nType) const override;
     export_lua virtual uint32_t GetProperty(uint32_t nType) const override;
 
-    virtual void                MakeShowData(SC_AOI_NEW& msg) override;
+    virtual void MakeShowData(SC_AOI_NEW& msg) override;
 
 public:
     // part
@@ -190,7 +192,7 @@ public:
 
     virtual void OnEnterMap(CSceneBase* pScene) override;
     virtual void OnLeaveMap(uint64_t idTargetScene) override;
-    
+
 public:
     void OnTimer();
     void OnLogin(bool bLogin, const SceneID& idScene, float fPosX, float fPosY, float fRange, float fFace);
@@ -215,10 +217,12 @@ public:
     bool            OnDialogClick(uint64_t idDialog, uint32_t nIdx);
 
     export_lua bool ActiveNpc(OBJID idNpc);
+
 public:
-    export_lua virtual bool     CanDamage(CActor* pTarget) const override;
-    export_lua virtual void     BeKillBy(CActor* pAttacker) override;
-    export_lua virtual bool     IsEnemy(CSceneObject* pTarget) const override;
+    export_lua virtual bool CanDamage(CActor* pTarget) const override;
+    export_lua virtual void BeKillBy(CActor* pAttacker) override;
+    export_lua virtual bool IsEnemy(CSceneObject* pTarget) const override;
+
 private:
     void _ChangeZone(const SceneID& idScene, float fPosX, float fPosY, float fRange, float fFace);
     void _FlyMap(const SceneID& idScene, float fPosX, float fPosY, float fRange, float fFace);
@@ -237,13 +241,13 @@ public:
     OBJECTHEAP_DECLARATION(s_heap);
 
 private:
-    CDBRecordPtr                       m_pRecord;
-    VirtualSocket                      m_Socket;
-    CEventEntryPtr                     m_pEventOnTimer;
-    std::deque<CNetworkMessage*>       m_MessageList;
-    std::unique_ptr<CCommonDataSet>    m_pCommonDataSet;
-    std::unique_ptr<CDataCountSet>     m_pDataCountSet;
-    std::unique_ptr<CPetSet>           m_pPetSet;
+    CDBRecordPtr                         m_pRecord;
+    VirtualSocket                        m_Socket;
+    CEventEntryPtr                       m_pEventOnTimer;
+    std::deque<CNetworkMessage*>         m_MessageList;
+    std::unique_ptr<CCommonDataSet>      m_pCommonDataSet;
+    std::unique_ptr<CDataCountSet>       m_pDataCountSet;
+    std::unique_ptr<CPetSet>             m_pPetSet;
     std::unique_ptr<CPlayerSkillManager> m_pUserSkillManager;
 
     uint64_t m_idLoadingScene = 0;
@@ -271,7 +275,6 @@ private:
     std::unique_ptr<CEquipment>         m_pEquipmentSet;
     std::unique_ptr<CPlayerTask>        m_pTaskSet;
     std::unique_ptr<CPlayerAchievement> m_pAchievement;
-
 
     std::unordered_map<uint64_t, uint32_t> m_TaskPhase;
 };

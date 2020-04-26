@@ -6,9 +6,7 @@
 #include "fmt/format.h"
 CMapData::CMapData() {}
 
-CMapData::~CMapData()
-{
-}
+CMapData::~CMapData() {}
 
 bool CMapData::Init(uint32_t idMapTemplate)
 {

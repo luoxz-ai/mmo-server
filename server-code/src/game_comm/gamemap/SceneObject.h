@@ -46,15 +46,15 @@ public:
     export_lua void SetSceneTile(CSceneTile* val);
     export_lua void SetCollisionTile(CSceneCollisionTile* val);
 
-    export_lua uint64_t         GetPhaseID() const {return m_idPhaseID;}
-    export_lua void             _SetPhaseID(uint64_t idPhaseID) {m_idPhaseID = idPhaseID;}
-    export_lua virtual void     ChangePhase(uint64_t idPhaseID);
+    export_lua uint64_t     GetPhaseID() const { return m_idPhaseID; }
+    export_lua void         _SetPhaseID(uint64_t idPhaseID) { m_idPhaseID = idPhaseID; }
+    export_lua virtual void ChangePhase(uint64_t idPhaseID);
 
     export_lua OBJID GetID() const { return m_ID; }
     void             SetID(OBJID v) { m_ID = v; }
 
-    export_lua virtual OBJID         GetOwnerID() const { return 0; }
-    
+    export_lua virtual OBJID GetOwnerID() const { return 0; }
+
     export_lua virtual const CPos2D& GetPos() const { return m_Pos; }
     export_lua virtual CPos2D&       GetPosRef() { return m_Pos; }
     export_lua virtual float         GetPosX() const { return m_Pos.x; }
@@ -95,9 +95,9 @@ protected:
     virtual void AddToViewList(CSceneObject* pActor);
     virtual void OnAOIProcess_ActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_MAP& mapAllViewActor) = 0;
     virtual void OnAOIProcess_ActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
-                                              BROADCAST_SET&       setBCActor,
-                                              int32_t              nCanReserveDelCount,
-                                              uint32_t             view_range_out_square)                            = 0;
+                                                 BROADCAST_SET&       setBCActor,
+                                                 int32_t              nCanReserveDelCount,
+                                                 uint32_t             view_range_out_square)                            = 0;
     virtual void OnAOIProcess_PosUpdate(){};
 
     virtual bool IsNeedAddToBroadCastSet(CSceneObject* pActor) { return false; }
@@ -112,8 +112,8 @@ public:
     export_lua virtual void RemoveHide();
 
 protected:
-    OBJID                m_ID             = 0;       // id
-    uint64_t             m_idPhaseID      = 0; //位面ID
+    OBJID    m_ID        = 0; // id
+    uint64_t m_idPhaseID = 0; //位面ID
 
     CSceneBase*          m_pScene         = nullptr; //场景
     CSceneTile*          m_pSceneTile     = nullptr;

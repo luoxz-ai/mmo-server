@@ -300,9 +300,7 @@ bool CEventEntryQueue::Add(CEventEntry* pEntry)
 }
 
 //////////////////////////////////////////////////////////////////////////
-CEventEntryPtr::CEventEntryPtr()
-{
-}
+CEventEntryPtr::CEventEntryPtr() {}
 
 CEventEntryPtr::~CEventEntryPtr()
 {

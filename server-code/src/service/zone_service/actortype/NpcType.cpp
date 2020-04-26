@@ -11,7 +11,6 @@ CNpcTypeSet::~CNpcTypeSet()
     __LEAVE_FUNCTION
 }
 
-
 void CNpcTypeSet::Clear()
 {
     __ENTER_FUNCTION
@@ -26,7 +25,7 @@ void CNpcTypeSet::BuildIndex()
     __ENTER_FUNCTION
     for(const auto& ptr: m_vecData)
     {
-        auto pData = ptr.get();
+        auto pData                = ptr.get();
         m_setData[pData->GetID()] = pData;
         m_setDataByMapID[pData->GetMapID()][pData->GetPhaseID()].push_back(pData);
     }
@@ -52,7 +51,7 @@ const CNpcTypeSet::NpcTypeList* CNpcTypeSet::QueryObjByMapID(uint32_t idMap, uin
     if(it != m_setDataByMapID.end())
     {
         const auto& refPhase = it->second;
-        auto it_p = refPhase.find(idPhase);
+        auto        it_p     = refPhase.find(idPhase);
         if(it_p != refPhase.end())
         {
             return &(it_p->second);

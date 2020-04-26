@@ -12,11 +12,11 @@ bool CPlayer::CheckTaskPhase(uint64_t idPhase)
     return false;
 }
 
-void CPlayer::AddTaskPhase(uint64_t idPhase, bool bNotify/* = true*/)
+void CPlayer::AddTaskPhase(uint64_t idPhase, bool bNotify /* = true*/)
 {
     auto& refData = m_TaskPhase[idPhase];
     refData++;
-    //notify ai
+    // notify ai
     if(bNotify)
     {
         ServerMSG::AddTaskPhase msg;
@@ -26,8 +26,7 @@ void CPlayer::AddTaskPhase(uint64_t idPhase, bool bNotify/* = true*/)
     }
 }
 
-
-void CPlayer::RemoveTaskPhase(uint64_t idPhase, bool bNotify/* = true*/)
+void CPlayer::RemoveTaskPhase(uint64_t idPhase, bool bNotify /* = true*/)
 {
     auto& refData = m_TaskPhase[idPhase];
     refData--;
@@ -35,7 +34,7 @@ void CPlayer::RemoveTaskPhase(uint64_t idPhase, bool bNotify/* = true*/)
     {
         m_TaskPhase.erase(idPhase);
     }
-    //notify ai
+    // notify ai
     if(bNotify)
     {
         ServerMSG::RemoveTaskPhase msg;

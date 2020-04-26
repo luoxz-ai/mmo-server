@@ -14,11 +14,10 @@ class CMarketService : public IService, public CServiceCommon
     bool Init(const ServerPort& nServerPort);
     virtual ~CMarketService();
     void Destory();
-public:
-    
 
-    void Release() override;
-    export_lua const std::string& GetServiceName() const override{ return CServiceCommon::GetServiceName(); }
+public:
+    void             Release() override;
+    export_lua const std::string& GetServiceName() const override { return CServiceCommon::GetServiceName(); }
     CreateNewRealeaseImpl(CMarketService);
 
 public:

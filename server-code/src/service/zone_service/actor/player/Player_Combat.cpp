@@ -1,7 +1,6 @@
-#include "Player.h"
 #include "ActorManager.h"
 #include "Phase.h"
-
+#include "Player.h"
 
 bool CPlayer::CanDamage(CActor* pTarget) const
 {

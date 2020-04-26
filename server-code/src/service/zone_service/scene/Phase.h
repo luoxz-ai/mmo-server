@@ -1,11 +1,11 @@
 #ifndef PHASE_H
 #define PHASE_H
 
+#include "EventEntry.h"
 #include "MapVal.h"
 #include "SceneBase.h"
-#include "EventEntry.h"
-#include "ZoneService.h"
 #include "ScriptManager.h"
+#include "ZoneService.h"
 
 export_lua enum SceneState {
     SCENESTATE_NORMAL       = 0,
@@ -16,13 +16,13 @@ export_lua enum SceneState {
 
 export_lua struct CreateMonsterParam
 {
-    uint32_t      idMonsterType;
-    uint32_t      idGen;
-    uint64_t      idPhase;
-    uint32_t      idCamp;
-    OBJID         idOwner;
-    CPos2D        pos;
-    float         face;
+    uint32_t idMonsterType;
+    uint32_t idGen;
+    uint64_t idPhase;
+    uint32_t idCamp;
+    OBJID    idOwner;
+    CPos2D   pos;
+    float    face;
 };
 
 class CScene;
@@ -30,20 +30,20 @@ class CNpc;
 class CMonster;
 class CPlayer;
 
-
-export_lua class CPhase : public CSceneBase 
+export_lua class CPhase : public CSceneBase
 {
 protected:
     CPhase();
-public:
-    CreateNewImpl(CPhase);
-public:
-    virtual ~CPhase();
-    
 
 public:
-    bool            Init(CScene* pScene, const SceneID& idScene, uint64_t idPhase, const PhaseData* pPhaseData);
-    
+    CreateNewImpl(CPhase);
+
+public:
+    virtual ~CPhase();
+
+public:
+    bool Init(CScene* pScene, const SceneID& idScene, uint64_t idPhase, const PhaseData* pPhaseData);
+
     export_lua bool NeedDestory() const;
     export_lua bool CanDestory();
 
@@ -55,15 +55,14 @@ public:
     export_lua void         SetSceneState(uint32_t val) { m_curSceneState = val; }
     export_lua virtual void AddDynaRegion(uint32_t nRegionType, const FloatRect& rect) override;
     export_lua virtual void ClearDynaRegion(uint32_t nRegionType) override;
-    
-    export_lua CMapValSet* GetMapValSet()const {return m_pMapValSet.get();};
-    export_lua uint64_t GetPhaseID()const {return m_idPhase;}
-    export_lua uint32_t GetPhaseIdx()const {return GetSceneID().GetPhaseIdx();}
+
+    export_lua CMapValSet* GetMapValSet() const { return m_pMapValSet.get(); };
+    export_lua uint64_t    GetPhaseID() const { return m_idPhase; }
+    export_lua uint32_t    GetPhaseIdx() const { return GetSceneID().GetPhaseIdx(); }
+
 public:
     export_lua bool SendSceneMessage(const google::protobuf::Message& msg) const;
     export_lua bool SendSceneMessage(uint16_t cmd, const google::protobuf::Message& msg) const;
-
-    
 
     //增加一个延时回调脚本
     export_lua void AddTimedCallback(uint32_t tIntervalMS, const std::string& func_name);
@@ -83,9 +82,9 @@ public:
         return RVal();
     }
 
-public: 
+public:
     export_lua CNpc* CreateNpc(uint32_t idNpcType, const CPos2D& pos, float face);
-    
+
     export_lua CMonster* CreateMonster(const CreateMonsterParam& param);
     export_lua bool      CreateMultiMonster(const CreateMonsterParam& param, uint32_t nNum, float range);
 
@@ -94,24 +93,25 @@ public:
     void SetOwnerID(const std::vector<OBJID>& setPlayerID);
     void ClearOwner(OBJID idOwner);
     bool IsOwner(OBJID idOwner) const;
-    
 
     virtual bool IsStatic() const override { return m_idPhase < 0xFFFFFFFF; }
     virtual bool EnterMap(CSceneObject* pActor, float fPosX, float fPosY, float fFace) override;
     virtual void LeaveMap(CSceneObject* pActor, uint64_t idTargetScene = 0) override;
+
 private:
     void ScheduleDelPhase(uint32_t wait_ms);
 
 public:
     OBJECTHEAP_DECLARATION(s_heap);
-private:
-    uint64_t        m_idPhase = 0;
-    CScene*         m_pScene = nullptr;
-    
-    uint32_t        m_curSceneState;
-    bool            m_bDelThis = false;
 
-    CEventEntryQueue m_StatusEventList;
+private:
+    uint64_t m_idPhase = 0;
+    CScene*  m_pScene  = nullptr;
+
+    uint32_t m_curSceneState;
+    bool     m_bDelThis = false;
+
+    CEventEntryQueue            m_StatusEventList;
     std::unique_ptr<CMapValSet> m_pMapValSet;
 
     std::map<OBJID, bool> m_OwnerIDSet;

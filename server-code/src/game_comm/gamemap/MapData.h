@@ -49,16 +49,15 @@ export_lua struct MapGridData
     };
 };
 
-export_lua class CMapData: public NoncopyableT<CMapData>
+export_lua class CMapData : public NoncopyableT<CMapData>
 {
     CMapData();
     bool Init(uint32_t idMapTemplate);
+
 public:
     CreateNewImpl(CMapData);
 
     ~CMapData();
-    
-    
 
     export_lua uint32_t GetMapTemplateID() const { return m_idMapTemplate; }
 
@@ -112,7 +111,7 @@ private:
 
     //地图信息
     std::unique_ptr<MapGridData[]> m_pGridData;
-    uint32_t     m_CollisionMask[32];
+    uint32_t                       m_CollisionMask[32];
 
     //
 };

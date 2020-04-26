@@ -24,7 +24,7 @@ bool CPlayerSkillManager::Init(CPlayer* pOwner)
     {
         for(size_t i = 0; i < pResult->get_num_row(); i++)
         {
-            auto            row   = pResult->fetch_row(true);
+            auto row = pResult->fetch_row(true);
 
             CSkillData* pData = CSkillData::CreateNew(m_pOwner, std::move(row));
             if(pData)
@@ -70,7 +70,7 @@ bool CPlayerSkillManager::LearnSkill(uint32_t idSkillSort)
     CSkillData* pData = CSkillData::CreateNew(m_pOwner, idSkillSort, 1);
     if(pData)
     {
-        m_setSkillData[pData->GetSkillSort()].reset( pData);
+        m_setSkillData[pData->GetSkillSort()].reset(pData);
         if(pSkillType && pSkillType->GetSkillType() == SKILLTYPE_PASSIVE)
         {
             const auto& refList = pSkillType->GetAttrib();
@@ -106,7 +106,7 @@ bool CPlayerSkillManager::CastSkill(uint32_t idSkillSort, OBJID idTarget, const 
     return false;
 }
 
-bool CPlayerSkillManager::CheckSkillReq( const CSkillType* pSkillType)
+bool CPlayerSkillManager::CheckSkillReq(const CSkillType* pSkillType)
 {
     CHECKF(pSkillType);
     if(HasFlag(m_pOwner->GetProf(), pSkillType->GetProfReq()) == false)
@@ -127,7 +127,8 @@ bool CPlayerSkillManager::UpgradeSkill(uint32_t idSkillSort)
     if(pSkillData == nullptr)
         return false;
 
-    const CSkillType* pSkillType = SkillTypeSet()->QueryObj(CSkillType::MakeID(idSkillSort, pSkillData->GetSkillLev() + 1));
+    const CSkillType* pSkillType =
+        SkillTypeSet()->QueryObj(CSkillType::MakeID(idSkillSort, pSkillData->GetSkillLev() + 1));
     if(pSkillType == nullptr)
         return false;
 

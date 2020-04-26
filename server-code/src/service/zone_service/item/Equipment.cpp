@@ -1,9 +1,9 @@
 #include "Equipment.h"
 
 #include "Item.h"
+#include "ItemAddition.h"
 #include "Player.h"
 #include "SuitEquip.h"
-#include "ItemAddition.h"
 #include "ZoneService.h"
 CEquipment::CEquipment() {}
 
@@ -420,7 +420,6 @@ void CEquipment::CheckItemExpire(uint32_t dwTimeNow)
                                                      SCB_ITEM_ONTIMEOUT,
                                                      pItem,
                                                      m_pOwner);
-
             }
             else
             {
@@ -522,7 +521,6 @@ bool CEquipment::CheckEquipPosition(CItem* pItem, uint32_t nGrid) const
     {
         return true;
     }
-
 
     __LEAVE_FUNCTION
     return false;

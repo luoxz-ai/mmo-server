@@ -1,10 +1,10 @@
 #include "SystemVars.h"
 
+#include "MsgProcessRegister.h"
+#include "MysqlConnection.h"
 #include "Player.h"
 #include "ZoneService.h"
 #include "server_msg/server_side.pb.h"
-#include "MysqlConnection.h"
-#include "MsgProcessRegister.h"
 
 constexpr uint32_t AUTO_SYNC_SYSTEMVAR_LIST[] = {
     SYSTEMVAR_SERVER_START,
@@ -182,9 +182,7 @@ void CSystemVar::DeleteRecord()
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-CSystemVarSet::CSystemVarSet()
-{
-}
+CSystemVarSet::CSystemVarSet() {}
 
 CSystemVarSet::~CSystemVarSet()
 {
@@ -229,11 +227,10 @@ bool CSystemVarSet::Init()
     {
         for(size_t i = 0; i < result->get_num_row(); i++)
         {
-            auto row = result->fetch_row(true);
+            auto row   = result->fetch_row(true);
             auto pData = std::make_unique<CSystemVar>(std::move(row));
-            auto key = pData->GetIdx();
+            auto key   = pData->GetIdx();
             m_setData.emplace(key, std::move(pData));
-            
         }
     }
     return true;
@@ -257,7 +254,7 @@ CSystemVar* CSystemVarSet::CreateVar(uint32_t nIdx)
 {
     auto* pDB = ZoneService()->GetGameDB(ZoneService()->GetWorldID());
     CHECKF(pDB);
-    
+
     if(nIdx < SYSTEMVAR_NOT_SAVE)
     {
         auto pDBRecord                           = pDB->MakeRecord(TBLD_SYSTEMVAR::table_name);
@@ -298,7 +295,7 @@ void CSystemVarSet::SyncToClient(CPlayer* pPlayer)
         if(it != m_setData.end())
         {
             auto& pSysvars = it->second;
-            auto pData    = msg.add_datalist();
+            auto  pData    = msg.add_datalist();
             pData->set_keyidx(pSysvars->GetIdx());
             pData->set_data0(pSysvars->GetData(0));
             pData->set_data1(pSysvars->GetData(1));

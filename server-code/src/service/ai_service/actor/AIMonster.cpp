@@ -1,9 +1,9 @@
 #include "AIMonster.h"
 
+#include "AIPhase.h"
 #include "AIService.h"
 #include "AIType.h"
 #include "ActorAI.h"
-#include "AIPhase.h"
 
 OBJECTHEAP_IMPLEMENTATION(CAIMonster, s_heap);
 CAIMonster::CAIMonster() {}

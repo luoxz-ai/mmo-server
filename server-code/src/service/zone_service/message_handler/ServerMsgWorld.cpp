@@ -1,9 +1,9 @@
 #include <regex>
 
+#include "LoadingThread.h"
 #include "MsgZoneProcess.h"
 #include "Player.h"
 #include "ZoneService.h"
-#include "LoadingThread.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
@@ -48,7 +48,6 @@ ON_SERVERMSG(CZoneService, PlayerChangeZone)
     CHECK(msg.range() > 0);
 
     ZoneService()->GetLoadingThread()->CancleWaiting(msg.idplayer());
-
 
     ST_LOADINGTHREAD_PROCESS_DATA data;
     data.nPorcessType = LPT_LOADING;

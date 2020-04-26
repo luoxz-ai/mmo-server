@@ -14,12 +14,12 @@ export_lua class CEquipment : public NoncopyableT<CEquipment>
 protected:
     CEquipment();
     bool Init(CPlayer* pPlayer);
+
 public:
     CreateNewImpl(CEquipment);
+
 public:
     virtual ~CEquipment();
-    
-    
 
 public:
 public:
@@ -42,8 +42,8 @@ public:
 
     export_lua void DeleteAll(bool bSynchro = true, bool bTraceTaskItem = true);
 
-    export_lua bool CanEquipByItemType(const CItemType* pItemType) const ;
-    export_lua bool CanEquip(CItem* pItem, uint32_t& nGrid)const ;
+    export_lua bool CanEquipByItemType(const CItemType* pItemType) const;
+    export_lua bool CanEquip(CItem* pItem, uint32_t& nGrid) const;
 
     export_lua virtual int32_t GetSuitTypeAmount() const { return (int32_t)m_setSuitNum.size(); }
 

@@ -19,15 +19,15 @@ enum LOADING_PROCESS_TYPE
 struct ST_LOADINGTHREAD_PROCESS_DATA
 {
     uint32_t      nPorcessType = LPT_LOADING;
-    OBJID         idPlayer = 0;
-    bool          bChangeZone = false;
-    VirtualSocket socket = 0;
-    uint64_t      idScene = 0;
-    float         fPosX = 0.0f;
-    float         fPosY = 0.0f;
-    float         fRange = 0.0f;
-    float         fFace = 0.0f;
-    CPlayer*      pPlayer = nullptr;
+    OBJID         idPlayer     = 0;
+    bool          bChangeZone  = false;
+    VirtualSocket socket       = 0;
+    uint64_t      idScene      = 0;
+    float         fPosX        = 0.0f;
+    float         fPosY        = 0.0f;
+    float         fRange       = 0.0f;
+    float         fFace        = 0.0f;
+    CPlayer*      pPlayer      = nullptr;
 };
 
 class CZoneService;
@@ -35,10 +35,11 @@ class CLoadingThread : public NoncopyableT<CLoadingThread>
 {
     CLoadingThread();
     bool Init(CZoneService* pZoneRef);
+
 public:
     CreateNewImpl(CLoadingThread);
     ~CLoadingThread();
-    
+
     void Destory();
 
     //添加玩家到等待登陆队列
@@ -62,7 +63,7 @@ private:
     void CancleOnWaitList(OBJID idPlayer);
 
 private:
-    CZoneService* m_pZone = nullptr;
+    CZoneService*           m_pZone = nullptr;
     std::atomic<bool>       m_bStop = false;
     std::mutex              m_csCV;
     std::condition_variable m_cv;

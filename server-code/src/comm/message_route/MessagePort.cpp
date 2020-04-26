@@ -33,8 +33,8 @@ void CMessagePort::Destory()
     {
         m_pRemoteServerSocket->Close();
         m_pRemoteServerSocket = nullptr;
-    }   
-    __LEAVE_FUNCTION 
+    }
+    __LEAVE_FUNCTION
 }
 
 bool CMessagePort::TakePortMsg(CNetworkMessage*& msg)
@@ -68,9 +68,9 @@ void CMessagePort::OnConnectFailed(CNetSocket* pSocket)
 {
     __ENTER_FUNCTION
     LOGNETINFO("MessagePort:{} OnConnectFailed {}:{}",
-                GetServiceName(GetServerPort().GetServiceID()),
-                pSocket->GetAddrString().c_str(),
-                pSocket->GetPort());
+               GetServiceName(GetServerPort().GetServiceID()),
+               pSocket->GetAddrString().c_str(),
+               pSocket->GetPort());
     if(auto pHandler = m_pPortEventHandler.load())
     {
         pHandler->OnPortConnectFailed(pSocket);
@@ -82,11 +82,11 @@ void CMessagePort::OnDisconnected(CNetSocket* pSocket)
 {
     __ENTER_FUNCTION
     LOGNETINFO("MessagePort:{} OnDisconnected {}:{}",
-                GetServiceName(GetServerPort().GetServiceID()),
-                pSocket->GetAddrString().c_str(),
-                pSocket->GetPort());
+               GetServiceName(GetServerPort().GetServiceID()),
+               pSocket->GetAddrString().c_str(),
+               pSocket->GetPort());
     if(auto pHandler = m_pPortEventHandler.load())
-    {    
+    {
         pHandler->OnPortDisconnected(pSocket);
     }
     __LEAVE_FUNCTION
@@ -213,7 +213,7 @@ void CMessagePort::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
     if(pHandler)
     {
         pHandler->OnPortRecvData(pSocket, pBuffer, len);
-    }   
+    }
 
     __LEAVE_FUNCTION
 }
@@ -318,7 +318,6 @@ void CMessagePort::_SendAllMsg()
                     warp_msg_header.usSize = sizeof(MSG_INTERNAL_MSG_HEAD) + pMsg->GetSize();
                     warp_msg_header.usCmd  = NETMSG_INTERNAL;
                     m_pRemoteServerSocket->SendSocketMsg((byte*)&warp_msg_header, sizeof(warp_msg_header), pMsg);
-                    
                 }
                 else
                 {
@@ -354,7 +353,9 @@ void CMessagePort::_SendAllMsg()
                     {
                         warp_msg_header.usSize = warp_msg_header.GetSize() + pMsg->GetSize();
                         {
-                            m_pRemoteServerSocket->SendSocketMsg((byte*)&warp_msg_header, warp_msg_header.GetSize(), pMsg);
+                            m_pRemoteServerSocket->SendSocketMsg((byte*)&warp_msg_header,
+                                                                 warp_msg_header.GetSize(),
+                                                                 pMsg);
                         }
 
                         warp_msg_header.nAmount = 0;
@@ -382,7 +383,9 @@ void CMessagePort::_SendAllMsg()
                     {
                         warp_msg_header.usSize = warp_msg_header.GetSize() + pMsg->GetSize();
                         {
-                            m_pRemoteServerSocket->SendSocketMsg((byte*)&warp_msg_header, warp_msg_header.GetSize(), pMsg);
+                            m_pRemoteServerSocket->SendSocketMsg((byte*)&warp_msg_header,
+                                                                 warp_msg_header.GetSize(),
+                                                                 pMsg);
                         }
 
                         warp_msg_header.nAmount = 0;

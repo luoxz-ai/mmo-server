@@ -2,21 +2,21 @@
 #define IDGENPOOL_H
 
 #include <deque>
+
 #include "LoggingMgr.h"
 
 template<class IDType>
 class IDGenPool
 {
-public:  
-    IDGenPool(){}
-    ~IDGenPool(){}
-    
+public:
+    IDGenPool() {}
+    ~IDGenPool() {}
+
     void start(IDType startID, IDType max_count)
     {
         m_lastID = startID;
-        m_maxID = startID + max_count;
+        m_maxID  = startID + max_count;
     }
-    
 
     IDType get()
     {
@@ -38,15 +38,12 @@ public:
         }
     }
 
-    void put(IDType id)
-    {
-        m_idPool.push_back(id);
-    }
+    void put(IDType id) { m_idPool.push_back(id); }
+
 private:
     std::deque<IDType> m_idPool;
-    IDType m_lastID = 0;
-    IDType m_maxID = 0;
-    
+    IDType             m_lastID = 0;
+    IDType             m_maxID  = 0;
 };
 
 #endif /* IDGENPOOL_H */

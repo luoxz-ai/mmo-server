@@ -227,7 +227,7 @@ std::string function_name_conver(const std::string& name)
         {"operator|", "__bor"},
         {"operator^", "__bxor"},
         {"operator!", "__bnot"},
-        
+
         {"operator<<", "__shl"},
         {"operator>>", "__shr"},
     };
@@ -260,7 +260,7 @@ void visit_function(CXCursor cursor, Visitor_Content* pContent)
 
     if(refMap.find(typestr) != refMap.end())
         return;
-    auto& overload_data = refMap[typestr];
+    auto& overload_data     = refMap[typestr];
     overload_data.is_static = clang_CXXMethod_isStatic(cursor) != 0;
 
     {
@@ -279,7 +279,7 @@ void visit_function(CXCursor cursor, Visitor_Content* pContent)
         }
     }
     overload_data.func_type = typestr;
-    
+
     // reg gloabl_func
     int32_t nArgs = clang_Cursor_getNumArguments(cursor);
     {
@@ -1055,8 +1055,8 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
             visit_function(cursor, pContent);
         }
         break;
-    case CXCursor_TypedefDecl:
-    case CXCursor_TypeAliasDecl:
+        case CXCursor_TypedefDecl:
+        case CXCursor_TypeAliasDecl:
         {
             if(g_bSkip_class)
                 return CXChildVisit_Continue;
@@ -1093,7 +1093,8 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 
             std::string nsname = getClangString(clang_getCursorSpelling(cursor));
             std::string tname  = getClangString(clang_getTypeSpelling(clang_getCursorType(cursor)));
-            std::string canon_name = getClangString(clang_getTypeSpelling(clang_getCanonicalType(clang_getCursorType(cursor)) ));
+            std::string canon_name =
+                getClangString(clang_getTypeSpelling(clang_getCanonicalType(clang_getCursorType(cursor))));
 
             debug_printf("do:class_alias\n");
             if(pContent)
@@ -1228,7 +1229,12 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 
     for(const auto& v: pContent->m_aliasname_list)
     {
-        snprintf(szBuf, 4096, "lua_tinker::class_alias<%s,%s>(L, \"%s\");\n", pContent->getAccessName().c_str(), v.c_str(), v.c_str());
+        snprintf(szBuf,
+                 4096,
+                 "lua_tinker::class_alias<%s,%s>(L, \"%s\");\n",
+                 pContent->getAccessName().c_str(),
+                 v.c_str(),
+                 v.c_str());
         os_second += szBuf;
     }
 
@@ -1275,7 +1281,7 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
                 std::string overload_params;
                 size_t      nDefaultParamsStart = 1;
                 std::string def_params;
-                bool bStatic = false;
+                bool        bStatic = false;
                 for(const auto& it_refData: refDataSet)
                 {
                     const auto& refData = it_refData.second;
@@ -1302,45 +1308,46 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
                     if(bStatic)
                     {
                         snprintf(szBuf,
-                             4096,
-                             "\n\tlua_tinker::make_functor_ptr((%s)(&%s)%s)",
-                             refData.funcptr_type.c_str(),
-                             (pContent->getAccessPrifix() + v.first).c_str(),
-                             def_params_decl.c_str());
+                                 4096,
+                                 "\n\tlua_tinker::make_functor_ptr((%s)(&%s)%s)",
+                                 refData.funcptr_type.c_str(),
+                                 (pContent->getAccessPrifix() + v.first).c_str(),
+                                 def_params_decl.c_str());
                     }
                     else
                     {
                         snprintf(szBuf,
-                             4096,
-                             "\n\tlua_tinker::make_member_functor_ptr((%s)(&%s)%s)",
-                             refData.funcptr_type.c_str(),
-                             (pContent->getAccessPrifix() + v.first).c_str(),
-                             def_params_decl.c_str());
+                                 4096,
+                                 "\n\tlua_tinker::make_member_functor_ptr((%s)(&%s)%s)",
+                                 refData.funcptr_type.c_str(),
+                                 (pContent->getAccessPrifix() + v.first).c_str(),
+                                 def_params_decl.c_str());
                     }
                     overload_params += szBuf;
                 }
 
                 if(bStatic)
                 {
-                    snprintf(szBuf,
-                         4096,
-                         "lua_tinker::class_def_static<%s>(L, \"%s\", lua_tinker::args_type_overload_functor(%s)%s);\n",
-                         pContent->getAccessName().c_str(),
-                         function_name_conver(v.first).c_str(),
-                         overload_params.c_str(),
-                         def_params.c_str());
+                    snprintf(
+                        szBuf,
+                        4096,
+                        "lua_tinker::class_def_static<%s>(L, \"%s\", lua_tinker::args_type_overload_functor(%s)%s);\n",
+                        pContent->getAccessName().c_str(),
+                        function_name_conver(v.first).c_str(),
+                        overload_params.c_str(),
+                        def_params.c_str());
                 }
                 else
                 {
-                    snprintf(szBuf,
-                         4096,
-                         "lua_tinker::class_def<%s>(L, \"%s\", lua_tinker::args_type_overload_member_functor(%s)%s);\n",
-                         pContent->getAccessName().c_str(),
-                         function_name_conver(v.first).c_str(),
-                         overload_params.c_str(),
-                         def_params.c_str());
+                    snprintf(
+                        szBuf,
+                        4096,
+                        "lua_tinker::class_def<%s>(L, \"%s\", lua_tinker::args_type_overload_member_functor(%s)%s);\n",
+                        pContent->getAccessName().c_str(),
+                        function_name_conver(v.first).c_str(),
+                        overload_params.c_str(),
+                        def_params.c_str());
                 }
-               
 
                 os += szBuf;
             }

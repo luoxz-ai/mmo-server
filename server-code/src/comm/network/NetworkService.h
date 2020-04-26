@@ -115,9 +115,9 @@ public:
     void OnAccept(int32_t fd, struct sockaddr* addr, int32_t, evconnlistener* listener);
 
 public:
-    event_base* GetEVBase() const { return m_pBase; }
-    CEventManager* GetEventManager() const {return m_pEventManager.get();}
-    size_t GetSocketAmount();
+    event_base*    GetEVBase() const { return m_pBase; }
+    CEventManager* GetEventManager() const { return m_pEventManager.get(); }
+    size_t         GetSocketAmount();
     // socket广播消息
     void BrocastMsg(byte* buf, size_t len, SOCKET execpt_this = 0);
     //直接发送Socket消息
@@ -175,7 +175,7 @@ protected:
     std::function<void(struct evhttp_request* req)> m_funcOnReciveHttp;
     std::mutex                                      m_mutex;
 
-    std::unique_ptr<CEventManager>  m_pEventManager;
+    std::unique_ptr<CEventManager> m_pEventManager;
 
     std::map<SOCKET, CNetSocket*>   m_setSocket;
     std::deque<uint16_t>            m_SocketIdxPool;
@@ -187,8 +187,8 @@ protected:
     MPSCQueue<CNetworkMessage*> m_MessageQueue;
 
     std::unique_ptr<std::thread> m_pIOThread;
-    struct event*                m_pIOTimeOutEvent = nullptr;
-    struct event*                m_pCloseSocketEvent = nullptr;
+    struct event*                m_pIOTimeOutEvent                 = nullptr;
+    struct event*                m_pCloseSocketEvent               = nullptr;
     std::atomic<bool>            m_bWaitingProcessCloseSocketEvent = false;
     BytePerSecondCount           m_RecvBPS;
     BytePerSecondCount           m_SendBPS;

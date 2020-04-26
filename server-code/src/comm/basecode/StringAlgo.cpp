@@ -113,8 +113,6 @@ bool IsUTF8_NoneControl(const char* pszString, long nSize)
     return true;
 }
 
-
-
 //////////////////////////////////////////////////////////////////////
 std::string URLEncode(const char* pszStr)
 {

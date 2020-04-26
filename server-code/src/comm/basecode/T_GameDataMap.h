@@ -7,14 +7,15 @@
 #ifndef T_GAMEDATAMAP_H
 #define T_GAMEDATAMAP_H
 
+#include <memory>
+#include <vector>
+
 #include "BaseCode.h"
 #include "MysqlConnection.h"
 #include "ProtobuffUtil.h"
 #include "Singleton.h"
-#include "type_traits_ext.h"
-#include <vector>
-#include <memory>
 #include "nameof.h"
+#include "type_traits_ext.h"
 
 //////////////////////////////////////////////////////////////////////
 // 说明：需要GetID()函数支持    另外，还需要这种形式的函数支持：
@@ -22,7 +23,7 @@
 
 namespace details
 {
-CAT_CLASS_HAS_MEMBER(Merge);
+    CAT_CLASS_HAS_MEMBER(Merge);
 }; // namespace details
 
 template<typename T>
@@ -34,33 +35,29 @@ template<class T>
 class CGameDataContainer : public Noncopyable
 {
 protected:
-    std::string_view GET_NAME() 
-    { 
+    std::string_view GET_NAME()
+    {
         constexpr auto t_name = NAMEOF_TYPE(T);
         return t_name;
     }
     CGameDataContainer() {}
+
 public:
     using value_type = T;
     virtual ~CGameDataContainer() { ClearRawData(); }
-    void ClearRawData()
+    void ClearRawData() { m_vecData.clear(); }
+
+    virtual void Clear() { ClearRawData(); }
+    virtual void BuildIndex() = 0;
+
+    static inline std::string GetCfgFileName()
     {
-        m_vecData.clear();
+        using PB_T               = typename T::PB_T;
+        constexpr auto pb_t_name = NAMEOF_TYPE(PB_T);
+        // return PB_T::descriptor()->name()+std::string(".bytes");
+        return static_cast<std::string>(pb_t_name).append(".bytes");
     }
 
-    virtual void Clear()
-    {
-        ClearRawData();
-    }
-    virtual void BuildIndex() = 0;
-    
-    static inline std::string GetCfgFileName() 
-    {
-        using PB_T = typename T::PB_T;
-        constexpr auto pb_t_name = NAMEOF_TYPE(PB_T);
-        //return PB_T::descriptor()->name()+std::string(".bytes"); 
-        return static_cast<std::string>(pb_t_name).append(".bytes"); 
-    }
 public:
     bool Reload(CMysqlConnection* pDb, const std::string& table_name, const std::string& szSQL)
     {
@@ -73,10 +70,8 @@ public:
         return Init(szFileName);
     }
 
-    const std::vector<std::unique_ptr<value_type>>& GetRawData() const
-    {
-        return m_vecData;
-    }
+    const std::vector<std::unique_ptr<value_type>>& GetRawData() const { return m_vecData; }
+
 protected:
     bool Init(CMysqlConnection* pDb, const std::string& table_name, const std::string& szSQL)
     {
@@ -108,7 +103,7 @@ protected:
             LOGERROR("InitFromFile {} Fail.", szFileName);
             return false;
         }
-       
+
         for(const auto& row: cfg.rows())
         {
             T* pData = T::CreateNew(row);
@@ -121,11 +116,10 @@ protected:
         }
 
         BuildIndex();
-    
+
         LOGDEBUG("Init {} Succ.", szFileName);
         return true;
     }
-
 
 protected:
     std::vector<std::unique_ptr<value_type>> m_vecData;
@@ -136,20 +130,18 @@ class CGameDataVector : public CGameDataContainer<T>
 {
 protected:
     CGameDataVector() {}
+
 public:
-    using KEY_T      = typename std::result_of<decltype (&T::GetID)(T)>::type;
-    ~CGameDataVector() 
-    {
-    }
+    using KEY_T = typename std::result_of<decltype (&T::GetID)(T)>::type;
+    ~CGameDataVector() {}
     CreateNewImpl(CGameDataVector);
     virtual void BuildIndex() override {}
-    const T* QueryObj(KEY_T id) const
+    const T*     QueryObj(KEY_T id) const
     {
         const auto& refset = CGameDataContainer<T>::GetRawData();
         CHECKF(id < refset.size());
         return refset[id].get();
     }
-
 };
 
 template<class T>
@@ -158,7 +150,6 @@ class CGameDataMap : public CGameDataContainer<T>
 protected:
     CGameDataMap() {}
 
-    
 public:
     using KEY_T      = typename std::result_of<decltype (&T::GetID)(T)>::type;
     using MAP_SET_T  = std::unordered_map<KEY_T, T*>;
@@ -202,6 +193,7 @@ public:
     }
 
     Iterator GetIter() const { return Iterator(m_setData); }
+
 public:
     virtual void Clear() override
     {
@@ -211,11 +203,12 @@ public:
     virtual void BuildIndex() override
     {
         const auto& refset = CGameDataContainer<T>::GetRawData();
-        for(const auto& ptr : refset)
+        for(const auto& ptr: refset)
         {
             BuildOne(ptr.get());
         }
     }
+
 private:
     void BuildOne(T* ptr)
     {
@@ -231,7 +224,7 @@ private:
 
         AddObj(ptr);
     }
-    
+
     void AddObj(T* pData)
     {
         auto it_find = m_setData.find(pData->GetID());
@@ -260,12 +253,12 @@ private:
 };
 
 template<class T>
-class CGameMultiDataMap  : public CGameDataContainer<T>
+class CGameMultiDataMap : public CGameDataContainer<T>
 {
 protected:
     CGameMultiDataMap() {}
-public: 
-    
+
+public:
 public:
     using KEY_T      = typename std::result_of<decltype (&T::GetID)(T)>::type;
     using MAP_SET_T  = std::unordered_multimap<KEY_T, T*>;
@@ -293,7 +286,7 @@ public:
         bool HasMore() const { return m_itBeg != m_itEnd; }
 
         const T* PeekVal() const { return m_itBeg->second; }
-        size_t Count() const {return std::distance(m_itBeg, m_itEnd);}
+        size_t   Count() const { return std::distance(m_itBeg, m_itEnd); }
         friend class CGameMultiDataMap<T>;
 
     protected:
@@ -302,7 +295,6 @@ public:
     };
 
 public:
-    
     ~CGameMultiDataMap() { Clear(); }
     CreateNewImpl(CGameMultiDataMap);
     Iterator QueryObj(KEY_T id) const
@@ -316,46 +308,49 @@ public:
     }
 
     Iterator GetIter() const { return Iterator(m_setData); }
+
 public:
     virtual void Clear() override
     {
         m_setData.clear();
-        CGameDataContainer<T>::ClearRawData();;
+        CGameDataContainer<T>::ClearRawData();
+        ;
     }
 
     virtual void BuildIndex() override
     {
         const auto& refset = CGameDataContainer<T>::GetRawData();
-        for(const auto& ptr : refset)
+        for(const auto& ptr: refset)
         {
             AddObj(ptr.get());
         }
     }
-    
+
 private:
     void AddObj(T* pData) { m_setData.insert(std::make_pair(pData->GetID(), pData)); }
-   
 
 private:
     MAP_SET_T m_setData;
 };
 
-#define DEFINE_GAMEMAPDATA(TSet, T)                                   \
-    class TSet : public CGameDataMap<T>                               \
-    {                                                                 \
-        TSet() {}                                                     \
-    public:                                                           \
-        ~TSet() {}                                                    \
-        CreateNewImpl(TSet);                                          \
+#define DEFINE_GAMEMAPDATA(TSet, T)     \
+    class TSet : public CGameDataMap<T> \
+    {                                   \
+        TSet() {}                       \
+                                        \
+    public:                             \
+        ~TSet() {}                      \
+        CreateNewImpl(TSet);            \
     };
 
-#define DEFINE_MULTIGAMEMAPDATA(TSet, T)                              \
-    class TSet : public CGameMultiDataMap<T>                          \
-    {                                                                 \
-        TSet() {}                                                     \
-    public:                                                           \
-        ~TSet() {}                                                    \
-        CreateNewImpl(TSet);                                          \
+#define DEFINE_MULTIGAMEMAPDATA(TSet, T)     \
+    class TSet : public CGameMultiDataMap<T> \
+    {                                        \
+        TSet() {}                            \
+                                             \
+    public:                                  \
+        ~TSet() {}                           \
+        CreateNewImpl(TSet);                 \
     };
 
 #endif // T_GAMEDATAMAP_H

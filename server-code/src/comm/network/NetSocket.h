@@ -10,10 +10,10 @@
 #include "BytePerSecondCount.h"
 #include "Decryptor.h"
 #include "Encryptor.h"
-#include "ObjectHeap.h"
-#include "NetworkDefine.h"
 #include "EventEntry.h"
 #include "LockfreeQueue.h"
+#include "NetworkDefine.h"
+#include "ObjectHeap.h"
 
 class CNetworkService;
 class CNetEventHandler;
@@ -89,7 +89,6 @@ public:
     CNetworkService* GetService() const { return m_pService; }
     bufferevent*     GetBufferevent() const { return m_pBufferevent; }
 
-
     NET_SOCKET_STATUS GetStatus() const { return m_Status; }
     void              SetStatus(NET_SOCKET_STATUS val) { m_Status = val; }
 
@@ -117,23 +116,20 @@ public:
 public:
     OBJECTHEAP_DECLARATION(s_Heap);
 
-
 protected:
     struct SendMsgData
     {
         SendMsgData(byte* _pBuffer, size_t _len, CNetworkMessage* _pMsg, bool _bFlush);
         ~SendMsgData();
 
-        byte* pBuffer = nullptr;
-        size_t len = 0;
-        CNetworkMessage* pMsg = nullptr;
-        bool bFlush = false;
+        byte*            pBuffer = nullptr;
+        size_t           len     = 0;
+        CNetworkMessage* pMsg    = nullptr;
+        bool             bFlush  = false;
     };
     bool _SendMsg(byte* pBuffer, size_t len, bool bFlush);
     void _SendAllMsg();
     void PostSend();
-
-
 
 protected:
     CNetworkService*  m_pService;
@@ -141,7 +137,6 @@ protected:
     bufferevent*      m_pBufferevent;
     event*            m_pReconnectEvent;
     struct evbuffer*  m_Sendbuf;
-
 
     MPSCQueue<SendMsgData*> m_SendMsgQueue;
     CEventEntryPtr          m_Event;
@@ -160,13 +155,13 @@ protected:
     size_t            m_nReconnectTimes;
     int32_t           m_nRecvTimeOutSec;
 
-    bool           m_bCreateByListener;
-    std::unique_ptr<CDecryptor>    m_pDecryptor;
-    std::unique_ptr<CEncryptor>    m_pEncryptor;
-    size_t         m_nPacketSizeMax;
-    size_t         m_nLogWriteHighWateMark = 4 * 1024 * 1024; // default log when output>=4M
-    std::unique_ptr<byte[]> m_ReadBuff;
-    unsigned short m_nLastProcessMsgCMD = 0;
-    unsigned short m_nLastCMDSize       = 0;
+    bool                        m_bCreateByListener;
+    std::unique_ptr<CDecryptor> m_pDecryptor;
+    std::unique_ptr<CEncryptor> m_pEncryptor;
+    size_t                      m_nPacketSizeMax;
+    size_t                      m_nLogWriteHighWateMark = 4 * 1024 * 1024; // default log when output>=4M
+    std::unique_ptr<byte[]>     m_ReadBuff;
+    unsigned short              m_nLastProcessMsgCMD = 0;
+    unsigned short              m_nLastCMDSize       = 0;
 };
 #endif // NetSocket_h__

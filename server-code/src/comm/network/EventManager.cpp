@@ -17,7 +17,7 @@ bool CEventManager::Init(event_base* base)
 {
     if(base == nullptr)
     {
-        m_pBase             = event_base_new();
+        m_pBase    = event_base_new();
         m_bOwnBase = true;
     }
     else
@@ -74,7 +74,7 @@ void CEventManager::Destory()
         event_del(m_pScheduleWaitEvent);
         event_free(m_pScheduleWaitEvent);
         m_pScheduleWaitEvent = nullptr;
-        m_pBase        = nullptr;
+        m_pBase              = nullptr;
     }
 
     for(auto it = m_mapEntry.begin(); it != m_mapEntry.end(); it++)
@@ -236,7 +236,6 @@ CEventEntry* CEventManager::PushWait(CEventEntry* pEntry)
         m_setWaitEntry.insert(pEntry);
     }
 
-
     if(m_bOwnBase == false)
     {
         struct timeval tvout;
@@ -248,7 +247,6 @@ CEventEntry* CEventManager::PushWait(CEventEntry* pEntry)
             };
             evtimer_add(m_pScheduleWaitEvent, &tv);
         }
-        
     }
     return pEntry;
 }

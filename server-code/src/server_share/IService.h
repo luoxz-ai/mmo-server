@@ -8,7 +8,7 @@ class IService
 public:
     IService() {}
     virtual ~IService() {}
-    virtual void Release() = 0;
+    virtual void               Release()              = 0;
     virtual const std::string& GetServiceName() const = 0;
 };
 

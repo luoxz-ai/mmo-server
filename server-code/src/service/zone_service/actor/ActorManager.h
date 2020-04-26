@@ -2,9 +2,9 @@
 #define ACTORMANAGER_H
 
 #include "BaseCode.h"
+#include "IDGenPool.h"
 #include "NetworkDefine.h"
 #include "game_common_def.h"
-#include "IDGenPool.h"
 
 class CActor;
 class CMonster;
@@ -33,13 +33,13 @@ class CActorManager : public NoncopyableT<CActorManager>
 {
     CActorManager();
     bool Init();
+
 public:
     CreateNewImpl(CActorManager);
+
 public:
     ~CActorManager();
-    
 
-   
     void Destory();
 
     CActor*  QueryActor(OBJID id) const;
@@ -73,14 +73,12 @@ protected:
 private:
     struct ActorGroupInfo
     {
-        uint32_t m_ActorCount = 0;
+        uint32_t         m_ActorCount = 0;
         IDGenPool<OBJID> m_idPool;
     };
     std::array<ActorGroupInfo, ACT_MAX> m_ActorInfos;
 
-    
     std::unordered_map<OBJID, CActor*>          m_ActorMap;
     std::unordered_map<VirtualSocket, CPlayer*> m_PlayerRefMap;
-    
 };
 #endif /* ACTORMANAGER_H */

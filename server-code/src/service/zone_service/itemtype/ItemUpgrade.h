@@ -14,13 +14,14 @@ class CItemUpgradeData : public NoncopyableT<CItemUpgradeData>
         m_Data = row;
         return true;
     }
+
 public:
     CreateNewImpl(CItemUpgradeData);
+
 public:
     virtual ~CItemUpgradeData() {}
     using PB_T = Cfg_ItemUpgrade;
-    
-    
+
     static uint32_t GetKey(const Cfg_Item_Row& row) { return row.id(); }
 
 public:
@@ -36,6 +37,6 @@ public:
     Cfg_ItemUpgrade_Row m_Data;
 };
 
-DEFINE_GAMEMAPDATA(CItemUpgradeDataSet,CItemUpgradeData);
+DEFINE_GAMEMAPDATA(CItemUpgradeDataSet, CItemUpgradeData);
 
 #endif /* ITEMUPGRADE_H */

@@ -1,8 +1,8 @@
 #include "MapItem.h"
 
-#include "Scene.h"
-#include "Phase.h"
 #include "ActorManager.h"
+#include "Phase.h"
+#include "Scene.h"
 #include "ZoneService.h"
 
 OBJECTHEAP_IMPLEMENTATION(CMapItem, s_heap);
@@ -43,7 +43,7 @@ void CMapItem::MakeShowData(SC_AOI_NEW& msg)
 void CMapItem::OnEnterMap(CSceneBase* pScene)
 {
     CActor::OnEnterMap(pScene);
-    //AI暂时不需要MapItem
+    // AI暂时不需要MapItem
     // ServerMSG::ActorCreate ai_msg;
     // ai_msg.set_actor_id(GetID());
     // ai_msg.set_scene_id(GetSceneID());

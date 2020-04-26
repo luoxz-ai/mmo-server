@@ -98,7 +98,6 @@ void CNetworkService::Destroy()
         m_pHttpHandle = nullptr;
     }
 
-
     m_pEventManager.reset();
 
     if(m_pBase)
@@ -465,16 +464,21 @@ void CNetworkService::StartIOThread(const std::string&    thread_name,
     }
     m_IOThreadTimeOutFunc = std::move(time_out_func);
     m_pIOTimeOutEvent     = event_new(m_pBase, -1, EV_PERSIST, _IOThreadTimeOut, this);
-    m_pCloseSocketEvent   = event_new(m_pBase, -1, 0, [](int32_t, short, void* ctx){
-        CNetworkService* pThis = (CNetworkService*)ctx;
-        pThis->_ProceseCloseingSocket();
-    }, this);
+    m_pCloseSocketEvent   = event_new(
+        m_pBase,
+        -1,
+        0,
+        [](int32_t, short, void* ctx) {
+            CNetworkService* pThis = (CNetworkService*)ctx;
+            pThis->_ProceseCloseingSocket();
+        },
+        this);
     struct timeval tv
     {
         time_out_ms / 1000, time_out_ms % 1000
     };
     event_add(m_pIOTimeOutEvent, &tv);
-    m_pIOThread = std::make_unique<std::thread>(&IOThreadProc, m_pBase, thread_name, idService );
+    m_pIOThread = std::make_unique<std::thread>(&IOThreadProc, m_pBase, thread_name, idService);
 
     __LEAVE_FUNCTION
 }
@@ -631,11 +635,11 @@ void CNetworkService::_AddCloseingSocket(CNetSocket* pSocket)
     }
     if(m_bWaitingProcessCloseSocketEvent == false)
     {
-        //add a remove event
+        // add a remove event
         m_bWaitingProcessCloseSocketEvent = true;
         struct timeval tv
         {
-            0,0
+            0, 0
         };
         evtimer_add(m_pCloseSocketEvent, &tv);
     }
@@ -749,7 +753,6 @@ bool CNetworkService::SendSocketMsg(SOCKET _socket, byte* buf, size_t len)
     return false;
 }
 
-
 bool CNetworkService::SendSocketMsg(SOCKET _socket, CNetworkMessage* pMsg)
 {
     __ENTER_FUNCTION
@@ -757,12 +760,11 @@ bool CNetworkService::SendSocketMsg(SOCKET _socket, CNetworkMessage* pMsg)
     auto                        it = m_setSocket.find(_socket);
     if(it != m_setSocket.end())
     {
-        return it->second->SendSocketMsg(0,0,pMsg);
+        return it->second->SendSocketMsg(0, 0, pMsg);
     }
     __LEAVE_FUNCTION
     return false;
 }
-
 
 bool CNetworkService::SendSocketMsgByIdx(uint16_t nSocketIdx, byte* buf, size_t len)
 {
@@ -784,7 +786,7 @@ bool CNetworkService::SendSocketMsgByIdx(uint16_t nSocketIdx, CNetworkMessage* p
     auto                        pSocket = m_setSocketByIdx[nSocketIdx];
     if(pSocket)
     {
-        return pSocket->SendSocketMsg(0,0,pMsg);
+        return pSocket->SendSocketMsg(0, 0, pMsg);
     }
     __LEAVE_FUNCTION
     return false;
@@ -984,7 +986,7 @@ int32_t CNetworkService::OnWebSocketCallback(struct lws*               wsi,
     }
 
     CNetworkService* pNetworkService = (CNetworkService*)lws_get_vhost_user(vhost);
-    
+
     if(pNetworkService == nullptr)
     {
         return 0;

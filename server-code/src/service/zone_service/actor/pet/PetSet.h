@@ -8,12 +8,12 @@ class CPetSet : public NoncopyableT<CPetSet>
 {
     CPetSet();
     bool Init(CPlayer* pOwner);
+
 public:
     CreateNewImpl(CPetSet);
+
 public:
     ~CPetSet();
-    
-    
 
     void  SyncAll();
     void  Save();

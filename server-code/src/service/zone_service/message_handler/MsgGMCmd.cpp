@@ -33,7 +33,7 @@ void OnGMCMD_chgmap(CPlayer* pPlayer, const std::vector<std::string>& vecCMD)
     uint32_t idMapID = std::stoul(vecCMD[1]);
     uint32_t posx    = std::stoul(vecCMD[2]);
     uint32_t posy    = std::stoul(vecCMD[3]);
-    int32_t idPhase  = std::stol(vecCMD[4]);
+    int32_t  idPhase = std::stol(vecCMD[4]);
 
     pPlayer->FlyMap(idMapID, idPhase, posx, posy, 0, 0);
     __LEAVE_FUNCTION

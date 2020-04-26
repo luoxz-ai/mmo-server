@@ -12,6 +12,7 @@ public:
 
     void AddActor(CSceneObject* pActor) { this->insert(pActor); }
     void RemoveActor(CSceneObject* pActor) { this->erase(pActor); }
+
 public:
     OBJECTHEAP_DECLARATION(s_heap);
 };
@@ -26,6 +27,7 @@ public:
     size_t                               size(uint32_t actor_type) const;
     bool                                 find_if(std::function<bool(uint32_t, size_t)> func) const;
     std::unordered_map<uint32_t, size_t> m_setCount;
+
 public:
     OBJECTHEAP_DECLARATION(s_heap);
 };
@@ -42,7 +44,7 @@ public:
 
     bool Init(const CGameMap* pMap, const CPos2D& vBasePos, float fWidth, float fHeight, uint32_t nTileGridRange = 0);
 
-    const CGameMap* GetMap()const { return m_pMap; }
+    const CGameMap* GetMap() const { return m_pMap; }
 
     bool IsInsideScene(float x, float y) const;
 
@@ -70,42 +72,44 @@ public:
 
     // AOI相关的
     CSceneTile* GetSceneTileByPos(float x, float y);
-    uint32_t    GetSceneTileIndexByPos(float x, float y)const;
+    uint32_t    GetSceneTileIndexByPos(float x, float y) const;
     // 遍历自己视野内的SceneTile
     bool foreach_SceneTileInSight(float x, float y, std::function<void(CSceneTile*)>&& func);
 
-    void       CheckNeedResizeSceneTile(uint32_t nPlayerCount);
+    void CheckNeedResizeSceneTile(uint32_t nPlayerCount);
 
     export_lua CSceneCollisionTile* GetCollisionTileByPos(float x, float y, uint32_t actor_type);
     export_lua bool                 CollisionTest(float x, float y, uint32_t actor_type) const;
 
 private:
     void _SetSceneTileGridRange(uint32_t v);
+
 public:
     OBJECTHEAP_DECLARATION(s_heap);
+
 protected:
     std::deque<CSceneTile>          m_setTile;
     std::deque<CSceneCollisionTile> m_setCollision;
 
     const CGameMap* m_pMap = nullptr;
     //左上角坐标
-    CPos2D m_BasePos;
-    float  m_fWidth = 0.0f;
-    float  m_fHeight = 0.0f;
-    uint32_t m_nTileDefaultGridRange = 0;   //一个Tile默认的XY
-    uint32_t m_nTileGridRange        = 0;   //一个Tile当前的XY
-    uint32_t m_nTileWidth            = 0;   //场景x轴多少个Tile
-    uint32_t m_nTileHeight           = 0;   //场景y轴多少个Tile
+    CPos2D   m_BasePos;
+    float    m_fWidth                = 0.0f;
+    float    m_fHeight               = 0.0f;
+    uint32_t m_nTileDefaultGridRange = 0; //一个Tile默认的XY
+    uint32_t m_nTileGridRange        = 0; //一个Tile当前的XY
+    uint32_t m_nTileWidth            = 0; //场景x轴多少个Tile
+    uint32_t m_nTileHeight           = 0; //场景y轴多少个Tile
 
-    uint32_t m_nViewRangeIn       = 0;      //view in
+    uint32_t m_nViewRangeIn       = 0; // view in
     uint32_t m_nViewRangeInSquare = 0;
 
-    uint32_t m_nViewRangeOut       = 0;     //view out
+    uint32_t m_nViewRangeOut       = 0; // view out
     uint32_t m_nViewRangeOutSquare = 0;
-    uint32_t m_nViewCount          = 0;     //view count
+    uint32_t m_nViewCount          = 0; // view count
     uint32_t m_nViewCountDefault   = 0;
 
-    uint32_t m_nCurTileDynamicLevel    = 0;     //视野动态扩缩等级
+    uint32_t m_nCurTileDynamicLevel    = 0; //视野动态扩缩等级
     bool     m_bDynamicAdjustTileLevel = false;
 };
 #endif /* SCENETREE_H */

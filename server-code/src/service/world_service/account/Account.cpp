@@ -3,13 +3,13 @@
 #include "AccountManager.h"
 #include "ActorAttrib.h"
 #include "BornPos.h"
+#include "GMManager.h"
 #include "MapManager.h"
 #include "User.h"
+#include "UserAttr.h"
 #include "UserManager.h"
-#include "GMManager.h"
 #include "WorldService.h"
 #include "gamedb.h"
-#include "UserAttr.h"
 #include "msg/world_service.pb.h"
 #include "server_msg/server_side.pb.h"
 
@@ -67,8 +67,8 @@ void CAccount::ReloadActorInfo()
     {
         for(size_t i = 0; i < result_ptr->get_num_row(); i++)
         {
-            auto db_record_ptr = result_ptr->fetch_row(true);
-            ST_ROLE_INFO_PTR pInfo = std::make_unique<ST_ROLE_INFO>(std::move(db_record_ptr));
+            auto             db_record_ptr = result_ptr->fetch_row(true);
+            ST_ROLE_INFO_PTR pInfo         = std::make_unique<ST_ROLE_INFO>(std::move(db_record_ptr));
             m_setActorInfo.push_back(std::move(pInfo));
         }
     }

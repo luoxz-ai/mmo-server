@@ -2,7 +2,6 @@
 #include "Player.h"
 #include "ScriptManager.h"
 
-
 CPackage* CPlayer::QueryPackage(uint32_t nPosition)
 {
     __ENTER_FUNCTION
@@ -29,7 +28,6 @@ CStoragePackage* CPlayer::GetStroagePackage()
     __LEAVE_FUNCTION
     return nullptr;
 }
-
 
 bool CPlayer::SpendItem(uint32_t nItemLogType,
                         uint32_t idItemType,

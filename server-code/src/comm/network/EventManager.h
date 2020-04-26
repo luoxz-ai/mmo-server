@@ -16,11 +16,11 @@ class CEventManager : public NoncopyableT<CEventManager>
 {
     CEventManager();
     bool Init(event_base* base);
+
 public:
     CreateNewImpl(CEventManager);
     ~CEventManager();
 
-    
     void Destory();
 
     void   OnTimer();

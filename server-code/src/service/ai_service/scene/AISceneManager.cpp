@@ -1,8 +1,8 @@
-#include"AISceneManagr.h"
-#include"MapManager.h"
-#include"AIScene.h"
-#include"AIPhase.h"
-#include"AIService.h"
+#include "AIPhase.h"
+#include "AIScene.h"
+#include "AISceneManagr.h"
+#include "AIService.h"
+#include "MapManager.h"
 
 CAISceneManager::CAISceneManager() {}
 
@@ -18,7 +18,7 @@ bool CAISceneManager::Init(uint32_t idZone)
 
 void CAISceneManager::Destory()
 {
-    for(auto& [k,v]: m_mapScene)
+    for(auto& [k, v]: m_mapScene)
     {
         SAFE_DELETE(v);
         LOGDEBUG("AIScene {} Destroy", k);
@@ -29,7 +29,7 @@ void CAISceneManager::Destory()
 CAIScene* CAISceneManager::CreateScene(const SceneID& idScene)
 {
     uint16_t idMap = idScene.GetMapID();
-    auto pMap    = MapManager()->QueryMap(idMap);
+    auto     pMap  = MapManager()->QueryMap(idMap);
     CHECKF(pMap);
 
     CAIScene* pScene = CAIScene::CreateNew(idScene);
@@ -41,7 +41,6 @@ CAIScene* CAISceneManager::CreateScene(const SceneID& idScene)
     m_nStaticScene++;
     return pScene;
 }
-
 
 CAIScene* CAISceneManager::QueryScene(const SceneID& idScene)
 {

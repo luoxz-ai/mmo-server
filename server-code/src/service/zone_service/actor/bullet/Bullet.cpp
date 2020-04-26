@@ -1,12 +1,11 @@
 #include "Bullet.h"
 
+#include "ActorManager.h"
+#include "GameEventDef.h"
 #include "Phase.h"
 #include "Scene.h"
-#include "Phase.h"
 #include "SkillFSM.h"
-#include "ActorManager.h"
 #include "ZoneService.h"
-#include "GameEventDef.h"
 
 OBJECTHEAP_IMPLEMENTATION(CBullet, s_heap);
 CBullet::CBullet()
@@ -31,12 +30,12 @@ bool CBullet::Init(OBJID idOwner, const CBulletType* pType, OBJID idTarget, cons
     CHECKF(CActor::Init());
     m_idTarget  = idTarget;
     m_posTarget = posTarget;
-    
+
     CActor* pOwner = ActorManager()->QueryActor(m_idOwner);
     if(pOwner)
     {
         _SetPhaseID(pOwner->GetPhaseID());
-    }    
+    }
 
     if(m_pType->GetMoveSPD() != 0)
     {
@@ -72,7 +71,7 @@ void CBullet::MakeShowData(SC_AOI_NEW& msg)
 void CBullet::OnEnterMap(CSceneBase* pScene)
 {
     CActor::OnEnterMap(pScene);
-    //AI暂时不需要Bullet
+    // AI暂时不需要Bullet
     // ServerMSG::ActorCreate ai_msg;
     // ai_msg.set_actor_id(GetID());
     // ai_msg.set_scene_id(GetSceneID());

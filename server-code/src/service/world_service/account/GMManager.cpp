@@ -1,8 +1,8 @@
 #include "GMManager.h"
 
+#include "MysqlConnection.h"
 #include "WorldService.h"
 #include "globaldb.h"
-#include "MysqlConnection.h"
 
 CGMManager::CGMManager() {}
 

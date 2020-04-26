@@ -73,12 +73,12 @@ class CStatusType : public NoncopyableT<CStatusType>
         }
         return true;
     }
+
 public:
     CreateNewImpl(CStatusType);
+
 public:
     ~CStatusType() {}
-    
-    
 
     using PB_T = Cfg_Status;
     static uint32_t MakeID(uint16_t idStatus, uint8_t ucLevel)
@@ -107,7 +107,7 @@ private:
     std::vector<CActorAttribChange> m_AttribChangeList;
 };
 
-DEFINE_GAMEMAPDATA(CStatusTypeSet,CStatusType);
+DEFINE_GAMEMAPDATA(CStatusTypeSet, CStatusType);
 
 class CActor;
 export_lua class CStatus : public NoncopyableT<CStatus>
@@ -121,16 +121,14 @@ export_lua class CStatus : public NoncopyableT<CStatus>
               uint32_t nPower,
               uint32_t nSecs,
               uint32_t nTimes);
+
 public:
     CreateNewImpl(CStatus);
+
 public:
-    
     virtual ~CStatus();
 
 public:
-    
-    
-
 public:
     unsigned long Release()
     {
@@ -185,10 +183,10 @@ private:
     void OnEffect();
 
 protected:
-    CActor*        m_pOwner = nullptr;
-    const CStatusType*   m_pType  = nullptr;
-    ST_STATUS_INFO m_info;
-    CDBRecordPtr   m_pRecord;
+    CActor*            m_pOwner = nullptr;
+    const CStatusType* m_pType  = nullptr;
+    ST_STATUS_INFO     m_info;
+    CDBRecordPtr       m_pRecord;
 
     CEventEntryPtr m_StatusEvent;
 

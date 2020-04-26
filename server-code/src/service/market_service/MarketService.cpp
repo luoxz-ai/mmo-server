@@ -5,12 +5,12 @@
 #include "EventManager.h"
 #include "MessagePort.h"
 #include "MessageRoute.h"
+#include "MsgProcessRegister.h"
 #include "NetMSGProcess.h"
 #include "NetSocket.h"
 #include "NetworkMessage.h"
 #include "SettingMap.h"
 #include "server_msg/server_side.pb.h"
-#include "MsgProcessRegister.h"
 
 static thread_local CMarketService* tls_pService = nullptr;
 CMarketService*                     MarketService()
@@ -24,20 +24,15 @@ extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16
 }
 
 //////////////////////////////////////////////////////////////////////////
-CMarketService::CMarketService()
+CMarketService::CMarketService() {}
+
+CMarketService::~CMarketService() {}
+
+void CMarketService::Release()
 {
-}
-
-CMarketService::~CMarketService()
-{
-
-}
-
-void CMarketService::Release()  
-{   
 
     Destory();
-    delete this; 
+    delete this;
 }
 
 void CMarketService::Destory()
@@ -71,13 +66,11 @@ bool CMarketService::Init(const ServerPort& nServerPort)
     //注册消息
     {
         auto pNetMsgProcess = GetNetMsgProcess();
-        for(const auto& [k,v] : MsgProcRegCenter<CMarketService>::instance().m_MsgProc)
+        for(const auto& [k, v]: MsgProcRegCenter<CMarketService>::instance().m_MsgProc)
         {
-            pNetMsgProcess->Register(k,v);
+            pNetMsgProcess->Register(k, v);
         }
     }
-
-
 
     ServerMSG::ServiceReady msg;
     msg.set_serverport(GetServerPort());
@@ -90,7 +83,7 @@ void CMarketService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 {
     if(m_pNetMsgProcess->Process(pNetworkMsg) == false)
     {
-        LOGERROR("CMD {} didn't have ProcessHandler", pNetworkMsg->GetCmd());   
+        LOGERROR("CMD {} didn't have ProcessHandler", pNetworkMsg->GetCmd());
     }
 }
 

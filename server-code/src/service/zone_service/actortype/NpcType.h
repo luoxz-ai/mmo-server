@@ -2,8 +2,8 @@
 #define NPCTYPE_H
 
 #include "ActorAttrib.h"
-#include "config/Cfg_Npc.pb.h"
 #include "T_GameDataMap.h"
+#include "config/Cfg_Npc.pb.h"
 
 enum NpcTypeFlag
 {
@@ -21,12 +21,12 @@ class CNpcType : public NoncopyableT<CNpcType>
         m_ability.load_from(row.attr_data());
         return true;
     }
+
 public:
     CreateNewImpl(CNpcType);
+
 public:
     ~CNpcType() {}
-    
-    
 
     using PB_T = Cfg_Npc;
     uint32_t GetID() const { return m_Data.id(); }
@@ -41,38 +41,41 @@ public:
     float              GetHigh() const { return m_Data.high(); }
     float              GetVolume() const { return m_Data.volume(); }
 
-    OBJID    GetScriptID() const { return m_Data.scriptid(); }
-    uint32_t GetMapID() const { return m_Data.mapid(); }
-    uint64_t GetPhaseID() const { return m_Data.phase_id(); }
-    float    GetPosX() const { return m_Data.posx(); }
-    float    GetPosY() const { return m_Data.posy(); }
-    float    GetFace() const { return m_Data.face(); }
+    OBJID               GetScriptID() const { return m_Data.scriptid(); }
+    uint32_t            GetMapID() const { return m_Data.mapid(); }
+    uint64_t            GetPhaseID() const { return m_Data.phase_id(); }
+    float               GetPosX() const { return m_Data.posx(); }
+    float               GetPosY() const { return m_Data.posy(); }
+    float               GetFace() const { return m_Data.face(); }
     const CActorAttrib& GetAbility() const { return m_ability; }
+
 private:
-    Cfg_Npc_Row m_Data;
-    CActorAttrib    m_ability;
+    Cfg_Npc_Row  m_Data;
+    CActorAttrib m_ability;
 };
 
 //////////////////////////////////////////////////////////////////////
-class CNpcTypeSet : public CGameDataContainer<CNpcType> 
+class CNpcTypeSet : public CGameDataContainer<CNpcType>
 {
     CNpcTypeSet();
-    
+
 public:
     CreateNewImpl(CNpcTypeSet);
+
 public:
     virtual ~CNpcTypeSet();
+
 public:
-    using NpcTypeList=std::vector<CNpcType*>;
-    using PhaseNpcTypeSet=std::unordered_map<uint32_t, NpcTypeList >;
+    using NpcTypeList     = std::vector<CNpcType*>;
+    using PhaseNpcTypeSet = std::unordered_map<uint32_t, NpcTypeList>;
     virtual void Clear() override;
     virtual void BuildIndex() override;
 
-    const CNpcType*   QueryObj(uint32_t idType) const;
+    const CNpcType*    QueryObj(uint32_t idType) const;
     const NpcTypeList* QueryObjByMapID(uint32_t idMap, uint64_t idPhase) const;
 
 protected:
-    std::unordered_map<uint32_t, CNpcType*>              m_setData;
+    std::unordered_map<uint32_t, CNpcType*>       m_setData;
     std::unordered_map<uint32_t, PhaseNpcTypeSet> m_setDataByMapID;
 };
 

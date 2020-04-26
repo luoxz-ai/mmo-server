@@ -14,13 +14,14 @@ class CItemFormulaData : public NoncopyableT<CItemFormulaData>
         m_Data = row;
         return true;
     }
+
 public:
     CreateNewImpl(CItemFormulaData);
+
 public:
     virtual ~CItemFormulaData() {}
     using PB_T = Cfg_ItemFormula;
-    
-    
+
     static uint32_t GetKey(const Cfg_ItemFormula_Row& row) { return row.id(); }
 
 public:
@@ -38,6 +39,6 @@ public:
     Cfg_ItemFormula_Row m_Data;
 };
 
-DEFINE_GAMEMAPDATA(CItemFormulaDataSet,CItemFormulaData);
+DEFINE_GAMEMAPDATA(CItemFormulaDataSet, CItemFormulaData);
 
 #endif /* ITEMFORMULA_H */

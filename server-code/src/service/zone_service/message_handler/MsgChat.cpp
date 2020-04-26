@@ -1,13 +1,11 @@
-#include "Item.h"
-#include "Player.h"
-#include "ZoneService.h"
 #include "ActorManager.h"
+#include "GMManager.h"
+#include "Item.h"
 #include "MsgZoneProcess.h"
 #include "Phase.h"
+#include "Player.h"
 #include "Scene.h"
-#include "GMManager.h"
-#include "Phase.h"
-
+#include "ZoneService.h"
 #include "msg/zone_service.pb.h"
 
 ON_PLAYERMSG(CS_TALK)
@@ -103,11 +101,7 @@ ON_PLAYERMSG(CS_TALK)
         {
             CPhase* pPhase = static_cast<CPhase*>(pPlayer->GetCurrentScene());
             CScene* pScene = pPhase->GetScene();
-            pScene->ForEach([&send_msg](const CPhase* pPhase)
-            {
-                pPhase->SendSceneMessage(send_msg);
-            });
-            
+            pScene->ForEach([&send_msg](const CPhase* pPhase) { pPhase->SendSceneMessage(send_msg); });
         }
         break;
         case CHANNEL_PHASE: //场景内聊天
@@ -117,32 +111,23 @@ ON_PLAYERMSG(CS_TALK)
         break;
         case CHANNEL_PRIVATE: //私聊
         {
-            //发送给reciver所在的world， 
+            //发送给reciver所在的world，
             auto target_worldid = GetWorldIDFromPlayerID(msg.reciver_id());
-            ZoneService()->TransmiteMsgFromWorldToOther(target_worldid,
-                                        WORLD_SERVICE_ID,
-                                        CMD_SC_TALK,
-                                        send_msg);
+            ZoneService()->TransmiteMsgFromWorldToOther(target_worldid, WORLD_SERVICE_ID, CMD_SC_TALK, send_msg);
         }
         break;
         case CHANNEL_TEAM: //组队
         {
             //发送给自己当前的World来处理
             auto target_worldid = pPlayer->GetWorldID();
-            ZoneService()->TransmiteMsgFromWorldToOther(target_worldid,
-                                        WORLD_SERVICE_ID,
-                                        CMD_SC_TALK,
-                                        send_msg);
+            ZoneService()->TransmiteMsgFromWorldToOther(target_worldid, WORLD_SERVICE_ID, CMD_SC_TALK, send_msg);
         }
         break;
         case CHANNEL_GUILD: //公会
         {
             //发送给自己当前的World来处理
             auto target_worldid = pPlayer->GetWorldID();
-            ZoneService()->TransmiteMsgFromWorldToOther(target_worldid,
-                                        WORLD_SERVICE_ID,
-                                        CMD_SC_TALK,
-                                        send_msg);
+            ZoneService()->TransmiteMsgFromWorldToOther(target_worldid, WORLD_SERVICE_ID, CMD_SC_TALK, send_msg);
         }
         break;
         case CHANNEL_WORLD: //世界
@@ -151,10 +136,7 @@ ON_PLAYERMSG(CS_TALK)
 
             //发送给自己当前的World来处理
             auto target_worldid = pPlayer->GetWorldID();
-            ZoneService()->TransmiteMsgFromWorldToOther(target_worldid,
-                                        WORLD_SERVICE_ID,
-                                        CMD_SC_TALK,
-                                        send_msg);
+            ZoneService()->TransmiteMsgFromWorldToOther(target_worldid, WORLD_SERVICE_ID, CMD_SC_TALK, send_msg);
         }
         break;
         case CHANNEL_TRUMPET: //小喇叭
@@ -163,10 +145,7 @@ ON_PLAYERMSG(CS_TALK)
 
             //发送给自己当前的World来处理
             auto target_worldid = pPlayer->GetWorldID();
-            ZoneService()->TransmiteMsgFromWorldToOther(target_worldid,
-                                        WORLD_SERVICE_ID,
-                                        CMD_SC_TALK,
-                                        send_msg);
+            ZoneService()->TransmiteMsgFromWorldToOther(target_worldid, WORLD_SERVICE_ID, CMD_SC_TALK, send_msg);
         }
         break;
         case CHANNEL_GLOBAL: //全游戏

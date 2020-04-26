@@ -10,11 +10,9 @@
 
 #include "BaseCode.h"
 #include "CallStackDumper.h"
+#include "DBFieldInfo.h"
 #include "ObjectHeap.h"
 #include "fmt/format.h"
-
-#include "DBFieldInfo.h"
-
 
 const char* const EMPTY_STR = "";
 
@@ -148,7 +146,6 @@ public:
     int32_t             GetFieldIndex() const;
     const char*         GetFieldName() const;
 
-
 private:
     template<class T>
     static constexpr bool CheckFieldType(uint32_t field_type)
@@ -231,6 +228,7 @@ private:
         }
         return false;
     }
+
 public:
     OBJECTHEAP_DECLARATION(s_Heap);
 

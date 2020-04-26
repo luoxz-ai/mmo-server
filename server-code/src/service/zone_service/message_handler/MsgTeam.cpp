@@ -1,7 +1,6 @@
 
-#include "Phase.h"
-
 #include "MsgZoneProcess.h"
+#include "Phase.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"
 
@@ -90,4 +89,3 @@ ON_PLAYERMSG(CS_TEAMNEWLEADER)
 
     __LEAVE_FUNCTION
 }
-

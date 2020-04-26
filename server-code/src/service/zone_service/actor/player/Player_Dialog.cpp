@@ -1,7 +1,7 @@
-#include "Player.h"
+#include "ActorManager.h"
 #include "GameEventDef.h"
 #include "Npc.h"
-#include "ActorManager.h"
+#include "Player.h"
 
 bool CPlayer::DialogBegin(const std::string& title)
 {

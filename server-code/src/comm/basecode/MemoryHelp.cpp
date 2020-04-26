@@ -1,6 +1,5 @@
 #include "MemoryHelp.h"
 
-
 #ifdef USE_JEMALLOC
 extern "C"
 {
@@ -46,9 +45,9 @@ extern "C"
 uint64_t get_thread_memory_allocted()
 {
 #ifdef USE_JEMALLOC
-    uint64_t allocated   = 0;
-    //uint64_t deallocated = 0;
-    size_t   len         = sizeof(uint64_t);
+    uint64_t allocated = 0;
+    // uint64_t deallocated = 0;
+    size_t len = sizeof(uint64_t);
     je_mallctl("thread.allocated", &allocated, &len, NULL, 0);
     return allocated;
     // je_mallctl("thread.deallocated", &deallocated, &len, NULL, 0);

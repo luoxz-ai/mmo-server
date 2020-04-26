@@ -1,3 +1,4 @@
+#include "ActorManager.h"
 #include "GameEventDef.h"
 #include "LoadingThread.h"
 #include "MapManager.h"
@@ -6,10 +7,7 @@
 #include "Player.h"
 #include "Scene.h"
 #include "SceneManager.h"
-#include "ActorManager.h"
 #include "ZoneService.h"
-#include "MapManager.h"
-
 #include "server_msg/server_side.pb.h"
 
 bool CPlayer::FlyMap(uint16_t idMap, uint32_t idxPhase, float fPosX, float fPosY, float fRange, float fFace)
@@ -274,7 +272,7 @@ void CPlayer::_FlyMap(const SceneID& idScene, float fPosX, float fPosY, float fR
             //尝试自动创建地图
             pPhase = SceneManager()->CreatePhase(idScene.GetMapID(), GetID());
             CHECK(pPhase);
-            
+
             newSceneID = pPhase->GetSceneID();
         }
         else
@@ -397,7 +395,7 @@ bool CPlayer::Reborn(uint32_t nRebornType)
 
             GetStatus()->DetachStatusByType(STATUSTYPE_DEAD);
             SetProperty(PROP_HP, GetHPMax(), SYNC_ALL_DELAY);
-            FlyMap(GetMapID(),static_cast<CPhase*>(m_pScene)->GetPhaseIdx(), GetPosX(), GetPosY(), 0.0f, GetFace());
+            FlyMap(GetMapID(), static_cast<CPhase*>(m_pScene)->GetPhaseIdx(), GetPosX(), GetPosY(), 0.0f, GetFace());
         }
         break;
         default:

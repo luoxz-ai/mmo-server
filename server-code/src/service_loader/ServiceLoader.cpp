@@ -5,9 +5,9 @@
 #include "BaseCode.h"
 #include "IService.h"
 #include "LoggingMgr.h"
-#include "ObjectHeap.h"
 #include "MemoryHelp.h"
 #include "MessageRoute.h"
+#include "ObjectHeap.h"
 #include "SettingMap.h"
 #include "event2/event.h"
 #include "event2/thread.h"
@@ -39,7 +39,7 @@ void ServiceLoader::Destory()
     {
         __ENTER_FUNCTION
         IService* pService = *it;
-        
+
         auto oldNdc = BaseCode::SetNdc(pService->GetServiceName());
         pService->Release();
         BaseCode::SetNdc(oldNdc);
@@ -107,8 +107,8 @@ bool ServiceLoader::_StartService(const std::string& dll_name, uint16_t idWorld,
         LOGFATAL("ServiceCreate {} fail:{}", idService, dll_name.c_str());
         return false;
     }
-    float alloced =  get_memory_status().allocted / 1024.0f / 1024.0f;
-    LOGDEBUG("after {}[{}] memory allocated: {:.2f}M", dll_name.c_str(), idService,alloced);
+    float alloced = get_memory_status().allocted / 1024.0f / 1024.0f;
+    LOGDEBUG("after {}[{}] memory allocated: {:.2f}M", dll_name.c_str(), idService, alloced);
     return true;
 
     __LEAVE_FUNCTION

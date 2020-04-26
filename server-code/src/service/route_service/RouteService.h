@@ -15,12 +15,12 @@ class CRouteService : public IService, public CServiceCommon, public CMessagePor
     bool Init(const ServerPort& nServerPort);
     virtual ~CRouteService();
     void Destory();
-public:
-    
 
-    void Release() override;
-    export_lua const std::string& GetServiceName() const override{ return CServiceCommon::GetServiceName(); }
+public:
+    void             Release() override;
+    export_lua const std::string& GetServiceName() const override { return CServiceCommon::GetServiceName(); }
     CreateNewRealeaseImpl(CRouteService);
+
 public:
     // connect to other server succ
     virtual void OnPortConnected(CNetSocket*) override;
@@ -42,7 +42,7 @@ public:
 };
 
 CRouteService* RouteService();
-inline auto          EventManager()
+inline auto    EventManager()
 {
     return RouteService()->GetEventManager();
 }

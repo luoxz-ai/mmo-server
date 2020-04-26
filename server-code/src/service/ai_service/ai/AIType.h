@@ -2,8 +2,8 @@
 #define AITYPE_H
 
 #include "AIFuzzyLogic.h"
-#include "Cfg_AIType.pb.h"
 #include "AIService.h"
+#include "Cfg_AIType.pb.h"
 
 enum AIType
 {
@@ -12,7 +12,7 @@ enum AIType
     AITYPE_ACTIVE  = 2, //主动
 };
 
-class CAIType: public NoncopyableT<CAIType>
+class CAIType : public NoncopyableT<CAIType>
 {
     CAIType() {}
     bool Init(const Cfg_AIType_Row& row)
@@ -22,16 +22,18 @@ class CAIType: public NoncopyableT<CAIType>
 
         return true;
     }
+
 public:
     CreateNewImpl(CAIType);
+
 public:
     ~CAIType() {}
-    
 
     using PB_T = Cfg_AIType;
     uint32_t GetID() const { return m_Data.idmonster(); }
 
-    const TargetFAM* GetTargetFAM()const { return m_pTargetFAM; }
+    const TargetFAM* GetTargetFAM() const { return m_pTargetFAM; }
+
 public:
     const Cfg_AIType_Row& GetDataRef() const { return m_Data; }
 
@@ -41,6 +43,6 @@ private:
     const TargetFAM* m_pTargetFAM;
 };
 
-DEFINE_GAMEMAPDATA(CAITypeSet,CAIType);
+DEFINE_GAMEMAPDATA(CAITypeSet, CAIType);
 
 #endif /* AITYPE_H */

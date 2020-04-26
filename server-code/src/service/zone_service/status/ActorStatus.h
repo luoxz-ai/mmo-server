@@ -10,12 +10,12 @@ export_lua class CActorStatus : public NoncopyableT<CActorStatus>
 {
     CActorStatus();
     bool Init(CActor* pActor);
+
 public:
     CreateNewImpl(CActorStatus);
+
 public:
     ~CActorStatus();
-    
-    
 
     export_lua CStatus* QueryStatus(uint16_t idStatusType) const;
     export_lua bool     AttachStatus(uint16_t idStatusType,

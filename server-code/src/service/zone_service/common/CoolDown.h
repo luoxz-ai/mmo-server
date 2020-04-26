@@ -74,11 +74,12 @@ export_lua class CCoolDownSet : public NoncopyableT<CCoolDownSet>
 {
 protected:
     CCoolDownSet();
+
 public:
     CreateNewImpl(CCoolDownSet);
+
 public:
     virtual ~CCoolDownSet();
-    
 
     bool                    Init();
     export_lua virtual void SyncAll() {}
@@ -102,14 +103,15 @@ protected:
     OBJECTHEAP_DECLARATION(s_heap);
 };
 
-export_lua class CPlayerCoolDownSet : public CCoolDownSet 
+export_lua class CPlayerCoolDownSet : public CCoolDownSet
 {
     CPlayerCoolDownSet();
+
 public:
     CreateNewImpl(CPlayerCoolDownSet);
+
 public:
     ~CPlayerCoolDownSet();
-    
 
     bool         Init(CPlayer* pPlayer);
     virtual void SyncAll() override;

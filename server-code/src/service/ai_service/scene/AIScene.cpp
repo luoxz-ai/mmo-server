@@ -3,9 +3,9 @@
 
 #include "AIPhase.h"
 #include "AIService.h"
+#include "MapManager.h"
 #include "NetMSGProcess.h"
 #include "config/Cfg_Scene.pb.h"
-#include "MapManager.h"
 
 CAIScene::CAIScene() {}
 
@@ -13,7 +13,6 @@ CAIScene::~CAIScene()
 {
     m_pPhaseSetByIdx.clear();
     m_pPhaseSet.clear();
-   
 }
 
 bool CAIScene::Init(const SceneID& idScene)
@@ -27,8 +26,8 @@ CAIPhase* CAIScene::CreatePhase(const SceneID& idScene, uint64_t idPhase)
     __ENTER_FUNCTION
     auto pMap = MapManager()->QueryMap(m_SceneID.GetMapID());
     CHECKF(pMap);
-    auto pPhaseData = pMap->GetPhaseDataById(idPhase);
-    CAIPhase* pPhase = CAIPhase::CreateNew(this, idScene, idPhase, pPhaseData);
+    auto      pPhaseData = pMap->GetPhaseDataById(idPhase);
+    CAIPhase* pPhase     = CAIPhase::CreateNew(this, idScene, idPhase, pPhaseData);
     CHECKF(pPhase);
     m_pPhaseSet[idPhase].reset(pPhase);
     m_pPhaseSetByIdx[idScene.GetPhaseIdx()] = pPhase;
@@ -54,7 +53,7 @@ bool CAIScene::DestoryPhase(uint64_t idPhase)
     __ENTER_FUNCTION
     CAIPhase* pPhase = QueryPhaseByID(idPhase);
     CHECKF(pPhase);
-    
+
     m_pPhaseSetByIdx.erase(pPhase->GetSceneID().GetPhaseIdx());
     m_pPhaseSet.erase(pPhase->GetPhaseID());
     return true;
@@ -67,7 +66,7 @@ bool CAIScene::DestoryPhaseByIdx(uint32_t idxPhase)
     __ENTER_FUNCTION
     CAIPhase* pPhase = QueryPhaseByIdx(idxPhase);
     CHECKF(pPhase);
-    
+
     m_pPhaseSetByIdx.erase(pPhase->GetSceneID().GetPhaseIdx());
     m_pPhaseSet.erase(pPhase->GetPhaseID());
     return true;

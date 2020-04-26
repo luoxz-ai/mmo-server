@@ -15,10 +15,10 @@ class CGMProxyService : public IService, public CServiceCommon
     bool Init(const ServerPort& nServerPort);
     virtual ~CGMProxyService();
     void Destory();
+
 public:
-    
-    void Release() override;
-    export_lua const std::string& GetServiceName() const override{ return CServiceCommon::GetServiceName(); }
+    void             Release() override;
+    export_lua const std::string& GetServiceName() const override { return CServiceCommon::GetServiceName(); }
     CreateNewRealeaseImpl(CGMProxyService);
 
 public:
@@ -34,11 +34,11 @@ public:
 
 private:
     std::map<uint64_t, struct evhttp_request*> m_RequestMap;
-    std::unique_ptr<CRPCService> m_pRPCService;
+    std::unique_ptr<CRPCService>               m_pRPCService;
 };
 
 CGMProxyService* GMProxyService();
-inline auto          EventManager()
+inline auto      EventManager()
 {
     return GMProxyService()->GetEventManager();
 }

@@ -5,12 +5,12 @@
 #include "EventManager.h"
 #include "MessagePort.h"
 #include "MessageRoute.h"
+#include "MonitorMgr.h"
+#include "MsgProcessRegister.h"
 #include "NetMSGProcess.h"
 #include "NetSocket.h"
 #include "NetworkMessage.h"
 #include "SettingMap.h"
-#include "MonitorMgr.h"
-#include "MsgProcessRegister.h"
 #include "server_msg/server_side.pb.h"
 
 static thread_local CRouteService* tls_pService = nullptr;
@@ -25,20 +25,15 @@ extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16
 }
 
 //////////////////////////////////////////////////////////////////////////
-CRouteService::CRouteService()
+CRouteService::CRouteService() {}
+
+CRouteService::~CRouteService() {}
+
+void CRouteService::Release()
 {
-}
-
-CRouteService::~CRouteService()
-{
-
-}
-
-void CRouteService::Release()  
-{   
 
     Destory();
-    delete this; 
+    delete this;
 }
 
 void CRouteService::Destory()
@@ -71,9 +66,9 @@ bool CRouteService::Init(const ServerPort& nServerPort)
     //注册消息
     {
         auto pNetMsgProcess = GetNetMsgProcess();
-        for(const auto& [k,v] : MsgProcRegCenter<CRouteService>::instance().m_MsgProc)
+        for(const auto& [k, v]: MsgProcRegCenter<CRouteService>::instance().m_MsgProc)
         {
-            pNetMsgProcess->Register(k,v);
+            pNetMsgProcess->Register(k, v);
         }
     }
 
@@ -91,7 +86,6 @@ void CRouteService::OnPortAccepted(CNetSocket* pSocket) {}
 void CRouteService::OnPortRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len) {}
 
 void CRouteService::OnPortRecvTimeout(CNetSocket* pSocket) {}
-
 
 ON_SERVERMSG(CRouteService, ServiceRegister)
 {
@@ -126,12 +120,12 @@ ON_SERVERMSG(CRouteService, ServiceReady)
 
     for(int32_t i = MIN_GM_PROYX_SERVICE_ID; i <= MAX_GM_PROYX_SERVICE_ID; i++)
     {
-        RouteService()->TransmitPortMsg(ServerPort(0, i),  pMsg);
+        RouteService()->TransmitPortMsg(ServerPort(0, i), pMsg);
     }
 
     for(int32_t i = MIN_SHAREZONE_SERVICE_ID; i <= MAX_SHAREZONE_SERVICE_ID; i++)
     {
-        RouteService()->TransmitPortMsg(ServerPort(0, i),  pMsg);
+        RouteService()->TransmitPortMsg(ServerPort(0, i), pMsg);
     }
 }
 
@@ -177,14 +171,11 @@ void CRouteService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
                 send_msg.SetTo(vs);
                 SendPortMsg(send_msg);
             }
-
         }
         break;
         default:
             break;
     }
-
-   
 }
 
 void CRouteService::OnLogicThreadProc()
@@ -209,6 +200,4 @@ void CRouteService::OnLogicThreadCreate()
     tls_pService = this;
 }
 
-void CRouteService::OnLogicThreadExit()
-{
-}
+void CRouteService::OnLogicThreadExit() {}

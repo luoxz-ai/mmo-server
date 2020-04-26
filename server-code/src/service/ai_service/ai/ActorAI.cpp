@@ -2,19 +2,16 @@
 #include "ActorAI.h"
 
 #include "AIActor.h"
-#include "AIPathFinder.h"
-#include "AIService.h"
-#include "AIPhase.h"
 #include "AIActorManager.h"
+#include "AIPathFinder.h"
+#include "AIPhase.h"
+#include "AIService.h"
 
 constexpr int32_t MOVE_PER_WAIT_MS = 500; //每500ms向zone发送一次移动消息
 
 CActorAI::CActorAI() {}
 
-CActorAI::~CActorAI()
-{
-
-}
+CActorAI::~CActorAI() {}
 
 bool CActorAI::Init(CAIActor* pActor, const CAIType* pAIType)
 {

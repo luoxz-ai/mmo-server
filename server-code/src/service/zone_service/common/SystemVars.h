@@ -49,11 +49,12 @@ private:
 export_lua class CSystemVarSet : public NoncopyableT<CSystemVarSet>
 {
     CSystemVarSet();
+
 public:
     CreateNewImpl(CSystemVarSet);
+
 public:
     ~CSystemVarSet();
-    
 
     bool       Init();
     export_lua CSystemVar* QueryVar(uint32_t nIdx, bool bCreateNew = false);

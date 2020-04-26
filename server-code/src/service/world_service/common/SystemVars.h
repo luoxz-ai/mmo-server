@@ -48,8 +48,10 @@ private:
 class CSystemVarSet : public NoncopyableT<CSystemVarSet>
 {
     CSystemVarSet();
+
 public:
     CreateNewImpl(CSystemVarSet);
+
 public:
     ~CSystemVarSet();
 

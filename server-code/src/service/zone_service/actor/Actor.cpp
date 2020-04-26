@@ -1,15 +1,14 @@
 #include "Actor.h"
 
 #include "ActorManager.h"
+#include "GameEventDef.h"
 #include "Monster.h"
-#include "Player.h"
 #include "Phase.h"
+#include "Player.h"
 #include "Scene.h"
 #include "SceneTree.h"
 #include "ZoneService.h"
-#include "GameEventDef.h"
 #include "server_msg/server_side.pb.h"
-
 
 CActor::CActor()
     : m_SkillFSM(this)
@@ -564,7 +563,9 @@ void CActor::BroadcastShowTo(const VirtualSocketMap_t& VSMap)
     }
 }
 
-void CActor::BroadcastMessageTo(uint32_t cmd, const google::protobuf::Message& msg, const VirtualSocketMap_t& setSocketMap)
+void CActor::BroadcastMessageTo(uint32_t                         cmd,
+                                const google::protobuf::Message& msg,
+                                const VirtualSocketMap_t&        setSocketMap)
 {
     //如果有需要发送new数据的,这里要优先发送一次
     SendShowToDealyList();

@@ -15,45 +15,45 @@ struct NDC
 namespace BaseCode
 {
 
-void MyLogMsgX(const char* pszName, const char* pszBuffer);
+    void MyLogMsgX(const char* pszName, const char* pszBuffer);
 
-template<typename... Args>
-void MyLogMsg(const char* pszName, const char* fmt, const Args&... args)
-{
-    MyLogMsgX(pszName, fmt::format(fmt, args...).c_str());
-}
+    template<typename... Args>
+    void MyLogMsg(const char* pszName, const char* fmt, const Args&... args)
+    {
+        MyLogMsgX(pszName, fmt::format(fmt, args...).c_str());
+    }
 
-template<typename... Args>
-void PrintfError(const char* fmt, const Args&... args)
-{
-    std::cerr << fmt::format(fmt, args...) << std::endl;
-}
+    template<typename... Args>
+    void PrintfError(const char* fmt, const Args&... args)
+    {
+        std::cerr << fmt::format(fmt, args...) << std::endl;
+    }
 } // namespace BaseCode
 
 namespace BaseCode
 {
-void        InitLog(const std::string& path);
-void        InitMonitorLog(const std::string& logname);
-std::string SetNdc(const std::string& name);
-void        ClearNdc();
-NDC*        getNdc();
-std::string getNdcStr();
-void        StopLog();
+    void        InitLog(const std::string& path);
+    void        InitMonitorLog(const std::string& logname);
+    std::string SetNdc(const std::string& name);
+    void        ClearNdc();
+    NDC*        getNdc();
+    std::string getNdcStr();
+    void        StopLog();
 
-extern int32_t              s_default_logger;
-extern int32_t              s_debug_logger;
-extern int32_t              s_error_logger;
-extern int32_t              s_message_logger;
-extern int32_t              s_warning_logger;
-extern int32_t              s_fatal_logger;
-extern int32_t              s_network_logger;
-extern int32_t              s_db_logger;
-extern int32_t              s_stack_logger;
-extern int32_t              s_lua_logger;
-extern thread_local int32_t s_monitor_logger;
-extern int32_t              s_ai_logger;
-extern int32_t              s_login_logger;
-extern int32_t              s_gm_logger;
+    extern int32_t              s_default_logger;
+    extern int32_t              s_debug_logger;
+    extern int32_t              s_error_logger;
+    extern int32_t              s_message_logger;
+    extern int32_t              s_warning_logger;
+    extern int32_t              s_fatal_logger;
+    extern int32_t              s_network_logger;
+    extern int32_t              s_db_logger;
+    extern int32_t              s_stack_logger;
+    extern int32_t              s_lua_logger;
+    extern thread_local int32_t s_monitor_logger;
+    extern int32_t              s_ai_logger;
+    extern int32_t              s_login_logger;
+    extern int32_t              s_gm_logger;
 } // namespace BaseCode
 
 #define LOGTRACE(...)  ZLOGFMT_TRACE(BaseCode::s_debug_logger, ##__VA_ARGS__)
@@ -87,7 +87,12 @@ extern int32_t              s_gm_logger;
 
 #define LOGWARNING(...) ZLOGFMT_WARN(BaseCode::s_warning_logger, ##__VA_ARGS__)
 #define LOGERROR(...)   ZLOGFMT_ERROR(BaseCode::s_error_logger, ##__VA_ARGS__)
-#define LOGFATAL(msg, ...)   {std::string err_str = fmt::format(msg, ##__VA_ARGS__); ZLOG_FATAL(BaseCode::s_fatal_logger, err_str); fmt::print(stderr, "{}\n",err_str);}
+#define LOGFATAL(msg, ...)                                     \
+    {                                                          \
+        std::string err_str = fmt::format(msg, ##__VA_ARGS__); \
+        ZLOG_FATAL(BaseCode::s_fatal_logger, err_str);         \
+        fmt::print(stderr, "{}\n", err_str);                   \
+    }
 
 #define LOGLUA(...)      ZLOGFMT_ERROR(BaseCode::s_lua_logger, ##__VA_ARGS__)
 #define LOGLUAERROR(...) ZLOGFMT_ERROR(BaseCode::s_lua_logger, ##__VA_ARGS__)

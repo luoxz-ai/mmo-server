@@ -9,7 +9,6 @@
 #include "ServiceComm.h"
 #include "UIDFactory.h"
 
-
 class CAIActorManager;
 class CAISceneManager;
 class CMapManager;
@@ -20,11 +19,10 @@ class CAIService : public IService, public CServiceCommon
     bool Init(const ServerPort& nServerPort);
     virtual ~CAIService();
     void Destory();
-public:
-    
 
-    void Release() override;
-    export_lua const std::string& GetServiceName() const override{ return CServiceCommon::GetServiceName(); }
+public:
+    void             Release() override;
+    export_lua const std::string& GetServiceName() const override { return CServiceCommon::GetServiceName(); }
     CreateNewRealeaseImpl(CAIService);
 
     VirtualSocket GetZoneServiceVirtualSocket() const
@@ -61,14 +59,11 @@ private:
 public:
     //配置文件
 
-
-
     DEFINE_CONFIG_SET(CTargetFAMSet);
     DEFINE_CONFIG_SET(CSkillFAMSet);
     DEFINE_CONFIG_SET(CAITypeSet);
     DEFINE_CONFIG_SET(CMonsterTypeSet);
     DEFINE_CONFIG_SET(CSkillTypeSet);
-
 };
 
 CAIService* AIService();

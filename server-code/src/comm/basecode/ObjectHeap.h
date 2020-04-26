@@ -10,10 +10,7 @@
 #include "BaseType.h"
 #include "CallStackDumper.h"
 
-
-
-uint64_t      get_alloc_from_object_heap();
-
+uint64_t get_alloc_from_object_heap();
 
 //#ifdef DEBUG
 //#define HEAP_DEBUG

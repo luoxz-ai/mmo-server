@@ -1,82 +1,59 @@
 #include "Actor.h"
 #include "ActorManager.h"
+#include "GameEventDef.h"
 #include "Monster.h"
-#include "Player.h"
 #include "Phase.h"
+#include "Player.h"
 #include "Scene.h"
 #include "SceneTree.h"
 #include "ZoneService.h"
-#include "GameEventDef.h"
 
 //玩家 主位面id = X 时 可以看到 主位面id = X的all， 可以看到 主位面id=自己ID 的all, 可以看到 inTaskList(主位面id)的NPC
-
 
 class NEED_ADD_TO_BROADCASTSET_T
 {
 public:
     NEED_ADD_TO_BROADCASTSET_T()
     {
-        m_DataMap[ACT_MONSTER][ACT_MONSTER] = [](auto self, auto target) 
-        {
+        m_DataMap[ACT_MONSTER][ACT_MONSTER] = [](auto self, auto target) {
             bool bSamePhase = self->GetPhaseID() == target->GetPhaseID();
             return bSamePhase && self->IsEnemy(target);
         };
-        m_DataMap[ACT_MONSTER][ACT_PET] = [](CSceneObject* self, CSceneObject* target) 
-        {
-            return self->GetPhaseID() == target->GetPhaseID() ||
-                   self->GetPhaseID() == target->GetOwnerID();
+        m_DataMap[ACT_MONSTER][ACT_PET] = [](CSceneObject* self, CSceneObject* target) {
+            return self->GetPhaseID() == target->GetPhaseID() || self->GetPhaseID() == target->GetOwnerID();
         };
-        m_DataMap[ACT_MONSTER][ACT_BULLET] = [](auto self, auto target) 
-        {
-             return self->GetPhaseID() == target->GetPhaseID() ||
-                   self->GetPhaseID() == target->GetOwnerID();
+        m_DataMap[ACT_MONSTER][ACT_BULLET] = [](auto self, auto target) {
+            return self->GetPhaseID() == target->GetPhaseID() || self->GetPhaseID() == target->GetOwnerID();
         };
-        m_DataMap[ACT_MONSTER][ACT_PLAYER] = [](CSceneObject* self, CSceneObject* target) 
-        {
-            return self->GetPhaseID() == target->GetPhaseID() ||
-                   self->GetID() == target->GetPhaseID();
+        m_DataMap[ACT_MONSTER][ACT_PLAYER] = [](CSceneObject* self, CSceneObject* target) {
+            return self->GetPhaseID() == target->GetPhaseID() || self->GetID() == target->GetPhaseID();
         };
-        m_DataMap[ACT_PET][ACT_PET] = [](CSceneObject* self, CSceneObject* target) 
-        {
+        m_DataMap[ACT_PET][ACT_PET] = [](CSceneObject* self, CSceneObject* target) {
             return self->GetPhaseID() == target->GetPhaseID();
         };
-        m_DataMap[ACT_PET][ACT_BULLET] = [](CSceneObject* self, CSceneObject* target) 
-        {
-            return self->GetPhaseID() == target->GetPhaseID() ||
-                   self->GetOwnerID() == target->GetPhaseID();
+        m_DataMap[ACT_PET][ACT_BULLET] = [](CSceneObject* self, CSceneObject* target) {
+            return self->GetPhaseID() == target->GetPhaseID() || self->GetOwnerID() == target->GetPhaseID();
         };
-        m_DataMap[ACT_PET][ACT_PLAYER] = [](CSceneObject* self, CSceneObject* target) 
-        {
-            return self->GetPhaseID() == target->GetPhaseID() ||
-                   self->GetID() == target->GetPhaseID();
+        m_DataMap[ACT_PET][ACT_PLAYER] = [](CSceneObject* self, CSceneObject* target) {
+            return self->GetPhaseID() == target->GetPhaseID() || self->GetID() == target->GetPhaseID();
         };
-        m_DataMap[ACT_BULLET][ACT_BULLET] = [](CSceneObject* self, CSceneObject* target)
-        {
-            return self->GetPhaseID() == target->GetPhaseID() ||
-                   self->GetOwnerID() == target->GetPhaseID();
-        };   
-        m_DataMap[ACT_NPC][ACT_PLAYER] = [](CSceneObject* self, CSceneObject* target) -> bool
-        {
+        m_DataMap[ACT_BULLET][ACT_BULLET] = [](CSceneObject* self, CSceneObject* target) {
+            return self->GetPhaseID() == target->GetPhaseID() || self->GetOwnerID() == target->GetPhaseID();
+        };
+        m_DataMap[ACT_NPC][ACT_PLAYER] = [](CSceneObject* self, CSceneObject* target) -> bool {
             CPlayer* pThisPlayer = self->CastTo<CPlayer>();
             CHECKF(pThisPlayer);
-            return self->GetPhaseID() == target->GetPhaseID() ||
-                   self->GetID() == target->GetPhaseID() ||
+            return self->GetPhaseID() == target->GetPhaseID() || self->GetID() == target->GetPhaseID() ||
                    pThisPlayer->CheckTaskPhase(target->GetPhaseID());
         };
-        m_DataMap[ACT_BULLET][ACT_PLAYER] = [](CSceneObject* self, CSceneObject* target) 
-        {
-            return self->GetPhaseID() == target->GetPhaseID() ||
-                   self->GetID() == target->GetPhaseID();
+        m_DataMap[ACT_BULLET][ACT_PLAYER] = [](CSceneObject* self, CSceneObject* target) {
+            return self->GetPhaseID() == target->GetPhaseID() || self->GetID() == target->GetPhaseID();
         };
-        m_DataMap[ACT_MAPITEM][ACT_PLAYER] = [](CSceneObject* self, CSceneObject* target) 
-        {
-            return self->GetPhaseID() == target->GetPhaseID() ||
-                   self->GetID() == target->GetPhaseID();
-        };     
-        m_DataMap[ACT_PLAYER][ACT_PLAYER] = [](CSceneObject* self, CSceneObject* target) 
-        {
-            return self->GetPhaseID() == target->GetPhaseID() ||
-                   self->GetID() == target->GetPhaseID();
+        m_DataMap[ACT_MAPITEM][ACT_PLAYER] = [](CSceneObject* self, CSceneObject* target) {
+            return self->GetPhaseID() == target->GetPhaseID() || self->GetID() == target->GetPhaseID();
+        };
+        m_DataMap[ACT_PLAYER][ACT_PLAYER] = [](CSceneObject* self, CSceneObject* target) {
+            return self->GetPhaseID() == target->GetPhaseID() || self->GetID() == target->GetPhaseID();
         };
     }
     bool test(CSceneObject* pSelfActor, CSceneObject* pTargetActor) const
@@ -98,7 +75,6 @@ public:
 private:
     std::function<bool(CSceneObject*, CSceneObject*)> m_DataMap[ACT_MAX][ACT_MAX];
 } const NEED_ADD_TO_BROADCASTSET;
-
 
 void CActor::_AddToAOIRemoveMessage(SC_AOI_REMOVE& removeMsg, OBJID id)
 {
@@ -281,32 +257,30 @@ bool CActor::IsMustAddToBroadCastSet(CSceneObject* pActor)
         {
             return true;
         }
-        
+
         return false;
     }
     else if(pActor->IsPlayer())
     {
         CPlayer* pPlayer = pActor->CastTo<CPlayer>();
-        CHECKF(pPlayer);  
-        
+        CHECKF(pPlayer);
+
         //队友必然可见
         if(IsPlayer())
         {
             CPlayer* pThisPlayer = CastTo<CPlayer>();
-            CHECKF(pThisPlayer);  
+            CHECKF(pThisPlayer);
             return (pThisPlayer->GetTeamID() != 0 && pPlayer->GetTeamID() == pThisPlayer->GetTeamID());
         }
-
-        
     }
 
     return false;
 }
 
 void CActor::OnAOIProcess_ActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
-                                          BROADCAST_SET&       setBCActor,
-                                          int32_t              nCanReserveDelCount,
-                                          uint32_t             view_range_out_square)
+                                             BROADCAST_SET&       setBCActor,
+                                             int32_t              nCanReserveDelCount,
+                                             uint32_t             view_range_out_square)
 {
     SC_AOI_REMOVE hold_info;
     hold_info.set_mapid(GetMapID());
@@ -364,7 +338,7 @@ void CActor::OnAOIProcess_ActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
             SC_AOI_REMOVE ntc_aoiInfo;
             ntc_aoiInfo.set_mapid(GetMapID());
             ntc_aoiInfo.add_idlist(GetID());
-            
+
             auto setSocketMap = ZoneService()->IDList2VSMap(setBCActorDelPlayer, 0);
             ZoneService()->SendMsgTo(setSocketMap, ntc_aoiInfo);
         }
@@ -418,7 +392,6 @@ void CActor::OnAOIProcess_ActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTO
         {
             it++;
         }
-        
     }
 
     //合并延迟发送Show的队列一起发送

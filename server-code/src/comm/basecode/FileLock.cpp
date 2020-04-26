@@ -43,7 +43,7 @@ bool file_lock::kill(int32_t sig)
 
     if(lock.l_type == F_UNLCK)
     {
-        //BaseCode::PrintfError("file_lock::kill lock.l_type == F_UNLCK, {}", m_pid_file.c_str());
+        // BaseCode::PrintfError("file_lock::kill lock.l_type == F_UNLCK, {}", m_pid_file.c_str());
         return true;
     }
 
@@ -81,7 +81,7 @@ bool file_lock::lock()
     if(lock_result < 0)
     {
         // lockf F_LOCK failure.
-        //BaseCode::PrintfError("file_lock::lock fail F_LOCK lock_result = {}, {}", lock_result, m_pid_file.c_str());
+        // BaseCode::PrintfError("file_lock::lock fail F_LOCK lock_result = {}, {}", lock_result, m_pid_file.c_str());
         return false;
     }
     std::string sid = std::to_string(getpid());

@@ -46,11 +46,7 @@ struct INIT_BRPC_LOG
 };
 static INIT_BRPC_LOG g_INIT_BRPC_LOG;
 
-
-CRPCService::CRPCService()
-{
-
-}
+CRPCService::CRPCService() {}
 
 CRPCService::~CRPCService()
 {
@@ -79,7 +75,6 @@ void CRPCService::ClearRPCServices()
     {
         m_pBRPCServer->ClearServices();
     }
-
 }
 
 bool CRPCService::AddRPCService(google::protobuf::Service* pService, const std::string& restful_map)
@@ -139,9 +134,9 @@ void CRPCService::StopRPCServer()
 }
 
 bool CRPCService::StartRPCServer(uint16_t                   publish_port,
-                                    uint16_t                   internal_port,
-                                    bool                       bEnableSSL,
-                                    google::protobuf::Service* pHttpMasterService)
+                                 uint16_t                   internal_port,
+                                 bool                       bEnableSSL,
+                                 google::protobuf::Service* pHttpMasterService)
 {
     if(m_pBRPCServer == nullptr)
         return false;

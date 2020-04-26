@@ -18,12 +18,16 @@ CSceneTree::~CSceneTree()
     m_pMap = nullptr;
 }
 
-bool CSceneTree::Init(const CGameMap* pMap, const CPos2D& vBasePos, float fWidth, float fHeight, uint32_t nTileGridRange)
+bool CSceneTree::Init(const CGameMap* pMap,
+                      const CPos2D&   vBasePos,
+                      float           fWidth,
+                      float           fHeight,
+                      uint32_t        nTileGridRange)
 {
-    m_pMap = pMap;
-    m_BasePos = vBasePos;
-    m_fWidth = fWidth;
-    m_fHeight = fHeight;
+    m_pMap        = pMap;
+    m_BasePos     = vBasePos;
+    m_fWidth      = fWidth;
+    m_fHeight     = fHeight;
     auto pMapData = m_pMap->GetMapData();
     if(m_fWidth <= 0.0f || m_fWidth >= pMapData->GetWidthMap() - m_BasePos.x)
         m_fWidth = pMapData->GetWidthMap() - m_BasePos.x;
@@ -43,10 +47,7 @@ bool CSceneTree::Init(const CGameMap* pMap, const CPos2D& vBasePos, float fWidth
 
 bool CSceneTree::IsInsideScene(float x, float y) const
 {
-    return (x >= m_BasePos.x && 
-            x <= m_BasePos.x + m_fWidth &&
-            y >= m_BasePos.x && 
-            x <= m_BasePos.y + m_fHeight );
+    return (x >= m_BasePos.x && x <= m_BasePos.x + m_fWidth && y >= m_BasePos.x && x <= m_BasePos.y + m_fHeight);
 }
 
 CSceneTile* CSceneTree::GetSceneTileByPos(float x, float y)
@@ -57,7 +58,7 @@ CSceneTile* CSceneTree::GetSceneTileByPos(float x, float y)
     return &m_setTile[tower_idx];
 }
 
-uint32_t CSceneTree::GetSceneTileIndexByPos(float x, float y)const
+uint32_t CSceneTree::GetSceneTileIndexByPos(float x, float y) const
 {
     float dx = x - m_BasePos.x;
     float dy = y - m_BasePos.y;

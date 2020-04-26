@@ -43,7 +43,6 @@ bool CSceneBase::EnterMap(CSceneObject* pActor, float fPosX, float fPosY, float 
 {
     CHECKF(m_pSceneTree->IsInsideScene(fPosX, fPosY));
 
-
     if(pActor->IsPlayer())
         m_setPlayer[pActor->GetID()] = pActor;
     m_setActor[pActor->GetID()] = pActor;

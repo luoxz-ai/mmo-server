@@ -1,9 +1,9 @@
 #include "MonsterGenerator.h"
 
+#include "AIActorManager.h"
 #include "AIMonster.h"
 #include "AIPhase.h"
 #include "AIService.h"
-#include "AIActorManager.h"
 #include "GameMap.h"
 
 CMonsterGenerator::CMonsterGenerator() {}

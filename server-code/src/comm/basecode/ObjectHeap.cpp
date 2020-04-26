@@ -16,33 +16,29 @@ extern "C"
 namespace
 {
 
-inline uint32_t arena_alloc()
-{
-    uint32_t    arena;
-    std::size_t arena_byte_size = sizeof(arena);
-
-    // Extend number of arenas
-    if(je_mallctl("arenas.create", (void*)&arena, &arena_byte_size, nullptr, 0))
+    inline uint32_t arena_alloc()
     {
-        throw std::runtime_error("Failed to get new arena");
-    }
-    return arena;
-}
+        uint32_t    arena;
+        std::size_t arena_byte_size = sizeof(arena);
 
-inline void arena_free(unsigned arena)
-{
-    je_mallctl(fmt::format("arena.{}.destroy", arena).c_str(), 0, 0, 0, 0);
-}
+        // Extend number of arenas
+        if(je_mallctl("arenas.create", (void*)&arena, &arena_byte_size, nullptr, 0))
+        {
+            throw std::runtime_error("Failed to get new arena");
+        }
+        return arena;
+    }
+
+    inline void arena_free(unsigned arena) { je_mallctl(fmt::format("arena.{}.destroy", arena).c_str(), 0, 0, 0, 0); }
 
 } // namespace
 #endif
 
 std::atomic<uint64_t> g_alloc_from_object_heap_size = 0;
-uint64_t get_alloc_from_object_heap()
+uint64_t              get_alloc_from_object_heap()
 {
     return g_alloc_from_object_heap_size;
 }
-
 
 CObjectHeap::CObjectHeap(const std::string& szClassName, size_t OneSize)
     : m_strName(szClassName)
@@ -63,7 +59,6 @@ CObjectHeap::~CObjectHeap()
     {
         BaseCode::MyLogMsg("log/error", "ObjectHeap {} was not clear:{}", m_strName.c_str(), m_lNumAllocsInHeap.load());
 
-
 #if defined(HEAP_DEBUG)
         {
             for(auto it = m_setDebugInfo.begin(); it != m_setDebugInfo.end(); it++)
@@ -74,10 +69,7 @@ CObjectHeap::~CObjectHeap()
             m_setDebugInfo.clear();
         }
 #endif
-
     }
-
-
 
     BaseCode::MyLogMsg("log/debug", "ObjectHeap {} destory", m_strName.c_str());
 }
@@ -108,8 +100,6 @@ void* CObjectHeap::Alloc(size_t size)
     if(m_lNumAllocsInHeap > m_lMaxAllocsInHeap)
         m_lMaxAllocsInHeap = m_lNumAllocsInHeap.load();
 
-
-
 #if defined(HEAP_DEBUG)
     std::lock_guard<std::mutex> lock(m_mutexDebugInfo);
     m_setDebugInfo[result] = m_setCallFrame->MakeCallFrame(1);
@@ -127,9 +117,6 @@ void CObjectHeap::Free(void* ptr)
 #endif
     m_lNumAllocsInHeap--;
     g_alloc_from_object_heap_size -= m_OneSize;
-
-
-
 
 #if defined(HEAP_DEBUG)
     std::lock_guard<std::mutex> lock(m_mutexDebugInfo);

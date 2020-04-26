@@ -1,8 +1,8 @@
 #include "Npc.h"
 
-#include "Player.h"
-#include "Phase.h"
 #include "ActorManager.h"
+#include "Phase.h"
+#include "Player.h"
 #include "ZoneService.h"
 
 OBJECTHEAP_IMPLEMENTATION(CNpc, s_heap);
@@ -58,7 +58,7 @@ void CNpc::OnEnterMap(CSceneBase* pScene)
     {
         ScriptManager()->TryExecScript<void>(m_pType->GetScriptID(), SCB_NPC_ONBORN, this);
     }
-    //AI暂时不需要Npc
+    // AI暂时不需要Npc
     // ServerMSG::ActorCreate ai_msg;
     // ai_msg.set_actor_id(GetID());
     // ai_msg.set_scene_id(GetSceneID());
@@ -134,11 +134,11 @@ void CNpc::_ActiveNpc(CPlayer* pPlayer)
         if(HasFlag(m_pType->GetTypeFlag(), NPC_TYPE_FLAG_SHOP))
         {
             pPlayer->DialogAddLink(DIALOGLINK_TYPE_LIST,
-                                m_pType->GetShopLinkName(),
-                                DIALOG_FUNC_OPENSHOP,
-                                m_pType->GetShopID(),
-                                "",
-                                GetID());
+                                   m_pType->GetShopLinkName(),
+                                   DIALOG_FUNC_OPENSHOP,
+                                   m_pType->GetShopID(),
+                                   "",
+                                   GetID());
         }
 
         for(auto pTaskType: setShowTask)

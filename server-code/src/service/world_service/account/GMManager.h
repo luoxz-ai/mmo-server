@@ -3,17 +3,18 @@
 #include "BaseCode.h"
 
 class CMysqlConnection;
-class CGMManager: public NoncopyableT<CGMManager>
+class CGMManager : public NoncopyableT<CGMManager>
 {
     CGMManager();
     bool Init();
     bool Init(CMysqlConnection* pGlobalDB);
+
 public:
     CreateNewImpl(CGMManager);
+
 public:
     ~CGMManager();
-    
-    
+
     void Destory();
     void Reload();
 

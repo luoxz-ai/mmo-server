@@ -1,14 +1,13 @@
 #include "Scene.h"
 
 #include "Actor.h"
-#include "Monster.h"
-#include "Npc.h"
-#include "Player.h"
-#include "Phase.h"
-#include "ZoneService.h"
 #include "ActorManager.h"
 #include "MapManager.h"
-
+#include "Monster.h"
+#include "Npc.h"
+#include "Phase.h"
+#include "Player.h"
+#include "ZoneService.h"
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
 
@@ -37,16 +36,13 @@ bool CScene::Init(const SceneID& idScene, uint64_t idMainPhase)
     msg.set_scene_id(idScene);
     ZoneService()->SendServerMsgToAIService(msg);
 
-    
     //创建静态位面
     const auto& phaseDataSet = pMap->GetPhaseData();
-    for(const auto& [idPhase,v]: phaseDataSet)
+    for(const auto& [idPhase, v]: phaseDataSet)
     {
         CreatePhase(idPhase);
     }
     m_nStaticPhaseCount = phaseDataSet.size();
-    
-    
 
     //创建主位面,可能已经创建过了
     CreatePhase(idMainPhase);
@@ -60,9 +56,9 @@ bool CScene::Init(const SceneID& idScene, uint64_t idMainPhase)
 
 CPhase* CScene::CreatePhase(uint64_t idPhase)
 {
-    auto pMap = MapManager()->QueryMap(m_idSceneID.GetMapID());
+    auto pMap       = MapManager()->QueryMap(m_idSceneID.GetMapID());
     auto pPhaseData = pMap->GetPhaseDataById(idPhase);
-    auto pPhase = CreatePhase(idPhase, pPhaseData);
+    auto pPhase     = CreatePhase(idPhase, pPhaseData);
     return pPhase;
 }
 
@@ -73,7 +69,7 @@ CPhase* CScene::CreatePhase(uint64_t idPhase, const PhaseData* pPhaseData)
     {
         return pPhase;
     }
-    auto idxPhase = m_DynaIDPool.get();
+    auto    idxPhase = m_DynaIDPool.get();
     SceneID newSceneID(m_idSceneID.GetZoneID(), m_idSceneID.GetMapID(), idxPhase);
     pPhase = CPhase::CreateNew(this, newSceneID, idPhase, pPhaseData);
     CHECKF(pPhase);
@@ -84,9 +80,9 @@ CPhase* CScene::CreatePhase(uint64_t idPhase, const PhaseData* pPhaseData)
 
 void CScene::ForEach(std::function<void(const CPhase*)> func) const
 {
-    for(const auto& [k,v]: m_setPhaseByIdx)
+    for(const auto& [k, v]: m_setPhaseByIdx)
     {
-        std::invoke(func,v);
+        std::invoke(func, v);
     }
 }
 
@@ -142,7 +138,7 @@ bool CScene::DestoryPhase(uint64_t idPhase)
 
     pPhase->KickAllPlayer();
     auto idSceneID = pPhase->GetSceneID();
-    auto idxPhase = pPhase->GetSceneID().GetPhaseIdx();
+    auto idxPhase  = pPhase->GetSceneID().GetPhaseIdx();
     CHECKF(pPhase->CanDestory() == true);
     m_setPhaseByIdx.erase(idxPhase);
     m_setPhase.erase(idPhase);

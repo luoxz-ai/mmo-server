@@ -3,10 +3,10 @@
 
 #include "Common.pb.h"
 
-static inline std::string GetCfgFilePath() 
+static inline std::string GetCfgFilePath()
 {
     return "res/config/";
-} 
+}
 
 constexpr char GMCMD_PREFIX = '@';
 //多少个账号以后开始排队,缓慢进入
@@ -55,24 +55,23 @@ enum ActorType
 {
     ACT_UNKNOW  = 0,
     ACT_MONSTER = 1, //怪物
-    ACT_NPC     = 2, //NPC
+    ACT_NPC     = 2, // NPC
     ACT_PET     = 3, //宠物
     ACT_MAPITEM = 4, //掉落物
     ACT_BULLET  = 5, //子弹对象
 
-    ACT_PLAYER  = 9, //玩家
+    ACT_PLAYER = 9, //玩家
     ACT_MAX
 };
-
 
 // max uint64_t = 1844 6744 0737 0955 1614
 // 0999 09 00 0000 0000 0000
 // world type 0~00 0000 0000 0000
 // playerid range [0~00 0000 0000 0000]
-constexpr uint64_t  ID_FACTOR_BYWORLD        = 10000ull*10000ull*10000ull*10000ull;
+constexpr uint64_t ID_FACTOR_BYWORLD = 10000ull * 10000ull * 10000ull * 10000ull;
 
-constexpr uint64_t  ID_GEN_FACTOR            =   100ull*10000ull*10000ull*10000ull;
-constexpr uint64_t  PLAYER_ID_FACTOR_BYTYPE  = ACT_PLAYER*ID_GEN_FACTOR;
+constexpr uint64_t ID_GEN_FACTOR           = 100ull * 10000ull * 10000ull * 10000ull;
+constexpr uint64_t PLAYER_ID_FACTOR_BYTYPE = ACT_PLAYER * ID_GEN_FACTOR;
 
 inline uint32_t GetWorldIDFromPlayerID(uint64_t idPlayer)
 {

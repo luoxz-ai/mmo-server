@@ -11,11 +11,11 @@
 #include "BaseCode.h"
 #include "FileLock.h"
 #include "LoggingMgr.h"
+#include "MemoryHelp.h"
 #include "ObjectHeap.h"
 #include "SegvCatch.h"
 #include "ServiceLoader.h"
 #include "StringAlgo.h"
-#include "MemoryHelp.h"
 #include "fmt/format.h"
 #include "get_opt.h"
 #ifdef USE_JEMALLOC
@@ -200,7 +200,7 @@ int main(int argc, char* argv[])
     BaseCode::InitLog(logpath);
     BaseCode::SetNdc("service_loader");
     g_pLoader = new ServiceLoader();
-    
+
     if(opt.has("--start"))
         start_service_set = opt["--start"];
 
@@ -242,7 +242,7 @@ int main(int argc, char* argv[])
         SAFE_DELETE(g_pLoader);
         exit(-1);
     }
-    
+
     savefd_out = dup(STDOUT_FILENO);
     savefd_err = dup(STDERR_FILENO);
     dup2(fileno(pStdOutFile), STDOUT_FILENO);
@@ -263,24 +263,23 @@ int main(int argc, char* argv[])
         // std::this_thread::yield();
         // PurgeJemalloc();
         auto alloc_from_obj_heap = get_alloc_from_object_heap();
-        auto result = get_memory_status();
-        LOGMONITOR(
-            "alloc_from_obj_heap: {:.2f}, "
-            "allocated: {:.2f}, "
-            "active: {:.2f}, "
-            "metadata: {:.2f}, "
-            "resident: {:.2f}, "
-            "mapped: {:.2f}, "
-            "retained: {:.2f}, "
-            "num_threads: {}",
-            alloc_from_obj_heap  / 1024.0f / 1024.0f,
-            result.allocted / 1024.0f / 1024.0f,
-            result.active / 1024.0f / 1024.0f,
-            result.metadata / 1024.0f / 1024.0f,
-            result.resident / 1024.0f / 1024.0f,
-            result.mapped / 1024.0f / 1024.0f,
-            result.retained / 1024.0f / 1024.0f,
-            result.num_threads);
+        auto result              = get_memory_status();
+        LOGMONITOR("alloc_from_obj_heap: {:.2f}, "
+                   "allocated: {:.2f}, "
+                   "active: {:.2f}, "
+                   "metadata: {:.2f}, "
+                   "resident: {:.2f}, "
+                   "mapped: {:.2f}, "
+                   "retained: {:.2f}, "
+                   "num_threads: {}",
+                   alloc_from_obj_heap / 1024.0f / 1024.0f,
+                   result.allocted / 1024.0f / 1024.0f,
+                   result.active / 1024.0f / 1024.0f,
+                   result.metadata / 1024.0f / 1024.0f,
+                   result.resident / 1024.0f / 1024.0f,
+                   result.mapped / 1024.0f / 1024.0f,
+                   result.retained / 1024.0f / 1024.0f,
+                   result.num_threads);
 
         sleep(60);
         __LEAVE_FUNCTION

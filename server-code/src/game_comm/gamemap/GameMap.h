@@ -67,13 +67,13 @@ class CMapManager;
 export_lua class CGameMap : public NoncopyableT<CGameMap>
 {
     CGameMap();
-    bool Init(CMapManager* pManager, const Cfg_Scene_Row& data,const CMapData* pMapData);
+    bool Init(CMapManager* pManager, const Cfg_Scene_Row& data, const CMapData* pMapData);
+
 public:
-   
     ~CGameMap();
 
     CreateNewImpl(CGameMap);
-    
+
     export_lua bool     IsInsideMap(float x, float y) const;
     export_lua bool     IsZoneMap(uint16_t idZone) const { return m_idZone == 0 || idZone == m_idZone; }
     export_lua uint16_t GetZoneID() const { return m_idZone; }
@@ -82,7 +82,7 @@ public:
     export_lua uint32_t GetMapType() const { return m_nMapType; }
     export_lua uint32_t GetMapFlag() const { return m_nMapFlag; }
     export_lua uint64_t GetScriptID() const { return m_idScript; }
-    export_lua bool     HasMapFlag(uint32_t flag) const{ return ::HasFlag(GetMapFlag(), flag); }
+    export_lua bool     HasMapFlag(uint32_t flag) const { return ::HasFlag(GetMapFlag(), flag); }
     export_lua bool     IsDynaMap() const { return HasFlag(GetMapFlag(), MAPFLAG_DYNAMAP); }
 
     export_lua bool IsNearLeavePoint(float x, float y, uint32_t& destMapID, uint32_t& destEnterPointIdx) const;
@@ -111,7 +111,7 @@ public:
 
 public:
     export_lua const CMapData* GetMapData() const { return m_pMapData; }
-    export_lua const auto& GetPhaseData() const {return m_PhaseDataSet;}
+    export_lua const auto&     GetPhaseData() const { return m_PhaseDataSet; }
     export_lua const PhaseData* GetPhaseDataById(uint64_t idPhase) const;
 
     export_lua const Cfg_Scene_EnterPoint_Row* GetEnterPointByIdx(uint32_t idx) const;

@@ -3,10 +3,7 @@
 #include "Actor.h"
 #include "Player.h"
 
-
-CActorManager::CActorManager()
-{
-}
+CActorManager::CActorManager() {}
 
 CActorManager::~CActorManager()
 {
@@ -15,7 +12,7 @@ CActorManager::~CActorManager()
 
 bool CActorManager::Init()
 {
-   
+
     m_ActorMap.reserve(GUESS_MAX_ACTOR_COUNT);
     m_PlayerRefMap.reserve(GUESS_MAX_PLAYER_COUNT);
 
@@ -130,7 +127,7 @@ bool CActorManager::DelActorByID(OBJID id, bool bDelete /* = true*/)
     {
         m_ActorInfos[pActor->GetActorType()].m_idPool.put(id);
     }
-   
+
     m_ActorInfos[pActor->GetActorType()].m_ActorCount--;
 
     if(bDelete)

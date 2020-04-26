@@ -89,12 +89,12 @@ class CSkillType : public NoncopyableT<CSkillType>
         }
         return true;
     }
+
 public:
     CreateNewImpl(CSkillType);
+
 public:
     ~CSkillType() {}
-    
-    
 
     using PB_T = Cfg_Skill;
     static uint32_t    MakeID(uint16_t idSkillSort, uint8_t ucLevel) { return idSkillSort * 100 + ucLevel; }
@@ -148,7 +148,7 @@ private:
     std::vector<CActorAttribChange> m_AttribChangeList;
 };
 
-DEFINE_GAMEMAPDATA(CSkillTypeSet,CSkillType);
+DEFINE_GAMEMAPDATA(CSkillTypeSet, CSkillType);
 
 class CSkillAttachStatusData : public NoncopyableT<CSkillAttachStatusData>
 {
@@ -158,12 +158,12 @@ class CSkillAttachStatusData : public NoncopyableT<CSkillAttachStatusData>
         m_Data = row;
         return true;
     }
+
 public:
     CreateNewImpl(CSkillAttachStatusData);
+
 public:
     ~CSkillAttachStatusData() {}
-    
-    
 
     using PB_T = Cfg_SkillAttachStatus;
 
@@ -183,7 +183,7 @@ private:
     Cfg_SkillAttachStatus_Row m_Data;
 };
 
-DEFINE_MULTIGAMEMAPDATA(CSkillAttachStatusDataSet,CSkillAttachStatusData);
+DEFINE_MULTIGAMEMAPDATA(CSkillAttachStatusDataSet, CSkillAttachStatusData);
 
 class CSkillDetachStatusData : public NoncopyableT<CSkillDetachStatusData>
 {
@@ -193,12 +193,12 @@ class CSkillDetachStatusData : public NoncopyableT<CSkillDetachStatusData>
         m_Data = row;
         return true;
     }
+
 public:
     CreateNewImpl(CSkillDetachStatusData);
+
 public:
     ~CSkillDetachStatusData() {}
-    
-    
 
     using PB_T = Cfg_SkillDetachStatus;
 
@@ -215,6 +215,6 @@ private:
     Cfg_SkillDetachStatus_Row m_Data;
 };
 
-DEFINE_MULTIGAMEMAPDATA(CSkillDetachStatusDataSet,CSkillDetachStatusData);
+DEFINE_MULTIGAMEMAPDATA(CSkillDetachStatusDataSet, CSkillDetachStatusData);
 
 #endif /* SKILLTYPE_H */

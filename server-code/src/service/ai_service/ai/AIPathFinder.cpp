@@ -1,8 +1,8 @@
 #include "AIPathFinder.h"
 
 #include "AIActor.h"
-#include "AIScene.h"
 #include "AIPhase.h"
+#include "AIScene.h"
 CAIPathFinder::CAIPathFinder(CAIActor* pActor)
     : m_pActor(pActor)
 {

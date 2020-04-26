@@ -13,9 +13,9 @@ export_lua class CPlayerAchievement : public NoncopyableT<CPlayerAchievement>
 
 public:
     CreateNewImpl(CPlayerAchievement);
+
 public:
     virtual ~CPlayerAchievement();
-    
 
 public:
     export_lua void SyncAll();

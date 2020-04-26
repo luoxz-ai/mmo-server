@@ -3,32 +3,26 @@
 #include <functional>
 
 #include "AccountManager.h"
+#include "BornPos.h"
 #include "EventManager.h"
+#include "GMManager.h"
+#include "MapManager.h"
+#include "MemoryHelp.h"
 #include "MessagePort.h"
 #include "MessageRoute.h"
+#include "MonitorMgr.h"
 #include "NetMSGProcess.h"
 #include "NetSocket.h"
 #include "NetworkMessage.h"
 #include "SettingMap.h"
-#include "Thread.h"
-#include "User.h"
-#include "UserManager.h"
-#include "MemoryHelp.h"
-
-#include "AccountManager.h"
-#include "GMManager.h"
-#include "MapManager.h"
 #include "SystemVars.h"
 #include "TeamManager.h"
-
+#include "Thread.h"
+#include "User.h"
 #include "UserAttr.h"
-#include "BornPos.h"
-
+#include "UserManager.h"
 #include "gamedb.h"
 #include "globaldb.h"
-#include "MonitorMgr.h"
-#include "MemoryHelp.h"
-
 
 static thread_local CWorldService* tls_pService = nullptr;
 CWorldService*                     WorldService()
@@ -53,16 +47,13 @@ CWorldService::CWorldService()
     m_tLastDisplayTime.Startup(30);
 }
 
-CWorldService::~CWorldService()
-{
-    
-}
+CWorldService::~CWorldService() {}
 
-void CWorldService::Release()  
-{   
+void CWorldService::Release()
+{
 
     Destory();
-    delete this; 
+    delete this;
 }
 
 void CWorldService::Destory()
@@ -102,7 +93,7 @@ bool CWorldService::Init(const ServerPort& nServerPort)
     scope_exit += [oldNdc]() {
         BaseCode::SetNdc(oldNdc);
     };
-    
+
     m_pAccountManager.reset(CAccountManager::CreateNew(this));
     CHECKF(m_pAccountManager.get());
     m_pUserManager.reset(CUserManager::CreateNew());
@@ -116,10 +107,9 @@ bool CWorldService::Init(const ServerPort& nServerPort)
     auto pGlobalDB = ConnectGlobalDB();
     //通过globaldb查询localdb
 
-    auto result = pGlobalDB->Query(TBLD_DBINFO::table_name,
-                                        fmt::format(FMT_STRING("SELECT * FROM {} WHERE worldid={} LIMIT 1"),
-                                                    TBLD_DBINFO::table_name,
-                                                    GetWorldID()));
+    auto result = pGlobalDB->Query(
+        TBLD_DBINFO::table_name,
+        fmt::format(FMT_STRING("SELECT * FROM {} WHERE worldid={} LIMIT 1"), TBLD_DBINFO::table_name, GetWorldID()));
     if(result == nullptr || result->get_num_row() == 0)
     {
         LOGFATAL("CWorldService::Create fail:gamedb info error");
@@ -138,7 +128,7 @@ bool CWorldService::Init(const ServerPort& nServerPort)
         auto pDB = std::make_unique<CMysqlConnection>();
         if(pDB->Connect(host, user, passwd, dbname, port) == false)
         {
-            
+
             return false;
         }
         m_pGameDB.reset(pDB.release());
@@ -171,7 +161,7 @@ bool CWorldService::Init(const ServerPort& nServerPort)
         LOGFATAL("CWorldService::Create fail:gamedb info error");
         return false;
     }
-    
+
     DEFINE_CONFIG_LOAD(CUserAttrSet);
     DEFINE_CONFIG_LOAD(CBornPosSet);
 
@@ -187,10 +177,8 @@ bool CWorldService::Init(const ServerPort& nServerPort)
     if(CreateService(20) == false)
         return false;
 
-
-    GetMessageRoute()->ForeachServiceInfoByWorldID(GetWorldID(), false, [this](const ServerAddrInfo* info)
-    {
-        if(info->idService == WORLD_SERVICE_ID || 
+    GetMessageRoute()->ForeachServiceInfoByWorldID(GetWorldID(), false, [this](const ServerAddrInfo* info) {
+        if(info->idService == WORLD_SERVICE_ID ||
            (info->idService >= MIN_AI_SERVICE_ID && info->idService <= MAX_AI_SERVICE_ID))
         {
             return true;
@@ -199,7 +187,6 @@ bool CWorldService::Init(const ServerPort& nServerPort)
         m_setServiceNeedReady.emplace(info->idService);
         return true;
     });
-
 
     return true;
     __LEAVE_FUNCTION
@@ -214,8 +201,7 @@ void CWorldService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
     MSG_HEAD* pHead = pNetworkMsg->GetMsgHead();
 
     //需要转发的，直接转发
-    if(pNetworkMsg->GetForward().IsVaild() &&
-        pNetworkMsg->GetForward().GetServerPort() != GetServerPort() )
+    if(pNetworkMsg->GetForward().IsVaild() && pNetworkMsg->GetForward().GetServerPort() != GetServerPort())
     {
         if(GetMessageRoute()->IsConnected(pNetworkMsg->GetForward().GetServerPort()) == true)
         {
@@ -236,11 +222,11 @@ void CWorldService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
         LOGERROR("CMD {} didn't have ProcessHandler", pNetworkMsg->GetCmd());
         return;
     }
-        
+
     __LEAVE_FUNCTION
 }
 
-void CWorldService::_ID2VS(OBJID id, VirtualSocketMap_t& VSMap)const
+void CWorldService::_ID2VS(OBJID id, VirtualSocketMap_t& VSMap) const
 {
     __ENTER_FUNCTION
     CUser* pUser = GetUserManager()->QueryUser(id);
@@ -270,21 +256,21 @@ void CWorldService::RecyclePlayerID(OBJID idPlayer)
     m_setPlayerIDPool.push_back(idPlayer);
 }
 
-bool CWorldService::CheckProgVer(const std::string& prog_ver)const
+bool CWorldService::CheckProgVer(const std::string& prog_ver) const
 {
     return true;
 }
 
 std::unique_ptr<CMysqlConnection> CWorldService::ConnectGlobalDB()
 {
-    const auto& settings = GetMessageRoute()->GetSettingMap();
+    const auto& settings        = GetMessageRoute()->GetSettingMap();
     const auto& settingGlobalDB = settings["GlobalMYSQL"][0];
-    auto pGlobalDB = std::make_unique<CMysqlConnection>();
+    auto        pGlobalDB       = std::make_unique<CMysqlConnection>();
     if(pGlobalDB->Connect(settingGlobalDB.Query("host"),
-                    settingGlobalDB.Query("user"),
-                    settingGlobalDB.Query("passwd"),
-                    settingGlobalDB.Query("dbname"),
-                    settingGlobalDB.QueryULong("port")) == false)
+                          settingGlobalDB.Query("user"),
+                          settingGlobalDB.Query("passwd"),
+                          settingGlobalDB.Query("dbname"),
+                          settingGlobalDB.QueryULong("port")) == false)
     {
         return nullptr;
     }
@@ -321,12 +307,12 @@ void CWorldService::SetServiceReady(uint16_t idService)
     __LEAVE_FUNCTION
 }
 
-bool CWorldService::BroadcastToAllPlayer(const google::protobuf::Message& msg)const
+bool CWorldService::BroadcastToAllPlayer(const google::protobuf::Message& msg) const
 {
     return BroadcastToAllPlayer(to_sc_cmd(msg), msg);
 }
 
-bool CWorldService::BroadcastToAllPlayer(uint16_t nCmd, const google::protobuf::Message& msg)const
+bool CWorldService::BroadcastToAllPlayer(uint16_t nCmd, const google::protobuf::Message& msg) const
 {
     __ENTER_FUNCTION
     CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), 0);
@@ -340,12 +326,12 @@ bool CWorldService::BroadcastToAllPlayer(uint16_t nCmd, const google::protobuf::
     return false;
 }
 
-bool CWorldService::BroadcastToZone(const google::protobuf::Message& msg)const
+bool CWorldService::BroadcastToZone(const google::protobuf::Message& msg) const
 {
     return BroadcastToZone(to_server_msgid(msg), msg);
 }
 
-bool CWorldService::BroadcastToZone(uint16_t nCmd, const google::protobuf::Message& msg)const
+bool CWorldService::BroadcastToZone(uint16_t nCmd, const google::protobuf::Message& msg) const
 {
     __ENTER_FUNCTION
     for(uint32_t i = MIN_ZONE_SERVICE_ID; i <= MAX_ZONE_SERVICE_ID; i++)
@@ -372,13 +358,14 @@ void CWorldService::OnLogicThreadProc()
     {
         std::string buf = std::string("\n======================================================================") +
                           fmt::format(FMT_STRING("\nMessageProcess:{}"), GetMessageProcess()) +
-                          fmt::format(FMT_STRING("\nEvent:{}\tMem:{}"), EventManager()->GetEventCount(), get_thread_memory_allocted()) +
+                          fmt::format(FMT_STRING("\nEvent:{}\tMem:{}"),
+                                      EventManager()->GetEventCount(),
+                                      get_thread_memory_allocted()) +
                           fmt::format(FMT_STRING("\nAccount:{}\tWait:{}"),
                                       AccountManager()->GetAccountSize(),
                                       AccountManager()->GetWaitAccountSize());
 
-        auto check_func = [this, &buf](uint16_t idService)
-        {
+        auto check_func = [this, &buf](uint16_t idService) {
             auto pMessagePort = GetMessageRoute()->QueryMessagePort(ServerPort(GetWorldID(), idService), false);
             if(pMessagePort && pMessagePort->GetWriteBufferSize() > 0)
             {
@@ -388,7 +375,6 @@ void CWorldService::OnLogicThreadProc()
                                    pMessagePort->GetWriteBufferSize());
             }
         };
-        
 
         for(int i = MIN_SOCKET_SERVICE_ID; i <= MAX_SOCKET_SERVICE_ID; i++)
         {
@@ -398,7 +384,6 @@ void CWorldService::OnLogicThreadProc()
         {
             check_func(i);
         }
-        
 
         LOGMONITOR("{}", buf.c_str());
         m_pMonitorMgr->Print();

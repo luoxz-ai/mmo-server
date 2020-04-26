@@ -1,9 +1,8 @@
 #ifndef __Matrix3_H__
 #define __Matrix3_H__
 
-#include "Vector3.h"
 #include "MathDef.h"
-
+#include "Vector3.h"
 #include "export_lua.h"
 // NB All code adapted from Wild Magic 0.2 Matrix math (free source code)
 // http://www.geometrictools.com/
@@ -23,7 +22,6 @@
 //           0       0       1
 // where t > 0 indicates a counterclockwise rotation in the xy-plane.
 
-
 /** A 3x3 matrix which can represent rotations around axes.
     @note
         <b>All the code is adapted from the Wild Magic 0.2 Matrix
@@ -38,15 +36,18 @@ public:
         @note
             It does <b>NOT</b> initialize the matrix for efficiency.
     */
-    Matrix3 () {}
-    explicit Matrix3 (const float arr[3][3])
-    {
-        memcpy(m,arr,9*sizeof(float));
-    }
+    Matrix3() {}
+    explicit Matrix3(const float arr[3][3]) { memcpy(m, arr, 9 * sizeof(float)); }
 
-    Matrix3 (float fEntry00, float fEntry01, float fEntry02,
-                float fEntry10, float fEntry11, float fEntry12,
-                float fEntry20, float fEntry21, float fEntry22)
+    Matrix3(float fEntry00,
+            float fEntry01,
+            float fEntry02,
+            float fEntry10,
+            float fEntry11,
+            float fEntry12,
+            float fEntry20,
+            float fEntry21,
+            float fEntry22)
     {
         m[0][0] = fEntry00;
         m[0][1] = fEntry01;
@@ -60,15 +61,9 @@ public:
     }
 
     /// Member access, allows use of construct mat[r][c]
-    const float* operator[] (size_t iRow) const
-    {
-        return m[iRow];
-    }
+    const float* operator[](size_t iRow) const { return m[iRow]; }
 
-    float* operator[] (size_t iRow)
-    {
-        return m[iRow];
-    }
+    float* operator[](size_t iRow) { return m[iRow]; }
 
     Vector3 GetColumn(size_t iCol) const
     {
@@ -91,48 +86,44 @@ public:
 
     /** Tests 2 matrices for equality.
      */
-    bool operator== (const Matrix3& rkMatrix) const;
+    bool operator==(const Matrix3& rkMatrix) const;
 
     /** Tests 2 matrices for inequality.
      */
-    bool operator!= (const Matrix3& rkMatrix) const
-    {
-        return !operator==(rkMatrix);
-    }
+    bool operator!=(const Matrix3& rkMatrix) const { return !operator==(rkMatrix); }
 
     // arithmetic operations
     /** Matrix addition.
      */
-    Matrix3 operator+ (const Matrix3& rkMatrix) const;
+    Matrix3 operator+(const Matrix3& rkMatrix) const;
 
     /** Matrix subtraction.
      */
-    Matrix3 operator- (const Matrix3& rkMatrix) const;
+    Matrix3 operator-(const Matrix3& rkMatrix) const;
 
     /** Matrix concatenation using '*'.
      */
-    Matrix3 operator* (const Matrix3& rkMatrix) const;
-    Matrix3 operator- () const;
+    Matrix3 operator*(const Matrix3& rkMatrix) const;
+    Matrix3 operator-() const;
 
     /// Vector * matrix [1x3 * 3x3 = 1x3]
-    friend Vector3 operator* (const Vector3& rkVector,
-        const Matrix3& rkMatrix);
+    friend Vector3 operator*(const Vector3& rkVector, const Matrix3& rkMatrix);
 
     /// Matrix * scalar
-    Matrix3 operator* (float fScalar) const;
+    Matrix3 operator*(float fScalar) const;
 
     /// Scalar * matrix
-    friend Matrix3 operator* (float fScalar, const Matrix3& rkMatrix);
+    friend Matrix3 operator*(float fScalar, const Matrix3& rkMatrix);
 
     // utilities
-    Matrix3 Transpose () const;
-    bool Inverse (Matrix3& rkInverse, float fTolerance = 1e-06f) const;
-    Matrix3 Inverse (float fTolerance = 1e-06f) const;
-    float Determinant() const { return determinant(); }
+    Matrix3 Transpose() const;
+    bool    Inverse(Matrix3& rkInverse, float fTolerance = 1e-06f) const;
+    Matrix3 Inverse(float fTolerance = 1e-06f) const;
+    float   Determinant() const { return determinant(); }
 
     Matrix3 transpose() const { return Transpose(); }
     Matrix3 inverse() const { return Inverse(); }
-    float determinant() const
+    float   determinant() const
     {
         float fCofactor00 = m[1][1] * m[2][2] - m[1][2] * m[2][1];
         float fCofactor10 = m[1][2] * m[2][0] - m[1][0] * m[2][2];
@@ -145,10 +136,8 @@ public:
     bool hasNegativeScale() const { return determinant() < 0; }
 
     /// Singular value decomposition
-    void SingularValueDecomposition (Matrix3& rkL, Vector3& rkS,
-        Matrix3& rkR) const;
-    void SingularValueComposition (const Matrix3& rkL,
-        const Vector3& rkS, const Matrix3& rkR);
+    void SingularValueDecomposition(Matrix3& rkL, Vector3& rkS, Matrix3& rkR) const;
+    void SingularValueComposition(const Matrix3& rkL, const Vector3& rkS, const Matrix3& rkR);
 
     /// Gram-Schmidt orthogonalisation (applied to columns of rotation matrix)
     Matrix3 orthonormalised() const
@@ -173,90 +162,80 @@ public:
 
         // compute q2
         float dot1 = Q.GetColumn(1).dotProduct(GetColumn(2));
-        dot0 = Q.GetColumn(0).dotProduct(GetColumn(2));
+        dot0       = Q.GetColumn(0).dotProduct(GetColumn(2));
         Q.SetColumn(2, (GetColumn(2) - dot0 * Q.GetColumn(0) + dot1 * Q.GetColumn(1)).normalisedCopy());
 
         return Q;
     }
-    
-    /// Orthogonal Q, diagonal D, upper triangular U stored as (u01,u02,u12)
-    void QDUDecomposition (Matrix3& rkQ, Vector3& rkD,
-        Vector3& rkU) const;
 
-    float SpectralNorm () const;
+    /// Orthogonal Q, diagonal D, upper triangular U stored as (u01,u02,u12)
+    void QDUDecomposition(Matrix3& rkQ, Vector3& rkD, Vector3& rkU) const;
+
+    float SpectralNorm() const;
 
     /// Note: Matrix must be orthonormal
-    void ToAngleAxis (Vector3& rkAxis, Radian& rfAngle) const;
-    inline void ToAngleAxis (Vector3& rkAxis, Degree& rfAngle) const {
+    void        ToAngleAxis(Vector3& rkAxis, Radian& rfAngle) const;
+    inline void ToAngleAxis(Vector3& rkAxis, Degree& rfAngle) const
+    {
         Radian r;
-        ToAngleAxis ( rkAxis, r );
+        ToAngleAxis(rkAxis, r);
         rfAngle = r;
     }
-    void FromAngleAxis (const Vector3& rkAxis, const Radian& fRadians);
+    void FromAngleAxis(const Vector3& rkAxis, const Radian& fRadians);
 
     /** The matrix must be orthonormal.  The decomposition is yaw*pitch*roll
         where yaw is rotation about the Up vector, pitch is rotation about the
         Right axis, and roll is rotation about the Direction axis. */
-    bool ToEulerAnglesXYZ (Radian& rfYAngle, Radian& rfPAngle,
-        Radian& rfRAngle) const;
-    bool ToEulerAnglesXZY (Radian& rfYAngle, Radian& rfPAngle,
-        Radian& rfRAngle) const;
-    bool ToEulerAnglesYXZ (Radian& rfYAngle, Radian& rfPAngle,
-        Radian& rfRAngle) const;
-    bool ToEulerAnglesYZX (Radian& rfYAngle, Radian& rfPAngle,
-        Radian& rfRAngle) const;
-    bool ToEulerAnglesZXY (Radian& rfYAngle, Radian& rfPAngle,
-        Radian& rfRAngle) const;
-    bool ToEulerAnglesZYX (Radian& rfYAngle, Radian& rfPAngle,
-        Radian& rfRAngle) const;
-    void FromEulerAnglesXYZ (const Radian& fYAngle, const Radian& fPAngle, const Radian& fRAngle);
-    void FromEulerAnglesXZY (const Radian& fYAngle, const Radian& fPAngle, const Radian& fRAngle);
-    void FromEulerAnglesYXZ (const Radian& fYAngle, const Radian& fPAngle, const Radian& fRAngle);
-    void FromEulerAnglesYZX (const Radian& fYAngle, const Radian& fPAngle, const Radian& fRAngle);
-    void FromEulerAnglesZXY (const Radian& fYAngle, const Radian& fPAngle, const Radian& fRAngle);
-    void FromEulerAnglesZYX (const Radian& fYAngle, const Radian& fPAngle, const Radian& fRAngle);
+    bool ToEulerAnglesXYZ(Radian& rfYAngle, Radian& rfPAngle, Radian& rfRAngle) const;
+    bool ToEulerAnglesXZY(Radian& rfYAngle, Radian& rfPAngle, Radian& rfRAngle) const;
+    bool ToEulerAnglesYXZ(Radian& rfYAngle, Radian& rfPAngle, Radian& rfRAngle) const;
+    bool ToEulerAnglesYZX(Radian& rfYAngle, Radian& rfPAngle, Radian& rfRAngle) const;
+    bool ToEulerAnglesZXY(Radian& rfYAngle, Radian& rfPAngle, Radian& rfRAngle) const;
+    bool ToEulerAnglesZYX(Radian& rfYAngle, Radian& rfPAngle, Radian& rfRAngle) const;
+    void FromEulerAnglesXYZ(const Radian& fYAngle, const Radian& fPAngle, const Radian& fRAngle);
+    void FromEulerAnglesXZY(const Radian& fYAngle, const Radian& fPAngle, const Radian& fRAngle);
+    void FromEulerAnglesYXZ(const Radian& fYAngle, const Radian& fPAngle, const Radian& fRAngle);
+    void FromEulerAnglesYZX(const Radian& fYAngle, const Radian& fPAngle, const Radian& fRAngle);
+    void FromEulerAnglesZXY(const Radian& fYAngle, const Radian& fPAngle, const Radian& fRAngle);
+    void FromEulerAnglesZYX(const Radian& fYAngle, const Radian& fPAngle, const Radian& fRAngle);
     /// Eigensolver, matrix must be symmetric
-    void EigenSolveSymmetric (float afEigenvalue[3],
-        Vector3 akEigenvector[3]) const;
+    void EigenSolveSymmetric(float afEigenvalue[3], Vector3 akEigenvector[3]) const;
 
-    static void TensorProduct (const Vector3& rkU, const Vector3& rkV,
-        Matrix3& rkProduct);
+    static void TensorProduct(const Vector3& rkU, const Vector3& rkV, Matrix3& rkProduct);
 
     /** Determines if this matrix involves a scaling. */
     bool hasScale() const
     {
         // check magnitude of column vectors (==local axes)
         float t = m[0][0] * m[0][0] + m[1][0] * m[1][0] + m[2][0] * m[2][0];
-        if (!Math::FloatEqual(t, 1.0, (float)1e-04))
+        if(!Math::FloatEqual(t, 1.0, (float)1e-04))
             return true;
         t = m[0][1] * m[0][1] + m[1][1] * m[1][1] + m[2][1] * m[2][1];
-        if (!Math::FloatEqual(t, 1.0, (float)1e-04))
+        if(!Math::FloatEqual(t, 1.0, (float)1e-04))
             return true;
         t = m[0][2] * m[0][2] + m[1][2] * m[1][2] + m[2][2] * m[2][2];
-        if (!Math::FloatEqual(t, 1.0, (float)1e-04))
+        if(!Math::FloatEqual(t, 1.0, (float)1e-04))
             return true;
 
         return false;
     }
 
-    static const float EPSILON;
+    static const float   EPSILON;
     static const Matrix3 ZERO;
     static const Matrix3 IDENTITY;
 
 protected:
     // support for eigensolver
-    void Tridiagonal (float afDiag[3], float afSubDiag[3]);
-    bool QLAlgorithm (float afDiag[3], float afSubDiag[3]);
+    void Tridiagonal(float afDiag[3], float afSubDiag[3]);
+    bool QLAlgorithm(float afDiag[3], float afSubDiag[3]);
 
     // support for singular value decomposition
     static const unsigned int msSvdMaxIterations;
-    static void Bidiagonalize (Matrix3& kA, Matrix3& kL,
-        Matrix3& kR);
-    static void GolubKahanStep (Matrix3& kA, Matrix3& kL,
-        Matrix3& kR);
+    static void               Bidiagonalize(Matrix3& kA, Matrix3& kL, Matrix3& kR);
+    static void               GolubKahanStep(Matrix3& kA, Matrix3& kL, Matrix3& kR);
 
     // support for spectral norm
-    static float MaxCubicRoot (float afCoeff[3]);
+    static float MaxCubicRoot(float afCoeff[3]);
 
     float m[3][3];
 
@@ -267,10 +246,9 @@ protected:
 /// Matrix * vector [3x3 * 3x1 = 3x1]
 inline Vector3 operator*(const Matrix3& m, const Vector3& v)
 {
-    return Vector3(
-            m[0][0] * v.x + m[0][1] * v.y + m[0][2] * v.z,
-            m[1][0] * v.x + m[1][1] * v.y + m[1][2] * v.z,
-            m[2][0] * v.x + m[2][1] * v.y + m[2][2] * v.z);
+    return Vector3(m[0][0] * v.x + m[0][1] * v.y + m[0][2] * v.z,
+                   m[1][0] * v.x + m[1][1] * v.y + m[1][2] * v.z,
+                   m[2][0] * v.x + m[2][1] * v.y + m[2][2] * v.z);
 }
 
 #endif

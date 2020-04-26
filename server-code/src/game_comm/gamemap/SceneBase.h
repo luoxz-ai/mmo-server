@@ -8,7 +8,7 @@
 
 class CSceneObject;
 
-class CSceneBase: NoncopyableT<CSceneBase>
+class CSceneBase : NoncopyableT<CSceneBase>
 {
 protected:
     CSceneBase();
@@ -26,10 +26,10 @@ public:
 
     export_lua const SceneID& GetSceneID() const { return m_idScene; }
 
-    const CGameMap* GetMap()const { return m_pMap; }
-    CSceneTree* GetSceneTree() const {return m_pSceneTree.get();}
-    bool InitSceneTree(const CPos2D& vBasePos, float fWidth, float fHeight, uint32_t nTileGridRange);
-    bool LinkSceneTree(CSceneBase* pLinkScene);
+    const CGameMap* GetMap() const { return m_pMap; }
+    CSceneTree*     GetSceneTree() const { return m_pSceneTree.get(); }
+    bool            InitSceneTree(const CPos2D& vBasePos, float fWidth, float fHeight, uint32_t nTileGridRange);
+    bool            LinkSceneTree(CSceneBase* pLinkScene);
 
     virtual bool      EnterMap(CSceneObject* pActor, float fPosX, float fPosY, float fFace);
     virtual void      LeaveMap(CSceneObject* pActor, uint64_t idTargetScene = 0);
@@ -53,9 +53,9 @@ public:
     export_lua virtual void ClearDynaRegion(uint32_t nRegionType);
 
 protected:
-    const CGameMap* m_pMap = nullptr;
-    SceneID m_idScene;
-    std::shared_ptr<CSceneTree> m_pSceneTree;
+    const CGameMap*                          m_pMap = nullptr;
+    SceneID                                  m_idScene;
+    std::shared_ptr<CSceneTree>              m_pSceneTree;
     std::unordered_map<OBJID, CSceneObject*> m_setPlayer;
     std::unordered_map<OBJID, CSceneObject*> m_setActor;
 

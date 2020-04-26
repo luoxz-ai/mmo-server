@@ -4,8 +4,8 @@
 #include "MapData.h"
 #include "MapManager.h"
 #include "WorldService.h"
-#include "server_msg/server_side.pb.h"
 #include "msg/world_service.pb.h"
+#include "server_msg/server_side.pb.h"
 
 OBJECTHEAP_IMPLEMENTATION(CUser, s_heap);
 
@@ -60,7 +60,7 @@ void CUser::EnterZone()
         ServerMSG::SocketChangeDest sock_msg;
         sock_msg.set_destport(ServerPort(WorldService()->GetWorldID(), idZone));
         sock_msg.set_vs(GetSocket());
-        
+
         WorldService()->SendPortMsg(GetSocket().GetServerPort(), sock_msg);
     }
 
@@ -78,7 +78,7 @@ void CUser::OnChangeZone(uint16_t idZone)
         ServerMSG::SocketChangeDest sock_msg;
         sock_msg.set_destport(ServerPort(WorldService()->GetWorldID(), idZone));
         sock_msg.set_vs(GetSocket());
-        
+
         WorldService()->SendPortMsg(GetSocket().GetServerPort(), sock_msg);
     }
 
@@ -108,7 +108,7 @@ void CUser::Logout()
         ServerMSG::SocketChangeDest sock_msg;
         sock_msg.set_destport(WorldService()->GetServerPort());
         sock_msg.set_vs(GetSocket());
-        
+
         WorldService()->SendPortMsg(GetSocket().GetServerPort(), sock_msg);
     }
     __LEAVE_FUNCTION

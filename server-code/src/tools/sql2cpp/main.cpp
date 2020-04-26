@@ -5,10 +5,10 @@
 #include <string>
 #include <unordered_set>
 
+#include "StringAlgo.h"
 #include "fmt/format.h"
 #include "fmt/printf.h"
 #include "get_opt.h"
-#include "StringAlgo.h"
 
 int main(int argc, char** argv)
 {
@@ -17,12 +17,12 @@ int main(int argc, char** argv)
         std::cout << "ddl2cpp [in_file_name] [out_dir] [out_file_name]" << std::endl;
         return 0;
     }
-     get_opt                  opt(argc, (const char**)argv);
-    
-    std::string in_file_name = opt["--input"];
-    std::string out_dir = opt["--outdir"];
-    std::string out_file_name= opt["--output"];
-    bool bDebug = opt.has("--debug");
+    get_opt opt(argc, (const char**)argv);
+
+    std::string in_file_name  = opt["--input"];
+    std::string out_dir       = opt["--outdir"];
+    std::string out_file_name = opt["--output"];
+    bool        bDebug        = opt.has("--debug");
 
     std::ifstream input_file(in_file_name);
     if(input_file.is_open() == false)
@@ -127,7 +127,8 @@ int main(int argc, char** argv)
                     {
                         std::string field_type = field_match[1];
                         std::string field_bits = field_match[2];
-                        bool        bUnsigned  = field_match.size() > 2 && lower_cast_copy(trim_copy(field_match[3])) == "unsigned";
+                        bool        bUnsigned =
+                            field_match.size() > 2 && lower_cast_copy(trim_copy(field_match[3])) == "unsigned";
                         std::string field_type_cpp;
                         std::string field_type_enum;
                         if(field_type == "bigint")

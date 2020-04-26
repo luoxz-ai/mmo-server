@@ -1,12 +1,11 @@
 #include "MsgWorldProcess.h"
+
 #include "User.h"
 #include "UserManager.h"
 #include "WorldService.h"
-#include "msg/zone_service.pb.h"
 #include "msg/world_service.pb.h"
+#include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
-
-
 
 ON_MSG(CWorldService, SC_TALK)
 {
@@ -97,14 +96,9 @@ ON_SERVERMSG(CWorldService, ServiceCmd)
     LOGDEBUG("ServiceCmd recv, cmd:{}", msg.cmds(0).c_str());
 }
 
-ON_SERVERMSG(CWorldService, SocketConnect)
-{
-}
+ON_SERVERMSG(CWorldService, SocketConnect) {}
 
-ON_SERVERMSG(CWorldService, SocketClose)
-{
-    
-}
+ON_SERVERMSG(CWorldService, SocketClose) {}
 
 //////////////////////////////////////////////////////////////////////////
 void RegisterWorldMessageHandler()
@@ -112,9 +106,9 @@ void RegisterWorldMessageHandler()
     __ENTER_FUNCTION
 
     auto pNetMsgProcess = WorldService()->GetNetMsgProcess();
-    for(const auto& [k,v] : MsgProcRegCenter<CWorldService>::instance().m_MsgProc)
+    for(const auto& [k, v]: MsgProcRegCenter<CWorldService>::instance().m_MsgProc)
     {
-        pNetMsgProcess->Register(k,v);
+        pNetMsgProcess->Register(k, v);
     }
 
     __LEAVE_FUNCTION

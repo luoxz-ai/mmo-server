@@ -68,101 +68,101 @@
 
 namespace getopt_utils
 {
-// string conversion
+    // string conversion
 
-template<typename T>
-inline T as(const std::string& self)
-{
-    T t;
-    return (std::istringstream(self) >> t) ? t : (T)(self.size() && (self != "0") && (self != "false"));
-}
-
-template<>
-inline char as(const std::string& self)
-{
-    return self.size() == 1 ? (char)(self[0]) : (char)(as<int32_t>(self));
-}
-template<>
-inline signed char as(const std::string& self)
-{
-    return self.size() == 1 ? (signed char)(self[0]) : (signed char)(as<int32_t>(self));
-}
-template<>
-inline unsigned char as(const std::string& self)
-{
-    return self.size() == 1 ? (unsigned char)(self[0]) : (unsigned char)(as<int32_t>(self));
-}
-
-template<>
-inline const char* as(const std::string& self)
-{
-    return self.c_str();
-}
-template<>
-inline std::string as(const std::string& self)
-{
-    return self;
-}
-
-// token split
-
-inline size_t split(std::vector<std::string>& tokens, const std::string& self, const std::string& delimiters)
-{
-    std::string str;
-    tokens.clear();
-    for(auto& ch: self)
+    template<typename T>
+    inline T as(const std::string& self)
     {
-        if(delimiters.find_first_of(ch) != std::string::npos)
-        {
-            if(str.size())
-                tokens.push_back(str), str = "";
-            tokens.push_back(std::string() + ch);
-        }
-        else
-            str += ch;
+        T t;
+        return (std::istringstream(self) >> t) ? t : (T)(self.size() && (self != "0") && (self != "false"));
     }
-    return str.empty() ? tokens.size() : (tokens.push_back(str), tokens.size());
-};
 
-// portable cmdline
+    template<>
+    inline char as(const std::string& self)
+    {
+        return self.size() == 1 ? (char)(self[0]) : (char)(as<int32_t>(self));
+    }
+    template<>
+    inline signed char as(const std::string& self)
+    {
+        return self.size() == 1 ? (signed char)(self[0]) : (signed char)(as<int32_t>(self));
+    }
+    template<>
+    inline unsigned char as(const std::string& self)
+    {
+        return self.size() == 1 ? (unsigned char)(self[0]) : (unsigned char)(as<int32_t>(self));
+    }
 
-inline std::vector<std::string> cmdline()
-{
-    std::vector<std::string> args;
-    std::string              arg;
+    template<>
+    inline const char* as(const std::string& self)
+    {
+        return self.c_str();
+    }
+    template<>
+    inline std::string as(const std::string& self)
+    {
+        return self;
+    }
+
+    // token split
+
+    inline size_t split(std::vector<std::string>& tokens, const std::string& self, const std::string& delimiters)
+    {
+        std::string str;
+        tokens.clear();
+        for(auto& ch: self)
+        {
+            if(delimiters.find_first_of(ch) != std::string::npos)
+            {
+                if(str.size())
+                    tokens.push_back(str), str = "";
+                tokens.push_back(std::string() + ch);
+            }
+            else
+                str += ch;
+        }
+        return str.empty() ? tokens.size() : (tokens.push_back(str), tokens.size());
+    };
+
+    // portable cmdline
+
+    inline std::vector<std::string> cmdline()
+    {
+        std::vector<std::string> args;
+        std::string              arg;
 #ifdef _WIN32
-    int32_t argv;
-    auto*   list = CommandLineToArgvW(GetCommandLineW(), &argv);
-    if(list)
-    {
-        for(int32_t i = 0; i < argv; ++i)
+        int32_t argv;
+        auto*   list = CommandLineToArgvW(GetCommandLineW(), &argv);
+        if(list)
         {
-            std::wstring ws(list[i]);
-            args.push_back(std::string(ws.begin(), ws.end()));
+            for(int32_t i = 0; i < argv; ++i)
+            {
+                std::wstring ws(list[i]);
+                args.push_back(std::string(ws.begin(), ws.end()));
+            }
+            LocalFree(list);
         }
-        LocalFree(list);
-    }
 #else
-    pid_t pid = getpid();
+        pid_t pid = getpid();
 
-    std::string   fname = fmt::format("/proc/{}/cmdline", pid);
-    std::ifstream ifs(fname);
-    if(ifs.good())
-    {
-        std::stringstream ss;
-        ifs >> ss.rdbuf();
-        arg = ss.str();
-    }
-    for(auto end = arg.size(), i = end - end; i < end; ++i)
-    {
-        auto st = i;
-        while(i < arg.size() && arg[i] != '\0')
-            ++i;
-        args.push_back(arg.substr(st, i - st));
-    }
+        std::string   fname = fmt::format("/proc/{}/cmdline", pid);
+        std::ifstream ifs(fname);
+        if(ifs.good())
+        {
+            std::stringstream ss;
+            ifs >> ss.rdbuf();
+            arg = ss.str();
+        }
+        for(auto end = arg.size(), i = end - end; i < end; ++i)
+        {
+            auto st = i;
+            while(i < arg.size() && arg[i] != '\0')
+                ++i;
+            args.push_back(arg.substr(st, i - st));
+        }
 #endif
-    return args;
-}
+        return args;
+    }
 } // namespace getopt_utils
 
 // main map class; explicit initialization

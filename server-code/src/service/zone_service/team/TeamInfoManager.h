@@ -6,11 +6,13 @@
 export_lua class CTeamInfo : public NoncopyableT<CTeamInfo>
 {
     CTeamInfo() {}
+
 public:
     CreateNewImpl(CTeamInfo);
+
 public:
     ~CTeamInfo() {}
-    
+
     bool Init(OBJID idTeam, uint64_t idLeader);
 
     void OnSetLeader(OBJID idLeader);
@@ -37,10 +39,11 @@ public:
 export_lua class CTeamInfoManager : public NoncopyableT<CTeamInfoManager>
 {
     CTeamInfoManager();
+
 public:
     CreateNewImpl(CTeamInfoManager);
+
 public:
-    
     ~CTeamInfoManager() {}
 
     bool       Init();

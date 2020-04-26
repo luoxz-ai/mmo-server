@@ -1,11 +1,11 @@
 #include "Actor.h"
 #include "ActorManager.h"
 #include "Monster.h"
-#include "Player.h"
 #include "Phase.h"
+#include "Player.h"
 #include "Scene.h"
-#include "SceneTree.h"
 #include "SceneManager.h"
+#include "SceneTree.h"
 #include "ZoneService.h"
 #include "server_msg/server_side.pb.h"
 
@@ -15,7 +15,7 @@ void CActor::ChangePhase(uint64_t idPhaseID)
     {
         return;
     }
-    //make sure scene have this phase
+    // make sure scene have this phase
     SceneManager()->CreatePhase(m_pScene->GetSceneID(), idPhaseID);
 
     _SetPhaseID(idPhaseID);
@@ -72,11 +72,11 @@ void CActor::SendRoomMessage(const google::protobuf::Message& msg, bool bInclude
 void CActor::SendRoomMessage(uint16_t cmd, const google::protobuf::Message& msg, bool bIncludeSelf /*= true*/)
 {
     SendShowToDealyList();
-    auto setSocketMap = ZoneService()->IDList2VSMap(m_ViewActorsByType[ACT_PLAYER], (bIncludeSelf) ?0:GetID());
+    auto setSocketMap = ZoneService()->IDList2VSMap(m_ViewActorsByType[ACT_PLAYER], (bIncludeSelf) ? 0 : GetID());
     ZoneService()->SendMsgTo(setSocketMap, cmd, msg);
     // send message to ai_service
-    if( (IsMonster() || IsPlayer()) &&
-        (cmd == CMD_SC_AOI_UPDATE || cmd == CMD_SC_CASTSKILL || cmd == CMD_SC_ATTRIB_CHANGE) )
+    if((IsMonster() || IsPlayer()) &&
+       (cmd == CMD_SC_AOI_UPDATE || cmd == CMD_SC_CASTSKILL || cmd == CMD_SC_ATTRIB_CHANGE))
     {
         ZoneService()->SendMsgToAIService(cmd, msg);
     }
@@ -87,5 +87,5 @@ void CActor::SendWorldMessage(uint16_t cmd, const google::protobuf::Message& msg
     if(GetWorldID() != 0)
     {
         ZoneService()->SendMsgToWorld(GetWorldID(), cmd, msg);
-    }   
+    }
 }

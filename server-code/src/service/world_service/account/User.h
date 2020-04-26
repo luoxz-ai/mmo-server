@@ -2,21 +2,22 @@
 #define USER_H
 
 #include "BaseCode.h"
-#include "ObjectHeap.h"
 #include "NetworkDefine.h"
 #include "NetworkMessage.h"
+#include "ObjectHeap.h"
 class CAccount;
 struct ST_ROLE_INFO;
 
-class CUser: public NoncopyableT<CUser>
-{   
+class CUser : public NoncopyableT<CUser>
+{
     CUser();
     bool Init(CAccount* pAccount, ST_ROLE_INFO* pInfo);
+
 public:
     CreateNewImpl(CUser);
+
 public:
     ~CUser();
-    
 
     const VirtualSocket& GetSocket() const;
     //进入游戏

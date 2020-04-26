@@ -36,16 +36,15 @@ class CDataCountLimit : public NoncopyableT<CDataCountLimit>
         m_nResetTime = row.reset_time();
         return true;
     }
+
 public:
     CreateNewImpl(CDataCountLimit);
+
 public:
     using PB_T = Cfg_DataCountLimit;
     virtual ~CDataCountLimit() {}
-    
 
 public:
-    
-
     uint64_t GetID() const { return CDataCountLimit::MakeID(m_nType, m_nKeyIdx); }
     uint32_t GetType() const { return m_nType; }
     uint32_t GetKeyIdx() const { return m_nKeyIdx; }
@@ -62,7 +61,7 @@ protected:
     uint32_t m_nResetTime;
 };
 
-DEFINE_GAMEMAPDATA(CDataCountLimitSet,CDataCountLimit);
+DEFINE_GAMEMAPDATA(CDataCountLimitSet, CDataCountLimit);
 
 class CPlayer;
 
@@ -94,11 +93,12 @@ private:
 export_lua class CDataCountSet : public NoncopyableT<CDataCountSet>
 {
     CDataCountSet();
+
 public:
     CreateNewImpl(CDataCountSet);
+
 public:
     ~CDataCountSet();
-    
 
     bool            Init(CPlayer* pPlayer);
     export_lua void SyncAll();

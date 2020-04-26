@@ -11,13 +11,13 @@ enum OMsgID
     MsgID_ServiceHttpResponse = 20003;
     MsgID_ServiceReady        = 20010;
     MsgID_ServiceRegister     = 20011;
-    
-    MsgID_SocketConnect       = 20012;  // sck->other 一个socket连接上来了
-    MsgID_SocketClose         = 20013;  // sck->other socket关闭
-    MsgID_SocketChangeDest    = 20014;  // other->sck 切换socket对应的服务器
-    MsgID_SocketAuth          = 20015;  // other->sck 设置socket的认证信息
-    MsgID_SocketStartAccept   = 20016;  // world->sck 开始监听
-    MsgID_SocketStopAccept    = 20017;  // world->sck 关闭监听
+
+    MsgID_SocketConnect     = 20012; // sck->other 一个socket连接上来了
+    MsgID_SocketClose       = 20013; // sck->other socket关闭
+    MsgID_SocketChangeDest  = 20014; // other->sck 切换socket对应的服务器
+    MsgID_SocketAuth        = 20015; // other->sck 设置socket的认证信息
+    MsgID_SocketStartAccept = 20016; // world->sck 开始监听
+    MsgID_SocketStopAccept  = 20017; // world->sck 关闭监听
 
     MsgID_PlayerEnterZone       = 20021;
     MsgID_PlayerChangeZone      = 20022;
@@ -35,7 +35,7 @@ enum OMsgID
     MsgID_KillGen         = 20044;
     MsgID_MonsterGenOnce  = 20045;
     MsgID_MonsterGenMulti = 20046;
-    
+
     MsgID_ActorCreate         = 20100;
     MsgID_ActorDestory        = 20101;
     MsgID_ActorMove           = 20102;
@@ -84,12 +84,12 @@ message ServiceHttpResponse
 message ServiceReady
 {
     uint32 serverport = 1;
-    bool ready = 2;
+    bool   ready      = 2;
 };
 
 message ServiceRegister
 {
-    uint32 serverport = 1;
+    uint32 serverport  = 1;
     uint64 update_time = 2;
 }
 
@@ -103,30 +103,20 @@ message SocketClose
     uint64 vs = 1;
 }
 
-
 message SocketChangeDest
 {
-    uint64 vs = 1;
-    uint32 destport=2;
+    uint64 vs       = 1;
+    uint32 destport = 2;
 }
 
-
-message SocketAuth 
+message SocketAuth
 {
     uint64 vs = 1;
 }
 
+message SocketStartAccept {}
 
-message SocketStartAccept 
-{
-
-}
-
-message SocketStopAccept 
-{
-
-}
-
+message SocketStopAccept {}
 
 message PlayerEnterZone
 {
@@ -199,7 +189,7 @@ message PhaseDestory
 message MonsterGen
 {
     uint64 scene_id     = 1;
-    uint64 phase_id      = 2;
+    uint64 phase_id     = 2;
     uint32 gen_id       = 3;
     uint32 monster_type = 4;
     float  posx         = 5;
@@ -211,7 +201,7 @@ message MonsterGen
 message MonsterGenMulti
 {
     uint64 scene_id     = 1;
-    uint64 phase_id      = 2;
+    uint64 phase_id     = 2;
     uint32 gen_id       = 3;
     uint32 monster_type = 4;
     float  posx         = 5;
@@ -252,7 +242,7 @@ message ActorCreate
     uint64 actor_id  = 1;
     uint64 scene_id  = 2;
     string name      = 4;
-    uint32 actortype = 5; //ACTOR_TYPE
+    uint32 actortype = 5; // ACTOR_TYPE
     uint32 baselook  = 6; //基本外观数据
     uint32 prof      = 7; //玩家代表职业, 怪物/宠物/NPC代表类型ID
     uint32 lev       = 8;
@@ -263,14 +253,13 @@ message ActorCreate
     uint32 mpmax     = 13;
     uint32 movespd   = 14;
     uint64 ownerid   = 15;
-    
 
     float posx = 16;
     float posy = 17;
     float face = 18;
 
     uint32 monster_gen_id = 20;
-    uint64 phase_id   = 21;
+    uint64 phase_id       = 21;
 };
 
 message ActorDestory
@@ -383,21 +372,20 @@ message TeamMemberInfo
     repeated Info member_list = 1;
 }
 
-
 message SyncTaskPhase
 {
-    uint64 player_id = 1;
+    uint64          player_id     = 1;
     repeated uint64 task_phase_id = 2;
 }
 
 message AddTaskPhase
 {
-    uint64 player_id = 1;
+    uint64 player_id     = 1;
     uint64 task_phase_id = 2;
 }
 
 message RemoveTaskPhase
 {
-    uint64 player_id = 1;
+    uint64 player_id     = 1;
     uint64 task_phase_id = 2;
 }

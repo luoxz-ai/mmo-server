@@ -11,7 +11,7 @@ class CSuitEquipData : public NoncopyableT<CSuitEquipData>
     CSuitEquipData() {}
     bool Init(const Cfg_Suit_Row& row)
     {
-        m_id = row.id();
+        m_id        = row.id();
         m_nEquipNum = row.num();
         for(int32_t i = 0; i < row.attrib_change_list_size(); i++)
         {
@@ -19,12 +19,13 @@ class CSuitEquipData : public NoncopyableT<CSuitEquipData>
         }
         return true;
     }
+
 public:
     CreateNewImpl(CSuitEquipData);
+
 public:
     ~CSuitEquipData() {}
     using PB_T = Cfg_Suit;
-    
 
     uint32_t GetEquipNum() const { return m_nEquipNum; }
     uint32_t GetID() const { return m_id; }
@@ -39,13 +40,16 @@ private:
 };
 
 //////////////////////////////////////////////////////////////////////
-class CSuitEquipSet : public CGameDataContainer<CSuitEquipData> 
+class CSuitEquipSet : public CGameDataContainer<CSuitEquipData>
 {
     CSuitEquipSet();
+
 public:
     CreateNewImpl(CSuitEquipSet);
+
 public:
     virtual ~CSuitEquipSet();
+
 public:
     virtual void Clear() override;
     virtual void BuildIndex() override;

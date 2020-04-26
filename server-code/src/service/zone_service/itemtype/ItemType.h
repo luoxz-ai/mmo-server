@@ -6,7 +6,6 @@
 #include "Cfg_Item.pb.h"
 #include "T_GameDataMap.h"
 
-
 export_lua constexpr uint32_t MAX_ITEM_EXTRDATA_NUM = 10;
 
 export_lua constexpr uint32_t ITEM_MAINTYPE_MASK = 10000000;
@@ -51,9 +50,9 @@ export_lua enum ITEM_SUBTYPE_EQUIP {
 export_lua enum ITEMPOSITION {
     ITEMPOSITION_BAG   = 0, //背包
     ITEMPOSITION_EQUIP = 1, //装备槽
-    
-    ITEMPOSITION_EXCHANGE     = 99, //交易
-    ITEMPOSITION_STORAGE      = 100, //仓库
+
+    ITEMPOSITION_EXCHANGE = 99,  //交易
+    ITEMPOSITION_STORAGE  = 100, //仓库
 
     ITEMPOSITION_GUILDSTORAGE = 200, //帮派仓库
     ITEMPOSITION_BUYBACK      = 201, //回购列表
@@ -63,23 +62,23 @@ export_lua enum ITEMPOSITION {
 
 export_lua enum EQUIPPOSITION {
     EQUIPPOSITION_NONE           = 0,
-    EQUIPPOSITION_WEAPON         = 1,       //武器
-    EQUIPPOSITION_FASHION_WEAPON = 2,       //时装武器
+    EQUIPPOSITION_WEAPON         = 1, //武器
+    EQUIPPOSITION_FASHION_WEAPON = 2, //时装武器
 
-    EQUIPPOSITION_HELMET         = 10,      //头
-    EQUIPPOSITION_ARMOR          = 11,      //身
-    EQUIPPOSITION_GIRDLE         = 12,      //腰带
-    EQUIPPOSITION_SHOES          = 13,      //鞋
-    EQUIPPOSITION_HAND_L         = 14,      //左手腕
-    EQUIPPOSITION_HAND_R         = 15,      //右手腕
-    EQUIPPOSITION_RING_L         = 16,      //左戒指
-    EQUIPPOSITION_RING_R         = 17,      //右戒指
-    EQUIPPOSITION_NECKLACE       = 18,      //项链
+    EQUIPPOSITION_HELMET   = 10, //头
+    EQUIPPOSITION_ARMOR    = 11, //身
+    EQUIPPOSITION_GIRDLE   = 12, //腰带
+    EQUIPPOSITION_SHOES    = 13, //鞋
+    EQUIPPOSITION_HAND_L   = 14, //左手腕
+    EQUIPPOSITION_HAND_R   = 15, //右手腕
+    EQUIPPOSITION_RING_L   = 16, //左戒指
+    EQUIPPOSITION_RING_R   = 17, //右戒指
+    EQUIPPOSITION_NECKLACE = 18, //项链
 
-    EQUIPPOSITION_FASHION_DRESS  = 19,      //时装衣服
+    EQUIPPOSITION_FASHION_DRESS = 19, //时装衣服
 
-    EQUIPPOSITION_WING           = 23,      //翅膀
-    EQUIPPOSITION_RUNE           = 24,      //符石
+    EQUIPPOSITION_WING = 23, //翅膀
+    EQUIPPOSITION_RUNE = 24, //符石
 };
 
 export_lua enum ITEMFLAG_MASK {
@@ -116,13 +115,14 @@ class CItemType : public NoncopyableT<CItemType>
         }
         return true;
     }
+
 public:
     CreateNewImpl(CItemType);
+
 public:
     ~CItemType() {}
     using PB_T = Cfg_Item;
-    
-    
+
     static uint32_t GetKey(const Cfg_Item_Row& row) { return row.id(); }
 
     uint32_t                               GetID() const { return m_Data.id(); }
@@ -150,30 +150,30 @@ public:
 public:
     bool IsPileEnable() const { return GetPileLimit() > 1; }
     // 是否可交易
-    bool IsExchangeEnable() const{ return HasFlag(ITEMFLAG_EXCHANGE_DISABLE) == false; }
+    bool IsExchangeEnable() const { return HasFlag(ITEMFLAG_EXCHANGE_DISABLE) == false; }
     // 是否可存仓库
-    bool IsStorageEnable() const{ return HasFlag(ITEMFLAG_STORAGE_DISABLE) == false; }
+    bool IsStorageEnable() const { return HasFlag(ITEMFLAG_STORAGE_DISABLE) == false; }
     // 是否可出售
-    bool IsSellEnable() const{ return HasFlag(ITEMFLAG_SELL_DISABLE) == false; }
+    bool IsSellEnable() const { return HasFlag(ITEMFLAG_SELL_DISABLE) == false; }
     // 是否可丢弃
-    bool IsDropEnable() const{ return HasFlag(ITEMFLAG_DROP_DISABLE) == false; }
+    bool IsDropEnable() const { return HasFlag(ITEMFLAG_DROP_DISABLE) == false; }
     // 是否客户端不可销毁
-    bool IsDelEnable()const { return HasFlag(ITEMFLAG_DEL_DISABLE) == false; }
+    bool IsDelEnable() const { return HasFlag(ITEMFLAG_DEL_DISABLE) == false; }
     // 是否可升级品质
-    bool IsForgingEnable() const{ return HasFlag(ITEMFLAG_FORGING_DISABLE) == false; }
+    bool IsForgingEnable() const { return HasFlag(ITEMFLAG_FORGING_DISABLE) == false; }
     // 是否可修理
-    bool IsRepairEnable() const{ return (IsEquipment() && (HasFlag(ITEMFLAG_REPAIR_DISABLE)) == false); }
+    bool IsRepairEnable() const { return (IsEquipment() && (HasFlag(ITEMFLAG_REPAIR_DISABLE)) == false); }
     // 配方合成、拾取怪物掉落的时候是否广播传闻
-    bool IsPickRumor()const { return HasFlag(ITEMFLAG_PICK_RUMOR); }
+    bool IsPickRumor() const { return HasFlag(ITEMFLAG_PICK_RUMOR); }
     // 商城购买、帮派商店购买 的时候是否广播传闻
-    bool IsBuyRumor() const{ return HasFlag(ITEMFLAG_BUY_RUMOR); }
+    bool IsBuyRumor() const { return HasFlag(ITEMFLAG_BUY_RUMOR); }
     // 赌博产出 的时候是否广播传闻
-    bool IsGamblingRumor() const{ return HasFlag(ITEMFLAG_GAMBLING_RUMOR); }
+    bool IsGamblingRumor() const { return HasFlag(ITEMFLAG_GAMBLING_RUMOR); }
     // 是否任务追踪物品
-    bool        IsTraceItem()const { return HasFlag(ITEMFLAG_TRACE_ITEM); }
-    bool        IsEquipment() const{ return IsEquipment(GetID()); }
+    bool        IsTraceItem() const { return HasFlag(ITEMFLAG_TRACE_ITEM); }
+    bool        IsEquipment() const { return IsEquipment(GetID()); }
     static bool IsEquipment(uint32_t idType) { return (idType / ITEM_MAINTYPE_MASK) == ITEM_MAINTYPE_EQUIP; }
-    bool        IsSuit() const{ return m_Data.suit_id() != 0; }
+    bool        IsSuit() const { return m_Data.suit_id() != 0; }
 
 public:
     const Cfg_Item_Row& GetDataRef() const { return m_Data; }
@@ -183,6 +183,6 @@ private:
     std::vector<CActorAttribChange> m_AttribChangeList;
 };
 
-DEFINE_GAMEMAPDATA(CItemTypeSet,CItemType);
+DEFINE_GAMEMAPDATA(CItemTypeSet, CItemType);
 
 #endif /* ITEMTYPE_H */

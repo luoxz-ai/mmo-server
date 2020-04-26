@@ -1,5 +1,6 @@
 #include <functional>
 #include <tuple>
+
 #include "BaseCode.h"
 #include "StaticReflection.h"
 #include "tinyxml2/tinyxml2.h"
@@ -36,11 +37,10 @@ struct TestNodeA
     int32_t TestNodeA_b;
     int32_t TestNodeA_c;
 };
-DEFINE_STRUCT_SCHEMA(TestNodeA, 
-                    DEFINE_STRUCT_FIELD(TestNodeA_a, "TestNodeA_a"), 
-                    DEFINE_STRUCT_FIELD(TestNodeA_b, "TestNodeA_b"),
-                    DEFINE_STRUCT_FIELD(TestNodeA_c, "TestNodeA_c"));
-
+DEFINE_STRUCT_SCHEMA(TestNodeA,
+                     DEFINE_STRUCT_FIELD(TestNodeA_a, "TestNodeA_a"),
+                     DEFINE_STRUCT_FIELD(TestNodeA_b, "TestNodeA_b"),
+                     DEFINE_STRUCT_FIELD(TestNodeA_c, "TestNodeA_c"));
 
 struct TestNodeB
 {
@@ -48,11 +48,9 @@ struct TestNodeB
     TestNodeA TestNodeB_b;
 };
 
-DEFINE_STRUCT_SCHEMA(TestNodeB, 
-                    DEFINE_STRUCT_FIELD(TestNodeB_a, "TestNodeB_a"), 
-                    DEFINE_STRUCT_FIELD(TestNodeB_b, "TestNodeB_b"));
-
-
+DEFINE_STRUCT_SCHEMA(TestNodeB,
+                     DEFINE_STRUCT_FIELD(TestNodeB_a, "TestNodeB_a"),
+                     DEFINE_STRUCT_FIELD(TestNodeB_b, "TestNodeB_b"));
 
 struct AllNode
 {
@@ -60,10 +58,7 @@ struct AllNode
     TestNodeB AllNode_b;
 };
 
-DEFINE_STRUCT_SCHEMA(AllNode, 
-                    DEFINE_STRUCT_FIELD(AllNode_a, "AllNode_a"),
-                    DEFINE_STRUCT_FIELD(AllNode_b, "AllNode_b"));
-
+DEFINE_STRUCT_SCHEMA(AllNode, DEFINE_STRUCT_FIELD(AllNode_a, "AllNode_a"), DEFINE_STRUCT_FIELD(AllNode_b, "AllNode_b"));
 
 // forward decal
 template<class T>
@@ -108,10 +103,10 @@ struct ForEachXMLLambda
     template<typename FieldInfo, typename Field>
     bool operator()(FieldInfo&& this_field_info, Field&& this_field) const
     {
-         printf("%s test:%s\n", field_name, std::get<0>(this_field_info) );
+        printf("%s test:%s\n", field_name, std::get<0>(this_field_info));
         if(field_name_hash != std::get<1>(this_field_info))
             return false;
-         printf("%s vist:%s\n", field_name, std::get<0>(this_field_info));
+        printf("%s vist:%s\n", field_name, std::get<0>(this_field_info));
         xml_value_to_field(pVarE, &this_field);
         return true;
     }
@@ -119,10 +114,10 @@ struct ForEachXMLLambda
     template<typename FieldInfo, typename Field, typename Tag>
     bool operator()(FieldInfo&& this_field_info, Field&& this_field, Tag&& tag) const
     {
-         printf("%s test:%s\n", field_name, std::get<0>(this_field_info));
+        printf("%s test:%s\n", field_name, std::get<0>(this_field_info));
         if(field_name_hash != std::get<1>(this_field_info))
             return false;
-         printf("%s vist:%s\n", field_name, std::get<0>(this_field_info));
+        printf("%s vist:%s\n", field_name, std::get<0>(this_field_info));
         xml_value_to_field(pVarE, &this_field, std::forward<Tag>(tag));
         return true;
     }
@@ -140,8 +135,8 @@ inline void xmlElement_to_struct(tinyxml2::XMLElement* pE, T& refStruct)
             std::string field_name      = pStrName;
             std::size_t field_name_hash = hash::MurmurHash3::shash(field_name.c_str(), field_name.size(), 0);
             static_reflection::FindInField_Index(refStruct,
-                                                  field_name_hash,
-                                                  ForEachXMLLambda{pVarE, field_name.c_str(), field_name_hash});
+                                                 field_name_hash,
+                                                 ForEachXMLLambda{pVarE, field_name.c_str(), field_name_hash});
         }
 
         pVarE = pVarE->NextSiblingElement();

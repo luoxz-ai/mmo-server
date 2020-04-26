@@ -12,7 +12,7 @@
 
 namespace brpc
 {
-class Channel;
+    class Channel;
 };
 class CNetworkMessage;
 class CMysqlConnection;
@@ -21,17 +21,17 @@ class CAccount;
 constexpr const char* AUTH_SERVER_SIGNATURE = "test";
 constexpr int32_t     AUTH_KEY_CANUSE_SECS  = 180;
 
-class CAccountManager: public NoncopyableT<CAccountManager>
+class CAccountManager : public NoncopyableT<CAccountManager>
 {
     CAccountManager();
     bool Init(class CWorldService* pWorld);
+
 public:
     CreateNewImpl(CAccountManager);
+
 public:
-  
     ~CAccountManager();
 
-    
     //验证
     bool IsAuthing(const std::string& openid) const;
     bool Auth(const std::string& openid, const std::string& auth, const VirtualSocket& vs);
@@ -49,10 +49,11 @@ public:
     void OnTimer();
 
 public:
-    size_t GetAccountSize() const;
-    size_t GetWaitAccountSize() const;
-    void   Destory();
+    size_t    GetAccountSize() const;
+    size_t    GetWaitAccountSize() const;
+    void      Destory();
     CAccount* QueryAccountBySocket(const VirtualSocket& vs) const;
+
 private:
     //等待认证列表
     std::unordered_map<std::string, uint64_t> m_AuthList;

@@ -8,17 +8,16 @@
 class CUser;
 class CNetworkMessage;
 
-class CUserManager: public NoncopyableT<CUserManager>
+class CUserManager : public NoncopyableT<CUserManager>
 {
     CUserManager();
     bool Init();
+
 public:
     CreateNewImpl(CUserManager);
+
 public:
     ~CUserManager();
-    
-
-    
 
     CUser* QueryUser(OBJID uid);
     CUser* QueryUserBySocket(const VirtualSocket& vs);

@@ -1,18 +1,13 @@
 #include "MapVal.h"
-#include "Player.h"
-#include "Phase.h"
+
 #include "ActorManager.h"
+#include "Phase.h"
+#include "Player.h"
 #include "msg/zone_service.pb.h"
 
-CMapValSet::CMapValSet()
-{
+CMapValSet::CMapValSet() {}
 
-}
-
-CMapValSet::~CMapValSet()
-{
-
-}
+CMapValSet::~CMapValSet() {}
 
 void CMapValSet::SendAllMapValToClient(CActor* pPlayer)
 {
@@ -20,7 +15,7 @@ void CMapValSet::SendAllMapValToClient(CActor* pPlayer)
     SC_MAPVAL send;
     send.set_state(SC_MAPVAL::SYNC_MAPVAL_ALL);
     // send map val
-    for(const auto&[k,v] : m_MapVal)
+    for(const auto& [k, v]: m_MapVal)
     {
         auto pMapVal = send.add_map_val_set();
         pMapVal->set_key(k);
@@ -31,7 +26,7 @@ void CMapValSet::SendAllMapValToClient(CActor* pPlayer)
     if(it != m_MapUserVal.end())
     {
         const auto& refMap = it->second;
-        for(const auto&[k,v] : refMap)
+        for(const auto& [k, v]: refMap)
         {
             auto pMapVal = send.add_map_val_set();
             pMapVal->set_key(k);
@@ -104,14 +99,14 @@ void CMapValSet::SyncAllMapVal()
     SC_MAPVAL send;
     send.set_state(SC_MAPVAL::SYNC_MAPVAL_ALL);
     // send map val
-    for(const auto&[k,v] : m_MapVal)
+    for(const auto& [k, v]: m_MapVal)
     {
         auto pMapVal = send.add_map_val_set();
         pMapVal->set_key(k);
         pMapVal->set_value(k);
     }
     static_cast<CPhase*>(m_pScene)->SendSceneMessage(send);
-    
+
     __LEAVE_FUNCTION
 }
 

@@ -8,20 +8,20 @@
 
 namespace BaseCode
 {
-int32_t              s_default_logger = LOG4Z_MAIN_LOGGER_ID;
-int32_t              s_network_logger = LOG4Z_MAIN_LOGGER_ID;
-int32_t              s_db_logger      = LOG4Z_MAIN_LOGGER_ID;
-int32_t              s_stack_logger   = LOG4Z_MAIN_LOGGER_ID;
-int32_t              s_debug_logger   = LOG4Z_MAIN_LOGGER_ID;
-int32_t              s_error_logger   = LOG4Z_MAIN_LOGGER_ID;
-int32_t              s_message_logger = LOG4Z_MAIN_LOGGER_ID;
-int32_t              s_warning_logger = LOG4Z_MAIN_LOGGER_ID;
-int32_t              s_fatal_logger   = LOG4Z_MAIN_LOGGER_ID;
-int32_t              s_lua_logger     = LOG4Z_MAIN_LOGGER_ID;
-thread_local int32_t s_monitor_logger = LOG4Z_MAIN_LOGGER_ID;
-int32_t              s_ai_logger      = LOG4Z_MAIN_LOGGER_ID;
-int32_t              s_login_logger   = LOG4Z_MAIN_LOGGER_ID;
-int32_t              s_gm_logger      = LOG4Z_MAIN_LOGGER_ID;
+    int32_t              s_default_logger = LOG4Z_MAIN_LOGGER_ID;
+    int32_t              s_network_logger = LOG4Z_MAIN_LOGGER_ID;
+    int32_t              s_db_logger      = LOG4Z_MAIN_LOGGER_ID;
+    int32_t              s_stack_logger   = LOG4Z_MAIN_LOGGER_ID;
+    int32_t              s_debug_logger   = LOG4Z_MAIN_LOGGER_ID;
+    int32_t              s_error_logger   = LOG4Z_MAIN_LOGGER_ID;
+    int32_t              s_message_logger = LOG4Z_MAIN_LOGGER_ID;
+    int32_t              s_warning_logger = LOG4Z_MAIN_LOGGER_ID;
+    int32_t              s_fatal_logger   = LOG4Z_MAIN_LOGGER_ID;
+    int32_t              s_lua_logger     = LOG4Z_MAIN_LOGGER_ID;
+    thread_local int32_t s_monitor_logger = LOG4Z_MAIN_LOGGER_ID;
+    int32_t              s_ai_logger      = LOG4Z_MAIN_LOGGER_ID;
+    int32_t              s_login_logger   = LOG4Z_MAIN_LOGGER_ID;
+    int32_t              s_gm_logger      = LOG4Z_MAIN_LOGGER_ID;
 } // namespace BaseCode
 
 static std::string g_logPath;

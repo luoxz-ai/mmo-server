@@ -65,12 +65,12 @@ class CSocketService : public IService, public CServiceCommon, public CNetEventH
     bool Init(const ServerPort& nServerPort);
     virtual ~CSocketService();
     void Destory();
-public:
-    
 
-    void Release() override;
-    export_lua const std::string& GetServiceName() const override{ return CServiceCommon::GetServiceName(); }
+public:
+    void             Release() override;
+    export_lua const std::string& GetServiceName() const override { return CServiceCommon::GetServiceName(); }
     CreateNewRealeaseImpl(CSocketService);
+
 public:
     virtual void OnConnected(CNetSocket* pSocket) override;
     virtual void OnConnectFailed(CNetSocket*) override;

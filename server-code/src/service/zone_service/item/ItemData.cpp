@@ -1,8 +1,8 @@
 #include "ItemData.h"
 
+#include "ItemAddition.h"
 #include "Player.h"
 #include "ZoneService.h"
-#include "ItemAddition.h"
 
 OBJECTHEAP_IMPLEMENTATION(CItemData, s_heap);
 

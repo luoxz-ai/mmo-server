@@ -4,9 +4,8 @@ CTaskTypeSet::CTaskTypeSet() {}
 
 CTaskTypeSet::~CTaskTypeSet()
 {
-   Clear();
+    Clear();
 }
-
 
 void CTaskTypeSet::Clear()
 {
@@ -23,7 +22,7 @@ void CTaskTypeSet::BuildIndex()
     __ENTER_FUNCTION
     for(const auto& ptr: m_vecData)
     {
-        auto pData = ptr.get();
+        auto pData                = ptr.get();
         m_setData[pData->GetID()] = pData;
         m_setDataByAcceptNPCID[pData->GetAcceptNpcID()].push_back(pData);
         m_setDataBySubmitNPCID[pData->GetSubmitNpcID()].push_back(pData);
