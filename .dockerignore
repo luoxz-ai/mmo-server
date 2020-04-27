@@ -1,8 +1,1 @@
-.vscode
-.git
-data
-server-code
-!server-code/bin
-server-docker
-server-depends
-share-code
+.dockerignore.depends
