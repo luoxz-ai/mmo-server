@@ -16,6 +16,12 @@ jobs:
       
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+      
+      - name: pull_base
+        continue-on-error: true
+        run: |
+          docker pull docker.pkg.github.com/${{ github.repository }}/mmo-server-base:18.04
+          docker tag docker.pkg.github.com/${{ github.repository }}/mmo-server-base:18.04 mmo-server-base:18.04
 
       - name: build_base
         run: bash build_base1804_image.sh
@@ -46,7 +52,12 @@ jobs:
         run: |
           docker pull docker.pkg.github.com/${{ github.repository }}/mmo-server-base:18.04
           docker tag docker.pkg.github.com/${{ github.repository }}/mmo-server-base:18.04 mmo-server-base:18.04
-
+          
+      - name: pull_depends
+        continue-on-error: true
+        run: |
+          docker pull docker.pkg.github.com/${{ github.repository }}/mmo-server-depends
+          docker tag docker.pkg.github.com/${{ github.repository }}/mmo-server-depends mmo-server-depends
 
       - name: build_depends
         run: bash build_mmo-server-depends.sh
@@ -75,7 +86,7 @@ jobs:
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
 
-      - name: pull_base
+      - name: pull_depends
         run: |
           docker pull docker.pkg.github.com/${{ github.repository }}/mmo-server-depends
           docker tag docker.pkg.github.com/${{ github.repository }}/mmo-server-depends mmo-server-depends
