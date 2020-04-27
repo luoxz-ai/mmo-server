@@ -10,22 +10,22 @@ jobs:
         services: docker
         dist: xenial
         before_install: 
-          - bash ./docker_pull_depends.sh
-          - bash ./build_base1804_image.sh
-          - bash ./build_mmo-server-depends.sh
-        install: bash ./docker_push_depends.sh
+          - travis_wait 30 bash ./docker_pull_depends.sh
+          - travis_wait 30 bash ./build_base1804_image.sh
+          - travis_wait 30 bash ./build_mmo-server-depends.sh
+        install: travis_wait 30 bash ./docker_push_depends.sh
         before_script: 
-        - bash ./docker_pull_depends.sh
+        - travis_wait 30 bash ./docker_pull_depends.sh
         - bash ./create_network.sh
         - bash ./link_codedir.sh
-        script: bash ./build_publish_image.sh
-        after_success: bash ./docker_push_publish.sh
+        script: travis_wait 30 bash ./build_publish_image.sh
+        after_success: travis_wait 30 bash ./docker_push_publish.sh
 
       - 
         dist: bionic
-        before_install: sudo bash server-depends/src/aptget_install.sh
-        install: bash server-depends/src/build_all.sh
-        script: bash server-code/releasebuild.sh
+        before_install: travis_wait 30 sudo bash server-depends/src/aptget_install.sh
+        install: travis_wait 30 bash server-depends/src/build_all.sh
+        script: travis_wait 30 bash server-code/releasebuild.sh
         
 
 
