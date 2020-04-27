@@ -6,11 +6,6 @@ on:
     branches:
       - master
 
-env:
-  BASE_IMAGE_NAME: mmo-server-base
-  DEPENDS_IMAGE_NAME: mmo-server-depends
-  IMAGE_NAME: mmo-server
-
 jobs:
   build_base:
     runs-on: ubuntu-latest
@@ -25,25 +20,15 @@ jobs:
       
       - name: Push image
         run: |
-          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$BASE_IMAGE_NAME
+          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/mmo-server-base
           
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
 
-          # Strip git ref prefix from version
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-
-          # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-
-          # Use Docker `latest` tag convention
-          [ "$VERSION" == "master" ] && VERSION=latest
-
           echo IMAGE_ID=$IMAGE_ID
-          echo VERSION=$VERSION
 
-          docker tag image $IMAGE_ID:$VERSION
-          docker push $IMAGE_ID:$VERSION
+          docker tag mmo-server-base:18.04 $IMAGE_ID:18.04
+          docker push $IMAGE_ID
 
   build_depends:
     needs: build_base
@@ -53,31 +38,28 @@ jobs:
 
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+      
+      - name: pull_base
+        run: |
+          docker pull docker.pkg.github.com/${{ github.repository }}/mmo-server-base
+          docker tag docker.pkg.github.com/${{ github.repository }}/mmo-server-base mmo-server-base
+
 
       - name: build_depends
         run: bash build_mmo-server-depends.sh
 
       - name: Push image
         run: |
-          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$DEPENDS_IMAGE_NAME
+          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/mmo-server-depends
           
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
 
-          # Strip git ref prefix from version
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-
-          # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-
-          # Use Docker `latest` tag convention
-          [ "$VERSION" == "master" ] && VERSION=latest
-
           echo IMAGE_ID=$IMAGE_ID
-          echo VERSION=$VERSION
 
-          docker tag image $IMAGE_ID:$VERSION
-          docker push $IMAGE_ID:$VERSION
+          docker tag mmo-server-depends:base $IMAGE_ID:base
+          docker tag mmo-server-depends:latest $IMAGE_ID:latest
+          docker push $IMAGE_ID
 
   build_publish:
     needs: build_depends
@@ -90,6 +72,11 @@ jobs:
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
 
+      - name: pull_base
+        run: |
+          docker pull docker.pkg.github.com/${{ github.repository }}/mmo-server-depends
+          docker tag docker.pkg.github.com/${{ github.repository }}/mmo-server-depends mmo-server-depends
+
       - name: build_depends
         run: |
           bash create_network.sh
@@ -98,7 +85,7 @@ jobs:
 
       - name: Push image
         run: |
-          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
+          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/mmo-server
           
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
@@ -115,7 +102,7 @@ jobs:
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
 
-          docker tag image $IMAGE_ID:$VERSION
+          docker tag mmo-server $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
   
   
