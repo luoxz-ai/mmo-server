@@ -7,6 +7,7 @@
 #include "Scene.h"
 #include "ZoneService.h"
 #include "msg/zone_service.pb.h"
+#include <regex>
 
 ON_PLAYERMSG(CS_TALK)
 {
