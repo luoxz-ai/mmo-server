@@ -2,10 +2,13 @@
 #define NetworkDefine_h__
 
 #include <atomic>
+#include <unordered_map>
 
 #include "BaseType.h"
 #include "Misc.h"
 #include "export_lua.h"
+
+
 
 const int32_t _MAX_MSGSIZE = 1024 * 4;
 

@@ -3,6 +3,7 @@
 
 #include <deque>
 #include <cstring>
+#include <functional>
 
 
 template<class T>
