@@ -17,6 +17,12 @@ jobs:
       run: sudo bash server-depends/src/aptget_install.sh
     - name: install-ccache
       run: sudo bash server-code/install_ccache.sh
+    - name: cache-ccache
+      id: cache-ccache
+      uses: actions/cache@v1
+      with:
+        path: ~/.ccache/
+        key: cache-ccache
     - name: cache-depends
       id: cache-depends
       uses: actions/cache@v1
