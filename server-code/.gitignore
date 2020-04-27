@@ -50,6 +50,7 @@ bin/depends
 vs
 .vcproject
 .vscode
+depends/*
 depends/src/libevent/test/
 depends/src/libevent/sample/
 depends/src/libevent/.libs/
