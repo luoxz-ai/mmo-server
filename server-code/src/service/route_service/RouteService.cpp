@@ -60,7 +60,7 @@ bool CRouteService::Init(const ServerPort& nServerPort)
         BaseCode::SetNdc(oldNdc);
     };
 
-    if(CreateService(20, this) == false)
+    if(CreateService(100, this) == false)
         return false;
 
     //注册消息

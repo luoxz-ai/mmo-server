@@ -174,7 +174,7 @@ bool CWorldService::Init(const ServerPort& nServerPort)
     m_pSystemVarSet.reset(CSystemVarSet::CreateNew());
     CHECKF(m_pSystemVarSet.get());
 
-    if(CreateService(20) == false)
+    if(CreateService(100) == false)
         return false;
 
     GetMessageRoute()->ForeachServiceInfoByWorldID(GetWorldID(), false, [this](const ServerAddrInfo* info) {

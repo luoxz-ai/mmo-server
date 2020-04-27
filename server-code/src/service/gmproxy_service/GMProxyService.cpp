@@ -220,7 +220,7 @@ bool CGMProxyService::Init(const ServerPort& nServerPort)
         BaseCode::SetNdc(oldNdc);
     };
 
-    if(CreateService(20) == false)
+    if(CreateService(200) == false)
         return false;
 
     //注册消息

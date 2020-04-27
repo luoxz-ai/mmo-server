@@ -188,7 +188,9 @@ bool CZoneService::Init(const ServerPort& nServerPort)
     m_pLoadingThread.reset(CLoadingThread::CreateNew(this));
     CHECKF(m_pLoadingThread.get());
 
-    if(CreateService(20) == false)
+    uint32_t FrameCount = 20;
+    uint32_t FrameInterval = 1000/ FrameCount;
+    if(CreateService(FrameInterval) == false)
         return false;
 
     if(IsSharedZone())

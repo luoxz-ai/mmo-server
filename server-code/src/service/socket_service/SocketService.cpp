@@ -122,7 +122,7 @@ bool CSocketService::Init(const ServerPort& nServerPort)
     //			return false;
     //		}
 
-    if(CreateService(20) == false)
+    if(CreateService(100) == false)
         return false;
 
     // SetIPCheck(true);

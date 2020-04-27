@@ -113,7 +113,9 @@ bool CAIService::Init(const ServerPort& nServerPort)
     extern void AIServiceMessageHandlerRegister();
     AIServiceMessageHandlerRegister();
 
-    if(CreateService(20) == false)
+    uint32_t FrameCount = 20;
+    uint32_t FrameInterval = 1000/ FrameCount;
+    if(CreateService(FrameInterval) == false)
         return false;
 
     ServerMSG::ServiceReady msg;
