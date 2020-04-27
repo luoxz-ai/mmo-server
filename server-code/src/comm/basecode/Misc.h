@@ -1,6 +1,10 @@
 #ifndef MISC_H
 #define MISC_H
 
+#include <deque>
+#include <cstring>
+
+
 template<class T>
 void SAFE_DELETE(T*& p)
 {
