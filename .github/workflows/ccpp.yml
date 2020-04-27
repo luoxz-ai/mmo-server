@@ -15,6 +15,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: apt-all
       run: sudo bash server-depends/src/aptget_install.sh
+    - name: install-ccache
       run: sudo bash server-code/install_ccache.sh
     - name: cache-depends
       id: cache-depends
