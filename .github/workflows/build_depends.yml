@@ -44,7 +44,7 @@ jobs:
       
       - name: pull_base
         run: |
-          docker pull docker.pkg.github.com/${{ github.repository }}/mmo-server-base
+          docker pull docker.pkg.github.com/${{ github.repository }}/mmo-server-base:18.04
           docker tag docker.pkg.github.com/${{ github.repository }}/mmo-server-base:18.04 mmo-server-base:18.04
 
 
