@@ -28,6 +28,7 @@ jobs:
           echo IMAGE_ID=$IMAGE_ID
 
           docker tag mmo-server-base:18.04 $IMAGE_ID:18.04
+          docker tag mmo-server-base:18.04 $IMAGE_ID:latest
           docker push $IMAGE_ID
 
   build_depends:
@@ -42,7 +43,7 @@ jobs:
       - name: pull_base
         run: |
           docker pull docker.pkg.github.com/${{ github.repository }}/mmo-server-base
-          docker tag docker.pkg.github.com/${{ github.repository }}/mmo-server-base mmo-server-base
+          docker tag docker.pkg.github.com/${{ github.repository }}/mmo-server-base:18.04 mmo-server-base:18.04
 
 
       - name: build_depends
