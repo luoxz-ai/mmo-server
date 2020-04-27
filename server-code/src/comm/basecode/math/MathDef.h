@@ -3,6 +3,7 @@
 
 #include <array>
 #include <cmath>
+#include <cstring>
 #include <valarray>
 
 #include "RandomGet.h"
