@@ -19,8 +19,8 @@ jobs:
 
       - name: pull_depends
         run: |
-          docker pull docker.pkg.github.com/${{ github.repository }}/mmo-server-depends:lastest
-          docker tag docker.pkg.github.com/${{ github.repository }}/mmo-server-depends:lastest mmo-server-depends:lastest
+          docker pull docker.pkg.github.com/${{ github.repository }}/mmo-server-depends
+          docker tag docker.pkg.github.com/${{ github.repository }}/mmo-server-depends mmo-server-depends
           docker pull docker.pkg.github.com/${{ github.repository }}/mmo-server-depends:base
           docker tag docker.pkg.github.com/${{ github.repository }}/mmo-server-depends:base mmo-server-depends:base
           
