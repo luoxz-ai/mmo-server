@@ -17,13 +17,11 @@
 #include "NetworkDefine.h"
 #include "NetworkMessage.h"
 #include "Thread.h"
-#include "libwebsockets.h"
 
 struct event_base;
 struct event;
 struct evconnlistener;
 struct lws_context;
-enum lws_callback_reasons;
 
 class CNetSocket;
 class CNetWebSocket;
@@ -50,24 +48,8 @@ public:
     virtual void OnRecvTimeout(CNetSocket*) = 0;
 };
 
-class CWebSocketEventHandler
-{
-public:
-    CWebSocketEventHandler() {}
-    virtual ~CWebSocketEventHandler() {}
-
-public:
-    // new client
-    virtual void OnWsAccepted(CNetWebSocket* ws) = 0;
-    // notice: 暂时不会回调，没实现connect
-    virtual void OnWsConnected(CNetWebSocket* ws) = 0;
-    // notice: 暂时不会回调，没实现connect
-    virtual void OnWsConnectFailed(CNetWebSocket* ws) = 0;
-    // socket was disconnected
-    virtual void OnWsDisconnected(CNetWebSocket* ws) = 0;
-    // receive data
-    virtual void OnWsRecvData(CNetWebSocket* ws, byte* pBuffer, size_t len) = 0;
-};
+class CServerSocket;
+class CClientSocket;
 
 class CNetworkService
 {
@@ -82,11 +64,11 @@ public:
     // http监听
     bool ListenHttpPort(const char* addr, int32_t port, std::function<void(struct evhttp_request* req)> func);
     //阻塞连接到一个目标地址
-    CNetSocket* ConnectTo(const char* addr, int32_t port, CNetEventHandler* pEventHandler);
+    CServerSocket* ConnectTo(const char* addr, int32_t port, CNetEventHandler* pEventHandler);
     //异步连接到一个目标地址
-    CNetSocket* AsyncConnectTo(const char* addr, int32_t port, CNetEventHandler* pEventHandler);
-    bool        _Reconnect(CNetSocket* pSocket);
-    bool        _AsyncReconnect(CNetSocket* pSocket);
+    CServerSocket* AsyncConnectTo(const char* addr, int32_t port, CNetEventHandler* pEventHandler);
+    bool        _Reconnect(CServerSocket* pSocket);
+    bool        _AsyncReconnect(CServerSocket* pSocket);
 
     void Stop();
     //开启独立的IO线程
@@ -99,7 +81,8 @@ public:
     //读取IO一次，如果开启了独立IO线程则不需调用
     void RunOnce();
 
-    virtual CNetSocket*          CreateSocket(CNetEventHandler* pHandle, bool bPassive);
+    virtual CServerSocket*       CreateServerSocket(CNetEventHandler* pHandle);
+    virtual CClientSocket*       CreateClientSocket(CNetEventHandler* pHandle);
     struct evhttp*               GetHttpHandle() const { return m_pHttpHandle; }
     bool                         GetIPCheck() const { return m_bIPCheck; }
     void                         SetIPCheck(bool val) { m_bIPCheck = val; }
@@ -144,30 +127,6 @@ public:
 private:
     void _ProceseCloseingSocket();
 
-public:
-    ///////////////////////////////////////////////////////////////////
-    // websocket
-    bool ListenWebSocket(int32_t port, CWebSocketEventHandler* pEventHandler);
-    void StopWebSocket();
-
-    CNetWebSocket* CreateWebSocket();
-    void           DestroyWebSocket(CNetWebSocket* pWebSocket);
-    void           AddWebSocket(SOCKET sockfd, CNetWebSocket* pWebSocket);
-    void           RemoveWebSocket(SOCKET sockfd);
-    void           KickWebSocket(SOCKET sockfd);
-
-    uint16_t _GetWebSocketIndex();
-    void     _PushWebSocketIndexBack(uint16_t index);
-
-    void                  StartWebSocketIOThread();
-    static int32_t        OnWebSocketCallback(struct lws*               wsi,
-                                              enum lws_callback_reasons reason,
-                                              void*                     user,
-                                              void*                     in,
-                                              size_t                    len);
-    static CNetWebSocket* _GetWebSocketFromLWS(struct lws* wsi);
-    static void           _SetWebSocketToLWS(struct lws* wsi, CNetWebSocket* pWebSocket);
-
 protected:
     event_base*                                     m_pBase;
     std::map<evconnlistener*, CNetEventHandler*>    m_setListener;
@@ -208,14 +167,6 @@ protected:
     size_t                        m_nIPCheckNum = 400;
 
     std::function<void()> m_IOThreadTimeOutFunc;
-
-    ///////////////////////////////////////////////////////////////////
-    // websocket
-    std::deque<uint16_t>               m_WebSocketIdxPool;
-    std::array<CNetWebSocket*, 0x7FFF> m_setWebSocketByIdx;
-    std::map<SOCKET, CNetWebSocket*>   m_mapWebSockets;
-    CWebSocketEventHandler*            m_pWebSocketEventHandler = nullptr;
-    struct lws_context*                m_pLwsContext            = nullptr;
 };
 
 #endif // NetworkService_h__

@@ -188,8 +188,8 @@ bool CZoneService::Init(const ServerPort& nServerPort)
     m_pLoadingThread.reset(CLoadingThread::CreateNew(this));
     CHECKF(m_pLoadingThread.get());
 
-    uint32_t FrameCount = 20;
-    uint32_t FrameInterval = 1000/ FrameCount;
+    uint32_t FrameCount    = 20;
+    uint32_t FrameInterval = 1000 / FrameCount;
     if(CreateService(FrameInterval) == false)
         return false;
 

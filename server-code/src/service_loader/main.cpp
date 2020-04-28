@@ -254,7 +254,7 @@ int main(int argc, char* argv[])
     signal(SIGINT, sig_term);
     signal(SIGQUIT, sig_term);
 
-    start_jemalloc_backgroud_thread();
+    // start_jemalloc_backgroud_thread();
 
     BaseCode::InitMonitorLog("comm");
     while(true)

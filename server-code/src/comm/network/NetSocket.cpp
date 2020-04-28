@@ -11,18 +11,13 @@
 
 OBJECTHEAP_IMPLEMENTATION(CNetSocket, s_Heap);
 
-CNetSocket::CNetSocket(CNetworkService* pService, CNetEventHandler* pEventHandler, bool bPassive, bool bReconnect)
+CNetSocket::CNetSocket(CNetworkService* pService, CNetEventHandler* pEventHandler)
     : m_pService(pService)
     , m_pEventHandler(pEventHandler)
     , m_pBufferevent(nullptr)
-    , m_pReconnectEvent(nullptr)
-    , m_bPassive(bPassive)
     , m_Status(NSS_NOT_INIT)
-    , m_nReconnectTimes(-1)
     , m_nRecvTimeOutSec(30)
-    , m_bCreateByListener(true)
     , m_Sendbuf(evbuffer_new())
-    , m_bReconnect(bReconnect)
     , m_nSocketIdx(0xFFFF)
     , m_pDecryptor(nullptr)
     , m_pEncryptor(nullptr)
@@ -44,80 +39,12 @@ CNetSocket::~CNetSocket()
         m_pBufferevent = nullptr;
     }
 
-    if(m_pReconnectEvent)
-    {
-        event_free(m_pReconnectEvent);
-        m_pReconnectEvent = nullptr;
-    }
-
     if(m_Sendbuf)
     {
         evbuffer_free(m_Sendbuf);
         m_Sendbuf = nullptr;
     }
 
-    __LEAVE_FUNCTION
-}
-
-bool CNetSocket::Init(bufferevent* pBufferEvent)
-{
-    __ENTER_FUNCTION
-    m_pBufferevent = pBufferEvent;
-    if(m_pBufferevent)
-    {
-        bufferevent_setcb(m_pBufferevent, _OnSocketRead, NULL, _OnSocketEvent, (void*)this);
-        bufferevent_enable(m_pBufferevent, EV_WRITE | EV_READ | EV_PERSIST);
-        _SetTimeout();
-    }
-
-    SetStatus(NSS_READY);
-    m_bCreateByListener = true;
-    return true;
-    __LEAVE_FUNCTION
-    return false;
-}
-
-bool CNetSocket::InitWaitConnecting(bufferevent* pBufferEvent)
-{
-    __ENTER_FUNCTION
-    m_pBufferevent = pBufferEvent;
-    if(m_pBufferevent)
-    {
-        bufferevent_setcb(m_pBufferevent, NULL, NULL, _OnSocketConnectorEvent, (void*)this);
-        bufferevent_enable(m_pBufferevent, EV_WRITE | EV_READ | EV_PERSIST);
-        _SetTimeout();
-    }
-    SetStatus(NSS_CONNECTING);
-    m_bCreateByListener = false;
-    return true;
-    __LEAVE_FUNCTION
-    return false;
-}
-
-void CNetSocket::Close()
-{
-    __ENTER_FUNCTION
-
-    if(GetStatus() == NSS_READY || GetStatus() == NSS_CONNECTING)
-    {
-        m_nReconnectTimes = 0;
-        if(m_bCreateByListener)
-        {
-            bufferevent_disable(m_pBufferevent, EV_READ);
-            bufferevent_setcb(m_pBufferevent, nullptr, _OnSendOK, _OnSocketEvent, this);
-
-            MSG_HEAD msg;
-            msg.usCmd  = COMMON_CMD_CLOSE;
-            msg.usSize = sizeof(MSG_HEAD);
-            SendSocketMsg((byte*)&msg, sizeof(msg), true);
-            SetStatus(NSS_CLOSEING);
-        }
-        else
-        {
-            SetStatus(NSS_CLOSEING);
-            OnDisconnected();
-        }
-    }
     __LEAVE_FUNCTION
 }
 
@@ -261,67 +188,6 @@ void CNetSocket::_SetTimeout()
     __LEAVE_FUNCTION
 }
 
-void CNetSocket::_OnClose(short what)
-{
-    __ENTER_FUNCTION
-    if(GetStatus() == NSS_CLOSEING)
-    {
-        OnDisconnected();
-        return;
-    }
-    SetStatus(NSS_CLOSEING);
-
-    LOGNETDEBUG("CNetSocket _OnClose {}:{} err:{}", GetAddrString().c_str(), GetPort(), what);
-
-    if(m_nReconnectTimes > 0)
-    {
-        m_pService->_RemoveSocket(this);
-        if(m_pBufferevent)
-        {
-            bufferevent_setfd(m_pBufferevent, INVALID_SOCKET);
-            auto pOutBuf = bufferevent_get_output(m_pBufferevent);
-            evbuffer_drain(pOutBuf, evbuffer_get_length(pOutBuf));
-        }
-        if(GetSocket() != INVALID_SOCKET)
-            evutil_closesocket(m_socket);
-        SetSocket(INVALID_SOCKET);
-
-        m_nReconnectTimes--;
-        if(m_pReconnectEvent == nullptr)
-            m_pReconnectEvent = event_new(m_pService->GetEVBase(), -1, 0, _OnReconnect, this);
-        struct timeval reconnet_dealy = {5, 0};
-        event_add(m_pReconnectEvent, &reconnet_dealy);
-        SetStatus(NSS_WAIT_RECONNECT);
-        m_pService->_AddConnectingSocket(this);
-
-        LOGNETDEBUG("CNetSocket _OnClose Reconnect Wait,5s, {}:{}", GetAddrString().c_str(), GetPort());
-    }
-    else
-    {
-        if(m_pBufferevent)
-        {
-            bufferevent_disable(m_pBufferevent, EV_READ | EV_PERSIST);
-        }
-
-        OnDisconnected();
-    }
-    __LEAVE_FUNCTION
-}
-
-void CNetSocket::_OnReconnect(int32_t fd, short what, void* ctx)
-{
-    __ENTER_FUNCTION
-
-    CNetSocket* pSocket = (CNetSocket*)ctx;
-    LOGNETDEBUG("CNetSocket Reconnect:{}::{}", pSocket->GetAddrString().c_str(), pSocket->GetPort());
-
-    if(pSocket->GetService()->_AsyncReconnect(pSocket) == false)
-    {
-        pSocket->OnConnectFailed();
-    }
-    __LEAVE_FUNCTION
-}
-
 void CNetSocket::_OnReceive(bufferevent* b)
 {
     __ENTER_FUNCTION
@@ -450,40 +316,6 @@ void CNetSocket::_OnSocketEvent(bufferevent* b, short what, void* ctx)
     __LEAVE_FUNCTION
 }
 
-void CNetSocket::_OnSocketConnectorEvent(bufferevent* b, short what, void* ctx)
-{
-    __ENTER_FUNCTION
-    CNetSocket* pSocket = (CNetSocket*)ctx;
-
-    if(what == BEV_EVENT_CONNECTED)
-    {
-        int32_t fd = bufferevent_getfd(b);
-        evutil_make_socket_nonblocking(fd);
-        pSocket->SetSocket(fd);
-        pSocket->GetService()->_AddSocket(pSocket);
-        bufferevent_setcb(b, _OnSocketRead, nullptr, _OnSocketEvent, ctx);
-        pSocket->SetStatus(NSS_READY);
-        pSocket->OnConnected();
-        bufferevent_enable(b, EV_READ | EV_WRITE | EV_PERSIST);
-        pSocket->_SetTimeout();
-        bufferevent_write_buffer(b, pSocket->m_Sendbuf);
-
-        LOGNETDEBUG("CNetSocket::SocketConnectSucc:{}:{}", pSocket->GetAddrString().c_str(), pSocket->GetPort());
-    }
-    else
-    {
-        int32_t     err    = evutil_socket_geterror(bufferevent_getfd(b));
-        const char* errstr = evutil_socket_error_to_string(err);
-        LOGNETDEBUG("CNetSocket::SocketConnectFail:{}:{} {}",
-                    pSocket->GetAddrString().c_str(),
-                    pSocket->GetPort(),
-                    errstr);
-
-        pSocket->OnConnectFailed();
-    }
-    __LEAVE_FUNCTION
-}
-
 void CNetSocket::SetAddrAndPort(const char* addr, int32_t port)
 {
     __ENTER_FUNCTION
@@ -518,25 +350,6 @@ void CNetSocket::SetPacketSizeMax(size_t val)
     }
 }
 
-void CNetSocket::OnConnected()
-{
-    __ENTER_FUNCTION
-    m_bCreateByListener = false;
-    if(m_pEventHandler)
-        m_pEventHandler->OnConnected(this);
-    __LEAVE_FUNCTION
-}
-
-void CNetSocket::OnConnectFailed()
-{
-    __ENTER_FUNCTION
-    if(m_pEventHandler)
-        m_pEventHandler->OnConnectFailed(this);
-
-    _OnClose(BEV_EVENT_ERROR);
-    __LEAVE_FUNCTION
-}
-
 void CNetSocket::OnDisconnected()
 {
     __ENTER_FUNCTION
@@ -550,14 +363,6 @@ void CNetSocket::OnDisconnected()
     __LEAVE_FUNCTION
 }
 
-void CNetSocket::OnAccepted()
-{
-    __ENTER_FUNCTION
-    if(m_pEventHandler)
-        m_pEventHandler->OnAccepted(this);
-    __LEAVE_FUNCTION
-}
-
 void CNetSocket::OnRecvData(byte* pBuffer, size_t len)
 {
     __ENTER_FUNCTION
@@ -566,11 +371,11 @@ void CNetSocket::OnRecvData(byte* pBuffer, size_t len)
     MSG_HEAD* pHeader = (MSG_HEAD*)pBuffer;
     switch(pHeader->usCmd)
     {
-        case COMMON_CMD_CLOSE:
+        case COMMON_CMD_INTERRUPT:
         {
-            LOGNETDEBUG("COMMON_CMD_CLOSE:{}:{}", GetAddrString().c_str(), GetPort());
-            SetReconnectTimes(0);
-            _OnClose(COMMON_CMD_CLOSE);
+            LOGNETDEBUG("COMMON_CMD_INTERRUPT:{}:{}", GetAddrString().c_str(), GetPort());
+
+            _OnClose(COMMON_CMD_INTERRUPT);
             return;
         }
         break;
@@ -605,6 +410,5 @@ void CNetSocket::OnRecvTimeout(bool& bReconnect)
     if(m_pEventHandler)
         m_pEventHandler->OnRecvTimeout(this);
 
-    bReconnect = (!m_bPassive && m_bReconnect);
     __LEAVE_FUNCTION
 }

@@ -114,7 +114,7 @@ void CMonitorMgr::PrintSendInfo()
 	for (const auto &e: m_SendToClientMsgMap)
 	{
 		const SendToClientMsgNode &d = e.second;
-		LOGMONITOR("%-17d%-10d%-10d%-15d", e.first, d.iCount,
+		LOGMONITOR("{:<17d}{:<10d}{:<10d}{:<15d}", e.first, d.iCount,
 			d.bytes_size, d.bytes_size / d.iCount);
 	}
 
@@ -122,7 +122,7 @@ void CMonitorMgr::PrintSendInfo()
 	for (const auto &e : m_SendToClientMsgMap_some)
 	{
 		const SendToClientMsgNode &d = e.second;
-		LOGMONITOR("%-17d%-10d%-10d%-15d%-10d%-10d", e.first, d.iCount,
+		LOGMONITOR("{:<17d}{:<10d}{:<10d}{:<15d}{:<10d}{:<10d}", e.first, d.iCount,
 			d.bytes_size, d.bytes_size / d.iCount, d.iUserCount, d.iUserCount/ d.iCount);
 	}
 
@@ -130,7 +130,7 @@ void CMonitorMgr::PrintSendInfo()
 	for (const auto &e : m_SendToClientMsgMap_broad)
 	{
 		const SendToClientMsgNode &d = e.second;
-		LOGMONITOR("%-17d%-10d%-10d%-15d", e.first, d.iCount,
+		LOGMONITOR("{:<17d}{:<10d}{:<10d}{:<15d}", e.first, d.iCount,
 			d.bytes_size, d.bytes_size / d.iCount);
 	}
 	m_SendToClientMsgMap_some.clear();

@@ -29,7 +29,7 @@ CGameClient::CGameClient()
 
 CGameClient::~CGameClient() {}
 
-void CGameClient::Close()
+void CGameClient::Interrupt()
 {
     CHECK(m_pService);
     LOGNETDEBUG("Client {}:{} Close.", GetSocketAddr().c_str(), GetSocketPort());
@@ -267,7 +267,7 @@ void CSocketService::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
                    pHead->usCmd,
                    pSocket->GetAddrString().c_str(),
                    pSocket->GetPort());
-        pSocket->Close();
+        pSocket->Interrupt();
         return;
     }
 
@@ -289,82 +289,6 @@ void CSocketService::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
     __LEAVE_FUNCTION
 }
 
-void CSocketService::OnWsAccepted(CNetWebSocket* pWebSocket)
-{
-    __ENTER_FUNCTION
-
-    CGameClient* pClient = new CGameClient();
-    pClient->SetService(this);
-    pClient->SetDestServerPort(ServerPort(GetServerPort().GetWorldID(), WORLD_SERVICE_ID));
-    pClient->SetVirtualSocket(VirtualSocket::CreateVirtualSocket(GetServerPort(), pWebSocket->GetSocketIdx()));
-    pClient->SetSocketAddr(pWebSocket->GetAddrString());
-    pClient->SetSocketPort(pWebSocket->GetPort());
-    AddClient(pClient->GetVirtualSocket(), pClient);
-
-    // send crypto key to client
-    uint32_t seed = TimeGetSecond();
-    pWebSocket->InitDecryptor(seed);
-    SC_KEY msg;
-    msg.set_key(seed);
-
-    CNetworkMessage _msg(CMD_SC_KEY, msg);
-    pWebSocket->SendSocketMsg(_msg.GetBuf(), _msg.GetSize());
-    __LEAVE_FUNCTION
-}
-
-void CSocketService::OnWsConnected(CNetWebSocket* pWebSocket)
-{
-    // not implemented
-}
-
-void CSocketService::OnWsConnectFailed(CNetWebSocket* pWebSocket)
-{
-    // not implemented
-}
-
-void CSocketService::OnWsDisconnected(CNetWebSocket* pWebSocket) {}
-
-void CSocketService::OnWsRecvData(CNetWebSocket* pWebSocket, byte* pBuffer, size_t len)
-{
-    // as same as OnRecvData()
-    __ENTER_FUNCTION
-    m_nWebSocketMessageProcess++;
-    CGameClient* pClient = QueryClient(VirtualSocket::CreateVirtualSocket(GetServerPort(), pWebSocket->GetSocketIdx()));
-    if(pClient == nullptr)
-        return;
-    if(pClient->IsVaild() == false)
-    {
-        return;
-    }
-    // recv msg from client
-    MSG_HEAD* pHead = (MSG_HEAD*)pBuffer;
-    if(pHead->usCmd < pClient->GetMessageAllowBegin() || pHead->usCmd > pClient->GetMessageAllowEnd())
-    {
-        LOGWARNING("RECV ClientMsg:{} not Allow {}.{}",
-                   pHead->usCmd,
-                   pWebSocket->GetAddrString().c_str(),
-                   pWebSocket->GetPort());
-        pWebSocket->Close();
-        return;
-    }
-
-    switch(pHead->usCmd)
-    {
-        default:
-        {
-            if(pClient->GetDestServerPort().IsVaild() == false)
-                return;
-            // send to other server
-            CNetworkMessage msg(pBuffer,
-                                len,
-                                pClient->GetVirtualSocket(),
-                                VirtualSocket(pClient->GetDestServerPort(), 0));
-            SendPortMsg(msg);
-        }
-        break;
-    }
-    __LEAVE_FUNCTION
-}
 
 ON_SERVERMSG(CSocketService, ServiceReady)
 {
@@ -409,7 +333,7 @@ ON_SERVERMSG(CSocketService, SocketClose)
                  pClient->GetSocketAddr().c_str(),
                  pClient->GetSocketPort());
         //主动关闭客户端连接，需要通知客户端不要重连
-        pClient->Close();
+        pClient->Interrupt();
     }
 }
 

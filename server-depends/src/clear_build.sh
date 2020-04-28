@@ -25,7 +25,6 @@ rm tinyxml2/build/* -rf
 rm curlpp/build/* -rf
 rm xlnt/build/* -rf
 rm fmt/build/* -rf
-rm libwebsockets/build/* -rf
 rm recastnavigation/build/* -rf
 rm box2d/build/* -rf
 

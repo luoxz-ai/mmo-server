@@ -8,8 +8,6 @@
 #include "Misc.h"
 #include "export_lua.h"
 
-
-
 const int32_t _MAX_MSGSIZE = 1024 * 4;
 
 export_lua enum SERVICE_TYPE {
@@ -222,7 +220,7 @@ enum MSGTYPE_INTERNAL
     COMMON_CMD_SC_KEY = 1,
     COMMON_CMD_PING   = 2,
     COMMON_CMD_PONG   = 3,
-    COMMON_CMD_CLOSE  = 9999,
+    COMMON_CMD_INTERRUPT  = 9999,
 
     NETMSG_INTERNAL                   = 10001, //内网消息传输
     NETMSG_INTERNAL_FORWARD           = 10002, //转发包

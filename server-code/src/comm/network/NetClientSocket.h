@@ -1,0 +1,21 @@
+#ifndef NETCLIENTSOCKET_H
+#define NETCLIENTSOCKET_H
+
+#include "NetSocket.h"
+
+class CClientSocket : public CNetSocket
+{
+public:
+    CClientSocket(CNetworkService* pService, CNetEventHandler* pEventHandler);
+    virtual ~CClientSocket();
+
+    // init by accept
+    virtual bool Init(bufferevent* pBufferEvent) override;
+    virtual void Interrupt() override;
+
+public:
+    virtual void OnAccepted();
+    virtual void _OnClose(short what) override;
+};
+
+#endif /* NETCLIENTSOCKET_H */

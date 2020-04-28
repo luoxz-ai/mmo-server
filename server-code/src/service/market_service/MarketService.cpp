@@ -60,7 +60,6 @@ bool CMarketService::Init(const ServerPort& nServerPort)
         BaseCode::SetNdc(oldNdc);
     };
 
-
     if(CreateService(100) == false)
         return false;
 

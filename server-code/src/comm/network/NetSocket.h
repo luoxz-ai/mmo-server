@@ -35,14 +35,12 @@ class CNetworkMessage;
 class CNetSocket
 {
 public:
-    CNetSocket(CNetworkService* pService, CNetEventHandler* pEventHandler, bool bPassive, bool bReconnect = false);
+    CNetSocket(CNetworkService* pService, CNetEventHandler* pEventHandler);
     virtual ~CNetSocket();
-    // init by accept
-    bool Init(bufferevent* pBufferEvent);
-    // init by connect to
-    bool InitWaitConnecting(bufferevent* pBufferEvent);
 
-    virtual void Close();
+    virtual bool Init(bufferevent* pBufferEvent) = 0;
+    virtual void Interrupt()                         = 0;
+    virtual bool CreateByListener() const { return true; }
     template<class T>
     bool SendSocketMsg(T* pBuffer, bool bFlush = true)
     {
@@ -53,8 +51,6 @@ public:
     bool SendSocketMsg(byte* pBuffer, size_t len, bool bFlush = true);
     bool SendSocketMsg(byte* pHeaderBuffer, size_t head_len, CNetworkMessage* pMsg, bool bFlush = true);
 
-    bool GetReconnect() const { return m_bReconnect; }
-    void SetReconnect(bool val) { m_bReconnect = val; }
     void InitDecryptor(uint32_t seed)
     {
         m_pDecryptor = std::make_unique<CDecryptor>();
@@ -67,23 +63,18 @@ public:
     }
 
 public:
-    void OnConnected();
-    void OnConnectFailed();
-    void OnDisconnected();
-    void OnAccepted();
-    void OnRecvData(byte* pBuffer, size_t len);
-    void OnRecvTimeout(bool& bReconnect);
+    virtual void OnDisconnected();
+    virtual void OnRecvData(byte* pBuffer, size_t len);
+    virtual void OnRecvTimeout(bool& bReconnect);
 
 public:
-    void _SetTimeout();
-    void _OnReceive(bufferevent* b);
-    void _OnClose(short what);
+    void         _SetTimeout();
+    void         _OnReceive(bufferevent* b);
+    virtual void _OnClose(short what) = 0;
 
-    static void _OnReconnect(int32_t fd, short what, void* ctx);
     static void _OnSocketRead(bufferevent*, void* ctx);
     static void _OnSendOK(bufferevent* b, void* ctx);
     static void _OnSocketEvent(bufferevent*, short, void* ctx);
-    static void _OnSocketConnectorEvent(bufferevent*, short what, void* ctx);
 
 public:
     CNetworkService* GetService() const { return m_pService; }
@@ -103,15 +94,14 @@ public:
     void        SetAddr(const std::string& val);
     int32_t     GetPort() const { return m_nPort; }
     void        SetPort(int32_t val) { m_nPort = val; }
-    size_t      GetReconnectTimes() const { return m_nReconnectTimes; }
-    void        SetReconnectTimes(size_t val) { m_nReconnectTimes = val; }
-    int32_t     GetRecvTimeOutSec() const { return m_nRecvTimeOutSec; }
-    void        SetRecvTimeOutSec(int32_t val) { m_nRecvTimeOutSec = val; }
-    size_t      GetLogWriteHighWateMark() const { return m_nLogWriteHighWateMark; }
-    void        SetLogWriteHighWateMark(size_t val) { m_nLogWriteHighWateMark = val; }
-    size_t      GetWaitWriteSize();
-    size_t      GetPacketSizeMax() const { return m_nPacketSizeMax; }
-    void        SetPacketSizeMax(size_t val);
+
+    int32_t GetRecvTimeOutSec() const { return m_nRecvTimeOutSec; }
+    void    SetRecvTimeOutSec(int32_t val) { m_nRecvTimeOutSec = val; }
+    size_t  GetLogWriteHighWateMark() const { return m_nLogWriteHighWateMark; }
+    void    SetLogWriteHighWateMark(size_t val) { m_nLogWriteHighWateMark = val; }
+    size_t  GetWaitWriteSize();
+    size_t  GetPacketSizeMax() const { return m_nPacketSizeMax; }
+    void    SetPacketSizeMax(size_t val);
 
 public:
     OBJECTHEAP_DECLARATION(s_Heap);
@@ -135,13 +125,12 @@ protected:
     CNetworkService*  m_pService;
     CNetEventHandler* m_pEventHandler;
     bufferevent*      m_pBufferevent;
-    event*            m_pReconnectEvent;
-    struct evbuffer*  m_Sendbuf;
+
+    struct evbuffer* m_Sendbuf;
 
     MPSCQueue<SendMsgData*> m_SendMsgQueue;
     CEventEntryPtr          m_Event;
 
-    bool        m_bPassive;
     std::string m_strAddr;
     int32_t     m_nPort;
     uint64_t    m_addr;
@@ -149,13 +138,9 @@ protected:
     SOCKET   m_socket;
     uint16_t m_nSocketIdx;
 
-    bool m_bReconnect;
-
     NET_SOCKET_STATUS m_Status;
-    size_t            m_nReconnectTimes;
     int32_t           m_nRecvTimeOutSec;
 
-    bool                        m_bCreateByListener;
     std::unique_ptr<CDecryptor> m_pDecryptor;
     std::unique_ptr<CEncryptor> m_pEncryptor;
     size_t                      m_nPacketSizeMax;

@@ -170,16 +170,6 @@ cp libfmt.a ../../../lib/ -rp
 cd ../..
 }
 
-libwebsockets()
-{
-cd libwebsockets
-mkdir -p build
-cd build
-CC=${CC_COMPILER} CXX=${CXX_COMPILER} CFLAGS=${CC_FLAGS} CXXFLAGS=${CXX_FLAGS} LD_FLAG=${LINK_FLAGS} cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
-make -j4
-cp lib/libwebsockets.so* ../../../lib/ -rp
-cd ../..
-}
 
 recastnavigation()
 {

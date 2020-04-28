@@ -31,7 +31,6 @@ TARGET_LINK_LIBRARIES(service_loader
  libmessage_route.so
  libmydb.so
  libmyproto.so
- libwebsockets.so
  libfmt.so
  tinyxml2
  pthread

@@ -105,34 +105,26 @@ void CLoadingThread::CancleOnReadyList(OBJID idPlayer)
             it = m_ReadyList.erase(it);
             continue;
         }
+        if(pData->idPlayer != idPlayer)
+        {
+            it++;
+            continue;
+        }
+
         if(pData->nPorcessType == LPT_LOADING)
         {
             // loading ready
-            CPlayer* pPlayer = pData->pPlayer;
-            if(pPlayer && pPlayer->GetID() == idPlayer)
-            {
-                SAFE_DELETE(pData->pPlayer);
-                SAFE_DELETE(pData);
-                LOGLOGIN("remove from loading_ready:{}", idPlayer);
-                it = m_ReadyList.erase(it);
-                continue;
-            }
+            LOGLOGIN("remove from loading_ready:{}", idPlayer);
         }
         else
         {
             // save ready
-            CPlayer* pPlayer = pData->pPlayer;
-            if(pPlayer && pPlayer->GetID() == idPlayer)
-            {
-                SAFE_DELETE(pData->pPlayer);
-                SAFE_DELETE(pData);
-                LOGLOGIN("remove from saver_eady:{}", idPlayer);
-                it = m_ReadyList.erase(it);
-                continue;
-            }
+            LOGLOGIN("remove from saver_eady:{}", idPlayer);
         }
-
-        it++;
+        SAFE_DELETE(pData->pPlayer);
+        SAFE_DELETE(pData);
+        it = m_ReadyList.erase(it);
+        continue;
     }
 
     __LEAVE_FUNCTION
@@ -149,47 +141,32 @@ void CLoadingThread::CancleOnWaitList(OBJID idPlayer)
             it = m_ReadyList.erase(it);
             continue;
         }
+        if(pLoadData->idPlayer != idPlayer)
+        {
+            it++;
+            continue;
+        }
 
         if(pLoadData->nPorcessType == LPT_LOADING)
         {
-            if(pLoadData->idPlayer == idPlayer)
-            {
-                // remove this
-                SAFE_DELETE(pLoadData->pPlayer);
-                SAFE_DELETE(pLoadData);
-                m_nLoadingCount--;
-                LOGLOGIN("remove from loading:{}", idPlayer);
-                it = m_ReadyList.erase(it);
-                continue;
-            }
+            // remove this
+            m_nLoadingCount--;
+            LOGLOGIN("remove from loading:{}", idPlayer);
         }
         else
         {
-            CPlayer* pPlayer = pLoadData->pPlayer;
-            if(pPlayer == nullptr)
-            {
-                LOGERROR("Process WaitList PlayerIsNull:{}", pLoadData->idPlayer);
-                SAFE_DELETE(pLoadData);
-                it = m_ReadyList.erase(it);
-                continue;
-            }
-
-            if(pPlayer->GetID() == idPlayer)
-            {
-                //优先写入
-                pPlayer->SaveInfo();
-
-                //必然是后一个顶前一个,应该已经在World被Kick了
-                SAFE_DELETE(pLoadData->pPlayer);
-                SAFE_DELETE(pLoadData);
-                m_nSaveingCount--;
-                LOGLOGIN("remove from saving:{}", idPlayer);
-                it = m_ReadyList.erase(it);
-                continue;
-            }
+            //优先写入
+            if(pLoadData->pPlayer)
+                pLoadData->pPlayer->SaveInfo();
+            //必然是后一个顶前一个,应该已经在World被Kick了
+            m_nSaveingCount--;
+            LOGLOGIN("remove from saving:{}", idPlayer);
         }
+        SAFE_DELETE(pLoadData->pPlayer);
+        SAFE_DELETE(pLoadData);
 
-        it++;
+        it = m_ReadyList.erase(it);
+        continue;
     }
     __LEAVE_FUNCTION
 }

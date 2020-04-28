@@ -30,7 +30,6 @@ TARGET_LINK_LIBRARIES(network
  libevent_extra.so
  libbasecode.so
  protobuf
- libwebsockets.so
  ${JEMALLOC_LIB_NAME}
 )
 

@@ -3,6 +3,8 @@
 #include "EventManager.h"
 #include "MessagePort.h"
 #include "NetSocket.h"
+#include "NetClientSocket.h"
+#include "NetServerSocket.h"
 #include "globaldb.h"
 #include "server_msg/server_side.pb.h"
 #include "tinyxml2/tinyxml2.h"
@@ -243,10 +245,12 @@ void CMessageRoute::ReloadServiceInfo(uint32_t update_time, uint16_t nNewWorldID
                     CMessagePort* pMessagePort = itPort->second;
                     if(refInfo.route_addr != oldRouteAddr || refInfo.route_port != oldRoutePort)
                     {
-                        //内网绑定端口修改了
-                        if(pMessagePort->GetRemoteSocket())
+                        //内网绑定端口修改了, 又是自己主动连接过去,就要重连
+                        //自己监听的端口，必须要重启
+                        auto pRemoteSocket = pMessagePort->GetRemoteSocket();
+                        if(pRemoteSocket && pRemoteSocket->CreateByListener() == false)
                         {
-                            pMessagePort->GetRemoteSocket()->Close();
+                            pRemoteSocket->Interrupt();
                             _ConnectRemoteServer(serverport, refInfo);
                         }
                     }
@@ -422,8 +426,7 @@ CMessagePort* CMessageRoute::_ConnectRemoteServer(const ServerPort& nServerPort,
         if(pMessagePort->GetLocalPort() == true)
             return pMessagePort;
     }
-    CNetSocket* pRemoteSocket =
-        m_pNetworkService->AsyncConnectTo(info.route_addr.c_str(), info.route_port, pMessagePort);
+    auto pRemoteSocket = m_pNetworkService->AsyncConnectTo(info.route_addr.c_str(), info.route_port, pMessagePort);
     if(pRemoteSocket == nullptr)
     {
         LOGFATAL("CMessageRoute::ConnectRemoteServer AsyncConnectTo {}:{} fail",
@@ -510,8 +513,13 @@ void CMessageRoute::_CloseRemoteServer(const ServerPort& nServerPort)
     CMessagePort* pPort = itPort->second;
     if(pPort)
     {
-        pPort->GetRemoteSocket()->SetReconnect(false);
-        pPort->GetRemoteSocket()->Close();
+        auto pRemoteSocket = pPort->GetRemoteSocket();
+        if(pRemoteSocket)
+        {
+            pRemoteSocket->Interrupt();
+        }
+        
+        
         SAFE_DELETE(pPort);
     }
     m_setMessagePort.erase(itPort);

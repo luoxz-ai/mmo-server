@@ -31,7 +31,7 @@ void CMessagePort::Destory()
     }
     if(m_pRemoteServerSocket)
     {
-        m_pRemoteServerSocket->Close();
+        m_pRemoteServerSocket->Interrupt();
         m_pRemoteServerSocket = nullptr;
     }
     __LEAVE_FUNCTION

@@ -7,6 +7,8 @@
 #include "msg/world_service.pb.h"
 #include "msg/zone_service.pb.h"
 #include "pb_luahelper.h"
+#include "NetServerSocket.h"
+
 RobotClient::RobotClient(RobotClientManager* pManager)
     : m_pManager(pManager)
     , m_pServerSocket(nullptr)
@@ -17,7 +19,7 @@ RobotClient::RobotClient(RobotClientManager* pManager)
 RobotClient::~RobotClient()
 {
     if(m_pServerSocket)
-        m_pServerSocket->Close();
+        m_pServerSocket->Interrupt();
 }
 
 void RobotClient::initInLua(struct lua_State* L)
@@ -59,10 +61,10 @@ void RobotClient::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
     MSG_HEAD* pHeader = (MSG_HEAD*)pBuffer;
     switch(pHeader->usCmd)
     {
-        case CMD_CLOSE:
+        case CMD_INTERRUPT:
         {
             LOGDEBUG("INITATIVE_CLOSE:{}", m_idClient);
-            pSocket->SetReconnectTimes(0);
+            static_cast<CServerSocket*>(pSocket)->SetReconnect(false);
             DisconnectServer();
         }
         break;
@@ -125,7 +127,7 @@ bool RobotClient::IsConnectServer()
 void RobotClient::DisconnectServer()
 {
     if(m_pServerSocket)
-        m_pServerSocket->Close();
+        m_pServerSocket->Interrupt();
     m_pManager->DelClient(this);
 }
 

@@ -3,8 +3,8 @@
 #include <iostream>
 
 #include "EventManager.h"
-#include "NetSocket.h"
-#include "NetWebSocket.h"
+#include "NetClientSocket.h"
+#include "NetServerSocket.h"
 #include "event2/buffer.h"
 #include "event2/bufferevent.h"
 #include "event2/event.h"
@@ -12,7 +12,6 @@
 #include "event2/listener.h"
 #include "event2/thread.h"
 #include "event2/util.h"
-#include "libwebsockets.h"
 
 CNetworkService::CNetworkService()
     : m_pBase(event_base_new())
@@ -21,12 +20,6 @@ CNetworkService::CNetworkService()
     for(size_t i = 0; i < m_SocketIdxPool.size(); i++)
     {
         m_SocketIdxPool[i] = i + 1;
-    }
-
-    m_WebSocketIdxPool.resize(0x7fff, 0);
-    for(size_t i = 0; i < m_WebSocketIdxPool.size(); i++)
-    {
-        m_WebSocketIdxPool[i] = i + 1 + 0x8000;
     }
 
     m_pEventManager.reset(CEventManager::CreateNew(m_pBase));
@@ -212,7 +205,7 @@ evconnlistener* CNetworkService::Listen(const char* addr, int32_t port, CNetEven
     return nullptr;
 }
 
-CNetSocket* CNetworkService::ConnectTo(const char* addr, int32_t port, CNetEventHandler* pEventHandler)
+CServerSocket* CNetworkService::ConnectTo(const char* addr, int32_t port, CNetEventHandler* pEventHandler)
 {
     __ENTER_FUNCTION
     struct evutil_addrinfo  hits;
@@ -250,7 +243,7 @@ CNetSocket* CNetworkService::ConnectTo(const char* addr, int32_t port, CNetEvent
         return nullptr;
     }
 
-    CNetSocket* pSocket = CreateSocket(pEventHandler, false);
+    CServerSocket* pSocket = CreateServerSocket(pEventHandler);
     pSocket->SetAddrAndPort(addr, port);
     pSocket->SetSocket(fd);
     pSocket->Init(pBufferEvent);
@@ -263,7 +256,7 @@ CNetSocket* CNetworkService::ConnectTo(const char* addr, int32_t port, CNetEvent
     return nullptr;
 }
 
-bool CNetworkService::_Reconnect(CNetSocket* pSocket)
+bool CNetworkService::_Reconnect(CServerSocket* pSocket)
 {
     __ENTER_FUNCTION
     struct evutil_addrinfo  hits;
@@ -316,7 +309,7 @@ bool CNetworkService::_Reconnect(CNetSocket* pSocket)
     return false;
 }
 
-CNetSocket* CNetworkService::AsyncConnectTo(const char* addr, int32_t port, CNetEventHandler* pEventHandler)
+CServerSocket* CNetworkService::AsyncConnectTo(const char* addr, int32_t port, CNetEventHandler* pEventHandler)
 {
     __ENTER_FUNCTION
     struct evutil_addrinfo  hits;
@@ -343,9 +336,9 @@ CNetSocket* CNetworkService::AsyncConnectTo(const char* addr, int32_t port, CNet
         return nullptr;
     }
 
-    CNetSocket* pSocket = CreateSocket(pEventHandler, false);
+    CServerSocket* pSocket = CreateServerSocket(pEventHandler);
     pSocket->SetAddrAndPort(addr, port);
-    pSocket->InitWaitConnecting(pBufferEvent);
+    pSocket->Init(pBufferEvent);
 
     if(bufferevent_socket_connect(pBufferEvent, answer_ptr->ai_addr, answer_ptr->ai_addrlen) != 0)
     {
@@ -363,7 +356,7 @@ CNetSocket* CNetworkService::AsyncConnectTo(const char* addr, int32_t port, CNet
     return nullptr;
 }
 
-bool CNetworkService::_AsyncReconnect(CNetSocket* pSocket)
+bool CNetworkService::_AsyncReconnect(CServerSocket* pSocket)
 {
     __ENTER_FUNCTION
     struct evutil_addrinfo  hits;
@@ -386,7 +379,7 @@ bool CNetworkService::_AsyncReconnect(CNetSocket* pSocket)
         return false;
     }
     std::unique_ptr<addrinfo, decltype(evutil_freeaddrinfo)*> answer_ptr(answer, evutil_freeaddrinfo);
-    pSocket->InitWaitConnecting(pSocket->GetBufferevent());
+    pSocket->Init(pSocket->GetBufferevent());
     if(bufferevent_socket_connect(pSocket->GetBufferevent(), answer_ptr->ai_addr, answer_ptr->ai_addrlen) != 0)
     {
         int32_t     err    = EVUTIL_SOCKET_ERROR();
@@ -493,23 +486,16 @@ void CNetworkService::RunOnce()
 
     event_base_loop(m_pBase, EVLOOP_ONCE | EVLOOP_NONBLOCK);
 
-    if(m_pLwsContext)
-    {
-        /*0 means return immediately if nothing needed
-        service otherwise block and service immediately, returning
-        after the timeout if nothing needed service.*/
-        lws_service(m_pLwsContext, 0);
-    }
-
     __LEAVE_FUNCTION
 }
 
-CNetSocket* CNetworkService::CreateSocket(CNetEventHandler* pHandle, bool bPassive)
+CServerSocket* CNetworkService::CreateServerSocket(CNetEventHandler* pHandle)
 {
-    __ENTER_FUNCTION
-    return new CNetSocket(this, pHandle, bPassive);
-    __LEAVE_FUNCTION
-    return nullptr;
+    return new CServerSocket(this, pHandle);
+}
+CClientSocket* CNetworkService::CreateClientSocket(CNetEventHandler* pHandle)
+{
+    return new CClientSocket(this, pHandle);
 }
 
 void CNetworkService::accept_conn_cb(evconnlistener* listener, int32_t fd, sockaddr* addr, int32_t socklen, void* arg)
@@ -571,12 +557,11 @@ void CNetworkService::OnAccept(int32_t fd, sockaddr* addr, int32_t, evconnlisten
         return;
     }
     CNetEventHandler* pEventHandler = m_setListener[listener];
-    CNetSocket*       pSocket       = CreateSocket(pEventHandler, true);
+    CClientSocket* pSocket       = CreateClientSocket(pEventHandler);
     pSocket->SetAddrAndPort(szHost, uPort);
     pSocket->SetSocket(fd);
 
     pSocket->Init(pBufferEvent);
-    pSocket->SetReconnectTimes(0);
     _AddSocket(pSocket);
     pSocket->OnAccepted();
 
@@ -680,7 +665,7 @@ void CNetworkService::_CloseSocket(uint32_t nSocketIdx)
     if(pSocket)
     {
         lock.unlock();
-        pSocket->Close();
+        pSocket->Interrupt();
     }
 
     __LEAVE_FUNCTION
@@ -722,20 +707,20 @@ bool CNetworkService::KickSocket(SOCKET _socket)
         if(it != m_setSocket.end())
         {
             pSocket = it->second;
+            if(pSocket == nullptr)
+            {
+                m_setSocket.erase(_socket);
+                return false;
+            }
         }
     }
     // must do it out of lock,because it will remove self from m_setSocket;
     if(pSocket)
     {
-        pSocket->Close();
+        pSocket->Interrupt();
         return true;
     }
-    else
-    {
-        std::lock_guard<std::mutex> lock(m_mutex);
-        m_setSocket.erase(_socket);
-        return false;
-    }
+    
     __LEAVE_FUNCTION
     return false;
 }
@@ -804,254 +789,4 @@ void CNetworkService::AddSendByteCount(size_t len)
     __ENTER_FUNCTION
     m_SendBPS.AddCount(len);
     __LEAVE_FUNCTION
-}
-
-// lws为每条连接内部分配的user_space, 用于用户自定义数据
-struct lws_session_data
-{
-    CNetWebSocket* pWebSocket; //连接绑定的CNetWebSocket对象
-};
-
-static struct lws_protocols server_protocols[] = {
-    {
-        "websocketserver",                    // name
-        CNetworkService::OnWebSocketCallback, // callback
-        sizeof(struct lws_session_data),      // per_session_data_size
-        65535,                                // rx_buffer_size
-        0,                                    // id
-        NULL,                                 // user
-        0                                     // tx_packet_size
-    },
-    {NULL, NULL, 0, 0} /* terminator */
-};
-
-bool CNetworkService::ListenWebSocket(int32_t port, CWebSocketEventHandler* pEventHandler)
-{
-    __ENTER_FUNCTION
-    if(m_pWebSocketEventHandler != nullptr)
-    {
-        return false;
-    }
-
-    struct lws_context_creation_info info;
-    memset(&info, 0, sizeof(info));
-    info.port      = port;
-    info.protocols = server_protocols;
-    info.user      = this;
-    m_pLwsContext  = lws_create_context(&info);
-    if(m_pLwsContext == nullptr)
-    {
-        // error output
-        return false;
-    }
-
-    m_pWebSocketEventHandler = pEventHandler;
-    return true;
-    __LEAVE_FUNCTION
-    return false;
-}
-
-void CNetworkService::StopWebSocket()
-{
-    __ENTER_FUNCTION
-    if(m_pLwsContext)
-    {
-        lws_context_destroy(m_pLwsContext);
-        m_pLwsContext = nullptr;
-    }
-    __LEAVE_FUNCTION
-}
-
-CNetWebSocket* CNetworkService::CreateWebSocket()
-{
-    __ENTER_FUNCTION
-    uint16_t index = _GetWebSocketIndex();
-    if(index == 0)
-    {
-        // index 已分配完
-        return nullptr;
-    }
-
-    CNetWebSocket* pWebSocket = new CNetWebSocket(this, m_pWebSocketEventHandler);
-    pWebSocket->SetSocketIdx(index);
-    m_setWebSocketByIdx[index - 0x8000] = pWebSocket;
-
-    return pWebSocket;
-    __LEAVE_FUNCTION
-    return nullptr;
-}
-
-void CNetworkService::DestroyWebSocket(CNetWebSocket* pWebSocket)
-{
-    __ENTER_FUNCTION
-    if(pWebSocket)
-    {
-        _PushWebSocketIndexBack(pWebSocket->GetSocketIdx());
-        m_setWebSocketByIdx[pWebSocket->GetSocketIdx() - 0x8000] = nullptr;
-        SAFE_DELETE(pWebSocket);
-    }
-    __LEAVE_FUNCTION
-}
-
-void CNetworkService::AddWebSocket(SOCKET sockfd, CNetWebSocket* pWebSocket)
-{
-    __ENTER_FUNCTION
-    if(sockfd != INVALID_SOCKET && pWebSocket != nullptr)
-    {
-        m_mapWebSockets.insert(std::make_pair(sockfd, pWebSocket));
-    }
-    __LEAVE_FUNCTION
-}
-
-void CNetworkService::RemoveWebSocket(SOCKET sockfd)
-{
-    __ENTER_FUNCTION
-    auto iter = m_mapWebSockets.find(sockfd);
-    if(iter != m_mapWebSockets.end())
-    {
-        m_mapWebSockets.erase(iter);
-    }
-    __LEAVE_FUNCTION
-}
-
-void CNetworkService::KickWebSocket(SOCKET sockfd)
-{
-    __ENTER_FUNCTION
-    CNetWebSocket* pWebSocket = nullptr;
-    auto           iter       = m_mapWebSockets.find(sockfd);
-    if(iter != m_mapWebSockets.end())
-    {
-        pWebSocket = iter->second;
-    }
-
-    if(pWebSocket)
-    {
-        pWebSocket->Close();
-        RemoveWebSocket(sockfd);
-        DestroyWebSocket(pWebSocket);
-    }
-    __LEAVE_FUNCTION
-}
-
-uint16_t CNetworkService::_GetWebSocketIndex()
-{
-    if(m_WebSocketIdxPool.size() > 0)
-    {
-        uint16_t index = m_WebSocketIdxPool.front();
-        m_WebSocketIdxPool.pop_front();
-        return index;
-    }
-    return 0;
-}
-
-void CNetworkService::_PushWebSocketIndexBack(uint16_t index)
-{
-    m_WebSocketIdxPool.push_back(index);
-}
-
-CNetWebSocket* CNetworkService::_GetWebSocketFromLWS(struct lws* wsi)
-{
-    void* pUserSpace = lws_wsi_user(wsi);
-    if(pUserSpace)
-    {
-        return ((lws_session_data*)pUserSpace)->pWebSocket;
-    }
-    return nullptr;
-}
-
-void CNetworkService::_SetWebSocketToLWS(struct lws* wsi, CNetWebSocket* pWebSocket)
-{
-    void* pUserSpace = lws_wsi_user(wsi);
-    if(pUserSpace)
-    {
-        lws_session_data* pSessionData = (lws_session_data*)pUserSpace;
-        pSessionData->pWebSocket       = pWebSocket;
-    }
-}
-
-void CNetworkService::StartWebSocketIOThread() {}
-
-int32_t CNetworkService::OnWebSocketCallback(struct lws*               wsi,
-                                             enum lws_callback_reasons reason,
-                                             void*                     user,
-                                             void*                     in,
-                                             size_t                    len)
-{
-    __ENTER_FUNCTION
-
-    struct lws_vhost* vhost = lws_get_vhost(wsi);
-    if(vhost == nullptr)
-    {
-        return 0;
-    }
-
-    CNetworkService* pNetworkService = (CNetworkService*)lws_get_vhost_user(vhost);
-
-    if(pNetworkService == nullptr)
-    {
-        return 0;
-    }
-
-    switch(reason)
-    {
-        case LWS_CALLBACK_PROTOCOL_INIT:
-        {
-            break;
-        }
-        case LWS_CALLBACK_ESTABLISHED:
-        {
-            CNetWebSocket* pWebSocket = pNetworkService->CreateWebSocket();
-            if(pWebSocket == nullptr)
-            {
-                return -1;
-            }
-
-            pWebSocket->Init(wsi);
-            pWebSocket->OnWsAccepted();
-            pNetworkService->AddWebSocket(pWebSocket->GetSocket(), pWebSocket);
-
-            _SetWebSocketToLWS(wsi, pWebSocket);
-            lws_callback_on_writable(wsi);
-            break;
-        }
-        case LWS_CALLBACK_SERVER_WRITEABLE:
-        {
-            CNetWebSocket* pWebSocket = _GetWebSocketFromLWS(wsi);
-            if(pWebSocket)
-            {
-                // pWebSocket->RealSend();
-                pWebSocket->SendTestData();
-            }
-            lws_callback_on_writable(wsi);
-            break;
-        }
-        case LWS_CALLBACK_RECEIVE:
-        {
-            CNetWebSocket* pWebSocket = _GetWebSocketFromLWS(wsi);
-            if(pWebSocket)
-            {
-                pWebSocket->OnWsRecvData((byte*)in, len);
-            }
-            // lws_callback_on_writable(wsi);
-            break;
-        }
-        case LWS_CALLBACK_CLOSED:
-        {
-            CNetWebSocket* pWebSocket = _GetWebSocketFromLWS(wsi);
-            if(pWebSocket)
-            {
-                pWebSocket->OnWsDisconnected();
-                pNetworkService->RemoveWebSocket(pWebSocket->GetSocket());
-                pNetworkService->DestroyWebSocket(pWebSocket);
-            }
-            LOGNETDEBUG("websocket CALLBACK_CLOSED");
-            break;
-        }
-        default:
-            break;
-    }
-
-    return 0;
-    __LEAVE_FUNCTION
-    return -1;
 }

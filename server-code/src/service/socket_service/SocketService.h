@@ -4,7 +4,6 @@
 #include "IService.h"
 #include "MyTimer.h"
 #include "NetSocket.h"
-#include "NetWebSocket.h"
 #include "ServiceComm.h"
 #include "UIDFactory.h"
 
@@ -28,7 +27,7 @@ public:
         m_nMessageAllowEnd   = nMessageAllowEnd;
     }
 
-    void Close();
+    void Interrupt();
     bool SendSocketMsg(byte* pBuffer, size_t len);
     bool SendSocketMsg(CNetworkMessage* pMsg);
 
@@ -59,7 +58,7 @@ private:
 
 struct event;
 class CNetMSGProcess;
-class CSocketService : public IService, public CServiceCommon, public CNetEventHandler, public CWebSocketEventHandler
+class CSocketService : public IService, public CServiceCommon, public CNetEventHandler
 {
     CSocketService();
     bool Init(const ServerPort& nServerPort);
@@ -78,13 +77,6 @@ public:
     virtual void OnAccepted(CNetSocket* pSocket) override;
     virtual void OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len) override;
     virtual void OnRecvTimeout(CNetSocket* pSocket) override;
-
-    // callback for websocket
-    virtual void OnWsAccepted(CNetWebSocket* pWebSocket) override;
-    virtual void OnWsConnected(CNetWebSocket* pWebSocket) override;
-    virtual void OnWsConnectFailed(CNetWebSocket* pWebSocket) override;
-    virtual void OnWsDisconnected(CNetWebSocket* pWebSocket) override;
-    virtual void OnWsRecvData(CNetWebSocket* pWebSocket, byte* pBuffer, size_t len) override;
 
     void         OnProcessMessage(CNetworkMessage*) override;
     virtual void OnLogicThreadCreate() override;
