@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ServiceSetting>
   <!-- 全局mysql配置-->
-  <GlobalMYSQL host="172.28.1.2" port="3306" user="root" passwd="3Killyou" dbname="global"/>
+  <GlobalMYSQL host="172.28.1.2" port="3306" user="root" passwd="test12345" dbname="global"/>
  </ServiceSetting>

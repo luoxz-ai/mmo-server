@@ -5,9 +5,9 @@ DIR_file=`pwd`
 
 source $1
 
-echo "create database ${ZONE_NAME};" | docker exec -i ${MYSQL_DOCKER_NAME} sh -c 'exec mysql -v -uroot -p"3Killyou"'
+echo "create database ${ZONE_NAME};" | docker exec -i ${MYSQL_DOCKER_NAME} sh -c 'exec mysql -v -uroot -p"test12345"'
 
-sql_cmd="exec mysql -v -uroot -p'3Killyou' ${ZONE_NAME}"
+sql_cmd="exec mysql -v -uroot -p'test12345' ${ZONE_NAME}"
 cat server-res/res/db/db_proto/gamedb.pb.sql | docker exec -i ${MYSQL_DOCKER_NAME} sh -c "${sql_cmd}"
 
 
@@ -24,5 +24,5 @@ cmake -DZONE_ID=${ZONE_ID} -DZONE_NAME=${ZONE_NAME} -DZONE_IP=${ZONE_IP} \
 cat zone_init_${ZONE_ID}.sql"
 
 docker exec -i mmo-server-build sh -c "${cmd}" | 
-docker exec -i mysql-global sh -c 'exec mysql -v -uroot -p"3Killyou" global'
-echo "select * from tbld_servicedetail where worldid=${ZONE_ID};" | docker exec -i mysql-global sh -c 'exec mysql -uroot -p"3Killyou" global'
+docker exec -i mysql-global sh -c 'exec mysql -v -uroot -p"test12345" global'
+echo "select * from tbld_servicedetail where worldid=${ZONE_ID};" | docker exec -i mysql-global sh -c 'exec mysql -uroot -p"test12345" global'
