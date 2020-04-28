@@ -3,8 +3,6 @@ name: C/C++ CI
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
 
 jobs:
   build:
@@ -21,8 +19,8 @@ jobs:
       uses: actions/cache@v1
       with:
         path: server-depends
-        key: server-depends
-        restore-keys: server-depends_lib
+        key: server-depends-${{ hashFiles('**/src/build_all.sh') }}
+        restore-keys: server-depends-
 
     - name: build depends
       if: steps.cache-depends.outputs.cache-hit != 'true'
