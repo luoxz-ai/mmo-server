@@ -3,7 +3,7 @@ cd `dirname $0`
 DIR_file=`pwd`
 
 set -e
-cmd="./releasebuild.sh && cd bin && ./cp_depends_lib.sh && ./cp_release.sh"
+cmd="sudo ./releasebuild.sh && cd bin && sudo ./cp_depends_lib.sh && sudo ./cp_release.sh"
 
 ln -sf .dockerignore.publish .dockerignore
 

@@ -20,7 +20,7 @@ jobs:
       with:
         path: server-depends
         key: server-depends-${{ hashFiles('**/src/build_all.sh') }}
-        restore-keys: server-depends-
+        restore-keys: server-depends-${{ hashFiles('**/src/build_all.sh') }}
 
     - name: build depends
       if: steps.cache-depends.outputs.cache-hit != 'true'
