@@ -8,7 +8,6 @@ on:
 
 jobs:
   build_publish:
-    needs: build_depends
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
 
