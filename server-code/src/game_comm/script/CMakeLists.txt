@@ -19,7 +19,7 @@ ENDIF()
 
 # 生成库文件
 ADD_LIBRARY(script SHARED ${SRCS})
-cotire(script)
+
 
 #指定库输出路径
 SET(LIBRARY_OUTPUT_PATH ${LIBRARIES})
@@ -37,3 +37,4 @@ TARGET_LINK_LIBRARIES(script
   ${JEMALLOC_LIB_NAME}
 )
 
+cotire(script)

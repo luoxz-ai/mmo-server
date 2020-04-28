@@ -20,4 +20,4 @@ TARGET_LINK_LIBRARIES(sql2cpp
 )
 
 
-
+cotire(sql2cpp)

@@ -31,7 +31,7 @@ source_group_by_dir(SRCS)
 ADD_LIBRARY(mydbtable SHARED ${SRCS})
 #SET_TARGET_PROPERTIES(world_service PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 #SET_TARGET_PROPERTIES(world_service PROPERTIES VERSION 0.1 SOVERSION 1)
-cotire(mydbtable)
+
 
 #指定库输出路径
 SET(LIBRARY_OUTPUT_PATH ${LIBRARIES})
@@ -49,4 +49,4 @@ TARGET_LINK_LIBRARIES(mydbtable
  libmydb.so
  ${JEMALLOC_LIB_NAME}
 )
-
+cotire(mydbtable)

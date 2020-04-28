@@ -288,6 +288,10 @@ constexpr bool {}::pri_key_idx[];
         output_file << "#include \"DBField.h\"\n";
         output_file << output_header;
         output_file.close();
+        if(opt.has("--format"))
+        {
+            system(fmt::format("{} -i {}", opt["--format"], out_dir + out_file_name + ".h").c_str());
+        }
     }
     {
         std::ofstream output_file(out_dir + out_file_name + ".cpp");
@@ -295,5 +299,10 @@ constexpr bool {}::pri_key_idx[];
         output_file << "#include \"" + out_file_name + ".h\"\n";
         output_file << output_cpp;
         output_file.close();
+        if(opt.has("--format"))
+        {
+            system(fmt::format("{} -i {}", opt["--format"], out_dir + out_file_name + ".cpp").c_str());
+        }
     }
+   
 }

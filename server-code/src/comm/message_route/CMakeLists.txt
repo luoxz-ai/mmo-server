@@ -22,7 +22,7 @@ ADD_LIBRARY(message_route SHARED ${SRCS})
 
 #指定库输出路径
 SET(LIBRARY_OUTPUT_PATH ${LIBRARIES})
-cotire(message_route)
+
 
 ADD_DEPENDENCIES(message_route network basecode myproto mydb)
 # 指定额外的链接库
@@ -38,3 +38,4 @@ TARGET_LINK_LIBRARIES(message_route
  ${JEMALLOC_LIB_NAME}
 )
 
+cotire(message_route)

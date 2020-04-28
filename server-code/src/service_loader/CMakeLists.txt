@@ -14,7 +14,7 @@ ENDIF()
 
 # 生成库文件
 add_executable(service_loader ${SRCS})
-cotire(service_loader)
+
 
 
 #指定库输出路径
@@ -43,3 +43,4 @@ TARGET_LINK_LIBRARIES(service_loader
 
 )
 
+cotire(service_loader)

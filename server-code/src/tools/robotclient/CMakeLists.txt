@@ -37,4 +37,4 @@ TARGET_LINK_LIBRARIES(robotclient
  dl
  pthread
 )
-
+cotire(robotclient)

@@ -23,7 +23,7 @@ ADD_LIBRARY(gm_service SHARED ${SRCS} ${PROTO_SRC} ${PROTO_HEADER})
 #SET_TARGET_PROPERTIES(gm_service PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 #SET_TARGET_PROPERTIES(gm_service PROPERTIES VERSION 0.1 SOVERSION 1)
 set_target_properties(gm_service PROPERTIES CXX_VISIBILITY_PRESET hidden)
-cotire(gm_service)
+
 #指定库输出路径
 SET(LIBRARY_OUTPUT_PATH ${LIBRARIES})
 ADD_DEPENDENCIES(gm_service basecode network myproto mydb mydbtable service_comm rpcservice_comm)
@@ -41,3 +41,4 @@ TARGET_LINK_LIBRARIES(gm_service
  ${JEMALLOC_LIB_NAME}
 )
 
+cotire(gm_service)

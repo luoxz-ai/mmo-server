@@ -18,7 +18,7 @@ ENDIF()
 ADD_LIBRARY(rpcservice_comm SHARED ${SRCS})
 #SET_TARGET_PROPERTIES(network PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 #SET_TARGET_PROPERTIES(network PROPERTIES VERSION 0.1 SOVERSION 1)
-cotire(rpcservice_comm)
+
 
 #指定库输出路径
 SET(LIBRARY_OUTPUT_PATH ${LIBRARIES})
@@ -34,3 +34,4 @@ TARGET_LINK_LIBRARIES(rpcservice_comm
  ${JEMALLOC_LIB_NAME}
 )
 
+cotire(rpcservice_comm)

@@ -34,9 +34,6 @@ ADD_LIBRARY(basecode SHARED ${LIBBASECODE_SRC})
 #指定库输出路径
 SET(LIBRARY_OUTPUT_PATH ${LIBRARIES})
 
-cotire(basecode)
-
-
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(basecode
 	libfmt.a
@@ -47,3 +44,4 @@ TARGET_LINK_LIBRARIES(basecode
 	pthread
 ) 
  
+cotire(basecode)

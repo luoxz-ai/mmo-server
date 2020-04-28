@@ -21,7 +21,7 @@ ADD_LIBRARY(market_service SHARED ${SRCS})
 #SET_TARGET_PROPERTIES(market_service PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 #SET_TARGET_PROPERTIES(market_service PROPERTIES VERSION 0.1 SOVERSION 1)
 set_target_properties(market_service PROPERTIES CXX_VISIBILITY_PRESET hidden)
-cotire(market_service)
+
 
 #指定库输出路径
 SET(LIBRARY_OUTPUT_PATH ${LIBRARIES})
@@ -40,4 +40,4 @@ TARGET_LINK_LIBRARIES(market_service
  dl
   ${JEMALLOC_LIB_NAME}
 )
-
+cotire(market_service)

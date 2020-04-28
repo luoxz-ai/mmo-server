@@ -23,6 +23,6 @@ TARGET_LINK_LIBRARIES(protoc-gen-sql
  dl
  pthread
 )
-
+cotire(protoc-gen-sql)
 
 

@@ -27,4 +27,4 @@ TARGET_LINK_LIBRARIES(cxx2lua
 )
 
 
-
+cotire(cxx2lua)

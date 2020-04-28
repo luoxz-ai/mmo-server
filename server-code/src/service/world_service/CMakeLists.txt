@@ -23,7 +23,7 @@ ADD_LIBRARY(world_service SHARED ${SRCS})
 #SET_TARGET_PROPERTIES(world_service PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 #SET_TARGET_PROPERTIES(world_service PROPERTIES VERSION 0.1 SOVERSION 1)
 set_target_properties(world_service PROPERTIES CXX_VISIBILITY_PRESET hidden)
-cotire(world_service)
+
 
 
 #指定库输出路径
@@ -46,3 +46,4 @@ TARGET_LINK_LIBRARIES(world_service
  ${JEMALLOC_LIB_NAME}
 )
 
+cotire(world_service)

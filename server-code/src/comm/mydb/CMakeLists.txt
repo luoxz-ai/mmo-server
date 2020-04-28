@@ -15,7 +15,7 @@ ENDIF()
 
 # 生成库文件
 ADD_LIBRARY(mydb SHARED ${SRCS})
-cotire(mydb)
+
 
 #指定库输出路径
 SET(LIBRARY_OUTPUT_PATH ${LIBRARIES})
@@ -29,4 +29,4 @@ TARGET_LINK_LIBRARIES(mydb
 	pthread
 	${JEMALLOC_LIB_NAME}
 )
-
+cotire(mydb)

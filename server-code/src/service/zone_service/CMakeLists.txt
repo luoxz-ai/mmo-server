@@ -25,7 +25,7 @@ ADD_LIBRARY(zone_service SHARED ${SRCS})
 #SET_TARGET_PROPERTIES(zone_service PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 #SET_TARGET_PROPERTIES(zone_service PROPERTIES VERSION 0.1 SOVERSION 1)
 set_target_properties(zone_service PROPERTIES CXX_VISIBILITY_PRESET hidden)
-cotire(zone_service)
+
 
 if(AUTO_GEN_EXPORT_LUA)
 GET_DIRECTORY_PROPERTY(includes INCLUDE_DIRECTORIES)
@@ -59,3 +59,4 @@ TARGET_LINK_LIBRARIES(zone_service
  ${JEMALLOC_LIB_NAME}
 )
 
+cotire(zone_service)

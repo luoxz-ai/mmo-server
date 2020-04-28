@@ -18,3 +18,4 @@ TARGET_LINK_LIBRARIES(pbbin2txt
 
 
 
+cotire(pbbin2txt)

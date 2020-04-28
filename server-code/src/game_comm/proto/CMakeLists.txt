@@ -35,7 +35,8 @@ file(GLOB_RECURSE SRCS FOLLOW_SYMLINKS "*.cc" "*.cpp" "*.c" "*.h" "*.hpp")
 source_group_by_dir(SRCS)
 # 生成库文件
 ADD_LIBRARY(myproto SHARED ${SRCS})
-cotire(myproto)
+
+
 IF(WIN32)
 ELSE()
 ADD_DEPENDENCIES(myproto myproto_autogen)
@@ -52,3 +53,4 @@ TARGET_LINK_LIBRARIES(myproto
  ${JEMALLOC_LIB_NAME}
 )
 
+cotire(myproto)

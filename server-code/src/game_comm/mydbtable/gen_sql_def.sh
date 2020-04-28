@@ -12,7 +12,7 @@ t2=`date -d "$date2" +%s`
 
 
 if [ $t1 -gt $t2 ]; then
-   ${BINARIES}/sql2cpp --input=db/db_proto/${sql_name}.pb.sql --outdir=./ --output=${sql_name}
+   ${BINARIES}/sql2cpp --input=db/db_proto/${sql_name}.pb.sql --outdir=./ --output=${sql_name} --format=clang-format-9
 fi
 
 

@@ -17,7 +17,7 @@ ADD_LIBRARY(socket_service SHARED ${SRCS})
 #SET_TARGET_PROPERTIES(socket_service PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 #SET_TARGET_PROPERTIES(socket_service PROPERTIES VERSION 0.1 SOVERSION 1)
 set_target_properties(socket_service PROPERTIES CXX_VISIBILITY_PRESET hidden)
-cotire(socket_service)
+
 
 
 #指定库输出路径
@@ -35,4 +35,4 @@ TARGET_LINK_LIBRARIES(socket_service
  dl
  ${JEMALLOC_LIB_NAME}
 )
-
+cotire(socket_service)

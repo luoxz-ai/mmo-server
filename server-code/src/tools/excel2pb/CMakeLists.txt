@@ -22,4 +22,4 @@ TARGET_LINK_LIBRARIES(excel2pb
 )
 
 
-
+cotire(excel2pb)
