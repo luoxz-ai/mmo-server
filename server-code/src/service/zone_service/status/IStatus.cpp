@@ -246,7 +246,12 @@ bool CStatus::ScheduleEvent(time_t tIntervalMS /*= 0*/)
 {
     __ENTER_FUNCTION
     m_info.tLastStamp = TimeGetSecond();
-    return EventManager()->ScheduleEvent(0, std::bind(&CStatus::ProcessEvent, this), tIntervalMS, false, m_StatusEvent);
+    CEventEntryCreateParam param;
+    param.evType    = 0;
+    param.cb        = std::bind(&CStatus::ProcessEvent, this);
+    param.tWaitTime = tIntervalMS;
+    param.bPersist  = false;
+    return EventManager()->ScheduleEvent(param, m_StatusEvent);
     __LEAVE_FUNCTION
     return false;
 }

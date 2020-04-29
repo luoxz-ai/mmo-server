@@ -654,7 +654,10 @@ const Cfg_AIType_Row& CActorAI::GetAIData() const
 void CActorAI::AddNextCall(uint32_t ms)
 {
     m_Event.Cancel();
-    EventManager()->ScheduleEvent(0, std::bind(&CActorAI::Process, this), ms, false, m_Event);
+    CEventEntryCreateParam param;
+    param.cb = std::bind(&CActorAI::Process, this);
+    param.tWaitTime = ms;
+    EventManager()->ScheduleEvent(param, m_Event);
 }
 
 void CActorAI::SetAutoSearchEnemy()
@@ -665,7 +668,12 @@ void CActorAI::SetAutoSearchEnemy()
     m_SearchEnemyEvent.Cancel();
     uint32_t ms = random_uint32_range(GetAIType()->GetDataRef().search_enemy_ms_min(),
                                       GetAIType()->GetDataRef().search_enemy_ms_max());
-    EventManager()->ScheduleEvent(0, std::bind(&CActorAI::_SearchEnemy_CallBack, this), ms, false, m_SearchEnemyEvent);
+
+
+    CEventEntryCreateParam param;
+    param.cb = std::bind(&CActorAI::_SearchEnemy_CallBack, this);
+    param.tWaitTime = ms;
+    EventManager()->ScheduleEvent(param, m_SearchEnemyEvent);
 }
 
 void CActorAI::_SearchEnemy_CallBack()

@@ -22,14 +22,14 @@ CClientSocket::~CClientSocket()
 bool CClientSocket::Init(bufferevent* pBufferEvent)
 {
     __ENTER_FUNCTION
-    m_pBufferevent = pBufferEvent;
-    if(m_pBufferevent)
+    
+    if(pBufferEvent)
     {
-        bufferevent_setcb(m_pBufferevent, _OnSocketRead, NULL, _OnSocketEvent, (void*)this);
-        bufferevent_enable(m_pBufferevent, EV_WRITE | EV_READ | EV_PERSIST);
+        bufferevent_setcb(pBufferEvent, _OnSocketRead, _OnSendOK, _OnSocketEvent, (void*)this);
+        bufferevent_enable(pBufferEvent, EV_WRITE | EV_READ | EV_PERSIST);
         _SetTimeout();
     }
-
+    m_pBufferevent = pBufferEvent;
     SetStatus(NSS_READY);
     return true;
     __LEAVE_FUNCTION
@@ -43,7 +43,7 @@ void CClientSocket::Interrupt()
     if(GetStatus() == NSS_READY || GetStatus() == NSS_CONNECTING)
     {
         bufferevent_disable(m_pBufferevent, EV_READ);
-        bufferevent_setcb(m_pBufferevent, nullptr, _OnSendOK, _OnSocketEvent, this);
+        bufferevent_setcb(m_pBufferevent, nullptr, _OnCheckAllSendOK, _OnSocketEvent, this);
 
         MSG_HEAD msg;
         msg.usCmd  = COMMON_CMD_INTERRUPT;

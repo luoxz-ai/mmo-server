@@ -1,0 +1,5 @@
+called_from_lib:libbrpc.so
+thread:brpc
+mutex:brpc
+signal:brpc
+deadlock:brpc

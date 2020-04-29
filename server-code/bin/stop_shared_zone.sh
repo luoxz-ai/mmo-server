@@ -5,6 +5,7 @@ DIR_file=`pwd`
 export ASAN_OPTIONS=include_if_exists=${DIR_file}/options_asan
 export LSAN_OPTIONS=include_if_exists=${DIR_file}/options_lsan
 export UBSAN_OPTIONS=include_if_exists=${DIR_file}/options_ubsan
+export TSAN_OPTIONS=include_if_exists=${DIR_file}/options_tsan
 
 ${DIR_file}/binary/shared_zone_1 --worldid=0 --stop=16,26  --logpath=/data/log/shared_zone_1
 ${DIR_file}/binary/shared_zone_2 --worldid=0 --stop=17,27  --logpath=/data/log/shared_zone_2

@@ -11,7 +11,8 @@ class MPSCQueue
 public:
     MPSCQueue();
     ~MPSCQueue();
-
+    size_t size() const {return m_nCount;}
+    bool empty() const {return size() == 0;}
     template<class _T>
     void push(_T&& item)
     {

@@ -1,1 +1,7 @@
-.dockerignore.depends
+.vscode
+.git
+data
+server-code
+server-docker
+server-res
+share-code

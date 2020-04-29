@@ -28,15 +28,17 @@ RobotClientManager::RobotClientManager(uint32_t nRobStart, uint32_t nRobAmount)
 
     m_pScriptManager.reset(CLUAScriptManager::CreateNew("script", export_to_lua, this, "robot_client", false));
     m_pScriptManager->_ExecScript<void>("main", nRobStart, nRobAmount);
-    m_pEventManager->ScheduleEvent(
-        0,
-        [pScriptManager = m_pScriptManager.get()]() {
-            // pScriptManager->OnTimer(TimeGetMonotonic());
-            pScriptManager->FullGC();
-        },
-        200,
-        true,
-        m_Event);
+
+    CEventEntryCreateParam param;
+    param.evType = 0;
+    param.cb     = [pScriptManager = m_pScriptManager.get()]() {
+        // pScriptManager->OnTimer(TimeGetMonotonic());
+        pScriptManager->FullGC();
+    };
+    param.tWaitTime = 200;
+    param.bPersist  = true;
+
+    m_pEventManager->ScheduleEvent(param, m_Event);
 }
 
 RobotClientManager::~RobotClientManager()

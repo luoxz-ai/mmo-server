@@ -1,0 +1,4 @@
+log_path=/data/log/asan/asan
+halt_on_error=0
+suppressions=MyTSan.supp
+report_signal_unsafe=0

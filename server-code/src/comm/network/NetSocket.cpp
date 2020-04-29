@@ -100,7 +100,9 @@ void CNetSocket::PostSend()
     __ENTER_FUNCTION
     if(m_Event.IsRunning() == false)
     {
-        m_pService->GetEventManager()->ScheduleEvent(0, std::bind(&CNetSocket::_SendAllMsg, this), 0, false, m_Event);
+        CEventEntryCreateParam param;
+        param.cb = std::bind(&CNetSocket::_SendAllMsg, this);
+        m_pService->GetEventManager()->ScheduleEvent(param, m_Event);
     }
 
     __LEAVE_FUNCTION
@@ -142,16 +144,18 @@ bool CNetSocket::_SendMsg(byte* pBuffer, size_t len, bool bFlush)
     if(GetStatus() == NSS_CONNECTING || GetStatus() == NSS_WAIT_RECONNECT)
     {
         // hold msg
-        return evbuffer_add(m_Sendbuf, pBuffer, len) == 0;
+        int result = evbuffer_add(m_Sendbuf, pBuffer, len); 
+        m_nWaitWriteSize = evbuffer_get_length(m_Sendbuf);
+        return result == 0;
     }
     else if(GetStatus() == NSS_READY)
     {
         m_pService->AddSendByteCount(len);
-
         int32_t nSucc = bufferevent_write(m_pBufferevent, pBuffer, len);
         if(bFlush)
             bufferevent_flush(m_pBufferevent, EV_WRITE, BEV_FLUSH);
         size_t nNeedWrite = evbuffer_get_length(bufferevent_get_output(m_pBufferevent));
+        m_nWaitWriteSize = nNeedWrite;
         if(nNeedWrite > m_nLogWriteHighWateMark)
         {
             LOGNETERROR("Write Buffer {}:{} oversize:{}", GetAddrString().c_str(), GetPort(), nNeedWrite);
@@ -250,7 +254,17 @@ void CNetSocket::_OnSendOK(bufferevent* b, void* ctx)
 {
     __ENTER_FUNCTION
     CNetSocket* pSocket = (CNetSocket*)ctx;
-    if(pSocket->GetStatus() == NSS_CLOSEING && evbuffer_get_length(bufferevent_get_output(b)) == 0)
+    pSocket->m_nWaitWriteSize = evbuffer_get_length(bufferevent_get_output(b));
+    __LEAVE_FUNCTION
+}
+
+
+void CNetSocket::_OnCheckAllSendOK(bufferevent* b, void* ctx)
+{
+    __ENTER_FUNCTION
+    CNetSocket* pSocket = (CNetSocket*)ctx;
+    pSocket->m_nWaitWriteSize = evbuffer_get_length(bufferevent_get_output(b));
+    if(pSocket->GetStatus() == NSS_CLOSEING && pSocket->m_nWaitWriteSize == 0)
     {
         pSocket->OnDisconnected();
     }
@@ -338,7 +352,7 @@ void CNetSocket::SetAddr(const std::string& val)
 
 size_t CNetSocket::GetWaitWriteSize()
 {
-    return evbuffer_get_length(bufferevent_get_output(GetBufferevent()));
+    return m_nWaitWriteSize;
 }
 
 void CNetSocket::SetPacketSizeMax(size_t val)

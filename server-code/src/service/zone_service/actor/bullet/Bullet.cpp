@@ -39,11 +39,12 @@ bool CBullet::Init(OBJID idOwner, const CBulletType* pType, OBJID idTarget, cons
 
     if(m_pType->GetMoveSPD() != 0)
     {
-        EventManager()->ScheduleEvent(EVENTID_BULLET_MOVESTEP,
-                                      std::bind(&CBullet::MoveStep, this),
-                                      500,
-                                      false,
-                                      GetEventMapRef());
+        CEventEntryCreateParam param;
+        param.evType    = EVENTID_BULLET_MOVESTEP;
+        param.cb        = std::bind(&CBullet::MoveStep, this);
+        param.tWaitTime = 500;
+        param.bPersist  = false;
+        EventManager()->ScheduleEvent(param, GetEventMapRef());
     }
     _SetHP(1);
     m_ActorAttrib.get_base(ATTRIB_HP_MAX) = 1;
@@ -123,12 +124,13 @@ void CBullet::ScheduleApply()
 
     if(m_nApplyTimes < m_pType->GetApplyTimes())
     {
-        uint32_t next_apply_time = m_pType->GetApplyMS() + m_pType->GetApplyAdjMS() * m_nApplyTimes;
-        EventManager()->ScheduleEvent(EVENTID_BULLET_APPLY,
-                                      std::bind(&CBullet::DoApply, this),
-                                      next_apply_time,
-                                      false,
-                                      GetEventMapRef());
+        uint32_t               next_apply_time = m_pType->GetApplyMS() + m_pType->GetApplyAdjMS() * m_nApplyTimes;
+        CEventEntryCreateParam param;
+        param.evType    = EVENTID_BULLET_APPLY;
+        param.cb        = std::bind(&CBullet::DoApply, this);
+        param.tWaitTime = next_apply_time;
+        param.bPersist  = false;
+        EventManager()->ScheduleEvent(param, GetEventMapRef());
         m_nApplyTimes++;
     }
     else

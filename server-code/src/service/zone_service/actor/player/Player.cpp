@@ -234,7 +234,12 @@ void CPlayer::OnLogin(bool bLogin, const SceneID& idScene, float fPosX, float fP
 
     SendMsg(msg);
 
-    EventManager()->ScheduleEvent(0, std::bind(&CPlayer::OnTimer, this), 100, true, m_pEventOnTimer);
+    CEventEntryCreateParam param;
+    param.evType = 0;
+    param.cb     = std::bind(&CPlayer::OnTimer, this);
+    param.tWaitTime = 100;
+    param.bPersist  = true;
+    EventManager()->ScheduleEvent(param, m_pEventOnTimer);
     __LEAVE_FUNCTION
 }
 

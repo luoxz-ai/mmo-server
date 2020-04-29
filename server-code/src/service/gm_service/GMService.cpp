@@ -218,11 +218,12 @@ ON_SERVERMSG(CGMService, ServiceReady)
     GMService()->SendPortMsg(ServerPort(0, ROUTE_SERVICE_ID), send_msg);
 
     LOGMESSAGE("WorldReady: {}", GMService()->GetServerPort().GetWorldID());
-    EventManager()->ScheduleEvent(
-        0,
-        []() { GMService()->SendServiceReady(); },
-        30 * 1000,
-        true);
+
+    CEventEntryCreateParam param;
+    param.cb = []() { GMService()->SendServiceReady(); };
+    param.tWaitTime = 30 * 1000;
+    param.bPersist = true;
+    EventManager()->ScheduleEvent(param);
 }
 
 ON_SERVERMSG(CGMService, ServiceHttpRequest)

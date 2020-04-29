@@ -292,7 +292,9 @@ void CMessagePort::PostSend()
     __ENTER_FUNCTION
     if(m_Event.IsRunning() == false)
     {
-        m_pRoute->GetEventManager()->ScheduleEvent(0, std::bind(&CMessagePort::_SendAllMsg, this), 0, false, m_Event);
+        CEventEntryCreateParam param;
+        param.cb = std::bind(&CMessagePort::_SendAllMsg, this);
+        m_pRoute->GetEventManager()->ScheduleEvent(param, m_Event);
     }
 
     __LEAVE_FUNCTION

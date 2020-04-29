@@ -29,22 +29,24 @@ bool CPlayer::FlyMap(uint16_t idMap, uint32_t idxPhase, float fPosX, float fPosY
     {
         //场景在本地
         //延迟调用真正的FlyMap
-        EventManager()->ScheduleEvent(EVENTID_FLYMAP,
-                                      std::bind(&CPlayer::_FlyMap, this, newSceneID, fPosX, fPosY, fRange, fFace),
-                                      0,
-                                      false,
-                                      GetEventMapRef());
+        CEventEntryCreateParam param;
+        param.evType    = EVENTID_FLYMAP;
+        param.cb        = std::bind(&CPlayer::_FlyMap, this, newSceneID, fPosX, fPosY, fRange, fFace);
+        param.tWaitTime = 0;
+        param.bPersist  = false;
+        EventManager()->ScheduleEvent(param, GetEventMapRef());
 
         return true;
     }
     else
     {
         //切换zone
-        EventManager()->ScheduleEvent(EVENTID_FLYMAP,
-                                      std::bind(&CPlayer::_ChangeZone, this, newSceneID, fPosX, fPosY, fRange, fFace),
-                                      0,
-                                      false,
-                                      GetEventMapRef());
+        CEventEntryCreateParam param;
+        param.evType    = EVENTID_FLYMAP;
+        param.cb        = std::bind(&CPlayer::_ChangeZone, this, newSceneID, fPosX, fPosY, fRange, fFace);
+        param.tWaitTime = 0;
+        param.bPersist  = false;
+        EventManager()->ScheduleEvent(param, GetEventMapRef());
 
         return true;
     }

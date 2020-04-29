@@ -172,11 +172,12 @@ void CActor::AddDelaySendShowTo(OBJID id)
         auto pEntry = GetEventMapRef().Query(EVENTID_BROCAST_SHOW);
         if(pEntry == nullptr || pEntry->IsCanceled() || pEntry->IsRunning() == false)
         {
-            EventManager()->ScheduleEvent(EVENTID_BROCAST_SHOW,
-                                          std::bind(&CActor::SendShowToDealyList, this),
-                                          0,
-                                          false,
-                                          GetEventMapRef());
+            CEventEntryCreateParam param;
+            param.evType    = EVENTID_BROCAST_SHOW;
+            param.cb        = std::bind(&CActor::SendShowToDealyList, this);
+            param.tWaitTime = 0;
+            param.bPersist  = false;
+            EventManager()->ScheduleEvent(param, GetEventMapRef());
         }
     }
     m_setDealySendShow.insert(id);
@@ -189,11 +190,12 @@ void CActor::AddDelaySendShowToAllViewPlayer()
         auto pEntry = GetEventMapRef().Query(EVENTID_BROCAST_SHOW);
         if(pEntry == nullptr || pEntry->IsCanceled() || pEntry->IsRunning() == false)
         {
-            EventManager()->ScheduleEvent(EVENTID_BROCAST_SHOW,
-                                          std::bind(&CActor::SendShowToDealyList, this),
-                                          0,
-                                          false,
-                                          GetEventMapRef());
+            CEventEntryCreateParam param;
+            param.evType    = EVENTID_BROCAST_SHOW;
+            param.cb        = std::bind(&CActor::SendShowToDealyList, this);
+            param.tWaitTime = 0;
+            param.bPersist  = false;
+            EventManager()->ScheduleEvent(param, GetEventMapRef());
         }
     }
     m_setDealySendShow.insert(m_ViewActorsByType[ACT_PLAYER].begin(), m_ViewActorsByType[ACT_PLAYER].end());

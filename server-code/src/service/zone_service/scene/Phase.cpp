@@ -130,15 +130,15 @@ void CPhase::AddTimedCallback(uint32_t tIntervalMS, const std::string& func_name
     __ENTER_FUNCTION
     if(m_pMap->GetScriptID() == 0)
         return;
-
-    EventManager()->ScheduleEvent(
-        0,
-        [pThis = this, _func_name = func_name]() {
+    
+    CEventEntryCreateParam param;
+    param.evType = 0;
+    param.cb     =  [pThis = this, _func_name = func_name]() {
             ScriptManager()->ExecScript<void>(pThis->m_pMap->GetScriptID(), _func_name.c_str(), pThis);
-        },
-        tIntervalMS,
-        false,
-        m_StatusEventList);
+        };
+    param.tWaitTime = tIntervalMS;
+    param.bPersist  = false;
+    EventManager()->ScheduleEvent(param, m_StatusEventList);
     __LEAVE_FUNCTION
 }
 
@@ -329,7 +329,13 @@ void CPhase::ScheduleDelPhase(uint32_t wait_ms)
         }
     };
 
-    EventManager()->ScheduleEvent(0, std::move(del_func), wait_ms, false, m_DelEvent);
+    CEventEntryCreateParam param;
+    param.evType = 0;
+    param.cb     =  std::move(del_func);
+    param.tWaitTime = wait_ms;
+    param.bPersist  = false;
+
+    EventManager()->ScheduleEvent(param, m_DelEvent);
 }
 
 void CPhase::LeaveMap(CSceneObject* pActor, uint64_t idTargetScene /*= 0*/)

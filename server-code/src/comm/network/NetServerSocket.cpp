@@ -29,13 +29,14 @@ CServerSocket::~CServerSocket()
 bool CServerSocket::Init(bufferevent* pBufferEvent)
 {
     __ENTER_FUNCTION
-    m_pBufferevent = pBufferEvent;
-    if(m_pBufferevent)
+
+    if(pBufferEvent)
     {
-        bufferevent_setcb(m_pBufferevent, NULL, NULL, _OnSocketConnectorEvent, (void*)this);
-        bufferevent_enable(m_pBufferevent, EV_WRITE | EV_READ | EV_PERSIST);
+        bufferevent_setcb(pBufferEvent, NULL, NULL, _OnSocketConnectorEvent, (void*)this);
+        bufferevent_enable(pBufferEvent, EV_WRITE | EV_READ | EV_PERSIST);
         _SetTimeout();
     }
+    m_pBufferevent = pBufferEvent;
     SetStatus(NSS_CONNECTING);
     return true;
     __LEAVE_FUNCTION
@@ -50,7 +51,7 @@ void CServerSocket::Interrupt()
     {
         SetReconnect(false);
         bufferevent_disable(m_pBufferevent, EV_READ);
-        bufferevent_setcb(m_pBufferevent, nullptr, _OnSendOK, _OnSocketEvent, this);
+        bufferevent_setcb(m_pBufferevent, nullptr, _OnCheckAllSendOK, _OnSocketEvent, this);
 
         MSG_HEAD msg;
         msg.usCmd  = COMMON_CMD_INTERRUPT;
@@ -133,7 +134,7 @@ void CServerSocket::_OnSocketConnectorEvent(bufferevent* b, short what, void* ct
         evutil_make_socket_nonblocking(fd);
         pSocket->SetSocket(fd);
         pSocket->GetService()->_AddSocket(pSocket);
-        bufferevent_setcb(b, _OnSocketRead, nullptr, _OnSocketEvent, ctx);
+        bufferevent_setcb(b, _OnSocketRead, _OnSendOK, _OnSocketEvent, ctx);
         pSocket->SetStatus(NSS_READY);
         pSocket->OnConnected();
         bufferevent_enable(b, EV_READ | EV_WRITE | EV_PERSIST);

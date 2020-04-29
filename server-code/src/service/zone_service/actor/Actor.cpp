@@ -28,12 +28,14 @@ void CActor::DelThis()
 {
     __ENTER_FUNCTION
     m_bDelThis = true;
-    EventManager()->ScheduleEvent(
-        EVENTID_DELACTOR,
-        [idActor = GetID()]() { ActorManager()->DelActorByID(idActor); },
-        0,
-        false,
-        GetEventMapRef());
+    CEventEntryCreateParam param;
+    param.evType = EVENTID_DELACTOR;
+    param.cb     = [idActor = GetID()]() {
+        ActorManager()->DelActorByID(idActor);
+    };
+    param.tWaitTime = 0;
+    param.bPersist  = false;
+    EventManager()->ScheduleEvent(param, GetEventMapRef());
     __LEAVE_FUNCTION
 }
 
@@ -273,12 +275,14 @@ void CActor::AddDelayAttribChange(uint32_t nType, uint32_t nVal)
     if(pEvent == nullptr || pEvent->IsCanceled() || pEvent->IsRunning() == false)
     {
         // 200毫秒后一次性发送
-        EventManager()->ScheduleEvent(
-            EVENTID_SEND_ATTRIB_CHANGE,
-            [pThis = this]() { pThis->SendDelayAttribChage(); },
-            200,
-            false,
-            GetEventMapRef());
+        CEventEntryCreateParam param;
+        param.evType = EVENTID_SEND_ATTRIB_CHANGE;
+        param.cb     = [pThis = this]() {
+            pThis->SendDelayAttribChage();
+        };
+        param.tWaitTime = 200;
+        param.bPersist  = false;
+        EventManager()->ScheduleEvent(param, GetEventMapRef());
     }
     __LEAVE_FUNCTION
 }

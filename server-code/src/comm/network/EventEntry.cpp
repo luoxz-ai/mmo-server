@@ -6,16 +6,14 @@
 OBJECTHEAP_IMPLEMENTATION(CEventEntry, s_heap);
 
 CEventEntry::CEventEntry(CEventManager*      pManager,
-                         uint32_t            evType,
-                         EventCallBackFunc&& cb,
-                         time_t              tWaitTime,
-                         bool                bPersisit)
+                         const CEventEntryCreateParam& param,
+                         uint32_t nManagerType)
     : m_pManager(pManager)
-    , m_tWaitTime(tWaitTime)
-    , m_evType(evType)
-    , m_evManagerType(EMT_EVMANAGER)
-    , m_pCallBack(cb)
-    , m_bPersist(bPersisit)
+    , m_tWaitTime(param.tWaitTime)
+    , m_evType(param.evType)
+    , m_evManagerType(nManagerType)
+    , m_pCallBack(std::move(param.cb))
+    , m_bPersist(param.bPersist)
 {
 }
 
@@ -28,7 +26,10 @@ void CEventEntry::Destory()
 {
     __ENTER_FUNCTION
     if(m_pevTimer)
+    {
         event_free(m_pevTimer);
+        m_pevTimer = nullptr;
+    }
     __LEAVE_FUNCTION
 }
 
@@ -92,20 +93,23 @@ void CEventEntry::Clear()
     __LEAVE_FUNCTION
 }
 
-void CEventEntry::Set(uint32_t evType, EventCallBackFunc cb, time_t tWaitTime, bool bPersist)
+void CEventEntry::Set(const CEventEntryCreateParam& param, uint32_t nManagerType)
 {
-    m_evType    = evType;
-    m_pCallBack = cb;
-    m_tWaitTime = tWaitTime;
-    m_bPersist  = bPersist;
+    m_evType    = param.evType;
+    m_pCallBack = param.cb;
+    m_tWaitTime = param.tWaitTime;
+    m_bPersist  = param.bPersist;
     m_bRunning  = true;
+    m_evManagerType = nManagerType;
 }
 
 void CEventEntry::ReleaseFromManager()
 {
     __ENTER_FUNCTION
     if(m_pManager)
+    {
         m_pManager->RemoveWait(this);
+    }
     delete this;
     __LEAVE_FUNCTION
 }

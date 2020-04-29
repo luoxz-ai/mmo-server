@@ -1,13 +1,13 @@
 #include "RobotClient.h"
 
 #include "NetMSGProcess.h"
+#include "NetServerSocket.h"
 #include "ProtobuffUtil.h"
 #include "RobotClientManager.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/world_service.pb.h"
 #include "msg/zone_service.pb.h"
 #include "pb_luahelper.h"
-#include "NetServerSocket.h"
 
 RobotClient::RobotClient(RobotClientManager* pManager)
     : m_pManager(pManager)
@@ -111,12 +111,14 @@ void RobotClient::OnRecvTimeout(CNetSocket*) {}
 
 void RobotClient::AddEventCallBack(uint32_t nWaitMs, const std::string& func_name, bool bPersist)
 {
-    m_pManager->GetEventManager()->ScheduleEvent(
-        0,
-        [func_name, pThis = this]() { pThis->m_pManager->ExecScript<void>(func_name.c_str(), pThis); },
-        nWaitMs,
-        bPersist,
-        m_Event);
+    CEventEntryCreateParam param;
+    param.evType = 0;
+    param.cb     = [func_name, pThis = this]() {
+        pThis->m_pManager->ExecScript<void>(func_name.c_str(), pThis);
+    };
+    param.tWaitTime = nWaitMs;
+    param.bPersist  = bPersist;
+    m_pManager->GetEventManager()->ScheduleEvent(param, m_Event);
 }
 
 bool RobotClient::IsConnectServer()

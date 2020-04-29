@@ -15,23 +15,37 @@ CServiceCommon::CServiceCommon()
 {
 }
 
-CServiceCommon::~CServiceCommon() {}
+CServiceCommon::~CServiceCommon()
+{
+
+}
 
 void CServiceCommon::DestoryServiceCommon()
 {
     __ENTER_FUNCTION
     // GetMessageRoute()->CloseMessagePort(m_pMessagePort);
+    StopLogicThread();
     if(m_pMessagePort)
     {
         m_pMessagePort->SetPortEventHandler(nullptr);
         m_pMessagePort = nullptr;
     }
-    StopLogicThread();
 
     if(m_pNetworkService)
     {
         m_pNetworkService->Destroy();
         m_pNetworkService.reset();
+    }
+
+    if(m_pEventManager)
+    {
+        m_pEventManager->Destory();
+        m_pEventManager.reset();
+    }
+
+    if(m_pEventManager)
+    {
+        m_pMonitorMgr.reset();
     }
 
     LOGMESSAGE("{} {} Close", GetServiceName().c_str(), GetServerPort().GetServiceID());
@@ -72,6 +86,7 @@ bool CServiceCommon::CreateService(int32_t                         nWorkInterval
         return false;
     //开启逻辑线程处理来自其他服务器的消息
     StartLogicThread(nWorkInterval, GetServiceName() + "_Logic");
+    BaseCode::InitMonitorLog(m_ServiceName);
     LOGMESSAGE("{} {} Create", GetServiceName().c_str(), GetServerPort().GetServiceID());
     __LEAVE_FUNCTION
     return true;
@@ -159,7 +174,6 @@ void CServiceCommon::OnLogicThreadProc()
 
 void CServiceCommon::OnLogicThreadCreate()
 {
-    BaseCode::InitMonitorLog(m_ServiceName);
 }
 
 void CServiceCommon::OnLogicThreadExit() {}

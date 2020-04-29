@@ -69,8 +69,9 @@
 
 namespace lua_tinker
 {
-    extern const char*       S_SHARED_PTR_NAME;
-    extern const std::string S_EMPTY;
+    constexpr const char* S_SHARED_PTR_NAME = "__shared_ptr";
+    constexpr const char* ERROR_CALLBACK_NAME = "__on_error";
+    constexpr const char* S_EMPTY = "";
     // init LuaTinker
     void init(lua_State* L);
 
@@ -80,8 +81,7 @@ namespace lua_tinker
 
     // error callback
     typedef int32_t (*error_call_back_fn)(lua_State* L);
-    error_call_back_fn get_error_callback();
-    void               set_error_callback(error_call_back_fn fn);
+    void               set_error_callback(lua_State* L, error_call_back_fn fn);
 
     // string-buffer excution
     template<typename RVal = void>
@@ -1773,7 +1773,7 @@ namespace lua_tinker
     template<typename RVal>
     RVal dofile(lua_State* L, const char* filename)
     {
-        lua_pushcclosure(L, get_error_callback(), 0);
+        lua_getglobal(L, ERROR_CALLBACK_NAME);
         int32_t errfunc = lua_gettop(L);
 
         if(luaL_loadfile(L, filename) == 0)
@@ -1821,7 +1821,7 @@ namespace lua_tinker
     template<typename RVal>
     RVal dobuffer(lua_State* L, const char* buff, size_t sz)
     {
-        lua_pushcclosure(L, get_error_callback(), 0);
+        lua_getglobal(L, ERROR_CALLBACK_NAME);
         int32_t errfunc = lua_gettop(L);
 
         if(luaL_loadbuffer(L, buff, sz, "lua_tinker::dobuffer()") == 0)
@@ -1864,7 +1864,7 @@ namespace lua_tinker
     template<typename RVal, typename... Args>
     RVal call(lua_State* L, const char* name, Args&&... arg)
     {
-        lua_pushcclosure(L, get_error_callback(), 0);
+        lua_getglobal(L, ERROR_CALLBACK_NAME);
         int32_t errfunc = lua_gettop(L);
         lua_getglobal(L, name);
         if(lua_isfunction(L, -1))
@@ -2714,7 +2714,7 @@ namespace lua_tinker
         template<typename... Args>
         RVal operator()(Args&&... args) const
         {
-            lua_pushcclosure(m_L, get_error_callback(), 0);
+            lua_getglobal(m_L, ERROR_CALLBACK_NAME);
             int32_t errfunc = lua_gettop(m_L);
 
             if(lua_rawgeti(m_L, LUA_REGISTRYINDEX, m_regidx) == LUA_TFUNCTION)

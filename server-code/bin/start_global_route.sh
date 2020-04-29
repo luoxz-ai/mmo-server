@@ -17,6 +17,8 @@ cd -
 export ASAN_OPTIONS=include_if_exists=${DIR_file}/options_asan
 export LSAN_OPTIONS=include_if_exists=${DIR_file}/options_lsan
 export UBSAN_OPTIONS=include_if_exists=${DIR_file}/options_ubsan
+export TSAN_OPTIONS=include_if_exists=${DIR_file}/options_tsan
+
 route()
 {
    ${DIR_file}/binary/route --worldid=0 --start=60 --logpath=/data/log/route -d 

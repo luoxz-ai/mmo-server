@@ -416,7 +416,7 @@ protected:
 
 private:
     //! thread status.
-    bool _runing;
+    std::atomic<bool> _runing;
     //! wait thread started.
     SemHelper _semaphore;
 
@@ -434,7 +434,7 @@ private:
     //! logger id manager, [logger name]:[logger id].
     std::map<std::string, LoggerId> _ids;
     // the last used id of _loggers
-    LoggerId   _lastId;
+    std::atomic<LoggerId>   _lastId;
     LoggerInfo _loggers[LOG4Z_LOGGER_MAX];
 
     //! log queue
@@ -446,12 +446,12 @@ private:
     LockHelper _scLock;
     // status statistics
     // write file
-    unsigned long long _ullStatusTotalWriteFileCount;
-    unsigned long long _ullStatusTotalWriteFileBytes;
+    std::atomic<unsigned long long> _ullStatusTotalWriteFileCount;
+    std::atomic<unsigned long long> _ullStatusTotalWriteFileBytes;
 
     // Log queue statistics
-    unsigned long long _ullStatusTotalPushLog;
-    unsigned long long _ullStatusTotalPopLog;
+    std::atomic<unsigned long long> _ullStatusTotalPushLog;
+    std::atomic<unsigned long long> _ullStatusTotalPopLog;
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -1171,7 +1171,6 @@ LogData* LogerManager::makeLogData(LoggerId id, int level)
     LogData* pLog = NULL;
     if(true)
     {
-        if(!_freeLogDatas.empty())
         {
             AutoLock l(_logLock);
             if(!_freeLogDatas.empty())
@@ -1238,16 +1237,18 @@ LogData* LogerManager::makeLogData(LoggerId id, int level)
 }
 void LogerManager::freeLogData(LogData* log)
 {
-
-    if(_freeLogDatas.size() < 200)
     {
         AutoLock l(_logLock);
-        _freeLogDatas.push_back(log);
+        if(_freeLogDatas.size() < 200)
+        {
+            _freeLogDatas.push_back(log);
+            return;
+        }
     }
-    else
-    {
-        delete log;
-    }
+
+
+    delete log;
+
 }
 
 void LogerManager::showColorText(const char* text, int level)
@@ -1434,11 +1435,15 @@ bool LogerManager::stop()
         // showColorText("log4z stopping \r\n", LOG_LEVEL_FATAL);
         _runing = false;
         wait();
-        while(!_freeLogDatas.empty())
         {
-            delete _freeLogDatas.back();
-            _freeLogDatas.pop_back();
+            AutoLock l(_logLock);
+            while(!_freeLogDatas.empty())
+            {
+                delete _freeLogDatas.back();
+                _freeLogDatas.pop_back();
+            }
         }
+        
         return true;
     }
     return false;
@@ -1453,10 +1458,15 @@ bool LogerManager::prePushLog(LoggerId id, int level)
     {
         return false;
     }
-    if(_logs.size() > LOG4Z_LOG_QUEUE_LIMIT_SIZE)
+    size_t log_size = 0;
+    {
+	    AutoLock l(_logLock);
+        log_size = _logs.size();
+    }
+    if(log_size > LOG4Z_LOG_QUEUE_LIMIT_SIZE)
     {
         //        return false;
-        double delay = _logs.size() - LOG4Z_LOG_QUEUE_LIMIT_SIZE;
+        double delay = log_size - LOG4Z_LOG_QUEUE_LIMIT_SIZE;
         delay        = delay / LOG4Z_LOG_QUEUE_LIMIT_SIZE * 50;
         delay        = delay > 50 ? 50 : delay;
         delay        = delay < 5 ? 5 : delay;

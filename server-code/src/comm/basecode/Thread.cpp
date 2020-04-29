@@ -3,9 +3,10 @@
 #define RESUME_SIG  SIGUSR2
 #define SUSPEND_SIG SIGUSR1
 
-static sigset_t             wait_mask;
+static thread_local sigset_t wait_mask;
 static thread_local int32_t suspended = 0; // per-thread flag
-void                        resume_handler(int32_t sig, siginfo_t* pInfo, void* pVoid)
+
+void resume_handler(int32_t sig, siginfo_t* pInfo, void* pVoid)
 {
     suspended = 0;
 }

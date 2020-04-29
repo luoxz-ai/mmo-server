@@ -26,36 +26,23 @@ public:
     void   OnTimer();
     size_t GetEventCount();
 
-    void DeleteEntry(CEventEntry*& pEntry);
-    bool ScheduleEvent(uint32_t evType, EventCallBackFunc&& cb, time_t tWaitTime, bool bPersist);
-    bool ScheduleEvent(uint32_t            evType,
-                       EventCallBackFunc&& cb,
-                       time_t              tWaitTime,
-                       bool                bPersist,
-                       CEventEntryPtr&     refEntry);
-    bool ScheduleEvent(uint32_t            evType,
-                       EventCallBackFunc&& cb,
-                       time_t              tWaitTime,
-                       bool                bPersist,
-                       CEventEntryQueue&   refEntryQueue);
-    bool ScheduleEvent(uint32_t            evType,
-                       EventCallBackFunc&& cb,
-                       time_t              tWaitTime,
-                       bool                bPersist,
-                       CEventEntryMap&     refEntryMap);
     bool RemoveWait(CEventEntry* pEntry);
 
+    bool ScheduleEvent(const CEventEntryCreateParam& param);
+    bool ScheduleEvent(const CEventEntryCreateParam& param,
+                       CEventEntryPtr&     refEntry);
+    bool ScheduleEvent(const CEventEntryCreateParam& param,
+                       CEventEntryQueue&   refEntryQueue);
+    bool ScheduleEvent(const CEventEntryCreateParam& param,
+                       CEventEntryMap&     refEntryMap);
+
 protected:
-    CEventEntry* ScheduleEvent(uint32_t            evType,
-                               EventCallBackFunc&& cb,
-                               time_t              tWaitTime,
-                               bool                bPersist,
-                               CEventEntry*        pEntry);
-    CEventEntry* CreateEntry(uint32_t            evType,
-                             EventCallBackFunc&& cb        = nullptr,
-                             time_t              tWaitTime = 0,
-                             bool                bPersist  = false);
-    CEventEntry* PushWait(CEventEntry* pEntry);
+    CEventEntry* _ScheduleEvent(const CEventEntryCreateParam& param,
+                               CEventEntry*        pEntry,
+                               uint32_t nManagerType);
+    CEventEntry* CreateEntry(const CEventEntryCreateParam& param,
+                             uint32_t nManagerType = 0);
+    void         PushWait(CEventEntry* pEntry);
     void         ScheduleWait();
 
 protected:

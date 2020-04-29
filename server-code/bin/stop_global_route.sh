@@ -5,6 +5,7 @@ DIR_file=`pwd`
 export ASAN_OPTIONS=include_if_exists=${DIR_file}/options_asan
 export LSAN_OPTIONS=include_if_exists=${DIR_file}/options_lsan
 export UBSAN_OPTIONS=include_if_exists=${DIR_file}/options_ubsan
+export TSAN_OPTIONS=include_if_exists=${DIR_file}/options_tsan
 
 route()
 {

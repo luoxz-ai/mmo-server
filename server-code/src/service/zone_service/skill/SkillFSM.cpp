@@ -139,21 +139,29 @@ void CSkillFSM::DoIntone(const CSkillType* pSkillType)
     m_pCurSkillType = pSkillType;
     m_curState      = SKILLSTATE_INTONE;
     if(m_pCurSkillType->GetScirptID() != 0)
+    {
         ScriptManager()->TryExecScript<void>(m_pCurSkillType->GetScirptID(),
                                              SCB_SKILL_DOINTONE,
                                              m_pOwner,
                                              m_idTarget,
                                              m_posTarget,
                                              m_pCurSkillType);
+    }
 
     if(pSkillType->GetIntoneMS() == 0)
+    {
         DoLaunch();
+    }
     else
-        EventManager()->ScheduleEvent(0,
-                                      std::bind(&CSkillFSM::DoLaunch, this),
-                                      pSkillType->GetIntoneMS(),
-                                      false,
-                                      m_pEvent);
+    {
+        CEventEntryCreateParam param;
+        param.evType    = 0;
+        param.cb        = std::bind(&CSkillFSM::DoLaunch, this);
+        param.tWaitTime = pSkillType->GetIntoneMS();
+        param.bPersist  = false;
+
+        EventManager()->ScheduleEvent(param, m_pEvent);
+    }
 }
 
 bool CSkillFSM::BreakIntone()
@@ -450,7 +458,14 @@ void CSkillFSM::ScheduleApply()
     if(m_nApplyTimes < m_pCurSkillType->GetApplyTimes())
     {
         uint32_t next_apply_time = m_pCurSkillType->GetApplyMS() + m_pCurSkillType->GetApplyAdjMS() * m_nApplyTimes;
-        EventManager()->ScheduleEvent(0, std::bind(&CSkillFSM::DoApply, this), next_apply_time, false, m_pEvent);
+
+        CEventEntryCreateParam param;
+        param.evType    = 0;
+        param.cb        = std::bind(&CSkillFSM::DoApply, this);
+        param.tWaitTime = next_apply_time;
+        param.bPersist  = false;
+
+        EventManager()->ScheduleEvent(param, m_pEvent);
         m_nApplyTimes++;
     }
     else
@@ -476,13 +491,18 @@ void CSkillFSM::DoStun()
 
     m_curState = SKILLSTATE_STUN;
     if(m_pCurSkillType->GetStunMS() == 0)
+    {
         DoIdle();
+    }
     else
-        EventManager()->ScheduleEvent(0,
-                                      std::bind(&CSkillFSM::DoIdle, this),
-                                      m_pCurSkillType->GetIntoneMS(),
-                                      false,
-                                      m_pEvent);
+    {
+        CEventEntryCreateParam param;
+        param.evType    = 0;
+        param.cb        = std::bind(&CSkillFSM::DoIdle, this);
+        param.tWaitTime = m_pCurSkillType->GetIntoneMS();
+        param.bPersist  = false;
+        EventManager()->ScheduleEvent(param, m_pEvent);
+    }
 }
 
 void CSkillFSM::DoIdle()

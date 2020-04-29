@@ -74,6 +74,7 @@ public:
 
     static void _OnSocketRead(bufferevent*, void* ctx);
     static void _OnSendOK(bufferevent* b, void* ctx);
+    static void _OnCheckAllSendOK(bufferevent* b, void* ctx);
     static void _OnSocketEvent(bufferevent*, short, void* ctx);
 
 public:
@@ -148,5 +149,7 @@ protected:
     std::unique_ptr<byte[]>     m_ReadBuff;
     unsigned short              m_nLastProcessMsgCMD = 0;
     unsigned short              m_nLastCMDSize       = 0;
+
+    std::atomic<uint64_t>       m_nWaitWriteSize = 0;
 };
 #endif // NetSocket_h__

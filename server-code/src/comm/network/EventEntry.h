@@ -14,23 +14,32 @@ typedef std::function<void()> EventCallBackFunc;
 
 enum EVENT_MANAGER_TYPE
 {
-    EMT_EVMANAGER,
+    EMT_EVMANAGER = 0,
     EMT_ENTRY_PTR,
     EMT_ENTRY_QUEUE,
     EMT_ENTRY_MAP,
 };
 class CEventManager;
+
+struct CEventEntryCreateParam
+{
+    uint32_t evType = 0;
+    EventCallBackFunc cb;
+    time_t tWaitTime = 0;
+    bool bPersist = false;
+};
+
 class CEventEntry
 {
+    CEventEntry(CEventManager* pManager, const CEventEntryCreateParam& param, uint32_t nManagerType);
 public:
-    CEventEntry(CEventManager* pManager, uint32_t evType, EventCallBackFunc&& cb, time_t tWaitTime, bool bPersisit);
     ~CEventEntry();
 
 public:
     void Destory();
     void Cancel();
     void Clear();
-    void Set(uint32_t evType, EventCallBackFunc cb, time_t tWaitTime, bool bPersisit);
+    void Set(const CEventEntryCreateParam& param, uint32_t nManagerType);
     void ReleaseFromManager();
     bool CreateEvTimer(event_base* base);
     void Trigger();

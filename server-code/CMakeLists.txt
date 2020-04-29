@@ -6,11 +6,13 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(DEBUG "ON for debug or OFF for release" OFF)
-option(TIDY "ON for use clang-tidy(cmake version 3.6+) or OFF for not use" OFF)
-option(USE_LUADEBUGER "ON for use lua_debuger or OFF for lua" OFF)
+option(TIDY "ON for use clang-tidy(cmake version 3.6+) or OFF" OFF)
+option(USE_LUADEBUGER "ON for use lua_debuger or OFF" OFF)
 option(USE_JEMALLOC "ON for use jemalloc or OFF" ON)
 option(AUTO_GEN_EXPORT_LUA "ON for AUTO_GEN_EXPORT_LUA or OFF" ON)
-option(USE_ASAN "ON for use Address Sanitizer or OFF" ON)
+option(USE_ASAN "ON for use Address Sanitizer or OFF" OFF)
+option(USE_USAN "ON for use Address Sanitizer or OFF" OFF)
+option(USE_TSAN "ON for use Thread Sanitizer or OFF" ON)
 
 
 set_directory_properties(PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
@@ -40,6 +42,8 @@ SET(CMAKE_CXX_ERROR_FLAGS
  -Wno-nonportable-include-path \
  -Wno-undefined-var-template")
 
+add_compile_options("-D__FILENAME__='\"$(subst ${CMAKE_SOURCE_DIR}/,,$(abspath $<))\"'")
+
 SET(CMAKE_C_FLAGS_DEBUG "$ENV{CFLAGS} -g -pipe -DDEBUG -pthread")
 SET(CMAKE_C_FLAGS_RELEASE "$ENV{CFLAGS} -g -pipe -O3 -DNDEBUG -pthread")
 SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -std=c++17 -g -pipe -DDEBUG ${CMAKE_CXX_ERROR_FLAGS} -pthread")
@@ -55,22 +59,46 @@ ELSE()
 #clang
 link_libraries("-Wl,--export-dynamic")
 link_libraries("-fuse-ld=lld-9")
+
+find_program(LLVM_AR_FOUND llvm-ar-9)
+if(LLVM_AR_FOUND)
+  message("CMAKE_AR:${LLVM_AR_FOUND}")
+  set(CMAKE_AR ${LLVM_AR_FOUND})
+endif(LLVM_AR_FOUND)
+
+find_program(LLVM_RANLIB_FOUND llvm-ranlib-9)
+if(LLVM_RANLIB_FOUND)
+  message("CMAKE_RANLIB:${LLVM_RANLIB_FOUND}")
+  set(CMAKE_RANLIB ${LLVM_RANLIB_FOUND})
+endif(LLVM_RANLIB_FOUND)
+
 ENDIF()
 
 IF(USE_ASAN)
 add_compile_options("-DUSE_ASAN")
 add_compile_options("-fsanitize=address")
 add_compile_options("-fno-omit-frame-pointer")
-add_compile_options("-fsanitize-address-use-after-scope")
+#add_compile_options("-fsanitize-address-use-after-scope")
+add_compile_options("-fno-common")
 add_compile_options("-fsanitize-recover=address")
 link_libraries("-fsanitize=address")
 
-IF(DEBUG)
-add_compile_options("-fsanitize=undefined")
-ENDIF(DEBUG)
-
+SET(USE_TSAN 0)
+message("asan:address")
 ENDIF(USE_ASAN)
-#add_compile_options("-fsanitize=thread")
+
+IF(USE_USAN)
+add_compile_options("-fsanitize=undefined")
+link_libraries("-fsanitize=undefined")
+message("asan:undefined")
+ENDIF(USE_USAN)
+
+IF(USE_TSAN)
+add_compile_options("-fsanitize=thread")
+link_libraries("-fsanitize=thread")
+message("asan:thread")
+ENDIF(USE_TSAN)
+
 
 #-----------------------------------------------------------------------------
 # Enable ccache if not already enabled by symlink masquerading and if no other
@@ -96,6 +124,7 @@ SET(PROTOBUF_PROTOC_EXECUTABLE ${PROJECT_SOURCE_DIR}/depends/bin/protoc)
 include(FindProtobuf)
 
 set (MY_CLANG_TIDY_STR "clang-tidy-4.0;-style=file;-checks=-*,clang-analyzer-core*,clang-analyzer-cplusplus*,clang-analyzer-nullability*")
+
 
 
 message("CMAKE_CXX_COMPILER:" ${CMAKE_CXX_COMPILER})

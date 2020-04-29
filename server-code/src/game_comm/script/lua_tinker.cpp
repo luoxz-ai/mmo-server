@@ -22,12 +22,11 @@
 
 namespace lua_tinker
 {
-    const char*       S_SHARED_PTR_NAME = "__shared_ptr";
-    const std::string S_EMPTY           = "";
-
-    error_call_back_fn g_error_call_back;
-    error_call_back_fn get_error_callback() { return g_error_call_back; }
-    void               set_error_callback(error_call_back_fn fn) { g_error_call_back = fn; }
+    void set_error_callback(lua_State* L, error_call_back_fn fn) 
+    {
+        lua_pushcclosure(L, fn, 0);
+        lua_setglobal(L, ERROR_CALLBACK_NAME);
+    }
 
 } // namespace lua_tinker
 
@@ -211,7 +210,7 @@ void lua_tinker::init(lua_State* L)
     init_close_callback(L);
 
     lua_register(L, "lua_create_class", create_class);
-    set_error_callback(&on_error);
+    set_error_callback(L, &on_error);
 }
 
 #ifdef LUATINKER_USERDATA_CHECK_TYPEINFO
