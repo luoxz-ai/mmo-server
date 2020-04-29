@@ -4,7 +4,7 @@
 extern "C"
 {
 #define JEMALLOC_MANGLE
-#include <jemalloc/jemalloc.h>
+#include "jemalloc/jemalloc.h"
 }
 #endif
 

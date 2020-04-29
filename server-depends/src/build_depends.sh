@@ -23,7 +23,7 @@ find -name "*.sh" -type f -exec chmod +x {} \;
 jemalloc()
 {
 cd jemalloc
-CC=${CC_COMPILER} CXX=${CXX_COMPILER} CFLAGS=${CC_FLAGS} LD_FLAG=${LINK_FLAGS} ./autogen.sh  --with-jemalloc-prefix --with-mangling --enable-stats --enable-prof
+CC=${CC_COMPILER} CXX=${CXX_COMPILER} CFLAGS=${CC_FLAGS} LD_FLAG=${LINK_FLAGS} ./autogen.sh  --with-jemalloc-prefix="je_" --with-mangling --enable-stats --enable-prof
 make -j4
 cp lib/lib* ../../lib/ -rp
 cd ..

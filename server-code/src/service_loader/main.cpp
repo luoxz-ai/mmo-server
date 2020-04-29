@@ -151,7 +151,7 @@ void sig_term(int32_t signo)
 void PurgeJemalloc()
 {
 #ifdef USE_JEMALLOC
-    mallctl("arenas.4096.purge", 0, 0, 0, 0);
+    je_mallctl("arenas.4096.purge", 0, 0, 0, 0);
 #endif
 }
 

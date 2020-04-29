@@ -5,4 +5,4 @@ detect_stack_use_after_return=1
 fast_unwind_on_malloc=1
 log_exe_name=true
 verbosity=0
-malloc_context_size=30
+malloc_context_size=20

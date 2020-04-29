@@ -23,6 +23,9 @@ PROJECT(Framework C CXX)
 
 set (CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/src/CMake")
 include(cotire)
+set_directory_properties(PROPERTIES
+    COTIRE_PREFIX_HEADER_INCLUDE_PATH "${PROJECT_SOURCE_DIR}/depends")
+
 
 SET(CMAKE_CXX_ERROR_FLAGS 
 "-fexceptions \
@@ -60,8 +63,12 @@ add_compile_options("-fsanitize=address")
 add_compile_options("-fno-omit-frame-pointer")
 add_compile_options("-fsanitize-address-use-after-scope")
 add_compile_options("-fsanitize-recover=address")
-add_compile_options("-fsanitize=undefined")
 link_libraries("-fsanitize=address")
+
+IF(DEBUG)
+add_compile_options("-fsanitize=undefined")
+ENDIF(DEBUG)
+
 ENDIF(USE_ASAN)
 #add_compile_options("-fsanitize=thread")
 
