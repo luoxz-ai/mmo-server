@@ -30,7 +30,6 @@ TARGET_LINK_LIBRARIES(robotclient
  libevent_extra.so
  libnetwork.so
  libscript.so
- libwebsockets.so
  libmyproto.so
  protobuf
  ${JEMALLOC_LIB_NAME}
