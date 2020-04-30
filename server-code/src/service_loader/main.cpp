@@ -254,7 +254,7 @@ int main(int argc, char* argv[])
     signal(SIGINT, sig_term);
     signal(SIGQUIT, sig_term);
 
-    // start_jemalloc_backgroud_thread();
+    start_jemalloc_backgroud_thread();
 
     BaseCode::InitMonitorLog("comm");
     while(true)
@@ -264,14 +264,14 @@ int main(int argc, char* argv[])
         // PurgeJemalloc();
         auto alloc_from_obj_heap = get_alloc_from_object_heap();
         auto result              = get_memory_status();
-        LOGMONITOR("alloc_from_obj_heap: {:.2f}, "
-                   "allocated: {:.2f}, "
+        LOGMONITOR("obj_heap: {:.2f}, "
+                   "alloc: {:.2f}, "
                    "active: {:.2f}, "
-                   "metadata: {:.2f}, "
-                   "resident: {:.2f}, "
-                   "mapped: {:.2f}, "
-                   "retained: {:.2f}, "
-                   "num_threads: {}",
+                   "meta: {:.2f}, "
+                   "res: {:.2f}, "
+                   "map: {:.2f}, "
+                   "ret: {:.2f}, "
+                   "n_thread: {}",
                    alloc_from_obj_heap / 1024.0f / 1024.0f,
                    result.allocted / 1024.0f / 1024.0f,
                    result.active / 1024.0f / 1024.0f,
