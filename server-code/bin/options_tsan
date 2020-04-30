@@ -2,3 +2,6 @@ log_path=/data/log/asan/asan
 halt_on_error=0
 suppressions=MyTSan.supp
 report_signal_unsafe=0
+report_bugs=1
+report_thread_leaks=1
+report_destroy_locked=1

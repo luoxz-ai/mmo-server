@@ -1,12 +1,14 @@
 log_path=/data/log/asan/asan
 halt_on_error=0
 detect_leaks=1
-detect_stack_use_after_return=0
+detect_stack_use_after_return=1
 fast_unwind_on_malloc=1
 log_exe_name=true
 verbosity=0
-malloc_context_size=5
-quarantine_size_mb=1
+malloc_context_size=20
+quarantine_size_mb=10
 handle_segv=1
 handle_sigfpe=1
 coverage=0
+report_globals=1
+check_initialization_order=1

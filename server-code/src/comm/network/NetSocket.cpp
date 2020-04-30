@@ -45,6 +45,12 @@ CNetSocket::~CNetSocket()
         m_Sendbuf = nullptr;
     }
 
+    SendMsgData* pData = nullptr;
+    while(m_SendMsgQueue.get(pData))
+    {
+        SAFE_DELETE(pData);
+    }
+
     __LEAVE_FUNCTION
 }
 

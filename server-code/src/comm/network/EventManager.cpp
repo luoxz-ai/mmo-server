@@ -64,19 +64,6 @@ bool CEventManager::Init(event_base* base)
 
 void CEventManager::Destory()
 {
-    if(m_bOwnBase)
-    {
-        event_base_free(m_pBase);
-        m_pBase = nullptr;
-    }
-    else if(m_pScheduleWaitEvent)
-    {
-        event_del(m_pScheduleWaitEvent);
-        event_free(m_pScheduleWaitEvent);
-        m_pScheduleWaitEvent = nullptr;
-        m_pBase              = nullptr;
-    }
-
     for(auto it = m_mapEntry.begin(); it != m_mapEntry.end(); it++)
     {
         if(it->second == true)
@@ -92,6 +79,19 @@ void CEventManager::Destory()
         SAFE_DELETE(pEntry);
     }
     m_setWaitEntry.clear();
+
+    if(m_bOwnBase)
+    {
+        event_base_free(m_pBase);
+        m_pBase = nullptr;
+    }
+    else if(m_pScheduleWaitEvent)
+    {
+        event_del(m_pScheduleWaitEvent);
+        event_free(m_pScheduleWaitEvent);
+        m_pScheduleWaitEvent = nullptr;
+        m_pBase              = nullptr;
+    }
 }
 
 void CEventManager::OnTimer()

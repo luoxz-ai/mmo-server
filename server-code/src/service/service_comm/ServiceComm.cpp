@@ -43,7 +43,7 @@ void CServiceCommon::DestoryServiceCommon()
         m_pEventManager.reset();
     }
 
-    if(m_pEventManager)
+    if(m_pMonitorMgr)
     {
         m_pMonitorMgr.reset();
     }
