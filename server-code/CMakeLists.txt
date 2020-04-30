@@ -10,9 +10,9 @@ option(TIDY "ON for use clang-tidy(cmake version 3.6+) or OFF" OFF)
 option(USE_LUADEBUGER "ON for use lua_debuger or OFF" OFF)
 option(USE_JEMALLOC "ON for use jemalloc or OFF" ON)
 option(AUTO_GEN_EXPORT_LUA "ON for AUTO_GEN_EXPORT_LUA or OFF" ON)
-option(USE_ASAN "ON for use Address Sanitizer or OFF" ON)
-option(USE_UBSAN "ON for use UB Sanitizer or OFF" ON)
-option(USE_TSAN "ON for use Thread Sanitizer or OFF" ON)
+option(USE_ASAN "ON for use Address Sanitizer or OFF" OFF)
+option(USE_UBSAN "ON for use UB Sanitizer or OFF" OFF)
+option(USE_TSAN "ON for use Thread Sanitizer or OFF" OFF)
 
 
 set_directory_properties(PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)

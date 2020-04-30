@@ -108,7 +108,7 @@ bool CEventManager::ScheduleEvent(const CEventEntryCreateParam& param,
                                   CEventEntryPtr&     refEntry)
 {
     CHECKF(param.cb);
-    CHECKF(param.tWaitTime > 0);
+    CHECKF(param.tWaitTime >= 0);
     CEventEntry* pEntry = _ScheduleEvent(param, refEntry.GetRef(), EMT_ENTRY_PTR);
     if(pEntry)
     {
@@ -122,7 +122,7 @@ bool CEventManager::ScheduleEvent(const CEventEntryCreateParam& param,
                                   CEventEntryQueue&   refEntryQueue)
 {
     CHECKF(param.cb);
-    CHECKF(param.tWaitTime > 0);
+    CHECKF(param.tWaitTime >= 0);
     CEventEntry* pEntry = _ScheduleEvent(param, nullptr, EMT_ENTRY_QUEUE);
     if(pEntry)
     {
@@ -136,7 +136,7 @@ bool CEventManager::ScheduleEvent(const CEventEntryCreateParam& param,
                                   CEventEntryMap&     refEntryMap)
 {
     CHECKF(param.cb);
-    CHECKF(param.tWaitTime > 0);
+    CHECKF(param.tWaitTime >= 0);
 
     CEventEntry* pEntry = _ScheduleEvent(param, refEntryMap.GetRef(param.evType), EMT_ENTRY_MAP);
     if(pEntry)
@@ -150,7 +150,7 @@ bool CEventManager::ScheduleEvent(const CEventEntryCreateParam& param,
 bool CEventManager::ScheduleEvent(const CEventEntryCreateParam& param)
 {
     CHECKF(param.cb);
-    CHECKF(param.tWaitTime > 0);
+    CHECKF(param.tWaitTime >= 0);
 
     CEventEntry* pEntry = CreateEntry(param, EMT_EVMANAGER);
     m_mapEntry[pEntry] = false;
@@ -163,7 +163,7 @@ CEventEntry* CEventManager::_ScheduleEvent(const CEventEntryCreateParam& param,
                                           uint32_t nManagerType)
 {
     CHECKF(param.cb);
-    CHECKF(param.tWaitTime > 0);
+    CHECKF(param.tWaitTime >= 0);
 
     if(pEntry)
     {
