@@ -18,7 +18,8 @@ void export_to_lua(lua_State* L, void* pManager)
     lua_tinker::class_def<RobotClientManager>(L, "GetProcessCMD", &RobotClientManager::GetProcessCMD);
     lua_tinker::set(L, "robot_manager", (RobotClientManager*)pManager);
 
-    pb_luahelper::export_protobuf_enum_to_lua(L, TS_CMD_descriptor());
+    pb_luahelper::export_protobuf_enum_to_lua(L, CS_CMD_descriptor());
+    pb_luahelper::export_protobuf_enum_to_lua(L, SC_CMD_descriptor());
 }
 
 RobotClientManager::RobotClientManager(uint32_t nRobStart, uint32_t nRobAmount)

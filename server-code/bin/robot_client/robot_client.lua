@@ -14,6 +14,9 @@ robot_manager:RegisterCMD(CMD_SC_DAMAGE, "OnRecv_SC_DAMAGE");
 
 
 function OnConnect(client)
+	if g_print_debug then
+		print_clientmsg(client, "OnConnect.");
+	end
 	local info = g_clientinfo[client:GetClientID()];
 	local msg = ProtobufMessageWarp("CS_LOGIN");
 	--msg.openid = info.openid;
@@ -26,7 +29,7 @@ function OnConnect(client)
 	
 	msg.openid="12345"
 	msg.auth = ""
-	msg.last_succ_key = ""
+	msg.last_succ_key = "gmtest"
 	msg.prog_ver = "0.0.1"
 	client:SendProtobufToServer(CMD_CS_LOGIN, GetProtobufMessagePtr(msg) );
 end

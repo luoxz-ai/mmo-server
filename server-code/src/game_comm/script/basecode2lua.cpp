@@ -25,6 +25,7 @@
 #include "Quaternion.h"
 #include "RandomGet.h"
 #include "Ray.h"
+#include "SampleDynamicBitset.h"
 #include "SegvCatch.h"
 #include "SettingMap.h"
 #include "Singleton.h"

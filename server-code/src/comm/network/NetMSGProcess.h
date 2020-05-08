@@ -22,6 +22,13 @@ public:
         LOGNETDEBUG("RegisterMsgProc:{}", cmd);
     }
 
+    template<class Func>
+    void Register(uint16_t cmd, Func&& func, const std::string& cmd_name)
+    {
+        m_FuncMap.emplace(cmd, std::forward<Func>(func));
+        LOGNETDEBUG("RegisterMsgProc:{}", cmd_name);
+    }
+
     bool Process(CNetworkMessage* pMsg) const;
     void SetDefaultFunc(DefaultMessageHandler&& func) { m_funcDefault = std::move(func); }
 

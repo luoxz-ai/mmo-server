@@ -89,11 +89,11 @@ int main(int argc, char** argv)
                 }
             }
 
-            std::string fields_name;
+            
             std::string fields_enum_list;
-            std::string fields_type;
-            std::string fields_type_enum;
-            std::string is_pri_key_list;
+            std::vector<std::string> fields_tuple;
+            std::vector<std::string> field_type_cpp_list;
+            fields_tuple.resize(vecFieldType.size());
 
             for(uint32_t i = 0; i < vecFieldType.size(); i++)
             {
@@ -101,23 +101,12 @@ int main(int argc, char** argv)
                 std::smatch field_match;
                 if(v.field_name.empty() == false)
                 {
-                    if(fields_name.empty() == false)
-                        fields_name += ",";
+                    std::string& field_tuple = fields_tuple[i];
+                   
                     if(fields_enum_list.empty() == false)
                         fields_enum_list += "\t\t";
-                    if(fields_type.empty() == false)
-                        fields_type += ",";
-                    if(fields_type_enum.empty() == false)
-                        fields_type_enum += ",";
-                    if(is_pri_key_list.empty() == false)
-                        is_pri_key_list += ",";
-
-                    if(PriKeys.find(v.field_name) != PriKeys.end())
-                        is_pri_key_list += "true";
-                    else
-                        is_pri_key_list += "false";
-
-                    fields_name += "\"" + v.field_name + "\"";
+                    
+                    field_tuple = "\"" + v.field_name + "\"";
 
                     std::string field_name_UP = v.field_name;
                     std::transform(field_name_UP.begin(), field_name_UP.end(), field_name_UP.begin(), ::toupper);
@@ -212,8 +201,13 @@ int main(int argc, char** argv)
                             field_type_enum = "DB_FIELD_TYPE_BLOB";
                         }
 
-                        fields_type += field_type_cpp;
-                        fields_type_enum += field_type_enum;
+                        field_type_cpp_list.push_back(field_type_cpp);
+                        field_tuple += "," + field_type_enum;
+
+                        if(PriKeys.find(v.field_name) != PriKeys.end())
+                            field_tuple += ",true";
+                        else
+                            field_tuple += ",false";
                     }
                 }
             }
@@ -221,31 +215,39 @@ int main(int argc, char** argv)
             std::string output_format = R"(
 struct {0}
 {{
-	static constexpr const char* table_name = "{1}";
+	static constexpr const char* table_name() {{ return "{1}";}} 
 	enum FIELD_ENUMS
 	{{
 		{2}
 	}};
-	static constexpr const char* field_name[] = {{ {3} }};
+
+	static constexpr auto field_info()
+    {{ 
+        return std::make_tuple({3});
+    }}
+
 	using field_type_t = type_list<{4}>;
-	static constexpr DB_FIELD_TYPES field_type_enum_list[] = {{ {5} }};
-	static constexpr bool pri_key_idx[] = {{ {6} }};
+
+    static constexpr size_t field_count() {{return {5};}}
 }};
+    
 
 		)";
 
-            char        szBuf[4096]   = {};
+            
             std::string table_name_UP = table_name;
             std::transform(table_name_UP.begin(), table_name_UP.end(), table_name_UP.begin(), ::toupper);
-            fmt::format_to(szBuf,
-                           output_format.c_str(),
-                           table_name_UP.c_str(),
-                           table_name.c_str(),
-                           fields_enum_list.c_str(),
-                           fields_name.c_str(),
-                           fields_type.c_str(),
-                           fields_type_enum.c_str(),
-                           is_pri_key_list.c_str());
+            std::string field_tuple_str = string_concat(fields_tuple, ",", "std::make_tuple(", ")");
+            std::string field_types_str = string_concat(field_type_cpp_list, ",", "", "");
+            std::string szBuf = fmt::format(
+                           output_format,
+                           table_name_UP,
+                           table_name,
+                           fields_enum_list,
+                           field_tuple_str,
+                           field_types_str,
+                           field_type_cpp_list.size()
+                           );
 
             output_header += szBuf;
             if(bDebug)
@@ -253,30 +255,7 @@ struct {0}
                 fmt::printf("%s", szBuf);
             }
 
-            {
-                std::string output_format = R"(
-constexpr const char* {}::table_name;
-constexpr const char* {}::field_name[];
-constexpr DB_FIELD_TYPES {}::field_type_enum_list[];
-constexpr bool {}::pri_key_idx[];
-		)";
-
-                char        szBuf[4096]   = {};
-                std::string table_name_UP = table_name;
-                std::transform(table_name_UP.begin(), table_name_UP.end(), table_name_UP.begin(), ::toupper);
-                fmt::format_to(szBuf,
-                               output_format.c_str(),
-                               table_name_UP.c_str(),
-                               table_name_UP.c_str(),
-                               table_name_UP.c_str(),
-                               table_name_UP.c_str());
-
-                output_cpp += szBuf;
-                if(bDebug)
-                {
-                    fmt::printf("%s", szBuf);
-                }
-            }
+            
         }
     }
 
@@ -293,16 +272,6 @@ constexpr bool {}::pri_key_idx[];
             system(fmt::format("{} -i {}", opt["--format"], out_dir + out_file_name + ".h").c_str());
         }
     }
-    {
-        std::ofstream output_file(out_dir + out_file_name + ".cpp");
-        output_file << "#include \"DBField.h\"\n";
-        output_file << "#include \"" + out_file_name + ".h\"\n";
-        output_file << output_cpp;
-        output_file.close();
-        if(opt.has("--format"))
-        {
-            system(fmt::format("{} -i {}", opt["--format"], out_dir + out_file_name + ".cpp").c_str());
-        }
-    }
+    
    
 }

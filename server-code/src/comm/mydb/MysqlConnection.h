@@ -75,11 +75,11 @@ public:
     bool CheckTable()
     {
         __ENTER_FUNCTION
-        auto ptr              = MakeRecord(T::table_name);
-        auto pFieldInfo_MYSQL = QueryFieldInfo(T::table_name);
+        auto ptr              = MakeRecord(T::table_name());
+        auto pFieldInfo_MYSQL = QueryFieldInfo(T::table_name());
         if(pFieldInfo_MYSQL == nullptr)
         {
-            LOGFATAL("GameDB Check Error, table:{} not find in MYSQL", T::table_name);
+            LOGFATAL("GameDB Check Error, table:{} not find in MYSQL", T::table_name());
             return false;
         }
         auto pFieldInfo_DDL = std::make_unique<CDDLFieldInfoList<T>>();
@@ -87,13 +87,22 @@ public:
         {
             const CDBFieldInfo* pInfo_DDL   = pFieldInfo_DDL->get(i);
             const CDBFieldInfo* pInfo_MYSQL = pFieldInfo_MYSQL->get(i);
-            if(pInfo_DDL == nullptr || pInfo_MYSQL == nullptr ||
-               pInfo_DDL->GetFieldType() != pInfo_MYSQL->GetFieldType())
+            if(pInfo_DDL == nullptr || pInfo_MYSQL == nullptr)
             {
-                LOGFATAL("GameDB Check Error, table:{}, field:{} fieldname:{}",
-                         T::table_name,
+                LOGFATAL("GameDB Check Error, table:{}, field:{}",
+                         T::table_name(),
+                         i
+                         );
+            }
+            else if(pInfo_DDL->GetFieldType() != pInfo_MYSQL->GetFieldType())
+            {
+                LOGFATAL("GameDB Check Error, table:{}, field:{} ddl_field:{}  mysql_field:{} ddl_fieldt:{}  mysql_fieldt:{}",
+                         T::table_name(),
                          i,
-                         pInfo_DDL->GetFieldName());
+                         pInfo_DDL->GetFieldName(),
+                         pInfo_MYSQL->GetFieldName(),
+                         pInfo_DDL->GetFieldType(),
+                         pInfo_MYSQL->GetFieldType());
                 return false;
             }
         }

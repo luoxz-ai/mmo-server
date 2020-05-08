@@ -156,7 +156,7 @@ void CMessageRoute::ReloadServiceInfo(uint32_t update_time, uint16_t nNewWorldID
     {
         std::string SQL = "SELECT * FROM tbld_serverlist WHERE mergeto<>0";
 
-        auto result = m_pGlobalDB->Query(TBLD_SERVERLIST::table_name, SQL);
+        auto result = m_pGlobalDB->Query(TBLD_SERVERLIST::table_name(), SQL);
         CHECK_M(result, "GlobalDB can't query tbld_serverlist");
         std::unordered_map<uint16_t, uint16_t> MergeToList;
         for(size_t i = 0; i < result->get_num_row(); i++)
@@ -206,7 +206,7 @@ void CMessageRoute::ReloadServiceInfo(uint32_t update_time, uint16_t nNewWorldID
             SQL =
                 fmt::format(FMT_STRING("SELECT * FROM tbld_servicedetail WHERE worldid={} OR worldid=0"), GetWorldID());
         }
-        auto result = m_pGlobalDB->Query(TBLD_SERVICEDETAIL::table_name, SQL);
+        auto result = m_pGlobalDB->Query(TBLD_SERVICEDETAIL::table_name(), SQL);
         CHECK_M(result, "GlobalDB can't query tbld_servicedetail");
         for(size_t i = 0; i < result->get_num_row(); i++)
         {

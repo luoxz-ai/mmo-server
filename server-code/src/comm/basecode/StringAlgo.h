@@ -248,4 +248,22 @@ inline std::vector<std::string_view> split_string_view(const std::string& str, c
     return v;
 }
 
+
+inline std::string string_concat(const std::vector<std::string>& vecStr,
+                          const std::string&       delimiters,
+                          const std::string&       pre,
+                          const std::string&       post)
+{
+    std::string result;
+    int         i = 0;
+    for(const auto& v: vecStr)
+    {
+        if(result.empty() == false)
+            result += delimiters;
+
+        result += pre + v + post;
+    }
+    return result;
+}
+
 #endif /* STRINGALGO_H */

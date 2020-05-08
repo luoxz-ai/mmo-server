@@ -2,7 +2,7 @@ syntax = "proto3";
 import "sql_options/sql_options.proto";
 
 package db;
-
+ 
 message tbld_dbinfo
 {
 
@@ -41,7 +41,7 @@ message tbld_serverlist
     uint32 worldid = 1 [(sql).int_size = 16, (sql).primary_key = "idx_id"]; //游戏服编号
 
     string server_name  = 2 [(sql).size = 255];    //服务器名
-    uint64 open_time    = 3;                       //开服时间戳
+    uint32 open_time    = 3;                       //开服时间戳
     uint32 open_status  = 4;                       //开放状态
     string publish_addr = 5 [(sql).size = 255];    //入口地址
     uint32 mergeto      = 6 [(sql).int_size = 16]; //已经被合服到哪个服了

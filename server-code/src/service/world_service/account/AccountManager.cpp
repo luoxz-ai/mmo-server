@@ -112,7 +112,7 @@ bool CAccountManager::Auth(const std::string& openid, const std::string& auth, c
 CAccount* CAccountManager::QueryAccountBySocket(const VirtualSocket& vs) const
 {
     auto it = m_setAccountBySocket.find(vs);
-    if(it == m_setAccountBySocket.end())
+    if(it != m_setAccountBySocket.end())
     {
         return it->second;
     }

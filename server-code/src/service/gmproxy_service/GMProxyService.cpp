@@ -25,6 +25,7 @@
 #include "proxy_service.pb.h"
 #include "server_msg/server_side.pb.h"
 #include "tinyxml2/tinyxml2.h"
+#include "proto_help.h"
 
 // handle HTTP response of accessing builtin services of the target server.
 static void handle_response(brpc::Controller*          client_cntl,
@@ -228,7 +229,7 @@ bool CGMProxyService::Init(const ServerPort& nServerPort)
         auto pNetMsgProcess = GetNetMsgProcess();
         for(const auto& [k, v]: MsgProcRegCenter<CGMProxyService>::instance().m_MsgProc)
         {
-            pNetMsgProcess->Register(k, v);
+            pNetMsgProcess->Register(k, v, cmd_to_enum_name(k));
         }
     }
 

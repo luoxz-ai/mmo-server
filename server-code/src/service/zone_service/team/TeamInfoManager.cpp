@@ -86,7 +86,6 @@ CTeamInfoManager::CTeamInfoManager() {}
 
 bool CTeamInfoManager::Init()
 {
-    RegisterMsgHandler();
     return true;
 }
 
@@ -119,38 +118,38 @@ CTeamInfo* CTeamInfoManager::QueryTeam(uint64_t idTeam)
     return nullptr;
 }
 
-void OnMsg_TeamCreate(const ServerMSG::TeamCreate& msg, CNetworkMessage* pMsg)
+ON_SERVERMSG(CZoneService, TeamCreate) 
 {
     TeamManager()->OnCreateTeam(msg.team_id(), msg.leader_id());
 }
 
-void OnMsg_TeamDestory(const ServerMSG::TeamDestory& msg, CNetworkMessage* pMsg)
+ON_SERVERMSG(CZoneService, TeamDestory) 
 {
     TeamManager()->OnDestoryTeam(msg.team_id());
 }
 
-void OnMsg_TeamQuit(const ServerMSG::TeamQuit& msg, CNetworkMessage* pMsg)
+ON_SERVERMSG(CZoneService, TeamQuit) 
 {
     auto pTeam = TeamManager()->QueryTeam(msg.team_id());
     CHECK(pTeam);
     pTeam->OnDelMember(msg.operator_id());
 }
 
-void OnMsg_TeamKickMember(const ServerMSG::TeamKickMember& msg, CNetworkMessage* pMsg)
+ON_SERVERMSG(CZoneService, TeamKickMember) 
 {
     auto pTeam = TeamManager()->QueryTeam(msg.team_id());
     CHECK(pTeam);
     pTeam->OnDelMember(msg.kick_id());
 }
 
-void OnMsg_TeamNewLeader(const ServerMSG::TeamNewLeader& msg, CNetworkMessage* pMsg)
+ON_SERVERMSG(CZoneService, TeamNewLeader) 
 {
     auto pTeam = TeamManager()->QueryTeam(msg.team_id());
     CHECK(pTeam);
     pTeam->OnSetLeader(msg.new_leader_id());
 }
 
-void OnMsg_TeamAddMember(const ServerMSG::TeamAddMember& msg, CNetworkMessage* pMsg)
+ON_SERVERMSG(CZoneService, TeamAddMember) 
 {
     auto pTeam = TeamManager()->QueryTeam(msg.team_id());
     CHECK(pTeam);
@@ -158,21 +157,3 @@ void OnMsg_TeamAddMember(const ServerMSG::TeamAddMember& msg, CNetworkMessage* p
 }
 
 //////////////////////////////////////////////////////////////////////////
-
-void CTeamInfoManager::RegisterMsgHandler()
-{
-    auto pNetMsgProcess = ZoneService()->GetNetMsgProcess();
-#define REGISTER_SERVERMSG(MsgT) \
-    pNetMsgProcess->Register(    \
-        ServerMSG::MsgID_##MsgT, \
-        std::bind(&ProcessMsg<ServerMSG::MsgT, decltype(OnMsg_##MsgT)>, std::placeholders::_1, &OnMsg_##MsgT));
-
-    REGISTER_SERVERMSG(TeamCreate);
-    REGISTER_SERVERMSG(TeamDestory);
-    REGISTER_SERVERMSG(TeamQuit);
-    REGISTER_SERVERMSG(TeamKickMember);
-    REGISTER_SERVERMSG(TeamNewLeader);
-    REGISTER_SERVERMSG(TeamAddMember);
-
-#undef REGISTER_MSG
-}

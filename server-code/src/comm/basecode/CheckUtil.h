@@ -115,12 +115,12 @@
     catch(const std::runtime_error& e)             \
     {                                              \
         LOGSTACK("catch_execpetion:{}", e.what()); \
-        DumpStack(CallFrameMap(0));                \
+        DumpStack(CallFrameMap(1));                \
     }                                              \
     catch(const std::exception& e)                 \
     {                                              \
         LOGSTACK("catch_execpetion:{}", e.what()); \
-        DumpStack(CallFrameMap(0));                \
+        DumpStack(CallFrameMap(1));                \
     }                                              \
     catch(...) { LOGSTACK("catch_error"); }        \
     }

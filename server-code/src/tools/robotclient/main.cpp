@@ -71,7 +71,7 @@ int main(int argc, char* argv[])
     }
     fmt::print("thread={} percount={} start={} \n", max_thread, nAmount, nStart);
 
-    BaseCode::InitLog("./log/robot_client");
+    BaseCode::InitLog("/data/log/robot_client");
     for(uint32_t i = 0; i < max_thread; i++)
     {
         RobotClientManager* pManager = new RobotClientManager(nStart + nAmount * i, nAmount);

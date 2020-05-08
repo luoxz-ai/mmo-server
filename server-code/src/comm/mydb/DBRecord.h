@@ -12,7 +12,7 @@
 #include "BaseCode.h"
 #include "DBField.h"
 #include "ObjectHeap.h"
-#include "dynamic_bitset.h"
+#include "SampleDynamicBitset.h"
 
 class CDBRecord;
 class CMysqlConnection;
@@ -78,7 +78,7 @@ private:
     std::string                                m_strPriKeyBuf;
     int32_t                                    m_nPriKeyIdx;
     bool                                       m_bNeedCreateFirst;
-    dynamic_bitset<uint32_t>                   m_setDirty;
+    SampleDynamicBitset                        m_setDirty;
 };
 
 using CDBRecordPtr = std::unique_ptr<CDBRecord>;

@@ -153,7 +153,7 @@ bool CZoneService::Init(const ServerPort& nServerPort)
     DEFINE_CONFIG_LOAD(CAchievementTypeSet);
     DEFINE_CONFIG_LOAD(CNpcTypeSet);
 
-    m_pMapManager.reset(CMapManager::CreateNew(GetServerPort().GetServiceID()));
+    m_pMapManager.reset(CMapManager::CreateNew(GetZoneID()));
     CHECKF(m_pMapManager.get());
     m_pActorManager.reset(CActorManager::CreateNew());
     CHECKF(m_pActorManager.get());
@@ -165,13 +165,13 @@ bool CZoneService::Init(const ServerPort& nServerPort)
     //脚本加载
     extern void export_to_lua(lua_State*, void*);
     m_pScriptManager.reset(
-        CLUAScriptManager::CreateNew(std::string("ZoneScript") + std::to_string(GetServerPort().GetServiceID()),
+        CLUAScriptManager::CreateNew(std::string("ZoneScript") + std::to_string(GetZoneID()),
                                      &export_to_lua,
                                      (void*)this,
                                      "res/script/zone_service"));
 
     //必须要晚于MapManger和ActorManager
-    m_pSceneManager.reset(CSceneManager::CreateNew(GetServerPort().GetServiceID()));
+    m_pSceneManager.reset(CSceneManager::CreateNew(GetZoneID()));
     CHECKF(m_pSceneManager.get());
 
     extern void ZoneMessageHandlerRegister();
@@ -451,8 +451,8 @@ CMysqlConnection* CZoneService::_ConnectGameDB(uint16_t nWorldID, CMysqlConnecti
     CHECKF(pGlobalDB);
     //通过globaldb查询localdb
     auto result = pGlobalDB->Query(
-        TBLD_DBINFO::table_name,
-        fmt::format(FMT_STRING("SELECT * FROM {} WHERE worldid={} LIMIT 1"), TBLD_DBINFO::table_name, nWorldID));
+        TBLD_DBINFO::table_name(),
+        fmt::format(FMT_STRING("SELECT * FROM {} WHERE worldid={} LIMIT 1"), TBLD_DBINFO::table_name(), nWorldID));
     if(result)
     {
         auto row = result->fetch_row(false);

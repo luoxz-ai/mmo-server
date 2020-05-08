@@ -44,7 +44,7 @@ inline std::vector<std::string> split_string(const std::string& str, const std::
     return v;
 }
 
-std::string string_concat(std::vector<std::string> vecStr,
+std::string string_concat(const std::vector<std::string>& vecStr,
                           const std::string&       delimiters,
                           const std::string&       pre,
                           const std::string&       post)
@@ -64,55 +64,6 @@ std::string string_concat(std::vector<std::string> vecStr,
 SQLCodeGenerator::SQLCodeGenerator(const std::string& name) {}
 
 SQLCodeGenerator::~SQLCodeGenerator() {}
-
-std::string getSuffix(const google::protobuf::FieldDescriptor* fd)
-{
-    std::stringstream ss;
-    if(fd->is_required())
-        ss << " NOT NULL ";
-    if(fd->has_default_value())
-    {
-        ss << " DEFAULT ";
-        switch(fd->cpp_type())
-        {
-            case google::protobuf::FieldDescriptor::CPPTYPE_INT32:
-                ss << fd->default_value_int32();
-                break;
-            case google::protobuf::FieldDescriptor::CPPTYPE_INT64:
-                ss << fd->default_value_int64();
-                break;
-            case google::protobuf::FieldDescriptor::CPPTYPE_UINT32:
-                ss << fd->default_value_uint32();
-                break;
-            case google::protobuf::FieldDescriptor::CPPTYPE_UINT64:
-                ss << fd->default_value_uint64();
-                break;
-            case google::protobuf::FieldDescriptor::CPPTYPE_DOUBLE:
-                ss << fd->default_value_double();
-                break;
-            case google::protobuf::FieldDescriptor::CPPTYPE_FLOAT:
-                ss << fd->default_value_float();
-                break;
-            case google::protobuf::FieldDescriptor::CPPTYPE_BOOL:
-                ss << fd->default_value_bool();
-                break;
-            case google::protobuf::FieldDescriptor::CPPTYPE_ENUM:
-            {
-                ss << "'" << fd->default_value_enum()->number() << "'";
-            }
-            break;
-            case google::protobuf::FieldDescriptor::CPPTYPE_STRING:
-                ss << "'" << fd->default_value_string() << "'";
-                break;
-            case google::protobuf::FieldDescriptor::CPPTYPE_MESSAGE:
-                ss << "0";
-                break;
-            default:
-                ss << "0";
-        }
-    }
-    return ss.str();
-}
 
 const char* PrimitiveTypeName(const google::protobuf::FieldDescriptor* field_desc)
 {
@@ -278,7 +229,41 @@ std::string DefaultVal(const google::protobuf::FieldDescriptor* field)
 {
     auto options   = field->options();
     auto extension = options.GetExtension(sql);
-    return extension.default_val();
+    if(extension.default_val().empty() == false)
+    {
+        return "NOT NULL DEFAULT '" + extension.default_val() + "'";
+    }
+    else
+    {
+        using namespace google::protobuf;
+        switch(field->type())
+        {
+            case FieldDescriptor::TYPE_DOUBLE:
+            case FieldDescriptor::TYPE_FLOAT:
+                return "NOT NULL DEFAULT '0.0'";
+            case FieldDescriptor::TYPE_FIXED64:
+            case FieldDescriptor::TYPE_SFIXED64:
+            case FieldDescriptor::TYPE_INT64:
+            case FieldDescriptor::TYPE_UINT64:
+            case FieldDescriptor::TYPE_SINT64:
+            case FieldDescriptor::TYPE_FIXED32:
+            case FieldDescriptor::TYPE_SFIXED32:
+            case FieldDescriptor::TYPE_INT32:
+            case FieldDescriptor::TYPE_UINT32:
+            case FieldDescriptor::TYPE_SINT32:
+            case FieldDescriptor::TYPE_BOOL:
+            case FieldDescriptor::TYPE_ENUM:
+                return "NOT NULL DEFAULT '0'";
+            case FieldDescriptor::TYPE_STRING:
+                return "NOT NULL DEFAULT ''";
+            case FieldDescriptor::TYPE_BYTES:
+            default:
+                return "";
+        }
+
+        return "NOT NULL";
+    }
+    
 }
 
 std::string Comment(const google::protobuf::FieldDescriptor* field)
@@ -317,6 +302,9 @@ void PrintMessage(const google::protobuf::Descriptor& message_descriptor, google
         auto unique_str     = Unique(desc);
         auto comment        = Comment(desc);
 
+        if(auto_increment.empty() == false)
+            default_str.clear();
+            
         if(primary_key.empty() == false)
         {
             primary_key_list.push_back(name_str);
@@ -335,12 +323,13 @@ void PrintMessage(const google::protobuf::Descriptor& message_descriptor, google
             unique_list[k].push_back(name_str);
         }
 
-        std::string str = fmt::format("  `{}` {}{} {}{} NOT NULL {}COMMENT '{}',\n",
+        std::string str = fmt::format("  `{}` {}{} {}{} {} {}COMMENT '{}',\n",
                                       name_str,
                                       type_str,
                                       size_str,
                                       unsigned_str,
                                       utf8_str,
+                                      default_str,
                                       auto_increment,
                                       comment);
         printer.PrintRaw(str);

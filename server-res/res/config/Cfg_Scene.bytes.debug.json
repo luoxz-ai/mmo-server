@@ -2,7 +2,7 @@
  "idmap": 101,
  "name": "新手村",
  "idmapdata": 10001,
- "idzone": 11,
+ "idzone": 1,
  "idscript": "100000101"
 ,"__debug":"file:Cfg_Scene.xlsx sheet:Sheet1 line:3  "
 } ,
@@ -10,7 +10,7 @@
  "idmap": 102,
  "name": "大地图1",
  "idmapdata": 10002,
- "idzone": 11,
+ "idzone": 1,
  "idscript": "100000102"
 ,"__debug":"file:Cfg_Scene.xlsx sheet:Sheet1 line:4  "
 } ,
@@ -18,7 +18,7 @@
  "idmap": 103,
  "name": "大地图2",
  "idmapdata": 10003,
- "idzone": 12,
+ "idzone": 2,
  "idscript": "100000103"
 ,"__debug":"file:Cfg_Scene.xlsx sheet:Sheet1 line:5  "
 } ,
@@ -26,7 +26,7 @@
  "idmap": 201,
  "name": "主城",
  "idmapdata": 10004,
- "idzone": 13,
+ "idzone": 3,
  "mapflag": 16384,
  "idscript": "100000201"
 ,"__debug":"file:Cfg_Scene.xlsx sheet:Sheet1 line:6  "

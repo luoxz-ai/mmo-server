@@ -12,7 +12,7 @@ bool CSkillData::Init(CActor* pOwner, uint32_t idSkillSort, uint32_t nLev)
     __ENTER_FUNCTION
     auto pDB = ZoneService()->GetGameDB(pOwner->GetWorldID());
     CHECKF(pDB);
-    m_pData                               = pDB->MakeRecord(TBLD_SKILL::table_name);
+    m_pData                               = pDB->MakeRecord(TBLD_SKILL::table_name());
     m_pData->Field(TBLD_SKILL::ID)        = ZoneService()->CreateUID();
     m_pData->Field(TBLD_SKILL::USERID)    = pOwner->GetID();
     m_pData->Field(TBLD_SKILL::SKILLTYPE) = idSkillSort;

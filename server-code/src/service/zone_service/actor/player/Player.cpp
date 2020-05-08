@@ -44,8 +44,8 @@ bool CPlayer::Init(OBJID idPlayer, const VirtualSocket& socket)
     auto pDB = ZoneService()->GetGameDB(GetWorldIDFromPlayerID(idPlayer));
     CHECKF(pDB);
     auto result_ptr =
-        pDB->Query(TBLD_PLAYER::table_name,
-                   fmt::format(FMT_STRING("SELECT * FROM {} WHERE id={} LIMIT 1"), TBLD_PLAYER::table_name, idPlayer));
+        pDB->Query(TBLD_PLAYER::table_name(),
+                   fmt::format(FMT_STRING("SELECT * FROM {} WHERE id={} LIMIT 1"), TBLD_PLAYER::table_name(), idPlayer));
     CHECKF(result_ptr);
 
     m_pRecord = result_ptr->fetch_row(true);

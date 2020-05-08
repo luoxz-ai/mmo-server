@@ -17,9 +17,12 @@ void export_to_lua(lua_State* L, void*)
     pb_luahelper::export_protobuf_enum_to_lua(L, ACTOR_PROPERTY_descriptor());
     pb_luahelper::export_protobuf_enum_to_lua(L, MONEY_TYPE_descriptor());
     pb_luahelper::export_protobuf_enum_to_lua(L, PK_MODE_descriptor());
-    pb_luahelper::export_protobuf_enum_to_lua(L, TS_CMD_descriptor());
     pb_luahelper::export_protobuf_enum_to_lua(L, TalkChannel_descriptor());
     pb_luahelper::export_protobuf_enum_to_lua(L, TaskState_descriptor());
+
+    pb_luahelper::export_protobuf_enum_to_lua(L, CS_CMD_descriptor());
+    pb_luahelper::export_protobuf_enum_to_lua(L, SC_CMD_descriptor());
+    
     zone2lua(L);
 
     //注册各种辅助函数

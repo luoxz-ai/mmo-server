@@ -590,16 +590,16 @@ const char descriptor_table_protodef_db_5fproto_2fgamedb_2eproto[] PROTOBUF_SECT
   "\?\002\020\001\0221\n\010playerid\030\002 \001(\004B\037\222\?\034\"\032idx_player,"
   " idx_player_idx\022$\n\007keytype\030\003 \001(\rB\023\222\?\020\"\016i"
   "dx_player_idx\022#\n\006keyidx\030\004 \001(\004B\023\222\?\020\"\016idx_"
-  "player_idx\022\023\n\013expire_time\030\005 \001(\004\"\327\001\n\016tbld"
+  "player_idx\022\023\n\013expire_time\030\005 \001(\r\"\327\001\n\016tbld"
   "_datacount\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001"
   "\0221\n\010playerid\030\002 \001(\004B\037\222\?\034\"\032idx_player, idx"
   "_player_idx\022$\n\007keytype\030\003 \001(\rB\023\222\?\020\"\016idx_p"
   "layer_idx\022#\n\006keyidx\030\004 \001(\004B\023\222\?\020\"\016idx_play"
   "er_idx\022\020\n\010data_num\030\005 \001(\004\022\027\n\017last_reset_t"
-  "ime\030\006 \001(\004\"\241\002\n\020tbld_global_mail\022\034\n\002id\030\001 \001"
+  "ime\030\006 \001(\r\"\241\002\n\020tbld_global_mail\022\034\n\002id\030\001 \001"
   "(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022!\n\010senderid\030\002 \001(\004B\017"
   "\222\?\014\"\nidx_sendid\022\032\n\nsendername\030\003 \001(\tB\006\222\?\003"
-  "\010\377\001\022)\n\013create_time\030\004 \001(\004B\024\222\?\021\"\017idx_creat"
+  "\010\377\001\022)\n\013create_time\030\004 \001(\rB\024\222\?\021\"\017idx_creat"
   "e_time\022\014\n\004flag\030\005 \001(\004\022\027\n\007subject\030\006 \001(\tB\006\222"
   "\?\003\010\377\001\022\027\n\007content\030\007 \001(\tB\006\222\?\003\010\200\010\022\023\n\013filter"
   "_type\030\010 \001(\004\022\023\n\013filter_data\030\t \001(\004\022\033\n\013atta"
@@ -607,7 +607,7 @@ const char descriptor_table_protodef_db_5fproto_2fgamedb_2eproto[] PROTOBUF_SECT
   "id\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022\013\n\003lev\030\002 \001(\004\022"
   "\024\n\004name\030\003 \001(\tB\006\222\?\003\010\377\001\022\020\n\010leaderid\030\004 \001(\004\022"
   "\031\n\nleadername\030\005 \001(\tB\005\222\?\002\010 \022\023\n\013create_tim"
-  "e\030\006 \001(\004\022\020\n\010del_time\030\007 \001(\004\"\267\002\n\ttbld_item\022"
+  "e\030\006 \001(\r\022\020\n\010del_time\030\007 \001(\r\"\267\002\n\ttbld_item\022"
   "\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022/\n\010owner_i"
   "d\030\002 \001(\004B\035\222\?\032\"\030idx_owner,idx_owner_pack\022#"
   "\n\010itemtype\030\003 \001(\rB\021\222\?\016\"\014idx_itemtype\022%\n\010p"
@@ -619,12 +619,12 @@ const char descriptor_table_protodef_db_5fproto_2fgamedb_2eproto[] PROTOBUF_SECT
   "\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022!\n\007ownerid\030\002 \001(\004"
   "B\020\222\?\r\"\013idx_ownerid\022!\n\010senderid\030\004 \001(\004B\017\222\?"
   "\014\"\nidx_sendid\022\032\n\nsendername\030\005 \001(\tB\006\222\?\003\010\377"
-  "\001\022)\n\013create_time\030\006 \001(\004B\024\222\?\021\"\017idx_create_"
+  "\001\022)\n\013create_time\030\006 \001(\rB\024\222\?\021\"\017idx_create_"
   "time\022\014\n\004flag\030\007 \001(\004\022\027\n\007subject\030\010 \001(\tB\006\222\?\003"
   "\010\377\001\022\027\n\007content\030\t \001(\tB\006\222\?\003\010\200\010\"\177\n\024tbld_mai"
   "l_attachment\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002"
   "\020\001\022\037\n\006mailid\030\002 \001(\004B\017\222\?\014\"\nidx_mailid\022\023\n\013a"
-  "ttach_type\030\003 \001(\004\022\023\n\013attach_data\030\004 \001(\004\"\211\001"
+  "ttach_type\030\003 \001(\r\022\023\n\013attach_data\030\004 \001(\004\"\211\001"
   "\n\010tbld_pet\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001"
   "\022!\n\007ownerid\030\002 \001(\004B\020\222\?\r\"\013idx_ownerid\022#\n\010p"
   "et_type\030\003 \001(\rB\021\222\?\016\"\014idx_pet_type\022\n\n\002hp\030\004"
@@ -647,14 +647,14 @@ const char descriptor_table_protodef_db_5fproto_2fgamedb_2eproto[] PROTOBUF_SECT
   "\022\n\n\002np\030\036 \001(\r\022\r\n\005pkval\030\037 \001(\r\022\r\n\005honor\030  \001"
   "(\r\022\021\n\tachipoint\030! \001(\r\022\020\n\010bag_size\030\" \001(\r\022"
   "\023\n\013stroge_size\030# \001(\r\022)\n\013create_time\030$ \001("
-  "\004B\024\222\?\021\"\017idx_create_time\022/\n\016last_logintim"
-  "e\030% \001(\004B\027\222\?\024\"\022idx_last_logintime\0221\n\017last"
-  "_logouttime\030& \001(\004B\030\222\?\025\"\023idx_last_logoutt"
-  "ime\022#\n\010del_time\030\' \001(\004B\021\222\?\016\"\014idx_del_time"
+  "\rB\024\222\?\021\"\017idx_create_time\022/\n\016last_logintim"
+  "e\030% \001(\rB\027\222\?\024\"\022idx_last_logintime\0221\n\017last"
+  "_logouttime\030& \001(\rB\030\222\?\025\"\023idx_last_logoutt"
+  "ime\022#\n\010del_time\030\' \001(\rB\021\222\?\016\"\014idx_del_time"
   "\"z\n\025tbld_player_guildinfo\022\034\n\002id\030\001 \001(\004B\020\222"
   "\?\010\032\006idx_id\222\?\002\020\001\022\014\n\004rank\030\002 \001(\r\022\r\n\005score\030\003"
   " \001(\r\022\023\n\013total_score\030\004 \001(\r\022\021\n\tjoin_time\030\005"
-  " \001(\004\"k\n\ntbld_skill\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx"
+  " \001(\r\"k\n\ntbld_skill\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx"
   "_id\222\?\002\020\001\022\037\n\006userid\030\002 \001(\004B\017\222\?\014\"\nidx_useri"
   "d\022\021\n\tskilltype\030\003 \001(\r\022\013\n\003lev\030\004 \001(\r\"\261\002\n\ttb"
   "ld_task\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022\037\n"
@@ -662,8 +662,8 @@ const char descriptor_table_protodef_db_5fproto_2fgamedb_2eproto[] PROTOBUF_SECT
   "\030\003 \001(\rB\017\222\?\014\"\nidx_taskid\022\014\n\004num0\030\004 \001(\r\022\014\n"
   "\004num1\030\005 \001(\r\022\014\n\004num2\030\006 \001(\r\022\014\n\004num3\030\007 \001(\r\022"
   "\026\n\016accept_userlev\030\010 \001(\r\022\023\n\013accept_time\030\t"
-  " \001(\004\022\023\n\013finish_time\030\n \001(\004\022\023\n\013expire_time"
-  "\030\013 \001(\004\022\020\n\010daycount\030\014 \001(\r\022\024\n\014daycount_max"
+  " \001(\r\022\023\n\013finish_time\030\n \001(\r\022\023\n\013expire_time"
+  "\030\013 \001(\r\022\020\n\010daycount\030\014 \001(\r\022\024\n\014daycount_max"
   "\030\r \001(\r\022\r\n\005state\030\016 \001(\r\"\200\001\n\020tbld_achieveme"
   "nt\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022\037\n\006user"
   "id\030\002 \001(\004B\017\222\?\014\"\nidx_userid\022\037\n\006achiid\030\003 \001("
@@ -1093,15 +1093,15 @@ tbld_cooldown::tbld_cooldown(const tbld_cooldown& from)
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&id_, &from.id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&keytype_) -
-    reinterpret_cast<char*>(&id_)) + sizeof(keytype_));
+    static_cast<size_t>(reinterpret_cast<char*>(&expire_time_) -
+    reinterpret_cast<char*>(&id_)) + sizeof(expire_time_));
   // @@protoc_insertion_point(copy_constructor:db.tbld_cooldown)
 }
 
 void tbld_cooldown::SharedCtor() {
   ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&keytype_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(keytype_));
+      reinterpret_cast<char*>(&expire_time_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(expire_time_));
 }
 
 tbld_cooldown::~tbld_cooldown() {
@@ -1128,8 +1128,8 @@ void tbld_cooldown::Clear() {
   (void) cached_has_bits;
 
   ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&keytype_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(keytype_));
+      reinterpret_cast<char*>(&expire_time_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(expire_time_));
   _internal_metadata_.Clear();
 }
 
@@ -1168,7 +1168,7 @@ const char* tbld_cooldown::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint64 expire_time = 5;
+      // uint32 expire_time = 5;
       case 5:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
           expire_time_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
@@ -1225,10 +1225,10 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(4, this->_internal_keyidx(), target);
   }
 
-  // uint64 expire_time = 5;
+  // uint32 expire_time = 5;
   if (this->expire_time() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(5, this->_internal_expire_time(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(5, this->_internal_expire_time(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1268,18 +1268,18 @@ size_t tbld_cooldown::ByteSizeLong() const {
         this->_internal_keyidx());
   }
 
-  // uint64 expire_time = 5;
-  if (this->expire_time() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
-        this->_internal_expire_time());
-  }
-
   // uint32 keytype = 3 [(.sql) = {
   if (this->keytype() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_keytype());
+  }
+
+  // uint32 expire_time = 5;
+  if (this->expire_time() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_expire_time());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1322,11 +1322,11 @@ void tbld_cooldown::MergeFrom(const tbld_cooldown& from) {
   if (from.keyidx() != 0) {
     _internal_set_keyidx(from._internal_keyidx());
   }
-  if (from.expire_time() != 0) {
-    _internal_set_expire_time(from._internal_expire_time());
-  }
   if (from.keytype() != 0) {
     _internal_set_keytype(from._internal_keytype());
+  }
+  if (from.expire_time() != 0) {
+    _internal_set_expire_time(from._internal_expire_time());
   }
 }
 
@@ -1354,8 +1354,8 @@ void tbld_cooldown::InternalSwap(tbld_cooldown* other) {
   swap(id_, other->id_);
   swap(playerid_, other->playerid_);
   swap(keyidx_, other->keyidx_);
-  swap(expire_time_, other->expire_time_);
   swap(keytype_, other->keytype_);
+  swap(expire_time_, other->expire_time_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata tbld_cooldown::GetMetadata() const {
@@ -1381,15 +1381,15 @@ tbld_datacount::tbld_datacount(const tbld_datacount& from)
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&id_, &from.id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&keytype_) -
-    reinterpret_cast<char*>(&id_)) + sizeof(keytype_));
+    static_cast<size_t>(reinterpret_cast<char*>(&data_num_) -
+    reinterpret_cast<char*>(&id_)) + sizeof(data_num_));
   // @@protoc_insertion_point(copy_constructor:db.tbld_datacount)
 }
 
 void tbld_datacount::SharedCtor() {
   ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&keytype_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(keytype_));
+      reinterpret_cast<char*>(&data_num_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(data_num_));
 }
 
 tbld_datacount::~tbld_datacount() {
@@ -1416,8 +1416,8 @@ void tbld_datacount::Clear() {
   (void) cached_has_bits;
 
   ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&keytype_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(keytype_));
+      reinterpret_cast<char*>(&data_num_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(data_num_));
   _internal_metadata_.Clear();
 }
 
@@ -1463,7 +1463,7 @@ const char* tbld_datacount::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint64 last_reset_time = 6;
+      // uint32 last_reset_time = 6;
       case 6:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48)) {
           last_reset_time_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
@@ -1526,10 +1526,10 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(5, this->_internal_data_num(), target);
   }
 
-  // uint64 last_reset_time = 6;
+  // uint32 last_reset_time = 6;
   if (this->last_reset_time() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(6, this->_internal_last_reset_time(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(6, this->_internal_last_reset_time(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1569,25 +1569,25 @@ size_t tbld_datacount::ByteSizeLong() const {
         this->_internal_keyidx());
   }
 
-  // uint64 data_num = 5;
-  if (this->data_num() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
-        this->_internal_data_num());
-  }
-
-  // uint64 last_reset_time = 6;
-  if (this->last_reset_time() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
-        this->_internal_last_reset_time());
-  }
-
   // uint32 keytype = 3 [(.sql) = {
   if (this->keytype() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_keytype());
+  }
+
+  // uint32 last_reset_time = 6;
+  if (this->last_reset_time() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_last_reset_time());
+  }
+
+  // uint64 data_num = 5;
+  if (this->data_num() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_data_num());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1630,14 +1630,14 @@ void tbld_datacount::MergeFrom(const tbld_datacount& from) {
   if (from.keyidx() != 0) {
     _internal_set_keyidx(from._internal_keyidx());
   }
-  if (from.data_num() != 0) {
-    _internal_set_data_num(from._internal_data_num());
+  if (from.keytype() != 0) {
+    _internal_set_keytype(from._internal_keytype());
   }
   if (from.last_reset_time() != 0) {
     _internal_set_last_reset_time(from._internal_last_reset_time());
   }
-  if (from.keytype() != 0) {
-    _internal_set_keytype(from._internal_keytype());
+  if (from.data_num() != 0) {
+    _internal_set_data_num(from._internal_data_num());
   }
 }
 
@@ -1665,9 +1665,9 @@ void tbld_datacount::InternalSwap(tbld_datacount* other) {
   swap(id_, other->id_);
   swap(playerid_, other->playerid_);
   swap(keyidx_, other->keyidx_);
-  swap(data_num_, other->data_num_);
-  swap(last_reset_time_, other->last_reset_time_);
   swap(keytype_, other->keytype_);
+  swap(last_reset_time_, other->last_reset_time_);
+  swap(data_num_, other->data_num_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata tbld_datacount::GetMetadata() const {
@@ -1709,8 +1709,8 @@ tbld_global_mail::tbld_global_mail(const tbld_global_mail& from)
     attach_data_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.attach_data_);
   }
   ::memcpy(&id_, &from.id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&filter_data_) -
-    reinterpret_cast<char*>(&id_)) + sizeof(filter_data_));
+    static_cast<size_t>(reinterpret_cast<char*>(&create_time_) -
+    reinterpret_cast<char*>(&id_)) + sizeof(create_time_));
   // @@protoc_insertion_point(copy_constructor:db.tbld_global_mail)
 }
 
@@ -1721,8 +1721,8 @@ void tbld_global_mail::SharedCtor() {
   content_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   attach_data_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&filter_data_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(filter_data_));
+      reinterpret_cast<char*>(&create_time_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(create_time_));
 }
 
 tbld_global_mail::~tbld_global_mail() {
@@ -1757,8 +1757,8 @@ void tbld_global_mail::Clear() {
   content_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   attach_data_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&filter_data_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(filter_data_));
+      reinterpret_cast<char*>(&create_time_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(create_time_));
   _internal_metadata_.Clear();
 }
 
@@ -1792,7 +1792,7 @@ const char* tbld_global_mail::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPA
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint64 create_time = 4 [(.sql) = {
+      // uint32 create_time = 4 [(.sql) = {
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
           create_time_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
@@ -1894,10 +1894,10 @@ failure:
         3, this->_internal_sendername(), target);
   }
 
-  // uint64 create_time = 4 [(.sql) = {
+  // uint32 create_time = 4 [(.sql) = {
   if (this->create_time() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(4, this->_internal_create_time(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(4, this->_internal_create_time(), target);
   }
 
   // uint64 flag = 5;
@@ -2002,13 +2002,6 @@ size_t tbld_global_mail::ByteSizeLong() const {
         this->_internal_senderid());
   }
 
-  // uint64 create_time = 4 [(.sql) = {
-  if (this->create_time() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
-        this->_internal_create_time());
-  }
-
   // uint64 flag = 5;
   if (this->flag() != 0) {
     total_size += 1 +
@@ -2028,6 +2021,13 @@ size_t tbld_global_mail::ByteSizeLong() const {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
         this->_internal_filter_data());
+  }
+
+  // uint32 create_time = 4 [(.sql) = {
+  if (this->create_time() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_create_time());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -2083,9 +2083,6 @@ void tbld_global_mail::MergeFrom(const tbld_global_mail& from) {
   if (from.senderid() != 0) {
     _internal_set_senderid(from._internal_senderid());
   }
-  if (from.create_time() != 0) {
-    _internal_set_create_time(from._internal_create_time());
-  }
   if (from.flag() != 0) {
     _internal_set_flag(from._internal_flag());
   }
@@ -2094,6 +2091,9 @@ void tbld_global_mail::MergeFrom(const tbld_global_mail& from) {
   }
   if (from.filter_data() != 0) {
     _internal_set_filter_data(from._internal_filter_data());
+  }
+  if (from.create_time() != 0) {
+    _internal_set_create_time(from._internal_create_time());
   }
 }
 
@@ -2128,10 +2128,10 @@ void tbld_global_mail::InternalSwap(tbld_global_mail* other) {
     GetArenaNoVirtual());
   swap(id_, other->id_);
   swap(senderid_, other->senderid_);
-  swap(create_time_, other->create_time_);
   swap(flag_, other->flag_);
   swap(filter_type_, other->filter_type_);
   swap(filter_data_, other->filter_data_);
+  swap(create_time_, other->create_time_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata tbld_global_mail::GetMetadata() const {
@@ -2258,14 +2258,14 @@ const char* tbld_guild::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint64 create_time = 6;
+      // uint32 create_time = 6;
       case 6:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48)) {
           create_time_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint64 del_time = 7;
+      // uint32 del_time = 7;
       case 7:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 56)) {
           del_time_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
@@ -2336,16 +2336,16 @@ failure:
         5, this->_internal_leadername(), target);
   }
 
-  // uint64 create_time = 6;
+  // uint32 create_time = 6;
   if (this->create_time() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(6, this->_internal_create_time(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(6, this->_internal_create_time(), target);
   }
 
-  // uint64 del_time = 7;
+  // uint32 del_time = 7;
   if (this->del_time() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(7, this->_internal_del_time(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(7, this->_internal_del_time(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -2399,17 +2399,17 @@ size_t tbld_guild::ByteSizeLong() const {
         this->_internal_leaderid());
   }
 
-  // uint64 create_time = 6;
+  // uint32 create_time = 6;
   if (this->create_time() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_create_time());
   }
 
-  // uint64 del_time = 7;
+  // uint32 del_time = 7;
   if (this->del_time() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_del_time());
   }
 
@@ -3003,8 +3003,8 @@ tbld_mail::tbld_mail(const tbld_mail& from)
     content_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.content_);
   }
   ::memcpy(&id_, &from.id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&flag_) -
-    reinterpret_cast<char*>(&id_)) + sizeof(flag_));
+    static_cast<size_t>(reinterpret_cast<char*>(&create_time_) -
+    reinterpret_cast<char*>(&id_)) + sizeof(create_time_));
   // @@protoc_insertion_point(copy_constructor:db.tbld_mail)
 }
 
@@ -3014,8 +3014,8 @@ void tbld_mail::SharedCtor() {
   subject_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   content_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&flag_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(flag_));
+      reinterpret_cast<char*>(&create_time_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(create_time_));
 }
 
 tbld_mail::~tbld_mail() {
@@ -3048,8 +3048,8 @@ void tbld_mail::Clear() {
   subject_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   content_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&flag_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(flag_));
+      reinterpret_cast<char*>(&create_time_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(create_time_));
   _internal_metadata_.Clear();
 }
 
@@ -3090,7 +3090,7 @@ const char* tbld_mail::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint64 create_time = 6 [(.sql) = {
+      // uint32 create_time = 6 [(.sql) = {
       case 6:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48)) {
           create_time_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
@@ -3176,10 +3176,10 @@ failure:
         5, this->_internal_sendername(), target);
   }
 
-  // uint64 create_time = 6 [(.sql) = {
+  // uint32 create_time = 6 [(.sql) = {
   if (this->create_time() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(6, this->_internal_create_time(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(6, this->_internal_create_time(), target);
   }
 
   // uint64 flag = 7;
@@ -3266,18 +3266,18 @@ size_t tbld_mail::ByteSizeLong() const {
         this->_internal_senderid());
   }
 
-  // uint64 create_time = 6 [(.sql) = {
-  if (this->create_time() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
-        this->_internal_create_time());
-  }
-
   // uint64 flag = 7;
   if (this->flag() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
         this->_internal_flag());
+  }
+
+  // uint32 create_time = 6 [(.sql) = {
+  if (this->create_time() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_create_time());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -3332,11 +3332,11 @@ void tbld_mail::MergeFrom(const tbld_mail& from) {
   if (from.senderid() != 0) {
     _internal_set_senderid(from._internal_senderid());
   }
-  if (from.create_time() != 0) {
-    _internal_set_create_time(from._internal_create_time());
-  }
   if (from.flag() != 0) {
     _internal_set_flag(from._internal_flag());
+  }
+  if (from.create_time() != 0) {
+    _internal_set_create_time(from._internal_create_time());
   }
 }
 
@@ -3370,8 +3370,8 @@ void tbld_mail::InternalSwap(tbld_mail* other) {
   swap(id_, other->id_);
   swap(ownerid_, other->ownerid_);
   swap(senderid_, other->senderid_);
-  swap(create_time_, other->create_time_);
   swap(flag_, other->flag_);
+  swap(create_time_, other->create_time_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata tbld_mail::GetMetadata() const {
@@ -3397,15 +3397,15 @@ tbld_mail_attachment::tbld_mail_attachment(const tbld_mail_attachment& from)
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&id_, &from.id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&attach_data_) -
-    reinterpret_cast<char*>(&id_)) + sizeof(attach_data_));
+    static_cast<size_t>(reinterpret_cast<char*>(&attach_type_) -
+    reinterpret_cast<char*>(&id_)) + sizeof(attach_type_));
   // @@protoc_insertion_point(copy_constructor:db.tbld_mail_attachment)
 }
 
 void tbld_mail_attachment::SharedCtor() {
   ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&attach_data_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(attach_data_));
+      reinterpret_cast<char*>(&attach_type_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(attach_type_));
 }
 
 tbld_mail_attachment::~tbld_mail_attachment() {
@@ -3432,8 +3432,8 @@ void tbld_mail_attachment::Clear() {
   (void) cached_has_bits;
 
   ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&attach_data_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(attach_data_));
+      reinterpret_cast<char*>(&attach_type_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(attach_type_));
   _internal_metadata_.Clear();
 }
 
@@ -3458,7 +3458,7 @@ const char* tbld_mail_attachment::_InternalParse(const char* ptr, ::PROTOBUF_NAM
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint64 attach_type = 3;
+      // uint32 attach_type = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
           attach_type_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
@@ -3510,10 +3510,10 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(2, this->_internal_mailid(), target);
   }
 
-  // uint64 attach_type = 3;
+  // uint32 attach_type = 3;
   if (this->attach_type() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(3, this->_internal_attach_type(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(3, this->_internal_attach_type(), target);
   }
 
   // uint64 attach_data = 4;
@@ -3552,18 +3552,18 @@ size_t tbld_mail_attachment::ByteSizeLong() const {
         this->_internal_mailid());
   }
 
-  // uint64 attach_type = 3;
-  if (this->attach_type() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
-        this->_internal_attach_type());
-  }
-
   // uint64 attach_data = 4;
   if (this->attach_data() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
         this->_internal_attach_data());
+  }
+
+  // uint32 attach_type = 3;
+  if (this->attach_type() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_attach_type());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -3603,11 +3603,11 @@ void tbld_mail_attachment::MergeFrom(const tbld_mail_attachment& from) {
   if (from.mailid() != 0) {
     _internal_set_mailid(from._internal_mailid());
   }
-  if (from.attach_type() != 0) {
-    _internal_set_attach_type(from._internal_attach_type());
-  }
   if (from.attach_data() != 0) {
     _internal_set_attach_data(from._internal_attach_data());
+  }
+  if (from.attach_type() != 0) {
+    _internal_set_attach_type(from._internal_attach_type());
   }
 }
 
@@ -3634,8 +3634,8 @@ void tbld_mail_attachment::InternalSwap(tbld_mail_attachment* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(id_, other->id_);
   swap(mailid_, other->mailid_);
-  swap(attach_type_, other->attach_type_);
   swap(attach_data_, other->attach_data_);
+  swap(attach_type_, other->attach_type_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata tbld_mail_attachment::GetMetadata() const {
@@ -3961,8 +3961,8 @@ tbld_player::tbld_player(const tbld_player& from)
     mate_name_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.mate_name_);
   }
   ::memcpy(&id_, &from.id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&stroge_size_) -
-    reinterpret_cast<char*>(&id_)) + sizeof(stroge_size_));
+    static_cast<size_t>(reinterpret_cast<char*>(&del_time_) -
+    reinterpret_cast<char*>(&id_)) + sizeof(del_time_));
   // @@protoc_insertion_point(copy_constructor:db.tbld_player)
 }
 
@@ -3972,8 +3972,8 @@ void tbld_player::SharedCtor() {
   name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   mate_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&stroge_size_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(stroge_size_));
+      reinterpret_cast<char*>(&del_time_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(del_time_));
 }
 
 tbld_player::~tbld_player() {
@@ -4006,8 +4006,8 @@ void tbld_player::Clear() {
   name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   mate_name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&stroge_size_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(stroge_size_));
+      reinterpret_cast<char*>(&del_time_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(del_time_));
   _internal_metadata_.Clear();
 }
 
@@ -4269,28 +4269,28 @@ const char* tbld_player::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint64 create_time = 36 [(.sql) = {
+      // uint32 create_time = 36 [(.sql) = {
       case 36:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
           create_time_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint64 last_logintime = 37 [(.sql) = {
+      // uint32 last_logintime = 37 [(.sql) = {
       case 37:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
           last_logintime_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint64 last_logouttime = 38 [(.sql) = {
+      // uint32 last_logouttime = 38 [(.sql) = {
       case 38:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48)) {
           last_logouttime_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint64 del_time = 39 [(.sql) = {
+      // uint32 del_time = 39 [(.sql) = {
       case 39:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 56)) {
           del_time_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
@@ -4545,28 +4545,28 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(35, this->_internal_stroge_size(), target);
   }
 
-  // uint64 create_time = 36 [(.sql) = {
+  // uint32 create_time = 36 [(.sql) = {
   if (this->create_time() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(36, this->_internal_create_time(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(36, this->_internal_create_time(), target);
   }
 
-  // uint64 last_logintime = 37 [(.sql) = {
+  // uint32 last_logintime = 37 [(.sql) = {
   if (this->last_logintime() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(37, this->_internal_last_logintime(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(37, this->_internal_last_logintime(), target);
   }
 
-  // uint64 last_logouttime = 38 [(.sql) = {
+  // uint32 last_logouttime = 38 [(.sql) = {
   if (this->last_logouttime() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(38, this->_internal_last_logouttime(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(38, this->_internal_last_logouttime(), target);
   }
 
-  // uint64 del_time = 39 [(.sql) = {
+  // uint32 del_time = 39 [(.sql) = {
   if (this->del_time() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(39, this->_internal_del_time(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(39, this->_internal_del_time(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -4811,39 +4811,39 @@ size_t tbld_player::ByteSizeLong() const {
         this->_internal_bag_size());
   }
 
-  // uint64 create_time = 36 [(.sql) = {
-  if (this->create_time() != 0) {
-    total_size += 2 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
-        this->_internal_create_time());
-  }
-
-  // uint64 last_logintime = 37 [(.sql) = {
-  if (this->last_logintime() != 0) {
-    total_size += 2 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
-        this->_internal_last_logintime());
-  }
-
-  // uint64 last_logouttime = 38 [(.sql) = {
-  if (this->last_logouttime() != 0) {
-    total_size += 2 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
-        this->_internal_last_logouttime());
-  }
-
-  // uint64 del_time = 39 [(.sql) = {
-  if (this->del_time() != 0) {
-    total_size += 2 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
-        this->_internal_del_time());
-  }
-
   // uint32 stroge_size = 35;
   if (this->stroge_size() != 0) {
     total_size += 2 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_stroge_size());
+  }
+
+  // uint32 create_time = 36 [(.sql) = {
+  if (this->create_time() != 0) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_create_time());
+  }
+
+  // uint32 last_logintime = 37 [(.sql) = {
+  if (this->last_logintime() != 0) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_last_logintime());
+  }
+
+  // uint32 last_logouttime = 38 [(.sql) = {
+  if (this->last_logouttime() != 0) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_last_logouttime());
+  }
+
+  // uint32 del_time = 39 [(.sql) = {
+  if (this->del_time() != 0) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_del_time());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -4982,6 +4982,9 @@ void tbld_player::MergeFrom(const tbld_player& from) {
   if (from.bag_size() != 0) {
     _internal_set_bag_size(from._internal_bag_size());
   }
+  if (from.stroge_size() != 0) {
+    _internal_set_stroge_size(from._internal_stroge_size());
+  }
   if (from.create_time() != 0) {
     _internal_set_create_time(from._internal_create_time());
   }
@@ -4993,9 +4996,6 @@ void tbld_player::MergeFrom(const tbld_player& from) {
   }
   if (from.del_time() != 0) {
     _internal_set_del_time(from._internal_del_time());
-  }
-  if (from.stroge_size() != 0) {
-    _internal_set_stroge_size(from._internal_stroge_size());
   }
 }
 
@@ -5057,11 +5057,11 @@ void tbld_player::InternalSwap(tbld_player* other) {
   swap(honor_, other->honor_);
   swap(achipoint_, other->achipoint_);
   swap(bag_size_, other->bag_size_);
+  swap(stroge_size_, other->stroge_size_);
   swap(create_time_, other->create_time_);
   swap(last_logintime_, other->last_logintime_);
   swap(last_logouttime_, other->last_logouttime_);
   swap(del_time_, other->del_time_);
-  swap(stroge_size_, other->stroge_size_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata tbld_player::GetMetadata() const {
@@ -5087,15 +5087,15 @@ tbld_player_guildinfo::tbld_player_guildinfo(const tbld_player_guildinfo& from)
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&id_, &from.id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&total_score_) -
-    reinterpret_cast<char*>(&id_)) + sizeof(total_score_));
+    static_cast<size_t>(reinterpret_cast<char*>(&join_time_) -
+    reinterpret_cast<char*>(&id_)) + sizeof(join_time_));
   // @@protoc_insertion_point(copy_constructor:db.tbld_player_guildinfo)
 }
 
 void tbld_player_guildinfo::SharedCtor() {
   ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&total_score_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(total_score_));
+      reinterpret_cast<char*>(&join_time_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(join_time_));
 }
 
 tbld_player_guildinfo::~tbld_player_guildinfo() {
@@ -5122,8 +5122,8 @@ void tbld_player_guildinfo::Clear() {
   (void) cached_has_bits;
 
   ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&total_score_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(total_score_));
+      reinterpret_cast<char*>(&join_time_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(join_time_));
   _internal_metadata_.Clear();
 }
 
@@ -5162,7 +5162,7 @@ const char* tbld_player_guildinfo::_InternalParse(const char* ptr, ::PROTOBUF_NA
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint64 join_time = 5;
+      // uint32 join_time = 5;
       case 5:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
           join_time_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
@@ -5219,10 +5219,10 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(4, this->_internal_total_score(), target);
   }
 
-  // uint64 join_time = 5;
+  // uint32 join_time = 5;
   if (this->join_time() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(5, this->_internal_join_time(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(5, this->_internal_join_time(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -5262,18 +5262,18 @@ size_t tbld_player_guildinfo::ByteSizeLong() const {
         this->_internal_score());
   }
 
-  // uint64 join_time = 5;
-  if (this->join_time() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
-        this->_internal_join_time());
-  }
-
   // uint32 total_score = 4;
   if (this->total_score() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_total_score());
+  }
+
+  // uint32 join_time = 5;
+  if (this->join_time() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_join_time());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -5316,11 +5316,11 @@ void tbld_player_guildinfo::MergeFrom(const tbld_player_guildinfo& from) {
   if (from.score() != 0) {
     _internal_set_score(from._internal_score());
   }
-  if (from.join_time() != 0) {
-    _internal_set_join_time(from._internal_join_time());
-  }
   if (from.total_score() != 0) {
     _internal_set_total_score(from._internal_total_score());
+  }
+  if (from.join_time() != 0) {
+    _internal_set_join_time(from._internal_join_time());
   }
 }
 
@@ -5348,8 +5348,8 @@ void tbld_player_guildinfo::InternalSwap(tbld_player_guildinfo* other) {
   swap(id_, other->id_);
   swap(rank_, other->rank_);
   swap(score_, other->score_);
-  swap(join_time_, other->join_time_);
   swap(total_score_, other->total_score_);
+  swap(join_time_, other->join_time_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata tbld_player_guildinfo::GetMetadata() const {
@@ -5742,21 +5742,21 @@ const char* tbld_task::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint64 accept_time = 9;
+      // uint32 accept_time = 9;
       case 9:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 72)) {
           accept_time_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint64 finish_time = 10;
+      // uint32 finish_time = 10;
       case 10:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 80)) {
           finish_time_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint64 expire_time = 11;
+      // uint32 expire_time = 11;
       case 11:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 88)) {
           expire_time_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
@@ -5858,22 +5858,22 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(8, this->_internal_accept_userlev(), target);
   }
 
-  // uint64 accept_time = 9;
+  // uint32 accept_time = 9;
   if (this->accept_time() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(9, this->_internal_accept_time(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(9, this->_internal_accept_time(), target);
   }
 
-  // uint64 finish_time = 10;
+  // uint32 finish_time = 10;
   if (this->finish_time() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(10, this->_internal_finish_time(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(10, this->_internal_finish_time(), target);
   }
 
-  // uint64 expire_time = 11;
+  // uint32 expire_time = 11;
   if (this->expire_time() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(11, this->_internal_expire_time(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(11, this->_internal_expire_time(), target);
   }
 
   // uint32 daycount = 12;
@@ -5966,24 +5966,24 @@ size_t tbld_task::ByteSizeLong() const {
         this->_internal_accept_userlev());
   }
 
-  // uint64 accept_time = 9;
+  // uint32 accept_time = 9;
   if (this->accept_time() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_accept_time());
   }
 
-  // uint64 finish_time = 10;
+  // uint32 finish_time = 10;
   if (this->finish_time() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_finish_time());
   }
 
-  // uint64 expire_time = 11;
+  // uint32 expire_time = 11;
   if (this->expire_time() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_expire_time());
   }
 

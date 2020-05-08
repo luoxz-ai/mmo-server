@@ -6,6 +6,7 @@
 #include "msg/world_service.pb.h"
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
+#include "proto_help.h"
 
 ON_MSG(CWorldService, SC_TALK)
 {
@@ -108,7 +109,7 @@ void RegisterWorldMessageHandler()
     auto pNetMsgProcess = WorldService()->GetNetMsgProcess();
     for(const auto& [k, v]: MsgProcRegCenter<CWorldService>::instance().m_MsgProc)
     {
-        pNetMsgProcess->Register(k, v);
+        pNetMsgProcess->Register(k, v, cmd_to_enum_name(k));
     }
 
     __LEAVE_FUNCTION

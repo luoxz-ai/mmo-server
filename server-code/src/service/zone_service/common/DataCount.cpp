@@ -135,8 +135,8 @@ bool CDataCountSet::Init(CPlayer* pPlayer)
     m_pOwner     = pPlayer;
     auto* pDB    = ZoneService()->GetGameDB(pPlayer->GetWorldID());
     auto  result = pDB->Query(
-        TBLD_DATACOUNT::table_name,
-        fmt::format(FMT_STRING("SELECT * FROM {} WHERE playerid={}"), TBLD_DATACOUNT::table_name, pPlayer->GetID()));
+        TBLD_DATACOUNT::table_name(),
+        fmt::format(FMT_STRING("SELECT * FROM {} WHERE playerid={}"), TBLD_DATACOUNT::table_name(), pPlayer->GetID()));
     if(result)
     {
         for(size_t i = 0; i < result->get_num_row(); i++)
@@ -292,7 +292,7 @@ void CDataCountSet::CreateData(uint32_t nType, uint32_t nIdx, uint32_t nVal)
     __ENTER_FUNCTION
     auto* pDB = ZoneService()->GetGameDB(m_pOwner->GetWorldID());
 
-    auto pDBRecord = pDB->MakeRecord(TBLD_DATACOUNT::table_name);
+    auto pDBRecord = pDB->MakeRecord(TBLD_DATACOUNT::table_name());
 
     pDBRecord->Field(TBLD_DATACOUNT::ID)       = ZoneService()->CreateUID();
     pDBRecord->Field(TBLD_DATACOUNT::PLAYERID) = m_pOwner->GetID();

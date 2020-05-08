@@ -47,7 +47,7 @@ bool CItemData::Init(CMysqlConnection* pDB, OBJID idItem)
     CHECKF(idItem);
 
     auto pResult =
-        pDB->Query(fmt::format(FMT_STRING("SELECT * FROM {} WHERE id={} LIMIT 1"), TBLD_ITEM::table_name, idItem));
+        pDB->Query(fmt::format(FMT_STRING("SELECT * FROM {} WHERE id={} LIMIT 1"), TBLD_ITEM::table_name(), idItem));
     if(pResult == nullptr)
         return false;
 
@@ -84,7 +84,7 @@ bool CItemData::Init(CMysqlConnection* pDB, ST_ITEMINFO& info)
         return false;
     }
 
-    m_pRecord = pDB->MakeRecord(TBLD_ITEM::table_name);
+    m_pRecord = pDB->MakeRecord(TBLD_ITEM::table_name());
     if(!m_pRecord)
         return false;
     m_pRecord->Field(TBLD_ITEM::ID)           = info.idItem;
@@ -131,7 +131,7 @@ bool CItemData::Init(CMysqlConnection* pDB,
         return false;
     }
 
-    m_pRecord = pDB->MakeRecord(TBLD_ITEM::table_name);
+    m_pRecord = pDB->MakeRecord(TBLD_ITEM::table_name());
     if(!m_pRecord)
         return false;
     m_pRecord->Field(TBLD_ITEM::ITEMTYPE) = idItemType;
@@ -160,7 +160,7 @@ bool CItemData::DelRecordStatic(CMysqlConnection* pDB, OBJID idItem)
 {
     __ENTER_FUNCTION
     CHECKF(pDB);
-    pDB->SyncExec(fmt::format(FMT_STRING("DELETE FROM {} WHERE id={}"), TBLD_ITEM::table_name, idItem));
+    pDB->SyncExec(fmt::format(FMT_STRING("DELETE FROM {} WHERE id={}"), TBLD_ITEM::table_name(), idItem));
     __LEAVE_FUNCTION
     return false;
 }

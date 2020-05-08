@@ -11,6 +11,7 @@
 #include "msg/world_service.pb.h"
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
+#include "proto_help.h"
 
 ON_MSG(CAIService, SC_AOI_NEW) {}
 
@@ -212,6 +213,6 @@ void AIServiceMessageHandlerRegister()
 
     for(const auto& [k, v]: MsgProcRegCenter<CAIService>::instance().m_MsgProc)
     {
-        pNetMsgProcess->Register(k, v);
+        pNetMsgProcess->Register(k, v, cmd_to_enum_name(k));
     }
 }

@@ -22,7 +22,7 @@ message tbld_cooldown
     uint64 playerid    = 2 [(sql).keys = "idx_player, idx_player_idx"]; //玩家id
     uint32 keytype     = 3 [(sql).keys = "idx_player_idx"];             // CD类型
     uint64 keyidx      = 4 [(sql).keys = "idx_player_idx"];             // CD编号
-    uint64 expire_time = 5;                                             // CD结束时间戳
+    uint32 expire_time = 5;                                             // CD结束时间戳
 }
 
 message tbld_datacount
@@ -33,7 +33,7 @@ message tbld_datacount
     uint32 keytype         = 3 [(sql).keys = "idx_player_idx"];             // data类型
     uint64 keyidx          = 4 [(sql).keys = "idx_player_idx"];             // data编号
     uint64 data_num        = 5;                                             //累计计数
-    uint64 last_reset_time = 6;                                             //最后1次重置的时间戳
+    uint32 last_reset_time = 6;                                             //最后1次重置的时间戳
 }
 
 message tbld_global_mail
@@ -41,7 +41,7 @@ message tbld_global_mail
     uint64 id          = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true];
     uint64 senderid    = 2 [(sql).keys = "idx_sendid"];      //发送者id
     string sendername  = 3 [(sql).size = 255];               //发送者名字
-    uint64 create_time = 4 [(sql).keys = "idx_create_time"]; //发送时间戳
+    uint32 create_time = 4 [(sql).keys = "idx_create_time"]; //发送时间戳
     uint64 flag        = 5;                                  //发送者id;
     string subject     = 6 [(sql).size = 255];               //邮件标题
     string content     = 7 [(sql).size = 1024];              //邮件内容
@@ -58,8 +58,8 @@ message tbld_guild
 
     uint64 leaderid    = 4;                   //帮主id
     string leadername  = 5 [(sql).size = 32]; //帮主名称
-    uint64 create_time = 6;                   //创帮时间
-    uint64 del_time    = 7;                   //删除时间
+    uint32 create_time = 6;                   //创帮时间
+    uint32 del_time    = 7;                   //删除时间
 }
 
 message tbld_item
@@ -87,7 +87,7 @@ message tbld_mail
     uint64 ownerid     = 2 [(sql).keys = "idx_ownerid"];     //拥有者id
     uint64 senderid    = 4 [(sql).keys = "idx_sendid"];      //拥有者id
     string sendername  = 5 [(sql).size = 255];               //发送者名字
-    uint64 create_time = 6 [(sql).keys = "idx_create_time"]; //发送时间戳
+    uint32 create_time = 6 [(sql).keys = "idx_create_time"]; //发送时间戳
     uint64 flag        = 7;                                  //邮件标志
     string subject     = 8 [(sql).size = 255];               //邮件标题
     string content     = 9 [(sql).size = 1024];              //邮件内容
@@ -97,10 +97,10 @@ message tbld_mail_attachment
 {
     uint64 id          = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true];
     uint64 mailid      = 2 [(sql).keys = "idx_mailid"]; //邮件id
-    uint64 attach_type = 3;                             //附件类型
+    uint32 attach_type = 3;                             //附件类型
     uint64 attach_data = 4;                             //数量/具体道具实例ID
 }
-
+ 
 message tbld_pet
 {
     uint64 id       = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true];
@@ -151,10 +151,10 @@ message tbld_player
     uint32 bag_size    = 34; //背包大小
     uint32 stroge_size = 35; //仓库大小
 
-    uint64 create_time     = 36 [(sql).keys = "idx_create_time"];     //创建时间戳
-    uint64 last_logintime  = 37 [(sql).keys = "idx_last_logintime"];  //最后登录时间戳
-    uint64 last_logouttime = 38 [(sql).keys = "idx_last_logouttime"]; //最后登出时间戳
-    uint64 del_time        = 39 [(sql).keys = "idx_del_time"];        //删除时间戳
+    uint32 create_time     = 36 [(sql).keys = "idx_create_time"];     //创建时间戳
+    uint32 last_logintime  = 37 [(sql).keys = "idx_last_logintime"];  //最后登录时间戳
+    uint32 last_logouttime = 38 [(sql).keys = "idx_last_logouttime"]; //最后登出时间戳
+    uint32 del_time        = 39 [(sql).keys = "idx_del_time"];        //删除时间戳
 }
 
 message tbld_player_guildinfo
@@ -163,7 +163,7 @@ message tbld_player_guildinfo
     uint32 rank        = 2; //帮派职位
     uint32 score       = 3; //帮派贡献
     uint32 total_score = 4; //帮派贡献累计
-    uint64 join_time   = 5; //入帮时间
+    uint32 join_time   = 5; //入帮时间
 }
 
 message tbld_skill
@@ -186,9 +186,9 @@ message tbld_task
     uint32 num3 = 7; //任务计数4
 
     uint32 accept_userlev = 8;  //接受任务时的等级
-    uint64 accept_time    = 9;  //接受任务时间戳
-    uint64 finish_time    = 10; //完成任务时间戳
-    uint64 expire_time    = 11; //任务过期时间戳
+    uint32 accept_time    = 9;  //接受任务时间戳
+    uint32 finish_time    = 10; //完成任务时间戳
+    uint32 expire_time    = 11; //任务过期时间戳
     uint32 daycount       = 12; //本日完成次数
     uint32 daycount_max   = 13; //本日最大可完成次数
     uint32 state          = 14; //任务状态

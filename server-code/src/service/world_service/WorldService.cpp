@@ -108,8 +108,8 @@ bool CWorldService::Init(const ServerPort& nServerPort)
     //通过globaldb查询localdb
 
     auto result = pGlobalDB->Query(
-        TBLD_DBINFO::table_name,
-        fmt::format(FMT_STRING("SELECT * FROM {} WHERE worldid={} LIMIT 1"), TBLD_DBINFO::table_name, GetWorldID()));
+        TBLD_DBINFO::table_name(),
+        fmt::format(FMT_STRING("SELECT * FROM {} WHERE worldid={} LIMIT 1"), TBLD_DBINFO::table_name(), GetWorldID()));
     if(result == nullptr || result->get_num_row() == 0)
     {
         LOGFATAL("CWorldService::Create fail:gamedb info error");

@@ -13,6 +13,7 @@
 #include "msg/ts_cmd.pb.h"
 #include "msg/world_service.pb.h"
 #include "server_msg/server_side.pb.h"
+#include "proto_help.h"
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
@@ -83,6 +84,13 @@ void CSocketService::Destory()
         tls_pService = nullptr;
     };
     DestoryServiceCommon();
+
+    for(auto& [k,v] : m_setVirtualSocket)
+    {
+        SAFE_DELETE(v);
+    }
+    m_setVirtualSocket.clear();
+    m_mapClientByUserID.clear();
 }
 
 bool CSocketService::Init(const ServerPort& nServerPort)
@@ -130,7 +138,7 @@ bool CSocketService::Init(const ServerPort& nServerPort)
         auto pNetMsgProcess = GetNetMsgProcess();
         for(const auto& [k, v]: MsgProcRegCenter<CSocketService>::instance().m_MsgProc)
         {
-            pNetMsgProcess->Register(k, v);
+            pNetMsgProcess->Register(k, v, cmd_to_enum_name(k));
         }
     }
 
@@ -343,7 +351,7 @@ ON_SERVERMSG(CSocketService, SocketAuth)
 
     if(pClient && pClient->IsVaild())
     {
-        LOGDEBUG("CLOSE CLIENT BYVS:{}:{} AuthSucc", pClient->GetSocketAddr().c_str(), pClient->GetSocketPort());
+        LOGDEBUG("AuthSucc BYVS:{}:{} ", pClient->GetSocketAddr().c_str(), pClient->GetSocketPort());
         pClient->SetAuth(true);
         pClient->SetMessageAllow(CLIENT_MSG_ID_BEGIN, CLIENT_MSG_ID_END);
     }

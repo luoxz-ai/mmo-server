@@ -226,7 +226,7 @@ void CStatus::SaveInfo()
     else
     {
         //创建
-        m_pRecord = ZoneService()->GetGameDB(m_pOwner->GetWorldID())->MakeRecord(TBLD_STATUS::table_name);
+        m_pRecord = ZoneService()->GetGameDB(m_pOwner->GetWorldID())->MakeRecord(TBLD_STATUS::table_name());
         m_pRecord->Field(TBLD_STATUS::ID)        = ZoneService()->CreateUID();
         m_pRecord->Field(TBLD_STATUS::USERID)    = m_pOwner->GetID();
         m_pRecord->Field(TBLD_STATUS::TYPEID)    = m_info.idStatusType;

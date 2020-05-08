@@ -202,7 +202,7 @@ const char descriptor_table_protodef_db_5fproto_2fglobaldb_2eproto[] PROTOBUF_SE
   "\222\?\010\032\006idx_id\222\?\002\020\001\022\026\n\006openid\030\002 \001(\tB\006\222\?\003\010\377\001"
   "\022\r\n\005gmlev\030\003 \001(\r\"\257\001\n\017tbld_serverlist\022!\n\007w"
   "orldid\030\001 \001(\rB\020\222\?\0028\020\222\?\010\032\006idx_id\022\033\n\013server"
-  "_name\030\002 \001(\tB\006\222\?\003\010\377\001\022\021\n\topen_time\030\003 \001(\004\022\023"
+  "_name\030\002 \001(\tB\006\222\?\003\010\377\001\022\021\n\topen_time\030\003 \001(\r\022\023"
   "\n\013open_status\030\004 \001(\r\022\034\n\014publish_addr\030\005 \001("
   "\tB\006\222\?\003\010\377\001\022\026\n\007mergeto\030\006 \001(\rB\005\222\?\0028\020\"\254\002\n\022tb"
   "ld_servicedetail\022&\n\007worldid\030\001 \001(\rB\025\222\?\0028\020"
@@ -1407,7 +1407,7 @@ const char* tbld_serverlist::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPAC
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint64 open_time = 3;
+      // uint32 open_time = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
           open_time_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
@@ -1479,10 +1479,10 @@ failure:
         2, this->_internal_server_name(), target);
   }
 
-  // uint64 open_time = 3;
+  // uint32 open_time = 3;
   if (this->open_time() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(3, this->_internal_open_time(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(3, this->_internal_open_time(), target);
   }
 
   // uint32 open_status = 4;
@@ -1544,18 +1544,18 @@ size_t tbld_serverlist::ByteSizeLong() const {
         this->_internal_worldid());
   }
 
+  // uint32 open_time = 3;
+  if (this->open_time() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_open_time());
+  }
+
   // uint32 open_status = 4;
   if (this->open_status() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_open_status());
-  }
-
-  // uint64 open_time = 3;
-  if (this->open_time() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
-        this->_internal_open_time());
   }
 
   // uint32 mergeto = 6 [(.sql) = {
@@ -1607,11 +1607,11 @@ void tbld_serverlist::MergeFrom(const tbld_serverlist& from) {
   if (from.worldid() != 0) {
     _internal_set_worldid(from._internal_worldid());
   }
-  if (from.open_status() != 0) {
-    _internal_set_open_status(from._internal_open_status());
-  }
   if (from.open_time() != 0) {
     _internal_set_open_time(from._internal_open_time());
+  }
+  if (from.open_status() != 0) {
+    _internal_set_open_status(from._internal_open_status());
   }
   if (from.mergeto() != 0) {
     _internal_set_mergeto(from._internal_mergeto());
@@ -1644,8 +1644,8 @@ void tbld_serverlist::InternalSwap(tbld_serverlist* other) {
   publish_addr_.Swap(&other->publish_addr_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
   swap(worldid_, other->worldid_);
-  swap(open_status_, other->open_status_);
   swap(open_time_, other->open_time_);
+  swap(open_status_, other->open_status_);
   swap(mergeto_, other->mergeto_);
 }
 

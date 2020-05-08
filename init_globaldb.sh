@@ -1,4 +1,5 @@
 #!/bin/bash
+
 cd `dirname $0`
 DIR_file=`pwd`
 
@@ -8,6 +9,7 @@ GLOBAL_PORT_START=17000
 GLOBAL_OUT_IP=172.28.1.3
 
 echo "create database global;" | docker exec -i mysql-global sh -c 'exec mysql -v -uroot -p"test12345"'
+set -e
 cat server-res/res/db/db_proto/globaldb.pb.sql | docker exec -i mysql-global sh -c 'exec mysql -v -uroot -p"test12345" global'
 
 

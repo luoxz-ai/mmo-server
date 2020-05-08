@@ -19,10 +19,10 @@ bool CPlayerAchievement::Init(CPlayer* pPlayer)
     m_pOwner = pPlayer;
     auto pDB = ZoneService()->GetGameDB(m_pOwner->GetWorldID());
     CHECKF(pDB);
-    auto pResult = pDB->Query(TBLD_ACHIEVEMENT::table_name,
+    auto pResult = pDB->Query(TBLD_ACHIEVEMENT::table_name(),
                               fmt::format(FMT_STRING("SELECT * FROM {} WHERE {}={}"),
-                                          TBLD_ACHIEVEMENT::table_name,
-                                          TBLD_ACHIEVEMENT::field_name[TBLD_ACHIEVEMENT::USERID],
+                                          TBLD_ACHIEVEMENT::table_name(),
+                                          DBFieldHelp<TBLD_ACHIEVEMENT,TBLD_ACHIEVEMENT::USERID>::GetFieldName(),
                                           m_pOwner->GetID()));
     if(pResult)
     {
@@ -200,7 +200,7 @@ void CPlayerAchievement::FinishAchievement(const CAchievementType* pType)
     __ENTER_FUNCTION
     auto pDB = ZoneService()->GetGameDB(m_pOwner->GetWorldID());
     CHECK(pDB);
-    auto pRecord                             = pDB->MakeRecord(TBLD_ACHIEVEMENT::table_name);
+    auto pRecord                             = pDB->MakeRecord(TBLD_ACHIEVEMENT::table_name());
     pRecord->Field(TBLD_ACHIEVEMENT::ID)     = ZoneService()->CreateUID();
     pRecord->Field(TBLD_ACHIEVEMENT::USERID) = m_pOwner->GetID();
     pRecord->Field(TBLD_ACHIEVEMENT::ACHIID) = pType->GetID();

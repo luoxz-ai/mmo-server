@@ -12,8 +12,8 @@ int main()
     BaseCode::SetNdc("test_ndc");
     CMysqlConnection mysql_conn;
     mysql_conn.Connect("127.0.0.1", "root", "123456", "zone_1001", 3306, 0, true);
-    mysql_conn._AddFieldInfo(TBLD_PLAYER::table_name, std::make_shared<CDDLFieldInfoList<TBLD_PLAYER>>());
-    mysql_conn._AddFieldInfo(TBLD_ITEM::table_name, std::make_shared<CDDLFieldInfoList<TBLD_ITEM>>());
+    mysql_conn._AddFieldInfo(TBLD_PLAYER::table_name(), std::make_shared<CDDLFieldInfoList<TBLD_PLAYER>>());
+    mysql_conn._AddFieldInfo(TBLD_ITEM::table_name(), std::make_shared<CDDLFieldInfoList<TBLD_ITEM>>());
 
     {
         auto result_ptr = mysql_conn.UnionQuery("SELECT * FROM tbld_player");
@@ -53,13 +53,13 @@ int main()
         uid_factory.Init(1000, 11);
 
         OBJID idPlayer                        = uid_factory.CreateID();
-        auto  db_record_ptr                   = mysql_conn.MakeRecord(TBLD_PLAYER::table_name);
+        auto  db_record_ptr                   = mysql_conn.MakeRecord(TBLD_PLAYER::table_name());
         db_record_ptr->Field(TBLD_PLAYER::ID) = idPlayer;
         db_record_ptr->Field("name")          = "test2";
         char szBuf[1024]                      = {"test3"};
-        db_record_ptr->Field(TBLD_PLAYER::field_name[TBLD_PLAYER::NAME]) = szBuf;
+        db_record_ptr->Field(DBFieldHelp<TBLD_PLAYER,TBLD_PLAYER::NAME>::GetFieldName()) = szBuf;
         fmt::format_to_n(szBuf, 1024, "test{}", idPlayer);
-        db_record_ptr->Field(TBLD_PLAYER::field_name[TBLD_PLAYER::NAME]) = szBuf;
+        db_record_ptr->Field(DBFieldHelp<TBLD_PLAYER,TBLD_PLAYER::NAME>::GetFieldName()) = szBuf;
 
         try
         {

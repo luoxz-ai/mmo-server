@@ -52,7 +52,6 @@ public:
 
     export_lua CTeamInfo* QueryTeam(uint64_t idTeam);
 
-    void RegisterMsgHandler();
 
 private:
     std::map<uint64_t, CTeamInfo*> m_setTeam;

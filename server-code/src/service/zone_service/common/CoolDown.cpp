@@ -199,8 +199,8 @@ bool CPlayerCoolDownSet::Init(CPlayer* pPlayer)
     m_pOwner     = pPlayer;
     auto* pDB    = ZoneService()->GetGameDB(pPlayer->GetWorldID());
     auto  result = pDB->Query(
-        TBLD_COOLDOWN::table_name,
-        fmt::format(FMT_STRING("SELECT * FROM {} WHERE playerid={}"), TBLD_COOLDOWN::table_name, pPlayer->GetID()));
+        TBLD_COOLDOWN::table_name(),
+        fmt::format(FMT_STRING("SELECT * FROM {} WHERE playerid={}"), TBLD_COOLDOWN::table_name(), pPlayer->GetID()));
     if(result)
     {
         for(size_t i = 0; i < result->get_num_row(); i++)
@@ -254,7 +254,7 @@ ICoolDown* CPlayerCoolDownSet::CreateData(uint32_t nType, uint32_t nIdx, uint32_
     __ENTER_FUNCTION
     auto* pDB = ZoneService()->GetGameDB(m_pOwner->GetWorldID());
 
-    auto pDBRecord = pDB->MakeRecord(TBLD_COOLDOWN::table_name);
+    auto pDBRecord = pDB->MakeRecord(TBLD_COOLDOWN::table_name());
 
     pDBRecord->Field(TBLD_COOLDOWN::PLAYERID)    = m_pOwner->GetID();
     pDBRecord->Field(TBLD_COOLDOWN::KEYTYPE)     = nType;

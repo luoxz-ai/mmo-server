@@ -23,7 +23,7 @@ bool CPlayerTaskData::Init(CPlayer* pPlayer, uint32_t idTask)
     CHECKF(pPlayer);
     auto pDB = ZoneService()->GetGameDB(pPlayer->GetWorldID());
     CHECKF(pDB);
-    auto row = pDB->MakeRecord(TBLD_TASK::table_name);
+    auto row = pDB->MakeRecord(TBLD_TASK::table_name());
     m_pData.reset(row.release());
     CHECKF(m_pData.get());
     m_pData->Field(TBLD_TASK::ID)     = ZoneService()->CreateUID();

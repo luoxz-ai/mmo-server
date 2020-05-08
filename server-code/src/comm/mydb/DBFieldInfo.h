@@ -168,12 +168,28 @@ protected:
 };
 
 template<typename T, size_t FIELD_IDX>
+struct DBFieldHelp
+{
+    enum 
+    {
+        IDX_FIELD_NAME = 0,
+        IDX_FIELD_TYPE = 1,
+        IDX_FIELD_PRIKEY = 2,
+    };
+    static constexpr const char*    GetTableName() { return T::table_name(); }
+    static constexpr const char*    GetFieldName() { return std::get<IDX_FIELD_NAME>( std::get<FIELD_IDX>(T::field_info()) ); }
+    static constexpr DB_FIELD_TYPES GetFieldType() { return std::get<IDX_FIELD_TYPE>( std::get<FIELD_IDX>(T::field_info()) ); }
+    static constexpr bool           IsPriKey()  { return std::get<IDX_FIELD_PRIKEY>( std::get<FIELD_IDX>(T::field_info()) ); }
+    static constexpr uint32_t       GetFieldIdx()  { return FIELD_IDX; }
+};
+
+template<typename T, size_t FIELD_IDX>
 struct CDDLFieldInfo : public CDBFieldInfo
 {
-    virtual const char*    GetTableName() const override { return T::table_name; }
-    virtual const char*    GetFieldName() const override { return T::field_name[FIELD_IDX]; }
-    virtual DB_FIELD_TYPES GetFieldType() const override { return T::field_type_enum_list[FIELD_IDX]; }
-    virtual bool           IsPriKey() const override { return T::pri_key_idx[FIELD_IDX] == true; }
+    virtual const char*    GetTableName() const override { return DBFieldHelp<T,FIELD_IDX>::GetTableName(); }
+    virtual const char*    GetFieldName() const override { return DBFieldHelp<T,FIELD_IDX>::GetFieldName(); }
+    virtual DB_FIELD_TYPES GetFieldType() const override { return DBFieldHelp<T,FIELD_IDX>::GetFieldType(); }
+    virtual bool           IsPriKey() const override { return DBFieldHelp<T,FIELD_IDX>::IsPriKey(); }
     virtual uint32_t       GetFieldIdx() const override { return FIELD_IDX; }
 };
 
@@ -181,7 +197,7 @@ template<typename T>
 class CDDLFieldInfoList : public CDBFieldInfoList
 {
 public:
-    static constexpr const size_t size_fields = sizeOfArray(T::field_name);
+    static constexpr const size_t size_fields = T::field_count();
     CDDLFieldInfoList()
         : CDDLFieldInfoList(std::make_index_sequence<size_fields>())
     {
@@ -207,5 +223,9 @@ public:
 protected:
     CDBFieldInfo* m_FieldInfos[size_fields];
 };
+
+
+
+
 
 #endif /* DBFIELDINFO_H */

@@ -85,6 +85,7 @@ ON_MSG(CWorldService, CS_CREATEACTOR)
     __ENTER_FUNCTION
 
     CAccount* pAccount = AccountManager()->QueryAccountBySocket(pMsg->GetFrom());
+    CHECK(pAccount);
     CHECK(pAccount->IsWait() == false);
     pAccount->CreateActor(msg.name(), msg.prof(), msg.baselook());
 
@@ -95,6 +96,7 @@ ON_MSG(CWorldService, CS_SELECTACTOR)
 {
     __ENTER_FUNCTION
     CAccount* pAccount = AccountManager()->QueryAccountBySocket(pMsg->GetFrom());
+    CHECK(pAccount);
     CHECK(pAccount->IsWait() == false);
     pAccount->SelectActor(msg.actor_idx());
     __LEAVE_FUNCTION

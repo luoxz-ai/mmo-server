@@ -106,10 +106,10 @@ bool CCommonDataSet::Init(CPlayer* pPlayer)
     __ENTER_FUNCTION
     m_pOwner     = pPlayer;
     auto* pDB    = ZoneService()->GetGameDB(pPlayer->GetWorldID());
-    auto  result = pDB->Query(TBLD_COMMONDATA::table_name,
+    auto  result = pDB->Query(TBLD_COMMONDATA::table_name(),
                              fmt::format(FMT_STRING("SELECT * FROM {} WHERE {}={}"),
-                                         TBLD_COMMONDATA::table_name,
-                                         TBLD_COMMONDATA::field_name[TBLD_COMMONDATA::PLAYERID],
+                                         TBLD_COMMONDATA::table_name(),
+                                         DBFieldHelp<TBLD_COMMONDATA,TBLD_COMMONDATA::PLAYERID>::GetFieldName(),
                                          pPlayer->GetID()));
     if(result)
     {
@@ -192,7 +192,7 @@ CCommonData* CCommonDataSet::CreateData(uint32_t nIdx)
     __ENTER_FUNCTION
     auto* pDB = ZoneService()->GetGameDB(m_pOwner->GetWorldID());
 
-    auto pDBRecord = pDB->MakeRecord(TBLD_COMMONDATA::table_name);
+    auto pDBRecord = pDB->MakeRecord(TBLD_COMMONDATA::table_name());
 
     pDBRecord->Field(TBLD_COMMONDATA::ID)       = ZoneService()->CreateUID();
     pDBRecord->Field(TBLD_COMMONDATA::PLAYERID) = m_pOwner->GetID();

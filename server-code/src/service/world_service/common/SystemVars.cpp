@@ -187,7 +187,7 @@ bool CSystemVarSet::Init()
     auto* pDB = WorldService()->GetGameDB();
     CHECKF(pDB);
 
-    auto result = pDB->Query(TBLD_SYSTEMVAR::table_name);
+    auto result = pDB->Query(TBLD_SYSTEMVAR::table_name());
     if(result)
     {
         for(size_t i = 0; i < result->get_num_row(); i++)
@@ -222,7 +222,7 @@ CSystemVar* CSystemVarSet::CreateVar(uint32_t nIdx)
 
     if(nIdx < SYSTEMVAR_NOT_SAVE)
     {
-        auto pDBRecord = pDB->MakeRecord(TBLD_SYSTEMVAR::table_name);
+        auto pDBRecord = pDB->MakeRecord(TBLD_SYSTEMVAR::table_name());
 
         pDBRecord->Field(TBLD_SYSTEMVAR::KEYIDX) = nIdx;
         CHECKF(pDBRecord->Update(true));
