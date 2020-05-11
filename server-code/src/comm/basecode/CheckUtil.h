@@ -114,13 +114,11 @@
     }                                              \
     catch(const std::runtime_error& e)             \
     {                                              \
-        LOGSTACK("catch_execpetion:{}", e.what()); \
-        DumpStack(CallFrameMap(1));                \
+        LOGSTACK("catch_execpetion:{} \nCallFrom:{}", e.what(), GetStackTraceString(CallFrameMap(1,2))); \
     }                                              \
     catch(const std::exception& e)                 \
     {                                              \
-        LOGSTACK("catch_execpetion:{}", e.what()); \
-        DumpStack(CallFrameMap(1));                \
+        LOGSTACK("catch_execpetion:{} \nCallFrom:{}", e.what(), GetStackTraceString(CallFrameMap(1,2))); \
     }                                              \
     catch(...) { LOGSTACK("catch_error"); }        \
     }

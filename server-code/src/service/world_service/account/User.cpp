@@ -32,10 +32,31 @@ void CUser::EnterZone()
 {
     __ENTER_FUNCTION
     LOGLOGIN("UserEnterZone:{}", GetID());
-
-    uint64_t idRecordScene = m_pInfo->GetRecordSceneID();
+    
+    SceneIdx idRecordScene = m_pInfo->GetRecordSceneIdx();
+    uint64_t idTargetScene = idRecordScene;
     //通过地图id查找玩家所在的Zone
-    uint16_t idZone = SceneID(idRecordScene).GetZoneID();
+    uint16_t idZone = idRecordScene.GetZoneID();
+    if(idZone == 0)
+    {
+        auto pMap = MapManager()->QueryMap(idRecordScene.GetMapID());
+        CHECK(pMap);
+        idZone = pMap->GetZoneID();
+    }
+    if(idZone == 0)
+    {
+        SceneIdx idHomeScene = m_pInfo->GetHomeSceneIdx();
+        idTargetScene = idHomeScene;
+        idZone = idHomeScene.GetZoneID();
+        if(idZone == 0)
+        {
+            auto pMap = MapManager()->QueryMap(idHomeScene.GetMapID());
+            CHECK(pMap);
+            idZone = pMap->GetZoneID();
+        }
+    }
+
+    CHECK(idZone);
     m_pInfo->SetLastLoginTime(TimeGetSecond());
 
     //通知对应的Zone开始Loading玩家数据
@@ -43,22 +64,19 @@ void CUser::EnterZone()
         ServerMSG::PlayerEnterZone msg;
         msg.set_idplayer(GetID());
         msg.set_socket(m_pAccount->GetSocket());
-        msg.set_idscene(idRecordScene);
+        msg.set_target_scene_idx(idTargetScene);
         msg.set_posx(m_pInfo->GetRecordPosX());
         msg.set_posy(m_pInfo->GetRecordPosY());
         msg.set_face(m_pInfo->GetRecordFace());
-
-        CNetworkMessage _msg(ServerMSG::MsgID_PlayerEnterZone,
-                             msg,
-                             WorldService()->GetServerPort(),
-                             ServerPort(WorldService()->GetWorldID(), idZone));
-        WorldService()->SendPortMsg(_msg);
+        
+        ServerPort zone_port(WorldService()->GetWorldID(), ZoneID2ServiceID(idZone));
+        WorldService()->SendPortMsg(zone_port, ServerMSG::MsgID_PlayerEnterZone, msg);
     }
 
     //通知Socket，玩家消息指向新的Zone
     {
         ServerMSG::SocketChangeDest sock_msg;
-        sock_msg.set_destport(ServerPort(WorldService()->GetWorldID(), idZone));
+        sock_msg.set_destport(ServerPort(WorldService()->GetWorldID(), ZoneID2ServiceID(idZone)));
         sock_msg.set_vs(GetSocket());
 
         WorldService()->SendPortMsg(GetSocket().GetServerPort(), sock_msg);
@@ -76,7 +94,7 @@ void CUser::OnChangeZone(uint16_t idZone)
     //通知Socket，玩家消息指向新的Zone
     {
         ServerMSG::SocketChangeDest sock_msg;
-        sock_msg.set_destport(ServerPort(WorldService()->GetWorldID(), idZone));
+        sock_msg.set_destport(ServerPort(WorldService()->GetWorldID(), ZoneID2ServiceID(idZone)));
         sock_msg.set_vs(GetSocket());
 
         WorldService()->SendPortMsg(GetSocket().GetServerPort(), sock_msg);
@@ -97,11 +115,8 @@ void CUser::Logout()
         ServerMSG::PlayerLogout msg;
         msg.set_idplayer(GetID());
         msg.set_socket(GetSocket());
-        CNetworkMessage _msg(ServerMSG::MsgID_PlayerLogout,
-                             msg,
-                             WorldService()->GetServerPort(),
-                             ServerPort(WorldService()->GetWorldID(), m_idZone));
-        WorldService()->SendPortMsg(_msg);
+        ServerPort zone_port(WorldService()->GetWorldID(), ZoneID2ServiceID(m_idZone));
+        WorldService()->SendPortMsg(zone_port, ServerMSG::MsgID_PlayerLogout, msg);
     }
     //通知Socket， 玩家消息指向回World
     {

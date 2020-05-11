@@ -39,7 +39,7 @@ public:
     export_lua uint32_t GetCampID() const { return m_idCamp; }
     export_lua void     SetCampID(uint32_t id, uint32_t nSync = SYNC_FALSE);
     export_lua uint32_t GetMapID() const;
-    export_lua uint64_t GetSceneID() const;
+    export_lua uint64_t GetSceneIdx() const;
 
     export_lua virtual uint16_t           GetWorldID() const { return 0; }
     export_lua virtual uint32_t           GetLev() const { return 0; }
@@ -128,7 +128,7 @@ public:
 
 public:
     virtual void            OnEnterMap(CSceneBase* pScene) override;
-    virtual void            OnLeaveMap(uint64_t idTargetScene) override;
+    virtual void            OnLeaveMap(uint16_t idTargetMap) override;
     export_lua virtual void ChangePhase(uint64_t idPhaseID) override;
 
 public:

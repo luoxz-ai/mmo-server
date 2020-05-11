@@ -15,34 +15,34 @@ CAIScene::~CAIScene()
     m_pPhaseSet.clear();
 }
 
-bool CAIScene::Init(const SceneID& idScene)
+bool CAIScene::Init(uint16_t idMap)
 {
-    m_SceneID = idScene;
+    m_idMap = idMap;
     return true;
 }
 
-CAIPhase* CAIScene::CreatePhase(const SceneID& idScene, uint64_t idPhase)
+CAIPhase* CAIScene::CreatePhase(const SceneIdx& idxScene, uint64_t idPhase)
 {
     __ENTER_FUNCTION
-    auto pMap = MapManager()->QueryMap(m_SceneID.GetMapID());
+    auto pMap = MapManager()->QueryMap(m_idMap);
     CHECKF(pMap);
     auto      pPhaseData = pMap->GetPhaseDataById(idPhase);
-    CAIPhase* pPhase     = CAIPhase::CreateNew(this, idScene, idPhase, pPhaseData);
+    CAIPhase* pPhase     = CAIPhase::CreateNew(this, idxScene, idPhase, pPhaseData);
     CHECKF(pPhase);
     m_pPhaseSet[idPhase].reset(pPhase);
-    m_pPhaseSetByIdx[idScene.GetPhaseIdx()] = pPhase;
+    m_pPhaseSetByIdx[idxScene.GetPhaseIdx()] = pPhase;
     return pPhase;
     __LEAVE_FUNCTION
     return nullptr;
 }
 
-CAIPhase* CAIScene::CreatePhase(const SceneID& idScene, uint64_t idPhase, const PhaseData* pPhaseData)
+CAIPhase* CAIScene::CreatePhase(const SceneIdx& idxScene, uint64_t idPhase, const PhaseData* pPhaseData)
 {
     __ENTER_FUNCTION
-    CAIPhase* pPhase = CAIPhase::CreateNew(this, idScene, idPhase, pPhaseData);
+    CAIPhase* pPhase = CAIPhase::CreateNew(this, idxScene, idPhase, pPhaseData);
     CHECKF(pPhase);
     m_pPhaseSet[idPhase].reset(pPhase);
-    m_pPhaseSetByIdx[idScene.GetPhaseIdx()] = pPhase;
+    m_pPhaseSetByIdx[idxScene.GetPhaseIdx()] = pPhase;
     return pPhase;
     __LEAVE_FUNCTION
     return nullptr;
@@ -54,7 +54,7 @@ bool CAIScene::DestoryPhase(uint64_t idPhase)
     CAIPhase* pPhase = QueryPhaseByID(idPhase);
     CHECKF(pPhase);
 
-    m_pPhaseSetByIdx.erase(pPhase->GetSceneID().GetPhaseIdx());
+    m_pPhaseSetByIdx.erase(pPhase->GetSceneIdx().GetPhaseIdx());
     m_pPhaseSet.erase(pPhase->GetPhaseID());
     return true;
     __LEAVE_FUNCTION
@@ -67,7 +67,7 @@ bool CAIScene::DestoryPhaseByIdx(uint32_t idxPhase)
     CAIPhase* pPhase = QueryPhaseByIdx(idxPhase);
     CHECKF(pPhase);
 
-    m_pPhaseSetByIdx.erase(pPhase->GetSceneID().GetPhaseIdx());
+    m_pPhaseSetByIdx.erase(pPhase->GetSceneIdx().GetPhaseIdx());
     m_pPhaseSet.erase(pPhase->GetPhaseID());
     return true;
     __LEAVE_FUNCTION

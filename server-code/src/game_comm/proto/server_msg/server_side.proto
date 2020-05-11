@@ -122,10 +122,10 @@ message PlayerEnterZone
 {
     uint64 idplayer = 1;
     uint64 socket   = 2;
-    uint64 idscene  = 3;
-    float  posx     = 4;
-    float  posy     = 5;
-    float  face     = 6;
+    uint64 target_scene_idx = 4;
+    float  posx     = 5;
+    float  posy     = 6;
+    float  face     = 7;
 }
 
 message PlayerChangeZone
@@ -133,11 +133,12 @@ message PlayerChangeZone
     uint64 idplayer = 1;
     uint64 socket   = 2;
     uint32 idzone   = 3;
-    uint64 idscene  = 4;
-    float  posx     = 5;
-    float  posy     = 6;
-    float  range    = 7;
-    float  face     = 8;
+    uint64 target_scene     = 4;
+
+    float  posx     = 6;
+    float  posy     = 7;
+    float  range    = 8;
+    float  face     = 9;
 }
 
 message PlayerChangeZone_Data

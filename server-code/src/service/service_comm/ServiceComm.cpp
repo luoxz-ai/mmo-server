@@ -199,9 +199,7 @@ bool CServiceCommon::SendPortBroadcastMsg(const ServerPort&                nServ
         }
         else
         {
-            LOGWARNING("SendPortMsg To ServerPort:{} {}, not find",
-                       nServerPort.GetWorldID(),
-                       nServerPort.GetServiceID());
+            LOGWARNING("SendPortMsg To ServerPort:{}, not find", nServerPort);
         }
     }
     __LEAVE_FUNCTION
@@ -222,9 +220,7 @@ bool CServiceCommon::SendPortMultiMsg(const ServerPort&                 nServerP
         }
         else
         {
-            LOGWARNING("SendPortMsg To ServerPort:{} {}, not find",
-                       nServerPort.GetWorldID(),
-                       nServerPort.GetServiceID());
+            LOGWARNING("SendPortMsg To ServerPort:{}, not find", nServerPort);
         }
     }
     __LEAVE_FUNCTION
@@ -245,9 +241,7 @@ bool CServiceCommon::SendPortMultiIDMsg(const ServerPort&         nServerPort,
         }
         else
         {
-            LOGWARNING("SendPortMsg To ServerPort:{} {}, not find",
-                       nServerPort.GetWorldID(),
-                       nServerPort.GetServiceID());
+            LOGWARNING("SendPortMsg To ServerPort:{}, not find", nServerPort);
         }
     }
     __LEAVE_FUNCTION
@@ -303,10 +297,7 @@ bool CServiceCommon::SendPortMsg(const CNetworkMessage& msg) const
         }
         else
         {
-            LOGWARNING("SendPortMsg To ServerPort:{} {} {}, not find",
-                       vs.GetServerPort().GetWorldID(),
-                       vs.GetServerPort().GetServiceID(),
-                       vs.GetSocketIdx());
+            LOGWARNING("SendPortMsg To ServerPort:{}, not find", vs);
         }
         return false;
     }
@@ -320,13 +311,9 @@ bool CServiceCommon::SendPortMsg(const CNetworkMessage& msg) const
     }
     else
     {
-        LOGWARNING("Message Want Send To Worng: {} {} {}",
-                   msg.GetTo().GetServerPort().GetWorldID(),
-                   msg.GetTo().GetServerPort().GetServiceID(),
-                   msg.GetTo().GetSocketIdx());
-#ifdef DEBUG
-        DumpStack(CallFrameMap(1));
-#endif
+        LOGWARNING("Message Want Send To Worng: {}.  CallStack:{}",
+                   msg.GetTo(),
+                   GetStackTraceString(CallFrameMap(1,2)));
         return false;
     }
     __LEAVE_FUNCTION
@@ -347,10 +334,7 @@ bool CServiceCommon::SendBroadcastMsg(const CNetworkMessage& msg) const
         }
         else
         {
-            LOGWARNING("SendBroadcastMsg:{} {} {}, not find",
-                       vs.GetServerPort().GetWorldID(),
-                       vs.GetServerPort().GetServiceID(),
-                       vs.GetSocketIdx());
+            LOGWARNING("SendBroadcastMsg:{}, not find", vs);
         }
         return false;
     }
@@ -367,10 +351,7 @@ bool CServiceCommon::SendBroadcastMsg(const CNetworkMessage& msg) const
     }
     else
     {
-        LOGWARNING("Message Want Send To Worng: {} {} {}",
-                   msg.GetTo().GetServerPort().GetWorldID(),
-                   msg.GetTo().GetServerPort().GetServiceID(),
-                   msg.GetTo().GetSocketIdx());
+        LOGWARNING("Message Want Send To Worng:{}", msg.GetTo());
         return false;
     }
     __LEAVE_FUNCTION

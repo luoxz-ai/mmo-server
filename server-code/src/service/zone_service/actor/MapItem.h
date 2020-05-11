@@ -23,7 +23,7 @@ public:
     export_lua static ActorType  GetActorTypeStatic() { return ActorType::ACT_MAPITEM; }
     virtual void                 MakeShowData(SC_AOI_NEW& msg) override;
     virtual void                 OnEnterMap(CSceneBase* pScene) override;
-    virtual void                 OnLeaveMap(uint64_t idTargetScene) override;
+    virtual void                 OnLeaveMap(uint16_t idTargetMap) override;
 
 public:
     OBJECTHEAP_DECLARATION(s_heap);

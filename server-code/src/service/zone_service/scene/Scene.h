@@ -26,7 +26,7 @@ public:
     virtual ~CScene();
 
 public:
-    bool Init(const SceneID& idScene, uint64_t idMainPhase);
+    bool Init(uint16_t idMap, uint64_t idMainPhase);
 
     export_lua CPhase* CreatePhase(uint64_t idPhase);
     export_lua CPhase* CreatePhase(uint64_t idPhase, const PhaseData* pPhaseData);
@@ -36,13 +36,15 @@ public:
     export_lua bool     DestoryPhase(uint64_t idPhase);
     export_lua void     ForEach(std::function<void(const CPhase*)> func) const;
     export_lua size_t   GetStaticPhaseCount() const { return m_nStaticPhaseCount; }
-    export_lua uint16_t GetMapID() const { return m_idSceneID.GetMapID(); }
+    export_lua uint16_t GetMapID() const { return m_idMap; }
 
 public:
     OBJECTHEAP_DECLARATION(s_heap);
 
 private:
-    SceneID                                               m_idSceneID;
+    uint16_t m_idMap = 0;
+    const CGameMap* m_pMap = nullptr;
+    
     std::unordered_map<uint64_t, std::unique_ptr<CPhase>> m_setPhase;
     std::unordered_map<uint64_t, CPhase*>                 m_setPhaseByIdx;
 

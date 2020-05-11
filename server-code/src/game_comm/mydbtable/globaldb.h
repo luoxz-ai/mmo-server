@@ -82,12 +82,12 @@ struct TBLD_GMLIST
 
     static constexpr auto field_info()
     {
-        return std::make_tuple(std::make_tuple("id", DB_FIELD_TYPE_LONGLONG, true),
+        return std::make_tuple(std::make_tuple("id", DB_FIELD_TYPE_LONGLONG_UNSIGNED, true),
                                std::make_tuple("openid", DB_FIELD_TYPE_VARCHAR, false),
                                std::make_tuple("gmlev", DB_FIELD_TYPE_LONG_UNSIGNED, false));
     }
 
-    using field_type_t = type_list<int64_t, char[255], uint32_t>;
+    using field_type_t = type_list<uint64_t, char[255], uint32_t>;
 
     static constexpr size_t field_count() { return 3; }
 };

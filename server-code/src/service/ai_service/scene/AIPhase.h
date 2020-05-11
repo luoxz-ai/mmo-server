@@ -11,7 +11,7 @@ export_lua class CAIPhase : public CSceneBase
 {
 protected:
     CAIPhase();
-    bool Init(CAIScene* pScene, const SceneID& idScene, uint64_t idPhase, const PhaseData* pPhaseData);
+    bool Init(CAIScene* pScene, const SceneIdx& idxScene, uint64_t idPhase, const PhaseData* pPhaseData);
 
 public:
     CreateNewImpl(CAIPhase);

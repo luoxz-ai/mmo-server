@@ -46,7 +46,7 @@ void CMapItem::OnEnterMap(CSceneBase* pScene)
     // AI暂时不需要MapItem
     // ServerMSG::ActorCreate ai_msg;
     // ai_msg.set_actor_id(GetID());
-    // ai_msg.set_scene_id(GetSceneID());
+    // ai_msg.set_scene_id(GetSceneIdx());
     // ai_msg.set_actortype(ACT_MAPITEM);
     // ai_msg.set_prof(GetTypeID());
     // ai_msg.set_lev(GetLev());
@@ -65,7 +65,7 @@ void CMapItem::OnEnterMap(CSceneBase* pScene)
     // ZoneService()->SendMsgToAIService(ai_msg);
 }
 
-void CMapItem::OnLeaveMap(uint64_t idTargetScene)
+void CMapItem::OnLeaveMap(uint16_t idTargetMap)
 {
-    CActor::OnLeaveMap(idTargetScene);
+    CActor::OnLeaveMap(idTargetMap);
 }

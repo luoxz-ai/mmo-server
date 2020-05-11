@@ -105,7 +105,7 @@ protected:
 
 public:
     virtual void OnEnterMap(CSceneBase* pScene);
-    virtual void OnLeaveMap(uint64_t idTargetScene);
+    virtual void OnLeaveMap(uint16_t idTargetMap);
 
     export_lua void         SetHideCoude(int32_t nHideCount);
     export_lua virtual void AddHide();

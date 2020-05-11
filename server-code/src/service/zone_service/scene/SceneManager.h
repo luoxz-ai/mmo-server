@@ -21,8 +21,7 @@ public:
     export_lua CScene* _CreateStaticScene(uint16_t idMap);
     export_lua CPhase* CreatePhase(uint16_t idMap, uint64_t idPhase);
 
-    export_lua CScene* _QueryScene(const SceneID& idScene);
-    export_lua CPhase* QueryPhase(const SceneID& idScene);
+    export_lua CPhase* QueryPhase(const SceneIdx& idxScene);
     export_lua CScene* QueryScene(uint16_t idMap);
     export_lua size_t  GetSceneCount();
     export_lua size_t  GetDynaSceneCount();

@@ -39,7 +39,7 @@ public:
     virtual void            OnBeAttack(CActor* pAttacker, int32_t nRealDamage) override;
 
     virtual void OnEnterMap(CSceneBase* pScene) override;
-    virtual void OnLeaveMap(uint64_t idTargetScene) override;
+    virtual void OnLeaveMap(uint16_t idTargetMap) override;
 
     export_lua bool IsBoss() const { return m_pType->GetType() == MONSTER_TYPE_BOSS; }
     export_lua bool IsElit() const { return m_pType->GetType() == MONSTER_TYPE_ELIT; }

@@ -975,7 +975,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_server_5fmsg_2fserver_5fside_2
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::ServerMSG::PlayerEnterZone, idplayer_),
   PROTOBUF_FIELD_OFFSET(::ServerMSG::PlayerEnterZone, socket_),
-  PROTOBUF_FIELD_OFFSET(::ServerMSG::PlayerEnterZone, idscene_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::PlayerEnterZone, target_scene_idx_),
   PROTOBUF_FIELD_OFFSET(::ServerMSG::PlayerEnterZone, posx_),
   PROTOBUF_FIELD_OFFSET(::ServerMSG::PlayerEnterZone, posy_),
   PROTOBUF_FIELD_OFFSET(::ServerMSG::PlayerEnterZone, face_),
@@ -987,7 +987,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_server_5fmsg_2fserver_5fside_2
   PROTOBUF_FIELD_OFFSET(::ServerMSG::PlayerChangeZone, idplayer_),
   PROTOBUF_FIELD_OFFSET(::ServerMSG::PlayerChangeZone, socket_),
   PROTOBUF_FIELD_OFFSET(::ServerMSG::PlayerChangeZone, idzone_),
-  PROTOBUF_FIELD_OFFSET(::ServerMSG::PlayerChangeZone, idscene_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::PlayerChangeZone, target_scene_),
   PROTOBUF_FIELD_OFFSET(::ServerMSG::PlayerChangeZone, posx_),
   PROTOBUF_FIELD_OFFSET(::ServerMSG::PlayerChangeZone, posy_),
   PROTOBUF_FIELD_OFFSET(::ServerMSG::PlayerChangeZone, range_),
@@ -1388,113 +1388,114 @@ const char descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto[] PROT
   "ct\022\n\n\002vs\030\001 \001(\004\"\031\n\013SocketClose\022\n\n\002vs\030\001 \001("
   "\004\"0\n\020SocketChangeDest\022\n\n\002vs\030\001 \001(\004\022\020\n\010des"
   "tport\030\002 \001(\r\"\030\n\nSocketAuth\022\n\n\002vs\030\001 \001(\004\"\023\n"
-  "\021SocketStartAccept\"\022\n\020SocketStopAccept\"n"
+  "\021SocketStartAccept\"\022\n\020SocketStopAccept\"w"
   "\n\017PlayerEnterZone\022\020\n\010idplayer\030\001 \001(\004\022\016\n\006s"
-  "ocket\030\002 \001(\004\022\017\n\007idscene\030\003 \001(\004\022\014\n\004posx\030\004 \001"
-  "(\002\022\014\n\004posy\030\005 \001(\002\022\014\n\004face\030\006 \001(\002\"\216\001\n\020Playe"
-  "rChangeZone\022\020\n\010idplayer\030\001 \001(\004\022\016\n\006socket\030"
-  "\002 \001(\004\022\016\n\006idzone\030\003 \001(\r\022\017\n\007idscene\030\004 \001(\004\022\014"
-  "\n\004posx\030\005 \001(\002\022\014\n\004posy\030\006 \001(\002\022\r\n\005range\030\007 \001("
-  "\002\022\014\n\004face\030\010 \001(\002\"9\n\025PlayerChangeZone_Data"
-  "\022\020\n\010idplayer\030\001 \001(\004\022\016\n\006socket\030\002 \001(\004\"0\n\014Pl"
-  "ayerLogout\022\020\n\010idplayer\030\001 \001(\004\022\016\n\006socket\030\002"
-  " \001(\004\"\346\001\n\017SystemVarChange\022\016\n\006keyidx\030\001 \001(\r"
-  "\022\013\n\003idx\030\002 \001(\r\022\013\n\003val\030\003 \001(\r\022\013\n\003str\030\004 \001(\t\022"
-  "<\n\004type\030\005 \001(\0162..ServerMSG.SystemVarChang"
-  "e.SystemVarChangeType\"^\n\023SystemVarChange"
-  "Type\022\017\n\013SVCT_CREATE\020\000\022\021\n\rSVCT_SET_DATA\020\001"
-  "\022\021\n\rSVCT_ADD_DATA\020\002\022\020\n\014SVCT_SET_STR\020\003\"\037\n"
-  "\013SceneCreate\022\020\n\010scene_id\030\001 \001(\004\"1\n\013PhaseC"
-  "reate\022\020\n\010scene_id\030\001 \001(\004\022\020\n\010phase_id\030\002 \001("
-  "\004\"2\n\014PhaseDestory\022\020\n\010scene_id\030\001 \001(\004\022\020\n\010p"
-  "hase_id\030\002 \001(\004\"\227\001\n\nMonsterGen\022\020\n\010scene_id"
-  "\030\001 \001(\004\022\020\n\010phase_id\030\002 \001(\004\022\016\n\006gen_id\030\003 \001(\r"
-  "\022\024\n\014monster_type\030\004 \001(\r\022\014\n\004posx\030\005 \001(\002\022\014\n\004"
-  "posy\030\006 \001(\002\022\017\n\007camp_id\030\007 \001(\r\022\022\n\nmonster_i"
-  "d\030\010 \001(\r\"\270\001\n\017MonsterGenMulti\022\020\n\010scene_id\030"
-  "\001 \001(\004\022\020\n\010phase_id\030\002 \001(\004\022\016\n\006gen_id\030\003 \001(\r\022"
-  "\024\n\014monster_type\030\004 \001(\r\022\014\n\004posx\030\005 \001(\002\022\014\n\004p"
-  "osy\030\006 \001(\002\022\017\n\007camp_id\030\007 \001(\r\022\022\n\nmonster_id"
-  "\030\010 \001(\r\022\013\n\003num\030\t \001(\r\022\r\n\005range\030\n \001(\002\"$\n\016Mo"
-  "nsterDestory\022\022\n\nmonster_id\030\001 \003(\004\"D\n\016Mons"
-  "terGenOnce\022\020\n\010scene_id\030\001 \001(\004\022\016\n\006gen_id\030\002"
-  " \001(\r\022\020\n\010phase_id\030\003 \001(\004\"=\n\tActiveGen\022\020\n\010s"
-  "cene_id\030\001 \001(\004\022\016\n\006gen_id\030\002 \001(\r\022\016\n\006active\030"
-  "\003 \001(\010\"+\n\007KillGen\022\020\n\010scene_id\030\001 \001(\004\022\016\n\006ge"
-  "n_id\030\002 \001(\r\"\273\002\n\013ActorCreate\022\020\n\010actor_id\030\001"
-  " \001(\004\022\020\n\010scene_id\030\002 \001(\004\022\014\n\004name\030\004 \001(\t\022\021\n\t"
-  "actortype\030\005 \001(\r\022\020\n\010baselook\030\006 \001(\r\022\014\n\004pro"
-  "f\030\007 \001(\r\022\013\n\003lev\030\010 \001(\r\022\016\n\006campid\030\t \001(\r\022\n\n\002"
-  "hp\030\n \001(\r\022\r\n\005hpmax\030\013 \001(\r\022\n\n\002mp\030\014 \001(\r\022\r\n\005m"
-  "pmax\030\r \001(\r\022\017\n\007movespd\030\016 \001(\r\022\017\n\007ownerid\030\017"
-  " \001(\004\022\014\n\004posx\030\020 \001(\002\022\014\n\004posy\030\021 \001(\002\022\014\n\004face"
-  "\030\022 \001(\002\022\026\n\016monster_gen_id\030\024 \001(\r\022\020\n\010phase_"
-  "id\030\025 \001(\004\" \n\014ActorDestory\022\020\n\010actor_id\030\001 \001"
-  "(\004\"3\n\tActorMove\022\020\n\010actor_id\030\001 \001(\004\022\t\n\001x\030\002"
-  " \001(\002\022\t\n\001y\030\003 \001(\002\"G\n\016ActorCastSkill\022\020\n\010act"
-  "or_id\030\001 \001(\004\022\021\n\ttarget_id\030\002 \001(\004\022\020\n\010skill_"
-  "id\030\003 \001(\r\"\'\n\023ActorCastSkill_Fail\022\020\n\010actor"
-  "_id\030\001 \001(\004\"4\n\014ActorSetHide\022\020\n\010actor_id\030\001 "
-  "\001(\004\022\022\n\nhide_count\030\002 \001(\005\"0\n\nTeamCreate\022\017\n"
-  "\007team_id\030\001 \001(\004\022\021\n\tleader_id\030\002 \001(\004\"\036\n\013Tea"
-  "mDestory\022\017\n\007team_id\030\001 \001(\004\"0\n\010TeamQuit\022\017\n"
-  "\007team_id\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\"G\n\016T"
-  "eamKickMember\022\017\n\007team_id\030\001 \001(\004\022\023\n\013operat"
-  "or_id\030\002 \001(\004\022\017\n\007kick_id\030\003 \001(\004\"L\n\020TeamInvi"
-  "teMember\022\017\n\007team_id\030\001 \001(\004\022\023\n\013operator_id"
-  "\030\002 \001(\004\022\022\n\ninvitee_id\030\003 \001(\004\"[\n\020TeamAccept"
-  "Invite\022\017\n\007team_id\030\001 \001(\004\022\022\n\ninviter_id\030\002 "
-  "\001(\004\022\022\n\ninvitee_id\030\003 \001(\004\022\016\n\006result\030\004 \001(\010\""
-  ">\n\017TeamApplyMember\022\024\n\014applicant_id\030\001 \001(\004"
-  "\022\025\n\rrespondent_id\030\002 \001(\004\"N\n\017TeamAcceptApp"
-  "ly\022\024\n\014applicant_id\030\001 \001(\004\022\025\n\rrespondent_i"
-  "d\030\002 \001(\004\022\016\n\006result\030\003 \001(\010\"L\n\rTeamNewLeader"
-  "\022\017\n\007team_id\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\022\025"
-  "\n\rnew_leader_id\030\003 \001(\004\"3\n\rTeamAddMember\022\017"
-  "\n\007team_id\030\001 \001(\004\022\021\n\tmember_id\030\002 \001(\004\"3\n\rTe"
-  "amDelMember\022\017\n\007team_id\030\001 \001(\004\022\021\n\tmember_i"
-  "d\030\002 \001(\004\"\240\001\n\016TeamMemberInfo\0223\n\013member_lis"
-  "t\030\001 \003(\0132\036.ServerMSG.TeamMemberInfo.Info\032"
-  "Y\n\004Info\022\021\n\tmember_id\030\001 \001(\004\022\022\n\nmember_lev"
-  "\030\002 \001(\r\022\025\n\rmember_online\030\003 \001(\010\022\023\n\013member_"
-  "name\030\004 \001(\t\"9\n\rSyncTaskPhase\022\021\n\tplayer_id"
-  "\030\001 \001(\004\022\025\n\rtask_phase_id\030\002 \003(\004\"8\n\014AddTask"
-  "Phase\022\021\n\tplayer_id\030\001 \001(\004\022\025\n\rtask_phase_i"
-  "d\030\002 \001(\004\";\n\017RemoveTaskPhase\022\021\n\tplayer_id\030"
-  "\001 \001(\004\022\025\n\rtask_phase_id\030\002 \001(\004*\247\n\n\006OMsgID\022"
-  "\017\n\013OMSGID_NONE\020\000\022\021\n\013MsgID_BEGIN\020\240\234\001\022\026\n\020M"
-  "sgID_ServiceCmd\020\241\234\001\022\036\n\030MsgID_ServiceHttp"
-  "Request\020\242\234\001\022\037\n\031MsgID_ServiceHttpResponse"
-  "\020\243\234\001\022\030\n\022MsgID_ServiceReady\020\252\234\001\022\033\n\025MsgID_"
-  "ServiceRegister\020\253\234\001\022\031\n\023MsgID_SocketConne"
-  "ct\020\254\234\001\022\027\n\021MsgID_SocketClose\020\255\234\001\022\034\n\026MsgID"
-  "_SocketChangeDest\020\256\234\001\022\026\n\020MsgID_SocketAut"
-  "h\020\257\234\001\022\035\n\027MsgID_SocketStartAccept\020\260\234\001\022\034\n\026"
-  "MsgID_SocketStopAccept\020\261\234\001\022\033\n\025MsgID_Play"
-  "erEnterZone\020\265\234\001\022\034\n\026MsgID_PlayerChangeZon"
-  "e\020\266\234\001\022!\n\033MsgID_PlayerChangeZone_Data\020\267\234\001"
-  "\022\030\n\022MsgID_PlayerLogout\020\270\234\001\022\033\n\025MsgID_Syst"
-  "emVarChange\020\276\234\001\022\027\n\021MsgID_SceneCreate\020\277\234\001"
-  "\022\027\n\021MsgID_PhaseCreate\020\300\234\001\022\030\n\022MsgID_Phase"
-  "Destory\020\301\234\001\022\026\n\020MsgID_MonsterGen\020\311\234\001\022\032\n\024M"
-  "sgID_MonsterDestory\020\312\234\001\022\025\n\017MsgID_ActiveG"
-  "en\020\313\234\001\022\023\n\rMsgID_KillGen\020\314\234\001\022\032\n\024MsgID_Mon"
-  "sterGenOnce\020\315\234\001\022\033\n\025MsgID_MonsterGenMulti"
-  "\020\316\234\001\022\027\n\021MsgID_ActorCreate\020\204\235\001\022\030\n\022MsgID_A"
-  "ctorDestory\020\205\235\001\022\025\n\017MsgID_ActorMove\020\206\235\001\022\032"
-  "\n\024MsgID_ActorCastSkill\020\207\235\001\022\037\n\031MsgID_Acto"
-  "rCastSkill_Fail\020\210\235\001\022\030\n\022MsgID_ActorSetHid"
-  "e\020\211\235\001\022\031\n\023MsgID_SyncTaskPhase\020\212\235\001\022\030\n\022MsgI"
-  "D_AddTaskPhase\020\213\235\001\022\033\n\025MsgID_RemoveTaskPh"
-  "ase\020\214\235\001\022\026\n\020MsgID_TeamCreate\020\216\235\001\022\027\n\021MsgID"
-  "_TeamDestory\020\217\235\001\022\024\n\016MsgID_TeamQuit\020\220\235\001\022\032"
-  "\n\024MsgID_TeamKickMember\020\221\235\001\022\034\n\026MsgID_Team"
-  "InviteMember\020\222\235\001\022\034\n\026MsgID_TeamAcceptInvi"
-  "te\020\223\235\001\022\033\n\025MsgID_TeamApplyMember\020\224\235\001\022\033\n\025M"
-  "sgID_TeamAcceptApply\020\225\235\001\022\031\n\023MsgID_TeamNe"
-  "wLeader\020\226\235\001\022\032\n\024MsgID_TeamMemberInfo\020\227\235\001\022"
-  "\031\n\023MsgID_TeamAddMember\020\230\235\001\022\031\n\023MsgID_Team"
-  "DelMember\020\231\235\001\022\017\n\tMsgID_END\020\260\352\001b\006proto3"
+  "ocket\030\002 \001(\004\022\030\n\020target_scene_idx\030\004 \001(\004\022\014\n"
+  "\004posx\030\005 \001(\002\022\014\n\004posy\030\006 \001(\002\022\014\n\004face\030\007 \001(\002\""
+  "\223\001\n\020PlayerChangeZone\022\020\n\010idplayer\030\001 \001(\004\022\016"
+  "\n\006socket\030\002 \001(\004\022\016\n\006idzone\030\003 \001(\r\022\024\n\014target"
+  "_scene\030\004 \001(\004\022\014\n\004posx\030\006 \001(\002\022\014\n\004posy\030\007 \001(\002"
+  "\022\r\n\005range\030\010 \001(\002\022\014\n\004face\030\t \001(\002\"9\n\025PlayerC"
+  "hangeZone_Data\022\020\n\010idplayer\030\001 \001(\004\022\016\n\006sock"
+  "et\030\002 \001(\004\"0\n\014PlayerLogout\022\020\n\010idplayer\030\001 \001"
+  "(\004\022\016\n\006socket\030\002 \001(\004\"\346\001\n\017SystemVarChange\022\016"
+  "\n\006keyidx\030\001 \001(\r\022\013\n\003idx\030\002 \001(\r\022\013\n\003val\030\003 \001(\r"
+  "\022\013\n\003str\030\004 \001(\t\022<\n\004type\030\005 \001(\0162..ServerMSG."
+  "SystemVarChange.SystemVarChangeType\"^\n\023S"
+  "ystemVarChangeType\022\017\n\013SVCT_CREATE\020\000\022\021\n\rS"
+  "VCT_SET_DATA\020\001\022\021\n\rSVCT_ADD_DATA\020\002\022\020\n\014SVC"
+  "T_SET_STR\020\003\"\037\n\013SceneCreate\022\020\n\010scene_id\030\001"
+  " \001(\004\"1\n\013PhaseCreate\022\020\n\010scene_id\030\001 \001(\004\022\020\n"
+  "\010phase_id\030\002 \001(\004\"2\n\014PhaseDestory\022\020\n\010scene"
+  "_id\030\001 \001(\004\022\020\n\010phase_id\030\002 \001(\004\"\227\001\n\nMonsterG"
+  "en\022\020\n\010scene_id\030\001 \001(\004\022\020\n\010phase_id\030\002 \001(\004\022\016"
+  "\n\006gen_id\030\003 \001(\r\022\024\n\014monster_type\030\004 \001(\r\022\014\n\004"
+  "posx\030\005 \001(\002\022\014\n\004posy\030\006 \001(\002\022\017\n\007camp_id\030\007 \001("
+  "\r\022\022\n\nmonster_id\030\010 \001(\r\"\270\001\n\017MonsterGenMult"
+  "i\022\020\n\010scene_id\030\001 \001(\004\022\020\n\010phase_id\030\002 \001(\004\022\016\n"
+  "\006gen_id\030\003 \001(\r\022\024\n\014monster_type\030\004 \001(\r\022\014\n\004p"
+  "osx\030\005 \001(\002\022\014\n\004posy\030\006 \001(\002\022\017\n\007camp_id\030\007 \001(\r"
+  "\022\022\n\nmonster_id\030\010 \001(\r\022\013\n\003num\030\t \001(\r\022\r\n\005ran"
+  "ge\030\n \001(\002\"$\n\016MonsterDestory\022\022\n\nmonster_id"
+  "\030\001 \003(\004\"D\n\016MonsterGenOnce\022\020\n\010scene_id\030\001 \001"
+  "(\004\022\016\n\006gen_id\030\002 \001(\r\022\020\n\010phase_id\030\003 \001(\004\"=\n\t"
+  "ActiveGen\022\020\n\010scene_id\030\001 \001(\004\022\016\n\006gen_id\030\002 "
+  "\001(\r\022\016\n\006active\030\003 \001(\010\"+\n\007KillGen\022\020\n\010scene_"
+  "id\030\001 \001(\004\022\016\n\006gen_id\030\002 \001(\r\"\273\002\n\013ActorCreate"
+  "\022\020\n\010actor_id\030\001 \001(\004\022\020\n\010scene_id\030\002 \001(\004\022\014\n\004"
+  "name\030\004 \001(\t\022\021\n\tactortype\030\005 \001(\r\022\020\n\010baseloo"
+  "k\030\006 \001(\r\022\014\n\004prof\030\007 \001(\r\022\013\n\003lev\030\010 \001(\r\022\016\n\006ca"
+  "mpid\030\t \001(\r\022\n\n\002hp\030\n \001(\r\022\r\n\005hpmax\030\013 \001(\r\022\n\n"
+  "\002mp\030\014 \001(\r\022\r\n\005mpmax\030\r \001(\r\022\017\n\007movespd\030\016 \001("
+  "\r\022\017\n\007ownerid\030\017 \001(\004\022\014\n\004posx\030\020 \001(\002\022\014\n\004posy"
+  "\030\021 \001(\002\022\014\n\004face\030\022 \001(\002\022\026\n\016monster_gen_id\030\024"
+  " \001(\r\022\020\n\010phase_id\030\025 \001(\004\" \n\014ActorDestory\022\020"
+  "\n\010actor_id\030\001 \001(\004\"3\n\tActorMove\022\020\n\010actor_i"
+  "d\030\001 \001(\004\022\t\n\001x\030\002 \001(\002\022\t\n\001y\030\003 \001(\002\"G\n\016ActorCa"
+  "stSkill\022\020\n\010actor_id\030\001 \001(\004\022\021\n\ttarget_id\030\002"
+  " \001(\004\022\020\n\010skill_id\030\003 \001(\r\"\'\n\023ActorCastSkill"
+  "_Fail\022\020\n\010actor_id\030\001 \001(\004\"4\n\014ActorSetHide\022"
+  "\020\n\010actor_id\030\001 \001(\004\022\022\n\nhide_count\030\002 \001(\005\"0\n"
+  "\nTeamCreate\022\017\n\007team_id\030\001 \001(\004\022\021\n\tleader_i"
+  "d\030\002 \001(\004\"\036\n\013TeamDestory\022\017\n\007team_id\030\001 \001(\004\""
+  "0\n\010TeamQuit\022\017\n\007team_id\030\001 \001(\004\022\023\n\013operator"
+  "_id\030\002 \001(\004\"G\n\016TeamKickMember\022\017\n\007team_id\030\001"
+  " \001(\004\022\023\n\013operator_id\030\002 \001(\004\022\017\n\007kick_id\030\003 \001"
+  "(\004\"L\n\020TeamInviteMember\022\017\n\007team_id\030\001 \001(\004\022"
+  "\023\n\013operator_id\030\002 \001(\004\022\022\n\ninvitee_id\030\003 \001(\004"
+  "\"[\n\020TeamAcceptInvite\022\017\n\007team_id\030\001 \001(\004\022\022\n"
+  "\ninviter_id\030\002 \001(\004\022\022\n\ninvitee_id\030\003 \001(\004\022\016\n"
+  "\006result\030\004 \001(\010\">\n\017TeamApplyMember\022\024\n\014appl"
+  "icant_id\030\001 \001(\004\022\025\n\rrespondent_id\030\002 \001(\004\"N\n"
+  "\017TeamAcceptApply\022\024\n\014applicant_id\030\001 \001(\004\022\025"
+  "\n\rrespondent_id\030\002 \001(\004\022\016\n\006result\030\003 \001(\010\"L\n"
+  "\rTeamNewLeader\022\017\n\007team_id\030\001 \001(\004\022\023\n\013opera"
+  "tor_id\030\002 \001(\004\022\025\n\rnew_leader_id\030\003 \001(\004\"3\n\rT"
+  "eamAddMember\022\017\n\007team_id\030\001 \001(\004\022\021\n\tmember_"
+  "id\030\002 \001(\004\"3\n\rTeamDelMember\022\017\n\007team_id\030\001 \001"
+  "(\004\022\021\n\tmember_id\030\002 \001(\004\"\240\001\n\016TeamMemberInfo"
+  "\0223\n\013member_list\030\001 \003(\0132\036.ServerMSG.TeamMe"
+  "mberInfo.Info\032Y\n\004Info\022\021\n\tmember_id\030\001 \001(\004"
+  "\022\022\n\nmember_lev\030\002 \001(\r\022\025\n\rmember_online\030\003 "
+  "\001(\010\022\023\n\013member_name\030\004 \001(\t\"9\n\rSyncTaskPhas"
+  "e\022\021\n\tplayer_id\030\001 \001(\004\022\025\n\rtask_phase_id\030\002 "
+  "\003(\004\"8\n\014AddTaskPhase\022\021\n\tplayer_id\030\001 \001(\004\022\025"
+  "\n\rtask_phase_id\030\002 \001(\004\";\n\017RemoveTaskPhase"
+  "\022\021\n\tplayer_id\030\001 \001(\004\022\025\n\rtask_phase_id\030\002 \001"
+  "(\004*\247\n\n\006OMsgID\022\017\n\013OMSGID_NONE\020\000\022\021\n\013MsgID_"
+  "BEGIN\020\240\234\001\022\026\n\020MsgID_ServiceCmd\020\241\234\001\022\036\n\030Msg"
+  "ID_ServiceHttpRequest\020\242\234\001\022\037\n\031MsgID_Servi"
+  "ceHttpResponse\020\243\234\001\022\030\n\022MsgID_ServiceReady"
+  "\020\252\234\001\022\033\n\025MsgID_ServiceRegister\020\253\234\001\022\031\n\023Msg"
+  "ID_SocketConnect\020\254\234\001\022\027\n\021MsgID_SocketClos"
+  "e\020\255\234\001\022\034\n\026MsgID_SocketChangeDest\020\256\234\001\022\026\n\020M"
+  "sgID_SocketAuth\020\257\234\001\022\035\n\027MsgID_SocketStart"
+  "Accept\020\260\234\001\022\034\n\026MsgID_SocketStopAccept\020\261\234\001"
+  "\022\033\n\025MsgID_PlayerEnterZone\020\265\234\001\022\034\n\026MsgID_P"
+  "layerChangeZone\020\266\234\001\022!\n\033MsgID_PlayerChang"
+  "eZone_Data\020\267\234\001\022\030\n\022MsgID_PlayerLogout\020\270\234\001"
+  "\022\033\n\025MsgID_SystemVarChange\020\276\234\001\022\027\n\021MsgID_S"
+  "ceneCreate\020\277\234\001\022\027\n\021MsgID_PhaseCreate\020\300\234\001\022"
+  "\030\n\022MsgID_PhaseDestory\020\301\234\001\022\026\n\020MsgID_Monst"
+  "erGen\020\311\234\001\022\032\n\024MsgID_MonsterDestory\020\312\234\001\022\025\n"
+  "\017MsgID_ActiveGen\020\313\234\001\022\023\n\rMsgID_KillGen\020\314\234"
+  "\001\022\032\n\024MsgID_MonsterGenOnce\020\315\234\001\022\033\n\025MsgID_M"
+  "onsterGenMulti\020\316\234\001\022\027\n\021MsgID_ActorCreate\020"
+  "\204\235\001\022\030\n\022MsgID_ActorDestory\020\205\235\001\022\025\n\017MsgID_A"
+  "ctorMove\020\206\235\001\022\032\n\024MsgID_ActorCastSkill\020\207\235\001"
+  "\022\037\n\031MsgID_ActorCastSkill_Fail\020\210\235\001\022\030\n\022Msg"
+  "ID_ActorSetHide\020\211\235\001\022\031\n\023MsgID_SyncTaskPha"
+  "se\020\212\235\001\022\030\n\022MsgID_AddTaskPhase\020\213\235\001\022\033\n\025MsgI"
+  "D_RemoveTaskPhase\020\214\235\001\022\026\n\020MsgID_TeamCreat"
+  "e\020\216\235\001\022\027\n\021MsgID_TeamDestory\020\217\235\001\022\024\n\016MsgID_"
+  "TeamQuit\020\220\235\001\022\032\n\024MsgID_TeamKickMember\020\221\235\001"
+  "\022\034\n\026MsgID_TeamInviteMember\020\222\235\001\022\034\n\026MsgID_"
+  "TeamAcceptInvite\020\223\235\001\022\033\n\025MsgID_TeamApplyM"
+  "ember\020\224\235\001\022\033\n\025MsgID_TeamAcceptApply\020\225\235\001\022\031"
+  "\n\023MsgID_TeamNewLeader\020\226\235\001\022\032\n\024MsgID_TeamM"
+  "emberInfo\020\227\235\001\022\031\n\023MsgID_TeamAddMember\020\230\235\001"
+  "\022\031\n\023MsgID_TeamDelMember\020\231\235\001\022\017\n\tMsgID_END"
+  "\020\260\352\001b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_server_5fmsg_2fserver_5fside_2eproto_deps[1] = {
 };
@@ -1551,7 +1552,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_ser
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_server_5fmsg_2fserver_5fside_2eproto_once;
 static bool descriptor_table_server_5fmsg_2fserver_5fside_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_server_5fmsg_2fserver_5fside_2eproto = {
-  &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_initialized, descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto, "server_msg/server_side.proto", 4838,
+  &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_initialized, descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto, "server_msg/server_side.proto", 4852,
   &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_once, descriptor_table_server_5fmsg_2fserver_5fside_2eproto_sccs, descriptor_table_server_5fmsg_2fserver_5fside_2eproto_deps, 48, 0,
   schemas, file_default_instances, TableStruct_server_5fmsg_2fserver_5fside_2eproto::offsets,
   file_level_metadata_server_5fmsg_2fserver_5fside_2eproto, 48, file_level_enum_descriptors_server_5fmsg_2fserver_5fside_2eproto, file_level_service_descriptors_server_5fmsg_2fserver_5fside_2eproto,
@@ -3998,30 +3999,30 @@ const char* PlayerEnterZone::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPAC
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint64 idscene = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
-          idscene_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+      // uint64 target_scene_idx = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
+          target_scene_idx_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // float posx = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 37)) {
+      // float posx = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 45)) {
           posx_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
           ptr += sizeof(float);
         } else goto handle_unusual;
         continue;
-      // float posy = 5;
-      case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 45)) {
+      // float posy = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 53)) {
           posy_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
           ptr += sizeof(float);
         } else goto handle_unusual;
         continue;
-      // float face = 6;
-      case 6:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 53)) {
+      // float face = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 61)) {
           face_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
           ptr += sizeof(float);
         } else goto handle_unusual;
@@ -4064,28 +4065,28 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(2, this->_internal_socket(), target);
   }
 
-  // uint64 idscene = 3;
-  if (this->idscene() != 0) {
+  // uint64 target_scene_idx = 4;
+  if (this->target_scene_idx() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(3, this->_internal_idscene(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(4, this->_internal_target_scene_idx(), target);
   }
 
-  // float posx = 4;
+  // float posx = 5;
   if (!(this->posx() <= 0 && this->posx() >= 0)) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(4, this->_internal_posx(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(5, this->_internal_posx(), target);
   }
 
-  // float posy = 5;
+  // float posy = 6;
   if (!(this->posy() <= 0 && this->posy() >= 0)) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(5, this->_internal_posy(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(6, this->_internal_posy(), target);
   }
 
-  // float face = 6;
+  // float face = 7;
   if (!(this->face() <= 0 && this->face() >= 0)) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(6, this->_internal_face(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(7, this->_internal_face(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -4118,24 +4119,24 @@ size_t PlayerEnterZone::ByteSizeLong() const {
         this->_internal_socket());
   }
 
-  // uint64 idscene = 3;
-  if (this->idscene() != 0) {
+  // uint64 target_scene_idx = 4;
+  if (this->target_scene_idx() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
-        this->_internal_idscene());
+        this->_internal_target_scene_idx());
   }
 
-  // float posx = 4;
+  // float posx = 5;
   if (!(this->posx() <= 0 && this->posx() >= 0)) {
     total_size += 1 + 4;
   }
 
-  // float posy = 5;
+  // float posy = 6;
   if (!(this->posy() <= 0 && this->posy() >= 0)) {
     total_size += 1 + 4;
   }
 
-  // float face = 6;
+  // float face = 7;
   if (!(this->face() <= 0 && this->face() >= 0)) {
     total_size += 1 + 4;
   }
@@ -4177,8 +4178,8 @@ void PlayerEnterZone::MergeFrom(const PlayerEnterZone& from) {
   if (from.socket() != 0) {
     _internal_set_socket(from._internal_socket());
   }
-  if (from.idscene() != 0) {
-    _internal_set_idscene(from._internal_idscene());
+  if (from.target_scene_idx() != 0) {
+    _internal_set_target_scene_idx(from._internal_target_scene_idx());
   }
   if (!(from.posx() <= 0 && from.posx() >= 0)) {
     _internal_set_posx(from._internal_posx());
@@ -4214,7 +4215,7 @@ void PlayerEnterZone::InternalSwap(PlayerEnterZone* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(idplayer_, other->idplayer_);
   swap(socket_, other->socket_);
-  swap(idscene_, other->idscene_);
+  swap(target_scene_idx_, other->target_scene_idx_);
   swap(posx_, other->posx_);
   swap(posy_, other->posy_);
   swap(face_, other->face_);
@@ -4311,37 +4312,37 @@ const char* PlayerChangeZone::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPA
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint64 idscene = 4;
+      // uint64 target_scene = 4;
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
-          idscene_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          target_scene_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // float posx = 5;
-      case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 45)) {
+      // float posx = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 53)) {
           posx_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
           ptr += sizeof(float);
         } else goto handle_unusual;
         continue;
-      // float posy = 6;
-      case 6:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 53)) {
+      // float posy = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 61)) {
           posy_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
           ptr += sizeof(float);
         } else goto handle_unusual;
         continue;
-      // float range = 7;
-      case 7:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 61)) {
+      // float range = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 69)) {
           range_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
           ptr += sizeof(float);
         } else goto handle_unusual;
         continue;
-      // float face = 8;
-      case 8:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 69)) {
+      // float face = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 77)) {
           face_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
           ptr += sizeof(float);
         } else goto handle_unusual;
@@ -4390,34 +4391,34 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(3, this->_internal_idzone(), target);
   }
 
-  // uint64 idscene = 4;
-  if (this->idscene() != 0) {
+  // uint64 target_scene = 4;
+  if (this->target_scene() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(4, this->_internal_idscene(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(4, this->_internal_target_scene(), target);
   }
 
-  // float posx = 5;
+  // float posx = 6;
   if (!(this->posx() <= 0 && this->posx() >= 0)) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(5, this->_internal_posx(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(6, this->_internal_posx(), target);
   }
 
-  // float posy = 6;
+  // float posy = 7;
   if (!(this->posy() <= 0 && this->posy() >= 0)) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(6, this->_internal_posy(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(7, this->_internal_posy(), target);
   }
 
-  // float range = 7;
+  // float range = 8;
   if (!(this->range() <= 0 && this->range() >= 0)) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(7, this->_internal_range(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(8, this->_internal_range(), target);
   }
 
-  // float face = 8;
+  // float face = 9;
   if (!(this->face() <= 0 && this->face() >= 0)) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(8, this->_internal_face(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(9, this->_internal_face(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -4450,11 +4451,11 @@ size_t PlayerChangeZone::ByteSizeLong() const {
         this->_internal_socket());
   }
 
-  // uint64 idscene = 4;
-  if (this->idscene() != 0) {
+  // uint64 target_scene = 4;
+  if (this->target_scene() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
-        this->_internal_idscene());
+        this->_internal_target_scene());
   }
 
   // uint32 idzone = 3;
@@ -4464,22 +4465,22 @@ size_t PlayerChangeZone::ByteSizeLong() const {
         this->_internal_idzone());
   }
 
-  // float posx = 5;
+  // float posx = 6;
   if (!(this->posx() <= 0 && this->posx() >= 0)) {
     total_size += 1 + 4;
   }
 
-  // float posy = 6;
+  // float posy = 7;
   if (!(this->posy() <= 0 && this->posy() >= 0)) {
     total_size += 1 + 4;
   }
 
-  // float range = 7;
+  // float range = 8;
   if (!(this->range() <= 0 && this->range() >= 0)) {
     total_size += 1 + 4;
   }
 
-  // float face = 8;
+  // float face = 9;
   if (!(this->face() <= 0 && this->face() >= 0)) {
     total_size += 1 + 4;
   }
@@ -4521,8 +4522,8 @@ void PlayerChangeZone::MergeFrom(const PlayerChangeZone& from) {
   if (from.socket() != 0) {
     _internal_set_socket(from._internal_socket());
   }
-  if (from.idscene() != 0) {
-    _internal_set_idscene(from._internal_idscene());
+  if (from.target_scene() != 0) {
+    _internal_set_target_scene(from._internal_target_scene());
   }
   if (from.idzone() != 0) {
     _internal_set_idzone(from._internal_idzone());
@@ -4564,7 +4565,7 @@ void PlayerChangeZone::InternalSwap(PlayerChangeZone* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(idplayer_, other->idplayer_);
   swap(socket_, other->socket_);
-  swap(idscene_, other->idscene_);
+  swap(target_scene_, other->target_scene_);
   swap(idzone_, other->idzone_);
   swap(posx_, other->posx_);
   swap(posy_, other->posy_);

@@ -5,54 +5,61 @@
 
 #include "GameMap.h"
 #include "export_lua.h"
-// max uint64_t = 1844 6744 0737 0955 1614
-// 099999 00 0000 0000 0000
 
-export_lua struct SceneID
+
+
+export_lua struct SceneIdx
 {
-    static constexpr uint64_t IDZONE_FACTOR = 1ull * 10000ull * 10000ull * 10000ull;
-    static constexpr uint64_t IDMAP_FACTOR  = 100ull * 10000ull * 10000ull * 10000ull;
-
-    export_lua SceneID(uint16_t _idZone, uint16_t _idMap, uint32_t _nPhaseIdx)
-        : data64(_idMap * IDMAP_FACTOR + _idZone * IDZONE_FACTOR + _nPhaseIdx)
+    export_lua SceneIdx(uint16_t _idZone, uint16_t _idMap, uint32_t _idxPhase)
+        : m_Data{_idZone,_idMap,_idxPhase}
     {
-        if(_idZone == 0 || _idZone > 10)
+        if(m_Data._idZone == 0 || m_Data._idZone > 10)
         {
             throw std::runtime_error("zoneid overflow");
         }
     }
-    export_lua SceneID(uint64_t _data64 = 0)
+    export_lua SceneIdx(uint64_t _data64 = 0)
         : data64(_data64)
     {
     }
-    export_lua SceneID(const SceneID& rht)
+    export_lua SceneIdx(const SceneIdx& rht)
         : data64(rht.data64)
     {
     }
 
-    export_lua uint64_t data64;
+    struct SceneIdxData
+    {
+        uint16_t _idZone;
+        uint16_t _idMap;
+        uint32_t _idxPhase;
+    };
 
+    union
+    {
+        SceneIdxData m_Data;
+        uint64_t data64;
+    };
+    
+    
     operator uint64_t() const { return data64; }
+    export_lua bool operator==(const SceneIdx& rht) const { return data64 == rht.data64; }
+    export_lua bool operator<(const SceneIdx& rht) const { return data64 < rht.data64; }
 
-    export_lua bool operator==(const SceneID& rht) const { return data64 == rht.data64; }
+    export_lua int32_t GetPhaseIdx() const { return m_Data._idxPhase; }
 
-    export_lua bool operator<(const SceneID& rht) const { return data64 < rht.data64; }
-
-    export_lua bool     IsPhaseIdxVaild() const { return GetPhaseIdx() != uint32_t(-1); }
-    export_lua uint32_t GetPhaseIdx() const { return data64 % IDZONE_FACTOR; }
-    export_lua SceneID  GetStaticPhaseSceneID() const { return {GetZoneID(), GetMapID(), 0}; }
-
-    export_lua uint16_t GetZoneID() const { return (data64 % IDMAP_FACTOR) / IDZONE_FACTOR; }
-    export_lua uint16_t GetMapID() const { return data64 / IDMAP_FACTOR; }
+    export_lua uint16_t GetZoneID() const { return m_Data._idZone; }
+    export_lua uint16_t GetMapID() const { return m_Data._idMap; }
+    SceneIdx GetStaticPhaseSceneIdx() const {return SceneIdx(m_Data._idZone, m_Data._idMap, 0);}
 };
+
 
 // custom specialization of std::hash can be injected in namespace std
 namespace std
 {
     template<>
-    struct hash<SceneID>
+    struct hash<SceneIdx>
     {
-        typedef SceneID     argument_type;
+        typedef SceneIdx     argument_type;
         typedef std::size_t result_type;
         result_type         operator()(argument_type const& s) const
         {
@@ -61,6 +68,102 @@ namespace std
         }
     };
 } // namespace std
+
+template<>
+struct fmt::formatter<SceneIdx> : public fmt::formatter<uint64_t>
+{
+    template<typename FormatContext>
+    auto format(const SceneIdx& sceneid, FormatContext& ctx)
+    {
+        // ctx.out() is an output iterator to write to.
+        return fmt::format_to(ctx.out(), "({}:{}:{})", sceneid.GetZoneID(), sceneid.GetMapID(), sceneid.GetPhaseIdx());
+    }
+};
+
+export_lua struct TargetSceneID
+{
+    export_lua TargetSceneID(uint16_t _idZone, uint16_t _idMap, int32_t _idPhase)
+        : m_Data{_idZone,_idMap,_idPhase}
+    {
+        if(m_Data._idZone == 0 || m_Data._idZone > 10)
+        {
+            throw std::runtime_error("zoneid overflow");
+        }
+    }
+    export_lua TargetSceneID(uint64_t _data64 = 0)
+        : data64(_data64)
+    {
+    }
+    export_lua TargetSceneID(const TargetSceneID& rht)
+        : data64(rht.data64)
+    {
+    }
+
+    struct TargetSceneIDData
+    {
+        uint16_t _idZone;
+        uint16_t _idMap;
+        int32_t _idPhase;
+    };
+
+    union
+    {
+        TargetSceneIDData m_Data;
+        uint64_t data64;
+    };
+    
+    
+    enum
+    {
+        SelfPhase = -1,
+        TeamPhase = -2,
+        GuildPhase = -3,
+    };
+    
+    operator uint64_t() const { return data64; }
+    export_lua bool operator==(const TargetSceneID& rht) const { return data64 == rht.data64; }
+    export_lua bool operator<(const TargetSceneID& rht) const { return data64 < rht.data64; }
+
+    export_lua uint32_t GetPhaseID() const { return static_cast<uint32_t>(m_Data._idPhase); }
+
+    export_lua bool IsSelfPhaseID() const { return m_Data._idPhase == SelfPhase; }
+    export_lua bool IsTeamPhaseID() const { return m_Data._idPhase == TeamPhase; }
+    export_lua bool IsGuildPhaseID() const { return m_Data._idPhase == GuildPhase; }
+
+    export_lua uint16_t GetZoneID() const { return m_Data._idZone; }
+    export_lua uint16_t GetMapID() const { return m_Data._idMap; }
+
+};
+
+
+// custom specialization of std::hash can be injected in namespace std
+namespace std
+{
+    template<>
+    struct hash<TargetSceneID>
+    {
+        typedef TargetSceneID     argument_type;
+        typedef std::size_t result_type;
+        result_type         operator()(argument_type const& s) const
+        {
+            std::hash<uint64_t> hasher;
+            return hasher(s.data64);
+        }
+    };
+} // namespace std
+
+template<>
+struct fmt::formatter<TargetSceneID> : public fmt::formatter<uint64_t>
+{
+    template<typename FormatContext>
+    auto format(const TargetSceneID& sceneid, FormatContext& ctx)
+    {
+        // ctx.out() is an output iterator to write to.
+        return fmt::format_to(ctx.out(), "({}:{}:{})", sceneid.GetZoneID(), sceneid.GetMapID(), sceneid.GetPhaseID());
+    }
+};
+
+
 
 export_lua class CMapManager : public NoncopyableT<CMapManager>
 {

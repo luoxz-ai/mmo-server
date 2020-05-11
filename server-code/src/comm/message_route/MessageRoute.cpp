@@ -463,7 +463,7 @@ bool CMessageRoute::CreateAllMessagePort(uint16_t nWorldID, const std::set<uint1
             auto pInfo = _QueryServiceInfo(nServerPort);
             if(pInfo == nullptr)
             {
-                LOGFATAL("ListenMessagePort {} not find", nServerPort.GetServiceID());
+                LOGFATAL("ListenMessagePort {} not find", nServerPort);
                 return false;
             }
             CHECKF(_ListenMessagePort(nServerPort, *pInfo) != nullptr);
@@ -476,7 +476,7 @@ bool CMessageRoute::CreateAllMessagePort(uint16_t nWorldID, const std::set<uint1
                 auto pInfo = _QueryServiceInfo(nServerPort);
                 if(pInfo == nullptr)
                 {
-                    LOGFATAL("ListenMessagePort {} not find", nServerPort.GetServiceID());
+                    LOGFATAL("ListenMessagePort {} not find", nServerPort);
                     return false;
                 }
                 CHECKF(_ListenMessagePort(nServerPort, *pInfo) != nullptr);
@@ -523,7 +523,7 @@ void CMessageRoute::_CloseRemoteServer(const ServerPort& nServerPort)
         SAFE_DELETE(pPort);
     }
     m_setMessagePort.erase(itPort);
-    LOGMESSAGE("CMessageRoute::CloseRemoteServer:{} {}", nServerPort.GetWorldID(), nServerPort.GetServiceID());
+    LOGMESSAGE("CMessageRoute::CloseRemoteServer:{}", nServerPort);
     __LEAVE_FUNCTION
 }
 
@@ -533,7 +533,7 @@ CMessagePort* CMessageRoute::ConnectRemoteServer(const ServerPort& nServerPort)
     auto pInfo = QueryServiceInfo(nServerPort);
     if(pInfo == nullptr)
     {
-        LOGERROR("ConnectRemoteServer Fail, Can't File Info:{}", nServerPort.GetServiceID());
+        LOGERROR("ConnectRemoteServer Fail, Can't File Info:{}", nServerPort);
         return nullptr;
     }
 

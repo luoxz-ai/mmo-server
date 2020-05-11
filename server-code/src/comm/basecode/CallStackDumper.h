@@ -11,7 +11,7 @@ extern std::string demangle(const char* name);
 
 struct CallFrameMap
 {
-    CallFrameMap(int32_t skip_calldepth = 0);
+    CallFrameMap(int32_t skip_calldepth = 0, int32_t max_calldepth = 100);
     std::vector<std::pair<void*, std::string>> m_Addr;
 };
 
@@ -42,6 +42,8 @@ public:
     typedef std::deque<CALLFRAME_NODE*> CHILD_CALLFRAME_NODE;
     CHILD_CALLFRAME_NODE                m_setChild;
 };
+
+std::string GetStackTraceString(const CallFrameMap& data);
 
 bool DumpStack(const CallFrameMap& data);
 bool DumpStack(const CALLFRAME_NODE* pFrame);

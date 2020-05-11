@@ -141,9 +141,9 @@ void ai2lua(lua_State* L)
         "CreatePhase",
         lua_tinker::args_type_overload_member_functor(
             lua_tinker::make_member_functor_ptr(
-                (CAIPhase * (CAIScene::*)(const SceneID&, uint64_t))(&CAIScene::CreatePhase)),
+                (CAIPhase * (CAIScene::*)(const SceneIdx&, uint64_t))(&CAIScene::CreatePhase)),
             lua_tinker::make_member_functor_ptr(
-                (CAIPhase * (CAIScene::*)(const SceneID&, uint64_t, const PhaseData*))(&CAIScene::CreatePhase))));
+                (CAIPhase * (CAIScene::*)(const SceneIdx&, uint64_t, const PhaseData*))(&CAIScene::CreatePhase))));
     lua_tinker::class_def<CAIScene>(L, "DestoryPhase", &CAIScene::DestoryPhase);
     lua_tinker::class_def<CAIScene>(L, "DestoryPhaseByIdx", &CAIScene::DestoryPhaseByIdx);
     lua_tinker::class_def<CAIScene>(L, "QueryPhaseByID", &CAIScene::QueryPhaseByID);
@@ -503,22 +503,19 @@ void ai2lua(lua_State* L)
     lua_tinker::class_mem<Rect>(L, "left", &Rect::left);
     lua_tinker::class_mem<Rect>(L, "right", &Rect::right);
     lua_tinker::class_mem<Rect>(L, "top", &Rect::top);
-    lua_tinker::class_add<SceneID>(L, "SceneID", false);
-    lua_tinker::class_def<SceneID>(L, "GetMapID", &SceneID::GetMapID);
-    lua_tinker::class_def<SceneID>(L, "GetPhaseIdx", &SceneID::GetPhaseIdx);
-    lua_tinker::class_def<SceneID>(L, "GetStaticPhaseSceneID", &SceneID::GetStaticPhaseSceneID);
-    lua_tinker::class_def<SceneID>(L, "GetZoneID", &SceneID::GetZoneID);
-    lua_tinker::class_def<SceneID>(L, "IsPhaseIdxVaild", &SceneID::IsPhaseIdxVaild);
-    lua_tinker::class_def<SceneID>(L, "__lt", &SceneID::operator<);
-    lua_tinker::class_def<SceneID>(L, "__eq", &SceneID::operator==);
-    lua_tinker::class_con<SceneID>(
+    lua_tinker::class_add<SceneIdx>(L, "SceneIdx", false);
+    lua_tinker::class_def<SceneIdx>(L, "GetMapID", &SceneIdx::GetMapID);
+    lua_tinker::class_def<SceneIdx>(L, "GetPhaseIdx", &SceneIdx::GetPhaseIdx);
+    lua_tinker::class_def<SceneIdx>(L, "GetZoneID", &SceneIdx::GetZoneID);
+    lua_tinker::class_def<SceneIdx>(L, "__lt", &SceneIdx::operator<);
+    lua_tinker::class_def<SceneIdx>(L, "__eq", &SceneIdx::operator==);
+    lua_tinker::class_con<SceneIdx>(
         L,
         lua_tinker::args_type_overload_constructor(
-            new lua_tinker::constructor<SceneID, const SceneID&>(),
-            new lua_tinker::constructor<SceneID, uint16_t, uint16_t, uint32_t>(),
-            new lua_tinker::constructor<SceneID, uint64_t>(1 /*default_args_count*/, 1 /*default_args_start*/)),
+            new lua_tinker::constructor<SceneIdx, const SceneIdx&>(),
+            new lua_tinker::constructor<SceneIdx, uint16_t, uint16_t, uint32_t>(),
+            new lua_tinker::constructor<SceneIdx, uint64_t>(1 /*default_args_count*/, 1 /*default_args_start*/)),
         0);
-    lua_tinker::class_mem<SceneID>(L, "data64", &SceneID::data64);
     lua_tinker::class_add<ServerPort>(L, "ServerPort", false);
     lua_tinker::class_def<ServerPort>(L, "GetData", &ServerPort::GetData);
     lua_tinker::class_def<ServerPort>(L, "GetServiceID", &ServerPort::GetServiceID);
@@ -535,6 +532,22 @@ void ai2lua(lua_State* L)
             new lua_tinker::constructor<ServerPort, const ServerPort&>(),
             new lua_tinker::constructor<ServerPort, uint16_t, uint16_t>(),
             new lua_tinker::constructor<ServerPort, uint32_t>(1 /*default_args_count*/, 1 /*default_args_start*/)),
+        0);
+    lua_tinker::class_add<TargetSceneID>(L, "TargetSceneID", false);
+    lua_tinker::class_def<TargetSceneID>(L, "GetMapID", &TargetSceneID::GetMapID);
+    lua_tinker::class_def<TargetSceneID>(L, "GetPhaseID", &TargetSceneID::GetPhaseID);
+    lua_tinker::class_def<TargetSceneID>(L, "GetZoneID", &TargetSceneID::GetZoneID);
+    lua_tinker::class_def<TargetSceneID>(L, "IsGuildPhaseID", &TargetSceneID::IsGuildPhaseID);
+    lua_tinker::class_def<TargetSceneID>(L, "IsSelfPhaseID", &TargetSceneID::IsSelfPhaseID);
+    lua_tinker::class_def<TargetSceneID>(L, "IsTeamPhaseID", &TargetSceneID::IsTeamPhaseID);
+    lua_tinker::class_def<TargetSceneID>(L, "__lt", &TargetSceneID::operator<);
+    lua_tinker::class_def<TargetSceneID>(L, "__eq", &TargetSceneID::operator==);
+    lua_tinker::class_con<TargetSceneID>(
+        L,
+        lua_tinker::args_type_overload_constructor(
+            new lua_tinker::constructor<TargetSceneID, const TargetSceneID&>(),
+            new lua_tinker::constructor<TargetSceneID, uint16_t, uint16_t, int32_t>(),
+            new lua_tinker::constructor<TargetSceneID, uint64_t>(1 /*default_args_count*/, 1 /*default_args_start*/)),
         0);
     lua_tinker::class_add<Vector2>(L, "Vector2", false);
     lua_tinker::class_def<Vector2>(L, "crossProduct", &Vector2::crossProduct);
@@ -615,7 +628,9 @@ void ai2lua(lua_State* L)
     lua_tinker::class_def_static<VirtualSocket>(L, "CreateVirtualSocket", &VirtualSocket::CreateVirtualSocket);
     lua_tinker::class_def<VirtualSocket>(L, "GetData64", &VirtualSocket::GetData64);
     lua_tinker::class_def<VirtualSocket>(L, "GetServerPort", &VirtualSocket::GetServerPort);
+    lua_tinker::class_def<VirtualSocket>(L, "GetServiceID", &VirtualSocket::GetServiceID);
     lua_tinker::class_def<VirtualSocket>(L, "GetSocketIdx", &VirtualSocket::GetSocketIdx);
+    lua_tinker::class_def<VirtualSocket>(L, "GetWorldID", &VirtualSocket::GetWorldID);
     lua_tinker::class_def<VirtualSocket>(L, "IsVaild", &VirtualSocket::IsVaild);
     lua_tinker::class_def<VirtualSocket>(L, "SetServerPort", &VirtualSocket::SetServerPort);
     lua_tinker::class_def<VirtualSocket>(L, "SetSocketIdx", &VirtualSocket::SetSocketIdx);
@@ -753,6 +768,7 @@ void ai2lua(lua_State* L)
     lua_tinker::set(L, "UPDATE_TRUE", UPDATE_TRUE);
     lua_tinker::set(L, "AI_SERVICE", AI_SERVICE);
     lua_tinker::set(L, "GLOBAL_ROUTE_SERVICE", GLOBAL_ROUTE_SERVICE);
+    lua_tinker::set(L, "GM_PROXY_SERVICE", GM_PROXY_SERVICE);
     lua_tinker::set(L, "GM_SERVICE", GM_SERVICE);
     lua_tinker::set(L, "GM_SERVICE_ID", GM_SERVICE_ID);
     lua_tinker::set(L, "MARKET_SERVICE", MARKET_SERVICE);
@@ -828,7 +844,6 @@ void ai2lua(lua_State* L)
     lua_tinker::set(L, "SCT_TARGET_OTHER", SCT_TARGET_OTHER);
     lua_tinker::set(L, "SCT_TARGET_POS", SCT_TARGET_POS);
     lua_tinker::set(L, "SCT_TARGET_SELF", SCT_TARGET_SELF);
-    lua_tinker::set(L, "SERVICECTRL_SERVICE", SERVICECTRL_SERVICE);
     lua_tinker::set(L, "SKILLFLAG_AUTOLEARN", SKILLFLAG_AUTOLEARN);
     lua_tinker::set(L, "SKILLFLAG_AUTOUSE", SKILLFLAG_AUTOUSE);
     lua_tinker::set(L, "SKILLFLAG_BREAK_INTONE", SKILLFLAG_BREAK_INTONE);

@@ -50,7 +50,7 @@ public:
 public:
     virtual ~CPlayer();
 
-    export_lua bool FlyMap(uint16_t idMap, uint32_t idxPhase, float fPosX, float fPosY, float fRange, float fFace);
+    export_lua bool FlyMap(uint16_t idMap, int32_t idxPhase, float fPosX, float fPosY, float fRange, float fFace);
 
 public:
     export_lua bool         SendMsg(const google::protobuf::Message& msg) const;
@@ -71,8 +71,8 @@ public:
     export_lua uint32_t                   GetVipLev() const { return m_pRecord->Field(TBLD_PLAYER::VIPLEV); }
     export_lua uint32_t                   GetPKVal() const { return m_pRecord->Field(TBLD_PLAYER::PKVAL); }
     export_lua uint32_t                   GetHonor() const { return m_pRecord->Field(TBLD_PLAYER::HONOR); }
-    export_lua uint64_t         GetRecordSceneID() const { return m_pRecord->Field(TBLD_PLAYER::RECORD_SCENEID); }
-    export_lua uint64_t         GetHomeSceneID() const { return m_pRecord->Field(TBLD_PLAYER::HOME_SCENEID); }
+    export_lua SceneIdx         GetRecordSceneIdx() const { return m_pRecord->Field(TBLD_PLAYER::RECORD_SCENEID).get<uint64_t>(); }
+    export_lua SceneIdx         GetHomeSceneIdx() const { return m_pRecord->Field(TBLD_PLAYER::HOME_SCENEID).get<uint64_t>(); }
     export_lua virtual uint32_t GetLev() const override { return m_pRecord->Field(TBLD_PLAYER::LEV); }
     export_lua uint32_t         GetExp() const { return m_pRecord->Field(TBLD_PLAYER::EXP); }
     export_lua uint32_t         GetMoney() const { return m_pRecord->Field(TBLD_PLAYER::MONEY); }
@@ -191,13 +191,13 @@ public:
     void OnRecvGameData(CNetworkMessage* pMsg);
 
     virtual void OnEnterMap(CSceneBase* pScene) override;
-    virtual void OnLeaveMap(uint64_t idTargetScene) override;
+    virtual void OnLeaveMap(uint16_t idTargetMap) override;
 
 public:
     void OnTimer();
-    void OnLogin(bool bLogin, const SceneID& idScene, float fPosX, float fPosY, float fRange, float fFace);
+    void OnLogin(bool bLogin, const SceneIdx& idxScene, float fPosX, float fPosY, float fRange, float fFace);
     void OnLogout();
-    void OnChangeZoneSaveFinish(const SceneID& idScene, float fPosX, float fPosY, float fRange, float fFace);
+    void OnChangeZoneSaveFinish(const TargetSceneID& idTargetScene, float fPosX, float fPosY, float fRange, float fFace);
     void OnLoadMapSucc();
 
 public:
@@ -224,9 +224,9 @@ public:
     export_lua virtual bool IsEnemy(CSceneObject* pTarget) const override;
 
 private:
-    void _ChangeZone(const SceneID& idScene, float fPosX, float fPosY, float fRange, float fFace);
-    void _FlyMap(const SceneID& idScene, float fPosX, float fPosY, float fRange, float fFace);
-    void SendGameData(const SceneID& idScene);
+    void _ChangeZone(const TargetSceneID& idTargetScene, float fPosX, float fPosY, float fRange, float fFace);
+    void _FlyMap(const TargetSceneID& idTargetScene, float fPosX, float fPosY, float fRange, float fFace);
+    void SendGameData(const TargetSceneID& idTargetScene);
 
     void SendPlayerInfoToClient();
     void SendAttribToClient();
@@ -250,7 +250,7 @@ private:
     std::unique_ptr<CPetSet>             m_pPetSet;
     std::unique_ptr<CPlayerSkillManager> m_pUserSkillManager;
 
-    uint64_t m_idLoadingScene = 0;
+    SceneIdx m_idLoadingScene = 0;
     float    m_fLoadingPosX   = 0.0f;
     float    m_fLoadingPosY   = 0.0f;
     float    m_fLoadingFace   = 0.0f;

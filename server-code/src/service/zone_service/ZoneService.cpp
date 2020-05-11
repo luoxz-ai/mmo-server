@@ -46,6 +46,7 @@
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
+#include "proto_help.h"
 
 static thread_local CZoneService* tls_pService = nullptr;
 CZoneService*                     ZoneService()
@@ -219,7 +220,11 @@ void CZoneService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
         //服务器间的消息，现在就可以处理了
         if(m_pNetMsgProcess->Process(pNetworkMsg) == false)
         {
-            LOGERROR("CMD {} didn't have ProcessHandler", pNetworkMsg->GetCmd());
+            LOGERROR("CMD {} from {} to {} forward {} didn't have ProcessHandler", 
+                cmd_to_enum_name(pNetworkMsg->GetCmd()),
+                pNetworkMsg->GetFrom(),
+                pNetworkMsg->GetTo(),
+                pNetworkMsg->GetForward());
             return;
         }
     }
@@ -255,7 +260,7 @@ void CZoneService::PushMsgToMessagePool(const VirtualSocket& vs, CNetworkMessage
     if(refList.size() > MAX_USER_HOLD_MESSAGE)
     {
         // logerror
-        LOGERROR("Player:{} {} Hold Too Many Message", vs.GetServerPort().GetServiceID(), vs.GetSocketIdx());
+        LOGERROR("Player:{} Hold Too Many Message", vs);
         // kick user
 
         ServerMSG::SocketClose kick_msg;

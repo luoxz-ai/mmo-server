@@ -103,7 +103,7 @@ void CPet::OnEnterMap(CSceneBase* pScene)
 
     ServerMSG::ActorCreate ai_msg;
     ai_msg.set_actor_id(GetID());
-    ai_msg.set_scene_id(GetSceneID());
+    ai_msg.set_scene_id(GetSceneIdx());
     ai_msg.set_actortype(ACT_PET);
     ai_msg.set_prof(GetPetTypeID());
     ai_msg.set_lev(GetLev());
@@ -122,11 +122,11 @@ void CPet::OnEnterMap(CSceneBase* pScene)
     __LEAVE_FUNCTION
 }
 
-void CPet::OnLeaveMap(uint64_t idTargetScene)
+void CPet::OnLeaveMap(uint16_t idTargetMap)
 {
     __ENTER_FUNCTION
 
-    CActor::OnLeaveMap(idTargetScene);
+    CActor::OnLeaveMap(idTargetMap);
     __LEAVE_FUNCTION
 }
 

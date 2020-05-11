@@ -102,10 +102,10 @@ CDBField::CDBField(CDBRecord* pDBRecord, const CDBFieldInfo* pFieldInfo, char* p
         break;
         default:
         {
-#ifdef DEBUG
-            DumpStack(CallFrameMap(1));
-#endif
-            LOGDBERROR("mysql field:{}.{} use unknow type", m_pFieldInfo->GetTableName(), m_pFieldInfo->GetFieldName());
+            LOGDBERROR("mysql field:{}.{} use unknow type. \nCallfrom:{}",
+                         m_pFieldInfo->GetTableName(), 
+                         m_pFieldInfo->GetFieldName(),
+                         GetStackTraceString(CallFrameMap(2,4)));
         }
         break;
     }
@@ -131,7 +131,14 @@ std::string CDBField::GetValString() const
         return std::string();
     if(m_funcGetValString)
     {
-        return "'" + m_funcGetValString() + "'";
+
+        std::string             tmp    = m_funcGetValString();
+        std::unique_ptr<char[]> szBuff = std::make_unique<char[]>(tmp.size() * 2 + 1);
+        mysql_real_escape_string(m_pDBRecord->_GetMysqlConnection()->_GetHandle(),
+                                    szBuff.get(),
+                                    tmp.c_str(),
+                                    tmp.size());
+        return "'" + std::string(szBuff.get()) +  "'";
     }
 
     switch(m_pFieldInfo->GetFieldType())
@@ -201,10 +208,10 @@ std::string CDBField::GetValString() const
         break;
         default:
         {
-#ifdef DEBUG
-            DumpStack(CallFrameMap(1));
-#endif
-            LOGDBERROR("mysql field:{}.{} use unknow type", m_pFieldInfo->GetTableName(), m_pFieldInfo->GetFieldName());
+            LOGDBERROR("mysql field:{}.{} use unknow type. \nCallfrom:{}",
+                         m_pFieldInfo->GetTableName(), 
+                         m_pFieldInfo->GetFieldName(),
+                         GetStackTraceString(CallFrameMap(2,4)));
             return std::string();
         }
         break;

@@ -208,13 +208,11 @@ void CLoadingThread::OnThreadProcess()
             std::unique_lock<std::mutex> locker(m_csWaitingList);
             if(m_WaitingList.empty())
             {
-                locker.release();
                 if(m_bStop)
                 {
                     return;
                 }
-                std::unique_lock<std::mutex> lk(m_csCV);
-                m_cv.wait(lk);
+                m_cv.wait(locker);
                 continue;
             }
             pCurData = m_WaitingList.front();
@@ -315,7 +313,7 @@ void CLoadingThread::OnMainThreadExec()
             {
                 ActorManager()->AddActor(pData->pPlayer);
                 pData->pPlayer->OnLogin(!pData->bChangeZone,
-                                        pData->idScene,
+                                        pData->idTargetScene,
                                         pData->fPosX,
                                         pData->fPosY,
                                         pData->fRange,
@@ -324,7 +322,7 @@ void CLoadingThread::OnMainThreadExec()
         }
         else // save ready
         {
-            pData->pPlayer->OnChangeZoneSaveFinish(pData->idScene,
+            pData->pPlayer->OnChangeZoneSaveFinish(pData->idTargetScene,
                                                    pData->fPosX,
                                                    pData->fPosY,
                                                    pData->fRange,

@@ -26,13 +26,12 @@ void CAISceneManager::Destory()
     m_mapScene.clear();
 }
 
-CAIScene* CAISceneManager::CreateScene(const SceneID& idScene)
+CAIScene* CAISceneManager::CreateScene(uint16_t idMap)
 {
-    uint16_t idMap = idScene.GetMapID();
     auto     pMap  = MapManager()->QueryMap(idMap);
     CHECKF(pMap);
 
-    CAIScene* pScene = CAIScene::CreateNew(idScene);
+    CAIScene* pScene = CAIScene::CreateNew(idMap);
     CHECKF(pScene);
 
     m_mapScene[idMap] = pScene;
@@ -42,9 +41,9 @@ CAIScene* CAISceneManager::CreateScene(const SceneID& idScene)
     return pScene;
 }
 
-CAIScene* CAISceneManager::QueryScene(const SceneID& idScene)
+CAIScene* CAISceneManager::QueryScene(const SceneIdx& idxScene)
 {
-    auto itFind = m_mapScene.find(idScene.GetMapID());
+    auto itFind = m_mapScene.find(idxScene.GetMapID());
     if(itFind == m_mapScene.end())
         return nullptr;
 
@@ -52,15 +51,15 @@ CAIScene* CAISceneManager::QueryScene(const SceneID& idScene)
     return pScene;
 }
 
-CAIPhase* CAISceneManager::QueryPhase(const SceneID& idScene)
+CAIPhase* CAISceneManager::QueryPhase(const SceneIdx& idxScene)
 {
-    CAIScene* pScene = QueryScene(idScene);
+    CAIScene* pScene = QueryScene(idxScene);
     if(pScene == nullptr)
     {
         return nullptr;
     }
 
-    return pScene->QueryPhaseByIdx(idScene.GetPhaseIdx());
+    return pScene->QueryPhaseByIdx(idxScene.GetPhaseIdx());
 }
 
 void CAISceneManager::OnTimer() {}

@@ -22,11 +22,10 @@ public:
 
     void Destory();
 
-    CAIScene* CreateScene(const SceneID& idScene);
-    void      DestoryDynaScene(const SceneID& idScene);
+    CAIScene* CreateScene(uint16_t idMap);
 
-    CAIScene* QueryScene(const SceneID& idScene);
-    CAIPhase* QueryPhase(const SceneID& idScene);
+    CAIScene* QueryScene(const SceneIdx& idxScene);
+    CAIPhase* QueryPhase(const SceneIdx& idxScene);
     void      OnTimer();
 
 protected:

@@ -10,7 +10,7 @@ CAIPhase::CAIPhase() {}
 
 CAIPhase::~CAIPhase()
 {
-    LOGDEBUG("PhaseDestory:{} {} idPhase:{}", GetSceneID().GetMapID(), GetSceneID().GetPhaseIdx(), m_idPhase);
+    LOGDEBUG("PhaseDestory:{} {} idPhase:{}", GetSceneIdx().GetMapID(), GetSceneIdx().GetPhaseIdx(), m_idPhase);
     while(m_setActor.empty() == false)
     {
         CAIActor* pActor = static_cast<CAIActor*>(m_setActor.begin()->second);
@@ -19,10 +19,10 @@ CAIPhase::~CAIPhase()
     }
 }
 
-bool CAIPhase::Init(CAIScene* pScene, const SceneID& idScene, uint64_t idPhase, const PhaseData* pPhaseData)
+bool CAIPhase::Init(CAIScene* pScene, const SceneIdx& idxScene, uint64_t idPhase, const PhaseData* pPhaseData)
 {
     m_idPhase = idPhase;
-    CSceneBase::Init(idScene, MapManager());
+    CSceneBase::Init(idxScene, MapManager());
     m_MonsterGen.Init(this);
     if(pPhaseData)
     {
@@ -45,6 +45,6 @@ bool CAIPhase::Init(CAIScene* pScene, const SceneID& idScene, uint64_t idPhase, 
         InitSceneTree({0.0f, 0.0f}, 0.0f, 0.0f, 0);
     }
 
-    LOGDEBUG("CAIPhase {} Created Map:{} Idx:{}", idPhase, idScene.GetMapID(), idScene.GetPhaseIdx());
+    LOGDEBUG("CAIPhase {} Created Map:{} Idx:{}", idPhase, idxScene.GetMapID(), idxScene.GetPhaseIdx());
     return true;
 }

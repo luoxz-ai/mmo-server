@@ -213,7 +213,7 @@ void CMonster::OnEnterMap(CSceneBase* pScene)
 
     ServerMSG::ActorCreate ai_msg;
     ai_msg.set_actor_id(GetID());
-    ai_msg.set_scene_id(GetSceneID());
+    ai_msg.set_scene_id(GetSceneIdx());
     ai_msg.set_actortype(ACT_MONSTER);
     ai_msg.set_prof(GetTypeID());
     ai_msg.set_lev(GetLev());
@@ -234,10 +234,10 @@ void CMonster::OnEnterMap(CSceneBase* pScene)
     __LEAVE_FUNCTION
 }
 
-void CMonster::OnLeaveMap(uint64_t idTargetScene)
+void CMonster::OnLeaveMap(uint16_t idTargetMap)
 {
     __ENTER_FUNCTION
-    CActor::OnLeaveMap(idTargetScene);
+    CActor::OnLeaveMap(idTargetMap);
 
     __LEAVE_FUNCTION
 }

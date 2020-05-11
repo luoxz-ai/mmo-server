@@ -31,11 +31,11 @@ public:
     export_lua const std::string& GetServiceName() const override { return CServiceCommon::GetServiceName(); }
 
 public:
-    export_lua uint16_t      GetZoneID() const { return GetServiceID() - MIN_ZONE_SERVICE_ID + 1; }
+    export_lua uint16_t      GetZoneID() const { return ServiceID2ZoneID(GetServiceID()); }
     export_lua uint16_t      GetAIServiceID() const { return MIN_AI_SERVICE_ID + GetZoneID() - 1; }
     export_lua VirtualSocket GetAIServerVirtualSocket() const
     {
-        return VirtualSocket(ServerPort(GetWorldID(), GetServiceID() + 10), 0);
+        return VirtualSocket(ServerPort(GetWorldID(), GetServiceID() + (MIN_AI_SERVICE_ID-MIN_ZONE_SERVICE_ID)), 0);
     }
     export_lua bool IsSharedZone() const { return GetWorldID() == 0; }
 

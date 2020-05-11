@@ -20,7 +20,7 @@ CMonsterGenerator::~CMonsterGenerator()
 void CMonsterGenerator::Init(CAIPhase* pPhase)
 {
     m_pMap               = pPhase->GetMap();
-    m_idScene            = pPhase->GetSceneID();
+    m_idxScene            = pPhase->GetSceneIdx();
     const auto& gen_list = m_pMap->GetGeneratorData();
     for(const auto& pair_val: gen_list)
     {
@@ -71,7 +71,7 @@ void CMonsterGenerator::_GenMonster(MonsterGenData* pData, uint64_t idPhase)
         }
 
         ServerMSG::MonsterGen msg;
-        msg.set_scene_id(m_idScene);
+        msg.set_scene_id(m_idxScene);
         msg.set_gen_id(pData->gen_data.idx());
         msg.set_camp_id(pData->gen_data.camp_id());
         msg.set_monster_type(pData->gen_data.monsterid());
@@ -88,7 +88,7 @@ void CMonsterGenerator::_GenMonster(MonsterGenData* pData, uint64_t idPhase)
         AIService()->SendMsgToZone(msg);
         pData->nCurGen++;
     }
-    LOGDEBUG("MonsterGen:{} {} - {} GenOnce", m_idScene.GetMapID(), m_idScene.GetPhaseIdx(), pData->nIdxGen);
+    LOGDEBUG("MonsterGen:{} {} - {} GenOnce", m_idxScene.GetMapID(), m_idxScene.GetPhaseIdx(), pData->nIdxGen);
 }
 
 void CMonsterGenerator::StartGen(MonsterGenData* pData, bool bCheckRunning)

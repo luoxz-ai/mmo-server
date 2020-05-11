@@ -21,24 +21,23 @@ bool CMapManager::Init(uint16_t idZone)
 
         for(const auto& iter: cfg.rows())
         {
-            if(idZone != 0 && iter.idzone() != 0 && iter.idzone() != idZone)
-            {
-                continue;
-            }
-
             CMapData* pMapData = nullptr;
-            auto      itFind   = m_vecMapData.find(iter.idmapdata());
-            if(itFind != m_vecMapData.end())
+            //只有本zone需要用到的map，才会加载mapdata
+            if(idZone == 0 || iter.idzone() == 0 || iter.idzone() == idZone)
             {
-                pMapData = itFind->second.get();
+                auto      itFind   = m_vecMapData.find(iter.idmapdata());
+                if(itFind != m_vecMapData.end())
+                {
+                    pMapData = itFind->second.get();
+                }
+                else
+                {
+                    pMapData = CMapData::CreateNew(iter.idmapdata());
+                    CHECKF(pMapData);
+                    m_vecMapData[pMapData->GetMapTemplateID()].reset(pMapData);
+                }    
             }
-            else
-            {
-                pMapData = CMapData::CreateNew(iter.idmapdata());
-                CHECKF(pMapData);
-                m_vecMapData[pMapData->GetMapTemplateID()].reset(pMapData);
-            }
-
+    
             CGameMap* pGameMap = CGameMap::CreateNew(this, iter, pMapData);
             if(pGameMap == nullptr)
             {
@@ -103,7 +102,7 @@ bool CMapManager::Init(uint16_t idZone)
         for(const auto& iter: cfg.rows())
         {
             CGameMap* pGameMap = _QueryMap(iter.idmap());
-            if(pGameMap == nullptr)
+            if(pGameMap == nullptr || pGameMap->GetMapData() == nullptr)
                 continue;
 
             pGameMap->_AddMonsterGenerator(iter);
@@ -125,7 +124,7 @@ bool CMapManager::Init(uint16_t idZone)
         for(const auto& iter: cfg.rows())
         {
             CGameMap* pGameMap = _QueryMap(iter.idmap());
-            if(pGameMap == nullptr)
+            if(pGameMap == nullptr || pGameMap->GetMapData() == nullptr)
                 continue;
 
             pGameMap->_AddPatrol(iter);

@@ -48,8 +48,8 @@ CPhase* CSceneManager::CreatePhase(uint16_t idMap, uint64_t idMainPhase)
     }
     else
     {
-        SceneID idScene(ZoneService()->GetZoneID(), idMap, 0);
-        CScene* pScene = CScene::CreateNew(idScene, idMainPhase);
+        SceneIdx idxScene(ZoneService()->GetZoneID(), idMap, 0);
+        CScene* pScene = CScene::CreateNew(idxScene, idMainPhase);
 
         m_mapScene[idMap] = pScene;
 
@@ -64,9 +64,9 @@ CScene* CSceneManager::_CreateStaticScene(uint16_t idMap)
     const CGameMap* pMap = MapManager()->QueryMap(idMap);
     CHECKF(pMap && pMap->IsDynaMap() == false);
 
-    SceneID idScene(ZoneService()->GetZoneID(), idMap, 0);
-    CHECKF(_QueryScene(idScene) == nullptr);
-    CScene* pScene = CScene::CreateNew(idScene, 0);
+    SceneIdx idxScene(ZoneService()->GetZoneID(), idMap, 0);
+    CHECKF(QueryScene(idMap) == nullptr);
+    CScene* pScene = CScene::CreateNew(idMap, 0);
 
     m_mapScene[idMap] = pScene;
 
@@ -74,28 +74,23 @@ CScene* CSceneManager::_CreateStaticScene(uint16_t idMap)
     return pScene;
 }
 
-CScene* CSceneManager::_QueryScene(const SceneID& idScene)
+CPhase* CSceneManager::QueryPhase(const SceneIdx& idxScene)
 {
-    auto itFind = m_mapScene.find(idScene.GetMapID());
-    if(itFind != m_mapScene.end())
-        return itFind->second;
-    return nullptr;
-}
-
-CPhase* CSceneManager::QueryPhase(const SceneID& idScene)
-{
-    CScene* pScene = _QueryScene(idScene);
+    CScene* pScene = QueryScene(idxScene.GetMapID());
     if(pScene == nullptr)
     {
         return nullptr;
     }
-    auto pPhase = pScene->QueryPhaseByIdx(idScene.GetPhaseIdx());
+    auto pPhase = pScene->QueryPhaseByIdx(idxScene.GetPhaseIdx());
     return pPhase;
 }
 
 CScene* CSceneManager::QueryScene(uint16_t idMap)
 {
-    return _QueryScene(SceneID(ZoneService()->GetServiceID(), idMap, 0));
+    auto itFind = m_mapScene.find(idMap);
+    if(itFind != m_mapScene.end())
+        return itFind->second;
+    return nullptr;
 }
 
 size_t CSceneManager::GetSceneCount()

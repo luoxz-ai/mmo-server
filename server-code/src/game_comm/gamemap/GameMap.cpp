@@ -7,7 +7,6 @@ CGameMap::~CGameMap() {}
 bool CGameMap::Init(CMapManager* pManager, const Cfg_Scene_Row& data, const CMapData* pMapData)
 {
     CHECKF(pManager);
-    CHECKF(pMapData);
     m_pManager      = pManager;
     m_idMap         = data.idmap();
     m_MapName       = data.name();
@@ -86,6 +85,8 @@ bool CGameMap::IsNearLeavePointX(uint32_t  nLeavePointIdx,
 bool CGameMap::IsPassDisable(float x, float y) const
 {
     __ENTER_FUNCTION
+    if(m_pMapData == nullptr)
+        return false;
     if(!IsInsideMap(x, y))
         return false;
 
@@ -97,6 +98,8 @@ bool CGameMap::IsPassDisable(float x, float y) const
 bool CGameMap::IsJumpDisable(float x, float y) const
 {
     __ENTER_FUNCTION
+    if(m_pMapData == nullptr)
+        return false;
     if(!IsInsideMap(x, y))
         return false;
 

@@ -22,13 +22,12 @@ public:
     {
         if(m_idPool.empty())
         {
-            m_lastID++;
             if(m_lastID >= m_maxID)
             {
                 LOGFATAL("id overflow id:{}", m_lastID);
                 m_lastID = m_maxID;
             }
-            return m_lastID;
+            return m_lastID++;
         }
         else
         {

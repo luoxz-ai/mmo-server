@@ -42,7 +42,7 @@ public:
     virtual ~CPhase();
 
 public:
-    bool Init(CScene* pScene, const SceneID& idScene, uint64_t idPhase, const PhaseData* pPhaseData);
+    bool Init(CScene* pScene, const SceneIdx& idxScene, uint64_t idPhase, const PhaseData* pPhaseData);
 
     export_lua bool NeedDestory() const;
     export_lua bool CanDestory();
@@ -58,7 +58,7 @@ public:
 
     export_lua CMapValSet* GetMapValSet() const { return m_pMapValSet.get(); };
     export_lua uint64_t    GetPhaseID() const { return m_idPhase; }
-    export_lua uint32_t    GetPhaseIdx() const { return GetSceneID().GetPhaseIdx(); }
+    export_lua uint32_t    GetPhaseIdx() const { return GetSceneIdx().GetPhaseIdx(); }
 
 public:
     export_lua bool SendSceneMessage(const google::protobuf::Message& msg) const;
@@ -96,7 +96,7 @@ public:
 
     virtual bool IsStatic() const override { return m_idPhase < 0xFFFFFFFF; }
     virtual bool EnterMap(CSceneObject* pActor, float fPosX, float fPosY, float fFace) override;
-    virtual void LeaveMap(CSceneObject* pActor, uint64_t idTargetScene = 0) override;
+    virtual void LeaveMap(CSceneObject* pActor, uint16_t idTargetMap = 0) override;
 
 private:
     void ScheduleDelPhase(uint32_t wait_ms);

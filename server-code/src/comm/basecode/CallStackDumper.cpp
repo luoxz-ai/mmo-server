@@ -411,7 +411,7 @@ bool DumpStackFile(const CallFrameMap& data)
     return true;
 }
 
-CallFrameMap::CallFrameMap(int32_t skip_calldepth)
+CallFrameMap::CallFrameMap(int32_t skip_calldepth, int32_t max_calldepth)
 {
     constexpr int32_t MAX_BACKTRACE_SYMBOLS_NUMBER = 100;
     void*             pCallFramearray[MAX_BACKTRACE_SYMBOLS_NUMBER];
@@ -420,7 +420,7 @@ CallFrameMap::CallFrameMap(int32_t skip_calldepth)
     if(funcnamearry == NULL)
         return;
 
-    for(size_t i = skip_calldepth + 1; i < nTrace; i++)
+    for(size_t i = skip_calldepth + 1; i < nTrace && i < max_calldepth; i++)
     {
         m_Addr.emplace_back(std::make_pair(pCallFramearray[i], std::string(funcnamearry[i])));
     }

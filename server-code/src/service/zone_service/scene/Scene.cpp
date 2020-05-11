@@ -24,16 +24,17 @@ CScene::~CScene()
     __LEAVE_FUNCTION
 }
 
-bool CScene::Init(const SceneID& idScene, uint64_t idMainPhase)
+bool CScene::Init(uint16_t idMap, uint64_t idMainPhase)
 {
     __ENTER_FUNCTION
-    auto pMap = MapManager()->QueryMap(idScene.GetMapID());
+    auto pMap = MapManager()->QueryMap(idMap);
     CHECKF(pMap);
-    m_idSceneID = idScene;
+    m_pMap = pMap;
+    m_idMap = idMap;
     m_DynaIDPool.start(0, 0xFFFFFFFF);
     //通知AI服务器,创建场景
     ServerMSG::SceneCreate msg;
-    msg.set_scene_id(idScene);
+    msg.set_scene_id(idMap);
     ZoneService()->SendServerMsgToAIService(msg);
 
     //创建静态位面
@@ -47,7 +48,7 @@ bool CScene::Init(const SceneID& idScene, uint64_t idMainPhase)
     //创建主位面,可能已经创建过了
     CreatePhase(idMainPhase);
 
-    LOGINFO("Scene {} Created", idScene.GetMapID());
+    LOGINFO("Scene {} Created", idMap);
 
     return true;
     __LEAVE_FUNCTION
@@ -56,8 +57,7 @@ bool CScene::Init(const SceneID& idScene, uint64_t idMainPhase)
 
 CPhase* CScene::CreatePhase(uint64_t idPhase)
 {
-    auto pMap       = MapManager()->QueryMap(m_idSceneID.GetMapID());
-    auto pPhaseData = pMap->GetPhaseDataById(idPhase);
+    auto pPhaseData = m_pMap->GetPhaseDataById(idPhase);
     auto pPhase     = CreatePhase(idPhase, pPhaseData);
     return pPhase;
 }
@@ -70,8 +70,8 @@ CPhase* CScene::CreatePhase(uint64_t idPhase, const PhaseData* pPhaseData)
         return pPhase;
     }
     auto    idxPhase = m_DynaIDPool.get();
-    SceneID newSceneID(m_idSceneID.GetZoneID(), m_idSceneID.GetMapID(), idxPhase);
-    pPhase = CPhase::CreateNew(this, newSceneID, idPhase, pPhaseData);
+    SceneIdx newSceneIdx(ZoneService()->GetZoneID(), m_idMap, idxPhase);
+    pPhase = CPhase::CreateNew(this, newSceneIdx, idPhase, pPhaseData);
     CHECKF(pPhase);
     m_setPhase[idPhase].reset(pPhase);
     m_setPhaseByIdx[idxPhase] = pPhase;
@@ -137,15 +137,15 @@ bool CScene::DestoryPhase(uint64_t idPhase)
     CHECKF(pPhase->IsStatic() == false);
 
     pPhase->KickAllPlayer();
-    auto idSceneID = pPhase->GetSceneID();
-    auto idxPhase  = pPhase->GetSceneID().GetPhaseIdx();
+    auto idxSceneIdx = pPhase->GetSceneIdx();
+    auto idxPhase  = pPhase->GetSceneIdx().GetPhaseIdx();
     CHECKF(pPhase->CanDestory() == true);
     m_setPhaseByIdx.erase(idxPhase);
     m_setPhase.erase(idPhase);
     m_DynaIDPool.put(idxPhase);
     // send msg to AI
     ServerMSG::PhaseDestory msg;
-    msg.set_scene_id(idSceneID);
+    msg.set_scene_id(idxSceneIdx);
     msg.set_phase_id(idPhase);
     ZoneService()->SendServerMsgToAIService(msg);
 

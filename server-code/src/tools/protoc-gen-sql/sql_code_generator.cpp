@@ -188,7 +188,7 @@ std::string FieldUTF8(google::protobuf::FieldDescriptor::Type type)
 {
     if(type == google::protobuf::FieldDescriptor::TYPE_STRING)
     {
-        return "CHARACTER SET utf8";
+        return "CHARACTER SET utf8 ";
     }
     return "";
 }
@@ -231,7 +231,7 @@ std::string DefaultVal(const google::protobuf::FieldDescriptor* field)
     auto extension = options.GetExtension(sql);
     if(extension.default_val().empty() == false)
     {
-        return "NOT NULL DEFAULT '" + extension.default_val() + "'";
+        return "DEFAULT '" + extension.default_val() + "' ";
     }
     else
     {
@@ -240,7 +240,7 @@ std::string DefaultVal(const google::protobuf::FieldDescriptor* field)
         {
             case FieldDescriptor::TYPE_DOUBLE:
             case FieldDescriptor::TYPE_FLOAT:
-                return "NOT NULL DEFAULT '0.0'";
+                return "DEFAULT '0.0' ";
             case FieldDescriptor::TYPE_FIXED64:
             case FieldDescriptor::TYPE_SFIXED64:
             case FieldDescriptor::TYPE_INT64:
@@ -253,17 +253,45 @@ std::string DefaultVal(const google::protobuf::FieldDescriptor* field)
             case FieldDescriptor::TYPE_SINT32:
             case FieldDescriptor::TYPE_BOOL:
             case FieldDescriptor::TYPE_ENUM:
-                return "NOT NULL DEFAULT '0'";
+                return "DEFAULT '0' ";
             case FieldDescriptor::TYPE_STRING:
-                return "NOT NULL DEFAULT ''";
+                return "DEFAULT '' ";
             case FieldDescriptor::TYPE_BYTES:
             default:
                 return "";
         }
 
-        return "NOT NULL";
+        return "";
     }
     
+}
+
+std::string Notnull(const google::protobuf::FieldDescriptor* field)
+{
+    using namespace google::protobuf;
+    switch(field->type())
+    {
+        case FieldDescriptor::TYPE_BYTES:
+            return "";
+        case FieldDescriptor::TYPE_DOUBLE:
+        case FieldDescriptor::TYPE_FLOAT:
+        case FieldDescriptor::TYPE_FIXED64:
+        case FieldDescriptor::TYPE_SFIXED64:
+        case FieldDescriptor::TYPE_INT64:
+        case FieldDescriptor::TYPE_UINT64:
+        case FieldDescriptor::TYPE_SINT64:
+        case FieldDescriptor::TYPE_FIXED32:
+        case FieldDescriptor::TYPE_SFIXED32:
+        case FieldDescriptor::TYPE_INT32:
+        case FieldDescriptor::TYPE_UINT32:
+        case FieldDescriptor::TYPE_SINT32:
+        case FieldDescriptor::TYPE_BOOL:
+        case FieldDescriptor::TYPE_ENUM:
+        case FieldDescriptor::TYPE_STRING:
+        default:
+            return "NOT NULL ";
+    }
+    return "NOT NULL ";
 }
 
 std::string Comment(const google::protobuf::FieldDescriptor* field)
@@ -295,6 +323,7 @@ void PrintMessage(const google::protobuf::Descriptor& message_descriptor, google
         auto unsigned_str   = FieldUnsigned(desc->type());
         auto utf8_str       = FieldUTF8(desc->type());
         auto size_str       = FieldSize(desc);
+        auto notnull_str    = Notnull(desc);
         auto default_str    = DefaultVal(desc);
         auto primary_key    = PrimaryKey(desc);
         auto key_str        = Key(desc);
@@ -323,15 +352,16 @@ void PrintMessage(const google::protobuf::Descriptor& message_descriptor, google
             unique_list[k].push_back(name_str);
         }
 
-        std::string str = fmt::format("  `{}` {}{} {}{} {} {}COMMENT '{}',\n",
-                                      name_str,
-                                      type_str,
-                                      size_str,
-                                      unsigned_str,
-                                      utf8_str,
-                                      default_str,
-                                      auto_increment,
-                                      comment);
+        std::string str = fmt::format("  `{name}` {type}{size} {unsigned}{utf8}{notnull}{default}{auto_inc}COMMENT '{comment}',\n",
+                                      fmt::arg("name",name_str),
+                                      fmt::arg("type",type_str),
+                                      fmt::arg("size",size_str),
+                                      fmt::arg("unsigned",unsigned_str),
+                                      fmt::arg("utf8",utf8_str),
+                                      fmt::arg("notnull",notnull_str),
+                                      fmt::arg("default",default_str),
+                                      fmt::arg("auto_inc",auto_increment),
+                                      fmt::arg("comment",comment));
         printer.PrintRaw(str);
     }
 

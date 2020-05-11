@@ -123,7 +123,7 @@ void CPlayer::OnTimer()
     __LEAVE_FUNCTION
 }
 
-void CPlayer::OnLogin(bool bLogin, const SceneID& idScene, float fPosX, float fPosY, float fRange, float fFace)
+void CPlayer::OnLogin(bool bLogin, const SceneIdx& idxScene, float fPosX, float fPosY, float fRange, float fFace)
 {
     __ENTER_FUNCTION
 
@@ -184,20 +184,20 @@ void CPlayer::OnLogin(bool bLogin, const SceneID& idScene, float fPosX, float fP
     //其他的换线操作
 
     //找到对应的场景
-    CPhase* pCurScene = SceneManager()->QueryPhase(idScene);
+    CPhase* pCurScene = SceneManager()->QueryPhase(idxScene);
     if(pCurScene == nullptr)
     {
-        pCurScene = SceneManager()->QueryPhase(idScene.GetStaticPhaseSceneID());
+        pCurScene = SceneManager()->QueryPhase(idxScene.GetStaticPhaseSceneIdx());
         if(pCurScene == nullptr)
         {
-            pCurScene = SceneManager()->QueryPhase(GetRecordSceneID());
+            pCurScene = SceneManager()->QueryPhase(GetRecordSceneIdx());
             if(pCurScene == nullptr)
             {
-                pCurScene = SceneManager()->QueryPhase(GetHomeSceneID());
+                pCurScene = SceneManager()->QueryPhase(GetHomeSceneIdx());
                 if(pCurScene == nullptr)
                 {
                     // log error, notify client
-                    LOGERROR("CPlayer::OnLogin FindMap Error: {}", GetID());
+                    LOGERROR("CPlayer[{}]::OnLogin FindMap Error: id:{} record:{} home{} ", GetID(), idxScene, GetRecordSceneIdx(), GetHomeSceneIdx());
                     return;
                 }
                 else

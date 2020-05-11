@@ -141,7 +141,7 @@ bool CAccount::CreateActor(const std::string& name, uint32_t dwProf, uint32_t dw
     CHECKF(pMap);
     Vector2 bornPos(pBornPos->GetPosX(), pBornPos->GetPoxY());
     bornPos = pMap->FindPosNearby(bornPos, pBornPos->GetRange());
-    SceneID bornScene(pMap->GetZoneID(), pBornPos->GetMapID(), 0);
+    SceneIdx bornScene(pMap->GetZoneID(), pBornPos->GetMapID(), 0);
 
     {
         auto  db_record_ptr                               = pDB->MakeRecord(TBLD_PLAYER::table_name());
@@ -328,8 +328,8 @@ void CAccount::SendActorInfo()
         pInfo->set_prof(pActorInfo->GetProf());
         pInfo->set_baselook(pActorInfo->GetBaseLook());
         pInfo->set_lev(pActorInfo->GetLev());
-        // pInfo->set_name(pActorInfo->GetRecordMapID());
-        // pInfo->set_name(pActorInfo->GetHomeMapID());
+        // pInfo->set_recordmap(pActorInfo->GetRecordMapID());
+        // pInfo->set_homemap(pActorInfo->GetHomeMapID());
     }
     WorldService()->SendToVirtualSocket(m_Socket, msg);
     __LEAVE_FUNCTION

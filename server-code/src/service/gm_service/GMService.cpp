@@ -261,7 +261,11 @@ void CGMService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 {
     if(m_pNetMsgProcess->Process(pNetworkMsg) == false)
     {
-        LOGERROR("CMD {} didn't have ProcessHandler", pNetworkMsg->GetCmd());
+        LOGERROR("CMD {} from {} to {} forward {} didn't have ProcessHandler", 
+                cmd_to_enum_name(pNetworkMsg->GetCmd()),
+                pNetworkMsg->GetFrom(),
+                pNetworkMsg->GetTo(),
+                pNetworkMsg->GetForward());
     }
 }
 

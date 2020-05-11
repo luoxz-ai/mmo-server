@@ -61,7 +61,7 @@ void CNpc::OnEnterMap(CSceneBase* pScene)
     // AI暂时不需要Npc
     // ServerMSG::ActorCreate ai_msg;
     // ai_msg.set_actor_id(GetID());
-    // ai_msg.set_scene_id(GetSceneID());
+    // ai_msg.set_scene_id(GetSceneIdx());
     // ai_msg.set_actortype(ACT_NPC);
     // ai_msg.set_prof(GetTypeID());
     // ai_msg.set_lev(GetLev());
@@ -80,9 +80,9 @@ void CNpc::OnEnterMap(CSceneBase* pScene)
     // ZoneService()->SendMsgToAIService(ai_msg);
 }
 
-void CNpc::OnLeaveMap(uint64_t idTargetScene)
+void CNpc::OnLeaveMap(uint16_t idTargetMap)
 {
-    CActor::OnLeaveMap(idTargetScene);
+    CActor::OnLeaveMap(idTargetMap);
 }
 
 void CNpc::_ActiveNpc(CPlayer* pPlayer)

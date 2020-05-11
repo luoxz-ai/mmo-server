@@ -37,7 +37,7 @@ public:
     export_lua virtual bool IsEnemy(CSceneObject* pTarget) const override;
     virtual void            MakeShowData(SC_AOI_NEW& msg) override;
     virtual void            OnEnterMap(CSceneBase* pScene) override;
-    virtual void            OnLeaveMap(uint64_t idTargetScene) override;
+    virtual void            OnLeaveMap(uint16_t idTargetMap) override;
 
     export_lua void CallOut();
     export_lua void CallBack();

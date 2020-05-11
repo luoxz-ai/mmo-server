@@ -52,7 +52,7 @@ private:
     void StopGen(MonsterGenData* pData);
 
 private:
-    SceneID         m_idScene;
+    SceneIdx         m_idxScene;
     const CGameMap* m_pMap;
 
     std::unordered_map<uint32_t, MonsterGenData*> m_setGen;

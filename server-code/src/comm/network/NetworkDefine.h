@@ -6,7 +6,9 @@
 
 #include "BaseType.h"
 #include "Misc.h"
+#include "CheckUtil.h"
 #include "export_lua.h"
+
 
 const int32_t _MAX_MSGSIZE = 1024 * 4;
 
@@ -18,9 +20,9 @@ export_lua enum SERVICE_TYPE {
     MARKET_SERVICE = 5, //单服单个, 拍卖行
     GM_SERVICE     = 6, //单服单个, 无状态, 后台调用, 充值调用
 
-    SERVICECTRL_SERVICE = 8, //全局单个, 无状态, 所有服务均会连接该服务,用来同步特殊的消息
-    GLOBAL_ROUTE_SERVICE =
-        9, //全局多个, 无状态, 充值回调, 后台回调, http服务, 收到后进行验证,验证后,转发给对应服的GM_SERVICE
+    GLOBAL_ROUTE_SERVICE = 8, //全局单个, 无状态, 所有服务均会连接该服务,用来同步特殊的消息
+    
+    GM_PROXY_SERVICE = 9, //全局多个, 无状态, 充值回调, 后台回调, http服务, 收到后进行验证,验证后,转发给对应服的GM_SERVICE
 };
 
 export_lua enum {
@@ -45,6 +47,18 @@ export_lua enum {
     ROUTE_SERVICE_ID = 60,
     MAX_SERVICE_ID   = 63,
 };
+
+inline uint16_t ZoneID2ServiceID(uint16_t idZone)
+{
+    CHECKF(idZone > 0 && idZone < MAX_SHAREZONE_SERVICE_ID-MIN_ZONE_SERVICE_ID);
+    return MIN_ZONE_SERVICE_ID + idZone - 1;
+}
+
+inline uint16_t ServiceID2ZoneID(uint16_t idService)
+{
+    CHECKF(idService >= MIN_ZONE_SERVICE_ID && idService <= MAX_SHAREZONE_SERVICE_ID);
+    return idService - MIN_ZONE_SERVICE_ID + 1;
+}
 
 struct ServiceNameRegister
 {
@@ -119,6 +133,17 @@ namespace std
     };
 } // namespace std
 
+template<>
+struct fmt::formatter<ServerPort> : public fmt::formatter<uint32_t>
+{
+    template<typename FormatContext>
+    auto format(const ServerPort& port, FormatContext& ctx)
+    {
+        // ctx.out() is an output iterator to write to.
+        return fmt::format_to(ctx.out(), "({}:{})", port.GetWorldID(), port.GetServiceID());
+    }
+};
+
 export_lua class VirtualSocket
 {
 public:
@@ -160,6 +185,9 @@ public:
         m_Data.m_idWorld   = val.GetWorldID();
         m_Data.m_idService = val.GetServiceID();
     }
+    export_lua uint16_t GetWorldID() const { return m_Data.m_idWorld; }
+    export_lua uint16_t GetServiceID() const { return m_Data.m_idService; }
+
     export_lua uint16_t GetSocketIdx() const { return m_Data.m_nSocketIdx; }
     export_lua void     SetSocketIdx(uint16_t val) { m_Data.m_nSocketIdx = val; }
     export_lua uint64_t GetData64() const { return m_Data64; }
@@ -193,6 +221,17 @@ namespace std
     };
 } // namespace std
 
+template<>
+struct fmt::formatter<VirtualSocket>: public fmt::formatter<uint64_t>
+{
+    template<typename FormatContext>
+    auto format(const VirtualSocket& vs, FormatContext& ctx)
+    {
+        // ctx.out() is an output iterator to write to.
+        return fmt::format_to(ctx.out(), "({}:{}:{})", vs.GetWorldID(), vs.GetServiceID(), vs.GetSocketIdx());
+    }
+};
+
 struct ServerAddrInfo
 {
     ServerAddrInfo()                      = default;
@@ -216,11 +255,11 @@ const uint16_t CLIENT_MSG_ID_END   = 10000;
 //常用内部消息通信及消息结构
 enum MSGTYPE_INTERNAL
 {
-    COMMON_CMD_BEGIN  = 0,
-    COMMON_CMD_SC_KEY = 1,
-    COMMON_CMD_PING   = 2,
-    COMMON_CMD_PONG   = 3,
-    COMMON_CMD_INTERRUPT  = 9999,
+    COMMON_CMD_BEGIN     = 0,
+    COMMON_CMD_SC_KEY    = 1,
+    COMMON_CMD_PING      = 2,
+    COMMON_CMD_PONG      = 3,
+    COMMON_CMD_INTERRUPT = 9999,
 
     NETMSG_INTERNAL                   = 10001, //内网消息传输
     NETMSG_INTERNAL_FORWARD           = 10002, //转发包

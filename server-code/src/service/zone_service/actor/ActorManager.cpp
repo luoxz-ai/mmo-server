@@ -16,10 +16,10 @@ bool CActorManager::Init()
     m_ActorMap.reserve(GUESS_MAX_ACTOR_COUNT);
     m_PlayerRefMap.reserve(GUESS_MAX_PLAYER_COUNT);
 
-    m_ActorInfos[ACT_NPC].m_idPool.start(ACT_NPC * ID_GEN_FACTOR, ID_GEN_FACTOR);
-    m_ActorInfos[ACT_MONSTER].m_idPool.start(ACT_MONSTER * ID_GEN_FACTOR, ID_GEN_FACTOR);
-    m_ActorInfos[ACT_MAPITEM].m_idPool.start(ACT_MAPITEM * ID_GEN_FACTOR, ID_GEN_FACTOR);
-    m_ActorInfos[ACT_BULLET].m_idPool.start(ACT_BULLET * ID_GEN_FACTOR, ID_GEN_FACTOR);
+    m_ActorInfos[ACT_NPC].m_idPool.start(ACT_NPC * ID_GEN_FACTOR+1, ID_GEN_FACTOR);
+    m_ActorInfos[ACT_MONSTER].m_idPool.start(ACT_MONSTER * ID_GEN_FACTOR+1, ID_GEN_FACTOR);
+    m_ActorInfos[ACT_MAPITEM].m_idPool.start(ACT_MAPITEM * ID_GEN_FACTOR+1, ID_GEN_FACTOR);
+    m_ActorInfos[ACT_BULLET].m_idPool.start(ACT_BULLET * ID_GEN_FACTOR+1, ID_GEN_FACTOR);
     return true;
 }
 

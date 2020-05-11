@@ -37,7 +37,7 @@ struct MsgProcRegCenter
         CHECK_FMT(m_MsgProc.find(cmd) == m_MsgProc.end(), "dup register msg:{}", cmd);
         m_MsgProc.emplace(cmd, std::move(func));
     }
-    std::unordered_map<uint32_t, MsgProcessFunc> m_MsgProc;
+    std::map<uint32_t, MsgProcessFunc> m_MsgProc;
 };
 
 template<class Service>

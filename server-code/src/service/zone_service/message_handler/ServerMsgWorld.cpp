@@ -13,7 +13,7 @@ ON_SERVERMSG(CZoneService, PlayerEnterZone)
 {
     CHECK(msg.idplayer() != 0);
     CHECK(msg.socket() != 0);
-    CHECK(msg.idscene() != 0);
+    CHECK(msg.target_scene_idx() != 0);
     CHECK(msg.posx() != 0);
     CHECK(msg.posy() != 0);
 
@@ -25,7 +25,7 @@ ON_SERVERMSG(CZoneService, PlayerEnterZone)
     data.idPlayer     = msg.idplayer();
     data.bChangeZone  = false;
     data.socket       = msg.socket();
-    data.idScene      = msg.idscene();
+    data.idTargetScene = msg.target_scene_idx();
     data.fPosX        = msg.posx();
     data.fPosY        = msg.posy();
     data.fRange       = 0.0f;
@@ -42,7 +42,7 @@ ON_SERVERMSG(CZoneService, PlayerChangeZone)
     CHECK(msg.idplayer() != 0);
     CHECK(msg.socket() != 0);
     CHECK(msg.idzone() != 0);
-    CHECK(msg.idscene() != 0);
+    CHECK(msg.target_scene() != 0);
     CHECK(msg.posx() >= 0);
     CHECK(msg.posy() >= 0);
     CHECK(msg.range() > 0);
@@ -54,7 +54,7 @@ ON_SERVERMSG(CZoneService, PlayerChangeZone)
     data.idPlayer     = msg.idplayer();
     data.bChangeZone  = true;
     data.socket       = msg.socket();
-    data.idScene      = msg.idscene();
+    data.idTargetScene = msg.target_scene();
     data.fPosX        = msg.posx();
     data.fPosY        = msg.posy();
     data.fRange       = msg.range();

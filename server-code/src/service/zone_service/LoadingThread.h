@@ -22,7 +22,8 @@ struct ST_LOADINGTHREAD_PROCESS_DATA
     OBJID         idPlayer     = 0;
     bool          bChangeZone  = false;
     VirtualSocket socket       = 0;
-    uint64_t      idScene      = 0;
+    uint64_t      idTargetScene      = 0;
+    uint64_t      idxScene      = 0;
     float         fPosX        = 0.0f;
     float         fPosY        = 0.0f;
     float         fRange       = 0.0f;
@@ -65,7 +66,6 @@ private:
 private:
     CZoneService*           m_pZone = nullptr;
     std::atomic<bool>       m_bStop = false;
-    std::mutex              m_csCV;
     std::condition_variable m_cv;
 
     //因为需要cancle，所以无法使用lockfree队列

@@ -2001,10 +2001,10 @@ class PlayerEnterZone :
   enum : int {
     kIdplayerFieldNumber = 1,
     kSocketFieldNumber = 2,
-    kIdsceneFieldNumber = 3,
-    kPosxFieldNumber = 4,
-    kPosyFieldNumber = 5,
-    kFaceFieldNumber = 6,
+    kTargetSceneIdxFieldNumber = 4,
+    kPosxFieldNumber = 5,
+    kPosyFieldNumber = 6,
+    kFaceFieldNumber = 7,
   };
   // uint64 idplayer = 1;
   void clear_idplayer();
@@ -2024,16 +2024,16 @@ class PlayerEnterZone :
   void _internal_set_socket(::PROTOBUF_NAMESPACE_ID::uint64 value);
   public:
 
-  // uint64 idscene = 3;
-  void clear_idscene();
-  ::PROTOBUF_NAMESPACE_ID::uint64 idscene() const;
-  void set_idscene(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  // uint64 target_scene_idx = 4;
+  void clear_target_scene_idx();
+  ::PROTOBUF_NAMESPACE_ID::uint64 target_scene_idx() const;
+  void set_target_scene_idx(::PROTOBUF_NAMESPACE_ID::uint64 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_idscene() const;
-  void _internal_set_idscene(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_target_scene_idx() const;
+  void _internal_set_target_scene_idx(::PROTOBUF_NAMESPACE_ID::uint64 value);
   public:
 
-  // float posx = 4;
+  // float posx = 5;
   void clear_posx();
   float posx() const;
   void set_posx(float value);
@@ -2042,7 +2042,7 @@ class PlayerEnterZone :
   void _internal_set_posx(float value);
   public:
 
-  // float posy = 5;
+  // float posy = 6;
   void clear_posy();
   float posy() const;
   void set_posy(float value);
@@ -2051,7 +2051,7 @@ class PlayerEnterZone :
   void _internal_set_posy(float value);
   public:
 
-  // float face = 6;
+  // float face = 7;
   void clear_face();
   float face() const;
   void set_face(float value);
@@ -2067,7 +2067,7 @@ class PlayerEnterZone :
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
   ::PROTOBUF_NAMESPACE_ID::uint64 idplayer_;
   ::PROTOBUF_NAMESPACE_ID::uint64 socket_;
-  ::PROTOBUF_NAMESPACE_ID::uint64 idscene_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 target_scene_idx_;
   float posx_;
   float posy_;
   float face_;
@@ -2184,12 +2184,12 @@ class PlayerChangeZone :
   enum : int {
     kIdplayerFieldNumber = 1,
     kSocketFieldNumber = 2,
-    kIdsceneFieldNumber = 4,
+    kTargetSceneFieldNumber = 4,
     kIdzoneFieldNumber = 3,
-    kPosxFieldNumber = 5,
-    kPosyFieldNumber = 6,
-    kRangeFieldNumber = 7,
-    kFaceFieldNumber = 8,
+    kPosxFieldNumber = 6,
+    kPosyFieldNumber = 7,
+    kRangeFieldNumber = 8,
+    kFaceFieldNumber = 9,
   };
   // uint64 idplayer = 1;
   void clear_idplayer();
@@ -2209,13 +2209,13 @@ class PlayerChangeZone :
   void _internal_set_socket(::PROTOBUF_NAMESPACE_ID::uint64 value);
   public:
 
-  // uint64 idscene = 4;
-  void clear_idscene();
-  ::PROTOBUF_NAMESPACE_ID::uint64 idscene() const;
-  void set_idscene(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  // uint64 target_scene = 4;
+  void clear_target_scene();
+  ::PROTOBUF_NAMESPACE_ID::uint64 target_scene() const;
+  void set_target_scene(::PROTOBUF_NAMESPACE_ID::uint64 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_idscene() const;
-  void _internal_set_idscene(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_target_scene() const;
+  void _internal_set_target_scene(::PROTOBUF_NAMESPACE_ID::uint64 value);
   public:
 
   // uint32 idzone = 3;
@@ -2227,7 +2227,7 @@ class PlayerChangeZone :
   void _internal_set_idzone(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // float posx = 5;
+  // float posx = 6;
   void clear_posx();
   float posx() const;
   void set_posx(float value);
@@ -2236,7 +2236,7 @@ class PlayerChangeZone :
   void _internal_set_posx(float value);
   public:
 
-  // float posy = 6;
+  // float posy = 7;
   void clear_posy();
   float posy() const;
   void set_posy(float value);
@@ -2245,7 +2245,7 @@ class PlayerChangeZone :
   void _internal_set_posy(float value);
   public:
 
-  // float range = 7;
+  // float range = 8;
   void clear_range();
   float range() const;
   void set_range(float value);
@@ -2254,7 +2254,7 @@ class PlayerChangeZone :
   void _internal_set_range(float value);
   public:
 
-  // float face = 8;
+  // float face = 9;
   void clear_face();
   float face() const;
   void set_face(float value);
@@ -2270,7 +2270,7 @@ class PlayerChangeZone :
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
   ::PROTOBUF_NAMESPACE_ID::uint64 idplayer_;
   ::PROTOBUF_NAMESPACE_ID::uint64 socket_;
-  ::PROTOBUF_NAMESPACE_ID::uint64 idscene_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 target_scene_;
   ::PROTOBUF_NAMESPACE_ID::uint32 idzone_;
   float posx_;
   float posy_;
@@ -8099,27 +8099,27 @@ inline void PlayerEnterZone::set_socket(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   // @@protoc_insertion_point(field_set:ServerMSG.PlayerEnterZone.socket)
 }
 
-// uint64 idscene = 3;
-inline void PlayerEnterZone::clear_idscene() {
-  idscene_ = PROTOBUF_ULONGLONG(0);
+// uint64 target_scene_idx = 4;
+inline void PlayerEnterZone::clear_target_scene_idx() {
+  target_scene_idx_ = PROTOBUF_ULONGLONG(0);
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint64 PlayerEnterZone::_internal_idscene() const {
-  return idscene_;
+inline ::PROTOBUF_NAMESPACE_ID::uint64 PlayerEnterZone::_internal_target_scene_idx() const {
+  return target_scene_idx_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint64 PlayerEnterZone::idscene() const {
-  // @@protoc_insertion_point(field_get:ServerMSG.PlayerEnterZone.idscene)
-  return _internal_idscene();
+inline ::PROTOBUF_NAMESPACE_ID::uint64 PlayerEnterZone::target_scene_idx() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.PlayerEnterZone.target_scene_idx)
+  return _internal_target_scene_idx();
 }
-inline void PlayerEnterZone::_internal_set_idscene(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+inline void PlayerEnterZone::_internal_set_target_scene_idx(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   
-  idscene_ = value;
+  target_scene_idx_ = value;
 }
-inline void PlayerEnterZone::set_idscene(::PROTOBUF_NAMESPACE_ID::uint64 value) {
-  _internal_set_idscene(value);
-  // @@protoc_insertion_point(field_set:ServerMSG.PlayerEnterZone.idscene)
+inline void PlayerEnterZone::set_target_scene_idx(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_target_scene_idx(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.PlayerEnterZone.target_scene_idx)
 }
 
-// float posx = 4;
+// float posx = 5;
 inline void PlayerEnterZone::clear_posx() {
   posx_ = 0;
 }
@@ -8139,7 +8139,7 @@ inline void PlayerEnterZone::set_posx(float value) {
   // @@protoc_insertion_point(field_set:ServerMSG.PlayerEnterZone.posx)
 }
 
-// float posy = 5;
+// float posy = 6;
 inline void PlayerEnterZone::clear_posy() {
   posy_ = 0;
 }
@@ -8159,7 +8159,7 @@ inline void PlayerEnterZone::set_posy(float value) {
   // @@protoc_insertion_point(field_set:ServerMSG.PlayerEnterZone.posy)
 }
 
-// float face = 6;
+// float face = 7;
 inline void PlayerEnterZone::clear_face() {
   face_ = 0;
 }
@@ -8243,27 +8243,27 @@ inline void PlayerChangeZone::set_idzone(::PROTOBUF_NAMESPACE_ID::uint32 value) 
   // @@protoc_insertion_point(field_set:ServerMSG.PlayerChangeZone.idzone)
 }
 
-// uint64 idscene = 4;
-inline void PlayerChangeZone::clear_idscene() {
-  idscene_ = PROTOBUF_ULONGLONG(0);
+// uint64 target_scene = 4;
+inline void PlayerChangeZone::clear_target_scene() {
+  target_scene_ = PROTOBUF_ULONGLONG(0);
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint64 PlayerChangeZone::_internal_idscene() const {
-  return idscene_;
+inline ::PROTOBUF_NAMESPACE_ID::uint64 PlayerChangeZone::_internal_target_scene() const {
+  return target_scene_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint64 PlayerChangeZone::idscene() const {
-  // @@protoc_insertion_point(field_get:ServerMSG.PlayerChangeZone.idscene)
-  return _internal_idscene();
+inline ::PROTOBUF_NAMESPACE_ID::uint64 PlayerChangeZone::target_scene() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.PlayerChangeZone.target_scene)
+  return _internal_target_scene();
 }
-inline void PlayerChangeZone::_internal_set_idscene(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+inline void PlayerChangeZone::_internal_set_target_scene(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   
-  idscene_ = value;
+  target_scene_ = value;
 }
-inline void PlayerChangeZone::set_idscene(::PROTOBUF_NAMESPACE_ID::uint64 value) {
-  _internal_set_idscene(value);
-  // @@protoc_insertion_point(field_set:ServerMSG.PlayerChangeZone.idscene)
+inline void PlayerChangeZone::set_target_scene(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_target_scene(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.PlayerChangeZone.target_scene)
 }
 
-// float posx = 5;
+// float posx = 6;
 inline void PlayerChangeZone::clear_posx() {
   posx_ = 0;
 }
@@ -8283,7 +8283,7 @@ inline void PlayerChangeZone::set_posx(float value) {
   // @@protoc_insertion_point(field_set:ServerMSG.PlayerChangeZone.posx)
 }
 
-// float posy = 6;
+// float posy = 7;
 inline void PlayerChangeZone::clear_posy() {
   posy_ = 0;
 }
@@ -8303,7 +8303,7 @@ inline void PlayerChangeZone::set_posy(float value) {
   // @@protoc_insertion_point(field_set:ServerMSG.PlayerChangeZone.posy)
 }
 
-// float range = 7;
+// float range = 8;
 inline void PlayerChangeZone::clear_range() {
   range_ = 0;
 }
@@ -8323,7 +8323,7 @@ inline void PlayerChangeZone::set_range(float value) {
   // @@protoc_insertion_point(field_set:ServerMSG.PlayerChangeZone.range)
 }
 
-// float face = 8;
+// float face = 9;
 inline void PlayerChangeZone::clear_face() {
   face_ = 0;
 }

@@ -25,7 +25,7 @@ CPhase::CPhase() {}
 CPhase::~CPhase()
 {
     __ENTER_FUNCTION
-    LOGDEBUG("PhaseDestory:{} {} idPhase:{}", GetSceneID().GetMapID(), GetSceneID().GetPhaseIdx(), m_idPhase);
+    LOGDEBUG("PhaseDestory:{} {} idPhase:{}", GetSceneIdx().GetMapID(), GetSceneIdx().GetPhaseIdx(), m_idPhase);
     while(m_setActor.empty() == false)
     {
         CActor* pActor = static_cast<CActor*>(m_setActor.begin()->second);
@@ -36,12 +36,12 @@ CPhase::~CPhase()
     __LEAVE_FUNCTION
 }
 
-bool CPhase::Init(CScene* pScene, const SceneID& idScene, uint64_t idPhase, const PhaseData* pPhaseData)
+bool CPhase::Init(CScene* pScene, const SceneIdx& idxScene, uint64_t idPhase, const PhaseData* pPhaseData)
 {
     __ENTER_FUNCTION
     m_pScene = pScene;
     m_pMapValSet.reset(CMapValSet::CreateNew(this));
-    CSceneBase::Init(idScene, MapManager());
+    CSceneBase::Init(idxScene, MapManager());
     if(pPhaseData)
     {
         uint64_t idPhaseLink = pPhaseData->link_phase();
@@ -66,14 +66,14 @@ bool CPhase::Init(CScene* pScene, const SceneID& idScene, uint64_t idPhase, cons
     //通知AI服务器,创建场景
     // Monster会由AIServer来创建
     ServerMSG::PhaseCreate msg;
-    msg.set_scene_id(idScene);
+    msg.set_scene_id(idxScene);
     msg.set_phase_id(idPhase);
     ZoneService()->SendServerMsgToAIService(msg);
 
     TryExecScript<void>(SCB_MAP_ONCREATE, this);
 
     //刷新所有的NPC
-    auto pVec = NpcTypeSet()->QueryObjByMapID(idScene.GetMapID(), idPhase);
+    auto pVec = NpcTypeSet()->QueryObjByMapID(idxScene.GetMapID(), idPhase);
     if(pVec)
     {
         for(auto pNpcType: *pVec)
@@ -92,7 +92,7 @@ bool CPhase::Init(CScene* pScene, const SceneID& idScene, uint64_t idPhase, cons
         ScheduleDelPhase(WAIT_PLAYER_LOADING_MS);
     }
 
-    LOGDEBUG("Phase {} Created, Map:{} Idx:{}", idPhase, idScene.GetMapID(), idScene.GetPhaseIdx());
+    LOGDEBUG("Phase {} Created, Map:{} Idx:{}", idPhase, idxScene.GetMapID(), idxScene.GetPhaseIdx());
 
     return true;
     __LEAVE_FUNCTION
@@ -240,10 +240,10 @@ void CPhase::_KickPlayer(const char* pszReason, CPlayer* pPlayer)
         }
     }
 
-    if(pPlayer->GetHomeSceneID() != GetSceneID())
+    if(pPlayer->GetHomeSceneIdx() != GetSceneIdx())
     {
         //如果Home记录点不是本地图
-        pPlayer->FlyMap(SceneID(pPlayer->GetHomeSceneID()).GetMapID(),
+        pPlayer->FlyMap(SceneIdx(pPlayer->GetHomeSceneIdx()).GetMapID(),
                         0,
                         pPlayer->GetHomePosX(),
                         pPlayer->GetHomePosY(),
@@ -251,10 +251,10 @@ void CPhase::_KickPlayer(const char* pszReason, CPlayer* pPlayer)
                         pPlayer->GetHomeFace());
         return;
     }
-    else if(pPlayer->GetRecordSceneID() != GetSceneID())
+    else if(pPlayer->GetRecordSceneIdx() != GetSceneIdx())
     {
         //如果Record记录点不是本地图
-        pPlayer->FlyMap(SceneID(pPlayer->GetRecordSceneID()).GetMapID(),
+        pPlayer->FlyMap(SceneIdx(pPlayer->GetRecordSceneIdx()).GetMapID(),
                         0,
                         pPlayer->GetRecordPosX(),
                         pPlayer->GetRecordPosY(),
@@ -321,8 +321,8 @@ bool CPhase::EnterMap(CSceneObject* pActor, float fPosX, float fPosY, float fFac
 
 void CPhase::ScheduleDelPhase(uint32_t wait_ms)
 {
-    auto del_func = [sceneID = GetSceneID(), idPhaseID = m_idPhase]() {
-        auto pScene = SceneManager()->_QueryScene(sceneID);
+    auto del_func = [sceneID = GetSceneIdx(), idPhaseID = m_idPhase]() {
+        auto pScene = SceneManager()->QueryScene(sceneID.GetMapID());
         if(pScene)
         {
             pScene->DestoryPhase(idPhaseID);
@@ -338,16 +338,16 @@ void CPhase::ScheduleDelPhase(uint32_t wait_ms)
     EventManager()->ScheduleEvent(param, m_DelEvent);
 }
 
-void CPhase::LeaveMap(CSceneObject* pActor, uint64_t idTargetScene /*= 0*/)
+void CPhase::LeaveMap(CSceneObject* pActor, uint16_t idTargetMap /*= 0*/)
 {
-    CSceneBase::LeaveMap(pActor, idTargetScene);
+    CSceneBase::LeaveMap(pActor, idTargetMap);
     pActor->_SetPhaseID(0);
     if(IsStatic())
         return;
 
     if(GetPlayerCount() == 0)
     {
-        if(idTargetScene == 0)
+        if(idTargetMap == 0)
         {
             //等待玩家短线重连
             SetSceneState(SCENESTATE_WAIT_LOADING);

@@ -37,7 +37,7 @@ void CSceneObject::OnEnterMap(CSceneBase* pScene)
     SetCollisionTile(pScene->GetSceneTree()->GetCollisionTileByPos(GetPosX(), GetPosY(), GetActorType()));
 }
 
-void CSceneObject::OnLeaveMap(uint64_t idTargetScene)
+void CSceneObject::OnLeaveMap(uint16_t idTargetMap)
 {
     SetSceneTile(nullptr);
     SetCollisionTile(nullptr);

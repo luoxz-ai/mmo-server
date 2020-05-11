@@ -16,7 +16,7 @@ void CActor::ChangePhase(uint64_t idPhaseID)
         return;
     }
     // make sure scene have this phase
-    SceneManager()->CreatePhase(m_pScene->GetSceneID(), idPhaseID);
+    SceneManager()->CreatePhase(m_pScene->GetSceneIdx(), idPhaseID);
 
     _SetPhaseID(idPhaseID);
     UpdateViewList();
@@ -30,7 +30,7 @@ void CActor::OnEnterMap(CSceneBase* pScene)
     static_cast<CPhase*>(pScene)->TryExecScript<void>(SCB_MAP_ONENTERMAP, this);
 }
 
-void CActor::OnLeaveMap(uint64_t idTargetScene)
+void CActor::OnLeaveMap(uint16_t idTargetMap)
 {
     SendDelayAttribChage();
 
@@ -42,9 +42,9 @@ void CActor::OnLeaveMap(uint64_t idTargetScene)
     }
 
     if(m_pScene)
-        static_cast<CPhase*>(m_pScene)->TryExecScript<void>(SCB_MAP_ONLEAVEMAP, this, idTargetScene);
+        static_cast<CPhase*>(m_pScene)->TryExecScript<void>(SCB_MAP_ONLEAVEMAP, this, idTargetMap);
 
-    CSceneObject::OnLeaveMap(idTargetScene);
+    CSceneObject::OnLeaveMap(idTargetMap);
 
     m_EventMap.Clear();
     m_EventQueue.Clear();
@@ -57,10 +57,10 @@ uint32_t CActor::GetMapID() const
     return 0;
 }
 
-uint64_t CActor::GetSceneID() const
+uint64_t CActor::GetSceneIdx() const
 {
     if(m_pScene)
-        return m_pScene->GetSceneID();
+        return m_pScene->GetSceneIdx();
     return 0;
 }
 

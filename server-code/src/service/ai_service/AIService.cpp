@@ -20,6 +20,7 @@
 #include "NetworkMessage.h"
 #include "SettingMap.h"
 #include "tinyxml2/tinyxml2.h"
+#include "proto_help.h"
 
 static thread_local CAIService* tls_pService;
 CAIService*                     AIService()
@@ -133,7 +134,11 @@ void CAIService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 {
     if(m_pNetMsgProcess->Process(pNetworkMsg) == false)
     {
-        LOGERROR("CMD {} didn't have ProcessHandler", pNetworkMsg->GetCmd());
+        LOGERROR("CMD {} from {} to {} forward {} didn't have ProcessHandler", 
+                cmd_to_enum_name(pNetworkMsg->GetCmd()),
+                pNetworkMsg->GetFrom(),
+                pNetworkMsg->GetTo(),
+                pNetworkMsg->GetForward());
     }
 }
 

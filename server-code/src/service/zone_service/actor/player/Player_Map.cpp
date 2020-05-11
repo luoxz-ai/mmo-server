@@ -10,7 +10,7 @@
 #include "ZoneService.h"
 #include "server_msg/server_side.pb.h"
 
-bool CPlayer::FlyMap(uint16_t idMap, uint32_t idxPhase, float fPosX, float fPosY, float fRange, float fFace)
+bool CPlayer::FlyMap(uint16_t idMap, int32_t idPhase, float fPosX, float fPosY, float fRange, float fFace)
 {
     __ENTER_FUNCTION
 
@@ -22,7 +22,7 @@ bool CPlayer::FlyMap(uint16_t idMap, uint32_t idxPhase, float fPosX, float fPosY
     const CGameMap* pMap = MapManager()->QueryMap(idMap);
     CHECKF_M(pMap, fmt::format(FMT_STRING("can't find map {}"), idMap).c_str())
 
-    SceneID newSceneID(ZoneService()->GetZoneID(), idMap, idxPhase);
+    TargetSceneID idTargetScene(pMap->GetZoneID(), idMap, idPhase);
 
     CScene* pScene = SceneManager()->QueryScene(idMap);
     if(pScene || pMap->IsZoneMap(ZoneService()->GetZoneID()))
@@ -31,7 +31,7 @@ bool CPlayer::FlyMap(uint16_t idMap, uint32_t idxPhase, float fPosX, float fPosY
         //延迟调用真正的FlyMap
         CEventEntryCreateParam param;
         param.evType    = EVENTID_FLYMAP;
-        param.cb        = std::bind(&CPlayer::_FlyMap, this, newSceneID, fPosX, fPosY, fRange, fFace);
+        param.cb        = std::bind(&CPlayer::_FlyMap, this, idTargetScene, fPosX, fPosY, fRange, fFace);
         param.tWaitTime = 0;
         param.bPersist  = false;
         EventManager()->ScheduleEvent(param, GetEventMapRef());
@@ -43,7 +43,7 @@ bool CPlayer::FlyMap(uint16_t idMap, uint32_t idxPhase, float fPosX, float fPosY
         //切换zone
         CEventEntryCreateParam param;
         param.evType    = EVENTID_FLYMAP;
-        param.cb        = std::bind(&CPlayer::_ChangeZone, this, newSceneID, fPosX, fPosY, fRange, fFace);
+        param.cb        = std::bind(&CPlayer::_ChangeZone, this, idTargetScene, fPosX, fPosY, fRange, fFace);
         param.tWaitTime = 0;
         param.bPersist  = false;
         EventManager()->ScheduleEvent(param, GetEventMapRef());
@@ -55,7 +55,7 @@ bool CPlayer::FlyMap(uint16_t idMap, uint32_t idxPhase, float fPosX, float fPosY
     return false;
 }
 
-void CPlayer::_ChangeZone(const SceneID& idScene, float fPosX, float fPosY, float fRange, float fFace)
+void CPlayer::_ChangeZone(const TargetSceneID& idTargetScene, float fPosX, float fPosY, float fRange, float fFace)
 {
     __ENTER_FUNCTION
     //从当前场景离开
@@ -66,7 +66,7 @@ void CPlayer::_ChangeZone(const SceneID& idScene, float fPosX, float fPosY, floa
     else
     {
         //从老地图离开
-        m_pScene->LeaveMap(this, idScene);
+        m_pScene->LeaveMap(this, idTargetScene.GetMapID());
     }
 
     //删除
@@ -78,7 +78,7 @@ void CPlayer::_ChangeZone(const SceneID& idScene, float fPosX, float fPosY, floa
     data.idPlayer     = GetID();
     data.bChangeZone  = true;
     data.socket       = GetSocket();
-    data.idScene      = idScene;
+    data.idTargetScene      = idTargetScene;
     data.fPosX        = fPosX;
     data.fPosY        = fPosY;
     data.fRange       = 0.0f;
@@ -88,7 +88,7 @@ void CPlayer::_ChangeZone(const SceneID& idScene, float fPosX, float fPosY, floa
     __LEAVE_FUNCTION
 }
 
-void CPlayer::OnChangeZoneSaveFinish(const SceneID& idScene, float fPosX, float fPosY, float fRange, float fFace)
+void CPlayer::OnChangeZoneSaveFinish(const TargetSceneID& idTargetScene, float fPosX, float fPosY, float fRange, float fFace)
 {
     __ENTER_FUNCTION
     //已经Save结束
@@ -96,7 +96,7 @@ void CPlayer::OnChangeZoneSaveFinish(const SceneID& idScene, float fPosX, float 
     ServerMSG::PlayerChangeZone msg;
     msg.set_socket(GetSocket());
     msg.set_idplayer(GetID());
-    msg.set_idscene(idScene);
+    msg.set_target_scene(idTargetScene);
     msg.set_posx(fPosX);
     msg.set_posy(fPosY);
     msg.set_range(fRange);
@@ -104,7 +104,8 @@ void CPlayer::OnChangeZoneSaveFinish(const SceneID& idScene, float fPosX, float 
 
     ZoneService()->SendMsgToWorld(GetWorldID(), to_server_msgid(msg), msg);
 
-    SendGameData(idScene);
+    SendGameData(idTargetScene);
+    //maybe 需要把当前未处理的消息转发到新zone上
     ZoneService()->DelSocketMessagePool(GetSocket());
     __LEAVE_FUNCTION
 }
@@ -122,7 +123,7 @@ void CPlayer::OnLoadMapSucc()
     __LEAVE_FUNCTION
 }
 
-void CPlayer::SendGameData(const SceneID& idScene)
+void CPlayer::SendGameData(const TargetSceneID& idTargetScene)
 {
     __ENTER_FUNCTION
     ServerMSG::PlayerChangeZone_Data msg;
@@ -153,7 +154,7 @@ void CPlayer::OnEnterMap(CSceneBase* pScene)
 
     if(pScene->GetMap()->HasMapFlag(MAPFLAG_RECORD_DISABLE) == false)
     {
-        m_pRecord->Field(TBLD_PLAYER::RECORD_SCENEID) = pScene->GetSceneID().data64;
+        m_pRecord->Field(TBLD_PLAYER::RECORD_SCENEID) = pScene->GetSceneIdx().data64;
         m_pRecord->Field(TBLD_PLAYER::RECORD_X)       = GetPosX();
         m_pRecord->Field(TBLD_PLAYER::RECORD_Y)       = GetPosY();
         m_pRecord->Field(TBLD_PLAYER::RECORD_FACE)    = GetFace();
@@ -163,7 +164,7 @@ void CPlayer::OnEnterMap(CSceneBase* pScene)
 
     ServerMSG::ActorCreate ai_msg;
     ai_msg.set_actor_id(GetID());
-    ai_msg.set_scene_id(GetSceneID());
+    ai_msg.set_scene_id(GetSceneIdx());
     ai_msg.set_actortype(ACT_PLAYER);
     ai_msg.set_baselook(GetBaseLook());
     ai_msg.set_prof(GetProf());
@@ -191,7 +192,7 @@ void CPlayer::OnEnterMap(CSceneBase* pScene)
         ZoneService()->SendServerMsgToAIService(ai_msg);
     }
 
-    LOGLOGIN("CPlayer::OnEnterMapEnd: {} mapid: {}", GetID(), GetSceneID());
+    LOGLOGIN("CPlayer::OnEnterMapEnd: {} mapid: {}", GetID(), GetSceneIdx());
 
     SC_ENTERMAP msg;
     msg.set_x(GetPosX());
@@ -202,7 +203,7 @@ void CPlayer::OnEnterMap(CSceneBase* pScene)
     __LEAVE_FUNCTION
 }
 
-void CPlayer::OnLeaveMap(uint64_t idTargetScene)
+void CPlayer::OnLeaveMap(uint16_t idTargetMap)
 {
     __ENTER_FUNCTION
     CHECK(GetCurrentScene());
@@ -210,7 +211,7 @@ void CPlayer::OnLeaveMap(uint64_t idTargetScene)
 
     if(GetCurrentScene()->GetMap()->HasMapFlag(MAPFLAG_RECORD_DISABLE) == false)
     {
-        m_pRecord->Field(TBLD_PLAYER::RECORD_SCENEID) = GetCurrentScene()->GetSceneID().data64;
+        m_pRecord->Field(TBLD_PLAYER::RECORD_SCENEID) = GetCurrentScene()->GetSceneIdx().data64;
         m_pRecord->Field(TBLD_PLAYER::RECORD_X)       = GetPosX();
         m_pRecord->Field(TBLD_PLAYER::RECORD_Y)       = GetPosY();
         m_pRecord->Field(TBLD_PLAYER::RECORD_FACE)    = GetFace();
@@ -221,74 +222,51 @@ void CPlayer::OnLeaveMap(uint64_t idTargetScene)
     m_pStatus->OnLeaveMap();
     m_pPetSet->CallBack();
 
-    CActor::OnLeaveMap(idTargetScene);
+    CActor::OnLeaveMap(idTargetMap);
     //从这里开始，Player就没有Scene指针了
 
     __LEAVE_FUNCTION
 }
 
-void CPlayer::_FlyMap(const SceneID& idScene, float fPosX, float fPosY, float fRange, float fFace)
+void CPlayer::_FlyMap(const TargetSceneID& idTargetScene, float fPosX, float fPosY, float fRange, float fFace)
 {
     __ENTER_FUNCTION
     //查询是否有对应地图
     CHECK(GetCurrentScene());
+    CPhase* pOldPhase = static_cast<CPhase*>(GetCurrentScene());
+    LOGLOGIN("Player FlySamePhase:{} {} pos:{:.2f} {:.2f} {:.2f}s",
+                GetID(),
+                idTargetScene.GetMapID(),
+                fPosX,
+                fPosY,
+                fRange);
+    uint64_t idPhase = idTargetScene.GetPhaseID();
+    if(idTargetScene.IsSelfPhaseID())
+    {
+        idPhase = GetID();
+    }
+
+    CPhase* pPhase = SceneManager()->CreatePhase(idTargetScene.GetMapID(), idPhase);
+    if(pPhase == nullptr)
+    {
+        // log error
+        return;
+    }
+
+    pOldPhase->LeaveMap(this, idTargetScene.GetMapID());
+    m_pScene = nullptr;
 
     //只要地图一样就不需要reloading
-    if(m_pScene->GetSceneID().GetMapID() == idScene.GetMapID())
+    if(pOldPhase->GetSceneIdx().GetMapID() == idTargetScene.GetMapID())
     {
-        LOGLOGIN("Player FlySamePhase:{} {} pos:{:.2f} {:.2f} {:.2f}s",
-                 GetID(),
-                 idScene.GetMapID(),
-                 fPosX,
-                 fPosY,
-                 fRange);
-        CPhase* pPhase = nullptr;
-        if(idScene.IsPhaseIdxVaild())
-        {
-            pPhase = SceneManager()->QueryPhase(idScene);
-        }
-        else
-        {
-            pPhase = SceneManager()->CreatePhase(idScene.GetMapID(), GetID());
-        }
-        if(pPhase == nullptr)
-        {
-            // log error
-            return;
-        }
-
-        m_pScene->LeaveMap(this, idScene);
-        m_pScene = nullptr;
-
         //判断所在位置是否是障碍
         auto findPos = pPhase->FindPosNearby(Vector2(fPosX, fPosY), fRange);
         pPhase->EnterMap(this, findPos.x, findPos.y, fFace);
     }
     else
     {
-        LOGLOGIN("Player FlyMap:{} {} pos:{:.2f} {:.2f} {:.2f}s", GetID(), idScene.GetMapID(), fPosX, fPosY, fRange);
-        SceneID newSceneID = idScene;
-        CPhase* pPhase     = nullptr;
-        if(idScene.IsPhaseIdxVaild() == false)
-        {
-            //尝试自动创建地图
-            pPhase = SceneManager()->CreatePhase(idScene.GetMapID(), GetID());
-            CHECK(pPhase);
-
-            newSceneID = pPhase->GetSceneID();
-        }
-        else
-        {
-            pPhase = SceneManager()->QueryPhase(idScene);
-            CHECK(pPhase);
-        }
-
-        //从老地图离开
-        m_pScene->LeaveMap(this, idScene);
-        m_pScene = nullptr;
-
         //进入新地图
-        m_idLoadingScene = idScene;
+        m_idLoadingScene = pPhase->GetSceneIdx();
         m_fLoadingPosX   = fPosX;
         m_fLoadingPosY   = fPosY;
         m_fLoadingFace   = fFace;
@@ -327,7 +305,7 @@ void CPlayer::OnLogout()
     data.idPlayer     = GetID();
     data.bChangeZone  = false;
     data.socket       = GetSocket();
-    data.idScene      = 0;
+    data.idTargetScene= 0;
     data.fPosX        = 0.0f;
     data.fPosY        = 0.0f;
     data.fRange       = 0.0f;
@@ -356,7 +334,7 @@ bool CPlayer::Reborn(uint32_t nRebornType)
         {
             GetStatus()->DetachStatusByType(STATUSTYPE_DEAD);
             SetProperty(PROP_HP, GetHPMax() / 2, SYNC_ALL_DELAY);
-            FlyMap(SceneID(GetHomeSceneID()).GetMapID(), 0, GetHomePosX(), GetHomePosY(), 0.0f, GetHomeFace());
+            FlyMap(GetHomeSceneIdx().GetMapID(), 0, GetHomePosX(), GetHomePosY(), 0.0f, GetHomeFace());
         }
         break;
         case REBORN_MAPPOS: //复活点复活
