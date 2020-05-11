@@ -136,7 +136,7 @@ public:
         LOGDBERROR("Field {}.{} get/set type error.  \nCallfrom:{}", 
                     m_pFieldInfo->GetTableName(), 
                     m_pFieldInfo->GetFieldName(), 
-                    GetStackTraceString(CallFrameMap(2,4)));
+                    GetStackTraceString(CallFrameMap(3,5)));
         return false;
     }
 

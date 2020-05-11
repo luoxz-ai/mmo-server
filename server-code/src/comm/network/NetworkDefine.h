@@ -47,10 +47,12 @@ export_lua enum {
     ROUTE_SERVICE_ID = 60,
     MAX_SERVICE_ID   = 63,
 };
+export_lua constexpr size_t ZONE_SERICE_COUNT = 10;
+export_lua constexpr size_t AI_SERICE_COUNT = 10;
 
 inline uint16_t ZoneID2ServiceID(uint16_t idZone)
 {
-    CHECKF(idZone > 0 && idZone < MAX_SHAREZONE_SERVICE_ID-MIN_ZONE_SERVICE_ID);
+    CHECKF(idZone > 0 && idZone <= ZONE_SERICE_COUNT);
     return MIN_ZONE_SERVICE_ID + idZone - 1;
 }
 

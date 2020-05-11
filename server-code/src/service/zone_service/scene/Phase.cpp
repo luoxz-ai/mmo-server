@@ -39,28 +39,29 @@ CPhase::~CPhase()
 bool CPhase::Init(CScene* pScene, const SceneIdx& idxScene, uint64_t idPhase, const PhaseData* pPhaseData)
 {
     __ENTER_FUNCTION
+    CHECKF(pScene);
     m_pScene = pScene;
     m_pMapValSet.reset(CMapValSet::CreateNew(this));
-    CSceneBase::Init(idxScene, MapManager());
+    CHECKF(CSceneBase::Init(idxScene, MapManager()));
     if(pPhaseData)
     {
         uint64_t idPhaseLink = pPhaseData->link_phase();
         auto     pPhase      = pScene->QueryPhase(idPhaseLink);
         if(pPhase)
         {
-            LinkSceneTree(pPhase);
+            CHECKF(LinkSceneTree(pPhase));
         }
         else
         {
             CPos2D vBasePos{pPhaseData->left(), pPhaseData->top()};
             float  fWidth  = pPhaseData->right() - pPhaseData->left();
             float  fHeight = pPhaseData->bottom() - pPhaseData->top();
-            InitSceneTree(vBasePos, fWidth, fHeight, pPhaseData->viewgrid_width());
+            CHECKF(InitSceneTree(vBasePos, fWidth, fHeight, pPhaseData->viewgrid_width()));
         }
     }
     else
     {
-        InitSceneTree({0.0f, 0.0f}, 0.0f, 0.0f, 0);
+        CHECKF(InitSceneTree({0.0f, 0.0f}, 0.0f, 0.0f, 0));
     }
 
     //通知AI服务器,创建场景

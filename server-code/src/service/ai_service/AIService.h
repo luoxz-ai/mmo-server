@@ -27,9 +27,9 @@ public:
 
     VirtualSocket GetZoneServiceVirtualSocket() const
     {
-        return VirtualSocket(ServerPort(GetWorldID(), GetZoneID()), 0);
+        return VirtualSocket(ServerPort(GetWorldID(), ZoneID2ServiceID(GetZoneID())), 0);
     }
-    uint16_t GetZoneID() const { return GetServiceID() - MIN_ZONE_SERVICE_ID + 1; }
+    uint16_t GetZoneID() const { return GetServiceID() - MIN_AI_SERVICE_ID + 1; }
 
 public:
     virtual void OnLogicThreadProc() override;

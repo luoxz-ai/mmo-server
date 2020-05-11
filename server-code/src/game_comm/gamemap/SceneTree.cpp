@@ -24,11 +24,13 @@ bool CSceneTree::Init(const CGameMap* pMap,
                       float           fHeight,
                       uint32_t        nTileGridRange)
 {
+    CHECKF(pMap);
     m_pMap        = pMap;
     m_BasePos     = vBasePos;
     m_fWidth      = fWidth;
     m_fHeight     = fHeight;
     auto pMapData = m_pMap->GetMapData();
+    CHECKF(pMapData);
     if(m_fWidth <= 0.0f || m_fWidth >= pMapData->GetWidthMap() - m_BasePos.x)
         m_fWidth = pMapData->GetWidthMap() - m_BasePos.x;
     if(m_fHeight <= 0.0f || m_fHeight >= pMapData->GetHeightMap() - m_BasePos.y)

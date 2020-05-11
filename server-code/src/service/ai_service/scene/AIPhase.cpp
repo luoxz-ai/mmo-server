@@ -22,7 +22,8 @@ CAIPhase::~CAIPhase()
 bool CAIPhase::Init(CAIScene* pScene, const SceneIdx& idxScene, uint64_t idPhase, const PhaseData* pPhaseData)
 {
     m_idPhase = idPhase;
-    CSceneBase::Init(idxScene, MapManager());
+    CHECKF(CSceneBase::Init(idxScene, MapManager()));
+    
     m_MonsterGen.Init(this);
     if(pPhaseData)
     {
@@ -30,19 +31,19 @@ bool CAIPhase::Init(CAIScene* pScene, const SceneIdx& idxScene, uint64_t idPhase
         auto     pPhase      = pScene->QueryPhaseByID(idPhaseLink);
         if(pPhase)
         {
-            LinkSceneTree(pPhase);
+            CHECKF(LinkSceneTree(pPhase));
         }
         else
         {
             CPos2D vBasePos{pPhaseData->left(), pPhaseData->top()};
             float  fWidth  = pPhaseData->right() - pPhaseData->left();
             float  fHeight = pPhaseData->bottom() - pPhaseData->top();
-            InitSceneTree(vBasePos, fWidth, fHeight, pPhaseData->viewgrid_width());
+            CHECKF(InitSceneTree(vBasePos, fWidth, fHeight, pPhaseData->viewgrid_width()));
         }
     }
     else
     {
-        InitSceneTree({0.0f, 0.0f}, 0.0f, 0.0f, 0);
+        CHECKF(InitSceneTree({0.0f, 0.0f}, 0.0f, 0.0f, 0));
     }
 
     LOGDEBUG("CAIPhase {} Created Map:{} Idx:{}", idPhase, idxScene.GetMapID(), idxScene.GetPhaseIdx());

@@ -313,7 +313,7 @@ bool CServiceCommon::SendPortMsg(const CNetworkMessage& msg) const
     {
         LOGWARNING("Message Want Send To Worng: {}.  CallStack:{}",
                    msg.GetTo(),
-                   GetStackTraceString(CallFrameMap(1,2)));
+                   GetStackTraceString(CallFrameMap(2,3)));
         return false;
     }
     __LEAVE_FUNCTION

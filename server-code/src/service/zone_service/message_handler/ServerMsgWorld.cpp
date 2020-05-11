@@ -92,3 +92,10 @@ ON_SERVERMSG(CZoneService, PlayerLogout)
     CPlayer* pPlayer = pActor->CastTo<CPlayer>();
     pPlayer->OnLogout();
 }
+
+ON_SERVERMSG(CZoneService, ServiceRegister)
+{
+    ServerPort server_port{msg.serverport()};
+    GetMessageRoute()->SetWorldReady(server_port.GetWorldID(), true);
+    GetMessageRoute()->ReloadServiceInfo(msg.update_time(), server_port.GetWorldID());
+}

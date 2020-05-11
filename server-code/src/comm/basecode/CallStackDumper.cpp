@@ -420,7 +420,7 @@ CallFrameMap::CallFrameMap(int32_t skip_calldepth, int32_t max_calldepth)
     if(funcnamearry == NULL)
         return;
 
-    for(size_t i = skip_calldepth + 1; i < nTrace && i < max_calldepth; i++)
+    for(size_t i = skip_calldepth + 1; i < nTrace && i <= max_calldepth; i++)
     {
         m_Addr.emplace_back(std::make_pair(pCallFramearray[i], std::string(funcnamearry[i])));
     }
