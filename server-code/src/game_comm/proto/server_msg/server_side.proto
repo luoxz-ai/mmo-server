@@ -266,6 +266,7 @@ message ActorCreate
 message ActorDestory
 {
     uint64 actor_id = 1;
+    bool dead = 2;
 };
 
 message ActorMove

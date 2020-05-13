@@ -159,9 +159,7 @@ void CMysqlConnection::AsyncExec(const std::string& s)
             for(int32_t i = 0; i < MAX_PING_TIMES_PER_QUERY; i++)
             {
                 int32_t nError     = mysql_real_query(m_pAsyncHandle.get(), s.c_str(), s.size());
-                int32_t mysql_erro = mysql_errno(m_pHandle.get());
-
-                if(mysql_erro == 0)
+                if(nError == 0)
                 {
                     while(mysql_more_results(m_pAsyncHandle.get()))
                     {
@@ -171,9 +169,10 @@ void CMysqlConnection::AsyncExec(const std::string& s)
                 }
                 else
                 {
-                    const char* error_str = mysql_error(m_pHandle.get());
+                    int32_t mysql_erro = mysql_errno(m_pHandle.get());
                     if(mysql_erro != CR_SERVER_LOST)
                     {
+                        const char* error_str = mysql_error(m_pHandle.get());
                         // log error
                         LOGDBERROR("mysql_error:{} when async_exec {}.", error_str, s.c_str());
                         return;
@@ -229,17 +228,16 @@ CMysqlResultPtr CMysqlConnection::UnionQuery(const std::string& query)
     for(int32_t i = 0; i < MAX_PING_TIMES_PER_QUERY; i++)
     {
         int32_t     nError     = mysql_real_query(m_pHandle.get(), query.c_str(), query.size());
-        int32_t     mysql_erro = mysql_errno(m_pHandle.get());
-        const char* error_str  = mysql_error(m_pHandle.get());
-
         if(nError == 0)
         {
             return UseResult(query);
         }
         else
         {
-            if(nError != CR_SERVER_LOST)
+            int32_t     mysql_erro = mysql_errno(m_pHandle.get());
+            if(mysql_erro != CR_SERVER_LOST)
             {
+                const char* error_str  = mysql_error(m_pHandle.get());
                 // log error
                 LOGDBERROR("mysql_error:{} when query {}.", error_str, query.c_str());
                 return nullptr;
@@ -269,9 +267,6 @@ uint64_t CMysqlConnection::Insert(const std::string& query)
     for(int32_t i = 0; i < MAX_PING_TIMES_PER_QUERY; i++)
     {
         int32_t     nError     = mysql_real_query(m_pHandle.get(), query.c_str(), query.size());
-        int32_t     mysql_erro = mysql_errno(m_pHandle.get());
-        const char* error_str  = mysql_error(m_pHandle.get());
-
         if(nError == 0)
         {
             mysql_free_result(mysql_use_result(m_pHandle.get()));
@@ -279,9 +274,11 @@ uint64_t CMysqlConnection::Insert(const std::string& query)
         }
         else
         {
-            if(nError != CR_SERVER_LOST)
+            int32_t     mysql_erro = mysql_errno(m_pHandle.get());
+            if(mysql_erro != CR_SERVER_LOST)
             {
                 // log error
+                const char* error_str  = mysql_error(m_pHandle.get());
                 LOGDBERROR("mysql_error:{} when query {}.", error_str, query.c_str());
                 return (uint64_t)(-1);
             }
@@ -309,9 +306,7 @@ uint64_t CMysqlConnection::Update(const std::string& query)
     }
     for(int32_t i = 0; i < MAX_PING_TIMES_PER_QUERY; i++)
     {
-        int32_t     nError     = mysql_real_query(m_pHandle.get(), query.c_str(), query.size());
-        int32_t     mysql_erro = mysql_errno(m_pHandle.get());
-        const char* error_str  = mysql_error(m_pHandle.get());
+        int32_t     nError     = mysql_real_query(m_pHandle.get(), query.c_str(), query.size());      
 
         if(nError == 0)
         {
@@ -321,8 +316,10 @@ uint64_t CMysqlConnection::Update(const std::string& query)
         }
         else
         {
-            if(nError != CR_SERVER_LOST)
+            int32_t     mysql_erro = mysql_errno(m_pHandle.get());
+            if(mysql_erro != CR_SERVER_LOST)
             {
+                const char* error_str  = mysql_error(m_pHandle.get());
                 // log error
                 LOGDBERROR("mysql_error:{} when query {}.", error_str, query.c_str());
                 return 0;
@@ -370,10 +367,10 @@ CMysqlResultPtr CMysqlConnection::Query(const std::string& table_name, const std
         }
         else
         {
-            if(nError != CR_SERVER_LOST)
+            int32_t     mysql_erro = mysql_errno(m_pHandle.get());
+            if(mysql_erro != CR_SERVER_LOST)
             {
                 // log error
-                int32_t     mysql_erro = mysql_errno(m_pHandle.get());
                 const char* error_str  = mysql_error(m_pHandle.get());
 
                 LOGDBERROR("mysql_error:{} when query {}.", error_str, query.c_str());
@@ -407,12 +404,11 @@ bool CMysqlConnection::SyncExec(const std::string& query)
         }
         else
         {
-            if(nError != CR_SERVER_LOST)
+            // log error
+            int32_t     mysql_erro = mysql_errno(m_pHandle.get());
+            if(mysql_erro != CR_SERVER_LOST)
             {
-                // log error
-                int32_t     mysql_erro = mysql_errno(m_pHandle.get());
                 const char* error_str  = mysql_error(m_pHandle.get());
-
                 LOGDBERROR("mysql_error:{} when query {}.", error_str, query.c_str());
                 return false;
             }

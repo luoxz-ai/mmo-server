@@ -200,6 +200,7 @@ bool CServiceCommon::SendPortBroadcastMsg(const ServerPort&                nServ
         else
         {
             LOGWARNING("SendPortMsg To ServerPort:{}, not find", nServerPort);
+            LOGWARNING("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7)));
         }
     }
     __LEAVE_FUNCTION
@@ -221,6 +222,7 @@ bool CServiceCommon::SendPortMultiMsg(const ServerPort&                 nServerP
         else
         {
             LOGWARNING("SendPortMsg To ServerPort:{}, not find", nServerPort);
+            LOGWARNING("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7)));
         }
     }
     __LEAVE_FUNCTION
@@ -242,6 +244,7 @@ bool CServiceCommon::SendPortMultiIDMsg(const ServerPort&         nServerPort,
         else
         {
             LOGWARNING("SendPortMsg To ServerPort:{}, not find", nServerPort);
+            LOGWARNING("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7)));
         }
     }
     __LEAVE_FUNCTION
@@ -298,6 +301,7 @@ bool CServiceCommon::SendPortMsg(const CNetworkMessage& msg) const
         else
         {
             LOGWARNING("SendPortMsg To ServerPort:{}, not find", vs);
+            LOGWARNING("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7)));
         }
         return false;
     }
@@ -311,9 +315,8 @@ bool CServiceCommon::SendPortMsg(const CNetworkMessage& msg) const
     }
     else
     {
-        LOGWARNING("Message Want Send To Worng: {}.  CallStack:{}",
-                   msg.GetTo(),
-                   GetStackTraceString(CallFrameMap(2,3)));
+        LOGWARNING("Message Want Send To Worng: {}", msg.GetTo() );
+        LOGWARNING("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7)));
         return false;
     }
     __LEAVE_FUNCTION
@@ -335,6 +338,7 @@ bool CServiceCommon::SendBroadcastMsg(const CNetworkMessage& msg) const
         else
         {
             LOGWARNING("SendBroadcastMsg:{}, not find", vs);
+            LOGWARNING("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7)));
         }
         return false;
     }
@@ -352,6 +356,7 @@ bool CServiceCommon::SendBroadcastMsg(const CNetworkMessage& msg) const
     else
     {
         LOGWARNING("Message Want Send To Worng:{}", msg.GetTo());
+        LOGWARNING("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7)));
         return false;
     }
     __LEAVE_FUNCTION

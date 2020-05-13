@@ -52,13 +52,13 @@ export_lua constexpr size_t AI_SERICE_COUNT = 10;
 
 inline uint16_t ZoneID2ServiceID(uint16_t idZone)
 {
-    CHECKF(idZone > 0 && idZone <= ZONE_SERICE_COUNT);
+    CHECKF_V(idZone > 0 && idZone <= ZONE_SERICE_COUNT, idZone);
     return MIN_ZONE_SERVICE_ID + idZone - 1;
 }
 
 inline uint16_t ServiceID2ZoneID(uint16_t idService)
 {
-    CHECKF(idService >= MIN_ZONE_SERVICE_ID && idService <= MAX_SHAREZONE_SERVICE_ID);
+    CHECKF_V(idService >= MIN_ZONE_SERVICE_ID && idService <= MAX_SHAREZONE_SERVICE_ID, idService);
     return idService - MIN_ZONE_SERVICE_ID + 1;
 }
 

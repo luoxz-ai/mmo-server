@@ -764,8 +764,10 @@ void ai2lua(lua_State* L)
     lua_tinker::def(L, "upper_cast", &upper_cast);
     lua_tinker::def(L, "upper_cast_copy", &upper_cast_copy);
     lua_tinker::def(L, "utf8_length", &utf8_length, 0);
+    lua_tinker::set(L, "AI_SERICE_COUNT", AI_SERICE_COUNT);
     lua_tinker::set(L, "UPDATE_FALSE", UPDATE_FALSE);
     lua_tinker::set(L, "UPDATE_TRUE", UPDATE_TRUE);
+    lua_tinker::set(L, "ZONE_SERICE_COUNT", ZONE_SERICE_COUNT);
     lua_tinker::set(L, "AI_SERVICE", AI_SERVICE);
     lua_tinker::set(L, "GLOBAL_ROUTE_SERVICE", GLOBAL_ROUTE_SERVICE);
     lua_tinker::set(L, "GM_PROXY_SERVICE", GM_PROXY_SERVICE);

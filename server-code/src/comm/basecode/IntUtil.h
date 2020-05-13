@@ -51,31 +51,31 @@ export_lua inline uint32_t MulDiv(uint32_t a, uint32_t b, uint32_t c)
 
 export_lua inline uint32_t hex_set(uint32_t dwFlag, uint8_t nHex, uint8_t ucVal)
 {
-    CHECKF(nHex < 8);
+    CHECKF_V(nHex < 8, nHex);
     return (dwFlag & ~(0xF << (nHex * 4))) | ((ucVal & 0xF) << (nHex * 4));
 }
 
 export_lua inline uint8_t hex_get(uint32_t dwFlag, uint8_t nHex)
 {
-    CHECKF(nHex < 8);
+    CHECKF_V(nHex < 8, nHex);
     return (dwFlag >> (nHex * 4)) & 0xF;
 }
 
 export_lua inline bool bit_test(uint32_t dwFlag, uint8_t nBit)
 {
-    CHECKF(nBit < 32);
+    CHECKF_V(nBit < 32, nBit);
     return (dwFlag & ((uint32_t)1 << nBit)) != 0;
 }
 
 export_lua inline uint32_t bit_flip(uint32_t dwFlag, uint8_t nBit)
 {
-    CHECKF(nBit < 32);
+    CHECKF_V(nBit < 32, nBit);
     return dwFlag ^ ((uint32_t)1 << nBit);
 }
 
 export_lua inline uint32_t bit_set(uint32_t dwFlag, uint8_t nBit, bool bVal)
 {
-    CHECKF(nBit < 32);
+    CHECKF_V(nBit < 32, nBit);
     if(bVal)
         return dwFlag | (uint32_t)1 << nBit;
     else

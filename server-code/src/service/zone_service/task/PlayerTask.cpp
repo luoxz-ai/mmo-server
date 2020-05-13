@@ -271,11 +271,11 @@ bool CPlayerTask::SubmitTask(uint32_t idTask, uint32_t nSubmitMultiple)
 {
     __ENTER_FUNCTION
     CPlayerTaskData* pData = QueryTaskData(idTask);
-    CHECKF(pData);
+    CHECKF_V(pData, idTask);
     auto pType = TaskTypeSet()->QueryObj(idTask);
-    CHECKF(pType);
+    CHECKF_V(pType, idTask);
 
-    CHECKF(pData->GetState() == TASKSTATE_ACCEPTED);
+    CHECKF_V(pData->GetState() == TASKSTATE_ACCEPTED, pData->GetState());
 
     if(CanSubmit(idTask) == false)
         return false;
@@ -344,13 +344,13 @@ bool CPlayerTask::QuickFinish(uint32_t idTask)
 {
     __ENTER_FUNCTION
     CPlayerTaskData* pData = QueryTaskData(idTask);
-    CHECKF(pData);
+    CHECKF_V(pData, idTask);
     auto pType = TaskTypeSet()->QueryObj(idTask);
-    CHECKF(pType);
+    CHECKF_V(pType, idTask);
 
-    CHECKF(pData->GetState() == TASKSTATE_ACCEPTED);
+    CHECKF_V(pData->GetState() == TASKSTATE_ACCEPTED, pData->GetState());
 
-    CHECKF(pType->GetQuickSubmitCost() > 0);
+    CHECKF_V(pType->GetQuickSubmitCost() > 0, idTask);
 
     if(m_pOwner->SpendMoney(MONEY_TYPE::MT_GOLD, pType->GetQuickSubmitCost()) == false)
     {
@@ -375,12 +375,12 @@ bool CPlayerTask::GiveupTask(uint32_t idTask)
     __ENTER_FUNCTION
 
     CPlayerTaskData* pData = QueryTaskData(idTask);
-    CHECKF(pData);
+    CHECKF_V(pData, idTask);
     auto pTaskType = TaskTypeSet()->QueryObj(idTask);
-    CHECKF(pTaskType);
+    CHECKF_V(pTaskType, idTask);
 
-    CHECKF(pData->GetState() == TASKSTATE_ACCEPTED);
-    CHECKF(pTaskType->HasFlag(TASKFLAG_CAN_GIVEUP));
+    CHECKF_V(pData->GetState() == TASKSTATE_ACCEPTED, pData->GetState() );
+    CHECKF_V(pTaskType->HasFlag(TASKFLAG_CAN_GIVEUP), idTask);
 
     pData->SetFinishTime(TimeGetSecond(), UPDATE_FALSE);
     pData->SetState(TASKSTATE_FINISHED, UPDATE_TRUE);
@@ -397,7 +397,7 @@ bool CPlayerTask::CanAccept(uint32_t idTask)
     __ENTER_FUNCTION
 
     auto pTaskType = TaskTypeSet()->QueryObj(idTask);
-    CHECKF(pTaskType);
+    CHECKF_V(pTaskType, idTask);
     return CanAccept(pTaskType);
     __LEAVE_FUNCTION
     return false;
@@ -461,7 +461,7 @@ bool CPlayerTask::CanSubmit(const CTaskType* pTaskType)
 {
     __ENTER_FUNCTION
     CPlayerTaskData* pData = QueryTaskData(pTaskType->GetID());
-    CHECKF(pData);
+    CHECKF_V(pData, pTaskType->GetID());
 
     if(pData->GetState() != TASKSTATE_ACCEPTED)
         return false;
@@ -520,7 +520,7 @@ bool CPlayerTask::CanSubmit(uint32_t idTask)
 {
     __ENTER_FUNCTION
     auto pType = TaskTypeSet()->QueryObj(idTask);
-    CHECKF(pType);
+    CHECKF_V(pType,idTask);
     return CanSubmit(pType);
 
     __LEAVE_FUNCTION
@@ -531,9 +531,9 @@ int32_t CPlayerTask::GetLeftTimes(uint32_t idTask)
 {
     __ENTER_FUNCTION
     CPlayerTaskData* pData = QueryTaskData(idTask);
-    CHECKF(pData);
+    CHECKF_V(pData,idTask);
     auto pType = TaskTypeSet()->QueryObj(idTask);
-    CHECKF(pType);
+    CHECKF_V(pType,idTask);
 
     if(pType->HasFlag(TASKFLAG_REPEATABLE))
     {

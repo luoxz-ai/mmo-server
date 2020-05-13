@@ -139,7 +139,7 @@ public:
     const T*     QueryObj(KEY_T id) const
     {
         const auto& refset = CGameDataContainer<T>::GetRawData();
-        CHECKF(id < refset.size());
+        CHECKF_V(id < refset.size(), id);
         return refset[id].get();
     }
 };

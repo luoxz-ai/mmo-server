@@ -151,14 +151,14 @@ uint32_t CPackage::GetSpareSpace(uint32_t idType /*=ID_NONE*/,
     if(idType == ID_NONE)
         return m_nMaxSize - m_setItem.size();
 
-    CHECKF(nAmount >= 0 && nFillSpace >= 0);
+    CHECKF_V(nAmount >= 0 && nFillSpace >= 0, nAmount);
     uint32_t nSpareSpace = m_nMaxSize - m_setItem.size() - nFillSpace;
     if(nSpareSpace < 0)
         return nSpareSpace;
 
     // 不可叠加物品
     const CItemType* pType = ItemTypeSet()->QueryObj(idType);
-    CHECKF(pType);
+    CHECKF_V(pType, idType);
     if(pType->GetPileLimit() == 1)
         return nSpareSpace - nAmount;
 
@@ -447,9 +447,9 @@ bool CPackage::DelAll(bool bSync /*=false*/, bool bTraceTaskItem /*= true*/)
 bool CPackage::SwapItem(uint32_t nGrid1, uint32_t nGrid2)
 {
     __ENTER_FUNCTION
-    CHECKF(nGrid1 > 0 && nGrid1 < m_nMaxSize);
-    CHECKF(nGrid2 > 0 && nGrid2 < m_nMaxSize);
-    CHECKF(nGrid1 != nGrid2);
+    CHECKF_V(nGrid1 > 0 && nGrid1 < m_nMaxSize, nGrid1);
+    CHECKF_V(nGrid2 > 0 && nGrid2 < m_nMaxSize, nGrid2);
+    CHECKF_V(nGrid1 != nGrid2, nGrid1);
 
     CItem* pItem1 = nullptr;
     CItem* pItem2 = nullptr;
@@ -488,9 +488,9 @@ bool CPackage::SwapItem(uint32_t nGrid1, uint32_t nGrid2)
 bool CPackage::SplitItem(uint32_t nGrid1, uint32_t nGrid2, uint32_t nSplitNum)
 {
     __ENTER_FUNCTION
-    CHECKF(nGrid1 > 0 && nGrid1 < m_nMaxSize);
-    CHECKF(nGrid2 > 0 && nGrid2 < m_nMaxSize);
-    CHECKF(nGrid1 != nGrid2);
+    CHECKF_V(nGrid1 > 0 && nGrid1 < m_nMaxSize, nGrid1);
+    CHECKF_V(nGrid2 > 0 && nGrid2 < m_nMaxSize, nGrid2);
+    CHECKF_V(nGrid1 != nGrid2, nGrid1);
 
     // 先判断还有没有空余的格子
     if(IsFull(1))

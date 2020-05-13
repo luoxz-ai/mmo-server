@@ -26,7 +26,8 @@ public:
     export_lua uint32_t GetTaskID() const { return m_pData->Field(TBLD_TASK::TASKID); }
     export_lua uint32_t GetNum(uint32_t nIdx) const
     {
-        CHECKF(nIdx < MAX_TASKDATA_NUM) return m_pData->Field(TBLD_TASK::NUM0 + nIdx);
+        CHECKF_V(nIdx < MAX_TASKDATA_NUM, nIdx);
+        return m_pData->Field(TBLD_TASK::NUM0 + nIdx);
     }
     export_lua uint32_t GetAcceptUserLev() const { return m_pData->Field(TBLD_TASK::ACCEPT_USERLEV); }
     export_lua uint32_t GetAcceptTime() const { return m_pData->Field(TBLD_TASK::ACCEPT_TIME); }

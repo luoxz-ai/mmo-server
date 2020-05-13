@@ -124,7 +124,7 @@ bool CAccount::CreateActor(const std::string& name, uint32_t dwProf, uint32_t dw
         }
     }
 
-    CHECKF(PROF_WARRIOR == dwProf || PROF_MAGA == dwProf || PROF_PRIEST == dwProf);
+    CHECKF_V(PROF_WARRIOR == dwProf || PROF_MAGA == dwProf || PROF_PRIEST == dwProf, dwProf);
     uint32_t dwBaseLook = dwLook;
 
     const CUserAttrData* pLevData = UserAttrSet()->QueryObj(CUserAttrData::MakeID(dwProf, 1));
@@ -135,10 +135,10 @@ bool CAccount::CreateActor(const std::string& name, uint32_t dwProf, uint32_t dw
     const AttribList_t& AbilityLevel = pLevData->GetAbility();
 
     const CBornPos* pBornPos = BornPosSet()->RandGet(dwProf);
-    CHECKF(pBornPos);
+    CHECKF_V(pBornPos, dwProf);
 
     const CGameMap* pMap = MapManager()->QueryMap(pBornPos->GetMapID());
-    CHECKF(pMap);
+    CHECKF_V(pMap, pBornPos->GetMapID());
     Vector2 bornPos(pBornPos->GetPosX(), pBornPos->GetPoxY());
     bornPos = pMap->FindPosNearby(bornPos, pBornPos->GetRange());
     SceneIdx bornScene(pMap->GetZoneID(), pBornPos->GetMapID(), 0);

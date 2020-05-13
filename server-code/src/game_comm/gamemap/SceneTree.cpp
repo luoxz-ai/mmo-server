@@ -234,7 +234,7 @@ CSceneCollisionTile* CSceneTree::GetCollisionTileByPos(float x, float y, uint32_
     if(m_pMap->HasMapFlag(MAPFLAG_COLLISION_ENABLE) == false)
         return nullptr;
     uint32_t nIdx = m_pMap->GetMapData()->Pos2Idx(x, y);
-    CHECKF(nIdx < m_setCollision.size());
+    CHECKF_V(nIdx < m_setCollision.size(), nIdx);
 
     return &(m_setCollision[nIdx]);
 }
@@ -244,7 +244,7 @@ bool CSceneTree::CollisionTest(float x, float y, uint32_t actor_type) const
     if(m_pMap->HasMapFlag(MAPFLAG_COLLISION_ENABLE) == false)
         return false;
     uint32_t nIdx = m_pMap->GetMapData()->Pos2Idx(x, y);
-    CHECKF(nIdx < m_setCollision.size());
+    CHECKF_V(nIdx < m_setCollision.size(), nIdx);
 
     const auto& refData = m_setCollision[nIdx];
     return refData.find_if([this, actor_type](uint32_t k, size_t v) {

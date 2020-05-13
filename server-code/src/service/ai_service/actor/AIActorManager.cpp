@@ -50,6 +50,10 @@ bool CAIActorManager::AddActor(CAIActor* pActor)
         else
         {
             LOGERROR("Add Actor twice!!!!!!! {} {}", pOldActor->GetID(), pOldActor->GetName().c_str());
+            if(pOldActor->GetCurrentScene())
+            {
+                pOldActor->GetCurrentScene()->LeaveMap(pOldActor);
+            }
             SAFE_DELETE(pOldActor);
         }
     }

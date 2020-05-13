@@ -74,11 +74,11 @@ public:
     export_lua SceneIdx         GetRecordSceneIdx() const { return m_pRecord->Field(TBLD_PLAYER::RECORD_SCENEID).get<uint64_t>(); }
     export_lua SceneIdx         GetHomeSceneIdx() const { return m_pRecord->Field(TBLD_PLAYER::HOME_SCENEID).get<uint64_t>(); }
     export_lua virtual uint32_t GetLev() const override { return m_pRecord->Field(TBLD_PLAYER::LEV); }
-    export_lua uint32_t         GetExp() const { return m_pRecord->Field(TBLD_PLAYER::EXP); }
-    export_lua uint32_t         GetMoney() const { return m_pRecord->Field(TBLD_PLAYER::MONEY); }
-    export_lua uint32_t         GetMoneyBind() const { return m_pRecord->Field(TBLD_PLAYER::MONEY_BIND); }
-    export_lua uint32_t         GetGold() const { return m_pRecord->Field(TBLD_PLAYER::GOLD); }
-    export_lua uint32_t         GetGoldBind() const { return m_pRecord->Field(TBLD_PLAYER::GOLD_BIND); }
+    export_lua uint64_t         GetExp() const { return m_pRecord->Field(TBLD_PLAYER::EXP); }
+    export_lua uint64_t         GetMoney() const { return m_pRecord->Field(TBLD_PLAYER::MONEY); }
+    export_lua uint64_t         GetMoneyBind() const { return m_pRecord->Field(TBLD_PLAYER::MONEY_BIND); }
+    export_lua uint64_t         GetGold() const { return m_pRecord->Field(TBLD_PLAYER::GOLD); }
+    export_lua uint64_t         GetGoldBind() const { return m_pRecord->Field(TBLD_PLAYER::GOLD_BIND); }
     export_lua uint32_t         GetBagMaxSize() const;
     export_lua uint32_t         GetStrogeMaxSize() const;
     export_lua uint32_t         GetAchiPoint() const { return m_pRecord->Field(TBLD_PLAYER::ACHIPOINT); }
@@ -224,8 +224,8 @@ public:
     export_lua virtual bool IsEnemy(CSceneObject* pTarget) const override;
 
 private:
-    void _ChangeZone(const TargetSceneID& idTargetScene, float fPosX, float fPosY, float fRange, float fFace);
-    void _FlyMap(const TargetSceneID& idTargetScene, float fPosX, float fPosY, float fRange, float fFace);
+    void _ChangeZone(TargetSceneID idTargetScene, float fPosX, float fPosY, float fRange, float fFace);
+    void _FlyMap(TargetSceneID idTargetScene, float fPosX, float fPosY, float fRange, float fFace);
     void SendGameData(const TargetSceneID& idTargetScene);
 
     void SendPlayerInfoToClient();

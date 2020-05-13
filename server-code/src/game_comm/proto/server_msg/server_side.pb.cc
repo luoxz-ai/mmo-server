@@ -1123,6 +1123,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_server_5fmsg_2fserver_5fside_2
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::ServerMSG::ActorDestory, actor_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::ActorDestory, dead_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ServerMSG::ActorMove, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1300,26 +1301,26 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 198, -1, sizeof(::ServerMSG::KillGen)},
   { 205, -1, sizeof(::ServerMSG::ActorCreate)},
   { 229, -1, sizeof(::ServerMSG::ActorDestory)},
-  { 235, -1, sizeof(::ServerMSG::ActorMove)},
-  { 243, -1, sizeof(::ServerMSG::ActorCastSkill)},
-  { 251, -1, sizeof(::ServerMSG::ActorCastSkill_Fail)},
-  { 257, -1, sizeof(::ServerMSG::ActorSetHide)},
-  { 264, -1, sizeof(::ServerMSG::TeamCreate)},
-  { 271, -1, sizeof(::ServerMSG::TeamDestory)},
-  { 277, -1, sizeof(::ServerMSG::TeamQuit)},
-  { 284, -1, sizeof(::ServerMSG::TeamKickMember)},
-  { 292, -1, sizeof(::ServerMSG::TeamInviteMember)},
-  { 300, -1, sizeof(::ServerMSG::TeamAcceptInvite)},
-  { 309, -1, sizeof(::ServerMSG::TeamApplyMember)},
-  { 316, -1, sizeof(::ServerMSG::TeamAcceptApply)},
-  { 324, -1, sizeof(::ServerMSG::TeamNewLeader)},
-  { 332, -1, sizeof(::ServerMSG::TeamAddMember)},
-  { 339, -1, sizeof(::ServerMSG::TeamDelMember)},
-  { 346, -1, sizeof(::ServerMSG::TeamMemberInfo_Info)},
-  { 355, -1, sizeof(::ServerMSG::TeamMemberInfo)},
-  { 361, -1, sizeof(::ServerMSG::SyncTaskPhase)},
-  { 368, -1, sizeof(::ServerMSG::AddTaskPhase)},
-  { 375, -1, sizeof(::ServerMSG::RemoveTaskPhase)},
+  { 236, -1, sizeof(::ServerMSG::ActorMove)},
+  { 244, -1, sizeof(::ServerMSG::ActorCastSkill)},
+  { 252, -1, sizeof(::ServerMSG::ActorCastSkill_Fail)},
+  { 258, -1, sizeof(::ServerMSG::ActorSetHide)},
+  { 265, -1, sizeof(::ServerMSG::TeamCreate)},
+  { 272, -1, sizeof(::ServerMSG::TeamDestory)},
+  { 278, -1, sizeof(::ServerMSG::TeamQuit)},
+  { 285, -1, sizeof(::ServerMSG::TeamKickMember)},
+  { 293, -1, sizeof(::ServerMSG::TeamInviteMember)},
+  { 301, -1, sizeof(::ServerMSG::TeamAcceptInvite)},
+  { 310, -1, sizeof(::ServerMSG::TeamApplyMember)},
+  { 317, -1, sizeof(::ServerMSG::TeamAcceptApply)},
+  { 325, -1, sizeof(::ServerMSG::TeamNewLeader)},
+  { 333, -1, sizeof(::ServerMSG::TeamAddMember)},
+  { 340, -1, sizeof(::ServerMSG::TeamDelMember)},
+  { 347, -1, sizeof(::ServerMSG::TeamMemberInfo_Info)},
+  { 356, -1, sizeof(::ServerMSG::TeamMemberInfo)},
+  { 362, -1, sizeof(::ServerMSG::SyncTaskPhase)},
+  { 369, -1, sizeof(::ServerMSG::AddTaskPhase)},
+  { 376, -1, sizeof(::ServerMSG::RemoveTaskPhase)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -1429,73 +1430,73 @@ const char descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto[] PROT
   "\002mp\030\014 \001(\r\022\r\n\005mpmax\030\r \001(\r\022\017\n\007movespd\030\016 \001("
   "\r\022\017\n\007ownerid\030\017 \001(\004\022\014\n\004posx\030\020 \001(\002\022\014\n\004posy"
   "\030\021 \001(\002\022\014\n\004face\030\022 \001(\002\022\026\n\016monster_gen_id\030\024"
-  " \001(\r\022\020\n\010phase_id\030\025 \001(\004\" \n\014ActorDestory\022\020"
-  "\n\010actor_id\030\001 \001(\004\"3\n\tActorMove\022\020\n\010actor_i"
-  "d\030\001 \001(\004\022\t\n\001x\030\002 \001(\002\022\t\n\001y\030\003 \001(\002\"G\n\016ActorCa"
-  "stSkill\022\020\n\010actor_id\030\001 \001(\004\022\021\n\ttarget_id\030\002"
-  " \001(\004\022\020\n\010skill_id\030\003 \001(\r\"\'\n\023ActorCastSkill"
-  "_Fail\022\020\n\010actor_id\030\001 \001(\004\"4\n\014ActorSetHide\022"
-  "\020\n\010actor_id\030\001 \001(\004\022\022\n\nhide_count\030\002 \001(\005\"0\n"
-  "\nTeamCreate\022\017\n\007team_id\030\001 \001(\004\022\021\n\tleader_i"
-  "d\030\002 \001(\004\"\036\n\013TeamDestory\022\017\n\007team_id\030\001 \001(\004\""
-  "0\n\010TeamQuit\022\017\n\007team_id\030\001 \001(\004\022\023\n\013operator"
-  "_id\030\002 \001(\004\"G\n\016TeamKickMember\022\017\n\007team_id\030\001"
-  " \001(\004\022\023\n\013operator_id\030\002 \001(\004\022\017\n\007kick_id\030\003 \001"
-  "(\004\"L\n\020TeamInviteMember\022\017\n\007team_id\030\001 \001(\004\022"
-  "\023\n\013operator_id\030\002 \001(\004\022\022\n\ninvitee_id\030\003 \001(\004"
-  "\"[\n\020TeamAcceptInvite\022\017\n\007team_id\030\001 \001(\004\022\022\n"
-  "\ninviter_id\030\002 \001(\004\022\022\n\ninvitee_id\030\003 \001(\004\022\016\n"
-  "\006result\030\004 \001(\010\">\n\017TeamApplyMember\022\024\n\014appl"
-  "icant_id\030\001 \001(\004\022\025\n\rrespondent_id\030\002 \001(\004\"N\n"
-  "\017TeamAcceptApply\022\024\n\014applicant_id\030\001 \001(\004\022\025"
-  "\n\rrespondent_id\030\002 \001(\004\022\016\n\006result\030\003 \001(\010\"L\n"
-  "\rTeamNewLeader\022\017\n\007team_id\030\001 \001(\004\022\023\n\013opera"
-  "tor_id\030\002 \001(\004\022\025\n\rnew_leader_id\030\003 \001(\004\"3\n\rT"
-  "eamAddMember\022\017\n\007team_id\030\001 \001(\004\022\021\n\tmember_"
-  "id\030\002 \001(\004\"3\n\rTeamDelMember\022\017\n\007team_id\030\001 \001"
-  "(\004\022\021\n\tmember_id\030\002 \001(\004\"\240\001\n\016TeamMemberInfo"
-  "\0223\n\013member_list\030\001 \003(\0132\036.ServerMSG.TeamMe"
-  "mberInfo.Info\032Y\n\004Info\022\021\n\tmember_id\030\001 \001(\004"
-  "\022\022\n\nmember_lev\030\002 \001(\r\022\025\n\rmember_online\030\003 "
-  "\001(\010\022\023\n\013member_name\030\004 \001(\t\"9\n\rSyncTaskPhas"
-  "e\022\021\n\tplayer_id\030\001 \001(\004\022\025\n\rtask_phase_id\030\002 "
-  "\003(\004\"8\n\014AddTaskPhase\022\021\n\tplayer_id\030\001 \001(\004\022\025"
-  "\n\rtask_phase_id\030\002 \001(\004\";\n\017RemoveTaskPhase"
-  "\022\021\n\tplayer_id\030\001 \001(\004\022\025\n\rtask_phase_id\030\002 \001"
-  "(\004*\247\n\n\006OMsgID\022\017\n\013OMSGID_NONE\020\000\022\021\n\013MsgID_"
-  "BEGIN\020\240\234\001\022\026\n\020MsgID_ServiceCmd\020\241\234\001\022\036\n\030Msg"
-  "ID_ServiceHttpRequest\020\242\234\001\022\037\n\031MsgID_Servi"
-  "ceHttpResponse\020\243\234\001\022\030\n\022MsgID_ServiceReady"
-  "\020\252\234\001\022\033\n\025MsgID_ServiceRegister\020\253\234\001\022\031\n\023Msg"
-  "ID_SocketConnect\020\254\234\001\022\027\n\021MsgID_SocketClos"
-  "e\020\255\234\001\022\034\n\026MsgID_SocketChangeDest\020\256\234\001\022\026\n\020M"
-  "sgID_SocketAuth\020\257\234\001\022\035\n\027MsgID_SocketStart"
-  "Accept\020\260\234\001\022\034\n\026MsgID_SocketStopAccept\020\261\234\001"
-  "\022\033\n\025MsgID_PlayerEnterZone\020\265\234\001\022\034\n\026MsgID_P"
-  "layerChangeZone\020\266\234\001\022!\n\033MsgID_PlayerChang"
-  "eZone_Data\020\267\234\001\022\030\n\022MsgID_PlayerLogout\020\270\234\001"
-  "\022\033\n\025MsgID_SystemVarChange\020\276\234\001\022\027\n\021MsgID_S"
-  "ceneCreate\020\277\234\001\022\027\n\021MsgID_PhaseCreate\020\300\234\001\022"
-  "\030\n\022MsgID_PhaseDestory\020\301\234\001\022\026\n\020MsgID_Monst"
-  "erGen\020\311\234\001\022\032\n\024MsgID_MonsterDestory\020\312\234\001\022\025\n"
-  "\017MsgID_ActiveGen\020\313\234\001\022\023\n\rMsgID_KillGen\020\314\234"
-  "\001\022\032\n\024MsgID_MonsterGenOnce\020\315\234\001\022\033\n\025MsgID_M"
-  "onsterGenMulti\020\316\234\001\022\027\n\021MsgID_ActorCreate\020"
-  "\204\235\001\022\030\n\022MsgID_ActorDestory\020\205\235\001\022\025\n\017MsgID_A"
-  "ctorMove\020\206\235\001\022\032\n\024MsgID_ActorCastSkill\020\207\235\001"
-  "\022\037\n\031MsgID_ActorCastSkill_Fail\020\210\235\001\022\030\n\022Msg"
-  "ID_ActorSetHide\020\211\235\001\022\031\n\023MsgID_SyncTaskPha"
-  "se\020\212\235\001\022\030\n\022MsgID_AddTaskPhase\020\213\235\001\022\033\n\025MsgI"
-  "D_RemoveTaskPhase\020\214\235\001\022\026\n\020MsgID_TeamCreat"
-  "e\020\216\235\001\022\027\n\021MsgID_TeamDestory\020\217\235\001\022\024\n\016MsgID_"
-  "TeamQuit\020\220\235\001\022\032\n\024MsgID_TeamKickMember\020\221\235\001"
-  "\022\034\n\026MsgID_TeamInviteMember\020\222\235\001\022\034\n\026MsgID_"
-  "TeamAcceptInvite\020\223\235\001\022\033\n\025MsgID_TeamApplyM"
-  "ember\020\224\235\001\022\033\n\025MsgID_TeamAcceptApply\020\225\235\001\022\031"
-  "\n\023MsgID_TeamNewLeader\020\226\235\001\022\032\n\024MsgID_TeamM"
-  "emberInfo\020\227\235\001\022\031\n\023MsgID_TeamAddMember\020\230\235\001"
-  "\022\031\n\023MsgID_TeamDelMember\020\231\235\001\022\017\n\tMsgID_END"
-  "\020\260\352\001b\006proto3"
+  " \001(\r\022\020\n\010phase_id\030\025 \001(\004\".\n\014ActorDestory\022\020"
+  "\n\010actor_id\030\001 \001(\004\022\014\n\004dead\030\002 \001(\010\"3\n\tActorM"
+  "ove\022\020\n\010actor_id\030\001 \001(\004\022\t\n\001x\030\002 \001(\002\022\t\n\001y\030\003 "
+  "\001(\002\"G\n\016ActorCastSkill\022\020\n\010actor_id\030\001 \001(\004\022"
+  "\021\n\ttarget_id\030\002 \001(\004\022\020\n\010skill_id\030\003 \001(\r\"\'\n\023"
+  "ActorCastSkill_Fail\022\020\n\010actor_id\030\001 \001(\004\"4\n"
+  "\014ActorSetHide\022\020\n\010actor_id\030\001 \001(\004\022\022\n\nhide_"
+  "count\030\002 \001(\005\"0\n\nTeamCreate\022\017\n\007team_id\030\001 \001"
+  "(\004\022\021\n\tleader_id\030\002 \001(\004\"\036\n\013TeamDestory\022\017\n\007"
+  "team_id\030\001 \001(\004\"0\n\010TeamQuit\022\017\n\007team_id\030\001 \001"
+  "(\004\022\023\n\013operator_id\030\002 \001(\004\"G\n\016TeamKickMembe"
+  "r\022\017\n\007team_id\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\022"
+  "\017\n\007kick_id\030\003 \001(\004\"L\n\020TeamInviteMember\022\017\n\007"
+  "team_id\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\022\022\n\nin"
+  "vitee_id\030\003 \001(\004\"[\n\020TeamAcceptInvite\022\017\n\007te"
+  "am_id\030\001 \001(\004\022\022\n\ninviter_id\030\002 \001(\004\022\022\n\ninvit"
+  "ee_id\030\003 \001(\004\022\016\n\006result\030\004 \001(\010\">\n\017TeamApply"
+  "Member\022\024\n\014applicant_id\030\001 \001(\004\022\025\n\rresponde"
+  "nt_id\030\002 \001(\004\"N\n\017TeamAcceptApply\022\024\n\014applic"
+  "ant_id\030\001 \001(\004\022\025\n\rrespondent_id\030\002 \001(\004\022\016\n\006r"
+  "esult\030\003 \001(\010\"L\n\rTeamNewLeader\022\017\n\007team_id\030"
+  "\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\022\025\n\rnew_leader"
+  "_id\030\003 \001(\004\"3\n\rTeamAddMember\022\017\n\007team_id\030\001 "
+  "\001(\004\022\021\n\tmember_id\030\002 \001(\004\"3\n\rTeamDelMember\022"
+  "\017\n\007team_id\030\001 \001(\004\022\021\n\tmember_id\030\002 \001(\004\"\240\001\n\016"
+  "TeamMemberInfo\0223\n\013member_list\030\001 \003(\0132\036.Se"
+  "rverMSG.TeamMemberInfo.Info\032Y\n\004Info\022\021\n\tm"
+  "ember_id\030\001 \001(\004\022\022\n\nmember_lev\030\002 \001(\r\022\025\n\rme"
+  "mber_online\030\003 \001(\010\022\023\n\013member_name\030\004 \001(\t\"9"
+  "\n\rSyncTaskPhase\022\021\n\tplayer_id\030\001 \001(\004\022\025\n\rta"
+  "sk_phase_id\030\002 \003(\004\"8\n\014AddTaskPhase\022\021\n\tpla"
+  "yer_id\030\001 \001(\004\022\025\n\rtask_phase_id\030\002 \001(\004\";\n\017R"
+  "emoveTaskPhase\022\021\n\tplayer_id\030\001 \001(\004\022\025\n\rtas"
+  "k_phase_id\030\002 \001(\004*\247\n\n\006OMsgID\022\017\n\013OMSGID_NO"
+  "NE\020\000\022\021\n\013MsgID_BEGIN\020\240\234\001\022\026\n\020MsgID_Service"
+  "Cmd\020\241\234\001\022\036\n\030MsgID_ServiceHttpRequest\020\242\234\001\022"
+  "\037\n\031MsgID_ServiceHttpResponse\020\243\234\001\022\030\n\022MsgI"
+  "D_ServiceReady\020\252\234\001\022\033\n\025MsgID_ServiceRegis"
+  "ter\020\253\234\001\022\031\n\023MsgID_SocketConnect\020\254\234\001\022\027\n\021Ms"
+  "gID_SocketClose\020\255\234\001\022\034\n\026MsgID_SocketChang"
+  "eDest\020\256\234\001\022\026\n\020MsgID_SocketAuth\020\257\234\001\022\035\n\027Msg"
+  "ID_SocketStartAccept\020\260\234\001\022\034\n\026MsgID_Socket"
+  "StopAccept\020\261\234\001\022\033\n\025MsgID_PlayerEnterZone\020"
+  "\265\234\001\022\034\n\026MsgID_PlayerChangeZone\020\266\234\001\022!\n\033Msg"
+  "ID_PlayerChangeZone_Data\020\267\234\001\022\030\n\022MsgID_Pl"
+  "ayerLogout\020\270\234\001\022\033\n\025MsgID_SystemVarChange\020"
+  "\276\234\001\022\027\n\021MsgID_SceneCreate\020\277\234\001\022\027\n\021MsgID_Ph"
+  "aseCreate\020\300\234\001\022\030\n\022MsgID_PhaseDestory\020\301\234\001\022"
+  "\026\n\020MsgID_MonsterGen\020\311\234\001\022\032\n\024MsgID_Monster"
+  "Destory\020\312\234\001\022\025\n\017MsgID_ActiveGen\020\313\234\001\022\023\n\rMs"
+  "gID_KillGen\020\314\234\001\022\032\n\024MsgID_MonsterGenOnce\020"
+  "\315\234\001\022\033\n\025MsgID_MonsterGenMulti\020\316\234\001\022\027\n\021MsgI"
+  "D_ActorCreate\020\204\235\001\022\030\n\022MsgID_ActorDestory\020"
+  "\205\235\001\022\025\n\017MsgID_ActorMove\020\206\235\001\022\032\n\024MsgID_Acto"
+  "rCastSkill\020\207\235\001\022\037\n\031MsgID_ActorCastSkill_F"
+  "ail\020\210\235\001\022\030\n\022MsgID_ActorSetHide\020\211\235\001\022\031\n\023Msg"
+  "ID_SyncTaskPhase\020\212\235\001\022\030\n\022MsgID_AddTaskPha"
+  "se\020\213\235\001\022\033\n\025MsgID_RemoveTaskPhase\020\214\235\001\022\026\n\020M"
+  "sgID_TeamCreate\020\216\235\001\022\027\n\021MsgID_TeamDestory"
+  "\020\217\235\001\022\024\n\016MsgID_TeamQuit\020\220\235\001\022\032\n\024MsgID_Team"
+  "KickMember\020\221\235\001\022\034\n\026MsgID_TeamInviteMember"
+  "\020\222\235\001\022\034\n\026MsgID_TeamAcceptInvite\020\223\235\001\022\033\n\025Ms"
+  "gID_TeamApplyMember\020\224\235\001\022\033\n\025MsgID_TeamAcc"
+  "eptApply\020\225\235\001\022\031\n\023MsgID_TeamNewLeader\020\226\235\001\022"
+  "\032\n\024MsgID_TeamMemberInfo\020\227\235\001\022\031\n\023MsgID_Tea"
+  "mAddMember\020\230\235\001\022\031\n\023MsgID_TeamDelMember\020\231\235"
+  "\001\022\017\n\tMsgID_END\020\260\352\001b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_server_5fmsg_2fserver_5fside_2eproto_deps[1] = {
 };
@@ -1552,7 +1553,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_ser
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_server_5fmsg_2fserver_5fside_2eproto_once;
 static bool descriptor_table_server_5fmsg_2fserver_5fside_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_server_5fmsg_2fserver_5fside_2eproto = {
-  &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_initialized, descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto, "server_msg/server_side.proto", 4852,
+  &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_initialized, descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto, "server_msg/server_side.proto", 4866,
   &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_once, descriptor_table_server_5fmsg_2fserver_5fside_2eproto_sccs, descriptor_table_server_5fmsg_2fserver_5fside_2eproto_deps, 48, 0,
   schemas, file_default_instances, TableStruct_server_5fmsg_2fserver_5fside_2eproto::offsets,
   file_level_metadata_server_5fmsg_2fserver_5fside_2eproto, 48, file_level_enum_descriptors_server_5fmsg_2fserver_5fside_2eproto, file_level_service_descriptors_server_5fmsg_2fserver_5fside_2eproto,
@@ -8233,12 +8234,16 @@ ActorDestory::ActorDestory(const ActorDestory& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  actor_id_ = from.actor_id_;
+  ::memcpy(&actor_id_, &from.actor_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&dead_) -
+    reinterpret_cast<char*>(&actor_id_)) + sizeof(dead_));
   // @@protoc_insertion_point(copy_constructor:ServerMSG.ActorDestory)
 }
 
 void ActorDestory::SharedCtor() {
-  actor_id_ = PROTOBUF_ULONGLONG(0);
+  ::memset(&actor_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&dead_) -
+      reinterpret_cast<char*>(&actor_id_)) + sizeof(dead_));
 }
 
 ActorDestory::~ActorDestory() {
@@ -8264,7 +8269,9 @@ void ActorDestory::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  actor_id_ = PROTOBUF_ULONGLONG(0);
+  ::memset(&actor_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&dead_) -
+      reinterpret_cast<char*>(&actor_id_)) + sizeof(dead_));
   _internal_metadata_.Clear();
 }
 
@@ -8279,6 +8286,13 @@ const char* ActorDestory::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_I
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
           actor_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // bool dead = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          dead_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -8314,6 +8328,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_actor_id(), target);
   }
 
+  // bool dead = 2;
+  if (this->dead() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(2, this->_internal_dead(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields(), target, stream);
@@ -8335,6 +8355,11 @@ size_t ActorDestory::ByteSizeLong() const {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
         this->_internal_actor_id());
+  }
+
+  // bool dead = 2;
+  if (this->dead() != 0) {
+    total_size += 1 + 1;
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -8371,6 +8396,9 @@ void ActorDestory::MergeFrom(const ActorDestory& from) {
   if (from.actor_id() != 0) {
     _internal_set_actor_id(from._internal_actor_id());
   }
+  if (from.dead() != 0) {
+    _internal_set_dead(from._internal_dead());
+  }
 }
 
 void ActorDestory::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -8395,6 +8423,7 @@ void ActorDestory::InternalSwap(ActorDestory* other) {
   using std::swap;
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(actor_id_, other->actor_id_);
+  swap(dead_, other->dead_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata ActorDestory::GetMetadata() const {

@@ -56,7 +56,7 @@ void CUser::EnterZone()
         }
     }
 
-    CHECK(idZone);
+    CHECK(idZone != 0);
     m_pInfo->SetLastLoginTime(TimeGetSecond());
 
     //通知对应的Zone开始Loading玩家数据

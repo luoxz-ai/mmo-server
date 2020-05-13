@@ -133,10 +133,10 @@ public:
 
         __LEAVE_FUNCTION
 
-        LOGDBERROR("Field {}.{} get/set type error.  \nCallfrom:{}", 
+        LOGDBERROR("Field {}.{} get/set type error.", 
                     m_pFieldInfo->GetTableName(), 
-                    m_pFieldInfo->GetFieldName(), 
-                    GetStackTraceString(CallFrameMap(3,5)));
+                    m_pFieldInfo->GetFieldName());
+        LOGDBERROR("CallStack：{}", GetStackTraceString(CallFrameMap(3,5)));
         return false;
     }
 

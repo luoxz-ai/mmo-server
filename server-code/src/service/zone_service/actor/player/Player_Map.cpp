@@ -55,7 +55,7 @@ bool CPlayer::FlyMap(uint16_t idMap, int32_t idPhase, float fPosX, float fPosY, 
     return false;
 }
 
-void CPlayer::_ChangeZone(const TargetSceneID& idTargetScene, float fPosX, float fPosY, float fRange, float fFace)
+void CPlayer::_ChangeZone(TargetSceneID idTargetScene, float fPosX, float fPosY, float fRange, float fFace)
 {
     __ENTER_FUNCTION
     //从当前场景离开
@@ -228,13 +228,13 @@ void CPlayer::OnLeaveMap(uint16_t idTargetMap)
     __LEAVE_FUNCTION
 }
 
-void CPlayer::_FlyMap(const TargetSceneID& idTargetScene, float fPosX, float fPosY, float fRange, float fFace)
+void CPlayer::_FlyMap(TargetSceneID idTargetScene, float fPosX, float fPosY, float fRange, float fFace)
 {
     __ENTER_FUNCTION
     //查询是否有对应地图
     CHECK(GetCurrentScene());
     CPhase* pOldPhase = static_cast<CPhase*>(GetCurrentScene());
-    LOGLOGIN("Player FlySamePhase:{} {} pos:{:.2f} {:.2f} {:.2f}s",
+    LOGLOGIN("Player FlyMap:{} {} pos:{:.2f} {:.2f} {:.2f}",
                 GetID(),
                 idTargetScene.GetMapID(),
                 fPosX,
@@ -326,12 +326,11 @@ bool CPlayer::Reborn(uint32_t nRebornType)
     if(GetCurrentScene() == nullptr)
         return false;
 
-    LOGLOGIN("Player Reborn:{} {}", GetID(), GetCurrentScene()->GetMapID());
-
     switch(nRebornType)
     {
         case REBORN_HOME: //回城复活
         {
+            LOGLOGIN("Player Reborn HOME:{} {}", GetID(), GetCurrentScene()->GetMapID());
             GetStatus()->DetachStatusByType(STATUSTYPE_DEAD);
             SetProperty(PROP_HP, GetHPMax() / 2, SYNC_ALL_DELAY);
             FlyMap(GetHomeSceneIdx().GetMapID(), 0, GetHomePosX(), GetHomePosY(), 0.0f, GetHomeFace());
@@ -345,6 +344,7 @@ bool CPlayer::Reborn(uint32_t nRebornType)
             const auto& pRebornData = GetCurrentScene()->GetMap()->GetRebornDataByIdx(GetCampID());
             CHECKF_FMT(pRebornData, "can't find RebornData In Map {} WithCamp:{}", GetMapID(), GetCampID());
 
+            LOGLOGIN("Player Reborn MAPPOS:{} {}", GetID(), GetCurrentScene()->GetMapID());
             GetStatus()->DetachStatusByType(STATUSTYPE_DEAD);
             SetProperty(PROP_HP, MulDiv(GetHPMax(), 2, 3), SYNC_ALL_DELAY);
             if(pRebornData->reborn_this_phase() == true)
@@ -372,7 +372,7 @@ bool CPlayer::Reborn(uint32_t nRebornType)
             if(GetCurrentScene()->GetMap()->HasMapFlag(MAPFLAG_DISABLE_REBORN_STANDPOS) == true)
                 return false;
             //元宝检查
-
+            LOGLOGIN("Player Reborn STANDPOS:{} {}", GetID(), GetCurrentScene()->GetMapID());
             GetStatus()->DetachStatusByType(STATUSTYPE_DEAD);
             SetProperty(PROP_HP, GetHPMax(), SYNC_ALL_DELAY);
             FlyMap(GetMapID(), static_cast<CPhase*>(m_pScene)->GetPhaseIdx(), GetPosX(), GetPosY(), 0.0f, GetFace());

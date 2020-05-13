@@ -4631,6 +4631,7 @@ class ActorDestory :
 
   enum : int {
     kActorIdFieldNumber = 1,
+    kDeadFieldNumber = 2,
   };
   // uint64 actor_id = 1;
   void clear_actor_id();
@@ -4641,12 +4642,22 @@ class ActorDestory :
   void _internal_set_actor_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
   public:
 
+  // bool dead = 2;
+  void clear_dead();
+  bool dead() const;
+  void set_dead(bool value);
+  private:
+  bool _internal_dead() const;
+  void _internal_set_dead(bool value);
+  public:
+
   // @@protoc_insertion_point(class_scope:ServerMSG.ActorDestory)
  private:
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
   ::PROTOBUF_NAMESPACE_ID::uint64 actor_id_;
+  bool dead_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
 };
@@ -9724,6 +9735,26 @@ inline void ActorDestory::_internal_set_actor_id(::PROTOBUF_NAMESPACE_ID::uint64
 inline void ActorDestory::set_actor_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   _internal_set_actor_id(value);
   // @@protoc_insertion_point(field_set:ServerMSG.ActorDestory.actor_id)
+}
+
+// bool dead = 2;
+inline void ActorDestory::clear_dead() {
+  dead_ = false;
+}
+inline bool ActorDestory::_internal_dead() const {
+  return dead_;
+}
+inline bool ActorDestory::dead() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.ActorDestory.dead)
+  return _internal_dead();
+}
+inline void ActorDestory::_internal_set_dead(bool value) {
+  
+  dead_ = value;
+}
+inline void ActorDestory::set_dead(bool value) {
+  _internal_set_dead(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.ActorDestory.dead)
 }
 
 // -------------------------------------------------------------------

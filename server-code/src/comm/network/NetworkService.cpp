@@ -340,15 +340,18 @@ CServerSocket* CNetworkService::AsyncConnectTo(const char* addr, int32_t port, C
     pSocket->SetAddrAndPort(addr, port);
     pSocket->Init(pBufferEvent);
 
+    _AddConnectingSocket(pSocket);
+
     if(bufferevent_socket_connect(pBufferEvent, answer_ptr->ai_addr, answer_ptr->ai_addrlen) != 0)
     {
         LOGNETERROR("CNetworkService::AsyncConnectTo:{}:{} bufferevent_socket_connect fail", addr, port);
+        _RemoveSocket(pSocket);
         delete pSocket;
         bufferevent_free(pBufferEvent);
         return nullptr;
     }
 
-    _AddConnectingSocket(pSocket);
+    
     LOGNETDEBUG("CNetworkService::AsyncConnectTo:{}:{}", addr, port);
 
     return pSocket;

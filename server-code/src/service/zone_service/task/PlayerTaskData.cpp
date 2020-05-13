@@ -22,7 +22,7 @@ bool CPlayerTaskData::Init(CPlayer* pPlayer, uint32_t idTask)
     __ENTER_FUNCTION
     CHECKF(pPlayer);
     auto pDB = ZoneService()->GetGameDB(pPlayer->GetWorldID());
-    CHECKF(pDB);
+    CHECKF_V(pDB, pPlayer->GetWorldID());
     auto row = pDB->MakeRecord(TBLD_TASK::table_name());
     m_pData.reset(row.release());
     CHECKF(m_pData.get());
@@ -47,7 +47,7 @@ void CPlayerTaskData::DelRecord()
 bool CPlayerTaskData::SetNum(uint32_t nIdx, uint32_t v, bool bUpdate /*= true*/)
 {
     __ENTER_FUNCTION
-    CHECKF(nIdx < MAX_TASKDATA_NUM);
+    CHECKF_V(nIdx < MAX_TASKDATA_NUM, nIdx);
     m_pData->Field(TBLD_TASK::NUM0 + nIdx) = v;
     if(bUpdate)
         m_pData->Update();

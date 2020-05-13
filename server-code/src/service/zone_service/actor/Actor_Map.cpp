@@ -38,6 +38,7 @@ void CActor::OnLeaveMap(uint16_t idTargetMap)
     {
         ServerMSG::ActorDestory ai_msg;
         ai_msg.set_actor_id(GetID());
+        ai_msg.set_dead(IsDead());
         ZoneService()->SendServerMsgToAIService(ai_msg);
     }
 

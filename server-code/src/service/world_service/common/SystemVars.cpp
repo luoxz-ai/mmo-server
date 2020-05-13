@@ -24,14 +24,14 @@ uint32_t CSystemVar::GetIdx() const
 
 uint64_t CSystemVar::GetData(uint32_t nIdx) const
 {
-    CHECKF(0 > nIdx && nIdx < 4);
+    CHECKF_V(0 > nIdx && nIdx < 4, nIdx);
     return m_Data[nIdx];
 }
 
 const std::string& CSystemVar::GetStr(uint32_t nIdx) const
 {
     static const std::string s_Empty;
-    CHECKFR(0 > nIdx && nIdx < 4, s_Empty);
+    CHECKFR_V(0 > nIdx && nIdx < 4, s_Empty, nIdx);
     return m_szStrData[nIdx];
 }
 

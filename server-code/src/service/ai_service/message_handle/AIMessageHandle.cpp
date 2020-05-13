@@ -129,6 +129,7 @@ ON_SERVERMSG(CAIService, ActorCreate)
         case ACT_PLAYER:
         {
             pActor = CAIPlayer::CreateNew(msg);
+            LOGDEBUG("Create AIPlayer id:{} ptr:{:p}", pActor->GetID(), (void*)pActor);
         }
         break;
         case ACT_PET:
@@ -153,8 +154,13 @@ ON_SERVERMSG(CAIService, ActorDestory)
 {
     CAIActor* pActor = AIActorManager()->QueryActor(msg.actor_id());
     CHECK(pActor);
+    LOGDEBUG("ActorDestory id:{} ptr:{:p}", pActor->GetID(), (void*)pActor);
 
-    pActor->OnDead();
+    if(msg.dead())
+    {
+        pActor->OnDead();
+    }
+    
     if(pActor->GetCurrentScene())
         pActor->GetCurrentScene()->LeaveMap(pActor);
 

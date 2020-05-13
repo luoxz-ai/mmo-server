@@ -80,22 +80,22 @@ public:
 
     uint32_t get(size_t nIdx) const
     {
-        CHECKF(nIdx < ATTRIB_MAX);
+        CHECKF_V(nIdx < ATTRIB_MAX, nIdx);
         return m_setAttrib[nIdx];
     }
     uint32_t& get(size_t nIdx)
     {
-        CHECKFR(nIdx < ATTRIB_MAX, m_setAttrib[nIdx]);
+        CHECKFR_V(nIdx < ATTRIB_MAX, m_setAttrib[nIdx], nIdx);
         return m_setAttrib[nIdx];
     }
     uint32_t get_base(size_t nIdx) const
     {
-        CHECKF(nIdx < ATTRIB_MAX);
+        CHECKF_V(nIdx < ATTRIB_MAX, nIdx);
         return m_setAttribBase[nIdx];
     }
     uint32_t& get_base(size_t nIdx)
     {
-        CHECKFR(nIdx < ATTRIB_MAX, m_setAttribBase[nIdx]);
+        CHECKFR_V(nIdx < ATTRIB_MAX, m_setAttribBase[nIdx], nIdx);
         return m_setAttribBase[nIdx];
     }
 

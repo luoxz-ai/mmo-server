@@ -167,7 +167,7 @@ bool CItemData::DelRecordStatic(CMysqlConnection* pDB, OBJID idItem)
 
 uint32_t CItemData::GetExtra(uint32_t nIdx) const
 {
-    CHECKF(nIdx >= 0 && nIdx < MAX_ITEM_EXTRDATA_NUM && nIdx < (uint32_t)m_ExtraData.data_size());
+    CHECKF_V(nIdx >= 0 && nIdx < MAX_ITEM_EXTRDATA_NUM && nIdx < (uint32_t)m_ExtraData.data_size(), nIdx);
     return m_ExtraData.data(nIdx);
 }
 

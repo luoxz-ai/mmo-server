@@ -62,7 +62,7 @@ size_t CTeamInfo::GetMemeberAmount() const
 
 OBJID CTeamInfo::GetMemberIDByIdx(uint32_t idx)
 {
-    CHECKF(idx < m_setMemberID.size());
+    CHECKF_V(idx < m_setMemberID.size(), idx);
     return m_setMemberID[idx];
 }
 

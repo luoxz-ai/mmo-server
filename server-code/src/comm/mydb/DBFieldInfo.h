@@ -153,12 +153,12 @@ public:
 
     virtual const CDBFieldInfo* operator[](size_t idx) const
     {
-        CHECKF(idx < size());
+        CHECKF_V(idx < size(), idx);
         return m_FieldInfos[idx].get();
     }
     virtual const CDBFieldInfo* get(size_t idx) const
     {
-        CHECKF(idx < size());
+        CHECKF_V(idx < size(), idx);
         return m_FieldInfos[idx].get();
     }
     virtual size_t size() const { return m_FieldInfos.size(); }

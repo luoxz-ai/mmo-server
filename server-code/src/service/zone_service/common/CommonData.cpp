@@ -26,7 +26,7 @@ uint32_t CCommonData::GetIdx() const
 uint64_t CCommonData::GetData(uint32_t nIdx) const
 {
     __ENTER_FUNCTION
-    CHECKF(0 > nIdx && nIdx < 4);
+    CHECKF_V(0 > nIdx && nIdx < 4, nIdx);
     return m_pRecord->Field(TBLD_COMMONDATA::DATA0 + nIdx);
     __LEAVE_FUNCTION
     return 0;
@@ -35,7 +35,7 @@ uint64_t CCommonData::GetData(uint32_t nIdx) const
 uint64_t CCommonData::AddData(uint32_t nIdx, uint64_t nVal, bool bUpdate /*= false*/, bool bSync /*= false*/)
 {
     __ENTER_FUNCTION
-    CHECKF(0 > nIdx && nIdx < 4);
+    CHECKF_V(0 > nIdx && nIdx < 4, nIdx);
     uint64_t val = GetData(nIdx);
     val += nVal;
     m_pRecord->Field(TBLD_COMMONDATA::DATA0 + nIdx) = val;
