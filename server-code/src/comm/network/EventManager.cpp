@@ -80,12 +80,12 @@ void CEventManager::Destory()
     }
     m_setWaitEntry.clear();
 
-    if(m_bOwnBase)
+    if(m_bOwnBase && m_pBase)
     {
         event_base_free(m_pBase);
         m_pBase = nullptr;
     }
-    else if(m_pScheduleWaitEvent)
+    else if(m_pScheduleWaitEvent && m_pBase)
     {
         event_del(m_pScheduleWaitEvent);
         event_free(m_pScheduleWaitEvent);

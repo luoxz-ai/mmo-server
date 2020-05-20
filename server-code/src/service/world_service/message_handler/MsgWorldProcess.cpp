@@ -102,13 +102,6 @@ ON_SERVERMSG(CWorldService, SocketConnect) {}
 
 ON_SERVERMSG(CWorldService, SocketClose) 
 {
-    auto pUser= UserManager()->QueryUserBySocket(msg.vs());
-    if(pUser)
-    {
-        pUser->Logout();
-        UserManager()->RemoveUser(pUser);
-    }
-
     AccountManager()->Logout(msg.vs());
 }
 
