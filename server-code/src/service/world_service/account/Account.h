@@ -32,34 +32,6 @@ struct ST_ROLE_INFO
     uint64_t           GetGuildID() const { return m_pRecord->Field(TBLD_PLAYER::GUILDID); }
     uint64_t           GetMateID() const { return m_pRecord->Field(TBLD_PLAYER::MATE_ID); }
 
-    void SetLastLoginTime(uint32_t v)
-    {
-        __ENTER_FUNCTION
-        m_pRecord->Field(TBLD_PLAYER::LAST_LOGINTIME) = v;
-        m_pRecord->Update();
-        __LEAVE_FUNCTION
-    }
-    void SetLastLogoutTime(uint32_t v)
-    {
-        __ENTER_FUNCTION
-        m_pRecord->Field(TBLD_PLAYER::LAST_LOGOUTTIME) = v;
-        m_pRecord->Update();
-        __LEAVE_FUNCTION
-    }
-    void SetTeamID(uint64_t v)
-    {
-        __ENTER_FUNCTION
-        m_pRecord->Field(TBLD_PLAYER::TEAMID) = v;
-        m_pRecord->Update();
-        __LEAVE_FUNCTION
-    }
-    void SetGuildID(uint64_t v)
-    {
-        __ENTER_FUNCTION
-        m_pRecord->Field(TBLD_PLAYER::GUILDID) = v;
-        m_pRecord->Update();
-        __LEAVE_FUNCTION
-    }
     void SetDelTime(uint32_t v)
     {
         __ENTER_FUNCTION

@@ -162,25 +162,27 @@ void CPlayer::OnEnterMap(CSceneBase* pScene)
     //进入地图了， 保存一下当前的一些修改
     m_pRecord->Update(true);
 
-    ServerMSG::ActorCreate ai_msg;
-    ai_msg.set_actor_id(GetID());
-    ai_msg.set_scene_id(GetSceneIdx());
-    ai_msg.set_actortype(ACT_PLAYER);
-    ai_msg.set_baselook(GetBaseLook());
-    ai_msg.set_prof(GetProf());
-    ai_msg.set_lev(GetLev());
-    ai_msg.set_campid(GetCampID());
-    ai_msg.set_phase_id(GetPhaseID());
-    ai_msg.set_name(GetName());
-    ai_msg.set_hp(GetHP());
-    ai_msg.set_hpmax(GetHPMax());
-    ai_msg.set_mp(GetMP());
-    ai_msg.set_mpmax(GetMPMax());
-    ai_msg.set_movespd(GetAttrib().get(ATTRIB_MOVESPD));
-    ai_msg.set_posx(GetPosX());
-    ai_msg.set_posy(GetPosY());
+    {
+        ServerMSG::ActorCreate ai_msg;
+        ai_msg.set_actor_id(GetID());
+        ai_msg.set_scene_id(GetSceneIdx());
+        ai_msg.set_actortype(ACT_PLAYER);
+        ai_msg.set_baselook(GetBaseLook());
+        ai_msg.set_prof(GetProf());
+        ai_msg.set_lev(GetLev());
+        ai_msg.set_campid(GetCampID());
+        ai_msg.set_phase_id(GetPhaseID());
+        ai_msg.set_name(GetName());
+        ai_msg.set_hp(GetHP());
+        ai_msg.set_hpmax(GetHPMax());
+        ai_msg.set_mp(GetMP());
+        ai_msg.set_mpmax(GetMPMax());
+        ai_msg.set_movespd(GetAttrib().get(ATTRIB_MOVESPD));
+        ai_msg.set_posx(GetPosX());
+        ai_msg.set_posy(GetPosY());
 
-    ZoneService()->SendServerMsgToAIService(ai_msg);
+        ZoneService()->SendServerMsgToAIService(ai_msg);
+    }
 
     {
         ServerMSG::SyncTaskPhase send;
@@ -189,16 +191,18 @@ void CPlayer::OnEnterMap(CSceneBase* pScene)
         {
             send.add_task_phase_id(k);
         }
-        ZoneService()->SendServerMsgToAIService(ai_msg);
+        ZoneService()->SendServerMsgToAIService(send);
     }
 
     LOGLOGIN("CPlayer::OnEnterMapEnd: {} mapid: {}", GetID(), GetSceneIdx());
 
-    SC_ENTERMAP msg;
-    msg.set_x(GetPosX());
-    msg.set_y(GetPosY());
-    msg.set_face(GetFace());
-    SendMsg(msg);
+    {
+        SC_ENTERMAP msg;
+        msg.set_x(GetPosX());
+        msg.set_y(GetPosY());
+        msg.set_face(GetFace());
+        SendMsg(msg);
+    }
 
     __LEAVE_FUNCTION
 }
@@ -279,39 +283,6 @@ void CPlayer::_FlyMap(TargetSceneID idTargetScene, float fPosX, float fPosY, flo
 
         SendMsg(msg);
     }
-
-    __LEAVE_FUNCTION
-}
-
-void CPlayer::OnLogout()
-{
-    __ENTER_FUNCTION
-    //从当前场景离开
-    if(m_pScene != nullptr)
-    {
-        // log error
-        m_pStatus->OnLogout();
-        m_pScene->LeaveMap(this);
-    }
-
-    ZoneService()->DelSocketMessagePool(GetSocket());
-    //处理好数据
-    LOGLOGIN("Player:{} Logout", GetName().c_str());
-    ActorManager()->DelActor(this, false);
-    m_pEventOnTimer.Clear();
-
-    ST_LOADINGTHREAD_PROCESS_DATA data;
-    data.nPorcessType = LPT_SAVE;
-    data.idPlayer     = GetID();
-    data.bChangeZone  = false;
-    data.socket       = GetSocket();
-    data.idTargetScene= 0;
-    data.fPosX        = 0.0f;
-    data.fPosY        = 0.0f;
-    data.fRange       = 0.0f;
-    data.fFace        = 0.0f;
-    data.pPlayer      = this;
-    ZoneService()->GetLoadingThread()->AddClosePlayer(std::move(data));
 
     __LEAVE_FUNCTION
 }

@@ -11,7 +11,7 @@
 #include "msg/world_service.pb.h"
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
-#include "proto_help.h"
+
 
 ON_MSG(CAIService, SC_AOI_NEW) {}
 
@@ -118,7 +118,8 @@ ON_SERVERMSG(CAIService, ActorCreate)
 {
     CAIPhase* pScene = AISceneManager()->QueryPhase(msg.scene_id());
     CHECK(pScene);
-    CAIActor* pActor = nullptr;
+    CAIActor* pActor = AIActorManager()->QueryActor(msg.actor_id());;
+    CHECK(pActor == nullptr);
     switch(msg.actortype())
     {
         case ACT_MONSTER:
@@ -219,6 +220,6 @@ void AIServiceMessageHandlerRegister()
 
     for(const auto& [k, v]: MsgProcRegCenter<CAIService>::instance().m_MsgProc)
     {
-        pNetMsgProcess->Register(k, v, cmd_to_enum_name(k));
+        pNetMsgProcess->Register(k, std::get<0>(v), std::get<1>(v));
     }
 }

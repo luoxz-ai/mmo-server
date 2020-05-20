@@ -24,6 +24,7 @@ public:
     CUser* CreateUser(class CAccount* pAccount, struct ST_ROLE_INFO* pInfo);
     void   RemoveUser(CUser*& pRemoveUser);
     void   Destory();
+    
 
 public:
 private:

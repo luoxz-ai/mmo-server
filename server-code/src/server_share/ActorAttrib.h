@@ -9,6 +9,7 @@
 #include "BaseCode.h"
 #include "Common.pb.h"
 #include "game_common_def.h"
+#include "Misc.h"
 
 constexpr uint32_t MAX_ATTR_LAYER = 50;
 
@@ -71,8 +72,8 @@ public:
     ~CActorAttrib() {}
     CActorAttrib()
     {
-        memset(&m_setAttribBase, 0, sizeof(m_setAttribBase));
-        memset(&m_setAttrib, 0, sizeof(m_setAttrib));
+        array_setzero(m_setAttribBase);
+        array_setzero(m_setAttrib);
     }
 
     uint32_t  operator[](size_t nIdx) const { return get(nIdx); }

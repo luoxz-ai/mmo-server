@@ -29,6 +29,7 @@ void ProcPlayerMsg(CNetworkMessage* pMsg, FuncType func)
                                                                                                                  \
     MsgProcRegister<CZoneService> register_##MsgType(                                                            \
         CMD_##MsgType,                                                                                           \
+        TO_CSTR(CMD_##MsgType),                                                                                         \
         std::bind(&ProcPlayerMsg<MsgType, decltype(OnMsg_##MsgType)>, std::placeholders::_1, &OnMsg_##MsgType)); \
                                                                                                                  \
     void OnMsg_##MsgType(CPlayer* pPlayer, const MsgType& msg, CNetworkMessage* pMsg)

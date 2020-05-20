@@ -248,7 +248,7 @@ struct {0}
                            field_types_str,
                            field_type_cpp_list.size()
                            );
-
+            
             output_header += szBuf;
             if(bDebug)
             {

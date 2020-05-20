@@ -23,7 +23,7 @@ public:
     }
 
     template<class Func>
-    void Register(uint16_t cmd, Func&& func, const std::string& cmd_name)
+    void Register(uint16_t cmd, const char* cmd_name, Func&& func)
     {
         m_FuncMap.emplace(cmd, std::forward<Func>(func));
         LOGNETDEBUG("RegisterMsgProc:{}", cmd_name);

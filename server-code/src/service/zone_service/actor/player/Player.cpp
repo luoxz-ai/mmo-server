@@ -9,6 +9,8 @@
 #include "Phase.h"
 #include "Scene.h"
 #include "SceneManager.h"
+#include "ActorManager.h"
+#include "LoadingThread.h"
 #include "SystemVars.h"
 #include "ZoneService.h"
 
@@ -123,6 +125,45 @@ void CPlayer::OnTimer()
     __LEAVE_FUNCTION
 }
 
+
+void CPlayer::OnLogout()
+{
+    __ENTER_FUNCTION
+    //从当前场景离开
+    if(m_pScene != nullptr)
+    {
+        // log error
+        m_pStatus->OnLogout();
+        m_pScene->LeaveMap(this);
+    }
+
+    uint32_t now = TimeGetSecond();
+    m_pRecord->Field(TBLD_PLAYER::LAST_LOGOUTTIME) = now;
+
+
+    ZoneService()->DelSocketMessagePool(GetSocket());
+    //处理好数据
+    LOGLOGIN("Player:{} Logout", GetName().c_str());
+    ActorManager()->DelActor(this, false);
+    m_pEventOnTimer.Clear();
+
+    ST_LOADINGTHREAD_PROCESS_DATA data;
+    data.nPorcessType = LPT_SAVE;
+    data.idPlayer     = GetID();
+    data.bChangeZone  = false;
+    data.socket       = GetSocket();
+    data.idTargetScene= 0;
+    data.fPosX        = 0.0f;
+    data.fPosY        = 0.0f;
+    data.fRange       = 0.0f;
+    data.fFace        = 0.0f;
+    data.pPlayer      = this;
+    ZoneService()->GetLoadingThread()->AddClosePlayer(std::move(data));
+
+    __LEAVE_FUNCTION
+}
+
+
 void CPlayer::OnLogin(bool bLogin, const SceneIdx& idxScene, float fPosX, float fPosY, float fRange, float fFace)
 {
     __ENTER_FUNCTION
@@ -134,12 +175,15 @@ void CPlayer::OnLogin(bool bLogin, const SceneIdx& idxScene, float fPosX, float 
 
     if(bLogin)
     {
-
+        uint32_t now = TimeGetSecond();
+        m_pRecord->Field(TBLD_PLAYER::LAST_LOGINTIME) = now;
+        m_pRecord->Update();
         //登陆相关的操作， 只需要做1次
         SystemVarSet()->SyncToClient(this);
 
-        uint32_t now            = TimeGetSecond();
+        
         uint32_t lastLogoutTime = m_pRecord->Field(TBLD_PLAYER::LAST_LOGOUTTIME);
+
         uint32_t offline_time   = 0;
         if(lastLogoutTime < now)
             offline_time = now - lastLogoutTime;
@@ -177,6 +221,8 @@ void CPlayer::OnLogin(bool bLogin, const SceneIdx& idxScene, float fPosX, float 
         // 组队信息
         // if (GetTeamID() != ID_NONE)
         //	QueryTeamMember()->OnLogin();
+
+        
     }
     m_pStatus->OnLogin();
     m_pStatus->SyncTo(this);

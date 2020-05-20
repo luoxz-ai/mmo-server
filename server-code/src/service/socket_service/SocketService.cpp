@@ -13,7 +13,7 @@
 #include "msg/ts_cmd.pb.h"
 #include "msg/world_service.pb.h"
 #include "server_msg/server_side.pb.h"
-#include "proto_help.h"
+
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint16_t idService)
 {
@@ -138,7 +138,7 @@ bool CSocketService::Init(const ServerPort& nServerPort)
         auto pNetMsgProcess = GetNetMsgProcess();
         for(const auto& [k, v]: MsgProcRegCenter<CSocketService>::instance().m_MsgProc)
         {
-            pNetMsgProcess->Register(k, v, cmd_to_enum_name(k));
+            pNetMsgProcess->Register(k, std::get<0>(v), std::get<1>(v));
         }
     }
 

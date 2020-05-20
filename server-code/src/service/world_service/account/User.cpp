@@ -20,6 +20,8 @@ bool CUser::Init(CAccount* pAccount, ST_ROLE_INFO* pInfo)
     m_pAccount = pAccount;
     m_pInfo    = pInfo;
     m_nLev     = m_pInfo->GetLev();
+    m_idTeam   = m_pInfo->GetTeamID();
+    m_idGuild  = m_pInfo->GetGuildID();
     return true;
 }
 
@@ -57,8 +59,7 @@ void CUser::EnterZone()
     }
 
     CHECK(idZone != 0);
-    m_pInfo->SetLastLoginTime(TimeGetSecond());
-
+    
     //通知对应的Zone开始Loading玩家数据
     {
         ServerMSG::PlayerEnterZone msg;
@@ -108,7 +109,6 @@ void CUser::Logout()
 {
     __ENTER_FUNCTION
     LOGLOGIN("UserLogout:{}", GetID());
-    m_pInfo->SetLastLogoutTime(TimeGetSecond());
 
     //通知对应的Zone 卸载对应的Player
     {
@@ -151,12 +151,12 @@ const std::string& CUser::GetName() const
 
 uint64_t CUser::GetTeamID() const
 {
-    return m_pInfo->GetTeamID();
+    return m_idTeam;
 }
 
 uint64_t CUser::GetGuildID() const
 {
-    return m_pInfo->GetGuildID();
+    return m_idGuild;
 }
 
 bool CUser::ChangeName(const std::string& new_name)
@@ -168,17 +168,6 @@ void CUser::OnLevChg(uint32_t v)
 {
     m_nLev = v;
 }
-
-void CUser::SetTeamID(uint64_t v)
-{
-    m_pInfo->SetTeamID(v);
-}
-
-void CUser::SetGuildID(uint64_t v)
-{
-    m_pInfo->SetGuildID(v);
-}
-
 void CUser::ClearMate()
 {
     m_pInfo->ClearMate();

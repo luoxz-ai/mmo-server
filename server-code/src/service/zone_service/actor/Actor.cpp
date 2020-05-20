@@ -93,7 +93,7 @@ void CActor::AddProperty(uint32_t nType, int32_t nVal, uint32_t nSync)
 void CActor::SetProperty(uint32_t nType, uint32_t nVal, uint32_t nSync)
 {
     uint32_t nMaxVal = GetPropertyMax(nType);
-    if(nVal > nMaxVal)
+    if(nVal >= nMaxVal)
     {
         _SetProperty(nType, nMaxVal, nSync);
         // send notify
@@ -293,7 +293,7 @@ void CActor::RecalcAttrib(bool bClearCache /*= false*/)
     uint32_t nOldHPMax = GetHPMax();
 
     // process status
-    m_ActorAttrib.Apply(!bClearCache);
+    m_ActorAttrib.Apply(bClearCache);
     //广播通知hp变化
     if(GetHPMax() != nOldHPMax)
     {

@@ -33,11 +33,11 @@ public:
     const std::string& GetName() const;
     uint64_t           GetTeamID() const;
     uint64_t           GetGuildID() const;
+    void SetTeamID(uint64_t v) {m_idTeam = v;}
+    void SetGuildID(uint64_t v) {m_idGuild = v;}
 
     bool ChangeName(const std::string& new_name);
     void OnLevChg(uint32_t v);
-    void SetTeamID(uint64_t v);
-    void SetGuildID(uint64_t v);
     void ClearMate();
 
 public:
@@ -53,5 +53,8 @@ private:
     //所在zone服务器
     uint16_t m_idZone = 0;
     uint32_t m_nLev;
+
+    uint64_t m_idGuild = 0;
+    uint64_t m_idTeam = 0;
 };
 #endif /* USER_H */

@@ -1,6 +1,6 @@
 #include "MsgProcessRegister.h"
 #include "ZoneService.h"
-#include "proto_help.h"
+
 
 void ZoneMessageHandlerRegister()
 {
@@ -9,7 +9,7 @@ void ZoneMessageHandlerRegister()
     auto pNetMsgProcess = ZoneService()->GetNetMsgProcess();
     for(const auto& [k, v]: MsgProcRegCenter<CZoneService>::instance().m_MsgProc)
     {
-        pNetMsgProcess->Register(k, v, cmd_to_enum_name(k));
+        pNetMsgProcess->Register(k, std::get<0>(v), std::get<1>(v));
     }
 
     __LEAVE_FUNCTION

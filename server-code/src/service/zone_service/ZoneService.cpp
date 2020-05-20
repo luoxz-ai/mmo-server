@@ -46,7 +46,7 @@
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
-#include "proto_help.h"
+
 
 static thread_local CZoneService* tls_pService = nullptr;
 CZoneService*                     ZoneService()
@@ -221,7 +221,7 @@ void CZoneService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
         if(m_pNetMsgProcess->Process(pNetworkMsg) == false)
         {
             LOGERROR("CMD {} from {} to {} forward {} didn't have ProcessHandler", 
-                cmd_to_enum_name(pNetworkMsg->GetCmd()),
+                pNetworkMsg->GetCmd(),
                 pNetworkMsg->GetFrom(),
                 pNetworkMsg->GetTo(),
                 pNetworkMsg->GetForward());

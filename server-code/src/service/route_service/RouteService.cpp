@@ -12,7 +12,7 @@
 #include "NetworkMessage.h"
 #include "SettingMap.h"
 #include "server_msg/server_side.pb.h"
-#include "proto_help.h"
+
 
 static thread_local CRouteService* tls_pService = nullptr;
 CRouteService*                     RouteService()
@@ -69,7 +69,7 @@ bool CRouteService::Init(const ServerPort& nServerPort)
         auto pNetMsgProcess = GetNetMsgProcess();
         for(const auto& [k, v]: MsgProcRegCenter<CRouteService>::instance().m_MsgProc)
         {
-            pNetMsgProcess->Register(k, v, cmd_to_enum_name(k));
+            pNetMsgProcess->Register(k, std::get<0>(v), std::get<1>(v));
         }
     }
 

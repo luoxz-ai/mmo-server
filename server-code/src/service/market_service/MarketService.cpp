@@ -11,7 +11,7 @@
 #include "NetworkMessage.h"
 #include "SettingMap.h"
 #include "server_msg/server_side.pb.h"
-#include "proto_help.h"
+
 
 static thread_local CMarketService* tls_pService = nullptr;
 CMarketService*                     MarketService()
@@ -69,7 +69,7 @@ bool CMarketService::Init(const ServerPort& nServerPort)
         auto pNetMsgProcess = GetNetMsgProcess();
         for(const auto& [k, v]: MsgProcRegCenter<CMarketService>::instance().m_MsgProc)
         {
-            pNetMsgProcess->Register(k, v, cmd_to_enum_name(k));
+            pNetMsgProcess->Register(k, std::get<0>(v), std::get<1>(v));
         }
     }
 
@@ -85,7 +85,7 @@ void CMarketService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
     if(m_pNetMsgProcess->Process(pNetworkMsg) == false)
     {
         LOGERROR("CMD {} from {} to {} forward {} didn't have ProcessHandler", 
-                cmd_to_enum_name(pNetworkMsg->GetCmd()),
+                pNetworkMsg->GetCmd(),
                 pNetworkMsg->GetFrom(),
                 pNetworkMsg->GetTo(),
                 pNetworkMsg->GetForward());

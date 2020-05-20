@@ -2,11 +2,12 @@
 
 #include "User.h"
 #include "UserManager.h"
+#include "AccountManager.h"
 #include "WorldService.h"
 #include "msg/world_service.pb.h"
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
-#include "proto_help.h"
+
 
 ON_MSG(CWorldService, SC_TALK)
 {
@@ -99,7 +100,17 @@ ON_SERVERMSG(CWorldService, ServiceCmd)
 
 ON_SERVERMSG(CWorldService, SocketConnect) {}
 
-ON_SERVERMSG(CWorldService, SocketClose) {}
+ON_SERVERMSG(CWorldService, SocketClose) 
+{
+    auto pUser= UserManager()->QueryUserBySocket(msg.vs());
+    if(pUser)
+    {
+        pUser->Logout();
+        UserManager()->RemoveUser(pUser);
+    }
+
+    AccountManager()->Logout(msg.vs());
+}
 
 //////////////////////////////////////////////////////////////////////////
 void RegisterWorldMessageHandler()
@@ -109,7 +120,7 @@ void RegisterWorldMessageHandler()
     auto pNetMsgProcess = WorldService()->GetNetMsgProcess();
     for(const auto& [k, v]: MsgProcRegCenter<CWorldService>::instance().m_MsgProc)
     {
-        pNetMsgProcess->Register(k, v, cmd_to_enum_name(k));
+        pNetMsgProcess->Register(k, std::get<0>(v), std::get<1>(v));
     }
 
     __LEAVE_FUNCTION
