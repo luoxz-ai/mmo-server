@@ -54,6 +54,8 @@ void basecode2lua(lua_State* L)
 {
     lua_tinker::class_add<Angle>(L, "Angle", false);
     lua_tinker::class_add<AxisAlignedBox>(L, "AxisAlignedBox", false);
+    lua_tinker::class_def_static<AxisAlignedBox>(L, "BOX_INFINITE", &AxisAlignedBox::BOX_INFINITE);
+    lua_tinker::class_def_static<AxisAlignedBox>(L, "BOX_NULL", &AxisAlignedBox::BOX_NULL);
     lua_tinker::class_def<AxisAlignedBox>(
         L,
         "contains",
@@ -150,8 +152,6 @@ void basecode2lua(lua_State* L)
             new lua_tinker::constructor<AxisAlignedBox, AxisAlignedBox::Extent>(),
             new lua_tinker::constructor<AxisAlignedBox, const Vector3&, const Vector3&>(),
             new lua_tinker::constructor<AxisAlignedBox, float, float, float, float, float, float>()));
-    lua_tinker::class_mem_static_readonly<AxisAlignedBox>(L, "BOX_INFINITE", &AxisAlignedBox::BOX_INFINITE);
-    lua_tinker::class_mem_static_readonly<AxisAlignedBox>(L, "BOX_NULL", &AxisAlignedBox::BOX_NULL);
     lua_tinker::class_var_static<AxisAlignedBox>(L, "EXTENT_FINITE", AxisAlignedBox::EXTENT_FINITE);
     lua_tinker::class_var_static<AxisAlignedBox>(L, "EXTENT_INFINITE", AxisAlignedBox::EXTENT_INFINITE);
     lua_tinker::class_var_static<AxisAlignedBox>(L, "EXTENT_NULL", AxisAlignedBox::EXTENT_NULL);
@@ -362,6 +362,12 @@ void basecode2lua(lua_State* L)
     lua_tinker::class_mem<Rect>(L, "right", &Rect::right);
     lua_tinker::class_mem<Rect>(L, "top", &Rect::top);
     lua_tinker::class_add<Vector2>(L, "Vector2", false);
+    lua_tinker::class_def_static<Vector2>(L, "NEGATIVE_UNIT_X", &Vector2::NEGATIVE_UNIT_X);
+    lua_tinker::class_def_static<Vector2>(L, "NEGATIVE_UNIT_Y", &Vector2::NEGATIVE_UNIT_Y);
+    lua_tinker::class_def_static<Vector2>(L, "UNIT_SCALE", &Vector2::UNIT_SCALE);
+    lua_tinker::class_def_static<Vector2>(L, "UNIT_X", &Vector2::UNIT_X);
+    lua_tinker::class_def_static<Vector2>(L, "UNIT_Y", &Vector2::UNIT_Y);
+    lua_tinker::class_def_static<Vector2>(L, "ZERO", &Vector2::ZERO);
     lua_tinker::class_def<Vector2>(L, "crossProduct", &Vector2::crossProduct);
     lua_tinker::class_def<Vector2>(L, "distance", &Vector2::distance);
     lua_tinker::class_def<Vector2>(L, "dotProduct", &Vector2::dotProduct);
@@ -387,15 +393,17 @@ void basecode2lua(lua_State* L)
         lua_tinker::args_type_overload_constructor(new lua_tinker::constructor<Vector2>(),
                                                    new lua_tinker::constructor<Vector2, const float>(),
                                                    new lua_tinker::constructor<Vector2, const float, const float>()));
-    lua_tinker::class_mem_static_readonly<Vector2>(L, "NEGATIVE_UNIT_X", &Vector2::NEGATIVE_UNIT_X);
-    lua_tinker::class_mem_static_readonly<Vector2>(L, "NEGATIVE_UNIT_Y", &Vector2::NEGATIVE_UNIT_Y);
-    lua_tinker::class_mem_static_readonly<Vector2>(L, "UNIT_SCALE", &Vector2::UNIT_SCALE);
-    lua_tinker::class_mem_static_readonly<Vector2>(L, "UNIT_X", &Vector2::UNIT_X);
-    lua_tinker::class_mem_static_readonly<Vector2>(L, "UNIT_Y", &Vector2::UNIT_Y);
-    lua_tinker::class_mem_static_readonly<Vector2>(L, "ZERO", &Vector2::ZERO);
     lua_tinker::class_mem<Vector2>(L, "x", &Vector2::x);
     lua_tinker::class_mem<Vector2>(L, "y", &Vector2::y);
     lua_tinker::class_add<Vector3>(L, "Vector3", false);
+    lua_tinker::class_def_static<Vector3>(L, "NEGATIVE_UNIT_X", &Vector3::NEGATIVE_UNIT_X);
+    lua_tinker::class_def_static<Vector3>(L, "NEGATIVE_UNIT_Y", &Vector3::NEGATIVE_UNIT_Y);
+    lua_tinker::class_def_static<Vector3>(L, "NEGATIVE_UNIT_Z", &Vector3::NEGATIVE_UNIT_Z);
+    lua_tinker::class_def_static<Vector3>(L, "UNIT_SCALE", &Vector3::UNIT_SCALE);
+    lua_tinker::class_def_static<Vector3>(L, "UNIT_X", &Vector3::UNIT_X);
+    lua_tinker::class_def_static<Vector3>(L, "UNIT_Y", &Vector3::UNIT_Y);
+    lua_tinker::class_def_static<Vector3>(L, "UNIT_Z", &Vector3::UNIT_Z);
+    lua_tinker::class_def_static<Vector3>(L, "ZERO", &Vector3::ZERO);
     lua_tinker::class_def<Vector3>(L, "absDotProduct", &Vector3::absDotProduct);
     lua_tinker::class_def<Vector3>(L, "crossProduct", &Vector3::crossProduct);
     lua_tinker::class_def<Vector3>(L, "distance", &Vector3::distance);
@@ -425,14 +433,6 @@ void basecode2lua(lua_State* L)
                                        new lua_tinker::constructor<Vector3>(),
                                        new lua_tinker::constructor<Vector3, const float>(),
                                        new lua_tinker::constructor<Vector3, const float, const float, const float>()));
-    lua_tinker::class_mem_static_readonly<Vector3>(L, "NEGATIVE_UNIT_X", &Vector3::NEGATIVE_UNIT_X);
-    lua_tinker::class_mem_static_readonly<Vector3>(L, "NEGATIVE_UNIT_Y", &Vector3::NEGATIVE_UNIT_Y);
-    lua_tinker::class_mem_static_readonly<Vector3>(L, "NEGATIVE_UNIT_Z", &Vector3::NEGATIVE_UNIT_Z);
-    lua_tinker::class_mem_static_readonly<Vector3>(L, "UNIT_SCALE", &Vector3::UNIT_SCALE);
-    lua_tinker::class_mem_static_readonly<Vector3>(L, "UNIT_X", &Vector3::UNIT_X);
-    lua_tinker::class_mem_static_readonly<Vector3>(L, "UNIT_Y", &Vector3::UNIT_Y);
-    lua_tinker::class_mem_static_readonly<Vector3>(L, "UNIT_Z", &Vector3::UNIT_Z);
-    lua_tinker::class_mem_static_readonly<Vector3>(L, "ZERO", &Vector3::ZERO);
     lua_tinker::class_mem<Vector3>(L, "x", &Vector3::x);
     lua_tinker::class_mem<Vector3>(L, "y", &Vector3::y);
     lua_tinker::class_mem<Vector3>(L, "z", &Vector3::z);

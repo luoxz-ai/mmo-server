@@ -416,12 +416,12 @@ public:
     export_lua inline bool isNaN() const { return Math::isNaN(x) || Math::isNaN(y); }
 
     // special points
-    export_lua static const Vector2 ZERO;
-    export_lua static const Vector2 UNIT_X;
-    export_lua static const Vector2 UNIT_Y;
-    export_lua static const Vector2 NEGATIVE_UNIT_X;
-    export_lua static const Vector2 NEGATIVE_UNIT_Y;
-    export_lua static const Vector2 UNIT_SCALE;
+    export_lua static inline Vector2 ZERO() {return {0, 0};}
+    export_lua static inline Vector2 UNIT_X() {return {1, 0};}
+    export_lua static inline Vector2 UNIT_Y() {return {0, 1};}
+    export_lua static inline Vector2 NEGATIVE_UNIT_X() {return {-1, 0};}
+    export_lua static inline Vector2 NEGATIVE_UNIT_Y() {return{0, -1};}
+    export_lua static inline Vector2 UNIT_SCALE() {return {1, 1};}
 };
 
 export_lua using CPos2D = Vector2;

@@ -1,8 +1,6 @@
 #include "Quaternion.h"
 
-const float      Quaternion::msEpsilon = 1e-03;
-const Quaternion Quaternion::ZERO(0, 0, 0, 0);
-const Quaternion Quaternion::IDENTITY(1, 0, 0, 0);
+
 
 //-----------------------------------------------------------------------
 void Quaternion::FromRotationMatrix(const Matrix3& kRot)
@@ -242,7 +240,7 @@ Quaternion Quaternion::Inverse() const
     else
     {
         // return an invalid result to flag the error
-        return ZERO;
+        return ZERO();
     }
 }
 //-----------------------------------------------------------------------

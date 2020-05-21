@@ -13,8 +13,8 @@ protected:
 
 public:
     export_lua Ray()
-        : mOrigin(Vector3::ZERO)
-        , mDirection(Vector3::UNIT_Z)
+        : mOrigin(Vector3::ZERO())
+        , mDirection(Vector3::UNIT_Z())
     {
     }
     export_lua Ray(const Vector3& origin, const Vector3& direction)

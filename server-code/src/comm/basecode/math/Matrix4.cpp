@@ -1,14 +1,6 @@
 #include "Matrix4.h"
 
-const Matrix4 Matrix4::ZERO(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-const Affine3 Affine3::ZERO(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-
-const Affine3 Affine3::IDENTITY(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0);
-
-const Matrix4 Matrix4::IDENTITY(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
-
-const Matrix4 Matrix4::CLIPSPACE2DTOIMAGESPACE(0.5, 0, 0, 0.5, 0, -0.5, 0, 0.5, 0, 0, 1, 0, 0, 0, 0, 1);
 
 //-----------------------------------------------------------------------
 static float MINOR(const TransformBasefloat& m,

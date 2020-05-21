@@ -450,7 +450,7 @@ public:
     {
         constexpr float fSquareZero = (float)(1e-06 * 1e-06);
 
-        Vector3 perp = this->crossProduct(Vector3::UNIT_X);
+        Vector3 perp = this->crossProduct(Vector3::UNIT_X());
 
         // Check length
         if(perp.squaredLength() < fSquareZero)
@@ -458,7 +458,7 @@ public:
             /* This vector is the Y axis multiplied by a scalar, so we have
                to use another axis.
             */
-            perp = this->crossProduct(Vector3::UNIT_Y);
+            perp = this->crossProduct(Vector3::UNIT_Y());
         }
         perp.normalise();
 
@@ -523,25 +523,25 @@ public:
         float absz = fabs(z);
         if(absx > absy)
             if(absx > absz)
-                return x > 0 ? Vector3::UNIT_X : Vector3::NEGATIVE_UNIT_X;
+                return x > 0 ? Vector3::UNIT_X() : Vector3::NEGATIVE_UNIT_X();
             else
-                return z > 0 ? Vector3::UNIT_Z : Vector3::NEGATIVE_UNIT_Z;
+                return z > 0 ? Vector3::UNIT_Z() : Vector3::NEGATIVE_UNIT_Z();
         else // absx <= absy
             if(absy > absz)
-            return y > 0 ? Vector3::UNIT_Y : Vector3::NEGATIVE_UNIT_Y;
+            return y > 0 ? Vector3::UNIT_Y() : Vector3::NEGATIVE_UNIT_Y();
         else
-            return z > 0 ? Vector3::UNIT_Z : Vector3::NEGATIVE_UNIT_Z;
+            return z > 0 ? Vector3::UNIT_Z() : Vector3::NEGATIVE_UNIT_Z();
     }
 
     // special points
-    export_lua static const Vector3 ZERO;
-    export_lua static const Vector3 UNIT_X;
-    export_lua static const Vector3 UNIT_Y;
-    export_lua static const Vector3 UNIT_Z;
-    export_lua static const Vector3 NEGATIVE_UNIT_X;
-    export_lua static const Vector3 NEGATIVE_UNIT_Y;
-    export_lua static const Vector3 NEGATIVE_UNIT_Z;
-    export_lua static const Vector3 UNIT_SCALE;
+    export_lua static inline Vector3 ZERO() {return {0, 0, 0};};
+    export_lua static inline Vector3 UNIT_X() {return {1, 0, 0};}
+    export_lua static inline Vector3 UNIT_Y() {return {0, 1, 0};}
+    export_lua static inline Vector3 UNIT_Z() {return {0, 0, 1};}
+    export_lua static inline Vector3 NEGATIVE_UNIT_X() {return {-1, 0, 0};}
+    export_lua static inline Vector3 NEGATIVE_UNIT_Y() {return {0, -1, 0};}
+    export_lua static inline Vector3 NEGATIVE_UNIT_Z() {return {0, 0, -1};}
+    export_lua static inline Vector3 UNIT_SCALE() {return{1, 1, 1};}
 };
 
 export_lua using CPos3D = Vector3;

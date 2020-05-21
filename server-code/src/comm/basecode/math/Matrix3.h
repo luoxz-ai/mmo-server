@@ -220,9 +220,9 @@ public:
         return false;
     }
 
-    static const float   EPSILON;
-    static const Matrix3 ZERO;
-    static const Matrix3 IDENTITY;
+    static constexpr float   EPSILON= 1e-06;
+    static inline Matrix3 ZERO() { return {0, 0, 0, 0, 0, 0, 0, 0, 0};}
+    static inline Matrix3 IDENTITY() { return {1, 0, 0, 0, 1, 0, 0, 0, 1};}
 
 protected:
     // support for eigensolver
@@ -230,7 +230,7 @@ protected:
     bool QLAlgorithm(float afDiag[3], float afSubDiag[3]);
 
     // support for singular value decomposition
-    static const unsigned int msSvdMaxIterations;
+    static constexpr unsigned int msSvdMaxIterations = 64;
     static void               Bidiagonalize(Matrix3& kA, Matrix3& kL, Matrix3& kR);
     static void               GolubKahanStep(Matrix3& kA, Matrix3& kL, Matrix3& kR);
 

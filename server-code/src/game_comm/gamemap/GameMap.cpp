@@ -281,7 +281,7 @@ Vector2 CGameMap::FindPosNearby(const Vector2& pos, float range) const
 
     for(int32_t i = 0; i < 10; i++)
     {
-        CPos2D newPos = pos + CPos2D::UNIT_X.randomDeviant(1.0f) * random_float(0.0f, range);
+        CPos2D newPos = pos + CPos2D::UNIT_X().randomDeviant(1.0f) * random_float(0.0f, range);
 
         if(IsPassDisable(newPos.x, newPos.y) == false)
         {

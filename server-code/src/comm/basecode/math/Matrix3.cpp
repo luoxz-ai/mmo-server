@@ -2,11 +2,6 @@
 #include "Matrix3.h"
 // Adapted from Matrix math by Wild Magic http://www.geometrictools.com/
 
-const float        Matrix3::EPSILON = 1e-06;
-const Matrix3      Matrix3::ZERO(0, 0, 0, 0, 0, 0, 0, 0, 0);
-const Matrix3      Matrix3::IDENTITY(1, 0, 0, 0, 1, 0, 0, 0, 1);
-const unsigned int Matrix3::msSvdMaxIterations = 64;
-
 //-----------------------------------------------------------------------
 bool Matrix3::operator==(const Matrix3& rkMatrix) const
 {
@@ -149,7 +144,7 @@ bool Matrix3::Inverse(Matrix3& rkInverse, float fTolerance) const
 //-----------------------------------------------------------------------
 Matrix3 Matrix3::Inverse(float fTolerance) const
 {
-    Matrix3 kInverse = Matrix3::ZERO;
+    Matrix3 kInverse = Matrix3::ZERO();
     Inverse(kInverse, fTolerance);
     return kInverse;
 }
@@ -192,7 +187,7 @@ void Matrix3::Bidiagonalize(Matrix3& kA, Matrix3& kL, Matrix3& kR)
     }
     else
     {
-        kL        = Matrix3::IDENTITY;
+        kL        = Matrix3::IDENTITY();
         bIdentity = true;
     }
 
@@ -223,7 +218,7 @@ void Matrix3::Bidiagonalize(Matrix3& kA, Matrix3& kL, Matrix3& kR)
     }
     else
     {
-        kR = Matrix3::IDENTITY;
+        kR = Matrix3::IDENTITY();
     }
 
     // map second column to (*,*,0)

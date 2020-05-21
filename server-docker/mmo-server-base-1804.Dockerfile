@@ -39,7 +39,8 @@ RUN apt-get update -y --fix-missing \
  libreadline6-dev \
  libssl-dev \
  libasan5 \
- tzdata
+ tzdata \
+ openssh-server
 
 
 

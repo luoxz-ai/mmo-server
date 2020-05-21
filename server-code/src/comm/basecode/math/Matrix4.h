@@ -222,7 +222,7 @@ public:
 
     inline Matrix4(const Matrix3& m3x3)
     {
-        operator=(IDENTITY);
+        operator=(IDENTITY());
         operator=(m3x3);
     }
 
@@ -233,7 +233,7 @@ public:
     {
         Matrix3 m3x3;
         rot.ToRotationMatrix(m3x3);
-        *this = IDENTITY;
+        *this = IDENTITY();
         *this = m3x3;
     }
 
@@ -269,11 +269,11 @@ public:
         return false;
     }
 
-    static const Matrix4 ZERO;
-    static const Matrix4 IDENTITY;
+    static inline Matrix4 ZERO() {return {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};}
+    static inline Matrix4 IDENTITY() {return {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1};}
     /** Useful little matrix which takes 2D clipspace {-1, 1} to {0,1}
         and inverts the Y. */
-    static const Matrix4 CLIPSPACE2DTOIMAGESPACE;
+    static inline Matrix4 CLIPSPACE2DTOIMAGESPACE() {return {0.5, 0, 0, 0.5, 0, -0.5, 0, 0.5, 0, 0, 1, 0, 0, 0, 0, 1};}
 
     inline Matrix4 operator*(float scalar) const
     {
@@ -307,7 +307,7 @@ public:
     Affine3() {}
 
     /// @copydoc TransformBase::makeTransform
-    Affine3(const Vector3& position, const Quaternion& orientation, const Vector3& scale = Vector3::UNIT_SCALE)
+    Affine3(const Vector3& position, const Quaternion& orientation, const Vector3& scale = Vector3::UNIT_SCALE())
     {
         makeTransform(position, scale, orientation);
     }
@@ -422,8 +422,9 @@ public:
         return Affine3(s_x, 0, 0, 0, 0, s_y, 0, 0, 0, 0, s_z, 0);
     }
 
-    static const Affine3 ZERO;
-    static const Affine3 IDENTITY;
+
+    static inline Affine3 ZERO(){ return {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};}
+    static inline Affine3 IDENTITY(){return {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0};}
 };
 
 inline Matrix4 TransformBasefloat::transpose() const

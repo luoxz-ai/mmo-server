@@ -186,7 +186,7 @@ bool CPhase::CreateMultiMonster(const CreateMonsterParam& param, uint32_t nNum, 
     __ENTER_FUNCTION
     for(size_t i = 0; i < nNum; i++)
     {
-        CPos2D             newPos   = param.pos + CPos2D::UNIT_X.randomDeviant(1.0f) * random_float(0.0f, range);
+        CPos2D             newPos   = param.pos + CPos2D::UNIT_X().randomDeviant(1.0f) * random_float(0.0f, range);
         CreateMonsterParam newParam = param;
         newParam.pos                = newPos;
         newParam.face               = random_float();

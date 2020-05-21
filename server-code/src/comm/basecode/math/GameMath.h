@@ -124,7 +124,7 @@ export_lua namespace GameMath
 
     export_lua inline Vector2 random_vector2(float _min, float _max)
     {
-        return Vector2::UNIT_X.randomDeviant(1.0f) * random_float(_min, _max);
+        return Vector2::UNIT_X().randomDeviant(1.0f) * random_float(_min, _max);
     }
 
     export_lua inline Vector2 rotateByRadian(const Vector2& vec, float radian)
@@ -147,13 +147,13 @@ export_lua namespace GameMath
 
     export_lua inline float getRadianFrom(const Vector2& vec, const Vector2& Dir = GameMath::VECTOR2_NORTH)
     {
-        if(vec.isNaN() || vec == Vector2::ZERO)
+        if(vec.isNaN() || vec == Vector2::ZERO())
             return 0.0f;
         return acos(vec.dotProduct(Dir));
     }
     export_lua inline float getAngleFrom(const Vector2& vec, const Vector2& Dir = GameMath::VECTOR2_NORTH)
     {
-        if(vec.isNaN() || vec == Vector2::ZERO)
+        if(vec.isNaN() || vec == Vector2::ZERO())
             return 0.0f;
         return acos(vec.dotProduct(Dir)) / Math::PI * 180.0f;
     }
@@ -162,7 +162,7 @@ export_lua namespace GameMath
                                                const Vector2& Dir       = GameMath::VECTOR2_NORTH,
                                                bool           clockwise = true)
     {
-        if(vec.isNaN() || vec == Vector2::ZERO)
+        if(vec.isNaN() || vec == Vector2::ZERO())
             return 0.0f;
         float angle = getAngleFrom(vec, Dir);
         if(clockwise == true)
@@ -175,7 +175,7 @@ export_lua namespace GameMath
                                                 const Vector2& Dir       = GameMath::VECTOR2_NORTH,
                                                 bool           clockwise = true)
     {
-        if(vec.isNaN() || vec == Vector2::ZERO)
+        if(vec.isNaN() || vec == Vector2::ZERO())
             return 0.0f;
         float radian = getRadianFrom(vec, Dir);
         if(clockwise == true)

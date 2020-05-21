@@ -537,7 +537,7 @@ public:
         switch(mExtent)
         {
             case EXTENT_NULL:
-                return Vector3::ZERO;
+                return Vector3::ZERO();
 
             case EXTENT_FINITE:
                 return mMaximum - mMinimum;
@@ -547,7 +547,7 @@ public:
 
             default: // shut up compiler
                 assert(false && "Never reached");
-                return Vector3::ZERO;
+                return Vector3::ZERO();
         }
     }
     /// Gets the half-size of the box
@@ -556,7 +556,7 @@ public:
         switch(mExtent)
         {
             case EXTENT_NULL:
-                return Vector3::ZERO;
+                return Vector3::ZERO();
 
             case EXTENT_FINITE:
                 return (mMaximum - mMinimum) * 0.5;
@@ -566,7 +566,7 @@ public:
 
             default: // shut up compiler
                 assert(false && "Never reached");
-                return Vector3::ZERO;
+                return Vector3::ZERO();
         }
     }
 
@@ -649,8 +649,9 @@ public:
     export_lua bool operator!=(const AxisAlignedBox& rhs) const { return !(*this == rhs); }
 
     // special values
-    export_lua static const AxisAlignedBox BOX_NULL;
-    export_lua static const AxisAlignedBox BOX_INFINITE;
+
+    export_lua static inline AxisAlignedBox BOX_NULL() {return AxisAlignedBox();}
+    export_lua static inline  AxisAlignedBox BOX_INFINITE() {return AxisAlignedBox(AxisAlignedBox::EXTENT_INFINITE);}
 };
 
 #endif

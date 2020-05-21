@@ -272,11 +272,11 @@ public:
     static Quaternion nlerp(float fT, const Quaternion& rkP, const Quaternion& rkQ, bool shortestPath = false);
 
     /// Cutoff for sine near zero
-    static const float msEpsilon;
+    static constexpr float msEpsilon = 1e-03;
 
     // special values
-    static const Quaternion ZERO;
-    static const Quaternion IDENTITY;
+    static inline Quaternion ZERO() {return {0, 0, 0, 0};}
+    static inline Quaternion IDENTITY()  {return {1, 0, 0, 0};}
 
     float w, x, y, z;
 

@@ -59,7 +59,7 @@ void CMonsterGenerator::_GenMonster(MonsterGenData* pData, uint64_t idPhase)
         {
             case MONSTERGENERATOR_CIRCLE: // x,z为中心range的圆形
             {
-                newPos = newPos + CPos2D::UNIT_X.randomDeviant(1.0f) * random_float(0.0f, pData->gen_data.range());
+                newPos = newPos + CPos2D::UNIT_X().randomDeviant(1.0f) * random_float(0.0f, pData->gen_data.range());
             }
             break;
             case MONSTERGENERATOR_RECT: // x,z为左上角,width宽,range高的矩形
