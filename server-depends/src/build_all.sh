@@ -17,6 +17,5 @@ bash build_depends.sh lua;
 bash build_depends.sh curlpp;
 bash build_depends.sh xlnt;
 bash build_depends.sh fmt;
-bash build_depends.sh libwebsockets;
 bash build_depends.sh recastnavigation;
 bash build_depends.sh box2d;
