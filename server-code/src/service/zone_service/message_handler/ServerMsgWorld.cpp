@@ -4,6 +4,7 @@
 #include "MsgZoneProcess.h"
 #include "Player.h"
 #include "ZoneService.h"
+#include "MessageRoute.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"

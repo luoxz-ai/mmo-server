@@ -2,6 +2,7 @@
 
 #include "AIActor.h"
 #include "AIPlayer.h"
+#include "AIScene.h"
 
 CAIActorManager::CAIActorManager() {}
 
