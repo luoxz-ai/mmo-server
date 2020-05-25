@@ -51,6 +51,7 @@
 #include "LoggingMgr.h"
 #include "Thread.h"
 #include "fmt/printf.h"
+#include "fmt/chrono.h"
 #include "LockfreeQueue.h"
 #include "FileUtil.h"
 #include <memory>
