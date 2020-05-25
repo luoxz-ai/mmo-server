@@ -81,6 +81,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_config_2fCfg_5fAIType_2eproto:
   PROTOBUF_FIELD_OFFSET(::Cfg_AIType_Row, can_approach_),
   PROTOBUF_FIELD_OFFSET(::Cfg_AIType_Row, attack_wait_ms_),
   PROTOBUF_FIELD_OFFSET(::Cfg_AIType_Row, targetfam_id_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_AIType_Row, skillfam_id_),
   PROTOBUF_FIELD_OFFSET(::Cfg_AIType_Row, skill_id_),
   PROTOBUF_FIELD_OFFSET(::Cfg_AIType_Row, follow_path_),
   PROTOBUF_FIELD_OFFSET(::Cfg_AIType_Row, script_id_),
@@ -94,7 +95,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_config_2fCfg_5fAIType_2eproto:
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::Cfg_AIType_Row)},
-  { 28, -1, sizeof(::Cfg_AIType)},
+  { 29, -1, sizeof(::Cfg_AIType)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -103,8 +104,8 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 };
 
 const char descriptor_table_protodef_config_2fCfg_5fAIType_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\027config/Cfg_AIType.proto\"\212\005\n\nCfg_AIType"
-  "\022\035\n\004rows\030\001 \003(\0132\017.Cfg_AIType.Row\032\334\004\n\003Row\022"
+  "\n\027config/Cfg_AIType.proto\"\237\005\n\nCfg_AIType"
+  "\022\035\n\004rows\030\001 \003(\0132\017.Cfg_AIType.Row\032\361\004\n\003Row\022"
   "\021\n\tidmonster\030\001 \001(\r\022\017\n\007ai_type\030\002 \001(\r\022\036\n\026i"
   "dle_randomwalk_ms_min\030\003 \001(\r\022\036\n\026idle_rand"
   "omwalk_ms_max\030\004 \001(\r\022 \n\030idle_randomwalk_s"
@@ -118,9 +119,9 @@ const char descriptor_table_protodef_config_2fCfg_5fAIType_2eproto[] PROTOBUF_SE
   "(\r\022\030\n\020escape_range_min\030\017 \001(\002\022\030\n\020escape_r"
   "ange_max\030\020 \001(\002\022\024\n\014can_approach\030\021 \001(\010\022\026\n\016"
   "attack_wait_ms\030\022 \001(\r\022\024\n\014targetfam_id\030\024 \001"
-  "(\r\022\020\n\010skill_id\030\025 \003(\r\022\023\n\013follow_path\030\026 \001("
-  "\r\022\021\n\tscript_id\030\027 \001(\r\022\020\n\010ai_debug\030\030 \001(\010B\002"
-  "H\002b\006proto3"
+  "(\r\022\023\n\013skillfam_id\030\025 \001(\r\022\020\n\010skill_id\030\026 \003("
+  "\r\022\023\n\013follow_path\030\027 \001(\r\022\021\n\tscript_id\030\030 \001("
+  "\r\022\020\n\010ai_debug\030\031 \001(\010B\002H\002b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_config_2fCfg_5fAIType_2eproto_deps[1] = {
 };
@@ -131,7 +132,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_con
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_config_2fCfg_5fAIType_2eproto_once;
 static bool descriptor_table_config_2fCfg_5fAIType_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_config_2fCfg_5fAIType_2eproto = {
-  &descriptor_table_config_2fCfg_5fAIType_2eproto_initialized, descriptor_table_protodef_config_2fCfg_5fAIType_2eproto, "config/Cfg_AIType.proto", 690,
+  &descriptor_table_config_2fCfg_5fAIType_2eproto_initialized, descriptor_table_protodef_config_2fCfg_5fAIType_2eproto, "config/Cfg_AIType.proto", 711,
   &descriptor_table_config_2fCfg_5fAIType_2eproto_once, descriptor_table_config_2fCfg_5fAIType_2eproto_sccs, descriptor_table_config_2fCfg_5fAIType_2eproto_deps, 2, 0,
   schemas, file_default_instances, TableStruct_config_2fCfg_5fAIType_2eproto::offsets,
   file_level_metadata_config_2fCfg_5fAIType_2eproto, 2, file_level_enum_descriptors_config_2fCfg_5fAIType_2eproto, file_level_service_descriptors_config_2fCfg_5fAIType_2eproto,

@@ -18,15 +18,15 @@ namespace BaseCode
     void MyLogMsgX(const char* pszName, const char* pszBuffer);
 
     template<typename... Args>
-    void MyLogMsg(const char* pszName, const char* fmt, const Args&... args)
+    void MyLogMsg(const char* pszName, const char* fmt, Args&&... args)
     {
-        MyLogMsgX(pszName, fmt::format(fmt, args...).c_str());
+        MyLogMsgX(pszName, fmt::format(fmt, std::forward<Args>(args)...).c_str());
     }
 
     template<typename... Args>
-    void PrintfError(const char* fmt, const Args&... args)
+    void PrintfError(const char* fmt, Args&&... args)
     {
-        std::cerr << fmt::format(fmt, args...) << std::endl;
+        std::cerr << fmt::format(fmt, std::forward<Args>(args)...) << std::endl;
     }
 } // namespace BaseCode
 
@@ -59,13 +59,15 @@ namespace BaseCode
 #define LOGTRACE(...)  ZLOGFMT_TRACE(BaseCode::s_debug_logger, ##__VA_ARGS__)
 #define LOGDEBUG(...)  ZLOGFMT_DEBUG(BaseCode::s_debug_logger, ##__VA_ARGS__)
 #define LOGASSERT(...) ZLOGFMT_DEBUG(BaseCode::s_debug_logger, ##__VA_ARGS__)
-#define LOGAIDEBUG(c, ...)                                   \
-    if(c)                                                    \
-    {                                                        \
-        ZLOGFMT_DEBUG(BaseCode::s_ai_logger, ##__VA_ARGS__); \
+
+#define LOGAIDEBUG(expr, role_id, fmtr, ...)                                              \
+    if(expr)                                                                             \
+    {                                                                                    \
+        BaseCode::MyLogMsg(fmt::format("aidebug/role_{}", role_id).c_str(), fmtr, ##__VA_ARGS__); \
     }
-#define LOGSKILLDEBUG(c, ...)                                   \
-    if(c)                                                       \
+
+#define LOGSKILLDEBUG(expr, ...)                                \
+    if(expr)                                                    \
     {                                                           \
         ZLOGFMT_DEBUG(BaseCode::s_debug_logger, ##__VA_ARGS__); \
     }

@@ -294,8 +294,8 @@ struct LogData
     int      _level;   // log level
     time_t   _time;    // create time
     uint32_t _precise; // create time
-    int      _contentLen;
-    char     _content[LOG4Z_LOG_BUF_SIZE]; // content
+    
+    std::string _content; // content
 
     OBJECTHEAP_DECLARATION(s_heap);
 };
@@ -385,10 +385,7 @@ _ZSUMMER_END
         if(zsummer::log4z::ILog4zManager::getPtr()->prePushLog(id, level))                                        \
         {                                                                                                         \
             zsummer::log4z::LogData*    __pLog = zsummer::log4z::ILog4zManager::getPtr()->makeLogData(id, level); \
-            zsummer::log4z::Log4zStream __ss(__pLog->_content + __pLog->_contentLen,                              \
-                                             LOG4Z_LOG_BUF_SIZE - __pLog->_contentLen);                           \
-            __ss << log;                                                                                          \
-            __pLog->_contentLen += __ss.getCurrentLen();                                                          \
+            __pLog->_content  += log;                                                                                          \
             zsummer::log4z::ILog4zManager::getPtr()->pushLog(__pLog, file, line);                                 \
         }                                                                                                         \
     } while(0)
@@ -413,7 +410,7 @@ _ZSUMMER_END
 
 //! format input log.
 #ifdef LOG4Z_FORMAT_INPUT_ENABLE
-#ifdef WIN32
+
 #define ZLOG_FORMAT(id, level, file, line, logformat, ...)                                                     \
     do                                                                                                         \
     {                                                                                                          \
@@ -422,67 +419,18 @@ _ZSUMMER_END
             zsummer::log4z::LogData* __pLog = zsummer::log4z::ILog4zManager::getPtr()->makeLogData(id, level); \
             try                                                                                                \
             {                                                                                                  \
-                int __logLen = fmt::format_to_n(__pLog->_content + __pLog->_contentLen,                        \
-                                                LOG4Z_LOG_BUF_SIZE - __pLog->_contentLen,                      \
-                                                logformat,                                                     \
-                                                ##__VA_ARGS__)                                                 \
-                                   .size;                                                                      \
-                if(__logLen < 0)                                                                               \
-                    __logLen = LOG4Z_LOG_BUF_SIZE - __pLog->_contentLen;                                       \
-                __pLog->_contentLen += __logLen;                                                               \
+                __pLog->_content += fmt::format(logformat, ##__VA_ARGS__);                                     \
                 zsummer::log4z::ILog4zManager::getPtr()->pushLog(__pLog, file, line);                          \
             }                                                                                                  \
             catch(fmt::format_error & e)                                                                       \
             {                                                                                                  \
-                int __logLen = _snprintf_s(__pLog->_content + __pLog->_contentLen,                             \
-                                           LOG4Z_LOG_BUF_SIZE - __pLog->_contentLen,                           \
-                                           _TRUNCATE,                                                          \
-                                           "format_error:%s",                                                  \
-                                           e.what());                                                          \
-                if(__logLen < 0)                                                                               \
-                    __logLen = LOG4Z_LOG_BUF_SIZE - __pLog->_contentLen;                                       \
-                __pLog->_contentLen += __logLen;                                                               \
+                __pLog->_content += fmt::format("format_error:%s",  e.what());                                 \
                 zsummer::log4z::ILog4zManager::getPtr()->pushLog(__pLog, file, line);                          \
             }                                                                                                  \
         }                                                                                                      \
     } while(0)
-#else
-#define ZLOG_FORMAT(id, level, file, line, logformat, ...)                                                     \
-    do                                                                                                         \
-    {                                                                                                          \
-        if(zsummer::log4z::ILog4zManager::getPtr()->prePushLog(id, level))                                     \
-        {                                                                                                      \
-            zsummer::log4z::LogData* __pLog = zsummer::log4z::ILog4zManager::getPtr()->makeLogData(id, level); \
-            try                                                                                                \
-            {                                                                                                  \
-                int __logLen = fmt::format_to_n(__pLog->_content + __pLog->_contentLen,                        \
-                                                LOG4Z_LOG_BUF_SIZE - __pLog->_contentLen,                      \
-                                                logformat,                                                     \
-                                                ##__VA_ARGS__)                                                 \
-                                   .size;                                                                      \
-                if(__logLen < 0)                                                                               \
-                    __logLen = 0;                                                                              \
-                if(__logLen > LOG4Z_LOG_BUF_SIZE - __pLog->_contentLen)                                        \
-                    __logLen = LOG4Z_LOG_BUF_SIZE - __pLog->_contentLen;                                       \
-                __pLog->_contentLen += __logLen;                                                               \
-                zsummer::log4z::ILog4zManager::getPtr()->pushLog(__pLog, file, line);                          \
-            }                                                                                                  \
-            catch(fmt::format_error & e)                                                                       \
-            {                                                                                                  \
-                int __logLen = snprintf(__pLog->_content + __pLog->_contentLen,                                \
-                                        LOG4Z_LOG_BUF_SIZE - __pLog->_contentLen,                              \
-                                        "format_error:%s",                                                     \
-                                        e.what());                                                             \
-                if(__logLen < 0)                                                                               \
-                    __logLen = 0;                                                                              \
-                if(__logLen > LOG4Z_LOG_BUF_SIZE - __pLog->_contentLen)                                        \
-                    __logLen = LOG4Z_LOG_BUF_SIZE - __pLog->_contentLen;                                       \
-                __pLog->_contentLen += __logLen;                                                               \
-                zsummer::log4z::ILog4zManager::getPtr()->pushLog(__pLog, file, line);                          \
-            }                                                                                                  \
-        }                                                                                                      \
-    } while(0)
-#endif
+
+
 //! format string
 #define ZLOGFMT_TRACE(id, fmt, ...) ZLOG_FORMAT(id, LOG_LEVEL_TRACE, __FILE__, __LINE__, fmt, ##__VA_ARGS__)
 #define ZLOGFMT_DEBUG(id, fmt, ...) ZLOG_FORMAT(id, LOG_LEVEL_DEBUG, __FILE__, __LINE__, fmt, ##__VA_ARGS__)

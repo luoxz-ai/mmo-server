@@ -162,21 +162,26 @@ class Cfg_SkillFAM_Row :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kIdskillFieldNumber = 1,
+    kIdFieldNumber = 1,
     kDisFieldNumber = 2,
     kSelfHpFieldNumber = 3,
     kSelfMpFieldNumber = 4,
     kTargetHpFieldNumber = 5,
-    kOperTypeFieldNumber = 6,
-    kLikeFieldNumber = 7,
+    kSkillDisFieldNumber = 6,
+    kSkillPowFieldNumber = 7,
+    kSkillUsetimeFieldNumber = 8,
+    kSkillCdFieldNumber = 9,
+    kSkillMpFieldNumber = 10,
+    kOperTypeFieldNumber = 11,
+    kLikeFieldNumber = 12,
   };
-  // uint32 idskill = 1;
-  void clear_idskill();
-  ::PROTOBUF_NAMESPACE_ID::uint32 idskill() const;
-  void set_idskill(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  // uint32 id = 1;
+  void clear_id();
+  ::PROTOBUF_NAMESPACE_ID::uint32 id() const;
+  void set_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_idskill() const;
-  void _internal_set_idskill(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_id() const;
+  void _internal_set_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
   // uint32 dis = 2;
@@ -215,7 +220,52 @@ class Cfg_SkillFAM_Row :
   void _internal_set_target_hp(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 oper_type = 6;
+  // uint32 skill_dis = 6;
+  void clear_skill_dis();
+  ::PROTOBUF_NAMESPACE_ID::uint32 skill_dis() const;
+  void set_skill_dis(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_skill_dis() const;
+  void _internal_set_skill_dis(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 skill_pow = 7;
+  void clear_skill_pow();
+  ::PROTOBUF_NAMESPACE_ID::uint32 skill_pow() const;
+  void set_skill_pow(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_skill_pow() const;
+  void _internal_set_skill_pow(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 skill_usetime = 8;
+  void clear_skill_usetime();
+  ::PROTOBUF_NAMESPACE_ID::uint32 skill_usetime() const;
+  void set_skill_usetime(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_skill_usetime() const;
+  void _internal_set_skill_usetime(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 skill_cd = 9;
+  void clear_skill_cd();
+  ::PROTOBUF_NAMESPACE_ID::uint32 skill_cd() const;
+  void set_skill_cd(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_skill_cd() const;
+  void _internal_set_skill_cd(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 skill_mp = 10;
+  void clear_skill_mp();
+  ::PROTOBUF_NAMESPACE_ID::uint32 skill_mp() const;
+  void set_skill_mp(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_skill_mp() const;
+  void _internal_set_skill_mp(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 oper_type = 11;
   void clear_oper_type();
   ::PROTOBUF_NAMESPACE_ID::uint32 oper_type() const;
   void set_oper_type(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -224,7 +274,7 @@ class Cfg_SkillFAM_Row :
   void _internal_set_oper_type(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 like = 7;
+  // uint32 like = 12;
   void clear_like();
   ::PROTOBUF_NAMESPACE_ID::uint32 like() const;
   void set_like(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -238,11 +288,16 @@ class Cfg_SkillFAM_Row :
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 idskill_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 id_;
   ::PROTOBUF_NAMESPACE_ID::uint32 dis_;
   ::PROTOBUF_NAMESPACE_ID::uint32 self_hp_;
   ::PROTOBUF_NAMESPACE_ID::uint32 self_mp_;
   ::PROTOBUF_NAMESPACE_ID::uint32 target_hp_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 skill_dis_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 skill_pow_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 skill_usetime_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 skill_cd_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 skill_mp_;
   ::PROTOBUF_NAMESPACE_ID::uint32 oper_type_;
   ::PROTOBUF_NAMESPACE_ID::uint32 like_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -387,24 +442,24 @@ class Cfg_SkillFAM :
 #endif  // __GNUC__
 // Cfg_SkillFAM_Row
 
-// uint32 idskill = 1;
-inline void Cfg_SkillFAM_Row::clear_idskill() {
-  idskill_ = 0u;
+// uint32 id = 1;
+inline void Cfg_SkillFAM_Row::clear_id() {
+  id_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_SkillFAM_Row::_internal_idskill() const {
-  return idskill_;
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_SkillFAM_Row::_internal_id() const {
+  return id_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_SkillFAM_Row::idskill() const {
-  // @@protoc_insertion_point(field_get:Cfg_SkillFAM.Row.idskill)
-  return _internal_idskill();
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_SkillFAM_Row::id() const {
+  // @@protoc_insertion_point(field_get:Cfg_SkillFAM.Row.id)
+  return _internal_id();
 }
-inline void Cfg_SkillFAM_Row::_internal_set_idskill(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_SkillFAM_Row::_internal_set_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
-  idskill_ = value;
+  id_ = value;
 }
-inline void Cfg_SkillFAM_Row::set_idskill(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  _internal_set_idskill(value);
-  // @@protoc_insertion_point(field_set:Cfg_SkillFAM.Row.idskill)
+inline void Cfg_SkillFAM_Row::set_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_id(value);
+  // @@protoc_insertion_point(field_set:Cfg_SkillFAM.Row.id)
 }
 
 // uint32 dis = 2;
@@ -487,7 +542,107 @@ inline void Cfg_SkillFAM_Row::set_target_hp(::PROTOBUF_NAMESPACE_ID::uint32 valu
   // @@protoc_insertion_point(field_set:Cfg_SkillFAM.Row.target_hp)
 }
 
-// uint32 oper_type = 6;
+// uint32 skill_dis = 6;
+inline void Cfg_SkillFAM_Row::clear_skill_dis() {
+  skill_dis_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_SkillFAM_Row::_internal_skill_dis() const {
+  return skill_dis_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_SkillFAM_Row::skill_dis() const {
+  // @@protoc_insertion_point(field_get:Cfg_SkillFAM.Row.skill_dis)
+  return _internal_skill_dis();
+}
+inline void Cfg_SkillFAM_Row::_internal_set_skill_dis(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  skill_dis_ = value;
+}
+inline void Cfg_SkillFAM_Row::set_skill_dis(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_skill_dis(value);
+  // @@protoc_insertion_point(field_set:Cfg_SkillFAM.Row.skill_dis)
+}
+
+// uint32 skill_pow = 7;
+inline void Cfg_SkillFAM_Row::clear_skill_pow() {
+  skill_pow_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_SkillFAM_Row::_internal_skill_pow() const {
+  return skill_pow_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_SkillFAM_Row::skill_pow() const {
+  // @@protoc_insertion_point(field_get:Cfg_SkillFAM.Row.skill_pow)
+  return _internal_skill_pow();
+}
+inline void Cfg_SkillFAM_Row::_internal_set_skill_pow(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  skill_pow_ = value;
+}
+inline void Cfg_SkillFAM_Row::set_skill_pow(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_skill_pow(value);
+  // @@protoc_insertion_point(field_set:Cfg_SkillFAM.Row.skill_pow)
+}
+
+// uint32 skill_usetime = 8;
+inline void Cfg_SkillFAM_Row::clear_skill_usetime() {
+  skill_usetime_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_SkillFAM_Row::_internal_skill_usetime() const {
+  return skill_usetime_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_SkillFAM_Row::skill_usetime() const {
+  // @@protoc_insertion_point(field_get:Cfg_SkillFAM.Row.skill_usetime)
+  return _internal_skill_usetime();
+}
+inline void Cfg_SkillFAM_Row::_internal_set_skill_usetime(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  skill_usetime_ = value;
+}
+inline void Cfg_SkillFAM_Row::set_skill_usetime(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_skill_usetime(value);
+  // @@protoc_insertion_point(field_set:Cfg_SkillFAM.Row.skill_usetime)
+}
+
+// uint32 skill_cd = 9;
+inline void Cfg_SkillFAM_Row::clear_skill_cd() {
+  skill_cd_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_SkillFAM_Row::_internal_skill_cd() const {
+  return skill_cd_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_SkillFAM_Row::skill_cd() const {
+  // @@protoc_insertion_point(field_get:Cfg_SkillFAM.Row.skill_cd)
+  return _internal_skill_cd();
+}
+inline void Cfg_SkillFAM_Row::_internal_set_skill_cd(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  skill_cd_ = value;
+}
+inline void Cfg_SkillFAM_Row::set_skill_cd(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_skill_cd(value);
+  // @@protoc_insertion_point(field_set:Cfg_SkillFAM.Row.skill_cd)
+}
+
+// uint32 skill_mp = 10;
+inline void Cfg_SkillFAM_Row::clear_skill_mp() {
+  skill_mp_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_SkillFAM_Row::_internal_skill_mp() const {
+  return skill_mp_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_SkillFAM_Row::skill_mp() const {
+  // @@protoc_insertion_point(field_get:Cfg_SkillFAM.Row.skill_mp)
+  return _internal_skill_mp();
+}
+inline void Cfg_SkillFAM_Row::_internal_set_skill_mp(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  skill_mp_ = value;
+}
+inline void Cfg_SkillFAM_Row::set_skill_mp(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_skill_mp(value);
+  // @@protoc_insertion_point(field_set:Cfg_SkillFAM.Row.skill_mp)
+}
+
+// uint32 oper_type = 11;
 inline void Cfg_SkillFAM_Row::clear_oper_type() {
   oper_type_ = 0u;
 }
@@ -507,7 +662,7 @@ inline void Cfg_SkillFAM_Row::set_oper_type(::PROTOBUF_NAMESPACE_ID::uint32 valu
   // @@protoc_insertion_point(field_set:Cfg_SkillFAM.Row.oper_type)
 }
 
-// uint32 like = 7;
+// uint32 like = 12;
 inline void Cfg_SkillFAM_Row::clear_like() {
   like_ = 0u;
 }

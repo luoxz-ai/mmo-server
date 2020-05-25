@@ -5,6 +5,7 @@
 #include <fmt/printf.h>
 
 #include "Thread.h"
+#include "FileUtil.h"
 
 namespace BaseCode
 {
@@ -49,7 +50,7 @@ void BaseCode::MyLogMsgX(const char* pszName, const char* pszBuffer)
     if(localtime_c == nullptr)
         return;
 
-    std::string szLogName = fmt::format("{}_{:%Y-%m-%d}.log", pszName, *localtime_c);
+    std::string szLogName = fmt::format("{}/{}_{:%Y-%m-%d}.log", g_logPath, pszName, *localtime_c);
 
     FILE* fp = fopen(szLogName.c_str(), "a+");
     if(nullptr == fp)
@@ -114,6 +115,8 @@ void BaseCode::InitLog(const std::string& path)
 
     ILog4zManager::getRef().setLoggerFileLine(BaseCode::s_lua_logger, false);
     ILog4zManager::getRef().setLoggerFileLine(BaseCode::s_gm_logger, false);
+
+    createRecursionDir(g_logPath+"/aidebug");
 
     ILog4zManager::getRef().start();
 }

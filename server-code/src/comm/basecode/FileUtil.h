@@ -74,4 +74,74 @@ export_lua inline bool scan_dir(const std::string&                              
     return true;
 }
 
+
+
+inline void fixPath(std::string& path)
+{
+    if(path.empty())
+    {
+        return;
+    }
+    for(std::string::iterator iter = path.begin(); iter != path.end(); ++iter)
+    {
+        if(*iter == '\\')
+        {
+            *iter = '/';
+        }
+    }
+    if(path.at(path.length() - 1) != '/')
+    {
+        path.append("/");
+    }
+}
+
+inline bool isDirectory(std::string path)
+{
+#ifdef WIN32
+    return PathIsDirectoryA(path.c_str()) ? true : false;
+#else
+    DIR* pdir = opendir(path.c_str());
+    if(pdir == NULL)
+    {
+        return false;
+    }
+    else
+    {
+        closedir(pdir);
+        pdir = NULL;
+        return true;
+    }
+#endif
+}
+
+inline bool createRecursionDir(std::string path)
+{
+    if(path.length() == 0)
+        return true;
+    std::string sub;
+    fixPath(path);
+
+    std::string::size_type pos = path.find('/');
+    while(pos != std::string::npos)
+    {
+        std::string cur = path.substr(0, pos - 0);
+        if(cur.length() > 0 && !isDirectory(cur))
+        {
+            bool ret = false;
+#ifdef WIN32
+            ret = CreateDirectoryA(cur.c_str(), NULL) ? true : false;
+#else
+            ret = (mkdir(cur.c_str(), S_IRWXU | S_IRWXG | S_IRWXO) == 0);
+#endif
+            if(!ret)
+            {
+                return false;
+            }
+        }
+        pos = path.find('/', pos + 1);
+    }
+
+    return true;
+}
+
 #endif /* FILEUTIL_H */

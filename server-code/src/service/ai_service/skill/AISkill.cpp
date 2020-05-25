@@ -12,7 +12,6 @@ bool CAISkillData::Init(uint32_t idSkill)
     m_idSkill    = idSkill;
     m_pSkillType = SkillTypeSet()->QueryObj(idSkill);
     CHECKF_M(m_pSkillType, fmt::format(FMT_STRING("Skill {} Not Find"), idSkill).c_str());
-    m_pSkillFAM = SkillFAMSet()->QueryObj(idSkill);
 
     return true;
 }
@@ -27,22 +26,9 @@ bool CAISkillData::IsCoolDown()
     return m_tCoolDown > (uint64_t)TimeGetMillisecond();
 }
 
-double CAISkillData::GetUtilityValue(double dist, double self_hp, double self_mp, double target_hp)
-{
-    if(IsCoolDown() == false && GetSkillFAM())
-        return GetSkillFAM()->calculate(dist, self_hp, self_mp, target_hp);
-    else
-        return 0.0f;
-}
-
 const CSkillType* CAISkillData::GetSkillType() const
 {
     return m_pSkillType;
-}
-
-const SkillFAM* CAISkillData::GetSkillFAM() const
-{
-    return m_pSkillFAM;
 }
 
 uint32_t CAISkillData::GetSkillTypeID() const
@@ -81,17 +67,28 @@ bool CAISkillSet::CastSkill(CAISkillData* pSkill)
     return true;
 }
 
-CAISkillData* CAISkillSet::ChooseSkill(double dist, double self_hp, double self_mp, double target_hp)
+CAISkillData* CAISkillSet::ChooseSkill(const SkillFAM* pSkillFAM, double dist, double self_hp, double self_mp, double target_hp) const
 {
     //遍历所有技能
     double        cur_val  = 0.0;
     CAISkillData* pCurData = nullptr;
-    for(const auto& pair_val: m_setSkill)
+    for(const auto& [skillid, pData]: m_setSkill)
     {
-        auto pData = pair_val.second;
         if(pData->IsCoolDown())
             continue;
-        double util_value = pData->GetUtilityValue(dist, self_hp, self_mp, target_hp);
+        
+        double util_value = 0.0f;
+        if(pSkillFAM) 
+        {
+            double skill_dis = pData->GetSkillType()->GetDistance();
+            double skill_pow = pData->GetSkillType()->GetPower();
+            double skill_mp = pData->GetSkillType()->GetUseMP();
+            util_value = pSkillFAM->calculate(dist, self_hp, self_mp, target_hp, skill_dis, skill_pow, skill_mp);
+        }
+        else
+        {
+            util_value = random_float(0.0f,1.0f);
+        }
         if(pCurData == nullptr || cur_val < util_value)
         {
             cur_val  = util_value;

@@ -19,15 +19,12 @@ public:
     void StartCoolDown();
     bool IsCoolDown();
 
-    double            GetUtilityValue(double dist, double self_hp, double self_mp, double target_hp);
     const CSkillType* GetSkillType() const;
-    const SkillFAM*   GetSkillFAM() const;
     uint32_t          GetSkillTypeID() const;
 
 private:
     uint32_t          m_idSkill    = 0;
     const CSkillType* m_pSkillType = nullptr;
-    const SkillFAM*   m_pSkillFAM  = nullptr;
     uint64_t          m_tCoolDown  = 0;
 };
 
@@ -42,7 +39,7 @@ public:
 
     bool CastSkill(CAISkillData* pSkill);
 
-    CAISkillData* ChooseSkill(double dist, double self_hp, double self_mp, double target_hp);
+    CAISkillData* ChooseSkill(const SkillFAM* pSkillFAM, double dist, double self_hp, double self_mp, double target_hp) const;
     void          OnCastSkill(uint32_t idSkill);
 
 private:

@@ -14,7 +14,7 @@ public:
     size_t size() const {return m_nCount;}
     bool empty() const {return size() == 0;}
     template<class _T>
-    void push(_T&& item)
+    void put(_T&& item)
     {
         Node* new_node = new Node(std::forward<_T>(item));
         Node* old      = m_pHead.load(std::memory_order_relaxed);
@@ -23,6 +23,11 @@ public:
             new_node->next = old;
         } while(!m_pHead.compare_exchange_weak(old, new_node, std::memory_order_release));
         m_nCount++;
+    }
+    template<class _T>
+    inline void push(_T&& item)
+    {
+        put(std::forward<_T>(item));
     }
 
     bool get(T& item)
@@ -64,7 +69,10 @@ public:
             return true;
         }
     }
-
+    inline bool pop(T& item)
+    {
+        return get(item);
+    }
 private:
     struct Node
     {

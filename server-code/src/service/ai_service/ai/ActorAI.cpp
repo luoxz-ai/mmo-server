@@ -17,6 +17,8 @@ bool CActorAI::Init(CAIActor* pActor, const CAIType* pAIType)
 {
     m_pActor        = pActor;
     m_pAIType       = pAIType;
+    CHECKF(m_pActor);
+    CHECKF(m_pAIType);
     m_pAIPathFinder = std::make_unique<CAIPathFinder>(pActor);
     if(GetAIData().follow_path() != 0)
     {
@@ -26,6 +28,7 @@ bool CActorAI::Init(CAIActor* pActor, const CAIType* pAIType)
     SetMainTarget(0);
     SetAutoSearchEnemy();
     m_posBorn = GetActor()->GetPos();
+
     ToIdle();
     return true;
 }
@@ -59,6 +62,7 @@ const STATE_DATA& CActorAI::GetStateData(int32_t nState)
 
 void CActorAI::Process()
 {
+    LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(), "AI: Process:{}", GetStateData(m_nState).name);
     std::invoke(GetStateData(m_nState).func, this);
 }
 
@@ -70,7 +74,7 @@ uint32_t CActorAI::GetState() const
 void CActorAI::ChangeState(uint32_t val)
 {
     m_nState = val;
-    LOGAIDEBUG(GetAIData().ai_debug(), "AI: {} ChangeState: {}", GetActor()->GetID(), GetStateData(val).name);
+    LOGAIDEBUG(GetAIData().ai_debug(),  GetActor()->GetID(), "AI: {} ChangeState: {}", GetActor()->GetID(), GetStateData(val).name);
 }
 
 void CActorAI::SetAISleep(bool v)
@@ -82,7 +86,7 @@ void CActorAI::SetAISleep(bool v)
         return;
 
     m_bSleep = v;
-    LOGAIDEBUG(GetAIData().ai_debug(), "AI: {} SetAISleep: {}", GetActor()->GetID(), v ? "true" : "false");
+    LOGAIDEBUG(GetAIData().ai_debug(),  GetActor()->GetID(), "AI: {} SetAISleep: {}", GetActor()->GetID(), v ? "true" : "false");
 
     if(m_bSleep == true)
     {
@@ -213,6 +217,7 @@ bool CActorAI::ToSkill()
     }
 
     LOGAIDEBUG(GetAIData().ai_debug(),
+                 GetActor()->GetID(),
                "AI: {} castSkill: {} Target:{}",
                GetActor()->GetID(),
                pCurSkillType->GetSkillID(),
@@ -292,7 +297,10 @@ void CActorAI::ProcessAttack()
     }
 
     if(TryExecScript(SCB_AI_PROCESS_ATTACK, this, pTarget) == true)
+    {
+        LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(),"AI: TryExecScript Succ");
         return;
+    }
 
     float dis = GameMath::distance(GetActor()->GetPos(), pTarget->GetPos());
     if(dis > GetAIData().attack_target_range())
@@ -305,7 +313,7 @@ void CActorAI::ProcessAttack()
     double self_hp    = double(GetActor()->GetHP()) / double(GetActor()->GetHPMax());
     double self_mp    = double(GetActor()->GetMP()) / double(GetActor()->GetMPMax());
     double target_hp  = double(pTarget->GetHP()) / double(pTarget->GetHPMax());
-    auto   pSkillData = GetActor()->GetSkillSet().ChooseSkill(dis, self_hp, self_mp, target_hp);
+    auto   pSkillData = GetActor()->GetSkillSet().ChooseSkill(m_pAIType->GetSkillFAM(), dis, self_hp, self_mp, target_hp);
     if(pSkillData == nullptr)
     {
         SetMainTarget(0);
@@ -313,7 +321,7 @@ void CActorAI::ProcessAttack()
         return;
     }
 
-    LOGAIDEBUG(GetAIData().ai_debug(),
+    LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(),
                "AI: {} SelectSkill: {}",
                GetActor()->GetID(),
                pSkillData->GetSkillType()->GetID());
@@ -577,7 +585,7 @@ bool CActorAI::FindNextEnemy()
     //遍历周围的敌人
     if(m_pAIType->GetDataRef().ai_type() == AITYPE_ACTIVE)
     {
-        if(m_pAIType == nullptr || m_pAIType->GetTargetFAM() == nullptr)
+        if(m_pAIType->GetTargetFAM() == nullptr)
         {
             OBJID idTarget = SearchEnemy();
             if(idTarget != ID_NONE)
@@ -594,18 +602,18 @@ bool CActorAI::FindNextEnemy()
             for(OBJID idActor: m_pActor->_GetViewList())
             {
                 //找到第一个在范围内的敌人
-                CAIActor* pActor = AIActorManager()->QueryActor(idActor);
-                if(pActor == nullptr)
+                CAIActor* pTarget = AIActorManager()->QueryActor(idActor);
+                if(pTarget == nullptr)
                     continue;
-                if(pActor->IsDead())
+                if(pTarget->IsDead())
                     continue;
-                if(GetActor()->IsEnemy(pActor) == false)
+                if(GetActor()->IsEnemy(pTarget) == false)
                     continue;
 
-                float dis = GameMath::distance(pActor->GetPos(), GetActor()->GetPos());
+                float dis = GameMath::distance(pTarget->GetPos(), GetActor()->GetPos());
                 if(dis >= m_pAIType->GetDataRef().search_enemy_range())
                     continue;
-                double target_hp = (double)pActor->GetHP() / (double)pActor->GetHPMax();
+                double target_hp = (double)pTarget->GetHP() / (double)pTarget->GetHPMax();
 
                 double fDom = m_pAIType->GetTargetFAM()->calculate(dis, self_hp, target_hp);
                 if(fDom > max_fDom)
@@ -632,7 +640,7 @@ void CActorAI::SetMainTarget(OBJID val)
     if(m_idTarget == val)
         return;
 
-    LOGAIDEBUG(GetAIData().ai_debug(), "AI: {} SetMainTarget: {} To {}", GetActor()->GetID(), m_idTarget, val);
+    LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(), "AI: {} SetMainTarget: {} To {}", GetActor()->GetID(), m_idTarget, val);
     m_idTarget = val;
 }
 

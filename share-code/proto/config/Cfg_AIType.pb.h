@@ -162,7 +162,7 @@ class Cfg_AIType_Row :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kSkillIdFieldNumber = 21,
+    kSkillIdFieldNumber = 22,
     kIdmonsterFieldNumber = 1,
     kAiTypeFieldNumber = 2,
     kIdleRandomwalkMsMinFieldNumber = 3,
@@ -181,12 +181,13 @@ class Cfg_AIType_Row :
     kEscapeRangeMaxFieldNumber = 16,
     kAttackWaitMsFieldNumber = 18,
     kTargetfamIdFieldNumber = 20,
+    kSkillfamIdFieldNumber = 21,
     kCanApproachFieldNumber = 17,
-    kAiDebugFieldNumber = 24,
-    kFollowPathFieldNumber = 22,
-    kScriptIdFieldNumber = 23,
+    kAiDebugFieldNumber = 25,
+    kFollowPathFieldNumber = 23,
+    kScriptIdFieldNumber = 24,
   };
-  // repeated uint32 skill_id = 21;
+  // repeated uint32 skill_id = 22;
   int skill_id_size() const;
   private:
   int _internal_skill_id_size() const;
@@ -370,6 +371,15 @@ class Cfg_AIType_Row :
   void _internal_set_targetfam_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
+  // uint32 skillfam_id = 21;
+  void clear_skillfam_id();
+  ::PROTOBUF_NAMESPACE_ID::uint32 skillfam_id() const;
+  void set_skillfam_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_skillfam_id() const;
+  void _internal_set_skillfam_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
   // bool can_approach = 17;
   void clear_can_approach();
   bool can_approach() const;
@@ -379,7 +389,7 @@ class Cfg_AIType_Row :
   void _internal_set_can_approach(bool value);
   public:
 
-  // bool ai_debug = 24;
+  // bool ai_debug = 25;
   void clear_ai_debug();
   bool ai_debug() const;
   void set_ai_debug(bool value);
@@ -388,7 +398,7 @@ class Cfg_AIType_Row :
   void _internal_set_ai_debug(bool value);
   public:
 
-  // uint32 follow_path = 22;
+  // uint32 follow_path = 23;
   void clear_follow_path();
   ::PROTOBUF_NAMESPACE_ID::uint32 follow_path() const;
   void set_follow_path(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -397,7 +407,7 @@ class Cfg_AIType_Row :
   void _internal_set_follow_path(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 script_id = 23;
+  // uint32 script_id = 24;
   void clear_script_id();
   ::PROTOBUF_NAMESPACE_ID::uint32 script_id() const;
   void set_script_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -430,6 +440,7 @@ class Cfg_AIType_Row :
   float escape_range_max_;
   ::PROTOBUF_NAMESPACE_ID::uint32 attack_wait_ms_;
   ::PROTOBUF_NAMESPACE_ID::uint32 targetfam_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 skillfam_id_;
   bool can_approach_;
   bool ai_debug_;
   ::PROTOBUF_NAMESPACE_ID::uint32 follow_path_;
@@ -956,7 +967,27 @@ inline void Cfg_AIType_Row::set_targetfam_id(::PROTOBUF_NAMESPACE_ID::uint32 val
   // @@protoc_insertion_point(field_set:Cfg_AIType.Row.targetfam_id)
 }
 
-// repeated uint32 skill_id = 21;
+// uint32 skillfam_id = 21;
+inline void Cfg_AIType_Row::clear_skillfam_id() {
+  skillfam_id_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_AIType_Row::_internal_skillfam_id() const {
+  return skillfam_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_AIType_Row::skillfam_id() const {
+  // @@protoc_insertion_point(field_get:Cfg_AIType.Row.skillfam_id)
+  return _internal_skillfam_id();
+}
+inline void Cfg_AIType_Row::_internal_set_skillfam_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  skillfam_id_ = value;
+}
+inline void Cfg_AIType_Row::set_skillfam_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_skillfam_id(value);
+  // @@protoc_insertion_point(field_set:Cfg_AIType.Row.skillfam_id)
+}
+
+// repeated uint32 skill_id = 22;
 inline int Cfg_AIType_Row::_internal_skill_id_size() const {
   return skill_id_.size();
 }
@@ -1003,7 +1034,7 @@ Cfg_AIType_Row::mutable_skill_id() {
   return _internal_mutable_skill_id();
 }
 
-// uint32 follow_path = 22;
+// uint32 follow_path = 23;
 inline void Cfg_AIType_Row::clear_follow_path() {
   follow_path_ = 0u;
 }
@@ -1023,7 +1054,7 @@ inline void Cfg_AIType_Row::set_follow_path(::PROTOBUF_NAMESPACE_ID::uint32 valu
   // @@protoc_insertion_point(field_set:Cfg_AIType.Row.follow_path)
 }
 
-// uint32 script_id = 23;
+// uint32 script_id = 24;
 inline void Cfg_AIType_Row::clear_script_id() {
   script_id_ = 0u;
 }
@@ -1043,7 +1074,7 @@ inline void Cfg_AIType_Row::set_script_id(::PROTOBUF_NAMESPACE_ID::uint32 value)
   // @@protoc_insertion_point(field_set:Cfg_AIType.Row.script_id)
 }
 
-// bool ai_debug = 24;
+// bool ai_debug = 25;
 inline void Cfg_AIType_Row::clear_ai_debug() {
   ai_debug_ = false;
 }

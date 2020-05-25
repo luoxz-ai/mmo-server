@@ -25,10 +25,11 @@ message Cfg_AIType
 		uint32 attack_wait_ms			= 18; //攻击间隔
 
 		uint32			targetfam_id = 20; //目标模糊选择器ID
-		repeated uint32 skill_id	 = 21; //技能id
-		uint32			follow_path	 = 22; //巡逻路径编号
-		uint32			script_id	 = 23; //脚本id
-		bool			ai_debug	 = 24; //是否打开调试信息输出
+		uint32			skillfam_id  = 21; //技能模糊选择器ID
+		repeated uint32 skill_id	 = 22; //技能id
+		uint32			follow_path	 = 23; //巡逻路径编号
+		uint32			script_id	 = 24; //脚本id
+		bool			ai_debug	 = 25; //是否打开调试信息输出
 	}
 
 	repeated Row rows = 1;

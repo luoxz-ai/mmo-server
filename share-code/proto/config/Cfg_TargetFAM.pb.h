@@ -162,20 +162,20 @@ class Cfg_TargetFAM_Row :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kIdmonsterFieldNumber = 1,
+    kIdFieldNumber = 1,
     kDisFieldNumber = 2,
     kHpFieldNumber = 3,
     kTargetHpFieldNumber = 4,
     kOperTypeFieldNumber = 5,
     kLikeFieldNumber = 6,
   };
-  // uint32 idmonster = 1;
-  void clear_idmonster();
-  ::PROTOBUF_NAMESPACE_ID::uint32 idmonster() const;
-  void set_idmonster(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  // uint32 id = 1;
+  void clear_id();
+  ::PROTOBUF_NAMESPACE_ID::uint32 id() const;
+  void set_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_idmonster() const;
-  void _internal_set_idmonster(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_id() const;
+  void _internal_set_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
   // uint32 dis = 2;
@@ -228,7 +228,7 @@ class Cfg_TargetFAM_Row :
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 idmonster_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 id_;
   ::PROTOBUF_NAMESPACE_ID::uint32 dis_;
   ::PROTOBUF_NAMESPACE_ID::uint32 hp_;
   ::PROTOBUF_NAMESPACE_ID::uint32 target_hp_;
@@ -376,24 +376,24 @@ class Cfg_TargetFAM :
 #endif  // __GNUC__
 // Cfg_TargetFAM_Row
 
-// uint32 idmonster = 1;
-inline void Cfg_TargetFAM_Row::clear_idmonster() {
-  idmonster_ = 0u;
+// uint32 id = 1;
+inline void Cfg_TargetFAM_Row::clear_id() {
+  id_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_TargetFAM_Row::_internal_idmonster() const {
-  return idmonster_;
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_TargetFAM_Row::_internal_id() const {
+  return id_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_TargetFAM_Row::idmonster() const {
-  // @@protoc_insertion_point(field_get:Cfg_TargetFAM.Row.idmonster)
-  return _internal_idmonster();
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_TargetFAM_Row::id() const {
+  // @@protoc_insertion_point(field_get:Cfg_TargetFAM.Row.id)
+  return _internal_id();
 }
-inline void Cfg_TargetFAM_Row::_internal_set_idmonster(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_TargetFAM_Row::_internal_set_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
-  idmonster_ = value;
+  id_ = value;
 }
-inline void Cfg_TargetFAM_Row::set_idmonster(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  _internal_set_idmonster(value);
-  // @@protoc_insertion_point(field_set:Cfg_TargetFAM.Row.idmonster)
+inline void Cfg_TargetFAM_Row::set_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_id(value);
+  // @@protoc_insertion_point(field_set:Cfg_TargetFAM.Row.id)
 }
 
 // uint32 dis = 2;

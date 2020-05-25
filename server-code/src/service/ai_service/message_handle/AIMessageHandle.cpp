@@ -26,7 +26,7 @@ ON_MSG(CAIService, SC_AOI_UPDATE)
 
     pActor->SetPos(Vector2(msg.posx(), msg.posy()));
     pActor->UpdateViewList();
-    LOGAIDEBUG(true,
+    LOGAIDEBUG(true,  pActor->GetID(),
                "Actor:{} MoveTo {} {:.2f}, {:.2f}",
                pActor->GetID(),
                pActor->GetCurrentScene()->GetMapID(),

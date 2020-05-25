@@ -13,6 +13,7 @@ option(AUTO_GEN_EXPORT_LUA "ON for AUTO_GEN_EXPORT_LUA or OFF" ON)
 option(USE_ASAN "ON for use Address Sanitizer or OFF" OFF)
 option(USE_UBSAN "ON for use UB Sanitizer or OFF" OFF)
 option(USE_TSAN "ON for use Thread Sanitizer or OFF" OFF)
+option(USE_LIBCXX "ON for use libcxx or OFF" OFF)
 
 
 set_directory_properties(PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
@@ -51,10 +52,12 @@ SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -std=c++17 -g -pipe -O3 -DNDEBUG ${C
 
 add_compile_options("-fPIC")
 
+
 #add_compile_options(-Wl,--unresolved-symbols=ignore-in-shared-libs)
 IF(NOT CMAKE_CXX_COMPILER MATCHES "clang")
 #gcc
 add_compile_options("-rdynamic")
+
 ELSE()
 #clang
 link_libraries("-Wl,--export-dynamic")
@@ -62,11 +65,19 @@ link_libraries("-fuse-ld=lld-9")
 
 ENDIF()
 
+
+# IF(USE_LIBCXX)
+# add_compile_options("-stdlib=libc++")
+# link_libraries("c++fs")
+# ELSE()
+# link_libraries("stdc++fs")
+# ENDIF()
+
 IF(USE_ASAN)
   add_compile_options("-DUSE_ASAN")
   add_compile_options("-fsanitize=address")
   add_compile_options("-fno-omit-frame-pointer")
-  #add_compile_options("-fsanitize-address-use-after-scope")
+  add_compile_options("-fsanitize-address-use-after-scope")
   add_compile_options("-fno-common")
   add_compile_options("-fsanitize-recover=address")
   link_libraries("-fsanitize=address")

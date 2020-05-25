@@ -13,7 +13,8 @@
  "searchEnemyMsMax": 3500,
  "canApproach": true,
  "attackWaitMs": 800,
- "targetfamId": 10001,
+ "targetfamId": 1,
+ "skillfamId": 1,
  "skillId": [
   900101,
   900102,
@@ -38,7 +39,7 @@
  "searchEnemyMsMax": 3500,
  "canApproach": true,
  "attackWaitMs": 800,
- "targetfamId": 10002,
+ "targetfamId": 2,
  "skillId": [
   900201,
   900202

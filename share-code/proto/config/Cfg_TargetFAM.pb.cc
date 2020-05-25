@@ -62,7 +62,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_config_2fCfg_5fTargetFAM_2epro
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::Cfg_TargetFAM_Row, idmonster_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_TargetFAM_Row, id_),
   PROTOBUF_FIELD_OFFSET(::Cfg_TargetFAM_Row, dis_),
   PROTOBUF_FIELD_OFFSET(::Cfg_TargetFAM_Row, hp_),
   PROTOBUF_FIELD_OFFSET(::Cfg_TargetFAM_Row, target_hp_),
@@ -86,11 +86,11 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 };
 
 const char descriptor_table_protodef_config_2fCfg_5fTargetFAM_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\032config/Cfg_TargetFAM.proto\"\230\001\n\rCfg_Tar"
+  "\n\032config/Cfg_TargetFAM.proto\"\221\001\n\rCfg_Tar"
   "getFAM\022 \n\004rows\030\001 \003(\0132\022.Cfg_TargetFAM.Row"
-  "\032e\n\003Row\022\021\n\tidmonster\030\001 \001(\r\022\013\n\003dis\030\002 \001(\r\022"
-  "\n\n\002hp\030\003 \001(\r\022\021\n\ttarget_hp\030\004 \001(\r\022\021\n\toper_t"
-  "ype\030\005 \001(\r\022\014\n\004like\030\006 \001(\rB\002H\002b\006proto3"
+  "\032^\n\003Row\022\n\n\002id\030\001 \001(\r\022\013\n\003dis\030\002 \001(\r\022\n\n\002hp\030\003"
+  " \001(\r\022\021\n\ttarget_hp\030\004 \001(\r\022\021\n\toper_type\030\005 \001"
+  "(\r\022\014\n\004like\030\006 \001(\rB\002H\002b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_config_2fCfg_5fTargetFAM_2eproto_deps[1] = {
 };
@@ -101,7 +101,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_con
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_config_2fCfg_5fTargetFAM_2eproto_once;
 static bool descriptor_table_config_2fCfg_5fTargetFAM_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_config_2fCfg_5fTargetFAM_2eproto = {
-  &descriptor_table_config_2fCfg_5fTargetFAM_2eproto_initialized, descriptor_table_protodef_config_2fCfg_5fTargetFAM_2eproto, "config/Cfg_TargetFAM.proto", 195,
+  &descriptor_table_config_2fCfg_5fTargetFAM_2eproto_initialized, descriptor_table_protodef_config_2fCfg_5fTargetFAM_2eproto, "config/Cfg_TargetFAM.proto", 188,
   &descriptor_table_config_2fCfg_5fTargetFAM_2eproto_once, descriptor_table_config_2fCfg_5fTargetFAM_2eproto_sccs, descriptor_table_config_2fCfg_5fTargetFAM_2eproto_deps, 2, 0,
   schemas, file_default_instances, TableStruct_config_2fCfg_5fTargetFAM_2eproto::offsets,
   file_level_metadata_config_2fCfg_5fTargetFAM_2eproto, 2, file_level_enum_descriptors_config_2fCfg_5fTargetFAM_2eproto, file_level_service_descriptors_config_2fCfg_5fTargetFAM_2eproto,
@@ -127,16 +127,16 @@ Cfg_TargetFAM_Row::Cfg_TargetFAM_Row(const Cfg_TargetFAM_Row& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::memcpy(&idmonster_, &from.idmonster_,
+  ::memcpy(&id_, &from.id_,
     static_cast<size_t>(reinterpret_cast<char*>(&like_) -
-    reinterpret_cast<char*>(&idmonster_)) + sizeof(like_));
+    reinterpret_cast<char*>(&id_)) + sizeof(like_));
   // @@protoc_insertion_point(copy_constructor:Cfg_TargetFAM.Row)
 }
 
 void Cfg_TargetFAM_Row::SharedCtor() {
-  ::memset(&idmonster_, 0, static_cast<size_t>(
+  ::memset(&id_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&like_) -
-      reinterpret_cast<char*>(&idmonster_)) + sizeof(like_));
+      reinterpret_cast<char*>(&id_)) + sizeof(like_));
 }
 
 Cfg_TargetFAM_Row::~Cfg_TargetFAM_Row() {

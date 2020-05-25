@@ -1,109 +1,158 @@
 [{
- "idskill": 10001,
+ "id": 1,
  "dis": 2,
  "selfHp": 2,
  "selfMp": 2,
  "targetHp": 2,
+ "skillDis": 2,
+ "skillPow": 2,
+ "skillUsetime": 2,
+ "skillCd": 2,
+ "skillMp": 2,
  "like": 2
 ,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:3  "
 } ,
 {
- "idskill": 10001,
+ "id": 1,
  "dis": 2,
  "selfHp": 2,
  "selfMp": 2,
  "targetHp": 1,
+ "skillDis": 2,
+ "skillPow": 1,
+ "skillUsetime": 1,
+ "skillCd": 1,
+ "skillMp": 1,
  "like": 2
 ,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:4  "
 } ,
 {
- "idskill": 10001,
+ "id": 1,
  "dis": 2,
  "selfHp": 2,
  "selfMp": 2,
+ "skillDis": 2,
  "like": 2
 ,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:5  "
 } ,
 {
- "idskill": 10001,
+ "id": 1,
  "dis": 2,
  "selfHp": 1,
  "selfMp": 2,
  "targetHp": 2,
+ "skillDis": 2,
+ "skillPow": 2,
+ "skillUsetime": 2,
+ "skillCd": 2,
+ "skillMp": 2,
  "like": 2
 ,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:6  "
 } ,
 {
- "idskill": 10001,
+ "id": 1,
  "dis": 2,
  "selfHp": 1,
  "selfMp": 2,
  "targetHp": 1,
+ "skillDis": 2,
+ "skillPow": 1,
+ "skillUsetime": 1,
+ "skillCd": 1,
+ "skillMp": 1,
  "like": 2
 ,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:7  "
 } ,
 {
- "idskill": 10001,
+ "id": 1,
  "dis": 2,
  "selfHp": 1,
  "selfMp": 2,
+ "skillDis": 2,
  "like": 2
 ,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:8  "
 } ,
 {
- "idskill": 10001,
+ "id": 1,
  "dis": 2,
  "selfHp": 2,
  "selfMp": 1,
  "targetHp": 2,
+ "skillDis": 2,
+ "skillPow": 2,
+ "skillUsetime": 2,
+ "skillCd": 2,
+ "skillMp": 2,
  "like": 1
 ,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:9  "
 } ,
 {
- "idskill": 10001,
+ "id": 1,
  "dis": 2,
  "selfHp": 2,
  "selfMp": 1,
  "targetHp": 1,
+ "skillDis": 2,
+ "skillPow": 1,
+ "skillUsetime": 1,
+ "skillCd": 1,
+ "skillMp": 1,
  "like": 1
 ,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:10  "
 } ,
 {
- "idskill": 10001,
+ "id": 1,
  "dis": 2,
  "selfHp": 2,
  "selfMp": 1,
+ "skillDis": 2,
  "like": 1
 ,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:11  "
 } ,
 {
- "idskill": 10001,
+ "id": 1,
  "selfMp": 1,
- "targetHp": 2
+ "targetHp": 2,
+ "skillPow": 2,
+ "skillUsetime": 2,
+ "skillCd": 2,
+ "skillMp": 2
 ,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:12  "
 } ,
 {
- "idskill": 10001,
+ "id": 1,
  "selfMp": 1,
- "targetHp": 1
+ "targetHp": 1,
+ "skillPow": 1,
+ "skillUsetime": 1,
+ "skillCd": 1,
+ "skillMp": 1
 ,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:13  "
 } ,
 {
- "idskill": 10001,
+ "id": 1,
  "selfMp": 1
 ,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:14  "
 } ,
 {
- "idskill": 10001,
- "targetHp": 2
+ "id": 1,
+ "targetHp": 2,
+ "skillPow": 2,
+ "skillUsetime": 2,
+ "skillCd": 2,
+ "skillMp": 2
 ,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:15  "
 } ,
 {
- "idskill": 10001,
- "targetHp": 1
+ "id": 1,
+ "targetHp": 1,
+ "skillPow": 1,
+ "skillUsetime": 1,
+ "skillCd": 1,
+ "skillMp": 1
 ,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:16  "
 } ,
 {
- "idskill": 10001
+ "id": 1
 ,"__debug":"file:Cfg_SkillFAM.xlsx sheet:Sheet1 line:17  "
 } ]
