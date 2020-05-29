@@ -45,6 +45,7 @@ enum OMsgID
     MsgID_SyncTaskPhase       = 20106;
     MsgID_AddTaskPhase        = 20107;
     MsgID_RemoveTaskPhase     = 20108;
+    MsgID_ActorFlyTo          = 20109;
 
     MsgID_TeamCreate       = 20110;
     MsgID_TeamDestory      = 20111;
@@ -270,6 +271,13 @@ message ActorDestory
 };
 
 message ActorMove
+{
+    uint64 actor_id = 1;
+    float  x        = 2;
+    float  y        = 3;
+};
+
+message ActorFlyTo
 {
     uint64 actor_id = 1;
     float  x        = 2;

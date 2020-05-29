@@ -162,7 +162,7 @@ bool CheckSameDay(time_t time1, time_t time2)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-int32_t DateDiffLocal(time_t time1, time_t time2)
+int32_t DayDiffLocal(time_t time1, time_t time2)
 {
     __ENTER_FUNCTION
     struct tm tm1;
@@ -180,41 +180,139 @@ int32_t DateDiffLocal(time_t time1, time_t time2)
 
     int32_t nTmpYear = tm1.tm_year + 1900;
 
-    if(nYears > 0)
-    {
-        while(nYears > 0)
+    if(tm2.tm_year != tm1.tm_year)
+    { 
+        //不同一年
+        int nDayDiffYear = 0;
+        int32_t year1 = std::min<int32_t>(tm1.tm_year,tm2.tm_year);
+        int32_t year2 = std::max<int32_t>(tm1.tm_year,tm2.tm_year);
+        for(int i = year1; i < year2; i++)
         {
-            if(isleap(nTmpYear))
-                nDays += 366;
+            if(isleap(1900+i))
+            { 
+                //闰年
+                nDayDiffYear += 366;
+            }
             else
-                nDays += 365;
-            nTmpYear++;
-            nYears--;
+            {
+                //不是闰年
+                nDayDiffYear += 365;
+            }
         }
+        return nDayDiffYear + (nDays);
     }
-    else if(nYears < 0)
-    {
-        while(nYears < 0)
-        {
-            if(isleap(nTmpYear))
-                nDays -= 366;
-            else
-                nDays -= 365;
-            nTmpYear--;
-            nYears++;
-        }
+    else
+    { 
+        //同年
+        return nDays;
     }
 
-    return nDays;
     __LEAVE_FUNCTION
     return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+int32_t WeekDiffLocal(time_t time1, time_t time2)
+{
+    __ENTER_FUNCTION
+    
+    struct tm tm1;
+    if(0 != localtime_r(&time1, &tm1)) /* Convert to local time. */
+        return false;
+
+    struct tm tm2;
+    if(0 != localtime_r(&time2, &tm2)) /* Convert to local time. */
+        return false;
+    
+	
+	time_t time1_weekstart_time = time1 - (tm1.tm_wday * 86400);
+    time_t time2_weekstart_time = time2 - (tm2.tm_wday * 86400);
+    
+
+    int daydiff = DayDiffLocal(time1_weekstart_time, time2_weekstart_time);
+
+    return daydiff / 7;
+    __LEAVE_FUNCTION
+
+    return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+int32_t MonthDiffLocal(time_t time1, time_t time2)
+{
+    __ENTER_FUNCTION
+    
+    struct tm tm1;
+    if(0 != localtime_r(&time1, &tm1)) /* Convert to local time. */
+        return false;
+
+    struct tm tm2;
+    if(0 != localtime_r(&time2, &tm2)) /* Convert to local time. */
+        return false;
+    
+	int32_t nYears = tm2.tm_year - tm1.tm_year;
+    int32_t nMonths  = tm2.tm_mon - tm1.tm_mon;
+
+    return nYears * 12 + nMonths;
+
+	
+    __LEAVE_FUNCTION
+
+    return 0;
+}
+
+time_t NextDayBeginTimeStamp(time_t time1, int32_t nDays)
+{
+    __ENTER_FUNCTION
+    struct tm tm1;
+    if(0 != localtime_r(&time1, &tm1)) /* Convert to local time. */
+    {
+        tm1.tm_hour    = 0;
+        tm1.tm_min     = 0;
+        tm1.tm_sec     = 0;
+        return mktime(&tm1) + nDays * ONE_DAY_SEC; // 得到次日0点时间戳
+    }
+    
+    __LEAVE_FUNCTION
+    return time1 + nDays * ONE_DAY_SEC;
+}
+
+time_t NextWeekBeginTimeStamp(time_t time1, int32_t nWeeks)
+{
+    __ENTER_FUNCTION
+    struct tm tm1;
+    if(0 != localtime_r(&time1, &tm1)) /* Convert to local time. */
+    {
+        time_t time1_weekstart_time = time1 - (tm1.tm_wday * 86400);
+        return time1_weekstart_time + nWeeks * ONE_WEEK_SEC;
+    }
+    __LEAVE_FUNCTION
+    return time1 + nWeeks * ONE_WEEK_SEC;
+}
+
+time_t NextMonthBeginTimeStamp(time_t time1, int32_t nMonths)
+{
+    __ENTER_FUNCTION
+    struct tm tm1;
+    if(0 != localtime_r(&time1, &tm1)) /* Convert to local time. */
+    {
+        tm1.tm_hour    = 0;
+        tm1.tm_min     = 0;
+        tm1.tm_sec     = 0;
+        tm1.tm_mday    = 1;     
+        tm1.tm_mon     += nMonths;
+        return mktime(&tm1); // 得到次日0点时间戳
+    }
+    __LEAVE_FUNCTION
+    constexpr time_t ONE_MONTH_SEC = 30 * ONE_WEEK_SEC;
+    return time1 + nMonths * ONE_MONTH_SEC;
 }
 
 time_t GetTimeFromString(const std::string& time_str)
 {
     struct tm _tm;
     memset(&_tm, 0, sizeof(_tm));
-    strptime(time_str.c_str(), "%Y-%m-{} %H:%M:{}", &_tm);
+    strptime(time_str.c_str(), "%Y-%m-%d %H:%M:%S", &_tm);
 
     time_t t = mktime(&_tm);
     // t = local2gmt(t);

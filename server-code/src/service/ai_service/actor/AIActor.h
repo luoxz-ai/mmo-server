@@ -47,6 +47,7 @@ public:
 
 public:
     export_lua void         MoveToTarget(const Vector2& posTarget);
+    export_lua void         FlyTo(const Vector2& posTarget);
     export_lua void         CastSkill(uint32_t idSkill, OBJID idTarget);
     export_lua virtual void OnCastSkillFinish(uint32_t stun_ms = 0) {}
 

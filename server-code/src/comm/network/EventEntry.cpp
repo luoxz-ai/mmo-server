@@ -25,8 +25,10 @@ CEventEntry::~CEventEntry()
 void CEventEntry::Destory()
 {
     __ENTER_FUNCTION
+    Cancel();
     if(m_pevTimer)
     {
+        m_pManager->SubEventCount();
         event_free(m_pevTimer);
         m_pevTimer = nullptr;
     }
@@ -62,7 +64,10 @@ void CEventEntry::Cancel()
     {
         m_pCallBack = nullptr;
         if(m_pevTimer)
+        {
             event_del(m_pevTimer);
+            m_pManager->SubRunningEventCount();
+        }
         m_bRunning = false;
     }
     __LEAVE_FUNCTION
@@ -88,7 +93,10 @@ void CEventEntry::Clear()
     __ENTER_FUNCTION
     m_pCallBack = nullptr;
     if(m_pevTimer && m_bRunning)
+    {
         event_del(m_pevTimer);
+        m_pManager->SubRunningEventCount();
+    }
     m_bRunning = false;
     __LEAVE_FUNCTION
 }
@@ -119,6 +127,7 @@ bool CEventEntry::CreateEvTimer(event_base* base)
     __ENTER_FUNCTION
     if(m_pevTimer == nullptr)
     {
+        m_pManager->AddEventCount();
         m_pevTimer = event_new(
             base,
             -1,
@@ -127,11 +136,20 @@ bool CEventEntry::CreateEvTimer(event_base* base)
                 CEventEntry* pEntry = (CEventEntry*)ctx;
                 if(pEntry == nullptr || pEntry->m_pCallBack == nullptr)
                     return;
+                
                 int32_t nEventType   = pEntry->GetEventType();
                 int32_t nManagerType = pEntry->GetManagerType();
+                bool bPersist = pEntry->m_bPersist;
                 pEntry->Trigger();
-                if(pEntry->m_bPersist == false && nManagerType == EMT_EVMANAGER)
-                    pEntry->ReleaseFromManager();
+
+                if(bPersist == false)
+                {
+                    if(nManagerType == EMT_EVMANAGER)
+                    {
+                        pEntry->ReleaseFromManager();
+                        //pEntry is deleted
+                    }
+                }
             },
             this);
     }
@@ -144,12 +162,17 @@ bool CEventEntry::CreateEvTimer(event_base* base)
 void CEventEntry::Trigger()
 {
     __ENTER_FUNCTION
+    if(m_bPersist == false)
+    {
+        m_bRunning = false;
+        m_pManager->SubRunningEventCount();
+    }
+
     if(m_pCallBack)
     {
         m_pCallBack();
     }
-    if(m_bPersist == false)
-        m_bRunning = false;
+    
     __LEAVE_FUNCTION
 }
 

@@ -486,7 +486,7 @@ void basecode2lua(lua_State* L)
     lua_tinker::scope_inner(L, "GameMath", "Intersection2D", "GameMath::Intersection2D");
     lua_tinker::def(L, "CheckSameDay", &CheckSameDay);
     lua_tinker::def(L, "ConvertEnc", &ConvertEnc);
-    lua_tinker::def(L, "DateDiffLocal", &DateDiffLocal);
+    lua_tinker::def(L, "DayDiffLocal", &DayDiffLocal);
     lua_tinker::def(L,
                     "FindNameError",
                     lua_tinker::args_type_overload_functor(
@@ -509,8 +509,12 @@ void basecode2lua(lua_State* L)
     lua_tinker::def(L, "MAKE64", &MAKE64);
     lua_tinker::def(L, "MakeINT64", &MakeINT64);
     lua_tinker::def(L, "MakeUINT64", &MakeUINT64);
+    lua_tinker::def(L, "MonthDiffLocal", &MonthDiffLocal);
     lua_tinker::def(L, "MulDiv", &MulDiv);
     lua_tinker::def(L, "MulDivSign", &MulDivSign);
+    lua_tinker::def(L, "NextDayBeginTimeStamp", &NextDayBeginTimeStamp);
+    lua_tinker::def(L, "NextMonthBeginTimeStamp", &NextMonthBeginTimeStamp);
+    lua_tinker::def(L, "NextWeekBeginTimeStamp", &NextWeekBeginTimeStamp);
     lua_tinker::def(L, "RegexStrCheck", &RegexStrCheck);
     lua_tinker::def(L, "RegexStrReload", &RegexStrReload);
     lua_tinker::def(L,
@@ -526,6 +530,7 @@ void basecode2lua(lua_State* L)
     lua_tinker::def(L, "TrimPath", &TrimPath);
     lua_tinker::def(L, "URLDecode", &URLDecode);
     lua_tinker::def(L, "URLEncode", &URLEncode);
+    lua_tinker::def(L, "WeekDiffLocal", &WeekDiffLocal);
     lua_tinker::def(L, "_TimeGetMillisecond", &_TimeGetMillisecond);
     lua_tinker::def(L, "_TimeGetMonotonic", &_TimeGetMonotonic);
     lua_tinker::def(L, "_TimeGetSecond", &_TimeGetSecond);

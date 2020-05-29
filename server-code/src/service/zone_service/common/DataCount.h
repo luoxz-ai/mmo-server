@@ -25,15 +25,21 @@ export_lua enum {
     DATA_ACC_SYSTEM_KILL_BOSS       = 6, //累计击杀BOSS数量
 };
 
+export_lua enum
+{
+    DATA_COUNT_RESET_NEVER    = 0,       //不重置
+    DATA_COUNT_RESET_BY_DAY   = 1,       //跨N天重置
+    DATA_COUNT_RESET_BY_WEEK  = 2,       //跨N周重置
+    DATA_COUNT_RESET_BY_MONTH = 3,       //跨N月重置
+};
+
+
 class CDataCountLimit : public NoncopyableT<CDataCountLimit>
 {
     CDataCountLimit() {}
     bool Init(const Cfg_DataCountLimit_Row& row)
     {
-        m_nType      = row.type();
-        m_nKeyIdx    = row.keyidx();
-        m_nMaxCount  = row.max_count();
-        m_nResetTime = row.reset_time();
+        m_row = row;
         return true;
     }
 
@@ -45,20 +51,18 @@ public:
     virtual ~CDataCountLimit() {}
 
 public:
-    uint64_t GetID() const { return CDataCountLimit::MakeID(m_nType, m_nKeyIdx); }
-    uint32_t GetType() const { return m_nType; }
-    uint32_t GetKeyIdx() const { return m_nKeyIdx; }
-    uint32_t GetMaxCount() const { return m_nMaxCount; }
-    uint32_t GetResetTime() const { return m_nResetTime; }
+    uint64_t GetID() const { return CDataCountLimit::MakeID(GetType(), GetKeyIdx()); }
+    uint32_t GetType() const { return m_row.type(); }
+    uint32_t GetKeyIdx() const { return m_row.keyidx(); }
+    uint32_t GetMaxCount() const { return m_row.max_count(); }
+    uint32_t GetResetType() const { return m_row.reset_type(); }
+    uint32_t GetResetTime() const { return m_row.reset_time(); }
 
 public:
     static uint64_t MakeID(uint32_t nType, uint32_t nKeyIdx) { return ((uint64_t)(nType) << 32) | (uint64_t)(nKeyIdx); }
 
 protected:
-    uint32_t m_nType;
-    uint32_t m_nKeyIdx;
-    uint32_t m_nMaxCount;
-    uint32_t m_nResetTime;
+    Cfg_DataCountLimit_Row m_row;
 };
 
 DEFINE_GAMEMAPDATA(CDataCountLimitSet, CDataCountLimit);
@@ -74,7 +78,7 @@ public:
     export_lua uint32_t GetType() const;
     export_lua uint32_t GetIdx() const;
     export_lua uint64_t GetDataNum();
-    export_lua uint32_t GetLastResetTime() const;
+    export_lua uint32_t GetNextResetTime() const;
 
     export_lua uint64_t AddData(uint32_t nVal, bool bUpdate);
     export_lua uint64_t SetData(uint64_t nVal, bool bUpdate);

@@ -86,7 +86,7 @@ bool CServiceCommon::CreateService(int32_t                         nWorkInterval
         return false;
     //开启逻辑线程处理来自其他服务器的消息
     StartLogicThread(nWorkInterval, GetServiceName() + "_Logic");
-    BaseCode::InitMonitorLog(m_ServiceName);
+
     LOGMESSAGE("{} {} Create", GetServiceName().c_str(), GetServerPort().GetServiceID());
     __LEAVE_FUNCTION
     return true;
@@ -174,6 +174,7 @@ void CServiceCommon::OnLogicThreadProc()
 
 void CServiceCommon::OnLogicThreadCreate()
 {
+    BaseCode::InitMonitorLog(m_ServiceName);
 }
 
 void CServiceCommon::OnLogicThreadExit() {}

@@ -133,7 +133,15 @@ void ai2lua(lua_State* L)
     lua_tinker::class_var_static<AxisAlignedBox>(L, "NEAR_LEFT_TOP", AxisAlignedBox::NEAR_LEFT_TOP);
     lua_tinker::class_var_static<AxisAlignedBox>(L, "NEAR_RIGHT_BOTTOM", AxisAlignedBox::NEAR_RIGHT_BOTTOM);
     lua_tinker::class_var_static<AxisAlignedBox>(L, "NEAR_RIGHT_TOP", AxisAlignedBox::NEAR_RIGHT_TOP);
+    lua_tinker::class_add<CAIGroup>(L, "CAIGroup", false);
+    lua_tinker::class_def<CAIGroup>(L, "AddMember", &CAIGroup::AddMember);
+    lua_tinker::class_def<CAIGroup>(L, "FindIF", &CAIGroup::FindIF);
+    lua_tinker::class_def<CAIGroup>(L, "Foreach", &CAIGroup::Foreach);
+    lua_tinker::class_def<CAIGroup>(L, "RemoveMember", &CAIGroup::RemoveMember);
+    lua_tinker::class_add<CAIGroupManager>(L, "CAIGroupManager", false);
+    lua_tinker::class_def<CAIGroupManager>(L, "GetGroup", &CAIGroupManager::GetGroup);
     lua_tinker::class_add<CAIPhase>(L, "CAIPhase", false);
+    lua_tinker::class_def<CAIPhase>(L, "GetAIGroupMgr", &CAIPhase::GetAIGroupMgr);
     lua_tinker::class_def<CAIPhase>(L, "GetPhaseID", &CAIPhase::GetPhaseID);
     lua_tinker::class_add<CAIScene>(L, "CAIScene", false);
     lua_tinker::class_def<CAIScene>(
@@ -148,6 +156,35 @@ void ai2lua(lua_State* L)
     lua_tinker::class_def<CAIScene>(L, "DestoryPhaseByIdx", &CAIScene::DestoryPhaseByIdx);
     lua_tinker::class_def<CAIScene>(L, "QueryPhaseByID", &CAIScene::QueryPhaseByID);
     lua_tinker::class_def<CAIScene>(L, "QueryPhaseByIdx", &CAIScene::QueryPhaseByIdx);
+    lua_tinker::class_add<CActorAI>(L, "CActorAI", false);
+    lua_tinker::class_def<CActorAI>(L, "AddHate", &CActorAI::AddHate);
+    lua_tinker::class_def<CActorAI>(L, "ChangeState", &CActorAI::ChangeState);
+    lua_tinker::class_def<CActorAI>(L, "ClearHateList", &CActorAI::ClearHateList);
+    lua_tinker::class_def<CActorAI>(L, "FindEnemyInHateList", &CActorAI::FindEnemyInHateList);
+    lua_tinker::class_def<CActorAI>(L, "FindNextEnemy", &CActorAI::FindNextEnemy);
+    lua_tinker::class_def<CActorAI>(L, "ForEachInHateList", &CActorAI::ForEachInHateList);
+    lua_tinker::class_def<CActorAI>(L, "GetAIGroup", &CActorAI::GetAIGroup);
+    lua_tinker::class_def<CActorAI>(L, "GetAIType", &CActorAI::GetAIType);
+    lua_tinker::class_def<CActorAI>(L, "GetActor", &CActorAI::GetActor);
+    lua_tinker::class_def<CActorAI>(L, "GetCurSkillTypeID", &CActorAI::GetCurSkillTypeID);
+    lua_tinker::class_def<CActorAI>(L, "GetMainTarget", &CActorAI::GetMainTarget);
+    lua_tinker::class_def<CActorAI>(L, "GetState", &CActorAI::GetState);
+    lua_tinker::class_def<CActorAI>(L, "OrderAttack", &CActorAI::OrderAttack);
+    lua_tinker::class_def<CActorAI>(L, "PathFind", &CActorAI::PathFind);
+    lua_tinker::class_def<CActorAI>(L, "SearchEnemy", &CActorAI::SearchEnemy);
+    lua_tinker::class_def<CActorAI>(L, "SetAISleep", &CActorAI::SetAISleep);
+    lua_tinker::class_def<CActorAI>(L, "SetCurSkillTypeID", &CActorAI::SetCurSkillTypeID);
+    lua_tinker::class_def<CActorAI>(L, "SetMainTarget", &CActorAI::SetMainTarget);
+    lua_tinker::class_def<CActorAI>(L, "ToApproach", &CActorAI::ToApproach);
+    lua_tinker::class_def<CActorAI>(L, "ToAttack", &CActorAI::ToAttack);
+    lua_tinker::class_def<CActorAI>(L, "ToEscape", &CActorAI::ToEscape);
+    lua_tinker::class_def<CActorAI>(L, "ToGoBack", &CActorAI::ToGoBack);
+    lua_tinker::class_def<CActorAI>(L, "ToIdle", &CActorAI::ToIdle);
+    lua_tinker::class_def<CActorAI>(L, "ToPatrolWait", &CActorAI::ToPatrolWait);
+    lua_tinker::class_def<CActorAI>(L, "ToPratol", &CActorAI::ToPratol);
+    lua_tinker::class_def<CActorAI>(L, "ToRandMove", &CActorAI::ToRandMove);
+    lua_tinker::class_def<CActorAI>(L, "ToSkill", &CActorAI::ToSkill);
+    lua_tinker::class_def<CActorAI>(L, "ToSkillFinish", &CActorAI::ToSkillFinish);
     lua_tinker::class_add<CGameMap>(L, "CGameMap", false);
     lua_tinker::class_def<CGameMap>(L, "FindPosNearby", &CGameMap::FindPosNearby);
     lua_tinker::class_def<CGameMap>(L, "GetEnterPointByIdx", &CGameMap::GetEnterPointByIdx);
@@ -694,7 +731,7 @@ void ai2lua(lua_State* L)
     lua_tinker::scope_inner(L, "GameMath", "Intersection2D", "GameMath::Intersection2D");
     lua_tinker::def(L, "CheckSameDay", &CheckSameDay);
     lua_tinker::def(L, "ConvertEnc", &ConvertEnc);
-    lua_tinker::def(L, "DateDiffLocal", &DateDiffLocal);
+    lua_tinker::def(L, "DayDiffLocal", &DayDiffLocal);
     lua_tinker::def(L,
                     "FindNameError",
                     lua_tinker::args_type_overload_functor(
@@ -716,8 +753,12 @@ void ai2lua(lua_State* L)
     lua_tinker::def(L, "MAKE64", &MAKE64);
     lua_tinker::def(L, "MakeINT64", &MakeINT64);
     lua_tinker::def(L, "MakeUINT64", &MakeUINT64);
+    lua_tinker::def(L, "MonthDiffLocal", &MonthDiffLocal);
     lua_tinker::def(L, "MulDiv", &MulDiv);
     lua_tinker::def(L, "MulDivSign", &MulDivSign);
+    lua_tinker::def(L, "NextDayBeginTimeStamp", &NextDayBeginTimeStamp);
+    lua_tinker::def(L, "NextMonthBeginTimeStamp", &NextMonthBeginTimeStamp);
+    lua_tinker::def(L, "NextWeekBeginTimeStamp", &NextWeekBeginTimeStamp);
     lua_tinker::def(L, "RegexStrCheck", &RegexStrCheck);
     lua_tinker::def(L, "RegexStrReload", &RegexStrReload);
     lua_tinker::def(L,
@@ -733,6 +774,7 @@ void ai2lua(lua_State* L)
     lua_tinker::def(L, "TrimPath", &TrimPath);
     lua_tinker::def(L, "URLDecode", &URLDecode);
     lua_tinker::def(L, "URLEncode", &URLEncode);
+    lua_tinker::def(L, "WeekDiffLocal", &WeekDiffLocal);
     lua_tinker::def(L, "_TimeGetMillisecond", &_TimeGetMillisecond);
     lua_tinker::def(L, "_TimeGetMonotonic", &_TimeGetMonotonic);
     lua_tinker::def(L, "_TimeGetSecond", &_TimeGetSecond);
@@ -769,6 +811,17 @@ void ai2lua(lua_State* L)
     lua_tinker::set(L, "UPDATE_TRUE", UPDATE_TRUE);
     lua_tinker::set(L, "ZONE_SERICE_COUNT", ZONE_SERICE_COUNT);
     lua_tinker::set(L, "AI_SERVICE", AI_SERVICE);
+    lua_tinker::set(L, "ATT_APPROACH", ATT_APPROACH);
+    lua_tinker::set(L, "ATT_ATTACK", ATT_ATTACK);
+    lua_tinker::set(L, "ATT_ESCAPE", ATT_ESCAPE);
+    lua_tinker::set(L, "ATT_GOBACK", ATT_GOBACK);
+    lua_tinker::set(L, "ATT_IDLE", ATT_IDLE);
+    lua_tinker::set(L, "ATT_MAX", ATT_MAX);
+    lua_tinker::set(L, "ATT_PRATOL", ATT_PRATOL);
+    lua_tinker::set(L, "ATT_PRATOLWAIT", ATT_PRATOLWAIT);
+    lua_tinker::set(L, "ATT_RANDMOVE", ATT_RANDMOVE);
+    lua_tinker::set(L, "ATT_SKILL", ATT_SKILL);
+    lua_tinker::set(L, "ATT_SKILLWAIT", ATT_SKILLWAIT);
     lua_tinker::set(L, "GLOBAL_ROUTE_SERVICE", GLOBAL_ROUTE_SERVICE);
     lua_tinker::set(L, "GM_PROXY_SERVICE", GM_PROXY_SERVICE);
     lua_tinker::set(L, "GM_SERVICE", GM_SERVICE);

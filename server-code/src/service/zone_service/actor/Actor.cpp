@@ -556,6 +556,7 @@ bool CActor::SendMsg(const google::protobuf::Message& msg) const
 
 void CActor::BroadcastShowTo(const VirtualSocketMap_t& VSMap)
 {
+    __ENTER_FUNCTION
     SC_AOI_NEW msg;
     MakeShowData(msg);
     ZoneService()->SendMsgTo(VSMap, msg);
@@ -565,13 +566,17 @@ void CActor::BroadcastShowTo(const VirtualSocketMap_t& VSMap)
         m_pStatus->FillStatusMsg(status_msg);
         ZoneService()->SendMsgTo(VSMap, msg);
     }
+
+    __LEAVE_FUNCTION
 }
 
 void CActor::BroadcastMessageTo(uint32_t                         cmd,
                                 const google::protobuf::Message& msg,
                                 const VirtualSocketMap_t&        setSocketMap)
 {
+    __ENTER_FUNCTION
     //如果有需要发送new数据的,这里要优先发送一次
     SendShowToDealyList();
     ZoneService()->SendMsgTo(setSocketMap, cmd, msg);
+    __LEAVE_FUNCTION
 }

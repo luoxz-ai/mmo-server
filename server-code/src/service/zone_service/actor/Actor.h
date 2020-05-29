@@ -153,6 +153,7 @@ public:
     export_lua bool MoveTo(const Vector2& posTarget, bool bCheckMove = true);
     export_lua bool CheckCanMove(const Vector2& posTarget, bool bSet = true);
     export_lua bool CanMove();
+    export_lua void FlyTo(const Vector2& pos);
 
     export_lua bool _CastSkill(uint32_t idSkill, OBJID idTarget, const Vector2& targetPos);
 

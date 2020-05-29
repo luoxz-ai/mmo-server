@@ -10,6 +10,8 @@
 
 ON_SERVERMSG(CZoneService, MonsterGen)
 {
+    __ENTER_FUNCTION
+
     CPhase* pPhase = SceneManager()->QueryPhase(msg.scene_id());
     CHECK_FMT(pPhase, "msg.scene_id:{}", msg.scene_id());
 
@@ -24,10 +26,14 @@ ON_SERVERMSG(CZoneService, MonsterGen)
 
     CMonster* pMonster = pPhase->CreateMonster(param);
     CHECK(pMonster);
+
+    __LEAVE_FUNCTION
 }
 
 ON_SERVERMSG(CZoneService, MonsterGenMulti)
 {
+    __ENTER_FUNCTION
+
     CPhase* pPhase = SceneManager()->QueryPhase(msg.scene_id());
     CHECK(pPhase);
 
@@ -42,27 +48,52 @@ ON_SERVERMSG(CZoneService, MonsterGenMulti)
 
     bool bSucc = pPhase->CreateMultiMonster(param, msg.num(), msg.range());
     CHECK(bSucc);
+
+    __LEAVE_FUNCTION
 }
 
 ON_SERVERMSG(CZoneService, MonsterDestory)
 {
+    __ENTER_FUNCTION
+
     for(int32_t i = 0; i < msg.monster_id_size(); i++)
     {
         ActorManager()->DelActorByID(msg.monster_id(i));
     }
+
+    __LEAVE_FUNCTION
 }
 
 ON_SERVERMSG(CZoneService, ActorMove)
 {
+    __ENTER_FUNCTION
+
     CActor* pActor = ActorManager()->QueryActor(msg.actor_id());
     if(pActor == nullptr)
         return;
-    pActor->MoveTo(Vector2(msg.x(), msg.y()));
     pActor->FaceTo(Vector2(msg.x(), msg.y()));
+    pActor->MoveTo(Vector2(msg.x(), msg.y()));
+    
+
+    __LEAVE_FUNCTION
+}
+
+ON_SERVERMSG(CZoneService, ActorFlyTo)
+{
+    __ENTER_FUNCTION
+
+    CActor* pActor = ActorManager()->QueryActor(msg.actor_id());
+    if(pActor == nullptr)
+        return;
+    pActor->FlyTo(Vector2(msg.x(), msg.y()));
+
+    __LEAVE_FUNCTION
 }
 
 ON_SERVERMSG(CZoneService, ActorCastSkill)
 {
+    __ENTER_FUNCTION
+
     CActor* pActor = ActorManager()->QueryActor(msg.actor_id());
     if(pActor == nullptr)
         return;
@@ -72,10 +103,14 @@ ON_SERVERMSG(CZoneService, ActorCastSkill)
         send_msg.set_actor_id(msg.actor_id());
         ZoneService()->SendServerMsgToAIService(send_msg);
     }
+
+    __LEAVE_FUNCTION
 }
 
 ON_SERVERMSG(CZoneService, ServiceReady)
 {
+    __ENTER_FUNCTION
+
     // send message to world, notify zone ready
     if(ZoneService()->IsSharedZone() == false)
     {
@@ -84,4 +119,7 @@ ON_SERVERMSG(CZoneService, ServiceReady)
 
         ZoneService()->SendMsgToWorld(ZoneService()->GetWorldID(), ServerMSG::MsgID_ServiceReady, msg);
     }
+
+
+    __LEAVE_FUNCTION
 }

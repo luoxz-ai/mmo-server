@@ -8,7 +8,7 @@ message tbld_commondata
     uint64 id       = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true];
     uint64 playerid = 2 [(sql).keys = "idx_player"]; //玩家id
     uint32 keytype  = 3;                             //数据类型
-    uint64 keyidx   = 4;                             //数据编号
+    uint32 keyidx   = 4;                             //数据编号
     uint64 data0    = 5;                             //数据1
     uint64 data1    = 6;                             //数据2
     uint64 data2    = 7;                             //数据3
@@ -21,7 +21,7 @@ message tbld_cooldown
     uint64 id          = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true];
     uint64 playerid    = 2 [(sql).keys = "idx_player, idx_player_idx"]; //玩家id
     uint32 keytype     = 3 [(sql).keys = "idx_player_idx"];             // CD类型
-    uint64 keyidx      = 4 [(sql).keys = "idx_player_idx"];             // CD编号
+    uint32 keyidx      = 4 [(sql).keys = "idx_player_idx"];             // CD编号
     uint32 expire_time = 5;                                             // CD结束时间戳
 }
 
@@ -31,9 +31,9 @@ message tbld_datacount
     uint64 id              = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true];
     uint64 playerid        = 2 [(sql).keys = "idx_player, idx_player_idx"]; //玩家id
     uint32 keytype         = 3 [(sql).keys = "idx_player_idx"];             // data类型
-    uint64 keyidx          = 4 [(sql).keys = "idx_player_idx"];             // data编号
+    uint32 keyidx          = 4 [(sql).keys = "idx_player_idx"];             // data编号
     uint64 data_num        = 5;                                             //累计计数
-    uint32 last_reset_time = 6;                                             //最后1次重置的时间戳
+    uint32 next_reset_time = 6;                                             //下一次重置的时间戳
 }
 
 message tbld_global_mail

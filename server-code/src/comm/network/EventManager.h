@@ -24,7 +24,7 @@ public:
     void Destory();
 
     void   OnTimer();
-    size_t GetEventCount();
+    
 
     bool RemoveWait(CEventEntry* pEntry);
 
@@ -36,6 +36,13 @@ public:
     bool ScheduleEvent(const CEventEntryCreateParam& param,
                        CEventEntryMap&     refEntryMap);
 
+    size_t GetEventCount();
+    void AddEventCount();
+    void SubEventCount();
+    size_t GetRunningEventCount();
+    void AddRunningEventCount();
+    void SubRunningEventCount();
+
 protected:
     CEventEntry* _ScheduleEvent(const CEventEntryCreateParam& param,
                                CEventEntry*        pEntry,
@@ -46,11 +53,12 @@ protected:
     void         ScheduleWait();
 
 protected:
-    void Delete(CEventEntry* pEntry);
-
+    void _DeleteMapedEvent(CEventEntry* pEntry);
 protected:
-    event_base*                        m_pBase;
-    bool                               m_bOwnBase;
+    event_base*                        m_pBase = nullptr;
+    bool                               m_bOwnBase = false;
+    std::atomic<size_t>                m_nEventCount = 0;
+    std::atomic<size_t>                m_nRunningEventCount = 0;
     std::map<uint32_t, struct timeval> m_mapCommonTimeVal;
     std::map<CEventEntry*, bool>       m_mapEntry;
     std::set<CEventEntry*>             m_setWaitEntry;

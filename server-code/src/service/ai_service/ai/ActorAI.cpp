@@ -6,54 +6,71 @@
 #include "AIPathFinder.h"
 #include "AIPhase.h"
 #include "AIService.h"
+#include "AIGroup.h"
 
 constexpr int32_t MOVE_PER_WAIT_MS = 500; //每500ms向zone发送一次移动消息
 
 CActorAI::CActorAI() {}
 
-CActorAI::~CActorAI() {}
+CActorAI::~CActorAI() 
+{
+    if(GetActor() && GetAIType())
+    {
+        LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(),"AI: Finish Succ");
+    }
+}
 
 bool CActorAI::Init(CAIActor* pActor, const CAIType* pAIType)
 {
+    __ENTER_FUNCTION
     m_pActor        = pActor;
     m_pAIType       = pAIType;
     CHECKF(m_pActor);
     CHECKF(m_pAIType);
-    m_pAIPathFinder = std::make_unique<CAIPathFinder>(pActor);
+    m_pAIPathFinder = std::make_unique<CAIPathFinder_Normal>(pActor);
     if(GetAIData().follow_path() != 0)
     {
         m_pPathData = GetActor()->GetCurrentScene()->GetMap()->GetPatrolDataByIdx(GetAIData().follow_path());
     }
 
     SetMainTarget(0);
-    SetAutoSearchEnemy();
     m_posBorn = GetActor()->GetPos();
+
+    LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(),"AI: Init Succ");
 
     ToIdle();
     return true;
+    __LEAVE_FUNCTION
+    return false;
 }
 
 void CActorAI::OnUnderAttack(OBJID idTarget, int32_t nDamage)
 {
-    if(TryExecScript(SCB_AI_ONUNDERATTACK, this, idTarget, nDamage) == true)
+    __ENTER_FUNCTION
+    if(TryExecScript<bool>(SCB_AI_ONUNDERATTACK, this, idTarget, nDamage) == true)
+    {
+        LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(),"AI: SCB_AI_ONUNDERATTACK Succ");
         return;
+    }
     AddHate(idTarget, nDamage);
+
+    __LEAVE_FUNCTION
 }
 
 void CActorAI::OnDead() {}
 
-const STATE_DATA& CActorAI::GetStateData(int32_t nState)
+const STATE_DATA& CActorAI::GetStateData(uint32_t nState)
 {
-    CHECKFSR_FMT(nState >= 0 && nState < ATT_MAX, STATE_DATA, "nState={}", nState);
-    static STATE_DATA STATE_DATA_ARRAY[] = {
+    CHECKFSR_FMT(nState < ATT_MAX, STATE_DATA, "nState={}", nState);
+    static const STATE_DATA STATE_DATA_ARRAY[] = {
         {"ATT_IDLE", &CActorAI::ProcessIdle},
         {"ATT_ATTACK", &CActorAI::ProcessAttack},
         {"ATT_APPROACH", &CActorAI::ProcessApproach},
         {"ATT_SKILL", &CActorAI::ProcessSkill},
         {"ATT_SKILLWAIT", &CActorAI::ProcessSkillWait},
         {"ATT_ESCAPE", &CActorAI::ProcessEscape},
-        {"ATT_GOBACK", &CActorAI::ProcessPatrol},
-        {"ATT_PRATOL", &CActorAI::ProcessGoback},
+        {"ATT_GOBACK", &CActorAI::ProcessGoback},
+        {"ATT_PRATOL", &CActorAI::ProcessPatrol},
         {"ATT_PRATOLWAIT", &CActorAI::ProcessPatrolWait},
         {"ATT_RANDMOVE", &CActorAI::ProcessRandMove},
     };
@@ -62,8 +79,11 @@ const STATE_DATA& CActorAI::GetStateData(int32_t nState)
 
 void CActorAI::Process()
 {
-    LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(), "AI: Process:{}", GetStateData(m_nState).name);
-    std::invoke(GetStateData(m_nState).func, this);
+    __ENTER_FUNCTION
+    const auto& state_data =  GetStateData(m_nState);
+    LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(), "AI: Process:{}",state_data.name);
+    std::invoke(state_data.func, this);
+    __LEAVE_FUNCTION
 }
 
 uint32_t CActorAI::GetState() const
@@ -79,6 +99,7 @@ void CActorAI::ChangeState(uint32_t val)
 
 void CActorAI::SetAISleep(bool v)
 {
+    __ENTER_FUNCTION
     if(m_bSleep == v)
         return;
 
@@ -97,13 +118,14 @@ void CActorAI::SetAISleep(bool v)
     else
     {
         // unsleep
-        SetAutoSearchEnemy();
         ToIdle();
     }
+    __LEAVE_FUNCTION
 }
 
 bool CActorAI::ToRandMove()
 {
+    __ENTER_FUNCTION
     ChangeState(ATT_RANDMOVE);
 
     float dis = GameMath::distance(m_posBorn, GetActor()->GetPos());
@@ -120,10 +142,13 @@ bool CActorAI::ToRandMove()
 
     AddNextCall(MOVE_PER_WAIT_MS);
     return true;
+    __LEAVE_FUNCTION
+    return false;
 }
 
 bool CActorAI::ToPratol()
 {
+    __ENTER_FUNCTION
     if(m_pPathData == nullptr)
         return false;
 
@@ -133,20 +158,29 @@ bool CActorAI::ToPratol()
     }
     else
     {
-        const auto& data = GetCurPratolData();
-        m_posTarget      = Vector2(data.x(), data.y());
+        auto pData = GetCurPratolData();
+        if(pData == nullptr)
+            return false;
+        m_posTarget      = Vector2(pData->x(), pData->y());
         AddNextCall(MOVE_PER_WAIT_MS);
         ChangeState(ATT_PRATOL);
         return true;
     }
+
+    __LEAVE_FUNCTION
+    return false;
 }
 
 bool CActorAI::ToIdle()
 {
-    if(TryExecScript(SCB_AI_TO_IDLE, this) == true)
+    __ENTER_FUNCTION
+    if(TryExecScript<bool>(SCB_AI_TO_IDLE, this) == true)
+    {
+        LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(),"AI: SCB_AI_TO_IDLE Succ");
         return true;
+    }
 
-    if(GetAIData().follow_path())
+    if(GetAIData().follow_path() && m_pPathData)
     {
         // 如果是巡逻怪物，则开始巡逻
         if(ToPratol())
@@ -161,22 +195,29 @@ bool CActorAI::ToIdle()
         return false;
     }
 
+    SetAutoSearchEnemy();
     if(GetAIData().idle_randomwalk_ms_max() > 0 && GetActor()->GetMoveSpeed() != 0)
     {
         AddNextCall(random_uint32_range(GetAIData().idle_randomwalk_ms_min(), GetAIData().idle_randomwalk_ms_max()));
     }
     return true;
+    __LEAVE_FUNCTION
+    return false;
 }
 
 bool CActorAI::ToAttack()
 {
+    __ENTER_FUNCTION
     ChangeState(ATT_ATTACK);
     AddNextCall(GetAIData().attack_wait_ms());
     return true;
+    __LEAVE_FUNCTION
+    return false;
 }
 
 bool CActorAI::ToApproach()
 {
+    __ENTER_FUNCTION
     if(GetActor()->GetMoveSpeed() == 0 || GetAIData().can_approach() == false)
     {
         return ToAttack();
@@ -185,10 +226,13 @@ bool CActorAI::ToApproach()
     ChangeState(ATT_APPROACH); // 转换到approach状态
     AddNextCall(200);
     return true;
+    __LEAVE_FUNCTION
+    return false;
 }
 
 bool CActorAI::ToSkill()
 {
+    __ENTER_FUNCTION
     CAIActor* pTarget = AIActorManager()->QueryActor(GetMainTarget());
     if(pTarget == nullptr || pTarget->IsDead() == true)
     { // 目标不存在或已死亡
@@ -227,10 +271,13 @@ bool CActorAI::ToSkill()
     GetActor()->CastSkill(pCurSkillType->GetSkillID(), m_idTarget);
     ChangeState(ATT_SKILL); // 转换到skill状态
     return true;
+    __LEAVE_FUNCTION
+    return false;
 }
 
 bool CActorAI::ToEscape(OBJID idTarget)
 {
+    __ENTER_FUNCTION
     CAIActor* pTarget = AIActorManager()->QueryActor(idTarget);
     if(pTarget == nullptr || pTarget->IsDead() == true)
     { // 目标不存在或已死亡
@@ -243,41 +290,61 @@ bool CActorAI::ToEscape(OBJID idTarget)
     ChangeState(ATT_ESCAPE); // 转换到ESCAPE状态
     AddNextCall(MOVE_PER_WAIT_MS);
     return true;
+    __LEAVE_FUNCTION
+    return false;
 }
 
 bool CActorAI::ToGoBack()
 {
-    if(TryExecScript(SCB_AI_TO_GOBACK, this) == true)
+    __ENTER_FUNCTION
+    if(TryExecScript<bool>(SCB_AI_TO_GOBACK, this) == true)
+    {
+        LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(),"AI: SCB_AI_TO_GOBACK Succ");
         return true;
+    }
 
     m_posTarget = m_posRecord;
     ChangeState(ATT_GOBACK); // 转换到ESCAPE状态
     AddNextCall(MOVE_PER_WAIT_MS);
     return true;
+    __LEAVE_FUNCTION
+    return false;
 }
 
 bool CActorAI::ToPatrolWait(uint32_t wait_min, uint32_t wait_max)
 {
+    __ENTER_FUNCTION
     ChangeState(ATT_PRATOLWAIT); // 转换到ESCAPE状态
     AddNextCall(random_uint32_range(wait_min, wait_max));
     return true;
+    __LEAVE_FUNCTION
+    return false;
 }
 
 bool CActorAI::ToSkillFinish(uint32_t stun_ms)
 {
+    __ENTER_FUNCTION
     ChangeState(ATT_SKILLWAIT); // 转换到ESCAPE状态
     AddNextCall(stun_ms);
     return true;
+    __LEAVE_FUNCTION
+    return false;
 }
 
 void CActorAI::ProcessAttack()
 {
+    __ENTER_FUNCTION
     if(GetMainTarget() == 0)
     {
         if(FindNextEnemy() == false)
         {
+            LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(),"AI: FindNextEnemy fail");
             ToGoBack();
             return;
+        }
+        else
+        {
+            LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(),"AI: FindNextEnemy Succ");
         }
     }
 
@@ -286,25 +353,29 @@ void CActorAI::ProcessAttack()
     {
         if(FindNextEnemy() == false)
         {
+            LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(),"AI: FindNextEnemy New fail");
             ToGoBack();
             return;
         }
         else
         {
+            LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(),"AI: FindNextEnemy New Succ");
             ToAttack();
             return;
         }
     }
 
-    if(TryExecScript(SCB_AI_PROCESS_ATTACK, this, pTarget) == true)
+    if(TryExecScript<bool>(SCB_AI_PROCESS_ATTACK, this, pTarget) == true)
     {
-        LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(),"AI: TryExecScript Succ");
+        LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(),"AI: TryExecScript SCB_AI_PROCESS_ATTACK Succ");
         return;
     }
 
     float dis = GameMath::distance(GetActor()->GetPos(), pTarget->GetPos());
     if(dis > GetAIData().attack_target_range())
     {
+        LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(),"AI: ProessAttack target out of range");
+
         SetMainTarget(0);
         ToAttack();
         return;
@@ -316,6 +387,8 @@ void CActorAI::ProcessAttack()
     auto   pSkillData = GetActor()->GetSkillSet().ChooseSkill(m_pAIType->GetSkillFAM(), dis, self_hp, self_mp, target_hp);
     if(pSkillData == nullptr)
     {
+        LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(),"AI: Skill can't choose");
+
         SetMainTarget(0);
         ToAttack();
         return;
@@ -327,10 +400,12 @@ void CActorAI::ProcessAttack()
                pSkillData->GetSkillType()->GetID());
     SetCurSkillTypeID(pSkillData->GetSkillType()->GetID());
     ToSkill();
+    __LEAVE_FUNCTION
 }
 
 void CActorAI::ProcessRandMove()
 {
+    __ENTER_FUNCTION
     if(GetActor()->GetPos() == m_posTarget)
     {
         ToIdle();
@@ -340,23 +415,31 @@ void CActorAI::ProcessRandMove()
     if(posStep == GetActor()->GetPos())
     {
         //没有找到路径
+        ToIdle();
+        return;
     }
     GetActor()->MoveToTarget(posStep);
     AddNextCall(MOVE_PER_WAIT_MS);
+    __LEAVE_FUNCTION
 }
 
 void CActorAI::ProcessIdle()
 {
+    __ENTER_FUNCTION
     ToRandMove();
+    __LEAVE_FUNCTION
 }
 
 void CActorAI::ProcessSkillWait()
 {
+    __ENTER_FUNCTION
     ToAttack();
+    __LEAVE_FUNCTION
 }
 
 void CActorAI::ProcessApproach()
 {
+    __ENTER_FUNCTION
     CAIActor* pTarget = AIActorManager()->QueryActor(GetMainTarget());
     if(pTarget == nullptr || pTarget->IsDead() == true)
     {
@@ -382,6 +465,8 @@ void CActorAI::ProcessApproach()
         if(posStep == GetActor()->GetPos())
         {
             //没有找到路径
+
+            
         }
         GetActor()->MoveToTarget(posStep);
         AddNextCall(MOVE_PER_WAIT_MS);
@@ -390,10 +475,12 @@ void CActorAI::ProcessApproach()
     {
         ToSkill();
     }
+    __LEAVE_FUNCTION
 }
 
 void CActorAI::ProcessEscape()
 {
+    __ENTER_FUNCTION
     if(GetActor()->GetPos() != m_posTarget)
     {
         auto posStep = PathFind()->SearchStep(m_posTarget, GetActor()->GetMoveSpeed());
@@ -408,26 +495,34 @@ void CActorAI::ProcessEscape()
     {
         ToAttack();
     }
+    __LEAVE_FUNCTION
 }
 
 void CActorAI::ProcessGoback()
 {
+    __ENTER_FUNCTION
     if(GetActor()->GetPos() != m_posTarget)
     {
         auto posStep = PathFind()->SearchStep(m_posTarget, GetActor()->GetMoveSpeed());
         if(posStep == GetActor()->GetPos())
         {
             //没有找到路径
+            //flyto
+            GetActor()->FlyTo(m_posTarget);
+            AddNextCall(MOVE_PER_WAIT_MS);
         }
-
-        GetActor()->MoveToTarget(posStep);
-        AddNextCall(MOVE_PER_WAIT_MS);
+        else
+        {
+            GetActor()->MoveToTarget(posStep);
+            AddNextCall(MOVE_PER_WAIT_MS);
+        }
+        
     }
     else
     {
-        SetAutoSearchEnemy();
         ToIdle();
     }
+    __LEAVE_FUNCTION
 }
 
 void CActorAI::ProcessSkill()
@@ -437,34 +532,47 @@ void CActorAI::ProcessSkill()
 
 void CActorAI::ProcessPatrol()
 {
+    __ENTER_FUNCTION
     if(GetActor()->GetPos() != m_posTarget)
     {
         auto posStep = PathFind()->SearchStep(m_posTarget, GetActor()->GetMoveSpeed());
         if(posStep == GetActor()->GetPos())
         {
             //没有找到路径
+            ToIdle();
+            return;
         }
         GetActor()->MoveToTarget(posStep);
         AddNextCall(MOVE_PER_WAIT_MS);
     }
     else
     {
-        const auto& data = GetCurPratolData();
-        if(data.wait_ms_min() == 0 && data.wait_ms_max() == 0)
+        auto pData = GetCurPratolData();
+        if(pData == nullptr)
+        {
+            ToIdle();
+            return;
+        }
+        if(pData->wait_ms_min() == 0 && pData->wait_ms_max() == 0)
             ToPatrolWait(GetAIData().patrol_wait_ms_min(), GetAIData().patrol_wait_ms_max());
         else
-            ToPatrolWait(data.wait_ms_min(), data.wait_ms_max());
+            ToPatrolWait(pData->wait_ms_min(), pData->wait_ms_max());
     }
+    __LEAVE_FUNCTION
 }
 
 void CActorAI::ProcessPatrolWait()
 {
+    __ENTER_FUNCTION
     ProcessPatrol();
+    __LEAVE_FUNCTION
 }
 
-const ::Cfg_Scene_Patrol_Row_patrol_data& CActorAI::GetCurPratolData()
+const ::Cfg_Scene_Patrol_Row_patrol_data* CActorAI::GetCurPratolData()
 {
+    CHECKF(m_pPathData && m_pPathData->data_size() > 0);
     uint32_t nIdxPath = m_nCurPathNode;
+    
     switch(m_pPathData->patrol_type())
     {
         case PARTOL_ONCE:
@@ -492,11 +600,14 @@ const ::Cfg_Scene_Patrol_Row_patrol_data& CActorAI::GetCurPratolData()
         }
         break;
     }
-    return m_pPathData->data(nIdxPath);
+    CHECKF(nIdxPath < m_pPathData->data_size());
+    return &m_pPathData->data(nIdxPath);
+    
 }
 
 void CActorAI::OrderAttack(OBJID idTarget)
 {
+    __ENTER_FUNCTION
     //判断ai类型
     if(m_pAIType->GetDataRef().ai_type() == AITYPE_NONE)
         return;
@@ -505,18 +616,24 @@ void CActorAI::OrderAttack(OBJID idTarget)
     if(m_nState == ATT_PRATOL || m_nState == ATT_PRATOLWAIT || m_nState == ATT_RANDMOVE || m_nState == ATT_IDLE)
         m_posRecord = GetActor()->GetPos();
 
+    LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(),"AI: OrderAttack: {}", idTarget);
+
     SetMainTarget(idTarget);
     ToAttack();
     m_SearchEnemyEvent.Cancel();
+    __LEAVE_FUNCTION
 }
 
 void CActorAI::ClearHateList()
 {
+    __ENTER_FUNCTION
     m_HateList.ClearHateList();
+    __LEAVE_FUNCTION
 }
 
 void CActorAI::AddHate(OBJID idTarget, int32_t nHate)
 {
+    __ENTER_FUNCTION
     float fHate = m_HateList.AddHate(idTarget, nHate);
     if(m_idTarget != 0)
     {
@@ -534,11 +651,17 @@ void CActorAI::AddHate(OBJID idTarget, int32_t nHate)
     {
         OrderAttack(idTarget);
     }
+    __LEAVE_FUNCTION
 }
 
 bool CActorAI::FindEnemyInHateList()
 {
-    m_HateList.FindIF([pThis = this](ST_HATE_DATA* pHateData) {
+    __ENTER_FUNCTION
+    LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(),"AI: FindEnemyInHateList"); 
+
+    int nCount = 0;
+    m_HateList.FindIF([pThis = this, &nCount](ST_HATE_DATA* pHateData) {
+        nCount++;
         CAIActor* pActor = AIActorManager()->QueryActor(pHateData->idTarget);
         if(pActor == nullptr)
             return false;
@@ -552,11 +675,21 @@ bool CActorAI::FindEnemyInHateList()
         pThis->SetMainTarget(pActor->GetID());
         return true;
     });
+
+    if(nCount == 0)
+    {
+        LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(),"AI: FindEnemyInHateList hatelist empty");
+        return false;
+    }
+
     return GetMainTarget() != 0;
+    __LEAVE_FUNCTION
+    return false;
 }
 
 bool CActorAI::ForEachInHateList(std::function<bool(ST_HATE_DATA*)> func)
 {
+    __ENTER_FUNCTION
     m_HateList.FindIF([pThis = this](ST_HATE_DATA* pHateData) {
         CAIActor* pActor = AIActorManager()->QueryActor(pHateData->idTarget);
         if(pActor == nullptr)
@@ -569,64 +702,85 @@ bool CActorAI::ForEachInHateList(std::function<bool(ST_HATE_DATA*)> func)
         pThis->SetMainTarget(pActor->GetID());
         return true;
     });
-
+    
     return true;
+    __LEAVE_FUNCTION
+    return false;
 }
 
 bool CActorAI::FindNextEnemy()
 {
+    __ENTER_FUNCTION
+    LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(),"AI: FindNextEnemy Start");
     SetMainTarget(0);
-    if(TryExecScript(SCB_AI_FINDNEXTENEMY, this) == true)
+    if(TryExecScript<bool>(SCB_AI_FINDNEXTENEMY, this) == true)
+    {
+        LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(),"AI: TryExecScript SCB_AI_FINDNEXTENEMY Succ");
         return true;
+    }
 
     if(FindEnemyInHateList() == true)
+    {
         return true;
+    }
 
     //遍历周围的敌人
-    if(m_pAIType->GetDataRef().ai_type() == AITYPE_ACTIVE)
+    if(m_pAIType->GetDataRef().ai_type() != AITYPE_ACTIVE)
     {
-        if(m_pAIType->GetTargetFAM() == nullptr)
+        LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(),"AI: ai_type() != AITYPE_ACTIVE stop FindNextEnemy");
+        return false;
+    }
+
+    
+    if(m_pAIType->GetTargetFAM() == nullptr)
+    {
+        LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(),"AI: UseNormal FindNextEnemy");
+        OBJID idTarget = SearchEnemy();
+        if(idTarget != ID_NONE)
         {
-            OBJID idTarget = SearchEnemy();
-            if(idTarget != ID_NONE)
+            SetMainTarget(ID_NONE);
+            return GetMainTarget() != ID_NONE;
+        }
+
+    }
+    else
+    {
+        LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(),"AI: UseTargetTAM FindNextEnemy");
+
+        double self_hp     = (double)m_pActor->GetHP() / (double)m_pActor->GetHPMax();
+        double max_fDom    = -1.0f;
+        OBJID  idNewTarget = ID_NONE;
+        for(OBJID idActor: m_pActor->_GetViewList())
+        {
+            //找到第一个在范围内的敌人
+            CAIActor* pTarget = AIActorManager()->QueryActor(idActor);
+            if(pTarget == nullptr)
+                continue;
+            if(pTarget->IsDead())
+                continue;
+            if(GetActor()->IsEnemy(pTarget) == false)
+                continue;
+
+            float dis = GameMath::distance(pTarget->GetPos(), GetActor()->GetPos());
+            if(dis >= m_pAIType->GetDataRef().search_enemy_range())
+                continue;
+            double target_hp = (double)pTarget->GetHP() / (double)pTarget->GetHPMax();
+
+            double fDom = m_pAIType->GetTargetFAM()->calculate(dis, self_hp, target_hp);
+            if(fDom > max_fDom)
             {
-                SetMainTarget(ID_NONE);
-                return GetMainTarget() != ID_NONE;
+                max_fDom    = fDom;
+                idNewTarget = idActor;
             }
         }
-        else
+
+        if(idNewTarget != ID_NONE)
         {
-            double self_hp     = (double)m_pActor->GetHP() / (double)m_pActor->GetHPMax();
-            double max_fDom    = -1.0f;
-            OBJID  idNewTarget = ID_NONE;
-            for(OBJID idActor: m_pActor->_GetViewList())
-            {
-                //找到第一个在范围内的敌人
-                CAIActor* pTarget = AIActorManager()->QueryActor(idActor);
-                if(pTarget == nullptr)
-                    continue;
-                if(pTarget->IsDead())
-                    continue;
-                if(GetActor()->IsEnemy(pTarget) == false)
-                    continue;
-
-                float dis = GameMath::distance(pTarget->GetPos(), GetActor()->GetPos());
-                if(dis >= m_pAIType->GetDataRef().search_enemy_range())
-                    continue;
-                double target_hp = (double)pTarget->GetHP() / (double)pTarget->GetHPMax();
-
-                double fDom = m_pAIType->GetTargetFAM()->calculate(dis, self_hp, target_hp);
-                if(fDom > max_fDom)
-                {
-                    max_fDom    = fDom;
-                    idNewTarget = idActor;
-                }
-            }
             SetMainTarget(idNewTarget);
             return GetMainTarget() != ID_NONE;
         }
     }
-
+    __LEAVE_FUNCTION
     return false;
 }
 
@@ -637,11 +791,13 @@ OBJID CActorAI::GetMainTarget() const
 
 void CActorAI::SetMainTarget(OBJID val)
 {
+    __ENTER_FUNCTION
     if(m_idTarget == val)
         return;
 
     LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(), "AI: {} SetMainTarget: {} To {}", GetActor()->GetID(), m_idTarget, val);
     m_idTarget = val;
+    __LEAVE_FUNCTION
 }
 
 CAIActor* CActorAI::GetActor() const
@@ -661,15 +817,20 @@ const Cfg_AIType_Row& CActorAI::GetAIData() const
 
 void CActorAI::AddNextCall(uint32_t ms)
 {
+    __ENTER_FUNCTION
     m_Event.Cancel();
     CEventEntryCreateParam param;
     param.cb = std::bind(&CActorAI::Process, this);
     param.tWaitTime = ms;
     EventManager()->ScheduleEvent(param, m_Event);
+
+    LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(), "AI: AddNextCall: {}", ms);
+    __LEAVE_FUNCTION
 }
 
 void CActorAI::SetAutoSearchEnemy()
 {
+    __ENTER_FUNCTION
     if(GetAIType()->GetDataRef().ai_type() != AITYPE_ACTIVE)
         return;
 
@@ -682,10 +843,15 @@ void CActorAI::SetAutoSearchEnemy()
     param.cb = std::bind(&CActorAI::_SearchEnemy_CallBack, this);
     param.tWaitTime = ms;
     EventManager()->ScheduleEvent(param, m_SearchEnemyEvent);
+
+    LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(), "AI: Next AutoSearchEnemy:{}", ms);
+    __LEAVE_FUNCTION
 }
 
 void CActorAI::_SearchEnemy_CallBack()
 {
+    __ENTER_FUNCTION
+    LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(), "AI: callback AutoSearchEnemy");
     OBJID idActor = SearchEnemy();
     if(idActor == ID_NONE)
     {
@@ -695,15 +861,20 @@ void CActorAI::_SearchEnemy_CallBack()
     {
         OrderAttack(idActor);
     }
+    __LEAVE_FUNCTION
 }
 
 OBJID CActorAI::SearchEnemy()
 {
+    __ENTER_FUNCTION
     if(GetAIData().script_id() != 0)
     {
-        OBJID idTarget = ScriptManager()->TryExecScript<OBJID>(GetAIData().script_id(), SCB_AI_SEARCHENEMY, this);
+        OBJID idTarget = TryExecScript<OBJID>(SCB_AI_SEARCHENEMY, this);
         if(idTarget != 0)
+        {
+            LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(),"AI: TryExecScript SCB_AI_SEARCHENEMY Succ");
             return idTarget;
+        }
     }
 
     for(OBJID idActor: m_pActor->_GetViewList())
@@ -723,5 +894,7 @@ OBJID CActorAI::SearchEnemy()
 
         return idActor;
     }
+
+    __LEAVE_FUNCTION
     return ID_NONE;
 }

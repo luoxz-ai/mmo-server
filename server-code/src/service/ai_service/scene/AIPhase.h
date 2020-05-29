@@ -5,7 +5,10 @@
 #include "NetworkMessage.h"
 #include "SceneBase.h"
 
+#include <memory>
+
 class CAIScene;
+class CAIGroupManager;
 
 export_lua class CAIPhase : public CSceneBase
 {
@@ -22,10 +25,11 @@ public:
 public:
     CMonsterGenerator&  GetMonsterGen() { return m_MonsterGen; }
     export_lua uint64_t GetPhaseID() const { return m_idPhase; }
-
+    export_lua CAIGroupManager* GetAIGroupMgr() const {return m_pAIGroupManager.get();}
 private:
     uint64_t          m_idPhase;
     CMonsterGenerator m_MonsterGen;
+    std::unique_ptr<CAIGroupManager> m_pAIGroupManager;
 };
 
 #endif /* AIPHASE_H */

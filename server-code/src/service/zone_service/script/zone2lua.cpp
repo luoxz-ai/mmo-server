@@ -186,6 +186,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CActor>(L, "CheckCanMove", &CActor::CheckCanMove, true);
     lua_tinker::class_def<CActor>(L, "ClearViewList", &CActor::ClearViewList);
     lua_tinker::class_def<CActor>(L, "DelThis", &CActor::DelThis);
+    lua_tinker::class_def<CActor>(L, "FlyTo", &CActor::FlyTo);
     lua_tinker::class_def<CActor>(
         L,
         "GetAttrib",
@@ -309,7 +310,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CDataCount>(L, "DeleteRecord", &CDataCount::DeleteRecord);
     lua_tinker::class_def<CDataCount>(L, "GetDataNum", &CDataCount::GetDataNum);
     lua_tinker::class_def<CDataCount>(L, "GetIdx", &CDataCount::GetIdx);
-    lua_tinker::class_def<CDataCount>(L, "GetLastResetTime", &CDataCount::GetLastResetTime);
+    lua_tinker::class_def<CDataCount>(L, "GetNextResetTime", &CDataCount::GetNextResetTime);
     lua_tinker::class_def<CDataCount>(L, "GetType", &CDataCount::GetType);
     lua_tinker::class_def<CDataCount>(L, "Save", &CDataCount::Save);
     lua_tinker::class_def<CDataCount>(L, "SetData", &CDataCount::SetData);
@@ -1427,7 +1428,7 @@ void zone2lua(lua_State* L)
     lua_tinker::def(L, "CheckSameDay", &CheckSameDay);
     lua_tinker::def(L, "ConvertEnc", &ConvertEnc);
     lua_tinker::def(L, "DataCountLimitSet", &DataCountLimitSet);
-    lua_tinker::def(L, "DateDiffLocal", &DateDiffLocal);
+    lua_tinker::def(L, "DayDiffLocal", &DayDiffLocal);
     lua_tinker::def(L, "EventManager", &EventManager);
     lua_tinker::def(L,
                     "FindNameError",
@@ -1458,9 +1459,13 @@ void zone2lua(lua_State* L)
     lua_tinker::def(L, "MapManager", &MapManager);
     lua_tinker::def(L, "MonitorMgr", &MonitorMgr);
     lua_tinker::def(L, "MonsterTypeSet", &MonsterTypeSet);
+    lua_tinker::def(L, "MonthDiffLocal", &MonthDiffLocal);
     lua_tinker::def(L, "MulDiv", &MulDiv);
     lua_tinker::def(L, "MulDivSign", &MulDivSign);
     lua_tinker::def(L, "NetMsgProcess", &NetMsgProcess);
+    lua_tinker::def(L, "NextDayBeginTimeStamp", &NextDayBeginTimeStamp);
+    lua_tinker::def(L, "NextMonthBeginTimeStamp", &NextMonthBeginTimeStamp);
+    lua_tinker::def(L, "NextWeekBeginTimeStamp", &NextWeekBeginTimeStamp);
     lua_tinker::def(L, "NpcTypeSet", &NpcTypeSet);
     lua_tinker::def(L, "PetTypeSet", &PetTypeSet);
     lua_tinker::def(L, "RegexStrCheck", &RegexStrCheck);
@@ -1489,6 +1494,7 @@ void zone2lua(lua_State* L)
     lua_tinker::def(L, "URLDecode", &URLDecode);
     lua_tinker::def(L, "URLEncode", &URLEncode);
     lua_tinker::def(L, "UserAttrSet", &UserAttrSet);
+    lua_tinker::def(L, "WeekDiffLocal", &WeekDiffLocal);
     lua_tinker::def(L, "ZoneService", &ZoneService);
     lua_tinker::def(L, "_TimeGetMillisecond", &_TimeGetMillisecond);
     lua_tinker::def(L, "_TimeGetMonotonic", &_TimeGetMonotonic);
@@ -1556,6 +1562,10 @@ void zone2lua(lua_State* L)
     lua_tinker::set(L, "DATA_ACC_SYSTEM_TXTATR_GLOBAL", DATA_ACC_SYSTEM_TXTATR_GLOBAL);
     lua_tinker::set(L, "DATA_ACC_TASKID", DATA_ACC_TASKID);
     lua_tinker::set(L, "DATA_ACC_USEITEM", DATA_ACC_USEITEM);
+    lua_tinker::set(L, "DATA_COUNT_RESET_BY_DAY", DATA_COUNT_RESET_BY_DAY);
+    lua_tinker::set(L, "DATA_COUNT_RESET_BY_MONTH", DATA_COUNT_RESET_BY_MONTH);
+    lua_tinker::set(L, "DATA_COUNT_RESET_BY_WEEK", DATA_COUNT_RESET_BY_WEEK);
+    lua_tinker::set(L, "DATA_COUNT_RESET_NEVER", DATA_COUNT_RESET_NEVER);
     lua_tinker::set(L, "DIALOGLINK_TYPE_BUTTON", DIALOGLINK_TYPE_BUTTON);
     lua_tinker::set(L, "DIALOGLINK_TYPE_LIST", DIALOGLINK_TYPE_LIST);
     lua_tinker::set(L, "DIALOGTYPE_ACCEPT_TASK", DIALOGTYPE_ACCEPT_TASK);

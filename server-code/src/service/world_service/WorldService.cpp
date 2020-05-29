@@ -363,8 +363,9 @@ void CWorldService::OnLogicThreadProc()
     {
         std::string buf = std::string("\n======================================================================") +
                           fmt::format(FMT_STRING("\nMessageProcess:{}"), GetMessageProcess()) +
-                          fmt::format(FMT_STRING("\nEvent:{}\tMem:{}"),
+                          fmt::format(FMT_STRING("\nEvent:{}\tActive:{}\tMem:{}"),
                                       EventManager()->GetEventCount(),
+                                      EventManager()->GetRunningEventCount(),
                                       get_thread_memory_allocted()) +
                           fmt::format(FMT_STRING("\nAccount:{}\tWait:{}"),
                                       AccountManager()->GetAccountSize(),

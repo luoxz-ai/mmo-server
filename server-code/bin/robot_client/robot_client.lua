@@ -138,7 +138,7 @@ function OnRecv_SC_ATTRIB_CHANGE(client, buffer, size)
 	if(info.playerid == msg.actor_id)then
 		local size_datalist = msg.datalist:size();
 		for i=0,size_datalist-1,1 do
-			if msg.datalist[i].actype == 3 then	--PROP_HP = 3
+			if msg.datalist[i].actype == PROP_HP then
 				info.hp = msg.datalist[i].val;
 				if g_print_debug then
 					print_clientmsg(client, "hp=", info.hp);

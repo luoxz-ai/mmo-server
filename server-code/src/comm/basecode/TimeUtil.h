@@ -7,6 +7,13 @@
 
 #include "export_lua.h"
 
+constexpr time_t ONE_MINUS_SEC = 60;
+constexpr time_t ONE_HOUR_SEC = 60 * ONE_MINUS_SEC;
+constexpr time_t ONE_DAY_SEC = 24 * ONE_HOUR_SEC;
+constexpr time_t ONE_WEEK_SEC = 7 * ONE_DAY_SEC;
+
+
+
 void TimeGetCacheCreate();
 void TimeGetCacheUpdate();
 
@@ -26,8 +33,14 @@ export_lua time_t local2gmt(time_t tNow);
 //检查是否是同一天,loclatime
 export_lua bool CheckSameDay(time_t time1, time_t time2);
 //返回两个时间戳之间的日期差
-export_lua int32_t DateDiffLocal(time_t time1, time_t time2);
+export_lua int32_t DayDiffLocal(time_t time1, time_t time2);
+export_lua int32_t WeekDiffLocal(time_t time1, time_t time2);
+export_lua int32_t MonthDiffLocal(time_t time1, time_t time2);
 export_lua time_t  GetNextDayBeginTime();
+
+export_lua time_t NextDayBeginTimeStamp(time_t time1, int32_t nDays);
+export_lua time_t NextWeekBeginTimeStamp(time_t time1, int32_t nWeeks);
+export_lua time_t NextMonthBeginTimeStamp(time_t time1, int32_t nMonths);
 
 export_lua time_t GetTimeFromString(const std::string& time_str);
 

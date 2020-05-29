@@ -49,13 +49,17 @@ CAISkillSet::~CAISkillSet()
 
 void CAISkillSet::AddSkill(uint32_t idSkill)
 {
+    __ENTER_FUNCTION
     auto pSkilLData = CAISkillData::CreateNew(idSkill);
     if(pSkilLData)
         m_setSkill[idSkill] = pSkilLData;
+        
+    __LEAVE_FUNCTION
 }
 
 bool CAISkillSet::CastSkill(CAISkillData* pSkill)
 {
+    __ENTER_FUNCTION
     if(pSkill == nullptr)
         return false;
     if(pSkill->IsCoolDown())
@@ -65,10 +69,14 @@ bool CAISkillSet::CastSkill(CAISkillData* pSkill)
     // send cast skill to ai
     pSkill->StartCoolDown();
     return true;
+
+    __LEAVE_FUNCTION
+    return false;
 }
 
 CAISkillData* CAISkillSet::ChooseSkill(const SkillFAM* pSkillFAM, double dist, double self_hp, double self_mp, double target_hp) const
 {
+    __ENTER_FUNCTION
     //遍历所有技能
     double        cur_val  = 0.0;
     CAISkillData* pCurData = nullptr;
@@ -83,7 +91,9 @@ CAISkillData* CAISkillSet::ChooseSkill(const SkillFAM* pSkillFAM, double dist, d
             double skill_dis = pData->GetSkillType()->GetDistance();
             double skill_pow = pData->GetSkillType()->GetPower();
             double skill_mp = pData->GetSkillType()->GetUseMP();
-            util_value = pSkillFAM->calculate(dist, self_hp, self_mp, target_hp, skill_dis, skill_pow, skill_mp);
+            double skill_usetime = pData->GetSkillType()->GetTotalMS();
+            double skill_cdtime = pData->GetSkillType()->GetCDSec();
+            util_value = pSkillFAM->calculate(dist, self_hp, self_mp, target_hp, skill_dis, skill_pow, skill_usetime, skill_cdtime, skill_mp);
         }
         else
         {
@@ -97,13 +107,19 @@ CAISkillData* CAISkillSet::ChooseSkill(const SkillFAM* pSkillFAM, double dist, d
     }
 
     return pCurData;
+
+    __LEAVE_FUNCTION
+
+    return nullptr;
 }
 
 void CAISkillSet::OnCastSkill(uint32_t idSkill)
 {
+    __ENTER_FUNCTION
     auto it = m_setSkill.find(idSkill);
     if(it == m_setSkill.end())
         return;
     auto pData = it->second;
     pData->StartCoolDown();
+    __LEAVE_FUNCTION
 }

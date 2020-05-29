@@ -1,8 +1,7 @@
 [{
  "type": 1,
  "keyidx": 7191001,
- "maxCount": 1001,
- "resetTime": 1
+ "maxCount": 1001
 ,"__debug":"file:Cfg_DataCountLimit.xlsx sheet:Sheet1 line:3  "
 } ,
 {
@@ -14,14 +13,14 @@
 {
  "type": 1,
  "keyidx": 7191003,
- "maxCount": 1002,
- "resetTime": 1
+ "maxCount": 1002
 ,"__debug":"file:Cfg_DataCountLimit.xlsx sheet:Sheet1 line:5  "
 } ,
 {
  "type": 2,
  "keyidx": 51001,
  "maxCount": 5,
+ "resetType": 1,
  "resetTime": 1
 ,"__debug":"file:Cfg_DataCountLimit.xlsx sheet:Sheet1 line:6  "
 } ,
@@ -29,6 +28,7 @@
  "type": 2,
  "keyidx": 51002,
  "maxCount": 5,
+ "resetType": 1,
  "resetTime": 1
 ,"__debug":"file:Cfg_DataCountLimit.xlsx sheet:Sheet1 line:7  "
 } ]

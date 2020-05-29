@@ -19,6 +19,7 @@ CMonsterGenerator::~CMonsterGenerator()
 
 void CMonsterGenerator::Init(CAIPhase* pPhase)
 {
+    __ENTER_FUNCTION
     m_pMap               = pPhase->GetMap();
     m_idxScene            = pPhase->GetSceneIdx();
     const auto& gen_list = m_pMap->GetGeneratorData();
@@ -40,18 +41,22 @@ void CMonsterGenerator::Init(CAIPhase* pPhase)
             StopGen(pGenData);
         }
     }
+    __LEAVE_FUNCTION
 }
 void CMonsterGenerator::OnGenTimer(MonsterGenData* pData)
 {
+    __ENTER_FUNCTION
     CHECK(pData);
     if(pData->nCurGen >= pData->gen_data.gen_max())
         return;
     _GenMonster(pData);
     StartGen(pData, false);
+    __LEAVE_FUNCTION
 }
 
 void CMonsterGenerator::_GenMonster(MonsterGenData* pData, uint64_t idPhase)
 {
+    __ENTER_FUNCTION
     for(size_t i = 0; i < pData->gen_data.per_gen(); i++)
     {
         CPos2D newPos(pData->gen_data.x(), pData->gen_data.y());
@@ -89,10 +94,13 @@ void CMonsterGenerator::_GenMonster(MonsterGenData* pData, uint64_t idPhase)
         pData->nCurGen++;
     }
     LOGDEBUG("MonsterGen:{} {} - {} GenOnce", m_idxScene.GetMapID(), m_idxScene.GetPhaseIdx(), pData->nIdxGen);
+
+    __LEAVE_FUNCTION
 }
 
 void CMonsterGenerator::StartGen(MonsterGenData* pData, bool bCheckRunning)
 {
+    __ENTER_FUNCTION
     CHECK(pData);
     if(pData->nCurGen < pData->gen_data.gen_max())
     {
@@ -108,16 +116,22 @@ void CMonsterGenerator::StartGen(MonsterGenData* pData, bool bCheckRunning)
     {
         StopGen(pData);
     }
+
+    __LEAVE_FUNCTION
 }
 
 void CMonsterGenerator::StopGen(MonsterGenData* pData)
 {
+    __ENTER_FUNCTION
     CHECK(pData);
     pData->m_pEvent.Cancel();
+
+    __LEAVE_FUNCTION
 }
 
 void CMonsterGenerator::ActiveAll(bool bActive)
 {
+    __ENTER_FUNCTION
     for(auto it = m_setGen.begin(); it != m_setGen.end(); it++)
     {
         MonsterGenData* pData = it->second;
@@ -130,10 +144,13 @@ void CMonsterGenerator::ActiveAll(bool bActive)
             StartGen(pData);
         }
     }
+
+    __LEAVE_FUNCTION
 }
 
 void CMonsterGenerator::ActiveGen(uint32_t idGen, bool bActive)
 {
+    __ENTER_FUNCTION
     if(idGen == 0xFFFFFFFF)
     {
         ActiveAll(bActive);
@@ -151,10 +168,13 @@ void CMonsterGenerator::ActiveGen(uint32_t idGen, bool bActive)
     {
         StartGen(pData);
     }
+
+    __LEAVE_FUNCTION
 }
 
 void CMonsterGenerator::KillAllGen()
 {
+    __ENTER_FUNCTION
     for(auto it = m_setGen.begin(); it != m_setGen.end(); it++)
     {
         auto                      pData = it->second;
@@ -170,10 +190,13 @@ void CMonsterGenerator::KillAllGen()
         pData->nCurGen = 0;
         pData->m_pEvent.Clear();
     }
+
+    __LEAVE_FUNCTION
 }
 
 void CMonsterGenerator::KillGen(uint32_t idGen)
 {
+    __ENTER_FUNCTION
     if(idGen == 0xFFFFFFFF)
     {
         KillAllGen();
@@ -194,37 +217,50 @@ void CMonsterGenerator::KillGen(uint32_t idGen)
 
     pData->nCurGen = 0;
     pData->m_pEvent.Clear();
+
+    __LEAVE_FUNCTION
 }
 
 void CMonsterGenerator::GenOnce(uint32_t idGen, uint64_t idPhase)
 {
+    __ENTER_FUNCTION
     auto pData = QueryGen(idGen);
     if(pData)
     {
         _GenMonster(pData, idPhase);
     }
+
+    __LEAVE_FUNCTION
 }
 
 MonsterGenData* CMonsterGenerator::QueryGen(uint32_t idGen)
 {
+    __ENTER_FUNCTION
     auto it = m_setGen.find(idGen);
     if(it == m_setGen.end())
         return nullptr;
     return it->second;
+
+    __LEAVE_FUNCTION
+    return nullptr;
 }
 
 void CMonsterGenerator::OnMonsterBorn(CAIMonster* pMonster)
 {
+    __ENTER_FUNCTION
     uint32_t idGen = pMonster->GetGenID();
     auto     pData = QueryGen(idGen);
     if(pData == nullptr)
         return;
     pData->m_setMonster.insert(pMonster);
     LOGDEBUG("MonsterGen:{} - {} MonsterBorn:{}", m_pMap->GetMapID(), pData->nIdxGen, pMonster->Type()->GetID());
+
+    __LEAVE_FUNCTION
 }
 
 void CMonsterGenerator::OnMonsterDead(CAIMonster* pMonster)
 {
+    __ENTER_FUNCTION
     uint32_t idGen = pMonster->GetGenID();
     auto     pData = QueryGen(idGen);
     if(pData == nullptr)
@@ -233,4 +269,6 @@ void CMonsterGenerator::OnMonsterDead(CAIMonster* pMonster)
     pData->nCurGen--;
 
     LOGDEBUG("MonsterGen:{} - {} MonsterDead:{}", m_pMap->GetMapID(), pData->nIdxGen, pMonster->Type()->GetID());
+
+    __LEAVE_FUNCTION
 }

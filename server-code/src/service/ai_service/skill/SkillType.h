@@ -121,6 +121,8 @@ public:
     uint32_t GetApplyMS() const { return m_Data.apply_ms(); }
     uint32_t GetApplyAdjMS() const { return m_Data.apply_adj_ms(); }
     uint32_t GetStunMS() const { return m_Data.stun_ms(); }
+    uint32_t GetApplyTotalMS() const { return GetApplyMS() * GetApplyTimes() + GetApplyAdjMS() * (GetApplyTimes()*(GetApplyTimes()+1)*(GetApplyTimes()+2)/6); }
+    uint32_t GetTotalMS() const { return GetIntoneMS() + GetApplyTotalMS() + GetStunMS();}
     uint32_t GetCDSec() const { return m_Data.cd_sec(); }
     uint32_t GetCDType() const { return m_Data.cd_type(); }
 

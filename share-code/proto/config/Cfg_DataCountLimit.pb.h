@@ -165,7 +165,8 @@ class Cfg_DataCountLimit_Row :
     kTypeFieldNumber = 1,
     kKeyidxFieldNumber = 2,
     kMaxCountFieldNumber = 3,
-    kResetTimeFieldNumber = 4,
+    kResetTypeFieldNumber = 4,
+    kResetTimeFieldNumber = 5,
   };
   // uint32 type = 1;
   void clear_type();
@@ -194,7 +195,16 @@ class Cfg_DataCountLimit_Row :
   void _internal_set_max_count(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 reset_time = 4;
+  // uint32 reset_type = 4;
+  void clear_reset_type();
+  ::PROTOBUF_NAMESPACE_ID::uint32 reset_type() const;
+  void set_reset_type(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_reset_type() const;
+  void _internal_set_reset_type(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 reset_time = 5;
   void clear_reset_time();
   ::PROTOBUF_NAMESPACE_ID::uint32 reset_time() const;
   void set_reset_time(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -211,6 +221,7 @@ class Cfg_DataCountLimit_Row :
   ::PROTOBUF_NAMESPACE_ID::uint32 type_;
   ::PROTOBUF_NAMESPACE_ID::uint32 keyidx_;
   ::PROTOBUF_NAMESPACE_ID::uint32 max_count_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 reset_type_;
   ::PROTOBUF_NAMESPACE_ID::uint32 reset_time_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_config_2fCfg_5fDataCountLimit_2eproto;
@@ -414,7 +425,27 @@ inline void Cfg_DataCountLimit_Row::set_max_count(::PROTOBUF_NAMESPACE_ID::uint3
   // @@protoc_insertion_point(field_set:Cfg_DataCountLimit.Row.max_count)
 }
 
-// uint32 reset_time = 4;
+// uint32 reset_type = 4;
+inline void Cfg_DataCountLimit_Row::clear_reset_type() {
+  reset_type_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_DataCountLimit_Row::_internal_reset_type() const {
+  return reset_type_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_DataCountLimit_Row::reset_type() const {
+  // @@protoc_insertion_point(field_get:Cfg_DataCountLimit.Row.reset_type)
+  return _internal_reset_type();
+}
+inline void Cfg_DataCountLimit_Row::_internal_set_reset_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  reset_type_ = value;
+}
+inline void Cfg_DataCountLimit_Row::set_reset_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_reset_type(value);
+  // @@protoc_insertion_point(field_set:Cfg_DataCountLimit.Row.reset_type)
+}
+
+// uint32 reset_time = 5;
 inline void Cfg_DataCountLimit_Row::clear_reset_time() {
   reset_time_ = 0u;
 }

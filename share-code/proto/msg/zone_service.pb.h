@@ -1730,7 +1730,7 @@ class SC_DATACOUNT_Data :
     kTypeFieldNumber = 1,
     kIdxFieldNumber = 2,
     kDataFieldNumber = 3,
-    kLastResetTimeFieldNumber = 4,
+    kNextResetTimeFieldNumber = 4,
   };
   // uint32 type = 1;
   void clear_type();
@@ -1759,13 +1759,13 @@ class SC_DATACOUNT_Data :
   void _internal_set_data(::PROTOBUF_NAMESPACE_ID::uint64 value);
   public:
 
-  // uint32 last_reset_time = 4;
-  void clear_last_reset_time();
-  ::PROTOBUF_NAMESPACE_ID::uint32 last_reset_time() const;
-  void set_last_reset_time(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  // uint32 next_reset_time = 4;
+  void clear_next_reset_time();
+  ::PROTOBUF_NAMESPACE_ID::uint32 next_reset_time() const;
+  void set_next_reset_time(::PROTOBUF_NAMESPACE_ID::uint32 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_last_reset_time() const;
-  void _internal_set_last_reset_time(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_next_reset_time() const;
+  void _internal_set_next_reset_time(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
   // @@protoc_insertion_point(class_scope:SC_DATACOUNT.Data)
@@ -1776,7 +1776,7 @@ class SC_DATACOUNT_Data :
   ::PROTOBUF_NAMESPACE_ID::uint32 type_;
   ::PROTOBUF_NAMESPACE_ID::uint32 idx_;
   ::PROTOBUF_NAMESPACE_ID::uint64 data_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 last_reset_time_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 next_reset_time_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_msg_2fzone_5fservice_2eproto;
 };
@@ -14026,24 +14026,24 @@ inline void SC_DATACOUNT_Data::set_data(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   // @@protoc_insertion_point(field_set:SC_DATACOUNT.Data.data)
 }
 
-// uint32 last_reset_time = 4;
-inline void SC_DATACOUNT_Data::clear_last_reset_time() {
-  last_reset_time_ = 0u;
+// uint32 next_reset_time = 4;
+inline void SC_DATACOUNT_Data::clear_next_reset_time() {
+  next_reset_time_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_DATACOUNT_Data::_internal_last_reset_time() const {
-  return last_reset_time_;
+inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_DATACOUNT_Data::_internal_next_reset_time() const {
+  return next_reset_time_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_DATACOUNT_Data::last_reset_time() const {
-  // @@protoc_insertion_point(field_get:SC_DATACOUNT.Data.last_reset_time)
-  return _internal_last_reset_time();
+inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_DATACOUNT_Data::next_reset_time() const {
+  // @@protoc_insertion_point(field_get:SC_DATACOUNT.Data.next_reset_time)
+  return _internal_next_reset_time();
 }
-inline void SC_DATACOUNT_Data::_internal_set_last_reset_time(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void SC_DATACOUNT_Data::_internal_set_next_reset_time(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
-  last_reset_time_ = value;
+  next_reset_time_ = value;
 }
-inline void SC_DATACOUNT_Data::set_last_reset_time(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  _internal_set_last_reset_time(value);
-  // @@protoc_insertion_point(field_set:SC_DATACOUNT.Data.last_reset_time)
+inline void SC_DATACOUNT_Data::set_next_reset_time(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_next_reset_time(value);
+  // @@protoc_insertion_point(field_set:SC_DATACOUNT.Data.next_reset_time)
 }
 
 // -------------------------------------------------------------------

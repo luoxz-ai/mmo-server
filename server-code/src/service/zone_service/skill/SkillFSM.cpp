@@ -26,7 +26,7 @@ bool CSkillFSM::CastSkill(uint32_t idSkill, OBJID idTarget, const Vector2& pos)
     if(CanIntone(pSkillType, pTarget, pos) == false)
         return false;
     LOGSKILLDEBUG(pSkillType->IsDebug(),
-                  "SkillCast ID:{} Skill:{}, Target:{} Pos:%01f %01f",
+                  "SkillCast ID:{} Skill:{}, Target:{} Pos:{:01f} {:01f}",
                   m_pOwner->GetID(),
                   idSkill,
                   m_idTarget,

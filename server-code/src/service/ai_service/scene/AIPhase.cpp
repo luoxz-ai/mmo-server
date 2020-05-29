@@ -5,6 +5,7 @@
 #include "AIScene.h"
 #include "AIService.h"
 #include "MapManager.h"
+#include "AIGroup.h"
 
 CAIPhase::CAIPhase() {}
 
@@ -21,10 +22,12 @@ CAIPhase::~CAIPhase()
 
 bool CAIPhase::Init(CAIScene* pScene, const SceneIdx& idxScene, uint64_t idPhase, const PhaseData* pPhaseData)
 {
+    __ENTER_FUNCTION
     m_idPhase = idPhase;
     CHECKF(CSceneBase::Init(idxScene, MapManager()));
     
     m_MonsterGen.Init(this);
+    m_pAIGroupManager.reset(CAIGroupManager::CreateNew(this));
     if(pPhaseData)
     {
         uint64_t idPhaseLink = pPhaseData->link_phase();
@@ -48,4 +51,7 @@ bool CAIPhase::Init(CAIScene* pScene, const SceneIdx& idxScene, uint64_t idPhase
 
     LOGDEBUG("CAIPhase {} Created Map:{} Idx:{}", idPhase, idxScene.GetMapID(), idxScene.GetPhaseIdx());
     return true;
+
+    __LEAVE_FUNCTION
+    return false;
 }

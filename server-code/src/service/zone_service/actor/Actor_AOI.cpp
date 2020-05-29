@@ -58,6 +58,7 @@ public:
     }
     bool test(CSceneObject* pSelfActor, CSceneObject* pTargetActor) const
     {
+        __ENTER_FUNCTION
         uint32_t key1 = pSelfActor->GetActorType();
         uint32_t key2 = pTargetActor->GetActorType();
         if(pSelfActor->GetActorType() > pTargetActor->GetActorType())
@@ -68,8 +69,8 @@ public:
         const auto& func = m_DataMap[key1][key2];
         if(func)
             return func(pSelfActor, pTargetActor);
-        else
-            return false;
+        __LEAVE_FUNCTION
+        return false;
     }
 
 private:
@@ -78,6 +79,7 @@ private:
 
 void CActor::_AddToAOIRemoveMessage(SC_AOI_REMOVE& removeMsg, OBJID id)
 {
+    __ENTER_FUNCTION
     if(GetActorType() == ACT_PLAYER)
     {
         removeMsg.add_idlist(id);
@@ -89,19 +91,24 @@ void CActor::_AddToAOIRemoveMessage(SC_AOI_REMOVE& removeMsg, OBJID id)
             removeMsg.clear_idlist();
         }
     }
+
+    __LEAVE_FUNCTION
 }
 
 void CActor::_TrySendAOIRemoveMessage(const SC_AOI_REMOVE& removeMsg)
 {
+    __ENTER_FUNCTION
     if(removeMsg.idlist_size() > 0)
     {
         SendMsg(removeMsg);
     }
+    __LEAVE_FUNCTION
 }
 
 //////////////////////////////////////////////////////////////////////
 void CActor::RemoveFromViewList(CSceneObject* pActor, OBJID idActor, bool bErase)
 {
+    __ENTER_FUNCTION
     // 通知自己对方消失
     CSceneObject::RemoveFromViewList(pActor, idActor, bErase);
 
@@ -117,11 +124,13 @@ void CActor::RemoveFromViewList(CSceneObject* pActor, OBJID idActor, bool bErase
         //延迟发送队列里的也可以不要了
         RemoveDelaySendShowTo(idActor);
     }
+    __LEAVE_FUNCTION
 }
 
 //////////////////////////////////////////////////////////////////////
 void CActor::AddToViewList(CSceneObject* pActor)
 {
+    __ENTER_FUNCTION
     CSceneObject::AddToViewList(pActor);
 
     //如果自己是怪物
@@ -129,11 +138,13 @@ void CActor::AddToViewList(CSceneObject* pActor)
     {
         CastTo<CMonster>()->SetIsAISleep(false);
     }
+    __LEAVE_FUNCTION
 }
 
 //////////////////////////////////////////////////////////////////////
 void CActor::ClearViewList(bool bSendMsgToSelf)
 {
+    __ENTER_FUNCTION
     SC_AOI_REMOVE hold_info;
     for(uint64_t id: m_ViewActors)
     {
@@ -163,10 +174,12 @@ void CActor::ClearViewList(bool bSendMsgToSelf)
         GetEventMapRef().Cancel(EVENTID_BROCAST_SHOW);
     }
     m_setDealySendShow.clear();
+    __LEAVE_FUNCTION
 }
 
 void CActor::AddDelaySendShowTo(OBJID id)
 {
+    __ENTER_FUNCTION
     if(m_setDealySendShow.empty() == true)
     {
         auto pEntry = GetEventMapRef().Query(EVENTID_BROCAST_SHOW);
@@ -181,10 +194,12 @@ void CActor::AddDelaySendShowTo(OBJID id)
         }
     }
     m_setDealySendShow.insert(id);
+    __LEAVE_FUNCTION
 }
 
 void CActor::AddDelaySendShowToAllViewPlayer()
 {
+    __ENTER_FUNCTION
     if(m_setDealySendShow.empty() == true)
     {
         auto pEntry = GetEventMapRef().Query(EVENTID_BROCAST_SHOW);
@@ -199,10 +214,12 @@ void CActor::AddDelaySendShowToAllViewPlayer()
         }
     }
     m_setDealySendShow.insert(m_ViewActorsByType[ACT_PLAYER].begin(), m_ViewActorsByType[ACT_PLAYER].end());
+    __LEAVE_FUNCTION
 }
 
 void CActor::RemoveDelaySendShowTo(OBJID id)
 {
+    __ENTER_FUNCTION
     if(m_setDealySendShow.empty())
         return;
 
@@ -211,24 +228,29 @@ void CActor::RemoveDelaySendShowTo(OBJID id)
     {
         GetEventMapRef().Cancel(EVENTID_BROCAST_SHOW);
     }
+    __LEAVE_FUNCTION
 }
 
 void CActor::SendShowToDealyList()
 {
+    __ENTER_FUNCTION
     if(m_setDealySendShow.empty())
         return;
     BroadcastShowTo(ZoneService()->IDList2VSMap(m_setDealySendShow, 0));
     m_setDealySendShow.clear();
+    __LEAVE_FUNCTION
 }
 
 void CActor::SendShowTo(CPlayer* pPlayer)
 {
+    __ENTER_FUNCTION
     if(pPlayer == nullptr)
         return;
 
     SC_AOI_NEW msg;
     MakeShowData(msg);
     pPlayer->SendMsg(msg);
+    __LEAVE_FUNCTION
 }
 
 bool CActor::IsNeedAddToBroadCastSet(CSceneObject* pActor)
@@ -238,6 +260,7 @@ bool CActor::IsNeedAddToBroadCastSet(CSceneObject* pActor)
 
 bool CActor::IsMustAddToBroadCastSet(CSceneObject* pActor)
 {
+    __ENTER_FUNCTION
     CHECKF(pActor);
     //自己召唤出来的,必然可见
     if(pActor->GetOwnerID() == GetID())
@@ -275,7 +298,7 @@ bool CActor::IsMustAddToBroadCastSet(CSceneObject* pActor)
             return (pThisPlayer->GetTeamID() != 0 && pPlayer->GetTeamID() == pThisPlayer->GetTeamID());
         }
     }
-
+    __LEAVE_FUNCTION
     return false;
 }
 
@@ -284,6 +307,7 @@ void CActor::OnAOIProcess_ActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
                                              int32_t              nCanReserveDelCount,
                                              uint32_t             view_range_out_square)
 {
+    __ENTER_FUNCTION
     SC_AOI_REMOVE hold_info;
     hold_info.set_mapid(GetMapID());
 
@@ -347,11 +371,12 @@ void CActor::OnAOIProcess_ActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
     }
     //通知自己删除del列表
     _TrySendAOIRemoveMessage(hold_info);
+    __LEAVE_FUNCTION
 }
 
 void CActor::OnAOIProcess_PosUpdate()
 {
-
+    __ENTER_FUNCTION
     //发送移动同步
     SC_AOI_UPDATE ntc;
     ntc.set_mapid(GetMapID());
@@ -360,10 +385,12 @@ void CActor::OnAOIProcess_PosUpdate()
     ntc.set_posy(GetPosY());
 
     SendRoomMessage(ntc);
+    __LEAVE_FUNCTION
 }
 
 void CActor::OnAOIProcess_ActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_MAP& mapAllViewActor)
 {
+    __ENTER_FUNCTION
     for(auto it = setBCActorAdd.begin(); it != setBCActorAdd.end();)
     {
         auto itr = mapAllViewActor.find(*it);
@@ -417,4 +444,5 @@ void CActor::OnAOIProcess_ActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTO
             GetEventMapRef().Cancel(EVENTID_BROCAST_SHOW);
         }
     }
+    __LEAVE_FUNCTION
 }

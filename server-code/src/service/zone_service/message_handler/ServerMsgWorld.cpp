@@ -12,6 +12,8 @@
 //////////////////////////////////////////////////////////////////////////
 ON_SERVERMSG(CZoneService, PlayerEnterZone)
 {
+    __ENTER_FUNCTION
+    
     CHECK(msg.idplayer() != 0);
     CHECK(msg.socket() != 0);
     CHECK(msg.target_scene_idx() != 0);
@@ -36,10 +38,15 @@ ON_SERVERMSG(CZoneService, PlayerEnterZone)
     ZoneService()->GetLoadingThread()->AddLoginPlayer(std::move(data));
 
     ZoneService()->CreateSocketMessagePool(msg.socket());
+
+
+    __LEAVE_FUNCTION
 }
 
 ON_SERVERMSG(CZoneService, PlayerChangeZone)
 {
+    __ENTER_FUNCTION
+
     CHECK(msg.idplayer() != 0);
     CHECK(msg.socket() != 0);
     CHECK(msg.idzone() != 0);
@@ -65,19 +72,25 @@ ON_SERVERMSG(CZoneService, PlayerChangeZone)
     ZoneService()->GetLoadingThread()->AddLoginPlayer(std::move(data));
     ZoneService()->CreateSocketMessagePool(msg.socket());
 
-    return;
+    __LEAVE_FUNCTION
 }
 
 ON_SERVERMSG(CZoneService, PlayerChangeZone_Data)
 {
+    __ENTER_FUNCTION
+
     CHECK(msg.idplayer() != 0);
     CHECK(msg.socket() != 0);
 
     ZoneService()->PushMsgToMessagePool(msg.socket(), pMsg);
+
+    __LEAVE_FUNCTION
 }
 
 ON_SERVERMSG(CZoneService, PlayerLogout)
 {
+    __ENTER_FUNCTION
+
     CHECK(msg.idplayer() != 0);
     CHECK(msg.socket() != 0);
 
@@ -92,11 +105,19 @@ ON_SERVERMSG(CZoneService, PlayerLogout)
 
     CPlayer* pPlayer = pActor->CastTo<CPlayer>();
     pPlayer->OnLogout();
+
+
+    __LEAVE_FUNCTION
 }
 
 ON_SERVERMSG(CZoneService, ServiceRegister)
 {
+    __ENTER_FUNCTION
+
     ServerPort server_port{msg.serverport()};
     GetMessageRoute()->SetWorldReady(server_port.GetWorldID(), true);
     GetMessageRoute()->ReloadServiceInfo(msg.update_time(), server_port.GetWorldID());
+
+
+    __LEAVE_FUNCTION
 }

@@ -163,8 +163,9 @@ void CAIService::OnLogicThreadProc()
     if(m_tLastDisplayTime.ToNextTime())
     {
         std::string buf = std::string("\n======================================================================") +
-                          fmt::format(FMT_STRING("\nEvent:{}\tMem:{}"),
+                          fmt::format(FMT_STRING("\nEvent:{}\tActive:{}\tMem:{}"),
                                       EventManager()->GetEventCount(),
+                                      EventManager()->GetRunningEventCount(),
                                       get_thread_memory_allocted());
         auto pMessagePort = GetMessageRoute()->QueryMessagePort(GetZoneServiceVirtualSocket().GetServerPort(), false);
         if(pMessagePort)

@@ -32,32 +32,55 @@ uint32_t CDataCount::GetIdx() const
 uint64_t CDataCount::GetDataNum()
 {
     __ENTER_FUNCTION
-    uint32_t nLastTime = GetLastResetTime();
-    if(nLastTime != 0)
+    uint32_t nNextTime = GetNextResetTime();
+    if(nNextTime == 0)
     {
-        // check need reset
-        auto pType = DataCountLimitSet()->QueryObj(CDataCountLimit::MakeID(GetType(), GetIdx()));
-        if(pType)
+        return 0;
+    }
+    
+    // check need reset
+    auto pType = DataCountLimitSet()->QueryObj(CDataCountLimit::MakeID(GetType(), GetIdx()));
+    if(pType)
+    {
+        uint32_t now = TimeGetSecond();
+        if(now > nNextTime)
         {
-            uint32_t now = TimeGetSecond();
-            if(nLastTime > now || (now - nLastTime) > pType->GetResetTime())
+            switch(pType->GetResetType())
             {
-                m_pRecord->Field(TBLD_DATACOUNT::DATA_NUM)        = 0;
-                m_pRecord->Field(TBLD_DATACOUNT::LAST_RESET_TIME) = now;
-                return 0;
+            case DATA_COUNT_RESET_BY_DAY:
+                {
+                    m_pRecord->Field(TBLD_DATACOUNT::DATA_NUM)        = 0;
+                    m_pRecord->Field(TBLD_DATACOUNT::NEXT_RESET_TIME) = NextDayBeginTimeStamp(nNextTime, pType->GetResetTime() );
+                }
+                break;
+            case DATA_COUNT_RESET_BY_WEEK:
+                {
+                    m_pRecord->Field(TBLD_DATACOUNT::DATA_NUM)        = 0;
+                    m_pRecord->Field(TBLD_DATACOUNT::NEXT_RESET_TIME) = NextWeekBeginTimeStamp(nNextTime, pType->GetResetTime() );     
+                }
+                break;
+            case DATA_COUNT_RESET_BY_MONTH:
+                {
+                    m_pRecord->Field(TBLD_DATACOUNT::DATA_NUM)        = 0;
+                    m_pRecord->Field(TBLD_DATACOUNT::NEXT_RESET_TIME) = NextMonthBeginTimeStamp(nNextTime, pType->GetResetTime() );     
+                }
+                break;
+            default:
+                break;
             }
         }
     }
+    
 
     return m_pRecord->Field(TBLD_DATACOUNT::DATA_NUM);
     __LEAVE_FUNCTION
     return 0;
 }
 
-uint32_t CDataCount::GetLastResetTime() const
+uint32_t CDataCount::GetNextResetTime() const
 {
     __ENTER_FUNCTION
-    return m_pRecord->Field(TBLD_DATACOUNT::LAST_RESET_TIME);
+    return m_pRecord->Field(TBLD_DATACOUNT::NEXT_RESET_TIME);
 
     __LEAVE_FUNCTION
     return 0;
@@ -98,7 +121,7 @@ void CDataCount::Sync()
     pData->set_type(GetType());
     pData->set_idx(GetIdx());
     pData->set_data(GetDataNum());
-    pData->set_last_reset_time(GetLastResetTime());
+    pData->set_next_reset_time(GetNextResetTime());
 
     m_pOwner->SendMsg(msg);
     __LEAVE_FUNCTION
@@ -169,7 +192,7 @@ void CDataCountSet::SyncAll()
         pData->set_type(pDataAcc->GetType());
         pData->set_idx(pDataAcc->GetIdx());
         pData->set_data(pDataAcc->GetDataNum());
-        pData->set_last_reset_time(pDataAcc->GetLastResetTime());
+        pData->set_next_reset_time(pDataAcc->GetNextResetTime());
     }
     m_pOwner->SendMsg(msg);
 }
@@ -303,7 +326,7 @@ void CDataCountSet::CreateData(uint32_t nType, uint32_t nIdx, uint32_t nVal)
     auto pType = DataCountLimitSet()->QueryObj(CDataCountLimit::MakeID(nType, nIdx));
     if(pType && pType->GetResetTime() != 0)
     {
-        pDBRecord->Field(TBLD_DATACOUNT::LAST_RESET_TIME) = (uint32_t)TimeGetSecond();
+        pDBRecord->Field(TBLD_DATACOUNT::NEXT_RESET_TIME) = (uint32_t)TimeGetSecond();
     }
 
     CHECK(pDBRecord->Update(true));

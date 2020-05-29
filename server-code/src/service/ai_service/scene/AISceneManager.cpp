@@ -18,16 +18,19 @@ bool CAISceneManager::Init(uint32_t idZone)
 
 void CAISceneManager::Destory()
 {
+    __ENTER_FUNCTION
     for(auto& [k, v]: m_mapScene)
     {
         SAFE_DELETE(v);
         LOGDEBUG("AIScene {} Destroy", k);
     }
     m_mapScene.clear();
+    __LEAVE_FUNCTION
 }
 
 CAIScene* CAISceneManager::CreateScene(uint16_t idMap)
 {
+    __ENTER_FUNCTION
     auto     pMap  = MapManager()->QueryMap(idMap);
     CHECKF(pMap);
 
@@ -39,20 +42,26 @@ CAIScene* CAISceneManager::CreateScene(uint16_t idMap)
     LOGINFO("AIScene {} Created", idMap);
     m_nStaticScene++;
     return pScene;
+    __LEAVE_FUNCTION
+    return nullptr;
 }
 
 CAIScene* CAISceneManager::QueryScene(const SceneIdx& idxScene)
 {
+    __ENTER_FUNCTION
     auto itFind = m_mapScene.find(idxScene.GetMapID());
     if(itFind == m_mapScene.end())
         return nullptr;
 
     CAIScene* pScene = itFind->second;
     return pScene;
+    __LEAVE_FUNCTION
+    return nullptr;
 }
 
 CAIPhase* CAISceneManager::QueryPhase(const SceneIdx& idxScene)
 {
+    __ENTER_FUNCTION
     CAIScene* pScene = QueryScene(idxScene);
     if(pScene == nullptr)
     {
@@ -60,6 +69,8 @@ CAIPhase* CAISceneManager::QueryPhase(const SceneIdx& idxScene)
     }
 
     return pScene->QueryPhaseByIdx(idxScene.GetPhaseIdx());
+    __LEAVE_FUNCTION
+    return nullptr;
 }
 
 void CAISceneManager::OnTimer() {}

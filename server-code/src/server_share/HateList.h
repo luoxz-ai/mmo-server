@@ -22,16 +22,19 @@ public:
 
     void ClearHateList()
     {
+        __ENTER_FUNCTION
         for(auto pData: m_HateListOrderByHate)
         {
             SAFE_DELETE(pData);
         }
         m_HateListOrderByHate.clear();
         m_HateList.clear();
+        __LEAVE_FUNCTION
     }
 
     float AddHate(OBJID idTarget, int32_t nHate)
     {
+        __ENTER_FUNCTION
         auto& pHateData = m_HateList[idTarget];
         if(pHateData == nullptr)
         {
@@ -46,23 +49,27 @@ public:
         pHateData->tNextInvaildTime = now + 5 * 60;
 
         return pHateData->fHate;
+
+        __LEAVE_FUNCTION
+        return 0.0f;
     }
 
     ST_HATE_DATA* GetHate(OBJID idTarget) { return m_HateList[idTarget]; }
 
     void FindIF(std::function<bool(ST_HATE_DATA*)> func)
     {
+        __ENTER_FUNCTION
         //将失效数据分离
         auto it_end = std::stable_partition(
             m_HateListOrderByHate.begin(),
             m_HateListOrderByHate.end(),
             [timeNow = TimeGetSecond()](const ST_HATE_DATA* left) -> bool { return left->tNextInvaildTime < timeNow; });
 
-        //排序Hate列表
+         //排序Hate列表
         std::stable_sort(
             m_HateListOrderByHate.begin(),
             it_end,
-            [](const ST_HATE_DATA* left, const ST_HATE_DATA* right) -> bool { return left->fHate < right->fHate; });
+            [](const ST_HATE_DATA* left, const ST_HATE_DATA* right) -> bool { return left->fHate < right->fHate; });     
 
         //找到第一个在范围内的敌人
         for(auto it = m_HateListOrderByHate.begin(); it != it_end; it++)
@@ -73,6 +80,7 @@ public:
             else
                 return;
         }
+        __LEAVE_FUNCTION
     }
 
 public:

@@ -65,6 +65,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_config_2fCfg_5fDataCountLimit_
   PROTOBUF_FIELD_OFFSET(::Cfg_DataCountLimit_Row, type_),
   PROTOBUF_FIELD_OFFSET(::Cfg_DataCountLimit_Row, keyidx_),
   PROTOBUF_FIELD_OFFSET(::Cfg_DataCountLimit_Row, max_count_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_DataCountLimit_Row, reset_type_),
   PROTOBUF_FIELD_OFFSET(::Cfg_DataCountLimit_Row, reset_time_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Cfg_DataCountLimit, _internal_metadata_),
@@ -75,7 +76,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_config_2fCfg_5fDataCountLimit_
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::Cfg_DataCountLimit_Row)},
-  { 9, -1, sizeof(::Cfg_DataCountLimit)},
+  { 10, -1, sizeof(::Cfg_DataCountLimit)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -84,11 +85,12 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 };
 
 const char descriptor_table_protodef_config_2fCfg_5fDataCountLimit_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\037config/Cfg_DataCountLimit.proto\"\207\001\n\022Cf"
+  "\n\037config/Cfg_DataCountLimit.proto\"\233\001\n\022Cf"
   "g_DataCountLimit\022%\n\004rows\030\001 \003(\0132\027.Cfg_Dat"
-  "aCountLimit.Row\032J\n\003Row\022\014\n\004type\030\001 \001(\r\022\016\n\006"
+  "aCountLimit.Row\032^\n\003Row\022\014\n\004type\030\001 \001(\r\022\016\n\006"
   "keyidx\030\002 \001(\r\022\021\n\tmax_count\030\003 \001(\r\022\022\n\nreset"
-  "_time\030\004 \001(\rB\002H\002b\006proto3"
+  "_type\030\004 \001(\r\022\022\n\nreset_time\030\005 \001(\rB\002H\002b\006pro"
+  "to3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_config_2fCfg_5fDataCountLimit_2eproto_deps[1] = {
 };
@@ -99,7 +101,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_con
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_config_2fCfg_5fDataCountLimit_2eproto_once;
 static bool descriptor_table_config_2fCfg_5fDataCountLimit_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_config_2fCfg_5fDataCountLimit_2eproto = {
-  &descriptor_table_config_2fCfg_5fDataCountLimit_2eproto_initialized, descriptor_table_protodef_config_2fCfg_5fDataCountLimit_2eproto, "config/Cfg_DataCountLimit.proto", 183,
+  &descriptor_table_config_2fCfg_5fDataCountLimit_2eproto_initialized, descriptor_table_protodef_config_2fCfg_5fDataCountLimit_2eproto, "config/Cfg_DataCountLimit.proto", 203,
   &descriptor_table_config_2fCfg_5fDataCountLimit_2eproto_once, descriptor_table_config_2fCfg_5fDataCountLimit_2eproto_sccs, descriptor_table_config_2fCfg_5fDataCountLimit_2eproto_deps, 2, 0,
   schemas, file_default_instances, TableStruct_config_2fCfg_5fDataCountLimit_2eproto::offsets,
   file_level_metadata_config_2fCfg_5fDataCountLimit_2eproto, 2, file_level_enum_descriptors_config_2fCfg_5fDataCountLimit_2eproto, file_level_service_descriptors_config_2fCfg_5fDataCountLimit_2eproto,

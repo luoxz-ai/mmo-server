@@ -190,10 +190,10 @@ void CPlayer::OnLogin(bool bLogin, const SceneIdx& idxScene, float fPosX, float 
         CCommonData* pCommonData = GetCommonDataSet()->QueryData(COMMON_DATA_CONTINUELOGIN);
         if(pCommonData)
         {
-            int32_t nDateDiff = DateDiffLocal(pCommonData->GetData(0), now);
-            if(nDateDiff >= 1)
+            int32_t nDayDiff = DayDiffLocal(pCommonData->GetData(0), now);
+            if(nDayDiff >= 1)
             {
-                if(nDateDiff == 1)
+                if(nDayDiff == 1)
                 {
                     //记录连续登录
                     pCommonData->AddData(1, 1, UPDATE_FALSE, SYNC_FALSE);

@@ -19,6 +19,7 @@ ON_MSG(CAIService, SC_AOI_REMOVE) {}
 
 ON_MSG(CAIService, SC_AOI_UPDATE)
 {
+    __ENTER_FUNCTION
     CAIActor* pActor = AIActorManager()->QueryActor(msg.actor_id());
     CHECK_FMT(pActor, "actorid:{}", msg.actor_id());
     CHECK(pActor->GetCurrentScene());
@@ -32,11 +33,12 @@ ON_MSG(CAIService, SC_AOI_UPDATE)
                pActor->GetCurrentScene()->GetMapID(),
                pActor->GetPosX(),
                pActor->GetPosY());
+    __LEAVE_FUNCTION
 }
 
 ON_MSG(CAIService, SC_ATTRIB_CHANGE)
 {
-
+    __ENTER_FUNCTION
     CAIActor* pActor = AIActorManager()->QueryActor(msg.actor_id());
     CHECK(pActor);
     for(int32_t i = 0; i < msg.datalist_size(); i++)
@@ -44,78 +46,100 @@ ON_MSG(CAIService, SC_ATTRIB_CHANGE)
         const auto& data = msg.datalist(i);
         pActor->SetProperty(data.actype(), data.val());
     }
+    __LEAVE_FUNCTION
 }
 
 ON_MSG(CAIService, SC_CASTSKILL)
 {
+    __ENTER_FUNCTION
     CAIActor* pActor = AIActorManager()->QueryActor(msg.actor_id());
     CHECK(pActor);
     pActor->OnCastSkill(msg.skill_id());
+    __LEAVE_FUNCTION
 }
 
 ON_MSG(CAIService, SC_SKILL_STUN)
 {
+    __ENTER_FUNCTION
     CAIActor* pActor = AIActorManager()->QueryActor(msg.actor_id());
     CHECK(pActor);
     pActor->OnCastSkillFinish(msg.stun_ms());
+    __LEAVE_FUNCTION
 }
 
 ON_MSG(CAIService, SC_SKILL_BREAK)
 {
+    __ENTER_FUNCTION
     CAIActor* pActor = AIActorManager()->QueryActor(msg.actor_id());
     CHECK(pActor);
     pActor->OnCastSkillFinish(0);
+    __LEAVE_FUNCTION
 }
 
 ON_MSG(CAIService, SC_DAMAGE)
 {
+    __ENTER_FUNCTION
     CAIActor* pActor = AIActorManager()->QueryActor(msg.actor_id());
     CHECK(pActor);
     pActor->OnUnderAttack(msg.attacker_id(), msg.damage());
+    __LEAVE_FUNCTION
 }
 
 ON_SERVERMSG(CAIService, SceneCreate)
 {
+    __ENTER_FUNCTION
     AISceneManager()->CreateScene(msg.scene_id());
+    __LEAVE_FUNCTION
 }
 
 ON_SERVERMSG(CAIService, PhaseCreate)
 {
+    __ENTER_FUNCTION
     CAIScene* pScene = AISceneManager()->QueryScene(msg.scene_id());
     CHECK(pScene);
     pScene->CreatePhase(msg.scene_id(), msg.phase_id());
+    __LEAVE_FUNCTION
 }
 
 ON_SERVERMSG(CAIService, PhaseDestory)
 {
+    __ENTER_FUNCTION
     CAIScene* pScene = AISceneManager()->QueryScene(msg.scene_id());
     CHECK(pScene);
     pScene->DestoryPhase(msg.phase_id());
+    __LEAVE_FUNCTION
 }
 
 ON_SERVERMSG(CAIService, ActiveGen)
 {
+    __ENTER_FUNCTION
     CAIPhase* pScene = AISceneManager()->QueryPhase(msg.scene_id());
     CHECK(pScene);
     pScene->GetMonsterGen().ActiveGen(msg.gen_id(), msg.active());
+    __LEAVE_FUNCTION
 }
 
 ON_SERVERMSG(CAIService, MonsterGenOnce)
 {
+    __ENTER_FUNCTION
     CAIPhase* pScene = AISceneManager()->QueryPhase(msg.scene_id());
     CHECK(pScene);
     pScene->GetMonsterGen().GenOnce(msg.gen_id(), msg.phase_id());
+    __LEAVE_FUNCTION
 }
 
 ON_SERVERMSG(CAIService, KillGen)
 {
+    __ENTER_FUNCTION
     CAIPhase* pScene = AISceneManager()->QueryPhase(msg.scene_id());
     CHECK(pScene);
     pScene->GetMonsterGen().KillGen(msg.gen_id());
+    __LEAVE_FUNCTION
 }
 
 ON_SERVERMSG(CAIService, ActorCreate)
 {
+    __ENTER_FUNCTION
     CAIPhase* pScene = AISceneManager()->QueryPhase(msg.scene_id());
     CHECK(pScene);
     CAIActor* pActor = AIActorManager()->QueryActor(msg.actor_id());;
@@ -149,10 +173,12 @@ ON_SERVERMSG(CAIService, ActorCreate)
         AIActorManager()->AddActor(pActor);
         pActor->OnBorn();
     }
+    __LEAVE_FUNCTION
 }
 
 ON_SERVERMSG(CAIService, ActorDestory)
 {
+    __ENTER_FUNCTION
     CAIActor* pActor = AIActorManager()->QueryActor(msg.actor_id());
     CHECK(pActor);
     LOGDEBUG("ActorDestory id:{} ptr:{:p}", pActor->GetID(), (void*)pActor);
@@ -166,25 +192,31 @@ ON_SERVERMSG(CAIService, ActorDestory)
         pActor->GetCurrentScene()->LeaveMap(pActor);
 
     AIActorManager()->DelActor(pActor);
+    __LEAVE_FUNCTION
 }
 
 ON_SERVERMSG(CAIService, ActorCastSkill_Fail)
 {
+    __ENTER_FUNCTION
     CAIActor* pActor = AIActorManager()->QueryActor(msg.actor_id());
     CHECK(pActor);
 
     pActor->OnCastSkillFinish();
+    __LEAVE_FUNCTION
 }
 
 ON_SERVERMSG(CAIService, ActorSetHide)
 {
+    __ENTER_FUNCTION
     CAIActor* pActor = AIActorManager()->QueryActor(msg.actor_id());
     CHECK(pActor);
     pActor->SetHideCoude(msg.hide_count());
+    __LEAVE_FUNCTION
 }
 
 ON_SERVERMSG(CAIService, SyncTaskPhase)
 {
+    __ENTER_FUNCTION
     auto pActor = AIActorManager()->QueryActor(msg.player_id());
     CHECK(pActor);
     CAIPlayer* pPlayer = pActor->CastTo<CAIPlayer>();
@@ -194,24 +226,29 @@ ON_SERVERMSG(CAIService, SyncTaskPhase)
     {
         pPlayer->AddTaskPhase(msg.task_phase_id(i));
     }
+    __LEAVE_FUNCTION
 }
 
 ON_SERVERMSG(CAIService, AddTaskPhase)
 {
+    __ENTER_FUNCTION
     auto pActor = AIActorManager()->QueryActor(msg.player_id());
     CHECK(pActor);
     CAIPlayer* pPlayer = pActor->CastTo<CAIPlayer>();
     CHECK(pPlayer);
     pPlayer->AddTaskPhase(msg.task_phase_id());
+    __LEAVE_FUNCTION
 }
 
 ON_SERVERMSG(CAIService, RemoveTaskPhase)
 {
+    __ENTER_FUNCTION
     auto pActor = AIActorManager()->QueryActor(msg.player_id());
     CHECK(pActor);
     CAIPlayer* pPlayer = pActor->CastTo<CAIPlayer>();
     CHECK(pPlayer);
     pPlayer->RemoveTaskPhase(msg.task_phase_id());
+    __LEAVE_FUNCTION
 }
 
 void AIServiceMessageHandlerRegister()

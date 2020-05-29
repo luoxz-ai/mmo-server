@@ -342,7 +342,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_db_5fproto_2fgamedb_2eproto::o
   PROTOBUF_FIELD_OFFSET(::db::tbld_datacount, keytype_),
   PROTOBUF_FIELD_OFFSET(::db::tbld_datacount, keyidx_),
   PROTOBUF_FIELD_OFFSET(::db::tbld_datacount, data_num_),
-  PROTOBUF_FIELD_OFFSET(::db::tbld_datacount, last_reset_time_),
+  PROTOBUF_FIELD_OFFSET(::db::tbld_datacount, next_reset_time_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::db::tbld_global_mail, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -584,18 +584,18 @@ const char descriptor_table_protodef_db_5fproto_2fgamedb_2eproto[] PROTOBUF_SECT
   "/sql_options.proto\"\257\001\n\017tbld_commondata\022\034"
   "\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022!\n\010playerid"
   "\030\002 \001(\004B\017\222\?\014\"\nidx_player\022\017\n\007keytype\030\003 \001(\r"
-  "\022\016\n\006keyidx\030\004 \001(\004\022\r\n\005data0\030\005 \001(\004\022\r\n\005data1"
+  "\022\016\n\006keyidx\030\004 \001(\r\022\r\n\005data0\030\005 \001(\004\022\r\n\005data1"
   "\030\006 \001(\004\022\r\n\005data2\030\007 \001(\004\022\r\n\005data3\030\010 \001(\004\"\300\001\n"
   "\rtbld_cooldown\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx_id\222"
   "\?\002\020\001\0221\n\010playerid\030\002 \001(\004B\037\222\?\034\"\032idx_player,"
   " idx_player_idx\022$\n\007keytype\030\003 \001(\rB\023\222\?\020\"\016i"
-  "dx_player_idx\022#\n\006keyidx\030\004 \001(\004B\023\222\?\020\"\016idx_"
+  "dx_player_idx\022#\n\006keyidx\030\004 \001(\rB\023\222\?\020\"\016idx_"
   "player_idx\022\023\n\013expire_time\030\005 \001(\r\"\327\001\n\016tbld"
   "_datacount\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001"
   "\0221\n\010playerid\030\002 \001(\004B\037\222\?\034\"\032idx_player, idx"
   "_player_idx\022$\n\007keytype\030\003 \001(\rB\023\222\?\020\"\016idx_p"
-  "layer_idx\022#\n\006keyidx\030\004 \001(\004B\023\222\?\020\"\016idx_play"
-  "er_idx\022\020\n\010data_num\030\005 \001(\004\022\027\n\017last_reset_t"
+  "layer_idx\022#\n\006keyidx\030\004 \001(\rB\023\222\?\020\"\016idx_play"
+  "er_idx\022\020\n\010data_num\030\005 \001(\004\022\027\n\017next_reset_t"
   "ime\030\006 \001(\r\"\241\002\n\020tbld_global_mail\022\034\n\002id\030\001 \001"
   "(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022!\n\010senderid\030\002 \001(\004B\017"
   "\222\?\014\"\nidx_sendid\022\032\n\nsendername\030\003 \001(\tB\006\222\?\003"
@@ -733,15 +733,15 @@ tbld_commondata::tbld_commondata(const tbld_commondata& from)
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&id_, &from.id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&keytype_) -
-    reinterpret_cast<char*>(&id_)) + sizeof(keytype_));
+    static_cast<size_t>(reinterpret_cast<char*>(&data3_) -
+    reinterpret_cast<char*>(&id_)) + sizeof(data3_));
   // @@protoc_insertion_point(copy_constructor:db.tbld_commondata)
 }
 
 void tbld_commondata::SharedCtor() {
   ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&keytype_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(keytype_));
+      reinterpret_cast<char*>(&data3_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(data3_));
 }
 
 tbld_commondata::~tbld_commondata() {
@@ -768,8 +768,8 @@ void tbld_commondata::Clear() {
   (void) cached_has_bits;
 
   ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&keytype_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(keytype_));
+      reinterpret_cast<char*>(&data3_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(data3_));
   _internal_metadata_.Clear();
 }
 
@@ -801,7 +801,7 @@ const char* tbld_commondata::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPAC
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint64 keyidx = 4;
+      // uint32 keyidx = 4;
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
           keyidx_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
@@ -880,10 +880,10 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(3, this->_internal_keytype(), target);
   }
 
-  // uint64 keyidx = 4;
+  // uint32 keyidx = 4;
   if (this->keyidx() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(4, this->_internal_keyidx(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(4, this->_internal_keyidx(), target);
   }
 
   // uint64 data0 = 5;
@@ -940,10 +940,17 @@ size_t tbld_commondata::ByteSizeLong() const {
         this->_internal_playerid());
   }
 
-  // uint64 keyidx = 4;
+  // uint32 keytype = 3;
+  if (this->keytype() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_keytype());
+  }
+
+  // uint32 keyidx = 4;
   if (this->keyidx() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_keyidx());
   }
 
@@ -973,13 +980,6 @@ size_t tbld_commondata::ByteSizeLong() const {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
         this->_internal_data3());
-  }
-
-  // uint32 keytype = 3;
-  if (this->keytype() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
-        this->_internal_keytype());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1019,6 +1019,9 @@ void tbld_commondata::MergeFrom(const tbld_commondata& from) {
   if (from.playerid() != 0) {
     _internal_set_playerid(from._internal_playerid());
   }
+  if (from.keytype() != 0) {
+    _internal_set_keytype(from._internal_keytype());
+  }
   if (from.keyidx() != 0) {
     _internal_set_keyidx(from._internal_keyidx());
   }
@@ -1033,9 +1036,6 @@ void tbld_commondata::MergeFrom(const tbld_commondata& from) {
   }
   if (from.data3() != 0) {
     _internal_set_data3(from._internal_data3());
-  }
-  if (from.keytype() != 0) {
-    _internal_set_keytype(from._internal_keytype());
   }
 }
 
@@ -1062,12 +1062,12 @@ void tbld_commondata::InternalSwap(tbld_commondata* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(id_, other->id_);
   swap(playerid_, other->playerid_);
+  swap(keytype_, other->keytype_);
   swap(keyidx_, other->keyidx_);
   swap(data0_, other->data0_);
   swap(data1_, other->data1_);
   swap(data2_, other->data2_);
   swap(data3_, other->data3_);
-  swap(keytype_, other->keytype_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata tbld_commondata::GetMetadata() const {
@@ -1161,7 +1161,7 @@ const char* tbld_cooldown::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint64 keyidx = 4 [(.sql) = {
+      // uint32 keyidx = 4 [(.sql) = {
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
           keyidx_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
@@ -1219,10 +1219,10 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(3, this->_internal_keytype(), target);
   }
 
-  // uint64 keyidx = 4 [(.sql) = {
+  // uint32 keyidx = 4 [(.sql) = {
   if (this->keyidx() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(4, this->_internal_keyidx(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(4, this->_internal_keyidx(), target);
   }
 
   // uint32 expire_time = 5;
@@ -1261,18 +1261,18 @@ size_t tbld_cooldown::ByteSizeLong() const {
         this->_internal_playerid());
   }
 
-  // uint64 keyidx = 4 [(.sql) = {
-  if (this->keyidx() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
-        this->_internal_keyidx());
-  }
-
   // uint32 keytype = 3 [(.sql) = {
   if (this->keytype() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_keytype());
+  }
+
+  // uint32 keyidx = 4 [(.sql) = {
+  if (this->keyidx() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_keyidx());
   }
 
   // uint32 expire_time = 5;
@@ -1319,11 +1319,11 @@ void tbld_cooldown::MergeFrom(const tbld_cooldown& from) {
   if (from.playerid() != 0) {
     _internal_set_playerid(from._internal_playerid());
   }
-  if (from.keyidx() != 0) {
-    _internal_set_keyidx(from._internal_keyidx());
-  }
   if (from.keytype() != 0) {
     _internal_set_keytype(from._internal_keytype());
+  }
+  if (from.keyidx() != 0) {
+    _internal_set_keyidx(from._internal_keyidx());
   }
   if (from.expire_time() != 0) {
     _internal_set_expire_time(from._internal_expire_time());
@@ -1353,8 +1353,8 @@ void tbld_cooldown::InternalSwap(tbld_cooldown* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(id_, other->id_);
   swap(playerid_, other->playerid_);
-  swap(keyidx_, other->keyidx_);
   swap(keytype_, other->keytype_);
+  swap(keyidx_, other->keyidx_);
   swap(expire_time_, other->expire_time_);
 }
 
@@ -1381,15 +1381,15 @@ tbld_datacount::tbld_datacount(const tbld_datacount& from)
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&id_, &from.id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&data_num_) -
-    reinterpret_cast<char*>(&id_)) + sizeof(data_num_));
+    static_cast<size_t>(reinterpret_cast<char*>(&next_reset_time_) -
+    reinterpret_cast<char*>(&id_)) + sizeof(next_reset_time_));
   // @@protoc_insertion_point(copy_constructor:db.tbld_datacount)
 }
 
 void tbld_datacount::SharedCtor() {
   ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&data_num_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(data_num_));
+      reinterpret_cast<char*>(&next_reset_time_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(next_reset_time_));
 }
 
 tbld_datacount::~tbld_datacount() {
@@ -1416,8 +1416,8 @@ void tbld_datacount::Clear() {
   (void) cached_has_bits;
 
   ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&data_num_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(data_num_));
+      reinterpret_cast<char*>(&next_reset_time_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(next_reset_time_));
   _internal_metadata_.Clear();
 }
 
@@ -1449,7 +1449,7 @@ const char* tbld_datacount::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint64 keyidx = 4 [(.sql) = {
+      // uint32 keyidx = 4 [(.sql) = {
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
           keyidx_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
@@ -1463,10 +1463,10 @@ const char* tbld_datacount::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint32 last_reset_time = 6;
+      // uint32 next_reset_time = 6;
       case 6:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48)) {
-          last_reset_time_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          next_reset_time_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -1514,10 +1514,10 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(3, this->_internal_keytype(), target);
   }
 
-  // uint64 keyidx = 4 [(.sql) = {
+  // uint32 keyidx = 4 [(.sql) = {
   if (this->keyidx() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(4, this->_internal_keyidx(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(4, this->_internal_keyidx(), target);
   }
 
   // uint64 data_num = 5;
@@ -1526,10 +1526,10 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(5, this->_internal_data_num(), target);
   }
 
-  // uint32 last_reset_time = 6;
-  if (this->last_reset_time() != 0) {
+  // uint32 next_reset_time = 6;
+  if (this->next_reset_time() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(6, this->_internal_last_reset_time(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(6, this->_internal_next_reset_time(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1562,13 +1562,6 @@ size_t tbld_datacount::ByteSizeLong() const {
         this->_internal_playerid());
   }
 
-  // uint64 keyidx = 4 [(.sql) = {
-  if (this->keyidx() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
-        this->_internal_keyidx());
-  }
-
   // uint32 keytype = 3 [(.sql) = {
   if (this->keytype() != 0) {
     total_size += 1 +
@@ -1576,11 +1569,11 @@ size_t tbld_datacount::ByteSizeLong() const {
         this->_internal_keytype());
   }
 
-  // uint32 last_reset_time = 6;
-  if (this->last_reset_time() != 0) {
+  // uint32 keyidx = 4 [(.sql) = {
+  if (this->keyidx() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
-        this->_internal_last_reset_time());
+        this->_internal_keyidx());
   }
 
   // uint64 data_num = 5;
@@ -1588,6 +1581,13 @@ size_t tbld_datacount::ByteSizeLong() const {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
         this->_internal_data_num());
+  }
+
+  // uint32 next_reset_time = 6;
+  if (this->next_reset_time() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_next_reset_time());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1627,17 +1627,17 @@ void tbld_datacount::MergeFrom(const tbld_datacount& from) {
   if (from.playerid() != 0) {
     _internal_set_playerid(from._internal_playerid());
   }
-  if (from.keyidx() != 0) {
-    _internal_set_keyidx(from._internal_keyidx());
-  }
   if (from.keytype() != 0) {
     _internal_set_keytype(from._internal_keytype());
   }
-  if (from.last_reset_time() != 0) {
-    _internal_set_last_reset_time(from._internal_last_reset_time());
+  if (from.keyidx() != 0) {
+    _internal_set_keyidx(from._internal_keyidx());
   }
   if (from.data_num() != 0) {
     _internal_set_data_num(from._internal_data_num());
+  }
+  if (from.next_reset_time() != 0) {
+    _internal_set_next_reset_time(from._internal_next_reset_time());
   }
 }
 
@@ -1664,10 +1664,10 @@ void tbld_datacount::InternalSwap(tbld_datacount* other) {
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(id_, other->id_);
   swap(playerid_, other->playerid_);
-  swap(keyidx_, other->keyidx_);
   swap(keytype_, other->keytype_);
-  swap(last_reset_time_, other->last_reset_time_);
+  swap(keyidx_, other->keyidx_);
   swap(data_num_, other->data_num_);
+  swap(next_reset_time_, other->next_reset_time_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata tbld_datacount::GetMetadata() const {

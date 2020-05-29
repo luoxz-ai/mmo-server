@@ -1558,7 +1558,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_msg_2fzone_5fservice_2eproto::
   PROTOBUF_FIELD_OFFSET(::SC_DATACOUNT_Data, type_),
   PROTOBUF_FIELD_OFFSET(::SC_DATACOUNT_Data, idx_),
   PROTOBUF_FIELD_OFFSET(::SC_DATACOUNT_Data, data_),
-  PROTOBUF_FIELD_OFFSET(::SC_DATACOUNT_Data, last_reset_time_),
+  PROTOBUF_FIELD_OFFSET(::SC_DATACOUNT_Data, next_reset_time_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::SC_DATACOUNT, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -2330,7 +2330,7 @@ const char descriptor_table_protodef_msg_2fzone_5fservice_2eproto[] PROTOBUF_SEC
   "\030\003 \001(\004\022\r\n\005data2\030\004 \001(\004\022\r\n\005data3\030\005 \001(\004\"~\n\014"
   "SC_DATACOUNT\022$\n\010datalist\030\001 \003(\0132\022.SC_DATA"
   "COUNT.Data\032H\n\004Data\022\014\n\004type\030\001 \001(\r\022\013\n\003idx\030"
-  "\002 \001(\r\022\014\n\004data\030\003 \001(\004\022\027\n\017last_reset_time\030\004"
+  "\002 \001(\r\022\014\n\004data\030\003 \001(\004\022\027\n\017next_reset_time\030\004"
   " \001(\r\"i\n\013SC_COOLDOWN\022#\n\010datalist\030\001 \003(\0132\021."
   "SC_COOLDOWN.Data\0325\n\004Data\022\014\n\004type\030\001 \001(\r\022\013"
   "\n\003idx\030\002 \001(\r\022\022\n\nexpiretime\030\003 \001(\r\"\273\001\n\tSC_S"
@@ -4529,15 +4529,15 @@ SC_DATACOUNT_Data::SC_DATACOUNT_Data(const SC_DATACOUNT_Data& from)
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&type_, &from.type_,
-    static_cast<size_t>(reinterpret_cast<char*>(&last_reset_time_) -
-    reinterpret_cast<char*>(&type_)) + sizeof(last_reset_time_));
+    static_cast<size_t>(reinterpret_cast<char*>(&next_reset_time_) -
+    reinterpret_cast<char*>(&type_)) + sizeof(next_reset_time_));
   // @@protoc_insertion_point(copy_constructor:SC_DATACOUNT.Data)
 }
 
 void SC_DATACOUNT_Data::SharedCtor() {
   ::memset(&type_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&last_reset_time_) -
-      reinterpret_cast<char*>(&type_)) + sizeof(last_reset_time_));
+      reinterpret_cast<char*>(&next_reset_time_) -
+      reinterpret_cast<char*>(&type_)) + sizeof(next_reset_time_));
 }
 
 SC_DATACOUNT_Data::~SC_DATACOUNT_Data() {
@@ -4564,8 +4564,8 @@ void SC_DATACOUNT_Data::Clear() {
   (void) cached_has_bits;
 
   ::memset(&type_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&last_reset_time_) -
-      reinterpret_cast<char*>(&type_)) + sizeof(last_reset_time_));
+      reinterpret_cast<char*>(&next_reset_time_) -
+      reinterpret_cast<char*>(&type_)) + sizeof(next_reset_time_));
   _internal_metadata_.Clear();
 }
 
@@ -4597,10 +4597,10 @@ const char* SC_DATACOUNT_Data::_InternalParse(const char* ptr, ::PROTOBUF_NAMESP
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint32 last_reset_time = 4;
+      // uint32 next_reset_time = 4;
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
-          last_reset_time_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          next_reset_time_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -4648,10 +4648,10 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(3, this->_internal_data(), target);
   }
 
-  // uint32 last_reset_time = 4;
-  if (this->last_reset_time() != 0) {
+  // uint32 next_reset_time = 4;
+  if (this->next_reset_time() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(4, this->_internal_last_reset_time(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(4, this->_internal_next_reset_time(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -4691,11 +4691,11 @@ size_t SC_DATACOUNT_Data::ByteSizeLong() const {
         this->_internal_data());
   }
 
-  // uint32 last_reset_time = 4;
-  if (this->last_reset_time() != 0) {
+  // uint32 next_reset_time = 4;
+  if (this->next_reset_time() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
-        this->_internal_last_reset_time());
+        this->_internal_next_reset_time());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -4738,8 +4738,8 @@ void SC_DATACOUNT_Data::MergeFrom(const SC_DATACOUNT_Data& from) {
   if (from.data() != 0) {
     _internal_set_data(from._internal_data());
   }
-  if (from.last_reset_time() != 0) {
-    _internal_set_last_reset_time(from._internal_last_reset_time());
+  if (from.next_reset_time() != 0) {
+    _internal_set_next_reset_time(from._internal_next_reset_time());
   }
 }
 
@@ -4767,7 +4767,7 @@ void SC_DATACOUNT_Data::InternalSwap(SC_DATACOUNT_Data* other) {
   swap(type_, other->type_);
   swap(idx_, other->idx_);
   swap(data_, other->data_);
-  swap(last_reset_time_, other->last_reset_time_);
+  swap(next_reset_time_, other->next_reset_time_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata SC_DATACOUNT_Data::GetMetadata() const {

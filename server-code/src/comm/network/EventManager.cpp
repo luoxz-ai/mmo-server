@@ -64,21 +64,24 @@ bool CEventManager::Init(event_base* base)
 
 void CEventManager::Destory()
 {
-    for(auto it = m_mapEntry.begin(); it != m_mapEntry.end(); it++)
     {
-        if(it->second == true)
+        std::unique_lock<std::mutex> lock(m_mutex);
+        for(auto it = m_mapEntry.begin(); it != m_mapEntry.end(); it++)
         {
-            CEventEntry* pEntry = it->first;
+            if(it->second == true)
+            {
+                CEventEntry* pEntry = it->first;
+                SAFE_DELETE(pEntry);
+            }
+        }
+        m_mapEntry.clear();
+        for(auto it = m_setWaitEntry.begin(); it != m_setWaitEntry.end(); it++)
+        {
+            CEventEntry* pEntry = *it;
             SAFE_DELETE(pEntry);
         }
+        m_setWaitEntry.clear();
     }
-    m_mapEntry.clear();
-    for(auto it = m_setWaitEntry.begin(); it != m_setWaitEntry.end(); it++)
-    {
-        CEventEntry* pEntry = *it;
-        SAFE_DELETE(pEntry);
-    }
-    m_setWaitEntry.clear();
 
     if(m_bOwnBase && m_pBase)
     {
@@ -115,7 +118,11 @@ bool CEventManager::ScheduleEvent(const CEventEntryCreateParam& param,
         return refEntry.Set(pEntry);
     }
     else
+    {
+        LOGERROR("ScheduleEvent Fail: {}", param.evType);
+        LOGERROR("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7))); 
         return false;
+    }   
 }
 
 bool CEventManager::ScheduleEvent(const CEventEntryCreateParam& param,
@@ -129,7 +136,11 @@ bool CEventManager::ScheduleEvent(const CEventEntryCreateParam& param,
         return refEntryQueue.Add(pEntry);
     }
     else
+    {
+        LOGERROR("ScheduleEvent Fail: {}", param.evType);
+        LOGERROR("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7))); 
         return false;
+    }  
 }
 
 bool CEventManager::ScheduleEvent(const CEventEntryCreateParam& param,
@@ -144,7 +155,11 @@ bool CEventManager::ScheduleEvent(const CEventEntryCreateParam& param,
         return refEntryMap.Set(pEntry);
     }
     else
+    {
+        LOGERROR("ScheduleEvent Fail: {}", param.evType);
+        LOGERROR("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7))); 
         return false;
+    }  
 }
 
 bool CEventManager::ScheduleEvent(const CEventEntryCreateParam& param)
@@ -153,7 +168,10 @@ bool CEventManager::ScheduleEvent(const CEventEntryCreateParam& param)
     CHECKF(param.tWaitTime >= 0);
 
     CEventEntry* pEntry = CreateEntry(param, EMT_EVMANAGER);
-    m_mapEntry[pEntry] = false;
+    {
+        std::unique_lock<std::mutex> lock(m_mutex);
+        m_mapEntry[pEntry] = false;
+    }
     PushWait(pEntry);
     return true;
 }
@@ -217,6 +235,7 @@ void CEventManager::PushWait(CEventEntry* pEntry)
 
 void CEventManager::ScheduleWait()
 {
+    std::unique_lock<std::mutex> lock(m_mutex);
     while(m_setWaitEntry.empty() == false)
     {
         CEventEntry* pEntry = *m_setWaitEntry.begin();
@@ -240,9 +259,9 @@ void CEventManager::ScheduleWait()
             else
             {
                 struct timeval tv = {(long)pEntry->m_tWaitTime / 1000, (long)pEntry->m_tWaitTime % 1000 * 1000};
-
                 nRet = evtimer_add(pEntry->m_pevTimer, &tv);
             }
+            AddRunningEventCount();
 
             if(nRet == 0)
             {
@@ -253,26 +272,59 @@ void CEventManager::ScheduleWait()
             }
         }
         // if evtimer_add fail,delete it
-        Delete(pEntry);
+        _DeleteMapedEvent(pEntry);
     }
 }
 
-void CEventManager::Delete(CEventEntry* pEntry)
+void CEventManager::_DeleteMapedEvent(CEventEntry* pEntry)
 {
     if(pEntry == nullptr)
         return;
 
-    auto it = m_mapEntry.find(pEntry);
-    if(it != m_mapEntry.end())
     {
-        m_mapEntry.erase(it);
-        SAFE_DELETE(pEntry);
+        auto it = m_mapEntry.find(pEntry);
+        if(it != m_mapEntry.end())
+        {
+            m_mapEntry.erase(it);
+        }
+        else
+        {
+            LOGERROR("try delet event not mapbymanager:{:p}", (void*)pEntry);
+        }
     }
+    
+    SAFE_DELETE(pEntry);
 }
 
 size_t CEventManager::GetEventCount()
 {
-    return m_mapEntry.size();
+    return m_nEventCount;
+}
+
+void CEventManager::AddEventCount()
+{
+    m_nEventCount++;
+}
+
+void CEventManager::SubEventCount()
+{
+    m_nEventCount--;
+}
+
+
+size_t CEventManager::GetRunningEventCount()
+{
+    return m_nRunningEventCount;
+}
+
+void CEventManager::AddRunningEventCount()
+{
+    m_nRunningEventCount++;
+}
+
+void CEventManager::SubRunningEventCount()
+{
+    m_nRunningEventCount--;
 }
 
 bool CEventManager::RemoveWait(CEventEntry* pEntry)

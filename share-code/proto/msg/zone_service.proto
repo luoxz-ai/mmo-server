@@ -69,7 +69,7 @@ message SC_DATACOUNT
 		uint32 type			   = 1;
 		uint32 idx			   = 2;
 		uint64 data			   = 3;
-		uint32 last_reset_time = 4;
+		uint32 next_reset_time = 4;
 	};
 	repeated Data datalist = 1;
 }

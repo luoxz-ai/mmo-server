@@ -93,7 +93,10 @@ double fuzzy::RuleSet::calculate(const double value) const
 
 double fuzzy::RuleSet::calculate(const vector<double> inputValues) const
 {
+    __ENTER_FUNCTION
     fuzzy::RuleSet::mu_map _consequents_to_mus;
     populate_mu_map(inputValues, _consequents_to_mus);
     return scale_and_defuzzify(_consequents_to_mus);
+    __LEAVE_FUNCTION
+    return 0.0f;
 }

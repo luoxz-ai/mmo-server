@@ -133,6 +133,10 @@ class ActorMoveDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ActorMove> _instance;
 } _ActorMove_default_instance_;
+class ActorFlyToDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ActorFlyTo> _instance;
+} _ActorFlyTo_default_instance_;
 class ActorCastSkillDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<ActorCastSkill> _instance;
@@ -279,6 +283,20 @@ static void InitDefaultsscc_info_ActorDestory_server_5fmsg_2fserver_5fside_2epro
 
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ActorDestory_server_5fmsg_2fserver_5fside_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_ActorDestory_server_5fmsg_2fserver_5fside_2eproto}, {}};
+
+static void InitDefaultsscc_info_ActorFlyTo_server_5fmsg_2fserver_5fside_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::ServerMSG::_ActorFlyTo_default_instance_;
+    new (ptr) ::ServerMSG::ActorFlyTo();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ServerMSG::ActorFlyTo::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ActorFlyTo_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_ActorFlyTo_server_5fmsg_2fserver_5fside_2eproto}, {}};
 
 static void InitDefaultsscc_info_ActorMove_server_5fmsg_2fserver_5fside_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -883,7 +901,7 @@ static void InitDefaultsscc_info_TeamQuit_server_5fmsg_2fserver_5fside_2eproto()
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_TeamQuit_server_5fmsg_2fserver_5fside_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_TeamQuit_server_5fmsg_2fserver_5fside_2eproto}, {}};
 
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_server_5fmsg_2fserver_5fside_2eproto[48];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_server_5fmsg_2fserver_5fside_2eproto[49];
 static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_server_5fmsg_2fserver_5fside_2eproto[2];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_server_5fmsg_2fserver_5fside_2eproto = nullptr;
 
@@ -1133,6 +1151,14 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_server_5fmsg_2fserver_5fside_2
   PROTOBUF_FIELD_OFFSET(::ServerMSG::ActorMove, x_),
   PROTOBUF_FIELD_OFFSET(::ServerMSG::ActorMove, y_),
   ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::ActorFlyTo, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::ActorFlyTo, actor_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::ActorFlyTo, x_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::ActorFlyTo, y_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ServerMSG::ActorCastSkill, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -1302,25 +1328,26 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 205, -1, sizeof(::ServerMSG::ActorCreate)},
   { 229, -1, sizeof(::ServerMSG::ActorDestory)},
   { 236, -1, sizeof(::ServerMSG::ActorMove)},
-  { 244, -1, sizeof(::ServerMSG::ActorCastSkill)},
-  { 252, -1, sizeof(::ServerMSG::ActorCastSkill_Fail)},
-  { 258, -1, sizeof(::ServerMSG::ActorSetHide)},
-  { 265, -1, sizeof(::ServerMSG::TeamCreate)},
-  { 272, -1, sizeof(::ServerMSG::TeamDestory)},
-  { 278, -1, sizeof(::ServerMSG::TeamQuit)},
-  { 285, -1, sizeof(::ServerMSG::TeamKickMember)},
-  { 293, -1, sizeof(::ServerMSG::TeamInviteMember)},
-  { 301, -1, sizeof(::ServerMSG::TeamAcceptInvite)},
-  { 310, -1, sizeof(::ServerMSG::TeamApplyMember)},
-  { 317, -1, sizeof(::ServerMSG::TeamAcceptApply)},
-  { 325, -1, sizeof(::ServerMSG::TeamNewLeader)},
-  { 333, -1, sizeof(::ServerMSG::TeamAddMember)},
-  { 340, -1, sizeof(::ServerMSG::TeamDelMember)},
-  { 347, -1, sizeof(::ServerMSG::TeamMemberInfo_Info)},
-  { 356, -1, sizeof(::ServerMSG::TeamMemberInfo)},
-  { 362, -1, sizeof(::ServerMSG::SyncTaskPhase)},
-  { 369, -1, sizeof(::ServerMSG::AddTaskPhase)},
-  { 376, -1, sizeof(::ServerMSG::RemoveTaskPhase)},
+  { 244, -1, sizeof(::ServerMSG::ActorFlyTo)},
+  { 252, -1, sizeof(::ServerMSG::ActorCastSkill)},
+  { 260, -1, sizeof(::ServerMSG::ActorCastSkill_Fail)},
+  { 266, -1, sizeof(::ServerMSG::ActorSetHide)},
+  { 273, -1, sizeof(::ServerMSG::TeamCreate)},
+  { 280, -1, sizeof(::ServerMSG::TeamDestory)},
+  { 286, -1, sizeof(::ServerMSG::TeamQuit)},
+  { 293, -1, sizeof(::ServerMSG::TeamKickMember)},
+  { 301, -1, sizeof(::ServerMSG::TeamInviteMember)},
+  { 309, -1, sizeof(::ServerMSG::TeamAcceptInvite)},
+  { 318, -1, sizeof(::ServerMSG::TeamApplyMember)},
+  { 325, -1, sizeof(::ServerMSG::TeamAcceptApply)},
+  { 333, -1, sizeof(::ServerMSG::TeamNewLeader)},
+  { 341, -1, sizeof(::ServerMSG::TeamAddMember)},
+  { 348, -1, sizeof(::ServerMSG::TeamDelMember)},
+  { 355, -1, sizeof(::ServerMSG::TeamMemberInfo_Info)},
+  { 364, -1, sizeof(::ServerMSG::TeamMemberInfo)},
+  { 370, -1, sizeof(::ServerMSG::SyncTaskPhase)},
+  { 377, -1, sizeof(::ServerMSG::AddTaskPhase)},
+  { 384, -1, sizeof(::ServerMSG::RemoveTaskPhase)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -1353,6 +1380,7 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_ActorCreate_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_ActorDestory_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_ActorMove_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_ActorFlyTo_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_ActorCastSkill_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_ActorCastSkill_Fail_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_ActorSetHide_default_instance_),
@@ -1433,79 +1461,82 @@ const char descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto[] PROT
   " \001(\r\022\020\n\010phase_id\030\025 \001(\004\".\n\014ActorDestory\022\020"
   "\n\010actor_id\030\001 \001(\004\022\014\n\004dead\030\002 \001(\010\"3\n\tActorM"
   "ove\022\020\n\010actor_id\030\001 \001(\004\022\t\n\001x\030\002 \001(\002\022\t\n\001y\030\003 "
-  "\001(\002\"G\n\016ActorCastSkill\022\020\n\010actor_id\030\001 \001(\004\022"
-  "\021\n\ttarget_id\030\002 \001(\004\022\020\n\010skill_id\030\003 \001(\r\"\'\n\023"
-  "ActorCastSkill_Fail\022\020\n\010actor_id\030\001 \001(\004\"4\n"
-  "\014ActorSetHide\022\020\n\010actor_id\030\001 \001(\004\022\022\n\nhide_"
-  "count\030\002 \001(\005\"0\n\nTeamCreate\022\017\n\007team_id\030\001 \001"
-  "(\004\022\021\n\tleader_id\030\002 \001(\004\"\036\n\013TeamDestory\022\017\n\007"
-  "team_id\030\001 \001(\004\"0\n\010TeamQuit\022\017\n\007team_id\030\001 \001"
-  "(\004\022\023\n\013operator_id\030\002 \001(\004\"G\n\016TeamKickMembe"
-  "r\022\017\n\007team_id\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\022"
-  "\017\n\007kick_id\030\003 \001(\004\"L\n\020TeamInviteMember\022\017\n\007"
-  "team_id\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\022\022\n\nin"
-  "vitee_id\030\003 \001(\004\"[\n\020TeamAcceptInvite\022\017\n\007te"
-  "am_id\030\001 \001(\004\022\022\n\ninviter_id\030\002 \001(\004\022\022\n\ninvit"
-  "ee_id\030\003 \001(\004\022\016\n\006result\030\004 \001(\010\">\n\017TeamApply"
-  "Member\022\024\n\014applicant_id\030\001 \001(\004\022\025\n\rresponde"
-  "nt_id\030\002 \001(\004\"N\n\017TeamAcceptApply\022\024\n\014applic"
-  "ant_id\030\001 \001(\004\022\025\n\rrespondent_id\030\002 \001(\004\022\016\n\006r"
-  "esult\030\003 \001(\010\"L\n\rTeamNewLeader\022\017\n\007team_id\030"
-  "\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\022\025\n\rnew_leader"
-  "_id\030\003 \001(\004\"3\n\rTeamAddMember\022\017\n\007team_id\030\001 "
-  "\001(\004\022\021\n\tmember_id\030\002 \001(\004\"3\n\rTeamDelMember\022"
-  "\017\n\007team_id\030\001 \001(\004\022\021\n\tmember_id\030\002 \001(\004\"\240\001\n\016"
-  "TeamMemberInfo\0223\n\013member_list\030\001 \003(\0132\036.Se"
-  "rverMSG.TeamMemberInfo.Info\032Y\n\004Info\022\021\n\tm"
-  "ember_id\030\001 \001(\004\022\022\n\nmember_lev\030\002 \001(\r\022\025\n\rme"
-  "mber_online\030\003 \001(\010\022\023\n\013member_name\030\004 \001(\t\"9"
-  "\n\rSyncTaskPhase\022\021\n\tplayer_id\030\001 \001(\004\022\025\n\rta"
-  "sk_phase_id\030\002 \003(\004\"8\n\014AddTaskPhase\022\021\n\tpla"
-  "yer_id\030\001 \001(\004\022\025\n\rtask_phase_id\030\002 \001(\004\";\n\017R"
-  "emoveTaskPhase\022\021\n\tplayer_id\030\001 \001(\004\022\025\n\rtas"
-  "k_phase_id\030\002 \001(\004*\247\n\n\006OMsgID\022\017\n\013OMSGID_NO"
-  "NE\020\000\022\021\n\013MsgID_BEGIN\020\240\234\001\022\026\n\020MsgID_Service"
-  "Cmd\020\241\234\001\022\036\n\030MsgID_ServiceHttpRequest\020\242\234\001\022"
-  "\037\n\031MsgID_ServiceHttpResponse\020\243\234\001\022\030\n\022MsgI"
-  "D_ServiceReady\020\252\234\001\022\033\n\025MsgID_ServiceRegis"
-  "ter\020\253\234\001\022\031\n\023MsgID_SocketConnect\020\254\234\001\022\027\n\021Ms"
-  "gID_SocketClose\020\255\234\001\022\034\n\026MsgID_SocketChang"
-  "eDest\020\256\234\001\022\026\n\020MsgID_SocketAuth\020\257\234\001\022\035\n\027Msg"
-  "ID_SocketStartAccept\020\260\234\001\022\034\n\026MsgID_Socket"
-  "StopAccept\020\261\234\001\022\033\n\025MsgID_PlayerEnterZone\020"
-  "\265\234\001\022\034\n\026MsgID_PlayerChangeZone\020\266\234\001\022!\n\033Msg"
-  "ID_PlayerChangeZone_Data\020\267\234\001\022\030\n\022MsgID_Pl"
-  "ayerLogout\020\270\234\001\022\033\n\025MsgID_SystemVarChange\020"
-  "\276\234\001\022\027\n\021MsgID_SceneCreate\020\277\234\001\022\027\n\021MsgID_Ph"
-  "aseCreate\020\300\234\001\022\030\n\022MsgID_PhaseDestory\020\301\234\001\022"
-  "\026\n\020MsgID_MonsterGen\020\311\234\001\022\032\n\024MsgID_Monster"
-  "Destory\020\312\234\001\022\025\n\017MsgID_ActiveGen\020\313\234\001\022\023\n\rMs"
-  "gID_KillGen\020\314\234\001\022\032\n\024MsgID_MonsterGenOnce\020"
-  "\315\234\001\022\033\n\025MsgID_MonsterGenMulti\020\316\234\001\022\027\n\021MsgI"
-  "D_ActorCreate\020\204\235\001\022\030\n\022MsgID_ActorDestory\020"
-  "\205\235\001\022\025\n\017MsgID_ActorMove\020\206\235\001\022\032\n\024MsgID_Acto"
-  "rCastSkill\020\207\235\001\022\037\n\031MsgID_ActorCastSkill_F"
-  "ail\020\210\235\001\022\030\n\022MsgID_ActorSetHide\020\211\235\001\022\031\n\023Msg"
-  "ID_SyncTaskPhase\020\212\235\001\022\030\n\022MsgID_AddTaskPha"
-  "se\020\213\235\001\022\033\n\025MsgID_RemoveTaskPhase\020\214\235\001\022\026\n\020M"
-  "sgID_TeamCreate\020\216\235\001\022\027\n\021MsgID_TeamDestory"
-  "\020\217\235\001\022\024\n\016MsgID_TeamQuit\020\220\235\001\022\032\n\024MsgID_Team"
-  "KickMember\020\221\235\001\022\034\n\026MsgID_TeamInviteMember"
-  "\020\222\235\001\022\034\n\026MsgID_TeamAcceptInvite\020\223\235\001\022\033\n\025Ms"
-  "gID_TeamApplyMember\020\224\235\001\022\033\n\025MsgID_TeamAcc"
-  "eptApply\020\225\235\001\022\031\n\023MsgID_TeamNewLeader\020\226\235\001\022"
-  "\032\n\024MsgID_TeamMemberInfo\020\227\235\001\022\031\n\023MsgID_Tea"
-  "mAddMember\020\230\235\001\022\031\n\023MsgID_TeamDelMember\020\231\235"
-  "\001\022\017\n\tMsgID_END\020\260\352\001b\006proto3"
+  "\001(\002\"4\n\nActorFlyTo\022\020\n\010actor_id\030\001 \001(\004\022\t\n\001x"
+  "\030\002 \001(\002\022\t\n\001y\030\003 \001(\002\"G\n\016ActorCastSkill\022\020\n\010a"
+  "ctor_id\030\001 \001(\004\022\021\n\ttarget_id\030\002 \001(\004\022\020\n\010skil"
+  "l_id\030\003 \001(\r\"\'\n\023ActorCastSkill_Fail\022\020\n\010act"
+  "or_id\030\001 \001(\004\"4\n\014ActorSetHide\022\020\n\010actor_id\030"
+  "\001 \001(\004\022\022\n\nhide_count\030\002 \001(\005\"0\n\nTeamCreate\022"
+  "\017\n\007team_id\030\001 \001(\004\022\021\n\tleader_id\030\002 \001(\004\"\036\n\013T"
+  "eamDestory\022\017\n\007team_id\030\001 \001(\004\"0\n\010TeamQuit\022"
+  "\017\n\007team_id\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\"G\n"
+  "\016TeamKickMember\022\017\n\007team_id\030\001 \001(\004\022\023\n\013oper"
+  "ator_id\030\002 \001(\004\022\017\n\007kick_id\030\003 \001(\004\"L\n\020TeamIn"
+  "viteMember\022\017\n\007team_id\030\001 \001(\004\022\023\n\013operator_"
+  "id\030\002 \001(\004\022\022\n\ninvitee_id\030\003 \001(\004\"[\n\020TeamAcce"
+  "ptInvite\022\017\n\007team_id\030\001 \001(\004\022\022\n\ninviter_id\030"
+  "\002 \001(\004\022\022\n\ninvitee_id\030\003 \001(\004\022\016\n\006result\030\004 \001("
+  "\010\">\n\017TeamApplyMember\022\024\n\014applicant_id\030\001 \001"
+  "(\004\022\025\n\rrespondent_id\030\002 \001(\004\"N\n\017TeamAcceptA"
+  "pply\022\024\n\014applicant_id\030\001 \001(\004\022\025\n\rrespondent"
+  "_id\030\002 \001(\004\022\016\n\006result\030\003 \001(\010\"L\n\rTeamNewLead"
+  "er\022\017\n\007team_id\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004"
+  "\022\025\n\rnew_leader_id\030\003 \001(\004\"3\n\rTeamAddMember"
+  "\022\017\n\007team_id\030\001 \001(\004\022\021\n\tmember_id\030\002 \001(\004\"3\n\r"
+  "TeamDelMember\022\017\n\007team_id\030\001 \001(\004\022\021\n\tmember"
+  "_id\030\002 \001(\004\"\240\001\n\016TeamMemberInfo\0223\n\013member_l"
+  "ist\030\001 \003(\0132\036.ServerMSG.TeamMemberInfo.Inf"
+  "o\032Y\n\004Info\022\021\n\tmember_id\030\001 \001(\004\022\022\n\nmember_l"
+  "ev\030\002 \001(\r\022\025\n\rmember_online\030\003 \001(\010\022\023\n\013membe"
+  "r_name\030\004 \001(\t\"9\n\rSyncTaskPhase\022\021\n\tplayer_"
+  "id\030\001 \001(\004\022\025\n\rtask_phase_id\030\002 \003(\004\"8\n\014AddTa"
+  "skPhase\022\021\n\tplayer_id\030\001 \001(\004\022\025\n\rtask_phase"
+  "_id\030\002 \001(\004\";\n\017RemoveTaskPhase\022\021\n\tplayer_i"
+  "d\030\001 \001(\004\022\025\n\rtask_phase_id\030\002 \001(\004*\277\n\n\006OMsgI"
+  "D\022\017\n\013OMSGID_NONE\020\000\022\021\n\013MsgID_BEGIN\020\240\234\001\022\026\n"
+  "\020MsgID_ServiceCmd\020\241\234\001\022\036\n\030MsgID_ServiceHt"
+  "tpRequest\020\242\234\001\022\037\n\031MsgID_ServiceHttpRespon"
+  "se\020\243\234\001\022\030\n\022MsgID_ServiceReady\020\252\234\001\022\033\n\025MsgI"
+  "D_ServiceRegister\020\253\234\001\022\031\n\023MsgID_SocketCon"
+  "nect\020\254\234\001\022\027\n\021MsgID_SocketClose\020\255\234\001\022\034\n\026Msg"
+  "ID_SocketChangeDest\020\256\234\001\022\026\n\020MsgID_SocketA"
+  "uth\020\257\234\001\022\035\n\027MsgID_SocketStartAccept\020\260\234\001\022\034"
+  "\n\026MsgID_SocketStopAccept\020\261\234\001\022\033\n\025MsgID_Pl"
+  "ayerEnterZone\020\265\234\001\022\034\n\026MsgID_PlayerChangeZ"
+  "one\020\266\234\001\022!\n\033MsgID_PlayerChangeZone_Data\020\267"
+  "\234\001\022\030\n\022MsgID_PlayerLogout\020\270\234\001\022\033\n\025MsgID_Sy"
+  "stemVarChange\020\276\234\001\022\027\n\021MsgID_SceneCreate\020\277"
+  "\234\001\022\027\n\021MsgID_PhaseCreate\020\300\234\001\022\030\n\022MsgID_Pha"
+  "seDestory\020\301\234\001\022\026\n\020MsgID_MonsterGen\020\311\234\001\022\032\n"
+  "\024MsgID_MonsterDestory\020\312\234\001\022\025\n\017MsgID_Activ"
+  "eGen\020\313\234\001\022\023\n\rMsgID_KillGen\020\314\234\001\022\032\n\024MsgID_M"
+  "onsterGenOnce\020\315\234\001\022\033\n\025MsgID_MonsterGenMul"
+  "ti\020\316\234\001\022\027\n\021MsgID_ActorCreate\020\204\235\001\022\030\n\022MsgID"
+  "_ActorDestory\020\205\235\001\022\025\n\017MsgID_ActorMove\020\206\235\001"
+  "\022\032\n\024MsgID_ActorCastSkill\020\207\235\001\022\037\n\031MsgID_Ac"
+  "torCastSkill_Fail\020\210\235\001\022\030\n\022MsgID_ActorSetH"
+  "ide\020\211\235\001\022\031\n\023MsgID_SyncTaskPhase\020\212\235\001\022\030\n\022Ms"
+  "gID_AddTaskPhase\020\213\235\001\022\033\n\025MsgID_RemoveTask"
+  "Phase\020\214\235\001\022\026\n\020MsgID_ActorFlyTo\020\215\235\001\022\026\n\020Msg"
+  "ID_TeamCreate\020\216\235\001\022\027\n\021MsgID_TeamDestory\020\217"
+  "\235\001\022\024\n\016MsgID_TeamQuit\020\220\235\001\022\032\n\024MsgID_TeamKi"
+  "ckMember\020\221\235\001\022\034\n\026MsgID_TeamInviteMember\020\222"
+  "\235\001\022\034\n\026MsgID_TeamAcceptInvite\020\223\235\001\022\033\n\025MsgI"
+  "D_TeamApplyMember\020\224\235\001\022\033\n\025MsgID_TeamAccep"
+  "tApply\020\225\235\001\022\031\n\023MsgID_TeamNewLeader\020\226\235\001\022\032\n"
+  "\024MsgID_TeamMemberInfo\020\227\235\001\022\031\n\023MsgID_TeamA"
+  "ddMember\020\230\235\001\022\031\n\023MsgID_TeamDelMember\020\231\235\001\022"
+  "\017\n\tMsgID_END\020\260\352\001b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_server_5fmsg_2fserver_5fside_2eproto_deps[1] = {
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_server_5fmsg_2fserver_5fside_2eproto_sccs[48] = {
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_server_5fmsg_2fserver_5fside_2eproto_sccs[49] = {
   &scc_info_ActiveGen_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_ActorCastSkill_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_ActorCastSkill_Fail_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_ActorCreate_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_ActorDestory_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_ActorFlyTo_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_ActorMove_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_ActorSetHide_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_AddTaskPhase_server_5fmsg_2fserver_5fside_2eproto.base,
@@ -1553,10 +1584,10 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_ser
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_server_5fmsg_2fserver_5fside_2eproto_once;
 static bool descriptor_table_server_5fmsg_2fserver_5fside_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_server_5fmsg_2fserver_5fside_2eproto = {
-  &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_initialized, descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto, "server_msg/server_side.proto", 4866,
-  &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_once, descriptor_table_server_5fmsg_2fserver_5fside_2eproto_sccs, descriptor_table_server_5fmsg_2fserver_5fside_2eproto_deps, 48, 0,
+  &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_initialized, descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto, "server_msg/server_side.proto", 4944,
+  &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_once, descriptor_table_server_5fmsg_2fserver_5fside_2eproto_sccs, descriptor_table_server_5fmsg_2fserver_5fside_2eproto_deps, 49, 0,
   schemas, file_default_instances, TableStruct_server_5fmsg_2fserver_5fside_2eproto::offsets,
-  file_level_metadata_server_5fmsg_2fserver_5fside_2eproto, 48, file_level_enum_descriptors_server_5fmsg_2fserver_5fside_2eproto, file_level_service_descriptors_server_5fmsg_2fserver_5fside_2eproto,
+  file_level_metadata_server_5fmsg_2fserver_5fside_2eproto, 49, file_level_enum_descriptors_server_5fmsg_2fserver_5fside_2eproto, file_level_service_descriptors_server_5fmsg_2fserver_5fside_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
@@ -1629,6 +1660,7 @@ bool OMsgID_IsValid(int value) {
     case 20106:
     case 20107:
     case 20108:
+    case 20109:
     case 20110:
     case 20111:
     case 20112:
@@ -8669,6 +8701,242 @@ void ActorMove::InternalSwap(ActorMove* other) {
 
 // ===================================================================
 
+void ActorFlyTo::InitAsDefaultInstance() {
+}
+class ActorFlyTo::_Internal {
+ public:
+};
+
+ActorFlyTo::ActorFlyTo()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:ServerMSG.ActorFlyTo)
+}
+ActorFlyTo::ActorFlyTo(const ActorFlyTo& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&actor_id_, &from.actor_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&y_) -
+    reinterpret_cast<char*>(&actor_id_)) + sizeof(y_));
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.ActorFlyTo)
+}
+
+void ActorFlyTo::SharedCtor() {
+  ::memset(&actor_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&y_) -
+      reinterpret_cast<char*>(&actor_id_)) + sizeof(y_));
+}
+
+ActorFlyTo::~ActorFlyTo() {
+  // @@protoc_insertion_point(destructor:ServerMSG.ActorFlyTo)
+  SharedDtor();
+}
+
+void ActorFlyTo::SharedDtor() {
+}
+
+void ActorFlyTo::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const ActorFlyTo& ActorFlyTo::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_ActorFlyTo_server_5fmsg_2fserver_5fside_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void ActorFlyTo::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.ActorFlyTo)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&actor_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&y_) -
+      reinterpret_cast<char*>(&actor_id_)) + sizeof(y_));
+  _internal_metadata_.Clear();
+}
+
+const char* ActorFlyTo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // uint64 actor_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          actor_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // float x = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 21)) {
+          x_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else goto handle_unusual;
+        continue;
+      // float y = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 29)) {
+          y_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* ActorFlyTo::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.ActorFlyTo)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 actor_id = 1;
+  if (this->actor_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_actor_id(), target);
+  }
+
+  // float x = 2;
+  if (!(this->x() <= 0 && this->x() >= 0)) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(2, this->_internal_x(), target);
+  }
+
+  // float y = 3;
+  if (!(this->y() <= 0 && this->y() >= 0)) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(3, this->_internal_y(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.ActorFlyTo)
+  return target;
+}
+
+size_t ActorFlyTo::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.ActorFlyTo)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // uint64 actor_id = 1;
+  if (this->actor_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_actor_id());
+  }
+
+  // float x = 2;
+  if (!(this->x() <= 0 && this->x() >= 0)) {
+    total_size += 1 + 4;
+  }
+
+  // float y = 3;
+  if (!(this->y() <= 0 && this->y() >= 0)) {
+    total_size += 1 + 4;
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void ActorFlyTo::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.ActorFlyTo)
+  GOOGLE_DCHECK_NE(&from, this);
+  const ActorFlyTo* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<ActorFlyTo>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.ActorFlyTo)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.ActorFlyTo)
+    MergeFrom(*source);
+  }
+}
+
+void ActorFlyTo::MergeFrom(const ActorFlyTo& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.ActorFlyTo)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.actor_id() != 0) {
+    _internal_set_actor_id(from._internal_actor_id());
+  }
+  if (!(from.x() <= 0 && from.x() >= 0)) {
+    _internal_set_x(from._internal_x());
+  }
+  if (!(from.y() <= 0 && from.y() >= 0)) {
+    _internal_set_y(from._internal_y());
+  }
+}
+
+void ActorFlyTo::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.ActorFlyTo)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void ActorFlyTo::CopyFrom(const ActorFlyTo& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.ActorFlyTo)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool ActorFlyTo::IsInitialized() const {
+  return true;
+}
+
+void ActorFlyTo::InternalSwap(ActorFlyTo* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(actor_id_, other->actor_id_);
+  swap(x_, other->x_);
+  swap(y_, other->y_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata ActorFlyTo::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
 void ActorCastSkill::InitAsDefaultInstance() {
 }
 class ActorCastSkill::_Internal {
@@ -13009,6 +13277,9 @@ template<> PROTOBUF_NOINLINE ::ServerMSG::ActorDestory* Arena::CreateMaybeMessag
 }
 template<> PROTOBUF_NOINLINE ::ServerMSG::ActorMove* Arena::CreateMaybeMessage< ::ServerMSG::ActorMove >(Arena* arena) {
   return Arena::CreateInternal< ::ServerMSG::ActorMove >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ServerMSG::ActorFlyTo* Arena::CreateMaybeMessage< ::ServerMSG::ActorFlyTo >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::ActorFlyTo >(arena);
 }
 template<> PROTOBUF_NOINLINE ::ServerMSG::ActorCastSkill* Arena::CreateMaybeMessage< ::ServerMSG::ActorCastSkill >(Arena* arena) {
   return Arena::CreateInternal< ::ServerMSG::ActorCastSkill >(arena);

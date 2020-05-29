@@ -3,13 +3,14 @@
 #include "AIActor.h"
 #include "AIPhase.h"
 #include "AIScene.h"
-CAIPathFinder::CAIPathFinder(CAIActor* pActor)
+CAIPathFinder_Normal::CAIPathFinder_Normal(CAIActor* pActor)
     : m_pActor(pActor)
 {
 }
 
-Vector2 CAIPathFinder::SearchStep(const Vector2& dest, float move_spd)
+Vector2 CAIPathFinder_Normal::SearchStep(const Vector2& dest, float move_spd)
 {
+    __ENTER_FUNCTION
     // src->dest ddlline
     // 计算行走方向
     Vector2 dis = (dest - m_pActor->GetPos());
@@ -50,4 +51,6 @@ Vector2 CAIPathFinder::SearchStep(const Vector2& dest, float move_spd)
     }
 
     // record pos
+    __LEAVE_FUNCTION
+    return m_pActor->GetPos();
 }

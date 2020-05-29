@@ -25,14 +25,14 @@ struct TBLD_COMMONDATA
         return std::make_tuple(std::make_tuple("id", DB_FIELD_TYPE_LONGLONG_UNSIGNED, true),
                                std::make_tuple("playerid", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false),
                                std::make_tuple("keytype", DB_FIELD_TYPE_LONG_UNSIGNED, false),
-                               std::make_tuple("keyidx", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false),
+                               std::make_tuple("keyidx", DB_FIELD_TYPE_LONG_UNSIGNED, false),
                                std::make_tuple("data0", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false),
                                std::make_tuple("data1", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false),
                                std::make_tuple("data2", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false),
                                std::make_tuple("data3", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false));
     }
 
-    using field_type_t = type_list<uint64_t, uint64_t, uint32_t, uint64_t, uint64_t, uint64_t, uint64_t, uint64_t>;
+    using field_type_t = type_list<uint64_t, uint64_t, uint32_t, uint32_t, uint64_t, uint64_t, uint64_t, uint64_t>;
 
     static constexpr size_t field_count() { return 8; }
 };
@@ -55,11 +55,11 @@ struct TBLD_COOLDOWN
         return std::make_tuple(std::make_tuple("id", DB_FIELD_TYPE_LONGLONG_UNSIGNED, true),
                                std::make_tuple("playerid", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false),
                                std::make_tuple("keytype", DB_FIELD_TYPE_LONG_UNSIGNED, false),
-                               std::make_tuple("keyidx", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false),
+                               std::make_tuple("keyidx", DB_FIELD_TYPE_LONG_UNSIGNED, false),
                                std::make_tuple("expire_time", DB_FIELD_TYPE_LONG_UNSIGNED, false));
     }
 
-    using field_type_t = type_list<uint64_t, uint64_t, uint32_t, uint64_t, uint32_t>;
+    using field_type_t = type_list<uint64_t, uint64_t, uint32_t, uint32_t, uint32_t>;
 
     static constexpr size_t field_count() { return 5; }
 };
@@ -74,7 +74,7 @@ struct TBLD_DATACOUNT
         KEYTYPE,         //'data类型'
         KEYIDX,          //'data编号'
         DATA_NUM,        //'累计计数'
-        LAST_RESET_TIME, //'最后1次重置的时间戳'
+        NEXT_RESET_TIME, //'下一次重置的时间戳'
 
     };
 
@@ -83,12 +83,12 @@ struct TBLD_DATACOUNT
         return std::make_tuple(std::make_tuple("id", DB_FIELD_TYPE_LONGLONG_UNSIGNED, true),
                                std::make_tuple("playerid", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false),
                                std::make_tuple("keytype", DB_FIELD_TYPE_LONG_UNSIGNED, false),
-                               std::make_tuple("keyidx", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false),
+                               std::make_tuple("keyidx", DB_FIELD_TYPE_LONG_UNSIGNED, false),
                                std::make_tuple("data_num", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false),
-                               std::make_tuple("last_reset_time", DB_FIELD_TYPE_LONG_UNSIGNED, false));
+                               std::make_tuple("next_reset_time", DB_FIELD_TYPE_LONG_UNSIGNED, false));
     }
 
-    using field_type_t = type_list<uint64_t, uint64_t, uint32_t, uint64_t, uint64_t, uint32_t>;
+    using field_type_t = type_list<uint64_t, uint64_t, uint32_t, uint32_t, uint64_t, uint32_t>;
 
     static constexpr size_t field_count() { return 6; }
 };

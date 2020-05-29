@@ -10,6 +10,7 @@
 #include "HateList.h"
 #include "MapManager.h"
 #include "SkillType.h"
+#include "export_lua.h"
 //最后还是考虑使用最简答的单层状态机来构建AI
 //在攻击决策模块中,适量的使用模糊逻辑,来增加随机性
 
@@ -24,7 +25,7 @@
 // VV
 // ATT_ESCAPE
 
-enum AITaskType
+export_lua enum AITaskType
 {
     ATT_IDLE = 0,   // idle
     ATT_ATTACK,     //攻击决策
@@ -49,7 +50,9 @@ struct STATE_DATA
 
 class CAIActor;
 class CAIPathFinder;
-class CActorAI : public NoncopyableT<CActorAI>
+class CAIGroup;
+
+export_lua class CActorAI : public NoncopyableT<CActorAI>
 {
     CActorAI();
     bool Init(CAIActor* pActor, const CAIType* pAIType);
@@ -63,48 +66,48 @@ public:
     void OnUnderAttack(OBJID idTarget, int32_t nDamage);
     void OnDead();
 
-    void OrderAttack(OBJID idTarget);
+    export_lua void OrderAttack(OBJID idTarget);
 
-    OBJID SearchEnemy();
-    bool  FindNextEnemy();
-    void  ClearHateList();
-    void  AddHate(OBJID idTarget, int32_t nHate);
+    export_lua OBJID SearchEnemy();
+    export_lua bool  FindNextEnemy();
+    export_lua void  ClearHateList();
+    export_lua void  AddHate(OBJID idTarget, int32_t nHate);
 
-    bool FindEnemyInHateList();
-    bool ForEachInHateList(std::function<bool(ST_HATE_DATA*)> func);
+    export_lua bool FindEnemyInHateList();
+    export_lua bool ForEachInHateList(std::function<bool(ST_HATE_DATA*)> func);
     void Process();
 
-    uint32_t GetState() const;
-    void     ChangeState(uint32_t val);
+    export_lua uint32_t GetState() const;
+    export_lua void     ChangeState(uint32_t val);
 
-    void     SetAISleep(bool v);
-    uint32_t GetCurSkillTypeID() const { return m_nCurSkillTypeID; }
-    void     SetCurSkillTypeID(uint32_t val) { m_nCurSkillTypeID = val; }
+    export_lua void     SetAISleep(bool v);
+    export_lua uint32_t GetCurSkillTypeID() const { return m_nCurSkillTypeID; }
+    export_lua void     SetCurSkillTypeID(uint32_t val) { m_nCurSkillTypeID = val; }
 
-    static const STATE_DATA& GetStateData(int32_t nState);
+    static const STATE_DATA& GetStateData(uint32_t nState);
 
 public:
     // 随机移动
-    bool ToRandMove();
+    export_lua bool ToRandMove();
     // 巡逻路径
-    bool ToPratol();
+    export_lua bool ToPratol();
     // 转到idle状态
-    bool ToIdle();
+    export_lua bool ToIdle();
     // 攻击决策
-    bool ToAttack();
+    export_lua bool ToAttack();
     // 转到前进状态
-    bool ToApproach();
+    export_lua bool ToApproach();
     // 转到攻击状态
-    bool ToSkill();
-    bool ToSkillFinish(uint32_t stun_ms);
+    export_lua bool ToSkill();
+    export_lua bool ToSkillFinish(uint32_t stun_ms);
 
     // 转到逃跑状态
-    bool ToEscape(OBJID idTarget);
+    export_lua bool ToEscape(OBJID idTarget);
 
     // 回出生点
-    bool ToGoBack();
+    export_lua bool ToGoBack();
     // 巡逻等待
-    bool ToPatrolWait(uint32_t wait_min, uint32_t wait_max);
+    export_lua bool ToPatrolWait(uint32_t wait_min, uint32_t wait_max);
 
 protected:
     void ProcessAttack();
@@ -126,14 +129,15 @@ protected:
 
 public:
 public:
-    OBJID          GetMainTarget() const;
-    void           SetMainTarget(OBJID val);
-    CAIActor*      GetActor() const;
-    const CAIType* GetAIType() const;
-    CAIPathFinder* PathFind() const { return m_pAIPathFinder.get(); }
+    export_lua OBJID          GetMainTarget() const;
+    export_lua void           SetMainTarget(OBJID val);
+    export_lua CAIActor*      GetActor() const;
+    export_lua const CAIType* GetAIType() const;
+    export_lua CAIPathFinder* PathFind() const { return m_pAIPathFinder.get(); }
+    export_lua CAIGroup*      GetAIGroup() const {return m_pAIGroup;}
 
     const Cfg_AIType_Row&                   GetAIData() const;
-    const Cfg_Scene_Patrol_Row_patrol_data& GetCurPratolData();
+    const Cfg_Scene_Patrol_Row_patrol_data* GetCurPratolData();
 
 private:
     void AddNextCall(uint32_t ms);
@@ -141,14 +145,16 @@ private:
     void SetAutoSearchEnemy();
     void _SearchEnemy_CallBack();
 
-    template<class... Args>
-    bool TryExecScript(uint32_t idxCallBackType, Args... args)
+    template<class R, class... Args>
+    R TryExecScript(uint32_t idxCallBackType, Args... args)
     {
         if(GetAIData().script_id() != 0)
-            return ScriptManager()->TryExecScript<bool>(GetAIData().script_id(),
-                                                        idxCallBackType,
-                                                        std::forward<Args>(args)...);
-        return false;
+        {
+            return ScriptManager()->TryExecScript<R>(GetAIData().script_id(),
+                                                     idxCallBackType,
+                                                     std::forward<Args>(args)...);
+        }
+        return R{};
     }
 
 private:
@@ -170,6 +176,9 @@ private:
     CEventEntryPtr m_SearchEnemyEvent;
 
     CHateList m_HateList;
+
     bool      m_bSleep = false;
+
+    CAIGroup* m_pAIGroup = nullptr;
 };
 #endif /* ACTORAI_H */

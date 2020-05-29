@@ -13,31 +13,43 @@ CAIActorManager::~CAIActorManager()
 
 bool CAIActorManager::Init()
 {
+    __ENTER_FUNCTION
     m_ActorMap.reserve(GUESS_MAX_ACTOR_COUNT);
     return true;
+
+    __LEAVE_FUNCTION
+    return false;
 }
 
 void CAIActorManager::Destroy()
 {
+    __ENTER_FUNCTION
     for(auto it = m_ActorMap.begin(); it != m_ActorMap.end(); it++)
     {
         CAIActor* pActor = it->second;
         SAFE_DELETE(pActor);
     }
     m_ActorMap.clear();
+
+    __LEAVE_FUNCTION
 }
 
 CAIActor* CAIActorManager::QueryActor(OBJID id) const
 {
+    __ENTER_FUNCTION
     auto itFind = m_ActorMap.find(id);
     if(itFind == m_ActorMap.end())
         return nullptr;
 
     return itFind->second;
+
+    __LEAVE_FUNCTION
+    return nullptr;
 }
 
 bool CAIActorManager::AddActor(CAIActor* pActor)
 {
+    __ENTER_FUNCTION
     auto itFind = m_ActorMap.find(pActor->GetID());
     if(itFind != m_ActorMap.end())
     {
@@ -61,10 +73,14 @@ bool CAIActorManager::AddActor(CAIActor* pActor)
 
     m_ActorMap[pActor->GetID()] = pActor;
     return true;
+
+    __LEAVE_FUNCTION
+    return false;
 }
 
 bool CAIActorManager::DelActor(CAIActor* pActor, bool bDelete /* = true*/)
 {
+    __ENTER_FUNCTION
     auto itFind = m_ActorMap.find(pActor->GetID());
     if(itFind == m_ActorMap.end())
         return false;
@@ -74,10 +90,14 @@ bool CAIActorManager::DelActor(CAIActor* pActor, bool bDelete /* = true*/)
     if(bDelete)
         SAFE_DELETE(pActor);
     return true;
+    
+    __LEAVE_FUNCTION
+    return false;
 }
 
 bool CAIActorManager::DelActorByID(OBJID id, bool bDelete /* = true*/)
 {
+    __ENTER_FUNCTION
     auto itFind = m_ActorMap.find(id);
     if(itFind == m_ActorMap.end())
         return false;
@@ -88,6 +108,9 @@ bool CAIActorManager::DelActorByID(OBJID id, bool bDelete /* = true*/)
         SAFE_DELETE(pActor);
 
     return true;
+
+    __LEAVE_FUNCTION
+    return false;
 }
 
 void CAIActorManager::OnTimer() {}

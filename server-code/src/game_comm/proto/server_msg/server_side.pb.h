@@ -51,7 +51,7 @@ struct TableStruct_server_5fmsg_2fserver_5fside_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[48]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[49]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -74,6 +74,9 @@ extern ActorCreateDefaultTypeInternal _ActorCreate_default_instance_;
 class ActorDestory;
 class ActorDestoryDefaultTypeInternal;
 extern ActorDestoryDefaultTypeInternal _ActorDestory_default_instance_;
+class ActorFlyTo;
+class ActorFlyToDefaultTypeInternal;
+extern ActorFlyToDefaultTypeInternal _ActorFlyTo_default_instance_;
 class ActorMove;
 class ActorMoveDefaultTypeInternal;
 extern ActorMoveDefaultTypeInternal _ActorMove_default_instance_;
@@ -210,6 +213,7 @@ template<> ::ServerMSG::ActorCastSkill* Arena::CreateMaybeMessage<::ServerMSG::A
 template<> ::ServerMSG::ActorCastSkill_Fail* Arena::CreateMaybeMessage<::ServerMSG::ActorCastSkill_Fail>(Arena*);
 template<> ::ServerMSG::ActorCreate* Arena::CreateMaybeMessage<::ServerMSG::ActorCreate>(Arena*);
 template<> ::ServerMSG::ActorDestory* Arena::CreateMaybeMessage<::ServerMSG::ActorDestory>(Arena*);
+template<> ::ServerMSG::ActorFlyTo* Arena::CreateMaybeMessage<::ServerMSG::ActorFlyTo>(Arena*);
 template<> ::ServerMSG::ActorMove* Arena::CreateMaybeMessage<::ServerMSG::ActorMove>(Arena*);
 template<> ::ServerMSG::ActorSetHide* Arena::CreateMaybeMessage<::ServerMSG::ActorSetHide>(Arena*);
 template<> ::ServerMSG::AddTaskPhase* Arena::CreateMaybeMessage<::ServerMSG::AddTaskPhase>(Arena*);
@@ -320,6 +324,7 @@ enum OMsgID : int {
   MsgID_SyncTaskPhase = 20106,
   MsgID_AddTaskPhase = 20107,
   MsgID_RemoveTaskPhase = 20108,
+  MsgID_ActorFlyTo = 20109,
   MsgID_TeamCreate = 20110,
   MsgID_TeamDestory = 20111,
   MsgID_TeamQuit = 20112,
@@ -4813,6 +4818,156 @@ class ActorMove :
 };
 // -------------------------------------------------------------------
 
+class ActorFlyTo :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.ActorFlyTo) */ {
+ public:
+  ActorFlyTo();
+  virtual ~ActorFlyTo();
+
+  ActorFlyTo(const ActorFlyTo& from);
+  ActorFlyTo(ActorFlyTo&& from) noexcept
+    : ActorFlyTo() {
+    *this = ::std::move(from);
+  }
+
+  inline ActorFlyTo& operator=(const ActorFlyTo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ActorFlyTo& operator=(ActorFlyTo&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const ActorFlyTo& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const ActorFlyTo* internal_default_instance() {
+    return reinterpret_cast<const ActorFlyTo*>(
+               &_ActorFlyTo_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    29;
+
+  friend void swap(ActorFlyTo& a, ActorFlyTo& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(ActorFlyTo* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ActorFlyTo* New() const final {
+    return CreateMaybeMessage<ActorFlyTo>(nullptr);
+  }
+
+  ActorFlyTo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<ActorFlyTo>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const ActorFlyTo& from);
+  void MergeFrom(const ActorFlyTo& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ActorFlyTo* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.ActorFlyTo";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kActorIdFieldNumber = 1,
+    kXFieldNumber = 2,
+    kYFieldNumber = 3,
+  };
+  // uint64 actor_id = 1;
+  void clear_actor_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 actor_id() const;
+  void set_actor_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_actor_id() const;
+  void _internal_set_actor_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // float x = 2;
+  void clear_x();
+  float x() const;
+  void set_x(float value);
+  private:
+  float _internal_x() const;
+  void _internal_set_x(float value);
+  public:
+
+  // float y = 3;
+  void clear_y();
+  float y() const;
+  void set_y(float value);
+  private:
+  float _internal_y() const;
+  void _internal_set_y(float value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.ActorFlyTo)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 actor_id_;
+  float x_;
+  float y_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
 class ActorCastSkill :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.ActorCastSkill) */ {
  public:
@@ -4855,7 +5010,7 @@ class ActorCastSkill :
                &_ActorCastSkill_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    29;
+    30;
 
   friend void swap(ActorCastSkill& a, ActorCastSkill& b) {
     a.Swap(&b);
@@ -5005,7 +5160,7 @@ class ActorCastSkill_Fail :
                &_ActorCastSkill_Fail_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    30;
+    31;
 
   friend void swap(ActorCastSkill_Fail& a, ActorCastSkill_Fail& b) {
     a.Swap(&b);
@@ -5133,7 +5288,7 @@ class ActorSetHide :
                &_ActorSetHide_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    31;
+    32;
 
   friend void swap(ActorSetHide& a, ActorSetHide& b) {
     a.Swap(&b);
@@ -5272,7 +5427,7 @@ class TeamCreate :
                &_TeamCreate_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    32;
+    33;
 
   friend void swap(TeamCreate& a, TeamCreate& b) {
     a.Swap(&b);
@@ -5411,7 +5566,7 @@ class TeamDestory :
                &_TeamDestory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    33;
+    34;
 
   friend void swap(TeamDestory& a, TeamDestory& b) {
     a.Swap(&b);
@@ -5539,7 +5694,7 @@ class TeamQuit :
                &_TeamQuit_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    34;
+    35;
 
   friend void swap(TeamQuit& a, TeamQuit& b) {
     a.Swap(&b);
@@ -5678,7 +5833,7 @@ class TeamKickMember :
                &_TeamKickMember_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    35;
+    36;
 
   friend void swap(TeamKickMember& a, TeamKickMember& b) {
     a.Swap(&b);
@@ -5828,7 +5983,7 @@ class TeamInviteMember :
                &_TeamInviteMember_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    36;
+    37;
 
   friend void swap(TeamInviteMember& a, TeamInviteMember& b) {
     a.Swap(&b);
@@ -5978,7 +6133,7 @@ class TeamAcceptInvite :
                &_TeamAcceptInvite_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    37;
+    38;
 
   friend void swap(TeamAcceptInvite& a, TeamAcceptInvite& b) {
     a.Swap(&b);
@@ -6139,7 +6294,7 @@ class TeamApplyMember :
                &_TeamApplyMember_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    38;
+    39;
 
   friend void swap(TeamApplyMember& a, TeamApplyMember& b) {
     a.Swap(&b);
@@ -6278,7 +6433,7 @@ class TeamAcceptApply :
                &_TeamAcceptApply_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    39;
+    40;
 
   friend void swap(TeamAcceptApply& a, TeamAcceptApply& b) {
     a.Swap(&b);
@@ -6428,7 +6583,7 @@ class TeamNewLeader :
                &_TeamNewLeader_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    40;
+    41;
 
   friend void swap(TeamNewLeader& a, TeamNewLeader& b) {
     a.Swap(&b);
@@ -6578,7 +6733,7 @@ class TeamAddMember :
                &_TeamAddMember_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    41;
+    42;
 
   friend void swap(TeamAddMember& a, TeamAddMember& b) {
     a.Swap(&b);
@@ -6717,7 +6872,7 @@ class TeamDelMember :
                &_TeamDelMember_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    42;
+    43;
 
   friend void swap(TeamDelMember& a, TeamDelMember& b) {
     a.Swap(&b);
@@ -6856,7 +7011,7 @@ class TeamMemberInfo_Info :
                &_TeamMemberInfo_Info_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    43;
+    44;
 
   friend void swap(TeamMemberInfo_Info& a, TeamMemberInfo_Info& b) {
     a.Swap(&b);
@@ -7024,7 +7179,7 @@ class TeamMemberInfo :
                &_TeamMemberInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    44;
+    45;
 
   friend void swap(TeamMemberInfo& a, TeamMemberInfo& b) {
     a.Swap(&b);
@@ -7163,7 +7318,7 @@ class SyncTaskPhase :
                &_SyncTaskPhase_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    45;
+    46;
 
   friend void swap(SyncTaskPhase& a, SyncTaskPhase& b) {
     a.Swap(&b);
@@ -7316,7 +7471,7 @@ class AddTaskPhase :
                &_AddTaskPhase_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    46;
+    47;
 
   friend void swap(AddTaskPhase& a, AddTaskPhase& b) {
     a.Swap(&b);
@@ -7455,7 +7610,7 @@ class RemoveTaskPhase :
                &_RemoveTaskPhase_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    47;
+    48;
 
   friend void swap(RemoveTaskPhase& a, RemoveTaskPhase& b) {
     a.Swap(&b);
@@ -9823,6 +9978,70 @@ inline void ActorMove::set_y(float value) {
 
 // -------------------------------------------------------------------
 
+// ActorFlyTo
+
+// uint64 actor_id = 1;
+inline void ActorFlyTo::clear_actor_id() {
+  actor_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 ActorFlyTo::_internal_actor_id() const {
+  return actor_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 ActorFlyTo::actor_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.ActorFlyTo.actor_id)
+  return _internal_actor_id();
+}
+inline void ActorFlyTo::_internal_set_actor_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  actor_id_ = value;
+}
+inline void ActorFlyTo::set_actor_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_actor_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.ActorFlyTo.actor_id)
+}
+
+// float x = 2;
+inline void ActorFlyTo::clear_x() {
+  x_ = 0;
+}
+inline float ActorFlyTo::_internal_x() const {
+  return x_;
+}
+inline float ActorFlyTo::x() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.ActorFlyTo.x)
+  return _internal_x();
+}
+inline void ActorFlyTo::_internal_set_x(float value) {
+  
+  x_ = value;
+}
+inline void ActorFlyTo::set_x(float value) {
+  _internal_set_x(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.ActorFlyTo.x)
+}
+
+// float y = 3;
+inline void ActorFlyTo::clear_y() {
+  y_ = 0;
+}
+inline float ActorFlyTo::_internal_y() const {
+  return y_;
+}
+inline float ActorFlyTo::y() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.ActorFlyTo.y)
+  return _internal_y();
+}
+inline void ActorFlyTo::_internal_set_y(float value) {
+  
+  y_ = value;
+}
+inline void ActorFlyTo::set_y(float value) {
+  _internal_set_y(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.ActorFlyTo.y)
+}
+
+// -------------------------------------------------------------------
+
 // ActorCastSkill
 
 // uint64 actor_id = 1;
@@ -10866,6 +11085,8 @@ inline void RemoveTaskPhase::set_task_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 v
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

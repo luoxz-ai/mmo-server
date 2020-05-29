@@ -38,6 +38,7 @@ void BaseCode::InitMonitorLog(const std::string& logname)
     ILog4zManager::getRef().setLoggerDisplay(BaseCode::s_monitor_logger, false);
     ILog4zManager::getRef().setLoggerFileLine(BaseCode::s_monitor_logger, false);
     ILog4zManager::getRef().setLoggerLimitsize(BaseCode::s_monitor_logger, 50);
+    LOGDEBUG("InitMonitor:{}", logname);
 }
 
 void BaseCode::MyLogMsgX(const char* pszName, const char* pszBuffer)
@@ -56,7 +57,7 @@ void BaseCode::MyLogMsgX(const char* pszName, const char* pszBuffer)
     if(nullptr == fp)
         return;
 
-    fmt::print(fp, "{:%H-%M-%S} [{:d}] {:s}\n", *localtime_c, getpid(), pszBuffer);
+    fmt::print(fp, "{:%H:%M:%S} [{:d}] {:s}\n", *localtime_c, get_cur_thread_id(), pszBuffer);
 
     fclose(fp);
 }

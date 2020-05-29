@@ -26,6 +26,7 @@ public:
     }
     bool test(CSceneObject* pSelfActor, CSceneObject* pTargetActor) const
     {
+        __ENTER_FUNCTION
         uint32_t key1 = pSelfActor->GetActorType();
         uint32_t key2 = pTargetActor->GetActorType();
         if(pSelfActor->GetActorType() > pTargetActor->GetActorType())
@@ -38,6 +39,8 @@ public:
             return func(pSelfActor, pTargetActor);
         else
             return false;
+        __LEAVE_FUNCTION
+        return false;
     }
 
 private:
@@ -47,6 +50,7 @@ private:
 //////////////////////////////////////////////////////////////////////
 void CAIActor::AddToViewList(CSceneObject* pActor)
 {
+    __ENTER_FUNCTION
     CSceneObject::AddToViewList(pActor);
 
     //如果自己是怪物
@@ -54,11 +58,14 @@ void CAIActor::AddToViewList(CSceneObject* pActor)
     {
         CastTo<CAIMonster>()->SetIsAISleep(false);
     }
+
+    __LEAVE_FUNCTION
 }
 
 //////////////////////////////////////////////////////////////////////
 void CAIActor::ClearViewList(bool bSendMsgToSelf)
 {
+    __ENTER_FUNCTION
     for(uint64_t id: m_ViewActors)
     {
         // 通知对方自己消失
@@ -72,11 +79,17 @@ void CAIActor::ClearViewList(bool bSendMsgToSelf)
 
     m_ViewActorsByType.clear();
     m_ViewActors.clear();
+
+    __LEAVE_FUNCTION
 }
 
 bool CAIActor::IsNeedAddToBroadCastSet(CSceneObject* pActor)
 {
+    __ENTER_FUNCTION
     return NEED_ADD_TO_BROADCASTSET.test(this, pActor);
+
+    __LEAVE_FUNCTION
+    return false;
 }
 
 void CAIActor::OnAOIProcess_ActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
@@ -84,6 +97,7 @@ void CAIActor::OnAOIProcess_ActorRemoveFromAOI(const BROADCAST_SET& setBCActorDe
                                                int32_t              nCanReserveDelCount,
                                                uint32_t             view_range_out_square)
 {
+    __ENTER_FUNCTION
     for(auto it = setBCActorDel.begin(); it != setBCActorDel.end(); it++)
     {
         // 如果对方还在脱离视野范围内，则不删除
@@ -118,12 +132,15 @@ void CAIActor::OnAOIProcess_ActorRemoveFromAOI(const BROADCAST_SET& setBCActorDe
         // 通知对方自己消失,
         pActor->RemoveFromViewList(this, this->GetID(), true);
     }
+
+    __LEAVE_FUNCTION
 }
 
 //////////////////////////////////////////////////////////////////////////
 //
 void CAIActor::OnAOIProcess_ActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_MAP& mapAllViewActor)
 {
+    __ENTER_FUNCTION
     for(auto it = setBCActorAdd.begin(); it != setBCActorAdd.end(); it++)
     {
         auto itr = mapAllViewActor.find(*it);
@@ -141,4 +158,5 @@ void CAIActor::OnAOIProcess_ActorAddToAOI(BROADCAST_SET& setBCActorAdd, const AC
         // 通知目标,不要发送自己的信息给对方,后面会统一广播
         pActor->AddToViewList(this);
     }
+    __LEAVE_FUNCTION
 }
