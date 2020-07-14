@@ -7,8 +7,8 @@
 #include "ScriptManager.h"
 #include "ServiceComm.h"
 #include "game_common_def.h"
+#include "MysqlConnection.h"
 
-class CMysqlConnection;
 class CMapManager;
 class CSystemVarSet;
 class CActorManager;

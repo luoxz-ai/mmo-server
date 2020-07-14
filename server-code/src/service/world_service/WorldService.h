@@ -6,8 +6,8 @@
 #include "NetMSGProcess.h"
 #include "NetSocket.h"
 #include "ServiceComm.h"
+#include "MysqlConnection.h"
 
-class CMysqlConnection;
 class CAccountManager;
 class CUserManager;
 class CSystemVarSet;
