@@ -12,6 +12,7 @@
 //
 
 #include "rule_set.h"
+#include "CheckUtil.h"
 
 using std::string;
 using std::vector;

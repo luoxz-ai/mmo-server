@@ -1,5 +1,6 @@
 #include "ZoneGuild.h"
 #include "ZoneService.h"
+#include "MysqlConnection.h"
 
 CZoneGuild::CZoneGuild()
 {}

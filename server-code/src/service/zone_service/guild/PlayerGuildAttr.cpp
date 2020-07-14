@@ -2,6 +2,8 @@
 #include "ZoneService.h"
 #include "DB2PB.h"
 #include "Player.h"
+#include "MysqlConnection.h"
+
 CPlayerGuildAttr::CPlayerGuildAttr()
 {}
 

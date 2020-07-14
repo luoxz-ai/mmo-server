@@ -5,6 +5,8 @@
 #include "BaseCode.h"
 #include <map>
 #include "share-code/proto/common/Common.pb.h"
+#include "gamedb.h"
+#include "DBRecord.h"
 
 class CZoneGuild : public NoncopyableT<CZoneGuild>
 {
