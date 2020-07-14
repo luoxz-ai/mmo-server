@@ -1,6 +1,8 @@
 #ifndef CHECKUTIL_H
 #define CHECKUTIL_H
 
+#include <functional>
+#include <optional>
 #include "LoggingMgr.h"
 
 #define CHECK(expr)                                                              \
