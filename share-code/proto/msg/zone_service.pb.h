@@ -34,6 +34,7 @@
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 #include "msg/ts_cmd.pb.h"
+#include "common/Common.pb.h"
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 #define PROTOBUF_INTERNAL_EXPORT_msg_2fzone_5fservice_2eproto
@@ -49,7 +50,7 @@ struct TableStruct_msg_2fzone_5fservice_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[80]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[91]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -77,6 +78,30 @@ extern CS_DIALOG_CLICKDefaultTypeInternal _CS_DIALOG_CLICK_default_instance_;
 class CS_EQUIP;
 class CS_EQUIPDefaultTypeInternal;
 extern CS_EQUIPDefaultTypeInternal _CS_EQUIP_default_instance_;
+class CS_GUILDACCEPTAPPLY;
+class CS_GUILDACCEPTAPPLYDefaultTypeInternal;
+extern CS_GUILDACCEPTAPPLYDefaultTypeInternal _CS_GUILDACCEPTAPPLY_default_instance_;
+class CS_GUILDACCEPTINVITE;
+class CS_GUILDACCEPTINVITEDefaultTypeInternal;
+extern CS_GUILDACCEPTINVITEDefaultTypeInternal _CS_GUILDACCEPTINVITE_default_instance_;
+class CS_GUILDAPPLYMEMBER;
+class CS_GUILDAPPLYMEMBERDefaultTypeInternal;
+extern CS_GUILDAPPLYMEMBERDefaultTypeInternal _CS_GUILDAPPLYMEMBER_default_instance_;
+class CS_GUILDCREATE;
+class CS_GUILDCREATEDefaultTypeInternal;
+extern CS_GUILDCREATEDefaultTypeInternal _CS_GUILDCREATE_default_instance_;
+class CS_GUILDINVITEMEMBER;
+class CS_GUILDINVITEMEMBERDefaultTypeInternal;
+extern CS_GUILDINVITEMEMBERDefaultTypeInternal _CS_GUILDINVITEMEMBER_default_instance_;
+class CS_GUILDKICKMEMBER;
+class CS_GUILDKICKMEMBERDefaultTypeInternal;
+extern CS_GUILDKICKMEMBERDefaultTypeInternal _CS_GUILDKICKMEMBER_default_instance_;
+class CS_GUILDNEWLEADER;
+class CS_GUILDNEWLEADERDefaultTypeInternal;
+extern CS_GUILDNEWLEADERDefaultTypeInternal _CS_GUILDNEWLEADER_default_instance_;
+class CS_GUILDQUIT;
+class CS_GUILDQUITDefaultTypeInternal;
+extern CS_GUILDQUITDefaultTypeInternal _CS_GUILDQUIT_default_instance_;
 class CS_ITEM_COMBINE;
 class CS_ITEM_COMBINEDefaultTypeInternal;
 extern CS_ITEM_COMBINEDefaultTypeInternal _CS_ITEM_COMBINE_default_instance_;
@@ -212,6 +237,18 @@ extern SC_DIALOG_dialog_linkDefaultTypeInternal _SC_DIALOG_dialog_link_default_i
 class SC_ENTERMAP;
 class SC_ENTERMAPDefaultTypeInternal;
 extern SC_ENTERMAPDefaultTypeInternal _SC_ENTERMAP_default_instance_;
+class SC_GUILDAPPLYMEMBER;
+class SC_GUILDAPPLYMEMBERDefaultTypeInternal;
+extern SC_GUILDAPPLYMEMBERDefaultTypeInternal _SC_GUILDAPPLYMEMBER_default_instance_;
+class SC_GUILDINVITEMEMBER;
+class SC_GUILDINVITEMEMBERDefaultTypeInternal;
+extern SC_GUILDINVITEMEMBERDefaultTypeInternal _SC_GUILDINVITEMEMBER_default_instance_;
+class SC_GUILDMEMBER_ACTION;
+class SC_GUILDMEMBER_ACTIONDefaultTypeInternal;
+extern SC_GUILDMEMBER_ACTIONDefaultTypeInternal _SC_GUILDMEMBER_ACTION_default_instance_;
+class SC_GUILDMEMBER_INFO;
+class SC_GUILDMEMBER_INFODefaultTypeInternal;
+extern SC_GUILDMEMBER_INFODefaultTypeInternal _SC_GUILDMEMBER_INFO_default_instance_;
 class SC_ITEM_CHANGE;
 class SC_ITEM_CHANGEDefaultTypeInternal;
 extern SC_ITEM_CHANGEDefaultTypeInternal _SC_ITEM_CHANGE_default_instance_;
@@ -293,9 +330,6 @@ extern SC_TEAMMEMBER_ACTIONDefaultTypeInternal _SC_TEAMMEMBER_ACTION_default_ins
 class SC_TEAMMEMBER_INFO;
 class SC_TEAMMEMBER_INFODefaultTypeInternal;
 extern SC_TEAMMEMBER_INFODefaultTypeInternal _SC_TEAMMEMBER_INFO_default_instance_;
-class SC_TEAMMEMBER_INFO_MemberInfo;
-class SC_TEAMMEMBER_INFO_MemberInfoDefaultTypeInternal;
-extern SC_TEAMMEMBER_INFO_MemberInfoDefaultTypeInternal _SC_TEAMMEMBER_INFO_MemberInfo_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
 template<> ::CS_ACHI_TAKE* Arena::CreateMaybeMessage<::CS_ACHI_TAKE>(Arena*);
 template<> ::CS_ACTIVE_NPC* Arena::CreateMaybeMessage<::CS_ACTIVE_NPC>(Arena*);
@@ -304,6 +338,14 @@ template<> ::CS_CHANGEMAP* Arena::CreateMaybeMessage<::CS_CHANGEMAP>(Arena*);
 template<> ::CS_CHANGE_PKMODE* Arena::CreateMaybeMessage<::CS_CHANGE_PKMODE>(Arena*);
 template<> ::CS_DIALOG_CLICK* Arena::CreateMaybeMessage<::CS_DIALOG_CLICK>(Arena*);
 template<> ::CS_EQUIP* Arena::CreateMaybeMessage<::CS_EQUIP>(Arena*);
+template<> ::CS_GUILDACCEPTAPPLY* Arena::CreateMaybeMessage<::CS_GUILDACCEPTAPPLY>(Arena*);
+template<> ::CS_GUILDACCEPTINVITE* Arena::CreateMaybeMessage<::CS_GUILDACCEPTINVITE>(Arena*);
+template<> ::CS_GUILDAPPLYMEMBER* Arena::CreateMaybeMessage<::CS_GUILDAPPLYMEMBER>(Arena*);
+template<> ::CS_GUILDCREATE* Arena::CreateMaybeMessage<::CS_GUILDCREATE>(Arena*);
+template<> ::CS_GUILDINVITEMEMBER* Arena::CreateMaybeMessage<::CS_GUILDINVITEMEMBER>(Arena*);
+template<> ::CS_GUILDKICKMEMBER* Arena::CreateMaybeMessage<::CS_GUILDKICKMEMBER>(Arena*);
+template<> ::CS_GUILDNEWLEADER* Arena::CreateMaybeMessage<::CS_GUILDNEWLEADER>(Arena*);
+template<> ::CS_GUILDQUIT* Arena::CreateMaybeMessage<::CS_GUILDQUIT>(Arena*);
 template<> ::CS_ITEM_COMBINE* Arena::CreateMaybeMessage<::CS_ITEM_COMBINE>(Arena*);
 template<> ::CS_ITEM_SPLIT* Arena::CreateMaybeMessage<::CS_ITEM_SPLIT>(Arena*);
 template<> ::CS_ITEM_STORAGE_CHECKIN* Arena::CreateMaybeMessage<::CS_ITEM_STORAGE_CHECKIN>(Arena*);
@@ -349,6 +391,10 @@ template<> ::SC_DEAD* Arena::CreateMaybeMessage<::SC_DEAD>(Arena*);
 template<> ::SC_DIALOG* Arena::CreateMaybeMessage<::SC_DIALOG>(Arena*);
 template<> ::SC_DIALOG_dialog_link* Arena::CreateMaybeMessage<::SC_DIALOG_dialog_link>(Arena*);
 template<> ::SC_ENTERMAP* Arena::CreateMaybeMessage<::SC_ENTERMAP>(Arena*);
+template<> ::SC_GUILDAPPLYMEMBER* Arena::CreateMaybeMessage<::SC_GUILDAPPLYMEMBER>(Arena*);
+template<> ::SC_GUILDINVITEMEMBER* Arena::CreateMaybeMessage<::SC_GUILDINVITEMEMBER>(Arena*);
+template<> ::SC_GUILDMEMBER_ACTION* Arena::CreateMaybeMessage<::SC_GUILDMEMBER_ACTION>(Arena*);
+template<> ::SC_GUILDMEMBER_INFO* Arena::CreateMaybeMessage<::SC_GUILDMEMBER_INFO>(Arena*);
 template<> ::SC_ITEM_CHANGE* Arena::CreateMaybeMessage<::SC_ITEM_CHANGE>(Arena*);
 template<> ::SC_ITEM_CHANGE_ChangeData* Arena::CreateMaybeMessage<::SC_ITEM_CHANGE_ChangeData>(Arena*);
 template<> ::SC_ITEM_DELETE* Arena::CreateMaybeMessage<::SC_ITEM_DELETE>(Arena*);
@@ -376,7 +422,6 @@ template<> ::SC_TEAMAPPLYMEMBER* Arena::CreateMaybeMessage<::SC_TEAMAPPLYMEMBER>
 template<> ::SC_TEAMINVITEMEMBER* Arena::CreateMaybeMessage<::SC_TEAMINVITEMEMBER>(Arena*);
 template<> ::SC_TEAMMEMBER_ACTION* Arena::CreateMaybeMessage<::SC_TEAMMEMBER_ACTION>(Arena*);
 template<> ::SC_TEAMMEMBER_INFO* Arena::CreateMaybeMessage<::SC_TEAMMEMBER_INFO>(Arena*);
-template<> ::SC_TEAMMEMBER_INFO_MemberInfo* Arena::CreateMaybeMessage<::SC_TEAMMEMBER_INFO_MemberInfo>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 
 enum SC_MAPVAL_State : int {
@@ -489,6 +534,41 @@ inline bool SC_TEAMMEMBER_ACTION_Action_Parse(
     const std::string& name, SC_TEAMMEMBER_ACTION_Action* value) {
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<SC_TEAMMEMBER_ACTION_Action>(
     SC_TEAMMEMBER_ACTION_Action_descriptor(), name, value);
+}
+enum SC_GUILDMEMBER_ACTION_Action : int {
+  SC_GUILDMEMBER_ACTION_Action_GUILD_CREATE = 0,
+  SC_GUILDMEMBER_ACTION_Action_GUILD_DESTORY = 1,
+  SC_GUILDMEMBER_ACTION_Action_GUILD_ADDMEBER = 2,
+  SC_GUILDMEMBER_ACTION_Action_GUILD_CHANGE_LEADER = 3,
+  SC_GUILDMEMBER_ACTION_Action_GUILD_QUIT = 4,
+  SC_GUILDMEMBER_ACTION_Action_GUILD_KICKMEMBER = 5,
+  SC_GUILDMEMBER_ACTION_Action_GUILD_ACCEPTAPPLY = 6,
+  SC_GUILDMEMBER_ACTION_Action_GUILD_MEMBER_LEV_CHG = 10,
+  SC_GUILDMEMBER_ACTION_Action_GUILD_MEMBER_NAME_CHG = 11,
+  SC_GUILDMEMBER_ACTION_Action_GUILD_MEMBER_ONLINE_CHG = 12,
+  SC_GUILDMEMBER_ACTION_Action_GUILD_MEMBER_RANK_CHG = 13,
+  SC_GUILDMEMBER_ACTION_Action_GUILD_MEMBER_SCORE_CHG = 14,
+  SC_GUILDMEMBER_ACTION_Action_SC_GUILDMEMBER_ACTION_Action_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  SC_GUILDMEMBER_ACTION_Action_SC_GUILDMEMBER_ACTION_Action_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool SC_GUILDMEMBER_ACTION_Action_IsValid(int value);
+constexpr SC_GUILDMEMBER_ACTION_Action SC_GUILDMEMBER_ACTION_Action_Action_MIN = SC_GUILDMEMBER_ACTION_Action_GUILD_CREATE;
+constexpr SC_GUILDMEMBER_ACTION_Action SC_GUILDMEMBER_ACTION_Action_Action_MAX = SC_GUILDMEMBER_ACTION_Action_GUILD_MEMBER_SCORE_CHG;
+constexpr int SC_GUILDMEMBER_ACTION_Action_Action_ARRAYSIZE = SC_GUILDMEMBER_ACTION_Action_Action_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* SC_GUILDMEMBER_ACTION_Action_descriptor();
+template<typename T>
+inline const std::string& SC_GUILDMEMBER_ACTION_Action_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, SC_GUILDMEMBER_ACTION_Action>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function SC_GUILDMEMBER_ACTION_Action_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    SC_GUILDMEMBER_ACTION_Action_descriptor(), enum_t_value);
+}
+inline bool SC_GUILDMEMBER_ACTION_Action_Parse(
+    const std::string& name, SC_GUILDMEMBER_ACTION_Action* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<SC_GUILDMEMBER_ACTION_Action>(
+    SC_GUILDMEMBER_ACTION_Action_descriptor(), name, value);
 }
 enum TalkChannel : int {
   CHANNEL_NORMAL = 0,
@@ -12233,174 +12313,6 @@ class CS_TEAMNEWLEADER :
 };
 // -------------------------------------------------------------------
 
-class SC_TEAMMEMBER_INFO_MemberInfo :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:SC_TEAMMEMBER_INFO.MemberInfo) */ {
- public:
-  SC_TEAMMEMBER_INFO_MemberInfo();
-  virtual ~SC_TEAMMEMBER_INFO_MemberInfo();
-
-  SC_TEAMMEMBER_INFO_MemberInfo(const SC_TEAMMEMBER_INFO_MemberInfo& from);
-  SC_TEAMMEMBER_INFO_MemberInfo(SC_TEAMMEMBER_INFO_MemberInfo&& from) noexcept
-    : SC_TEAMMEMBER_INFO_MemberInfo() {
-    *this = ::std::move(from);
-  }
-
-  inline SC_TEAMMEMBER_INFO_MemberInfo& operator=(const SC_TEAMMEMBER_INFO_MemberInfo& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline SC_TEAMMEMBER_INFO_MemberInfo& operator=(SC_TEAMMEMBER_INFO_MemberInfo&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return GetMetadataStatic().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return GetMetadataStatic().reflection;
-  }
-  static const SC_TEAMMEMBER_INFO_MemberInfo& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const SC_TEAMMEMBER_INFO_MemberInfo* internal_default_instance() {
-    return reinterpret_cast<const SC_TEAMMEMBER_INFO_MemberInfo*>(
-               &_SC_TEAMMEMBER_INFO_MemberInfo_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    74;
-
-  friend void swap(SC_TEAMMEMBER_INFO_MemberInfo& a, SC_TEAMMEMBER_INFO_MemberInfo& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(SC_TEAMMEMBER_INFO_MemberInfo* other) {
-    if (other == this) return;
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline SC_TEAMMEMBER_INFO_MemberInfo* New() const final {
-    return CreateMaybeMessage<SC_TEAMMEMBER_INFO_MemberInfo>(nullptr);
-  }
-
-  SC_TEAMMEMBER_INFO_MemberInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<SC_TEAMMEMBER_INFO_MemberInfo>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const SC_TEAMMEMBER_INFO_MemberInfo& from);
-  void MergeFrom(const SC_TEAMMEMBER_INFO_MemberInfo& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  inline void SharedCtor();
-  inline void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(SC_TEAMMEMBER_INFO_MemberInfo* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "SC_TEAMMEMBER_INFO.MemberInfo";
-  }
-  private:
-  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
-    return nullptr;
-  }
-  inline void* MaybeArenaPtr() const {
-    return nullptr;
-  }
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-  private:
-  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
-    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_msg_2fzone_5fservice_2eproto);
-    return ::descriptor_table_msg_2fzone_5fservice_2eproto.file_level_metadata[kIndexInFileMessages];
-  }
-
-  public:
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kMemberNameFieldNumber = 4,
-    kMemberIdFieldNumber = 1,
-    kMemberLevFieldNumber = 2,
-    kMemberOnlineFieldNumber = 3,
-  };
-  // string member_name = 4;
-  void clear_member_name();
-  const std::string& member_name() const;
-  void set_member_name(const std::string& value);
-  void set_member_name(std::string&& value);
-  void set_member_name(const char* value);
-  void set_member_name(const char* value, size_t size);
-  std::string* mutable_member_name();
-  std::string* release_member_name();
-  void set_allocated_member_name(std::string* member_name);
-  private:
-  const std::string& _internal_member_name() const;
-  void _internal_set_member_name(const std::string& value);
-  std::string* _internal_mutable_member_name();
-  public:
-
-  // uint64 member_id = 1;
-  void clear_member_id();
-  ::PROTOBUF_NAMESPACE_ID::uint64 member_id() const;
-  void set_member_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_member_id() const;
-  void _internal_set_member_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  public:
-
-  // uint32 member_lev = 2;
-  void clear_member_lev();
-  ::PROTOBUF_NAMESPACE_ID::uint32 member_lev() const;
-  void set_member_lev(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_member_lev() const;
-  void _internal_set_member_lev(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
-  // bool member_online = 3;
-  void clear_member_online();
-  bool member_online() const;
-  void set_member_online(bool value);
-  private:
-  bool _internal_member_online() const;
-  void _internal_set_member_online(bool value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:SC_TEAMMEMBER_INFO.MemberInfo)
- private:
-  class _Internal;
-
-  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr member_name_;
-  ::PROTOBUF_NAMESPACE_ID::uint64 member_id_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 member_lev_;
-  bool member_online_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_msg_2fzone_5fservice_2eproto;
-};
-// -------------------------------------------------------------------
-
 class SC_TEAMMEMBER_INFO :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:SC_TEAMMEMBER_INFO) */ {
  public:
@@ -12443,7 +12355,7 @@ class SC_TEAMMEMBER_INFO :
                &_SC_TEAMMEMBER_INFO_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    75;
+    74;
 
   friend void swap(SC_TEAMMEMBER_INFO& a, SC_TEAMMEMBER_INFO& b) {
     a.Swap(&b);
@@ -12504,29 +12416,27 @@ class SC_TEAMMEMBER_INFO :
 
   // nested types ----------------------------------------------------
 
-  typedef SC_TEAMMEMBER_INFO_MemberInfo MemberInfo;
-
   // accessors -------------------------------------------------------
 
   enum : int {
     kMemberListFieldNumber = 1,
   };
-  // repeated .SC_TEAMMEMBER_INFO.MemberInfo member_list = 1;
+  // repeated .TeamMemberInfo member_list = 1;
   int member_list_size() const;
   private:
   int _internal_member_list_size() const;
   public:
   void clear_member_list();
-  ::SC_TEAMMEMBER_INFO_MemberInfo* mutable_member_list(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SC_TEAMMEMBER_INFO_MemberInfo >*
+  ::TeamMemberInfo* mutable_member_list(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::TeamMemberInfo >*
       mutable_member_list();
   private:
-  const ::SC_TEAMMEMBER_INFO_MemberInfo& _internal_member_list(int index) const;
-  ::SC_TEAMMEMBER_INFO_MemberInfo* _internal_add_member_list();
+  const ::TeamMemberInfo& _internal_member_list(int index) const;
+  ::TeamMemberInfo* _internal_add_member_list();
   public:
-  const ::SC_TEAMMEMBER_INFO_MemberInfo& member_list(int index) const;
-  ::SC_TEAMMEMBER_INFO_MemberInfo* add_member_list();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SC_TEAMMEMBER_INFO_MemberInfo >&
+  const ::TeamMemberInfo& member_list(int index) const;
+  ::TeamMemberInfo* add_member_list();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::TeamMemberInfo >&
       member_list() const;
 
   // @@protoc_insertion_point(class_scope:SC_TEAMMEMBER_INFO)
@@ -12534,7 +12444,7 @@ class SC_TEAMMEMBER_INFO :
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SC_TEAMMEMBER_INFO_MemberInfo > member_list_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::TeamMemberInfo > member_list_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_msg_2fzone_5fservice_2eproto;
 };
@@ -12582,7 +12492,7 @@ class SC_TEAMMEMBER_ACTION :
                &_SC_TEAMMEMBER_ACTION_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    76;
+    75;
 
   friend void swap(SC_TEAMMEMBER_ACTION& a, SC_TEAMMEMBER_ACTION& b) {
     a.Swap(&b);
@@ -12816,7 +12726,7 @@ class CS_TEAMAPPLYMEMBER :
                &_CS_TEAMAPPLYMEMBER_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    77;
+    76;
 
   friend void swap(CS_TEAMAPPLYMEMBER& a, CS_TEAMAPPLYMEMBER& b) {
     a.Swap(&b);
@@ -12944,7 +12854,7 @@ class SC_TEAMAPPLYMEMBER :
                &_SC_TEAMAPPLYMEMBER_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    78;
+    77;
 
   friend void swap(SC_TEAMAPPLYMEMBER& a, SC_TEAMAPPLYMEMBER& b) {
     a.Swap(&b);
@@ -13090,7 +13000,7 @@ class CS_TEAMACCEPTAPPLY :
                &_CS_TEAMACCEPTAPPLY_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    79;
+    78;
 
   friend void swap(CS_TEAMACCEPTAPPLY& a, CS_TEAMACCEPTAPPLY& b) {
     a.Swap(&b);
@@ -13176,6 +13086,1750 @@ class CS_TEAMACCEPTAPPLY :
   public:
 
   // @@protoc_insertion_point(class_scope:CS_TEAMACCEPTAPPLY)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 applicant_id_;
+  bool result_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_msg_2fzone_5fservice_2eproto;
+};
+// -------------------------------------------------------------------
+
+class CS_GUILDCREATE :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:CS_GUILDCREATE) */ {
+ public:
+  CS_GUILDCREATE();
+  virtual ~CS_GUILDCREATE();
+
+  CS_GUILDCREATE(const CS_GUILDCREATE& from);
+  CS_GUILDCREATE(CS_GUILDCREATE&& from) noexcept
+    : CS_GUILDCREATE() {
+    *this = ::std::move(from);
+  }
+
+  inline CS_GUILDCREATE& operator=(const CS_GUILDCREATE& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CS_GUILDCREATE& operator=(CS_GUILDCREATE&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const CS_GUILDCREATE& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const CS_GUILDCREATE* internal_default_instance() {
+    return reinterpret_cast<const CS_GUILDCREATE*>(
+               &_CS_GUILDCREATE_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    79;
+
+  friend void swap(CS_GUILDCREATE& a, CS_GUILDCREATE& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(CS_GUILDCREATE* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline CS_GUILDCREATE* New() const final {
+    return CreateMaybeMessage<CS_GUILDCREATE>(nullptr);
+  }
+
+  CS_GUILDCREATE* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<CS_GUILDCREATE>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const CS_GUILDCREATE& from);
+  void MergeFrom(const CS_GUILDCREATE& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CS_GUILDCREATE* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "CS_GUILDCREATE";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_msg_2fzone_5fservice_2eproto);
+    return ::descriptor_table_msg_2fzone_5fservice_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:CS_GUILDCREATE)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_msg_2fzone_5fservice_2eproto;
+};
+// -------------------------------------------------------------------
+
+class CS_GUILDQUIT :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:CS_GUILDQUIT) */ {
+ public:
+  CS_GUILDQUIT();
+  virtual ~CS_GUILDQUIT();
+
+  CS_GUILDQUIT(const CS_GUILDQUIT& from);
+  CS_GUILDQUIT(CS_GUILDQUIT&& from) noexcept
+    : CS_GUILDQUIT() {
+    *this = ::std::move(from);
+  }
+
+  inline CS_GUILDQUIT& operator=(const CS_GUILDQUIT& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CS_GUILDQUIT& operator=(CS_GUILDQUIT&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const CS_GUILDQUIT& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const CS_GUILDQUIT* internal_default_instance() {
+    return reinterpret_cast<const CS_GUILDQUIT*>(
+               &_CS_GUILDQUIT_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    80;
+
+  friend void swap(CS_GUILDQUIT& a, CS_GUILDQUIT& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(CS_GUILDQUIT* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline CS_GUILDQUIT* New() const final {
+    return CreateMaybeMessage<CS_GUILDQUIT>(nullptr);
+  }
+
+  CS_GUILDQUIT* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<CS_GUILDQUIT>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const CS_GUILDQUIT& from);
+  void MergeFrom(const CS_GUILDQUIT& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CS_GUILDQUIT* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "CS_GUILDQUIT";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_msg_2fzone_5fservice_2eproto);
+    return ::descriptor_table_msg_2fzone_5fservice_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:CS_GUILDQUIT)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_msg_2fzone_5fservice_2eproto;
+};
+// -------------------------------------------------------------------
+
+class CS_GUILDKICKMEMBER :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:CS_GUILDKICKMEMBER) */ {
+ public:
+  CS_GUILDKICKMEMBER();
+  virtual ~CS_GUILDKICKMEMBER();
+
+  CS_GUILDKICKMEMBER(const CS_GUILDKICKMEMBER& from);
+  CS_GUILDKICKMEMBER(CS_GUILDKICKMEMBER&& from) noexcept
+    : CS_GUILDKICKMEMBER() {
+    *this = ::std::move(from);
+  }
+
+  inline CS_GUILDKICKMEMBER& operator=(const CS_GUILDKICKMEMBER& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CS_GUILDKICKMEMBER& operator=(CS_GUILDKICKMEMBER&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const CS_GUILDKICKMEMBER& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const CS_GUILDKICKMEMBER* internal_default_instance() {
+    return reinterpret_cast<const CS_GUILDKICKMEMBER*>(
+               &_CS_GUILDKICKMEMBER_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    81;
+
+  friend void swap(CS_GUILDKICKMEMBER& a, CS_GUILDKICKMEMBER& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(CS_GUILDKICKMEMBER* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline CS_GUILDKICKMEMBER* New() const final {
+    return CreateMaybeMessage<CS_GUILDKICKMEMBER>(nullptr);
+  }
+
+  CS_GUILDKICKMEMBER* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<CS_GUILDKICKMEMBER>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const CS_GUILDKICKMEMBER& from);
+  void MergeFrom(const CS_GUILDKICKMEMBER& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CS_GUILDKICKMEMBER* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "CS_GUILDKICKMEMBER";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_msg_2fzone_5fservice_2eproto);
+    return ::descriptor_table_msg_2fzone_5fservice_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kMemberIdFieldNumber = 1,
+  };
+  // uint64 member_id = 1;
+  void clear_member_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 member_id() const;
+  void set_member_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_member_id() const;
+  void _internal_set_member_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:CS_GUILDKICKMEMBER)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 member_id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_msg_2fzone_5fservice_2eproto;
+};
+// -------------------------------------------------------------------
+
+class CS_GUILDINVITEMEMBER :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:CS_GUILDINVITEMEMBER) */ {
+ public:
+  CS_GUILDINVITEMEMBER();
+  virtual ~CS_GUILDINVITEMEMBER();
+
+  CS_GUILDINVITEMEMBER(const CS_GUILDINVITEMEMBER& from);
+  CS_GUILDINVITEMEMBER(CS_GUILDINVITEMEMBER&& from) noexcept
+    : CS_GUILDINVITEMEMBER() {
+    *this = ::std::move(from);
+  }
+
+  inline CS_GUILDINVITEMEMBER& operator=(const CS_GUILDINVITEMEMBER& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CS_GUILDINVITEMEMBER& operator=(CS_GUILDINVITEMEMBER&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const CS_GUILDINVITEMEMBER& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const CS_GUILDINVITEMEMBER* internal_default_instance() {
+    return reinterpret_cast<const CS_GUILDINVITEMEMBER*>(
+               &_CS_GUILDINVITEMEMBER_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    82;
+
+  friend void swap(CS_GUILDINVITEMEMBER& a, CS_GUILDINVITEMEMBER& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(CS_GUILDINVITEMEMBER* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline CS_GUILDINVITEMEMBER* New() const final {
+    return CreateMaybeMessage<CS_GUILDINVITEMEMBER>(nullptr);
+  }
+
+  CS_GUILDINVITEMEMBER* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<CS_GUILDINVITEMEMBER>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const CS_GUILDINVITEMEMBER& from);
+  void MergeFrom(const CS_GUILDINVITEMEMBER& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CS_GUILDINVITEMEMBER* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "CS_GUILDINVITEMEMBER";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_msg_2fzone_5fservice_2eproto);
+    return ::descriptor_table_msg_2fzone_5fservice_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kInviteeIdFieldNumber = 1,
+  };
+  // uint64 invitee_id = 1;
+  void clear_invitee_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 invitee_id() const;
+  void set_invitee_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_invitee_id() const;
+  void _internal_set_invitee_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:CS_GUILDINVITEMEMBER)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 invitee_id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_msg_2fzone_5fservice_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SC_GUILDINVITEMEMBER :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:SC_GUILDINVITEMEMBER) */ {
+ public:
+  SC_GUILDINVITEMEMBER();
+  virtual ~SC_GUILDINVITEMEMBER();
+
+  SC_GUILDINVITEMEMBER(const SC_GUILDINVITEMEMBER& from);
+  SC_GUILDINVITEMEMBER(SC_GUILDINVITEMEMBER&& from) noexcept
+    : SC_GUILDINVITEMEMBER() {
+    *this = ::std::move(from);
+  }
+
+  inline SC_GUILDINVITEMEMBER& operator=(const SC_GUILDINVITEMEMBER& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SC_GUILDINVITEMEMBER& operator=(SC_GUILDINVITEMEMBER&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const SC_GUILDINVITEMEMBER& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SC_GUILDINVITEMEMBER* internal_default_instance() {
+    return reinterpret_cast<const SC_GUILDINVITEMEMBER*>(
+               &_SC_GUILDINVITEMEMBER_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    83;
+
+  friend void swap(SC_GUILDINVITEMEMBER& a, SC_GUILDINVITEMEMBER& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SC_GUILDINVITEMEMBER* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SC_GUILDINVITEMEMBER* New() const final {
+    return CreateMaybeMessage<SC_GUILDINVITEMEMBER>(nullptr);
+  }
+
+  SC_GUILDINVITEMEMBER* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<SC_GUILDINVITEMEMBER>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const SC_GUILDINVITEMEMBER& from);
+  void MergeFrom(const SC_GUILDINVITEMEMBER& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SC_GUILDINVITEMEMBER* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "SC_GUILDINVITEMEMBER";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_msg_2fzone_5fservice_2eproto);
+    return ::descriptor_table_msg_2fzone_5fservice_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kInviterNameFieldNumber = 3,
+    kGuildIdFieldNumber = 1,
+    kInviterIdFieldNumber = 2,
+  };
+  // string inviter_name = 3;
+  void clear_inviter_name();
+  const std::string& inviter_name() const;
+  void set_inviter_name(const std::string& value);
+  void set_inviter_name(std::string&& value);
+  void set_inviter_name(const char* value);
+  void set_inviter_name(const char* value, size_t size);
+  std::string* mutable_inviter_name();
+  std::string* release_inviter_name();
+  void set_allocated_inviter_name(std::string* inviter_name);
+  private:
+  const std::string& _internal_inviter_name() const;
+  void _internal_set_inviter_name(const std::string& value);
+  std::string* _internal_mutable_inviter_name();
+  public:
+
+  // uint64 guild_id = 1;
+  void clear_guild_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 guild_id() const;
+  void set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_guild_id() const;
+  void _internal_set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 inviter_id = 2;
+  void clear_inviter_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 inviter_id() const;
+  void set_inviter_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_inviter_id() const;
+  void _internal_set_inviter_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:SC_GUILDINVITEMEMBER)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr inviter_name_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 guild_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 inviter_id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_msg_2fzone_5fservice_2eproto;
+};
+// -------------------------------------------------------------------
+
+class CS_GUILDACCEPTINVITE :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:CS_GUILDACCEPTINVITE) */ {
+ public:
+  CS_GUILDACCEPTINVITE();
+  virtual ~CS_GUILDACCEPTINVITE();
+
+  CS_GUILDACCEPTINVITE(const CS_GUILDACCEPTINVITE& from);
+  CS_GUILDACCEPTINVITE(CS_GUILDACCEPTINVITE&& from) noexcept
+    : CS_GUILDACCEPTINVITE() {
+    *this = ::std::move(from);
+  }
+
+  inline CS_GUILDACCEPTINVITE& operator=(const CS_GUILDACCEPTINVITE& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CS_GUILDACCEPTINVITE& operator=(CS_GUILDACCEPTINVITE&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const CS_GUILDACCEPTINVITE& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const CS_GUILDACCEPTINVITE* internal_default_instance() {
+    return reinterpret_cast<const CS_GUILDACCEPTINVITE*>(
+               &_CS_GUILDACCEPTINVITE_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    84;
+
+  friend void swap(CS_GUILDACCEPTINVITE& a, CS_GUILDACCEPTINVITE& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(CS_GUILDACCEPTINVITE* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline CS_GUILDACCEPTINVITE* New() const final {
+    return CreateMaybeMessage<CS_GUILDACCEPTINVITE>(nullptr);
+  }
+
+  CS_GUILDACCEPTINVITE* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<CS_GUILDACCEPTINVITE>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const CS_GUILDACCEPTINVITE& from);
+  void MergeFrom(const CS_GUILDACCEPTINVITE& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CS_GUILDACCEPTINVITE* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "CS_GUILDACCEPTINVITE";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_msg_2fzone_5fservice_2eproto);
+    return ::descriptor_table_msg_2fzone_5fservice_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kGuildIdFieldNumber = 1,
+    kInviterIdFieldNumber = 2,
+    kResultFieldNumber = 3,
+  };
+  // uint64 guild_id = 1;
+  void clear_guild_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 guild_id() const;
+  void set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_guild_id() const;
+  void _internal_set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 inviter_id = 2;
+  void clear_inviter_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 inviter_id() const;
+  void set_inviter_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_inviter_id() const;
+  void _internal_set_inviter_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // bool result = 3;
+  void clear_result();
+  bool result() const;
+  void set_result(bool value);
+  private:
+  bool _internal_result() const;
+  void _internal_set_result(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:CS_GUILDACCEPTINVITE)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 guild_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 inviter_id_;
+  bool result_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_msg_2fzone_5fservice_2eproto;
+};
+// -------------------------------------------------------------------
+
+class CS_GUILDNEWLEADER :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:CS_GUILDNEWLEADER) */ {
+ public:
+  CS_GUILDNEWLEADER();
+  virtual ~CS_GUILDNEWLEADER();
+
+  CS_GUILDNEWLEADER(const CS_GUILDNEWLEADER& from);
+  CS_GUILDNEWLEADER(CS_GUILDNEWLEADER&& from) noexcept
+    : CS_GUILDNEWLEADER() {
+    *this = ::std::move(from);
+  }
+
+  inline CS_GUILDNEWLEADER& operator=(const CS_GUILDNEWLEADER& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CS_GUILDNEWLEADER& operator=(CS_GUILDNEWLEADER&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const CS_GUILDNEWLEADER& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const CS_GUILDNEWLEADER* internal_default_instance() {
+    return reinterpret_cast<const CS_GUILDNEWLEADER*>(
+               &_CS_GUILDNEWLEADER_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    85;
+
+  friend void swap(CS_GUILDNEWLEADER& a, CS_GUILDNEWLEADER& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(CS_GUILDNEWLEADER* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline CS_GUILDNEWLEADER* New() const final {
+    return CreateMaybeMessage<CS_GUILDNEWLEADER>(nullptr);
+  }
+
+  CS_GUILDNEWLEADER* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<CS_GUILDNEWLEADER>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const CS_GUILDNEWLEADER& from);
+  void MergeFrom(const CS_GUILDNEWLEADER& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CS_GUILDNEWLEADER* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "CS_GUILDNEWLEADER";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_msg_2fzone_5fservice_2eproto);
+    return ::descriptor_table_msg_2fzone_5fservice_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kNewLeaderIdFieldNumber = 2,
+  };
+  // uint64 new_leader_id = 2;
+  void clear_new_leader_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 new_leader_id() const;
+  void set_new_leader_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_new_leader_id() const;
+  void _internal_set_new_leader_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:CS_GUILDNEWLEADER)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 new_leader_id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_msg_2fzone_5fservice_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SC_GUILDMEMBER_INFO :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:SC_GUILDMEMBER_INFO) */ {
+ public:
+  SC_GUILDMEMBER_INFO();
+  virtual ~SC_GUILDMEMBER_INFO();
+
+  SC_GUILDMEMBER_INFO(const SC_GUILDMEMBER_INFO& from);
+  SC_GUILDMEMBER_INFO(SC_GUILDMEMBER_INFO&& from) noexcept
+    : SC_GUILDMEMBER_INFO() {
+    *this = ::std::move(from);
+  }
+
+  inline SC_GUILDMEMBER_INFO& operator=(const SC_GUILDMEMBER_INFO& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SC_GUILDMEMBER_INFO& operator=(SC_GUILDMEMBER_INFO&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const SC_GUILDMEMBER_INFO& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SC_GUILDMEMBER_INFO* internal_default_instance() {
+    return reinterpret_cast<const SC_GUILDMEMBER_INFO*>(
+               &_SC_GUILDMEMBER_INFO_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    86;
+
+  friend void swap(SC_GUILDMEMBER_INFO& a, SC_GUILDMEMBER_INFO& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SC_GUILDMEMBER_INFO* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SC_GUILDMEMBER_INFO* New() const final {
+    return CreateMaybeMessage<SC_GUILDMEMBER_INFO>(nullptr);
+  }
+
+  SC_GUILDMEMBER_INFO* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<SC_GUILDMEMBER_INFO>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const SC_GUILDMEMBER_INFO& from);
+  void MergeFrom(const SC_GUILDMEMBER_INFO& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SC_GUILDMEMBER_INFO* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "SC_GUILDMEMBER_INFO";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_msg_2fzone_5fservice_2eproto);
+    return ::descriptor_table_msg_2fzone_5fservice_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kMemberListFieldNumber = 1,
+  };
+  // repeated .GuildMemberInfo member_list = 1;
+  int member_list_size() const;
+  private:
+  int _internal_member_list_size() const;
+  public:
+  void clear_member_list();
+  ::GuildMemberInfo* mutable_member_list(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::GuildMemberInfo >*
+      mutable_member_list();
+  private:
+  const ::GuildMemberInfo& _internal_member_list(int index) const;
+  ::GuildMemberInfo* _internal_add_member_list();
+  public:
+  const ::GuildMemberInfo& member_list(int index) const;
+  ::GuildMemberInfo* add_member_list();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::GuildMemberInfo >&
+      member_list() const;
+
+  // @@protoc_insertion_point(class_scope:SC_GUILDMEMBER_INFO)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::GuildMemberInfo > member_list_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_msg_2fzone_5fservice_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SC_GUILDMEMBER_ACTION :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:SC_GUILDMEMBER_ACTION) */ {
+ public:
+  SC_GUILDMEMBER_ACTION();
+  virtual ~SC_GUILDMEMBER_ACTION();
+
+  SC_GUILDMEMBER_ACTION(const SC_GUILDMEMBER_ACTION& from);
+  SC_GUILDMEMBER_ACTION(SC_GUILDMEMBER_ACTION&& from) noexcept
+    : SC_GUILDMEMBER_ACTION() {
+    *this = ::std::move(from);
+  }
+
+  inline SC_GUILDMEMBER_ACTION& operator=(const SC_GUILDMEMBER_ACTION& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SC_GUILDMEMBER_ACTION& operator=(SC_GUILDMEMBER_ACTION&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const SC_GUILDMEMBER_ACTION& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SC_GUILDMEMBER_ACTION* internal_default_instance() {
+    return reinterpret_cast<const SC_GUILDMEMBER_ACTION*>(
+               &_SC_GUILDMEMBER_ACTION_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    87;
+
+  friend void swap(SC_GUILDMEMBER_ACTION& a, SC_GUILDMEMBER_ACTION& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SC_GUILDMEMBER_ACTION* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SC_GUILDMEMBER_ACTION* New() const final {
+    return CreateMaybeMessage<SC_GUILDMEMBER_ACTION>(nullptr);
+  }
+
+  SC_GUILDMEMBER_ACTION* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<SC_GUILDMEMBER_ACTION>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const SC_GUILDMEMBER_ACTION& from);
+  void MergeFrom(const SC_GUILDMEMBER_ACTION& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SC_GUILDMEMBER_ACTION* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "SC_GUILDMEMBER_ACTION";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_msg_2fzone_5fservice_2eproto);
+    return ::descriptor_table_msg_2fzone_5fservice_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  typedef SC_GUILDMEMBER_ACTION_Action Action;
+  static constexpr Action GUILD_CREATE =
+    SC_GUILDMEMBER_ACTION_Action_GUILD_CREATE;
+  static constexpr Action GUILD_DESTORY =
+    SC_GUILDMEMBER_ACTION_Action_GUILD_DESTORY;
+  static constexpr Action GUILD_ADDMEBER =
+    SC_GUILDMEMBER_ACTION_Action_GUILD_ADDMEBER;
+  static constexpr Action GUILD_CHANGE_LEADER =
+    SC_GUILDMEMBER_ACTION_Action_GUILD_CHANGE_LEADER;
+  static constexpr Action GUILD_QUIT =
+    SC_GUILDMEMBER_ACTION_Action_GUILD_QUIT;
+  static constexpr Action GUILD_KICKMEMBER =
+    SC_GUILDMEMBER_ACTION_Action_GUILD_KICKMEMBER;
+  static constexpr Action GUILD_ACCEPTAPPLY =
+    SC_GUILDMEMBER_ACTION_Action_GUILD_ACCEPTAPPLY;
+  static constexpr Action GUILD_MEMBER_LEV_CHG =
+    SC_GUILDMEMBER_ACTION_Action_GUILD_MEMBER_LEV_CHG;
+  static constexpr Action GUILD_MEMBER_NAME_CHG =
+    SC_GUILDMEMBER_ACTION_Action_GUILD_MEMBER_NAME_CHG;
+  static constexpr Action GUILD_MEMBER_ONLINE_CHG =
+    SC_GUILDMEMBER_ACTION_Action_GUILD_MEMBER_ONLINE_CHG;
+  static constexpr Action GUILD_MEMBER_RANK_CHG =
+    SC_GUILDMEMBER_ACTION_Action_GUILD_MEMBER_RANK_CHG;
+  static constexpr Action GUILD_MEMBER_SCORE_CHG =
+    SC_GUILDMEMBER_ACTION_Action_GUILD_MEMBER_SCORE_CHG;
+  static inline bool Action_IsValid(int value) {
+    return SC_GUILDMEMBER_ACTION_Action_IsValid(value);
+  }
+  static constexpr Action Action_MIN =
+    SC_GUILDMEMBER_ACTION_Action_Action_MIN;
+  static constexpr Action Action_MAX =
+    SC_GUILDMEMBER_ACTION_Action_Action_MAX;
+  static constexpr int Action_ARRAYSIZE =
+    SC_GUILDMEMBER_ACTION_Action_Action_ARRAYSIZE;
+  static inline const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor*
+  Action_descriptor() {
+    return SC_GUILDMEMBER_ACTION_Action_descriptor();
+  }
+  template<typename T>
+  static inline const std::string& Action_Name(T enum_t_value) {
+    static_assert(::std::is_same<T, Action>::value ||
+      ::std::is_integral<T>::value,
+      "Incorrect type passed to function Action_Name.");
+    return SC_GUILDMEMBER_ACTION_Action_Name(enum_t_value);
+  }
+  static inline bool Action_Parse(const std::string& name,
+      Action* value) {
+    return SC_GUILDMEMBER_ACTION_Action_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kMemberNameFieldNumber = 5,
+    kOperatorIdFieldNumber = 2,
+    kActionFieldNumber = 1,
+    kMemberLevFieldNumber = 4,
+    kMemberIdFieldNumber = 3,
+    kMemberOnlineFieldNumber = 6,
+    kMemberRankFieldNumber = 7,
+    kMemberScoreFieldNumber = 8,
+    kMemberLastLogoutFieldNumber = 9,
+  };
+  // string member_name = 5;
+  void clear_member_name();
+  const std::string& member_name() const;
+  void set_member_name(const std::string& value);
+  void set_member_name(std::string&& value);
+  void set_member_name(const char* value);
+  void set_member_name(const char* value, size_t size);
+  std::string* mutable_member_name();
+  std::string* release_member_name();
+  void set_allocated_member_name(std::string* member_name);
+  private:
+  const std::string& _internal_member_name() const;
+  void _internal_set_member_name(const std::string& value);
+  std::string* _internal_mutable_member_name();
+  public:
+
+  // uint64 operator_id = 2;
+  void clear_operator_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 operator_id() const;
+  void set_operator_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_operator_id() const;
+  void _internal_set_operator_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // .SC_GUILDMEMBER_ACTION.Action action = 1;
+  void clear_action();
+  ::SC_GUILDMEMBER_ACTION_Action action() const;
+  void set_action(::SC_GUILDMEMBER_ACTION_Action value);
+  private:
+  ::SC_GUILDMEMBER_ACTION_Action _internal_action() const;
+  void _internal_set_action(::SC_GUILDMEMBER_ACTION_Action value);
+  public:
+
+  // uint32 member_lev = 4;
+  void clear_member_lev();
+  ::PROTOBUF_NAMESPACE_ID::uint32 member_lev() const;
+  void set_member_lev(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_member_lev() const;
+  void _internal_set_member_lev(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint64 member_id = 3;
+  void clear_member_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 member_id() const;
+  void set_member_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_member_id() const;
+  void _internal_set_member_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // bool member_online = 6;
+  void clear_member_online();
+  bool member_online() const;
+  void set_member_online(bool value);
+  private:
+  bool _internal_member_online() const;
+  void _internal_set_member_online(bool value);
+  public:
+
+  // uint32 member_rank = 7;
+  void clear_member_rank();
+  ::PROTOBUF_NAMESPACE_ID::uint32 member_rank() const;
+  void set_member_rank(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_member_rank() const;
+  void _internal_set_member_rank(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 member_score = 8;
+  void clear_member_score();
+  ::PROTOBUF_NAMESPACE_ID::uint32 member_score() const;
+  void set_member_score(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_member_score() const;
+  void _internal_set_member_score(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 member_last_logout = 9;
+  void clear_member_last_logout();
+  ::PROTOBUF_NAMESPACE_ID::uint32 member_last_logout() const;
+  void set_member_last_logout(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_member_last_logout() const;
+  void _internal_set_member_last_logout(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:SC_GUILDMEMBER_ACTION)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr member_name_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 operator_id_;
+  int action_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 member_lev_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 member_id_;
+  bool member_online_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 member_rank_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 member_score_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 member_last_logout_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_msg_2fzone_5fservice_2eproto;
+};
+// -------------------------------------------------------------------
+
+class CS_GUILDAPPLYMEMBER :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:CS_GUILDAPPLYMEMBER) */ {
+ public:
+  CS_GUILDAPPLYMEMBER();
+  virtual ~CS_GUILDAPPLYMEMBER();
+
+  CS_GUILDAPPLYMEMBER(const CS_GUILDAPPLYMEMBER& from);
+  CS_GUILDAPPLYMEMBER(CS_GUILDAPPLYMEMBER&& from) noexcept
+    : CS_GUILDAPPLYMEMBER() {
+    *this = ::std::move(from);
+  }
+
+  inline CS_GUILDAPPLYMEMBER& operator=(const CS_GUILDAPPLYMEMBER& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CS_GUILDAPPLYMEMBER& operator=(CS_GUILDAPPLYMEMBER&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const CS_GUILDAPPLYMEMBER& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const CS_GUILDAPPLYMEMBER* internal_default_instance() {
+    return reinterpret_cast<const CS_GUILDAPPLYMEMBER*>(
+               &_CS_GUILDAPPLYMEMBER_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    88;
+
+  friend void swap(CS_GUILDAPPLYMEMBER& a, CS_GUILDAPPLYMEMBER& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(CS_GUILDAPPLYMEMBER* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline CS_GUILDAPPLYMEMBER* New() const final {
+    return CreateMaybeMessage<CS_GUILDAPPLYMEMBER>(nullptr);
+  }
+
+  CS_GUILDAPPLYMEMBER* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<CS_GUILDAPPLYMEMBER>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const CS_GUILDAPPLYMEMBER& from);
+  void MergeFrom(const CS_GUILDAPPLYMEMBER& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CS_GUILDAPPLYMEMBER* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "CS_GUILDAPPLYMEMBER";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_msg_2fzone_5fservice_2eproto);
+    return ::descriptor_table_msg_2fzone_5fservice_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRespondentIdFieldNumber = 1,
+  };
+  // uint64 respondent_id = 1;
+  void clear_respondent_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 respondent_id() const;
+  void set_respondent_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_respondent_id() const;
+  void _internal_set_respondent_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:CS_GUILDAPPLYMEMBER)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 respondent_id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_msg_2fzone_5fservice_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SC_GUILDAPPLYMEMBER :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:SC_GUILDAPPLYMEMBER) */ {
+ public:
+  SC_GUILDAPPLYMEMBER();
+  virtual ~SC_GUILDAPPLYMEMBER();
+
+  SC_GUILDAPPLYMEMBER(const SC_GUILDAPPLYMEMBER& from);
+  SC_GUILDAPPLYMEMBER(SC_GUILDAPPLYMEMBER&& from) noexcept
+    : SC_GUILDAPPLYMEMBER() {
+    *this = ::std::move(from);
+  }
+
+  inline SC_GUILDAPPLYMEMBER& operator=(const SC_GUILDAPPLYMEMBER& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SC_GUILDAPPLYMEMBER& operator=(SC_GUILDAPPLYMEMBER&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const SC_GUILDAPPLYMEMBER& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SC_GUILDAPPLYMEMBER* internal_default_instance() {
+    return reinterpret_cast<const SC_GUILDAPPLYMEMBER*>(
+               &_SC_GUILDAPPLYMEMBER_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    89;
+
+  friend void swap(SC_GUILDAPPLYMEMBER& a, SC_GUILDAPPLYMEMBER& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SC_GUILDAPPLYMEMBER* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SC_GUILDAPPLYMEMBER* New() const final {
+    return CreateMaybeMessage<SC_GUILDAPPLYMEMBER>(nullptr);
+  }
+
+  SC_GUILDAPPLYMEMBER* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<SC_GUILDAPPLYMEMBER>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const SC_GUILDAPPLYMEMBER& from);
+  void MergeFrom(const SC_GUILDAPPLYMEMBER& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SC_GUILDAPPLYMEMBER* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "SC_GUILDAPPLYMEMBER";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_msg_2fzone_5fservice_2eproto);
+    return ::descriptor_table_msg_2fzone_5fservice_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kApplicantNameFieldNumber = 2,
+    kApplicantIdFieldNumber = 1,
+  };
+  // string applicant_name = 2;
+  void clear_applicant_name();
+  const std::string& applicant_name() const;
+  void set_applicant_name(const std::string& value);
+  void set_applicant_name(std::string&& value);
+  void set_applicant_name(const char* value);
+  void set_applicant_name(const char* value, size_t size);
+  std::string* mutable_applicant_name();
+  std::string* release_applicant_name();
+  void set_allocated_applicant_name(std::string* applicant_name);
+  private:
+  const std::string& _internal_applicant_name() const;
+  void _internal_set_applicant_name(const std::string& value);
+  std::string* _internal_mutable_applicant_name();
+  public:
+
+  // uint64 applicant_id = 1;
+  void clear_applicant_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 applicant_id() const;
+  void set_applicant_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_applicant_id() const;
+  void _internal_set_applicant_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:SC_GUILDAPPLYMEMBER)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr applicant_name_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 applicant_id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_msg_2fzone_5fservice_2eproto;
+};
+// -------------------------------------------------------------------
+
+class CS_GUILDACCEPTAPPLY :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:CS_GUILDACCEPTAPPLY) */ {
+ public:
+  CS_GUILDACCEPTAPPLY();
+  virtual ~CS_GUILDACCEPTAPPLY();
+
+  CS_GUILDACCEPTAPPLY(const CS_GUILDACCEPTAPPLY& from);
+  CS_GUILDACCEPTAPPLY(CS_GUILDACCEPTAPPLY&& from) noexcept
+    : CS_GUILDACCEPTAPPLY() {
+    *this = ::std::move(from);
+  }
+
+  inline CS_GUILDACCEPTAPPLY& operator=(const CS_GUILDACCEPTAPPLY& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CS_GUILDACCEPTAPPLY& operator=(CS_GUILDACCEPTAPPLY&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const CS_GUILDACCEPTAPPLY& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const CS_GUILDACCEPTAPPLY* internal_default_instance() {
+    return reinterpret_cast<const CS_GUILDACCEPTAPPLY*>(
+               &_CS_GUILDACCEPTAPPLY_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    90;
+
+  friend void swap(CS_GUILDACCEPTAPPLY& a, CS_GUILDACCEPTAPPLY& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(CS_GUILDACCEPTAPPLY* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline CS_GUILDACCEPTAPPLY* New() const final {
+    return CreateMaybeMessage<CS_GUILDACCEPTAPPLY>(nullptr);
+  }
+
+  CS_GUILDACCEPTAPPLY* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<CS_GUILDACCEPTAPPLY>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const CS_GUILDACCEPTAPPLY& from);
+  void MergeFrom(const CS_GUILDACCEPTAPPLY& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CS_GUILDACCEPTAPPLY* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "CS_GUILDACCEPTAPPLY";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_msg_2fzone_5fservice_2eproto);
+    return ::descriptor_table_msg_2fzone_5fservice_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kApplicantIdFieldNumber = 1,
+    kResultFieldNumber = 2,
+  };
+  // uint64 applicant_id = 1;
+  void clear_applicant_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 applicant_id() const;
+  void set_applicant_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_applicant_id() const;
+  void _internal_set_applicant_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // bool result = 2;
+  void clear_result();
+  bool result() const;
+  void set_result(bool value);
+  private:
+  bool _internal_result() const;
+  void _internal_set_result(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:CS_GUILDACCEPTAPPLY)
  private:
   class _Internal;
 
@@ -19278,166 +20932,39 @@ inline void CS_TEAMNEWLEADER::set_new_leader_id(::PROTOBUF_NAMESPACE_ID::uint64 
 
 // -------------------------------------------------------------------
 
-// SC_TEAMMEMBER_INFO_MemberInfo
-
-// uint64 member_id = 1;
-inline void SC_TEAMMEMBER_INFO_MemberInfo::clear_member_id() {
-  member_id_ = PROTOBUF_ULONGLONG(0);
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint64 SC_TEAMMEMBER_INFO_MemberInfo::_internal_member_id() const {
-  return member_id_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint64 SC_TEAMMEMBER_INFO_MemberInfo::member_id() const {
-  // @@protoc_insertion_point(field_get:SC_TEAMMEMBER_INFO.MemberInfo.member_id)
-  return _internal_member_id();
-}
-inline void SC_TEAMMEMBER_INFO_MemberInfo::_internal_set_member_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
-  
-  member_id_ = value;
-}
-inline void SC_TEAMMEMBER_INFO_MemberInfo::set_member_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
-  _internal_set_member_id(value);
-  // @@protoc_insertion_point(field_set:SC_TEAMMEMBER_INFO.MemberInfo.member_id)
-}
-
-// uint32 member_lev = 2;
-inline void SC_TEAMMEMBER_INFO_MemberInfo::clear_member_lev() {
-  member_lev_ = 0u;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_TEAMMEMBER_INFO_MemberInfo::_internal_member_lev() const {
-  return member_lev_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_TEAMMEMBER_INFO_MemberInfo::member_lev() const {
-  // @@protoc_insertion_point(field_get:SC_TEAMMEMBER_INFO.MemberInfo.member_lev)
-  return _internal_member_lev();
-}
-inline void SC_TEAMMEMBER_INFO_MemberInfo::_internal_set_member_lev(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  
-  member_lev_ = value;
-}
-inline void SC_TEAMMEMBER_INFO_MemberInfo::set_member_lev(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  _internal_set_member_lev(value);
-  // @@protoc_insertion_point(field_set:SC_TEAMMEMBER_INFO.MemberInfo.member_lev)
-}
-
-// bool member_online = 3;
-inline void SC_TEAMMEMBER_INFO_MemberInfo::clear_member_online() {
-  member_online_ = false;
-}
-inline bool SC_TEAMMEMBER_INFO_MemberInfo::_internal_member_online() const {
-  return member_online_;
-}
-inline bool SC_TEAMMEMBER_INFO_MemberInfo::member_online() const {
-  // @@protoc_insertion_point(field_get:SC_TEAMMEMBER_INFO.MemberInfo.member_online)
-  return _internal_member_online();
-}
-inline void SC_TEAMMEMBER_INFO_MemberInfo::_internal_set_member_online(bool value) {
-  
-  member_online_ = value;
-}
-inline void SC_TEAMMEMBER_INFO_MemberInfo::set_member_online(bool value) {
-  _internal_set_member_online(value);
-  // @@protoc_insertion_point(field_set:SC_TEAMMEMBER_INFO.MemberInfo.member_online)
-}
-
-// string member_name = 4;
-inline void SC_TEAMMEMBER_INFO_MemberInfo::clear_member_name() {
-  member_name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-}
-inline const std::string& SC_TEAMMEMBER_INFO_MemberInfo::member_name() const {
-  // @@protoc_insertion_point(field_get:SC_TEAMMEMBER_INFO.MemberInfo.member_name)
-  return _internal_member_name();
-}
-inline void SC_TEAMMEMBER_INFO_MemberInfo::set_member_name(const std::string& value) {
-  _internal_set_member_name(value);
-  // @@protoc_insertion_point(field_set:SC_TEAMMEMBER_INFO.MemberInfo.member_name)
-}
-inline std::string* SC_TEAMMEMBER_INFO_MemberInfo::mutable_member_name() {
-  // @@protoc_insertion_point(field_mutable:SC_TEAMMEMBER_INFO.MemberInfo.member_name)
-  return _internal_mutable_member_name();
-}
-inline const std::string& SC_TEAMMEMBER_INFO_MemberInfo::_internal_member_name() const {
-  return member_name_.GetNoArena();
-}
-inline void SC_TEAMMEMBER_INFO_MemberInfo::_internal_set_member_name(const std::string& value) {
-  
-  member_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
-}
-inline void SC_TEAMMEMBER_INFO_MemberInfo::set_member_name(std::string&& value) {
-  
-  member_name_.SetNoArena(
-    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:SC_TEAMMEMBER_INFO.MemberInfo.member_name)
-}
-inline void SC_TEAMMEMBER_INFO_MemberInfo::set_member_name(const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  
-  member_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:SC_TEAMMEMBER_INFO.MemberInfo.member_name)
-}
-inline void SC_TEAMMEMBER_INFO_MemberInfo::set_member_name(const char* value, size_t size) {
-  
-  member_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:SC_TEAMMEMBER_INFO.MemberInfo.member_name)
-}
-inline std::string* SC_TEAMMEMBER_INFO_MemberInfo::_internal_mutable_member_name() {
-  
-  return member_name_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-}
-inline std::string* SC_TEAMMEMBER_INFO_MemberInfo::release_member_name() {
-  // @@protoc_insertion_point(field_release:SC_TEAMMEMBER_INFO.MemberInfo.member_name)
-  
-  return member_name_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-}
-inline void SC_TEAMMEMBER_INFO_MemberInfo::set_allocated_member_name(std::string* member_name) {
-  if (member_name != nullptr) {
-    
-  } else {
-    
-  }
-  member_name_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), member_name);
-  // @@protoc_insertion_point(field_set_allocated:SC_TEAMMEMBER_INFO.MemberInfo.member_name)
-}
-
-// -------------------------------------------------------------------
-
 // SC_TEAMMEMBER_INFO
 
-// repeated .SC_TEAMMEMBER_INFO.MemberInfo member_list = 1;
+// repeated .TeamMemberInfo member_list = 1;
 inline int SC_TEAMMEMBER_INFO::_internal_member_list_size() const {
   return member_list_.size();
 }
 inline int SC_TEAMMEMBER_INFO::member_list_size() const {
   return _internal_member_list_size();
 }
-inline void SC_TEAMMEMBER_INFO::clear_member_list() {
-  member_list_.Clear();
-}
-inline ::SC_TEAMMEMBER_INFO_MemberInfo* SC_TEAMMEMBER_INFO::mutable_member_list(int index) {
+inline ::TeamMemberInfo* SC_TEAMMEMBER_INFO::mutable_member_list(int index) {
   // @@protoc_insertion_point(field_mutable:SC_TEAMMEMBER_INFO.member_list)
   return member_list_.Mutable(index);
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SC_TEAMMEMBER_INFO_MemberInfo >*
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::TeamMemberInfo >*
 SC_TEAMMEMBER_INFO::mutable_member_list() {
   // @@protoc_insertion_point(field_mutable_list:SC_TEAMMEMBER_INFO.member_list)
   return &member_list_;
 }
-inline const ::SC_TEAMMEMBER_INFO_MemberInfo& SC_TEAMMEMBER_INFO::_internal_member_list(int index) const {
+inline const ::TeamMemberInfo& SC_TEAMMEMBER_INFO::_internal_member_list(int index) const {
   return member_list_.Get(index);
 }
-inline const ::SC_TEAMMEMBER_INFO_MemberInfo& SC_TEAMMEMBER_INFO::member_list(int index) const {
+inline const ::TeamMemberInfo& SC_TEAMMEMBER_INFO::member_list(int index) const {
   // @@protoc_insertion_point(field_get:SC_TEAMMEMBER_INFO.member_list)
   return _internal_member_list(index);
 }
-inline ::SC_TEAMMEMBER_INFO_MemberInfo* SC_TEAMMEMBER_INFO::_internal_add_member_list() {
+inline ::TeamMemberInfo* SC_TEAMMEMBER_INFO::_internal_add_member_list() {
   return member_list_.Add();
 }
-inline ::SC_TEAMMEMBER_INFO_MemberInfo* SC_TEAMMEMBER_INFO::add_member_list() {
+inline ::TeamMemberInfo* SC_TEAMMEMBER_INFO::add_member_list() {
   // @@protoc_insertion_point(field_add:SC_TEAMMEMBER_INFO.member_list)
   return _internal_add_member_list();
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SC_TEAMMEMBER_INFO_MemberInfo >&
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::TeamMemberInfo >&
 SC_TEAMMEMBER_INFO::member_list() const {
   // @@protoc_insertion_point(field_list:SC_TEAMMEMBER_INFO.member_list)
   return member_list_;
@@ -19759,9 +21286,695 @@ inline void CS_TEAMACCEPTAPPLY::set_result(bool value) {
   // @@protoc_insertion_point(field_set:CS_TEAMACCEPTAPPLY.result)
 }
 
+// -------------------------------------------------------------------
+
+// CS_GUILDCREATE
+
+// -------------------------------------------------------------------
+
+// CS_GUILDQUIT
+
+// -------------------------------------------------------------------
+
+// CS_GUILDKICKMEMBER
+
+// uint64 member_id = 1;
+inline void CS_GUILDKICKMEMBER::clear_member_id() {
+  member_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 CS_GUILDKICKMEMBER::_internal_member_id() const {
+  return member_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 CS_GUILDKICKMEMBER::member_id() const {
+  // @@protoc_insertion_point(field_get:CS_GUILDKICKMEMBER.member_id)
+  return _internal_member_id();
+}
+inline void CS_GUILDKICKMEMBER::_internal_set_member_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  member_id_ = value;
+}
+inline void CS_GUILDKICKMEMBER::set_member_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_member_id(value);
+  // @@protoc_insertion_point(field_set:CS_GUILDKICKMEMBER.member_id)
+}
+
+// -------------------------------------------------------------------
+
+// CS_GUILDINVITEMEMBER
+
+// uint64 invitee_id = 1;
+inline void CS_GUILDINVITEMEMBER::clear_invitee_id() {
+  invitee_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 CS_GUILDINVITEMEMBER::_internal_invitee_id() const {
+  return invitee_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 CS_GUILDINVITEMEMBER::invitee_id() const {
+  // @@protoc_insertion_point(field_get:CS_GUILDINVITEMEMBER.invitee_id)
+  return _internal_invitee_id();
+}
+inline void CS_GUILDINVITEMEMBER::_internal_set_invitee_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  invitee_id_ = value;
+}
+inline void CS_GUILDINVITEMEMBER::set_invitee_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_invitee_id(value);
+  // @@protoc_insertion_point(field_set:CS_GUILDINVITEMEMBER.invitee_id)
+}
+
+// -------------------------------------------------------------------
+
+// SC_GUILDINVITEMEMBER
+
+// uint64 guild_id = 1;
+inline void SC_GUILDINVITEMEMBER::clear_guild_id() {
+  guild_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 SC_GUILDINVITEMEMBER::_internal_guild_id() const {
+  return guild_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 SC_GUILDINVITEMEMBER::guild_id() const {
+  // @@protoc_insertion_point(field_get:SC_GUILDINVITEMEMBER.guild_id)
+  return _internal_guild_id();
+}
+inline void SC_GUILDINVITEMEMBER::_internal_set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  guild_id_ = value;
+}
+inline void SC_GUILDINVITEMEMBER::set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_guild_id(value);
+  // @@protoc_insertion_point(field_set:SC_GUILDINVITEMEMBER.guild_id)
+}
+
+// uint64 inviter_id = 2;
+inline void SC_GUILDINVITEMEMBER::clear_inviter_id() {
+  inviter_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 SC_GUILDINVITEMEMBER::_internal_inviter_id() const {
+  return inviter_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 SC_GUILDINVITEMEMBER::inviter_id() const {
+  // @@protoc_insertion_point(field_get:SC_GUILDINVITEMEMBER.inviter_id)
+  return _internal_inviter_id();
+}
+inline void SC_GUILDINVITEMEMBER::_internal_set_inviter_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  inviter_id_ = value;
+}
+inline void SC_GUILDINVITEMEMBER::set_inviter_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_inviter_id(value);
+  // @@protoc_insertion_point(field_set:SC_GUILDINVITEMEMBER.inviter_id)
+}
+
+// string inviter_name = 3;
+inline void SC_GUILDINVITEMEMBER::clear_inviter_name() {
+  inviter_name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& SC_GUILDINVITEMEMBER::inviter_name() const {
+  // @@protoc_insertion_point(field_get:SC_GUILDINVITEMEMBER.inviter_name)
+  return _internal_inviter_name();
+}
+inline void SC_GUILDINVITEMEMBER::set_inviter_name(const std::string& value) {
+  _internal_set_inviter_name(value);
+  // @@protoc_insertion_point(field_set:SC_GUILDINVITEMEMBER.inviter_name)
+}
+inline std::string* SC_GUILDINVITEMEMBER::mutable_inviter_name() {
+  // @@protoc_insertion_point(field_mutable:SC_GUILDINVITEMEMBER.inviter_name)
+  return _internal_mutable_inviter_name();
+}
+inline const std::string& SC_GUILDINVITEMEMBER::_internal_inviter_name() const {
+  return inviter_name_.GetNoArena();
+}
+inline void SC_GUILDINVITEMEMBER::_internal_set_inviter_name(const std::string& value) {
+  
+  inviter_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void SC_GUILDINVITEMEMBER::set_inviter_name(std::string&& value) {
+  
+  inviter_name_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:SC_GUILDINVITEMEMBER.inviter_name)
+}
+inline void SC_GUILDINVITEMEMBER::set_inviter_name(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  inviter_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:SC_GUILDINVITEMEMBER.inviter_name)
+}
+inline void SC_GUILDINVITEMEMBER::set_inviter_name(const char* value, size_t size) {
+  
+  inviter_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:SC_GUILDINVITEMEMBER.inviter_name)
+}
+inline std::string* SC_GUILDINVITEMEMBER::_internal_mutable_inviter_name() {
+  
+  return inviter_name_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* SC_GUILDINVITEMEMBER::release_inviter_name() {
+  // @@protoc_insertion_point(field_release:SC_GUILDINVITEMEMBER.inviter_name)
+  
+  return inviter_name_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void SC_GUILDINVITEMEMBER::set_allocated_inviter_name(std::string* inviter_name) {
+  if (inviter_name != nullptr) {
+    
+  } else {
+    
+  }
+  inviter_name_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), inviter_name);
+  // @@protoc_insertion_point(field_set_allocated:SC_GUILDINVITEMEMBER.inviter_name)
+}
+
+// -------------------------------------------------------------------
+
+// CS_GUILDACCEPTINVITE
+
+// uint64 guild_id = 1;
+inline void CS_GUILDACCEPTINVITE::clear_guild_id() {
+  guild_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 CS_GUILDACCEPTINVITE::_internal_guild_id() const {
+  return guild_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 CS_GUILDACCEPTINVITE::guild_id() const {
+  // @@protoc_insertion_point(field_get:CS_GUILDACCEPTINVITE.guild_id)
+  return _internal_guild_id();
+}
+inline void CS_GUILDACCEPTINVITE::_internal_set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  guild_id_ = value;
+}
+inline void CS_GUILDACCEPTINVITE::set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_guild_id(value);
+  // @@protoc_insertion_point(field_set:CS_GUILDACCEPTINVITE.guild_id)
+}
+
+// uint64 inviter_id = 2;
+inline void CS_GUILDACCEPTINVITE::clear_inviter_id() {
+  inviter_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 CS_GUILDACCEPTINVITE::_internal_inviter_id() const {
+  return inviter_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 CS_GUILDACCEPTINVITE::inviter_id() const {
+  // @@protoc_insertion_point(field_get:CS_GUILDACCEPTINVITE.inviter_id)
+  return _internal_inviter_id();
+}
+inline void CS_GUILDACCEPTINVITE::_internal_set_inviter_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  inviter_id_ = value;
+}
+inline void CS_GUILDACCEPTINVITE::set_inviter_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_inviter_id(value);
+  // @@protoc_insertion_point(field_set:CS_GUILDACCEPTINVITE.inviter_id)
+}
+
+// bool result = 3;
+inline void CS_GUILDACCEPTINVITE::clear_result() {
+  result_ = false;
+}
+inline bool CS_GUILDACCEPTINVITE::_internal_result() const {
+  return result_;
+}
+inline bool CS_GUILDACCEPTINVITE::result() const {
+  // @@protoc_insertion_point(field_get:CS_GUILDACCEPTINVITE.result)
+  return _internal_result();
+}
+inline void CS_GUILDACCEPTINVITE::_internal_set_result(bool value) {
+  
+  result_ = value;
+}
+inline void CS_GUILDACCEPTINVITE::set_result(bool value) {
+  _internal_set_result(value);
+  // @@protoc_insertion_point(field_set:CS_GUILDACCEPTINVITE.result)
+}
+
+// -------------------------------------------------------------------
+
+// CS_GUILDNEWLEADER
+
+// uint64 new_leader_id = 2;
+inline void CS_GUILDNEWLEADER::clear_new_leader_id() {
+  new_leader_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 CS_GUILDNEWLEADER::_internal_new_leader_id() const {
+  return new_leader_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 CS_GUILDNEWLEADER::new_leader_id() const {
+  // @@protoc_insertion_point(field_get:CS_GUILDNEWLEADER.new_leader_id)
+  return _internal_new_leader_id();
+}
+inline void CS_GUILDNEWLEADER::_internal_set_new_leader_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  new_leader_id_ = value;
+}
+inline void CS_GUILDNEWLEADER::set_new_leader_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_new_leader_id(value);
+  // @@protoc_insertion_point(field_set:CS_GUILDNEWLEADER.new_leader_id)
+}
+
+// -------------------------------------------------------------------
+
+// SC_GUILDMEMBER_INFO
+
+// repeated .GuildMemberInfo member_list = 1;
+inline int SC_GUILDMEMBER_INFO::_internal_member_list_size() const {
+  return member_list_.size();
+}
+inline int SC_GUILDMEMBER_INFO::member_list_size() const {
+  return _internal_member_list_size();
+}
+inline ::GuildMemberInfo* SC_GUILDMEMBER_INFO::mutable_member_list(int index) {
+  // @@protoc_insertion_point(field_mutable:SC_GUILDMEMBER_INFO.member_list)
+  return member_list_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::GuildMemberInfo >*
+SC_GUILDMEMBER_INFO::mutable_member_list() {
+  // @@protoc_insertion_point(field_mutable_list:SC_GUILDMEMBER_INFO.member_list)
+  return &member_list_;
+}
+inline const ::GuildMemberInfo& SC_GUILDMEMBER_INFO::_internal_member_list(int index) const {
+  return member_list_.Get(index);
+}
+inline const ::GuildMemberInfo& SC_GUILDMEMBER_INFO::member_list(int index) const {
+  // @@protoc_insertion_point(field_get:SC_GUILDMEMBER_INFO.member_list)
+  return _internal_member_list(index);
+}
+inline ::GuildMemberInfo* SC_GUILDMEMBER_INFO::_internal_add_member_list() {
+  return member_list_.Add();
+}
+inline ::GuildMemberInfo* SC_GUILDMEMBER_INFO::add_member_list() {
+  // @@protoc_insertion_point(field_add:SC_GUILDMEMBER_INFO.member_list)
+  return _internal_add_member_list();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::GuildMemberInfo >&
+SC_GUILDMEMBER_INFO::member_list() const {
+  // @@protoc_insertion_point(field_list:SC_GUILDMEMBER_INFO.member_list)
+  return member_list_;
+}
+
+// -------------------------------------------------------------------
+
+// SC_GUILDMEMBER_ACTION
+
+// .SC_GUILDMEMBER_ACTION.Action action = 1;
+inline void SC_GUILDMEMBER_ACTION::clear_action() {
+  action_ = 0;
+}
+inline ::SC_GUILDMEMBER_ACTION_Action SC_GUILDMEMBER_ACTION::_internal_action() const {
+  return static_cast< ::SC_GUILDMEMBER_ACTION_Action >(action_);
+}
+inline ::SC_GUILDMEMBER_ACTION_Action SC_GUILDMEMBER_ACTION::action() const {
+  // @@protoc_insertion_point(field_get:SC_GUILDMEMBER_ACTION.action)
+  return _internal_action();
+}
+inline void SC_GUILDMEMBER_ACTION::_internal_set_action(::SC_GUILDMEMBER_ACTION_Action value) {
+  
+  action_ = value;
+}
+inline void SC_GUILDMEMBER_ACTION::set_action(::SC_GUILDMEMBER_ACTION_Action value) {
+  _internal_set_action(value);
+  // @@protoc_insertion_point(field_set:SC_GUILDMEMBER_ACTION.action)
+}
+
+// uint64 operator_id = 2;
+inline void SC_GUILDMEMBER_ACTION::clear_operator_id() {
+  operator_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 SC_GUILDMEMBER_ACTION::_internal_operator_id() const {
+  return operator_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 SC_GUILDMEMBER_ACTION::operator_id() const {
+  // @@protoc_insertion_point(field_get:SC_GUILDMEMBER_ACTION.operator_id)
+  return _internal_operator_id();
+}
+inline void SC_GUILDMEMBER_ACTION::_internal_set_operator_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  operator_id_ = value;
+}
+inline void SC_GUILDMEMBER_ACTION::set_operator_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_operator_id(value);
+  // @@protoc_insertion_point(field_set:SC_GUILDMEMBER_ACTION.operator_id)
+}
+
+// uint64 member_id = 3;
+inline void SC_GUILDMEMBER_ACTION::clear_member_id() {
+  member_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 SC_GUILDMEMBER_ACTION::_internal_member_id() const {
+  return member_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 SC_GUILDMEMBER_ACTION::member_id() const {
+  // @@protoc_insertion_point(field_get:SC_GUILDMEMBER_ACTION.member_id)
+  return _internal_member_id();
+}
+inline void SC_GUILDMEMBER_ACTION::_internal_set_member_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  member_id_ = value;
+}
+inline void SC_GUILDMEMBER_ACTION::set_member_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_member_id(value);
+  // @@protoc_insertion_point(field_set:SC_GUILDMEMBER_ACTION.member_id)
+}
+
+// uint32 member_lev = 4;
+inline void SC_GUILDMEMBER_ACTION::clear_member_lev() {
+  member_lev_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_GUILDMEMBER_ACTION::_internal_member_lev() const {
+  return member_lev_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_GUILDMEMBER_ACTION::member_lev() const {
+  // @@protoc_insertion_point(field_get:SC_GUILDMEMBER_ACTION.member_lev)
+  return _internal_member_lev();
+}
+inline void SC_GUILDMEMBER_ACTION::_internal_set_member_lev(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  member_lev_ = value;
+}
+inline void SC_GUILDMEMBER_ACTION::set_member_lev(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_member_lev(value);
+  // @@protoc_insertion_point(field_set:SC_GUILDMEMBER_ACTION.member_lev)
+}
+
+// string member_name = 5;
+inline void SC_GUILDMEMBER_ACTION::clear_member_name() {
+  member_name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& SC_GUILDMEMBER_ACTION::member_name() const {
+  // @@protoc_insertion_point(field_get:SC_GUILDMEMBER_ACTION.member_name)
+  return _internal_member_name();
+}
+inline void SC_GUILDMEMBER_ACTION::set_member_name(const std::string& value) {
+  _internal_set_member_name(value);
+  // @@protoc_insertion_point(field_set:SC_GUILDMEMBER_ACTION.member_name)
+}
+inline std::string* SC_GUILDMEMBER_ACTION::mutable_member_name() {
+  // @@protoc_insertion_point(field_mutable:SC_GUILDMEMBER_ACTION.member_name)
+  return _internal_mutable_member_name();
+}
+inline const std::string& SC_GUILDMEMBER_ACTION::_internal_member_name() const {
+  return member_name_.GetNoArena();
+}
+inline void SC_GUILDMEMBER_ACTION::_internal_set_member_name(const std::string& value) {
+  
+  member_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void SC_GUILDMEMBER_ACTION::set_member_name(std::string&& value) {
+  
+  member_name_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:SC_GUILDMEMBER_ACTION.member_name)
+}
+inline void SC_GUILDMEMBER_ACTION::set_member_name(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  member_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:SC_GUILDMEMBER_ACTION.member_name)
+}
+inline void SC_GUILDMEMBER_ACTION::set_member_name(const char* value, size_t size) {
+  
+  member_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:SC_GUILDMEMBER_ACTION.member_name)
+}
+inline std::string* SC_GUILDMEMBER_ACTION::_internal_mutable_member_name() {
+  
+  return member_name_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* SC_GUILDMEMBER_ACTION::release_member_name() {
+  // @@protoc_insertion_point(field_release:SC_GUILDMEMBER_ACTION.member_name)
+  
+  return member_name_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void SC_GUILDMEMBER_ACTION::set_allocated_member_name(std::string* member_name) {
+  if (member_name != nullptr) {
+    
+  } else {
+    
+  }
+  member_name_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), member_name);
+  // @@protoc_insertion_point(field_set_allocated:SC_GUILDMEMBER_ACTION.member_name)
+}
+
+// bool member_online = 6;
+inline void SC_GUILDMEMBER_ACTION::clear_member_online() {
+  member_online_ = false;
+}
+inline bool SC_GUILDMEMBER_ACTION::_internal_member_online() const {
+  return member_online_;
+}
+inline bool SC_GUILDMEMBER_ACTION::member_online() const {
+  // @@protoc_insertion_point(field_get:SC_GUILDMEMBER_ACTION.member_online)
+  return _internal_member_online();
+}
+inline void SC_GUILDMEMBER_ACTION::_internal_set_member_online(bool value) {
+  
+  member_online_ = value;
+}
+inline void SC_GUILDMEMBER_ACTION::set_member_online(bool value) {
+  _internal_set_member_online(value);
+  // @@protoc_insertion_point(field_set:SC_GUILDMEMBER_ACTION.member_online)
+}
+
+// uint32 member_rank = 7;
+inline void SC_GUILDMEMBER_ACTION::clear_member_rank() {
+  member_rank_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_GUILDMEMBER_ACTION::_internal_member_rank() const {
+  return member_rank_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_GUILDMEMBER_ACTION::member_rank() const {
+  // @@protoc_insertion_point(field_get:SC_GUILDMEMBER_ACTION.member_rank)
+  return _internal_member_rank();
+}
+inline void SC_GUILDMEMBER_ACTION::_internal_set_member_rank(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  member_rank_ = value;
+}
+inline void SC_GUILDMEMBER_ACTION::set_member_rank(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_member_rank(value);
+  // @@protoc_insertion_point(field_set:SC_GUILDMEMBER_ACTION.member_rank)
+}
+
+// uint32 member_score = 8;
+inline void SC_GUILDMEMBER_ACTION::clear_member_score() {
+  member_score_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_GUILDMEMBER_ACTION::_internal_member_score() const {
+  return member_score_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_GUILDMEMBER_ACTION::member_score() const {
+  // @@protoc_insertion_point(field_get:SC_GUILDMEMBER_ACTION.member_score)
+  return _internal_member_score();
+}
+inline void SC_GUILDMEMBER_ACTION::_internal_set_member_score(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  member_score_ = value;
+}
+inline void SC_GUILDMEMBER_ACTION::set_member_score(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_member_score(value);
+  // @@protoc_insertion_point(field_set:SC_GUILDMEMBER_ACTION.member_score)
+}
+
+// uint32 member_last_logout = 9;
+inline void SC_GUILDMEMBER_ACTION::clear_member_last_logout() {
+  member_last_logout_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_GUILDMEMBER_ACTION::_internal_member_last_logout() const {
+  return member_last_logout_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_GUILDMEMBER_ACTION::member_last_logout() const {
+  // @@protoc_insertion_point(field_get:SC_GUILDMEMBER_ACTION.member_last_logout)
+  return _internal_member_last_logout();
+}
+inline void SC_GUILDMEMBER_ACTION::_internal_set_member_last_logout(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  member_last_logout_ = value;
+}
+inline void SC_GUILDMEMBER_ACTION::set_member_last_logout(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_member_last_logout(value);
+  // @@protoc_insertion_point(field_set:SC_GUILDMEMBER_ACTION.member_last_logout)
+}
+
+// -------------------------------------------------------------------
+
+// CS_GUILDAPPLYMEMBER
+
+// uint64 respondent_id = 1;
+inline void CS_GUILDAPPLYMEMBER::clear_respondent_id() {
+  respondent_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 CS_GUILDAPPLYMEMBER::_internal_respondent_id() const {
+  return respondent_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 CS_GUILDAPPLYMEMBER::respondent_id() const {
+  // @@protoc_insertion_point(field_get:CS_GUILDAPPLYMEMBER.respondent_id)
+  return _internal_respondent_id();
+}
+inline void CS_GUILDAPPLYMEMBER::_internal_set_respondent_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  respondent_id_ = value;
+}
+inline void CS_GUILDAPPLYMEMBER::set_respondent_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_respondent_id(value);
+  // @@protoc_insertion_point(field_set:CS_GUILDAPPLYMEMBER.respondent_id)
+}
+
+// -------------------------------------------------------------------
+
+// SC_GUILDAPPLYMEMBER
+
+// uint64 applicant_id = 1;
+inline void SC_GUILDAPPLYMEMBER::clear_applicant_id() {
+  applicant_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 SC_GUILDAPPLYMEMBER::_internal_applicant_id() const {
+  return applicant_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 SC_GUILDAPPLYMEMBER::applicant_id() const {
+  // @@protoc_insertion_point(field_get:SC_GUILDAPPLYMEMBER.applicant_id)
+  return _internal_applicant_id();
+}
+inline void SC_GUILDAPPLYMEMBER::_internal_set_applicant_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  applicant_id_ = value;
+}
+inline void SC_GUILDAPPLYMEMBER::set_applicant_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_applicant_id(value);
+  // @@protoc_insertion_point(field_set:SC_GUILDAPPLYMEMBER.applicant_id)
+}
+
+// string applicant_name = 2;
+inline void SC_GUILDAPPLYMEMBER::clear_applicant_name() {
+  applicant_name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& SC_GUILDAPPLYMEMBER::applicant_name() const {
+  // @@protoc_insertion_point(field_get:SC_GUILDAPPLYMEMBER.applicant_name)
+  return _internal_applicant_name();
+}
+inline void SC_GUILDAPPLYMEMBER::set_applicant_name(const std::string& value) {
+  _internal_set_applicant_name(value);
+  // @@protoc_insertion_point(field_set:SC_GUILDAPPLYMEMBER.applicant_name)
+}
+inline std::string* SC_GUILDAPPLYMEMBER::mutable_applicant_name() {
+  // @@protoc_insertion_point(field_mutable:SC_GUILDAPPLYMEMBER.applicant_name)
+  return _internal_mutable_applicant_name();
+}
+inline const std::string& SC_GUILDAPPLYMEMBER::_internal_applicant_name() const {
+  return applicant_name_.GetNoArena();
+}
+inline void SC_GUILDAPPLYMEMBER::_internal_set_applicant_name(const std::string& value) {
+  
+  applicant_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void SC_GUILDAPPLYMEMBER::set_applicant_name(std::string&& value) {
+  
+  applicant_name_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:SC_GUILDAPPLYMEMBER.applicant_name)
+}
+inline void SC_GUILDAPPLYMEMBER::set_applicant_name(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  applicant_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:SC_GUILDAPPLYMEMBER.applicant_name)
+}
+inline void SC_GUILDAPPLYMEMBER::set_applicant_name(const char* value, size_t size) {
+  
+  applicant_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:SC_GUILDAPPLYMEMBER.applicant_name)
+}
+inline std::string* SC_GUILDAPPLYMEMBER::_internal_mutable_applicant_name() {
+  
+  return applicant_name_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* SC_GUILDAPPLYMEMBER::release_applicant_name() {
+  // @@protoc_insertion_point(field_release:SC_GUILDAPPLYMEMBER.applicant_name)
+  
+  return applicant_name_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void SC_GUILDAPPLYMEMBER::set_allocated_applicant_name(std::string* applicant_name) {
+  if (applicant_name != nullptr) {
+    
+  } else {
+    
+  }
+  applicant_name_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), applicant_name);
+  // @@protoc_insertion_point(field_set_allocated:SC_GUILDAPPLYMEMBER.applicant_name)
+}
+
+// -------------------------------------------------------------------
+
+// CS_GUILDACCEPTAPPLY
+
+// uint64 applicant_id = 1;
+inline void CS_GUILDACCEPTAPPLY::clear_applicant_id() {
+  applicant_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 CS_GUILDACCEPTAPPLY::_internal_applicant_id() const {
+  return applicant_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 CS_GUILDACCEPTAPPLY::applicant_id() const {
+  // @@protoc_insertion_point(field_get:CS_GUILDACCEPTAPPLY.applicant_id)
+  return _internal_applicant_id();
+}
+inline void CS_GUILDACCEPTAPPLY::_internal_set_applicant_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  applicant_id_ = value;
+}
+inline void CS_GUILDACCEPTAPPLY::set_applicant_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_applicant_id(value);
+  // @@protoc_insertion_point(field_set:CS_GUILDACCEPTAPPLY.applicant_id)
+}
+
+// bool result = 2;
+inline void CS_GUILDACCEPTAPPLY::clear_result() {
+  result_ = false;
+}
+inline bool CS_GUILDACCEPTAPPLY::_internal_result() const {
+  return result_;
+}
+inline bool CS_GUILDACCEPTAPPLY::result() const {
+  // @@protoc_insertion_point(field_get:CS_GUILDACCEPTAPPLY.result)
+  return _internal_result();
+}
+inline void CS_GUILDACCEPTAPPLY::_internal_set_result(bool value) {
+  
+  result_ = value;
+}
+inline void CS_GUILDACCEPTAPPLY::set_result(bool value) {
+  _internal_set_result(value);
+  // @@protoc_insertion_point(field_set:CS_GUILDACCEPTAPPLY.result)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
@@ -19945,6 +22158,11 @@ template <> struct is_proto_enum< ::SC_TEAMMEMBER_ACTION_Action> : ::std::true_t
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::SC_TEAMMEMBER_ACTION_Action>() {
   return ::SC_TEAMMEMBER_ACTION_Action_descriptor();
+}
+template <> struct is_proto_enum< ::SC_GUILDMEMBER_ACTION_Action> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::SC_GUILDMEMBER_ACTION_Action>() {
+  return ::SC_GUILDMEMBER_ACTION_Action_descriptor();
 }
 template <> struct is_proto_enum< ::TalkChannel> : ::std::true_type {};
 template <>

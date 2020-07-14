@@ -9,6 +9,8 @@
 #if !defined(_LUA_TINKER_H_)
 #define _LUA_TINKER_H_
 
+#include <cstdint>
+#include <cstdio>
 #include <functional>
 #include <memory>
 #include <new>
@@ -18,8 +20,6 @@
 #include <typeindex>
 #include <typeinfo>
 
-#include <stdint.h>
-#include <stdio.h>
 //#include<set>
 #include <map>
 //#include<vector>
@@ -28,7 +28,7 @@
 #include "lua_tinker_stackobj.h"
 #include "type_traits_ext.h"
 
-#ifdef DEBUG
+#ifdef _DEBUG
 #define LUATINKER_USERDATA_CHECK_TYPEINFO
 #define LUATINKER_USERDATA_CHECK_CONST
 #endif //  _DEBUG
@@ -69,9 +69,9 @@
 
 namespace lua_tinker
 {
-    constexpr const char* S_SHARED_PTR_NAME = "__shared_ptr";
+    constexpr const char* S_SHARED_PTR_NAME   = "__shared_ptr";
     constexpr const char* ERROR_CALLBACK_NAME = "__on_error";
-    constexpr const char* S_EMPTY = "";
+    constexpr const char* S_EMPTY             = "";
     // init LuaTinker
     void init(lua_State* L);
 
@@ -81,7 +81,7 @@ namespace lua_tinker
 
     // error callback
     typedef int32_t (*error_call_back_fn)(lua_State* L);
-    void               set_error_callback(lua_State* L, error_call_back_fn fn);
+    void set_error_callback(lua_State* L, error_call_back_fn fn);
 
     // string-buffer excution
     template<typename RVal = void>
@@ -125,9 +125,9 @@ namespace lua_tinker
     RVal call(lua_State* L, const char* name, Args&&... arg);
 
     // getmetatable(scope_global_name)[name] = getmetatable(global_name)
-    static void scope_inner(lua_State* L, const char* scope_global_name, const char* name, const char* global_name);
+    void scope_inner(lua_State* L, const char* scope_global_name, const char* name, const char* global_name);
     // namespace
-    static void namespace_add(lua_State* L, const char* namespace_name);
+    void namespace_add(lua_State* L, const char* namespace_name);
     template<typename T>
     void namespace_set(lua_State* L, const char* namespace_name, const char* name, T&& object);
     template<typename T>
@@ -667,30 +667,36 @@ namespace lua_tinker
         template<typename T>
         void add_container_mate(lua_State* L);
 
+		template<typename _T>
+        void _noregtype2lua(lua_State* L, _T&& val)
+		{
+			if constexpr(!std::is_same<base_type<_T>, std::string>::value && is_container<base_type<_T>>::value)
+            {
+                // container warp
+                add_container_mate<base_type<_T>>(L);
+                push_meta(L, get_class_name<_T>());
+                lua_setmetatable(L, -2);
+            }
+            else if(!std::is_reference<_T>::value && !std::is_pointer<_T>::value)
+            {
+                // val2usr must add _gc
+                push_meta(L, "__onlygc_meta");
+                lua_setmetatable(L, -2);
+            }
+		}
+		
         template<typename _T>
         void _type2lua(lua_State* L, _T&& val)
         {
             object2lua(L, std::forward<_T>(val));
-            if(get_class_name<_T>() == std::string(""))
-            {
-                if constexpr(!std::is_same<base_type<_T>, std::string>::value && is_container<base_type<_T>>::value)
-                {
-                    // container warp
-                    add_container_mate<base_type<_T>>(L);
-                    push_meta(L, get_class_name<_T>());
-                    lua_setmetatable(L, -2);
-                }
-                else if(!std::is_reference<_T>::value && !std::is_pointer<_T>::value)
-                {
-                    // val2usr must add _gc
-                    push_meta(L, "__onlygc_meta");
-                    lua_setmetatable(L, -2);
-                }
+            if(get_class_name<_T>() != std::string(""))
+			{
+                push_meta(L, get_class_name<_T>());
+                lua_setmetatable(L, -2);
             }
             else
             {
-                push_meta(L, get_class_name<_T>());
-                lua_setmetatable(L, -2);
+				_noregtype2lua(L, std::forward<_T>(val));
             }
         }
 
@@ -796,7 +802,9 @@ namespace lua_tinker
             static constexpr int32_t cover_to_lua_type() { return CLT_STRING; }
 
             static std::string_view _read(lua_State* L, int32_t index);
-            static void             _push(lua_State* L, const std::string_view& ret);
+            // static void             _push(lua_State* L, const std::string_view& ret);
+            // static void             _push(lua_State* L, std::string_view&& ret);
+            static void _push(lua_State* L, std::string_view ret);
         };
         template<>
         struct _stack_help<const std::string_view&> : public _stack_help<std::string_view>
@@ -1311,6 +1319,16 @@ namespace lua_tinker
         {
             // index 1 must be userdata
             UserDataWapper* pWapper = user2type<UserDataWapper*>(L, 1);
+            if(pWapper == nullptr)
+            {
+                lua_pushfstring(L,
+                                "call member func must need a class_ptr, plz use %s:func instead %s.func",
+                                get_class_name<T>(),
+                                get_class_name<T>());
+                lua_error(L);
+                return nullptr;
+            }
+
 #ifdef _ALLOW_SHAREDPTR_INVOKE
             if(pWapper->isSharedPtr())
             {
@@ -1361,9 +1379,9 @@ namespace lua_tinker
             using FuncType = RVal (CT::*)(Args...);
             typedef std::function<RVal(CT*, Args...)> FunctionType;
             FunctionType                              m_func;
-            
-            int32_t                                   m_nDefaultParamCount  = 0;
-            int32_t                                   m_nDefaultParamsStart = 0;
+
+            int32_t m_nDefaultParamCount  = 0;
+            int32_t m_nDefaultParamsStart = 0;
             member_functor(const FunctionType& func, int32_t nDefaultParamCount = 0, int32_t nDefaultParamStart = 0)
                 : m_func(func)
                 , m_nDefaultParamCount(nDefaultParamCount)
@@ -1386,8 +1404,8 @@ namespace lua_tinker
                 CHECK_CLASS_PTR(CT);
                 TRY_LUA_TINKER_INVOKE()
                 {
-                    size_t nArgsCount = lua_gettop(L) - 1;
-                    constexpr size_t nArgsNeed = sizeof...(Args);
+                    size_t           nArgsCount = lua_gettop(L) - 1;
+                    constexpr size_t nArgsNeed  = sizeof...(Args);
                     push_upval_to_stack(L, nArgsCount, nArgsNeed, m_nDefaultParamCount, m_nDefaultParamsStart);
                     _invoke_function<RVal>(L, m_func, _read_classptr_from_index1<CT, bConst>(L));
                     return 1;
@@ -1405,8 +1423,8 @@ namespace lua_tinker
                 CHECK_CLASS_PTR(CT);
                 TRY_LUA_TINKER_INVOKE()
                 {
-                    size_t nArgsCount = lua_gettop(L) - 1;
-                    constexpr size_t nArgsNeed = sizeof...(Args);
+                    size_t           nArgsCount = lua_gettop(L) - 1;
+                    constexpr size_t nArgsNeed  = sizeof...(Args);
                     push_upval_to_stack(L, nArgsCount, nArgsNeed);
                     _invoke<RVal>(L, upvalue_<FuncType>(L), _read_classptr_from_index1<CT, bConst>(L));
                     return 1;
@@ -1442,9 +1460,9 @@ namespace lua_tinker
                 CHECK_CLASS_PTR(CT);
                 TRY_LUA_TINKER_INVOKE()
                 {
-                    using FuncWarpType = member_functor<bConst, CT, RVal, Args...>;
-                    size_t nArgsCount  = lua_gettop(L) - 1;
-                    constexpr size_t nArgsNeed = sizeof...(Args);
+                    using FuncWarpType          = member_functor<bConst, CT, RVal, Args...>;
+                    size_t           nArgsCount = lua_gettop(L) - 1;
+                    constexpr size_t nArgsNeed  = sizeof...(Args);
                     push_upval_to_stack(L, nArgsCount, nArgsNeed);
                     _invoke_function<RVal>(L,
                                            upvalue_<FuncWarpType*>(L)->m_pfunc,
@@ -1484,8 +1502,7 @@ namespace lua_tinker
             typedef std::function<RVal(Args...)> FunctionType;
             using FuncWarpType = functor<RVal, Args...>;
 
-            FunctionType     m_func;
-            
+            FunctionType m_func;
 
             int32_t m_nDefaultParamCount  = 0;
             int32_t m_nDefaultParamsStart = 0;
@@ -1510,8 +1527,8 @@ namespace lua_tinker
             {
                 TRY_LUA_TINKER_INVOKE()
                 {
-                    size_t nArgsCount = lua_gettop(L);
-                    constexpr size_t nArgsNeed = sizeof...(Args);
+                    size_t           nArgsCount = lua_gettop(L);
+                    constexpr size_t nArgsNeed  = sizeof...(Args);
                     push_upval_to_stack(L, nArgsCount, nArgsNeed, m_nDefaultParamCount, m_nDefaultParamsStart);
                     _invoke_function<RVal>(L, m_func);
                     return 1;
@@ -1528,8 +1545,8 @@ namespace lua_tinker
             {
                 TRY_LUA_TINKER_INVOKE()
                 {
-                    size_t nArgsCount = lua_gettop(L);
-                    constexpr size_t nArgsNeed = sizeof...(Args);
+                    size_t           nArgsCount = lua_gettop(L);
+                    constexpr size_t nArgsNeed  = sizeof...(Args);
                     push_upval_to_stack(L, nArgsCount, nArgsNeed);
                     _invoke<RVal>(L);
                     return 1;
@@ -1560,10 +1577,10 @@ namespace lua_tinker
             {
                 TRY_LUA_TINKER_INVOKE()
                 {
-                    using FuncWarpType       = functor<RVal, Args...>;
-                    FuncWarpType* pFuncWarp  = upvalue_<FuncWarpType*>(L);
-                    size_t        nArgsCount = lua_gettop(L);
-                    constexpr size_t nArgsNeed = sizeof...(Args);
+                    using FuncWarpType          = functor<RVal, Args...>;
+                    FuncWarpType*    pFuncWarp  = upvalue_<FuncWarpType*>(L);
+                    size_t           nArgsCount = lua_gettop(L);
+                    constexpr size_t nArgsNeed  = sizeof...(Args);
                     push_upval_to_stack(L, nArgsCount, nArgsNeed);
                     _invoke_function<RVal>(L, pFuncWarp->m_func);
                     return 1;
@@ -1997,39 +2014,6 @@ namespace lua_tinker
             return 1;
         }
     }; // namespace detail
-
-    // getmetatable(scope_global_name)[name] = getmetatable(global_name)
-    static void scope_inner(lua_State* L, const char* scope_global_name, const char* name, const char* global_name)
-    {
-        using namespace detail;
-        stack_scope_exit scope_exit(L);
-        if(push_meta(L, scope_global_name) == LUA_TTABLE)
-        {
-            lua_pushstring(L, name);
-            push_meta(L, global_name);
-            lua_rawset(L, -3);
-        }
-    }
-
-    // namespace
-    static void namespace_add(lua_State* L, const char* namespace_name)
-    {
-        lua_createtable(L, 0, 3);
-
-        lua_pushstring(L, "__name");
-        lua_pushstring(L, namespace_name);
-        lua_rawset(L, -3);
-
-        lua_pushstring(L, "__index");
-        lua_pushcclosure(L, detail::meta_get, 0);
-        lua_rawset(L, -3);
-
-        lua_pushstring(L, "__newindex");
-        lua_pushcclosure(L, detail::meta_set, 0);
-        lua_rawset(L, -3);
-
-        lua_setglobal(L, namespace_name);
-    }
 
     // namespace func
     template<typename Func, typename... DefaultArgs>
@@ -2560,7 +2544,7 @@ namespace lua_tinker
             {
                 lua_len(m_L, m_index);
                 stack_delay_pop _delay(m_L, 1);
-                return lua_tointeger(m_L, -1);
+                return (size_t)lua_tointeger(m_L, -1);
             }
 
             stack_obj get_stack_obj() { return stack_obj(m_L, m_index); }
@@ -3112,8 +3096,8 @@ namespace lua_tinker
 
         virtual ~args_type_overload_functor_base() { m_overload_funcmap.clear(); }
         args_type_overload_functor_base(args_type_overload_functor_base&& rht)
-            : m_nParamsOffset(rht.m_nParamsOffset)
-            , m_overload_funcmap(rht.m_overload_funcmap)
+            : m_overload_funcmap(rht.m_overload_funcmap)
+            , m_nParamsOffset(rht.m_nParamsOffset)
         {
             rht.m_overload_funcmap.clear();
         }

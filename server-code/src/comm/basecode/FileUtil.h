@@ -44,33 +44,37 @@ export_lua inline bool scan_dir(const std::string&                              
         return false;
     }
 
-    struct dirent* entry = readdir(dp);
-    while(entry != nullptr)
+    struct dirent entry;
+	struct dirent * result = NULL;
+
+    readdir_r(dp, &entry, &result);
+    while(result != nullptr)
     {
         struct stat statbuf;
         memset(&statbuf, 0, sizeof(statbuf));
-        lstat(entry->d_name, &statbuf); // 获取下一级成员属性
+        lstat(entry.d_name, &statbuf); // 获取下一级成员属性
         if(S_IFDIR & statbuf.st_mode)   // 判断下一级成员是否是目录
         {
-            if(std::string(".") == entry->d_name || std::string("..") == entry->d_name)
+            if(std::string(".") == entry.d_name || std::string("..") == entry.d_name)
             {
-                entry = readdir(dp);
+                readdir_r(dp, &entry, &result);
                 continue;
             }
 
             if(bRecursive)
             {
-                scan_dir(cur_dir, entry->d_name, bRecursive, func); // 递归调用自身，扫描下一级目录的内容
+                scan_dir(cur_dir, entry.d_name, bRecursive, func); // 递归调用自身，扫描下一级目录的内容
             }
         }
         else
         {
-            func(cur_dir, entry->d_name);
+            func(cur_dir, entry.d_name);
         }
 
-        entry = readdir(dp);
+       readdir_r(dp, &entry, &result);
     }
     closedir(dp);
+    
     return true;
 }
 

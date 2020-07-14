@@ -9,7 +9,10 @@
 
 CTeamManager::CTeamManager() {}
 
-CTeamManager::~CTeamManager() {}
+CTeamManager::~CTeamManager() 
+{
+    Destory();
+}
 
 bool CTeamManager::Init()
 {
@@ -155,6 +158,12 @@ ON_SERVERMSG(CWorldService, TeamAcceptApply)
         return;
     }
 
+    if(msg.result() == false)
+    {
+        // send err msg to sender
+        return;
+    }
+
     if(pUser->GetTeamID() != 0)
     {
         CTeam* pTeam = TeamManager()->QueryTeam(pUser->GetTeamID());
@@ -163,11 +172,7 @@ ON_SERVERMSG(CWorldService, TeamAcceptApply)
     }
     else
     {
-        if(msg.result() == false)
-        {
-            // send err msg to sender
-            return;
-        }
+        //auto create team
         CTeam* pTeam = TeamManager()->CreateTeam(WorldService()->CreateUID(), pUser->GetID());
         CHECK(pTeam);
         pTeam->AddMember(msg.applicant_id());

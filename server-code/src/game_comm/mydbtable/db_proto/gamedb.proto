@@ -56,10 +56,17 @@ message tbld_guild
     uint64 lev  = 2;                    //帮派等级
     string name = 3 [(sql).size = 255]; //帮派名称
 
-    uint64 leaderid    = 4;                   //帮主id
-    string leadername  = 5 [(sql).size = 32]; //帮主名称
-    uint32 create_time = 6;                   //创帮时间
-    uint32 del_time    = 7;                   //删除时间
+    uint64 leader_id    = 4;                      //帮主id
+    string leader_name  = 5 [(sql).size = 32];    //帮主名称
+    uint64 creator_id   = 6 [(sql).size = 32];    //创建人ID
+    string creator_name = 7 [(sql).size = 32];    //创建人名称
+    uint32 create_time  = 8;                      //创帮时间
+    uint32 del_time     = 9;                      //删除时间
+    string slogan       = 10 [(sql).size = 255];  //口号
+    string info1        = 11 [(sql).size = 1024]; //信息
+    string info2        = 12 [(sql).size = 1024]; //信息
+    string info3        = 13 [(sql).size = 1024]; //信息
+    uint64 flag         = 14;                     //设置掩码
 }
 
 message tbld_item
@@ -100,7 +107,7 @@ message tbld_mail_attachment
     uint32 attach_type = 3;                             //附件类型
     uint64 attach_data = 4;                             //数量/具体道具实例ID
 }
- 
+
 message tbld_pet
 {
     uint64 id       = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true];
@@ -119,51 +126,53 @@ message tbld_player
     string name       = 5 [(sql).size = 32, (sql).unique = "idx_name"];      //玩家名字
     uint32 prof       = 6 [(sql).keys = "idx_prof"];                         //玩家职业
     uint32 baselook   = 7;                                                   //玩家基本外观
-    uint32 lev        = 8 [(sql).keys = "idx_lev"];                          //玩家等级
-    uint32 viplev     = 9;                                                   // vip等级
 
-    uint64 record_sceneid = 10; //玩家当前所在的地图编号
-    float  record_x       = 11; //玩家当前所在地图x
-    float  record_y       = 12; //玩家当前所在地图y
-    float  record_face    = 13; //玩家当前所在地图face
-    uint64 home_sceneid   = 14; //玩家回城点对应的地图编号
-    float  home_x         = 15; //玩家回城点对应的地图x
-    float  home_y         = 16; //玩家回城点对应的地图y
-    float  home_face      = 17; //玩家回城点对应的地图face
+    uint32 create_time     = 8 [(sql).keys = "idx_create_time"];      //创建时间戳
+    uint32 last_logintime  = 9 [(sql).keys = "idx_last_logintime"];   //最后登录时间戳
+    uint32 last_logouttime = 10 [(sql).keys = "idx_last_logouttime"]; //最后登出时间戳
+    uint32 del_time        = 11 [(sql).keys = "idx_del_time"];        //删除时间戳
 
-    uint64 mate_id   = 18;                   //伴侣ID
-    string mate_name = 19 [(sql).size = 32]; //伴侣名字
-    uint64 teamid    = 20;                   //队伍id
-    uint64 guildid   = 21;                   //公会id
+    uint32 lev    = 12 [(sql).keys = "idx_lev"]; //玩家等级
+    uint32 viplev = 13;                          // vip等级
 
-    uint64 exp         = 22; //玩家经验
-    uint64 money       = 23; //金币
-    uint64 money_bind  = 24; //绑定金币
-    uint64 gold        = 25; //元宝
-    uint64 gold_bind   = 26; //绑定元宝
-    uint32 hp          = 27; // hp
-    uint32 mp          = 28; // mp
-    uint32 fp          = 29; // fp
-    uint32 np          = 30; // np
-    uint32 pkval       = 31; // pk值
-    uint32 honor       = 32; //荣誉值
-    uint32 achipoint   = 33; //成就值
-    uint32 bag_size    = 34; //背包大小
-    uint32 stroge_size = 35; //仓库大小
+    uint64 record_sceneid = 14; //玩家当前所在的地图编号
+    float  record_x       = 15; //玩家当前所在地图x
+    float  record_y       = 16; //玩家当前所在地图y
+    float  record_face    = 17; //玩家当前所在地图face
+    uint64 home_sceneid   = 18; //玩家回城点对应的地图编号
+    float  home_x         = 19; //玩家回城点对应的地图x
+    float  home_y         = 20; //玩家回城点对应的地图y
+    float  home_face      = 21; //玩家回城点对应的地图face
 
-    uint32 create_time     = 36 [(sql).keys = "idx_create_time"];     //创建时间戳
-    uint32 last_logintime  = 37 [(sql).keys = "idx_last_logintime"];  //最后登录时间戳
-    uint32 last_logouttime = 38 [(sql).keys = "idx_last_logouttime"]; //最后登出时间戳
-    uint32 del_time        = 39 [(sql).keys = "idx_del_time"];        //删除时间戳
+    uint64 mate_id   = 22;                   //伴侣ID
+    string mate_name = 23 [(sql).size = 32]; //伴侣名字
+    uint64 teamid    = 24;                   //队伍id
+    uint64 guildid   = 25;                   //公会id
+
+    uint64 exp         = 26; //玩家经验
+    uint64 money       = 27; //金币
+    uint64 money_bind  = 28; //绑定金币
+    uint64 gold        = 29; //元宝
+    uint64 gold_bind   = 30; //绑定元宝
+    uint32 hp          = 31; // hp
+    uint32 mp          = 32; // mp
+    uint32 fp          = 33; // fp
+    uint32 np          = 34; // np
+    uint32 pkval       = 35; // pk值
+    uint32 honor       = 36; //荣誉值
+    uint32 achipoint   = 37; //成就值
+    uint32 bag_size    = 38; //背包大小
+    uint32 stroge_size = 39; //仓库大小
 }
 
 message tbld_player_guildinfo
 {
     uint64 id          = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true];
-    uint32 rank        = 2; //帮派职位
-    uint32 score       = 3; //帮派贡献
-    uint32 total_score = 4; //帮派贡献累计
-    uint32 join_time   = 5; //入帮时间
+    uint64 guildid     = 2; // guildid
+    uint32 rank        = 3; //帮派职位
+    uint32 score       = 4; //帮派贡献
+    uint32 total_score = 5; //帮派贡献累计
+    uint32 join_time   = 6; //入帮时间
 }
 
 message tbld_skill

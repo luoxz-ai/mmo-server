@@ -43,6 +43,7 @@
 #include "TeamInfoManager.h"
 #include "UserAttr.h"
 #include "globaldb.h"
+#include "MsgZoneProcess.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
@@ -175,7 +176,6 @@ bool CZoneService::Init(const ServerPort& nServerPort)
     m_pSceneManager.reset(CSceneManager::CreateNew(GetZoneID()));
     CHECKF(m_pSceneManager.get());
 
-    extern void ZoneMessageHandlerRegister();
     ZoneMessageHandlerRegister();
 
     if(IsSharedZone() == false)
@@ -455,9 +455,7 @@ CMysqlConnection* CZoneService::_ConnectGameDB(uint16_t nWorldID, CMysqlConnecti
     __ENTER_FUNCTION
     CHECKF(pGlobalDB);
     //通过globaldb查询localdb
-    auto result = pGlobalDB->Query(
-        TBLD_DBINFO::table_name(),
-        fmt::format(FMT_STRING("SELECT * FROM {} WHERE worldid={} LIMIT 1"), TBLD_DBINFO::table_name(), nWorldID));
+    auto result = pGlobalDB->QueryTLimit<TBLD_DBINFO, TBLD_DBINFO::WORLDID>(nWorldID, 1);
     if(result)
     {
         auto row = result->fetch_row(false);

@@ -35,7 +35,7 @@ void CTeam::SendTeamAction(uint32_t nAction, OBJID idOperator, OBJID idMember)
     }
 }
 
-void CTeam::SendTeamMemberInfo(const SC_TEAMMEMBER_INFO::MemberInfo& info)
+void CTeam::SendTeamMemberInfo(const TeamMemberInfo& info)
 {
     SC_TEAMMEMBER_INFO msg;
     auto               pInfo = msg.add_member_list();
@@ -93,7 +93,7 @@ void CTeam::AddMember(OBJID idMember)
 void CTeam::_AddMember(CUser* pUser)
 {
     CHECK(pUser);
-    SC_TEAMMEMBER_INFO::MemberInfo info;
+    TeamMemberInfo info;
     info.set_member_id(pUser->GetID());
     info.set_member_lev(pUser->GetLev());
     info.set_member_name(pUser->GetName());

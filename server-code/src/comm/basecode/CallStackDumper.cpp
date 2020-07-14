@@ -9,6 +9,7 @@
 #include "BaseCode.h"
 #include "LoggingMgr.h"
 #include "fmt/chrono.h"
+#include "TimeUtil.h"
 
 std::string demangle(const char* name)
 {
@@ -314,11 +315,7 @@ std::string GetStackTraceString(const CallFrameMap& data)
     std::string result;
     Dl_info     dlinfo;
     time_t      t = _TimeGetSecond();
-    char        mbstr[100];
-    if(std::strftime(mbstr, sizeof(mbstr), "%Y/%m/%d %H:%M:%S", std::localtime(&t)))
-    {
-        result += mbstr;
-    }
+    result = fmt::format("%Y/%m/%d %H:%M:%S", timeToLocalTime(t));
     result += fmt::format("{}\n====================start=============================\n", BaseCode::getNdcStr());
     for(const auto& pair_v: data.m_Addr)
     {
@@ -350,11 +347,7 @@ std::string GetStackTraceString(const CALLFRAME_NODE* pFrame)
     std::string result;
     Dl_info     dlinfo;
     time_t      t = _TimeGetSecond();
-    char        mbstr[100];
-    if(std::strftime(mbstr, sizeof(mbstr), "%Y/%m/%d %H:%M:%S", std::localtime(&t)))
-    {
-        result += mbstr;
-    }
+    result = fmt::format("%Y/%m/%d %H:%M:%S", timeToLocalTime(t));
     result += fmt::format("{}\n====================start=============================\n", BaseCode::getNdcStr());
     while(pFrame->m_pParent != nullptr)
     {

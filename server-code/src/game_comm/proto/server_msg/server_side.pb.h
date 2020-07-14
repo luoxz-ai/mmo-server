@@ -36,6 +36,7 @@
 #include <google/protobuf/map_field_inl.h>
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
+#include "common/Common.pb.h"
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 #define PROTOBUF_INTERNAL_EXPORT_server_5fmsg_2fserver_5fside_2eproto
@@ -51,7 +52,7 @@ struct TableStruct_server_5fmsg_2fserver_5fside_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[49]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[60]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -86,6 +87,42 @@ extern ActorSetHideDefaultTypeInternal _ActorSetHide_default_instance_;
 class AddTaskPhase;
 class AddTaskPhaseDefaultTypeInternal;
 extern AddTaskPhaseDefaultTypeInternal _AddTaskPhase_default_instance_;
+class GuildAcceptApply;
+class GuildAcceptApplyDefaultTypeInternal;
+extern GuildAcceptApplyDefaultTypeInternal _GuildAcceptApply_default_instance_;
+class GuildAcceptInvite;
+class GuildAcceptInviteDefaultTypeInternal;
+extern GuildAcceptInviteDefaultTypeInternal _GuildAcceptInvite_default_instance_;
+class GuildAddMember;
+class GuildAddMemberDefaultTypeInternal;
+extern GuildAddMemberDefaultTypeInternal _GuildAddMember_default_instance_;
+class GuildApplyMember;
+class GuildApplyMemberDefaultTypeInternal;
+extern GuildApplyMemberDefaultTypeInternal _GuildApplyMember_default_instance_;
+class GuildCreate;
+class GuildCreateDefaultTypeInternal;
+extern GuildCreateDefaultTypeInternal _GuildCreate_default_instance_;
+class GuildDelMember;
+class GuildDelMemberDefaultTypeInternal;
+extern GuildDelMemberDefaultTypeInternal _GuildDelMember_default_instance_;
+class GuildDestory;
+class GuildDestoryDefaultTypeInternal;
+extern GuildDestoryDefaultTypeInternal _GuildDestory_default_instance_;
+class GuildInviteMember;
+class GuildInviteMemberDefaultTypeInternal;
+extern GuildInviteMemberDefaultTypeInternal _GuildInviteMember_default_instance_;
+class GuildKickMember;
+class GuildKickMemberDefaultTypeInternal;
+extern GuildKickMemberDefaultTypeInternal _GuildKickMember_default_instance_;
+class GuildMemberInfoList;
+class GuildMemberInfoListDefaultTypeInternal;
+extern GuildMemberInfoListDefaultTypeInternal _GuildMemberInfoList_default_instance_;
+class GuildNewLeader;
+class GuildNewLeaderDefaultTypeInternal;
+extern GuildNewLeaderDefaultTypeInternal _GuildNewLeader_default_instance_;
+class GuildQuit;
+class GuildQuitDefaultTypeInternal;
+extern GuildQuitDefaultTypeInternal _GuildQuit_default_instance_;
 class KillGen;
 class KillGenDefaultTypeInternal;
 extern KillGenDefaultTypeInternal _KillGen_default_instance_;
@@ -194,12 +231,9 @@ extern TeamInviteMemberDefaultTypeInternal _TeamInviteMember_default_instance_;
 class TeamKickMember;
 class TeamKickMemberDefaultTypeInternal;
 extern TeamKickMemberDefaultTypeInternal _TeamKickMember_default_instance_;
-class TeamMemberInfo;
-class TeamMemberInfoDefaultTypeInternal;
-extern TeamMemberInfoDefaultTypeInternal _TeamMemberInfo_default_instance_;
-class TeamMemberInfo_Info;
-class TeamMemberInfo_InfoDefaultTypeInternal;
-extern TeamMemberInfo_InfoDefaultTypeInternal _TeamMemberInfo_Info_default_instance_;
+class TeamMemberInfoList;
+class TeamMemberInfoListDefaultTypeInternal;
+extern TeamMemberInfoListDefaultTypeInternal _TeamMemberInfoList_default_instance_;
 class TeamNewLeader;
 class TeamNewLeaderDefaultTypeInternal;
 extern TeamNewLeaderDefaultTypeInternal _TeamNewLeader_default_instance_;
@@ -217,6 +251,18 @@ template<> ::ServerMSG::ActorFlyTo* Arena::CreateMaybeMessage<::ServerMSG::Actor
 template<> ::ServerMSG::ActorMove* Arena::CreateMaybeMessage<::ServerMSG::ActorMove>(Arena*);
 template<> ::ServerMSG::ActorSetHide* Arena::CreateMaybeMessage<::ServerMSG::ActorSetHide>(Arena*);
 template<> ::ServerMSG::AddTaskPhase* Arena::CreateMaybeMessage<::ServerMSG::AddTaskPhase>(Arena*);
+template<> ::ServerMSG::GuildAcceptApply* Arena::CreateMaybeMessage<::ServerMSG::GuildAcceptApply>(Arena*);
+template<> ::ServerMSG::GuildAcceptInvite* Arena::CreateMaybeMessage<::ServerMSG::GuildAcceptInvite>(Arena*);
+template<> ::ServerMSG::GuildAddMember* Arena::CreateMaybeMessage<::ServerMSG::GuildAddMember>(Arena*);
+template<> ::ServerMSG::GuildApplyMember* Arena::CreateMaybeMessage<::ServerMSG::GuildApplyMember>(Arena*);
+template<> ::ServerMSG::GuildCreate* Arena::CreateMaybeMessage<::ServerMSG::GuildCreate>(Arena*);
+template<> ::ServerMSG::GuildDelMember* Arena::CreateMaybeMessage<::ServerMSG::GuildDelMember>(Arena*);
+template<> ::ServerMSG::GuildDestory* Arena::CreateMaybeMessage<::ServerMSG::GuildDestory>(Arena*);
+template<> ::ServerMSG::GuildInviteMember* Arena::CreateMaybeMessage<::ServerMSG::GuildInviteMember>(Arena*);
+template<> ::ServerMSG::GuildKickMember* Arena::CreateMaybeMessage<::ServerMSG::GuildKickMember>(Arena*);
+template<> ::ServerMSG::GuildMemberInfoList* Arena::CreateMaybeMessage<::ServerMSG::GuildMemberInfoList>(Arena*);
+template<> ::ServerMSG::GuildNewLeader* Arena::CreateMaybeMessage<::ServerMSG::GuildNewLeader>(Arena*);
+template<> ::ServerMSG::GuildQuit* Arena::CreateMaybeMessage<::ServerMSG::GuildQuit>(Arena*);
 template<> ::ServerMSG::KillGen* Arena::CreateMaybeMessage<::ServerMSG::KillGen>(Arena*);
 template<> ::ServerMSG::MonsterDestory* Arena::CreateMaybeMessage<::ServerMSG::MonsterDestory>(Arena*);
 template<> ::ServerMSG::MonsterGen* Arena::CreateMaybeMessage<::ServerMSG::MonsterGen>(Arena*);
@@ -253,8 +299,7 @@ template<> ::ServerMSG::TeamDelMember* Arena::CreateMaybeMessage<::ServerMSG::Te
 template<> ::ServerMSG::TeamDestory* Arena::CreateMaybeMessage<::ServerMSG::TeamDestory>(Arena*);
 template<> ::ServerMSG::TeamInviteMember* Arena::CreateMaybeMessage<::ServerMSG::TeamInviteMember>(Arena*);
 template<> ::ServerMSG::TeamKickMember* Arena::CreateMaybeMessage<::ServerMSG::TeamKickMember>(Arena*);
-template<> ::ServerMSG::TeamMemberInfo* Arena::CreateMaybeMessage<::ServerMSG::TeamMemberInfo>(Arena*);
-template<> ::ServerMSG::TeamMemberInfo_Info* Arena::CreateMaybeMessage<::ServerMSG::TeamMemberInfo_Info>(Arena*);
+template<> ::ServerMSG::TeamMemberInfoList* Arena::CreateMaybeMessage<::ServerMSG::TeamMemberInfoList>(Arena*);
 template<> ::ServerMSG::TeamNewLeader* Arena::CreateMaybeMessage<::ServerMSG::TeamNewLeader>(Arena*);
 template<> ::ServerMSG::TeamQuit* Arena::CreateMaybeMessage<::ServerMSG::TeamQuit>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
@@ -334,9 +379,21 @@ enum OMsgID : int {
   MsgID_TeamApplyMember = 20116,
   MsgID_TeamAcceptApply = 20117,
   MsgID_TeamNewLeader = 20118,
-  MsgID_TeamMemberInfo = 20119,
+  MsgID_TeamMemberInfoList = 20119,
   MsgID_TeamAddMember = 20120,
   MsgID_TeamDelMember = 20121,
+  MsgID_GuildCreate = 20140,
+  MsgID_GuildDestory = 20141,
+  MsgID_GuildQuit = 20142,
+  MsgID_GuildKickMember = 20143,
+  MsgID_GuildInviteMember = 20144,
+  MsgID_GuildAcceptInvite = 20145,
+  MsgID_GuildApplyMember = 20146,
+  MsgID_GuildAcceptApply = 20147,
+  MsgID_GuildNewLeader = 20148,
+  MsgID_GuildMemberInfoList = 20149,
+  MsgID_GuildAddMember = 20150,
+  MsgID_GuildDelMember = 20151,
   MsgID_END = 30000,
   OMsgID_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   OMsgID_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
@@ -6969,23 +7026,23 @@ class TeamDelMember :
 };
 // -------------------------------------------------------------------
 
-class TeamMemberInfo_Info :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.TeamMemberInfo.Info) */ {
+class TeamMemberInfoList :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.TeamMemberInfoList) */ {
  public:
-  TeamMemberInfo_Info();
-  virtual ~TeamMemberInfo_Info();
+  TeamMemberInfoList();
+  virtual ~TeamMemberInfoList();
 
-  TeamMemberInfo_Info(const TeamMemberInfo_Info& from);
-  TeamMemberInfo_Info(TeamMemberInfo_Info&& from) noexcept
-    : TeamMemberInfo_Info() {
+  TeamMemberInfoList(const TeamMemberInfoList& from);
+  TeamMemberInfoList(TeamMemberInfoList&& from) noexcept
+    : TeamMemberInfoList() {
     *this = ::std::move(from);
   }
 
-  inline TeamMemberInfo_Info& operator=(const TeamMemberInfo_Info& from) {
+  inline TeamMemberInfoList& operator=(const TeamMemberInfoList& from) {
     CopyFrom(from);
     return *this;
   }
-  inline TeamMemberInfo_Info& operator=(TeamMemberInfo_Info&& from) noexcept {
+  inline TeamMemberInfoList& operator=(TeamMemberInfoList&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -7003,37 +7060,37 @@ class TeamMemberInfo_Info :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return GetMetadataStatic().reflection;
   }
-  static const TeamMemberInfo_Info& default_instance();
+  static const TeamMemberInfoList& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const TeamMemberInfo_Info* internal_default_instance() {
-    return reinterpret_cast<const TeamMemberInfo_Info*>(
-               &_TeamMemberInfo_Info_default_instance_);
+  static inline const TeamMemberInfoList* internal_default_instance() {
+    return reinterpret_cast<const TeamMemberInfoList*>(
+               &_TeamMemberInfoList_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     44;
 
-  friend void swap(TeamMemberInfo_Info& a, TeamMemberInfo_Info& b) {
+  friend void swap(TeamMemberInfoList& a, TeamMemberInfoList& b) {
     a.Swap(&b);
   }
-  inline void Swap(TeamMemberInfo_Info* other) {
+  inline void Swap(TeamMemberInfoList* other) {
     if (other == this) return;
     InternalSwap(other);
   }
 
   // implements Message ----------------------------------------------
 
-  inline TeamMemberInfo_Info* New() const final {
-    return CreateMaybeMessage<TeamMemberInfo_Info>(nullptr);
+  inline TeamMemberInfoList* New() const final {
+    return CreateMaybeMessage<TeamMemberInfoList>(nullptr);
   }
 
-  TeamMemberInfo_Info* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<TeamMemberInfo_Info>(arena);
+  TeamMemberInfoList* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<TeamMemberInfoList>(arena);
   }
   void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
   void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const TeamMemberInfo_Info& from);
-  void MergeFrom(const TeamMemberInfo_Info& from);
+  void CopyFrom(const TeamMemberInfoList& from);
+  void MergeFrom(const TeamMemberInfoList& from);
   PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -7047,10 +7104,10 @@ class TeamMemberInfo_Info :
   inline void SharedCtor();
   inline void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(TeamMemberInfo_Info* other);
+  void InternalSwap(TeamMemberInfoList* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "ServerMSG.TeamMemberInfo.Info";
+    return "ServerMSG.TeamMemberInfoList";
   }
   private:
   inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
@@ -7075,28 +7132,1527 @@ class TeamMemberInfo_Info :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kMemberNameFieldNumber = 4,
-    kMemberIdFieldNumber = 1,
-    kMemberLevFieldNumber = 2,
-    kMemberOnlineFieldNumber = 3,
+    kMemberListFieldNumber = 1,
   };
-  // string member_name = 4;
-  void clear_member_name();
-  const std::string& member_name() const;
-  void set_member_name(const std::string& value);
-  void set_member_name(std::string&& value);
-  void set_member_name(const char* value);
-  void set_member_name(const char* value, size_t size);
-  std::string* mutable_member_name();
-  std::string* release_member_name();
-  void set_allocated_member_name(std::string* member_name);
+  // repeated .TeamMemberInfo member_list = 1;
+  int member_list_size() const;
   private:
-  const std::string& _internal_member_name() const;
-  void _internal_set_member_name(const std::string& value);
-  std::string* _internal_mutable_member_name();
+  int _internal_member_list_size() const;
+  public:
+  void clear_member_list();
+  ::TeamMemberInfo* mutable_member_list(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::TeamMemberInfo >*
+      mutable_member_list();
+  private:
+  const ::TeamMemberInfo& _internal_member_list(int index) const;
+  ::TeamMemberInfo* _internal_add_member_list();
+  public:
+  const ::TeamMemberInfo& member_list(int index) const;
+  ::TeamMemberInfo* add_member_list();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::TeamMemberInfo >&
+      member_list() const;
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.TeamMemberInfoList)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::TeamMemberInfo > member_list_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
+class GuildCreate :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.GuildCreate) */ {
+ public:
+  GuildCreate();
+  virtual ~GuildCreate();
+
+  GuildCreate(const GuildCreate& from);
+  GuildCreate(GuildCreate&& from) noexcept
+    : GuildCreate() {
+    *this = ::std::move(from);
+  }
+
+  inline GuildCreate& operator=(const GuildCreate& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GuildCreate& operator=(GuildCreate&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const GuildCreate& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const GuildCreate* internal_default_instance() {
+    return reinterpret_cast<const GuildCreate*>(
+               &_GuildCreate_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    45;
+
+  friend void swap(GuildCreate& a, GuildCreate& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(GuildCreate* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline GuildCreate* New() const final {
+    return CreateMaybeMessage<GuildCreate>(nullptr);
+  }
+
+  GuildCreate* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<GuildCreate>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const GuildCreate& from);
+  void MergeFrom(const GuildCreate& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GuildCreate* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.GuildCreate";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
   public:
 
-  // uint64 member_id = 1;
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kGuildNameFieldNumber = 3,
+    kLeaderNameFieldNumber = 4,
+    kGuildIdFieldNumber = 1,
+    kLeaderIdFieldNumber = 2,
+    kCreateTimeFieldNumber = 5,
+  };
+  // string guild_name = 3;
+  void clear_guild_name();
+  const std::string& guild_name() const;
+  void set_guild_name(const std::string& value);
+  void set_guild_name(std::string&& value);
+  void set_guild_name(const char* value);
+  void set_guild_name(const char* value, size_t size);
+  std::string* mutable_guild_name();
+  std::string* release_guild_name();
+  void set_allocated_guild_name(std::string* guild_name);
+  private:
+  const std::string& _internal_guild_name() const;
+  void _internal_set_guild_name(const std::string& value);
+  std::string* _internal_mutable_guild_name();
+  public:
+
+  // string leader_name = 4;
+  void clear_leader_name();
+  const std::string& leader_name() const;
+  void set_leader_name(const std::string& value);
+  void set_leader_name(std::string&& value);
+  void set_leader_name(const char* value);
+  void set_leader_name(const char* value, size_t size);
+  std::string* mutable_leader_name();
+  std::string* release_leader_name();
+  void set_allocated_leader_name(std::string* leader_name);
+  private:
+  const std::string& _internal_leader_name() const;
+  void _internal_set_leader_name(const std::string& value);
+  std::string* _internal_mutable_leader_name();
+  public:
+
+  // uint64 guild_id = 1;
+  void clear_guild_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 guild_id() const;
+  void set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_guild_id() const;
+  void _internal_set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 leader_id = 2;
+  void clear_leader_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 leader_id() const;
+  void set_leader_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_leader_id() const;
+  void _internal_set_leader_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint32 create_time = 5;
+  void clear_create_time();
+  ::PROTOBUF_NAMESPACE_ID::uint32 create_time() const;
+  void set_create_time(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_create_time() const;
+  void _internal_set_create_time(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.GuildCreate)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr guild_name_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr leader_name_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 guild_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 leader_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 create_time_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
+class GuildDestory :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.GuildDestory) */ {
+ public:
+  GuildDestory();
+  virtual ~GuildDestory();
+
+  GuildDestory(const GuildDestory& from);
+  GuildDestory(GuildDestory&& from) noexcept
+    : GuildDestory() {
+    *this = ::std::move(from);
+  }
+
+  inline GuildDestory& operator=(const GuildDestory& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GuildDestory& operator=(GuildDestory&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const GuildDestory& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const GuildDestory* internal_default_instance() {
+    return reinterpret_cast<const GuildDestory*>(
+               &_GuildDestory_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    46;
+
+  friend void swap(GuildDestory& a, GuildDestory& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(GuildDestory* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline GuildDestory* New() const final {
+    return CreateMaybeMessage<GuildDestory>(nullptr);
+  }
+
+  GuildDestory* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<GuildDestory>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const GuildDestory& from);
+  void MergeFrom(const GuildDestory& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GuildDestory* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.GuildDestory";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kGuildIdFieldNumber = 1,
+  };
+  // uint64 guild_id = 1;
+  void clear_guild_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 guild_id() const;
+  void set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_guild_id() const;
+  void _internal_set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.GuildDestory)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 guild_id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
+class GuildQuit :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.GuildQuit) */ {
+ public:
+  GuildQuit();
+  virtual ~GuildQuit();
+
+  GuildQuit(const GuildQuit& from);
+  GuildQuit(GuildQuit&& from) noexcept
+    : GuildQuit() {
+    *this = ::std::move(from);
+  }
+
+  inline GuildQuit& operator=(const GuildQuit& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GuildQuit& operator=(GuildQuit&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const GuildQuit& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const GuildQuit* internal_default_instance() {
+    return reinterpret_cast<const GuildQuit*>(
+               &_GuildQuit_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    47;
+
+  friend void swap(GuildQuit& a, GuildQuit& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(GuildQuit* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline GuildQuit* New() const final {
+    return CreateMaybeMessage<GuildQuit>(nullptr);
+  }
+
+  GuildQuit* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<GuildQuit>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const GuildQuit& from);
+  void MergeFrom(const GuildQuit& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GuildQuit* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.GuildQuit";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kGuildIdFieldNumber = 1,
+    kOperatorIdFieldNumber = 2,
+  };
+  // uint64 guild_id = 1;
+  void clear_guild_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 guild_id() const;
+  void set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_guild_id() const;
+  void _internal_set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 operator_id = 2;
+  void clear_operator_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 operator_id() const;
+  void set_operator_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_operator_id() const;
+  void _internal_set_operator_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.GuildQuit)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 guild_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 operator_id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
+class GuildKickMember :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.GuildKickMember) */ {
+ public:
+  GuildKickMember();
+  virtual ~GuildKickMember();
+
+  GuildKickMember(const GuildKickMember& from);
+  GuildKickMember(GuildKickMember&& from) noexcept
+    : GuildKickMember() {
+    *this = ::std::move(from);
+  }
+
+  inline GuildKickMember& operator=(const GuildKickMember& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GuildKickMember& operator=(GuildKickMember&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const GuildKickMember& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const GuildKickMember* internal_default_instance() {
+    return reinterpret_cast<const GuildKickMember*>(
+               &_GuildKickMember_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    48;
+
+  friend void swap(GuildKickMember& a, GuildKickMember& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(GuildKickMember* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline GuildKickMember* New() const final {
+    return CreateMaybeMessage<GuildKickMember>(nullptr);
+  }
+
+  GuildKickMember* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<GuildKickMember>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const GuildKickMember& from);
+  void MergeFrom(const GuildKickMember& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GuildKickMember* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.GuildKickMember";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kGuildIdFieldNumber = 1,
+    kOperatorIdFieldNumber = 2,
+    kKickIdFieldNumber = 3,
+  };
+  // uint64 guild_id = 1;
+  void clear_guild_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 guild_id() const;
+  void set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_guild_id() const;
+  void _internal_set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 operator_id = 2;
+  void clear_operator_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 operator_id() const;
+  void set_operator_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_operator_id() const;
+  void _internal_set_operator_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 kick_id = 3;
+  void clear_kick_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 kick_id() const;
+  void set_kick_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_kick_id() const;
+  void _internal_set_kick_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.GuildKickMember)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 guild_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 operator_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 kick_id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
+class GuildInviteMember :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.GuildInviteMember) */ {
+ public:
+  GuildInviteMember();
+  virtual ~GuildInviteMember();
+
+  GuildInviteMember(const GuildInviteMember& from);
+  GuildInviteMember(GuildInviteMember&& from) noexcept
+    : GuildInviteMember() {
+    *this = ::std::move(from);
+  }
+
+  inline GuildInviteMember& operator=(const GuildInviteMember& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GuildInviteMember& operator=(GuildInviteMember&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const GuildInviteMember& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const GuildInviteMember* internal_default_instance() {
+    return reinterpret_cast<const GuildInviteMember*>(
+               &_GuildInviteMember_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    49;
+
+  friend void swap(GuildInviteMember& a, GuildInviteMember& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(GuildInviteMember* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline GuildInviteMember* New() const final {
+    return CreateMaybeMessage<GuildInviteMember>(nullptr);
+  }
+
+  GuildInviteMember* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<GuildInviteMember>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const GuildInviteMember& from);
+  void MergeFrom(const GuildInviteMember& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GuildInviteMember* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.GuildInviteMember";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kGuildIdFieldNumber = 1,
+    kOperatorIdFieldNumber = 2,
+    kInviteeIdFieldNumber = 3,
+  };
+  // uint64 guild_id = 1;
+  void clear_guild_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 guild_id() const;
+  void set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_guild_id() const;
+  void _internal_set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 operator_id = 2;
+  void clear_operator_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 operator_id() const;
+  void set_operator_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_operator_id() const;
+  void _internal_set_operator_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 invitee_id = 3;
+  void clear_invitee_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 invitee_id() const;
+  void set_invitee_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_invitee_id() const;
+  void _internal_set_invitee_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.GuildInviteMember)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 guild_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 operator_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 invitee_id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
+class GuildAcceptInvite :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.GuildAcceptInvite) */ {
+ public:
+  GuildAcceptInvite();
+  virtual ~GuildAcceptInvite();
+
+  GuildAcceptInvite(const GuildAcceptInvite& from);
+  GuildAcceptInvite(GuildAcceptInvite&& from) noexcept
+    : GuildAcceptInvite() {
+    *this = ::std::move(from);
+  }
+
+  inline GuildAcceptInvite& operator=(const GuildAcceptInvite& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GuildAcceptInvite& operator=(GuildAcceptInvite&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const GuildAcceptInvite& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const GuildAcceptInvite* internal_default_instance() {
+    return reinterpret_cast<const GuildAcceptInvite*>(
+               &_GuildAcceptInvite_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    50;
+
+  friend void swap(GuildAcceptInvite& a, GuildAcceptInvite& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(GuildAcceptInvite* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline GuildAcceptInvite* New() const final {
+    return CreateMaybeMessage<GuildAcceptInvite>(nullptr);
+  }
+
+  GuildAcceptInvite* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<GuildAcceptInvite>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const GuildAcceptInvite& from);
+  void MergeFrom(const GuildAcceptInvite& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GuildAcceptInvite* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.GuildAcceptInvite";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kGuildIdFieldNumber = 1,
+    kInviterIdFieldNumber = 2,
+    kInviteeIdFieldNumber = 3,
+    kResultFieldNumber = 4,
+  };
+  // uint64 guild_id = 1;
+  void clear_guild_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 guild_id() const;
+  void set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_guild_id() const;
+  void _internal_set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 inviter_id = 2;
+  void clear_inviter_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 inviter_id() const;
+  void set_inviter_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_inviter_id() const;
+  void _internal_set_inviter_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 invitee_id = 3;
+  void clear_invitee_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 invitee_id() const;
+  void set_invitee_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_invitee_id() const;
+  void _internal_set_invitee_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // bool result = 4;
+  void clear_result();
+  bool result() const;
+  void set_result(bool value);
+  private:
+  bool _internal_result() const;
+  void _internal_set_result(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.GuildAcceptInvite)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 guild_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 inviter_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 invitee_id_;
+  bool result_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
+class GuildApplyMember :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.GuildApplyMember) */ {
+ public:
+  GuildApplyMember();
+  virtual ~GuildApplyMember();
+
+  GuildApplyMember(const GuildApplyMember& from);
+  GuildApplyMember(GuildApplyMember&& from) noexcept
+    : GuildApplyMember() {
+    *this = ::std::move(from);
+  }
+
+  inline GuildApplyMember& operator=(const GuildApplyMember& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GuildApplyMember& operator=(GuildApplyMember&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const GuildApplyMember& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const GuildApplyMember* internal_default_instance() {
+    return reinterpret_cast<const GuildApplyMember*>(
+               &_GuildApplyMember_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    51;
+
+  friend void swap(GuildApplyMember& a, GuildApplyMember& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(GuildApplyMember* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline GuildApplyMember* New() const final {
+    return CreateMaybeMessage<GuildApplyMember>(nullptr);
+  }
+
+  GuildApplyMember* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<GuildApplyMember>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const GuildApplyMember& from);
+  void MergeFrom(const GuildApplyMember& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GuildApplyMember* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.GuildApplyMember";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kApplicantIdFieldNumber = 1,
+    kRespondentIdFieldNumber = 2,
+  };
+  // uint64 applicant_id = 1;
+  void clear_applicant_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 applicant_id() const;
+  void set_applicant_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_applicant_id() const;
+  void _internal_set_applicant_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 respondent_id = 2;
+  void clear_respondent_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 respondent_id() const;
+  void set_respondent_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_respondent_id() const;
+  void _internal_set_respondent_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.GuildApplyMember)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 applicant_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 respondent_id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
+class GuildAcceptApply :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.GuildAcceptApply) */ {
+ public:
+  GuildAcceptApply();
+  virtual ~GuildAcceptApply();
+
+  GuildAcceptApply(const GuildAcceptApply& from);
+  GuildAcceptApply(GuildAcceptApply&& from) noexcept
+    : GuildAcceptApply() {
+    *this = ::std::move(from);
+  }
+
+  inline GuildAcceptApply& operator=(const GuildAcceptApply& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GuildAcceptApply& operator=(GuildAcceptApply&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const GuildAcceptApply& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const GuildAcceptApply* internal_default_instance() {
+    return reinterpret_cast<const GuildAcceptApply*>(
+               &_GuildAcceptApply_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    52;
+
+  friend void swap(GuildAcceptApply& a, GuildAcceptApply& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(GuildAcceptApply* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline GuildAcceptApply* New() const final {
+    return CreateMaybeMessage<GuildAcceptApply>(nullptr);
+  }
+
+  GuildAcceptApply* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<GuildAcceptApply>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const GuildAcceptApply& from);
+  void MergeFrom(const GuildAcceptApply& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GuildAcceptApply* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.GuildAcceptApply";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kApplicantIdFieldNumber = 1,
+    kRespondentIdFieldNumber = 2,
+    kResultFieldNumber = 3,
+  };
+  // uint64 applicant_id = 1;
+  void clear_applicant_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 applicant_id() const;
+  void set_applicant_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_applicant_id() const;
+  void _internal_set_applicant_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 respondent_id = 2;
+  void clear_respondent_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 respondent_id() const;
+  void set_respondent_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_respondent_id() const;
+  void _internal_set_respondent_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // bool result = 3;
+  void clear_result();
+  bool result() const;
+  void set_result(bool value);
+  private:
+  bool _internal_result() const;
+  void _internal_set_result(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.GuildAcceptApply)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 applicant_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 respondent_id_;
+  bool result_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
+class GuildNewLeader :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.GuildNewLeader) */ {
+ public:
+  GuildNewLeader();
+  virtual ~GuildNewLeader();
+
+  GuildNewLeader(const GuildNewLeader& from);
+  GuildNewLeader(GuildNewLeader&& from) noexcept
+    : GuildNewLeader() {
+    *this = ::std::move(from);
+  }
+
+  inline GuildNewLeader& operator=(const GuildNewLeader& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GuildNewLeader& operator=(GuildNewLeader&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const GuildNewLeader& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const GuildNewLeader* internal_default_instance() {
+    return reinterpret_cast<const GuildNewLeader*>(
+               &_GuildNewLeader_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    53;
+
+  friend void swap(GuildNewLeader& a, GuildNewLeader& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(GuildNewLeader* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline GuildNewLeader* New() const final {
+    return CreateMaybeMessage<GuildNewLeader>(nullptr);
+  }
+
+  GuildNewLeader* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<GuildNewLeader>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const GuildNewLeader& from);
+  void MergeFrom(const GuildNewLeader& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GuildNewLeader* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.GuildNewLeader";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kNewLeaderNameFieldNumber = 4,
+    kGuildIdFieldNumber = 1,
+    kOperatorIdFieldNumber = 2,
+    kNewLeaderIdFieldNumber = 3,
+  };
+  // string new_leader_name = 4;
+  void clear_new_leader_name();
+  const std::string& new_leader_name() const;
+  void set_new_leader_name(const std::string& value);
+  void set_new_leader_name(std::string&& value);
+  void set_new_leader_name(const char* value);
+  void set_new_leader_name(const char* value, size_t size);
+  std::string* mutable_new_leader_name();
+  std::string* release_new_leader_name();
+  void set_allocated_new_leader_name(std::string* new_leader_name);
+  private:
+  const std::string& _internal_new_leader_name() const;
+  void _internal_set_new_leader_name(const std::string& value);
+  std::string* _internal_mutable_new_leader_name();
+  public:
+
+  // uint64 guild_id = 1;
+  void clear_guild_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 guild_id() const;
+  void set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_guild_id() const;
+  void _internal_set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 operator_id = 2;
+  void clear_operator_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 operator_id() const;
+  void set_operator_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_operator_id() const;
+  void _internal_set_operator_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 new_leader_id = 3;
+  void clear_new_leader_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 new_leader_id() const;
+  void set_new_leader_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_new_leader_id() const;
+  void _internal_set_new_leader_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.GuildNewLeader)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr new_leader_name_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 guild_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 operator_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 new_leader_id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
+class GuildAddMember :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.GuildAddMember) */ {
+ public:
+  GuildAddMember();
+  virtual ~GuildAddMember();
+
+  GuildAddMember(const GuildAddMember& from);
+  GuildAddMember(GuildAddMember&& from) noexcept
+    : GuildAddMember() {
+    *this = ::std::move(from);
+  }
+
+  inline GuildAddMember& operator=(const GuildAddMember& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GuildAddMember& operator=(GuildAddMember&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const GuildAddMember& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const GuildAddMember* internal_default_instance() {
+    return reinterpret_cast<const GuildAddMember*>(
+               &_GuildAddMember_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    54;
+
+  friend void swap(GuildAddMember& a, GuildAddMember& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(GuildAddMember* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline GuildAddMember* New() const final {
+    return CreateMaybeMessage<GuildAddMember>(nullptr);
+  }
+
+  GuildAddMember* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<GuildAddMember>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const GuildAddMember& from);
+  void MergeFrom(const GuildAddMember& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GuildAddMember* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.GuildAddMember";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kGuildIdFieldNumber = 1,
+    kMemberIdFieldNumber = 2,
+  };
+  // uint64 guild_id = 1;
+  void clear_guild_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 guild_id() const;
+  void set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_guild_id() const;
+  void _internal_set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 member_id = 2;
   void clear_member_id();
   ::PROTOBUF_NAMESPACE_ID::uint64 member_id() const;
   void set_member_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
@@ -7105,55 +8661,35 @@ class TeamMemberInfo_Info :
   void _internal_set_member_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
   public:
 
-  // uint32 member_lev = 2;
-  void clear_member_lev();
-  ::PROTOBUF_NAMESPACE_ID::uint32 member_lev() const;
-  void set_member_lev(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_member_lev() const;
-  void _internal_set_member_lev(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
-  // bool member_online = 3;
-  void clear_member_online();
-  bool member_online() const;
-  void set_member_online(bool value);
-  private:
-  bool _internal_member_online() const;
-  void _internal_set_member_online(bool value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:ServerMSG.TeamMemberInfo.Info)
+  // @@protoc_insertion_point(class_scope:ServerMSG.GuildAddMember)
  private:
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr member_name_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 guild_id_;
   ::PROTOBUF_NAMESPACE_ID::uint64 member_id_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 member_lev_;
-  bool member_online_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
 };
 // -------------------------------------------------------------------
 
-class TeamMemberInfo :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.TeamMemberInfo) */ {
+class GuildDelMember :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.GuildDelMember) */ {
  public:
-  TeamMemberInfo();
-  virtual ~TeamMemberInfo();
+  GuildDelMember();
+  virtual ~GuildDelMember();
 
-  TeamMemberInfo(const TeamMemberInfo& from);
-  TeamMemberInfo(TeamMemberInfo&& from) noexcept
-    : TeamMemberInfo() {
+  GuildDelMember(const GuildDelMember& from);
+  GuildDelMember(GuildDelMember&& from) noexcept
+    : GuildDelMember() {
     *this = ::std::move(from);
   }
 
-  inline TeamMemberInfo& operator=(const TeamMemberInfo& from) {
+  inline GuildDelMember& operator=(const GuildDelMember& from) {
     CopyFrom(from);
     return *this;
   }
-  inline TeamMemberInfo& operator=(TeamMemberInfo&& from) noexcept {
+  inline GuildDelMember& operator=(GuildDelMember&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -7171,37 +8707,37 @@ class TeamMemberInfo :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return GetMetadataStatic().reflection;
   }
-  static const TeamMemberInfo& default_instance();
+  static const GuildDelMember& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const TeamMemberInfo* internal_default_instance() {
-    return reinterpret_cast<const TeamMemberInfo*>(
-               &_TeamMemberInfo_default_instance_);
+  static inline const GuildDelMember* internal_default_instance() {
+    return reinterpret_cast<const GuildDelMember*>(
+               &_GuildDelMember_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    45;
+    55;
 
-  friend void swap(TeamMemberInfo& a, TeamMemberInfo& b) {
+  friend void swap(GuildDelMember& a, GuildDelMember& b) {
     a.Swap(&b);
   }
-  inline void Swap(TeamMemberInfo* other) {
+  inline void Swap(GuildDelMember* other) {
     if (other == this) return;
     InternalSwap(other);
   }
 
   // implements Message ----------------------------------------------
 
-  inline TeamMemberInfo* New() const final {
-    return CreateMaybeMessage<TeamMemberInfo>(nullptr);
+  inline GuildDelMember* New() const final {
+    return CreateMaybeMessage<GuildDelMember>(nullptr);
   }
 
-  TeamMemberInfo* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<TeamMemberInfo>(arena);
+  GuildDelMember* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<GuildDelMember>(arena);
   }
   void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
   void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const TeamMemberInfo& from);
-  void MergeFrom(const TeamMemberInfo& from);
+  void CopyFrom(const GuildDelMember& from);
+  void MergeFrom(const GuildDelMember& from);
   PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
   bool IsInitialized() const final;
 
@@ -7215,10 +8751,10 @@ class TeamMemberInfo :
   inline void SharedCtor();
   inline void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(TeamMemberInfo* other);
+  void InternalSwap(GuildDelMember* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "ServerMSG.TeamMemberInfo";
+    return "ServerMSG.GuildDelMember";
   }
   private:
   inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
@@ -7240,37 +8776,174 @@ class TeamMemberInfo :
 
   // nested types ----------------------------------------------------
 
-  typedef TeamMemberInfo_Info Info;
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kGuildIdFieldNumber = 1,
+    kMemberIdFieldNumber = 2,
+  };
+  // uint64 guild_id = 1;
+  void clear_guild_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 guild_id() const;
+  void set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_guild_id() const;
+  void _internal_set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 member_id = 2;
+  void clear_member_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 member_id() const;
+  void set_member_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_member_id() const;
+  void _internal_set_member_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.GuildDelMember)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 guild_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 member_id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
+class GuildMemberInfoList :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.GuildMemberInfoList) */ {
+ public:
+  GuildMemberInfoList();
+  virtual ~GuildMemberInfoList();
+
+  GuildMemberInfoList(const GuildMemberInfoList& from);
+  GuildMemberInfoList(GuildMemberInfoList&& from) noexcept
+    : GuildMemberInfoList() {
+    *this = ::std::move(from);
+  }
+
+  inline GuildMemberInfoList& operator=(const GuildMemberInfoList& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GuildMemberInfoList& operator=(GuildMemberInfoList&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const GuildMemberInfoList& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const GuildMemberInfoList* internal_default_instance() {
+    return reinterpret_cast<const GuildMemberInfoList*>(
+               &_GuildMemberInfoList_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    56;
+
+  friend void swap(GuildMemberInfoList& a, GuildMemberInfoList& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(GuildMemberInfoList* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline GuildMemberInfoList* New() const final {
+    return CreateMaybeMessage<GuildMemberInfoList>(nullptr);
+  }
+
+  GuildMemberInfoList* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<GuildMemberInfoList>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const GuildMemberInfoList& from);
+  void MergeFrom(const GuildMemberInfoList& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GuildMemberInfoList* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.GuildMemberInfoList";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
 
   // accessors -------------------------------------------------------
 
   enum : int {
     kMemberListFieldNumber = 1,
   };
-  // repeated .ServerMSG.TeamMemberInfo.Info member_list = 1;
+  // repeated .GuildMemberInfo member_list = 1;
   int member_list_size() const;
   private:
   int _internal_member_list_size() const;
   public:
   void clear_member_list();
-  ::ServerMSG::TeamMemberInfo_Info* mutable_member_list(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ServerMSG::TeamMemberInfo_Info >*
+  ::GuildMemberInfo* mutable_member_list(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::GuildMemberInfo >*
       mutable_member_list();
   private:
-  const ::ServerMSG::TeamMemberInfo_Info& _internal_member_list(int index) const;
-  ::ServerMSG::TeamMemberInfo_Info* _internal_add_member_list();
+  const ::GuildMemberInfo& _internal_member_list(int index) const;
+  ::GuildMemberInfo* _internal_add_member_list();
   public:
-  const ::ServerMSG::TeamMemberInfo_Info& member_list(int index) const;
-  ::ServerMSG::TeamMemberInfo_Info* add_member_list();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ServerMSG::TeamMemberInfo_Info >&
+  const ::GuildMemberInfo& member_list(int index) const;
+  ::GuildMemberInfo* add_member_list();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::GuildMemberInfo >&
       member_list() const;
 
-  // @@protoc_insertion_point(class_scope:ServerMSG.TeamMemberInfo)
+  // @@protoc_insertion_point(class_scope:ServerMSG.GuildMemberInfoList)
  private:
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ServerMSG::TeamMemberInfo_Info > member_list_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::GuildMemberInfo > member_list_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
 };
@@ -7318,7 +8991,7 @@ class SyncTaskPhase :
                &_SyncTaskPhase_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    46;
+    57;
 
   friend void swap(SyncTaskPhase& a, SyncTaskPhase& b) {
     a.Swap(&b);
@@ -7471,7 +9144,7 @@ class AddTaskPhase :
                &_AddTaskPhase_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    47;
+    58;
 
   friend void swap(AddTaskPhase& a, AddTaskPhase& b) {
     a.Swap(&b);
@@ -7610,7 +9283,7 @@ class RemoveTaskPhase :
                &_RemoveTaskPhase_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    48;
+    59;
 
   friend void swap(RemoveTaskPhase& a, RemoveTaskPhase& b) {
     a.Swap(&b);
@@ -10758,168 +12431,865 @@ inline void TeamDelMember::set_member_id(::PROTOBUF_NAMESPACE_ID::uint64 value) 
 
 // -------------------------------------------------------------------
 
-// TeamMemberInfo_Info
+// TeamMemberInfoList
 
-// uint64 member_id = 1;
-inline void TeamMemberInfo_Info::clear_member_id() {
-  member_id_ = PROTOBUF_ULONGLONG(0);
+// repeated .TeamMemberInfo member_list = 1;
+inline int TeamMemberInfoList::_internal_member_list_size() const {
+  return member_list_.size();
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint64 TeamMemberInfo_Info::_internal_member_id() const {
-  return member_id_;
+inline int TeamMemberInfoList::member_list_size() const {
+  return _internal_member_list_size();
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint64 TeamMemberInfo_Info::member_id() const {
-  // @@protoc_insertion_point(field_get:ServerMSG.TeamMemberInfo.Info.member_id)
-  return _internal_member_id();
+inline ::TeamMemberInfo* TeamMemberInfoList::mutable_member_list(int index) {
+  // @@protoc_insertion_point(field_mutable:ServerMSG.TeamMemberInfoList.member_list)
+  return member_list_.Mutable(index);
 }
-inline void TeamMemberInfo_Info::_internal_set_member_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
-  
-  member_id_ = value;
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::TeamMemberInfo >*
+TeamMemberInfoList::mutable_member_list() {
+  // @@protoc_insertion_point(field_mutable_list:ServerMSG.TeamMemberInfoList.member_list)
+  return &member_list_;
 }
-inline void TeamMemberInfo_Info::set_member_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
-  _internal_set_member_id(value);
-  // @@protoc_insertion_point(field_set:ServerMSG.TeamMemberInfo.Info.member_id)
+inline const ::TeamMemberInfo& TeamMemberInfoList::_internal_member_list(int index) const {
+  return member_list_.Get(index);
 }
-
-// uint32 member_lev = 2;
-inline void TeamMemberInfo_Info::clear_member_lev() {
-  member_lev_ = 0u;
+inline const ::TeamMemberInfo& TeamMemberInfoList::member_list(int index) const {
+  // @@protoc_insertion_point(field_get:ServerMSG.TeamMemberInfoList.member_list)
+  return _internal_member_list(index);
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 TeamMemberInfo_Info::_internal_member_lev() const {
-  return member_lev_;
+inline ::TeamMemberInfo* TeamMemberInfoList::_internal_add_member_list() {
+  return member_list_.Add();
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 TeamMemberInfo_Info::member_lev() const {
-  // @@protoc_insertion_point(field_get:ServerMSG.TeamMemberInfo.Info.member_lev)
-  return _internal_member_lev();
+inline ::TeamMemberInfo* TeamMemberInfoList::add_member_list() {
+  // @@protoc_insertion_point(field_add:ServerMSG.TeamMemberInfoList.member_list)
+  return _internal_add_member_list();
 }
-inline void TeamMemberInfo_Info::_internal_set_member_lev(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  
-  member_lev_ = value;
-}
-inline void TeamMemberInfo_Info::set_member_lev(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  _internal_set_member_lev(value);
-  // @@protoc_insertion_point(field_set:ServerMSG.TeamMemberInfo.Info.member_lev)
-}
-
-// bool member_online = 3;
-inline void TeamMemberInfo_Info::clear_member_online() {
-  member_online_ = false;
-}
-inline bool TeamMemberInfo_Info::_internal_member_online() const {
-  return member_online_;
-}
-inline bool TeamMemberInfo_Info::member_online() const {
-  // @@protoc_insertion_point(field_get:ServerMSG.TeamMemberInfo.Info.member_online)
-  return _internal_member_online();
-}
-inline void TeamMemberInfo_Info::_internal_set_member_online(bool value) {
-  
-  member_online_ = value;
-}
-inline void TeamMemberInfo_Info::set_member_online(bool value) {
-  _internal_set_member_online(value);
-  // @@protoc_insertion_point(field_set:ServerMSG.TeamMemberInfo.Info.member_online)
-}
-
-// string member_name = 4;
-inline void TeamMemberInfo_Info::clear_member_name() {
-  member_name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-}
-inline const std::string& TeamMemberInfo_Info::member_name() const {
-  // @@protoc_insertion_point(field_get:ServerMSG.TeamMemberInfo.Info.member_name)
-  return _internal_member_name();
-}
-inline void TeamMemberInfo_Info::set_member_name(const std::string& value) {
-  _internal_set_member_name(value);
-  // @@protoc_insertion_point(field_set:ServerMSG.TeamMemberInfo.Info.member_name)
-}
-inline std::string* TeamMemberInfo_Info::mutable_member_name() {
-  // @@protoc_insertion_point(field_mutable:ServerMSG.TeamMemberInfo.Info.member_name)
-  return _internal_mutable_member_name();
-}
-inline const std::string& TeamMemberInfo_Info::_internal_member_name() const {
-  return member_name_.GetNoArena();
-}
-inline void TeamMemberInfo_Info::_internal_set_member_name(const std::string& value) {
-  
-  member_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
-}
-inline void TeamMemberInfo_Info::set_member_name(std::string&& value) {
-  
-  member_name_.SetNoArena(
-    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:ServerMSG.TeamMemberInfo.Info.member_name)
-}
-inline void TeamMemberInfo_Info::set_member_name(const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  
-  member_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:ServerMSG.TeamMemberInfo.Info.member_name)
-}
-inline void TeamMemberInfo_Info::set_member_name(const char* value, size_t size) {
-  
-  member_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:ServerMSG.TeamMemberInfo.Info.member_name)
-}
-inline std::string* TeamMemberInfo_Info::_internal_mutable_member_name() {
-  
-  return member_name_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-}
-inline std::string* TeamMemberInfo_Info::release_member_name() {
-  // @@protoc_insertion_point(field_release:ServerMSG.TeamMemberInfo.Info.member_name)
-  
-  return member_name_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-}
-inline void TeamMemberInfo_Info::set_allocated_member_name(std::string* member_name) {
-  if (member_name != nullptr) {
-    
-  } else {
-    
-  }
-  member_name_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), member_name);
-  // @@protoc_insertion_point(field_set_allocated:ServerMSG.TeamMemberInfo.Info.member_name)
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::TeamMemberInfo >&
+TeamMemberInfoList::member_list() const {
+  // @@protoc_insertion_point(field_list:ServerMSG.TeamMemberInfoList.member_list)
+  return member_list_;
 }
 
 // -------------------------------------------------------------------
 
-// TeamMemberInfo
+// GuildCreate
 
-// repeated .ServerMSG.TeamMemberInfo.Info member_list = 1;
-inline int TeamMemberInfo::_internal_member_list_size() const {
+// uint64 guild_id = 1;
+inline void GuildCreate::clear_guild_id() {
+  guild_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildCreate::_internal_guild_id() const {
+  return guild_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildCreate::guild_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildCreate.guild_id)
+  return _internal_guild_id();
+}
+inline void GuildCreate::_internal_set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  guild_id_ = value;
+}
+inline void GuildCreate::set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_guild_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildCreate.guild_id)
+}
+
+// uint64 leader_id = 2;
+inline void GuildCreate::clear_leader_id() {
+  leader_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildCreate::_internal_leader_id() const {
+  return leader_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildCreate::leader_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildCreate.leader_id)
+  return _internal_leader_id();
+}
+inline void GuildCreate::_internal_set_leader_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  leader_id_ = value;
+}
+inline void GuildCreate::set_leader_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_leader_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildCreate.leader_id)
+}
+
+// string guild_name = 3;
+inline void GuildCreate::clear_guild_name() {
+  guild_name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& GuildCreate::guild_name() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildCreate.guild_name)
+  return _internal_guild_name();
+}
+inline void GuildCreate::set_guild_name(const std::string& value) {
+  _internal_set_guild_name(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildCreate.guild_name)
+}
+inline std::string* GuildCreate::mutable_guild_name() {
+  // @@protoc_insertion_point(field_mutable:ServerMSG.GuildCreate.guild_name)
+  return _internal_mutable_guild_name();
+}
+inline const std::string& GuildCreate::_internal_guild_name() const {
+  return guild_name_.GetNoArena();
+}
+inline void GuildCreate::_internal_set_guild_name(const std::string& value) {
+  
+  guild_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void GuildCreate::set_guild_name(std::string&& value) {
+  
+  guild_name_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:ServerMSG.GuildCreate.guild_name)
+}
+inline void GuildCreate::set_guild_name(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  guild_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:ServerMSG.GuildCreate.guild_name)
+}
+inline void GuildCreate::set_guild_name(const char* value, size_t size) {
+  
+  guild_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:ServerMSG.GuildCreate.guild_name)
+}
+inline std::string* GuildCreate::_internal_mutable_guild_name() {
+  
+  return guild_name_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* GuildCreate::release_guild_name() {
+  // @@protoc_insertion_point(field_release:ServerMSG.GuildCreate.guild_name)
+  
+  return guild_name_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void GuildCreate::set_allocated_guild_name(std::string* guild_name) {
+  if (guild_name != nullptr) {
+    
+  } else {
+    
+  }
+  guild_name_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), guild_name);
+  // @@protoc_insertion_point(field_set_allocated:ServerMSG.GuildCreate.guild_name)
+}
+
+// string leader_name = 4;
+inline void GuildCreate::clear_leader_name() {
+  leader_name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& GuildCreate::leader_name() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildCreate.leader_name)
+  return _internal_leader_name();
+}
+inline void GuildCreate::set_leader_name(const std::string& value) {
+  _internal_set_leader_name(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildCreate.leader_name)
+}
+inline std::string* GuildCreate::mutable_leader_name() {
+  // @@protoc_insertion_point(field_mutable:ServerMSG.GuildCreate.leader_name)
+  return _internal_mutable_leader_name();
+}
+inline const std::string& GuildCreate::_internal_leader_name() const {
+  return leader_name_.GetNoArena();
+}
+inline void GuildCreate::_internal_set_leader_name(const std::string& value) {
+  
+  leader_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void GuildCreate::set_leader_name(std::string&& value) {
+  
+  leader_name_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:ServerMSG.GuildCreate.leader_name)
+}
+inline void GuildCreate::set_leader_name(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  leader_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:ServerMSG.GuildCreate.leader_name)
+}
+inline void GuildCreate::set_leader_name(const char* value, size_t size) {
+  
+  leader_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:ServerMSG.GuildCreate.leader_name)
+}
+inline std::string* GuildCreate::_internal_mutable_leader_name() {
+  
+  return leader_name_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* GuildCreate::release_leader_name() {
+  // @@protoc_insertion_point(field_release:ServerMSG.GuildCreate.leader_name)
+  
+  return leader_name_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void GuildCreate::set_allocated_leader_name(std::string* leader_name) {
+  if (leader_name != nullptr) {
+    
+  } else {
+    
+  }
+  leader_name_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), leader_name);
+  // @@protoc_insertion_point(field_set_allocated:ServerMSG.GuildCreate.leader_name)
+}
+
+// uint32 create_time = 5;
+inline void GuildCreate::clear_create_time() {
+  create_time_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 GuildCreate::_internal_create_time() const {
+  return create_time_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 GuildCreate::create_time() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildCreate.create_time)
+  return _internal_create_time();
+}
+inline void GuildCreate::_internal_set_create_time(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  create_time_ = value;
+}
+inline void GuildCreate::set_create_time(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_create_time(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildCreate.create_time)
+}
+
+// -------------------------------------------------------------------
+
+// GuildDestory
+
+// uint64 guild_id = 1;
+inline void GuildDestory::clear_guild_id() {
+  guild_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildDestory::_internal_guild_id() const {
+  return guild_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildDestory::guild_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildDestory.guild_id)
+  return _internal_guild_id();
+}
+inline void GuildDestory::_internal_set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  guild_id_ = value;
+}
+inline void GuildDestory::set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_guild_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildDestory.guild_id)
+}
+
+// -------------------------------------------------------------------
+
+// GuildQuit
+
+// uint64 guild_id = 1;
+inline void GuildQuit::clear_guild_id() {
+  guild_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildQuit::_internal_guild_id() const {
+  return guild_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildQuit::guild_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildQuit.guild_id)
+  return _internal_guild_id();
+}
+inline void GuildQuit::_internal_set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  guild_id_ = value;
+}
+inline void GuildQuit::set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_guild_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildQuit.guild_id)
+}
+
+// uint64 operator_id = 2;
+inline void GuildQuit::clear_operator_id() {
+  operator_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildQuit::_internal_operator_id() const {
+  return operator_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildQuit::operator_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildQuit.operator_id)
+  return _internal_operator_id();
+}
+inline void GuildQuit::_internal_set_operator_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  operator_id_ = value;
+}
+inline void GuildQuit::set_operator_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_operator_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildQuit.operator_id)
+}
+
+// -------------------------------------------------------------------
+
+// GuildKickMember
+
+// uint64 guild_id = 1;
+inline void GuildKickMember::clear_guild_id() {
+  guild_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildKickMember::_internal_guild_id() const {
+  return guild_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildKickMember::guild_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildKickMember.guild_id)
+  return _internal_guild_id();
+}
+inline void GuildKickMember::_internal_set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  guild_id_ = value;
+}
+inline void GuildKickMember::set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_guild_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildKickMember.guild_id)
+}
+
+// uint64 operator_id = 2;
+inline void GuildKickMember::clear_operator_id() {
+  operator_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildKickMember::_internal_operator_id() const {
+  return operator_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildKickMember::operator_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildKickMember.operator_id)
+  return _internal_operator_id();
+}
+inline void GuildKickMember::_internal_set_operator_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  operator_id_ = value;
+}
+inline void GuildKickMember::set_operator_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_operator_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildKickMember.operator_id)
+}
+
+// uint64 kick_id = 3;
+inline void GuildKickMember::clear_kick_id() {
+  kick_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildKickMember::_internal_kick_id() const {
+  return kick_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildKickMember::kick_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildKickMember.kick_id)
+  return _internal_kick_id();
+}
+inline void GuildKickMember::_internal_set_kick_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  kick_id_ = value;
+}
+inline void GuildKickMember::set_kick_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_kick_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildKickMember.kick_id)
+}
+
+// -------------------------------------------------------------------
+
+// GuildInviteMember
+
+// uint64 guild_id = 1;
+inline void GuildInviteMember::clear_guild_id() {
+  guild_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildInviteMember::_internal_guild_id() const {
+  return guild_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildInviteMember::guild_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildInviteMember.guild_id)
+  return _internal_guild_id();
+}
+inline void GuildInviteMember::_internal_set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  guild_id_ = value;
+}
+inline void GuildInviteMember::set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_guild_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildInviteMember.guild_id)
+}
+
+// uint64 operator_id = 2;
+inline void GuildInviteMember::clear_operator_id() {
+  operator_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildInviteMember::_internal_operator_id() const {
+  return operator_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildInviteMember::operator_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildInviteMember.operator_id)
+  return _internal_operator_id();
+}
+inline void GuildInviteMember::_internal_set_operator_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  operator_id_ = value;
+}
+inline void GuildInviteMember::set_operator_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_operator_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildInviteMember.operator_id)
+}
+
+// uint64 invitee_id = 3;
+inline void GuildInviteMember::clear_invitee_id() {
+  invitee_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildInviteMember::_internal_invitee_id() const {
+  return invitee_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildInviteMember::invitee_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildInviteMember.invitee_id)
+  return _internal_invitee_id();
+}
+inline void GuildInviteMember::_internal_set_invitee_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  invitee_id_ = value;
+}
+inline void GuildInviteMember::set_invitee_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_invitee_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildInviteMember.invitee_id)
+}
+
+// -------------------------------------------------------------------
+
+// GuildAcceptInvite
+
+// uint64 guild_id = 1;
+inline void GuildAcceptInvite::clear_guild_id() {
+  guild_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildAcceptInvite::_internal_guild_id() const {
+  return guild_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildAcceptInvite::guild_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildAcceptInvite.guild_id)
+  return _internal_guild_id();
+}
+inline void GuildAcceptInvite::_internal_set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  guild_id_ = value;
+}
+inline void GuildAcceptInvite::set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_guild_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildAcceptInvite.guild_id)
+}
+
+// uint64 inviter_id = 2;
+inline void GuildAcceptInvite::clear_inviter_id() {
+  inviter_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildAcceptInvite::_internal_inviter_id() const {
+  return inviter_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildAcceptInvite::inviter_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildAcceptInvite.inviter_id)
+  return _internal_inviter_id();
+}
+inline void GuildAcceptInvite::_internal_set_inviter_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  inviter_id_ = value;
+}
+inline void GuildAcceptInvite::set_inviter_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_inviter_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildAcceptInvite.inviter_id)
+}
+
+// uint64 invitee_id = 3;
+inline void GuildAcceptInvite::clear_invitee_id() {
+  invitee_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildAcceptInvite::_internal_invitee_id() const {
+  return invitee_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildAcceptInvite::invitee_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildAcceptInvite.invitee_id)
+  return _internal_invitee_id();
+}
+inline void GuildAcceptInvite::_internal_set_invitee_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  invitee_id_ = value;
+}
+inline void GuildAcceptInvite::set_invitee_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_invitee_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildAcceptInvite.invitee_id)
+}
+
+// bool result = 4;
+inline void GuildAcceptInvite::clear_result() {
+  result_ = false;
+}
+inline bool GuildAcceptInvite::_internal_result() const {
+  return result_;
+}
+inline bool GuildAcceptInvite::result() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildAcceptInvite.result)
+  return _internal_result();
+}
+inline void GuildAcceptInvite::_internal_set_result(bool value) {
+  
+  result_ = value;
+}
+inline void GuildAcceptInvite::set_result(bool value) {
+  _internal_set_result(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildAcceptInvite.result)
+}
+
+// -------------------------------------------------------------------
+
+// GuildApplyMember
+
+// uint64 applicant_id = 1;
+inline void GuildApplyMember::clear_applicant_id() {
+  applicant_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildApplyMember::_internal_applicant_id() const {
+  return applicant_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildApplyMember::applicant_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildApplyMember.applicant_id)
+  return _internal_applicant_id();
+}
+inline void GuildApplyMember::_internal_set_applicant_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  applicant_id_ = value;
+}
+inline void GuildApplyMember::set_applicant_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_applicant_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildApplyMember.applicant_id)
+}
+
+// uint64 respondent_id = 2;
+inline void GuildApplyMember::clear_respondent_id() {
+  respondent_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildApplyMember::_internal_respondent_id() const {
+  return respondent_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildApplyMember::respondent_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildApplyMember.respondent_id)
+  return _internal_respondent_id();
+}
+inline void GuildApplyMember::_internal_set_respondent_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  respondent_id_ = value;
+}
+inline void GuildApplyMember::set_respondent_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_respondent_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildApplyMember.respondent_id)
+}
+
+// -------------------------------------------------------------------
+
+// GuildAcceptApply
+
+// uint64 applicant_id = 1;
+inline void GuildAcceptApply::clear_applicant_id() {
+  applicant_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildAcceptApply::_internal_applicant_id() const {
+  return applicant_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildAcceptApply::applicant_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildAcceptApply.applicant_id)
+  return _internal_applicant_id();
+}
+inline void GuildAcceptApply::_internal_set_applicant_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  applicant_id_ = value;
+}
+inline void GuildAcceptApply::set_applicant_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_applicant_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildAcceptApply.applicant_id)
+}
+
+// uint64 respondent_id = 2;
+inline void GuildAcceptApply::clear_respondent_id() {
+  respondent_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildAcceptApply::_internal_respondent_id() const {
+  return respondent_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildAcceptApply::respondent_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildAcceptApply.respondent_id)
+  return _internal_respondent_id();
+}
+inline void GuildAcceptApply::_internal_set_respondent_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  respondent_id_ = value;
+}
+inline void GuildAcceptApply::set_respondent_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_respondent_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildAcceptApply.respondent_id)
+}
+
+// bool result = 3;
+inline void GuildAcceptApply::clear_result() {
+  result_ = false;
+}
+inline bool GuildAcceptApply::_internal_result() const {
+  return result_;
+}
+inline bool GuildAcceptApply::result() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildAcceptApply.result)
+  return _internal_result();
+}
+inline void GuildAcceptApply::_internal_set_result(bool value) {
+  
+  result_ = value;
+}
+inline void GuildAcceptApply::set_result(bool value) {
+  _internal_set_result(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildAcceptApply.result)
+}
+
+// -------------------------------------------------------------------
+
+// GuildNewLeader
+
+// uint64 guild_id = 1;
+inline void GuildNewLeader::clear_guild_id() {
+  guild_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildNewLeader::_internal_guild_id() const {
+  return guild_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildNewLeader::guild_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildNewLeader.guild_id)
+  return _internal_guild_id();
+}
+inline void GuildNewLeader::_internal_set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  guild_id_ = value;
+}
+inline void GuildNewLeader::set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_guild_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildNewLeader.guild_id)
+}
+
+// uint64 operator_id = 2;
+inline void GuildNewLeader::clear_operator_id() {
+  operator_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildNewLeader::_internal_operator_id() const {
+  return operator_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildNewLeader::operator_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildNewLeader.operator_id)
+  return _internal_operator_id();
+}
+inline void GuildNewLeader::_internal_set_operator_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  operator_id_ = value;
+}
+inline void GuildNewLeader::set_operator_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_operator_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildNewLeader.operator_id)
+}
+
+// uint64 new_leader_id = 3;
+inline void GuildNewLeader::clear_new_leader_id() {
+  new_leader_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildNewLeader::_internal_new_leader_id() const {
+  return new_leader_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildNewLeader::new_leader_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildNewLeader.new_leader_id)
+  return _internal_new_leader_id();
+}
+inline void GuildNewLeader::_internal_set_new_leader_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  new_leader_id_ = value;
+}
+inline void GuildNewLeader::set_new_leader_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_new_leader_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildNewLeader.new_leader_id)
+}
+
+// string new_leader_name = 4;
+inline void GuildNewLeader::clear_new_leader_name() {
+  new_leader_name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& GuildNewLeader::new_leader_name() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildNewLeader.new_leader_name)
+  return _internal_new_leader_name();
+}
+inline void GuildNewLeader::set_new_leader_name(const std::string& value) {
+  _internal_set_new_leader_name(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildNewLeader.new_leader_name)
+}
+inline std::string* GuildNewLeader::mutable_new_leader_name() {
+  // @@protoc_insertion_point(field_mutable:ServerMSG.GuildNewLeader.new_leader_name)
+  return _internal_mutable_new_leader_name();
+}
+inline const std::string& GuildNewLeader::_internal_new_leader_name() const {
+  return new_leader_name_.GetNoArena();
+}
+inline void GuildNewLeader::_internal_set_new_leader_name(const std::string& value) {
+  
+  new_leader_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void GuildNewLeader::set_new_leader_name(std::string&& value) {
+  
+  new_leader_name_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:ServerMSG.GuildNewLeader.new_leader_name)
+}
+inline void GuildNewLeader::set_new_leader_name(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  new_leader_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:ServerMSG.GuildNewLeader.new_leader_name)
+}
+inline void GuildNewLeader::set_new_leader_name(const char* value, size_t size) {
+  
+  new_leader_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:ServerMSG.GuildNewLeader.new_leader_name)
+}
+inline std::string* GuildNewLeader::_internal_mutable_new_leader_name() {
+  
+  return new_leader_name_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* GuildNewLeader::release_new_leader_name() {
+  // @@protoc_insertion_point(field_release:ServerMSG.GuildNewLeader.new_leader_name)
+  
+  return new_leader_name_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void GuildNewLeader::set_allocated_new_leader_name(std::string* new_leader_name) {
+  if (new_leader_name != nullptr) {
+    
+  } else {
+    
+  }
+  new_leader_name_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), new_leader_name);
+  // @@protoc_insertion_point(field_set_allocated:ServerMSG.GuildNewLeader.new_leader_name)
+}
+
+// -------------------------------------------------------------------
+
+// GuildAddMember
+
+// uint64 guild_id = 1;
+inline void GuildAddMember::clear_guild_id() {
+  guild_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildAddMember::_internal_guild_id() const {
+  return guild_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildAddMember::guild_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildAddMember.guild_id)
+  return _internal_guild_id();
+}
+inline void GuildAddMember::_internal_set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  guild_id_ = value;
+}
+inline void GuildAddMember::set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_guild_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildAddMember.guild_id)
+}
+
+// uint64 member_id = 2;
+inline void GuildAddMember::clear_member_id() {
+  member_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildAddMember::_internal_member_id() const {
+  return member_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildAddMember::member_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildAddMember.member_id)
+  return _internal_member_id();
+}
+inline void GuildAddMember::_internal_set_member_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  member_id_ = value;
+}
+inline void GuildAddMember::set_member_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_member_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildAddMember.member_id)
+}
+
+// -------------------------------------------------------------------
+
+// GuildDelMember
+
+// uint64 guild_id = 1;
+inline void GuildDelMember::clear_guild_id() {
+  guild_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildDelMember::_internal_guild_id() const {
+  return guild_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildDelMember::guild_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildDelMember.guild_id)
+  return _internal_guild_id();
+}
+inline void GuildDelMember::_internal_set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  guild_id_ = value;
+}
+inline void GuildDelMember::set_guild_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_guild_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildDelMember.guild_id)
+}
+
+// uint64 member_id = 2;
+inline void GuildDelMember::clear_member_id() {
+  member_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildDelMember::_internal_member_id() const {
+  return member_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GuildDelMember::member_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildDelMember.member_id)
+  return _internal_member_id();
+}
+inline void GuildDelMember::_internal_set_member_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  member_id_ = value;
+}
+inline void GuildDelMember::set_member_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_member_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.GuildDelMember.member_id)
+}
+
+// -------------------------------------------------------------------
+
+// GuildMemberInfoList
+
+// repeated .GuildMemberInfo member_list = 1;
+inline int GuildMemberInfoList::_internal_member_list_size() const {
   return member_list_.size();
 }
-inline int TeamMemberInfo::member_list_size() const {
+inline int GuildMemberInfoList::member_list_size() const {
   return _internal_member_list_size();
 }
-inline void TeamMemberInfo::clear_member_list() {
-  member_list_.Clear();
-}
-inline ::ServerMSG::TeamMemberInfo_Info* TeamMemberInfo::mutable_member_list(int index) {
-  // @@protoc_insertion_point(field_mutable:ServerMSG.TeamMemberInfo.member_list)
+inline ::GuildMemberInfo* GuildMemberInfoList::mutable_member_list(int index) {
+  // @@protoc_insertion_point(field_mutable:ServerMSG.GuildMemberInfoList.member_list)
   return member_list_.Mutable(index);
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ServerMSG::TeamMemberInfo_Info >*
-TeamMemberInfo::mutable_member_list() {
-  // @@protoc_insertion_point(field_mutable_list:ServerMSG.TeamMemberInfo.member_list)
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::GuildMemberInfo >*
+GuildMemberInfoList::mutable_member_list() {
+  // @@protoc_insertion_point(field_mutable_list:ServerMSG.GuildMemberInfoList.member_list)
   return &member_list_;
 }
-inline const ::ServerMSG::TeamMemberInfo_Info& TeamMemberInfo::_internal_member_list(int index) const {
+inline const ::GuildMemberInfo& GuildMemberInfoList::_internal_member_list(int index) const {
   return member_list_.Get(index);
 }
-inline const ::ServerMSG::TeamMemberInfo_Info& TeamMemberInfo::member_list(int index) const {
-  // @@protoc_insertion_point(field_get:ServerMSG.TeamMemberInfo.member_list)
+inline const ::GuildMemberInfo& GuildMemberInfoList::member_list(int index) const {
+  // @@protoc_insertion_point(field_get:ServerMSG.GuildMemberInfoList.member_list)
   return _internal_member_list(index);
 }
-inline ::ServerMSG::TeamMemberInfo_Info* TeamMemberInfo::_internal_add_member_list() {
+inline ::GuildMemberInfo* GuildMemberInfoList::_internal_add_member_list() {
   return member_list_.Add();
 }
-inline ::ServerMSG::TeamMemberInfo_Info* TeamMemberInfo::add_member_list() {
-  // @@protoc_insertion_point(field_add:ServerMSG.TeamMemberInfo.member_list)
+inline ::GuildMemberInfo* GuildMemberInfoList::add_member_list() {
+  // @@protoc_insertion_point(field_add:ServerMSG.GuildMemberInfoList.member_list)
   return _internal_add_member_list();
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::ServerMSG::TeamMemberInfo_Info >&
-TeamMemberInfo::member_list() const {
-  // @@protoc_insertion_point(field_list:ServerMSG.TeamMemberInfo.member_list)
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::GuildMemberInfo >&
+GuildMemberInfoList::member_list() const {
+  // @@protoc_insertion_point(field_list:ServerMSG.GuildMemberInfoList.member_list)
   return member_list_;
 }
 
@@ -11085,6 +13455,28 @@ inline void RemoveTaskPhase::set_task_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 v
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

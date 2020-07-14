@@ -1049,12 +1049,19 @@ class tbld_guild :
 
   enum : int {
     kNameFieldNumber = 3,
-    kLeadernameFieldNumber = 5,
+    kLeaderNameFieldNumber = 5,
+    kCreatorNameFieldNumber = 7,
+    kSloganFieldNumber = 10,
+    kInfo1FieldNumber = 11,
+    kInfo2FieldNumber = 12,
+    kInfo3FieldNumber = 13,
     kIdFieldNumber = 1,
     kLevFieldNumber = 2,
-    kLeaderidFieldNumber = 4,
-    kCreateTimeFieldNumber = 6,
-    kDelTimeFieldNumber = 7,
+    kLeaderIdFieldNumber = 4,
+    kCreatorIdFieldNumber = 6,
+    kCreateTimeFieldNumber = 8,
+    kDelTimeFieldNumber = 9,
+    kFlagFieldNumber = 14,
   };
   // string name = 3 [(.sql) = {
   void clear_name();
@@ -1072,20 +1079,100 @@ class tbld_guild :
   std::string* _internal_mutable_name();
   public:
 
-  // string leadername = 5 [(.sql) = {
-  void clear_leadername();
-  const std::string& leadername() const;
-  void set_leadername(const std::string& value);
-  void set_leadername(std::string&& value);
-  void set_leadername(const char* value);
-  void set_leadername(const char* value, size_t size);
-  std::string* mutable_leadername();
-  std::string* release_leadername();
-  void set_allocated_leadername(std::string* leadername);
+  // string leader_name = 5 [(.sql) = {
+  void clear_leader_name();
+  const std::string& leader_name() const;
+  void set_leader_name(const std::string& value);
+  void set_leader_name(std::string&& value);
+  void set_leader_name(const char* value);
+  void set_leader_name(const char* value, size_t size);
+  std::string* mutable_leader_name();
+  std::string* release_leader_name();
+  void set_allocated_leader_name(std::string* leader_name);
   private:
-  const std::string& _internal_leadername() const;
-  void _internal_set_leadername(const std::string& value);
-  std::string* _internal_mutable_leadername();
+  const std::string& _internal_leader_name() const;
+  void _internal_set_leader_name(const std::string& value);
+  std::string* _internal_mutable_leader_name();
+  public:
+
+  // string creator_name = 7 [(.sql) = {
+  void clear_creator_name();
+  const std::string& creator_name() const;
+  void set_creator_name(const std::string& value);
+  void set_creator_name(std::string&& value);
+  void set_creator_name(const char* value);
+  void set_creator_name(const char* value, size_t size);
+  std::string* mutable_creator_name();
+  std::string* release_creator_name();
+  void set_allocated_creator_name(std::string* creator_name);
+  private:
+  const std::string& _internal_creator_name() const;
+  void _internal_set_creator_name(const std::string& value);
+  std::string* _internal_mutable_creator_name();
+  public:
+
+  // string slogan = 10 [(.sql) = {
+  void clear_slogan();
+  const std::string& slogan() const;
+  void set_slogan(const std::string& value);
+  void set_slogan(std::string&& value);
+  void set_slogan(const char* value);
+  void set_slogan(const char* value, size_t size);
+  std::string* mutable_slogan();
+  std::string* release_slogan();
+  void set_allocated_slogan(std::string* slogan);
+  private:
+  const std::string& _internal_slogan() const;
+  void _internal_set_slogan(const std::string& value);
+  std::string* _internal_mutable_slogan();
+  public:
+
+  // string info1 = 11 [(.sql) = {
+  void clear_info1();
+  const std::string& info1() const;
+  void set_info1(const std::string& value);
+  void set_info1(std::string&& value);
+  void set_info1(const char* value);
+  void set_info1(const char* value, size_t size);
+  std::string* mutable_info1();
+  std::string* release_info1();
+  void set_allocated_info1(std::string* info1);
+  private:
+  const std::string& _internal_info1() const;
+  void _internal_set_info1(const std::string& value);
+  std::string* _internal_mutable_info1();
+  public:
+
+  // string info2 = 12 [(.sql) = {
+  void clear_info2();
+  const std::string& info2() const;
+  void set_info2(const std::string& value);
+  void set_info2(std::string&& value);
+  void set_info2(const char* value);
+  void set_info2(const char* value, size_t size);
+  std::string* mutable_info2();
+  std::string* release_info2();
+  void set_allocated_info2(std::string* info2);
+  private:
+  const std::string& _internal_info2() const;
+  void _internal_set_info2(const std::string& value);
+  std::string* _internal_mutable_info2();
+  public:
+
+  // string info3 = 13 [(.sql) = {
+  void clear_info3();
+  const std::string& info3() const;
+  void set_info3(const std::string& value);
+  void set_info3(std::string&& value);
+  void set_info3(const char* value);
+  void set_info3(const char* value, size_t size);
+  std::string* mutable_info3();
+  std::string* release_info3();
+  void set_allocated_info3(std::string* info3);
+  private:
+  const std::string& _internal_info3() const;
+  void _internal_set_info3(const std::string& value);
+  std::string* _internal_mutable_info3();
   public:
 
   // uint64 id = 1 [(.sql) = {
@@ -1106,16 +1193,25 @@ class tbld_guild :
   void _internal_set_lev(::PROTOBUF_NAMESPACE_ID::uint64 value);
   public:
 
-  // uint64 leaderid = 4;
-  void clear_leaderid();
-  ::PROTOBUF_NAMESPACE_ID::uint64 leaderid() const;
-  void set_leaderid(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  // uint64 leader_id = 4;
+  void clear_leader_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 leader_id() const;
+  void set_leader_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_leaderid() const;
-  void _internal_set_leaderid(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_leader_id() const;
+  void _internal_set_leader_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
   public:
 
-  // uint32 create_time = 6;
+  // uint64 creator_id = 6 [(.sql) = {
+  void clear_creator_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 creator_id() const;
+  void set_creator_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_creator_id() const;
+  void _internal_set_creator_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint32 create_time = 8;
   void clear_create_time();
   ::PROTOBUF_NAMESPACE_ID::uint32 create_time() const;
   void set_create_time(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -1124,7 +1220,7 @@ class tbld_guild :
   void _internal_set_create_time(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 del_time = 7;
+  // uint32 del_time = 9;
   void clear_del_time();
   ::PROTOBUF_NAMESPACE_ID::uint32 del_time() const;
   void set_del_time(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -1133,18 +1229,34 @@ class tbld_guild :
   void _internal_set_del_time(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
+  // uint64 flag = 14;
+  void clear_flag();
+  ::PROTOBUF_NAMESPACE_ID::uint64 flag() const;
+  void set_flag(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_flag() const;
+  void _internal_set_flag(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:db.tbld_guild)
  private:
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr leadername_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr leader_name_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr creator_name_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr slogan_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr info1_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr info2_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr info3_;
   ::PROTOBUF_NAMESPACE_ID::uint64 id_;
   ::PROTOBUF_NAMESPACE_ID::uint64 lev_;
-  ::PROTOBUF_NAMESPACE_ID::uint64 leaderid_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 leader_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 creator_id_;
   ::PROTOBUF_NAMESPACE_ID::uint32 create_time_;
   ::PROTOBUF_NAMESPACE_ID::uint32 del_time_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 flag_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_db_5fproto_2fgamedb_2eproto;
 };
@@ -2073,43 +2185,43 @@ class tbld_player :
   enum : int {
     kOpenidFieldNumber = 4,
     kNameFieldNumber = 5,
-    kMateNameFieldNumber = 19,
+    kMateNameFieldNumber = 23,
     kIdFieldNumber = 1,
     kWorldidFieldNumber = 2,
     kOriworldidFieldNumber = 3,
     kProfFieldNumber = 6,
     kBaselookFieldNumber = 7,
-    kLevFieldNumber = 8,
-    kViplevFieldNumber = 9,
-    kRecordSceneidFieldNumber = 10,
-    kRecordXFieldNumber = 11,
-    kRecordYFieldNumber = 12,
-    kHomeSceneidFieldNumber = 14,
-    kRecordFaceFieldNumber = 13,
-    kHomeXFieldNumber = 15,
-    kHomeYFieldNumber = 16,
-    kHomeFaceFieldNumber = 17,
-    kMateIdFieldNumber = 18,
-    kTeamidFieldNumber = 20,
-    kGuildidFieldNumber = 21,
-    kExpFieldNumber = 22,
-    kMoneyFieldNumber = 23,
-    kMoneyBindFieldNumber = 24,
-    kGoldFieldNumber = 25,
-    kGoldBindFieldNumber = 26,
-    kHpFieldNumber = 27,
-    kMpFieldNumber = 28,
-    kFpFieldNumber = 29,
-    kNpFieldNumber = 30,
-    kPkvalFieldNumber = 31,
-    kHonorFieldNumber = 32,
-    kAchipointFieldNumber = 33,
-    kBagSizeFieldNumber = 34,
-    kStrogeSizeFieldNumber = 35,
-    kCreateTimeFieldNumber = 36,
-    kLastLogintimeFieldNumber = 37,
-    kLastLogouttimeFieldNumber = 38,
-    kDelTimeFieldNumber = 39,
+    kCreateTimeFieldNumber = 8,
+    kLastLogintimeFieldNumber = 9,
+    kLastLogouttimeFieldNumber = 10,
+    kDelTimeFieldNumber = 11,
+    kLevFieldNumber = 12,
+    kViplevFieldNumber = 13,
+    kRecordSceneidFieldNumber = 14,
+    kRecordXFieldNumber = 15,
+    kRecordYFieldNumber = 16,
+    kHomeSceneidFieldNumber = 18,
+    kRecordFaceFieldNumber = 17,
+    kHomeXFieldNumber = 19,
+    kHomeYFieldNumber = 20,
+    kHomeFaceFieldNumber = 21,
+    kMateIdFieldNumber = 22,
+    kTeamidFieldNumber = 24,
+    kGuildidFieldNumber = 25,
+    kExpFieldNumber = 26,
+    kMoneyFieldNumber = 27,
+    kMoneyBindFieldNumber = 28,
+    kGoldFieldNumber = 29,
+    kGoldBindFieldNumber = 30,
+    kHpFieldNumber = 31,
+    kMpFieldNumber = 32,
+    kFpFieldNumber = 33,
+    kNpFieldNumber = 34,
+    kPkvalFieldNumber = 35,
+    kHonorFieldNumber = 36,
+    kAchipointFieldNumber = 37,
+    kBagSizeFieldNumber = 38,
+    kStrogeSizeFieldNumber = 39,
   };
   // string openid = 4 [(.sql) = {
   void clear_openid();
@@ -2143,7 +2255,7 @@ class tbld_player :
   std::string* _internal_mutable_name();
   public:
 
-  // string mate_name = 19 [(.sql) = {
+  // string mate_name = 23 [(.sql) = {
   void clear_mate_name();
   const std::string& mate_name() const;
   void set_mate_name(const std::string& value);
@@ -2204,250 +2316,7 @@ class tbld_player :
   void _internal_set_baselook(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 lev = 8 [(.sql) = {
-  void clear_lev();
-  ::PROTOBUF_NAMESPACE_ID::uint32 lev() const;
-  void set_lev(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_lev() const;
-  void _internal_set_lev(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
-  // uint32 viplev = 9;
-  void clear_viplev();
-  ::PROTOBUF_NAMESPACE_ID::uint32 viplev() const;
-  void set_viplev(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_viplev() const;
-  void _internal_set_viplev(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
-  // uint64 record_sceneid = 10;
-  void clear_record_sceneid();
-  ::PROTOBUF_NAMESPACE_ID::uint64 record_sceneid() const;
-  void set_record_sceneid(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_record_sceneid() const;
-  void _internal_set_record_sceneid(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  public:
-
-  // float record_x = 11;
-  void clear_record_x();
-  float record_x() const;
-  void set_record_x(float value);
-  private:
-  float _internal_record_x() const;
-  void _internal_set_record_x(float value);
-  public:
-
-  // float record_y = 12;
-  void clear_record_y();
-  float record_y() const;
-  void set_record_y(float value);
-  private:
-  float _internal_record_y() const;
-  void _internal_set_record_y(float value);
-  public:
-
-  // uint64 home_sceneid = 14;
-  void clear_home_sceneid();
-  ::PROTOBUF_NAMESPACE_ID::uint64 home_sceneid() const;
-  void set_home_sceneid(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_home_sceneid() const;
-  void _internal_set_home_sceneid(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  public:
-
-  // float record_face = 13;
-  void clear_record_face();
-  float record_face() const;
-  void set_record_face(float value);
-  private:
-  float _internal_record_face() const;
-  void _internal_set_record_face(float value);
-  public:
-
-  // float home_x = 15;
-  void clear_home_x();
-  float home_x() const;
-  void set_home_x(float value);
-  private:
-  float _internal_home_x() const;
-  void _internal_set_home_x(float value);
-  public:
-
-  // float home_y = 16;
-  void clear_home_y();
-  float home_y() const;
-  void set_home_y(float value);
-  private:
-  float _internal_home_y() const;
-  void _internal_set_home_y(float value);
-  public:
-
-  // float home_face = 17;
-  void clear_home_face();
-  float home_face() const;
-  void set_home_face(float value);
-  private:
-  float _internal_home_face() const;
-  void _internal_set_home_face(float value);
-  public:
-
-  // uint64 mate_id = 18;
-  void clear_mate_id();
-  ::PROTOBUF_NAMESPACE_ID::uint64 mate_id() const;
-  void set_mate_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_mate_id() const;
-  void _internal_set_mate_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  public:
-
-  // uint64 teamid = 20;
-  void clear_teamid();
-  ::PROTOBUF_NAMESPACE_ID::uint64 teamid() const;
-  void set_teamid(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_teamid() const;
-  void _internal_set_teamid(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  public:
-
-  // uint64 guildid = 21;
-  void clear_guildid();
-  ::PROTOBUF_NAMESPACE_ID::uint64 guildid() const;
-  void set_guildid(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_guildid() const;
-  void _internal_set_guildid(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  public:
-
-  // uint64 exp = 22;
-  void clear_exp();
-  ::PROTOBUF_NAMESPACE_ID::uint64 exp() const;
-  void set_exp(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_exp() const;
-  void _internal_set_exp(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  public:
-
-  // uint64 money = 23;
-  void clear_money();
-  ::PROTOBUF_NAMESPACE_ID::uint64 money() const;
-  void set_money(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_money() const;
-  void _internal_set_money(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  public:
-
-  // uint64 money_bind = 24;
-  void clear_money_bind();
-  ::PROTOBUF_NAMESPACE_ID::uint64 money_bind() const;
-  void set_money_bind(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_money_bind() const;
-  void _internal_set_money_bind(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  public:
-
-  // uint64 gold = 25;
-  void clear_gold();
-  ::PROTOBUF_NAMESPACE_ID::uint64 gold() const;
-  void set_gold(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_gold() const;
-  void _internal_set_gold(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  public:
-
-  // uint64 gold_bind = 26;
-  void clear_gold_bind();
-  ::PROTOBUF_NAMESPACE_ID::uint64 gold_bind() const;
-  void set_gold_bind(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_gold_bind() const;
-  void _internal_set_gold_bind(::PROTOBUF_NAMESPACE_ID::uint64 value);
-  public:
-
-  // uint32 hp = 27;
-  void clear_hp();
-  ::PROTOBUF_NAMESPACE_ID::uint32 hp() const;
-  void set_hp(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_hp() const;
-  void _internal_set_hp(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
-  // uint32 mp = 28;
-  void clear_mp();
-  ::PROTOBUF_NAMESPACE_ID::uint32 mp() const;
-  void set_mp(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_mp() const;
-  void _internal_set_mp(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
-  // uint32 fp = 29;
-  void clear_fp();
-  ::PROTOBUF_NAMESPACE_ID::uint32 fp() const;
-  void set_fp(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_fp() const;
-  void _internal_set_fp(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
-  // uint32 np = 30;
-  void clear_np();
-  ::PROTOBUF_NAMESPACE_ID::uint32 np() const;
-  void set_np(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_np() const;
-  void _internal_set_np(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
-  // uint32 pkval = 31;
-  void clear_pkval();
-  ::PROTOBUF_NAMESPACE_ID::uint32 pkval() const;
-  void set_pkval(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_pkval() const;
-  void _internal_set_pkval(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
-  // uint32 honor = 32;
-  void clear_honor();
-  ::PROTOBUF_NAMESPACE_ID::uint32 honor() const;
-  void set_honor(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_honor() const;
-  void _internal_set_honor(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
-  // uint32 achipoint = 33;
-  void clear_achipoint();
-  ::PROTOBUF_NAMESPACE_ID::uint32 achipoint() const;
-  void set_achipoint(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_achipoint() const;
-  void _internal_set_achipoint(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
-  // uint32 bag_size = 34;
-  void clear_bag_size();
-  ::PROTOBUF_NAMESPACE_ID::uint32 bag_size() const;
-  void set_bag_size(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_bag_size() const;
-  void _internal_set_bag_size(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
-  // uint32 stroge_size = 35;
-  void clear_stroge_size();
-  ::PROTOBUF_NAMESPACE_ID::uint32 stroge_size() const;
-  void set_stroge_size(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_stroge_size() const;
-  void _internal_set_stroge_size(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
-  // uint32 create_time = 36 [(.sql) = {
+  // uint32 create_time = 8 [(.sql) = {
   void clear_create_time();
   ::PROTOBUF_NAMESPACE_ID::uint32 create_time() const;
   void set_create_time(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -2456,7 +2325,7 @@ class tbld_player :
   void _internal_set_create_time(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 last_logintime = 37 [(.sql) = {
+  // uint32 last_logintime = 9 [(.sql) = {
   void clear_last_logintime();
   ::PROTOBUF_NAMESPACE_ID::uint32 last_logintime() const;
   void set_last_logintime(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -2465,7 +2334,7 @@ class tbld_player :
   void _internal_set_last_logintime(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 last_logouttime = 38 [(.sql) = {
+  // uint32 last_logouttime = 10 [(.sql) = {
   void clear_last_logouttime();
   ::PROTOBUF_NAMESPACE_ID::uint32 last_logouttime() const;
   void set_last_logouttime(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -2474,13 +2343,256 @@ class tbld_player :
   void _internal_set_last_logouttime(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 del_time = 39 [(.sql) = {
+  // uint32 del_time = 11 [(.sql) = {
   void clear_del_time();
   ::PROTOBUF_NAMESPACE_ID::uint32 del_time() const;
   void set_del_time(::PROTOBUF_NAMESPACE_ID::uint32 value);
   private:
   ::PROTOBUF_NAMESPACE_ID::uint32 _internal_del_time() const;
   void _internal_set_del_time(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 lev = 12 [(.sql) = {
+  void clear_lev();
+  ::PROTOBUF_NAMESPACE_ID::uint32 lev() const;
+  void set_lev(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_lev() const;
+  void _internal_set_lev(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 viplev = 13;
+  void clear_viplev();
+  ::PROTOBUF_NAMESPACE_ID::uint32 viplev() const;
+  void set_viplev(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_viplev() const;
+  void _internal_set_viplev(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint64 record_sceneid = 14;
+  void clear_record_sceneid();
+  ::PROTOBUF_NAMESPACE_ID::uint64 record_sceneid() const;
+  void set_record_sceneid(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_record_sceneid() const;
+  void _internal_set_record_sceneid(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // float record_x = 15;
+  void clear_record_x();
+  float record_x() const;
+  void set_record_x(float value);
+  private:
+  float _internal_record_x() const;
+  void _internal_set_record_x(float value);
+  public:
+
+  // float record_y = 16;
+  void clear_record_y();
+  float record_y() const;
+  void set_record_y(float value);
+  private:
+  float _internal_record_y() const;
+  void _internal_set_record_y(float value);
+  public:
+
+  // uint64 home_sceneid = 18;
+  void clear_home_sceneid();
+  ::PROTOBUF_NAMESPACE_ID::uint64 home_sceneid() const;
+  void set_home_sceneid(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_home_sceneid() const;
+  void _internal_set_home_sceneid(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // float record_face = 17;
+  void clear_record_face();
+  float record_face() const;
+  void set_record_face(float value);
+  private:
+  float _internal_record_face() const;
+  void _internal_set_record_face(float value);
+  public:
+
+  // float home_x = 19;
+  void clear_home_x();
+  float home_x() const;
+  void set_home_x(float value);
+  private:
+  float _internal_home_x() const;
+  void _internal_set_home_x(float value);
+  public:
+
+  // float home_y = 20;
+  void clear_home_y();
+  float home_y() const;
+  void set_home_y(float value);
+  private:
+  float _internal_home_y() const;
+  void _internal_set_home_y(float value);
+  public:
+
+  // float home_face = 21;
+  void clear_home_face();
+  float home_face() const;
+  void set_home_face(float value);
+  private:
+  float _internal_home_face() const;
+  void _internal_set_home_face(float value);
+  public:
+
+  // uint64 mate_id = 22;
+  void clear_mate_id();
+  ::PROTOBUF_NAMESPACE_ID::uint64 mate_id() const;
+  void set_mate_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_mate_id() const;
+  void _internal_set_mate_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 teamid = 24;
+  void clear_teamid();
+  ::PROTOBUF_NAMESPACE_ID::uint64 teamid() const;
+  void set_teamid(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_teamid() const;
+  void _internal_set_teamid(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 guildid = 25;
+  void clear_guildid();
+  ::PROTOBUF_NAMESPACE_ID::uint64 guildid() const;
+  void set_guildid(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_guildid() const;
+  void _internal_set_guildid(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 exp = 26;
+  void clear_exp();
+  ::PROTOBUF_NAMESPACE_ID::uint64 exp() const;
+  void set_exp(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_exp() const;
+  void _internal_set_exp(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 money = 27;
+  void clear_money();
+  ::PROTOBUF_NAMESPACE_ID::uint64 money() const;
+  void set_money(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_money() const;
+  void _internal_set_money(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 money_bind = 28;
+  void clear_money_bind();
+  ::PROTOBUF_NAMESPACE_ID::uint64 money_bind() const;
+  void set_money_bind(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_money_bind() const;
+  void _internal_set_money_bind(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 gold = 29;
+  void clear_gold();
+  ::PROTOBUF_NAMESPACE_ID::uint64 gold() const;
+  void set_gold(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_gold() const;
+  void _internal_set_gold(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint64 gold_bind = 30;
+  void clear_gold_bind();
+  ::PROTOBUF_NAMESPACE_ID::uint64 gold_bind() const;
+  void set_gold_bind(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_gold_bind() const;
+  void _internal_set_gold_bind(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint32 hp = 31;
+  void clear_hp();
+  ::PROTOBUF_NAMESPACE_ID::uint32 hp() const;
+  void set_hp(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_hp() const;
+  void _internal_set_hp(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 mp = 32;
+  void clear_mp();
+  ::PROTOBUF_NAMESPACE_ID::uint32 mp() const;
+  void set_mp(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_mp() const;
+  void _internal_set_mp(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 fp = 33;
+  void clear_fp();
+  ::PROTOBUF_NAMESPACE_ID::uint32 fp() const;
+  void set_fp(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_fp() const;
+  void _internal_set_fp(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 np = 34;
+  void clear_np();
+  ::PROTOBUF_NAMESPACE_ID::uint32 np() const;
+  void set_np(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_np() const;
+  void _internal_set_np(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 pkval = 35;
+  void clear_pkval();
+  ::PROTOBUF_NAMESPACE_ID::uint32 pkval() const;
+  void set_pkval(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_pkval() const;
+  void _internal_set_pkval(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 honor = 36;
+  void clear_honor();
+  ::PROTOBUF_NAMESPACE_ID::uint32 honor() const;
+  void set_honor(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_honor() const;
+  void _internal_set_honor(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 achipoint = 37;
+  void clear_achipoint();
+  ::PROTOBUF_NAMESPACE_ID::uint32 achipoint() const;
+  void set_achipoint(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_achipoint() const;
+  void _internal_set_achipoint(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 bag_size = 38;
+  void clear_bag_size();
+  ::PROTOBUF_NAMESPACE_ID::uint32 bag_size() const;
+  void set_bag_size(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_bag_size() const;
+  void _internal_set_bag_size(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 stroge_size = 39;
+  void clear_stroge_size();
+  ::PROTOBUF_NAMESPACE_ID::uint32 stroge_size() const;
+  void set_stroge_size(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_stroge_size() const;
+  void _internal_set_stroge_size(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
   // @@protoc_insertion_point(class_scope:db.tbld_player)
@@ -2496,6 +2608,10 @@ class tbld_player :
   ::PROTOBUF_NAMESPACE_ID::uint32 oriworldid_;
   ::PROTOBUF_NAMESPACE_ID::uint32 prof_;
   ::PROTOBUF_NAMESPACE_ID::uint32 baselook_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 create_time_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 last_logintime_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 last_logouttime_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 del_time_;
   ::PROTOBUF_NAMESPACE_ID::uint32 lev_;
   ::PROTOBUF_NAMESPACE_ID::uint32 viplev_;
   ::PROTOBUF_NAMESPACE_ID::uint64 record_sceneid_;
@@ -2523,10 +2639,6 @@ class tbld_player :
   ::PROTOBUF_NAMESPACE_ID::uint32 achipoint_;
   ::PROTOBUF_NAMESPACE_ID::uint32 bag_size_;
   ::PROTOBUF_NAMESPACE_ID::uint32 stroge_size_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 create_time_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 last_logintime_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 last_logouttime_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 del_time_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_db_5fproto_2fgamedb_2eproto;
 };
@@ -2639,10 +2751,11 @@ class tbld_player_guildinfo :
 
   enum : int {
     kIdFieldNumber = 1,
-    kRankFieldNumber = 2,
-    kScoreFieldNumber = 3,
-    kTotalScoreFieldNumber = 4,
-    kJoinTimeFieldNumber = 5,
+    kGuildidFieldNumber = 2,
+    kRankFieldNumber = 3,
+    kScoreFieldNumber = 4,
+    kTotalScoreFieldNumber = 5,
+    kJoinTimeFieldNumber = 6,
   };
   // uint64 id = 1 [(.sql) = {
   void clear_id();
@@ -2653,7 +2766,16 @@ class tbld_player_guildinfo :
   void _internal_set_id(::PROTOBUF_NAMESPACE_ID::uint64 value);
   public:
 
-  // uint32 rank = 2;
+  // uint64 guildid = 2;
+  void clear_guildid();
+  ::PROTOBUF_NAMESPACE_ID::uint64 guildid() const;
+  void set_guildid(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_guildid() const;
+  void _internal_set_guildid(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // uint32 rank = 3;
   void clear_rank();
   ::PROTOBUF_NAMESPACE_ID::uint32 rank() const;
   void set_rank(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -2662,7 +2784,7 @@ class tbld_player_guildinfo :
   void _internal_set_rank(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 score = 3;
+  // uint32 score = 4;
   void clear_score();
   ::PROTOBUF_NAMESPACE_ID::uint32 score() const;
   void set_score(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -2671,7 +2793,7 @@ class tbld_player_guildinfo :
   void _internal_set_score(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 total_score = 4;
+  // uint32 total_score = 5;
   void clear_total_score();
   ::PROTOBUF_NAMESPACE_ID::uint32 total_score() const;
   void set_total_score(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -2680,7 +2802,7 @@ class tbld_player_guildinfo :
   void _internal_set_total_score(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 join_time = 5;
+  // uint32 join_time = 6;
   void clear_join_time();
   ::PROTOBUF_NAMESPACE_ID::uint32 join_time() const;
   void set_join_time(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -2695,6 +2817,7 @@ class tbld_player_guildinfo :
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
   ::PROTOBUF_NAMESPACE_ID::uint64 id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 guildid_;
   ::PROTOBUF_NAMESPACE_ID::uint32 rank_;
   ::PROTOBUF_NAMESPACE_ID::uint32 score_;
   ::PROTOBUF_NAMESPACE_ID::uint32 total_score_;
@@ -4651,87 +4774,167 @@ inline void tbld_guild::set_allocated_name(std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:db.tbld_guild.name)
 }
 
-// uint64 leaderid = 4;
-inline void tbld_guild::clear_leaderid() {
-  leaderid_ = PROTOBUF_ULONGLONG(0);
+// uint64 leader_id = 4;
+inline void tbld_guild::clear_leader_id() {
+  leader_id_ = PROTOBUF_ULONGLONG(0);
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint64 tbld_guild::_internal_leaderid() const {
-  return leaderid_;
+inline ::PROTOBUF_NAMESPACE_ID::uint64 tbld_guild::_internal_leader_id() const {
+  return leader_id_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint64 tbld_guild::leaderid() const {
-  // @@protoc_insertion_point(field_get:db.tbld_guild.leaderid)
-  return _internal_leaderid();
+inline ::PROTOBUF_NAMESPACE_ID::uint64 tbld_guild::leader_id() const {
+  // @@protoc_insertion_point(field_get:db.tbld_guild.leader_id)
+  return _internal_leader_id();
 }
-inline void tbld_guild::_internal_set_leaderid(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+inline void tbld_guild::_internal_set_leader_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   
-  leaderid_ = value;
+  leader_id_ = value;
 }
-inline void tbld_guild::set_leaderid(::PROTOBUF_NAMESPACE_ID::uint64 value) {
-  _internal_set_leaderid(value);
-  // @@protoc_insertion_point(field_set:db.tbld_guild.leaderid)
+inline void tbld_guild::set_leader_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_leader_id(value);
+  // @@protoc_insertion_point(field_set:db.tbld_guild.leader_id)
 }
 
-// string leadername = 5 [(.sql) = {
-inline void tbld_guild::clear_leadername() {
-  leadername_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+// string leader_name = 5 [(.sql) = {
+inline void tbld_guild::clear_leader_name() {
+  leader_name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
-inline const std::string& tbld_guild::leadername() const {
-  // @@protoc_insertion_point(field_get:db.tbld_guild.leadername)
-  return _internal_leadername();
+inline const std::string& tbld_guild::leader_name() const {
+  // @@protoc_insertion_point(field_get:db.tbld_guild.leader_name)
+  return _internal_leader_name();
 }
-inline void tbld_guild::set_leadername(const std::string& value) {
-  _internal_set_leadername(value);
-  // @@protoc_insertion_point(field_set:db.tbld_guild.leadername)
+inline void tbld_guild::set_leader_name(const std::string& value) {
+  _internal_set_leader_name(value);
+  // @@protoc_insertion_point(field_set:db.tbld_guild.leader_name)
 }
-inline std::string* tbld_guild::mutable_leadername() {
-  // @@protoc_insertion_point(field_mutable:db.tbld_guild.leadername)
-  return _internal_mutable_leadername();
+inline std::string* tbld_guild::mutable_leader_name() {
+  // @@protoc_insertion_point(field_mutable:db.tbld_guild.leader_name)
+  return _internal_mutable_leader_name();
 }
-inline const std::string& tbld_guild::_internal_leadername() const {
-  return leadername_.GetNoArena();
+inline const std::string& tbld_guild::_internal_leader_name() const {
+  return leader_name_.GetNoArena();
 }
-inline void tbld_guild::_internal_set_leadername(const std::string& value) {
+inline void tbld_guild::_internal_set_leader_name(const std::string& value) {
   
-  leadername_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+  leader_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
 }
-inline void tbld_guild::set_leadername(std::string&& value) {
+inline void tbld_guild::set_leader_name(std::string&& value) {
   
-  leadername_.SetNoArena(
+  leader_name_.SetNoArena(
     &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:db.tbld_guild.leadername)
+  // @@protoc_insertion_point(field_set_rvalue:db.tbld_guild.leader_name)
 }
-inline void tbld_guild::set_leadername(const char* value) {
+inline void tbld_guild::set_leader_name(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
-  leadername_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:db.tbld_guild.leadername)
+  leader_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:db.tbld_guild.leader_name)
 }
-inline void tbld_guild::set_leadername(const char* value, size_t size) {
+inline void tbld_guild::set_leader_name(const char* value, size_t size) {
   
-  leadername_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+  leader_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:db.tbld_guild.leadername)
+  // @@protoc_insertion_point(field_set_pointer:db.tbld_guild.leader_name)
 }
-inline std::string* tbld_guild::_internal_mutable_leadername() {
+inline std::string* tbld_guild::_internal_mutable_leader_name() {
   
-  return leadername_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  return leader_name_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
-inline std::string* tbld_guild::release_leadername() {
-  // @@protoc_insertion_point(field_release:db.tbld_guild.leadername)
+inline std::string* tbld_guild::release_leader_name() {
+  // @@protoc_insertion_point(field_release:db.tbld_guild.leader_name)
   
-  return leadername_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  return leader_name_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
-inline void tbld_guild::set_allocated_leadername(std::string* leadername) {
-  if (leadername != nullptr) {
+inline void tbld_guild::set_allocated_leader_name(std::string* leader_name) {
+  if (leader_name != nullptr) {
     
   } else {
     
   }
-  leadername_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), leadername);
-  // @@protoc_insertion_point(field_set_allocated:db.tbld_guild.leadername)
+  leader_name_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), leader_name);
+  // @@protoc_insertion_point(field_set_allocated:db.tbld_guild.leader_name)
 }
 
-// uint32 create_time = 6;
+// uint64 creator_id = 6 [(.sql) = {
+inline void tbld_guild::clear_creator_id() {
+  creator_id_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 tbld_guild::_internal_creator_id() const {
+  return creator_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 tbld_guild::creator_id() const {
+  // @@protoc_insertion_point(field_get:db.tbld_guild.creator_id)
+  return _internal_creator_id();
+}
+inline void tbld_guild::_internal_set_creator_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  creator_id_ = value;
+}
+inline void tbld_guild::set_creator_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_creator_id(value);
+  // @@protoc_insertion_point(field_set:db.tbld_guild.creator_id)
+}
+
+// string creator_name = 7 [(.sql) = {
+inline void tbld_guild::clear_creator_name() {
+  creator_name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& tbld_guild::creator_name() const {
+  // @@protoc_insertion_point(field_get:db.tbld_guild.creator_name)
+  return _internal_creator_name();
+}
+inline void tbld_guild::set_creator_name(const std::string& value) {
+  _internal_set_creator_name(value);
+  // @@protoc_insertion_point(field_set:db.tbld_guild.creator_name)
+}
+inline std::string* tbld_guild::mutable_creator_name() {
+  // @@protoc_insertion_point(field_mutable:db.tbld_guild.creator_name)
+  return _internal_mutable_creator_name();
+}
+inline const std::string& tbld_guild::_internal_creator_name() const {
+  return creator_name_.GetNoArena();
+}
+inline void tbld_guild::_internal_set_creator_name(const std::string& value) {
+  
+  creator_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void tbld_guild::set_creator_name(std::string&& value) {
+  
+  creator_name_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:db.tbld_guild.creator_name)
+}
+inline void tbld_guild::set_creator_name(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  creator_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:db.tbld_guild.creator_name)
+}
+inline void tbld_guild::set_creator_name(const char* value, size_t size) {
+  
+  creator_name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:db.tbld_guild.creator_name)
+}
+inline std::string* tbld_guild::_internal_mutable_creator_name() {
+  
+  return creator_name_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* tbld_guild::release_creator_name() {
+  // @@protoc_insertion_point(field_release:db.tbld_guild.creator_name)
+  
+  return creator_name_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void tbld_guild::set_allocated_creator_name(std::string* creator_name) {
+  if (creator_name != nullptr) {
+    
+  } else {
+    
+  }
+  creator_name_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), creator_name);
+  // @@protoc_insertion_point(field_set_allocated:db.tbld_guild.creator_name)
+}
+
+// uint32 create_time = 8;
 inline void tbld_guild::clear_create_time() {
   create_time_ = 0u;
 }
@@ -4751,7 +4954,7 @@ inline void tbld_guild::set_create_time(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   // @@protoc_insertion_point(field_set:db.tbld_guild.create_time)
 }
 
-// uint32 del_time = 7;
+// uint32 del_time = 9;
 inline void tbld_guild::clear_del_time() {
   del_time_ = 0u;
 }
@@ -4769,6 +4972,266 @@ inline void tbld_guild::_internal_set_del_time(::PROTOBUF_NAMESPACE_ID::uint32 v
 inline void tbld_guild::set_del_time(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_del_time(value);
   // @@protoc_insertion_point(field_set:db.tbld_guild.del_time)
+}
+
+// string slogan = 10 [(.sql) = {
+inline void tbld_guild::clear_slogan() {
+  slogan_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& tbld_guild::slogan() const {
+  // @@protoc_insertion_point(field_get:db.tbld_guild.slogan)
+  return _internal_slogan();
+}
+inline void tbld_guild::set_slogan(const std::string& value) {
+  _internal_set_slogan(value);
+  // @@protoc_insertion_point(field_set:db.tbld_guild.slogan)
+}
+inline std::string* tbld_guild::mutable_slogan() {
+  // @@protoc_insertion_point(field_mutable:db.tbld_guild.slogan)
+  return _internal_mutable_slogan();
+}
+inline const std::string& tbld_guild::_internal_slogan() const {
+  return slogan_.GetNoArena();
+}
+inline void tbld_guild::_internal_set_slogan(const std::string& value) {
+  
+  slogan_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void tbld_guild::set_slogan(std::string&& value) {
+  
+  slogan_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:db.tbld_guild.slogan)
+}
+inline void tbld_guild::set_slogan(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  slogan_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:db.tbld_guild.slogan)
+}
+inline void tbld_guild::set_slogan(const char* value, size_t size) {
+  
+  slogan_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:db.tbld_guild.slogan)
+}
+inline std::string* tbld_guild::_internal_mutable_slogan() {
+  
+  return slogan_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* tbld_guild::release_slogan() {
+  // @@protoc_insertion_point(field_release:db.tbld_guild.slogan)
+  
+  return slogan_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void tbld_guild::set_allocated_slogan(std::string* slogan) {
+  if (slogan != nullptr) {
+    
+  } else {
+    
+  }
+  slogan_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), slogan);
+  // @@protoc_insertion_point(field_set_allocated:db.tbld_guild.slogan)
+}
+
+// string info1 = 11 [(.sql) = {
+inline void tbld_guild::clear_info1() {
+  info1_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& tbld_guild::info1() const {
+  // @@protoc_insertion_point(field_get:db.tbld_guild.info1)
+  return _internal_info1();
+}
+inline void tbld_guild::set_info1(const std::string& value) {
+  _internal_set_info1(value);
+  // @@protoc_insertion_point(field_set:db.tbld_guild.info1)
+}
+inline std::string* tbld_guild::mutable_info1() {
+  // @@protoc_insertion_point(field_mutable:db.tbld_guild.info1)
+  return _internal_mutable_info1();
+}
+inline const std::string& tbld_guild::_internal_info1() const {
+  return info1_.GetNoArena();
+}
+inline void tbld_guild::_internal_set_info1(const std::string& value) {
+  
+  info1_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void tbld_guild::set_info1(std::string&& value) {
+  
+  info1_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:db.tbld_guild.info1)
+}
+inline void tbld_guild::set_info1(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  info1_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:db.tbld_guild.info1)
+}
+inline void tbld_guild::set_info1(const char* value, size_t size) {
+  
+  info1_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:db.tbld_guild.info1)
+}
+inline std::string* tbld_guild::_internal_mutable_info1() {
+  
+  return info1_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* tbld_guild::release_info1() {
+  // @@protoc_insertion_point(field_release:db.tbld_guild.info1)
+  
+  return info1_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void tbld_guild::set_allocated_info1(std::string* info1) {
+  if (info1 != nullptr) {
+    
+  } else {
+    
+  }
+  info1_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), info1);
+  // @@protoc_insertion_point(field_set_allocated:db.tbld_guild.info1)
+}
+
+// string info2 = 12 [(.sql) = {
+inline void tbld_guild::clear_info2() {
+  info2_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& tbld_guild::info2() const {
+  // @@protoc_insertion_point(field_get:db.tbld_guild.info2)
+  return _internal_info2();
+}
+inline void tbld_guild::set_info2(const std::string& value) {
+  _internal_set_info2(value);
+  // @@protoc_insertion_point(field_set:db.tbld_guild.info2)
+}
+inline std::string* tbld_guild::mutable_info2() {
+  // @@protoc_insertion_point(field_mutable:db.tbld_guild.info2)
+  return _internal_mutable_info2();
+}
+inline const std::string& tbld_guild::_internal_info2() const {
+  return info2_.GetNoArena();
+}
+inline void tbld_guild::_internal_set_info2(const std::string& value) {
+  
+  info2_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void tbld_guild::set_info2(std::string&& value) {
+  
+  info2_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:db.tbld_guild.info2)
+}
+inline void tbld_guild::set_info2(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  info2_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:db.tbld_guild.info2)
+}
+inline void tbld_guild::set_info2(const char* value, size_t size) {
+  
+  info2_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:db.tbld_guild.info2)
+}
+inline std::string* tbld_guild::_internal_mutable_info2() {
+  
+  return info2_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* tbld_guild::release_info2() {
+  // @@protoc_insertion_point(field_release:db.tbld_guild.info2)
+  
+  return info2_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void tbld_guild::set_allocated_info2(std::string* info2) {
+  if (info2 != nullptr) {
+    
+  } else {
+    
+  }
+  info2_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), info2);
+  // @@protoc_insertion_point(field_set_allocated:db.tbld_guild.info2)
+}
+
+// string info3 = 13 [(.sql) = {
+inline void tbld_guild::clear_info3() {
+  info3_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& tbld_guild::info3() const {
+  // @@protoc_insertion_point(field_get:db.tbld_guild.info3)
+  return _internal_info3();
+}
+inline void tbld_guild::set_info3(const std::string& value) {
+  _internal_set_info3(value);
+  // @@protoc_insertion_point(field_set:db.tbld_guild.info3)
+}
+inline std::string* tbld_guild::mutable_info3() {
+  // @@protoc_insertion_point(field_mutable:db.tbld_guild.info3)
+  return _internal_mutable_info3();
+}
+inline const std::string& tbld_guild::_internal_info3() const {
+  return info3_.GetNoArena();
+}
+inline void tbld_guild::_internal_set_info3(const std::string& value) {
+  
+  info3_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void tbld_guild::set_info3(std::string&& value) {
+  
+  info3_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:db.tbld_guild.info3)
+}
+inline void tbld_guild::set_info3(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  info3_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:db.tbld_guild.info3)
+}
+inline void tbld_guild::set_info3(const char* value, size_t size) {
+  
+  info3_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:db.tbld_guild.info3)
+}
+inline std::string* tbld_guild::_internal_mutable_info3() {
+  
+  return info3_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* tbld_guild::release_info3() {
+  // @@protoc_insertion_point(field_release:db.tbld_guild.info3)
+  
+  return info3_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void tbld_guild::set_allocated_info3(std::string* info3) {
+  if (info3 != nullptr) {
+    
+  } else {
+    
+  }
+  info3_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), info3);
+  // @@protoc_insertion_point(field_set_allocated:db.tbld_guild.info3)
+}
+
+// uint64 flag = 14;
+inline void tbld_guild::clear_flag() {
+  flag_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 tbld_guild::_internal_flag() const {
+  return flag_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 tbld_guild::flag() const {
+  // @@protoc_insertion_point(field_get:db.tbld_guild.flag)
+  return _internal_flag();
+}
+inline void tbld_guild::_internal_set_flag(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  flag_ = value;
+}
+inline void tbld_guild::set_flag(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_flag(value);
+  // @@protoc_insertion_point(field_set:db.tbld_guild.flag)
 }
 
 // -------------------------------------------------------------------
@@ -5751,7 +6214,87 @@ inline void tbld_player::set_baselook(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   // @@protoc_insertion_point(field_set:db.tbld_player.baselook)
 }
 
-// uint32 lev = 8 [(.sql) = {
+// uint32 create_time = 8 [(.sql) = {
+inline void tbld_player::clear_create_time() {
+  create_time_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 tbld_player::_internal_create_time() const {
+  return create_time_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 tbld_player::create_time() const {
+  // @@protoc_insertion_point(field_get:db.tbld_player.create_time)
+  return _internal_create_time();
+}
+inline void tbld_player::_internal_set_create_time(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  create_time_ = value;
+}
+inline void tbld_player::set_create_time(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_create_time(value);
+  // @@protoc_insertion_point(field_set:db.tbld_player.create_time)
+}
+
+// uint32 last_logintime = 9 [(.sql) = {
+inline void tbld_player::clear_last_logintime() {
+  last_logintime_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 tbld_player::_internal_last_logintime() const {
+  return last_logintime_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 tbld_player::last_logintime() const {
+  // @@protoc_insertion_point(field_get:db.tbld_player.last_logintime)
+  return _internal_last_logintime();
+}
+inline void tbld_player::_internal_set_last_logintime(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  last_logintime_ = value;
+}
+inline void tbld_player::set_last_logintime(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_last_logintime(value);
+  // @@protoc_insertion_point(field_set:db.tbld_player.last_logintime)
+}
+
+// uint32 last_logouttime = 10 [(.sql) = {
+inline void tbld_player::clear_last_logouttime() {
+  last_logouttime_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 tbld_player::_internal_last_logouttime() const {
+  return last_logouttime_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 tbld_player::last_logouttime() const {
+  // @@protoc_insertion_point(field_get:db.tbld_player.last_logouttime)
+  return _internal_last_logouttime();
+}
+inline void tbld_player::_internal_set_last_logouttime(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  last_logouttime_ = value;
+}
+inline void tbld_player::set_last_logouttime(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_last_logouttime(value);
+  // @@protoc_insertion_point(field_set:db.tbld_player.last_logouttime)
+}
+
+// uint32 del_time = 11 [(.sql) = {
+inline void tbld_player::clear_del_time() {
+  del_time_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 tbld_player::_internal_del_time() const {
+  return del_time_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 tbld_player::del_time() const {
+  // @@protoc_insertion_point(field_get:db.tbld_player.del_time)
+  return _internal_del_time();
+}
+inline void tbld_player::_internal_set_del_time(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  del_time_ = value;
+}
+inline void tbld_player::set_del_time(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_del_time(value);
+  // @@protoc_insertion_point(field_set:db.tbld_player.del_time)
+}
+
+// uint32 lev = 12 [(.sql) = {
 inline void tbld_player::clear_lev() {
   lev_ = 0u;
 }
@@ -5771,7 +6314,7 @@ inline void tbld_player::set_lev(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   // @@protoc_insertion_point(field_set:db.tbld_player.lev)
 }
 
-// uint32 viplev = 9;
+// uint32 viplev = 13;
 inline void tbld_player::clear_viplev() {
   viplev_ = 0u;
 }
@@ -5791,7 +6334,7 @@ inline void tbld_player::set_viplev(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   // @@protoc_insertion_point(field_set:db.tbld_player.viplev)
 }
 
-// uint64 record_sceneid = 10;
+// uint64 record_sceneid = 14;
 inline void tbld_player::clear_record_sceneid() {
   record_sceneid_ = PROTOBUF_ULONGLONG(0);
 }
@@ -5811,7 +6354,7 @@ inline void tbld_player::set_record_sceneid(::PROTOBUF_NAMESPACE_ID::uint64 valu
   // @@protoc_insertion_point(field_set:db.tbld_player.record_sceneid)
 }
 
-// float record_x = 11;
+// float record_x = 15;
 inline void tbld_player::clear_record_x() {
   record_x_ = 0;
 }
@@ -5831,7 +6374,7 @@ inline void tbld_player::set_record_x(float value) {
   // @@protoc_insertion_point(field_set:db.tbld_player.record_x)
 }
 
-// float record_y = 12;
+// float record_y = 16;
 inline void tbld_player::clear_record_y() {
   record_y_ = 0;
 }
@@ -5851,7 +6394,7 @@ inline void tbld_player::set_record_y(float value) {
   // @@protoc_insertion_point(field_set:db.tbld_player.record_y)
 }
 
-// float record_face = 13;
+// float record_face = 17;
 inline void tbld_player::clear_record_face() {
   record_face_ = 0;
 }
@@ -5871,7 +6414,7 @@ inline void tbld_player::set_record_face(float value) {
   // @@protoc_insertion_point(field_set:db.tbld_player.record_face)
 }
 
-// uint64 home_sceneid = 14;
+// uint64 home_sceneid = 18;
 inline void tbld_player::clear_home_sceneid() {
   home_sceneid_ = PROTOBUF_ULONGLONG(0);
 }
@@ -5891,7 +6434,7 @@ inline void tbld_player::set_home_sceneid(::PROTOBUF_NAMESPACE_ID::uint64 value)
   // @@protoc_insertion_point(field_set:db.tbld_player.home_sceneid)
 }
 
-// float home_x = 15;
+// float home_x = 19;
 inline void tbld_player::clear_home_x() {
   home_x_ = 0;
 }
@@ -5911,7 +6454,7 @@ inline void tbld_player::set_home_x(float value) {
   // @@protoc_insertion_point(field_set:db.tbld_player.home_x)
 }
 
-// float home_y = 16;
+// float home_y = 20;
 inline void tbld_player::clear_home_y() {
   home_y_ = 0;
 }
@@ -5931,7 +6474,7 @@ inline void tbld_player::set_home_y(float value) {
   // @@protoc_insertion_point(field_set:db.tbld_player.home_y)
 }
 
-// float home_face = 17;
+// float home_face = 21;
 inline void tbld_player::clear_home_face() {
   home_face_ = 0;
 }
@@ -5951,7 +6494,7 @@ inline void tbld_player::set_home_face(float value) {
   // @@protoc_insertion_point(field_set:db.tbld_player.home_face)
 }
 
-// uint64 mate_id = 18;
+// uint64 mate_id = 22;
 inline void tbld_player::clear_mate_id() {
   mate_id_ = PROTOBUF_ULONGLONG(0);
 }
@@ -5971,7 +6514,7 @@ inline void tbld_player::set_mate_id(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   // @@protoc_insertion_point(field_set:db.tbld_player.mate_id)
 }
 
-// string mate_name = 19 [(.sql) = {
+// string mate_name = 23 [(.sql) = {
 inline void tbld_player::clear_mate_name() {
   mate_name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
@@ -6031,7 +6574,7 @@ inline void tbld_player::set_allocated_mate_name(std::string* mate_name) {
   // @@protoc_insertion_point(field_set_allocated:db.tbld_player.mate_name)
 }
 
-// uint64 teamid = 20;
+// uint64 teamid = 24;
 inline void tbld_player::clear_teamid() {
   teamid_ = PROTOBUF_ULONGLONG(0);
 }
@@ -6051,7 +6594,7 @@ inline void tbld_player::set_teamid(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   // @@protoc_insertion_point(field_set:db.tbld_player.teamid)
 }
 
-// uint64 guildid = 21;
+// uint64 guildid = 25;
 inline void tbld_player::clear_guildid() {
   guildid_ = PROTOBUF_ULONGLONG(0);
 }
@@ -6071,7 +6614,7 @@ inline void tbld_player::set_guildid(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   // @@protoc_insertion_point(field_set:db.tbld_player.guildid)
 }
 
-// uint64 exp = 22;
+// uint64 exp = 26;
 inline void tbld_player::clear_exp() {
   exp_ = PROTOBUF_ULONGLONG(0);
 }
@@ -6091,7 +6634,7 @@ inline void tbld_player::set_exp(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   // @@protoc_insertion_point(field_set:db.tbld_player.exp)
 }
 
-// uint64 money = 23;
+// uint64 money = 27;
 inline void tbld_player::clear_money() {
   money_ = PROTOBUF_ULONGLONG(0);
 }
@@ -6111,7 +6654,7 @@ inline void tbld_player::set_money(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   // @@protoc_insertion_point(field_set:db.tbld_player.money)
 }
 
-// uint64 money_bind = 24;
+// uint64 money_bind = 28;
 inline void tbld_player::clear_money_bind() {
   money_bind_ = PROTOBUF_ULONGLONG(0);
 }
@@ -6131,7 +6674,7 @@ inline void tbld_player::set_money_bind(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   // @@protoc_insertion_point(field_set:db.tbld_player.money_bind)
 }
 
-// uint64 gold = 25;
+// uint64 gold = 29;
 inline void tbld_player::clear_gold() {
   gold_ = PROTOBUF_ULONGLONG(0);
 }
@@ -6151,7 +6694,7 @@ inline void tbld_player::set_gold(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   // @@protoc_insertion_point(field_set:db.tbld_player.gold)
 }
 
-// uint64 gold_bind = 26;
+// uint64 gold_bind = 30;
 inline void tbld_player::clear_gold_bind() {
   gold_bind_ = PROTOBUF_ULONGLONG(0);
 }
@@ -6171,7 +6714,7 @@ inline void tbld_player::set_gold_bind(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   // @@protoc_insertion_point(field_set:db.tbld_player.gold_bind)
 }
 
-// uint32 hp = 27;
+// uint32 hp = 31;
 inline void tbld_player::clear_hp() {
   hp_ = 0u;
 }
@@ -6191,7 +6734,7 @@ inline void tbld_player::set_hp(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   // @@protoc_insertion_point(field_set:db.tbld_player.hp)
 }
 
-// uint32 mp = 28;
+// uint32 mp = 32;
 inline void tbld_player::clear_mp() {
   mp_ = 0u;
 }
@@ -6211,7 +6754,7 @@ inline void tbld_player::set_mp(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   // @@protoc_insertion_point(field_set:db.tbld_player.mp)
 }
 
-// uint32 fp = 29;
+// uint32 fp = 33;
 inline void tbld_player::clear_fp() {
   fp_ = 0u;
 }
@@ -6231,7 +6774,7 @@ inline void tbld_player::set_fp(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   // @@protoc_insertion_point(field_set:db.tbld_player.fp)
 }
 
-// uint32 np = 30;
+// uint32 np = 34;
 inline void tbld_player::clear_np() {
   np_ = 0u;
 }
@@ -6251,7 +6794,7 @@ inline void tbld_player::set_np(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   // @@protoc_insertion_point(field_set:db.tbld_player.np)
 }
 
-// uint32 pkval = 31;
+// uint32 pkval = 35;
 inline void tbld_player::clear_pkval() {
   pkval_ = 0u;
 }
@@ -6271,7 +6814,7 @@ inline void tbld_player::set_pkval(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   // @@protoc_insertion_point(field_set:db.tbld_player.pkval)
 }
 
-// uint32 honor = 32;
+// uint32 honor = 36;
 inline void tbld_player::clear_honor() {
   honor_ = 0u;
 }
@@ -6291,7 +6834,7 @@ inline void tbld_player::set_honor(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   // @@protoc_insertion_point(field_set:db.tbld_player.honor)
 }
 
-// uint32 achipoint = 33;
+// uint32 achipoint = 37;
 inline void tbld_player::clear_achipoint() {
   achipoint_ = 0u;
 }
@@ -6311,7 +6854,7 @@ inline void tbld_player::set_achipoint(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   // @@protoc_insertion_point(field_set:db.tbld_player.achipoint)
 }
 
-// uint32 bag_size = 34;
+// uint32 bag_size = 38;
 inline void tbld_player::clear_bag_size() {
   bag_size_ = 0u;
 }
@@ -6331,7 +6874,7 @@ inline void tbld_player::set_bag_size(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   // @@protoc_insertion_point(field_set:db.tbld_player.bag_size)
 }
 
-// uint32 stroge_size = 35;
+// uint32 stroge_size = 39;
 inline void tbld_player::clear_stroge_size() {
   stroge_size_ = 0u;
 }
@@ -6349,86 +6892,6 @@ inline void tbld_player::_internal_set_stroge_size(::PROTOBUF_NAMESPACE_ID::uint
 inline void tbld_player::set_stroge_size(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_stroge_size(value);
   // @@protoc_insertion_point(field_set:db.tbld_player.stroge_size)
-}
-
-// uint32 create_time = 36 [(.sql) = {
-inline void tbld_player::clear_create_time() {
-  create_time_ = 0u;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 tbld_player::_internal_create_time() const {
-  return create_time_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 tbld_player::create_time() const {
-  // @@protoc_insertion_point(field_get:db.tbld_player.create_time)
-  return _internal_create_time();
-}
-inline void tbld_player::_internal_set_create_time(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  
-  create_time_ = value;
-}
-inline void tbld_player::set_create_time(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  _internal_set_create_time(value);
-  // @@protoc_insertion_point(field_set:db.tbld_player.create_time)
-}
-
-// uint32 last_logintime = 37 [(.sql) = {
-inline void tbld_player::clear_last_logintime() {
-  last_logintime_ = 0u;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 tbld_player::_internal_last_logintime() const {
-  return last_logintime_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 tbld_player::last_logintime() const {
-  // @@protoc_insertion_point(field_get:db.tbld_player.last_logintime)
-  return _internal_last_logintime();
-}
-inline void tbld_player::_internal_set_last_logintime(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  
-  last_logintime_ = value;
-}
-inline void tbld_player::set_last_logintime(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  _internal_set_last_logintime(value);
-  // @@protoc_insertion_point(field_set:db.tbld_player.last_logintime)
-}
-
-// uint32 last_logouttime = 38 [(.sql) = {
-inline void tbld_player::clear_last_logouttime() {
-  last_logouttime_ = 0u;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 tbld_player::_internal_last_logouttime() const {
-  return last_logouttime_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 tbld_player::last_logouttime() const {
-  // @@protoc_insertion_point(field_get:db.tbld_player.last_logouttime)
-  return _internal_last_logouttime();
-}
-inline void tbld_player::_internal_set_last_logouttime(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  
-  last_logouttime_ = value;
-}
-inline void tbld_player::set_last_logouttime(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  _internal_set_last_logouttime(value);
-  // @@protoc_insertion_point(field_set:db.tbld_player.last_logouttime)
-}
-
-// uint32 del_time = 39 [(.sql) = {
-inline void tbld_player::clear_del_time() {
-  del_time_ = 0u;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 tbld_player::_internal_del_time() const {
-  return del_time_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 tbld_player::del_time() const {
-  // @@protoc_insertion_point(field_get:db.tbld_player.del_time)
-  return _internal_del_time();
-}
-inline void tbld_player::_internal_set_del_time(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  
-  del_time_ = value;
-}
-inline void tbld_player::set_del_time(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  _internal_set_del_time(value);
-  // @@protoc_insertion_point(field_set:db.tbld_player.del_time)
 }
 
 // -------------------------------------------------------------------
@@ -6455,7 +6918,27 @@ inline void tbld_player_guildinfo::set_id(::PROTOBUF_NAMESPACE_ID::uint64 value)
   // @@protoc_insertion_point(field_set:db.tbld_player_guildinfo.id)
 }
 
-// uint32 rank = 2;
+// uint64 guildid = 2;
+inline void tbld_player_guildinfo::clear_guildid() {
+  guildid_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 tbld_player_guildinfo::_internal_guildid() const {
+  return guildid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 tbld_player_guildinfo::guildid() const {
+  // @@protoc_insertion_point(field_get:db.tbld_player_guildinfo.guildid)
+  return _internal_guildid();
+}
+inline void tbld_player_guildinfo::_internal_set_guildid(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  guildid_ = value;
+}
+inline void tbld_player_guildinfo::set_guildid(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_guildid(value);
+  // @@protoc_insertion_point(field_set:db.tbld_player_guildinfo.guildid)
+}
+
+// uint32 rank = 3;
 inline void tbld_player_guildinfo::clear_rank() {
   rank_ = 0u;
 }
@@ -6475,7 +6958,7 @@ inline void tbld_player_guildinfo::set_rank(::PROTOBUF_NAMESPACE_ID::uint32 valu
   // @@protoc_insertion_point(field_set:db.tbld_player_guildinfo.rank)
 }
 
-// uint32 score = 3;
+// uint32 score = 4;
 inline void tbld_player_guildinfo::clear_score() {
   score_ = 0u;
 }
@@ -6495,7 +6978,7 @@ inline void tbld_player_guildinfo::set_score(::PROTOBUF_NAMESPACE_ID::uint32 val
   // @@protoc_insertion_point(field_set:db.tbld_player_guildinfo.score)
 }
 
-// uint32 total_score = 4;
+// uint32 total_score = 5;
 inline void tbld_player_guildinfo::clear_total_score() {
   total_score_ = 0u;
 }
@@ -6515,7 +6998,7 @@ inline void tbld_player_guildinfo::set_total_score(::PROTOBUF_NAMESPACE_ID::uint
   // @@protoc_insertion_point(field_set:db.tbld_player_guildinfo.total_score)
 }
 
-// uint32 join_time = 5;
+// uint32 join_time = 6;
 inline void tbld_player_guildinfo::clear_join_time() {
   join_time_ = 0u;
 }

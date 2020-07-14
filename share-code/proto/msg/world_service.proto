@@ -1,6 +1,6 @@
 syntax = "proto3";
 import "msg/ts_cmd.proto";
-
+import "common/Common.proto";
 //登录消息
 message CS_LOGIN
 {

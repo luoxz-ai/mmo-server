@@ -17,7 +17,7 @@ bool CGMManager::Init()
 bool CGMManager::Init(CMysqlConnection* pGlobalDB)
 {
     __ENTER_FUNCTION
-    auto result = pGlobalDB->Query(TBLD_GMLIST::table_name());
+    auto result = pGlobalDB->QueryAll(TBLD_GMLIST::table_name());
     if(result)
     {
         for(size_t i = 0; i < result->get_num_row(); i++)

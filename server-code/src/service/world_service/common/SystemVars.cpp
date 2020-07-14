@@ -187,7 +187,7 @@ bool CSystemVarSet::Init()
     auto* pDB = WorldService()->GetGameDB();
     CHECKF(pDB);
 
-    auto result = pDB->Query(TBLD_SYSTEMVAR::table_name());
+    auto result = pDB->QueryAll(TBLD_SYSTEMVAR::table_name());
     if(result)
     {
         for(size_t i = 0; i < result->get_num_row(); i++)

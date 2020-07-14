@@ -98,13 +98,20 @@ struct TBLD_GUILD
     static constexpr const char* table_name() { return "tbld_guild"; }
     enum FIELD_ENUMS
     {
-        ID,          //''
-        LEV,         //'帮派等级'
-        NAME,        //'帮派名称'
-        LEADERID,    //'帮主id'
-        LEADERNAME,  //'帮主名称'
-        CREATE_TIME, //'创帮时间'
-        DEL_TIME,    //'删除时间'
+        ID,           //''
+        LEV,          //'帮派等级'
+        NAME,         //'帮派名称'
+        LEADER_ID,    //'帮主id'
+        LEADER_NAME,  //'帮主名称'
+        CREATOR_ID,   //'创建人ID'
+        CREATOR_NAME, //'创建人名称'
+        CREATE_TIME,  //'创帮时间'
+        DEL_TIME,     //'删除时间'
+        SLOGAN,       //'口号'
+        INFO1,        //'信息'
+        INFO2,        //'信息'
+        INFO3,        //'信息'
+        FLAG,         //'设置掩码'
 
     };
 
@@ -113,15 +120,35 @@ struct TBLD_GUILD
         return std::make_tuple(std::make_tuple("id", DB_FIELD_TYPE_LONGLONG_UNSIGNED, true),
                                std::make_tuple("lev", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false),
                                std::make_tuple("name", DB_FIELD_TYPE_VARCHAR, false),
-                               std::make_tuple("leaderid", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false),
-                               std::make_tuple("leadername", DB_FIELD_TYPE_VARCHAR, false),
+                               std::make_tuple("leader_id", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false),
+                               std::make_tuple("leader_name", DB_FIELD_TYPE_VARCHAR, false),
+                               std::make_tuple("creator_id", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false),
+                               std::make_tuple("creator_name", DB_FIELD_TYPE_VARCHAR, false),
                                std::make_tuple("create_time", DB_FIELD_TYPE_LONG_UNSIGNED, false),
-                               std::make_tuple("del_time", DB_FIELD_TYPE_LONG_UNSIGNED, false));
+                               std::make_tuple("del_time", DB_FIELD_TYPE_LONG_UNSIGNED, false),
+                               std::make_tuple("slogan", DB_FIELD_TYPE_VARCHAR, false),
+                               std::make_tuple("info1", DB_FIELD_TYPE_VARCHAR, false),
+                               std::make_tuple("info2", DB_FIELD_TYPE_VARCHAR, false),
+                               std::make_tuple("info3", DB_FIELD_TYPE_VARCHAR, false),
+                               std::make_tuple("flag", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false));
     }
 
-    using field_type_t = type_list<uint64_t, uint64_t, char[255], uint64_t, char[32], uint32_t, uint32_t>;
+    using field_type_t = type_list<uint64_t,
+                                   uint64_t,
+                                   char[255],
+                                   uint64_t,
+                                   char[32],
+                                   uint64_t,
+                                   char[32],
+                                   uint32_t,
+                                   uint32_t,
+                                   char[255],
+                                   char[1024],
+                                   char[1024],
+                                   char[1024],
+                                   uint64_t>;
 
-    static constexpr size_t field_count() { return 7; }
+    static constexpr size_t field_count() { return 14; }
 };
 
 struct TBLD_ITEM
@@ -273,6 +300,10 @@ struct TBLD_PLAYER
         NAME,            //'玩家名字'
         PROF,            //'玩家职业'
         BASELOOK,        //'玩家基本外观'
+        CREATE_TIME,     //'创建时间戳'
+        LAST_LOGINTIME,  //'最后登录时间戳'
+        LAST_LOGOUTTIME, //'最后登出时间戳'
+        DEL_TIME,        //'删除时间戳'
         LEV,             //'玩家等级'
         VIPLEV,          //'vip等级'
         RECORD_SCENEID,  //'玩家当前所在的地图编号'
@@ -301,10 +332,6 @@ struct TBLD_PLAYER
         ACHIPOINT,       //'成就值'
         BAG_SIZE,        //'背包大小'
         STROGE_SIZE,     //'仓库大小'
-        CREATE_TIME,     //'创建时间戳'
-        LAST_LOGINTIME,  //'最后登录时间戳'
-        LAST_LOGOUTTIME, //'最后登出时间戳'
-        DEL_TIME,        //'删除时间戳'
 
     };
 
@@ -317,6 +344,10 @@ struct TBLD_PLAYER
                                std::make_tuple("name", DB_FIELD_TYPE_VARCHAR, false),
                                std::make_tuple("prof", DB_FIELD_TYPE_LONG_UNSIGNED, false),
                                std::make_tuple("baselook", DB_FIELD_TYPE_LONG_UNSIGNED, false),
+                               std::make_tuple("create_time", DB_FIELD_TYPE_LONG_UNSIGNED, false),
+                               std::make_tuple("last_logintime", DB_FIELD_TYPE_LONG_UNSIGNED, false),
+                               std::make_tuple("last_logouttime", DB_FIELD_TYPE_LONG_UNSIGNED, false),
+                               std::make_tuple("del_time", DB_FIELD_TYPE_LONG_UNSIGNED, false),
                                std::make_tuple("lev", DB_FIELD_TYPE_LONG_UNSIGNED, false),
                                std::make_tuple("viplev", DB_FIELD_TYPE_LONG_UNSIGNED, false),
                                std::make_tuple("record_sceneid", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false),
@@ -344,11 +375,7 @@ struct TBLD_PLAYER
                                std::make_tuple("honor", DB_FIELD_TYPE_LONG_UNSIGNED, false),
                                std::make_tuple("achipoint", DB_FIELD_TYPE_LONG_UNSIGNED, false),
                                std::make_tuple("bag_size", DB_FIELD_TYPE_LONG_UNSIGNED, false),
-                               std::make_tuple("stroge_size", DB_FIELD_TYPE_LONG_UNSIGNED, false),
-                               std::make_tuple("create_time", DB_FIELD_TYPE_LONG_UNSIGNED, false),
-                               std::make_tuple("last_logintime", DB_FIELD_TYPE_LONG_UNSIGNED, false),
-                               std::make_tuple("last_logouttime", DB_FIELD_TYPE_LONG_UNSIGNED, false),
-                               std::make_tuple("del_time", DB_FIELD_TYPE_LONG_UNSIGNED, false));
+                               std::make_tuple("stroge_size", DB_FIELD_TYPE_LONG_UNSIGNED, false));
     }
 
     using field_type_t = type_list<uint64_t,
@@ -360,6 +387,10 @@ struct TBLD_PLAYER
                                    uint32_t,
                                    uint32_t,
                                    uint32_t,
+                                   uint32_t,
+                                   uint32_t,
+                                   uint32_t,
+                                   uint32_t,
                                    uint64_t,
                                    float,
                                    float,
@@ -377,10 +408,6 @@ struct TBLD_PLAYER
                                    uint64_t,
                                    uint64_t,
                                    uint64_t,
-                                   uint32_t,
-                                   uint32_t,
-                                   uint32_t,
-                                   uint32_t,
                                    uint32_t,
                                    uint32_t,
                                    uint32_t,
@@ -400,6 +427,7 @@ struct TBLD_PLAYER_GUILDINFO
     enum FIELD_ENUMS
     {
         ID,          //''
+        GUILDID,     //'guildid'
         RANK,        //'帮派职位'
         SCORE,       //'帮派贡献'
         TOTAL_SCORE, //'帮派贡献累计'
@@ -410,15 +438,16 @@ struct TBLD_PLAYER_GUILDINFO
     static constexpr auto field_info()
     {
         return std::make_tuple(std::make_tuple("id", DB_FIELD_TYPE_LONGLONG_UNSIGNED, true),
+                               std::make_tuple("guildid", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false),
                                std::make_tuple("rank", DB_FIELD_TYPE_LONG_UNSIGNED, false),
                                std::make_tuple("score", DB_FIELD_TYPE_LONG_UNSIGNED, false),
                                std::make_tuple("total_score", DB_FIELD_TYPE_LONG_UNSIGNED, false),
                                std::make_tuple("join_time", DB_FIELD_TYPE_LONG_UNSIGNED, false));
     }
 
-    using field_type_t = type_list<uint64_t, uint32_t, uint32_t, uint32_t, uint32_t>;
+    using field_type_t = type_list<uint64_t, uint64_t, uint32_t, uint32_t, uint32_t, uint32_t>;
 
-    static constexpr size_t field_count() { return 5; }
+    static constexpr size_t field_count() { return 6; }
 };
 
 struct TBLD_SKILL

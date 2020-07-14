@@ -83,4 +83,5 @@ private:
 
 using CDBRecordPtr = std::unique_ptr<CDBRecord>;
 
+
 #endif /* DBRECORD_H */

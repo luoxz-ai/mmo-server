@@ -25,13 +25,9 @@ bool CEquipment::Init(CPlayer* pPlayer)
     m_pOwner = pPlayer;
     auto pDB = ZoneService()->GetGameDB(m_pOwner->GetWorldID());
     CHECKF(pDB);
-    auto pResult = pDB->Query(TBLD_ITEM::table_name(),
-                              fmt::format(FMT_STRING("SELECT * FROM {} WHERE {}={} AND {}={}"),
-                                          TBLD_ITEM::table_name(),
-                                          DBFieldHelp<TBLD_ITEM,TBLD_ITEM::OWNER_ID>::GetFieldName(),
-                                          pPlayer->GetID(),
-                                          DBFieldHelp<TBLD_ITEM,TBLD_ITEM::POSITION>::GetFieldName(),
-                                          ITEMPOSITION_EQUIP));
+    auto pResult = pDB->QueryMultiCond<TBLD_ITEM>(
+            DBCond<TBLD_ITEM,TBLD_ITEM::OWNER_ID, OBJID>{pPlayer->GetID()},
+            DBCond<TBLD_ITEM,TBLD_ITEM::POSITION, uint32_t>{ITEMPOSITION_EQUIP});
 
     if(pResult)
     {

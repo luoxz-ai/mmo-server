@@ -14,8 +14,9 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
+extern PROTOBUF_INTERNAL_EXPORT_common_2fCommon_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_GuildMemberInfo_common_2fCommon_2eproto;
 extern PROTOBUF_INTERNAL_EXPORT_server_5fmsg_2fserver_5fside_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_ServiceHttpRequest_KvmapEntry_DoNotUse_server_5fmsg_2fserver_5fside_2eproto;
-extern PROTOBUF_INTERNAL_EXPORT_server_5fmsg_2fserver_5fside_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_TeamMemberInfo_Info_server_5fmsg_2fserver_5fside_2eproto;
+extern PROTOBUF_INTERNAL_EXPORT_common_2fCommon_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_TeamMemberInfo_common_2fCommon_2eproto;
 namespace ServerMSG {
 class ServiceCmdDefaultTypeInternal {
  public:
@@ -193,14 +194,58 @@ class TeamDelMemberDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<TeamDelMember> _instance;
 } _TeamDelMember_default_instance_;
-class TeamMemberInfo_InfoDefaultTypeInternal {
+class TeamMemberInfoListDefaultTypeInternal {
  public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<TeamMemberInfo_Info> _instance;
-} _TeamMemberInfo_Info_default_instance_;
-class TeamMemberInfoDefaultTypeInternal {
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<TeamMemberInfoList> _instance;
+} _TeamMemberInfoList_default_instance_;
+class GuildCreateDefaultTypeInternal {
  public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<TeamMemberInfo> _instance;
-} _TeamMemberInfo_default_instance_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<GuildCreate> _instance;
+} _GuildCreate_default_instance_;
+class GuildDestoryDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<GuildDestory> _instance;
+} _GuildDestory_default_instance_;
+class GuildQuitDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<GuildQuit> _instance;
+} _GuildQuit_default_instance_;
+class GuildKickMemberDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<GuildKickMember> _instance;
+} _GuildKickMember_default_instance_;
+class GuildInviteMemberDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<GuildInviteMember> _instance;
+} _GuildInviteMember_default_instance_;
+class GuildAcceptInviteDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<GuildAcceptInvite> _instance;
+} _GuildAcceptInvite_default_instance_;
+class GuildApplyMemberDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<GuildApplyMember> _instance;
+} _GuildApplyMember_default_instance_;
+class GuildAcceptApplyDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<GuildAcceptApply> _instance;
+} _GuildAcceptApply_default_instance_;
+class GuildNewLeaderDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<GuildNewLeader> _instance;
+} _GuildNewLeader_default_instance_;
+class GuildAddMemberDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<GuildAddMember> _instance;
+} _GuildAddMember_default_instance_;
+class GuildDelMemberDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<GuildDelMember> _instance;
+} _GuildDelMember_default_instance_;
+class GuildMemberInfoListDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<GuildMemberInfoList> _instance;
+} _GuildMemberInfoList_default_instance_;
 class SyncTaskPhaseDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<SyncTaskPhase> _instance;
@@ -339,6 +384,175 @@ static void InitDefaultsscc_info_AddTaskPhase_server_5fmsg_2fserver_5fside_2epro
 
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_AddTaskPhase_server_5fmsg_2fserver_5fside_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_AddTaskPhase_server_5fmsg_2fserver_5fside_2eproto}, {}};
+
+static void InitDefaultsscc_info_GuildAcceptApply_server_5fmsg_2fserver_5fside_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::ServerMSG::_GuildAcceptApply_default_instance_;
+    new (ptr) ::ServerMSG::GuildAcceptApply();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ServerMSG::GuildAcceptApply::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_GuildAcceptApply_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_GuildAcceptApply_server_5fmsg_2fserver_5fside_2eproto}, {}};
+
+static void InitDefaultsscc_info_GuildAcceptInvite_server_5fmsg_2fserver_5fside_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::ServerMSG::_GuildAcceptInvite_default_instance_;
+    new (ptr) ::ServerMSG::GuildAcceptInvite();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ServerMSG::GuildAcceptInvite::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_GuildAcceptInvite_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_GuildAcceptInvite_server_5fmsg_2fserver_5fside_2eproto}, {}};
+
+static void InitDefaultsscc_info_GuildAddMember_server_5fmsg_2fserver_5fside_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::ServerMSG::_GuildAddMember_default_instance_;
+    new (ptr) ::ServerMSG::GuildAddMember();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ServerMSG::GuildAddMember::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_GuildAddMember_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_GuildAddMember_server_5fmsg_2fserver_5fside_2eproto}, {}};
+
+static void InitDefaultsscc_info_GuildApplyMember_server_5fmsg_2fserver_5fside_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::ServerMSG::_GuildApplyMember_default_instance_;
+    new (ptr) ::ServerMSG::GuildApplyMember();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ServerMSG::GuildApplyMember::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_GuildApplyMember_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_GuildApplyMember_server_5fmsg_2fserver_5fside_2eproto}, {}};
+
+static void InitDefaultsscc_info_GuildCreate_server_5fmsg_2fserver_5fside_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::ServerMSG::_GuildCreate_default_instance_;
+    new (ptr) ::ServerMSG::GuildCreate();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ServerMSG::GuildCreate::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_GuildCreate_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_GuildCreate_server_5fmsg_2fserver_5fside_2eproto}, {}};
+
+static void InitDefaultsscc_info_GuildDelMember_server_5fmsg_2fserver_5fside_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::ServerMSG::_GuildDelMember_default_instance_;
+    new (ptr) ::ServerMSG::GuildDelMember();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ServerMSG::GuildDelMember::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_GuildDelMember_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_GuildDelMember_server_5fmsg_2fserver_5fside_2eproto}, {}};
+
+static void InitDefaultsscc_info_GuildDestory_server_5fmsg_2fserver_5fside_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::ServerMSG::_GuildDestory_default_instance_;
+    new (ptr) ::ServerMSG::GuildDestory();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ServerMSG::GuildDestory::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_GuildDestory_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_GuildDestory_server_5fmsg_2fserver_5fside_2eproto}, {}};
+
+static void InitDefaultsscc_info_GuildInviteMember_server_5fmsg_2fserver_5fside_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::ServerMSG::_GuildInviteMember_default_instance_;
+    new (ptr) ::ServerMSG::GuildInviteMember();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ServerMSG::GuildInviteMember::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_GuildInviteMember_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_GuildInviteMember_server_5fmsg_2fserver_5fside_2eproto}, {}};
+
+static void InitDefaultsscc_info_GuildKickMember_server_5fmsg_2fserver_5fside_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::ServerMSG::_GuildKickMember_default_instance_;
+    new (ptr) ::ServerMSG::GuildKickMember();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ServerMSG::GuildKickMember::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_GuildKickMember_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_GuildKickMember_server_5fmsg_2fserver_5fside_2eproto}, {}};
+
+static void InitDefaultsscc_info_GuildMemberInfoList_server_5fmsg_2fserver_5fside_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::ServerMSG::_GuildMemberInfoList_default_instance_;
+    new (ptr) ::ServerMSG::GuildMemberInfoList();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ServerMSG::GuildMemberInfoList::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_GuildMemberInfoList_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_GuildMemberInfoList_server_5fmsg_2fserver_5fside_2eproto}, {
+      &scc_info_GuildMemberInfo_common_2fCommon_2eproto.base,}};
+
+static void InitDefaultsscc_info_GuildNewLeader_server_5fmsg_2fserver_5fside_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::ServerMSG::_GuildNewLeader_default_instance_;
+    new (ptr) ::ServerMSG::GuildNewLeader();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ServerMSG::GuildNewLeader::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_GuildNewLeader_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_GuildNewLeader_server_5fmsg_2fserver_5fside_2eproto}, {}};
+
+static void InitDefaultsscc_info_GuildQuit_server_5fmsg_2fserver_5fside_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::ServerMSG::_GuildQuit_default_instance_;
+    new (ptr) ::ServerMSG::GuildQuit();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::ServerMSG::GuildQuit::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_GuildQuit_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_GuildQuit_server_5fmsg_2fserver_5fside_2eproto}, {}};
 
 static void InitDefaultsscc_info_KillGen_server_5fmsg_2fserver_5fside_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -844,34 +1058,20 @@ static void InitDefaultsscc_info_TeamKickMember_server_5fmsg_2fserver_5fside_2ep
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_TeamKickMember_server_5fmsg_2fserver_5fside_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_TeamKickMember_server_5fmsg_2fserver_5fside_2eproto}, {}};
 
-static void InitDefaultsscc_info_TeamMemberInfo_server_5fmsg_2fserver_5fside_2eproto() {
+static void InitDefaultsscc_info_TeamMemberInfoList_server_5fmsg_2fserver_5fside_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::ServerMSG::_TeamMemberInfo_default_instance_;
-    new (ptr) ::ServerMSG::TeamMemberInfo();
+    void* ptr = &::ServerMSG::_TeamMemberInfoList_default_instance_;
+    new (ptr) ::ServerMSG::TeamMemberInfoList();
     ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::ServerMSG::TeamMemberInfo::InitAsDefaultInstance();
+  ::ServerMSG::TeamMemberInfoList::InitAsDefaultInstance();
 }
 
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_TeamMemberInfo_server_5fmsg_2fserver_5fside_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_TeamMemberInfo_server_5fmsg_2fserver_5fside_2eproto}, {
-      &scc_info_TeamMemberInfo_Info_server_5fmsg_2fserver_5fside_2eproto.base,}};
-
-static void InitDefaultsscc_info_TeamMemberInfo_Info_server_5fmsg_2fserver_5fside_2eproto() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::ServerMSG::_TeamMemberInfo_Info_default_instance_;
-    new (ptr) ::ServerMSG::TeamMemberInfo_Info();
-    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::ServerMSG::TeamMemberInfo_Info::InitAsDefaultInstance();
-}
-
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_TeamMemberInfo_Info_server_5fmsg_2fserver_5fside_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_TeamMemberInfo_Info_server_5fmsg_2fserver_5fside_2eproto}, {}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_TeamMemberInfoList_server_5fmsg_2fserver_5fside_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_TeamMemberInfoList_server_5fmsg_2fserver_5fside_2eproto}, {
+      &scc_info_TeamMemberInfo_common_2fCommon_2eproto.base,}};
 
 static void InitDefaultsscc_info_TeamNewLeader_server_5fmsg_2fserver_5fside_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -901,7 +1101,7 @@ static void InitDefaultsscc_info_TeamQuit_server_5fmsg_2fserver_5fside_2eproto()
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_TeamQuit_server_5fmsg_2fserver_5fside_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_TeamQuit_server_5fmsg_2fserver_5fside_2eproto}, {}};
 
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_server_5fmsg_2fserver_5fside_2eproto[49];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_server_5fmsg_2fserver_5fside_2eproto[60];
 static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_server_5fmsg_2fserver_5fside_2eproto[2];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_server_5fmsg_2fserver_5fside_2eproto = nullptr;
 
@@ -1262,20 +1462,103 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_server_5fmsg_2fserver_5fside_2
   PROTOBUF_FIELD_OFFSET(::ServerMSG::TeamDelMember, team_id_),
   PROTOBUF_FIELD_OFFSET(::ServerMSG::TeamDelMember, member_id_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::ServerMSG::TeamMemberInfo_Info, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::TeamMemberInfoList, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::ServerMSG::TeamMemberInfo_Info, member_id_),
-  PROTOBUF_FIELD_OFFSET(::ServerMSG::TeamMemberInfo_Info, member_lev_),
-  PROTOBUF_FIELD_OFFSET(::ServerMSG::TeamMemberInfo_Info, member_online_),
-  PROTOBUF_FIELD_OFFSET(::ServerMSG::TeamMemberInfo_Info, member_name_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::TeamMemberInfoList, member_list_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::ServerMSG::TeamMemberInfo, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildCreate, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::ServerMSG::TeamMemberInfo, member_list_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildCreate, guild_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildCreate, leader_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildCreate, guild_name_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildCreate, leader_name_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildCreate, create_time_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildDestory, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildDestory, guild_id_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildQuit, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildQuit, guild_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildQuit, operator_id_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildKickMember, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildKickMember, guild_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildKickMember, operator_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildKickMember, kick_id_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildInviteMember, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildInviteMember, guild_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildInviteMember, operator_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildInviteMember, invitee_id_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildAcceptInvite, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildAcceptInvite, guild_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildAcceptInvite, inviter_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildAcceptInvite, invitee_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildAcceptInvite, result_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildApplyMember, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildApplyMember, applicant_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildApplyMember, respondent_id_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildAcceptApply, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildAcceptApply, applicant_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildAcceptApply, respondent_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildAcceptApply, result_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildNewLeader, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildNewLeader, guild_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildNewLeader, operator_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildNewLeader, new_leader_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildNewLeader, new_leader_name_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildAddMember, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildAddMember, guild_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildAddMember, member_id_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildDelMember, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildDelMember, guild_id_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildDelMember, member_id_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildMemberInfoList, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::GuildMemberInfoList, member_list_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ServerMSG::SyncTaskPhase, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1343,11 +1626,22 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 333, -1, sizeof(::ServerMSG::TeamNewLeader)},
   { 341, -1, sizeof(::ServerMSG::TeamAddMember)},
   { 348, -1, sizeof(::ServerMSG::TeamDelMember)},
-  { 355, -1, sizeof(::ServerMSG::TeamMemberInfo_Info)},
-  { 364, -1, sizeof(::ServerMSG::TeamMemberInfo)},
-  { 370, -1, sizeof(::ServerMSG::SyncTaskPhase)},
-  { 377, -1, sizeof(::ServerMSG::AddTaskPhase)},
-  { 384, -1, sizeof(::ServerMSG::RemoveTaskPhase)},
+  { 355, -1, sizeof(::ServerMSG::TeamMemberInfoList)},
+  { 361, -1, sizeof(::ServerMSG::GuildCreate)},
+  { 371, -1, sizeof(::ServerMSG::GuildDestory)},
+  { 377, -1, sizeof(::ServerMSG::GuildQuit)},
+  { 384, -1, sizeof(::ServerMSG::GuildKickMember)},
+  { 392, -1, sizeof(::ServerMSG::GuildInviteMember)},
+  { 400, -1, sizeof(::ServerMSG::GuildAcceptInvite)},
+  { 409, -1, sizeof(::ServerMSG::GuildApplyMember)},
+  { 416, -1, sizeof(::ServerMSG::GuildAcceptApply)},
+  { 424, -1, sizeof(::ServerMSG::GuildNewLeader)},
+  { 433, -1, sizeof(::ServerMSG::GuildAddMember)},
+  { 440, -1, sizeof(::ServerMSG::GuildDelMember)},
+  { 447, -1, sizeof(::ServerMSG::GuildMemberInfoList)},
+  { 453, -1, sizeof(::ServerMSG::SyncTaskPhase)},
+  { 460, -1, sizeof(::ServerMSG::AddTaskPhase)},
+  { 467, -1, sizeof(::ServerMSG::RemoveTaskPhase)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -1395,8 +1689,19 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_TeamNewLeader_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_TeamAddMember_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_TeamDelMember_default_instance_),
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_TeamMemberInfo_Info_default_instance_),
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_TeamMemberInfo_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_TeamMemberInfoList_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_GuildCreate_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_GuildDestory_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_GuildQuit_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_GuildKickMember_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_GuildInviteMember_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_GuildAcceptInvite_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_GuildApplyMember_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_GuildAcceptApply_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_GuildNewLeader_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_GuildAddMember_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_GuildDelMember_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_GuildMemberInfoList_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_SyncTaskPhase_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_AddTaskPhase_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::ServerMSG::_RemoveTaskPhase_default_instance_),
@@ -1404,133 +1709,163 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\034server_msg/server_side.proto\022\tServerMS"
-  "G\"\032\n\nServiceCmd\022\014\n\004cmds\030\001 \003(\t\"\210\001\n\022Servic"
-  "eHttpRequest\022\013\n\003uid\030\001 \001(\004\0227\n\005kvmap\030\002 \003(\013"
-  "2(.ServerMSG.ServiceHttpRequest.KvmapEnt"
-  "ry\032,\n\nKvmapEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002"
-  " \001(\t:\0028\001\"h\n\023ServiceHttpResponse\022\013\n\003uid\030\001"
-  " \001(\004\022\025\n\rresponse_code\030\002 \001(\005\022\027\n\017response_"
-  "reason\030\003 \001(\t\022\024\n\014response_txt\030\004 \001(\014\"1\n\014Se"
-  "rviceReady\022\022\n\nserverport\030\001 \001(\r\022\r\n\005ready\030"
-  "\002 \001(\010\":\n\017ServiceRegister\022\022\n\nserverport\030\001"
-  " \001(\r\022\023\n\013update_time\030\002 \001(\004\"\033\n\rSocketConne"
-  "ct\022\n\n\002vs\030\001 \001(\004\"\031\n\013SocketClose\022\n\n\002vs\030\001 \001("
-  "\004\"0\n\020SocketChangeDest\022\n\n\002vs\030\001 \001(\004\022\020\n\010des"
-  "tport\030\002 \001(\r\"\030\n\nSocketAuth\022\n\n\002vs\030\001 \001(\004\"\023\n"
-  "\021SocketStartAccept\"\022\n\020SocketStopAccept\"w"
-  "\n\017PlayerEnterZone\022\020\n\010idplayer\030\001 \001(\004\022\016\n\006s"
-  "ocket\030\002 \001(\004\022\030\n\020target_scene_idx\030\004 \001(\004\022\014\n"
-  "\004posx\030\005 \001(\002\022\014\n\004posy\030\006 \001(\002\022\014\n\004face\030\007 \001(\002\""
-  "\223\001\n\020PlayerChangeZone\022\020\n\010idplayer\030\001 \001(\004\022\016"
-  "\n\006socket\030\002 \001(\004\022\016\n\006idzone\030\003 \001(\r\022\024\n\014target"
-  "_scene\030\004 \001(\004\022\014\n\004posx\030\006 \001(\002\022\014\n\004posy\030\007 \001(\002"
-  "\022\r\n\005range\030\010 \001(\002\022\014\n\004face\030\t \001(\002\"9\n\025PlayerC"
-  "hangeZone_Data\022\020\n\010idplayer\030\001 \001(\004\022\016\n\006sock"
-  "et\030\002 \001(\004\"0\n\014PlayerLogout\022\020\n\010idplayer\030\001 \001"
-  "(\004\022\016\n\006socket\030\002 \001(\004\"\346\001\n\017SystemVarChange\022\016"
-  "\n\006keyidx\030\001 \001(\r\022\013\n\003idx\030\002 \001(\r\022\013\n\003val\030\003 \001(\r"
-  "\022\013\n\003str\030\004 \001(\t\022<\n\004type\030\005 \001(\0162..ServerMSG."
-  "SystemVarChange.SystemVarChangeType\"^\n\023S"
-  "ystemVarChangeType\022\017\n\013SVCT_CREATE\020\000\022\021\n\rS"
-  "VCT_SET_DATA\020\001\022\021\n\rSVCT_ADD_DATA\020\002\022\020\n\014SVC"
-  "T_SET_STR\020\003\"\037\n\013SceneCreate\022\020\n\010scene_id\030\001"
-  " \001(\004\"1\n\013PhaseCreate\022\020\n\010scene_id\030\001 \001(\004\022\020\n"
-  "\010phase_id\030\002 \001(\004\"2\n\014PhaseDestory\022\020\n\010scene"
-  "_id\030\001 \001(\004\022\020\n\010phase_id\030\002 \001(\004\"\227\001\n\nMonsterG"
-  "en\022\020\n\010scene_id\030\001 \001(\004\022\020\n\010phase_id\030\002 \001(\004\022\016"
-  "\n\006gen_id\030\003 \001(\r\022\024\n\014monster_type\030\004 \001(\r\022\014\n\004"
-  "posx\030\005 \001(\002\022\014\n\004posy\030\006 \001(\002\022\017\n\007camp_id\030\007 \001("
-  "\r\022\022\n\nmonster_id\030\010 \001(\r\"\270\001\n\017MonsterGenMult"
-  "i\022\020\n\010scene_id\030\001 \001(\004\022\020\n\010phase_id\030\002 \001(\004\022\016\n"
-  "\006gen_id\030\003 \001(\r\022\024\n\014monster_type\030\004 \001(\r\022\014\n\004p"
-  "osx\030\005 \001(\002\022\014\n\004posy\030\006 \001(\002\022\017\n\007camp_id\030\007 \001(\r"
-  "\022\022\n\nmonster_id\030\010 \001(\r\022\013\n\003num\030\t \001(\r\022\r\n\005ran"
-  "ge\030\n \001(\002\"$\n\016MonsterDestory\022\022\n\nmonster_id"
-  "\030\001 \003(\004\"D\n\016MonsterGenOnce\022\020\n\010scene_id\030\001 \001"
-  "(\004\022\016\n\006gen_id\030\002 \001(\r\022\020\n\010phase_id\030\003 \001(\004\"=\n\t"
-  "ActiveGen\022\020\n\010scene_id\030\001 \001(\004\022\016\n\006gen_id\030\002 "
-  "\001(\r\022\016\n\006active\030\003 \001(\010\"+\n\007KillGen\022\020\n\010scene_"
-  "id\030\001 \001(\004\022\016\n\006gen_id\030\002 \001(\r\"\273\002\n\013ActorCreate"
-  "\022\020\n\010actor_id\030\001 \001(\004\022\020\n\010scene_id\030\002 \001(\004\022\014\n\004"
-  "name\030\004 \001(\t\022\021\n\tactortype\030\005 \001(\r\022\020\n\010baseloo"
-  "k\030\006 \001(\r\022\014\n\004prof\030\007 \001(\r\022\013\n\003lev\030\010 \001(\r\022\016\n\006ca"
-  "mpid\030\t \001(\r\022\n\n\002hp\030\n \001(\r\022\r\n\005hpmax\030\013 \001(\r\022\n\n"
-  "\002mp\030\014 \001(\r\022\r\n\005mpmax\030\r \001(\r\022\017\n\007movespd\030\016 \001("
-  "\r\022\017\n\007ownerid\030\017 \001(\004\022\014\n\004posx\030\020 \001(\002\022\014\n\004posy"
-  "\030\021 \001(\002\022\014\n\004face\030\022 \001(\002\022\026\n\016monster_gen_id\030\024"
-  " \001(\r\022\020\n\010phase_id\030\025 \001(\004\".\n\014ActorDestory\022\020"
-  "\n\010actor_id\030\001 \001(\004\022\014\n\004dead\030\002 \001(\010\"3\n\tActorM"
-  "ove\022\020\n\010actor_id\030\001 \001(\004\022\t\n\001x\030\002 \001(\002\022\t\n\001y\030\003 "
-  "\001(\002\"4\n\nActorFlyTo\022\020\n\010actor_id\030\001 \001(\004\022\t\n\001x"
-  "\030\002 \001(\002\022\t\n\001y\030\003 \001(\002\"G\n\016ActorCastSkill\022\020\n\010a"
-  "ctor_id\030\001 \001(\004\022\021\n\ttarget_id\030\002 \001(\004\022\020\n\010skil"
-  "l_id\030\003 \001(\r\"\'\n\023ActorCastSkill_Fail\022\020\n\010act"
-  "or_id\030\001 \001(\004\"4\n\014ActorSetHide\022\020\n\010actor_id\030"
-  "\001 \001(\004\022\022\n\nhide_count\030\002 \001(\005\"0\n\nTeamCreate\022"
-  "\017\n\007team_id\030\001 \001(\004\022\021\n\tleader_id\030\002 \001(\004\"\036\n\013T"
-  "eamDestory\022\017\n\007team_id\030\001 \001(\004\"0\n\010TeamQuit\022"
-  "\017\n\007team_id\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\"G\n"
-  "\016TeamKickMember\022\017\n\007team_id\030\001 \001(\004\022\023\n\013oper"
-  "ator_id\030\002 \001(\004\022\017\n\007kick_id\030\003 \001(\004\"L\n\020TeamIn"
-  "viteMember\022\017\n\007team_id\030\001 \001(\004\022\023\n\013operator_"
-  "id\030\002 \001(\004\022\022\n\ninvitee_id\030\003 \001(\004\"[\n\020TeamAcce"
-  "ptInvite\022\017\n\007team_id\030\001 \001(\004\022\022\n\ninviter_id\030"
-  "\002 \001(\004\022\022\n\ninvitee_id\030\003 \001(\004\022\016\n\006result\030\004 \001("
-  "\010\">\n\017TeamApplyMember\022\024\n\014applicant_id\030\001 \001"
-  "(\004\022\025\n\rrespondent_id\030\002 \001(\004\"N\n\017TeamAcceptA"
-  "pply\022\024\n\014applicant_id\030\001 \001(\004\022\025\n\rrespondent"
-  "_id\030\002 \001(\004\022\016\n\006result\030\003 \001(\010\"L\n\rTeamNewLead"
-  "er\022\017\n\007team_id\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004"
-  "\022\025\n\rnew_leader_id\030\003 \001(\004\"3\n\rTeamAddMember"
-  "\022\017\n\007team_id\030\001 \001(\004\022\021\n\tmember_id\030\002 \001(\004\"3\n\r"
-  "TeamDelMember\022\017\n\007team_id\030\001 \001(\004\022\021\n\tmember"
-  "_id\030\002 \001(\004\"\240\001\n\016TeamMemberInfo\0223\n\013member_l"
-  "ist\030\001 \003(\0132\036.ServerMSG.TeamMemberInfo.Inf"
-  "o\032Y\n\004Info\022\021\n\tmember_id\030\001 \001(\004\022\022\n\nmember_l"
-  "ev\030\002 \001(\r\022\025\n\rmember_online\030\003 \001(\010\022\023\n\013membe"
-  "r_name\030\004 \001(\t\"9\n\rSyncTaskPhase\022\021\n\tplayer_"
-  "id\030\001 \001(\004\022\025\n\rtask_phase_id\030\002 \003(\004\"8\n\014AddTa"
-  "skPhase\022\021\n\tplayer_id\030\001 \001(\004\022\025\n\rtask_phase"
-  "_id\030\002 \001(\004\";\n\017RemoveTaskPhase\022\021\n\tplayer_i"
-  "d\030\001 \001(\004\022\025\n\rtask_phase_id\030\002 \001(\004*\277\n\n\006OMsgI"
-  "D\022\017\n\013OMSGID_NONE\020\000\022\021\n\013MsgID_BEGIN\020\240\234\001\022\026\n"
-  "\020MsgID_ServiceCmd\020\241\234\001\022\036\n\030MsgID_ServiceHt"
-  "tpRequest\020\242\234\001\022\037\n\031MsgID_ServiceHttpRespon"
-  "se\020\243\234\001\022\030\n\022MsgID_ServiceReady\020\252\234\001\022\033\n\025MsgI"
-  "D_ServiceRegister\020\253\234\001\022\031\n\023MsgID_SocketCon"
-  "nect\020\254\234\001\022\027\n\021MsgID_SocketClose\020\255\234\001\022\034\n\026Msg"
-  "ID_SocketChangeDest\020\256\234\001\022\026\n\020MsgID_SocketA"
-  "uth\020\257\234\001\022\035\n\027MsgID_SocketStartAccept\020\260\234\001\022\034"
-  "\n\026MsgID_SocketStopAccept\020\261\234\001\022\033\n\025MsgID_Pl"
-  "ayerEnterZone\020\265\234\001\022\034\n\026MsgID_PlayerChangeZ"
-  "one\020\266\234\001\022!\n\033MsgID_PlayerChangeZone_Data\020\267"
-  "\234\001\022\030\n\022MsgID_PlayerLogout\020\270\234\001\022\033\n\025MsgID_Sy"
-  "stemVarChange\020\276\234\001\022\027\n\021MsgID_SceneCreate\020\277"
-  "\234\001\022\027\n\021MsgID_PhaseCreate\020\300\234\001\022\030\n\022MsgID_Pha"
-  "seDestory\020\301\234\001\022\026\n\020MsgID_MonsterGen\020\311\234\001\022\032\n"
-  "\024MsgID_MonsterDestory\020\312\234\001\022\025\n\017MsgID_Activ"
-  "eGen\020\313\234\001\022\023\n\rMsgID_KillGen\020\314\234\001\022\032\n\024MsgID_M"
-  "onsterGenOnce\020\315\234\001\022\033\n\025MsgID_MonsterGenMul"
-  "ti\020\316\234\001\022\027\n\021MsgID_ActorCreate\020\204\235\001\022\030\n\022MsgID"
-  "_ActorDestory\020\205\235\001\022\025\n\017MsgID_ActorMove\020\206\235\001"
-  "\022\032\n\024MsgID_ActorCastSkill\020\207\235\001\022\037\n\031MsgID_Ac"
-  "torCastSkill_Fail\020\210\235\001\022\030\n\022MsgID_ActorSetH"
-  "ide\020\211\235\001\022\031\n\023MsgID_SyncTaskPhase\020\212\235\001\022\030\n\022Ms"
-  "gID_AddTaskPhase\020\213\235\001\022\033\n\025MsgID_RemoveTask"
-  "Phase\020\214\235\001\022\026\n\020MsgID_ActorFlyTo\020\215\235\001\022\026\n\020Msg"
-  "ID_TeamCreate\020\216\235\001\022\027\n\021MsgID_TeamDestory\020\217"
-  "\235\001\022\024\n\016MsgID_TeamQuit\020\220\235\001\022\032\n\024MsgID_TeamKi"
-  "ckMember\020\221\235\001\022\034\n\026MsgID_TeamInviteMember\020\222"
-  "\235\001\022\034\n\026MsgID_TeamAcceptInvite\020\223\235\001\022\033\n\025MsgI"
-  "D_TeamApplyMember\020\224\235\001\022\033\n\025MsgID_TeamAccep"
-  "tApply\020\225\235\001\022\031\n\023MsgID_TeamNewLeader\020\226\235\001\022\032\n"
-  "\024MsgID_TeamMemberInfo\020\227\235\001\022\031\n\023MsgID_TeamA"
-  "ddMember\020\230\235\001\022\031\n\023MsgID_TeamDelMember\020\231\235\001\022"
-  "\017\n\tMsgID_END\020\260\352\001b\006proto3"
+  "G\032\023common/Common.proto\"\032\n\nServiceCmd\022\014\n\004"
+  "cmds\030\001 \003(\t\"\210\001\n\022ServiceHttpRequest\022\013\n\003uid"
+  "\030\001 \001(\004\0227\n\005kvmap\030\002 \003(\0132(.ServerMSG.Servic"
+  "eHttpRequest.KvmapEntry\032,\n\nKvmapEntry\022\013\n"
+  "\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\"h\n\023Service"
+  "HttpResponse\022\013\n\003uid\030\001 \001(\004\022\025\n\rresponse_co"
+  "de\030\002 \001(\005\022\027\n\017response_reason\030\003 \001(\t\022\024\n\014res"
+  "ponse_txt\030\004 \001(\014\"1\n\014ServiceReady\022\022\n\nserve"
+  "rport\030\001 \001(\r\022\r\n\005ready\030\002 \001(\010\":\n\017ServiceReg"
+  "ister\022\022\n\nserverport\030\001 \001(\r\022\023\n\013update_time"
+  "\030\002 \001(\004\"\033\n\rSocketConnect\022\n\n\002vs\030\001 \001(\004\"\031\n\013S"
+  "ocketClose\022\n\n\002vs\030\001 \001(\004\"0\n\020SocketChangeDe"
+  "st\022\n\n\002vs\030\001 \001(\004\022\020\n\010destport\030\002 \001(\r\"\030\n\nSock"
+  "etAuth\022\n\n\002vs\030\001 \001(\004\"\023\n\021SocketStartAccept\""
+  "\022\n\020SocketStopAccept\"w\n\017PlayerEnterZone\022\020"
+  "\n\010idplayer\030\001 \001(\004\022\016\n\006socket\030\002 \001(\004\022\030\n\020targ"
+  "et_scene_idx\030\004 \001(\004\022\014\n\004posx\030\005 \001(\002\022\014\n\004posy"
+  "\030\006 \001(\002\022\014\n\004face\030\007 \001(\002\"\223\001\n\020PlayerChangeZon"
+  "e\022\020\n\010idplayer\030\001 \001(\004\022\016\n\006socket\030\002 \001(\004\022\016\n\006i"
+  "dzone\030\003 \001(\r\022\024\n\014target_scene\030\004 \001(\004\022\014\n\004pos"
+  "x\030\006 \001(\002\022\014\n\004posy\030\007 \001(\002\022\r\n\005range\030\010 \001(\002\022\014\n\004"
+  "face\030\t \001(\002\"9\n\025PlayerChangeZone_Data\022\020\n\010i"
+  "dplayer\030\001 \001(\004\022\016\n\006socket\030\002 \001(\004\"0\n\014PlayerL"
+  "ogout\022\020\n\010idplayer\030\001 \001(\004\022\016\n\006socket\030\002 \001(\004\""
+  "\346\001\n\017SystemVarChange\022\016\n\006keyidx\030\001 \001(\r\022\013\n\003i"
+  "dx\030\002 \001(\r\022\013\n\003val\030\003 \001(\r\022\013\n\003str\030\004 \001(\t\022<\n\004ty"
+  "pe\030\005 \001(\0162..ServerMSG.SystemVarChange.Sys"
+  "temVarChangeType\"^\n\023SystemVarChangeType\022"
+  "\017\n\013SVCT_CREATE\020\000\022\021\n\rSVCT_SET_DATA\020\001\022\021\n\rS"
+  "VCT_ADD_DATA\020\002\022\020\n\014SVCT_SET_STR\020\003\"\037\n\013Scen"
+  "eCreate\022\020\n\010scene_id\030\001 \001(\004\"1\n\013PhaseCreate"
+  "\022\020\n\010scene_id\030\001 \001(\004\022\020\n\010phase_id\030\002 \001(\004\"2\n\014"
+  "PhaseDestory\022\020\n\010scene_id\030\001 \001(\004\022\020\n\010phase_"
+  "id\030\002 \001(\004\"\227\001\n\nMonsterGen\022\020\n\010scene_id\030\001 \001("
+  "\004\022\020\n\010phase_id\030\002 \001(\004\022\016\n\006gen_id\030\003 \001(\r\022\024\n\014m"
+  "onster_type\030\004 \001(\r\022\014\n\004posx\030\005 \001(\002\022\014\n\004posy\030"
+  "\006 \001(\002\022\017\n\007camp_id\030\007 \001(\r\022\022\n\nmonster_id\030\010 \001"
+  "(\r\"\270\001\n\017MonsterGenMulti\022\020\n\010scene_id\030\001 \001(\004"
+  "\022\020\n\010phase_id\030\002 \001(\004\022\016\n\006gen_id\030\003 \001(\r\022\024\n\014mo"
+  "nster_type\030\004 \001(\r\022\014\n\004posx\030\005 \001(\002\022\014\n\004posy\030\006"
+  " \001(\002\022\017\n\007camp_id\030\007 \001(\r\022\022\n\nmonster_id\030\010 \001("
+  "\r\022\013\n\003num\030\t \001(\r\022\r\n\005range\030\n \001(\002\"$\n\016Monster"
+  "Destory\022\022\n\nmonster_id\030\001 \003(\004\"D\n\016MonsterGe"
+  "nOnce\022\020\n\010scene_id\030\001 \001(\004\022\016\n\006gen_id\030\002 \001(\r\022"
+  "\020\n\010phase_id\030\003 \001(\004\"=\n\tActiveGen\022\020\n\010scene_"
+  "id\030\001 \001(\004\022\016\n\006gen_id\030\002 \001(\r\022\016\n\006active\030\003 \001(\010"
+  "\"+\n\007KillGen\022\020\n\010scene_id\030\001 \001(\004\022\016\n\006gen_id\030"
+  "\002 \001(\r\"\273\002\n\013ActorCreate\022\020\n\010actor_id\030\001 \001(\004\022"
+  "\020\n\010scene_id\030\002 \001(\004\022\014\n\004name\030\004 \001(\t\022\021\n\tactor"
+  "type\030\005 \001(\r\022\020\n\010baselook\030\006 \001(\r\022\014\n\004prof\030\007 \001"
+  "(\r\022\013\n\003lev\030\010 \001(\r\022\016\n\006campid\030\t \001(\r\022\n\n\002hp\030\n "
+  "\001(\r\022\r\n\005hpmax\030\013 \001(\r\022\n\n\002mp\030\014 \001(\r\022\r\n\005mpmax\030"
+  "\r \001(\r\022\017\n\007movespd\030\016 \001(\r\022\017\n\007ownerid\030\017 \001(\004\022"
+  "\014\n\004posx\030\020 \001(\002\022\014\n\004posy\030\021 \001(\002\022\014\n\004face\030\022 \001("
+  "\002\022\026\n\016monster_gen_id\030\024 \001(\r\022\020\n\010phase_id\030\025 "
+  "\001(\004\".\n\014ActorDestory\022\020\n\010actor_id\030\001 \001(\004\022\014\n"
+  "\004dead\030\002 \001(\010\"3\n\tActorMove\022\020\n\010actor_id\030\001 \001"
+  "(\004\022\t\n\001x\030\002 \001(\002\022\t\n\001y\030\003 \001(\002\"4\n\nActorFlyTo\022\020"
+  "\n\010actor_id\030\001 \001(\004\022\t\n\001x\030\002 \001(\002\022\t\n\001y\030\003 \001(\002\"G"
+  "\n\016ActorCastSkill\022\020\n\010actor_id\030\001 \001(\004\022\021\n\tta"
+  "rget_id\030\002 \001(\004\022\020\n\010skill_id\030\003 \001(\r\"\'\n\023Actor"
+  "CastSkill_Fail\022\020\n\010actor_id\030\001 \001(\004\"4\n\014Acto"
+  "rSetHide\022\020\n\010actor_id\030\001 \001(\004\022\022\n\nhide_count"
+  "\030\002 \001(\005\"0\n\nTeamCreate\022\017\n\007team_id\030\001 \001(\004\022\021\n"
+  "\tleader_id\030\002 \001(\004\"\036\n\013TeamDestory\022\017\n\007team_"
+  "id\030\001 \001(\004\"0\n\010TeamQuit\022\017\n\007team_id\030\001 \001(\004\022\023\n"
+  "\013operator_id\030\002 \001(\004\"G\n\016TeamKickMember\022\017\n\007"
+  "team_id\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\022\017\n\007ki"
+  "ck_id\030\003 \001(\004\"L\n\020TeamInviteMember\022\017\n\007team_"
+  "id\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\022\022\n\ninvitee"
+  "_id\030\003 \001(\004\"[\n\020TeamAcceptInvite\022\017\n\007team_id"
+  "\030\001 \001(\004\022\022\n\ninviter_id\030\002 \001(\004\022\022\n\ninvitee_id"
+  "\030\003 \001(\004\022\016\n\006result\030\004 \001(\010\">\n\017TeamApplyMembe"
+  "r\022\024\n\014applicant_id\030\001 \001(\004\022\025\n\rrespondent_id"
+  "\030\002 \001(\004\"N\n\017TeamAcceptApply\022\024\n\014applicant_i"
+  "d\030\001 \001(\004\022\025\n\rrespondent_id\030\002 \001(\004\022\016\n\006result"
+  "\030\003 \001(\010\"L\n\rTeamNewLeader\022\017\n\007team_id\030\001 \001(\004"
+  "\022\023\n\013operator_id\030\002 \001(\004\022\025\n\rnew_leader_id\030\003"
+  " \001(\004\"3\n\rTeamAddMember\022\017\n\007team_id\030\001 \001(\004\022\021"
+  "\n\tmember_id\030\002 \001(\004\"3\n\rTeamDelMember\022\017\n\007te"
+  "am_id\030\001 \001(\004\022\021\n\tmember_id\030\002 \001(\004\":\n\022TeamMe"
+  "mberInfoList\022$\n\013member_list\030\001 \003(\0132\017.Team"
+  "MemberInfo\"p\n\013GuildCreate\022\020\n\010guild_id\030\001 "
+  "\001(\004\022\021\n\tleader_id\030\002 \001(\004\022\022\n\nguild_name\030\003 \001"
+  "(\t\022\023\n\013leader_name\030\004 \001(\t\022\023\n\013create_time\030\005"
+  " \001(\r\" \n\014GuildDestory\022\020\n\010guild_id\030\001 \001(\004\"2"
+  "\n\tGuildQuit\022\020\n\010guild_id\030\001 \001(\004\022\023\n\013operato"
+  "r_id\030\002 \001(\004\"I\n\017GuildKickMember\022\020\n\010guild_i"
+  "d\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\022\017\n\007kick_id\030"
+  "\003 \001(\004\"N\n\021GuildInviteMember\022\020\n\010guild_id\030\001"
+  " \001(\004\022\023\n\013operator_id\030\002 \001(\004\022\022\n\ninvitee_id\030"
+  "\003 \001(\004\"]\n\021GuildAcceptInvite\022\020\n\010guild_id\030\001"
+  " \001(\004\022\022\n\ninviter_id\030\002 \001(\004\022\022\n\ninvitee_id\030\003"
+  " \001(\004\022\016\n\006result\030\004 \001(\010\"\?\n\020GuildApplyMember"
+  "\022\024\n\014applicant_id\030\001 \001(\004\022\025\n\rrespondent_id\030"
+  "\002 \001(\004\"O\n\020GuildAcceptApply\022\024\n\014applicant_i"
+  "d\030\001 \001(\004\022\025\n\rrespondent_id\030\002 \001(\004\022\016\n\006result"
+  "\030\003 \001(\010\"g\n\016GuildNewLeader\022\020\n\010guild_id\030\001 \001"
+  "(\004\022\023\n\013operator_id\030\002 \001(\004\022\025\n\rnew_leader_id"
+  "\030\003 \001(\004\022\027\n\017new_leader_name\030\004 \001(\t\"5\n\016Guild"
+  "AddMember\022\020\n\010guild_id\030\001 \001(\004\022\021\n\tmember_id"
+  "\030\002 \001(\004\"5\n\016GuildDelMember\022\020\n\010guild_id\030\001 \001"
+  "(\004\022\021\n\tmember_id\030\002 \001(\004\"<\n\023GuildMemberInfo"
+  "List\022%\n\013member_list\030\001 \003(\0132\020.GuildMemberI"
+  "nfo\"9\n\rSyncTaskPhase\022\021\n\tplayer_id\030\001 \001(\004\022"
+  "\025\n\rtask_phase_id\030\002 \003(\004\"8\n\014AddTaskPhase\022\021"
+  "\n\tplayer_id\030\001 \001(\004\022\025\n\rtask_phase_id\030\002 \001(\004"
+  "\";\n\017RemoveTaskPhase\022\021\n\tplayer_id\030\001 \001(\004\022\025"
+  "\n\rtask_phase_id\030\002 \001(\004*\231\r\n\006OMsgID\022\017\n\013OMSG"
+  "ID_NONE\020\000\022\021\n\013MsgID_BEGIN\020\240\234\001\022\026\n\020MsgID_Se"
+  "rviceCmd\020\241\234\001\022\036\n\030MsgID_ServiceHttpRequest"
+  "\020\242\234\001\022\037\n\031MsgID_ServiceHttpResponse\020\243\234\001\022\030\n"
+  "\022MsgID_ServiceReady\020\252\234\001\022\033\n\025MsgID_Service"
+  "Register\020\253\234\001\022\031\n\023MsgID_SocketConnect\020\254\234\001\022"
+  "\027\n\021MsgID_SocketClose\020\255\234\001\022\034\n\026MsgID_Socket"
+  "ChangeDest\020\256\234\001\022\026\n\020MsgID_SocketAuth\020\257\234\001\022\035"
+  "\n\027MsgID_SocketStartAccept\020\260\234\001\022\034\n\026MsgID_S"
+  "ocketStopAccept\020\261\234\001\022\033\n\025MsgID_PlayerEnter"
+  "Zone\020\265\234\001\022\034\n\026MsgID_PlayerChangeZone\020\266\234\001\022!"
+  "\n\033MsgID_PlayerChangeZone_Data\020\267\234\001\022\030\n\022Msg"
+  "ID_PlayerLogout\020\270\234\001\022\033\n\025MsgID_SystemVarCh"
+  "ange\020\276\234\001\022\027\n\021MsgID_SceneCreate\020\277\234\001\022\027\n\021Msg"
+  "ID_PhaseCreate\020\300\234\001\022\030\n\022MsgID_PhaseDestory"
+  "\020\301\234\001\022\026\n\020MsgID_MonsterGen\020\311\234\001\022\032\n\024MsgID_Mo"
+  "nsterDestory\020\312\234\001\022\025\n\017MsgID_ActiveGen\020\313\234\001\022"
+  "\023\n\rMsgID_KillGen\020\314\234\001\022\032\n\024MsgID_MonsterGen"
+  "Once\020\315\234\001\022\033\n\025MsgID_MonsterGenMulti\020\316\234\001\022\027\n"
+  "\021MsgID_ActorCreate\020\204\235\001\022\030\n\022MsgID_ActorDes"
+  "tory\020\205\235\001\022\025\n\017MsgID_ActorMove\020\206\235\001\022\032\n\024MsgID"
+  "_ActorCastSkill\020\207\235\001\022\037\n\031MsgID_ActorCastSk"
+  "ill_Fail\020\210\235\001\022\030\n\022MsgID_ActorSetHide\020\211\235\001\022\031"
+  "\n\023MsgID_SyncTaskPhase\020\212\235\001\022\030\n\022MsgID_AddTa"
+  "skPhase\020\213\235\001\022\033\n\025MsgID_RemoveTaskPhase\020\214\235\001"
+  "\022\026\n\020MsgID_ActorFlyTo\020\215\235\001\022\026\n\020MsgID_TeamCr"
+  "eate\020\216\235\001\022\027\n\021MsgID_TeamDestory\020\217\235\001\022\024\n\016Msg"
+  "ID_TeamQuit\020\220\235\001\022\032\n\024MsgID_TeamKickMember\020"
+  "\221\235\001\022\034\n\026MsgID_TeamInviteMember\020\222\235\001\022\034\n\026Msg"
+  "ID_TeamAcceptInvite\020\223\235\001\022\033\n\025MsgID_TeamApp"
+  "lyMember\020\224\235\001\022\033\n\025MsgID_TeamAcceptApply\020\225\235"
+  "\001\022\031\n\023MsgID_TeamNewLeader\020\226\235\001\022\036\n\030MsgID_Te"
+  "amMemberInfoList\020\227\235\001\022\031\n\023MsgID_TeamAddMem"
+  "ber\020\230\235\001\022\031\n\023MsgID_TeamDelMember\020\231\235\001\022\027\n\021Ms"
+  "gID_GuildCreate\020\254\235\001\022\030\n\022MsgID_GuildDestor"
+  "y\020\255\235\001\022\025\n\017MsgID_GuildQuit\020\256\235\001\022\033\n\025MsgID_Gu"
+  "ildKickMember\020\257\235\001\022\035\n\027MsgID_GuildInviteMe"
+  "mber\020\260\235\001\022\035\n\027MsgID_GuildAcceptInvite\020\261\235\001\022"
+  "\034\n\026MsgID_GuildApplyMember\020\262\235\001\022\034\n\026MsgID_G"
+  "uildAcceptApply\020\263\235\001\022\032\n\024MsgID_GuildNewLea"
+  "der\020\264\235\001\022\037\n\031MsgID_GuildMemberInfoList\020\265\235\001"
+  "\022\032\n\024MsgID_GuildAddMember\020\266\235\001\022\032\n\024MsgID_Gu"
+  "ildDelMember\020\267\235\001\022\017\n\tMsgID_END\020\260\352\001b\006proto"
+  "3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_server_5fmsg_2fserver_5fside_2eproto_deps[1] = {
+  &::descriptor_table_common_2fCommon_2eproto,
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_server_5fmsg_2fserver_5fside_2eproto_sccs[49] = {
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_server_5fmsg_2fserver_5fside_2eproto_sccs[60] = {
   &scc_info_ActiveGen_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_ActorCastSkill_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_ActorCastSkill_Fail_server_5fmsg_2fserver_5fside_2eproto.base,
@@ -1540,6 +1875,18 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_ser
   &scc_info_ActorMove_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_ActorSetHide_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_AddTaskPhase_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_GuildAcceptApply_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_GuildAcceptInvite_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_GuildAddMember_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_GuildApplyMember_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_GuildCreate_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_GuildDelMember_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_GuildDestory_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_GuildInviteMember_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_GuildKickMember_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_GuildMemberInfoList_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_GuildNewLeader_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_GuildQuit_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_KillGen_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_MonsterDestory_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_MonsterGen_server_5fmsg_2fserver_5fside_2eproto.base,
@@ -1576,18 +1923,17 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_ser
   &scc_info_TeamDestory_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_TeamInviteMember_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_TeamKickMember_server_5fmsg_2fserver_5fside_2eproto.base,
-  &scc_info_TeamMemberInfo_server_5fmsg_2fserver_5fside_2eproto.base,
-  &scc_info_TeamMemberInfo_Info_server_5fmsg_2fserver_5fside_2eproto.base,
+  &scc_info_TeamMemberInfoList_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_TeamNewLeader_server_5fmsg_2fserver_5fside_2eproto.base,
   &scc_info_TeamQuit_server_5fmsg_2fserver_5fside_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_server_5fmsg_2fserver_5fside_2eproto_once;
 static bool descriptor_table_server_5fmsg_2fserver_5fside_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_server_5fmsg_2fserver_5fside_2eproto = {
-  &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_initialized, descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto, "server_msg/server_side.proto", 4944,
-  &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_once, descriptor_table_server_5fmsg_2fserver_5fside_2eproto_sccs, descriptor_table_server_5fmsg_2fserver_5fside_2eproto_deps, 49, 0,
+  &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_initialized, descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto, "server_msg/server_side.proto", 6081,
+  &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_once, descriptor_table_server_5fmsg_2fserver_5fside_2eproto_sccs, descriptor_table_server_5fmsg_2fserver_5fside_2eproto_deps, 60, 1,
   schemas, file_default_instances, TableStruct_server_5fmsg_2fserver_5fside_2eproto::offsets,
-  file_level_metadata_server_5fmsg_2fserver_5fside_2eproto, 49, file_level_enum_descriptors_server_5fmsg_2fserver_5fside_2eproto, file_level_service_descriptors_server_5fmsg_2fserver_5fside_2eproto,
+  file_level_metadata_server_5fmsg_2fserver_5fside_2eproto, 60, file_level_enum_descriptors_server_5fmsg_2fserver_5fside_2eproto, file_level_service_descriptors_server_5fmsg_2fserver_5fside_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
@@ -1673,6 +2019,18 @@ bool OMsgID_IsValid(int value) {
     case 20119:
     case 20120:
     case 20121:
+    case 20140:
+    case 20141:
+    case 20142:
+    case 20143:
+    case 20144:
+    case 20145:
+    case 20146:
+    case 20147:
+    case 20148:
+    case 20149:
+    case 20150:
+    case 20151:
     case 30000:
       return true;
     default:
@@ -12065,326 +12423,51 @@ void TeamDelMember::InternalSwap(TeamDelMember* other) {
 
 // ===================================================================
 
-void TeamMemberInfo_Info::InitAsDefaultInstance() {
+void TeamMemberInfoList::InitAsDefaultInstance() {
 }
-class TeamMemberInfo_Info::_Internal {
+class TeamMemberInfoList::_Internal {
  public:
 };
 
-TeamMemberInfo_Info::TeamMemberInfo_Info()
+void TeamMemberInfoList::clear_member_list() {
+  member_list_.Clear();
+}
+TeamMemberInfoList::TeamMemberInfoList()
   : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:ServerMSG.TeamMemberInfo.Info)
+  // @@protoc_insertion_point(constructor:ServerMSG.TeamMemberInfoList)
 }
-TeamMemberInfo_Info::TeamMemberInfo_Info(const TeamMemberInfo_Info& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message(),
-      _internal_metadata_(nullptr) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  member_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (!from._internal_member_name().empty()) {
-    member_name_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.member_name_);
-  }
-  ::memcpy(&member_id_, &from.member_id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&member_online_) -
-    reinterpret_cast<char*>(&member_id_)) + sizeof(member_online_));
-  // @@protoc_insertion_point(copy_constructor:ServerMSG.TeamMemberInfo.Info)
-}
-
-void TeamMemberInfo_Info::SharedCtor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_TeamMemberInfo_Info_server_5fmsg_2fserver_5fside_2eproto.base);
-  member_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  ::memset(&member_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&member_online_) -
-      reinterpret_cast<char*>(&member_id_)) + sizeof(member_online_));
-}
-
-TeamMemberInfo_Info::~TeamMemberInfo_Info() {
-  // @@protoc_insertion_point(destructor:ServerMSG.TeamMemberInfo.Info)
-  SharedDtor();
-}
-
-void TeamMemberInfo_Info::SharedDtor() {
-  member_name_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-}
-
-void TeamMemberInfo_Info::SetCachedSize(int size) const {
-  _cached_size_.Set(size);
-}
-const TeamMemberInfo_Info& TeamMemberInfo_Info::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_TeamMemberInfo_Info_server_5fmsg_2fserver_5fside_2eproto.base);
-  return *internal_default_instance();
-}
-
-
-void TeamMemberInfo_Info::Clear() {
-// @@protoc_insertion_point(message_clear_start:ServerMSG.TeamMemberInfo.Info)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  member_name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  ::memset(&member_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&member_online_) -
-      reinterpret_cast<char*>(&member_id_)) + sizeof(member_online_));
-  _internal_metadata_.Clear();
-}
-
-const char* TeamMemberInfo_Info::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  while (!ctx->Done(&ptr)) {
-    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
-    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
-    CHK_(ptr);
-    switch (tag >> 3) {
-      // uint64 member_id = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          member_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      // uint32 member_lev = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
-          member_lev_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      // bool member_online = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
-          member_online_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      // string member_name = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
-          auto str = _internal_mutable_member_name();
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "ServerMSG.TeamMemberInfo.Info.member_name"));
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      default: {
-      handle_unusual:
-        if ((tag & 7) == 4 || tag == 0) {
-          ctx->SetLastTag(tag);
-          goto success;
-        }
-        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
-        CHK_(ptr != nullptr);
-        continue;
-      }
-    }  // switch
-  }  // while
-success:
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto success;
-#undef CHK_
-}
-
-::PROTOBUF_NAMESPACE_ID::uint8* TeamMemberInfo_Info::_InternalSerialize(
-    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.TeamMemberInfo.Info)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // uint64 member_id = 1;
-  if (this->member_id() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_member_id(), target);
-  }
-
-  // uint32 member_lev = 2;
-  if (this->member_lev() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->_internal_member_lev(), target);
-  }
-
-  // bool member_online = 3;
-  if (this->member_online() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(3, this->_internal_member_online(), target);
-  }
-
-  // string member_name = 4;
-  if (this->member_name().size() > 0) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_member_name().data(), static_cast<int>(this->_internal_member_name().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "ServerMSG.TeamMemberInfo.Info.member_name");
-    target = stream->WriteStringMaybeAliased(
-        4, this->_internal_member_name(), target);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields(), target, stream);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.TeamMemberInfo.Info)
-  return target;
-}
-
-size_t TeamMemberInfo_Info::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:ServerMSG.TeamMemberInfo.Info)
-  size_t total_size = 0;
-
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  // string member_name = 4;
-  if (this->member_name().size() > 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_member_name());
-  }
-
-  // uint64 member_id = 1;
-  if (this->member_id() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
-        this->_internal_member_id());
-  }
-
-  // uint32 member_lev = 2;
-  if (this->member_lev() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
-        this->_internal_member_lev());
-  }
-
-  // bool member_online = 3;
-  if (this->member_online() != 0) {
-    total_size += 1 + 1;
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
-        _internal_metadata_, total_size, &_cached_size_);
-  }
-  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
-  SetCachedSize(cached_size);
-  return total_size;
-}
-
-void TeamMemberInfo_Info::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.TeamMemberInfo.Info)
-  GOOGLE_DCHECK_NE(&from, this);
-  const TeamMemberInfo_Info* source =
-      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<TeamMemberInfo_Info>(
-          &from);
-  if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.TeamMemberInfo.Info)
-    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.TeamMemberInfo.Info)
-    MergeFrom(*source);
-  }
-}
-
-void TeamMemberInfo_Info::MergeFrom(const TeamMemberInfo_Info& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.TeamMemberInfo.Info)
-  GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (from.member_name().size() > 0) {
-
-    member_name_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.member_name_);
-  }
-  if (from.member_id() != 0) {
-    _internal_set_member_id(from._internal_member_id());
-  }
-  if (from.member_lev() != 0) {
-    _internal_set_member_lev(from._internal_member_lev());
-  }
-  if (from.member_online() != 0) {
-    _internal_set_member_online(from._internal_member_online());
-  }
-}
-
-void TeamMemberInfo_Info::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.TeamMemberInfo.Info)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void TeamMemberInfo_Info::CopyFrom(const TeamMemberInfo_Info& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.TeamMemberInfo.Info)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool TeamMemberInfo_Info::IsInitialized() const {
-  return true;
-}
-
-void TeamMemberInfo_Info::InternalSwap(TeamMemberInfo_Info* other) {
-  using std::swap;
-  _internal_metadata_.Swap(&other->_internal_metadata_);
-  member_name_.Swap(&other->member_name_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-    GetArenaNoVirtual());
-  swap(member_id_, other->member_id_);
-  swap(member_lev_, other->member_lev_);
-  swap(member_online_, other->member_online_);
-}
-
-::PROTOBUF_NAMESPACE_ID::Metadata TeamMemberInfo_Info::GetMetadata() const {
-  return GetMetadataStatic();
-}
-
-
-// ===================================================================
-
-void TeamMemberInfo::InitAsDefaultInstance() {
-}
-class TeamMemberInfo::_Internal {
- public:
-};
-
-TeamMemberInfo::TeamMemberInfo()
-  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:ServerMSG.TeamMemberInfo)
-}
-TeamMemberInfo::TeamMemberInfo(const TeamMemberInfo& from)
+TeamMemberInfoList::TeamMemberInfoList(const TeamMemberInfoList& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       _internal_metadata_(nullptr),
       member_list_(from.member_list_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  // @@protoc_insertion_point(copy_constructor:ServerMSG.TeamMemberInfo)
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.TeamMemberInfoList)
 }
 
-void TeamMemberInfo::SharedCtor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_TeamMemberInfo_server_5fmsg_2fserver_5fside_2eproto.base);
+void TeamMemberInfoList::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_TeamMemberInfoList_server_5fmsg_2fserver_5fside_2eproto.base);
 }
 
-TeamMemberInfo::~TeamMemberInfo() {
-  // @@protoc_insertion_point(destructor:ServerMSG.TeamMemberInfo)
+TeamMemberInfoList::~TeamMemberInfoList() {
+  // @@protoc_insertion_point(destructor:ServerMSG.TeamMemberInfoList)
   SharedDtor();
 }
 
-void TeamMemberInfo::SharedDtor() {
+void TeamMemberInfoList::SharedDtor() {
 }
 
-void TeamMemberInfo::SetCachedSize(int size) const {
+void TeamMemberInfoList::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const TeamMemberInfo& TeamMemberInfo::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_TeamMemberInfo_server_5fmsg_2fserver_5fside_2eproto.base);
+const TeamMemberInfoList& TeamMemberInfoList::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_TeamMemberInfoList_server_5fmsg_2fserver_5fside_2eproto.base);
   return *internal_default_instance();
 }
 
 
-void TeamMemberInfo::Clear() {
-// @@protoc_insertion_point(message_clear_start:ServerMSG.TeamMemberInfo)
+void TeamMemberInfoList::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.TeamMemberInfoList)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -12393,14 +12476,14 @@ void TeamMemberInfo::Clear() {
   _internal_metadata_.Clear();
 }
 
-const char* TeamMemberInfo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+const char* TeamMemberInfoList::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // repeated .ServerMSG.TeamMemberInfo.Info member_list = 1;
+      // repeated .TeamMemberInfo member_list = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
           ptr -= 1;
@@ -12432,13 +12515,13 @@ failure:
 #undef CHK_
 }
 
-::PROTOBUF_NAMESPACE_ID::uint8* TeamMemberInfo::_InternalSerialize(
+::PROTOBUF_NAMESPACE_ID::uint8* TeamMemberInfoList::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.TeamMemberInfo)
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.TeamMemberInfoList)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated .ServerMSG.TeamMemberInfo.Info member_list = 1;
+  // repeated .TeamMemberInfo member_list = 1;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->_internal_member_list_size()); i < n; i++) {
     target = stream->EnsureSpace(target);
@@ -12450,19 +12533,19 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields(), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.TeamMemberInfo)
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.TeamMemberInfoList)
   return target;
 }
 
-size_t TeamMemberInfo::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:ServerMSG.TeamMemberInfo)
+size_t TeamMemberInfoList::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.TeamMemberInfoList)
   size_t total_size = 0;
 
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated .ServerMSG.TeamMemberInfo.Info member_list = 1;
+  // repeated .TeamMemberInfo member_list = 1;
   total_size += 1UL * this->_internal_member_list_size();
   for (const auto& msg : this->member_list_) {
     total_size +=
@@ -12478,23 +12561,23 @@ size_t TeamMemberInfo::ByteSizeLong() const {
   return total_size;
 }
 
-void TeamMemberInfo::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.TeamMemberInfo)
+void TeamMemberInfoList::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.TeamMemberInfoList)
   GOOGLE_DCHECK_NE(&from, this);
-  const TeamMemberInfo* source =
-      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<TeamMemberInfo>(
+  const TeamMemberInfoList* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<TeamMemberInfoList>(
           &from);
   if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.TeamMemberInfo)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.TeamMemberInfoList)
     ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.TeamMemberInfo)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.TeamMemberInfoList)
     MergeFrom(*source);
   }
 }
 
-void TeamMemberInfo::MergeFrom(const TeamMemberInfo& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.TeamMemberInfo)
+void TeamMemberInfoList::MergeFrom(const TeamMemberInfoList& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.TeamMemberInfoList)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -12503,31 +12586,2854 @@ void TeamMemberInfo::MergeFrom(const TeamMemberInfo& from) {
   member_list_.MergeFrom(from.member_list_);
 }
 
-void TeamMemberInfo::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.TeamMemberInfo)
+void TeamMemberInfoList::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.TeamMemberInfoList)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void TeamMemberInfo::CopyFrom(const TeamMemberInfo& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.TeamMemberInfo)
+void TeamMemberInfoList::CopyFrom(const TeamMemberInfoList& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.TeamMemberInfoList)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool TeamMemberInfo::IsInitialized() const {
+bool TeamMemberInfoList::IsInitialized() const {
   return true;
 }
 
-void TeamMemberInfo::InternalSwap(TeamMemberInfo* other) {
+void TeamMemberInfoList::InternalSwap(TeamMemberInfoList* other) {
   using std::swap;
   _internal_metadata_.Swap(&other->_internal_metadata_);
   member_list_.InternalSwap(&other->member_list_);
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata TeamMemberInfo::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata TeamMemberInfoList::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void GuildCreate::InitAsDefaultInstance() {
+}
+class GuildCreate::_Internal {
+ public:
+};
+
+GuildCreate::GuildCreate()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:ServerMSG.GuildCreate)
+}
+GuildCreate::GuildCreate(const GuildCreate& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  guild_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_guild_name().empty()) {
+    guild_name_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.guild_name_);
+  }
+  leader_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_leader_name().empty()) {
+    leader_name_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.leader_name_);
+  }
+  ::memcpy(&guild_id_, &from.guild_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&create_time_) -
+    reinterpret_cast<char*>(&guild_id_)) + sizeof(create_time_));
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.GuildCreate)
+}
+
+void GuildCreate::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_GuildCreate_server_5fmsg_2fserver_5fside_2eproto.base);
+  guild_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  leader_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  ::memset(&guild_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&create_time_) -
+      reinterpret_cast<char*>(&guild_id_)) + sizeof(create_time_));
+}
+
+GuildCreate::~GuildCreate() {
+  // @@protoc_insertion_point(destructor:ServerMSG.GuildCreate)
+  SharedDtor();
+}
+
+void GuildCreate::SharedDtor() {
+  guild_name_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  leader_name_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+
+void GuildCreate::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const GuildCreate& GuildCreate::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_GuildCreate_server_5fmsg_2fserver_5fside_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void GuildCreate::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.GuildCreate)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  guild_name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  leader_name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  ::memset(&guild_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&create_time_) -
+      reinterpret_cast<char*>(&guild_id_)) + sizeof(create_time_));
+  _internal_metadata_.Clear();
+}
+
+const char* GuildCreate::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // uint64 guild_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          guild_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint64 leader_id = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          leader_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // string guild_name = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
+          auto str = _internal_mutable_guild_name();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "ServerMSG.GuildCreate.guild_name"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // string leader_name = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
+          auto str = _internal_mutable_leader_name();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "ServerMSG.GuildCreate.leader_name"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 create_time = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
+          create_time_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* GuildCreate::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.GuildCreate)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 guild_id = 1;
+  if (this->guild_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_guild_id(), target);
+  }
+
+  // uint64 leader_id = 2;
+  if (this->leader_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(2, this->_internal_leader_id(), target);
+  }
+
+  // string guild_name = 3;
+  if (this->guild_name().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_guild_name().data(), static_cast<int>(this->_internal_guild_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ServerMSG.GuildCreate.guild_name");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_guild_name(), target);
+  }
+
+  // string leader_name = 4;
+  if (this->leader_name().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_leader_name().data(), static_cast<int>(this->_internal_leader_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ServerMSG.GuildCreate.leader_name");
+    target = stream->WriteStringMaybeAliased(
+        4, this->_internal_leader_name(), target);
+  }
+
+  // uint32 create_time = 5;
+  if (this->create_time() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(5, this->_internal_create_time(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.GuildCreate)
+  return target;
+}
+
+size_t GuildCreate::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.GuildCreate)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string guild_name = 3;
+  if (this->guild_name().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_guild_name());
+  }
+
+  // string leader_name = 4;
+  if (this->leader_name().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_leader_name());
+  }
+
+  // uint64 guild_id = 1;
+  if (this->guild_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_guild_id());
+  }
+
+  // uint64 leader_id = 2;
+  if (this->leader_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_leader_id());
+  }
+
+  // uint32 create_time = 5;
+  if (this->create_time() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_create_time());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void GuildCreate::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.GuildCreate)
+  GOOGLE_DCHECK_NE(&from, this);
+  const GuildCreate* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<GuildCreate>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.GuildCreate)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.GuildCreate)
+    MergeFrom(*source);
+  }
+}
+
+void GuildCreate::MergeFrom(const GuildCreate& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.GuildCreate)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.guild_name().size() > 0) {
+
+    guild_name_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.guild_name_);
+  }
+  if (from.leader_name().size() > 0) {
+
+    leader_name_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.leader_name_);
+  }
+  if (from.guild_id() != 0) {
+    _internal_set_guild_id(from._internal_guild_id());
+  }
+  if (from.leader_id() != 0) {
+    _internal_set_leader_id(from._internal_leader_id());
+  }
+  if (from.create_time() != 0) {
+    _internal_set_create_time(from._internal_create_time());
+  }
+}
+
+void GuildCreate::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.GuildCreate)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void GuildCreate::CopyFrom(const GuildCreate& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.GuildCreate)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GuildCreate::IsInitialized() const {
+  return true;
+}
+
+void GuildCreate::InternalSwap(GuildCreate* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  guild_name_.Swap(&other->guild_name_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  leader_name_.Swap(&other->leader_name_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  swap(guild_id_, other->guild_id_);
+  swap(leader_id_, other->leader_id_);
+  swap(create_time_, other->create_time_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GuildCreate::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void GuildDestory::InitAsDefaultInstance() {
+}
+class GuildDestory::_Internal {
+ public:
+};
+
+GuildDestory::GuildDestory()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:ServerMSG.GuildDestory)
+}
+GuildDestory::GuildDestory(const GuildDestory& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  guild_id_ = from.guild_id_;
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.GuildDestory)
+}
+
+void GuildDestory::SharedCtor() {
+  guild_id_ = PROTOBUF_ULONGLONG(0);
+}
+
+GuildDestory::~GuildDestory() {
+  // @@protoc_insertion_point(destructor:ServerMSG.GuildDestory)
+  SharedDtor();
+}
+
+void GuildDestory::SharedDtor() {
+}
+
+void GuildDestory::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const GuildDestory& GuildDestory::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_GuildDestory_server_5fmsg_2fserver_5fside_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void GuildDestory::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.GuildDestory)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  guild_id_ = PROTOBUF_ULONGLONG(0);
+  _internal_metadata_.Clear();
+}
+
+const char* GuildDestory::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // uint64 guild_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          guild_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* GuildDestory::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.GuildDestory)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 guild_id = 1;
+  if (this->guild_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_guild_id(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.GuildDestory)
+  return target;
+}
+
+size_t GuildDestory::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.GuildDestory)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // uint64 guild_id = 1;
+  if (this->guild_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_guild_id());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void GuildDestory::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.GuildDestory)
+  GOOGLE_DCHECK_NE(&from, this);
+  const GuildDestory* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<GuildDestory>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.GuildDestory)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.GuildDestory)
+    MergeFrom(*source);
+  }
+}
+
+void GuildDestory::MergeFrom(const GuildDestory& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.GuildDestory)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.guild_id() != 0) {
+    _internal_set_guild_id(from._internal_guild_id());
+  }
+}
+
+void GuildDestory::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.GuildDestory)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void GuildDestory::CopyFrom(const GuildDestory& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.GuildDestory)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GuildDestory::IsInitialized() const {
+  return true;
+}
+
+void GuildDestory::InternalSwap(GuildDestory* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(guild_id_, other->guild_id_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GuildDestory::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void GuildQuit::InitAsDefaultInstance() {
+}
+class GuildQuit::_Internal {
+ public:
+};
+
+GuildQuit::GuildQuit()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:ServerMSG.GuildQuit)
+}
+GuildQuit::GuildQuit(const GuildQuit& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&guild_id_, &from.guild_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&operator_id_) -
+    reinterpret_cast<char*>(&guild_id_)) + sizeof(operator_id_));
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.GuildQuit)
+}
+
+void GuildQuit::SharedCtor() {
+  ::memset(&guild_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&operator_id_) -
+      reinterpret_cast<char*>(&guild_id_)) + sizeof(operator_id_));
+}
+
+GuildQuit::~GuildQuit() {
+  // @@protoc_insertion_point(destructor:ServerMSG.GuildQuit)
+  SharedDtor();
+}
+
+void GuildQuit::SharedDtor() {
+}
+
+void GuildQuit::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const GuildQuit& GuildQuit::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_GuildQuit_server_5fmsg_2fserver_5fside_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void GuildQuit::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.GuildQuit)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&guild_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&operator_id_) -
+      reinterpret_cast<char*>(&guild_id_)) + sizeof(operator_id_));
+  _internal_metadata_.Clear();
+}
+
+const char* GuildQuit::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // uint64 guild_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          guild_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint64 operator_id = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          operator_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* GuildQuit::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.GuildQuit)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 guild_id = 1;
+  if (this->guild_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_guild_id(), target);
+  }
+
+  // uint64 operator_id = 2;
+  if (this->operator_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(2, this->_internal_operator_id(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.GuildQuit)
+  return target;
+}
+
+size_t GuildQuit::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.GuildQuit)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // uint64 guild_id = 1;
+  if (this->guild_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_guild_id());
+  }
+
+  // uint64 operator_id = 2;
+  if (this->operator_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_operator_id());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void GuildQuit::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.GuildQuit)
+  GOOGLE_DCHECK_NE(&from, this);
+  const GuildQuit* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<GuildQuit>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.GuildQuit)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.GuildQuit)
+    MergeFrom(*source);
+  }
+}
+
+void GuildQuit::MergeFrom(const GuildQuit& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.GuildQuit)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.guild_id() != 0) {
+    _internal_set_guild_id(from._internal_guild_id());
+  }
+  if (from.operator_id() != 0) {
+    _internal_set_operator_id(from._internal_operator_id());
+  }
+}
+
+void GuildQuit::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.GuildQuit)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void GuildQuit::CopyFrom(const GuildQuit& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.GuildQuit)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GuildQuit::IsInitialized() const {
+  return true;
+}
+
+void GuildQuit::InternalSwap(GuildQuit* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(guild_id_, other->guild_id_);
+  swap(operator_id_, other->operator_id_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GuildQuit::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void GuildKickMember::InitAsDefaultInstance() {
+}
+class GuildKickMember::_Internal {
+ public:
+};
+
+GuildKickMember::GuildKickMember()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:ServerMSG.GuildKickMember)
+}
+GuildKickMember::GuildKickMember(const GuildKickMember& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&guild_id_, &from.guild_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&kick_id_) -
+    reinterpret_cast<char*>(&guild_id_)) + sizeof(kick_id_));
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.GuildKickMember)
+}
+
+void GuildKickMember::SharedCtor() {
+  ::memset(&guild_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&kick_id_) -
+      reinterpret_cast<char*>(&guild_id_)) + sizeof(kick_id_));
+}
+
+GuildKickMember::~GuildKickMember() {
+  // @@protoc_insertion_point(destructor:ServerMSG.GuildKickMember)
+  SharedDtor();
+}
+
+void GuildKickMember::SharedDtor() {
+}
+
+void GuildKickMember::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const GuildKickMember& GuildKickMember::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_GuildKickMember_server_5fmsg_2fserver_5fside_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void GuildKickMember::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.GuildKickMember)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&guild_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&kick_id_) -
+      reinterpret_cast<char*>(&guild_id_)) + sizeof(kick_id_));
+  _internal_metadata_.Clear();
+}
+
+const char* GuildKickMember::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // uint64 guild_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          guild_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint64 operator_id = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          operator_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint64 kick_id = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          kick_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* GuildKickMember::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.GuildKickMember)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 guild_id = 1;
+  if (this->guild_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_guild_id(), target);
+  }
+
+  // uint64 operator_id = 2;
+  if (this->operator_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(2, this->_internal_operator_id(), target);
+  }
+
+  // uint64 kick_id = 3;
+  if (this->kick_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(3, this->_internal_kick_id(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.GuildKickMember)
+  return target;
+}
+
+size_t GuildKickMember::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.GuildKickMember)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // uint64 guild_id = 1;
+  if (this->guild_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_guild_id());
+  }
+
+  // uint64 operator_id = 2;
+  if (this->operator_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_operator_id());
+  }
+
+  // uint64 kick_id = 3;
+  if (this->kick_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_kick_id());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void GuildKickMember::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.GuildKickMember)
+  GOOGLE_DCHECK_NE(&from, this);
+  const GuildKickMember* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<GuildKickMember>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.GuildKickMember)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.GuildKickMember)
+    MergeFrom(*source);
+  }
+}
+
+void GuildKickMember::MergeFrom(const GuildKickMember& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.GuildKickMember)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.guild_id() != 0) {
+    _internal_set_guild_id(from._internal_guild_id());
+  }
+  if (from.operator_id() != 0) {
+    _internal_set_operator_id(from._internal_operator_id());
+  }
+  if (from.kick_id() != 0) {
+    _internal_set_kick_id(from._internal_kick_id());
+  }
+}
+
+void GuildKickMember::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.GuildKickMember)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void GuildKickMember::CopyFrom(const GuildKickMember& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.GuildKickMember)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GuildKickMember::IsInitialized() const {
+  return true;
+}
+
+void GuildKickMember::InternalSwap(GuildKickMember* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(guild_id_, other->guild_id_);
+  swap(operator_id_, other->operator_id_);
+  swap(kick_id_, other->kick_id_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GuildKickMember::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void GuildInviteMember::InitAsDefaultInstance() {
+}
+class GuildInviteMember::_Internal {
+ public:
+};
+
+GuildInviteMember::GuildInviteMember()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:ServerMSG.GuildInviteMember)
+}
+GuildInviteMember::GuildInviteMember(const GuildInviteMember& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&guild_id_, &from.guild_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&invitee_id_) -
+    reinterpret_cast<char*>(&guild_id_)) + sizeof(invitee_id_));
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.GuildInviteMember)
+}
+
+void GuildInviteMember::SharedCtor() {
+  ::memset(&guild_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&invitee_id_) -
+      reinterpret_cast<char*>(&guild_id_)) + sizeof(invitee_id_));
+}
+
+GuildInviteMember::~GuildInviteMember() {
+  // @@protoc_insertion_point(destructor:ServerMSG.GuildInviteMember)
+  SharedDtor();
+}
+
+void GuildInviteMember::SharedDtor() {
+}
+
+void GuildInviteMember::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const GuildInviteMember& GuildInviteMember::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_GuildInviteMember_server_5fmsg_2fserver_5fside_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void GuildInviteMember::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.GuildInviteMember)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&guild_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&invitee_id_) -
+      reinterpret_cast<char*>(&guild_id_)) + sizeof(invitee_id_));
+  _internal_metadata_.Clear();
+}
+
+const char* GuildInviteMember::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // uint64 guild_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          guild_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint64 operator_id = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          operator_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint64 invitee_id = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          invitee_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* GuildInviteMember::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.GuildInviteMember)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 guild_id = 1;
+  if (this->guild_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_guild_id(), target);
+  }
+
+  // uint64 operator_id = 2;
+  if (this->operator_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(2, this->_internal_operator_id(), target);
+  }
+
+  // uint64 invitee_id = 3;
+  if (this->invitee_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(3, this->_internal_invitee_id(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.GuildInviteMember)
+  return target;
+}
+
+size_t GuildInviteMember::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.GuildInviteMember)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // uint64 guild_id = 1;
+  if (this->guild_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_guild_id());
+  }
+
+  // uint64 operator_id = 2;
+  if (this->operator_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_operator_id());
+  }
+
+  // uint64 invitee_id = 3;
+  if (this->invitee_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_invitee_id());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void GuildInviteMember::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.GuildInviteMember)
+  GOOGLE_DCHECK_NE(&from, this);
+  const GuildInviteMember* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<GuildInviteMember>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.GuildInviteMember)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.GuildInviteMember)
+    MergeFrom(*source);
+  }
+}
+
+void GuildInviteMember::MergeFrom(const GuildInviteMember& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.GuildInviteMember)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.guild_id() != 0) {
+    _internal_set_guild_id(from._internal_guild_id());
+  }
+  if (from.operator_id() != 0) {
+    _internal_set_operator_id(from._internal_operator_id());
+  }
+  if (from.invitee_id() != 0) {
+    _internal_set_invitee_id(from._internal_invitee_id());
+  }
+}
+
+void GuildInviteMember::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.GuildInviteMember)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void GuildInviteMember::CopyFrom(const GuildInviteMember& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.GuildInviteMember)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GuildInviteMember::IsInitialized() const {
+  return true;
+}
+
+void GuildInviteMember::InternalSwap(GuildInviteMember* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(guild_id_, other->guild_id_);
+  swap(operator_id_, other->operator_id_);
+  swap(invitee_id_, other->invitee_id_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GuildInviteMember::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void GuildAcceptInvite::InitAsDefaultInstance() {
+}
+class GuildAcceptInvite::_Internal {
+ public:
+};
+
+GuildAcceptInvite::GuildAcceptInvite()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:ServerMSG.GuildAcceptInvite)
+}
+GuildAcceptInvite::GuildAcceptInvite(const GuildAcceptInvite& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&guild_id_, &from.guild_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&result_) -
+    reinterpret_cast<char*>(&guild_id_)) + sizeof(result_));
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.GuildAcceptInvite)
+}
+
+void GuildAcceptInvite::SharedCtor() {
+  ::memset(&guild_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&result_) -
+      reinterpret_cast<char*>(&guild_id_)) + sizeof(result_));
+}
+
+GuildAcceptInvite::~GuildAcceptInvite() {
+  // @@protoc_insertion_point(destructor:ServerMSG.GuildAcceptInvite)
+  SharedDtor();
+}
+
+void GuildAcceptInvite::SharedDtor() {
+}
+
+void GuildAcceptInvite::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const GuildAcceptInvite& GuildAcceptInvite::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_GuildAcceptInvite_server_5fmsg_2fserver_5fside_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void GuildAcceptInvite::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.GuildAcceptInvite)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&guild_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&result_) -
+      reinterpret_cast<char*>(&guild_id_)) + sizeof(result_));
+  _internal_metadata_.Clear();
+}
+
+const char* GuildAcceptInvite::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // uint64 guild_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          guild_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint64 inviter_id = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          inviter_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint64 invitee_id = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          invitee_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // bool result = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
+          result_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* GuildAcceptInvite::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.GuildAcceptInvite)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 guild_id = 1;
+  if (this->guild_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_guild_id(), target);
+  }
+
+  // uint64 inviter_id = 2;
+  if (this->inviter_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(2, this->_internal_inviter_id(), target);
+  }
+
+  // uint64 invitee_id = 3;
+  if (this->invitee_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(3, this->_internal_invitee_id(), target);
+  }
+
+  // bool result = 4;
+  if (this->result() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(4, this->_internal_result(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.GuildAcceptInvite)
+  return target;
+}
+
+size_t GuildAcceptInvite::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.GuildAcceptInvite)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // uint64 guild_id = 1;
+  if (this->guild_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_guild_id());
+  }
+
+  // uint64 inviter_id = 2;
+  if (this->inviter_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_inviter_id());
+  }
+
+  // uint64 invitee_id = 3;
+  if (this->invitee_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_invitee_id());
+  }
+
+  // bool result = 4;
+  if (this->result() != 0) {
+    total_size += 1 + 1;
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void GuildAcceptInvite::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.GuildAcceptInvite)
+  GOOGLE_DCHECK_NE(&from, this);
+  const GuildAcceptInvite* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<GuildAcceptInvite>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.GuildAcceptInvite)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.GuildAcceptInvite)
+    MergeFrom(*source);
+  }
+}
+
+void GuildAcceptInvite::MergeFrom(const GuildAcceptInvite& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.GuildAcceptInvite)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.guild_id() != 0) {
+    _internal_set_guild_id(from._internal_guild_id());
+  }
+  if (from.inviter_id() != 0) {
+    _internal_set_inviter_id(from._internal_inviter_id());
+  }
+  if (from.invitee_id() != 0) {
+    _internal_set_invitee_id(from._internal_invitee_id());
+  }
+  if (from.result() != 0) {
+    _internal_set_result(from._internal_result());
+  }
+}
+
+void GuildAcceptInvite::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.GuildAcceptInvite)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void GuildAcceptInvite::CopyFrom(const GuildAcceptInvite& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.GuildAcceptInvite)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GuildAcceptInvite::IsInitialized() const {
+  return true;
+}
+
+void GuildAcceptInvite::InternalSwap(GuildAcceptInvite* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(guild_id_, other->guild_id_);
+  swap(inviter_id_, other->inviter_id_);
+  swap(invitee_id_, other->invitee_id_);
+  swap(result_, other->result_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GuildAcceptInvite::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void GuildApplyMember::InitAsDefaultInstance() {
+}
+class GuildApplyMember::_Internal {
+ public:
+};
+
+GuildApplyMember::GuildApplyMember()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:ServerMSG.GuildApplyMember)
+}
+GuildApplyMember::GuildApplyMember(const GuildApplyMember& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&applicant_id_, &from.applicant_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&respondent_id_) -
+    reinterpret_cast<char*>(&applicant_id_)) + sizeof(respondent_id_));
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.GuildApplyMember)
+}
+
+void GuildApplyMember::SharedCtor() {
+  ::memset(&applicant_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&respondent_id_) -
+      reinterpret_cast<char*>(&applicant_id_)) + sizeof(respondent_id_));
+}
+
+GuildApplyMember::~GuildApplyMember() {
+  // @@protoc_insertion_point(destructor:ServerMSG.GuildApplyMember)
+  SharedDtor();
+}
+
+void GuildApplyMember::SharedDtor() {
+}
+
+void GuildApplyMember::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const GuildApplyMember& GuildApplyMember::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_GuildApplyMember_server_5fmsg_2fserver_5fside_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void GuildApplyMember::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.GuildApplyMember)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&applicant_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&respondent_id_) -
+      reinterpret_cast<char*>(&applicant_id_)) + sizeof(respondent_id_));
+  _internal_metadata_.Clear();
+}
+
+const char* GuildApplyMember::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // uint64 applicant_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          applicant_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint64 respondent_id = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          respondent_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* GuildApplyMember::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.GuildApplyMember)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 applicant_id = 1;
+  if (this->applicant_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_applicant_id(), target);
+  }
+
+  // uint64 respondent_id = 2;
+  if (this->respondent_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(2, this->_internal_respondent_id(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.GuildApplyMember)
+  return target;
+}
+
+size_t GuildApplyMember::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.GuildApplyMember)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // uint64 applicant_id = 1;
+  if (this->applicant_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_applicant_id());
+  }
+
+  // uint64 respondent_id = 2;
+  if (this->respondent_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_respondent_id());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void GuildApplyMember::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.GuildApplyMember)
+  GOOGLE_DCHECK_NE(&from, this);
+  const GuildApplyMember* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<GuildApplyMember>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.GuildApplyMember)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.GuildApplyMember)
+    MergeFrom(*source);
+  }
+}
+
+void GuildApplyMember::MergeFrom(const GuildApplyMember& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.GuildApplyMember)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.applicant_id() != 0) {
+    _internal_set_applicant_id(from._internal_applicant_id());
+  }
+  if (from.respondent_id() != 0) {
+    _internal_set_respondent_id(from._internal_respondent_id());
+  }
+}
+
+void GuildApplyMember::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.GuildApplyMember)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void GuildApplyMember::CopyFrom(const GuildApplyMember& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.GuildApplyMember)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GuildApplyMember::IsInitialized() const {
+  return true;
+}
+
+void GuildApplyMember::InternalSwap(GuildApplyMember* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(applicant_id_, other->applicant_id_);
+  swap(respondent_id_, other->respondent_id_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GuildApplyMember::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void GuildAcceptApply::InitAsDefaultInstance() {
+}
+class GuildAcceptApply::_Internal {
+ public:
+};
+
+GuildAcceptApply::GuildAcceptApply()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:ServerMSG.GuildAcceptApply)
+}
+GuildAcceptApply::GuildAcceptApply(const GuildAcceptApply& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&applicant_id_, &from.applicant_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&result_) -
+    reinterpret_cast<char*>(&applicant_id_)) + sizeof(result_));
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.GuildAcceptApply)
+}
+
+void GuildAcceptApply::SharedCtor() {
+  ::memset(&applicant_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&result_) -
+      reinterpret_cast<char*>(&applicant_id_)) + sizeof(result_));
+}
+
+GuildAcceptApply::~GuildAcceptApply() {
+  // @@protoc_insertion_point(destructor:ServerMSG.GuildAcceptApply)
+  SharedDtor();
+}
+
+void GuildAcceptApply::SharedDtor() {
+}
+
+void GuildAcceptApply::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const GuildAcceptApply& GuildAcceptApply::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_GuildAcceptApply_server_5fmsg_2fserver_5fside_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void GuildAcceptApply::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.GuildAcceptApply)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&applicant_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&result_) -
+      reinterpret_cast<char*>(&applicant_id_)) + sizeof(result_));
+  _internal_metadata_.Clear();
+}
+
+const char* GuildAcceptApply::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // uint64 applicant_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          applicant_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint64 respondent_id = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          respondent_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // bool result = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          result_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* GuildAcceptApply::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.GuildAcceptApply)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 applicant_id = 1;
+  if (this->applicant_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_applicant_id(), target);
+  }
+
+  // uint64 respondent_id = 2;
+  if (this->respondent_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(2, this->_internal_respondent_id(), target);
+  }
+
+  // bool result = 3;
+  if (this->result() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(3, this->_internal_result(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.GuildAcceptApply)
+  return target;
+}
+
+size_t GuildAcceptApply::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.GuildAcceptApply)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // uint64 applicant_id = 1;
+  if (this->applicant_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_applicant_id());
+  }
+
+  // uint64 respondent_id = 2;
+  if (this->respondent_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_respondent_id());
+  }
+
+  // bool result = 3;
+  if (this->result() != 0) {
+    total_size += 1 + 1;
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void GuildAcceptApply::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.GuildAcceptApply)
+  GOOGLE_DCHECK_NE(&from, this);
+  const GuildAcceptApply* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<GuildAcceptApply>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.GuildAcceptApply)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.GuildAcceptApply)
+    MergeFrom(*source);
+  }
+}
+
+void GuildAcceptApply::MergeFrom(const GuildAcceptApply& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.GuildAcceptApply)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.applicant_id() != 0) {
+    _internal_set_applicant_id(from._internal_applicant_id());
+  }
+  if (from.respondent_id() != 0) {
+    _internal_set_respondent_id(from._internal_respondent_id());
+  }
+  if (from.result() != 0) {
+    _internal_set_result(from._internal_result());
+  }
+}
+
+void GuildAcceptApply::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.GuildAcceptApply)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void GuildAcceptApply::CopyFrom(const GuildAcceptApply& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.GuildAcceptApply)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GuildAcceptApply::IsInitialized() const {
+  return true;
+}
+
+void GuildAcceptApply::InternalSwap(GuildAcceptApply* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(applicant_id_, other->applicant_id_);
+  swap(respondent_id_, other->respondent_id_);
+  swap(result_, other->result_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GuildAcceptApply::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void GuildNewLeader::InitAsDefaultInstance() {
+}
+class GuildNewLeader::_Internal {
+ public:
+};
+
+GuildNewLeader::GuildNewLeader()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:ServerMSG.GuildNewLeader)
+}
+GuildNewLeader::GuildNewLeader(const GuildNewLeader& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  new_leader_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_new_leader_name().empty()) {
+    new_leader_name_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.new_leader_name_);
+  }
+  ::memcpy(&guild_id_, &from.guild_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&new_leader_id_) -
+    reinterpret_cast<char*>(&guild_id_)) + sizeof(new_leader_id_));
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.GuildNewLeader)
+}
+
+void GuildNewLeader::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_GuildNewLeader_server_5fmsg_2fserver_5fside_2eproto.base);
+  new_leader_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  ::memset(&guild_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&new_leader_id_) -
+      reinterpret_cast<char*>(&guild_id_)) + sizeof(new_leader_id_));
+}
+
+GuildNewLeader::~GuildNewLeader() {
+  // @@protoc_insertion_point(destructor:ServerMSG.GuildNewLeader)
+  SharedDtor();
+}
+
+void GuildNewLeader::SharedDtor() {
+  new_leader_name_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+
+void GuildNewLeader::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const GuildNewLeader& GuildNewLeader::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_GuildNewLeader_server_5fmsg_2fserver_5fside_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void GuildNewLeader::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.GuildNewLeader)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  new_leader_name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  ::memset(&guild_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&new_leader_id_) -
+      reinterpret_cast<char*>(&guild_id_)) + sizeof(new_leader_id_));
+  _internal_metadata_.Clear();
+}
+
+const char* GuildNewLeader::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // uint64 guild_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          guild_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint64 operator_id = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          operator_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint64 new_leader_id = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          new_leader_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // string new_leader_name = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
+          auto str = _internal_mutable_new_leader_name();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "ServerMSG.GuildNewLeader.new_leader_name"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* GuildNewLeader::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.GuildNewLeader)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 guild_id = 1;
+  if (this->guild_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_guild_id(), target);
+  }
+
+  // uint64 operator_id = 2;
+  if (this->operator_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(2, this->_internal_operator_id(), target);
+  }
+
+  // uint64 new_leader_id = 3;
+  if (this->new_leader_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(3, this->_internal_new_leader_id(), target);
+  }
+
+  // string new_leader_name = 4;
+  if (this->new_leader_name().size() > 0) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_new_leader_name().data(), static_cast<int>(this->_internal_new_leader_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "ServerMSG.GuildNewLeader.new_leader_name");
+    target = stream->WriteStringMaybeAliased(
+        4, this->_internal_new_leader_name(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.GuildNewLeader)
+  return target;
+}
+
+size_t GuildNewLeader::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.GuildNewLeader)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string new_leader_name = 4;
+  if (this->new_leader_name().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_new_leader_name());
+  }
+
+  // uint64 guild_id = 1;
+  if (this->guild_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_guild_id());
+  }
+
+  // uint64 operator_id = 2;
+  if (this->operator_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_operator_id());
+  }
+
+  // uint64 new_leader_id = 3;
+  if (this->new_leader_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_new_leader_id());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void GuildNewLeader::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.GuildNewLeader)
+  GOOGLE_DCHECK_NE(&from, this);
+  const GuildNewLeader* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<GuildNewLeader>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.GuildNewLeader)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.GuildNewLeader)
+    MergeFrom(*source);
+  }
+}
+
+void GuildNewLeader::MergeFrom(const GuildNewLeader& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.GuildNewLeader)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.new_leader_name().size() > 0) {
+
+    new_leader_name_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.new_leader_name_);
+  }
+  if (from.guild_id() != 0) {
+    _internal_set_guild_id(from._internal_guild_id());
+  }
+  if (from.operator_id() != 0) {
+    _internal_set_operator_id(from._internal_operator_id());
+  }
+  if (from.new_leader_id() != 0) {
+    _internal_set_new_leader_id(from._internal_new_leader_id());
+  }
+}
+
+void GuildNewLeader::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.GuildNewLeader)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void GuildNewLeader::CopyFrom(const GuildNewLeader& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.GuildNewLeader)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GuildNewLeader::IsInitialized() const {
+  return true;
+}
+
+void GuildNewLeader::InternalSwap(GuildNewLeader* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  new_leader_name_.Swap(&other->new_leader_name_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
+  swap(guild_id_, other->guild_id_);
+  swap(operator_id_, other->operator_id_);
+  swap(new_leader_id_, other->new_leader_id_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GuildNewLeader::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void GuildAddMember::InitAsDefaultInstance() {
+}
+class GuildAddMember::_Internal {
+ public:
+};
+
+GuildAddMember::GuildAddMember()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:ServerMSG.GuildAddMember)
+}
+GuildAddMember::GuildAddMember(const GuildAddMember& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&guild_id_, &from.guild_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&member_id_) -
+    reinterpret_cast<char*>(&guild_id_)) + sizeof(member_id_));
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.GuildAddMember)
+}
+
+void GuildAddMember::SharedCtor() {
+  ::memset(&guild_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&member_id_) -
+      reinterpret_cast<char*>(&guild_id_)) + sizeof(member_id_));
+}
+
+GuildAddMember::~GuildAddMember() {
+  // @@protoc_insertion_point(destructor:ServerMSG.GuildAddMember)
+  SharedDtor();
+}
+
+void GuildAddMember::SharedDtor() {
+}
+
+void GuildAddMember::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const GuildAddMember& GuildAddMember::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_GuildAddMember_server_5fmsg_2fserver_5fside_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void GuildAddMember::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.GuildAddMember)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&guild_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&member_id_) -
+      reinterpret_cast<char*>(&guild_id_)) + sizeof(member_id_));
+  _internal_metadata_.Clear();
+}
+
+const char* GuildAddMember::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // uint64 guild_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          guild_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint64 member_id = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          member_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* GuildAddMember::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.GuildAddMember)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 guild_id = 1;
+  if (this->guild_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_guild_id(), target);
+  }
+
+  // uint64 member_id = 2;
+  if (this->member_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(2, this->_internal_member_id(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.GuildAddMember)
+  return target;
+}
+
+size_t GuildAddMember::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.GuildAddMember)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // uint64 guild_id = 1;
+  if (this->guild_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_guild_id());
+  }
+
+  // uint64 member_id = 2;
+  if (this->member_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_member_id());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void GuildAddMember::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.GuildAddMember)
+  GOOGLE_DCHECK_NE(&from, this);
+  const GuildAddMember* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<GuildAddMember>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.GuildAddMember)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.GuildAddMember)
+    MergeFrom(*source);
+  }
+}
+
+void GuildAddMember::MergeFrom(const GuildAddMember& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.GuildAddMember)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.guild_id() != 0) {
+    _internal_set_guild_id(from._internal_guild_id());
+  }
+  if (from.member_id() != 0) {
+    _internal_set_member_id(from._internal_member_id());
+  }
+}
+
+void GuildAddMember::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.GuildAddMember)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void GuildAddMember::CopyFrom(const GuildAddMember& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.GuildAddMember)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GuildAddMember::IsInitialized() const {
+  return true;
+}
+
+void GuildAddMember::InternalSwap(GuildAddMember* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(guild_id_, other->guild_id_);
+  swap(member_id_, other->member_id_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GuildAddMember::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void GuildDelMember::InitAsDefaultInstance() {
+}
+class GuildDelMember::_Internal {
+ public:
+};
+
+GuildDelMember::GuildDelMember()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:ServerMSG.GuildDelMember)
+}
+GuildDelMember::GuildDelMember(const GuildDelMember& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&guild_id_, &from.guild_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&member_id_) -
+    reinterpret_cast<char*>(&guild_id_)) + sizeof(member_id_));
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.GuildDelMember)
+}
+
+void GuildDelMember::SharedCtor() {
+  ::memset(&guild_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&member_id_) -
+      reinterpret_cast<char*>(&guild_id_)) + sizeof(member_id_));
+}
+
+GuildDelMember::~GuildDelMember() {
+  // @@protoc_insertion_point(destructor:ServerMSG.GuildDelMember)
+  SharedDtor();
+}
+
+void GuildDelMember::SharedDtor() {
+}
+
+void GuildDelMember::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const GuildDelMember& GuildDelMember::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_GuildDelMember_server_5fmsg_2fserver_5fside_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void GuildDelMember::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.GuildDelMember)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&guild_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&member_id_) -
+      reinterpret_cast<char*>(&guild_id_)) + sizeof(member_id_));
+  _internal_metadata_.Clear();
+}
+
+const char* GuildDelMember::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // uint64 guild_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          guild_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint64 member_id = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          member_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* GuildDelMember::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.GuildDelMember)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // uint64 guild_id = 1;
+  if (this->guild_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_guild_id(), target);
+  }
+
+  // uint64 member_id = 2;
+  if (this->member_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(2, this->_internal_member_id(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.GuildDelMember)
+  return target;
+}
+
+size_t GuildDelMember::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.GuildDelMember)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // uint64 guild_id = 1;
+  if (this->guild_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_guild_id());
+  }
+
+  // uint64 member_id = 2;
+  if (this->member_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+        this->_internal_member_id());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void GuildDelMember::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.GuildDelMember)
+  GOOGLE_DCHECK_NE(&from, this);
+  const GuildDelMember* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<GuildDelMember>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.GuildDelMember)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.GuildDelMember)
+    MergeFrom(*source);
+  }
+}
+
+void GuildDelMember::MergeFrom(const GuildDelMember& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.GuildDelMember)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.guild_id() != 0) {
+    _internal_set_guild_id(from._internal_guild_id());
+  }
+  if (from.member_id() != 0) {
+    _internal_set_member_id(from._internal_member_id());
+  }
+}
+
+void GuildDelMember::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.GuildDelMember)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void GuildDelMember::CopyFrom(const GuildDelMember& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.GuildDelMember)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GuildDelMember::IsInitialized() const {
+  return true;
+}
+
+void GuildDelMember::InternalSwap(GuildDelMember* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  swap(guild_id_, other->guild_id_);
+  swap(member_id_, other->member_id_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GuildDelMember::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void GuildMemberInfoList::InitAsDefaultInstance() {
+}
+class GuildMemberInfoList::_Internal {
+ public:
+};
+
+void GuildMemberInfoList::clear_member_list() {
+  member_list_.Clear();
+}
+GuildMemberInfoList::GuildMemberInfoList()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:ServerMSG.GuildMemberInfoList)
+}
+GuildMemberInfoList::GuildMemberInfoList(const GuildMemberInfoList& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr),
+      member_list_(from.member_list_) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:ServerMSG.GuildMemberInfoList)
+}
+
+void GuildMemberInfoList::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_GuildMemberInfoList_server_5fmsg_2fserver_5fside_2eproto.base);
+}
+
+GuildMemberInfoList::~GuildMemberInfoList() {
+  // @@protoc_insertion_point(destructor:ServerMSG.GuildMemberInfoList)
+  SharedDtor();
+}
+
+void GuildMemberInfoList::SharedDtor() {
+}
+
+void GuildMemberInfoList::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const GuildMemberInfoList& GuildMemberInfoList::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_GuildMemberInfoList_server_5fmsg_2fserver_5fside_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void GuildMemberInfoList::Clear() {
+// @@protoc_insertion_point(message_clear_start:ServerMSG.GuildMemberInfoList)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  member_list_.Clear();
+  _internal_metadata_.Clear();
+}
+
+const char* GuildMemberInfoList::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
+      // repeated .GuildMemberInfo member_list = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_member_list(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<10>(ptr));
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag, &_internal_metadata_, ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* GuildMemberInfoList::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:ServerMSG.GuildMemberInfoList)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // repeated .GuildMemberInfo member_list = 1;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->_internal_member_list_size()); i < n; i++) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(1, this->_internal_member_list(i), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields(), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:ServerMSG.GuildMemberInfoList)
+  return target;
+}
+
+size_t GuildMemberInfoList::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:ServerMSG.GuildMemberInfoList)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .GuildMemberInfo member_list = 1;
+  total_size += 1UL * this->_internal_member_list_size();
+  for (const auto& msg : this->member_list_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void GuildMemberInfoList::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:ServerMSG.GuildMemberInfoList)
+  GOOGLE_DCHECK_NE(&from, this);
+  const GuildMemberInfoList* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<GuildMemberInfoList>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:ServerMSG.GuildMemberInfoList)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:ServerMSG.GuildMemberInfoList)
+    MergeFrom(*source);
+  }
+}
+
+void GuildMemberInfoList::MergeFrom(const GuildMemberInfoList& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:ServerMSG.GuildMemberInfoList)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  member_list_.MergeFrom(from.member_list_);
+}
+
+void GuildMemberInfoList::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:ServerMSG.GuildMemberInfoList)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void GuildMemberInfoList::CopyFrom(const GuildMemberInfoList& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:ServerMSG.GuildMemberInfoList)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GuildMemberInfoList::IsInitialized() const {
+  return true;
+}
+
+void GuildMemberInfoList::InternalSwap(GuildMemberInfoList* other) {
+  using std::swap;
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  member_list_.InternalSwap(&other->member_list_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GuildMemberInfoList::GetMetadata() const {
   return GetMetadataStatic();
 }
 
@@ -13323,11 +16229,44 @@ template<> PROTOBUF_NOINLINE ::ServerMSG::TeamAddMember* Arena::CreateMaybeMessa
 template<> PROTOBUF_NOINLINE ::ServerMSG::TeamDelMember* Arena::CreateMaybeMessage< ::ServerMSG::TeamDelMember >(Arena* arena) {
   return Arena::CreateInternal< ::ServerMSG::TeamDelMember >(arena);
 }
-template<> PROTOBUF_NOINLINE ::ServerMSG::TeamMemberInfo_Info* Arena::CreateMaybeMessage< ::ServerMSG::TeamMemberInfo_Info >(Arena* arena) {
-  return Arena::CreateInternal< ::ServerMSG::TeamMemberInfo_Info >(arena);
+template<> PROTOBUF_NOINLINE ::ServerMSG::TeamMemberInfoList* Arena::CreateMaybeMessage< ::ServerMSG::TeamMemberInfoList >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::TeamMemberInfoList >(arena);
 }
-template<> PROTOBUF_NOINLINE ::ServerMSG::TeamMemberInfo* Arena::CreateMaybeMessage< ::ServerMSG::TeamMemberInfo >(Arena* arena) {
-  return Arena::CreateInternal< ::ServerMSG::TeamMemberInfo >(arena);
+template<> PROTOBUF_NOINLINE ::ServerMSG::GuildCreate* Arena::CreateMaybeMessage< ::ServerMSG::GuildCreate >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::GuildCreate >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ServerMSG::GuildDestory* Arena::CreateMaybeMessage< ::ServerMSG::GuildDestory >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::GuildDestory >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ServerMSG::GuildQuit* Arena::CreateMaybeMessage< ::ServerMSG::GuildQuit >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::GuildQuit >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ServerMSG::GuildKickMember* Arena::CreateMaybeMessage< ::ServerMSG::GuildKickMember >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::GuildKickMember >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ServerMSG::GuildInviteMember* Arena::CreateMaybeMessage< ::ServerMSG::GuildInviteMember >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::GuildInviteMember >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ServerMSG::GuildAcceptInvite* Arena::CreateMaybeMessage< ::ServerMSG::GuildAcceptInvite >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::GuildAcceptInvite >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ServerMSG::GuildApplyMember* Arena::CreateMaybeMessage< ::ServerMSG::GuildApplyMember >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::GuildApplyMember >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ServerMSG::GuildAcceptApply* Arena::CreateMaybeMessage< ::ServerMSG::GuildAcceptApply >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::GuildAcceptApply >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ServerMSG::GuildNewLeader* Arena::CreateMaybeMessage< ::ServerMSG::GuildNewLeader >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::GuildNewLeader >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ServerMSG::GuildAddMember* Arena::CreateMaybeMessage< ::ServerMSG::GuildAddMember >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::GuildAddMember >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ServerMSG::GuildDelMember* Arena::CreateMaybeMessage< ::ServerMSG::GuildDelMember >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::GuildDelMember >(arena);
+}
+template<> PROTOBUF_NOINLINE ::ServerMSG::GuildMemberInfoList* Arena::CreateMaybeMessage< ::ServerMSG::GuildMemberInfoList >(Arena* arena) {
+  return Arena::CreateInternal< ::ServerMSG::GuildMemberInfoList >(arena);
 }
 template<> PROTOBUF_NOINLINE ::ServerMSG::SyncTaskPhase* Arena::CreateMaybeMessage< ::ServerMSG::SyncTaskPhase >(Arena* arena) {
   return Arena::CreateInternal< ::ServerMSG::SyncTaskPhase >(arena);

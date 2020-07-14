@@ -14,55 +14,136 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
-static constexpr ::PROTOBUF_NAMESPACE_ID::Metadata* file_level_metadata_common_2fCommon_2eproto = nullptr;
-static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_common_2fCommon_2eproto[5];
+class GuildMemberInfoDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<GuildMemberInfo> _instance;
+} _GuildMemberInfo_default_instance_;
+class TeamMemberInfoDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<TeamMemberInfo> _instance;
+} _TeamMemberInfo_default_instance_;
+static void InitDefaultsscc_info_GuildMemberInfo_common_2fCommon_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::_GuildMemberInfo_default_instance_;
+    new (ptr) ::GuildMemberInfo();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::GuildMemberInfo::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_GuildMemberInfo_common_2fCommon_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_GuildMemberInfo_common_2fCommon_2eproto}, {}};
+
+static void InitDefaultsscc_info_TeamMemberInfo_common_2fCommon_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::_TeamMemberInfo_default_instance_;
+    new (ptr) ::TeamMemberInfo();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::TeamMemberInfo::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_TeamMemberInfo_common_2fCommon_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_TeamMemberInfo_common_2fCommon_2eproto}, {}};
+
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_common_2fCommon_2eproto[2];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_common_2fCommon_2eproto[6];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_common_2fCommon_2eproto = nullptr;
-const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_common_2fCommon_2eproto::offsets[1] = {};
-static constexpr ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema* schemas = nullptr;
-static constexpr ::PROTOBUF_NAMESPACE_ID::Message* const* file_default_instances = nullptr;
+
+const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_common_2fCommon_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::GuildMemberInfo, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::GuildMemberInfo, member_id_),
+  PROTOBUF_FIELD_OFFSET(::GuildMemberInfo, member_lev_),
+  PROTOBUF_FIELD_OFFSET(::GuildMemberInfo, member_online_),
+  PROTOBUF_FIELD_OFFSET(::GuildMemberInfo, member_name_),
+  PROTOBUF_FIELD_OFFSET(::GuildMemberInfo, member_rank_),
+  PROTOBUF_FIELD_OFFSET(::GuildMemberInfo, member_score_),
+  PROTOBUF_FIELD_OFFSET(::GuildMemberInfo, member_last_logout_),
+  PROTOBUF_FIELD_OFFSET(::GuildMemberInfo, member_jointime_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::TeamMemberInfo, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::TeamMemberInfo, member_id_),
+  PROTOBUF_FIELD_OFFSET(::TeamMemberInfo, member_lev_),
+  PROTOBUF_FIELD_OFFSET(::TeamMemberInfo, member_online_),
+  PROTOBUF_FIELD_OFFSET(::TeamMemberInfo, member_name_),
+};
+static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+  { 0, -1, sizeof(::GuildMemberInfo)},
+  { 13, -1, sizeof(::TeamMemberInfo)},
+};
+
+static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_GuildMemberInfo_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_TeamMemberInfo_default_instance_),
+};
 
 const char descriptor_table_protodef_common_2fCommon_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\023common/Common.proto*\277\003\n\014ACTOR_ATTRIB\022\017"
-  "\n\013ATTRIB_NONE\020\000\022\021\n\rATTRIB_HP_MAX\020\001\022\021\n\rAT"
-  "TRIB_MP_MAX\020\002\022\021\n\rATTRIB_FP_MAX\020\003\022\021\n\rATTR"
-  "IB_NP_MAX\020\004\022\022\n\016ATTRIB_MOVESPD\020\005\022\022\n\016ATTRI"
-  "B_MIN_ATK\020\t\022\022\n\016ATTRIB_MAX_ATK\020\n\022\022\n\016ATTRI"
-  "B_MIN_DEF\020\013\022\022\n\016ATTRIB_MAX_DEF\020\014\022\023\n\017ATTRI"
-  "B_MIN_MATK\020\r\022\023\n\017ATTRIB_MAX_MATK\020\016\022\023\n\017ATT"
-  "RIB_MIN_MDEF\020\017\022\023\n\017ATTRIB_MAX_MDEF\020\020\022\016\n\nA"
-  "TTRIB_HIT\020\021\022\020\n\014ATTRIB_DODGE\020\022\022\025\n\021ATTRIB_"
-  "DAMAGE_ADJ\020\023\022\036\n\032ATTRIB_DAMAGE_REFLECT_RA"
-  "TE\020\024\022\035\n\031ATTRIB_DAMAGE_REFLECT_ADJ\020\025\022\022\n\016A"
-  "TTRIB_EXP_ADJ\020\026\022\016\n\nATTRIB_MAX\020\027*\342\002\n\016ACTO"
-  "R_PROPERTY\022\r\n\tPROP_NONE\020\000\022\014\n\010PROP_EXP\020\001\022"
-  "\016\n\nPROP_LEVEL\020\002\022\013\n\007PROP_HP\020\003\022\013\n\007PROP_MP\020"
-  "\004\022\013\n\007PROP_FP\020\005\022\013\n\007PROP_NP\020\006\022\016\n\nPROP_MONE"
-  "Y\020\n\022\022\n\016PROP_MONEYBIND\020\013\022\r\n\tPROP_GOLD\020\014\022\021"
-  "\n\rPROP_GOLDBIND\020\r\022\016\n\nPROP_PKVAL\020\016\022\016\n\nPRO"
-  "P_HONOR\020\017\022\r\n\tPROP_CAMP\020\020\022\022\n\016PROP_ACHIPOI"
-  "NT\020\021\022\017\n\013PROP_VIPLEV\020\022\022\017\n\013PROP_HP_MAX\0202\022\026"
-  "\n\022PROP_WEAPON_CHANGE\0203\022\025\n\021PROP_ARMOR_CHA"
-  "NGE\0204\022\025\n\021PROP_MOUNT_CHANGE\0205*W\n\nMONEY_TY"
-  "PE\022\013\n\007MT_NONE\020\000\022\014\n\010MT_MONEY\020\001\022\020\n\014MT_MONE"
-  "YBIND\020\002\022\013\n\007MT_GOLD\020\003\022\017\n\013MT_GOLDBIND\020\004*s\n"
-  "\007PK_MODE\022\020\n\014PKMODE_PEACE\020\000\022\022\n\016PKMODE_RED"
-  "NAME\020\001\022\017\n\013PKMODE_TEAM\020\002\022\020\n\014PKMODE_GUILD\020"
-  "\003\022\017\n\013PKMODE_CAMP\020\004\022\016\n\nPKMODE_ALL\020\005*j\n\tTa"
-  "skState\022\027\n\023TASKSTATE_NOTACCEPT\020\000\022\026\n\022TASK"
-  "STATE_ACCEPTED\020\001\022\024\n\020TASKSTATE_GIVEUP\020\002\022\026"
-  "\n\022TASKSTATE_FINISHED\020\003B\002H\002b\006proto3"
+  "\n\023common/Common.proto\"\304\001\n\017GuildMemberInf"
+  "o\022\021\n\tmember_id\030\001 \001(\004\022\022\n\nmember_lev\030\002 \001(\r"
+  "\022\025\n\rmember_online\030\003 \001(\010\022\023\n\013member_name\030\004"
+  " \001(\t\022\023\n\013member_rank\030\005 \001(\r\022\024\n\014member_scor"
+  "e\030\006 \001(\r\022\032\n\022member_last_logout\030\007 \001(\r\022\027\n\017m"
+  "ember_jointime\030\010 \001(\r\"c\n\016TeamMemberInfo\022\021"
+  "\n\tmember_id\030\001 \001(\004\022\022\n\nmember_lev\030\002 \001(\r\022\025\n"
+  "\rmember_online\030\003 \001(\010\022\023\n\013member_name\030\004 \001("
+  "\t*\277\003\n\014ACTOR_ATTRIB\022\017\n\013ATTRIB_NONE\020\000\022\021\n\rA"
+  "TTRIB_HP_MAX\020\001\022\021\n\rATTRIB_MP_MAX\020\002\022\021\n\rATT"
+  "RIB_FP_MAX\020\003\022\021\n\rATTRIB_NP_MAX\020\004\022\022\n\016ATTRI"
+  "B_MOVESPD\020\005\022\022\n\016ATTRIB_MIN_ATK\020\t\022\022\n\016ATTRI"
+  "B_MAX_ATK\020\n\022\022\n\016ATTRIB_MIN_DEF\020\013\022\022\n\016ATTRI"
+  "B_MAX_DEF\020\014\022\023\n\017ATTRIB_MIN_MATK\020\r\022\023\n\017ATTR"
+  "IB_MAX_MATK\020\016\022\023\n\017ATTRIB_MIN_MDEF\020\017\022\023\n\017AT"
+  "TRIB_MAX_MDEF\020\020\022\016\n\nATTRIB_HIT\020\021\022\020\n\014ATTRI"
+  "B_DODGE\020\022\022\025\n\021ATTRIB_DAMAGE_ADJ\020\023\022\036\n\032ATTR"
+  "IB_DAMAGE_REFLECT_RATE\020\024\022\035\n\031ATTRIB_DAMAG"
+  "E_REFLECT_ADJ\020\025\022\022\n\016ATTRIB_EXP_ADJ\020\026\022\016\n\nA"
+  "TTRIB_MAX\020\027*\342\002\n\016ACTOR_PROPERTY\022\r\n\tPROP_N"
+  "ONE\020\000\022\014\n\010PROP_EXP\020\001\022\016\n\nPROP_LEVEL\020\002\022\013\n\007P"
+  "ROP_HP\020\003\022\013\n\007PROP_MP\020\004\022\013\n\007PROP_FP\020\005\022\013\n\007PR"
+  "OP_NP\020\006\022\016\n\nPROP_MONEY\020\n\022\022\n\016PROP_MONEYBIN"
+  "D\020\013\022\r\n\tPROP_GOLD\020\014\022\021\n\rPROP_GOLDBIND\020\r\022\016\n"
+  "\nPROP_PKVAL\020\016\022\016\n\nPROP_HONOR\020\017\022\r\n\tPROP_CA"
+  "MP\020\020\022\022\n\016PROP_ACHIPOINT\020\021\022\017\n\013PROP_VIPLEV\020"
+  "\022\022\017\n\013PROP_HP_MAX\0202\022\026\n\022PROP_WEAPON_CHANGE"
+  "\0203\022\025\n\021PROP_ARMOR_CHANGE\0204\022\025\n\021PROP_MOUNT_"
+  "CHANGE\0205*W\n\nMONEY_TYPE\022\013\n\007MT_NONE\020\000\022\014\n\010M"
+  "T_MONEY\020\001\022\020\n\014MT_MONEYBIND\020\002\022\013\n\007MT_GOLD\020\003"
+  "\022\017\n\013MT_GOLDBIND\020\004*s\n\007PK_MODE\022\020\n\014PKMODE_P"
+  "EACE\020\000\022\022\n\016PKMODE_REDNAME\020\001\022\017\n\013PKMODE_TEA"
+  "M\020\002\022\020\n\014PKMODE_GUILD\020\003\022\017\n\013PKMODE_CAMP\020\004\022\016"
+  "\n\nPKMODE_ALL\020\005*j\n\tTaskState\022\027\n\023TASKSTATE"
+  "_NOTACCEPT\020\000\022\026\n\022TASKSTATE_ACCEPTED\020\001\022\024\n\020"
+  "TASKSTATE_GIVEUP\020\002\022\026\n\022TASKSTATE_FINISHED"
+  "\020\003*\233\001\n\tGuildRank\022\026\n\022GUILD_RANK_NEWIBLE\020\000"
+  "\022\025\n\021GUILD_RANK_MEMBER\020\001\022\024\n\020GUILD_RANK_EL"
+  "ITE\020\005\022\027\n\023GUILD_RANK_MINISTER\020\n\022\031\n\025GUILD_"
+  "RANK_VICELEADER\020c\022\025\n\021GUILD_RANK_LEADER\020d"
+  "B\002H\002b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_common_2fCommon_2eproto_deps[1] = {
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_common_2fCommon_2eproto_sccs[1] = {
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_common_2fCommon_2eproto_sccs[2] = {
+  &scc_info_GuildMemberInfo_common_2fCommon_2eproto.base,
+  &scc_info_TeamMemberInfo_common_2fCommon_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_common_2fCommon_2eproto_once;
 static bool descriptor_table_common_2fCommon_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_common_2fCommon_2eproto = {
-  &descriptor_table_common_2fCommon_2eproto_initialized, descriptor_table_protodef_common_2fCommon_2eproto, "common/Common.proto", 1154,
-  &descriptor_table_common_2fCommon_2eproto_once, descriptor_table_common_2fCommon_2eproto_sccs, descriptor_table_common_2fCommon_2eproto_deps, 0, 0,
+  &descriptor_table_common_2fCommon_2eproto_initialized, descriptor_table_protodef_common_2fCommon_2eproto, "common/Common.proto", 1612,
+  &descriptor_table_common_2fCommon_2eproto_once, descriptor_table_common_2fCommon_2eproto_sccs, descriptor_table_common_2fCommon_2eproto_deps, 2, 0,
   schemas, file_default_instances, TableStruct_common_2fCommon_2eproto::offsets,
-  file_level_metadata_common_2fCommon_2eproto, 0, file_level_enum_descriptors_common_2fCommon_2eproto, file_level_service_descriptors_common_2fCommon_2eproto,
+  file_level_metadata_common_2fCommon_2eproto, 2, file_level_enum_descriptors_common_2fCommon_2eproto, file_level_service_descriptors_common_2fCommon_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
@@ -183,9 +264,157 @@ bool TaskState_IsValid(int value) {
   }
 }
 
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* GuildRank_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_common_2fCommon_2eproto);
+  return file_level_enum_descriptors_common_2fCommon_2eproto[5];
+}
+bool GuildRank_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 5:
+    case 10:
+    case 99:
+    case 100:
+      return true;
+    default:
+      return false;
+  }
+}
+
+
+// ===================================================================
+
+void GuildMemberInfo::InitAsDefaultInstance() {
+}
+class GuildMemberInfo::_Internal {
+ public:
+};
+
+GuildMemberInfo::GuildMemberInfo()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:GuildMemberInfo)
+}
+GuildMemberInfo::GuildMemberInfo(const GuildMemberInfo& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  member_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_member_name().empty()) {
+    member_name_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.member_name_);
+  }
+  ::memcpy(&member_id_, &from.member_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&member_jointime_) -
+    reinterpret_cast<char*>(&member_id_)) + sizeof(member_jointime_));
+  // @@protoc_insertion_point(copy_constructor:GuildMemberInfo)
+}
+
+void GuildMemberInfo::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_GuildMemberInfo_common_2fCommon_2eproto.base);
+  member_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  ::memset(&member_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&member_jointime_) -
+      reinterpret_cast<char*>(&member_id_)) + sizeof(member_jointime_));
+}
+
+GuildMemberInfo::~GuildMemberInfo() {
+  // @@protoc_insertion_point(destructor:GuildMemberInfo)
+  SharedDtor();
+}
+
+void GuildMemberInfo::SharedDtor() {
+  member_name_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+
+void GuildMemberInfo::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const GuildMemberInfo& GuildMemberInfo::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_GuildMemberInfo_common_2fCommon_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void GuildMemberInfo::InternalSwap(GuildMemberInfo* other) {
+  using std::swap;
+  GetReflection()->Swap(this, other);}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GuildMemberInfo::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void TeamMemberInfo::InitAsDefaultInstance() {
+}
+class TeamMemberInfo::_Internal {
+ public:
+};
+
+TeamMemberInfo::TeamMemberInfo()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:TeamMemberInfo)
+}
+TeamMemberInfo::TeamMemberInfo(const TeamMemberInfo& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  member_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_member_name().empty()) {
+    member_name_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.member_name_);
+  }
+  ::memcpy(&member_id_, &from.member_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&member_online_) -
+    reinterpret_cast<char*>(&member_id_)) + sizeof(member_online_));
+  // @@protoc_insertion_point(copy_constructor:TeamMemberInfo)
+}
+
+void TeamMemberInfo::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_TeamMemberInfo_common_2fCommon_2eproto.base);
+  member_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  ::memset(&member_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&member_online_) -
+      reinterpret_cast<char*>(&member_id_)) + sizeof(member_online_));
+}
+
+TeamMemberInfo::~TeamMemberInfo() {
+  // @@protoc_insertion_point(destructor:TeamMemberInfo)
+  SharedDtor();
+}
+
+void TeamMemberInfo::SharedDtor() {
+  member_name_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+
+void TeamMemberInfo::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const TeamMemberInfo& TeamMemberInfo::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_TeamMemberInfo_common_2fCommon_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void TeamMemberInfo::InternalSwap(TeamMemberInfo* other) {
+  using std::swap;
+  GetReflection()->Swap(this, other);}
+
+::PROTOBUF_NAMESPACE_ID::Metadata TeamMemberInfo::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
 
 // @@protoc_insertion_point(namespace_scope)
 PROTOBUF_NAMESPACE_OPEN
+template<> PROTOBUF_NOINLINE ::GuildMemberInfo* Arena::CreateMaybeMessage< ::GuildMemberInfo >(Arena* arena) {
+  return Arena::CreateInternal< ::GuildMemberInfo >(arena);
+}
+template<> PROTOBUF_NOINLINE ::TeamMemberInfo* Arena::CreateMaybeMessage< ::TeamMemberInfo >(Arena* arena) {
+  return Arena::CreateInternal< ::TeamMemberInfo >(arena);
+}
 PROTOBUF_NAMESPACE_CLOSE
 
 // @@protoc_insertion_point(global_scope)

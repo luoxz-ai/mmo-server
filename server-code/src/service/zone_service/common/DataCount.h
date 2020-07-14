@@ -88,6 +88,9 @@ public:
     export_lua void DeleteRecord();
 
 private:
+    void CheckReset(uint32_t nNextTime);
+
+private:
     CPlayer*     m_pOwner = nullptr;
     CDBRecordPtr m_pRecord;
 

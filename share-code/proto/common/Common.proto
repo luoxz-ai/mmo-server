@@ -86,3 +86,35 @@ enum TaskState
 	TASKSTATE_GIVEUP	= 2; //手动放弃了
 	TASKSTATE_FINISHED	= 3; //已经提交了
 };
+
+enum GuildRank
+{
+	GUILD_RANK_NEWIBLE 		= 0;
+	GUILD_RANK_MEMBER  		= 1;
+	GUILD_RANK_ELITE   		= 5;
+	GUILD_RANK_MINISTER   	= 10;
+	GUILD_RANK_VICELEADER 	= 99;
+	GUILD_RANK_LEADER 		= 100;
+};
+
+message GuildMemberInfo
+{
+	uint64 member_id     = 1;
+	uint32 member_lev    = 2;
+	bool   member_online = 3;
+	string member_name   = 4;
+	uint32 member_rank   = 5;
+	uint32 member_score  = 6;
+	uint32 member_last_logout  = 7;
+	uint32 member_jointime  = 8;
+};
+
+message TeamMemberInfo
+{
+
+	uint64 member_id     = 1;
+	uint32 member_lev    = 2;
+	bool   member_online = 3;
+	string member_name   = 4;
+    
+}

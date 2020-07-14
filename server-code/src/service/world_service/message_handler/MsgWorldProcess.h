@@ -4,4 +4,6 @@
 #include "MsgProcessRegister.h"
 #include "WorldService.h"
 
+void RegisterWorldMessageHandler();
+
 #endif /* MSGWORLDPROCESS_H */

@@ -105,6 +105,12 @@ time_t TimeGetMonotonic()
         return _TimeGetMonotonic();
 }
 
+time_t now()
+{
+    return TimeGetSecond();
+}
+
+
 time_t TimeGetSecond()
 {
     if(g_TimeGetCacheData.bUserCache)
@@ -144,6 +150,23 @@ time_t local2gmt(time_t tNow)
     return tNow - _timezone;
 #else
     return tNow + timezone;
+#endif
+}
+
+struct tm timeToLocalTime(time_t t)
+{
+#ifdef WIN32
+#if _MSC_VER < 1400 // VS2003
+    return *localtime(&t);
+#else // vs2005->vs2013->
+    struct tm tt = {0};
+    localtime_s(&tt, &t);
+    return tt;
+#endif
+#else // linux
+    struct tm tt = {0};
+    localtime_r(&t, &tt);
+    return tt;
 #endif
 }
 

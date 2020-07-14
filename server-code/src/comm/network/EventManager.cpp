@@ -106,9 +106,7 @@ void CEventManager::OnTimer()
     }
 }
 
-
-bool CEventManager::ScheduleEvent(const CEventEntryCreateParam& param,
-                                  CEventEntryPtr&     refEntry)
+bool CEventManager::ScheduleEvent(const CEventEntryCreateParam& param, CEventEntryPtr& refEntry)
 {
     CHECKF(param.cb);
     CHECKF(param.tWaitTime >= 0);
@@ -120,13 +118,12 @@ bool CEventManager::ScheduleEvent(const CEventEntryCreateParam& param,
     else
     {
         LOGERROR("ScheduleEvent Fail: {}", param.evType);
-        LOGERROR("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7))); 
+        LOGERROR("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7)));
         return false;
-    }   
+    }
 }
 
-bool CEventManager::ScheduleEvent(const CEventEntryCreateParam& param,
-                                  CEventEntryQueue&   refEntryQueue)
+bool CEventManager::ScheduleEvent(const CEventEntryCreateParam& param, CEventEntryQueue& refEntryQueue)
 {
     CHECKF(param.cb);
     CHECKF(param.tWaitTime >= 0);
@@ -138,13 +135,12 @@ bool CEventManager::ScheduleEvent(const CEventEntryCreateParam& param,
     else
     {
         LOGERROR("ScheduleEvent Fail: {}", param.evType);
-        LOGERROR("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7))); 
+        LOGERROR("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7)));
         return false;
-    }  
+    }
 }
 
-bool CEventManager::ScheduleEvent(const CEventEntryCreateParam& param,
-                                  CEventEntryMap&     refEntryMap)
+bool CEventManager::ScheduleEvent(const CEventEntryCreateParam& param, CEventEntryMap& refEntryMap)
 {
     CHECKF(param.cb);
     CHECKF(param.tWaitTime >= 0);
@@ -157,9 +153,9 @@ bool CEventManager::ScheduleEvent(const CEventEntryCreateParam& param,
     else
     {
         LOGERROR("ScheduleEvent Fail: {}", param.evType);
-        LOGERROR("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7))); 
+        LOGERROR("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7)));
         return false;
-    }  
+    }
 }
 
 bool CEventManager::ScheduleEvent(const CEventEntryCreateParam& param)
@@ -177,8 +173,8 @@ bool CEventManager::ScheduleEvent(const CEventEntryCreateParam& param)
 }
 
 CEventEntry* CEventManager::_ScheduleEvent(const CEventEntryCreateParam& param,
-                                          CEventEntry*        pEntry,
-                                          uint32_t nManagerType)
+                                           CEventEntry*                  pEntry,
+                                           uint32_t                      nManagerType)
 {
     CHECKF(param.cb);
     CHECKF(param.tWaitTime >= 0);
@@ -198,8 +194,7 @@ CEventEntry* CEventManager::_ScheduleEvent(const CEventEntryCreateParam& param,
     return pEntry;
 }
 
-CEventEntry* CEventManager::CreateEntry(const CEventEntryCreateParam& param,
-                                        uint32_t nManagerType)
+CEventEntry* CEventManager::CreateEntry(const CEventEntryCreateParam& param, uint32_t nManagerType)
 {
     CEventEntry* pEntry = new CEventEntry(this, param, nManagerType);
     if(pEntry)
@@ -259,7 +254,7 @@ void CEventManager::ScheduleWait()
             else
             {
                 struct timeval tv = {(long)pEntry->m_tWaitTime / 1000, (long)pEntry->m_tWaitTime % 1000 * 1000};
-                nRet = evtimer_add(pEntry->m_pevTimer, &tv);
+                nRet              = evtimer_add(pEntry->m_pevTimer, &tv);
             }
             AddRunningEventCount();
 
@@ -292,7 +287,7 @@ void CEventManager::_DeleteMapedEvent(CEventEntry* pEntry)
             LOGERROR("try delet event not mapbymanager:{:p}", (void*)pEntry);
         }
     }
-    
+
     SAFE_DELETE(pEntry);
 }
 
@@ -310,7 +305,6 @@ void CEventManager::SubEventCount()
 {
     m_nEventCount--;
 }
-
 
 size_t CEventManager::GetRunningEventCount()
 {

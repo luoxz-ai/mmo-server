@@ -29,13 +29,10 @@ bool CPackage::Init(CPlayer* pOwner, uint32_t nPackageType, uint32_t nMaxSize)
     m_nMaxSize  = nMaxSize;
     auto pDB    = ZoneService()->GetGameDB(m_pOwner->GetWorldID());
     CHECKF(pDB);
-    auto pResult = pDB->Query(TBLD_ITEM::table_name(),
-                              fmt::format(FMT_STRING("SELECT * FROM {} WHERE {}={} AND {}={}"),
-                                          TBLD_ITEM::table_name(),
-                                          DBFieldHelp<TBLD_ITEM,TBLD_ITEM::OWNER_ID>::GetFieldName(),
-                                          pOwner->GetID(),
-                                          DBFieldHelp<TBLD_ITEM,TBLD_ITEM::POSITION>::GetFieldName(),
-                                          m_nPosition));
+    auto pResult = pDB->QueryMultiCond<TBLD_ITEM>(
+            DBCond<TBLD_ITEM,TBLD_ITEM::OWNER_ID, OBJID>{pOwner->GetID()},
+            DBCond<TBLD_ITEM,TBLD_ITEM::POSITION, uint32_t>{m_nPosition});
+
     if(pResult)
     {
         for(size_t i = 0; i < pResult->get_num_row(); i++)

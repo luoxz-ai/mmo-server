@@ -198,9 +198,7 @@ bool CPlayerCoolDownSet::Init(CPlayer* pPlayer)
     CHECKF(pPlayer);
     m_pOwner     = pPlayer;
     auto* pDB    = ZoneService()->GetGameDB(pPlayer->GetWorldID());
-    auto  result = pDB->Query(
-        TBLD_COOLDOWN::table_name(),
-        fmt::format(FMT_STRING("SELECT * FROM {} WHERE playerid={}"), TBLD_COOLDOWN::table_name(), pPlayer->GetID()));
+    auto  result = pDB->QueryT<TBLD_COOLDOWN, TBLD_COOLDOWN::PLAYERID>(pPlayer->GetID());
     if(result)
     {
         for(size_t i = 0; i < result->get_num_row(); i++)

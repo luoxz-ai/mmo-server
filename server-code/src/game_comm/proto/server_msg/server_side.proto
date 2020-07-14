@@ -1,4 +1,7 @@
 syntax = "proto3";
+
+import "common/Common.proto";
+
 package ServerMSG;
 
 enum OMsgID
@@ -56,9 +59,22 @@ enum OMsgID
     MsgID_TeamApplyMember  = 20116;
     MsgID_TeamAcceptApply  = 20117;
     MsgID_TeamNewLeader    = 20118;
-    MsgID_TeamMemberInfo   = 20119;
+    MsgID_TeamMemberInfoList   = 20119;
     MsgID_TeamAddMember    = 20120;
     MsgID_TeamDelMember    = 20121;
+
+    MsgID_GuildCreate       = 20140;
+    MsgID_GuildDestory      = 20141;
+    MsgID_GuildQuit         = 20142;
+    MsgID_GuildKickMember   = 20143;
+    MsgID_GuildInviteMember = 20144;
+    MsgID_GuildAcceptInvite = 20145;
+    MsgID_GuildApplyMember  = 20146;
+    MsgID_GuildAcceptApply  = 20147;
+    MsgID_GuildNewLeader    = 20148;
+    MsgID_GuildMemberInfoList   = 20149;
+    MsgID_GuildAddMember    = 20150;
+    MsgID_GuildDelMember    = 20151;
 
     MsgID_END = 30000;
 };
@@ -302,6 +318,8 @@ message ActorSetHide
     int32  hide_count = 2;
 };
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 message TeamCreate
 {
     uint64 team_id   = 1;
@@ -370,18 +388,91 @@ message TeamDelMember
     uint64 member_id = 2;
 };
 
-message TeamMemberInfo
+message TeamMemberInfoList
 {
-    message Info
-    {
-        uint64 member_id     = 1;
-        uint32 member_lev    = 2;
-        bool   member_online = 3;
-        string member_name   = 4;
-    }
-    repeated Info member_list = 1;
+    repeated TeamMemberInfo member_list = 1;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+message GuildCreate
+{
+    uint64 guild_id   = 1;
+    uint64 leader_id = 2;
+    string guild_name = 3;
+    string leader_name = 4;
+    uint32 create_time = 5;
+};
+
+message GuildDestory
+{
+    uint64 guild_id = 1;
+};
+
+message GuildQuit
+{
+    uint64 guild_id     = 1;
+    uint64 operator_id = 2;
+};
+message GuildKickMember
+{
+    uint64 guild_id     = 1;
+    uint64 operator_id = 2;
+    uint64 kick_id     = 3;
+};
+
+message GuildInviteMember
+{
+    uint64 guild_id     = 1;
+    uint64 operator_id = 2;
+    uint64 invitee_id  = 3;
+};
+message GuildAcceptInvite
+{
+    uint64 guild_id    = 1;
+    uint64 inviter_id = 2;
+    uint64 invitee_id = 3;
+    bool   result     = 4;
+};
+
+message GuildApplyMember
+{
+    uint64 applicant_id  = 1;
+    uint64 respondent_id = 2;
+};
+message GuildAcceptApply
+{
+    uint64 applicant_id  = 1;
+    uint64 respondent_id = 2;
+    bool   result        = 3;
+};
+
+message GuildNewLeader
+{
+    uint64 guild_id       = 1;
+    uint64 operator_id   = 2;
+    uint64 new_leader_id = 3;
+    string new_leader_name = 4;
+};
+
+message GuildAddMember
+{
+    uint64 guild_id   = 1;
+    uint64 member_id = 2;
+};
+
+message GuildDelMember
+{
+    uint64 guild_id   = 1;
+    uint64 member_id = 2;
+};
+
+message GuildMemberInfoList
+{
+    repeated GuildMemberInfo member_list = 1;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 message SyncTaskPhase
 {
     uint64          player_id     = 1;

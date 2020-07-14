@@ -8,6 +8,7 @@ verbosity=0
 malloc_context_size=20
 handle_segv=1
 handle_sigfpe=1
+allow_addr2line=true
 coverage=0
 #report_globals=1
 #check_initialization_order=1

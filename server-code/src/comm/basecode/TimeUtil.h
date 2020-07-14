@@ -19,6 +19,7 @@ void TimeGetCacheUpdate();
 
 export_lua time_t TimeGetMonotonic();
 export_lua time_t TimeGetMillisecond();
+export_lua time_t now();
 export_lua time_t TimeGetSecond();
 export_lua time_t TimeGetSecondLocal();
 
@@ -29,7 +30,7 @@ export_lua time_t _TimeGetSecondLocal();
 
 export_lua time_t gmt2local(time_t tNow);
 export_lua time_t local2gmt(time_t tNow);
-
+export_lua struct tm timeToLocalTime(time_t t);
 //检查是否是同一天,loclatime
 export_lua bool CheckSameDay(time_t time1, time_t time2);
 //返回两个时间戳之间的日期差

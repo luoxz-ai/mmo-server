@@ -29,49 +29,56 @@ uint32_t CDataCount::GetIdx() const
     return 0;
 }
 
+void CDataCount::CheckReset(uint32_t nNextTime)
+{
+    __ENTER_FUNCTION
+    auto pType = DataCountLimitSet()->QueryObj(CDataCountLimit::MakeID(GetType(), GetIdx()));
+    if(pType == nullptr)
+        return;
+    
+    uint32_t now = TimeGetSecond();
+    if(now > nNextTime)
+    {
+        switch(pType->GetResetType())
+        {
+        case DATA_COUNT_RESET_BY_DAY:
+            {
+                m_pRecord->Field(TBLD_DATACOUNT::DATA_NUM)        = 0;
+                m_pRecord->Field(TBLD_DATACOUNT::NEXT_RESET_TIME) = NextDayBeginTimeStamp(nNextTime, pType->GetResetTime() );
+            }
+            break;
+        case DATA_COUNT_RESET_BY_WEEK:
+            {
+                m_pRecord->Field(TBLD_DATACOUNT::DATA_NUM)        = 0;
+                m_pRecord->Field(TBLD_DATACOUNT::NEXT_RESET_TIME) = NextWeekBeginTimeStamp(nNextTime, pType->GetResetTime() );     
+            }
+            break;
+        case DATA_COUNT_RESET_BY_MONTH:
+            {
+                m_pRecord->Field(TBLD_DATACOUNT::DATA_NUM)        = 0;
+                m_pRecord->Field(TBLD_DATACOUNT::NEXT_RESET_TIME) = NextMonthBeginTimeStamp(nNextTime, pType->GetResetTime() );     
+            }
+            break;
+        default:
+            break;
+        }
+    }
+    
+
+
+    __LEAVE_FUNCTION
+}
 uint64_t CDataCount::GetDataNum()
 {
     __ENTER_FUNCTION
     uint32_t nNextTime = GetNextResetTime();
     if(nNextTime == 0)
     {
-        return 0;
+        return m_pRecord->Field(TBLD_DATACOUNT::DATA_NUM);
     }
     
     // check need reset
-    auto pType = DataCountLimitSet()->QueryObj(CDataCountLimit::MakeID(GetType(), GetIdx()));
-    if(pType)
-    {
-        uint32_t now = TimeGetSecond();
-        if(now > nNextTime)
-        {
-            switch(pType->GetResetType())
-            {
-            case DATA_COUNT_RESET_BY_DAY:
-                {
-                    m_pRecord->Field(TBLD_DATACOUNT::DATA_NUM)        = 0;
-                    m_pRecord->Field(TBLD_DATACOUNT::NEXT_RESET_TIME) = NextDayBeginTimeStamp(nNextTime, pType->GetResetTime() );
-                }
-                break;
-            case DATA_COUNT_RESET_BY_WEEK:
-                {
-                    m_pRecord->Field(TBLD_DATACOUNT::DATA_NUM)        = 0;
-                    m_pRecord->Field(TBLD_DATACOUNT::NEXT_RESET_TIME) = NextWeekBeginTimeStamp(nNextTime, pType->GetResetTime() );     
-                }
-                break;
-            case DATA_COUNT_RESET_BY_MONTH:
-                {
-                    m_pRecord->Field(TBLD_DATACOUNT::DATA_NUM)        = 0;
-                    m_pRecord->Field(TBLD_DATACOUNT::NEXT_RESET_TIME) = NextMonthBeginTimeStamp(nNextTime, pType->GetResetTime() );     
-                }
-                break;
-            default:
-                break;
-            }
-        }
-    }
-    
-
+    CheckReset(nNextTime);
     return m_pRecord->Field(TBLD_DATACOUNT::DATA_NUM);
     __LEAVE_FUNCTION
     return 0;
@@ -81,7 +88,6 @@ uint32_t CDataCount::GetNextResetTime() const
 {
     __ENTER_FUNCTION
     return m_pRecord->Field(TBLD_DATACOUNT::NEXT_RESET_TIME);
-
     __LEAVE_FUNCTION
     return 0;
 }
@@ -157,9 +163,7 @@ bool CDataCountSet::Init(CPlayer* pPlayer)
     __ENTER_FUNCTION
     m_pOwner     = pPlayer;
     auto* pDB    = ZoneService()->GetGameDB(pPlayer->GetWorldID());
-    auto  result = pDB->Query(
-        TBLD_DATACOUNT::table_name(),
-        fmt::format(FMT_STRING("SELECT * FROM {} WHERE playerid={}"), TBLD_DATACOUNT::table_name(), pPlayer->GetID()));
+    auto  result = pDB->QueryT<TBLD_DATACOUNT, TBLD_DATACOUNT::PLAYERID>(pPlayer->GetID());
     if(result)
     {
         for(size_t i = 0; i < result->get_num_row(); i++)

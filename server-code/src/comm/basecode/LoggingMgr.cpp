@@ -6,6 +6,7 @@
 
 #include "Thread.h"
 #include "FileUtil.h"
+#include "TimeUtil.h"
 
 namespace BaseCode
 {
@@ -47,17 +48,15 @@ void BaseCode::MyLogMsgX(const char* pszName, const char* pszBuffer)
         return;
     auto        curTime     = std::chrono::system_clock::now();
     std::time_t now_c       = std::chrono::system_clock::to_time_t(curTime);
-    auto        localtime_c = std::localtime(&now_c);
-    if(localtime_c == nullptr)
-        return;
+    auto        localtime_c = timeToLocalTime(now_c);
 
-    std::string szLogName = fmt::format("{}/{}_{:%Y-%m-%d}.log", g_logPath, pszName, *localtime_c);
+    std::string szLogName = fmt::format("{}/{}_{:%Y-%m-%d}.log", g_logPath, pszName, localtime_c);
 
     FILE* fp = fopen(szLogName.c_str(), "a+");
     if(nullptr == fp)
         return;
 
-    fmt::print(fp, "{:%H:%M:%S} [{:d}] {:s}\n", *localtime_c, get_cur_thread_id(), pszBuffer);
+    fmt::print(fp, "{:%H:%M:%S} [{:d}] {:s}\n", localtime_c, get_cur_thread_id(), pszBuffer);
 
     fclose(fp);
 }

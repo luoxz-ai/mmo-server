@@ -16,7 +16,6 @@
 #include "Frield.h"
 #include "FrieldSet.h"
 #include "GMManager.h"
-#include "GuildAttr.h"
 #include "IStatus.h"
 #include "Item.h"
 #include "ItemAddition.h"
@@ -42,6 +41,7 @@
 #include "Phase.h"
 #include "Player.h"
 #include "PlayerAchievement.h"
+#include "PlayerGuildAttr.h"
 #include "PlayerTask.h"
 #include "PlayerTaskData.h"
 #include "Scene.h"
@@ -1512,6 +1512,7 @@ void zone2lua(lua_State* L)
     lua_tinker::def(L, "lower_cast_copy", &lower_cast_copy);
     lua_tinker::def(L, "ltrim", &ltrim);
     lua_tinker::def(L, "ltrim_copy", &ltrim_copy);
+    lua_tinker::def(L, "now", &now);
     lua_tinker::def(L, "random_float", &random_float, 0.0f, 1.0f);
     lua_tinker::def(L, "random_hit", &random_hit);
     lua_tinker::def(L, "random_uint32", &random_uint32);
@@ -1521,6 +1522,7 @@ void zone2lua(lua_State* L)
     lua_tinker::def(L, "skip_utf8_bom", &skip_utf8_bom);
     lua_tinker::def(L, "split_string", &split_string);
     lua_tinker::def(L, "split_string_view", &split_string_view);
+    lua_tinker::def(L, "timeToLocalTime", &timeToLocalTime);
     lua_tinker::def(L, "toHex", &toHex);
     lua_tinker::def(L, "trim", &trim);
     lua_tinker::def(L, "trim_copy", &trim_copy);

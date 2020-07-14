@@ -7,6 +7,8 @@
 #include "Player.h"
 #include "ZoneService.h"
 
+void ZoneMessageHandlerRegister();
+
 template<class MsgType, class FuncType>
 void ProcPlayerMsg(CNetworkMessage* pMsg, FuncType func)
 {

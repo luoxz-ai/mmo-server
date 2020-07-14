@@ -23,41 +23,35 @@ public:
 
     void Destory();
 
-    void   OnTimer();
-    
+    void OnTimer();
 
     bool RemoveWait(CEventEntry* pEntry);
 
     bool ScheduleEvent(const CEventEntryCreateParam& param);
-    bool ScheduleEvent(const CEventEntryCreateParam& param,
-                       CEventEntryPtr&     refEntry);
-    bool ScheduleEvent(const CEventEntryCreateParam& param,
-                       CEventEntryQueue&   refEntryQueue);
-    bool ScheduleEvent(const CEventEntryCreateParam& param,
-                       CEventEntryMap&     refEntryMap);
+    bool ScheduleEvent(const CEventEntryCreateParam& param, CEventEntryPtr& refEntry);
+    bool ScheduleEvent(const CEventEntryCreateParam& param, CEventEntryQueue& refEntryQueue);
+    bool ScheduleEvent(const CEventEntryCreateParam& param, CEventEntryMap& refEntryMap);
 
     size_t GetEventCount();
-    void AddEventCount();
-    void SubEventCount();
+    void   AddEventCount();
+    void   SubEventCount();
     size_t GetRunningEventCount();
-    void AddRunningEventCount();
-    void SubRunningEventCount();
+    void   AddRunningEventCount();
+    void   SubRunningEventCount();
 
 protected:
-    CEventEntry* _ScheduleEvent(const CEventEntryCreateParam& param,
-                               CEventEntry*        pEntry,
-                               uint32_t nManagerType);
-    CEventEntry* CreateEntry(const CEventEntryCreateParam& param,
-                             uint32_t nManagerType = 0);
+    CEventEntry* _ScheduleEvent(const CEventEntryCreateParam& param, CEventEntry* pEntry, uint32_t nManagerType);
+    CEventEntry* CreateEntry(const CEventEntryCreateParam& param, uint32_t nManagerType = 0);
     void         PushWait(CEventEntry* pEntry);
     void         ScheduleWait();
 
 protected:
     void _DeleteMapedEvent(CEventEntry* pEntry);
+
 protected:
-    event_base*                        m_pBase = nullptr;
-    bool                               m_bOwnBase = false;
-    std::atomic<size_t>                m_nEventCount = 0;
+    event_base*                        m_pBase              = nullptr;
+    bool                               m_bOwnBase           = false;
+    std::atomic<size_t>                m_nEventCount        = 0;
     std::atomic<size_t>                m_nRunningEventCount = 0;
     std::map<uint32_t, struct timeval> m_mapCommonTimeVal;
     std::map<CEventEntry*, bool>       m_mapEntry;

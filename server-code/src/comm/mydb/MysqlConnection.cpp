@@ -3,7 +3,7 @@
 #include "mysql/errmsg.h"
 
 constexpr int32_t MAX_PING_TIMES_PER_QUERY = 10;
-
+std::mutex g_mysql_init_mutex;
 CMysqlConnection::CMysqlConnection()
     : m_pHandle(nullptr, &mysql_close)
     , m_pAsyncHandle(nullptr, &mysql_close)
@@ -51,7 +51,11 @@ bool CMysqlConnection::Connect(const std::string& host,
 {
     __ENTER_FUNCTION
 
-    m_pHandle.reset(mysql_init(0));
+    {
+        std::unique_lock lock(g_mysql_init_mutex);
+        m_pHandle.reset(mysql_init(0));
+    }
+    
     int32_t nError = 0;
     // mysql_options(m_pHandle.get(), MYSQL_SET_CHARSET_NAME, MYSQL_AUTODETECT_CHARSET_NAME);
     nError                  = mysql_options(m_pHandle.get(), MYSQL_SET_CHARSET_NAME, "utf8");
@@ -104,7 +108,10 @@ bool CMysqlConnection::Connect(const std::string& host,
                 LOGMESSAGE("ThreadID:{}", get_cur_thread_id());
 
                 int32_t nError = 0;
-                m_pAsyncHandle.reset(mysql_init(0));
+                {
+                    std::unique_lock lock(g_mysql_init_mutex);
+                    m_pAsyncHandle.reset(mysql_init(0));
+                }
                 // mysql_options(m_pAsyncHandle.get(), MYSQL_SET_CHARSET_NAME, MYSQL_AUTODETECT_CHARSET_NAME);
                 nError                  = mysql_options(m_pAsyncHandle.get(), MYSQL_SET_CHARSET_NAME, "utf8");
                 nError                  = mysql_set_character_set(m_pAsyncHandle.get(), "utf8");
@@ -336,9 +343,18 @@ uint64_t CMysqlConnection::Update(const std::string& query)
     return 0;
 }
 
+CMysqlResultPtr CMysqlConnection::QueryAll(const std::string& table_name)
+{
+    std::string simple_query = "SELECT * FROM " + table_name;
+    return Query(table_name, simple_query);
+}
+
 CMysqlResultPtr CMysqlConnection::Query(const std::string& table_name, const std::string& query)
 {
     __ENTER_FUNCTION
+    if(query.empty())
+        return QueryAll(table_name);
+    
     std::lock_guard<std::mutex> lock(m_Mutex);
     LOGDBDEBUG("Table:{} Query:{}", table_name.c_str(), query.c_str());
 
@@ -348,19 +364,8 @@ CMysqlResultPtr CMysqlConnection::Query(const std::string& table_name, const std
     }
     for(int32_t i = 0; i < MAX_PING_TIMES_PER_QUERY; i++)
     {
-
         int32_t nError = 0;
-        if(query.empty())
-        {
-            std::string simple_query = "SELECT * FROM " + table_name;
-
-            nError = mysql_real_query(m_pHandle.get(), simple_query.c_str(), simple_query.size());
-        }
-        else
-        {
-            nError = mysql_real_query(m_pHandle.get(), query.c_str(), query.size());
-        }
-
+        nError = mysql_real_query(m_pHandle.get(), query.c_str(), query.size());
         if(nError == 0)
         {
             return UseResult(table_name);

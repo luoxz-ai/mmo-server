@@ -7,6 +7,7 @@
 #include "DBRecord.h"
 #include "Thread.h"
 #include "mysql/mysql.h"
+#include "StringAlgo.h"
 
 class CMysqlConnection;
 class CMysqlStmt;
@@ -40,6 +41,19 @@ private:
 };
 using CMysqlResultPtr = std::unique_ptr<CMysqlResult>;
 
+template<class TABLE_T, uint32_t KEY_IDX, class KEY_T>
+struct DBCond
+{
+    KEY_T key;
+    std::string str() const
+    {
+        std::string result = fmt::format(FMT_STRING("{}={}"), 
+                                        DBFieldHelp<TABLE_T, KEY_IDX>::GetFieldName(),
+                                        key );
+        return result;
+    }
+};
+
 // not thread safe
 class CMysqlConnection
 {
@@ -57,7 +71,9 @@ public:
                             bool               bCreateAsync = false);
     CMysqlStmtPtr   Prepare(const std::string& s);
     CMysqlResultPtr UnionQuery(const std::string& query);
-    CMysqlResultPtr Query(const std::string& table_name, const std::string& query = "");
+
+    CMysqlResultPtr Query(const std::string& table_name, const std::string& query);
+    CMysqlResultPtr QueryAll(const std::string& table_name);
     uint64_t        Update(const std::string& query);
     uint64_t        Insert(const std::string& query);
     bool            SyncExec(const std::string& s);
@@ -110,6 +126,51 @@ public:
         __LEAVE_FUNCTION
         return false;
     }
+
+
+
+
+    template<class TABLE_T, class DB_COND_T>
+    CMysqlResultPtr QueryCond(DB_COND_T&& cond)
+    {
+        std::string sql = fmt::format(FMT_STRING("SELECT * FROM {} WHERE {}"),
+                                      TABLE_T::table_name(),  
+                                      cond.str());
+        return Query(TABLE_T::table_name(), sql);
+    }
+
+    template<class TABLE_T, class ... DB_COND_T>
+    CMysqlResultPtr QueryMultiCond(DB_COND_T&& ... conds)
+    {
+        std::vector<std::string> cond_vec;
+        (cond_vec.emplace_back(conds.str()), ... );
+        std::string cond_str = string_concat(cond_vec, " AND ", "", "");
+        std::string sql = fmt::format(FMT_STRING("SELECT * FROM {} WHERE {}"),
+                                      TABLE_T::table_name(),  
+                                      cond_str);
+        return Query(TABLE_T::table_name(), sql);
+    }
+
+    template<class TABLE_T, uint32_t KEY_IDX, class KEY_T>
+    CMysqlResultPtr QueryT(KEY_T key)
+    {
+        std::string sql = fmt::format(FMT_STRING("SELECT * FROM {} WHERE {}={}"),
+                                      TABLE_T::table_name(),  
+                                      DBFieldHelp<TABLE_T, KEY_IDX>::GetFieldName(),
+                                      key);
+        return Query(TABLE_T::table_name(), sql);
+    }
+    
+    template<class TABLE_T, uint32_t KEY_IDX, class KEY_T>
+    CMysqlResultPtr QueryTLimit(KEY_T key, uint32_t limit)
+    {
+        std::string sql = fmt::format(FMT_STRING("SELECT * FROM {} WHERE {}={} LIMIT {}"),
+                                      TABLE_T::table_name(),  
+                                      DBFieldHelp<TABLE_T, KEY_IDX>::GetFieldName(),
+                                      key, limit);
+        return Query(TABLE_T::table_name(), sql);
+    }
+
 
 private:
     uint64_t        GetInsertID();

@@ -1,6 +1,6 @@
 syntax = "proto3";
 import "msg/ts_cmd.proto";
-
+import "common/Common.proto";
 //通知前端读取地图
 message SC_LOADMAP
 {
@@ -548,7 +548,7 @@ message CS_ACHI_TAKE
 {
 	uint32 achi_id = 1;
 }
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 message CS_TEAMCREATE {}
 
 message CS_TEAMQUIT {}
@@ -584,14 +584,7 @@ message CS_TEAMNEWLEADER
 
 message SC_TEAMMEMBER_INFO
 {
-	message MemberInfo
-	{
-		uint64 member_id	 = 1;
-		uint32 member_lev	 = 2;
-		bool   member_online = 3;
-		string member_name	 = 4;
-	}
-	repeated MemberInfo member_list = 1;
+	repeated TeamMemberInfo member_list = 1;
 }
 
 message SC_TEAMMEMBER_ACTION
@@ -628,6 +621,93 @@ message SC_TEAMAPPLYMEMBER
 }
 
 message CS_TEAMACCEPTAPPLY
+{
+	uint64 applicant_id = 1; //申请者id
+	bool   result		= 2; //是否同意
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+message CS_GUILDCREATE {}
+
+message CS_GUILDQUIT {}
+
+message CS_GUILDKICKMEMBER
+{
+	uint64 member_id = 1;
+}
+
+message CS_GUILDINVITEMEMBER
+{
+	uint64 invitee_id = 1; //被邀请者id
+}
+
+message SC_GUILDINVITEMEMBER
+{
+	uint64 guild_id		= 1; //队伍id
+	uint64 inviter_id	= 2; //邀请者
+	string inviter_name = 3; //邀请者名字
+}
+
+message CS_GUILDACCEPTINVITE
+{
+	uint64 guild_id	  = 1; //队伍id
+	uint64 inviter_id = 2; //邀请者
+	bool   result	  = 3; //是否同意
+}
+
+message CS_GUILDNEWLEADER
+{
+	uint64 new_leader_id = 2; //邀请者
+}
+
+message SC_GUILDMEMBER_INFO
+{
+	repeated GuildMemberInfo member_list = 1;
+}
+
+message SC_GUILDMEMBER_ACTION
+{
+	enum Action
+	{
+        GUILD_CREATE            = 0; // member_id=guild_id;
+        GUILD_DESTORY           = 1;
+        GUILD_ADDMEBER          = 2;
+        GUILD_CHANGE_LEADER     = 3; // member_id=new_leader_id;
+        GUILD_QUIT              = 4;
+        GUILD_KICKMEMBER        = 5;
+		GUILD_ACCEPTAPPLY		= 6;
+
+        GUILD_MEMBER_LEV_CHG    = 10;
+        GUILD_MEMBER_NAME_CHG   = 11;
+		GUILD_MEMBER_ONLINE_CHG = 12;
+		GUILD_MEMBER_RANK_CHG   = 13;
+		GUILD_MEMBER_SCORE_CHG  = 14;
+    }
+	Action action		 = 1;
+	uint64 operator_id	 = 2;
+	uint64 member_id	 = 3;
+	uint32 member_lev	 = 4;
+	string member_name	 = 5;
+	bool   member_online = 6;
+	uint32 member_rank   = 7;
+	uint32 member_score  = 8;
+	uint32 member_last_logout  = 9;
+}
+
+message CS_GUILDAPPLYMEMBER
+{
+	uint64 respondent_id = 1; //被申请人id
+}
+
+message SC_GUILDAPPLYMEMBER
+{
+	uint64 applicant_id	  = 1; //申请者id
+	string applicant_name = 2; //申请者名字
+}
+
+message CS_GUILDACCEPTAPPLY
 {
 	uint64 applicant_id = 1; //申请者id
 	bool   result		= 2; //是否同意

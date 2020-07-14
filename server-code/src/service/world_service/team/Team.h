@@ -19,7 +19,7 @@ public:
     ~CTeam();
 
     void SendTeamAction(uint32_t nAction, OBJID idOperator, OBJID idMember);
-    void SendTeamMemberInfo(const SC_TEAMMEMBER_INFO::MemberInfo& info);
+    void SendTeamMemberInfo(const TeamMemberInfo& info);
     void SendAllTeamMemberInfo(CUser* pUser);
 
 public:
@@ -44,7 +44,7 @@ public:
 private:
     uint64_t                                    m_idTeam;
     uint64_t                                    m_idLeader;
-    std::vector<SC_TEAMMEMBER_INFO::MemberInfo> m_setMember;
+    std::vector<TeamMemberInfo> m_setMember;
     std::unordered_set<uint64_t>                m_setInvite;
     std::unordered_set<uint64_t>                m_setApply;
 

@@ -35,7 +35,7 @@ template<class T>
 class CGameDataContainer : public Noncopyable
 {
 protected:
-    std::string_view GET_NAME()
+    static constexpr std::string_view GET_NAME()
     {
         constexpr auto t_name = NAMEOF_TYPE(T);
         return t_name;

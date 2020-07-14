@@ -23,6 +23,8 @@
 #include "UserManager.h"
 #include "gamedb.h"
 #include "globaldb.h"
+#include "MsgWorldProcess.h"
+#include "GuildManager.h"
 
 
 static thread_local CWorldService* tls_pService = nullptr;
@@ -102,15 +104,14 @@ bool CWorldService::Init(const ServerPort& nServerPort)
     m_pTeamManager.reset(CTeamManager::CreateNew());
     CHECKF(m_pTeamManager.get());
 
-    extern void RegisterWorldMessageHandler();
+
+    
     RegisterWorldMessageHandler();
 
     auto pGlobalDB = ConnectGlobalDB();
     //通过globaldb查询localdb
 
-    auto result = pGlobalDB->Query(
-        TBLD_DBINFO::table_name(),
-        fmt::format(FMT_STRING("SELECT * FROM {} WHERE worldid={} LIMIT 1"), TBLD_DBINFO::table_name(), GetWorldID()));
+    auto result = pGlobalDB->QueryTLimit<TBLD_DBINFO, TBLD_DBINFO::WORLDID>(GetWorldID(), 1);
     if(result == nullptr || result->get_num_row() == 0)
     {
         LOGFATAL("CWorldService::Create fail:gamedb info error");
@@ -166,6 +167,9 @@ bool CWorldService::Init(const ServerPort& nServerPort)
     DEFINE_CONFIG_LOAD(CUserAttrSet);
     DEFINE_CONFIG_LOAD(CBornPosSet);
 
+    m_pGuildManager.reset(CGuildManager::CreateNew());
+    CHECKF(m_pGuildManager.get());
+
     m_pMapManager.reset(CMapManager::CreateNew(0));
     CHECKF(m_pMapManager.get());
 
@@ -178,6 +182,7 @@ bool CWorldService::Init(const ServerPort& nServerPort)
     if(CreateService(100) == false)
         return false;
 
+    //设置等待哪些服ready
     GetMessageRoute()->ForeachServiceInfoByWorldID(GetWorldID(), false, [this](const ServerAddrInfo* info) {
         if(info->idService == WORLD_SERVICE_ID ||
            (info->idService >= MIN_AI_SERVICE_ID && info->idService <= MAX_AI_SERVICE_ID))
