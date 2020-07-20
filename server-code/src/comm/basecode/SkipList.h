@@ -27,7 +27,7 @@ public:
 
     struct CSkipListNode* m_header = nullptr;
     struct CSkipListNode* m_tail   = nullptr;
-    unsigned long         m_length = 0;
+    uint32_t         m_length = 0;
     int32_t               m_level  = 1;
 
 public:
@@ -143,10 +143,10 @@ public:
 
     /* Delete all the elements with rank between start and end from the skiplist.
      * Start and end are inclusive. Note that start and end need to be 1-based */
-    unsigned long DeleteByRank(uint32_t start, uint32_t end, std::function<void(uint64_t member, uint64_t score)> cb)
+    uint32_t DeleteByRank(uint32_t start, uint32_t end, std::function<void(uint64_t member, uint64_t score)> cb)
     {
         CSkipListNode* update[SKIPLIST_MAXLEVEL];
-        unsigned long  traversed = 0, removed = 0;
+        uint32_t  traversed = 0, removed = 0;
         CSkipListNode* x = m_header;
         for(int32_t i = m_level - 1; i >= 0; i--)
         {
@@ -177,10 +177,10 @@ public:
      * Returns 0 when the element cannot be found, rank otherwise.
      * Note that the rank is 1-based due to the span of header to the
      * first element. */
-    unsigned long GetRank(uint64_t score, uint64_t member) const
+    uint32_t GetRank(uint64_t score, uint64_t member) const
     {
         CSkipListNode* x    = m_header;
-        unsigned long  rank = 0;
+        uint32_t  rank = 0;
         for(int32_t i = m_level - 1; i >= 0; i--)
         {
             while(x->m_level[i].m_forward && (x->m_level[i].m_forward->m_score > score ||
@@ -201,7 +201,7 @@ public:
     }
 
     /* Finds an element by its rank. The rank argument needs to be 1-based. */
-    CSkipListNode* GetNodeByRank(unsigned long rank) const
+    CSkipListNode* GetNodeByRank(uint32_t rank) const
     {
         if(rank == 0 || rank > m_length)
         {
@@ -209,7 +209,7 @@ public:
         }
 
         CSkipListNode* x         = m_header;
-        unsigned long  traversed = 0;
+        uint32_t  traversed = 0;
         for(int32_t i = m_level - 1; i >= 0; i--)
         {
             while(x->m_level[i].m_forward && (traversed + x->m_level[i].m_span) <= rank)

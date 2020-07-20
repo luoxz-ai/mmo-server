@@ -46,7 +46,7 @@ bool CMysqlConnection::Connect(const std::string& host,
                                const std::string& password,
                                const std::string& db,
                                uint32_t           port,
-                               unsigned long      client_flag,
+                               uint32_t      client_flag,
                                bool               bCreateAsync)
 {
     __ENTER_FUNCTION

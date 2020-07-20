@@ -50,7 +50,7 @@ std::string string_concat(const std::vector<std::string>& vecStr,
                           const std::string&       post)
 {
     std::string result;
-    int         i = 0;
+    int32_t         i = 0;
     for(const auto& v: vecStr)
     {
         if(result.empty() == false)
@@ -96,7 +96,7 @@ const char* PrimitiveTypeName(const google::protobuf::FieldDescriptor* field_des
             {
                 return "smallint";
             }
-            return "int";
+            return "int32_t";
         }
         case FieldDescriptor::TYPE_BOOL:
             return "tinyint";
@@ -109,7 +109,7 @@ const char* PrimitiveTypeName(const google::protobuf::FieldDescriptor* field_des
         case FieldDescriptor::TYPE_BYTES:
             return "blob";
         case FieldDescriptor::TYPE_ENUM:
-            return "int";
+            return "int32_t";
 
             // No default because we want the compiler to complain if any new
             // CppTypes are added.
@@ -314,7 +314,7 @@ void PrintMessage(const google::protobuf::Descriptor& message_descriptor, google
     std::unordered_map<std::string, std::vector<std::string> > keys_list;
     std::unordered_map<std::string, std::vector<std::string> > unique_list;
 
-    for(int i = 0; i < message_descriptor.field_count(); ++i)
+    for(int32_t i = 0; i < message_descriptor.field_count(); ++i)
     {
         auto desc = message_descriptor.field(i);
 
@@ -405,7 +405,7 @@ bool SQLCodeGenerator::Generate(const google::protobuf::FileDescriptor*       fi
     GOOGLE_CHECK(output.get());
     google::protobuf::io::Printer printer(output.get(), '$');
 
-    for(int i = 0; i < file->message_type_count(); ++i)
+    for(int32_t i = 0; i < file->message_type_count(); ++i)
     {
         PrintMessage(*file->message_type(i), printer);
         printer.Print("\n");

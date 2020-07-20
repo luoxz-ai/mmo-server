@@ -194,9 +194,9 @@ public:
         return val;
     }
 
-    unsigned long QueryULong(const std::string& AttName, int32_t _base = 10) const
+    uint32_t QueryULong(const std::string& AttName, int32_t _base = 10) const
     {
-        unsigned long val = 0;
+        uint32_t val = 0;
         auto          it  = m_setAttrib.find(AttName);
         if(it != m_setAttrib.end() && it->second.empty() == false)
         {

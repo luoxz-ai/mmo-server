@@ -368,7 +368,7 @@ Quaternion Quaternion::Slerp(float fT, const Quaternion& rkP, const Quaternion& 
     }
 }
 //-----------------------------------------------------------------------
-Quaternion Quaternion::SlerpExtraSpins(float fT, const Quaternion& rkP, const Quaternion& rkQ, int iExtraSpins)
+Quaternion Quaternion::SlerpExtraSpins(float fT, const Quaternion& rkP, const Quaternion& rkQ, int32_t iExtraSpins)
 {
     float  fCos = rkP.Dot(rkQ);
     Radian fAngle(Math::ACos(fCos));

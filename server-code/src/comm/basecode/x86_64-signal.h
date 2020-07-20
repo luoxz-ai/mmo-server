@@ -22,7 +22,7 @@ details.  */
 #define HANDLE_SEGV 1
 #define HANDLE_FPE  1
 
-#define SIGNAL_HANDLER(_name) static void _Jv_##_name(int, siginfo_t*, void* _p __attribute__((__unused__)))
+#define SIGNAL_HANDLER(_name) static void _Jv_##_name(int32_t, siginfo_t*, void* _p __attribute__((__unused__)))
 
 #define HANDLE_DIVIDE_OVERFLOW                                                                    \
     do                                                                                            \
@@ -103,8 +103,8 @@ extern "C"
 {
     struct kernel_sigaction
     {
-        void (*k_sa_sigaction)(int, siginfo_t*, void*);
-        unsigned long k_sa_flags;
+        void (*k_sa_sigaction)(int32_t, siginfo_t*, void*);
+        uint32_t k_sa_flags;
         void (*k_sa_restorer)(void);
         sigset_t k_sa_mask;
     };

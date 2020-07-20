@@ -244,10 +244,10 @@ public:
     static constexpr float            fRad2Deg     = 180.0f / PI;
     static constexpr AngleUnit        msAngleUnit  = AU_DEGREE;
 
-    export_lua static inline int IAbs(int iValue) { return (iValue >= 0 ? iValue : -iValue); }
-    export_lua static inline int ICeil(float fValue) { return int(std::ceil(fValue)); }
-    export_lua static inline int IFloor(float fValue) { return int(std::floor(fValue)); }
-    export_lua static inline int ISign(int iValue) { return (iValue > 0 ? +1 : (iValue < 0 ? -1 : 0)); }
+    export_lua static inline int32_t IAbs(int32_t iValue) { return (iValue >= 0 ? iValue : -iValue); }
+    export_lua static inline int32_t ICeil(float fValue) { return int32_t(std::ceil(fValue)); }
+    export_lua static inline int32_t IFloor(float fValue) { return int32_t(std::floor(fValue)); }
+    export_lua static inline int32_t ISign(int32_t iValue) { return (iValue > 0 ? +1 : (iValue < 0 ? -1 : 0)); }
 
     export_lua static inline float  Abs(float fValue) { return std::abs(fValue); }
     export_lua static inline Degree Abs(const Degree& dValue) { return Degree(std::abs(dValue.valueDegrees())); }
@@ -310,7 +310,7 @@ public:
         // return log10(target) / log10(2);
     }
 
-    export_lua static inline unsigned int nextPow2(unsigned int v)
+    export_lua static inline uint32_t nextPow2(uint32_t v)
     {
         v--;
         v |= v >> 1;
@@ -322,10 +322,10 @@ public:
         return v;
     }
 
-    export_lua static inline unsigned int ilog2(unsigned int v)
+    export_lua static inline uint32_t ilog2(uint32_t v)
     {
-        unsigned int r;
-        unsigned int shift;
+        uint32_t r;
+        uint32_t shift;
         r = (v > 0xffff) << 4;
         v >>= r;
         shift = (v > 0xff) << 3;

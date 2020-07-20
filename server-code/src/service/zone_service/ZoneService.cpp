@@ -567,7 +567,7 @@ void CZoneService::OnLogicThreadProc()
         if(IsSharedZone() == false)
         {
             check_func(WORLD_SERVICE_ID);
-            for(int i = MIN_SOCKET_SERVICE_ID; i <= MAX_SOCKET_SERVICE_ID; i++)
+            for(int32_t i = MIN_SOCKET_SERVICE_ID; i <= MAX_SOCKET_SERVICE_ID; i++)
             {
                 check_func(i);
             }

@@ -240,7 +240,7 @@ bool GameMath::Intersection::intersects(const Ray& ray, const AxisAlignedBox& bo
     absDir[2] = Math::Abs(raydir[2]);
 
     // Sort the axis, ensure check minimise floating error axis first
-    int imax = 0, imid = 1, imin = 2;
+    int32_t imax = 0, imid = 1, imin = 2;
     if(absDir[0] < absDir[2])
     {
         imax = 2;

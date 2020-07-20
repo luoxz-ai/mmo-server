@@ -251,7 +251,7 @@ void Matrix3::Bidiagonalize(Matrix3& kA, Matrix3& kL, Matrix3& kR)
         }
         else
         {
-            for(int iRow = 0; iRow < 3; iRow++)
+            for(int32_t iRow = 0; iRow < 3; iRow++)
             {
                 float fTmp0 = kL[iRow][1];
                 float fTmp1 = kL[iRow][2];
@@ -368,7 +368,7 @@ void Matrix3::GolubKahanStep(Matrix3& kA, Matrix3& kL, Matrix3& kR)
 void Matrix3::SingularValueDecomposition(Matrix3& kL, Vector3& kS, Matrix3& kR) const
 {
     // temas: currently unused
-    // const int iMax = 16;
+    // const int32_t iMax = 16;
     size_t iRow, iCol;
 
     Matrix3 kA = *this;
@@ -383,7 +383,7 @@ void Matrix3::SingularValueDecomposition(Matrix3& kL, Vector3& kS, Matrix3& kR) 
     float const epsilon    = std::numeric_limits<float>::epsilon();
     float const threshold  = multiplier * epsilon * norm;
 
-    for(unsigned int i = 0;; i++)
+    for(uint32_t i = 0;; i++)
     {
         if(i == msSvdMaxIterations)
         {
@@ -515,7 +515,7 @@ void Matrix3::SingularValueComposition(const Matrix3& kL, const Vector3& kS, con
         for(iCol = 0; iCol < 3; iCol++)
         {
             m[iRow][iCol] = 0.0;
-            for(int iMid = 0; iMid < 3; iMid++)
+            for(int32_t iMid = 0; iMid < 3; iMid++)
                 m[iRow][iCol] += kL[iRow][iMid] * kTmp[iMid][iCol];
         }
     }
@@ -613,7 +613,7 @@ float Matrix3::MaxCubicRoot(float afCoeff[3])
 
     // Newton's method to find root
     float fTwoC2 = 2.0f * afCoeff[2];
-    for(int i = 0; i < 16; i++)
+    for(int32_t i = 0; i < 16; i++)
     {
         fPoly = afCoeff[0] + fX * (afCoeff[1] + fX * (afCoeff[2] + fX));
         if(Math::Abs(fPoly) <= fEpsilon)
@@ -636,7 +636,7 @@ float Matrix3::SpectralNorm() const
         for(iCol = 0; iCol < 3; iCol++)
         {
             kP[iRow][iCol] = 0.0;
-            for(int iMid = 0; iMid < 3; iMid++)
+            for(int32_t iMid = 0; iMid < 3; iMid++)
             {
                 kP[iRow][iCol] += m[iMid][iRow] * m[iMid][iCol];
             }
@@ -1165,13 +1165,13 @@ bool Matrix3::QLAlgorithm(float afDiag[3], float afSubDiag[3])
     // QL iteration with implicit shifting to reduce matrix from tridiagonal
     // to diagonal
 
-    for(int i0 = 0; i0 < 3; i0++)
+    for(int32_t i0 = 0; i0 < 3; i0++)
     {
-        const unsigned int iMaxIter = 32;
-        unsigned int       iIter;
+        const uint32_t iMaxIter = 32;
+        uint32_t       iIter;
         for(iIter = 0; iIter < iMaxIter; iIter++)
         {
-            int i1;
+            int32_t i1;
             for(i1 = i0; i1 <= 1; i1++)
             {
                 float fSum = Math::Abs(afDiag[i1]) + Math::Abs(afDiag[i1 + 1]);
@@ -1190,7 +1190,7 @@ bool Matrix3::QLAlgorithm(float afDiag[3], float afSubDiag[3])
             float fSin  = 1.0;
             float fCos  = 1.0;
             float fTmp2 = 0.0;
-            for(int i2 = i1 - 1; i2 >= i0; i2--)
+            for(int32_t i2 = i1 - 1; i2 >= i0; i2--)
             {
                 float fTmp3 = fSin * afSubDiag[i2];
                 float fTmp4 = fCos * afSubDiag[i2];
@@ -1216,7 +1216,7 @@ bool Matrix3::QLAlgorithm(float afDiag[3], float afSubDiag[3])
                 afDiag[i2 + 1] = fTmp0 + fTmp2;
                 fTmp0          = fCos * fTmp1 - fTmp4;
 
-                for(int iRow = 0; iRow < 3; iRow++)
+                for(int32_t iRow = 0; iRow < 3; iRow++)
                 {
                     fTmp3           = m[iRow][i2 + 1];
                     m[iRow][i2 + 1] = fSin * m[iRow][i2] + fCos * fTmp3;

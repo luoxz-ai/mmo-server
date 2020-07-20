@@ -130,7 +130,7 @@ public:
 
 public:
 public:
-    unsigned long Release()
+    uint32_t Release()
     {
         delete this;
         return 0;

@@ -206,10 +206,10 @@ int32_t DayDiffLocal(time_t time1, time_t time2)
     if(tm2.tm_year != tm1.tm_year)
     { 
         //不同一年
-        int nDayDiffYear = 0;
+        int32_t nDayDiffYear = 0;
         int32_t year1 = std::min<int32_t>(tm1.tm_year,tm2.tm_year);
         int32_t year2 = std::max<int32_t>(tm1.tm_year,tm2.tm_year);
-        for(int i = year1; i < year2; i++)
+        for(int32_t i = year1; i < year2; i++)
         {
             if(isleap(1900+i))
             { 
@@ -252,7 +252,7 @@ int32_t WeekDiffLocal(time_t time1, time_t time2)
     time_t time2_weekstart_time = time2 - (tm2.tm_wday * 86400);
     
 
-    int daydiff = DayDiffLocal(time1_weekstart_time, time2_weekstart_time);
+    int32_t daydiff = DayDiffLocal(time1_weekstart_time, time2_weekstart_time);
 
     return daydiff / 7;
     __LEAVE_FUNCTION

@@ -42,7 +42,7 @@ Matrix4 operator*(const Matrix4& m, const Matrix4& m2);
             [ m[3][0]  m[3][1]  m[3][2]  m[3][3] ]   {1}
         </pre>
 */
-template<int rows>
+template<int32_t rows>
 class TransformBase
 {
 protected:
@@ -56,8 +56,8 @@ public:
     template<typename U>
     explicit TransformBase(const U* ptr)
     {
-        for(int i = 0; i < rows; i++)
-            for(int j = 0; j < 4; j++)
+        for(int32_t i = 0; i < rows; i++)
+            for(int32_t j = 0; j < 4; j++)
                 m[i][j] = float(ptr[i * 4 + j]);
     }
 

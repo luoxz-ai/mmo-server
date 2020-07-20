@@ -46,7 +46,7 @@ using HMODULE = void*;
 using HANDLE  = void*;
 
 #ifndef SOCKET
-using SOCKET = unsigned int;
+using SOCKET = uint32_t;
 #endif
 
 ///////////////////////////////////////////////////////////////////////

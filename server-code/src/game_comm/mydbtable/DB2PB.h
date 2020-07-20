@@ -38,7 +38,7 @@ public:
         auto result_ptr = pDB->template QueryT<TABLE_T, nKeyID>(key);
         if(result_ptr)
         {
-            for(int i = 0; i < result_ptr->get_num_row(); i++)
+            for(int32_t i = 0; i < result_ptr->get_num_row(); i++)
             {
                 auto pDBRecord = result_ptr->fetch_row(false);
                 if(pDBRecord)
@@ -60,7 +60,7 @@ public:
         using namespace google::protobuf;
         const Descriptor* msg_desc = PROTO_T::GetDescriptor();
         const Reflection* reflect  = PROTO_T::GetReflection();
-        for(int i = 0; i < msg_desc->field_count(); i++)
+        for(int32_t i = 0; i < msg_desc->field_count(); i++)
         {
             const auto& field_ptr  = pDBRecord->Field(i);
             auto        field_desc = msg_desc->field(i);
@@ -105,7 +105,7 @@ public:
         using namespace google::protobuf;
         const Descriptor* msg_desc = PROTO_T::GetDescriptor();
         const Reflection* reflect  = PROTO_T::GetReflection();
-        for(int i = 0; i < msg_desc->field_count(); i++)
+        for(int32_t i = 0; i < msg_desc->field_count(); i++)
         {
             auto& field_ptr  = pDBRecord->Field(i);
             auto  field_desc = msg_desc->field(i);

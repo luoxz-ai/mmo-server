@@ -32,7 +32,7 @@ struct MsgProcRegCenter
         static MsgProcRegCenter<Service> s_instance;
         return s_instance;
     }
-    void reg(int cmd, const char* name, MsgProcessFunc&& func)
+    void reg(int32_t cmd, const char* name, MsgProcessFunc&& func)
     {
         CHECK_FMT(m_MsgProc.find(cmd) == m_MsgProc.end(), "dup register msg:{}", cmd);
         m_MsgProc.emplace(cmd, std::make_tuple(name, std::move(func) ));
@@ -43,7 +43,7 @@ struct MsgProcRegCenter
 template<class Service>
 struct MsgProcRegister
 {
-    MsgProcRegister(int cmd, const char* name, MsgProcessFunc&& func)
+    MsgProcRegister(int32_t cmd, const char* name, MsgProcessFunc&& func)
     {
         MsgProcRegCenter<Service>::instance().reg(cmd, name, std::move(func));
     }

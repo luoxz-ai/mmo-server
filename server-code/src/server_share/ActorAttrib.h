@@ -181,7 +181,7 @@ public:
     {
         auto ref  = row.GetReflection();
         auto desc = row.GetDescriptor();
-        for(int i = ATTRIB_HP_MAX; i < ATTRIB_MAX; i++)
+        for(int32_t i = ATTRIB_HP_MAX; i < ATTRIB_MAX; i++)
         {
             auto field_desc = desc->FindFieldByNumber(i);
             if(field_desc)
@@ -196,7 +196,7 @@ public:
     {
         auto ref  = row.GetReflection();
         auto desc = row.GetDescriptor();
-        for(int i = ATTRIB_HP_MAX; i < ATTRIB_MAX; i++)
+        for(int32_t i = ATTRIB_HP_MAX; i < ATTRIB_MAX; i++)
         {
             auto field_desc = desc->FindFieldByNumber(i);
             if(field_desc)

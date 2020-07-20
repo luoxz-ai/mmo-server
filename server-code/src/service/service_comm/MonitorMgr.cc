@@ -1,7 +1,7 @@
 #include "MonitorMgr.h"
 #include "BaseCode.h"
 
-int CMonitorMgr::CmdProcessStart(int iCmdID)
+int32_t CMonitorMgr::CmdProcessStart(int32_t iCmdID)
 {
 	RecvMsgIter iter = m_RecvMsgMap.find(iCmdID);
     if(m_RecvMsgMap.end() != iter)
@@ -22,7 +22,7 @@ int CMonitorMgr::CmdProcessStart(int iCmdID)
     return 0;
 }
 
-int CMonitorMgr::CmdProcessEnd(int iCmdID)
+int32_t CMonitorMgr::CmdProcessEnd(int32_t iCmdID)
 {
     RecvMsgIter iter = m_RecvMsgMap.find(iCmdID);
     if(m_RecvMsgMap.end() != iter)
@@ -39,7 +39,7 @@ int CMonitorMgr::CmdProcessEnd(int iCmdID)
 }
 
 
-void CMonitorMgr::AddSendInfo(int iCmdID, uint32_t bytes_size)
+void CMonitorMgr::AddSendInfo(int32_t iCmdID, uint32_t bytes_size)
 {
 	SendToClientMsgNode &d = m_SendToClientMsgMap[iCmdID];
 	d.iCount++;
@@ -47,7 +47,7 @@ void CMonitorMgr::AddSendInfo(int iCmdID, uint32_t bytes_size)
 }
 
 
-void CMonitorMgr::AddSendInfo_broad(int iCmdID, uint32_t bytes_size)
+void CMonitorMgr::AddSendInfo_broad(int32_t iCmdID, uint32_t bytes_size)
 {
 	SendToClientMsgNode &d = m_SendToClientMsgMap_broad[iCmdID];
 	d.iCount++;
@@ -55,7 +55,7 @@ void CMonitorMgr::AddSendInfo_broad(int iCmdID, uint32_t bytes_size)
 }
 
 
-void CMonitorMgr::AddSendInfo_some(int iCmdID, uint32_t bytes_size, uint32_t count)
+void CMonitorMgr::AddSendInfo_some(int32_t iCmdID, uint32_t bytes_size, uint32_t count)
 {
 	SendToClientMsgNode &d = m_SendToClientMsgMap_some[iCmdID];
 	d.iCount++;
@@ -77,7 +77,7 @@ void CMonitorMgr::Add(const char* name, int32_t uTime)
     }
 }
 
-int CMonitorMgr::Print()
+int32_t CMonitorMgr::Print()
 {
     // 打印监控日志
     LOGMONITOR("=========recv msg handle begin=========");

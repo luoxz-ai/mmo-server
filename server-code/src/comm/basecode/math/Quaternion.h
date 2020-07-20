@@ -238,7 +238,7 @@ public:
         by parameter 'iExtraSpins' while interpolating before arriving to the
         final values
     */
-    static Quaternion SlerpExtraSpins(float fT, const Quaternion& rkP, const Quaternion& rkQ, int iExtraSpins);
+    static Quaternion SlerpExtraSpins(float fT, const Quaternion& rkP, const Quaternion& rkQ, int32_t iExtraSpins);
 
     /// Setup for spherical quadratic interpolation
     static void Intermediate(const Quaternion& rkQ0,

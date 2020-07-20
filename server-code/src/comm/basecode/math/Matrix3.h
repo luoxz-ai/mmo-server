@@ -230,7 +230,7 @@ protected:
     bool QLAlgorithm(float afDiag[3], float afSubDiag[3]);
 
     // support for singular value decomposition
-    static constexpr unsigned int msSvdMaxIterations = 64;
+    static constexpr uint32_t msSvdMaxIterations = 64;
     static void               Bidiagonalize(Matrix3& kA, Matrix3& kL, Matrix3& kR);
     static void               GolubKahanStep(Matrix3& kA, Matrix3& kL, Matrix3& kR);
 

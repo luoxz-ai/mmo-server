@@ -222,7 +222,7 @@ ON_SERVERMSG(CAIService, SyncTaskPhase)
     CAIPlayer* pPlayer = pActor->CastTo<CAIPlayer>();
     CHECK(pPlayer);
     pPlayer->ClearTaskPhase();
-    for(int i = 0; i < msg.task_phase_id_size(); i++)
+    for(int32_t i = 0; i < msg.task_phase_id_size(); i++)
     {
         pPlayer->AddTaskPhase(msg.task_phase_id(i));
     }

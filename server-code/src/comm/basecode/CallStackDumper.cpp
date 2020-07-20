@@ -140,7 +140,7 @@ namespace
 // 	return name;
 // 	;
 #else
-        sprintf(buf, "/proc/%d/cmdline", (int)getpid());
+        sprintf(buf, "/proc/%d/cmdline", (int32_t)getpid());
         FILE* fp = fopen(buf, "rb");
         if(!fp)
         {

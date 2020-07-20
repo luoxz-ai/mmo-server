@@ -196,17 +196,17 @@
 #include <fmt/format.h>
 #include <fmt/printf.h>
 //! logger ID type. DO NOT TOUCH
-typedef int LoggerId;
+typedef int32_t LoggerId;
 
 //! the invalid logger id. DO NOT TOUCH
-const int LOG4Z_INVALID_LOGGER_ID = -1;
+const int32_t LOG4Z_INVALID_LOGGER_ID = -1;
 
 //! the main logger id. DO NOT TOUCH
 //! can use this id to set the main logger's attribute.
 //! example:
 //! ILog4zManager::getPtr()->setLoggerLevel(LOG4Z_MAIN_LOGGER_ID, LOG_LEVEL_WARN);
 //! ILog4zManager::getPtr()->setLoggerDisplay(LOG4Z_MAIN_LOGGER_ID, false);
-const int LOG4Z_MAIN_LOGGER_ID = 0;
+const int32_t LOG4Z_MAIN_LOGGER_ID = 0;
 
 //! the main logger name. DO NOT TOUCH
 const char* const LOG4Z_MAIN_LOGGER_KEY = "Main";
@@ -237,13 +237,13 @@ enum ENUM_LOG_LEVEL
 //! -----------------default logger config, can change on this.-----------
 //////////////////////////////////////////////////////////////////////////
 //! the max logger count.
-const int LOG4Z_LOGGER_MAX = 1024;
+const int32_t LOG4Z_LOGGER_MAX = 1024;
 //! the max log content length.
-const int LOG4Z_LOG_BUF_SIZE = 1024 * 8;
+const int32_t LOG4Z_LOG_BUF_SIZE = 1024 * 8;
 //! the max stl container depth.
-const int LOG4Z_LOG_CONTAINER_DEPTH = 5;
+const int32_t LOG4Z_LOG_CONTAINER_DEPTH = 5;
 //! the log queue length limit size.
-const int LOG4Z_LOG_QUEUE_LIMIT_SIZE = 20000;
+const int32_t LOG4Z_LOG_QUEUE_LIMIT_SIZE = 20000;
 
 //! all logger synchronous output or not
 const bool LOG4Z_ALL_SYNCHRONOUS_OUTPUT = false;
@@ -253,7 +253,7 @@ const bool LOG4Z_ALL_DEBUGOUTPUT_DISPLAY = false;
 //! default logger output file.
 const char* const LOG4Z_DEFAULT_PATH = "./log/";
 //! default log filter level
-const int LOG4Z_DEFAULT_LEVEL = LOG_LEVEL_DEBUG;
+const int32_t LOG4Z_DEFAULT_LEVEL = LOG_LEVEL_DEBUG;
 //! default logger display
 const bool LOG4Z_DEFAULT_DISPLAY = true;
 //! default logger output to file
@@ -261,7 +261,7 @@ const bool LOG4Z_DEFAULT_OUTFILE = true;
 //! default logger month dir used status
 const bool LOG4Z_DEFAULT_MONTHDIR = false;
 //! default logger output file limit size, unit M byte.
-const int LOG4Z_DEFAULT_LIMITSIZE = 2000;
+const int32_t LOG4Z_DEFAULT_LIMITSIZE = 2000;
 //! default logger show suffix (file name and line number)
 const bool LOG4Z_DEFAULT_SHOWSUFFIX = true;
 //! support ANSI->OEM console conversion on Windows
@@ -289,9 +289,9 @@ _ZSUMMER_LOG4Z_BEGIN
 struct LogData
 {
     LoggerId _id;   // dest logger id
-    int      _type; // type.
-    int      _typeval;
-    int      _level;   // log level
+    int32_t      _type; // type.
+    int32_t      _typeval;
+    int32_t      _level;   // log level
     time_t   _time;    // create time
     uint32_t _precise; // create time
     
@@ -333,15 +333,15 @@ public:
     virtual LoggerId findLogger(const char* key) = 0;
 
     // pre-check the log filter. if filter out return false.
-    virtual bool prePushLog(LoggerId id, int level) = 0;
+    virtual bool prePushLog(LoggerId id, int32_t level) = 0;
     //! Push log, thread safe.
-    virtual bool pushLog(LogData* pLog, const char* file = NULL, int line = 0) = 0;
+    virtual bool pushLog(LogData* pLog, const char* file = NULL, int32_t line = 0) = 0;
 
     //! set logger's attribute, thread safe.
     virtual bool enableLogger(LoggerId id, bool enable) = 0; // immediately when enable, and queue up when disable.
     virtual bool setLoggerName(LoggerId id, const char* name) = 0;
     virtual bool setLoggerPath(LoggerId id, const char* path) = 0;
-    virtual bool setLoggerLevel(LoggerId id, int nLevel)     = 0; // immediately when enable, and queue up when disable.
+    virtual bool setLoggerLevel(LoggerId id, int32_t nLevel)     = 0; // immediately when enable, and queue up when disable.
     virtual bool setLoggerFileLine(LoggerId id, bool enable) = 0;
     virtual bool setLoggerDisplay(LoggerId id, bool enable)  = 0;
     virtual bool setLoggerOutFile(LoggerId id, bool enable)  = 0;
@@ -350,18 +350,18 @@ public:
     virtual bool setLoggerReserveTime(LoggerId id, time_t sec)       = 0;
 
     //! Update logger's attribute from config file, thread safe.
-    virtual bool setAutoUpdate(int interval /*per second, 0 is disable auto update*/) = 0;
+    virtual bool setAutoUpdate(int32_t interval /*per second, 0 is disable auto update*/) = 0;
     virtual bool updateConfig()                                                       = 0;
 
     //! Log4z status statistics, thread safe.
     virtual bool               isLoggerEnable(LoggerId id) = 0;
-    virtual unsigned long long getStatusTotalWriteCount()  = 0;
-    virtual unsigned long long getStatusTotalWriteBytes()  = 0;
-    virtual unsigned long long getStatusTotalPushQueue()   = 0;
-    virtual unsigned long long getStatusTotalPopQueue()    = 0;
+    virtual uint64_t getStatusTotalWriteCount()  = 0;
+    virtual uint64_t getStatusTotalWriteBytes()  = 0;
+    virtual uint64_t getStatusTotalPushQueue()   = 0;
+    virtual uint64_t getStatusTotalPopQueue()    = 0;
     virtual uint32_t           getStatusActiveLoggers()    = 0;
 
-    virtual LogData* makeLogData(LoggerId id, int level) = 0;
+    virtual LogData* makeLogData(LoggerId id, int32_t level) = 0;
     virtual void     freeLogData(LogData* log)           = 0;
 };
 
@@ -476,25 +476,25 @@ _ZSUMMER_LOG4Z_BEGIN
 class Log4zBinary
 {
 public:
-    Log4zBinary(const void* buf, int len)
+    Log4zBinary(const void* buf, int32_t len)
     {
         _buf = (const char*)buf;
         _len = len;
     }
     const char* _buf;
-    int         _len;
+    int32_t         _len;
 };
 class Log4zStream
 {
 public:
-    inline Log4zStream(char* buf, int len);
-    inline int getCurrentLen() { return (int)(_cur - _begin); }
+    inline Log4zStream(char* buf, int32_t len);
+    inline int32_t getCurrentLen() { return (int32_t)(_cur - _begin); }
 
 private:
     template<class T>
     inline Log4zStream& writeData(const char* ft, T t);
-    inline Log4zStream& writeLongLong(long long t);
-    inline Log4zStream& writeULongLong(unsigned long long t);
+    inline Log4zStream& writeLongLong(int64_t t);
+    inline Log4zStream& writeULongLong(uint64_t t);
     inline Log4zStream& writePointer(const void* t);
     inline Log4zStream& writeString(const char* t, size_t len);
     inline Log4zStream& writeWString(const wchar_t* t);
@@ -513,21 +513,17 @@ public:
 
     inline Log4zStream& operator<<(unsigned char t) { return writeData("%u", (uint32_t)t); }
 
-    inline Log4zStream& operator<<(short t) { return writeData("%d", (int)t); }
+    inline Log4zStream& operator<<(int16_t t) { return writeData("%d", (int32_t)t); }
 
-    inline Log4zStream& operator<<(unsigned short t) { return writeData("%u", (uint32_t)t); }
+    inline Log4zStream& operator<<(uint16_t t) { return writeData("%u", (uint32_t)t); }
 
-    inline Log4zStream& operator<<(int t) { return writeData("%d", t); }
+    inline Log4zStream& operator<<(int32_t t) { return writeData("%d", t); }
 
     inline Log4zStream& operator<<(uint32_t t) { return writeData("%u", t); }
 
-    inline Log4zStream& operator<<(long t) { return writeLongLong(t); }
+    inline Log4zStream& operator<<(int64_t t) { return writeLongLong(t); }
 
-    inline Log4zStream& operator<<(unsigned long t) { return writeULongLong(t); }
-
-    inline Log4zStream& operator<<(long long t) { return writeLongLong(t); }
-
-    inline Log4zStream& operator<<(unsigned long long t) { return writeULongLong(t); }
+    inline Log4zStream& operator<<(uint64_t t) { return writeULongLong(t); }
 
     inline Log4zStream& operator<<(float t) { return writeData("%.4f", t); }
 
@@ -551,7 +547,7 @@ public:
     inline Log4zStream& operator<<(const std::vector<_Elem, _Alloc>& t)
     {
         *this << "vector(" << t.size() << ")[";
-        int inputCount = 0;
+        int32_t inputCount = 0;
         for(typename std::vector<_Elem, _Alloc>::const_iterator iter = t.begin(); iter != t.end(); iter++)
         {
             inputCount++;
@@ -572,7 +568,7 @@ public:
     inline Log4zStream& operator<<(const std::list<_Elem, _Alloc>& t)
     {
         *this << "list(" << t.size() << ")[";
-        int inputCount = 0;
+        int32_t inputCount = 0;
         for(typename std::list<_Elem, _Alloc>::const_iterator iter = t.begin(); iter != t.end(); iter++)
         {
             inputCount++;
@@ -593,7 +589,7 @@ public:
     inline Log4zStream& operator<<(const std::deque<_Elem, _Alloc>& t)
     {
         *this << "deque(" << t.size() << ")[";
-        int inputCount = 0;
+        int32_t inputCount = 0;
         for(typename std::deque<_Elem, _Alloc>::const_iterator iter = t.begin(); iter != t.end(); iter++)
         {
             inputCount++;
@@ -614,7 +610,7 @@ public:
     inline Log4zStream& operator<<(const std::queue<_Elem, _Alloc>& t)
     {
         *this << "queue(" << t.size() << ")[";
-        int inputCount = 0;
+        int32_t inputCount = 0;
         for(typename std::queue<_Elem, _Alloc>::const_iterator iter = t.begin(); iter != t.end(); iter++)
         {
             inputCount++;
@@ -635,7 +631,7 @@ public:
     inline Log4zStream& operator<<(const std::map<_K, _V, _Pr, _Alloc>& t)
     {
         *this << "map(" << t.size() << ")[";
-        int inputCount = 0;
+        int32_t inputCount = 0;
         for(typename std::map<_K, _V, _Pr, _Alloc>::const_iterator iter = t.begin(); iter != t.end(); iter++)
         {
             inputCount++;
@@ -661,7 +657,7 @@ private:
     char* _cur;
 };
 
-inline Log4zStream::Log4zStream(char* buf, int len)
+inline Log4zStream::Log4zStream(char* buf, int32_t len)
 {
     _begin = buf;
     _end   = buf + len;
@@ -673,8 +669,8 @@ inline Log4zStream& Log4zStream::writeData(const char* ft, T t)
 {
     if(_cur < _end)
     {
-        int len   = 0;
-        int count = (int)(_end - _cur);
+        int32_t len   = 0;
+        int32_t count = (int32_t)(_end - _cur);
 #ifdef WIN32
         len = _snprintf(_cur, count, ft, t);
         if(len == count || len < 0)
@@ -700,7 +696,7 @@ inline Log4zStream& Log4zStream::writeData(const char* ft, T t)
     return *this;
 }
 
-inline Log4zStream& Log4zStream::writeLongLong(long long t)
+inline Log4zStream& Log4zStream::writeLongLong(int64_t t)
 {
 #ifdef WIN32
     writeData("%I64d", t);
@@ -710,7 +706,7 @@ inline Log4zStream& Log4zStream::writeLongLong(long long t)
     return *this;
 }
 
-inline Log4zStream& Log4zStream::writeULongLong(unsigned long long t)
+inline Log4zStream& Log4zStream::writeULongLong(uint64_t t)
 {
 #ifdef WIN32
     writeData("%I64u", t);
@@ -723,9 +719,9 @@ inline Log4zStream& Log4zStream::writeULongLong(unsigned long long t)
 inline Log4zStream& Log4zStream::writePointer(const void* t)
 {
 #ifdef WIN32
-    sizeof(t) == 8 ? writeData("%016I64x", (unsigned long long)t) : writeData("%08I64x", (unsigned long long)t);
+    sizeof(t) == 8 ? writeData("%016I64x", (uint64_t)t) : writeData("%08I64x", (uint64_t)t);
 #else
-    sizeof(t) == 8 ? writeData("%016llx", (unsigned long long)t) : writeData("%08llx", (unsigned long long)t);
+    sizeof(t) == 8 ? writeData("%016llx", (uint64_t)t) : writeData("%08llx", (uint64_t)t);
 #endif
     return *this;
 }
@@ -733,19 +729,19 @@ inline Log4zStream& Log4zStream::writePointer(const void* t)
 inline Log4zStream& Log4zStream::writeBinary(const Log4zBinary& t)
 {
     writeData("%s", "\r\n\t[");
-    for(int i = 0; i < (t._len / 16) + 1; i++)
+    for(int32_t i = 0; i < (t._len / 16) + 1; i++)
     {
         writeData("%s", "\r\n\t");
         *this << (void*)(t._buf + i * 16);
         writeData("%s", ": ");
-        for(int j = i * 16; j < (i + 1) * 16 && j < t._len; j++)
+        for(int32_t j = i * 16; j < (i + 1) * 16 && j < t._len; j++)
         {
             writeData("%02x ", (unsigned char)t._buf[j]);
         }
         writeData("%s", "\r\n\t");
         *this << (void*)(t._buf + i * 16);
         writeData("%s", ": ");
-        for(int j = i * 16; j < (i + 1) * 16 && j < t._len; j++)
+        for(int32_t j = i * 16; j < (i + 1) * 16 && j < t._len; j++)
         {
             if(isprint((unsigned char)t._buf[j]))
             {

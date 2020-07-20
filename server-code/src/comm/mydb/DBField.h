@@ -21,7 +21,7 @@ class CDBField
 {
 public:
     CDBField();
-    CDBField(CDBRecord* pDBRecord, const CDBFieldInfo* pFieldInfo, char* pVal, unsigned long len);
+    CDBField(CDBRecord* pDBRecord, const CDBFieldInfo* pFieldInfo, char* pVal, uint32_t len);
 
     CDBField& operator=(const CDBField&) = delete;
     CDBField(const CDBField&)            = delete;

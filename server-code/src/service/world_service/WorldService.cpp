@@ -387,11 +387,11 @@ void CWorldService::OnLogicThreadProc()
             }
         };
 
-        for(int i = MIN_SOCKET_SERVICE_ID; i <= MAX_SOCKET_SERVICE_ID; i++)
+        for(int32_t i = MIN_SOCKET_SERVICE_ID; i <= MAX_SOCKET_SERVICE_ID; i++)
         {
             check_func(i);
         }
-        for(int i = MIN_ZONE_SERVICE_ID; i <= MAX_SHAREZONE_SERVICE_ID; i++)
+        for(int32_t i = MIN_ZONE_SERVICE_ID; i <= MAX_SHAREZONE_SERVICE_ID; i++)
         {
             check_func(i);
         }

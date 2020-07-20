@@ -436,7 +436,7 @@ void lua_tinker::namespace_add(lua_State* L, const char* namespace_name)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-char* lua_tinker::detail::_stack_help<char*>::_read(lua_State* L, int index)
+char* lua_tinker::detail::_stack_help<char*>::_read(lua_State* L, int32_t index)
 {
     return (char*)lua_tostring(L, index);
 }

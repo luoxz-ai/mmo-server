@@ -17,8 +17,8 @@
 
 OBJECTHEAP_IMPLEMENTATION(CPhase, s_heap);
 
-constexpr int WAIT_PLAYER_LOADING_MS = 5 * 60 * 1000;
-constexpr int WAIT_DESTORY_MS        = 1 * 60 * 1000;
+constexpr int32_t WAIT_PLAYER_LOADING_MS = 5 * 60 * 1000;
+constexpr int32_t WAIT_DESTORY_MS        = 1 * 60 * 1000;
 
 CPhase::CPhase() {}
 

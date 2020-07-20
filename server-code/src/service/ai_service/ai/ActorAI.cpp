@@ -659,7 +659,7 @@ bool CActorAI::FindEnemyInHateList()
     __ENTER_FUNCTION
     LOGAIDEBUG(GetAIData().ai_debug(), GetActor()->GetID(),"AI: FindEnemyInHateList"); 
 
-    int nCount = 0;
+    int32_t nCount = 0;
     m_HateList.FindIF([pThis = this, &nCount](ST_HATE_DATA* pHateData) {
         nCount++;
         CAIActor* pActor = AIActorManager()->QueryActor(pHateData->idTarget);

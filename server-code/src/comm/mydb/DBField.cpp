@@ -3,7 +3,7 @@
 #include "DBRecord.h"
 #include "MysqlConnection.h"
 
-CDBField::CDBField(CDBRecord* pDBRecord, const CDBFieldInfo* pFieldInfo, char* pVal, unsigned long len)
+CDBField::CDBField(CDBRecord* pDBRecord, const CDBFieldInfo* pFieldInfo, char* pVal, uint32_t len)
     : m_pDBRecord(pDBRecord)
     , m_pFieldInfo(pFieldInfo)
 {

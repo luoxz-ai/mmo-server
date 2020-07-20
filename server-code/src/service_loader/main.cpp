@@ -87,8 +87,8 @@ void print_help()
 ServiceLoader*             g_pLoader;
 std::unique_ptr<file_lock> plock;
 std::mutex                 g_tem_mutex;
-int                        savefd_out = -1;
-int                        savefd_err = -1;
+int32_t                        savefd_out = -1;
+int32_t                        savefd_err = -1;
 std::string                start_service_set;
 //////////////////////////////////////////////////////////////////////////
 void sig_term(int32_t signo)
@@ -155,7 +155,7 @@ void PurgeJemalloc()
 #endif
 }
 
-int main(int argc, char* argv[])
+int32_t main(int32_t argc, char* argv[])
 {
     get_opt opt(argc, (const char**)argv);
     //请小心使用daemon/fork,这样会导致在main函数之前创建的线程被干掉

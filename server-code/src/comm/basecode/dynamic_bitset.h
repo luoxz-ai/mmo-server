@@ -49,7 +49,7 @@
 #endif
 #endif
 
-template<typename Block = unsigned long long, typename Allocator = std::allocator<Block>>
+template<typename Block = uint64_t, typename Allocator = std::allocator<Block>>
 class dynamic_bitset
 {
     static_assert(std::is_unsigned<Block>::value, "Block is not an unsigned integral type");
@@ -103,7 +103,7 @@ public:
     // other constructors
     constexpr explicit dynamic_bitset(const allocator_type& allocator = allocator_type());
     constexpr explicit dynamic_bitset(size_type             nbits,
-                                      unsigned long long    init_val  = 0,
+                                      uint64_t    init_val  = 0,
                                       const allocator_type& allocator = allocator_type());
     constexpr dynamic_bitset(std::initializer_list<block_type> init_vals,
                              const allocator_type&             allocator = allocator_type());
@@ -461,7 +461,7 @@ constexpr dynamic_bitset<Block, Allocator>::dynamic_bitset(const allocator_type&
 
 template<typename Block, typename Allocator>
 constexpr dynamic_bitset<Block, Allocator>::dynamic_bitset(size_type             nbits,
-                                                           unsigned long long    init_val,
+                                                           uint64_t    init_val,
                                                            const allocator_type& allocator)
     : m_blocks(blocks_required(nbits), allocator)
     , m_bits_number(nbits)
@@ -471,14 +471,14 @@ constexpr dynamic_bitset<Block, Allocator>::dynamic_bitset(size_type            
         return;
     }
 
-    constexpr size_type init_val_required_blocks = sizeof(unsigned long long) / sizeof(block_type);
+    constexpr size_type init_val_required_blocks = sizeof(uint64_t) / sizeof(block_type);
     if constexpr(init_val_required_blocks == 1)
     {
         m_blocks[0] = init_val;
     }
     else
     {
-        const unsigned long long block_mask     = static_cast<unsigned long long>(one_block);
+        const uint64_t block_mask     = static_cast<uint64_t>(one_block);
         const size_type          blocks_to_init = std::min(m_blocks.size(), init_val_required_blocks);
         for(size_type i = 0; i < blocks_to_init; ++i)
         {
@@ -1448,17 +1448,17 @@ constexpr typename dynamic_bitset<Block, Allocator>::size_type dynamic_bitset<Bl
     }
 
 #if defined(DYNAMIC_BITSET_GCC) || (defined(DYNAMIC_BITSET_CLANG) && defined(DYNAMIC_BITSET_CLANG_builtin_popcount))
-    if constexpr(std::is_same_v<block_type, unsigned long long>)
+    if constexpr(std::is_same_v<block_type, uint64_t>)
     {
         return static_cast<size_type>(__builtin_popcountll(block));
     }
-    if constexpr(std::is_same_v<block_type, unsigned long>)
+    if constexpr(std::is_same_v<block_type, uint32_t>)
     {
         return static_cast<size_type>(__builtin_popcountl(block));
     }
     if constexpr(sizeof(block_type) <= sizeof(uint32_t))
     {
-        return static_cast<size_type>(__builtin_popcount(static_cast<unsigned int>(block)));
+        return static_cast<size_type>(__builtin_popcount(static_cast<uint32_t>(block)));
     }
 #endif
 
@@ -1485,17 +1485,17 @@ constexpr typename dynamic_bitset<Block, Allocator>::size_type dynamic_bitset<Bl
 
 #if defined(DYNAMIC_BITSET_GCC) || (defined(DYNAMIC_BITSET_CLANG) && defined(DYNAMIC_BITSET_CLANG_builtin_popcount))
     const block_type shifted_block = block_type(block << (bits_per_block - nbits));
-    if constexpr(std::is_same_v<block_type, unsigned long long>)
+    if constexpr(std::is_same_v<block_type, uint64_t>)
     {
         return static_cast<size_type>(__builtin_popcountll(shifted_block));
     }
-    if constexpr(std::is_same_v<block_type, unsigned long>)
+    if constexpr(std::is_same_v<block_type, uint32_t>)
     {
         return static_cast<size_type>(__builtin_popcountl(shifted_block));
     }
-    if constexpr(sizeof(block_type) <= sizeof(unsigned int))
+    if constexpr(sizeof(block_type) <= sizeof(uint32_t))
     {
-        return static_cast<size_type>(__builtin_popcount(static_cast<unsigned int>(shifted_block)));
+        return static_cast<size_type>(__builtin_popcount(static_cast<uint32_t>(shifted_block)));
     }
 #endif
 
@@ -1517,37 +1517,37 @@ constexpr typename dynamic_bitset<Block, Allocator>::size_type dynamic_bitset<Bl
     assert(block != zero_block);
 
 #if defined(DYNAMIC_BITSET_GCC) || (defined(DYNAMIC_BITSET_CLANG) && defined(DYNAMIC_BITSET_CLANG_builtin_ctz))
-    if constexpr(std::is_same_v<block_type, unsigned long long>)
+    if constexpr(std::is_same_v<block_type, uint64_t>)
     {
         return static_cast<size_type>(__builtin_ctzll(block));
     }
-    if constexpr(std::is_same_v<block_type, unsigned long>)
+    if constexpr(std::is_same_v<block_type, uint32_t>)
     {
         return static_cast<size_type>(__builtin_ctzl(block));
     }
-    if constexpr(sizeof(block_type) <= sizeof(unsigned int))
+    if constexpr(sizeof(block_type) <= sizeof(uint32_t))
     {
-        return static_cast<size_type>(__builtin_ctz(static_cast<unsigned int>(block)));
+        return static_cast<size_type>(__builtin_ctz(static_cast<uint32_t>(block)));
     }
 #elif defined(DYNAMIC_BITSET_MSVC)
 #if defined(DYNAMIC_BITSET_MSVC_64)
     if constexpr(std::is_same_v<block_type, unsigned __int64>)
     {
-        unsigned long index = std::numeric_limits<unsigned long>::max();
+        uint32_t index = std::numeric_limits<uint32_t>::max();
         _BitScanForward64(&index, block);
         return static_cast<size_type>(index);
     }
 #endif
-    if constexpr(std::is_same_v<block_type, unsigned long>)
+    if constexpr(std::is_same_v<block_type, uint32_t>)
     {
-        unsigned long index = std::numeric_limits<unsigned long>::max();
+        uint32_t index = std::numeric_limits<uint32_t>::max();
         _BitScanForward(&index, block);
         return static_cast<size_type>(index);
     }
-    if constexpr(sizeof(block_type) <= sizeof(unsigned long))
+    if constexpr(sizeof(block_type) <= sizeof(uint32_t))
     {
-        unsigned long index = std::numeric_limits<unsigned long>::max();
-        _BitScanForward(&index, static_cast<unsigned long>(block));
+        uint32_t index = std::numeric_limits<uint32_t>::max();
+        _BitScanForward(&index, static_cast<uint32_t>(block));
         return static_cast<size_type>(index);
     }
 #endif

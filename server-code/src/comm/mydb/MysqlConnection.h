@@ -67,7 +67,7 @@ public:
                             const std::string& password,
                             const std::string& db,
                             uint32_t           port,
-                            unsigned long      client_flag  = 0,
+                            uint32_t      client_flag  = 0,
                             bool               bCreateAsync = false);
     CMysqlStmtPtr   Prepare(const std::string& s);
     CMysqlResultPtr UnionQuery(const std::string& query);

@@ -255,7 +255,7 @@ inline std::string string_concat(const std::vector<std::string>& vecStr,
                           const std::string&       post)
 {
     std::string result;
-    int         i = 0;
+    int32_t         i = 0;
     for(const auto& v: vecStr)
     {
         if(result.empty() == false)

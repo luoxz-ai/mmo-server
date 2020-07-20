@@ -150,7 +150,7 @@ bool CNetSocket::_SendMsg(byte* pBuffer, size_t len, bool bFlush)
     if(GetStatus() == NSS_CONNECTING || GetStatus() == NSS_WAIT_RECONNECT)
     {
         // hold msg
-        int result = evbuffer_add(m_Sendbuf, pBuffer, len); 
+        int32_t result = evbuffer_add(m_Sendbuf, pBuffer, len); 
         m_nWaitWriteSize = evbuffer_get_length(m_Sendbuf);
         return result == 0;
     }

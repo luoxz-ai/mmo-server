@@ -145,7 +145,7 @@ namespace pb_util
         auto vecName = split_string(field_name, ".");
         while(vecName.empty() == false)
         {
-            int  array_idx = -1;
+            int32_t  array_idx = -1;
             auto name      = std::move(vecName.front());
             vecName.erase(vecName.begin());
             if(name.empty())
@@ -175,7 +175,7 @@ namespace pb_util
                     }
                     auto array_idx = atoi(array_str.data());
                     auto curSize   = pThisRow->GetReflection()->FieldSize(*pThisRow, pFieldDesc);
-                    for(int i = curSize; i < array_idx + 1; i++)
+                    for(int32_t i = curSize; i < array_idx + 1; i++)
                     {
                         auto pSubMessage = pThisRow->GetReflection()->AddMessage(pThisRow, pFieldDesc, nullptr);
                     }

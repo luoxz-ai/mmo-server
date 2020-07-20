@@ -16,7 +16,7 @@ bool CGameMap::Init(CMapManager* pManager, const Cfg_Scene_Row& data, const CMap
     m_nMapFlag      = data.mapflag();
     m_idScript      = data.idscript();
     m_pMapData      = pMapData;
-    for(int i = 0; i < data.phase_data_size(); i++)
+    for(int32_t i = 0; i < data.phase_data_size(); i++)
     {
         // copy
         auto phase_data = data.phase_data(i);
