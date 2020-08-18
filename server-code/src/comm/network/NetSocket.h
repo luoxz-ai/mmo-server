@@ -104,6 +104,8 @@ public:
     size_t  GetPacketSizeMax() const { return m_nPacketSizeMax; }
     void    SetPacketSizeMax(size_t val);
 
+    void set_sock_nodely();
+    void set_sock_quickack();
 public:
     OBJECTHEAP_DECLARATION(s_Heap);
 

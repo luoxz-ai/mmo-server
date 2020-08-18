@@ -2,4 +2,6 @@
 /server-code/.cmake_globaldb
 /server-code/.cmake_zonedb
 .vscode/
+.vs
 desktop.ini
+GM_TAG

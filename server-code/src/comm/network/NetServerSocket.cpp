@@ -132,6 +132,8 @@ void CServerSocket::_OnSocketConnectorEvent(bufferevent* b, short what, void* ct
     {
         int32_t fd = bufferevent_getfd(b);
         evutil_make_socket_nonblocking(fd);
+        pSocket->set_sock_nodely();
+        pSocket->set_sock_quickack();
         pSocket->SetSocket(fd);
         pSocket->GetService()->_AddSocket(pSocket);
         bufferevent_setcb(b, _OnSocketRead, _OnSendOK, _OnSocketEvent, ctx);

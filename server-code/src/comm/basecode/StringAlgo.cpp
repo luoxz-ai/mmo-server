@@ -119,8 +119,8 @@ std::string URLEncode(const char* pszStr)
     if(pszStr == nullptr)
         return "";
 
-    std::string strOut = "";
-    char        szBuf[4];
+    std::string strOut   = "";
+    char        szBuf[4] = {};
     for(int32_t i = 0; i < (int32_t)strlen(pszStr); i++)
     {
         memset(szBuf, 0, 4);
@@ -157,7 +157,7 @@ std::string URLDecode(const char* pszStr)
     if(!pszStr)
         return strOut;
 
-    char    tmp[3];
+    char    tmp[3] = {};
     int32_t i = 0, idx = 0, len = (int32_t)strlen(pszStr);
 
     while(i < len)
@@ -196,11 +196,14 @@ std::string GetFullPath(const std::string& szPath)
         return szPath;
 
     constexpr size_t _PATH_MAX = 1024;
-    char             szFull[_PATH_MAX * 2];
+
+    char szFull[_PATH_MAX * 2] = {};
     if(NULL == ::getcwd(szFull, _PATH_MAX))
         return "";
+
     int32_t len = ::strlen(szFull);
-    char    c   = szFull[len - 1];
+
+    char c = szFull[len - 1]={};
     if(c != '/')
         ::strcat(szFull + len, "/");
     ::strcat(szFull + len, szPath.c_str());
@@ -305,12 +308,7 @@ public:
                 {
                     wchar_t wszLine[2048] = {0};
 
-                    if(0 == ConvertEnc("UTF-8",
-                                       "UTF-32LE//IGNORE",
-                                       (char*)szLine,
-                                       nLineSize,
-                                       (char*)wszLine,
-                                       2048 * sizeof(wchar_t)))
+                    if(0 == ConvertEnc("UTF-8", "UTF-32LE//IGNORE", (char*)szLine, nLineSize, (char*)wszLine, 2048 * sizeof(wchar_t)))
                     {
                     }
                     else

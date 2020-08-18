@@ -68,10 +68,9 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<AxisAlignedBox>(
         L,
         "contains",
-        lua_tinker::args_type_overload_member_functor(lua_tinker::make_member_functor_ptr((bool (AxisAlignedBox::*)(
-                                                          const AxisAlignedBox&) const)(&AxisAlignedBox::contains)),
-                                                      lua_tinker::make_member_functor_ptr((bool (AxisAlignedBox::*)(
-                                                          const Vector3&) const)(&AxisAlignedBox::contains))));
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr((bool (AxisAlignedBox::*)(const AxisAlignedBox&) const)(&AxisAlignedBox::contains)),
+            lua_tinker::make_member_functor_ptr((bool (AxisAlignedBox::*)(const Vector3&) const)(&AxisAlignedBox::contains))));
     lua_tinker::class_def<AxisAlignedBox>(L, "distance", &AxisAlignedBox::distance);
     lua_tinker::class_def<AxisAlignedBox>(L, "getAllCorners", &AxisAlignedBox::getAllCorners);
     lua_tinker::class_def<AxisAlignedBox>(L, "getCenter", &AxisAlignedBox::getCenter);
@@ -82,24 +81,21 @@ void zone2lua(lua_State* L)
         "getMaximum",
         lua_tinker::args_type_overload_member_functor(
             lua_tinker::make_member_functor_ptr((Vector3 & (AxisAlignedBox::*)())(&AxisAlignedBox::getMaximum)),
-            lua_tinker::make_member_functor_ptr(
-                (const Vector3& (AxisAlignedBox::*)() const)(&AxisAlignedBox::getMaximum))));
+            lua_tinker::make_member_functor_ptr((const Vector3& (AxisAlignedBox::*)() const)(&AxisAlignedBox::getMaximum))));
     lua_tinker::class_def<AxisAlignedBox>(
         L,
         "getMinimum",
         lua_tinker::args_type_overload_member_functor(
             lua_tinker::make_member_functor_ptr((Vector3 & (AxisAlignedBox::*)())(&AxisAlignedBox::getMinimum)),
-            lua_tinker::make_member_functor_ptr(
-                (const Vector3& (AxisAlignedBox::*)() const)(&AxisAlignedBox::getMinimum))));
+            lua_tinker::make_member_functor_ptr((const Vector3& (AxisAlignedBox::*)() const)(&AxisAlignedBox::getMinimum))));
     lua_tinker::class_def<AxisAlignedBox>(L, "getSize", &AxisAlignedBox::getSize);
     lua_tinker::class_def<AxisAlignedBox>(L, "intersection", &AxisAlignedBox::intersection);
     lua_tinker::class_def<AxisAlignedBox>(
         L,
         "intersects",
-        lua_tinker::args_type_overload_member_functor(lua_tinker::make_member_functor_ptr((bool (AxisAlignedBox::*)(
-                                                          const AxisAlignedBox&) const)(&AxisAlignedBox::intersects)),
-                                                      lua_tinker::make_member_functor_ptr((bool (AxisAlignedBox::*)(
-                                                          const Vector3&) const)(&AxisAlignedBox::intersects))));
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr((bool (AxisAlignedBox::*)(const AxisAlignedBox&) const)(&AxisAlignedBox::intersects)),
+            lua_tinker::make_member_functor_ptr((bool (AxisAlignedBox::*)(const Vector3&) const)(&AxisAlignedBox::intersects))));
     lua_tinker::class_def<AxisAlignedBox>(L, "isFinite", &AxisAlignedBox::isFinite);
     lua_tinker::class_def<AxisAlignedBox>(L, "isInfinite", &AxisAlignedBox::isInfinite);
     lua_tinker::class_def<AxisAlignedBox>(L, "isNull", &AxisAlignedBox::isNull);
@@ -107,8 +103,7 @@ void zone2lua(lua_State* L)
         L,
         "merge",
         lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr(
-                (void (AxisAlignedBox::*)(const AxisAlignedBox&))(&AxisAlignedBox::merge)),
+            lua_tinker::make_member_functor_ptr((void (AxisAlignedBox::*)(const AxisAlignedBox&))(&AxisAlignedBox::merge)),
             lua_tinker::make_member_functor_ptr((void (AxisAlignedBox::*)(const Vector3&))(&AxisAlignedBox::merge))));
     lua_tinker::class_def<AxisAlignedBox>(L, "operator!=", &AxisAlignedBox::operator!=);
     lua_tinker::class_def<AxisAlignedBox>(L, "__eq", &AxisAlignedBox::operator==);
@@ -117,19 +112,15 @@ void zone2lua(lua_State* L)
         L,
         "setExtents",
         lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr(
-                (void (AxisAlignedBox::*)(const Vector3&, const Vector3&))(&AxisAlignedBox::setExtents)),
-            lua_tinker::make_member_functor_ptr(
-                (void (AxisAlignedBox::*)(float, float, float, float, float, float))(&AxisAlignedBox::setExtents))));
+            lua_tinker::make_member_functor_ptr((void (AxisAlignedBox::*)(const Vector3&, const Vector3&))(&AxisAlignedBox::setExtents)),
+            lua_tinker::make_member_functor_ptr((void (AxisAlignedBox::*)(float, float, float, float, float, float))(&AxisAlignedBox::setExtents))));
     lua_tinker::class_def<AxisAlignedBox>(L, "setInfinite", &AxisAlignedBox::setInfinite);
     lua_tinker::class_def<AxisAlignedBox>(
         L,
         "setMaximum",
         lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr(
-                (void (AxisAlignedBox::*)(const Vector3&))(&AxisAlignedBox::setMaximum)),
-            lua_tinker::make_member_functor_ptr(
-                (void (AxisAlignedBox::*)(float, float, float))(&AxisAlignedBox::setMaximum))));
+            lua_tinker::make_member_functor_ptr((void (AxisAlignedBox::*)(const Vector3&))(&AxisAlignedBox::setMaximum)),
+            lua_tinker::make_member_functor_ptr((void (AxisAlignedBox::*)(float, float, float))(&AxisAlignedBox::setMaximum))));
     lua_tinker::class_def<AxisAlignedBox>(L, "setMaximumX", &AxisAlignedBox::setMaximumX);
     lua_tinker::class_def<AxisAlignedBox>(L, "setMaximumY", &AxisAlignedBox::setMaximumY);
     lua_tinker::class_def<AxisAlignedBox>(L, "setMaximumZ", &AxisAlignedBox::setMaximumZ);
@@ -137,10 +128,8 @@ void zone2lua(lua_State* L)
         L,
         "setMinimum",
         lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr(
-                (void (AxisAlignedBox::*)(const Vector3&))(&AxisAlignedBox::setMinimum)),
-            lua_tinker::make_member_functor_ptr(
-                (void (AxisAlignedBox::*)(float, float, float))(&AxisAlignedBox::setMinimum))));
+            lua_tinker::make_member_functor_ptr((void (AxisAlignedBox::*)(const Vector3&))(&AxisAlignedBox::setMinimum)),
+            lua_tinker::make_member_functor_ptr((void (AxisAlignedBox::*)(float, float, float))(&AxisAlignedBox::setMinimum))));
     lua_tinker::class_def<AxisAlignedBox>(L, "setMinimumX", &AxisAlignedBox::setMinimumX);
     lua_tinker::class_def<AxisAlignedBox>(L, "setMinimumY", &AxisAlignedBox::setMinimumY);
     lua_tinker::class_def<AxisAlignedBox>(L, "setMinimumZ", &AxisAlignedBox::setMinimumZ);
@@ -151,16 +140,14 @@ void zone2lua(lua_State* L)
         "transform",
         lua_tinker::args_type_overload_member_functor(
             lua_tinker::make_member_functor_ptr((void (AxisAlignedBox::*)(const Affine3&))(&AxisAlignedBox::transform)),
-            lua_tinker::make_member_functor_ptr(
-                (void (AxisAlignedBox::*)(const Matrix4&))(&AxisAlignedBox::transform))));
+            lua_tinker::make_member_functor_ptr((void (AxisAlignedBox::*)(const Matrix4&))(&AxisAlignedBox::transform))));
     lua_tinker::class_def<AxisAlignedBox>(L, "volume", &AxisAlignedBox::volume);
     lua_tinker::class_con<AxisAlignedBox>(
         L,
-        lua_tinker::args_type_overload_constructor(
-            new lua_tinker::constructor<AxisAlignedBox>(),
-            new lua_tinker::constructor<AxisAlignedBox, AxisAlignedBox::Extent>(),
-            new lua_tinker::constructor<AxisAlignedBox, const Vector3&, const Vector3&>(),
-            new lua_tinker::constructor<AxisAlignedBox, float, float, float, float, float, float>()));
+        lua_tinker::args_type_overload_constructor(new lua_tinker::constructor<AxisAlignedBox>(),
+                                                   new lua_tinker::constructor<AxisAlignedBox, AxisAlignedBox::Extent>(),
+                                                   new lua_tinker::constructor<AxisAlignedBox, const Vector3&, const Vector3&>(),
+                                                   new lua_tinker::constructor<AxisAlignedBox, float, float, float, float, float, float>()));
     lua_tinker::class_var_static<AxisAlignedBox>(L, "EXTENT_FINITE", AxisAlignedBox::EXTENT_FINITE);
     lua_tinker::class_var_static<AxisAlignedBox>(L, "EXTENT_INFINITE", AxisAlignedBox::EXTENT_INFINITE);
     lua_tinker::class_var_static<AxisAlignedBox>(L, "EXTENT_NULL", AxisAlignedBox::EXTENT_NULL);
@@ -187,12 +174,11 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CActor>(L, "ClearViewList", &CActor::ClearViewList);
     lua_tinker::class_def<CActor>(L, "DelThis", &CActor::DelThis);
     lua_tinker::class_def<CActor>(L, "FlyTo", &CActor::FlyTo);
-    lua_tinker::class_def<CActor>(
-        L,
-        "GetAttrib",
-        lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr((CActorAttrib & (CActor::*)())(&CActor::GetAttrib)),
-            lua_tinker::make_member_functor_ptr((const CActorAttrib& (CActor::*)() const)(&CActor::GetAttrib))));
+    lua_tinker::class_def<CActor>(L,
+                                  "GetAttrib",
+                                  lua_tinker::args_type_overload_member_functor(
+                                      lua_tinker::make_member_functor_ptr((CActorAttrib & (CActor::*)())(&CActor::GetAttrib)),
+                                      lua_tinker::make_member_functor_ptr((const CActorAttrib& (CActor::*)() const)(&CActor::GetAttrib))));
     lua_tinker::class_def<CActor>(L, "GetCDSet", &CActor::GetCDSet);
     lua_tinker::class_def<CActor>(L, "GetCampID", &CActor::GetCampID);
     lua_tinker::class_def<CActor>(L, "GetEventMapRef", &CActor::GetEventMapRef);
@@ -228,22 +214,18 @@ void zone2lua(lua_State* L)
         L,
         "SendMsg",
         lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr(
-                (bool (CActor::*)(const google::protobuf::Message&) const)(&CActor::SendMsg)),
-            lua_tinker::make_member_functor_ptr(
-                (bool (CActor::*)(uint16_t, const google::protobuf::Message&) const)(&CActor::SendMsg))));
+            lua_tinker::make_member_functor_ptr((bool (CActor::*)(const google::protobuf::Message&) const)(&CActor::SendMsg)),
+            lua_tinker::make_member_functor_ptr((bool (CActor::*)(uint16_t, const google::protobuf::Message&) const)(&CActor::SendMsg))));
     lua_tinker::class_def<CActor>(
         L,
         "SendRoomMessage",
         lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr(
-                (void (CActor::*)(const google::protobuf::Message&, bool))(&CActor::SendRoomMessage),
-                1 /*default_args_count*/,
-                1 /*default_args_start*/),
-            lua_tinker::make_member_functor_ptr(
-                (void (CActor::*)(uint16_t, const google::protobuf::Message&, bool))(&CActor::SendRoomMessage),
-                1 /*default_args_count*/,
-                2 /*default_args_start*/)),
+            lua_tinker::make_member_functor_ptr((void (CActor::*)(const google::protobuf::Message&, bool))(&CActor::SendRoomMessage),
+                                                1 /*default_args_count*/,
+                                                1 /*default_args_start*/),
+            lua_tinker::make_member_functor_ptr((void (CActor::*)(uint16_t, const google::protobuf::Message&, bool))(&CActor::SendRoomMessage),
+                                                1 /*default_args_count*/,
+                                                2 /*default_args_start*/)),
         true,
         true);
     lua_tinker::class_def<CActor>(L, "SendShowTo", &CActor::SendShowTo);
@@ -298,10 +280,8 @@ void zone2lua(lua_State* L)
         L,
         "IsCoolDown",
         lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr(
-                (bool (CCoolDownSet::*)(uint32_t, uint32_t))(&CCoolDownSet::IsCoolDown)),
-            lua_tinker::make_member_functor_ptr(
-                (bool (CCoolDownSet::*)(uint32_t, uint32_t, uint32_t))(&CCoolDownSet::IsCoolDown))));
+            lua_tinker::make_member_functor_ptr((bool (CCoolDownSet::*)(uint32_t, uint32_t))(&CCoolDownSet::IsCoolDown)),
+            lua_tinker::make_member_functor_ptr((bool (CCoolDownSet::*)(uint32_t, uint32_t, uint32_t))(&CCoolDownSet::IsCoolDown))));
     lua_tinker::class_def<CCoolDownSet>(L, "Save", &CCoolDownSet::Save);
     lua_tinker::class_def<CCoolDownSet>(L, "StartCoolDown", &CCoolDownSet::StartCoolDown, false, true);
     lua_tinker::class_def<CCoolDownSet>(L, "SyncAll", &CCoolDownSet::SyncAll);
@@ -386,12 +366,11 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CItem>(L, "GetCanPileNum", &CItem::GetCanPileNum);
     lua_tinker::class_def<CItem>(L, "GetEquipPosition", &CItem::GetEquipPosition);
     lua_tinker::class_def<CItem>(L, "IsBuyRumor", &CItem::IsBuyRumor);
-    lua_tinker::class_def<CItem>(
-        L,
-        "IsCombineEnable",
-        lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr((bool (CItem::*)(CItem*))(&CItem::IsCombineEnable)),
-            lua_tinker::make_member_functor_ptr((bool (CItem::*)(OBJID, uint32_t))(&CItem::IsCombineEnable))));
+    lua_tinker::class_def<CItem>(L,
+                                 "IsCombineEnable",
+                                 lua_tinker::args_type_overload_member_functor(
+                                     lua_tinker::make_member_functor_ptr((bool (CItem::*)(CItem*))(&CItem::IsCombineEnable)),
+                                     lua_tinker::make_member_functor_ptr((bool (CItem::*)(OBJID, uint32_t))(&CItem::IsCombineEnable))));
     lua_tinker::class_def<CItem>(L, "IsDelEnable", &CItem::IsDelEnable);
     lua_tinker::class_def<CItem>(L, "IsDropEnable", &CItem::IsDropEnable);
     lua_tinker::class_def<CItem>(L, "IsEquipment", &CItem::IsEquipment);
@@ -514,10 +493,8 @@ void zone2lua(lua_State* L)
         L,
         "SendMsg",
         lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr(
-                (bool (CMonster::*)(const google::protobuf::Message&) const)(&CMonster::SendMsg)),
-            lua_tinker::make_member_functor_ptr(
-                (bool (CMonster::*)(uint16_t, const google::protobuf::Message&) const)(&CMonster::SendMsg))));
+            lua_tinker::make_member_functor_ptr((bool (CMonster::*)(const google::protobuf::Message&) const)(&CMonster::SendMsg)),
+            lua_tinker::make_member_functor_ptr((bool (CMonster::*)(uint16_t, const google::protobuf::Message&) const)(&CMonster::SendMsg))));
     lua_tinker::class_def<CMonster>(L, "_SetHP", &CMonster::_SetHP);
     lua_tinker::class_def<CMonster>(L, "_SetMP", &CMonster::_SetMP);
     lua_tinker::class_add<CMyTimer>(L, "CMyTimer", false);
@@ -530,9 +507,8 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CMyTimer>(
         L,
         "IsTimeOut",
-        lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr((bool (CMyTimer::*)())(&CMyTimer::IsTimeOut)),
-            lua_tinker::make_member_functor_ptr((bool (CMyTimer::*)(int32_t))(&CMyTimer::IsTimeOut))));
+        lua_tinker::args_type_overload_member_functor(lua_tinker::make_member_functor_ptr((bool (CMyTimer::*)())(&CMyTimer::IsTimeOut)),
+                                                      lua_tinker::make_member_functor_ptr((bool (CMyTimer::*)(int32_t))(&CMyTimer::IsTimeOut))));
     lua_tinker::class_def<CMyTimer>(L, "SetInterval", &CMyTimer::SetInterval);
     lua_tinker::class_def<CMyTimer>(L, "Startup", &CMyTimer::Startup);
     lua_tinker::class_def<CMyTimer>(L, "TimeOver", &CMyTimer::TimeOver);
@@ -540,9 +516,8 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CMyTimer>(
         L,
         "ToNextTime",
-        lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr((bool (CMyTimer::*)())(&CMyTimer::ToNextTime)),
-            lua_tinker::make_member_functor_ptr((bool (CMyTimer::*)(int32_t))(&CMyTimer::ToNextTime))));
+        lua_tinker::args_type_overload_member_functor(lua_tinker::make_member_functor_ptr((bool (CMyTimer::*)())(&CMyTimer::ToNextTime)),
+                                                      lua_tinker::make_member_functor_ptr((bool (CMyTimer::*)(int32_t))(&CMyTimer::ToNextTime))));
     lua_tinker::class_def<CMyTimer>(L, "Update", &CMyTimer::Update);
     lua_tinker::class_con<CMyTimer>(L, lua_tinker::constructor<CMyTimer, int32_t>::invoke, 0);
     lua_tinker::class_add<CNetworkMessage>(L, "CNetworkMessage", false);
@@ -557,15 +532,13 @@ void zone2lua(lua_State* L)
         "GetMsgBody",
         lua_tinker::args_type_overload_member_functor(
             lua_tinker::make_member_functor_ptr((byte * (CNetworkMessage::*)())(&CNetworkMessage::GetMsgBody)),
-            lua_tinker::make_member_functor_ptr(
-                (const byte* (CNetworkMessage::*)() const)(&CNetworkMessage::GetMsgBody))));
+            lua_tinker::make_member_functor_ptr((const byte* (CNetworkMessage::*)() const)(&CNetworkMessage::GetMsgBody))));
     lua_tinker::class_def<CNetworkMessage>(
         L,
         "GetMsgHead",
         lua_tinker::args_type_overload_member_functor(
             lua_tinker::make_member_functor_ptr((MSG_HEAD * (CNetworkMessage::*)())(&CNetworkMessage::GetMsgHead)),
-            lua_tinker::make_member_functor_ptr(
-                (const MSG_HEAD* (CNetworkMessage::*)() const)(&CNetworkMessage::GetMsgHead))));
+            lua_tinker::make_member_functor_ptr((const MSG_HEAD* (CNetworkMessage::*)() const)(&CNetworkMessage::GetMsgHead))));
     lua_tinker::class_def<CNetworkMessage>(L, "GetMultiIDTo", &CNetworkMessage::GetMultiIDTo);
     lua_tinker::class_def<CNetworkMessage>(L, "GetMultiTo", &CNetworkMessage::GetMultiTo);
     lua_tinker::class_def<CNetworkMessage>(L, "GetMultiType", &CNetworkMessage::GetMultiType);
@@ -581,37 +554,28 @@ void zone2lua(lua_State* L)
         L,
         "SetMultiIDTo",
         lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr(
-                (void (CNetworkMessage::*)(const OBJID*, size_t))(&CNetworkMessage::SetMultiIDTo)),
-            lua_tinker::make_member_functor_ptr(
-                (void (CNetworkMessage::*)(const std::vector<OBJID>&))(&CNetworkMessage::SetMultiIDTo))));
+            lua_tinker::make_member_functor_ptr((void (CNetworkMessage::*)(const OBJID*, size_t))(&CNetworkMessage::SetMultiIDTo)),
+            lua_tinker::make_member_functor_ptr((void (CNetworkMessage::*)(const std::vector<OBJID>&))(&CNetworkMessage::SetMultiIDTo))));
     lua_tinker::class_def<CNetworkMessage>(
         L,
         "SetMultiTo",
         lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr(
-                (void (CNetworkMessage::*)(const std::vector<VirtualSocket>&))(&CNetworkMessage::SetMultiTo)),
-            lua_tinker::make_member_functor_ptr(
-                (void (CNetworkMessage::*)(const uint64_t*, size_t))(&CNetworkMessage::SetMultiTo))));
+            lua_tinker::make_member_functor_ptr((void (CNetworkMessage::*)(const std::vector<VirtualSocket>&))(&CNetworkMessage::SetMultiTo)),
+            lua_tinker::make_member_functor_ptr((void (CNetworkMessage::*)(const uint64_t*, size_t))(&CNetworkMessage::SetMultiTo))));
     lua_tinker::class_def<CNetworkMessage>(L, "SetMultiType", &CNetworkMessage::SetMultiType);
     lua_tinker::class_def<CNetworkMessage>(L, "SetTo", &CNetworkMessage::SetTo);
     lua_tinker::class_con<CNetworkMessage>(
         L,
         lua_tinker::args_type_overload_constructor(
-            new lua_tinker::constructor<CNetworkMessage, byte*, size_t, VirtualSocket, VirtualSocket, VirtualSocket>(
-                3 /*default_args_count*/,
-                1 /*default_args_start*/),
+            new lua_tinker::constructor<CNetworkMessage, byte*, size_t, VirtualSocket, VirtualSocket, VirtualSocket>(3 /*default_args_count*/,
+                                                                                                                     1 /*default_args_start*/),
             new lua_tinker::constructor<CNetworkMessage, const CNetworkMessage&>(),
-            new lua_tinker::
-                constructor<CNetworkMessage, uint16_t, byte*, size_t, VirtualSocket, VirtualSocket, VirtualSocket>(
-                    3 /*default_args_count*/,
-                    4 /*default_args_start*/),
-            new lua_tinker::constructor<CNetworkMessage,
-                                        uint16_t,
-                                        const ::google::protobuf::Message&,
-                                        VirtualSocket,
-                                        VirtualSocket,
-                                        VirtualSocket>(3 /*default_args_count*/, 7 /*default_args_start*/)),
+            new lua_tinker::constructor<CNetworkMessage, uint16_t, byte*, size_t, VirtualSocket, VirtualSocket, VirtualSocket>(
+                3 /*default_args_count*/,
+                4 /*default_args_start*/),
+            new lua_tinker::constructor<CNetworkMessage, uint16_t, const ::google::protobuf::Message&, VirtualSocket, VirtualSocket, VirtualSocket>(
+                3 /*default_args_count*/,
+                7 /*default_args_start*/)),
         0,
         0,
         0,
@@ -642,8 +606,7 @@ void zone2lua(lua_State* L)
             lua_tinker::make_member_functor_ptr((bool (CPackage::*)(CItem*, bool))(&CPackage::CombineAddItem),
                                                 1 /*default_args_count*/,
                                                 1 /*default_args_start*/),
-            lua_tinker::make_member_functor_ptr(
-                (uint32_t(CPackage::*)(uint32_t, uint32_t, uint32_t, bool))(&CPackage::CombineAddItem))),
+            lua_tinker::make_member_functor_ptr((uint32_t(CPackage::*)(uint32_t, uint32_t, uint32_t, bool))(&CPackage::CombineAddItem))),
         true);
     lua_tinker::class_def<CPackage>(L, "CombineItem", &CPackage::CombineItem);
     lua_tinker::class_def<CPackage>(L, "DelAll", &CPackage::DelAll, false, true);
@@ -658,19 +621,18 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CPackage>(L, "GetPackageType", &CPackage::GetPackageType);
     lua_tinker::class_def<CPackage>(L, "GetSpareSpace", &CPackage::GetSpareSpace, ID_NONE, 0, 0, 0);
     lua_tinker::class_def<CPackage>(L, "HaveSoManyItem", &CPackage::HaveSoManyItem, 0);
-    lua_tinker::class_def<CPackage>(
-        L,
-        "IsFull",
-        lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr((bool (CPackage::*)(CItem*))(&CPackage::IsFull)),
-            lua_tinker::make_member_functor_ptr((bool (CPackage::*)(uint32_t))(&CPackage::IsFull),
-                                                1 /*default_args_count*/,
-                                                1 /*default_args_start*/),
-            lua_tinker::make_member_functor_ptr((bool (CPackage::*)(uint32_t, uint32_t, uint32_t))(&CPackage::IsFull),
-                                                1 /*default_args_count*/,
-                                                2 /*default_args_start*/)),
-        1,
-        0);
+    lua_tinker::class_def<CPackage>(L,
+                                    "IsFull",
+                                    lua_tinker::args_type_overload_member_functor(
+                                        lua_tinker::make_member_functor_ptr((bool (CPackage::*)(CItem*))(&CPackage::IsFull)),
+                                        lua_tinker::make_member_functor_ptr((bool (CPackage::*)(uint32_t))(&CPackage::IsFull),
+                                                                            1 /*default_args_count*/,
+                                                                            1 /*default_args_start*/),
+                                        lua_tinker::make_member_functor_ptr((bool (CPackage::*)(uint32_t, uint32_t, uint32_t))(&CPackage::IsFull),
+                                                                            1 /*default_args_count*/,
+                                                                            2 /*default_args_start*/)),
+                                    1,
+                                    0);
     lua_tinker::class_def<CPackage>(L, "PopItem", &CPackage::PopItem, false);
     lua_tinker::class_def<CPackage>(L, "PopItemByGrid", &CPackage::PopItemByGrid);
     lua_tinker::class_def<CPackage>(L, "QueryItem", &CPackage::QueryItem);
@@ -719,10 +681,8 @@ void zone2lua(lua_State* L)
         L,
         "SendSceneMessage",
         lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr(
-                (bool (CPhase::*)(const google::protobuf::Message&) const)(&CPhase::SendSceneMessage)),
-            lua_tinker::make_member_functor_ptr(
-                (bool (CPhase::*)(uint16_t, const google::protobuf::Message&) const)(&CPhase::SendSceneMessage))));
+            lua_tinker::make_member_functor_ptr((bool (CPhase::*)(const google::protobuf::Message&) const)(&CPhase::SendSceneMessage)),
+            lua_tinker::make_member_functor_ptr((bool (CPhase::*)(uint16_t, const google::protobuf::Message&) const)(&CPhase::SendSceneMessage))));
     lua_tinker::class_def<CPhase>(L, "SetSceneState", &CPhase::SetSceneState);
     lua_tinker::class_def<CPhase>(L, "_KickPlayer", &CPhase::_KickPlayer);
     lua_tinker::class_add<CPlayer>(L, "CPlayer", false);
@@ -805,10 +765,8 @@ void zone2lua(lua_State* L)
         L,
         "SendMsg",
         lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr(
-                (bool (CPlayer::*)(const google::protobuf::Message&) const)(&CPlayer::SendMsg)),
-            lua_tinker::make_member_functor_ptr(
-                (bool (CPlayer::*)(uint16_t, const google::protobuf::Message&) const)(&CPlayer::SendMsg))));
+            lua_tinker::make_member_functor_ptr((bool (CPlayer::*)(const google::protobuf::Message&) const)(&CPlayer::SendMsg)),
+            lua_tinker::make_member_functor_ptr((bool (CPlayer::*)(uint16_t, const google::protobuf::Message&) const)(&CPlayer::SendMsg))));
     lua_tinker::class_def<CPlayer>(L, "SendTalkMsg", &CPlayer::SendTalkMsg);
     lua_tinker::class_def<CPlayer>(L, "SetGuildID", &CPlayer::SetGuildID);
     lua_tinker::class_def<CPlayer>(L, "SetPKMode", &CPlayer::SetPKMode);
@@ -835,18 +793,16 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CPlayerSkillManager>(L, "_QuerySkill", &CPlayerSkillManager::_QuerySkill);
     lua_tinker::class_add<CPlayerTask>(L, "CPlayerTask", false);
     lua_tinker::class_def<CPlayerTask>(L, "AcceptTask", &CPlayerTask::AcceptTask, true, false);
-    lua_tinker::class_def<CPlayerTask>(
-        L,
-        "CanAccept",
-        lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr((bool (CPlayerTask::*)(const CTaskType*))(&CPlayerTask::CanAccept)),
-            lua_tinker::make_member_functor_ptr((bool (CPlayerTask::*)(uint32_t))(&CPlayerTask::CanAccept))));
-    lua_tinker::class_def<CPlayerTask>(
-        L,
-        "CanSubmit",
-        lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr((bool (CPlayerTask::*)(const CTaskType*))(&CPlayerTask::CanSubmit)),
-            lua_tinker::make_member_functor_ptr((bool (CPlayerTask::*)(uint32_t))(&CPlayerTask::CanSubmit))));
+    lua_tinker::class_def<CPlayerTask>(L,
+                                       "CanAccept",
+                                       lua_tinker::args_type_overload_member_functor(
+                                           lua_tinker::make_member_functor_ptr((bool (CPlayerTask::*)(const CTaskType*))(&CPlayerTask::CanAccept)),
+                                           lua_tinker::make_member_functor_ptr((bool (CPlayerTask::*)(uint32_t))(&CPlayerTask::CanAccept))));
+    lua_tinker::class_def<CPlayerTask>(L,
+                                       "CanSubmit",
+                                       lua_tinker::args_type_overload_member_functor(
+                                           lua_tinker::make_member_functor_ptr((bool (CPlayerTask::*)(const CTaskType*))(&CPlayerTask::CanSubmit)),
+                                           lua_tinker::make_member_functor_ptr((bool (CPlayerTask::*)(uint32_t))(&CPlayerTask::CanSubmit))));
     lua_tinker::class_def<CPlayerTask>(L, "GetLeftTimes", &CPlayerTask::GetLeftTimes);
     lua_tinker::class_def<CPlayerTask>(L, "GiveupTask", &CPlayerTask::GiveupTask);
     lua_tinker::class_def<CPlayerTask>(L, "IsFinished", &CPlayerTask::IsFinished);
@@ -859,8 +815,7 @@ void zone2lua(lua_State* L)
         "SendTaskInfo",
         lua_tinker::args_type_overload_member_functor(
             lua_tinker::make_member_functor_ptr((void (CPlayerTask::*)())(&CPlayerTask::SendTaskInfo)),
-            lua_tinker::make_member_functor_ptr(
-                (void (CPlayerTask::*)(CPlayerTaskData*))(&CPlayerTask::SendTaskInfo))));
+            lua_tinker::make_member_functor_ptr((void (CPlayerTask::*)(CPlayerTaskData*))(&CPlayerTask::SendTaskInfo))));
     lua_tinker::class_def<CPlayerTask>(L, "ShowTaskDialog", &CPlayerTask::ShowTaskDialog);
     lua_tinker::class_def<CPlayerTask>(L, "SubmitTask", &CPlayerTask::SubmitTask);
     lua_tinker::class_def<CPlayerTask>(L, "SubmitTaskByMessage", &CPlayerTask::SubmitTaskByMessage);
@@ -886,13 +841,11 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CPlayerTaskData>(L, "SetNum", &CPlayerTaskData::SetNum, true);
     lua_tinker::class_def<CPlayerTaskData>(L, "SetState", &CPlayerTaskData::SetState, true);
     lua_tinker::class_add<CScene>(L, "CScene", false);
-    lua_tinker::class_def<CScene>(
-        L,
-        "CreatePhase",
-        lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr((CPhase * (CScene::*)(uint64_t))(&CScene::CreatePhase)),
-            lua_tinker::make_member_functor_ptr(
-                (CPhase * (CScene::*)(uint64_t, const PhaseData*))(&CScene::CreatePhase))));
+    lua_tinker::class_def<CScene>(L,
+                                  "CreatePhase",
+                                  lua_tinker::args_type_overload_member_functor(
+                                      lua_tinker::make_member_functor_ptr((CPhase * (CScene::*)(uint64_t))(&CScene::CreatePhase)),
+                                      lua_tinker::make_member_functor_ptr((CPhase * (CScene::*)(uint64_t, const PhaseData*))(&CScene::CreatePhase))));
     lua_tinker::class_def<CScene>(L, "DestoryPhase", &CScene::DestoryPhase);
     lua_tinker::class_def<CScene>(L, "ForEach", &CScene::ForEach);
     lua_tinker::class_def<CScene>(L, "GetMapID", &CScene::GetMapID);
@@ -1007,14 +960,13 @@ void zone2lua(lua_State* L)
     lua_tinker::class_add<CTeamInfoManager>(L, "CTeamInfoManager", false);
     lua_tinker::class_def<CTeamInfoManager>(L, "QueryTeam", &CTeamInfoManager::QueryTeam);
     lua_tinker::class_add<CZoneService>(L, "CZoneService", false);
-    lua_tinker::class_def<CZoneService>(
-        L,
-        "BroadcastToAllPlayer",
-        lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr(
-                (bool (CZoneService::*)(const google::protobuf::Message&) const)(&CZoneService::BroadcastToAllPlayer)),
-            lua_tinker::make_member_functor_ptr((bool (CZoneService::*)(uint16_t, const google::protobuf::Message&)
-                                                     const)(&CZoneService::BroadcastToAllPlayer))));
+    lua_tinker::class_def<CZoneService>(L,
+                                        "BroadcastToAllPlayer",
+                                        lua_tinker::args_type_overload_member_functor(
+                                            lua_tinker::make_member_functor_ptr((bool (CZoneService::*)(const google::protobuf::Message&)
+                                                                                     const)(&CZoneService::BroadcastToAllPlayer)),
+                                            lua_tinker::make_member_functor_ptr((bool (CZoneService::*)(uint16_t, const google::protobuf::Message&)
+                                                                                     const)(&CZoneService::BroadcastToAllPlayer))));
     lua_tinker::class_def<CZoneService>(L, "BroadcastToZone", &CZoneService::BroadcastToZone);
     lua_tinker::class_def<CZoneService>(L, "GetAIServerVirtualSocket", &CZoneService::GetAIServerVirtualSocket);
     lua_tinker::class_def<CZoneService>(L, "GetAIServiceID", &CZoneService::GetAIServiceID);
@@ -1036,47 +988,41 @@ void zone2lua(lua_State* L)
         "SendMsgToPlayer",
         lua_tinker::args_type_overload_member_functor(
             lua_tinker::make_member_functor_ptr(
-                (bool (CZoneService::*)(const VirtualSocket&, const google::protobuf::Message&)
-                     const)(&CZoneService::SendMsgToPlayer)),
+                (bool (CZoneService::*)(const VirtualSocket&, const google::protobuf::Message&) const)(&CZoneService::SendMsgToPlayer)),
             lua_tinker::make_member_functor_ptr(
-                (bool (CZoneService::*)(const VirtualSocket&, uint16_t, const google::protobuf::Message&)
-                     const)(&CZoneService::SendMsgToPlayer))));
+                (bool (CZoneService::*)(const VirtualSocket&, uint16_t, const google::protobuf::Message&) const)(&CZoneService::SendMsgToPlayer))));
     lua_tinker::class_def<CZoneService>(L, "SendMsgToWorld", &CZoneService::SendMsgToWorld);
     lua_tinker::class_def<CZoneService>(L, "SendServerMsgToAIService", &CZoneService::SendServerMsgToAIService);
     lua_tinker::class_def<CZoneService>(L, "TransmiteMsgFromWorldToOther", &CZoneService::TransmiteMsgFromWorldToOther);
     lua_tinker::class_add<CreateMonsterParam>(L, "CreateMonsterParam", false);
     lua_tinker::class_add<Degree>(L, "Degree", false);
     lua_tinker::class_def<Degree>(L, "operator!=", &Degree::operator!=);
-    lua_tinker::class_def<Degree>(
-        L,
-        "__mul",
-        lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr((Degree(Degree::*)(const Degree&) const)(&Degree::operator*)),
-            lua_tinker::make_member_functor_ptr((Degree(Degree::*)(float) const)(&Degree::operator*))));
-    lua_tinker::class_def<Degree>(
-        L,
-        "__add",
-        lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr((Degree(Degree::*)(const Degree&) const)(&Degree::operator+)),
-            lua_tinker::make_member_functor_ptr((Degree(Degree::*)(const Radian&) const)(&Degree::operator+)),
-            lua_tinker::make_member_functor_ptr((const Degree& (Degree::*)() const)(&Degree::operator+))));
-    lua_tinker::class_def<Degree>(
-        L,
-        "__sub",
-        lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr((Degree(Degree::*)() const)(&Degree::operator-)),
-            lua_tinker::make_member_functor_ptr((Degree(Degree::*)(const Degree&) const)(&Degree::operator-)),
-            lua_tinker::make_member_functor_ptr((Degree(Degree::*)(const Radian&) const)(&Degree::operator-))));
+    lua_tinker::class_def<Degree>(L,
+                                  "__mul",
+                                  lua_tinker::args_type_overload_member_functor(
+                                      lua_tinker::make_member_functor_ptr((Degree(Degree::*)(const Degree&) const)(&Degree::operator*)),
+                                      lua_tinker::make_member_functor_ptr((Degree(Degree::*)(float) const)(&Degree::operator*))));
+    lua_tinker::class_def<Degree>(L,
+                                  "__add",
+                                  lua_tinker::args_type_overload_member_functor(
+                                      lua_tinker::make_member_functor_ptr((Degree(Degree::*)(const Degree&) const)(&Degree::operator+)),
+                                      lua_tinker::make_member_functor_ptr((Degree(Degree::*)(const Radian&) const)(&Degree::operator+)),
+                                      lua_tinker::make_member_functor_ptr((const Degree& (Degree::*)() const)(&Degree::operator+))));
+    lua_tinker::class_def<Degree>(L,
+                                  "__sub",
+                                  lua_tinker::args_type_overload_member_functor(
+                                      lua_tinker::make_member_functor_ptr((Degree(Degree::*)() const)(&Degree::operator-)),
+                                      lua_tinker::make_member_functor_ptr((Degree(Degree::*)(const Degree&) const)(&Degree::operator-)),
+                                      lua_tinker::make_member_functor_ptr((Degree(Degree::*)(const Radian&) const)(&Degree::operator-))));
     lua_tinker::class_def<Degree>(L, "__div", &Degree::operator/);
     lua_tinker::class_def<Degree>(L, "__lt", &Degree::operator<);
     lua_tinker::class_def<Degree>(L, "__le", &Degree::operator<=);
     lua_tinker::class_def<Degree>(
         L,
         "operator=",
-        lua_tinker::args_type_overload_member_functor(
-            lua_tinker::make_member_functor_ptr((Degree & (Degree::*)(const Degree&))(&Degree::operator=)),
-            lua_tinker::make_member_functor_ptr((Degree & (Degree::*)(const Radian&))(&Degree::operator=)),
-            lua_tinker::make_member_functor_ptr((Degree & (Degree::*)(const float&))(&Degree::operator=))));
+        lua_tinker::args_type_overload_member_functor(lua_tinker::make_member_functor_ptr((Degree & (Degree::*)(const Degree&))(&Degree::operator=)),
+                                                      lua_tinker::make_member_functor_ptr((Degree & (Degree::*)(const Radian&))(&Degree::operator=)),
+                                                      lua_tinker::make_member_functor_ptr((Degree & (Degree::*)(const float&))(&Degree::operator=))));
     lua_tinker::class_def<Degree>(L, "__eq", &Degree::operator==);
     lua_tinker::class_def<Degree>(L, "operator>", &Degree::operator>);
     lua_tinker::class_def<Degree>(L, "operator>=", &Degree::operator>=);
@@ -1085,20 +1031,19 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<Degree>(L, "valueRadians", &Degree::valueRadians);
     lua_tinker::class_con<Degree>(
         L,
-        lua_tinker::args_type_overload_constructor(
-            new lua_tinker::constructor<Degree, const Degree&>(),
-            new lua_tinker::constructor<Degree, const Radian&>(),
-            new lua_tinker::constructor<Degree, float>(1 /*default_args_count*/, 1 /*default_args_start*/)),
+        lua_tinker::args_type_overload_constructor(new lua_tinker::constructor<Degree, const Degree&>(),
+                                                   new lua_tinker::constructor<Degree, const Radian&>(),
+                                                   new lua_tinker::constructor<Degree, float>(1 /*default_args_count*/, 1 /*default_args_start*/)),
         0);
     lua_tinker::class_add<FloatRect>(L, "FloatRect", false);
     lua_tinker::class_def<FloatRect>(L, "height", &FloatRect::height);
     lua_tinker::class_def<FloatRect>(L, "isIntersect", &FloatRect::isIntersect);
     lua_tinker::class_def<FloatRect>(L, "width", &FloatRect::width);
-    lua_tinker::class_con<FloatRect>(L,
-                                     lua_tinker::args_type_overload_constructor(
-                                         new lua_tinker::constructor<FloatRect>(),
-                                         new lua_tinker::constructor<FloatRect, const FloatRect&>(),
-                                         new lua_tinker::constructor<FloatRect, float, float, float, float>()));
+    lua_tinker::class_con<FloatRect>(
+        L,
+        lua_tinker::args_type_overload_constructor(new lua_tinker::constructor<FloatRect>(),
+                                                   new lua_tinker::constructor<FloatRect, const FloatRect&>(),
+                                                   new lua_tinker::constructor<FloatRect, float, float, float, float>()));
     lua_tinker::class_mem<FloatRect>(L, "bottom", &FloatRect::bottom);
     lua_tinker::class_mem<FloatRect>(L, "left", &FloatRect::left);
     lua_tinker::class_mem<FloatRect>(L, "right", &FloatRect::right);
@@ -1114,26 +1059,22 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def_static<Math>(L, "ASin", &Math::ASin);
     lua_tinker::class_def_static<Math>(L, "ATan", &Math::ATan);
     lua_tinker::class_def_static<Math>(L, "ATan2", &Math::ATan2);
-    lua_tinker::class_def_static<Math>(
-        L,
-        "Abs",
-        lua_tinker::args_type_overload_functor(lua_tinker::make_functor_ptr((Degree(*)(const Degree&))(&Math::Abs)),
-                                               lua_tinker::make_functor_ptr((Radian(*)(const Radian&))(&Math::Abs)),
-                                               lua_tinker::make_functor_ptr((float (*)(float))(&Math::Abs))));
+    lua_tinker::class_def_static<Math>(L,
+                                       "Abs",
+                                       lua_tinker::args_type_overload_functor(lua_tinker::make_functor_ptr((Degree(*)(const Degree&))(&Math::Abs)),
+                                                                              lua_tinker::make_functor_ptr((Radian(*)(const Radian&))(&Math::Abs)),
+                                                                              lua_tinker::make_functor_ptr((float (*)(float))(&Math::Abs))));
     lua_tinker::class_def_static<Math>(L, "AngleUnitsToDegrees", &Math::AngleUnitsToDegrees);
     lua_tinker::class_def_static<Math>(L, "AngleUnitsToRadians", &Math::AngleUnitsToRadians);
     lua_tinker::class_def_static<Math>(L, "Ceil", &Math::Ceil);
-    lua_tinker::class_def_static<Math>(L,
-                                       "Cos",
-                                       lua_tinker::args_type_overload_functor(
-                                           lua_tinker::make_functor_ptr((float (*)(const Radian&, bool))(&Math::Cos),
-                                                                        1 /*default_args_count*/,
-                                                                        1 /*default_args_start*/),
-                                           lua_tinker::make_functor_ptr((float (*)(float, bool))(&Math::Cos),
-                                                                        1 /*default_args_count*/,
-                                                                        2 /*default_args_start*/)),
-                                       false,
-                                       false);
+    lua_tinker::class_def_static<Math>(
+        L,
+        "Cos",
+        lua_tinker::args_type_overload_functor(
+            lua_tinker::make_functor_ptr((float (*)(const Radian&, bool))(&Math::Cos), 1 /*default_args_count*/, 1 /*default_args_start*/),
+            lua_tinker::make_functor_ptr((float (*)(float, bool))(&Math::Cos), 1 /*default_args_count*/, 2 /*default_args_start*/)),
+        false,
+        false);
     lua_tinker::class_def_static<Math>(L, "DegreesToAngleUnits", &Math::DegreesToAngleUnits);
     lua_tinker::class_def_static<Math>(L, "DegreesToRadians", &Math::DegreesToRadians);
     lua_tinker::class_def_static<Math>(L, "Exp", &Math::Exp);
@@ -1150,52 +1091,43 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def_static<Math>(L, "Pow", &Math::Pow);
     lua_tinker::class_def_static<Math>(L, "RadiansToAngleUnits", &Math::RadiansToAngleUnits);
     lua_tinker::class_def_static<Math>(L, "RadiansToDegrees", &Math::RadiansToDegrees);
+    lua_tinker::class_def_static<Math>(L,
+                                       "Sign",
+                                       lua_tinker::args_type_overload_functor(lua_tinker::make_functor_ptr((Degree(*)(const Degree&))(&Math::Sign)),
+                                                                              lua_tinker::make_functor_ptr((Radian(*)(const Radian&))(&Math::Sign)),
+                                                                              lua_tinker::make_functor_ptr((float (*)(float))(&Math::Sign))));
     lua_tinker::class_def_static<Math>(
         L,
-        "Sign",
-        lua_tinker::args_type_overload_functor(lua_tinker::make_functor_ptr((Degree(*)(const Degree&))(&Math::Sign)),
-                                               lua_tinker::make_functor_ptr((Radian(*)(const Radian&))(&Math::Sign)),
-                                               lua_tinker::make_functor_ptr((float (*)(float))(&Math::Sign))));
-    lua_tinker::class_def_static<Math>(L,
-                                       "Sin",
-                                       lua_tinker::args_type_overload_functor(
-                                           lua_tinker::make_functor_ptr((float (*)(const Radian&, bool))(&Math::Sin),
-                                                                        1 /*default_args_count*/,
-                                                                        1 /*default_args_start*/),
-                                           lua_tinker::make_functor_ptr((float (*)(float, bool))(&Math::Sin),
-                                                                        1 /*default_args_count*/,
-                                                                        2 /*default_args_start*/)),
-                                       false,
-                                       false);
+        "Sin",
+        lua_tinker::args_type_overload_functor(
+            lua_tinker::make_functor_ptr((float (*)(const Radian&, bool))(&Math::Sin), 1 /*default_args_count*/, 1 /*default_args_start*/),
+            lua_tinker::make_functor_ptr((float (*)(float, bool))(&Math::Sin), 1 /*default_args_count*/, 2 /*default_args_start*/)),
+        false,
+        false);
     lua_tinker::class_def_static<Math>(L, "Sqr", &Math::Sqr);
+    lua_tinker::class_def_static<Math>(L,
+                                       "Sqrt",
+                                       lua_tinker::args_type_overload_functor(lua_tinker::make_functor_ptr((Degree(*)(const Degree&))(&Math::Sqrt)),
+                                                                              lua_tinker::make_functor_ptr((Radian(*)(const Radian&))(&Math::Sqrt)),
+                                                                              lua_tinker::make_functor_ptr((float (*)(float))(&Math::Sqrt))));
     lua_tinker::class_def_static<Math>(
         L,
-        "Sqrt",
-        lua_tinker::args_type_overload_functor(lua_tinker::make_functor_ptr((Degree(*)(const Degree&))(&Math::Sqrt)),
-                                               lua_tinker::make_functor_ptr((Radian(*)(const Radian&))(&Math::Sqrt)),
-                                               lua_tinker::make_functor_ptr((float (*)(float))(&Math::Sqrt))));
-    lua_tinker::class_def_static<Math>(L,
-                                       "Tan",
-                                       lua_tinker::args_type_overload_functor(
-                                           lua_tinker::make_functor_ptr((float (*)(const Radian&, bool))(&Math::Tan),
-                                                                        1 /*default_args_count*/,
-                                                                        1 /*default_args_start*/),
-                                           lua_tinker::make_functor_ptr((float (*)(float, bool))(&Math::Tan),
-                                                                        1 /*default_args_count*/,
-                                                                        2 /*default_args_start*/)),
-                                       false,
-                                       false);
+        "Tan",
+        lua_tinker::args_type_overload_functor(
+            lua_tinker::make_functor_ptr((float (*)(const Radian&, bool))(&Math::Tan), 1 /*default_args_count*/, 1 /*default_args_start*/),
+            lua_tinker::make_functor_ptr((float (*)(float, bool))(&Math::Tan), 1 /*default_args_count*/, 2 /*default_args_start*/)),
+        false,
+        false);
     lua_tinker::class_def_static<Math>(L, "get2Pow", &Math::get2Pow);
     lua_tinker::class_def_static<Math>(L, "getAngleUnit", &Math::getAngleUnit);
     lua_tinker::class_def_static<Math>(L, "ilog2", &Math::ilog2);
     lua_tinker::class_def_static<Math>(L, "is2Pow", &Math::is2Pow);
     lua_tinker::class_def_static<Math>(L, "isNaN", &Math::isNaN);
     lua_tinker::class_def_static<Math>(L, "nextPow2", &Math::nextPow2);
-    lua_tinker::class_def_static<Math>(
-        L,
-        "saturate",
-        lua_tinker::args_type_overload_functor(lua_tinker::make_functor_ptr((double (*)(double))(&Math::saturate)),
-                                               lua_tinker::make_functor_ptr((float (*)(float))(&Math::saturate))));
+    lua_tinker::class_def_static<Math>(L,
+                                       "saturate",
+                                       lua_tinker::args_type_overload_functor(lua_tinker::make_functor_ptr((double (*)(double))(&Math::saturate)),
+                                                                              lua_tinker::make_functor_ptr((float (*)(float))(&Math::saturate))));
     lua_tinker::class_mem_static_readonly<Math>(L, "HALF_PI", &Math::HALF_PI);
     lua_tinker::class_mem_static_readonly<Math>(L, "PI", &Math::PI);
     lua_tinker::class_mem_static_readonly<Math>(L, "TWO_PI", &Math::TWO_PI);
@@ -1206,20 +1138,18 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<Ray>(L, "__mul", &Ray::operator*);
     lua_tinker::class_def<Ray>(L, "setDirection", &Ray::setDirection);
     lua_tinker::class_def<Ray>(L, "setOrigin", &Ray::setOrigin);
-    lua_tinker::class_con<Ray>(
-        L,
-        lua_tinker::args_type_overload_constructor(new lua_tinker::constructor<Ray>(),
-                                                   new lua_tinker::constructor<Ray, const Vector3&, const Vector3&>()));
+    lua_tinker::class_con<Ray>(L,
+                               lua_tinker::args_type_overload_constructor(new lua_tinker::constructor<Ray>(),
+                                                                          new lua_tinker::constructor<Ray, const Vector3&, const Vector3&>()));
     lua_tinker::class_add<Rect>(L, "Rect", false);
     lua_tinker::class_def<Rect>(L, "height", &Rect::height);
     lua_tinker::class_def<Rect>(L, "isIntersect", &Rect::isIntersect);
     lua_tinker::class_def<Rect>(L, "operator=", &Rect::operator=);
     lua_tinker::class_def<Rect>(L, "width", &Rect::width);
-    lua_tinker::class_con<Rect>(
-        L,
-        lua_tinker::args_type_overload_constructor(new lua_tinker::constructor<Rect>(),
-                                                   new lua_tinker::constructor<Rect, const Rect&>(),
-                                                   new lua_tinker::constructor<Rect, long, long, long, long>()));
+    lua_tinker::class_con<Rect>(L,
+                                lua_tinker::args_type_overload_constructor(new lua_tinker::constructor<Rect>(),
+                                                                           new lua_tinker::constructor<Rect, const Rect&>(),
+                                                                           new lua_tinker::constructor<Rect, long, long, long, long>()));
     lua_tinker::class_mem<Rect>(L, "bottom", &Rect::bottom);
     lua_tinker::class_mem<Rect>(L, "left", &Rect::left);
     lua_tinker::class_mem<Rect>(L, "right", &Rect::right);
@@ -1239,13 +1169,12 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<SceneIdx>(L, "GetZoneID", &SceneIdx::GetZoneID);
     lua_tinker::class_def<SceneIdx>(L, "__lt", &SceneIdx::operator<);
     lua_tinker::class_def<SceneIdx>(L, "__eq", &SceneIdx::operator==);
-    lua_tinker::class_con<SceneIdx>(
-        L,
-        lua_tinker::args_type_overload_constructor(
-            new lua_tinker::constructor<SceneIdx, const SceneIdx&>(),
-            new lua_tinker::constructor<SceneIdx, uint16_t, uint16_t, uint32_t>(),
-            new lua_tinker::constructor<SceneIdx, uint64_t>(1 /*default_args_count*/, 1 /*default_args_start*/)),
-        0);
+    lua_tinker::class_con<SceneIdx>(L,
+                                    lua_tinker::args_type_overload_constructor(
+                                        new lua_tinker::constructor<SceneIdx, const SceneIdx&>(),
+                                        new lua_tinker::constructor<SceneIdx, uint16_t, uint16_t, uint32_t>(),
+                                        new lua_tinker::constructor<SceneIdx, uint64_t>(1 /*default_args_count*/, 1 /*default_args_start*/)),
+                                    0);
     lua_tinker::class_add<ServerPort>(L, "ServerPort", false);
     lua_tinker::class_def<ServerPort>(L, "GetData", &ServerPort::GetData);
     lua_tinker::class_def<ServerPort>(L, "GetServiceID", &ServerPort::GetServiceID);
@@ -1256,13 +1185,12 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<ServerPort>(L, "SetWorldID", &ServerPort::SetWorldID);
     lua_tinker::class_def<ServerPort>(L, "__lt", &ServerPort::operator<);
     lua_tinker::class_def<ServerPort>(L, "__eq", &ServerPort::operator==);
-    lua_tinker::class_con<ServerPort>(
-        L,
-        lua_tinker::args_type_overload_constructor(
-            new lua_tinker::constructor<ServerPort, const ServerPort&>(),
-            new lua_tinker::constructor<ServerPort, uint16_t, uint16_t>(),
-            new lua_tinker::constructor<ServerPort, uint32_t>(1 /*default_args_count*/, 1 /*default_args_start*/)),
-        0);
+    lua_tinker::class_con<ServerPort>(L,
+                                      lua_tinker::args_type_overload_constructor(
+                                          new lua_tinker::constructor<ServerPort, const ServerPort&>(),
+                                          new lua_tinker::constructor<ServerPort, uint16_t, uint16_t>(),
+                                          new lua_tinker::constructor<ServerPort, uint32_t>(1 /*default_args_count*/, 1 /*default_args_start*/)),
+                                      0);
     lua_tinker::class_add<TargetSceneID>(L, "TargetSceneID", false);
     lua_tinker::class_def<TargetSceneID>(L, "GetMapID", &TargetSceneID::GetMapID);
     lua_tinker::class_def<TargetSceneID>(L, "GetPhaseID", &TargetSceneID::GetPhaseID);
@@ -1306,11 +1234,10 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<Vector2>(L, "squaredDistance", &Vector2::squaredDistance);
     lua_tinker::class_def<Vector2>(L, "squaredLength", &Vector2::squaredLength);
     lua_tinker::class_def<Vector2>(L, "swap", &Vector2::swap);
-    lua_tinker::class_con<Vector2>(
-        L,
-        lua_tinker::args_type_overload_constructor(new lua_tinker::constructor<Vector2>(),
-                                                   new lua_tinker::constructor<Vector2, const float>(),
-                                                   new lua_tinker::constructor<Vector2, const float, const float>()));
+    lua_tinker::class_con<Vector2>(L,
+                                   lua_tinker::args_type_overload_constructor(new lua_tinker::constructor<Vector2>(),
+                                                                              new lua_tinker::constructor<Vector2, const float>(),
+                                                                              new lua_tinker::constructor<Vector2, const float, const float>()));
     lua_tinker::class_mem<Vector2>(L, "x", &Vector2::x);
     lua_tinker::class_mem<Vector2>(L, "y", &Vector2::y);
     lua_tinker::class_add<Vector3>(L, "Vector3", false);
@@ -1346,11 +1273,11 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<Vector3>(L, "squaredDistance", &Vector3::squaredDistance);
     lua_tinker::class_def<Vector3>(L, "squaredLength", &Vector3::squaredLength);
     lua_tinker::class_def<Vector3>(L, "swap", &Vector3::swap);
-    lua_tinker::class_con<Vector3>(L,
-                                   lua_tinker::args_type_overload_constructor(
-                                       new lua_tinker::constructor<Vector3>(),
-                                       new lua_tinker::constructor<Vector3, const float>(),
-                                       new lua_tinker::constructor<Vector3, const float, const float, const float>()));
+    lua_tinker::class_con<Vector3>(
+        L,
+        lua_tinker::args_type_overload_constructor(new lua_tinker::constructor<Vector3>(),
+                                                   new lua_tinker::constructor<Vector3, const float>(),
+                                                   new lua_tinker::constructor<Vector3, const float, const float, const float>()));
     lua_tinker::class_mem<Vector3>(L, "x", &Vector3::x);
     lua_tinker::class_mem<Vector3>(L, "y", &Vector3::y);
     lua_tinker::class_mem<Vector3>(L, "z", &Vector3::z);
@@ -1381,18 +1308,8 @@ void zone2lua(lua_State* L)
     lua_tinker::namespace_def(L, "GameMath", "distance", &GameMath::distance);
     lua_tinker::namespace_def(L, "GameMath", "distance2D", &GameMath::distance2D);
     lua_tinker::namespace_def(L, "GameMath", "getAngleFrom", &GameMath::getAngleFrom, GameMath::VECTOR2_NORTH);
-    lua_tinker::namespace_def(L,
-                              "GameMath",
-                              "getDirectAngleFrom",
-                              &GameMath::getDirectAngleFrom,
-                              GameMath::VECTOR2_NORTH,
-                              true);
-    lua_tinker::namespace_def(L,
-                              "GameMath",
-                              "getDirectRadianFrom",
-                              &GameMath::getDirectRadianFrom,
-                              GameMath::VECTOR2_NORTH,
-                              true);
+    lua_tinker::namespace_def(L, "GameMath", "getDirectAngleFrom", &GameMath::getDirectAngleFrom, GameMath::VECTOR2_NORTH, true);
+    lua_tinker::namespace_def(L, "GameMath", "getDirectRadianFrom", &GameMath::getDirectRadianFrom, GameMath::VECTOR2_NORTH, true);
     lua_tinker::namespace_def(L, "GameMath", "getRadianFrom", &GameMath::getRadianFrom, GameMath::VECTOR2_NORTH);
     lua_tinker::namespace_def(L, "GameMath", "isIntersect", &GameMath::isIntersect);
     lua_tinker::namespace_def(L, "GameMath", "manhattanDistance", &GameMath::manhattanDistance);
@@ -1407,20 +1324,11 @@ void zone2lua(lua_State* L)
     lua_tinker::namespace_add(L, "GameMath::Intersection");
     lua_tinker::scope_inner(L, "GameMath", "Intersection", "GameMath::Intersection");
     lua_tinker::namespace_add(L, "GameMath::Intersection2D");
-    lua_tinker::namespace_def(L,
-                              "GameMath::Intersection2D",
-                              "LineIntersection2D",
-                              &GameMath::Intersection2D::LineIntersection2D);
-    lua_tinker::namespace_def(L,
-                              "GameMath::Intersection2D",
-                              "getNearestPoint",
-                              &GameMath::Intersection2D::getNearestPoint);
+    lua_tinker::namespace_def(L, "GameMath::Intersection2D", "LineIntersection2D", &GameMath::Intersection2D::LineIntersection2D);
+    lua_tinker::namespace_def(L, "GameMath::Intersection2D", "getNearestPoint", &GameMath::Intersection2D::getNearestPoint);
     lua_tinker::namespace_def(L, "GameMath::Intersection2D", "isInABBox", &GameMath::Intersection2D::isInABBox);
     lua_tinker::namespace_def(L, "GameMath::Intersection2D", "isInFOV", &GameMath::Intersection2D::isInFOV);
-    lua_tinker::namespace_def(L,
-                              "GameMath::Intersection2D",
-                              "lineIntersection2D",
-                              &GameMath::Intersection2D::lineIntersection2D);
+    lua_tinker::namespace_def(L, "GameMath::Intersection2D", "lineIntersection2D", &GameMath::Intersection2D::lineIntersection2D);
     lua_tinker::scope_inner(L, "GameMath", "Intersection2D", "GameMath::Intersection2D");
     lua_tinker::def(L, "AchievementTypeSet", &AchievementTypeSet);
     lua_tinker::def(L, "ActorManager", &ActorManager);
@@ -1432,9 +1340,8 @@ void zone2lua(lua_State* L)
     lua_tinker::def(L, "EventManager", &EventManager);
     lua_tinker::def(L,
                     "FindNameError",
-                    lua_tinker::args_type_overload_functor(
-                        lua_tinker::make_functor_ptr((bool (*)(const std::string&))(&FindNameError)),
-                        lua_tinker::make_functor_ptr((bool (*)(const std::wstring&))(&FindNameError))));
+                    lua_tinker::args_type_overload_functor(lua_tinker::make_functor_ptr((bool (*)(const std::string&))(&FindNameError)),
+                                                           lua_tinker::make_functor_ptr((bool (*)(const std::wstring&))(&FindNameError))));
     lua_tinker::def(L, "GMManager", &GMManager);
     lua_tinker::def(L, "GetBasePath", &GetBasePath);
     lua_tinker::def(L, "GetFileExt", &GetFileExt);
@@ -1472,9 +1379,8 @@ void zone2lua(lua_State* L)
     lua_tinker::def(L, "RegexStrReload", &RegexStrReload);
     lua_tinker::def(L,
                     "ReplaceIllegaWords",
-                    lua_tinker::args_type_overload_functor(
-                        lua_tinker::make_functor_ptr((bool (*)(std::string&))(&ReplaceIllegaWords)),
-                        lua_tinker::make_functor_ptr((bool (*)(std::wstring&))(&ReplaceIllegaWords))));
+                    lua_tinker::args_type_overload_functor(lua_tinker::make_functor_ptr((bool (*)(std::string&))(&ReplaceIllegaWords)),
+                                                           lua_tinker::make_functor_ptr((bool (*)(std::wstring&))(&ReplaceIllegaWords))));
     lua_tinker::def(L, "ReplaceStr", &ReplaceStr);
     lua_tinker::def(L, "SceneManager", &SceneManager);
     lua_tinker::def(L, "ScriptManager", &ScriptManager);

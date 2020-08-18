@@ -52,14 +52,18 @@ int main()
         CUIDFactory uid_factory;
         uid_factory.Init(1000, 11);
 
-        OBJID idPlayer                        = uid_factory.CreateID();
-        auto  db_record_ptr                   = mysql_conn.MakeRecord(TBLD_PLAYER::table_name());
+        OBJID idPlayer      = uid_factory.CreateID();
+        auto  db_record_ptr = mysql_conn.MakeRecord(TBLD_PLAYER::table_name());
+
         db_record_ptr->Field(TBLD_PLAYER::ID) = idPlayer;
         db_record_ptr->Field("name")          = "test2";
-        char szBuf[1024]                      = {"test3"};
-        db_record_ptr->Field(DBFieldHelp<TBLD_PLAYER,TBLD_PLAYER::NAME>::GetFieldName()) = szBuf;
+
+        char szBuf[1024] = {"test3"};
+
+        db_record_ptr->Field(DBFieldHelp<TBLD_PLAYER, TBLD_PLAYER::NAME>::GetFieldName()) = szBuf;
+
         fmt::format_to_n(szBuf, 1024, "test{}", idPlayer);
-        db_record_ptr->Field(DBFieldHelp<TBLD_PLAYER,TBLD_PLAYER::NAME>::GetFieldName()) = szBuf;
+        db_record_ptr->Field(DBFieldHelp<TBLD_PLAYER, TBLD_PLAYER::NAME>::GetFieldName()) = szBuf;
 
         try
         {

@@ -29,6 +29,11 @@ bool CClientSocket::Init(bufferevent* pBufferEvent)
         bufferevent_enable(pBufferEvent, EV_WRITE | EV_READ | EV_PERSIST);
         _SetTimeout();
     }
+    {
+        evutil_make_socket_nonblocking(m_socket);
+        set_sock_nodely();
+        set_sock_quickack();
+    }
     m_pBufferevent = pBufferEvent;
     SetStatus(NSS_READY);
     return true;

@@ -19,11 +19,12 @@ public:
 public:
     ~CGuildManager();
 
-    bool   Init();
-    void   Destory();
+    bool    Init();
+    void    Destory();
     CGuild* CreateGuild(uint64_t idGuild, const std::string& strGuildName, OBJID idLeader, const std::string& strLeaderName);
+
     CGuild* QueryGuild(uint64_t idGuild);
-    bool   DestoryGuild(uint64_t idGuild);
+    bool    DestoryGuild(uint64_t idGuild);
 
 private:
     std::map<uint64_t, CGuild*> m_setGuild;

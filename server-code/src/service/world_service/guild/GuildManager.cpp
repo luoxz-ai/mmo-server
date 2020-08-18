@@ -1,7 +1,7 @@
 #include "GuildManager.h"
 
-#include "MsgWorldProcess.h"
 #include "Guild.h"
+#include "MsgWorldProcess.h"
 #include "User.h"
 #include "UserManager.h"
 #include "WorldService.h"
@@ -9,7 +9,7 @@
 
 CGuildManager::CGuildManager() {}
 
-CGuildManager::~CGuildManager() 
+CGuildManager::~CGuildManager()
 {
     Destory();
 }
@@ -36,7 +36,6 @@ bool CGuildManager::Init()
     return true;
     __LEAVE_FUNCTION
     return false;
-
 }
 
 void CGuildManager::Destory()
@@ -59,18 +58,19 @@ CGuild* CGuildManager::CreateGuild(uint64_t idGuild, const std::string& strGuild
 
     CHECKF(QueryGuild(idGuild) == nullptr);
 
-    auto pDB = WorldService()->GetGameDB();
+    auto pDB       = WorldService()->GetGameDB();
     auto pDBRecord = pDB->MakeRecord(TBLD_GUILD::table_name());
-    auto now = TimeGetSecond();
-    pDBRecord->Field(TBLD_GUILD::ID) = idGuild;
-    pDBRecord->Field(TBLD_GUILD::LEV) = 1;
-    pDBRecord->Field(TBLD_GUILD::NAME) = strGuildName;
-    pDBRecord->Field(TBLD_GUILD::LEADER_ID) = idLeader;
-    pDBRecord->Field(TBLD_GUILD::LEADER_NAME) = strLeaderName;
-    pDBRecord->Field(TBLD_GUILD::CREATOR_ID) = idLeader;
+    auto now       = TimeGetSecond();
+
+    pDBRecord->Field(TBLD_GUILD::ID)           = idGuild;
+    pDBRecord->Field(TBLD_GUILD::LEV)          = 1;
+    pDBRecord->Field(TBLD_GUILD::NAME)         = strGuildName;
+    pDBRecord->Field(TBLD_GUILD::LEADER_ID)    = idLeader;
+    pDBRecord->Field(TBLD_GUILD::LEADER_NAME)  = strLeaderName;
+    pDBRecord->Field(TBLD_GUILD::CREATOR_ID)   = idLeader;
     pDBRecord->Field(TBLD_GUILD::CREATOR_NAME) = strLeaderName;
-    pDBRecord->Field(TBLD_GUILD::CREATE_TIME) = now;
-    pDBRecord->Field(TBLD_GUILD::DEL_TIME) = 0;
+    pDBRecord->Field(TBLD_GUILD::CREATE_TIME)  = now;
+    pDBRecord->Field(TBLD_GUILD::DEL_TIME)     = 0;
     if(pDBRecord->Update(true) == false)
     {
         LOGDEBUG("CGuildManager: CreateGuild Fail. guild_id:{}, guildname:{}", idGuild, strGuildName);
@@ -219,7 +219,7 @@ ON_SERVERMSG(CWorldService, GuildAcceptApply)
         // send err msg to sender
         return;
     }
-    
+
     if(pUser->GetGuildID() != 0)
     {
         CGuild* pGuild = GuildManager()->QueryGuild(pUser->GetGuildID());
@@ -228,8 +228,7 @@ ON_SERVERMSG(CWorldService, GuildAcceptApply)
     }
     else
     {
-       // send err msg to sender
-       
+        // send err msg to sender
     }
 }
 

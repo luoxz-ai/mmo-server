@@ -191,5 +191,26 @@ static inline std::optional<std::string> attempt(Func&& func, Args&&... args)
     return {};
 }
 
+#define attempt_call(x)                                                        \
+    {                                                                          \
+        try                                                                    \
+        {                                                                      \
+            x;                                                                 \
+        }                                                                      \
+        catch(const std::runtime_error& e)                                     \
+        {                                                                      \
+            LOGERROR("catch_execpetion:{}", e.what());                         \
+            LOGERROR("CallStack:{}", GetStackTraceString(CallFrameMap(1, 6))); \
+        }                                                                      \
+        catch(const std::exception& e)                                         \
+        {                                                                      \
+            LOGERROR("catch_execpetion:{}", e.what());                         \
+            LOGERROR("CallStack:{}", GetStackTraceString(CallFrameMap(1, 6))); \
+        }                                                                      \
+        catch(...)                                                             \
+        {                                                                      \
+            LOGSTACK("catch_error");                                           \
+        }                                                                      \
+    }
 
 #endif /* CHECKUTIL_H */

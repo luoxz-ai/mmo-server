@@ -20,7 +20,6 @@ bool CGuildMemberInfo::Init(CDBRecordPtr&& pDBRecord)
     __ENTER_FUNCTION
     m_pDBRecord = std::move(pDBRecord);
 
-    
     return true;
     __LEAVE_FUNCTION
     return false;
@@ -38,7 +37,7 @@ GuildMemberInfo CGuildMemberInfo::to_pb() const
     result.set_member_score(get_member_score());
     result.set_member_jointime(get_member_jointime());
     result.set_member_last_logout(get_member_last_logout());
-    
+
     return result;
 }
 
@@ -62,9 +61,10 @@ CGuild::~CGuild() {}
 bool CGuild::Init(CDBRecordPtr&& pDBRecord, CUser* pLeader)
 {
     __ENTER_FUNCTION
+    CHECKF(pDBRecord);
     m_pDBRecord = std::move(pDBRecord);
 
-    AddMember(pLeader->GetID(), GUILD_RANK_LEADER);    
+    AddMember(pLeader->GetID(), GUILD_RANK_LEADER);
     return true;
     __LEAVE_FUNCTION
     return false;
@@ -73,10 +73,12 @@ bool CGuild::Init(CDBRecordPtr&& pDBRecord, CUser* pLeader)
 bool CGuild::Init(CDBRecordPtr&& pDBRecord)
 {
     __ENTER_FUNCTION
+    CHECKF(pDBRecord);
     m_pDBRecord = std::move(pDBRecord);
-    //query member info
-    auto pDB        = WorldService()->GetGameDB();
-    auto result_ptr = pDB->QueryT<TBLD_PLAYER_GUILDINFO,TBLD_PLAYER_GUILDINFO::GUILDID >(GetGuildID());
+    // query member info
+    auto pDB = WorldService()->GetGameDB();
+    CHECKF(pDB);
+    auto result_ptr = pDB->QueryT<TBLD_PLAYER_GUILDINFO, TBLD_PLAYER_GUILDINFO::GUILDID>(GetGuildID());
 
     if(result_ptr)
     {
@@ -100,28 +102,27 @@ void CGuild::SendGuildAction(uint32_t nAction, OBJID idOperator, OBJID idMember)
 {
     __ENTER_FUNCTION
     SC_GUILDMEMBER_ACTION msg;
-    msg.set_action( SC_GUILDMEMBER_ACTION_Action(nAction) );
+    msg.set_action(SC_GUILDMEMBER_ACTION_Action(nAction));
     msg.set_operator_id(idOperator);
     msg.set_member_id(idMember);
 
     auto setSocketMap = WorldService()->IDList2VSMap(m_setMemberInfo, 0);
     WorldService()->SendMsgTo(setSocketMap, msg);
-    
-    __LEAVE_FUNCTION
 
+    __LEAVE_FUNCTION
 }
 
 void CGuild::SendGuildMemberInfoToAll(CGuildMemberInfo* pMemberInfo) const
 {
     __ENTER_FUNCTION
     SC_GUILDMEMBER_INFO msg;
+
     auto pInfo = msg.add_member_list();
     pMemberInfo->to_pb(*pInfo);
 
     auto setSocketMap = WorldService()->IDList2VSMap(m_setMemberInfo, 0);
     WorldService()->SendMsgTo(setSocketMap, msg);
     __LEAVE_FUNCTION
-
 }
 
 void CGuild::SendAllGuildMemberInfoTo(CUser* pUser) const
@@ -131,7 +132,7 @@ void CGuild::SendAllGuildMemberInfoTo(CUser* pUser) const
 
     SC_GUILDMEMBER_INFO msg;
 
-    for(const auto& [k,v]: m_setMemberInfo)
+    for(const auto& [k, v]: m_setMemberInfo)
     {
         auto pInfo = msg.add_member_list();
         v->to_pb(*pInfo);
@@ -139,7 +140,6 @@ void CGuild::SendAllGuildMemberInfoTo(CUser* pUser) const
 
     pUser->SendMsg(msg);
     __LEAVE_FUNCTION
-
 }
 
 void CGuild::SetLeader(OBJID idOperator, OBJID idLeader, const std::string& strLeaderName)
@@ -151,17 +151,14 @@ void CGuild::SetLeader(OBJID idOperator, OBJID idLeader, const std::string& strL
     if(IsMember(idLeader) == false)
         return;
 
-    m_pDBRecord->Field(TBLD_GUILD::LEADER_ID) = idLeader;
+    m_pDBRecord->Field(TBLD_GUILD::LEADER_ID)   = idLeader;
     m_pDBRecord->Field(TBLD_GUILD::LEADER_NAME) = strLeaderName;
     m_pDBRecord->Update();
-
 
     auto pOldLeader = QueryMember(idOperator);
     auto pNewLeader = QueryMember(idLeader);
     pOldLeader->set_member_rank(GUILD_RANK_MEMBER);
     pNewLeader->set_member_rank(GUILD_RANK_LEADER);
-    
-
 
     ServerMSG::GuildNewLeader msg;
     msg.set_guild_id(GetGuildID());
@@ -171,14 +168,13 @@ void CGuild::SetLeader(OBJID idOperator, OBJID idLeader, const std::string& strL
 
     SendGuildAction(SC_GUILDMEMBER_ACTION::GUILD_CHANGE_LEADER, idOperator, idLeader);
     __LEAVE_FUNCTION
-
 }
 
-bool CGuild::IsFull() const 
-{ 
+bool CGuild::IsFull() const
+{
     __ENTER_FUNCTION
     static constexpr size_t _MAX_GUILD_MEMBER = 100;
-    return m_setMemberInfo.size() > _MAX_GUILD_MEMBER; 
+    return m_setMemberInfo.size() > _MAX_GUILD_MEMBER;
     __LEAVE_FUNCTION
     return false;
 }
@@ -186,7 +182,7 @@ bool CGuild::IsFull() const
 void CGuild::AddMember(OBJID idMember, uint32_t nRank)
 {
     __ENTER_FUNCTION
-    auto pMemberInfo = CreateMemberInfo(idMember,nRank);
+    auto pMemberInfo = CreateMemberInfo(idMember, nRank);
     CHECK(pMemberInfo);
 
     auto pUser = UserManager()->QueryUser(idMember);
@@ -200,7 +196,7 @@ void CGuild::AddMember(OBJID idMember, uint32_t nRank)
     msg.set_guild_id(GetGuildID());
     msg.set_member_id(idMember);
     WorldService()->BroadcastToZone(msg);
-    
+
     // send to all member,exclude pUser;
     SendGuildMemberInfoToAll(pMemberInfo);
 
@@ -208,20 +204,21 @@ void CGuild::AddMember(OBJID idMember, uint32_t nRank)
     SendAllGuildMemberInfoTo(pUser);
     m_setMemberInfo.emplace(pMemberInfo->get_member_id(), pMemberInfo);
     __LEAVE_FUNCTION
-
 }
 
 CGuildMemberInfo* CGuild::CreateMemberInfo(OBJID idMember, uint32_t nRank)
 {
     __ENTER_FUNCTION
-    auto pDB        = WorldService()->GetGameDB();
+    auto pDB = WorldService()->GetGameDB();
+    CHECKF(pDB);
     auto db_record_ptr = pDB->MakeRecord(TBLD_PLAYER_GUILDINFO::table_name());
-    db_record_ptr->Field(TBLD_PLAYER_GUILDINFO::ID) = idMember;
-    db_record_ptr->Field(TBLD_PLAYER_GUILDINFO::GUILDID) = GetGuildID();
-    db_record_ptr->Field(TBLD_PLAYER_GUILDINFO::RANK) = nRank;
-    db_record_ptr->Field(TBLD_PLAYER_GUILDINFO::SCORE) = 0;
+    CHECKF(db_record_ptr);
+    db_record_ptr->Field(TBLD_PLAYER_GUILDINFO::ID)          = idMember;
+    db_record_ptr->Field(TBLD_PLAYER_GUILDINFO::GUILDID)     = GetGuildID();
+    db_record_ptr->Field(TBLD_PLAYER_GUILDINFO::RANK)        = nRank;
+    db_record_ptr->Field(TBLD_PLAYER_GUILDINFO::SCORE)       = 0;
     db_record_ptr->Field(TBLD_PLAYER_GUILDINFO::TOTAL_SCORE) = 0;
-    
+
     db_record_ptr->Update();
 
     CGuildMemberInfo* pMemberInfo = CGuildMemberInfo::CreateNew(std::move(db_record_ptr));
@@ -234,45 +231,47 @@ CGuildMemberInfo* CGuild::CreateMemberInfo(OBJID idMember, uint32_t nRank)
 bool CGuild::AddMemberOffline(OBJID idMember, uint32_t nRank)
 {
     __ENTER_FUNCTION
-    //check have guild
-    auto pDB        = WorldService()->GetGameDB();
+    // check have guild
+    auto pDB = WorldService()->GetGameDB();
     CHECKF(pDB);
     CGuildMemberInfo* pMemberInfo = nullptr;
+
     auto db_query_ptr = pDB->QueryTLimit<TBLD_PLAYER_GUILDINFO, TBLD_PLAYER_GUILDINFO::ID>(idMember, 1);
     if(db_query_ptr)
     {
         auto row = db_query_ptr->fetch_row();
+
         uint64_t idGuild = row->Field(TBLD_PLAYER_GUILDINFO::GUILDID);
         if(idGuild != 0)
         {
             //已经加入其他guild了
-            return false;;
+            return false;
         }
         //修改
-        row->Field(TBLD_PLAYER_GUILDINFO::GUILDID) = GetGuildID();
-        row->Field(TBLD_PLAYER_GUILDINFO::RANK) = nRank;
-        row->Field(TBLD_PLAYER_GUILDINFO::SCORE) = 0;
+        row->Field(TBLD_PLAYER_GUILDINFO::GUILDID)     = GetGuildID();
+        row->Field(TBLD_PLAYER_GUILDINFO::RANK)        = nRank;
+        row->Field(TBLD_PLAYER_GUILDINFO::SCORE)       = 0;
         row->Field(TBLD_PLAYER_GUILDINFO::TOTAL_SCORE) = 0;
-        row->Field(TBLD_PLAYER_GUILDINFO::JOIN_TIME) = now();
-        
+        row->Field(TBLD_PLAYER_GUILDINFO::JOIN_TIME)   = now();
+
         row->Update();
 
-        pMemberInfo = CGuildMemberInfo::CreateNew(std::move(row));      
+        pMemberInfo = CGuildMemberInfo::CreateNew(std::move(row));
     }
     else
     {
         //创建
         auto row = pDB->MakeRecord(TBLD_PLAYER_GUILDINFO::table_name());
-        row->Field(TBLD_PLAYER_GUILDINFO::ID) = idMember;
-        row->Field(TBLD_PLAYER_GUILDINFO::GUILDID) = GetGuildID();
-        row->Field(TBLD_PLAYER_GUILDINFO::RANK) = nRank;
-        row->Field(TBLD_PLAYER_GUILDINFO::SCORE) = 0;
+
+        row->Field(TBLD_PLAYER_GUILDINFO::ID)          = idMember;
+        row->Field(TBLD_PLAYER_GUILDINFO::GUILDID)     = GetGuildID();
+        row->Field(TBLD_PLAYER_GUILDINFO::RANK)        = nRank;
+        row->Field(TBLD_PLAYER_GUILDINFO::SCORE)       = 0;
         row->Field(TBLD_PLAYER_GUILDINFO::TOTAL_SCORE) = 0;
-        row->Field(TBLD_PLAYER_GUILDINFO::JOIN_TIME) = now();
+        row->Field(TBLD_PLAYER_GUILDINFO::JOIN_TIME)   = now();
         row->Update();
         pMemberInfo = CGuildMemberInfo::CreateNew(std::move(row));
     }
-
 
     CHECKF(pMemberInfo);
     m_setMemberInfo.emplace(pMemberInfo->get_member_id(), pMemberInfo);
@@ -282,7 +281,7 @@ bool CGuild::AddMemberOffline(OBJID idMember, uint32_t nRank)
     msg.set_guild_id(GetGuildID());
     msg.set_member_id(idMember);
     WorldService()->BroadcastToZone(msg);
-    
+
     // send to all member,exclude pUser;
     SendGuildMemberInfoToAll(pMemberInfo);
     return true;
@@ -325,10 +324,10 @@ bool CGuild::KickMember(OBJID idOperator, OBJID idMember)
     return true;
     __LEAVE_FUNCTION
 
-   return false;
+    return false;
 }
 
-const CGuildMemberInfo* CGuild::QueryMember(OBJID idMember)const
+const CGuildMemberInfo* CGuild::QueryMember(OBJID idMember) const
 {
     __ENTER_FUNCTION
     auto it = m_setMemberInfo.find(idMember);
@@ -354,7 +353,6 @@ CGuildMemberInfo* CGuild::QueryMember(OBJID idMember)
     return nullptr;
 }
 
-
 void CGuild::Dismiss(OBJID idOperator)
 {
     __ENTER_FUNCTION
@@ -365,14 +363,13 @@ void CGuild::Dismiss(OBJID idOperator)
     GuildManager()->DestoryGuild(GetGuildID());
 
     __LEAVE_FUNCTION
-
 }
 
 bool CGuild::SetMemberRank(OBJID idOperator, OBJID idMember, uint32_t nRank)
 {
     __ENTER_FUNCTION
     auto pOperator = QueryMember(idOperator);
-    auto pMember = QueryMember(idMember);
+    auto pMember   = QueryMember(idMember);
     CHECKF(pOperator);
     CHECKF(pMember);
 
@@ -388,7 +385,7 @@ bool CGuild::SetMemberRank(OBJID idOperator, OBJID idMember, uint32_t nRank)
 
     if(GetRankCount(nRank) < GetRankLimit(nRank))
     {
-       return false;
+        return false;
     }
     pMember->set_member_rank(nRank);
     pMember->Save();
@@ -404,7 +401,7 @@ size_t CGuild::GetRankCount(uint32_t nRank)
     __ENTER_FUNCTION
 
     size_t nCount = 0;
-    for(const auto&[k,v] : m_setMemberInfo)
+    for(const auto& [k, v]: m_setMemberInfo)
     {
         if(v->get_member_rank() == nRank)
         {
@@ -415,7 +412,6 @@ size_t CGuild::GetRankCount(uint32_t nRank)
     __LEAVE_FUNCTION
     return 0;
 }
-
 
 size_t CGuild::GetRankLimit(uint32_t nRank)
 {
@@ -436,7 +432,7 @@ void CGuild::SetMemberScore(OBJID idMember, uint32_t nScore)
 
     pMember->set_member_score(nScore);
     pMember->ClearDirty();
-    
+
     SendGuildAction(SC_GUILDMEMBER_ACTION::GUILD_MEMBER_SCORE_CHG, idMember, idMember);
     __LEAVE_FUNCTION
 }
@@ -452,7 +448,7 @@ void CGuild::QuitGuild(OBJID idOperator)
         //必须先退位
         return;
     }
-    
+
     //先发消息
     ServerMSG::GuildQuit msg;
     msg.set_guild_id(GetGuildID());
@@ -462,7 +458,7 @@ void CGuild::QuitGuild(OBJID idOperator)
     SendGuildAction(SC_GUILDMEMBER_ACTION::GUILD_QUIT, idOperator, idOperator);
 
     //再删除
-    m_setMemberInfo.erase(idOperator);    
+    m_setMemberInfo.erase(idOperator);
     __LEAVE_FUNCTION
 }
 
@@ -578,7 +574,6 @@ void CGuild::ApplyMember(OBJID idApplicant)
     //记录申请
     m_setApply.insert(idApplicant);
 
-
     //发送申请给队长
     SC_GUILDAPPLYMEMBER msg;
     msg.set_applicant_id(idApplicant);
@@ -597,7 +592,7 @@ bool CGuild::AcceptApply(OBJID idApplicant, OBJID idRespondent, bool bResult)
     {
         return false;
     }
-    
+
     m_setApply.erase(idApplicant);
 
     if(bResult == false)
@@ -622,8 +617,6 @@ bool CGuild::AcceptApply(OBJID idApplicant, OBJID idRespondent, bool bResult)
         //发送错误答复给邀请给idRespondent
         return false;
     }
-
-
 
     AddMember(idApplicant, GUILD_RANK_NEWIBLE);
     return true;

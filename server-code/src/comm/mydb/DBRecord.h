@@ -24,7 +24,7 @@ public:
               CDBFieldInfoListPtr pMysqlFieldInfo,
               bool                bCanModify,
               MYSQL_ROW           row,
-              uint32_t*      lengths);
+              unsigned long*      lengths);
     ~CDBRecord();
 
     CDBField& Field(size_t n)

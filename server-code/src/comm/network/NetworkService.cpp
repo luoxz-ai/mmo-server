@@ -132,9 +132,7 @@ bool CNetworkService::EnableListener(evconnlistener* listener, bool bEnable)
     return false;
 }
 
-bool CNetworkService::ListenHttpPort(const char*                                     addr,
-                                     int32_t                                         port,
-                                     std::function<void(struct evhttp_request* req)> func)
+bool CNetworkService::ListenHttpPort(const char* addr, int32_t port, std::function<void(struct evhttp_request* req)> func)
 {
     __ENTER_FUNCTION
     if(m_pHttpHandle != nullptr)
@@ -267,14 +265,9 @@ bool CNetworkService::_Reconnect(CServerSocket* pSocket)
     hits.ai_protocol = IPPROTO_TCP;
     hits.ai_flags    = EVUTIL_AI_ADDRCONFIG;
 
-    if(evutil_getaddrinfo(pSocket->GetAddrString().c_str(),
-                          std::to_string(pSocket->GetPort()).c_str(),
-                          &hits,
-                          &answer) != 0)
+    if(evutil_getaddrinfo(pSocket->GetAddrString().c_str(), std::to_string(pSocket->GetPort()).c_str(), &hits, &answer) != 0)
     {
-        LOGNETERROR("CNetworkService::_Reconnect:{}:{} evutil_getaddrinfo fail",
-                    pSocket->GetAddrString().c_str(),
-                    pSocket->GetPort());
+        LOGNETERROR("CNetworkService::_Reconnect:{}:{} evutil_getaddrinfo fail", pSocket->GetAddrString().c_str(), pSocket->GetPort());
         return false;
     }
     std::unique_ptr<addrinfo, decltype(evutil_freeaddrinfo)*> answer_ptr(answer, evutil_freeaddrinfo);
@@ -282,17 +275,13 @@ bool CNetworkService::_Reconnect(CServerSocket* pSocket)
     int32_t fd = socket(answer_ptr->ai_family, answer_ptr->ai_socktype, answer_ptr->ai_protocol);
     if(fd < 0)
     {
-        LOGNETERROR("CNetworkService::_Reconnect:{}:{} socket fail",
-                    pSocket->GetAddrString().c_str(),
-                    pSocket->GetPort());
+        LOGNETERROR("CNetworkService::_Reconnect:{}:{} socket fail", pSocket->GetAddrString().c_str(), pSocket->GetPort());
 
         return false;
     }
     if(connect(fd, answer_ptr->ai_addr, answer_ptr->ai_addrlen))
     {
-        LOGNETERROR("CNetworkService::_Reconnect:{}:{} connect fail",
-                    pSocket->GetAddrString().c_str(),
-                    pSocket->GetPort());
+        LOGNETERROR("CNetworkService::_Reconnect:{}:{} connect fail", pSocket->GetAddrString().c_str(), pSocket->GetPort());
 
         evutil_closesocket(fd);
         return false;
@@ -351,7 +340,6 @@ CServerSocket* CNetworkService::AsyncConnectTo(const char* addr, int32_t port, C
         return nullptr;
     }
 
-    
     LOGNETDEBUG("CNetworkService::AsyncConnectTo:{}:{}", addr, port);
 
     return pSocket;
@@ -370,14 +358,9 @@ bool CNetworkService::_AsyncReconnect(CServerSocket* pSocket)
     hits.ai_protocol = IPPROTO_TCP;
     hits.ai_flags    = EVUTIL_AI_ADDRCONFIG;
 
-    if(evutil_getaddrinfo(pSocket->GetAddrString().c_str(),
-                          std::to_string(pSocket->GetPort()).c_str(),
-                          &hits,
-                          &answer) != 0)
+    if(evutil_getaddrinfo(pSocket->GetAddrString().c_str(), std::to_string(pSocket->GetPort()).c_str(), &hits, &answer) != 0)
     {
-        LOGNETERROR("CNetworkService::_AsyncReconnect:{}:{} evutil_getaddrinfo fail",
-                    pSocket->GetAddrString().c_str(),
-                    pSocket->GetPort());
+        LOGNETERROR("CNetworkService::_AsyncReconnect:{}:{} evutil_getaddrinfo fail", pSocket->GetAddrString().c_str(), pSocket->GetPort());
 
         return false;
     }
@@ -448,10 +431,7 @@ static void IOThreadProc(event_base* pBase, std::string _thread_name, uint16_t i
     __LEAVE_FUNCTION
 }
 
-void CNetworkService::StartIOThread(const std::string&    thread_name,
-                                    std::function<void()> time_out_func,
-                                    uint32_t              time_out_ms,
-                                    uint16_t              idService)
+void CNetworkService::StartIOThread(const std::string& thread_name, std::function<void()> time_out_func, uint32_t time_out_ms, uint16_t idService)
 {
     __ENTER_FUNCTION
     if(m_pIOThread)
@@ -522,8 +502,8 @@ void CNetworkService::accept_error_cb(struct evconnlistener* listener, void* arg
 void CNetworkService::OnAccept(int32_t fd, sockaddr* addr, int32_t, evconnlistener* listener)
 {
     __ENTER_FUNCTION
-    char           szHost[512];
-    unsigned short uPort = 0;
+    char           szHost[512] = {};
+    unsigned short uPort       = 0;
 
     if(addr)
     {
@@ -560,7 +540,7 @@ void CNetworkService::OnAccept(int32_t fd, sockaddr* addr, int32_t, evconnlisten
         return;
     }
     CNetEventHandler* pEventHandler = m_setListener[listener];
-    CClientSocket* pSocket       = CreateClientSocket(pEventHandler);
+    CClientSocket*    pSocket       = CreateClientSocket(pEventHandler);
     pSocket->SetAddrAndPort(szHost, uPort);
     pSocket->SetSocket(fd);
 
@@ -723,7 +703,7 @@ bool CNetworkService::KickSocket(SOCKET _socket)
         pSocket->Interrupt();
         return true;
     }
-    
+
     __LEAVE_FUNCTION
     return false;
 }

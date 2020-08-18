@@ -9,6 +9,12 @@
 #include "event2/buffer.h"
 #include "event2/util.h"
 
+#ifdef __linux
+#include <netinet/tcp.h> 
+#else
+#include <ws2def.h> 
+#endif
+
 OBJECTHEAP_IMPLEMENTATION(CNetSocket, s_Heap);
 
 CNetSocket::CNetSocket(CNetworkService* pService, CNetEventHandler* pEventHandler)
@@ -253,6 +259,7 @@ void CNetSocket::_OnSocketRead(bufferevent* b, void* ctx)
 
     CNetSocket* pSocket = (CNetSocket*)ctx;
     pSocket->_OnReceive(b);
+    pSocket->set_sock_quickack();
     __LEAVE_FUNCTION
 }
 
@@ -431,4 +438,31 @@ void CNetSocket::OnRecvTimeout(bool& bReconnect)
         m_pEventHandler->OnRecvTimeout(this);
 
     __LEAVE_FUNCTION
+}
+       
+void CNetSocket::set_sock_nodely()        
+{
+    bool option_true = true;
+    bool option_false = true;
+    setsockopt(m_socket, IPPROTO_TCP, TCP_NODELAY, (const char*)&option_true, sizeof(option_true));
+    setsockopt(m_socket, IPPROTO_TCP, TCP_CORK, (const char*)&option_false, sizeof(option_false));
+
+     // turn off SIGPIPE signal
+#ifdef __linux__
+    setsockopt(m_socket, SOL_SOCKET, MSG_NOSIGNAL, (const char*)&option_true, sizeof(option_true));
+#else
+    setsockopt(m_socket, SOL_SOCKET, SO_NOSIGPIPE, (const char*)&option_true, sizeof(option_true));
+#endif
+
+    // set SO_LINGER so socket closes gracefully
+    struct linger ling;
+    ling.l_onoff = 1;
+    ling.l_linger = 0;
+    setsockopt(m_socket, SOL_SOCKET, SO_LINGER, &ling, sizeof(ling));
+}
+
+void CNetSocket::set_sock_quickack()
+{
+    bool option_true = true;
+    setsockopt(m_socket, IPPROTO_TCP, TCP_QUICKACK, (const char*)&option_true, sizeof(option_true));
 }

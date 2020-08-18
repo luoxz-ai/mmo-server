@@ -17,9 +17,7 @@ else ()
   target_compile_definitions(gmock PUBLIC GTEST_HAS_PTHREAD=0)
 endif ()
 
-if (NOT SUPPORTS_VARIADIC_TEMPLATES)
-  target_compile_definitions(gmock PUBLIC GTEST_LANG_CXX11=0)
-endif ()
+target_compile_definitions(gmock PUBLIC GTEST_LANG_CXX11=0)
 
 if (MSVC)
   # Workaround a bug in implementation of variadic templates in MSVC11.
@@ -111,7 +109,18 @@ add_fmt_test(custom-formatter-test)
 add_fmt_test(ranges-test)
 add_fmt_test(scan-test)
 
-if (NOT MSVC_BUILD_STATIC)
+if (NOT DEFINED MSVC_STATIC_RUNTIME AND MSVC)
+  foreach (flag_var
+			 CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
+			 CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
+	if (${flag_var} MATCHES "^(/|-)(MT|MTd)")
+	  set(MSVC_STATIC_RUNTIME ON)
+	  break()
+	endif()
+  endforeach()
+endif()
+
+if (NOT MSVC_STATIC_RUNTIME)
   add_fmt_executable(posix-mock-test
     posix-mock-test.cc ../src/format.cc ${TEST_MAIN_SRC})
   target_include_directories(
@@ -125,7 +134,7 @@ if (NOT MSVC_BUILD_STATIC)
     target_compile_definitions(posix-mock-test PRIVATE FMT_LOCALE)
   endif ()
   add_test(NAME posix-mock-test COMMAND posix-mock-test)
-  add_fmt_test(posix-test)
+  add_fmt_test(os-test)
 endif ()
 
 add_fmt_executable(header-only-test
@@ -170,18 +179,6 @@ if (FMT_PEDANTIC)
     nolocale-test PRIVATE ${PROJECT_SOURCE_DIR}/include)
   target_compile_definitions(
     nolocale-test PRIVATE FMT_STATIC_THOUSANDS_SEPARATOR=1)
-
-  # Test that the library compiles without windows.h.
-  if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
-    add_library(no-windows-h-test ../src/format.cc)
-    target_include_directories(
-      no-windows-h-test PRIVATE ${PROJECT_SOURCE_DIR}/include)
-    target_compile_definitions(no-windows-h-test PRIVATE FMT_USE_WINDOWS_H=0)
-    if (FMT_PEDANTIC)
-      target_compile_options(no-windows-h-test PRIVATE ${PEDANTIC_COMPILE_FLAGS})
-    endif ()
-    target_include_directories(no-windows-h-test SYSTEM PUBLIC gtest gmock)
-  endif ()
 
   add_test(compile-error-test ${CMAKE_CTEST_COMMAND}
     --build-and-test

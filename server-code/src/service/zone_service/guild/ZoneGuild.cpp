@@ -1,16 +1,16 @@
 #include "ZoneGuild.h"
-#include "ZoneService.h"
-#include "MysqlConnection.h"
 
-CZoneGuild::CZoneGuild()
-{}
+#include "MysqlConnection.h"
+#include "ZoneService.h"
+
+CZoneGuild::CZoneGuild() {}
 
 bool CZoneGuild::Init(CDBRecordPtr&& pDBRecord)
 {
     m_pDBRecord = std::move(pDBRecord);
-    //query member info
+    // query member info
     auto pDB        = ZoneService()->GetGameDB(ZoneService()->GetWorldID());
-    auto result_ptr = pDB->QueryT<TBLD_PLAYER_GUILDINFO,TBLD_PLAYER_GUILDINFO::GUILDID>(GetGuildID());
+    auto result_ptr = pDB->QueryT<TBLD_PLAYER_GUILDINFO, TBLD_PLAYER_GUILDINFO::GUILDID>(GetGuildID());
 
     if(result_ptr)
     {
@@ -26,12 +26,9 @@ bool CZoneGuild::Init(CDBRecordPtr&& pDBRecord)
     return true;
 }
 
-CZoneGuild::~CZoneGuild()
-{
+CZoneGuild::~CZoneGuild() {}
 
-}
-
-bool CZoneGuild::IsLeader(OBJID idActor)const
+bool CZoneGuild::IsLeader(OBJID idActor) const
 {
     __ENTER_FUNCTION
     return GetLeaderID() == idActor;
@@ -39,7 +36,7 @@ bool CZoneGuild::IsLeader(OBJID idActor)const
     return false;
 }
 
-bool CZoneGuild::IsMember(OBJID idActor)const
+bool CZoneGuild::IsMember(OBJID idActor) const
 {
     __ENTER_FUNCTION
     return m_setMember.find(idActor) != m_setMember.end();
@@ -49,9 +46,9 @@ bool CZoneGuild::IsMember(OBJID idActor)const
 
 bool CZoneGuild::IsFull() const
 {
-        __ENTER_FUNCTION
+    __ENTER_FUNCTION
     static constexpr size_t _MAX_GUILD_MEMBER = 100;
-    return m_setMember.size() > _MAX_GUILD_MEMBER; 
+    return m_setMember.size() > _MAX_GUILD_MEMBER;
     __LEAVE_FUNCTION
     return false;
 }

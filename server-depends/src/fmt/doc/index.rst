@@ -10,7 +10,7 @@ alternative to C stdio and C++ iostreams.
      <div class="panel-heading">What users say:</div>
      <div class="panel-body">
        Thanks for creating this library. It’s been a hole in C++ for
-       aa long time. I’ve used both <code>boost::format</code> and
+       a long time. I’ve used both <code>boost::format</code> and
        <code>loki::SPrintf</code>, and neither felt like the right answer.
        This does.
      </div>
@@ -22,7 +22,7 @@ Format API
 ----------
 
 The format API is similar in spirit to the C ``printf`` family of function but
-is safer, simpler and serveral times `faster
+is safer, simpler and several times `faster
 <http://zverovich.net/2013/09/07/integer-to-string-conversion-in-cplusplus.html>`_
 than common standard library implementations.
 The `format string syntax <syntax.html>`_ is similar to the one used by

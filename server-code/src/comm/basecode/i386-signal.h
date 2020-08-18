@@ -109,7 +109,7 @@ extern "C"
         "	.align 16\n"                               \
         "__" #name ":\n"                             \
         "	movl $" #syscall ", %eax\n"              \
-        "	int32_t  $0x80");
+        "	int  $0x80");
 
 /* The return code for realtime-signals.  */
 RESTORE(restore_rt, __NR_rt_sigreturn)
