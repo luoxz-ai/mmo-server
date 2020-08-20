@@ -5,5 +5,5 @@ DIR_file=`pwd`
 mkdir -p build
 cd build/
 set -e
-CC=clang-9 CXX=clang++-9 cmake .. -DDEBUG=OFF -DTIDY=OFF
+CCACHE_SLOPPINESS=pch_defines,time_macros CC=clang-9 CXX=clang++-9 cmake .. -DDEBUG=OFF -DTIDY=OFF
 make -j4
