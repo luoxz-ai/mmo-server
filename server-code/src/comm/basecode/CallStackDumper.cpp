@@ -105,11 +105,9 @@ namespace
         char        buf[260] = {0};
 #ifdef WIN32
         uint32_t winPID = GetCurrentProcessId();
-        sprintf(buf, "%06u", winPID);
-        pid = buf;
+        pid = fmt::format("{:06u}", winPID);
 #else
-        sprintf(buf, "%06d", getpid());
-        pid = buf;
+        pid = fmt::format("{:06u}", getpid());
 #endif
         return pid;
     }
@@ -117,7 +115,7 @@ namespace
     std::string getProcessName()
     {
         std::string name     = "process";
-        char        buf[260] = {0};
+        char        buf[1024] = {0};
 #ifdef WIN32
         if(GetModuleFileNameA(NULL, buf, 259) > 0)
         {
@@ -147,7 +145,7 @@ namespace
             return name;
         }
 
-        fgets(buf, 260, fp);
+        fgets(buf, 1024, fp);
         name = buf;
         fclose(fp);
 

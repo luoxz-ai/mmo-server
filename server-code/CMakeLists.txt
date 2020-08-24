@@ -165,6 +165,7 @@ include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/depends/src/recastnavigation/Re
 include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/depends/src/recastnavigation/Detour/Inlcude)
 #include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/depends/src/recastnavigation/DetourCrowd/Inlcude)
 #include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/depends/src/recastnavigation/DetourTileCache/Inlcude)
+include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/depends/src/spy/include)
 include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/depends/src/)
 
 include_directories(${PROJECT_SOURCE_DIR}/src/server_share/)
