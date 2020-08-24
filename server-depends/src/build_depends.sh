@@ -197,7 +197,14 @@ cd ../..
 }
 
 
-
+spy()
+{
+cd spy
+mkdir -p build
+cd build
+CC=${CC_COMPILER} CXX=${CXX_COMPILER} CFLAGS=${CC_FLAGS} CXXFLAGS=${CXX_FLAGS} LD_FLAG=${LINK_FLAGS} cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
+cd ../..
+}
 
 
 $1;

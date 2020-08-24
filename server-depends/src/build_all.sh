@@ -19,3 +19,4 @@ bash build_depends.sh xlnt;
 bash build_depends.sh fmt;
 bash build_depends.sh recastnavigation;
 bash build_depends.sh box2d;
+bash build_depends.sh spy;
