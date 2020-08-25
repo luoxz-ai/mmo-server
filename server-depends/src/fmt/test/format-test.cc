@@ -236,7 +236,7 @@ TEST(MemoryBufferTest, MoveCtorInlineBuffer) {
   std::allocator<char> alloc;
   basic_memory_buffer<char, 5, TestAllocator> buffer((TestAllocator(&alloc)));
   const char test[] = "test";
-  buffer.append(test, test + 4);
+  buffer.append(string_view(test, 4));
   check_move_buffer("test", buffer);
   // Adding one more character fills the inline buffer, but doesn't cause
   // dynamic allocation.
@@ -297,7 +297,7 @@ TEST(MemoryBufferTest, Grow) {
   mock_allocator<int> alloc;
   struct TestMemoryBuffer : Base {
     TestMemoryBuffer(Allocator alloc) : Base(alloc) {}
-    void grow(size_t size) { Base::grow(size); }
+    using Base::grow;
   } buffer((Allocator(&alloc)));
   buffer.resize(7);
   using fmt::detail::to_unsigned;
@@ -761,6 +761,7 @@ TEST(FormatterTest, HashFlag) {
   EXPECT_EQ("-42.0", format("{0:#}", -42.0l));
   EXPECT_EQ("4.e+01", format("{:#.0e}", 42.0));
   EXPECT_EQ("0.", format("{:#.0f}", 0.01));
+  EXPECT_EQ("0.50", format("{:#.2g}", 0.5));
   auto s = format("{:#.0f}", 0.5);  // MSVC's printf uses wrong rounding mode.
   EXPECT_TRUE(s == "0." || s == "1.");
   EXPECT_THROW_MSG(format("{0:#", 'c'), format_error,
@@ -1827,14 +1828,18 @@ class mock_arg_formatter
   }
 
   template <typename T>
-  typename std::enable_if<fmt::detail::is_integral<T>::value, iterator>::type
+  typename std::enable_if<fmt::detail::is_integral<T>::value &&
+                              fmt::detail::is_signed<T>::value,
+                          iterator>::type
   operator()(T value) {
     call(value);
     return base::operator()(value);
   }
 
   template <typename T>
-  typename std::enable_if<!fmt::detail::is_integral<T>::value, iterator>::type
+  typename std::enable_if<!(fmt::detail::is_integral<T>::value &&
+                            fmt::detail::is_signed<T>::value),
+                          iterator>::type
   operator()(T value) {
     return base::operator()(value);
   }
@@ -1845,10 +1850,9 @@ class mock_arg_formatter
 };
 
 static void custom_vformat(fmt::string_view format_str, fmt::format_args args) {
-  fmt::memory_buffer buffer;
-  fmt::detail::buffer<char>& base = buffer;
-  fmt::vformat_to<mock_arg_formatter>(std::back_inserter(base), format_str,
-                                      args);
+  fmt::memory_buffer buf;
+  fmt::vformat_to<mock_arg_formatter>(fmt::detail::buffer_appender<char>(buf),
+                                      format_str, args);
 }
 
 template <typename... Args>
@@ -1945,6 +1949,12 @@ TEST(FormatTest, OutputIterators) {
 
 TEST(FormatTest, FormattedSize) {
   EXPECT_EQ(2u, fmt::formatted_size("{}", 42));
+}
+
+TEST(FormatTest, FormatTo) {
+  std::vector<char> v;
+  fmt::format_to(std::back_inserter(v), "{}", "foo");
+  EXPECT_EQ(string_view(v.data(), v.size()), "foo");
 }
 
 TEST(FormatTest, FormatToN) {
@@ -2466,4 +2476,28 @@ TEST(FormatTest, FormatUTF8Precision) {
   EXPECT_EQ(fmt::detail::count_code_points(result), 4);
   EXPECT_EQ(result.size(), 5);
   EXPECT_EQ(from_u8str(result), from_u8str(str.substr(0, 5)));
+}
+
+struct check_back_appender {};
+
+FMT_BEGIN_NAMESPACE
+template <> struct formatter<check_back_appender> {
+  template <typename ParseContext>
+  auto parse(ParseContext& ctx) -> decltype(ctx.begin()) {
+    return ctx.begin();
+  }
+
+  template <typename Context>
+  auto format(check_back_appender, Context& ctx) -> decltype(ctx.out()) {
+    auto out = ctx.out();
+    static_assert(std::is_same<decltype(++out), decltype(out)&>::value,
+                  "needs to satisfy weakly_incrementable");
+    *out = 'y';
+    return ++out;
+  }
+};
+FMT_END_NAMESPACE
+
+TEST(FormatTest, BackInsertSlicing) {
+  EXPECT_EQ(fmt::format("{}", check_back_appender{}), "y");
 }
