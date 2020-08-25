@@ -142,8 +142,6 @@ bool CZoneService::Init(const ServerPort& nServerPort)
     DEFINE_CONFIG_LOAD(CUserAttrSet);
     DEFINE_CONFIG_LOAD(CDataCountLimitSet);
     DEFINE_CONFIG_LOAD(CSkillTypeSet);
-    DEFINE_CONFIG_LOAD(CSkillAttachStatusDataSet);
-    DEFINE_CONFIG_LOAD(CSkillDetachStatusDataSet);
     DEFINE_CONFIG_LOAD(CMonsterTypeSet);
     DEFINE_CONFIG_LOAD(CBulletTypeSet);
     DEFINE_CONFIG_LOAD(CItemTypeSet);

@@ -49,7 +49,6 @@
 #include "SkillData.h"
 #include "SkillFSM.h"
 #include "SkillManager.h"
-#include "SkillType.h"
 #include "StoragePackage.h"
 #include "SuitEquip.h"
 #include "SystemVars.h"
@@ -1384,8 +1383,6 @@ void zone2lua(lua_State* L)
     lua_tinker::def(L, "ReplaceStr", &ReplaceStr);
     lua_tinker::def(L, "SceneManager", &SceneManager);
     lua_tinker::def(L, "ScriptManager", &ScriptManager);
-    lua_tinker::def(L, "SkillAttachStatusDataSet", &SkillAttachStatusDataSet);
-    lua_tinker::def(L, "SkillDetachStatusDataSet", &SkillDetachStatusDataSet);
     lua_tinker::def(L, "SkillTypeSet", &SkillTypeSet);
     lua_tinker::def(L, "StatusTypeSet", &StatusTypeSet);
     lua_tinker::def(L, "SuitEquipSet", &SuitEquipSet);

@@ -7,7 +7,8 @@
 #include "config/Cfg_DataCountLimit.pb.h"
 #include "gamedb.h"
 //计数及各种每日次数限制
-export_lua enum DATA_ACC_TYPE {
+export_lua enum DATA_ACC_TYPE
+{
     DATA_ACC_SYSTEM      = 0, //其他的计数？？？
     DATA_ACC_MONSTERKILL = 1, //杀怪计数 keyidx=怪物类型id
     DATA_ACC_USEITEM     = 2, //使用物品计数 keyidx=物品类型id
@@ -16,7 +17,8 @@ export_lua enum DATA_ACC_TYPE {
 
 };
 
-export_lua enum {
+export_lua enum DATA_ACC_SYSTEM_TYPE
+{
     DATA_ACC_SYSTEM_LOGINDAY        = 1, //累计登陆天数
     DATA_ACC_SYSTEM_TXTATR_GLOBAL   = 2, //累计使用小喇叭次数
     DATA_ACC_SYSTEM_KILLPLAYER      = 3, //击杀玩家数量
@@ -25,7 +27,7 @@ export_lua enum {
     DATA_ACC_SYSTEM_KILL_BOSS       = 6, //累计击杀BOSS数量
 };
 
-export_lua enum
+export_lua enum DATA_ACC_COUNT_TYPE
 {
     DATA_COUNT_RESET_NEVER    = 0,       //不重置
     DATA_COUNT_RESET_BY_DAY   = 1,       //跨N天重置

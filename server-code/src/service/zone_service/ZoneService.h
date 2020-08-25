@@ -122,8 +122,6 @@ public:
     DEFINE_CONFIG_SET(CUserAttrSet);
     DEFINE_CONFIG_SET(CDataCountLimitSet);
     DEFINE_CONFIG_SET(CSkillTypeSet);
-    DEFINE_CONFIG_SET(CSkillAttachStatusDataSet);
-    DEFINE_CONFIG_SET(CSkillDetachStatusDataSet);
     DEFINE_CONFIG_SET(CMonsterTypeSet);
     DEFINE_CONFIG_SET(CBulletTypeSet);
     DEFINE_CONFIG_SET(CItemTypeSet);
@@ -196,14 +194,6 @@ export_lua inline auto DataCountLimitSet()
 export_lua inline auto SkillTypeSet()
 {
     return ZoneService()->GetCSkillTypeSet();
-}
-export_lua inline auto SkillAttachStatusDataSet()
-{
-    return ZoneService()->GetCSkillAttachStatusDataSet();
-}
-export_lua inline auto SkillDetachStatusDataSet()
-{
-    return ZoneService()->GetCSkillDetachStatusDataSet();
 }
 export_lua inline auto MonsterTypeSet()
 {

@@ -19,7 +19,12 @@
  "flag": 256,
  "damageFlag": 14,
  "scriptid": "700100101",
- "isdebug": true
+ "isdebug": true,
+ "detachStatus": [
+  {
+   "id": 32
+  }
+ ]
 ,"__debug":"file:Cfg_Skill.xlsx sheet:Sheet1 line:3  "
 } ,
 {
@@ -44,7 +49,21 @@
  "flag": 256,
  "damageFlag": 14,
  "scriptid": "700100102",
- "isdebug": true
+ "isdebug": true,
+ "attachStatus": [
+  {
+   "id": 5,
+   "lev": 1,
+   "power": 2,
+   "secs": 3,
+   "times": 10
+  }
+ ],
+ "detachStatus": [
+  {
+   "id": 32
+  }
+ ]
 ,"__debug":"file:Cfg_Skill.xlsx sheet:Sheet1 line:4  "
 } ,
 {

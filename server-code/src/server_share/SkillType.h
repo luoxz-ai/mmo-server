@@ -5,8 +5,6 @@
 #include "BaseCode.h"
 #include "T_GameDataMap.h"
 #include "config/Cfg_Skill.pb.h"
-#include "config/Cfg_SkillAttachStatus.pb.h"
-#include "config/Cfg_SkillDetachStatus.pb.h"
 
 export_lua enum SkillType {
     SKILLTYPE_NONE    = 0,
@@ -152,70 +150,5 @@ private:
 
 DEFINE_GAMEMAPDATA(CSkillTypeSet, CSkillType);
 
-class CSkillAttachStatusData : public NoncopyableT<CSkillAttachStatusData>
-{
-    CSkillAttachStatusData() {}
-    bool Init(const Cfg_SkillAttachStatus_Row& row)
-    {
-        m_Data = row;
-        return true;
-    }
-
-public:
-    CreateNewImpl(CSkillAttachStatusData);
-
-public:
-    ~CSkillAttachStatusData() {}
-
-    using PB_T = Cfg_SkillAttachStatus;
-
-    uint32_t GetID() const { return GetSkillID(); }
-    uint32_t GetSkillID() const { return m_Data.idskill(); }
-    uint32_t GetStatusID() const { return m_Data.status_typeid(); }
-    uint32_t GetStatusLevel() const { return m_Data.status_lev(); }
-
-    uint32_t GetPower() const { return m_Data.status_power(); }
-    uint32_t GetSecs() const { return m_Data.status_secs(); }
-    uint32_t GetTimes() const { return m_Data.status_times(); }
-
-public:
-    const Cfg_SkillAttachStatus_Row& GetDataRef() const { return m_Data; }
-
-private:
-    Cfg_SkillAttachStatus_Row m_Data;
-};
-
-DEFINE_MULTIGAMEMAPDATA(CSkillAttachStatusDataSet, CSkillAttachStatusData);
-
-class CSkillDetachStatusData : public NoncopyableT<CSkillDetachStatusData>
-{
-    CSkillDetachStatusData() {}
-    bool Init(const Cfg_SkillDetachStatus_Row& row)
-    {
-        m_Data = row;
-        return true;
-    }
-
-public:
-    CreateNewImpl(CSkillDetachStatusData);
-
-public:
-    ~CSkillDetachStatusData() {}
-
-    using PB_T = Cfg_SkillDetachStatus;
-
-    uint32_t GetID() const { return GetSkillID(); }
-    uint32_t GetSkillID() const { return m_Data.idskill(); }
-    uint32_t GetStatusID() const { return m_Data.status_id(); }
-    uint32_t GetStatusType() const { return m_Data.status_type(); }
-    uint32_t GetStatusFlag() const { return m_Data.status_flag(); }
-
-public:
-    const Cfg_SkillDetachStatus_Row& GetDataRef() const { return m_Data; }
-
-private:
-    Cfg_SkillDetachStatus_Row m_Data;
-};
-DEFINE_MULTIGAMEMAPDATA(CSkillDetachStatusDataSet, CSkillDetachStatusData);
 
 #endif /* SKILLTYPE_H */

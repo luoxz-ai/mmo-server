@@ -15,7 +15,6 @@
 #include "ActorAI.h"
 #include "MonsterGenerator.h"
 #include "MonsterType.h"
-#include "SkillType.h"
 #include "lua_tinker.h"
 #include "rule.h"
 #include "rule_set.h"

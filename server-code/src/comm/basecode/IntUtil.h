@@ -92,4 +92,10 @@ export_lua inline bool HasFlag(uint32_t flag, uint32_t mask)
     return (flag & mask) != 0;
 }
 
+template<typename EnumType>
+auto enum_to(EnumType e)
+{
+    return static_cast<std::underlying_type_t<EnumType> >(e);
+}
+
 #endif /* INTUTIL_H */

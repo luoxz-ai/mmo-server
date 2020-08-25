@@ -15,7 +15,17 @@
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 extern PROTOBUF_INTERNAL_EXPORT_common_2fAttribChangeDataProto_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_AttribChangeDataProto_common_2fAttribChangeDataProto_2eproto;
-extern PROTOBUF_INTERNAL_EXPORT_config_2fCfg_5fSkill_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_Cfg_Skill_Row_config_2fCfg_5fSkill_2eproto;
+extern PROTOBUF_INTERNAL_EXPORT_config_2fCfg_5fSkill_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<3> scc_info_Cfg_Skill_Row_config_2fCfg_5fSkill_2eproto;
+extern PROTOBUF_INTERNAL_EXPORT_config_2fCfg_5fSkill_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_SkillAttachStatus_config_2fCfg_5fSkill_2eproto;
+extern PROTOBUF_INTERNAL_EXPORT_config_2fCfg_5fSkill_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_SkillDetachStatus_config_2fCfg_5fSkill_2eproto;
+class SkillAttachStatusDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<SkillAttachStatus> _instance;
+} _SkillAttachStatus_default_instance_;
+class SkillDetachStatusDefaultTypeInternal {
+ public:
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<SkillDetachStatus> _instance;
+} _SkillDetachStatus_default_instance_;
 class Cfg_Skill_RowDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<Cfg_Skill_Row> _instance;
@@ -50,15 +60,63 @@ static void InitDefaultsscc_info_Cfg_Skill_Row_config_2fCfg_5fSkill_2eproto() {
   ::Cfg_Skill_Row::InitAsDefaultInstance();
 }
 
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_Cfg_Skill_Row_config_2fCfg_5fSkill_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_Cfg_Skill_Row_config_2fCfg_5fSkill_2eproto}, {
-      &scc_info_AttribChangeDataProto_common_2fAttribChangeDataProto_2eproto.base,}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<3> scc_info_Cfg_Skill_Row_config_2fCfg_5fSkill_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 3, 0, InitDefaultsscc_info_Cfg_Skill_Row_config_2fCfg_5fSkill_2eproto}, {
+      &scc_info_AttribChangeDataProto_common_2fAttribChangeDataProto_2eproto.base,
+      &scc_info_SkillAttachStatus_config_2fCfg_5fSkill_2eproto.base,
+      &scc_info_SkillDetachStatus_config_2fCfg_5fSkill_2eproto.base,}};
 
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_config_2fCfg_5fSkill_2eproto[2];
+static void InitDefaultsscc_info_SkillAttachStatus_config_2fCfg_5fSkill_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::_SkillAttachStatus_default_instance_;
+    new (ptr) ::SkillAttachStatus();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::SkillAttachStatus::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_SkillAttachStatus_config_2fCfg_5fSkill_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_SkillAttachStatus_config_2fCfg_5fSkill_2eproto}, {}};
+
+static void InitDefaultsscc_info_SkillDetachStatus_config_2fCfg_5fSkill_2eproto() {
+  GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+  {
+    void* ptr = &::_SkillDetachStatus_default_instance_;
+    new (ptr) ::SkillDetachStatus();
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
+  }
+  ::SkillDetachStatus::InitAsDefaultInstance();
+}
+
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_SkillDetachStatus_config_2fCfg_5fSkill_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_SkillDetachStatus_config_2fCfg_5fSkill_2eproto}, {}};
+
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_config_2fCfg_5fSkill_2eproto[4];
 static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_config_2fCfg_5fSkill_2eproto = nullptr;
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_config_2fCfg_5fSkill_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_config_2fCfg_5fSkill_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::SkillAttachStatus, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::SkillAttachStatus, id_),
+  PROTOBUF_FIELD_OFFSET(::SkillAttachStatus, lev_),
+  PROTOBUF_FIELD_OFFSET(::SkillAttachStatus, power_),
+  PROTOBUF_FIELD_OFFSET(::SkillAttachStatus, secs_),
+  PROTOBUF_FIELD_OFFSET(::SkillAttachStatus, times_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::SkillDetachStatus, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::SkillDetachStatus, id_),
+  PROTOBUF_FIELD_OFFSET(::SkillDetachStatus, type_),
+  PROTOBUF_FIELD_OFFSET(::SkillDetachStatus, flag_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Cfg_Skill_Row, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -100,6 +158,8 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_config_2fCfg_5fSkill_2eproto::
   PROTOBUF_FIELD_OFFSET(::Cfg_Skill_Row, scriptid_),
   PROTOBUF_FIELD_OFFSET(::Cfg_Skill_Row, isdebug_),
   PROTOBUF_FIELD_OFFSET(::Cfg_Skill_Row, attrib_change_list_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Skill_Row, attach_status_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Skill_Row, detach_status_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Cfg_Skill, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -108,56 +168,177 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_config_2fCfg_5fSkill_2eproto::
   PROTOBUF_FIELD_OFFSET(::Cfg_Skill, rows_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::Cfg_Skill_Row)},
-  { 41, -1, sizeof(::Cfg_Skill)},
+  { 0, -1, sizeof(::SkillAttachStatus)},
+  { 10, -1, sizeof(::SkillDetachStatus)},
+  { 18, -1, sizeof(::Cfg_Skill_Row)},
+  { 61, -1, sizeof(::Cfg_Skill)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_SkillAttachStatus_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_SkillDetachStatus_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_Cfg_Skill_Row_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_Cfg_Skill_default_instance_),
 };
 
 const char descriptor_table_protodef_config_2fCfg_5fSkill_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\026config/Cfg_Skill.proto\032\"common/AttribC"
-  "hangeDataProto.proto\"\327\005\n\tCfg_Skill\022\034\n\004ro"
-  "ws\030\001 \003(\0132\016.Cfg_Skill.Row\032\253\005\n\003Row\022\n\n\002id\030\001"
-  " \001(\r\022\014\n\004sort\030\002 \001(\r\022\r\n\005level\030\003 \001(\r\022\014\n\004typ"
-  "e\030\004 \001(\r\022\014\n\004name\030\005 \001(\t\022\023\n\013learn_level\030\006 \001"
-  "(\r\022\020\n\010prof_req\030\007 \001(\r\022\023\n\013skillid_req\030\010 \001("
-  "\r\022\024\n\014use_itemtype\030\t \001(\r\022\016\n\006use_mp\030\n \001(\005\022"
-  "\016\n\006use_hp\030\013 \001(\005\022\026\n\016use_needstatus\030\014 \001(\r\022"
-  "\r\n\005power\030\r \001(\r\022\021\n\tmax_power\030\016 \001(\r\022\026\n\016pow"
-  "er_addition\030\017 \001(\r\022\014\n\004data\030\020 \001(\r\022\021\n\tinton"
-  "e_ms\030\021 \001(\r\022\023\n\013apply_times\030\022 \001(\r\022\020\n\010apply"
-  "_ms\030\023 \001(\r\022\024\n\014apply_adj_ms\030\024 \001(\r\022\017\n\007stun_"
-  "ms\030\025 \001(\r\022\016\n\006cd_sec\030\026 \001(\r\022\017\n\007cd_type\030\027 \001("
-  "\r\022\020\n\010hit_type\030\030 \001(\r\022\020\n\010distance\030\031 \001(\002\022\024\n"
-  "\014max_distance\030\032 \001(\002\022\r\n\005range\030\033 \001(\002\022\r\n\005wi"
-  "dth\030\034 \001(\002\022\021\n\tcast_type\030\035 \001(\r\022\014\n\004flag\030\036 \001"
-  "(\r\022\023\n\013damage_flag\030\037 \001(\r\022\024\n\014damage_shape\030"
-  "  \001(\r\022\020\n\010bulletid\030! \001(\r\022\020\n\010scriptid\030\" \001("
-  "\004\022\017\n\007isdebug\030# \001(\010\0222\n\022attrib_change_list"
-  "\030$ \003(\0132\026.AttribChangeDataProtoB\002H\002b\006prot"
-  "o3"
+  "hangeDataProto.proto\"X\n\021SkillAttachStatu"
+  "s\022\n\n\002id\030\001 \001(\r\022\013\n\003lev\030\002 \001(\r\022\r\n\005power\030\003 \001("
+  "\r\022\014\n\004secs\030\004 \001(\r\022\r\n\005times\030\005 \001(\r\";\n\021SkillD"
+  "etachStatus\022\n\n\002id\030\001 \001(\r\022\014\n\004type\030\002 \001(\r\022\014\n"
+  "\004flag\030\003 \001(\r\"\255\006\n\tCfg_Skill\022\034\n\004rows\030\001 \003(\0132"
+  "\016.Cfg_Skill.Row\032\201\006\n\003Row\022\n\n\002id\030\001 \001(\r\022\014\n\004s"
+  "ort\030\002 \001(\r\022\r\n\005level\030\003 \001(\r\022\014\n\004type\030\004 \001(\r\022\014"
+  "\n\004name\030\005 \001(\t\022\023\n\013learn_level\030\006 \001(\r\022\020\n\010pro"
+  "f_req\030\007 \001(\r\022\023\n\013skillid_req\030\010 \001(\r\022\024\n\014use_"
+  "itemtype\030\t \001(\r\022\016\n\006use_mp\030\n \001(\005\022\016\n\006use_hp"
+  "\030\013 \001(\005\022\026\n\016use_needstatus\030\014 \001(\r\022\r\n\005power\030"
+  "\r \001(\r\022\021\n\tmax_power\030\016 \001(\r\022\026\n\016power_additi"
+  "on\030\017 \001(\r\022\014\n\004data\030\020 \001(\r\022\021\n\tintone_ms\030\021 \001("
+  "\r\022\023\n\013apply_times\030\022 \001(\r\022\020\n\010apply_ms\030\023 \001(\r"
+  "\022\024\n\014apply_adj_ms\030\024 \001(\r\022\017\n\007stun_ms\030\025 \001(\r\022"
+  "\016\n\006cd_sec\030\026 \001(\r\022\017\n\007cd_type\030\027 \001(\r\022\020\n\010hit_"
+  "type\030\030 \001(\r\022\020\n\010distance\030\031 \001(\002\022\024\n\014max_dist"
+  "ance\030\032 \001(\002\022\r\n\005range\030\033 \001(\002\022\r\n\005width\030\034 \001(\002"
+  "\022\021\n\tcast_type\030\035 \001(\r\022\014\n\004flag\030\036 \001(\r\022\023\n\013dam"
+  "age_flag\030\037 \001(\r\022\024\n\014damage_shape\030  \001(\r\022\020\n\010"
+  "bulletid\030! \001(\r\022\020\n\010scriptid\030\" \001(\004\022\017\n\007isde"
+  "bug\030# \001(\010\0222\n\022attrib_change_list\030$ \003(\0132\026."
+  "AttribChangeDataProto\022)\n\rattach_status\030%"
+  " \003(\0132\022.SkillAttachStatus\022)\n\rdetach_statu"
+  "s\030& \003(\0132\022.SkillDetachStatusB\002H\002b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_config_2fCfg_5fSkill_2eproto_deps[1] = {
   &::descriptor_table_common_2fAttribChangeDataProto_2eproto,
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_config_2fCfg_5fSkill_2eproto_sccs[2] = {
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_config_2fCfg_5fSkill_2eproto_sccs[4] = {
   &scc_info_Cfg_Skill_config_2fCfg_5fSkill_2eproto.base,
   &scc_info_Cfg_Skill_Row_config_2fCfg_5fSkill_2eproto.base,
+  &scc_info_SkillAttachStatus_config_2fCfg_5fSkill_2eproto.base,
+  &scc_info_SkillDetachStatus_config_2fCfg_5fSkill_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_config_2fCfg_5fSkill_2eproto_once;
 static bool descriptor_table_config_2fCfg_5fSkill_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_config_2fCfg_5fSkill_2eproto = {
-  &descriptor_table_config_2fCfg_5fSkill_2eproto_initialized, descriptor_table_protodef_config_2fCfg_5fSkill_2eproto, "config/Cfg_Skill.proto", 802,
-  &descriptor_table_config_2fCfg_5fSkill_2eproto_once, descriptor_table_config_2fCfg_5fSkill_2eproto_sccs, descriptor_table_config_2fCfg_5fSkill_2eproto_deps, 2, 1,
+  &descriptor_table_config_2fCfg_5fSkill_2eproto_initialized, descriptor_table_protodef_config_2fCfg_5fSkill_2eproto, "config/Cfg_Skill.proto", 1039,
+  &descriptor_table_config_2fCfg_5fSkill_2eproto_once, descriptor_table_config_2fCfg_5fSkill_2eproto_sccs, descriptor_table_config_2fCfg_5fSkill_2eproto_deps, 4, 1,
   schemas, file_default_instances, TableStruct_config_2fCfg_5fSkill_2eproto::offsets,
-  file_level_metadata_config_2fCfg_5fSkill_2eproto, 2, file_level_enum_descriptors_config_2fCfg_5fSkill_2eproto, file_level_service_descriptors_config_2fCfg_5fSkill_2eproto,
+  file_level_metadata_config_2fCfg_5fSkill_2eproto, 4, file_level_enum_descriptors_config_2fCfg_5fSkill_2eproto, file_level_service_descriptors_config_2fCfg_5fSkill_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
 static bool dynamic_init_dummy_config_2fCfg_5fSkill_2eproto = (  ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_config_2fCfg_5fSkill_2eproto), true);
+
+// ===================================================================
+
+void SkillAttachStatus::InitAsDefaultInstance() {
+}
+class SkillAttachStatus::_Internal {
+ public:
+};
+
+SkillAttachStatus::SkillAttachStatus()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:SkillAttachStatus)
+}
+SkillAttachStatus::SkillAttachStatus(const SkillAttachStatus& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&id_, &from.id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&times_) -
+    reinterpret_cast<char*>(&id_)) + sizeof(times_));
+  // @@protoc_insertion_point(copy_constructor:SkillAttachStatus)
+}
+
+void SkillAttachStatus::SharedCtor() {
+  ::memset(&id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&times_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(times_));
+}
+
+SkillAttachStatus::~SkillAttachStatus() {
+  // @@protoc_insertion_point(destructor:SkillAttachStatus)
+  SharedDtor();
+}
+
+void SkillAttachStatus::SharedDtor() {
+}
+
+void SkillAttachStatus::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const SkillAttachStatus& SkillAttachStatus::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_SkillAttachStatus_config_2fCfg_5fSkill_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void SkillAttachStatus::InternalSwap(SkillAttachStatus* other) {
+  using std::swap;
+  GetReflection()->Swap(this, other);}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SkillAttachStatus::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
+
+// ===================================================================
+
+void SkillDetachStatus::InitAsDefaultInstance() {
+}
+class SkillDetachStatus::_Internal {
+ public:
+};
+
+SkillDetachStatus::SkillDetachStatus()
+  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:SkillDetachStatus)
+}
+SkillDetachStatus::SkillDetachStatus(const SkillDetachStatus& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _internal_metadata_(nullptr) {
+  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&id_, &from.id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&flag_) -
+    reinterpret_cast<char*>(&id_)) + sizeof(flag_));
+  // @@protoc_insertion_point(copy_constructor:SkillDetachStatus)
+}
+
+void SkillDetachStatus::SharedCtor() {
+  ::memset(&id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&flag_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(flag_));
+}
+
+SkillDetachStatus::~SkillDetachStatus() {
+  // @@protoc_insertion_point(destructor:SkillDetachStatus)
+  SharedDtor();
+}
+
+void SkillDetachStatus::SharedDtor() {
+}
+
+void SkillDetachStatus::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+const SkillDetachStatus& SkillDetachStatus::default_instance() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_SkillDetachStatus_config_2fCfg_5fSkill_2eproto.base);
+  return *internal_default_instance();
+}
+
+
+void SkillDetachStatus::InternalSwap(SkillDetachStatus* other) {
+  using std::swap;
+  GetReflection()->Swap(this, other);}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SkillDetachStatus::GetMetadata() const {
+  return GetMetadataStatic();
+}
+
 
 // ===================================================================
 
@@ -178,7 +359,9 @@ Cfg_Skill_Row::Cfg_Skill_Row()
 Cfg_Skill_Row::Cfg_Skill_Row(const Cfg_Skill_Row& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       _internal_metadata_(nullptr),
-      attrib_change_list_(from.attrib_change_list_) {
+      attrib_change_list_(from.attrib_change_list_),
+      attach_status_(from.attach_status_),
+      detach_status_(from.detach_status_) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (!from._internal_name().empty()) {
@@ -278,6 +461,12 @@ void Cfg_Skill::InternalSwap(Cfg_Skill* other) {
 
 // @@protoc_insertion_point(namespace_scope)
 PROTOBUF_NAMESPACE_OPEN
+template<> PROTOBUF_NOINLINE ::SkillAttachStatus* Arena::CreateMaybeMessage< ::SkillAttachStatus >(Arena* arena) {
+  return Arena::CreateInternal< ::SkillAttachStatus >(arena);
+}
+template<> PROTOBUF_NOINLINE ::SkillDetachStatus* Arena::CreateMaybeMessage< ::SkillDetachStatus >(Arena* arena) {
+  return Arena::CreateInternal< ::SkillDetachStatus >(arena);
+}
 template<> PROTOBUF_NOINLINE ::Cfg_Skill_Row* Arena::CreateMaybeMessage< ::Cfg_Skill_Row >(Arena* arena) {
   return Arena::CreateInternal< ::Cfg_Skill_Row >(arena);
 }
