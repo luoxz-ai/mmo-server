@@ -1,34 +1,3 @@
-[{
- "type": 1,
- "keyidx": 7191001,
- "maxCount": 1001
-,"__debug":"file:Cfg_DataCountLimit.xlsx sheet:Sheet1 line:3  "
-} ,
-{
- "type": 1,
- "keyidx": 7191002,
- "maxCount": 1001
-,"__debug":"file:Cfg_DataCountLimit.xlsx sheet:Sheet1 line:4  "
-} ,
-{
- "type": 1,
- "keyidx": 7191003,
- "maxCount": 1002
-,"__debug":"file:Cfg_DataCountLimit.xlsx sheet:Sheet1 line:5  "
-} ,
-{
- "type": 2,
- "keyidx": 51001,
- "maxCount": 5,
- "resetType": 1,
- "resetTime": 1
-,"__debug":"file:Cfg_DataCountLimit.xlsx sheet:Sheet1 line:6  "
-} ,
-{
- "type": 2,
- "keyidx": 51002,
- "maxCount": 5,
- "resetType": 1,
- "resetTime": 1
-,"__debug":"file:Cfg_DataCountLimit.xlsx sheet:Sheet1 line:7  "
-} ]
+version https://git-lfs.github.com/spec/v1
+oid sha256:5033932376ae0ebf167d432e87a167b36fcf00daf141c9d0179586a0a2277114
+size 658
