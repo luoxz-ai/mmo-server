@@ -32,7 +32,6 @@
 #include "Singleton.h"
 #include "SkipList.h"
 #include "StaticReflection.h"
-#include "StaticTypeInfo.h"
 #include "StringAlgo.h"
 #include "T_GameDataMap.h"
 #include "Thread.h"
