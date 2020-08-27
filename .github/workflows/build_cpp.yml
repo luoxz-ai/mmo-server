@@ -32,24 +32,22 @@ jobs:
       run: |
         string(TIMESTAMP current_date "%Y-%m-%d-%H;%M;%S" UTC)
         message("::set-output name=timestamp::${current_date}")
-
     - name: ccache cache files
-      uses: actions/cache@v1.1.0
+      uses: actions/cache@v2
       with:
-        path: .ccache
-        key: ${ { matrix.config.name } }-ccache-${ { steps.ccache_cache_timestamp.outputs.timestamp } }
-        restore-keys: |
-            ${ { matrix.config.name } }-ccache-
-    - name: config ccache
-      shell: cmake -P {0}
+        path: ~/.ccache
+        key: ccache-${{steps.ccache_cache_timestamp.outputs.timestamp}}
+        restore-keys: ccache-
+    - name: setup ccache
       run: |
-        file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}" ccache_basedir)
-        set(ENV{CCACHE_BASEDIR} "${ccache_basedir}")
-        set(ENV{CCACHE_DIR} "${ccache_basedir}/.ccache")
-        set(ENV{CCACHE_COMPRESS} "true")
-        set(ENV{CCACHE_COMPRESSLEVEL} "6")
-        set(ENV{CCACHE_MAXSIZE} "800M")
-        set(ENV{CCACHE_SLOPPINESS} "pch_defines,time_macros")
+          mkdir -p ~/.ccache
+          echo "base_dir = ${GITHUB_WORKSPACE}" > ~/.ccache/ccache.conf
+          echo "compression = true" >> ~/.ccache/ccache.conf
+          echo "compression_level = 6" >> ~/.ccache/ccache.conf
+          echo "max_size = 800M" >> ~/.ccache/ccache.conf
+          ccache -s
+          ccache -z
+
       
 
     - name: configure
