@@ -2,22 +2,6 @@ syntax				= "proto3";
 option optimize_for = CODE_SIZE;
 import "common/AttribChangeDataProto.proto";
 
-message SkillAttachStatus
-{
-	uint32 id 	 = 1;//BUUF类型ID				
-	uint32 lev	 = 2;//BUUF等级
-	uint32 power = 3;//BUFF数值
-	uint32 secs	 = 4;//N秒1次
-	uint32 times = 5;//持续几次
-}
-
-message SkillDetachStatus
-{
-	uint32 id   = 1;//状态编号		
-	uint32 type = 2;//状态类型
-	uint32 flag = 3;//状态掩码
-};
-
 message Cfg_Skill
 {
 	message Row
@@ -66,8 +50,10 @@ message Cfg_Skill
 
         repeated AttribChangeDataProto attrib_change_list = 36;
 
-		repeated SkillAttachStatus attach_status = 37;
-		repeated SkillDetachStatus detach_status = 38;
+		repeated uint32 attach_status = 37;
+		repeated uint32 detach_status_id = 38;
+		repeated uint32 detach_status_type = 39;
+		repeated uint32 detach_status_flag = 40;
 	};
 	repeated Row rows = 1;
 }

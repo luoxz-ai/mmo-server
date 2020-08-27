@@ -61,6 +61,7 @@
 void zone2lua(lua_State* L)
 {
     lua_tinker::class_add<Angle>(L, "Angle", false);
+    lua_tinker::class_add<AttachStatusInfo>(L, "AttachStatusInfo", false);
     lua_tinker::class_add<AxisAlignedBox>(L, "AxisAlignedBox", false);
     lua_tinker::class_def_static<AxisAlignedBox>(L, "BOX_INFINITE", &AxisAlignedBox::BOX_INFINITE);
     lua_tinker::class_def_static<AxisAlignedBox>(L, "BOX_NULL", &AxisAlignedBox::BOX_NULL);
@@ -241,12 +242,17 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CActor>(L, "_SetNP", &CActor::_SetNP);
     lua_tinker::class_def<CActor>(L, "_SetProperty", &CActor::_SetProperty, SYNC_TRUE);
     lua_tinker::class_add<CActorStatus>(L, "CActorStatus", false);
-    lua_tinker::class_def<CActorStatus>(L, "AttachStatus", &CActorStatus::AttachStatus);
+    lua_tinker::class_def<CActorStatus>(
+        L,
+        "AttachStatus",
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr((bool (CActorStatus::*)(const AttachStatusInfo&))(&CActorStatus::AttachStatus)),
+            lua_tinker::make_member_functor_ptr((bool (CActorStatus::*)(uint32_t, OBJID))(&CActorStatus::AttachStatus))));
     lua_tinker::class_def<CActorStatus>(L, "DetachStatus", &CActorStatus::DetachStatus);
     lua_tinker::class_def<CActorStatus>(L, "DetachStatusByFlag", &CActorStatus::DetachStatusByFlag, true);
     lua_tinker::class_def<CActorStatus>(L, "DetachStatusByType", &CActorStatus::DetachStatusByType);
     lua_tinker::class_def<CActorStatus>(L, "FillStatusMsg", &CActorStatus::FillStatusMsg);
-    lua_tinker::class_def<CActorStatus>(L, "QueryStatus", &CActorStatus::QueryStatus);
+    lua_tinker::class_def<CActorStatus>(L, "QueryStatusByType", &CActorStatus::QueryStatusByType);
     lua_tinker::class_def<CActorStatus>(L, "SyncTo", &CActorStatus::SyncTo);
     lua_tinker::class_def<CActorStatus>(L, "TestStatusByFlag", &CActorStatus::TestStatusByFlag);
     lua_tinker::class_def<CActorStatus>(L, "TestStatusByType", &CActorStatus::TestStatusByType);
@@ -903,15 +909,15 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CStatus>(L, "ClearEvent", &CStatus::ClearEvent);
     lua_tinker::class_def<CStatus>(L, "GetCasterID", &CStatus::GetCasterID);
     lua_tinker::class_def<CStatus>(L, "GetFlag", &CStatus::GetFlag);
+    lua_tinker::class_def<CStatus>(L, "GetID", &CStatus::GetID);
     lua_tinker::class_def<CStatus>(L, "GetLastTimeStamp", &CStatus::GetLastTimeStamp);
     lua_tinker::class_def<CStatus>(L, "GetLevel", &CStatus::GetLevel);
     lua_tinker::class_def<CStatus>(L, "GetOwner", &CStatus::GetOwner);
     lua_tinker::class_def<CStatus>(L, "GetPower", &CStatus::GetPower);
     lua_tinker::class_def<CStatus>(L, "GetRemainTime", &CStatus::GetRemainTime);
     lua_tinker::class_def<CStatus>(L, "GetSecs", &CStatus::GetSecs);
-    lua_tinker::class_def<CStatus>(L, "GetStatusTypeID", &CStatus::GetStatusTypeID);
     lua_tinker::class_def<CStatus>(L, "GetTimes", &CStatus::GetTimes);
-    lua_tinker::class_def<CStatus>(L, "GetType", &CStatus::GetType);
+    lua_tinker::class_def<CStatus>(L, "GetTypeID", &CStatus::GetTypeID);
     lua_tinker::class_def<CStatus>(L, "IsPaused", &CStatus::IsPaused);
     lua_tinker::class_def<CStatus>(L, "IsValid", &CStatus::IsValid);
     lua_tinker::class_def<CStatus>(L, "OnAttach", &CStatus::OnAttach);
@@ -930,6 +936,20 @@ void zone2lua(lua_State* L)
     lua_tinker::class_def<CStatus>(L, "SendStatus", &CStatus::SendStatus);
     lua_tinker::class_def<CStatus>(L, "SetPower", &CStatus::SetPower);
     lua_tinker::class_def<CStatus>(L, "Type", &CStatus::Type);
+    lua_tinker::class_add<CStatusType>(L, "CStatusType", false);
+    lua_tinker::class_def<CStatusType>(L, "CloneInfo", &CStatusType::CloneInfo);
+    lua_tinker::class_def<CStatusType>(L, "GetAttribChangeList", &CStatusType::GetAttribChangeList);
+    lua_tinker::class_def<CStatusType>(L, "GetExpireType", &CStatusType::GetExpireType);
+    lua_tinker::class_def<CStatusType>(L, "GetFlag", &CStatusType::GetFlag);
+    lua_tinker::class_def<CStatusType>(L, "GetID", &CStatusType::GetID);
+    lua_tinker::class_def<CStatusType>(L, "GetLevel", &CStatusType::GetLevel);
+    lua_tinker::class_def<CStatusType>(L, "GetMaxSecs", &CStatusType::GetMaxSecs);
+    lua_tinker::class_def<CStatusType>(L, "GetMaxTimes", &CStatusType::GetMaxTimes);
+    lua_tinker::class_def<CStatusType>(L, "GetPower", &CStatusType::GetPower);
+    lua_tinker::class_def<CStatusType>(L, "GetScirptID", &CStatusType::GetScirptID);
+    lua_tinker::class_def<CStatusType>(L, "GetSecs", &CStatusType::GetSecs);
+    lua_tinker::class_def<CStatusType>(L, "GetTimes", &CStatusType::GetTimes);
+    lua_tinker::class_def<CStatusType>(L, "GetTypeID", &CStatusType::GetTypeID);
     lua_tinker::class_add<CStoragePackage>(L, "CStoragePackage", false);
     lua_tinker::class_def<CStoragePackage>(L, "CheckIn", &CStoragePackage::CheckIn);
     lua_tinker::class_def<CStoragePackage>(L, "CheckOut", &CStoragePackage::CheckOut);
@@ -1162,6 +1182,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_mem<ST_ITEMINFO>(L, "nGrid", &ST_ITEMINFO::nGrid);
     lua_tinker::class_mem<ST_ITEMINFO>(L, "nNum", &ST_ITEMINFO::nNum);
     lua_tinker::class_mem<ST_ITEMINFO>(L, "nPosition", &ST_ITEMINFO::nPosition);
+    lua_tinker::class_add<ST_STATUS_INFO>(L, "ST_STATUS_INFO", false);
     lua_tinker::class_add<SceneIdx>(L, "SceneIdx", false);
     lua_tinker::class_def<SceneIdx>(L, "GetMapID", &SceneIdx::GetMapID);
     lua_tinker::class_def<SceneIdx>(L, "GetPhaseIdx", &SceneIdx::GetPhaseIdx);
@@ -1667,13 +1688,13 @@ void zone2lua(lua_State* L)
     lua_tinker::set(L, "STATUSFLAG_DISABLE_ATTACK", STATUSFLAG_DISABLE_ATTACK);
     lua_tinker::set(L, "STATUSFLAG_DISABLE_BEATTACK", STATUSFLAG_DISABLE_BEATTACK);
     lua_tinker::set(L, "STATUSFLAG_DISABLE_MOVE", STATUSFLAG_DISABLE_MOVE);
+    lua_tinker::set(L, "STATUSFLAG_EXCEPT_DEATCH_DEAD", STATUSFLAG_EXCEPT_DEATCH_DEAD);
     lua_tinker::set(L, "STATUSFLAG_NONE", STATUSFLAG_NONE);
     lua_tinker::set(L, "STATUSFLAG_OFFLINE_PAUSE", STATUSFLAG_OFFLINE_PAUSE);
     lua_tinker::set(L, "STATUSFLAG_ONLINE_RESUME", STATUSFLAG_ONLINE_RESUME);
     lua_tinker::set(L, "STATUSFLAG_OVERLAP", STATUSFLAG_OVERLAP);
     lua_tinker::set(L, "STATUSFLAG_OVERRIDE_LEV", STATUSFLAG_OVERRIDE_LEV);
     lua_tinker::set(L, "STATUSFLAG_PAUSE_ATTACH", STATUSFLAG_PAUSE_ATTACH);
-    lua_tinker::set(L, "STATUSFLAG_UNDEATCH_DEAD", STATUSFLAG_UNDEATCH_DEAD);
     lua_tinker::set(L, "STATUSTYPE_COMP", STATUSTYPE_COMP);
     lua_tinker::set(L, "STATUSTYPE_CRIME", STATUSTYPE_CRIME);
     lua_tinker::set(L, "STATUSTYPE_DAMAGE", STATUSTYPE_DAMAGE);
@@ -1726,6 +1747,7 @@ void zone2lua(lua_State* L)
     lua_tinker::class_inh<CPlayerCoolDownSet, CCoolDownSet>(L);
     lua_tinker::class_inh<CStoragePackage, CPackage>(L);
     lua_tinker::class_inh<CZoneService, CServiceCommon>(L);
+    lua_tinker::class_inh<ST_STATUS_INFO, AttachStatusInfo>(L);
     lua_tinker::class_alias<Vector2, CPos2D>(L, "CPos2D");
     lua_tinker::class_alias<Vector3, CPos3D>(L, "CPos3D");
 }

@@ -4,37 +4,44 @@
 #include "ZoneService.h"
 #include "gamedb.h"
 
+
+AttachStatusInfo CStatusType::CloneInfo() const
+{
+    return {
+        .id_status_type = GetTypeID(),
+        .lev            = GetLevel(),
+        .power          = GetPower(),
+        .secs           = GetSecs(),
+        .times          = GetTimes(),
+        .flag           = GetFlag(),
+        .id_status      = GetID(),
+        .expire_type    = GetExpireType()
+    };
+}
+
 OBJECTHEAP_IMPLEMENTATION(CStatus, s_heap);
 CStatus::CStatus() {}
 
 CStatus::~CStatus() {}
 
-bool CStatus::Init(CActor*  pOwner,
-                   uint16_t idStatusType,
-                   uint8_t  ucLevel,
-                   OBJID    idCaster,
-                   uint32_t nPower,
-                   uint32_t nSecs,
-                   uint32_t nTimes)
+bool CStatus::Init(CActor*  pOwner, const AttachStatusInfo& info)
 {
     __ENTER_FUNCTION
-    const CStatusType* pStatusType = StatusTypeSet()->QueryObj(CStatusType::MakeID(idStatusType, ucLevel));
-    CHECKF(pStatusType);
-    m_pType = pStatusType;
+    m_info = info;    
+    if(info.id_status != 0)
+    {
+        m_pType = StatusTypeSet()->QueryObj(info.id_status);
+        CHECKF(m_pType);
+    }
 
     m_pOwner            = pOwner;
-    m_info.idStatusType = idStatusType;
-    m_info.ucLevel      = nPower;
-    m_info.nPower       = nPower;
-    m_info.nSecs        = nSecs;
-    m_info.nTimes       = nTimes;
-    if(pStatusType->GetExpireType() == STATUSEXPIRETYPE_TIME)
-        m_info.tLastStamp = TimeGetSecond();
+  
+    if(info.expire_type == STATUSEXPIRETYPE_TIME)
+        m_info.last_timestamp = TimeGetSecond();
     else
-        m_info.tLastStamp = 0;
+        m_info.last_timestamp = 0;
 
-    m_info.idCaster = idCaster;
-    m_info.bPause   = bit_test(pStatusType->GetFlag(), STATUSFLAG_PAUSE_ATTACH) ? TRUE : FALSE;
+    m_info.pause = bit_test(info.flag, STATUSFLAG_PAUSE_ATTACH) ? TRUE : FALSE;
     return true;
     __LEAVE_FUNCTION
     return false;
@@ -43,25 +50,27 @@ bool CStatus::Init(CActor*  pOwner,
 bool CStatus::Init(CActor* pOwner, CDBRecordPtr&& pRow)
 {
     __ENTER_FUNCTION
-    uint32_t idStatusType = pRow->Field(TBLD_STATUS::TYPEID);
-    uint32_t ucLevel      = pRow->Field(TBLD_STATUS::LEV);
+    uint32_t idStatus = pRow->Field(TBLD_STATUS::STATUSID);
 
-    const CStatusType* pStatusType = StatusTypeSet()->QueryObj(CStatusType::MakeID(idStatusType, ucLevel));
-    CHECKF(pStatusType);
-    m_pType = pStatusType;
+    if(idStatus != 0)
+    {
+        m_pType = StatusTypeSet()->QueryObj(idStatus);
+        CHECKF(m_pType);
+    }
 
     m_pOwner = pOwner;
     m_pRecord.reset(pRow.release());
 
-    m_info.idStatusType = idStatusType;
-    m_info.ucLevel      = ucLevel;
-    m_info.nPower       = pRow->Field(TBLD_STATUS::POWER);
-    m_info.nSecs        = pRow->Field(TBLD_STATUS::SECS);
-    m_info.nTimes       = pRow->Field(TBLD_STATUS::TIMES);
-    m_info.tLastStamp   = pRow->Field(TBLD_STATUS::LASTSTAMP);
+    m_info.id_status_type = pRow->Field(TBLD_STATUS::TYPEID);
+    m_info.lev            = pRow->Field(TBLD_STATUS::LEV);
+    m_info.power          = pRow->Field(TBLD_STATUS::POWER);
+    m_info.secs           = pRow->Field(TBLD_STATUS::SECS);
+    m_info.times          = pRow->Field(TBLD_STATUS::TIMES);
+    m_info.last_timestamp = pRow->Field(TBLD_STATUS::LASTSTAMP);
 
-    m_info.idCaster = pRow->Field(TBLD_STATUS::CASTERID);
-    m_info.bPause   = pRow->Field(TBLD_STATUS::PAUSE);
+    m_info.id_caster = pRow->Field(TBLD_STATUS::CASTERID);
+    m_info.pause     = pRow->Field(TBLD_STATUS::PAUSE);
+    m_info.id_status = idStatus;
 
     //如果上线自动启动的
     if(IsPaused() && HasFlag(GetFlag(), STATUSFLAG_ONLINE_RESUME))
@@ -77,7 +86,7 @@ bool CStatus::Init(CActor* pOwner, CDBRecordPtr&& pRow)
 bool CStatus::IsValid() const
 {
     __ENTER_FUNCTION
-    if(m_pType->GetExpireType() == STATUSEXPIRETYPE_TIME)
+    if(m_info.expire_type == STATUSEXPIRETYPE_TIME)
     {
         if(GetTimes() > 0)
         {
@@ -88,7 +97,7 @@ bool CStatus::IsValid() const
             return TimeGetSecond() > GetLastTimeStamp() + GetSecs();
         }
     }
-    else if(m_pType->GetExpireType() == STATUSEXPIRETYPE_POINT)
+    else if(m_info.expire_type == STATUSEXPIRETYPE_POINT)
     {
         return GetPower() > 0;
     }
@@ -129,13 +138,13 @@ void CStatus::AddSecs(int32_t nSecs)
     __ENTER_FUNCTION
     Pause(false);
 
-    if(m_pType->GetMaxSecs() - m_info.nSecs > nSecs)
+    if(m_pType && ((m_pType->GetMaxSecs() - m_info.secs) > nSecs) )
     {
-        m_info.nSecs = m_pType->GetMaxSecs();
+        m_info.secs = m_pType->GetMaxSecs();
     }
     else
     {
-        m_info.nSecs += nSecs;
+        m_info.secs += nSecs;
     }
     Resume(false);
     __LEAVE_FUNCTION
@@ -144,25 +153,32 @@ void CStatus::AddSecs(int32_t nSecs)
 void CStatus::AddTimes(int32_t nTimes)
 {
     __ENTER_FUNCTION
-    if(m_pType->GetMaxTimes() - m_info.nTimes > nTimes)
+    if(m_pType && m_pType->GetMaxTimes() - m_info.times > nTimes)
     {
-        m_info.nTimes = m_pType->GetMaxTimes();
+        m_info.times = m_pType->GetMaxTimes();
     }
     else
     {
-        m_info.nTimes += nTimes;
+        m_info.times += nTimes;
     }
     __LEAVE_FUNCTION
 }
 
-bool CStatus::ChangeData(uint8_t ucLevel, int32_t nPower, int32_t nSecs, int32_t nTimes, OBJID idCaster)
+bool CStatus::ChangeData(const AttachStatusInfo& info)
 {
     __ENTER_FUNCTION
-    m_info.ucLevel  = ucLevel;
-    m_info.nPower   = nPower;
-    m_info.nSecs    = nSecs;
-    m_info.nTimes   = nTimes;
-    m_info.idCaster = idCaster;
+    OnDeatch();
+    m_info = info;
+    if(info.id_status != 0)
+    {
+        m_pType = StatusTypeSet()->QueryObj(info.id_status);
+        CHECKF(m_pType);
+    }
+    else
+    {
+        m_pType = nullptr;
+    }
+    
     Pause(false);
     Resume(false);
 
@@ -177,15 +193,15 @@ void CStatus::Pause(bool bSynchro /*= true*/)
     if(IsPaused() == true)
         return;
 
-    if(m_info.tLastStamp > 0)
+    if(m_info.last_timestamp > 0)
     {
         time_t now       = TimeGetSecond();
         time_t nextStamp = GetLastTimeStamp() + GetSecs();
         if(nextStamp > now)
         {
-            m_info.nSecs = nextStamp - now;
+            m_info.secs = nextStamp - now;
         }
-        m_info.tLastStamp = 0;
+        m_info.last_timestamp = 0;
     }
 
     if(bSynchro)
@@ -200,7 +216,7 @@ void CStatus::Resume(bool bSynchro /*= true*/)
     if(IsPaused() == false)
         return;
 
-    if(m_info.tLastStamp == 0)
+    if(m_info.last_timestamp == 0)
     {
         ScheduleEvent(GetSecs());
     }
@@ -215,13 +231,14 @@ void CStatus::SaveInfo()
     __ENTER_FUNCTION
     if(m_pRecord)
     {
-        m_pRecord->Field(TBLD_STATUS::LEV)       = m_info.ucLevel;
-        m_pRecord->Field(TBLD_STATUS::POWER)     = m_info.nPower;
-        m_pRecord->Field(TBLD_STATUS::SECS)      = m_info.nSecs;
-        m_pRecord->Field(TBLD_STATUS::TIMES)     = m_info.nTimes;
-        m_pRecord->Field(TBLD_STATUS::LASTSTAMP) = m_info.tLastStamp;
-        m_pRecord->Field(TBLD_STATUS::CASTERID)  = m_info.idCaster;
-        m_pRecord->Field(TBLD_STATUS::PAUSE)     = m_info.bPause;
+        m_pRecord->Field(TBLD_STATUS::LEV)       = m_info.lev;
+        m_pRecord->Field(TBLD_STATUS::POWER)     = m_info.power;
+        m_pRecord->Field(TBLD_STATUS::SECS)      = m_info.secs;
+        m_pRecord->Field(TBLD_STATUS::TIMES)     = m_info.times;
+        m_pRecord->Field(TBLD_STATUS::LASTSTAMP) = m_info.last_timestamp;
+        m_pRecord->Field(TBLD_STATUS::CASTERID)  = m_info.id_caster;
+        m_pRecord->Field(TBLD_STATUS::PAUSE)     = m_info.pause;
+        m_pRecord->Field(TBLD_STATUS::STATUSID)  = m_info.id_status;
     }
     else
     {
@@ -229,14 +246,15 @@ void CStatus::SaveInfo()
         m_pRecord = ZoneService()->GetGameDB(m_pOwner->GetWorldID())->MakeRecord(TBLD_STATUS::table_name());
         m_pRecord->Field(TBLD_STATUS::ID)        = ZoneService()->CreateUID();
         m_pRecord->Field(TBLD_STATUS::USERID)    = m_pOwner->GetID();
-        m_pRecord->Field(TBLD_STATUS::TYPEID)    = m_info.idStatusType;
-        m_pRecord->Field(TBLD_STATUS::LEV)       = m_info.ucLevel;
-        m_pRecord->Field(TBLD_STATUS::POWER)     = m_info.nPower;
-        m_pRecord->Field(TBLD_STATUS::SECS)      = m_info.nSecs;
-        m_pRecord->Field(TBLD_STATUS::TIMES)     = m_info.nTimes;
-        m_pRecord->Field(TBLD_STATUS::LASTSTAMP) = m_info.tLastStamp;
-        m_pRecord->Field(TBLD_STATUS::CASTERID)  = m_info.idCaster;
-        m_pRecord->Field(TBLD_STATUS::PAUSE)     = m_info.bPause;
+        m_pRecord->Field(TBLD_STATUS::STATUSID)  = m_info.id_status;
+        m_pRecord->Field(TBLD_STATUS::TYPEID)    = m_info.id_status_type;
+        m_pRecord->Field(TBLD_STATUS::LEV)       = m_info.lev;
+        m_pRecord->Field(TBLD_STATUS::POWER)     = m_info.power;
+        m_pRecord->Field(TBLD_STATUS::SECS)      = m_info.secs;
+        m_pRecord->Field(TBLD_STATUS::TIMES)     = m_info.times;
+        m_pRecord->Field(TBLD_STATUS::LASTSTAMP) = m_info.last_timestamp;
+        m_pRecord->Field(TBLD_STATUS::CASTERID)  = m_info.id_caster;
+        m_pRecord->Field(TBLD_STATUS::PAUSE)     = m_info.pause;
     }
     CHECK(m_pRecord->Update());
     __LEAVE_FUNCTION
@@ -245,7 +263,7 @@ void CStatus::SaveInfo()
 bool CStatus::ScheduleEvent(time_t tIntervalMS /*= 0*/)
 {
     __ENTER_FUNCTION
-    m_info.tLastStamp = TimeGetSecond();
+    m_info.last_timestamp = TimeGetSecond();
     CEventEntryCreateParam param;
     param.evType    = 0;
     param.cb        = std::bind(&CStatus::ProcessEvent, this);
@@ -277,14 +295,14 @@ void CStatus::ProcessEvent()
     if(GetTimes() > 0)
     {
         //再次激活
-        m_info.nTimes--;
-        m_info.nSecs = m_pType->GetSecs();
+        m_info.times--;
+        m_info.secs = m_pType->GetSecs();
         ScheduleEvent(GetSecs());
     }
     else
     {
         //最后一次，要销毁了
-        m_pOwner->GetStatus()->DetachStatus(GetStatusTypeID());
+        m_pOwner->GetStatus()->DetachStatus(GetID());
     }
     __LEAVE_FUNCTION
 }
@@ -303,7 +321,7 @@ void CStatus::OnAttach()
         m_pOwner->GetSkillFSM().BreakLaunch();
     }
 
-    switch(m_pType->GetType())
+    switch(m_info.id_status_type)
     {
         case STATUSTYPE_HIDE:
         {
@@ -313,15 +331,17 @@ void CStatus::OnAttach()
         default:
             break;
     }
-    m_pOwner->GetAttrib().Store(m_pType->GetAttribChangeList());
+    if(m_pType)
+        m_pOwner->GetAttrib().Store(m_pType->GetAttribChangeList());
     //执行脚本
-    if(m_pType->GetScirptID() != 0)
+    if(m_pType && m_pType->GetScirptID() != 0)
         ScriptManager()->TryExecScript<void>(m_pType->GetScirptID(), SCB_STATUS_ONATTACH, this);
 
     SC_STATUS_ACTION msg;
     msg.set_actor_id(m_pOwner->GetID());
     msg.set_action(SC_STATUS_ACTION::STATUS_ATTACH);
-    msg.set_statusid(GetStatusTypeID());
+    msg.set_statusid(GetID());
+    msg.set_statustype(GetTypeID());
     msg.set_statuslev(GetLevel());
     m_pOwner->SendRoomMessage(msg);
     __LEAVE_FUNCTION
@@ -330,7 +350,7 @@ void CStatus::OnAttach()
 void CStatus::OnDeatch()
 {
     __ENTER_FUNCTION
-    switch(m_pType->GetType())
+    switch(m_info.id_status_type)
     {
         case STATUSTYPE_HIDE:
         {
@@ -340,15 +360,17 @@ void CStatus::OnDeatch()
         default:
             break;
     }
-    m_pOwner->GetAttrib().Remove(m_pType->GetAttribChangeList());
+    if(m_pType)
+        m_pOwner->GetAttrib().Remove(m_pType->GetAttribChangeList());
     //执行脚本
-    if(m_pType->GetScirptID() != 0)
+    if(m_pType && m_pType->GetScirptID() != 0)
         ScriptManager()->TryExecScript<void>(m_pType->GetScirptID(), SCB_STATUS_ONDETACH, this);
 
     SC_STATUS_ACTION msg;
     msg.set_actor_id(m_pOwner->GetID());
     msg.set_action(SC_STATUS_ACTION::STATUS_DETACH);
-    msg.set_statusid(GetStatusTypeID());
+    msg.set_statusid(GetID());
+    msg.set_statustype(GetTypeID());
     msg.set_statuslev(GetLevel());
     m_pOwner->SendRoomMessage(msg);
     __LEAVE_FUNCTION
@@ -359,7 +381,7 @@ bool CStatus::OnMove()
     __ENTER_FUNCTION
     //执行脚本
     bool bNeedDestory = false;
-    if(m_pType->GetScirptID() != 0)
+    if(m_pType && m_pType->GetScirptID() != 0)
     {
         bNeedDestory = ScriptManager()->TryExecScript<bool>(m_pType->GetScirptID(), SCB_STATUS_ONMOVE, this);
     }
@@ -374,7 +396,7 @@ bool CStatus::OnSkill(uint32_t idSkill)
     __ENTER_FUNCTION
     //执行脚本
     bool bNeedDestory = false;
-    if(m_pType->GetScirptID() != 0)
+    if(m_pType && m_pType->GetScirptID() != 0)
     {
         bNeedDestory = ScriptManager()->TryExecScript<bool>(m_pType->GetScirptID(), SCB_STATUS_ONSKILL, this, idSkill);
     }
@@ -389,7 +411,7 @@ bool CStatus::OnAttack(CActor* pTarget, uint32_t idSkill, int32_t nDamage)
     __ENTER_FUNCTION
     //执行脚本
     bool bNeedDestory = false;
-    if(m_pType->GetScirptID() != 0)
+    if(m_pType && m_pType->GetScirptID() != 0)
     {
         bNeedDestory = ScriptManager()->TryExecScript<bool>(m_pType->GetScirptID(),
                                                             SCB_STATUS_ONATTACK,
@@ -410,7 +432,7 @@ bool CStatus::OnBeAttack(CActor* pAttacker, int32_t nDamage)
     __ENTER_FUNCTION
     //执行脚本
     bool bNeedDestory = false;
-    if(m_pType->GetScirptID() != 0)
+    if(m_pType && m_pType->GetScirptID() != 0)
     {
         bNeedDestory = ScriptManager()->TryExecScript<bool>(m_pType->GetScirptID(),
                                                             SCB_STATUS_ONBEATTACK,
@@ -427,15 +449,15 @@ bool CStatus::OnBeAttack(CActor* pAttacker, int32_t nDamage)
 bool CStatus::OnDead(CActor* pKiller)
 {
     __ENTER_FUNCTION
-    bool bNeedDestory = false;
-    if(m_pType->GetScirptID() != 0)
+    bool bNeedDestory = true;
+    if(m_pType && m_pType->GetScirptID() != 0)
     {
         bNeedDestory = ScriptManager()->TryExecScript<bool>(m_pType->GetScirptID(), SCB_STATUS_ONDEAD, this, pKiller);
     }
 
     return bNeedDestory;
     __LEAVE_FUNCTION
-    return false;
+    return true;
 }
 
 bool CStatus::OnLeaveMap()
@@ -443,7 +465,7 @@ bool CStatus::OnLeaveMap()
     __ENTER_FUNCTION
     //执行脚本
     bool bNeedDestory = false;
-    if(m_pType->GetScirptID() != 0)
+    if(m_pType && m_pType->GetScirptID() != 0)
     {
         bNeedDestory = ScriptManager()->TryExecScript<bool>(m_pType->GetScirptID(), SCB_STATUS_ONLEAVEMAP, this);
     }
@@ -457,14 +479,14 @@ void CStatus::OnLogin()
 {
     __ENTER_FUNCTION
     //执行脚本
-    if(m_pType->GetScirptID() != 0)
+    if(m_pType && m_pType->GetScirptID() != 0)
     {
         ScriptManager()->TryExecScript<void>(m_pType->GetScirptID(), SCB_STATUS_ONLOGIN, this);
     }
 
     if(IsPaused() == true)
     {
-        if(HasFlag(m_pType->GetFlag(), STATUSFLAG_ONLINE_RESUME))
+        if(HasFlag(m_info.flag, STATUSFLAG_ONLINE_RESUME))
         {
             Resume(false);
         }
@@ -478,7 +500,7 @@ void CStatus::OnLogout()
 {
     __ENTER_FUNCTION
     //执行脚本
-    if(m_pType->GetScirptID() != 0)
+    if(m_pType && m_pType->GetScirptID() != 0)
     {
         ScriptManager()->TryExecScript<void>(m_pType->GetScirptID(), SCB_STATUS_ONLOGOUT, this);
     }
@@ -494,7 +516,8 @@ void CStatus::SendStatus()
     SC_STATUS_INFO status_msg;
     status_msg.set_actor_id(m_pOwner->GetID());
     auto pInfo = status_msg.add_statuslist();
-    pInfo->set_statusid(GetStatusTypeID());
+    pInfo->set_statusid(GetID());
+    pInfo->set_statustype(GetTypeID());
     pInfo->set_statuslev(GetLevel());
     pInfo->set_power(GetPower());
     pInfo->set_sec(GetSecs());
@@ -511,14 +534,15 @@ void CStatus::OnEffect()
 {
     __ENTER_FUNCTION
     //执行脚本
-    if(m_pType->GetScirptID() != 0)
+    if(m_pType && m_pType->GetScirptID() != 0)
     {
         ScriptManager()->TryExecScript<void>(m_pType->GetScirptID(), SCB_STATUS_ONEFFECT, this);
     }
     SC_STATUS_ACTION msg;
     msg.set_actor_id(m_pOwner->GetID());
     msg.set_action(SC_STATUS_ACTION::STATUS_EFFECT);
-    msg.set_statusid(GetStatusTypeID());
+    msg.set_statusid(GetID());
+    msg.set_statustype(GetTypeID());
     msg.set_statuslev(GetLevel());
     m_pOwner->SendRoomMessage(msg);
 

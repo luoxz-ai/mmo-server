@@ -48,7 +48,7 @@ struct TableStruct_config_2fCfg_5fSkill_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[4]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[2]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -61,320 +61,12 @@ extern Cfg_SkillDefaultTypeInternal _Cfg_Skill_default_instance_;
 class Cfg_Skill_Row;
 class Cfg_Skill_RowDefaultTypeInternal;
 extern Cfg_Skill_RowDefaultTypeInternal _Cfg_Skill_Row_default_instance_;
-class SkillAttachStatus;
-class SkillAttachStatusDefaultTypeInternal;
-extern SkillAttachStatusDefaultTypeInternal _SkillAttachStatus_default_instance_;
-class SkillDetachStatus;
-class SkillDetachStatusDefaultTypeInternal;
-extern SkillDetachStatusDefaultTypeInternal _SkillDetachStatus_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
 template<> ::Cfg_Skill* Arena::CreateMaybeMessage<::Cfg_Skill>(Arena*);
 template<> ::Cfg_Skill_Row* Arena::CreateMaybeMessage<::Cfg_Skill_Row>(Arena*);
-template<> ::SkillAttachStatus* Arena::CreateMaybeMessage<::SkillAttachStatus>(Arena*);
-template<> ::SkillDetachStatus* Arena::CreateMaybeMessage<::SkillDetachStatus>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 
 // ===================================================================
-
-class SkillAttachStatus :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:SkillAttachStatus) */ {
- public:
-  SkillAttachStatus();
-  virtual ~SkillAttachStatus();
-
-  SkillAttachStatus(const SkillAttachStatus& from);
-  SkillAttachStatus(SkillAttachStatus&& from) noexcept
-    : SkillAttachStatus() {
-    *this = ::std::move(from);
-  }
-
-  inline SkillAttachStatus& operator=(const SkillAttachStatus& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline SkillAttachStatus& operator=(SkillAttachStatus&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return GetMetadataStatic().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return GetMetadataStatic().reflection;
-  }
-  static const SkillAttachStatus& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const SkillAttachStatus* internal_default_instance() {
-    return reinterpret_cast<const SkillAttachStatus*>(
-               &_SkillAttachStatus_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    0;
-
-  friend void swap(SkillAttachStatus& a, SkillAttachStatus& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(SkillAttachStatus* other) {
-    if (other == this) return;
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline SkillAttachStatus* New() const final {
-    return CreateMaybeMessage<SkillAttachStatus>(nullptr);
-  }
-
-  SkillAttachStatus* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<SkillAttachStatus>(arena);
-  }
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  inline void SharedCtor();
-  inline void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(SkillAttachStatus* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "SkillAttachStatus";
-  }
-  private:
-  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
-    return nullptr;
-  }
-  inline void* MaybeArenaPtr() const {
-    return nullptr;
-  }
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-  private:
-  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
-    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_config_2fCfg_5fSkill_2eproto);
-    return ::descriptor_table_config_2fCfg_5fSkill_2eproto.file_level_metadata[kIndexInFileMessages];
-  }
-
-  public:
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kIdFieldNumber = 1,
-    kLevFieldNumber = 2,
-    kPowerFieldNumber = 3,
-    kSecsFieldNumber = 4,
-    kTimesFieldNumber = 5,
-  };
-  // uint32 id = 1;
-  void clear_id();
-  ::PROTOBUF_NAMESPACE_ID::uint32 id() const;
-  void set_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_id() const;
-  void _internal_set_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
-  // uint32 lev = 2;
-  void clear_lev();
-  ::PROTOBUF_NAMESPACE_ID::uint32 lev() const;
-  void set_lev(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_lev() const;
-  void _internal_set_lev(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
-  // uint32 power = 3;
-  void clear_power();
-  ::PROTOBUF_NAMESPACE_ID::uint32 power() const;
-  void set_power(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_power() const;
-  void _internal_set_power(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
-  // uint32 secs = 4;
-  void clear_secs();
-  ::PROTOBUF_NAMESPACE_ID::uint32 secs() const;
-  void set_secs(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_secs() const;
-  void _internal_set_secs(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
-  // uint32 times = 5;
-  void clear_times();
-  ::PROTOBUF_NAMESPACE_ID::uint32 times() const;
-  void set_times(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_times() const;
-  void _internal_set_times(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:SkillAttachStatus)
- private:
-  class _Internal;
-
-  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 id_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 lev_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 power_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 secs_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 times_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_config_2fCfg_5fSkill_2eproto;
-};
-// -------------------------------------------------------------------
-
-class SkillDetachStatus :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:SkillDetachStatus) */ {
- public:
-  SkillDetachStatus();
-  virtual ~SkillDetachStatus();
-
-  SkillDetachStatus(const SkillDetachStatus& from);
-  SkillDetachStatus(SkillDetachStatus&& from) noexcept
-    : SkillDetachStatus() {
-    *this = ::std::move(from);
-  }
-
-  inline SkillDetachStatus& operator=(const SkillDetachStatus& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline SkillDetachStatus& operator=(SkillDetachStatus&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return GetMetadataStatic().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return GetMetadataStatic().reflection;
-  }
-  static const SkillDetachStatus& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const SkillDetachStatus* internal_default_instance() {
-    return reinterpret_cast<const SkillDetachStatus*>(
-               &_SkillDetachStatus_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    1;
-
-  friend void swap(SkillDetachStatus& a, SkillDetachStatus& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(SkillDetachStatus* other) {
-    if (other == this) return;
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline SkillDetachStatus* New() const final {
-    return CreateMaybeMessage<SkillDetachStatus>(nullptr);
-  }
-
-  SkillDetachStatus* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<SkillDetachStatus>(arena);
-  }
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  inline void SharedCtor();
-  inline void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(SkillDetachStatus* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "SkillDetachStatus";
-  }
-  private:
-  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
-    return nullptr;
-  }
-  inline void* MaybeArenaPtr() const {
-    return nullptr;
-  }
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-  private:
-  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
-    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_config_2fCfg_5fSkill_2eproto);
-    return ::descriptor_table_config_2fCfg_5fSkill_2eproto.file_level_metadata[kIndexInFileMessages];
-  }
-
-  public:
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kIdFieldNumber = 1,
-    kTypeFieldNumber = 2,
-    kFlagFieldNumber = 3,
-  };
-  // uint32 id = 1;
-  void clear_id();
-  ::PROTOBUF_NAMESPACE_ID::uint32 id() const;
-  void set_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_id() const;
-  void _internal_set_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
-  // uint32 type = 2;
-  void clear_type();
-  ::PROTOBUF_NAMESPACE_ID::uint32 type() const;
-  void set_type(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_type() const;
-  void _internal_set_type(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
-  // uint32 flag = 3;
-  void clear_flag();
-  ::PROTOBUF_NAMESPACE_ID::uint32 flag() const;
-  void set_flag(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_flag() const;
-  void _internal_set_flag(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:SkillDetachStatus)
- private:
-  class _Internal;
-
-  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 id_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 type_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 flag_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_config_2fCfg_5fSkill_2eproto;
-};
-// -------------------------------------------------------------------
 
 class Cfg_Skill_Row :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Cfg_Skill.Row) */ {
@@ -418,7 +110,7 @@ class Cfg_Skill_Row :
                &_Cfg_Skill_Row_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    0;
 
   friend void swap(Cfg_Skill_Row& a, Cfg_Skill_Row& b) {
     a.Swap(&b);
@@ -473,7 +165,9 @@ class Cfg_Skill_Row :
   enum : int {
     kAttribChangeListFieldNumber = 36,
     kAttachStatusFieldNumber = 37,
-    kDetachStatusFieldNumber = 38,
+    kDetachStatusIdFieldNumber = 38,
+    kDetachStatusTypeFieldNumber = 39,
+    kDetachStatusFlagFieldNumber = 40,
     kNameFieldNumber = 5,
     kIdFieldNumber = 1,
     kSortFieldNumber = 2,
@@ -528,41 +222,93 @@ class Cfg_Skill_Row :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::AttribChangeDataProto >&
       attrib_change_list() const;
 
-  // repeated .SkillAttachStatus attach_status = 37;
+  // repeated uint32 attach_status = 37;
   int attach_status_size() const;
   private:
   int _internal_attach_status_size() const;
   public:
   void clear_attach_status();
-  ::SkillAttachStatus* mutable_attach_status(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SkillAttachStatus >*
-      mutable_attach_status();
   private:
-  const ::SkillAttachStatus& _internal_attach_status(int index) const;
-  ::SkillAttachStatus* _internal_add_attach_status();
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_attach_status(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
+      _internal_attach_status() const;
+  void _internal_add_attach_status(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
+      _internal_mutable_attach_status();
   public:
-  const ::SkillAttachStatus& attach_status(int index) const;
-  ::SkillAttachStatus* add_attach_status();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SkillAttachStatus >&
+  ::PROTOBUF_NAMESPACE_ID::uint32 attach_status(int index) const;
+  void set_attach_status(int index, ::PROTOBUF_NAMESPACE_ID::uint32 value);
+  void add_attach_status(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
       attach_status() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
+      mutable_attach_status();
 
-  // repeated .SkillDetachStatus detach_status = 38;
-  int detach_status_size() const;
+  // repeated uint32 detach_status_id = 38;
+  int detach_status_id_size() const;
   private:
-  int _internal_detach_status_size() const;
+  int _internal_detach_status_id_size() const;
   public:
-  void clear_detach_status();
-  ::SkillDetachStatus* mutable_detach_status(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SkillDetachStatus >*
-      mutable_detach_status();
+  void clear_detach_status_id();
   private:
-  const ::SkillDetachStatus& _internal_detach_status(int index) const;
-  ::SkillDetachStatus* _internal_add_detach_status();
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_detach_status_id(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
+      _internal_detach_status_id() const;
+  void _internal_add_detach_status_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
+      _internal_mutable_detach_status_id();
   public:
-  const ::SkillDetachStatus& detach_status(int index) const;
-  ::SkillDetachStatus* add_detach_status();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SkillDetachStatus >&
-      detach_status() const;
+  ::PROTOBUF_NAMESPACE_ID::uint32 detach_status_id(int index) const;
+  void set_detach_status_id(int index, ::PROTOBUF_NAMESPACE_ID::uint32 value);
+  void add_detach_status_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
+      detach_status_id() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
+      mutable_detach_status_id();
+
+  // repeated uint32 detach_status_type = 39;
+  int detach_status_type_size() const;
+  private:
+  int _internal_detach_status_type_size() const;
+  public:
+  void clear_detach_status_type();
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_detach_status_type(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
+      _internal_detach_status_type() const;
+  void _internal_add_detach_status_type(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
+      _internal_mutable_detach_status_type();
+  public:
+  ::PROTOBUF_NAMESPACE_ID::uint32 detach_status_type(int index) const;
+  void set_detach_status_type(int index, ::PROTOBUF_NAMESPACE_ID::uint32 value);
+  void add_detach_status_type(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
+      detach_status_type() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
+      mutable_detach_status_type();
+
+  // repeated uint32 detach_status_flag = 40;
+  int detach_status_flag_size() const;
+  private:
+  int _internal_detach_status_flag_size() const;
+  public:
+  void clear_detach_status_flag();
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_detach_status_flag(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
+      _internal_detach_status_flag() const;
+  void _internal_add_detach_status_flag(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
+      _internal_mutable_detach_status_flag();
+  public:
+  ::PROTOBUF_NAMESPACE_ID::uint32 detach_status_flag(int index) const;
+  void set_detach_status_flag(int index, ::PROTOBUF_NAMESPACE_ID::uint32 value);
+  void add_detach_status_flag(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
+      detach_status_flag() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
+      mutable_detach_status_flag();
 
   // string name = 5;
   void clear_name();
@@ -892,8 +638,10 @@ class Cfg_Skill_Row :
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::AttribChangeDataProto > attrib_change_list_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SkillAttachStatus > attach_status_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SkillDetachStatus > detach_status_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 > attach_status_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 > detach_status_id_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 > detach_status_type_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 > detach_status_flag_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
   ::PROTOBUF_NAMESPACE_ID::uint32 id_;
   ::PROTOBUF_NAMESPACE_ID::uint32 sort_;
@@ -976,7 +724,7 @@ class Cfg_Skill :
                &_Cfg_Skill_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    1;
 
   friend void swap(Cfg_Skill& a, Cfg_Skill& b) {
     a.Swap(&b);
@@ -1069,174 +817,6 @@ class Cfg_Skill :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// SkillAttachStatus
-
-// uint32 id = 1;
-inline void SkillAttachStatus::clear_id() {
-  id_ = 0u;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 SkillAttachStatus::_internal_id() const {
-  return id_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 SkillAttachStatus::id() const {
-  // @@protoc_insertion_point(field_get:SkillAttachStatus.id)
-  return _internal_id();
-}
-inline void SkillAttachStatus::_internal_set_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  
-  id_ = value;
-}
-inline void SkillAttachStatus::set_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  _internal_set_id(value);
-  // @@protoc_insertion_point(field_set:SkillAttachStatus.id)
-}
-
-// uint32 lev = 2;
-inline void SkillAttachStatus::clear_lev() {
-  lev_ = 0u;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 SkillAttachStatus::_internal_lev() const {
-  return lev_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 SkillAttachStatus::lev() const {
-  // @@protoc_insertion_point(field_get:SkillAttachStatus.lev)
-  return _internal_lev();
-}
-inline void SkillAttachStatus::_internal_set_lev(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  
-  lev_ = value;
-}
-inline void SkillAttachStatus::set_lev(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  _internal_set_lev(value);
-  // @@protoc_insertion_point(field_set:SkillAttachStatus.lev)
-}
-
-// uint32 power = 3;
-inline void SkillAttachStatus::clear_power() {
-  power_ = 0u;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 SkillAttachStatus::_internal_power() const {
-  return power_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 SkillAttachStatus::power() const {
-  // @@protoc_insertion_point(field_get:SkillAttachStatus.power)
-  return _internal_power();
-}
-inline void SkillAttachStatus::_internal_set_power(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  
-  power_ = value;
-}
-inline void SkillAttachStatus::set_power(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  _internal_set_power(value);
-  // @@protoc_insertion_point(field_set:SkillAttachStatus.power)
-}
-
-// uint32 secs = 4;
-inline void SkillAttachStatus::clear_secs() {
-  secs_ = 0u;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 SkillAttachStatus::_internal_secs() const {
-  return secs_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 SkillAttachStatus::secs() const {
-  // @@protoc_insertion_point(field_get:SkillAttachStatus.secs)
-  return _internal_secs();
-}
-inline void SkillAttachStatus::_internal_set_secs(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  
-  secs_ = value;
-}
-inline void SkillAttachStatus::set_secs(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  _internal_set_secs(value);
-  // @@protoc_insertion_point(field_set:SkillAttachStatus.secs)
-}
-
-// uint32 times = 5;
-inline void SkillAttachStatus::clear_times() {
-  times_ = 0u;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 SkillAttachStatus::_internal_times() const {
-  return times_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 SkillAttachStatus::times() const {
-  // @@protoc_insertion_point(field_get:SkillAttachStatus.times)
-  return _internal_times();
-}
-inline void SkillAttachStatus::_internal_set_times(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  
-  times_ = value;
-}
-inline void SkillAttachStatus::set_times(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  _internal_set_times(value);
-  // @@protoc_insertion_point(field_set:SkillAttachStatus.times)
-}
-
-// -------------------------------------------------------------------
-
-// SkillDetachStatus
-
-// uint32 id = 1;
-inline void SkillDetachStatus::clear_id() {
-  id_ = 0u;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 SkillDetachStatus::_internal_id() const {
-  return id_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 SkillDetachStatus::id() const {
-  // @@protoc_insertion_point(field_get:SkillDetachStatus.id)
-  return _internal_id();
-}
-inline void SkillDetachStatus::_internal_set_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  
-  id_ = value;
-}
-inline void SkillDetachStatus::set_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  _internal_set_id(value);
-  // @@protoc_insertion_point(field_set:SkillDetachStatus.id)
-}
-
-// uint32 type = 2;
-inline void SkillDetachStatus::clear_type() {
-  type_ = 0u;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 SkillDetachStatus::_internal_type() const {
-  return type_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 SkillDetachStatus::type() const {
-  // @@protoc_insertion_point(field_get:SkillDetachStatus.type)
-  return _internal_type();
-}
-inline void SkillDetachStatus::_internal_set_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  
-  type_ = value;
-}
-inline void SkillDetachStatus::set_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  _internal_set_type(value);
-  // @@protoc_insertion_point(field_set:SkillDetachStatus.type)
-}
-
-// uint32 flag = 3;
-inline void SkillDetachStatus::clear_flag() {
-  flag_ = 0u;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 SkillDetachStatus::_internal_flag() const {
-  return flag_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 SkillDetachStatus::flag() const {
-  // @@protoc_insertion_point(field_get:SkillDetachStatus.flag)
-  return _internal_flag();
-}
-inline void SkillDetachStatus::_internal_set_flag(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  
-  flag_ = value;
-}
-inline void SkillDetachStatus::set_flag(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  _internal_set_flag(value);
-  // @@protoc_insertion_point(field_set:SkillDetachStatus.flag)
-}
-
-// -------------------------------------------------------------------
-
 // Cfg_Skill_Row
 
 // uint32 id = 1;
@@ -2015,7 +1595,7 @@ Cfg_Skill_Row::attrib_change_list() const {
   return attrib_change_list_;
 }
 
-// repeated .SkillAttachStatus attach_status = 37;
+// repeated uint32 attach_status = 37;
 inline int Cfg_Skill_Row::_internal_attach_status_size() const {
   return attach_status_.size();
 }
@@ -2025,72 +1605,182 @@ inline int Cfg_Skill_Row::attach_status_size() const {
 inline void Cfg_Skill_Row::clear_attach_status() {
   attach_status_.Clear();
 }
-inline ::SkillAttachStatus* Cfg_Skill_Row::mutable_attach_status(int index) {
-  // @@protoc_insertion_point(field_mutable:Cfg_Skill.Row.attach_status)
-  return attach_status_.Mutable(index);
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SkillAttachStatus >*
-Cfg_Skill_Row::mutable_attach_status() {
-  // @@protoc_insertion_point(field_mutable_list:Cfg_Skill.Row.attach_status)
-  return &attach_status_;
-}
-inline const ::SkillAttachStatus& Cfg_Skill_Row::_internal_attach_status(int index) const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Skill_Row::_internal_attach_status(int index) const {
   return attach_status_.Get(index);
 }
-inline const ::SkillAttachStatus& Cfg_Skill_Row::attach_status(int index) const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Skill_Row::attach_status(int index) const {
   // @@protoc_insertion_point(field_get:Cfg_Skill.Row.attach_status)
   return _internal_attach_status(index);
 }
-inline ::SkillAttachStatus* Cfg_Skill_Row::_internal_add_attach_status() {
-  return attach_status_.Add();
+inline void Cfg_Skill_Row::set_attach_status(int index, ::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  attach_status_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Cfg_Skill.Row.attach_status)
 }
-inline ::SkillAttachStatus* Cfg_Skill_Row::add_attach_status() {
+inline void Cfg_Skill_Row::_internal_add_attach_status(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  attach_status_.Add(value);
+}
+inline void Cfg_Skill_Row::add_attach_status(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_add_attach_status(value);
   // @@protoc_insertion_point(field_add:Cfg_Skill.Row.attach_status)
-  return _internal_add_attach_status();
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SkillAttachStatus >&
-Cfg_Skill_Row::attach_status() const {
-  // @@protoc_insertion_point(field_list:Cfg_Skill.Row.attach_status)
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
+Cfg_Skill_Row::_internal_attach_status() const {
   return attach_status_;
 }
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
+Cfg_Skill_Row::attach_status() const {
+  // @@protoc_insertion_point(field_list:Cfg_Skill.Row.attach_status)
+  return _internal_attach_status();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
+Cfg_Skill_Row::_internal_mutable_attach_status() {
+  return &attach_status_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
+Cfg_Skill_Row::mutable_attach_status() {
+  // @@protoc_insertion_point(field_mutable_list:Cfg_Skill.Row.attach_status)
+  return _internal_mutable_attach_status();
+}
 
-// repeated .SkillDetachStatus detach_status = 38;
-inline int Cfg_Skill_Row::_internal_detach_status_size() const {
-  return detach_status_.size();
+// repeated uint32 detach_status_id = 38;
+inline int Cfg_Skill_Row::_internal_detach_status_id_size() const {
+  return detach_status_id_.size();
 }
-inline int Cfg_Skill_Row::detach_status_size() const {
-  return _internal_detach_status_size();
+inline int Cfg_Skill_Row::detach_status_id_size() const {
+  return _internal_detach_status_id_size();
 }
-inline void Cfg_Skill_Row::clear_detach_status() {
-  detach_status_.Clear();
+inline void Cfg_Skill_Row::clear_detach_status_id() {
+  detach_status_id_.Clear();
 }
-inline ::SkillDetachStatus* Cfg_Skill_Row::mutable_detach_status(int index) {
-  // @@protoc_insertion_point(field_mutable:Cfg_Skill.Row.detach_status)
-  return detach_status_.Mutable(index);
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Skill_Row::_internal_detach_status_id(int index) const {
+  return detach_status_id_.Get(index);
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SkillDetachStatus >*
-Cfg_Skill_Row::mutable_detach_status() {
-  // @@protoc_insertion_point(field_mutable_list:Cfg_Skill.Row.detach_status)
-  return &detach_status_;
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Skill_Row::detach_status_id(int index) const {
+  // @@protoc_insertion_point(field_get:Cfg_Skill.Row.detach_status_id)
+  return _internal_detach_status_id(index);
 }
-inline const ::SkillDetachStatus& Cfg_Skill_Row::_internal_detach_status(int index) const {
-  return detach_status_.Get(index);
+inline void Cfg_Skill_Row::set_detach_status_id(int index, ::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  detach_status_id_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Cfg_Skill.Row.detach_status_id)
 }
-inline const ::SkillDetachStatus& Cfg_Skill_Row::detach_status(int index) const {
-  // @@protoc_insertion_point(field_get:Cfg_Skill.Row.detach_status)
-  return _internal_detach_status(index);
+inline void Cfg_Skill_Row::_internal_add_detach_status_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  detach_status_id_.Add(value);
 }
-inline ::SkillDetachStatus* Cfg_Skill_Row::_internal_add_detach_status() {
-  return detach_status_.Add();
+inline void Cfg_Skill_Row::add_detach_status_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_add_detach_status_id(value);
+  // @@protoc_insertion_point(field_add:Cfg_Skill.Row.detach_status_id)
 }
-inline ::SkillDetachStatus* Cfg_Skill_Row::add_detach_status() {
-  // @@protoc_insertion_point(field_add:Cfg_Skill.Row.detach_status)
-  return _internal_add_detach_status();
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
+Cfg_Skill_Row::_internal_detach_status_id() const {
+  return detach_status_id_;
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SkillDetachStatus >&
-Cfg_Skill_Row::detach_status() const {
-  // @@protoc_insertion_point(field_list:Cfg_Skill.Row.detach_status)
-  return detach_status_;
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
+Cfg_Skill_Row::detach_status_id() const {
+  // @@protoc_insertion_point(field_list:Cfg_Skill.Row.detach_status_id)
+  return _internal_detach_status_id();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
+Cfg_Skill_Row::_internal_mutable_detach_status_id() {
+  return &detach_status_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
+Cfg_Skill_Row::mutable_detach_status_id() {
+  // @@protoc_insertion_point(field_mutable_list:Cfg_Skill.Row.detach_status_id)
+  return _internal_mutable_detach_status_id();
+}
+
+// repeated uint32 detach_status_type = 39;
+inline int Cfg_Skill_Row::_internal_detach_status_type_size() const {
+  return detach_status_type_.size();
+}
+inline int Cfg_Skill_Row::detach_status_type_size() const {
+  return _internal_detach_status_type_size();
+}
+inline void Cfg_Skill_Row::clear_detach_status_type() {
+  detach_status_type_.Clear();
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Skill_Row::_internal_detach_status_type(int index) const {
+  return detach_status_type_.Get(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Skill_Row::detach_status_type(int index) const {
+  // @@protoc_insertion_point(field_get:Cfg_Skill.Row.detach_status_type)
+  return _internal_detach_status_type(index);
+}
+inline void Cfg_Skill_Row::set_detach_status_type(int index, ::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  detach_status_type_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Cfg_Skill.Row.detach_status_type)
+}
+inline void Cfg_Skill_Row::_internal_add_detach_status_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  detach_status_type_.Add(value);
+}
+inline void Cfg_Skill_Row::add_detach_status_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_add_detach_status_type(value);
+  // @@protoc_insertion_point(field_add:Cfg_Skill.Row.detach_status_type)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
+Cfg_Skill_Row::_internal_detach_status_type() const {
+  return detach_status_type_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
+Cfg_Skill_Row::detach_status_type() const {
+  // @@protoc_insertion_point(field_list:Cfg_Skill.Row.detach_status_type)
+  return _internal_detach_status_type();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
+Cfg_Skill_Row::_internal_mutable_detach_status_type() {
+  return &detach_status_type_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
+Cfg_Skill_Row::mutable_detach_status_type() {
+  // @@protoc_insertion_point(field_mutable_list:Cfg_Skill.Row.detach_status_type)
+  return _internal_mutable_detach_status_type();
+}
+
+// repeated uint32 detach_status_flag = 40;
+inline int Cfg_Skill_Row::_internal_detach_status_flag_size() const {
+  return detach_status_flag_.size();
+}
+inline int Cfg_Skill_Row::detach_status_flag_size() const {
+  return _internal_detach_status_flag_size();
+}
+inline void Cfg_Skill_Row::clear_detach_status_flag() {
+  detach_status_flag_.Clear();
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Skill_Row::_internal_detach_status_flag(int index) const {
+  return detach_status_flag_.Get(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Skill_Row::detach_status_flag(int index) const {
+  // @@protoc_insertion_point(field_get:Cfg_Skill.Row.detach_status_flag)
+  return _internal_detach_status_flag(index);
+}
+inline void Cfg_Skill_Row::set_detach_status_flag(int index, ::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  detach_status_flag_.Set(index, value);
+  // @@protoc_insertion_point(field_set:Cfg_Skill.Row.detach_status_flag)
+}
+inline void Cfg_Skill_Row::_internal_add_detach_status_flag(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  detach_status_flag_.Add(value);
+}
+inline void Cfg_Skill_Row::add_detach_status_flag(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_add_detach_status_flag(value);
+  // @@protoc_insertion_point(field_add:Cfg_Skill.Row.detach_status_flag)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
+Cfg_Skill_Row::_internal_detach_status_flag() const {
+  return detach_status_flag_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
+Cfg_Skill_Row::detach_status_flag() const {
+  // @@protoc_insertion_point(field_list:Cfg_Skill.Row.detach_status_flag)
+  return _internal_detach_status_flag();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
+Cfg_Skill_Row::_internal_mutable_detach_status_flag() {
+  return &detach_status_flag_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
+Cfg_Skill_Row::mutable_detach_status_flag() {
+  // @@protoc_insertion_point(field_mutable_list:Cfg_Skill.Row.detach_status_flag)
+  return _internal_mutable_detach_status_flag();
 }
 
 // -------------------------------------------------------------------
@@ -2139,10 +1829,6 @@ Cfg_Skill::rows() const {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 

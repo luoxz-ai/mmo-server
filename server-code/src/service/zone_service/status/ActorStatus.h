@@ -6,6 +6,8 @@
 #include "msg/zone_service.pb.h"
 
 class CActor;
+
+
 export_lua class CActorStatus : public NoncopyableT<CActorStatus>
 {
     CActorStatus();
@@ -17,13 +19,10 @@ public:
 public:
     ~CActorStatus();
 
-    export_lua CStatus* QueryStatus(uint16_t idStatusType) const;
-    export_lua bool     AttachStatus(uint16_t idStatusType,
-                                     uint8_t  ucLev,
-                                     OBJID    idCaster,
-                                     uint32_t nPower,
-                                     uint32_t nSecs,
-                                     uint32_t nTimes);
+    export_lua CStatus* QueryStatusByType(uint16_t idStatusType) const;
+    
+    export_lua bool     AttachStatus(const AttachStatusInfo& info);
+    export_lua bool     AttachStatus(uint32_t idStatus, OBJID idCaster);
     export_lua bool     DetachStatus(uint16_t idStatusType);
     export_lua bool     DetachStatusByType(uint32_t nStatusType);
     export_lua bool     DetachStatusByFlag(uint32_t nStatusFlag, bool bHave = true);
@@ -32,7 +31,7 @@ public:
     template<typename Func>
     void for_each(Func func) const
     {
-        for(const auto& [k, v]: m_setStatus)
+        for(const auto& [k, v]: m_setStatusByType)
         {
             func(v);
         }
@@ -42,7 +41,7 @@ public:
     export_lua void   FillStatusMsg(SC_STATUS_LIST& status_msg);
     void              SaveInfo();
     void              Stop();
-    export_lua size_t size() const { return m_setStatus.size(); }
+    export_lua size_t size() const { return m_setStatusByType.size(); }
 
 public:
     void OnMove();
@@ -58,14 +57,14 @@ public:
     void OnEventDetach(Func func, int32_t flag, Args&&... args)
     {
         __ENTER_FUNCTION
-        for(auto it = m_setStatus.begin(); it != m_setStatus.end();)
+        for(auto it = m_setStatusByType.begin(); it != m_setStatusByType.end();)
         {
             CStatus* pStatus = it->second;
             if(HasFlag(pStatus->GetFlag(), flag) == true || std::invoke(func, it->second, std::forward<Args>(args)...))
             {
                 pStatus->OnDeatch();
                 SAFE_DELETE(pStatus);
-                it = m_setStatus.erase(it);
+                it = m_setStatusByType.erase(it);
             }
             else
             {
@@ -76,17 +75,17 @@ public:
     }
 
     template<class Func, class... Args>
-    void OnEventUndeatch(Func func, int32_t flag, Args&&... args)
+    void OnEventDeatchExcept(Func func, int32_t except_flag, Args&&... args)
     {
         __ENTER_FUNCTION
-        for(auto it = m_setStatus.begin(); it != m_setStatus.end();)
+        for(auto it = m_setStatusByType.begin(); it != m_setStatusByType.end();)
         {
             CStatus* pStatus = it->second;
-            if(HasFlag(pStatus->GetFlag(), flag) == false || std::invoke(func, it->second, std::forward<Args>(args)...))
+            if(HasFlag(pStatus->GetFlag(), except_flag) == false && std::invoke(func, it->second, std::forward<Args>(args)...))
             {
                 pStatus->OnDeatch();
                 SAFE_DELETE(pStatus);
-                it = m_setStatus.erase(it);
+                it = m_setStatusByType.erase(it);
             }
             else
             {
@@ -103,6 +102,6 @@ private:
 
 private:
     CActor*                                m_pOwner;
-    std::unordered_map<uint16_t, CStatus*> m_setStatus;
+    std::unordered_map<uint16_t, CStatus*> m_setStatusByType;
 };
 #endif /* ACTORSTATUS_H */

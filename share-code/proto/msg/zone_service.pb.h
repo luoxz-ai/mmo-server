@@ -50,7 +50,7 @@ struct TableStruct_msg_2fzone_5fservice_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[91]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[92]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -300,6 +300,9 @@ extern SC_STATUS_INFO_DataDefaultTypeInternal _SC_STATUS_INFO_Data_default_insta
 class SC_STATUS_LIST;
 class SC_STATUS_LISTDefaultTypeInternal;
 extern SC_STATUS_LISTDefaultTypeInternal _SC_STATUS_LIST_default_instance_;
+class SC_STATUS_LIST_Data;
+class SC_STATUS_LIST_DataDefaultTypeInternal;
+extern SC_STATUS_LIST_DataDefaultTypeInternal _SC_STATUS_LIST_Data_default_instance_;
 class SC_SYSVAR;
 class SC_SYSVARDefaultTypeInternal;
 extern SC_SYSVARDefaultTypeInternal _SC_SYSVAR_default_instance_;
@@ -412,6 +415,7 @@ template<> ::SC_STATUS_ACTION* Arena::CreateMaybeMessage<::SC_STATUS_ACTION>(Are
 template<> ::SC_STATUS_INFO* Arena::CreateMaybeMessage<::SC_STATUS_INFO>(Arena*);
 template<> ::SC_STATUS_INFO_Data* Arena::CreateMaybeMessage<::SC_STATUS_INFO_Data>(Arena*);
 template<> ::SC_STATUS_LIST* Arena::CreateMaybeMessage<::SC_STATUS_LIST>(Arena*);
+template<> ::SC_STATUS_LIST_Data* Arena::CreateMaybeMessage<::SC_STATUS_LIST_Data>(Arena*);
 template<> ::SC_SYSVAR* Arena::CreateMaybeMessage<::SC_SYSVAR>(Arena*);
 template<> ::SC_SYSVAR_Data* Arena::CreateMaybeMessage<::SC_SYSVAR_Data>(Arena*);
 template<> ::SC_TALK* Arena::CreateMaybeMessage<::SC_TALK>(Arena*);
@@ -4123,6 +4127,178 @@ class SC_ATTRIB_CHANGE :
 };
 // -------------------------------------------------------------------
 
+class SC_STATUS_LIST_Data :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:SC_STATUS_LIST.Data) */ {
+ public:
+  SC_STATUS_LIST_Data();
+  virtual ~SC_STATUS_LIST_Data();
+
+  SC_STATUS_LIST_Data(const SC_STATUS_LIST_Data& from);
+  SC_STATUS_LIST_Data(SC_STATUS_LIST_Data&& from) noexcept
+    : SC_STATUS_LIST_Data() {
+    *this = ::std::move(from);
+  }
+
+  inline SC_STATUS_LIST_Data& operator=(const SC_STATUS_LIST_Data& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SC_STATUS_LIST_Data& operator=(SC_STATUS_LIST_Data&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const SC_STATUS_LIST_Data& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SC_STATUS_LIST_Data* internal_default_instance() {
+    return reinterpret_cast<const SC_STATUS_LIST_Data*>(
+               &_SC_STATUS_LIST_Data_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    20;
+
+  friend void swap(SC_STATUS_LIST_Data& a, SC_STATUS_LIST_Data& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SC_STATUS_LIST_Data* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SC_STATUS_LIST_Data* New() const final {
+    return CreateMaybeMessage<SC_STATUS_LIST_Data>(nullptr);
+  }
+
+  SC_STATUS_LIST_Data* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<SC_STATUS_LIST_Data>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const SC_STATUS_LIST_Data& from);
+  void MergeFrom(const SC_STATUS_LIST_Data& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SC_STATUS_LIST_Data* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "SC_STATUS_LIST.Data";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_msg_2fzone_5fservice_2eproto);
+    return ::descriptor_table_msg_2fzone_5fservice_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kStatusidFieldNumber = 1,
+    kStatustypeFieldNumber = 2,
+    kStatuslevFieldNumber = 3,
+    kPowerFieldNumber = 4,
+    kIdcasterFieldNumber = 8,
+  };
+  // uint32 statusid = 1;
+  void clear_statusid();
+  ::PROTOBUF_NAMESPACE_ID::uint32 statusid() const;
+  void set_statusid(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_statusid() const;
+  void _internal_set_statusid(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 statustype = 2;
+  void clear_statustype();
+  ::PROTOBUF_NAMESPACE_ID::uint32 statustype() const;
+  void set_statustype(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_statustype() const;
+  void _internal_set_statustype(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 statuslev = 3;
+  void clear_statuslev();
+  ::PROTOBUF_NAMESPACE_ID::uint32 statuslev() const;
+  void set_statuslev(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_statuslev() const;
+  void _internal_set_statuslev(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // int32 power = 4;
+  void clear_power();
+  ::PROTOBUF_NAMESPACE_ID::int32 power() const;
+  void set_power(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_power() const;
+  void _internal_set_power(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // uint64 idcaster = 8;
+  void clear_idcaster();
+  ::PROTOBUF_NAMESPACE_ID::uint64 idcaster() const;
+  void set_idcaster(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_idcaster() const;
+  void _internal_set_idcaster(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:SC_STATUS_LIST.Data)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 statusid_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 statustype_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 statuslev_;
+  ::PROTOBUF_NAMESPACE_ID::int32 power_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 idcaster_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_msg_2fzone_5fservice_2eproto;
+};
+// -------------------------------------------------------------------
+
 class SC_STATUS_LIST :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:SC_STATUS_LIST) */ {
  public:
@@ -4165,7 +4341,7 @@ class SC_STATUS_LIST :
                &_SC_STATUS_LIST_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    20;
+    21;
 
   friend void swap(SC_STATUS_LIST& a, SC_STATUS_LIST& b) {
     a.Swap(&b);
@@ -4226,56 +4402,31 @@ class SC_STATUS_LIST :
 
   // nested types ----------------------------------------------------
 
+  typedef SC_STATUS_LIST_Data Data;
+
   // accessors -------------------------------------------------------
 
   enum : int {
-    kStatusTypeidListFieldNumber = 2,
-    kStatusLevListFieldNumber = 3,
+    kStatusListFieldNumber = 2,
     kActorIdFieldNumber = 1,
   };
-  // repeated uint32 status_typeid_list = 2;
-  int status_typeid_list_size() const;
+  // repeated .SC_STATUS_LIST.Data status_list = 2;
+  int status_list_size() const;
   private:
-  int _internal_status_typeid_list_size() const;
+  int _internal_status_list_size() const;
   public:
-  void clear_status_typeid_list();
+  void clear_status_list();
+  ::SC_STATUS_LIST_Data* mutable_status_list(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SC_STATUS_LIST_Data >*
+      mutable_status_list();
   private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_status_typeid_list(int index) const;
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
-      _internal_status_typeid_list() const;
-  void _internal_add_status_typeid_list(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
-      _internal_mutable_status_typeid_list();
+  const ::SC_STATUS_LIST_Data& _internal_status_list(int index) const;
+  ::SC_STATUS_LIST_Data* _internal_add_status_list();
   public:
-  ::PROTOBUF_NAMESPACE_ID::uint32 status_typeid_list(int index) const;
-  void set_status_typeid_list(int index, ::PROTOBUF_NAMESPACE_ID::uint32 value);
-  void add_status_typeid_list(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
-      status_typeid_list() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
-      mutable_status_typeid_list();
-
-  // repeated uint32 status_lev_list = 3;
-  int status_lev_list_size() const;
-  private:
-  int _internal_status_lev_list_size() const;
-  public:
-  void clear_status_lev_list();
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_status_lev_list(int index) const;
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
-      _internal_status_lev_list() const;
-  void _internal_add_status_lev_list(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
-      _internal_mutable_status_lev_list();
-  public:
-  ::PROTOBUF_NAMESPACE_ID::uint32 status_lev_list(int index) const;
-  void set_status_lev_list(int index, ::PROTOBUF_NAMESPACE_ID::uint32 value);
-  void add_status_lev_list(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
-      status_lev_list() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
-      mutable_status_lev_list();
+  const ::SC_STATUS_LIST_Data& status_list(int index) const;
+  ::SC_STATUS_LIST_Data* add_status_list();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SC_STATUS_LIST_Data >&
+      status_list() const;
 
   // uint64 actor_id = 1;
   void clear_actor_id();
@@ -4291,10 +4442,7 @@ class SC_STATUS_LIST :
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 > status_typeid_list_;
-  mutable std::atomic<int> _status_typeid_list_cached_byte_size_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 > status_lev_list_;
-  mutable std::atomic<int> _status_lev_list_cached_byte_size_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SC_STATUS_LIST_Data > status_list_;
   ::PROTOBUF_NAMESPACE_ID::uint64 actor_id_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_msg_2fzone_5fservice_2eproto;
@@ -4343,7 +4491,7 @@ class SC_STATUS_INFO_Data :
                &_SC_STATUS_INFO_Data_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    21;
+    22;
 
   friend void swap(SC_STATUS_INFO_Data& a, SC_STATUS_INFO_Data& b) {
     a.Swap(&b);
@@ -4408,13 +4556,14 @@ class SC_STATUS_INFO_Data :
 
   enum : int {
     kStatusidFieldNumber = 1,
-    kStatuslevFieldNumber = 2,
-    kPowerFieldNumber = 3,
-    kSecFieldNumber = 4,
-    kTimesFieldNumber = 5,
-    kLaststampFieldNumber = 6,
-    kIdcasterFieldNumber = 7,
-    kIspauseFieldNumber = 8,
+    kStatustypeFieldNumber = 2,
+    kStatuslevFieldNumber = 3,
+    kPowerFieldNumber = 4,
+    kSecFieldNumber = 5,
+    kTimesFieldNumber = 6,
+    kIdcasterFieldNumber = 8,
+    kLaststampFieldNumber = 7,
+    kIspauseFieldNumber = 9,
   };
   // uint32 statusid = 1;
   void clear_statusid();
@@ -4425,7 +4574,16 @@ class SC_STATUS_INFO_Data :
   void _internal_set_statusid(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 statuslev = 2;
+  // uint32 statustype = 2;
+  void clear_statustype();
+  ::PROTOBUF_NAMESPACE_ID::uint32 statustype() const;
+  void set_statustype(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_statustype() const;
+  void _internal_set_statustype(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 statuslev = 3;
   void clear_statuslev();
   ::PROTOBUF_NAMESPACE_ID::uint32 statuslev() const;
   void set_statuslev(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -4434,7 +4592,7 @@ class SC_STATUS_INFO_Data :
   void _internal_set_statuslev(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // int32 power = 3;
+  // int32 power = 4;
   void clear_power();
   ::PROTOBUF_NAMESPACE_ID::int32 power() const;
   void set_power(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -4443,7 +4601,7 @@ class SC_STATUS_INFO_Data :
   void _internal_set_power(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 sec = 4;
+  // int32 sec = 5;
   void clear_sec();
   ::PROTOBUF_NAMESPACE_ID::int32 sec() const;
   void set_sec(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -4452,7 +4610,7 @@ class SC_STATUS_INFO_Data :
   void _internal_set_sec(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 times = 5;
+  // int32 times = 6;
   void clear_times();
   ::PROTOBUF_NAMESPACE_ID::int32 times() const;
   void set_times(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -4461,16 +4619,7 @@ class SC_STATUS_INFO_Data :
   void _internal_set_times(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // uint32 laststamp = 6;
-  void clear_laststamp();
-  ::PROTOBUF_NAMESPACE_ID::uint32 laststamp() const;
-  void set_laststamp(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_laststamp() const;
-  void _internal_set_laststamp(::PROTOBUF_NAMESPACE_ID::uint32 value);
-  public:
-
-  // uint64 idcaster = 7;
+  // uint64 idcaster = 8;
   void clear_idcaster();
   ::PROTOBUF_NAMESPACE_ID::uint64 idcaster() const;
   void set_idcaster(::PROTOBUF_NAMESPACE_ID::uint64 value);
@@ -4479,7 +4628,16 @@ class SC_STATUS_INFO_Data :
   void _internal_set_idcaster(::PROTOBUF_NAMESPACE_ID::uint64 value);
   public:
 
-  // bool ispause = 8;
+  // uint32 laststamp = 7;
+  void clear_laststamp();
+  ::PROTOBUF_NAMESPACE_ID::uint32 laststamp() const;
+  void set_laststamp(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_laststamp() const;
+  void _internal_set_laststamp(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // bool ispause = 9;
   void clear_ispause();
   bool ispause() const;
   void set_ispause(bool value);
@@ -4494,12 +4652,13 @@ class SC_STATUS_INFO_Data :
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
   ::PROTOBUF_NAMESPACE_ID::uint32 statusid_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 statustype_;
   ::PROTOBUF_NAMESPACE_ID::uint32 statuslev_;
   ::PROTOBUF_NAMESPACE_ID::int32 power_;
   ::PROTOBUF_NAMESPACE_ID::int32 sec_;
   ::PROTOBUF_NAMESPACE_ID::int32 times_;
-  ::PROTOBUF_NAMESPACE_ID::uint32 laststamp_;
   ::PROTOBUF_NAMESPACE_ID::uint64 idcaster_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 laststamp_;
   bool ispause_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_msg_2fzone_5fservice_2eproto;
@@ -4548,7 +4707,7 @@ class SC_STATUS_INFO :
                &_SC_STATUS_INFO_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    22;
+    23;
 
   friend void swap(SC_STATUS_INFO& a, SC_STATUS_INFO& b) {
     a.Swap(&b);
@@ -4698,7 +4857,7 @@ class SC_STATUS_ACTION :
                &_SC_STATUS_ACTION_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    23;
+    24;
 
   friend void swap(SC_STATUS_ACTION& a, SC_STATUS_ACTION& b) {
     a.Swap(&b);
@@ -4797,7 +4956,8 @@ class SC_STATUS_ACTION :
     kActorIdFieldNumber = 1,
     kActionFieldNumber = 2,
     kStatusidFieldNumber = 3,
-    kStatuslevFieldNumber = 4,
+    kStatustypeFieldNumber = 4,
+    kStatuslevFieldNumber = 5,
   };
   // uint64 actor_id = 1;
   void clear_actor_id();
@@ -4826,7 +4986,16 @@ class SC_STATUS_ACTION :
   void _internal_set_statusid(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // uint32 statuslev = 4;
+  // uint32 statustype = 4;
+  void clear_statustype();
+  ::PROTOBUF_NAMESPACE_ID::uint32 statustype() const;
+  void set_statustype(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_statustype() const;
+  void _internal_set_statustype(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 statuslev = 5;
   void clear_statuslev();
   ::PROTOBUF_NAMESPACE_ID::uint32 statuslev() const;
   void set_statuslev(::PROTOBUF_NAMESPACE_ID::uint32 value);
@@ -4843,6 +5012,7 @@ class SC_STATUS_ACTION :
   ::PROTOBUF_NAMESPACE_ID::uint64 actor_id_;
   int action_;
   ::PROTOBUF_NAMESPACE_ID::uint32 statusid_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 statustype_;
   ::PROTOBUF_NAMESPACE_ID::uint32 statuslev_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_msg_2fzone_5fservice_2eproto;
@@ -4891,7 +5061,7 @@ class CS_MOVE :
                &_CS_MOVE_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    24;
+    25;
 
   friend void swap(CS_MOVE& a, CS_MOVE& b) {
     a.Swap(&b);
@@ -5052,7 +5222,7 @@ class CS_CHANGEMAP :
                &_CS_CHANGEMAP_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    25;
+    26;
 
   friend void swap(CS_CHANGEMAP& a, CS_CHANGEMAP& b) {
     a.Swap(&b);
@@ -5191,7 +5361,7 @@ class CS_CASTSKILL :
                &_CS_CASTSKILL_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    26;
+    27;
 
   friend void swap(CS_CASTSKILL& a, CS_CASTSKILL& b) {
     a.Swap(&b);
@@ -5363,7 +5533,7 @@ class SC_CASTSKILL :
                &_SC_CASTSKILL_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    27;
+    28;
 
   friend void swap(SC_CASTSKILL& a, SC_CASTSKILL& b) {
     a.Swap(&b);
@@ -5546,7 +5716,7 @@ class SC_SKILL_DAMAGE_DamageInfo :
                &_SC_SKILL_DAMAGE_DamageInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    28;
+    29;
 
   friend void swap(SC_SKILL_DAMAGE_DamageInfo& a, SC_SKILL_DAMAGE_DamageInfo& b) {
     a.Swap(&b);
@@ -5685,7 +5855,7 @@ class SC_SKILL_DAMAGE :
                &_SC_SKILL_DAMAGE_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    29;
+    30;
 
   friend void swap(SC_SKILL_DAMAGE& a, SC_SKILL_DAMAGE& b) {
     a.Swap(&b);
@@ -5857,7 +6027,7 @@ class CS_SKILL_BREAK :
                &_CS_SKILL_BREAK_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    30;
+    31;
 
   friend void swap(CS_SKILL_BREAK& a, CS_SKILL_BREAK& b) {
     a.Swap(&b);
@@ -5985,7 +6155,7 @@ class SC_SKILL_BREAK :
                &_SC_SKILL_BREAK_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    31;
+    32;
 
   friend void swap(SC_SKILL_BREAK& a, SC_SKILL_BREAK& b) {
     a.Swap(&b);
@@ -6124,7 +6294,7 @@ class CS_SKILL_CHGTARGETPOS :
                &_CS_SKILL_CHGTARGETPOS_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    32;
+    33;
 
   friend void swap(CS_SKILL_CHGTARGETPOS& a, CS_SKILL_CHGTARGETPOS& b) {
     a.Swap(&b);
@@ -6263,7 +6433,7 @@ class SC_SKILL_STUN :
                &_SC_SKILL_STUN_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    33;
+    34;
 
   friend void swap(SC_SKILL_STUN& a, SC_SKILL_STUN& b) {
     a.Swap(&b);
@@ -6424,7 +6594,7 @@ class SC_SKILL_EFFACT :
                &_SC_SKILL_EFFACT_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    34;
+    35;
 
   friend void swap(SC_SKILL_EFFACT& a, SC_SKILL_EFFACT& b) {
     a.Swap(&b);
@@ -6574,7 +6744,7 @@ class SC_DAMAGE :
                &_SC_DAMAGE_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    35;
+    36;
 
   friend void swap(SC_DAMAGE& a, SC_DAMAGE& b) {
     a.Swap(&b);
@@ -6746,7 +6916,7 @@ class SC_DEAD :
                &_SC_DEAD_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    36;
+    37;
 
   friend void swap(SC_DEAD& a, SC_DEAD& b) {
     a.Swap(&b);
@@ -6885,7 +7055,7 @@ class CS_CHANGE_PKMODE :
                &_CS_CHANGE_PKMODE_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    37;
+    38;
 
   friend void swap(CS_CHANGE_PKMODE& a, CS_CHANGE_PKMODE& b) {
     a.Swap(&b);
@@ -7013,7 +7183,7 @@ class SC_CHANGE_PKMODE :
                &_SC_CHANGE_PKMODE_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    38;
+    39;
 
   friend void swap(SC_CHANGE_PKMODE& a, SC_CHANGE_PKMODE& b) {
     a.Swap(&b);
@@ -7141,7 +7311,7 @@ class CS_REBORN :
                &_CS_REBORN_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    39;
+    40;
 
   friend void swap(CS_REBORN& a, CS_REBORN& b) {
     a.Swap(&b);
@@ -7269,7 +7439,7 @@ class SC_ITEM_INFO :
                &_SC_ITEM_INFO_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    40;
+    41;
 
   friend void swap(SC_ITEM_INFO& a, SC_ITEM_INFO& b) {
     a.Swap(&b);
@@ -7496,7 +7666,7 @@ class SC_ITEM_CHANGE_ChangeData :
                &_SC_ITEM_CHANGE_ChangeData_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    41;
+    42;
 
   friend void swap(SC_ITEM_CHANGE_ChangeData& a, SC_ITEM_CHANGE_ChangeData& b) {
     a.Swap(&b);
@@ -7635,7 +7805,7 @@ class SC_ITEM_CHANGE :
                &_SC_ITEM_CHANGE_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    42;
+    43;
 
   friend void swap(SC_ITEM_CHANGE& a, SC_ITEM_CHANGE& b) {
     a.Swap(&b);
@@ -7832,7 +8002,7 @@ class SC_ITEM_DELETE :
                &_SC_ITEM_DELETE_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    43;
+    44;
 
   friend void swap(SC_ITEM_DELETE& a, SC_ITEM_DELETE& b) {
     a.Swap(&b);
@@ -7982,7 +8152,7 @@ class CS_ITEM_SWAP :
                &_CS_ITEM_SWAP_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    44;
+    45;
 
   friend void swap(CS_ITEM_SWAP& a, CS_ITEM_SWAP& b) {
     a.Swap(&b);
@@ -8132,7 +8302,7 @@ class CS_ITEM_SPLIT :
                &_CS_ITEM_SPLIT_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    45;
+    46;
 
   friend void swap(CS_ITEM_SPLIT& a, CS_ITEM_SPLIT& b) {
     a.Swap(&b);
@@ -8293,7 +8463,7 @@ class CS_ITEM_COMBINE :
                &_CS_ITEM_COMBINE_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    46;
+    47;
 
   friend void swap(CS_ITEM_COMBINE& a, CS_ITEM_COMBINE& b) {
     a.Swap(&b);
@@ -8443,7 +8613,7 @@ class CS_ITEM_TIDY :
                &_CS_ITEM_TIDY_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    47;
+    48;
 
   friend void swap(CS_ITEM_TIDY& a, CS_ITEM_TIDY& b) {
     a.Swap(&b);
@@ -8571,7 +8741,7 @@ class CS_ITEM_USE :
                &_CS_ITEM_USE_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    48;
+    49;
 
   friend void swap(CS_ITEM_USE& a, CS_ITEM_USE& b) {
     a.Swap(&b);
@@ -8710,7 +8880,7 @@ class CS_ITEM_STORAGE_OPEN :
                &_CS_ITEM_STORAGE_OPEN_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    49;
+    50;
 
   friend void swap(CS_ITEM_STORAGE_OPEN& a, CS_ITEM_STORAGE_OPEN& b) {
     a.Swap(&b);
@@ -8825,7 +8995,7 @@ class CS_ITEM_STORAGE_CHECKOUT :
                &_CS_ITEM_STORAGE_CHECKOUT_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    50;
+    51;
 
   friend void swap(CS_ITEM_STORAGE_CHECKOUT& a, CS_ITEM_STORAGE_CHECKOUT& b) {
     a.Swap(&b);
@@ -8953,7 +9123,7 @@ class CS_ITEM_STORAGE_CHECKIN :
                &_CS_ITEM_STORAGE_CHECKIN_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    51;
+    52;
 
   friend void swap(CS_ITEM_STORAGE_CHECKIN& a, CS_ITEM_STORAGE_CHECKIN& b) {
     a.Swap(&b);
@@ -9081,7 +9251,7 @@ class CS_EQUIP :
                &_CS_EQUIP_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    52;
+    53;
 
   friend void swap(CS_EQUIP& a, CS_EQUIP& b) {
     a.Swap(&b);
@@ -9220,7 +9390,7 @@ class CS_UNEQUIP :
                &_CS_UNEQUIP_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    53;
+    54;
 
   friend void swap(CS_UNEQUIP& a, CS_UNEQUIP& b) {
     a.Swap(&b);
@@ -9348,7 +9518,7 @@ class CS_TALK :
                &_CS_TALK_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    54;
+    55;
 
   friend void swap(CS_TALK& a, CS_TALK& b) {
     a.Swap(&b);
@@ -9505,7 +9675,7 @@ class SC_TALK :
                &_SC_TALK_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    55;
+    56;
 
   friend void swap(SC_TALK& a, SC_TALK& b) {
     a.Swap(&b);
@@ -9744,7 +9914,7 @@ class SC_TASK_INFO_Info :
                &_SC_TASK_INFO_Info_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    56;
+    57;
 
   friend void swap(SC_TASK_INFO_Info& a, SC_TASK_INFO_Info& b) {
     a.Swap(&b);
@@ -9982,7 +10152,7 @@ class SC_TASK_INFO :
                &_SC_TASK_INFO_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    57;
+    58;
 
   friend void swap(SC_TASK_INFO& a, SC_TASK_INFO& b) {
     a.Swap(&b);
@@ -10121,7 +10291,7 @@ class SC_TASK_DATA :
                &_SC_TASK_DATA_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    58;
+    59;
 
   friend void swap(SC_TASK_DATA& a, SC_TASK_DATA& b) {
     a.Swap(&b);
@@ -10271,7 +10441,7 @@ class CS_TASK_SUBMIT :
                &_CS_TASK_SUBMIT_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    59;
+    60;
 
   friend void swap(CS_TASK_SUBMIT& a, CS_TASK_SUBMIT& b) {
     a.Swap(&b);
@@ -10410,7 +10580,7 @@ class CS_ACTIVE_NPC :
                &_CS_ACTIVE_NPC_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    60;
+    61;
 
   friend void swap(CS_ACTIVE_NPC& a, CS_ACTIVE_NPC& b) {
     a.Swap(&b);
@@ -10538,7 +10708,7 @@ class SC_DIALOG_dialog_link :
                &_SC_DIALOG_dialog_link_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    61;
+    62;
 
   friend void swap(SC_DIALOG_dialog_link& a, SC_DIALOG_dialog_link& b) {
     a.Swap(&b);
@@ -10684,7 +10854,7 @@ class SC_DIALOG :
                &_SC_DIALOG_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    62;
+    63;
 
   friend void swap(SC_DIALOG& a, SC_DIALOG& b) {
     a.Swap(&b);
@@ -10889,7 +11059,7 @@ class CS_DIALOG_CLICK :
                &_CS_DIALOG_CLICK_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    63;
+    64;
 
   friend void swap(CS_DIALOG_CLICK& a, CS_DIALOG_CLICK& b) {
     a.Swap(&b);
@@ -11028,7 +11198,7 @@ class SC_ACHI_INFO_Info :
                &_SC_ACHI_INFO_Info_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    64;
+    65;
 
   friend void swap(SC_ACHI_INFO_Info& a, SC_ACHI_INFO_Info& b) {
     a.Swap(&b);
@@ -11167,7 +11337,7 @@ class SC_ACHI_INFO :
                &_SC_ACHI_INFO_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    65;
+    66;
 
   friend void swap(SC_ACHI_INFO& a, SC_ACHI_INFO& b) {
     a.Swap(&b);
@@ -11306,7 +11476,7 @@ class CS_ACHI_TAKE :
                &_CS_ACHI_TAKE_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    66;
+    67;
 
   friend void swap(CS_ACHI_TAKE& a, CS_ACHI_TAKE& b) {
     a.Swap(&b);
@@ -11434,7 +11604,7 @@ class CS_TEAMCREATE :
                &_CS_TEAMCREATE_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    67;
+    68;
 
   friend void swap(CS_TEAMCREATE& a, CS_TEAMCREATE& b) {
     a.Swap(&b);
@@ -11549,7 +11719,7 @@ class CS_TEAMQUIT :
                &_CS_TEAMQUIT_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    68;
+    69;
 
   friend void swap(CS_TEAMQUIT& a, CS_TEAMQUIT& b) {
     a.Swap(&b);
@@ -11664,7 +11834,7 @@ class CS_TEAMKICKMEMBER :
                &_CS_TEAMKICKMEMBER_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    69;
+    70;
 
   friend void swap(CS_TEAMKICKMEMBER& a, CS_TEAMKICKMEMBER& b) {
     a.Swap(&b);
@@ -11792,7 +11962,7 @@ class CS_TEAMINVITEMEMBER :
                &_CS_TEAMINVITEMEMBER_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    70;
+    71;
 
   friend void swap(CS_TEAMINVITEMEMBER& a, CS_TEAMINVITEMEMBER& b) {
     a.Swap(&b);
@@ -11920,7 +12090,7 @@ class SC_TEAMINVITEMEMBER :
                &_SC_TEAMINVITEMEMBER_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    71;
+    72;
 
   friend void swap(SC_TEAMINVITEMEMBER& a, SC_TEAMINVITEMEMBER& b) {
     a.Swap(&b);
@@ -12077,7 +12247,7 @@ class CS_TEAMACCEPTINVITE :
                &_CS_TEAMACCEPTINVITE_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    72;
+    73;
 
   friend void swap(CS_TEAMACCEPTINVITE& a, CS_TEAMACCEPTINVITE& b) {
     a.Swap(&b);
@@ -12227,7 +12397,7 @@ class CS_TEAMNEWLEADER :
                &_CS_TEAMNEWLEADER_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    73;
+    74;
 
   friend void swap(CS_TEAMNEWLEADER& a, CS_TEAMNEWLEADER& b) {
     a.Swap(&b);
@@ -12355,7 +12525,7 @@ class SC_TEAMMEMBER_INFO :
                &_SC_TEAMMEMBER_INFO_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    74;
+    75;
 
   friend void swap(SC_TEAMMEMBER_INFO& a, SC_TEAMMEMBER_INFO& b) {
     a.Swap(&b);
@@ -12492,7 +12662,7 @@ class SC_TEAMMEMBER_ACTION :
                &_SC_TEAMMEMBER_ACTION_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    75;
+    76;
 
   friend void swap(SC_TEAMMEMBER_ACTION& a, SC_TEAMMEMBER_ACTION& b) {
     a.Swap(&b);
@@ -12726,7 +12896,7 @@ class CS_TEAMAPPLYMEMBER :
                &_CS_TEAMAPPLYMEMBER_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    76;
+    77;
 
   friend void swap(CS_TEAMAPPLYMEMBER& a, CS_TEAMAPPLYMEMBER& b) {
     a.Swap(&b);
@@ -12854,7 +13024,7 @@ class SC_TEAMAPPLYMEMBER :
                &_SC_TEAMAPPLYMEMBER_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    77;
+    78;
 
   friend void swap(SC_TEAMAPPLYMEMBER& a, SC_TEAMAPPLYMEMBER& b) {
     a.Swap(&b);
@@ -13000,7 +13170,7 @@ class CS_TEAMACCEPTAPPLY :
                &_CS_TEAMACCEPTAPPLY_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    78;
+    79;
 
   friend void swap(CS_TEAMACCEPTAPPLY& a, CS_TEAMACCEPTAPPLY& b) {
     a.Swap(&b);
@@ -13139,7 +13309,7 @@ class CS_GUILDCREATE :
                &_CS_GUILDCREATE_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    79;
+    80;
 
   friend void swap(CS_GUILDCREATE& a, CS_GUILDCREATE& b) {
     a.Swap(&b);
@@ -13254,7 +13424,7 @@ class CS_GUILDQUIT :
                &_CS_GUILDQUIT_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    80;
+    81;
 
   friend void swap(CS_GUILDQUIT& a, CS_GUILDQUIT& b) {
     a.Swap(&b);
@@ -13369,7 +13539,7 @@ class CS_GUILDKICKMEMBER :
                &_CS_GUILDKICKMEMBER_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    81;
+    82;
 
   friend void swap(CS_GUILDKICKMEMBER& a, CS_GUILDKICKMEMBER& b) {
     a.Swap(&b);
@@ -13497,7 +13667,7 @@ class CS_GUILDINVITEMEMBER :
                &_CS_GUILDINVITEMEMBER_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    82;
+    83;
 
   friend void swap(CS_GUILDINVITEMEMBER& a, CS_GUILDINVITEMEMBER& b) {
     a.Swap(&b);
@@ -13625,7 +13795,7 @@ class SC_GUILDINVITEMEMBER :
                &_SC_GUILDINVITEMEMBER_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    83;
+    84;
 
   friend void swap(SC_GUILDINVITEMEMBER& a, SC_GUILDINVITEMEMBER& b) {
     a.Swap(&b);
@@ -13782,7 +13952,7 @@ class CS_GUILDACCEPTINVITE :
                &_CS_GUILDACCEPTINVITE_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    84;
+    85;
 
   friend void swap(CS_GUILDACCEPTINVITE& a, CS_GUILDACCEPTINVITE& b) {
     a.Swap(&b);
@@ -13932,7 +14102,7 @@ class CS_GUILDNEWLEADER :
                &_CS_GUILDNEWLEADER_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    85;
+    86;
 
   friend void swap(CS_GUILDNEWLEADER& a, CS_GUILDNEWLEADER& b) {
     a.Swap(&b);
@@ -14060,7 +14230,7 @@ class SC_GUILDMEMBER_INFO :
                &_SC_GUILDMEMBER_INFO_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    86;
+    87;
 
   friend void swap(SC_GUILDMEMBER_INFO& a, SC_GUILDMEMBER_INFO& b) {
     a.Swap(&b);
@@ -14197,7 +14367,7 @@ class SC_GUILDMEMBER_ACTION :
                &_SC_GUILDMEMBER_ACTION_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    87;
+    88;
 
   friend void swap(SC_GUILDMEMBER_ACTION& a, SC_GUILDMEMBER_ACTION& b) {
     a.Swap(&b);
@@ -14470,7 +14640,7 @@ class CS_GUILDAPPLYMEMBER :
                &_CS_GUILDAPPLYMEMBER_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    88;
+    89;
 
   friend void swap(CS_GUILDAPPLYMEMBER& a, CS_GUILDAPPLYMEMBER& b) {
     a.Swap(&b);
@@ -14598,7 +14768,7 @@ class SC_GUILDAPPLYMEMBER :
                &_SC_GUILDAPPLYMEMBER_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    89;
+    90;
 
   friend void swap(SC_GUILDAPPLYMEMBER& a, SC_GUILDAPPLYMEMBER& b) {
     a.Swap(&b);
@@ -14744,7 +14914,7 @@ class CS_GUILDACCEPTAPPLY :
                &_CS_GUILDACCEPTAPPLY_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    90;
+    91;
 
   friend void swap(CS_GUILDACCEPTAPPLY& a, CS_GUILDACCEPTAPPLY& b) {
     a.Swap(&b);
@@ -17235,6 +17405,110 @@ SC_ATTRIB_CHANGE::datalist() const {
 
 // -------------------------------------------------------------------
 
+// SC_STATUS_LIST_Data
+
+// uint32 statusid = 1;
+inline void SC_STATUS_LIST_Data::clear_statusid() {
+  statusid_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_STATUS_LIST_Data::_internal_statusid() const {
+  return statusid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_STATUS_LIST_Data::statusid() const {
+  // @@protoc_insertion_point(field_get:SC_STATUS_LIST.Data.statusid)
+  return _internal_statusid();
+}
+inline void SC_STATUS_LIST_Data::_internal_set_statusid(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  statusid_ = value;
+}
+inline void SC_STATUS_LIST_Data::set_statusid(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_statusid(value);
+  // @@protoc_insertion_point(field_set:SC_STATUS_LIST.Data.statusid)
+}
+
+// uint32 statustype = 2;
+inline void SC_STATUS_LIST_Data::clear_statustype() {
+  statustype_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_STATUS_LIST_Data::_internal_statustype() const {
+  return statustype_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_STATUS_LIST_Data::statustype() const {
+  // @@protoc_insertion_point(field_get:SC_STATUS_LIST.Data.statustype)
+  return _internal_statustype();
+}
+inline void SC_STATUS_LIST_Data::_internal_set_statustype(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  statustype_ = value;
+}
+inline void SC_STATUS_LIST_Data::set_statustype(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_statustype(value);
+  // @@protoc_insertion_point(field_set:SC_STATUS_LIST.Data.statustype)
+}
+
+// uint32 statuslev = 3;
+inline void SC_STATUS_LIST_Data::clear_statuslev() {
+  statuslev_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_STATUS_LIST_Data::_internal_statuslev() const {
+  return statuslev_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_STATUS_LIST_Data::statuslev() const {
+  // @@protoc_insertion_point(field_get:SC_STATUS_LIST.Data.statuslev)
+  return _internal_statuslev();
+}
+inline void SC_STATUS_LIST_Data::_internal_set_statuslev(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  statuslev_ = value;
+}
+inline void SC_STATUS_LIST_Data::set_statuslev(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_statuslev(value);
+  // @@protoc_insertion_point(field_set:SC_STATUS_LIST.Data.statuslev)
+}
+
+// int32 power = 4;
+inline void SC_STATUS_LIST_Data::clear_power() {
+  power_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 SC_STATUS_LIST_Data::_internal_power() const {
+  return power_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 SC_STATUS_LIST_Data::power() const {
+  // @@protoc_insertion_point(field_get:SC_STATUS_LIST.Data.power)
+  return _internal_power();
+}
+inline void SC_STATUS_LIST_Data::_internal_set_power(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  power_ = value;
+}
+inline void SC_STATUS_LIST_Data::set_power(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_power(value);
+  // @@protoc_insertion_point(field_set:SC_STATUS_LIST.Data.power)
+}
+
+// uint64 idcaster = 8;
+inline void SC_STATUS_LIST_Data::clear_idcaster() {
+  idcaster_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 SC_STATUS_LIST_Data::_internal_idcaster() const {
+  return idcaster_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 SC_STATUS_LIST_Data::idcaster() const {
+  // @@protoc_insertion_point(field_get:SC_STATUS_LIST.Data.idcaster)
+  return _internal_idcaster();
+}
+inline void SC_STATUS_LIST_Data::_internal_set_idcaster(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  idcaster_ = value;
+}
+inline void SC_STATUS_LIST_Data::set_idcaster(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_idcaster(value);
+  // @@protoc_insertion_point(field_set:SC_STATUS_LIST.Data.idcaster)
+}
+
+// -------------------------------------------------------------------
+
 // SC_STATUS_LIST
 
 // uint64 actor_id = 1;
@@ -17257,98 +17531,43 @@ inline void SC_STATUS_LIST::set_actor_id(::PROTOBUF_NAMESPACE_ID::uint64 value) 
   // @@protoc_insertion_point(field_set:SC_STATUS_LIST.actor_id)
 }
 
-// repeated uint32 status_typeid_list = 2;
-inline int SC_STATUS_LIST::_internal_status_typeid_list_size() const {
-  return status_typeid_list_.size();
+// repeated .SC_STATUS_LIST.Data status_list = 2;
+inline int SC_STATUS_LIST::_internal_status_list_size() const {
+  return status_list_.size();
 }
-inline int SC_STATUS_LIST::status_typeid_list_size() const {
-  return _internal_status_typeid_list_size();
+inline int SC_STATUS_LIST::status_list_size() const {
+  return _internal_status_list_size();
 }
-inline void SC_STATUS_LIST::clear_status_typeid_list() {
-  status_typeid_list_.Clear();
+inline void SC_STATUS_LIST::clear_status_list() {
+  status_list_.Clear();
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_STATUS_LIST::_internal_status_typeid_list(int index) const {
-  return status_typeid_list_.Get(index);
+inline ::SC_STATUS_LIST_Data* SC_STATUS_LIST::mutable_status_list(int index) {
+  // @@protoc_insertion_point(field_mutable:SC_STATUS_LIST.status_list)
+  return status_list_.Mutable(index);
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_STATUS_LIST::status_typeid_list(int index) const {
-  // @@protoc_insertion_point(field_get:SC_STATUS_LIST.status_typeid_list)
-  return _internal_status_typeid_list(index);
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SC_STATUS_LIST_Data >*
+SC_STATUS_LIST::mutable_status_list() {
+  // @@protoc_insertion_point(field_mutable_list:SC_STATUS_LIST.status_list)
+  return &status_list_;
 }
-inline void SC_STATUS_LIST::set_status_typeid_list(int index, ::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  status_typeid_list_.Set(index, value);
-  // @@protoc_insertion_point(field_set:SC_STATUS_LIST.status_typeid_list)
+inline const ::SC_STATUS_LIST_Data& SC_STATUS_LIST::_internal_status_list(int index) const {
+  return status_list_.Get(index);
 }
-inline void SC_STATUS_LIST::_internal_add_status_typeid_list(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  status_typeid_list_.Add(value);
+inline const ::SC_STATUS_LIST_Data& SC_STATUS_LIST::status_list(int index) const {
+  // @@protoc_insertion_point(field_get:SC_STATUS_LIST.status_list)
+  return _internal_status_list(index);
 }
-inline void SC_STATUS_LIST::add_status_typeid_list(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  _internal_add_status_typeid_list(value);
-  // @@protoc_insertion_point(field_add:SC_STATUS_LIST.status_typeid_list)
+inline ::SC_STATUS_LIST_Data* SC_STATUS_LIST::_internal_add_status_list() {
+  return status_list_.Add();
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
-SC_STATUS_LIST::_internal_status_typeid_list() const {
-  return status_typeid_list_;
+inline ::SC_STATUS_LIST_Data* SC_STATUS_LIST::add_status_list() {
+  // @@protoc_insertion_point(field_add:SC_STATUS_LIST.status_list)
+  return _internal_add_status_list();
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
-SC_STATUS_LIST::status_typeid_list() const {
-  // @@protoc_insertion_point(field_list:SC_STATUS_LIST.status_typeid_list)
-  return _internal_status_typeid_list();
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
-SC_STATUS_LIST::_internal_mutable_status_typeid_list() {
-  return &status_typeid_list_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
-SC_STATUS_LIST::mutable_status_typeid_list() {
-  // @@protoc_insertion_point(field_mutable_list:SC_STATUS_LIST.status_typeid_list)
-  return _internal_mutable_status_typeid_list();
-}
-
-// repeated uint32 status_lev_list = 3;
-inline int SC_STATUS_LIST::_internal_status_lev_list_size() const {
-  return status_lev_list_.size();
-}
-inline int SC_STATUS_LIST::status_lev_list_size() const {
-  return _internal_status_lev_list_size();
-}
-inline void SC_STATUS_LIST::clear_status_lev_list() {
-  status_lev_list_.Clear();
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_STATUS_LIST::_internal_status_lev_list(int index) const {
-  return status_lev_list_.Get(index);
-}
-inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_STATUS_LIST::status_lev_list(int index) const {
-  // @@protoc_insertion_point(field_get:SC_STATUS_LIST.status_lev_list)
-  return _internal_status_lev_list(index);
-}
-inline void SC_STATUS_LIST::set_status_lev_list(int index, ::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  status_lev_list_.Set(index, value);
-  // @@protoc_insertion_point(field_set:SC_STATUS_LIST.status_lev_list)
-}
-inline void SC_STATUS_LIST::_internal_add_status_lev_list(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  status_lev_list_.Add(value);
-}
-inline void SC_STATUS_LIST::add_status_lev_list(::PROTOBUF_NAMESPACE_ID::uint32 value) {
-  _internal_add_status_lev_list(value);
-  // @@protoc_insertion_point(field_add:SC_STATUS_LIST.status_lev_list)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
-SC_STATUS_LIST::_internal_status_lev_list() const {
-  return status_lev_list_;
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >&
-SC_STATUS_LIST::status_lev_list() const {
-  // @@protoc_insertion_point(field_list:SC_STATUS_LIST.status_lev_list)
-  return _internal_status_lev_list();
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
-SC_STATUS_LIST::_internal_mutable_status_lev_list() {
-  return &status_lev_list_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< ::PROTOBUF_NAMESPACE_ID::uint32 >*
-SC_STATUS_LIST::mutable_status_lev_list() {
-  // @@protoc_insertion_point(field_mutable_list:SC_STATUS_LIST.status_lev_list)
-  return _internal_mutable_status_lev_list();
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::SC_STATUS_LIST_Data >&
+SC_STATUS_LIST::status_list() const {
+  // @@protoc_insertion_point(field_list:SC_STATUS_LIST.status_list)
+  return status_list_;
 }
 
 // -------------------------------------------------------------------
@@ -17375,7 +17594,27 @@ inline void SC_STATUS_INFO_Data::set_statusid(::PROTOBUF_NAMESPACE_ID::uint32 va
   // @@protoc_insertion_point(field_set:SC_STATUS_INFO.Data.statusid)
 }
 
-// uint32 statuslev = 2;
+// uint32 statustype = 2;
+inline void SC_STATUS_INFO_Data::clear_statustype() {
+  statustype_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_STATUS_INFO_Data::_internal_statustype() const {
+  return statustype_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_STATUS_INFO_Data::statustype() const {
+  // @@protoc_insertion_point(field_get:SC_STATUS_INFO.Data.statustype)
+  return _internal_statustype();
+}
+inline void SC_STATUS_INFO_Data::_internal_set_statustype(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  statustype_ = value;
+}
+inline void SC_STATUS_INFO_Data::set_statustype(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_statustype(value);
+  // @@protoc_insertion_point(field_set:SC_STATUS_INFO.Data.statustype)
+}
+
+// uint32 statuslev = 3;
 inline void SC_STATUS_INFO_Data::clear_statuslev() {
   statuslev_ = 0u;
 }
@@ -17395,7 +17634,7 @@ inline void SC_STATUS_INFO_Data::set_statuslev(::PROTOBUF_NAMESPACE_ID::uint32 v
   // @@protoc_insertion_point(field_set:SC_STATUS_INFO.Data.statuslev)
 }
 
-// int32 power = 3;
+// int32 power = 4;
 inline void SC_STATUS_INFO_Data::clear_power() {
   power_ = 0;
 }
@@ -17415,7 +17654,7 @@ inline void SC_STATUS_INFO_Data::set_power(::PROTOBUF_NAMESPACE_ID::int32 value)
   // @@protoc_insertion_point(field_set:SC_STATUS_INFO.Data.power)
 }
 
-// int32 sec = 4;
+// int32 sec = 5;
 inline void SC_STATUS_INFO_Data::clear_sec() {
   sec_ = 0;
 }
@@ -17435,7 +17674,7 @@ inline void SC_STATUS_INFO_Data::set_sec(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:SC_STATUS_INFO.Data.sec)
 }
 
-// int32 times = 5;
+// int32 times = 6;
 inline void SC_STATUS_INFO_Data::clear_times() {
   times_ = 0;
 }
@@ -17455,7 +17694,7 @@ inline void SC_STATUS_INFO_Data::set_times(::PROTOBUF_NAMESPACE_ID::int32 value)
   // @@protoc_insertion_point(field_set:SC_STATUS_INFO.Data.times)
 }
 
-// uint32 laststamp = 6;
+// uint32 laststamp = 7;
 inline void SC_STATUS_INFO_Data::clear_laststamp() {
   laststamp_ = 0u;
 }
@@ -17475,7 +17714,7 @@ inline void SC_STATUS_INFO_Data::set_laststamp(::PROTOBUF_NAMESPACE_ID::uint32 v
   // @@protoc_insertion_point(field_set:SC_STATUS_INFO.Data.laststamp)
 }
 
-// uint64 idcaster = 7;
+// uint64 idcaster = 8;
 inline void SC_STATUS_INFO_Data::clear_idcaster() {
   idcaster_ = PROTOBUF_ULONGLONG(0);
 }
@@ -17495,7 +17734,7 @@ inline void SC_STATUS_INFO_Data::set_idcaster(::PROTOBUF_NAMESPACE_ID::uint64 va
   // @@protoc_insertion_point(field_set:SC_STATUS_INFO.Data.idcaster)
 }
 
-// bool ispause = 8;
+// bool ispause = 9;
 inline void SC_STATUS_INFO_Data::clear_ispause() {
   ispause_ = false;
 }
@@ -17642,7 +17881,27 @@ inline void SC_STATUS_ACTION::set_statusid(::PROTOBUF_NAMESPACE_ID::uint32 value
   // @@protoc_insertion_point(field_set:SC_STATUS_ACTION.statusid)
 }
 
-// uint32 statuslev = 4;
+// uint32 statustype = 4;
+inline void SC_STATUS_ACTION::clear_statustype() {
+  statustype_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_STATUS_ACTION::_internal_statustype() const {
+  return statustype_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 SC_STATUS_ACTION::statustype() const {
+  // @@protoc_insertion_point(field_get:SC_STATUS_ACTION.statustype)
+  return _internal_statustype();
+}
+inline void SC_STATUS_ACTION::_internal_set_statustype(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  statustype_ = value;
+}
+inline void SC_STATUS_ACTION::set_statustype(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_statustype(value);
+  // @@protoc_insertion_point(field_set:SC_STATUS_ACTION.statustype)
+}
+
+// uint32 statuslev = 5;
 inline void SC_STATUS_ACTION::clear_statuslev() {
   statuslev_ = 0u;
 }
@@ -21953,6 +22212,8 @@ inline void CS_GUILDACCEPTAPPLY::set_result(bool value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

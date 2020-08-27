@@ -533,6 +533,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_db_5fproto_2fgamedb_2eproto::o
   PROTOBUF_FIELD_OFFSET(::db::tbld_status, laststamp_),
   PROTOBUF_FIELD_OFFSET(::db::tbld_status, casterid_),
   PROTOBUF_FIELD_OFFSET(::db::tbld_status, pause_),
+  PROTOBUF_FIELD_OFFSET(::db::tbld_status, statusid_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::db::tbld_systemvar, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -565,7 +566,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 181, -1, sizeof(::db::tbld_task)},
   { 200, -1, sizeof(::db::tbld_achievement)},
   { 209, -1, sizeof(::db::tbld_status)},
-  { 224, -1, sizeof(::db::tbld_systemvar)},
+  { 225, -1, sizeof(::db::tbld_systemvar)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -680,19 +681,19 @@ const char descriptor_table_protodef_db_5fproto_2fgamedb_2eproto[] PROTOBUF_SECT
   " \001(\r\"\200\001\n\020tbld_achievement\022\034\n\002id\030\001 \001(\004B\020\222"
   "\?\010\032\006idx_id\222\?\002\020\001\022\037\n\006userid\030\002 \001(\004B\017\222\?\014\"\nid"
   "x_userid\022\037\n\006achiid\030\003 \001(\rB\017\222\?\014\"\nidx_achii"
-  "d\022\014\n\004take\030\004 \001(\r\"\353\001\n\013tbld_status\022\034\n\002id\030\001 "
+  "d\022\014\n\004take\030\004 \001(\r\"\210\002\n\013tbld_status\022\034\n\002id\030\001 "
   "\001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022\037\n\006userid\030\002 \001(\004B\017\222"
-  "\?\014\"\nidx_userid\022\037\n\006typeid\030\003 \001(\rB\017\222\?\014\"\nidx"
-  "_taskid\022\034\n\003lev\030\004 \001(\rB\017\222\?\014\"\nidx_taskid\022\r\n"
-  "\005power\030\005 \001(\r\022\014\n\004secs\030\006 \001(\r\022\r\n\005times\030\007 \001("
-  "\r\022\021\n\tlaststamp\030\010 \001(\r\022\020\n\010casterid\030\t \001(\004\022\r"
-  "\n\005pause\030\n \001(\004\"\334\001\n\016tbld_systemvar\022 \n\006keyi"
-  "dx\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022\024\n\004name\030\002 \001(\t"
-  "B\006\222\?\003\010\377\001\022\r\n\005data0\030\003 \001(\004\022\r\n\005data1\030\004 \001(\004\022\r"
-  "\n\005data2\030\005 \001(\004\022\r\n\005data3\030\006 \001(\004\022\024\n\004str0\030\007 \001"
-  "(\tB\006\222\?\003\010\377\001\022\024\n\004str1\030\010 \001(\tB\006\222\?\003\010\377\001\022\024\n\004str2"
-  "\030\t \001(\tB\006\222\?\003\010\377\001\022\024\n\004str3\030\n \001(\tB\006\222\?\003\010\377\001b\006pr"
-  "oto3"
+  "\?\014\"\nidx_userid\022!\n\006typeid\030\003 \001(\rB\021\222\?\016\"\014idx"
+  "_statusid\022\036\n\003lev\030\004 \001(\rB\021\222\?\016\"\014idx_statusi"
+  "d\022\r\n\005power\030\005 \001(\r\022\014\n\004secs\030\006 \001(\r\022\r\n\005times\030"
+  "\007 \001(\r\022\021\n\tlaststamp\030\010 \001(\r\022\020\n\010casterid\030\t \001"
+  "(\004\022\024\n\005pause\030\n \001(\rB\005\222\?\0028\010\022\020\n\010statusid\030\013 \001"
+  "(\r\"\334\001\n\016tbld_systemvar\022 \n\006keyidx\030\001 \001(\004B\020\222"
+  "\?\010\032\006idx_id\222\?\002\020\001\022\024\n\004name\030\002 \001(\tB\006\222\?\003\010\377\001\022\r\n"
+  "\005data0\030\003 \001(\004\022\r\n\005data1\030\004 \001(\004\022\r\n\005data2\030\005 \001"
+  "(\004\022\r\n\005data3\030\006 \001(\004\022\024\n\004str0\030\007 \001(\tB\006\222\?\003\010\377\001\022"
+  "\024\n\004str1\030\010 \001(\tB\006\222\?\003\010\377\001\022\024\n\004str2\030\t \001(\tB\006\222\?\003"
+  "\010\377\001\022\024\n\004str3\030\n \001(\tB\006\222\?\003\010\377\001b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_db_5fproto_2fgamedb_2eproto_deps[1] = {
   &::descriptor_table_sql_5foptions_2fsql_5foptions_2eproto,
@@ -718,7 +719,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_db_
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_db_5fproto_2fgamedb_2eproto_once;
 static bool descriptor_table_db_5fproto_2fgamedb_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_db_5fproto_2fgamedb_2eproto = {
-  &descriptor_table_db_5fproto_2fgamedb_2eproto_initialized, descriptor_table_protodef_db_5fproto_2fgamedb_2eproto, "db_proto/gamedb.proto", 4164,
+  &descriptor_table_db_5fproto_2fgamedb_2eproto_initialized, descriptor_table_protodef_db_5fproto_2fgamedb_2eproto, "db_proto/gamedb.proto", 4193,
   &descriptor_table_db_5fproto_2fgamedb_2eproto_once, descriptor_table_db_5fproto_2fgamedb_2eproto_sccs, descriptor_table_db_5fproto_2fgamedb_2eproto_deps, 16, 1,
   schemas, file_default_instances, TableStruct_db_5fproto_2fgamedb_2eproto::offsets,
   file_level_metadata_db_5fproto_2fgamedb_2eproto, 16, file_level_enum_descriptors_db_5fproto_2fgamedb_2eproto, file_level_service_descriptors_db_5fproto_2fgamedb_2eproto,
@@ -6687,15 +6688,15 @@ tbld_status::tbld_status(const tbld_status& from)
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
   ::memcpy(&id_, &from.id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&pause_) -
-    reinterpret_cast<char*>(&id_)) + sizeof(pause_));
+    static_cast<size_t>(reinterpret_cast<char*>(&statusid_) -
+    reinterpret_cast<char*>(&id_)) + sizeof(statusid_));
   // @@protoc_insertion_point(copy_constructor:db.tbld_status)
 }
 
 void tbld_status::SharedCtor() {
   ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&pause_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(pause_));
+      reinterpret_cast<char*>(&statusid_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(statusid_));
 }
 
 tbld_status::~tbld_status() {
@@ -6722,8 +6723,8 @@ void tbld_status::Clear() {
   (void) cached_has_bits;
 
   ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&pause_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(pause_));
+      reinterpret_cast<char*>(&statusid_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(statusid_));
   _internal_metadata_.Clear();
 }
 
@@ -6797,10 +6798,17 @@ const char* tbld_status::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint64 pause = 10;
+      // uint32 pause = 10 [(.sql) = {
       case 10:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 80)) {
           pause_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // uint32 statusid = 11;
+      case 11:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 88)) {
+          statusid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -6884,10 +6892,16 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(9, this->_internal_casterid(), target);
   }
 
-  // uint64 pause = 10;
+  // uint32 pause = 10 [(.sql) = {
   if (this->pause() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(10, this->_internal_pause(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(10, this->_internal_pause(), target);
+  }
+
+  // uint32 statusid = 11;
+  if (this->statusid() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(11, this->_internal_statusid(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -6969,11 +6983,18 @@ size_t tbld_status::ByteSizeLong() const {
         this->_internal_casterid());
   }
 
-  // uint64 pause = 10;
+  // uint32 pause = 10 [(.sql) = {
   if (this->pause() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_pause());
+  }
+
+  // uint32 statusid = 11;
+  if (this->statusid() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_statusid());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -7037,6 +7058,9 @@ void tbld_status::MergeFrom(const tbld_status& from) {
   if (from.pause() != 0) {
     _internal_set_pause(from._internal_pause());
   }
+  if (from.statusid() != 0) {
+    _internal_set_statusid(from._internal_statusid());
+  }
 }
 
 void tbld_status::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -7070,6 +7094,7 @@ void tbld_status::InternalSwap(tbld_status* other) {
   swap(laststamp_, other->laststamp_);
   swap(casterid_, other->casterid_);
   swap(pause_, other->pause_);
+  swap(statusid_, other->statusid_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata tbld_status::GetMetadata() const {

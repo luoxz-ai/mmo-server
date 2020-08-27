@@ -3536,6 +3536,7 @@ class tbld_status :
     kLaststampFieldNumber = 8,
     kCasteridFieldNumber = 9,
     kPauseFieldNumber = 10,
+    kStatusidFieldNumber = 11,
   };
   // uint64 id = 1 [(.sql) = {
   void clear_id();
@@ -3618,13 +3619,22 @@ class tbld_status :
   void _internal_set_casterid(::PROTOBUF_NAMESPACE_ID::uint64 value);
   public:
 
-  // uint64 pause = 10;
+  // uint32 pause = 10 [(.sql) = {
   void clear_pause();
-  ::PROTOBUF_NAMESPACE_ID::uint64 pause() const;
-  void set_pause(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  ::PROTOBUF_NAMESPACE_ID::uint32 pause() const;
+  void set_pause(::PROTOBUF_NAMESPACE_ID::uint32 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_pause() const;
-  void _internal_set_pause(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_pause() const;
+  void _internal_set_pause(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  public:
+
+  // uint32 statusid = 11;
+  void clear_statusid();
+  ::PROTOBUF_NAMESPACE_ID::uint32 statusid() const;
+  void set_statusid(::PROTOBUF_NAMESPACE_ID::uint32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_statusid() const;
+  void _internal_set_statusid(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
   // @@protoc_insertion_point(class_scope:db.tbld_status)
@@ -3641,7 +3651,8 @@ class tbld_status :
   ::PROTOBUF_NAMESPACE_ID::uint32 times_;
   ::PROTOBUF_NAMESPACE_ID::uint32 laststamp_;
   ::PROTOBUF_NAMESPACE_ID::uint64 casterid_;
-  ::PROTOBUF_NAMESPACE_ID::uint64 pause_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 pause_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 statusid_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_db_5fproto_2fgamedb_2eproto;
 };
@@ -7654,24 +7665,44 @@ inline void tbld_status::set_casterid(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   // @@protoc_insertion_point(field_set:db.tbld_status.casterid)
 }
 
-// uint64 pause = 10;
+// uint32 pause = 10 [(.sql) = {
 inline void tbld_status::clear_pause() {
-  pause_ = PROTOBUF_ULONGLONG(0);
+  pause_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint64 tbld_status::_internal_pause() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 tbld_status::_internal_pause() const {
   return pause_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint64 tbld_status::pause() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 tbld_status::pause() const {
   // @@protoc_insertion_point(field_get:db.tbld_status.pause)
   return _internal_pause();
 }
-inline void tbld_status::_internal_set_pause(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+inline void tbld_status::_internal_set_pause(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   pause_ = value;
 }
-inline void tbld_status::set_pause(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+inline void tbld_status::set_pause(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_pause(value);
   // @@protoc_insertion_point(field_set:db.tbld_status.pause)
+}
+
+// uint32 statusid = 11;
+inline void tbld_status::clear_statusid() {
+  statusid_ = 0u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 tbld_status::_internal_statusid() const {
+  return statusid_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint32 tbld_status::statusid() const {
+  // @@protoc_insertion_point(field_get:db.tbld_status.statusid)
+  return _internal_statusid();
+}
+inline void tbld_status::_internal_set_statusid(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  
+  statusid_ = value;
+}
+inline void tbld_status::set_statusid(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+  _internal_set_statusid(value);
+  // @@protoc_insertion_point(field_set:db.tbld_status.statusid)
 }
 
 // -------------------------------------------------------------------

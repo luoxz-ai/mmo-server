@@ -256,7 +256,7 @@ namespace pb_util
             case FieldDescriptor::TYPE_FIXED64:
             {
                 if(data.substr(0, 2) == "0x" || data.substr(0, 2) == "0X")
-                    pThisRow->GetReflection()->AddUInt32(pThisRow, pFieldDesc, stoull(data, 0, 16));
+                    pThisRow->GetReflection()->AddUInt64(pThisRow, pFieldDesc, stoull(data, 0, 16));
                 else
                     pThisRow->GetReflection()->AddUInt64(pThisRow, pFieldDesc, stoull(data));
             }
@@ -276,6 +276,51 @@ namespace pb_util
                 break;
         }
     }
+
+    bool JoinFieldData(google::protobuf::Message*               pThisRow,
+                      const google::protobuf::FieldDescriptor* pFieldDesc,
+                      const std::string&                       data)
+    {
+        using namespace google::protobuf;
+        switch(pFieldDesc->type())
+        {
+            case FieldDescriptor::TYPE_UINT32:
+            case FieldDescriptor::TYPE_FIXED32:
+            {
+                uint32 value = 0;
+                if(data.substr(0, 2) == "0x" || data.substr(0, 2) == "0X")
+                    value = stoul(data, 0, 16);
+                else
+                    value = stoul(data);
+                uint32 old_value = pThisRow->GetReflection()->GetUInt32(*pThisRow, pFieldDesc);
+                pThisRow->GetReflection()->SetUInt32(pThisRow, pFieldDesc, old_value | value);
+            }
+            break;
+            case FieldDescriptor::TYPE_UINT64:
+            case FieldDescriptor::TYPE_FIXED64:
+            {
+                uint64 value = 0;
+                if(data.substr(0, 2) == "0x" || data.substr(0, 2) == "0X")
+                    value = stoul(data, 0, 16);
+                else
+                    value = stoul(data);
+                uint64 old_value = pThisRow->GetReflection()->GetUInt64(*pThisRow, pFieldDesc);
+                pThisRow->GetReflection()->SetUInt64(pThisRow, pFieldDesc, old_value | value);
+            }
+            break;
+            case FieldDescriptor::TYPE_STRING:
+            case FieldDescriptor::TYPE_BYTES:
+            {
+                const auto& str = pThisRow->GetReflection()->GetString(*pThisRow, pFieldDesc);
+                pThisRow->GetReflection()->SetString(pThisRow, pFieldDesc, str + data);
+            }
+            break;
+            default:
+                break;
+        }
+        return true;
+    }
+
 
     bool SetFieldData(google::protobuf::Message*               pThisRow,
                       const google::protobuf::FieldDescriptor* pFieldDesc,
@@ -341,7 +386,7 @@ namespace pb_util
             case FieldDescriptor::TYPE_FIXED64:
             {
                 if(data.substr(0, 2) == "0x" || data.substr(0, 2) == "0X")
-                    pThisRow->GetReflection()->SetUInt32(pThisRow, pFieldDesc, stoull(data, 0, 16));
+                    pThisRow->GetReflection()->SetUInt64(pThisRow, pFieldDesc, stoull(data, 0, 16));
                 else
                     pThisRow->GetReflection()->SetUInt64(pThisRow, pFieldDesc, stoull(data));
             }
@@ -455,6 +500,19 @@ namespace pb_util
             return false;
 
         AddFieldData(pThisRow, pFieldDesc, data);
+
+        return true;
+    }
+
+    bool JoinMessageData(google::protobuf::Message* pPBMessage, const std::string& field_name, const std::string& data)
+    {
+        using namespace google::protobuf;
+        Message*               pThisRow   = pPBMessage;
+        const FieldDescriptor* pFieldDesc = nullptr;
+        if(FindFieldInMessage(field_name, pThisRow, pFieldDesc) == false)
+            return false;
+
+        JoinFieldData(pThisRow, pFieldDesc, data);
 
         return true;
     }

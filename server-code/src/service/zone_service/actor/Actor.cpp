@@ -544,7 +544,14 @@ void CActor::BeKillBy(CActor* pAttacker)
         static_cast<CPhase*>(m_pScene)->TryExecScript<void>(SCB_MAP_ONACTORBEKILL, this, pAttacker);
 
     GetStatus()->OnDead(pAttacker);
-    GetStatus()->AttachStatus(STATUSTYPE_DEAD, 1, GetID(), 0, 0, 0);
+    GetStatus()->AttachStatus(
+        {
+            .id_status_type = STATUSTYPE_DEAD,
+            .lev = 1,
+            .id_caster = GetID(),
+            .expire_type = STATUSEXPIRETYPE_NEVER
+        }
+        );
 
     __LEAVE_FUNCTION
 }

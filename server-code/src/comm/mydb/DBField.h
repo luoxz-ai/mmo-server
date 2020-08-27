@@ -39,6 +39,14 @@ public:
         static std::string s_Empty;
         return s_Empty;
     }
+    operator bool() const
+    {
+        if(CheckType<uint8_t>())
+        {
+            return std::get<uint8_t>(m_Val);
+        }
+        return false;
+    }
 
     template<class T>
     T get() const
@@ -66,6 +74,17 @@ public:
                 return std::get<std::string>(m_Val).c_str();
             }
             return EMPTY_STR;
+        }
+        else if constexpr(std::is_same<T, bool>::value)
+        {
+            if(CheckType<uint8_t>())
+            {
+                return std::get<uint8_t>(m_Val) == 1;
+            }
+            else 
+            {
+                return T();
+            }
         }
         else
         {
@@ -106,6 +125,7 @@ public:
 
     CDBField& set(const char* v) { return set<std::string>(v); }
     CDBField& set(char* v) { return set<std::string>(v); }
+    CDBField& set(bool v) { return set<uint8_t>(v); }
 
     template<class T>
     CDBField& operator=(T&& v)
@@ -157,68 +177,69 @@ private:
         {
             case DB_FIELD_TYPE_TINY_UNSIGNED:
             {
-                if(std::is_same<typename std::decay<T>::type, uint8_t>::value)
+                if constexpr (std::is_same<typename std::decay<T>::type, uint8_t>::value ||
+                                std::is_same<typename std::decay<T>::type, bool>::value)
                     return true;
             }
             break;
             case DB_FIELD_TYPE_TINY:
             {
-                if(std::is_same<typename std::decay<T>::type, int8_t>::value)
+                if constexpr(std::is_same<typename std::decay<T>::type, int8_t>::value)
                     return true;
             }
             break;
             case DB_FIELD_TYPE_SHORT_UNSIGNED:
             {
-                if(std::is_same<typename std::decay<T>::type, uint16_t>::value)
+                if constexpr(std::is_same<typename std::decay<T>::type, uint16_t>::value)
                     return true;
             }
             break;
             case DB_FIELD_TYPE_SHORT:
             {
-                if(std::is_same<typename std::decay<T>::type, int16_t>::value)
+                if constexpr(std::is_same<typename std::decay<T>::type, int16_t>::value)
                     return true;
             }
             break;
             case DB_FIELD_TYPE_LONG_UNSIGNED:
             {
-                if(std::is_same<typename std::decay<T>::type, uint32_t>::value)
+                if constexpr(std::is_same<typename std::decay<T>::type, uint32_t>::value)
                     return true;
             }
             break;
             case DB_FIELD_TYPE_LONG:
             {
-                if(std::is_same<typename std::decay<T>::type, int32_t>::value)
+                if constexpr(std::is_same<typename std::decay<T>::type, int32_t>::value)
                     return true;
             }
             break;
             case DB_FIELD_TYPE_LONGLONG_UNSIGNED:
             {
-                if(std::is_same<typename std::decay<T>::type, uint64_t>::value)
+                if constexpr(std::is_same<typename std::decay<T>::type, uint64_t>::value)
                     return true;
             }
             break;
             case DB_FIELD_TYPE_LONGLONG:
             {
-                if(std::is_same<typename std::decay<T>::type, int64_t>::value)
+                if constexpr(std::is_same<typename std::decay<T>::type, int64_t>::value)
                     return true;
             }
             break;
             case DB_FIELD_TYPE_FLOAT:
             {
-                if(std::is_same<typename std::decay<T>::type, float>::value)
+                if constexpr(std::is_same<typename std::decay<T>::type, float>::value)
                     return true;
             }
             break;
             case DB_FIELD_TYPE_DOUBLE:
             {
-                if(std::is_same<typename std::decay<T>::type, double>::value)
+                if constexpr(std::is_same<typename std::decay<T>::type, double>::value)
                     return true;
             }
             break;
             case DB_FIELD_TYPE_VARCHAR:
             case DB_FIELD_TYPE_BLOB:
             {
-                if(std::is_same<typename std::decay<T>::type, std::string>::value ||
+                if constexpr(std::is_same<typename std::decay<T>::type, std::string>::value ||
                    std::is_same<typename std::decay<T>::type, const char*>::value ||
                    std::is_same<typename std::decay<T>::type, char*>::value)
                     return true;

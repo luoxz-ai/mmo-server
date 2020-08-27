@@ -96,7 +96,7 @@ const char* PrimitiveTypeName(const google::protobuf::FieldDescriptor* field_des
             {
                 return "smallint";
             }
-            return "int32_t";
+            return "int";
         }
         case FieldDescriptor::TYPE_BOOL:
             return "tinyint";
@@ -109,7 +109,7 @@ const char* PrimitiveTypeName(const google::protobuf::FieldDescriptor* field_des
         case FieldDescriptor::TYPE_BYTES:
             return "blob";
         case FieldDescriptor::TYPE_ENUM:
-            return "int32_t";
+            return "int";
 
             // No default because we want the compiler to complain if any new
             // CppTypes are added.
@@ -188,7 +188,7 @@ std::string FieldUTF8(google::protobuf::FieldDescriptor::Type type)
 {
     if(type == google::protobuf::FieldDescriptor::TYPE_STRING)
     {
-        return "CHARACTER SET utf8 ";
+        return "CHARACTER SET utf8mb4 ";
     }
     return "";
 }

@@ -197,8 +197,15 @@ message SC_ATTRIB_CHANGE
 message SC_STATUS_LIST
 {
 	uint64			actor_id		   = 1;
-	repeated uint32 status_typeid_list = 2;
-	repeated uint32 status_lev_list	   = 3;
+	message Data
+	{
+		uint32 statusid  = 1;
+		uint32 statustype= 2;
+		uint32 statuslev = 3;
+		int32  power	 = 4;
+		uint64 idcaster	 = 8;
+	};
+	repeated Data status_list = 2;
 }
 
 //状态详细信息
@@ -207,14 +214,15 @@ message SC_STATUS_INFO
 	uint64	actor_id = 1;
 	message Data
 	{
-		uint32 statusid	 = 1;
-		uint32 statuslev = 2;
-		int32  power	 = 3;
-		int32  sec		 = 4;
-		int32  times	 = 5;
-		uint32 laststamp = 6;
-		uint64 idcaster	 = 7;
-		bool   ispause	 = 8;
+		uint32 statusid  = 1;
+		uint32 statustype= 2;
+		uint32 statuslev = 3;
+		int32  power	 = 4;
+		int32  sec		 = 5;
+		int32  times	 = 6;
+		uint32 laststamp = 7;
+		uint64 idcaster	 = 8;
+		bool   ispause	 = 9;
 	}
 	repeated Data statuslist = 2;
 }
@@ -231,7 +239,8 @@ message SC_STATUS_ACTION
 	uint64 actor_id	 = 1;
 	ACTION action	 = 2;
 	uint32 statusid	 = 3;
-	uint32 statuslev = 4;
+	uint32 statustype= 4;
+	uint32 statuslev = 5;
 }
 
 message CS_MOVE

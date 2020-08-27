@@ -607,26 +607,43 @@ int32_t CSkillFSM::DoDamage(CActor* pOwner, const CSkillType* pSkillType, CActor
 void CSkillFSM::AttachStatus(CActor* pOwner, const CSkillType* pSkillType, const std::vector<CActor*>& vecTarget)
 {
     const auto& rowData               = pSkillType->GetDataRef();
-    if(rowData.attach_status_size() == 0 && rowData.detach_status_size() == 0)
-        return;
-    for(size_t i = 0; i < vecTarget.size(); i++)
+    for(int i = 0; i < rowData.detach_status_id_size(); i++)
     {
-        CActor* pActor = vecTarget[i];
-        for(int i = 0; i < rowData.detach_status_size(); i++)
+        const auto& status_id = rowData.detach_status_id(i);
+        for(size_t i = 0; i < vecTarget.size(); i++)
         {
-            const auto& data = rowData.detach_status(i);
-            if(data.id() != 0)
-                pActor->GetStatus()->DetachStatus(data.id());
-            if(data.type() != 0)
-                pActor->GetStatus()->DetachStatusByType(data.type());
-            if(data.flag() != 0)
-                pActor->GetStatus()->DetachStatusByFlag(data.flag());
+            CActor* pActor = vecTarget[i];
+            pActor->GetStatus()->DetachStatus(status_id);
         }
+    }
 
-        for(int i = 0; i < rowData.attach_status_size(); i++)
+    for(int i = 0; i < rowData.detach_status_type_size(); i++)
+    {
+        const auto& status_type = rowData.detach_status_type(i);
+        for(size_t i = 0; i < vecTarget.size(); i++)
         {
-            const auto& data = rowData.attach_status(i);
-            pActor->GetStatus()->AttachStatus(data.id(), data.lev(), pOwner->GetID(), data.power(), data.secs(), data.times());
+            CActor* pActor = vecTarget[i];
+            pActor->GetStatus()->DetachStatusByType(status_type);
+        }
+    }
+
+    for(int i = 0; i < rowData.detach_status_flag_size(); i++)
+    {
+        const auto& status_flag = rowData.detach_status_flag(i);
+        for(size_t i = 0; i < vecTarget.size(); i++)
+        {
+            CActor* pActor = vecTarget[i];
+            pActor->GetStatus()->DetachStatusByFlag(status_flag);
+        }
+    }
+
+    for(int i = 0; i < rowData.attach_status_size(); i++)
+    {
+        const auto& status_id = rowData.attach_status(i);
+        for(size_t i = 0; i < vecTarget.size(); i++)
+        {
+            CActor* pActor = vecTarget[i];
+            pActor->GetStatus()->AttachStatus(status_id, pOwner->GetID());
         }
     }
 }

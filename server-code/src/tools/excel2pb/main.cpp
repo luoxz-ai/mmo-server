@@ -142,29 +142,49 @@ int main(int argc, char** argv)
                     continue;
                 }
 
+                bool bError = false;
                 try
                 {
-                    if(pb_util::SetMessageData(pPBRow, name, data) == false)
+                    if(name.find("|") != std::string::npos)
                     {
-                        fmt::print("process fail: sheet={} y={} x={} cell:{} data:{} \n",
-                                   ws.title(),
-                                   y + 1,
-                                   x + 1,
-                                   name,
-                                   data);
+                        //特殊处理
+                        auto vecData = split_string(name, "|");
+                        if(data == "1" )
+                        {
+                            if(pb_util::JoinMessageData(pPBRow, trim_copy(vecData[0]), trim_copy(vecData[1])) == false)
+                            {
+                                bError = true;
+                            }
+                        }
                     }
+                    else
+                    {
+                        if(pb_util::SetMessageData(pPBRow, trim_copy(name), trim_copy(data)) == false)
+                        {
+                            bError = true;
+                        }
+                    }
+                    
                 }
                 catch(...)
                 {
-                    fmt::print("process fail: sheet={} y={} x={} cell:{} data:{} \n",
+                   bError = true;
+                }
+
+                if(bError)
+                {
+                     fmt::print("process fail: sheet={} y={} x={} cell:{} data:{} \n",
                                ws.title(),
                                y + 1,
                                x + 1,
                                name,
                                data);
                 }
+                else
+                {
+                    bUpdate = true;
+                }
 
-                bUpdate = true;
                 x++;
             }
 

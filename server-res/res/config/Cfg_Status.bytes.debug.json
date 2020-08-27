@@ -2,7 +2,8 @@
  "id": 1,
  "level": 1,
  "statusType": 1,
- "statusFlag": 1,
+ "statusExpireType": 2,
+ "statusFlag": 262145,
  "attribChangeList": [
   {
    "attrib": 1,
@@ -15,43 +16,46 @@
 {
  "id": 2,
  "level": 1,
- "statusType": 2,
- "statusExpireType": 2
-,"__debug":"file:Cfg_Status.xlsx sheet:Sheet1 line:4  "
-} ,
-{
- "id": 3,
- "level": 1,
  "statusType": 3,
+ "statusExpireType": 2,
  "statusFlag": 1
-,"__debug":"file:Cfg_Status.xlsx sheet:Sheet1 line:5  "
+,"__debug":"file:Cfg_Status.xlsx sheet:Sheet1 line:4  "
 } ,
 {
  "id": 4,
  "level": 1,
  "statusType": 4,
- "statusFlag": 1
-,"__debug":"file:Cfg_Status.xlsx sheet:Sheet1 line:6  "
+ "statusExpireType": 2,
+ "statusFlag": 1,
+ "power": 40100051
+,"__debug":"file:Cfg_Status.xlsx sheet:Sheet1 line:5  "
 } ,
 {
  "id": 5,
  "level": 1,
- "statusType": 5
-,"__debug":"file:Cfg_Status.xlsx sheet:Sheet1 line:7  "
+ "statusType": 6,
+ "statusExpireType": 2,
+ "statusFlag": 1,
+ "power": 600,
+ "maxTimes": 1,
+ "maxSecs": 60
+,"__debug":"file:Cfg_Status.xlsx sheet:Sheet1 line:6  "
 } ,
 {
  "id": 6,
  "level": 1,
- "statusType": 6,
+ "statusType": 7,
+ "statusExpireType": 2,
  "statusFlag": 1
-,"__debug":"file:Cfg_Status.xlsx sheet:Sheet1 line:8  "
+,"__debug":"file:Cfg_Status.xlsx sheet:Sheet1 line:7  "
 } ,
 {
  "id": 7,
  "level": 1,
- "statusType": 6,
- "statusFlag": 513
-,"__debug":"file:Cfg_Status.xlsx sheet:Sheet1 line:9  "
+ "statusType": 7,
+ "statusExpireType": 2,
+ "statusFlag": 17
+,"__debug":"file:Cfg_Status.xlsx sheet:Sheet1 line:8  "
 } ,
 {
  "id": 101,
@@ -61,25 +65,25 @@
  "maxTimes": 1,
  "maxSecs": 60,
  "scriptid": "600000101"
-,"__debug":"file:Cfg_Status.xlsx sheet:Sheet1 line:10  "
+,"__debug":"file:Cfg_Status.xlsx sheet:Sheet1 line:9  "
 } ,
 {
  "id": 102,
  "level": 1,
  "statusType": 1,
- "statusFlag": 1089,
+ "statusFlag": 1073,
  "maxTimes": 1,
  "maxSecs": 60,
  "scriptid": "600000102"
-,"__debug":"file:Cfg_Status.xlsx sheet:Sheet1 line:11  "
+,"__debug":"file:Cfg_Status.xlsx sheet:Sheet1 line:10  "
 } ,
 {
  "id": 103,
  "level": 1,
  "statusType": 1,
- "statusFlag": 610,
+ "statusFlag": 545,
  "maxTimes": 1,
  "maxSecs": 60,
  "scriptid": "600000103"
-,"__debug":"file:Cfg_Status.xlsx sheet:Sheet1 line:12  "
+,"__debug":"file:Cfg_Status.xlsx sheet:Sheet1 line:11  "
 } ]

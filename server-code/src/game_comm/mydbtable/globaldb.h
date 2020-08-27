@@ -63,8 +63,7 @@ struct TBLD_GLOBALVAR
                                std::make_tuple("value_str3", DB_FIELD_TYPE_VARCHAR, false));
     }
 
-    using field_type_t =
-        type_list<uint32_t, uint64_t, uint64_t, uint64_t, uint64_t, char[255], char[255], char[255], char[255]>;
+    using field_type_t = type_list<uint32_t, uint64_t, uint64_t, uint64_t, uint64_t, char[255], char[255], char[255], char[255]>;
 
     static constexpr size_t field_count() { return 9; }
 };
@@ -151,8 +150,7 @@ struct TBLD_SERVICEDETAIL
                                std::make_tuple("bind_addr", DB_FIELD_TYPE_VARCHAR, false));
     }
 
-    using field_type_t =
-        type_list<uint16_t, uint16_t, char[255], char[255], uint16_t, char[255], uint16_t, uint16_t, char[255]>;
+    using field_type_t = type_list<uint16_t, uint16_t, char[255], char[255], uint16_t, char[255], uint16_t, uint16_t, char[255]>;
 
     static constexpr size_t field_count() { return 9; }
 };

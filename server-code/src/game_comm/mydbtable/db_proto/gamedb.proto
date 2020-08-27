@@ -86,7 +86,7 @@ message tbld_item
     uint32 dura_limit   = 10;                     //耐久上限
     uint32 addition_lev = 11;                     //强化等级
     bytes  extra        = 12 [(sql).size = 4096]; //额外信息
-}
+} 
 
 message tbld_mail
 {
@@ -215,8 +215,8 @@ message tbld_status
 {
     uint64 id     = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true];
     uint64 userid = 2 [(sql).keys = "idx_userid"]; //玩家id
-    uint32 typeid = 3 [(sql).keys = "idx_taskid"]; //状态类型编号
-    uint32 lev    = 4 [(sql).keys = "idx_taskid"]; //状态等级
+    uint32 typeid = 3 [(sql).keys = "idx_statusid"]; //状态类型编号
+    uint32 lev    = 4 [(sql).keys = "idx_statusid"]; //状态等级
 
     uint32 power = 5; //数据
     uint32 secs  = 6; //持续时间
@@ -224,7 +224,8 @@ message tbld_status
 
     uint32 laststamp = 8;  //最后一次作用的时间戳
     uint64 casterid  = 9;  //施加此状态的角色id
-    uint64 pause     = 10; //是否暂停
+    uint32 pause     = 10 [(sql).int_size = 8]; //是否暂停
+    uint32 statusid  = 11; //状态等级
 }
 
 message tbld_systemvar

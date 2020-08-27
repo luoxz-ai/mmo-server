@@ -8,11 +8,11 @@ CActorStatus::CActorStatus() {}
 CActorStatus::~CActorStatus()
 {
     __ENTER_FUNCTION
-    for(auto it = m_setStatus.begin(); it != m_setStatus.end(); it++)
+    for(auto it = m_setStatusByType.begin(); it != m_setStatusByType.end(); it++)
     {
         SAFE_DELETE(it->second);
     }
-    m_setStatus.clear();
+    m_setStatusByType.clear();
     __LEAVE_FUNCTION
 }
 
@@ -48,11 +48,11 @@ bool CActorStatus::Init(CActor* pActor)
     return false;
 }
 
-CStatus* CActorStatus::QueryStatus(uint16_t idStatus) const
+CStatus* CActorStatus::QueryStatusByType(uint16_t idStatusType) const
 {
     __ENTER_FUNCTION
-    auto itFind = m_setStatus.find(idStatus);
-    if(itFind == m_setStatus.end())
+    auto itFind = m_setStatusByType.find(idStatusType);
+    if(itFind == m_setStatusByType.end())
         return nullptr;
     return itFind->second;
     __LEAVE_FUNCTION
@@ -62,21 +62,21 @@ CStatus* CActorStatus::QueryStatus(uint16_t idStatus) const
 void CActorStatus::_AddStatus(CStatus* pStatus)
 {
     __ENTER_FUNCTION
-    m_setStatus[pStatus->GetStatusTypeID()] = pStatus;
+    m_setStatusByType[pStatus->GetTypeID()] = pStatus;
     __LEAVE_FUNCTION
 }
 
 void CActorStatus::_RemoveStatus(CStatus* pStatus)
 {
     __ENTER_FUNCTION
-    m_setStatus.erase(pStatus->GetStatusTypeID());
+    m_setStatusByType.erase(pStatus->GetTypeID());
     __LEAVE_FUNCTION
 }
 
 void CActorStatus::Stop()
 {
     __ENTER_FUNCTION
-    for(auto it = m_setStatus.begin(); it != m_setStatus.end(); it++)
+    for(auto it = m_setStatusByType.begin(); it != m_setStatusByType.end(); it++)
     {
         CStatus* pStatus = it->second;
         pStatus->ClearEvent();
@@ -90,11 +90,12 @@ void CActorStatus::SyncTo(CActor* pActor)
     CHECK(pActor);
     SC_STATUS_INFO msg;
     msg.set_actor_id(m_pOwner->GetID());
-    for(auto it = m_setStatus.begin(); it != m_setStatus.end(); it++)
+    for(auto it = m_setStatusByType.begin(); it != m_setStatusByType.end(); it++)
     {
         CStatus* pStatus = it->second;
         auto     pInfo   = msg.add_statuslist();
-        pInfo->set_statusid(pStatus->GetStatusTypeID());
+        pInfo->set_statusid(pStatus->GetID());
+        pInfo->set_statustype(pStatus->GetTypeID());
         pInfo->set_statuslev(pStatus->GetLevel());
         pInfo->set_power(pStatus->GetPower());
         pInfo->set_sec(pStatus->GetSecs());
@@ -111,55 +112,52 @@ void CActorStatus::SyncTo(CActor* pActor)
 void CActorStatus::FillStatusMsg(SC_STATUS_LIST& status_msg)
 {
     __ENTER_FUNCTION
-    for(auto it = m_setStatus.begin(); it != m_setStatus.end(); it++)
+    for(auto it = m_setStatusByType.begin(); it != m_setStatusByType.end(); it++)
     {
         CStatus* pStatus = it->second;
-        status_msg.add_status_typeid_list(pStatus->GetStatusTypeID());
-        status_msg.add_status_lev_list(pStatus->GetLevel());
+        auto     pInfo   = status_msg.add_status_list();
+        pInfo->set_statusid(pStatus->GetID());
+        pInfo->set_statustype(pStatus->GetTypeID());
+        pInfo->set_statuslev(pStatus->GetLevel());
+        pInfo->set_power(pStatus->GetPower());
+        pInfo->set_idcaster(pStatus->GetCasterID());
     }
     __LEAVE_FUNCTION
 }
 
-bool CActorStatus::AttachStatus(uint16_t idStatusType,
-                                uint8_t  ucLev,
-                                OBJID    idCaster,
-                                uint32_t nPower,
-                                uint32_t nSecs,
-                                uint32_t nTimes)
+bool CActorStatus::AttachStatus(const AttachStatusInfo& info)
 {
     __ENTER_FUNCTION
-    const CStatusType* pNewStatusType = StatusTypeSet()->QueryObj(CStatusType::MakeID(idStatusType, ucLev));
-    CHECKF(pNewStatusType);
-    CStatus* pStatus = QueryStatus(idStatusType);
+    CStatus* pStatus = QueryStatusByType(info.id_status_type);
     if(pStatus)
     {
         // STATUSFLAG_OVERRIDE_LEV		= 0x0001,		//高等级可以覆盖低等级
         // STATUSFLAG_OVERLAP = 0x0002,		//允许叠加， 时间形的叠加时间， 数值型的叠加数值
-        if(HasFlag(pNewStatusType->GetFlag(), STATUSFLAG_OVERLAP))
+        if(HasFlag(info.flag, STATUSFLAG_OVERLAP))
         {
-            if(pNewStatusType->GetExpireType() == STATUSEXPIRETYPE_TIME)
+            if(info.expire_type == STATUSEXPIRETYPE_TIME)
             {
-                if(pNewStatusType->GetTimes() > 0)
+                if(info.times > 0)
                 {
                     //叠加次数
-                    pStatus->AddTimes(pNewStatusType->GetTimes());
+                    pStatus->AddTimes(info.times);
                 }
                 else
                 {
                     //叠加时间
-                    pStatus->AddSecs(pNewStatusType->GetSecs());
+                    pStatus->AddSecs(info.secs);
                 }
             }
-            else if(pNewStatusType->GetExpireType() == STATUSEXPIRETYPE_POINT)
+            else if(info.expire_type == STATUSEXPIRETYPE_POINT)
             {
                 //叠加数值
-                pStatus->SetPower(pStatus->GetPower() + nPower);
+                pStatus->SetPower(pStatus->GetPower() + info.power);
             }
         }
         //检查是否可以覆盖
-        else if(HasFlag(pNewStatusType->GetFlag(), STATUSFLAG_OVERRIDE_LEV) && ucLev >= pStatus->GetLevel())
+        else if(HasFlag(info.flag, STATUSFLAG_OVERRIDE_LEV) && info.lev >= pStatus->GetLevel())
         {
-            pStatus->ChangeData(ucLev, nPower, nSecs, nTimes, idCaster);
+            pStatus->ChangeData(info);
         }
         else
         {
@@ -169,13 +167,13 @@ bool CActorStatus::AttachStatus(uint16_t idStatusType,
     else
     {
         //创建一个新的
-        pStatus = CStatus::CreateNew(m_pOwner, idStatusType, ucLev, idCaster, nPower, nSecs, nTimes);
+        pStatus = CStatus::CreateNew(m_pOwner, info);
         _AddStatus(pStatus);
     }
 
     pStatus->OnAttach();
     pStatus->SendStatus();
-    if(pStatus->Type()->GetAttribChangeList().empty() == false)
+    if(pStatus->Type() && pStatus->Type()->GetAttribChangeList().empty() == false)
     {
         m_pOwner->RecalcAttrib(false);
     }
@@ -185,11 +183,25 @@ bool CActorStatus::AttachStatus(uint16_t idStatusType,
     return false;
 }
 
+
+bool CActorStatus::AttachStatus(uint32_t idStatus, OBJID idCaster)
+{
+    __ENTER_FUNCTION
+    const CStatusType* pType = StatusTypeSet()->QueryObj(idStatus);
+    CHECKF(pType);
+    AttachStatus(pType->CloneInfo());
+
+    return true;
+    __LEAVE_FUNCTION
+    return false;
+}
+
+
 bool CActorStatus::DetachStatus(uint16_t idStatusType)
 {
     __ENTER_FUNCTION
-    auto itFind = m_setStatus.find(idStatusType);
-    if(itFind == m_setStatus.end())
+    auto itFind = m_setStatusByType.find(idStatusType);
+    if(itFind == m_setStatusByType.end())
         return false;
 
     CStatus* pStatus = itFind->second;
@@ -205,14 +217,14 @@ bool CActorStatus::DetachStatus(uint16_t idStatusType)
 bool CActorStatus::DetachStatusByType(uint32_t nStatusType)
 {
     __ENTER_FUNCTION
-    for(auto it = m_setStatus.begin(); it != m_setStatus.end();)
+    for(auto it = m_setStatusByType.begin(); it != m_setStatusByType.end();)
     {
         CStatus* pStatus = it->second;
-        if(pStatus->GetType() == nStatusType)
+        if(pStatus->GetTypeID() == nStatusType)
         {
             pStatus->OnDeatch();
             SAFE_DELETE(pStatus);
-            it = m_setStatus.erase(it);
+            it = m_setStatusByType.erase(it);
         }
         else
         {
@@ -227,14 +239,14 @@ bool CActorStatus::DetachStatusByType(uint32_t nStatusType)
 bool CActorStatus::DetachStatusByFlag(uint32_t nStatusFlag, bool bHave)
 {
     __ENTER_FUNCTION
-    for(auto it = m_setStatus.begin(); it != m_setStatus.end();)
+    for(auto it = m_setStatusByType.begin(); it != m_setStatusByType.end();)
     {
         CStatus* pStatus = it->second;
         if(HasFlag(pStatus->GetFlag(), nStatusFlag) == bHave)
         {
             pStatus->OnDeatch();
             SAFE_DELETE(pStatus);
-            it = m_setStatus.erase(it);
+            it = m_setStatusByType.erase(it);
         }
         else
         {
@@ -249,10 +261,10 @@ bool CActorStatus::DetachStatusByFlag(uint32_t nStatusFlag, bool bHave)
 bool CActorStatus::TestStatusByType(uint32_t nStatusType) const
 {
     __ENTER_FUNCTION
-    auto it = std::find_if(m_setStatus.begin(), m_setStatus.end(), [nStatusType](const auto& pair_val) -> bool {
-        return pair_val.second->GetType() == nStatusType;
+    auto it = std::find_if(m_setStatusByType.begin(), m_setStatusByType.end(), [nStatusType](const auto& pair_val) -> bool {
+        return pair_val.second->GetTypeID() == nStatusType;
     });
-    return it != m_setStatus.end();
+    return it != m_setStatusByType.end();
     __LEAVE_FUNCTION
     return false;
 }
@@ -260,10 +272,10 @@ bool CActorStatus::TestStatusByType(uint32_t nStatusType) const
 bool CActorStatus::TestStatusByFlag(uint32_t nFlag) const
 {
     __ENTER_FUNCTION
-    auto it = std::find_if(m_setStatus.begin(), m_setStatus.end(), [nFlag](const auto& pair_val) -> bool {
+    auto it = std::find_if(m_setStatusByType.begin(), m_setStatusByType.end(), [nFlag](const auto& pair_val) -> bool {
         return HasFlag(pair_val.second->GetFlag(), nFlag);
     });
-    return it != m_setStatus.end();
+    return it != m_setStatusByType.end();
     __LEAVE_FUNCTION
     return false;
 }
@@ -292,7 +304,7 @@ void CActorStatus::OnAttack(CActor* pTarget, uint32_t idSkill, int32_t nDamage)
 void CActorStatus::OnDead(CActor* pKiller)
 {
     __ENTER_FUNCTION
-    OnEventUndeatch(&CStatus::OnDead, STATUSFLAG_UNDEATCH_DEAD, pKiller);
+    OnEventDeatchExcept(&CStatus::OnDead, STATUSFLAG_EXCEPT_DEATCH_DEAD, pKiller);
     __LEAVE_FUNCTION
 }
 
@@ -313,7 +325,7 @@ void CActorStatus::OnLeaveMap()
 void CActorStatus::OnLogin()
 {
     __ENTER_FUNCTION
-    for(auto it = m_setStatus.begin(); it != m_setStatus.end(); it++)
+    for(auto it = m_setStatusByType.begin(); it != m_setStatusByType.end(); it++)
     {
         CStatus* pStatus = it->second;
         pStatus->OnLogin();
@@ -324,14 +336,14 @@ void CActorStatus::OnLogin()
 void CActorStatus::OnLogout()
 {
     __ENTER_FUNCTION
-    for(auto it = m_setStatus.begin(); it != m_setStatus.end();)
+    for(auto it = m_setStatusByType.begin(); it != m_setStatusByType.end();)
     {
         CStatus* pStatus = it->second;
         if(HasFlag(pStatus->GetFlag(), STATUSFLAG_DEATCH_OFFLINE) == true)
         {
             pStatus->OnDeatch();
             SAFE_DELETE(pStatus);
-            it = m_setStatus.erase(it);
+            it = m_setStatusByType.erase(it);
         }
         else
         {
@@ -345,7 +357,7 @@ void CActorStatus::OnLogout()
 void CActorStatus::SaveInfo()
 {
     __ENTER_FUNCTION
-    for(auto it = m_setStatus.begin(); it != m_setStatus.end(); it++)
+    for(auto it = m_setStatusByType.begin(); it != m_setStatusByType.end(); it++)
     {
         CStatus* pStatus = it->second;
         pStatus->SaveInfo();

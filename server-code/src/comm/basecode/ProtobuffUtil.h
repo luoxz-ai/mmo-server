@@ -21,6 +21,7 @@ namespace pb_util
 
     bool SetMessageData(google::protobuf::Message* pPBMessage, const std::string& field_name, const std::string& data);
     bool AddMessageData(google::protobuf::Message* pPBMessage, const std::string& field_name, const std::string& data);
+    bool JoinMessageData(google::protobuf::Message* pPBMessage, const std::string& field_name, const std::string& data);
     google::protobuf::Message* AddMessageSubMessage(google::protobuf::Message* pPBMessage,
                                                     const std::string&         field_name);
 

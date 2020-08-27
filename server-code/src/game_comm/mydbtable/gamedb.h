@@ -156,10 +156,10 @@ struct TBLD_ITEM
     static constexpr const char* table_name() { return "tbld_item"; }
     enum FIELD_ENUMS
     {
-        ID,       //''
-        OWNER_ID, //'所有者id'
-        ITEMTYPE, //'道具类型编号'
-        POSITION, //'所属包裹类型0:包裹 1:装备槽 100:仓库 101:帮派仓库 102:回购列表 103:邮箱 104:拍卖行'
+        ID,           //''
+        OWNER_ID,     //'所有者id'
+        ITEMTYPE,     //'道具类型编号'
+        POSITION,     //'所属包裹类型0:包裹 1:装备槽 100:仓库 101:帮派仓库 102:回购列表 103:邮箱 104:拍卖行'
         GRID,         //'所属包裹位置'
         FLAG,         //'物品掩码'
         PILENUM,      //'堆叠数量'
@@ -187,18 +187,8 @@ struct TBLD_ITEM
                                std::make_tuple("extra", DB_FIELD_TYPE_BLOB, false));
     }
 
-    using field_type_t = type_list<uint64_t,
-                                   uint64_t,
-                                   uint32_t,
-                                   uint32_t,
-                                   uint32_t,
-                                   uint32_t,
-                                   uint32_t,
-                                   uint32_t,
-                                   uint32_t,
-                                   uint32_t,
-                                   uint32_t,
-                                   std::string>;
+    using field_type_t =
+        type_list<uint64_t, uint64_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, std::string>;
 
     static constexpr size_t field_count() { return 12; }
 };
@@ -573,6 +563,7 @@ struct TBLD_STATUS
         LASTSTAMP, //'最后一次作用的时间戳'
         CASTERID,  //'施加此状态的角色id'
         PAUSE,     //'是否暂停'
+        STATUSID,  //'状态等级'
 
     };
 
@@ -587,13 +578,13 @@ struct TBLD_STATUS
                                std::make_tuple("times", DB_FIELD_TYPE_LONG_UNSIGNED, false),
                                std::make_tuple("laststamp", DB_FIELD_TYPE_LONG_UNSIGNED, false),
                                std::make_tuple("casterid", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false),
-                               std::make_tuple("pause", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false));
+                               std::make_tuple("pause", DB_FIELD_TYPE_TINY_UNSIGNED, false),
+                               std::make_tuple("statusid", DB_FIELD_TYPE_LONG_UNSIGNED, false));
     }
 
-    using field_type_t =
-        type_list<uint64_t, uint64_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint64_t, uint64_t>;
+    using field_type_t = type_list<uint64_t, uint64_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint64_t, uint8_t, uint32_t>;
 
-    static constexpr size_t field_count() { return 10; }
+    static constexpr size_t field_count() { return 11; }
 };
 
 struct TBLD_SYSTEMVAR
@@ -628,16 +619,7 @@ struct TBLD_SYSTEMVAR
                                std::make_tuple("str3", DB_FIELD_TYPE_VARCHAR, false));
     }
 
-    using field_type_t = type_list<uint64_t,
-                                   char[255],
-                                   uint64_t,
-                                   uint64_t,
-                                   uint64_t,
-                                   uint64_t,
-                                   char[255],
-                                   char[255],
-                                   char[255],
-                                   char[255]>;
+    using field_type_t = type_list<uint64_t, char[255], uint64_t, uint64_t, uint64_t, uint64_t, char[255], char[255], char[255], char[255]>;
 
     static constexpr size_t field_count() { return 10; }
 };
