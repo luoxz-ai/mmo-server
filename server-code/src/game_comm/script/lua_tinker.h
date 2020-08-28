@@ -2857,7 +2857,7 @@ namespace lua_tinker
                 pContainer->emplace(detail::read<typename T::key_type>(L, 2),
                                     detail::read<typename T::mapped_type>(L, 3));
             }
-            else if constexpr(!is_associative_container<T>::value && has_key_type<T>::value && std::is_integral<typename T::value_type>::value )
+            else if constexpr(!is_associative_container<T>::value && has_key_type<T>::value)
             {
                 // set<int>
                 pContainer->emplace(detail::read<typename T::value_type>(L, 2));
@@ -2867,7 +2867,7 @@ namespace lua_tinker
                 // string
                 pContainer->emplace_back(detail::read<typename T::value_type>(L, 2));
             }
-            else if constexpr(has_allocator_type<T>::value && std::is_integral<typename T::value_type>::value )
+            else if constexpr(has_allocator_type<T>::value)
             {
                 // vector<int>
                 pContainer->emplace_back(detail::read<typename T::value_type>(L, 2));
@@ -2900,18 +2900,12 @@ namespace lua_tinker
             }
             else if constexpr(!is_associative_container<T>::value && has_key_type<T>::value)
             {
-                // set<int>
+                // set
                 pContainer->erase(detail::read<typename T::value_type>(L, 2));
             }
-            else if constexpr(has_allocator_type<T>::value && std::is_same<typename T::value_type, char>::value)
+            else if constexpr(has_allocator_type<T>::value && has_equality<typename T::value_type, typename T::value_type>::value )
             {
-                // string
-                pContainer->erase(
-                    std::find(pContainer->begin(), pContainer->end(), detail::read<typename T::value_type>(L, 2)));
-            }
-            else if constexpr(has_allocator_type<T>::value && std::is_integral<typename T::value_type>::value )
-            {
-                // vector<int>
+                // vector
                 pContainer->erase(
                     std::find(pContainer->begin(), pContainer->end(), detail::read<typename T::value_type>(L, 2)));
             }
