@@ -17,7 +17,7 @@ bool CPlayerSkillManager::Init(CPlayer* pOwner)
     m_pOwner = pOwner;
     auto pDB = ZoneService()->GetGameDB(m_pOwner->GetWorldID());
     CHECKF(pDB);
-    auto pResult = pDB->QueryT<TBLD_SKILL, TBLD_SKILL::USERID>(m_pOwner->GetID());
+    auto pResult = pDB->QueryKey<TBLD_SKILL, TBLD_SKILL::USERID>(m_pOwner->GetID());
     if(pResult)
     {
         for(size_t i = 0; i < pResult->get_num_row(); i++)

@@ -5,9 +5,9 @@
 #include <unordered_map>
 
 #include "DBRecord.h"
+#include "StringAlgo.h"
 #include "Thread.h"
 #include "mysql/mysql.h"
-#include "StringAlgo.h"
 
 class CMysqlConnection;
 class CMysqlStmt;
@@ -44,12 +44,10 @@ using CMysqlResultPtr = std::unique_ptr<CMysqlResult>;
 template<class TABLE_T, uint32_t KEY_IDX, class KEY_T>
 struct DBCond
 {
-    KEY_T key;
-    std::string str() const
+    KEY_T       key;
+    operator std::string() const
     {
-        std::string result = fmt::format(FMT_STRING("{}={}"), 
-                                        DBFieldHelp<TABLE_T, KEY_IDX>::GetFieldName(),
-                                        key );
+        std::string result = fmt::format(FMT_STRING("{}={}"), DBFieldHelp<TABLE_T, KEY_IDX>::GetFieldName(), key);
         return result;
     }
 };
@@ -67,7 +65,7 @@ public:
                             const std::string& password,
                             const std::string& db,
                             uint32_t           port,
-                            uint32_t      client_flag  = 0,
+                            uint32_t           client_flag  = 0,
                             bool               bCreateAsync = false);
     CMysqlStmtPtr   Prepare(const std::string& s);
     CMysqlResultPtr UnionQuery(const std::string& query);
@@ -86,6 +84,7 @@ public:
     void                _AddFieldInfo(const std::string& s, CDBFieldInfoListPtr ptr);
     MYSQL*              _GetHandle() const { return m_pHandle.get(); }
     bool                EscapeString(char* pszDst, const char* pszSrc, int32_t nLen);
+    bool                EscapeString(std::string& strDst, const std::string& strSrc);
 
     template<class T>
     bool CheckTable()
@@ -105,10 +104,7 @@ public:
             const CDBFieldInfo* pInfo_MYSQL = pFieldInfo_MYSQL->get(i);
             if(pInfo_DDL == nullptr || pInfo_MYSQL == nullptr)
             {
-                LOGFATAL("GameDB Check Error, table:{}, field:{}",
-                         T::table_name(),
-                         i
-                         );
+                LOGFATAL("GameDB Check Error, table:{}, field:{}", T::table_name(), i);
             }
             else if(pInfo_DDL->GetFieldType() != pInfo_MYSQL->GetFieldType())
             {
@@ -127,50 +123,41 @@ public:
         return false;
     }
 
-
-
-
     template<class TABLE_T, class DB_COND_T>
     CMysqlResultPtr QueryCond(DB_COND_T&& cond)
     {
-        std::string sql = fmt::format(FMT_STRING("SELECT * FROM {} WHERE {}"),
-                                      TABLE_T::table_name(),  
-                                      cond.str());
+        std::string sql = fmt::format(FMT_STRING("SELECT * FROM {} WHERE {}"), TABLE_T::table_name(), std::forward<DB_COND_T>(cond));
         return Query(TABLE_T::table_name(), sql);
     }
 
-    template<class TABLE_T, class ... DB_COND_T>
-    CMysqlResultPtr QueryMultiCond(DB_COND_T&& ... conds)
+    template<class TABLE_T, class... DB_COND_T>
+    CMysqlResultPtr QueryMultiCond(DB_COND_T&&... conds)
     {
         std::vector<std::string> cond_vec;
-        (cond_vec.emplace_back(conds.str()), ... );
+        (cond_vec.emplace_back(std::forward<DB_COND_T>(conds)), ...);
         std::string cond_str = string_concat(cond_vec, " AND ", "", "");
-        std::string sql = fmt::format(FMT_STRING("SELECT * FROM {} WHERE {}"),
-                                      TABLE_T::table_name(),  
-                                      cond_str);
+        std::string sql      = fmt::format(FMT_STRING("SELECT * FROM {} WHERE {}"), TABLE_T::table_name(), cond_str);
         return Query(TABLE_T::table_name(), sql);
     }
 
     template<class TABLE_T, uint32_t KEY_IDX, class KEY_T>
-    CMysqlResultPtr QueryT(KEY_T key)
+    CMysqlResultPtr QueryKey(KEY_T key)
     {
-        std::string sql = fmt::format(FMT_STRING("SELECT * FROM {} WHERE {}={}"),
-                                      TABLE_T::table_name(),  
-                                      DBFieldHelp<TABLE_T, KEY_IDX>::GetFieldName(),
-                                      key);
+        std::string sql =
+            fmt::format(FMT_STRING("SELECT * FROM {} WHERE {}={}"), TABLE_T::table_name(), DBFieldHelp<TABLE_T, KEY_IDX>::GetFieldName(), key);
         return Query(TABLE_T::table_name(), sql);
     }
-    
+
     template<class TABLE_T, uint32_t KEY_IDX, class KEY_T>
-    CMysqlResultPtr QueryTLimit(KEY_T key, uint32_t limit)
+    CMysqlResultPtr QueryKeyLimit(KEY_T key, uint32_t limit)
     {
         std::string sql = fmt::format(FMT_STRING("SELECT * FROM {} WHERE {}={} LIMIT {}"),
-                                      TABLE_T::table_name(),  
+                                      TABLE_T::table_name(),
                                       DBFieldHelp<TABLE_T, KEY_IDX>::GetFieldName(),
-                                      key, limit);
+                                      key,
+                                      limit);
         return Query(TABLE_T::table_name(), sql);
     }
-
 
 private:
     uint64_t        GetInsertID();
@@ -217,12 +204,7 @@ public:
 public:
     operator bool() { return !!m_pMysqlStmt; }
 
-    void _BindParam(int32_t          i,
-                    enum_field_types buffer_type,
-                    void*            buffer,
-                    int32_t          buffer_length,
-                    my_bool*         is_null,
-                    uint64_t*        length)
+    void _BindParam(int32_t i, enum_field_types buffer_type, void* buffer, int32_t buffer_length, my_bool* is_null, uint64_t* length)
     {
         MYSQL_BIND& b   = m_Params[i];
         b.buffer_type   = buffer_type;
@@ -236,10 +218,7 @@ public:
 
     void BindParam(int32_t i, const int64_t& x) { _BindParam(i, MYSQL_TYPE_LONGLONG, (char*)&x, 0, 0, 0); }
 
-    void BindParam(int32_t i, const std::string& x)
-    {
-        _BindParam(i, MYSQL_TYPE_STRING, (char*)x.c_str(), x.size(), 0, &(m_Params[i].buffer_length));
-    }
+    void BindParam(int32_t i, const std::string& x) { _BindParam(i, MYSQL_TYPE_STRING, (char*)x.c_str(), x.size(), 0, &(m_Params[i].buffer_length)); }
 
     template<class... Args>
     void Execute(Args&&... args)

@@ -15,7 +15,7 @@ bool CPlayerGuildAttr::Init(CPlayer* pPlayer)
 
     auto pDB = ZoneService()->GetGameDB(m_pPlayer->GetWorldID());
     CHECKF(pDB);
-    m_pDBRecord = DB2PB::QueryOne<TBLD_PLAYER_GUILDINFO, db::tbld_player_guildinfo, TBLD_PLAYER_GUILDINFO::ID>(pDB, m_pPlayer->GetID());
+    m_pDBRecord = DB2PB::QueryOneConst<TBLD_PLAYER_GUILDINFO, db::tbld_player_guildinfo, TBLD_PLAYER_GUILDINFO::ID>(pDB, m_pPlayer->GetID());
     return true;
     __LEAVE_FUNCTION
     return false;

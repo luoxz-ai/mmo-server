@@ -18,7 +18,7 @@ bool CGuildManager::Init()
 {
     __ENTER_FUNCTION
     auto pDB        = WorldService()->GetGameDB();
-    auto result_ptr = pDB->QueryT<TBLD_GUILD, TBLD_GUILD::DEL_TIME>(0);
+    auto result_ptr = pDB->QueryKey<TBLD_GUILD, TBLD_GUILD::DEL_TIME>(0);
 
     if(result_ptr)
     {
@@ -49,7 +49,7 @@ void CGuildManager::Destory()
     __LEAVE_FUNCTION
 }
 
-CGuild* CGuildManager::CreateGuild(uint64_t idGuild, const std::string& strGuildName, OBJID idLeader, const std::string& strLeaderName)
+CGuild* CGuildManager::CreateGuild(uint64_t idGuild, const std::string& strGuildNamenNeedEscape, OBJID idLeader, const std::string& strLeaderName)
 {
     __ENTER_FUNCTION
     CUser* pUser = UserManager()->QueryUser(idLeader);
@@ -57,8 +57,12 @@ CGuild* CGuildManager::CreateGuild(uint64_t idGuild, const std::string& strGuild
     CHECKF(pUser->GetGuildID() == 0);
 
     CHECKF(QueryGuild(idGuild) == nullptr);
-
+    
     auto pDB       = WorldService()->GetGameDB();
+    std::string strGuildName;
+    CHECKF(pDB->EscapeString(strGuildName, strGuildNamenNeedEscape));
+    
+
     auto pDBRecord = pDB->MakeRecord(TBLD_GUILD::table_name());
     auto now       = TimeGetSecond();
 

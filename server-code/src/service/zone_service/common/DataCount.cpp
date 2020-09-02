@@ -163,7 +163,7 @@ bool CDataCountSet::Init(CPlayer* pPlayer)
     __ENTER_FUNCTION
     m_pOwner     = pPlayer;
     auto* pDB    = ZoneService()->GetGameDB(pPlayer->GetWorldID());
-    auto  result = pDB->QueryT<TBLD_DATACOUNT, TBLD_DATACOUNT::PLAYERID>(pPlayer->GetID());
+    auto  result = pDB->QueryKey<TBLD_DATACOUNT, TBLD_DATACOUNT::PLAYERID>(pPlayer->GetID());
     if(result)
     {
         for(size_t i = 0; i < result->get_num_row(); i++)

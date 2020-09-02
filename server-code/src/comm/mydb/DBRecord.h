@@ -72,11 +72,11 @@ private:
     CMysqlConnection*                          m_pMysqlConnection;
     CDBFieldInfoListPtr                        m_pDBFieldInfo;
     bool                                       m_bCanModify;
-    std::vector<CDBField*>                     m_FieldsByIdx;
+    std::vector<std::unique_ptr<CDBField>>     m_FieldsByIdx;
     std::unordered_map<std::string, CDBField*> m_FieldsByName;
     std::string                                m_TableName;
     std::string                                m_strPriKeyBuf;
-    int32_t                                    m_nPriKeyIdx;
+    std::set<uint32_t>                         m_nPriKeyIdx;
     bool                                       m_bNeedCreateFirst;
     SampleDynamicBitset                        m_setDirty;
 };

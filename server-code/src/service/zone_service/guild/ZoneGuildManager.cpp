@@ -15,7 +15,7 @@ bool CZoneGuildManager::Init()
     // load from db
     auto pDB = ZoneService()->GetGameDB(ZoneService()->GetWorldID());
 
-    auto result_ptr = pDB->QueryT<TBLD_GUILD, TBLD_GUILD::DEL_TIME>(0);
+    auto result_ptr = pDB->QueryKey<TBLD_GUILD, TBLD_GUILD::DEL_TIME>(0);
 
     if(result_ptr)
     {
@@ -45,6 +45,11 @@ void CZoneGuildManager::Destory()
 void CZoneGuildManager::CreateGuild(const std::string& strGuildName, OBJID idLeader, const std::string& strLeaderName)
 {
     // send msg to world
+    ServerMSG::GuildCreate msg;
+    msg.set_guild_name(strGuildName);
+    msg.set_leader_id(idLeader);
+    msg.set_leader_name(strLeaderName);
+    ZoneService()->SendMsgToWorld(ZoneService()->GetWorldID(), to_server_msgid(msg), msg);
 }
 
 CZoneGuild* CZoneGuildManager::QueryGuild(uint64_t idGuild)

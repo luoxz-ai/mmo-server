@@ -78,7 +78,7 @@ bool CGuild::Init(CDBRecordPtr&& pDBRecord)
     // query member info
     auto pDB = WorldService()->GetGameDB();
     CHECKF(pDB);
-    auto result_ptr = pDB->QueryT<TBLD_PLAYER_GUILDINFO, TBLD_PLAYER_GUILDINFO::GUILDID>(GetGuildID());
+    auto result_ptr = pDB->QueryKey<TBLD_PLAYER_GUILDINFO, TBLD_PLAYER_GUILDINFO::GUILDID>(GetGuildID());
 
     if(result_ptr)
     {
@@ -236,7 +236,7 @@ bool CGuild::AddMemberOffline(OBJID idMember, uint32_t nRank)
     CHECKF(pDB);
     CGuildMemberInfo* pMemberInfo = nullptr;
 
-    auto db_query_ptr = pDB->QueryTLimit<TBLD_PLAYER_GUILDINFO, TBLD_PLAYER_GUILDINFO::ID>(idMember, 1);
+    auto db_query_ptr = pDB->QueryKeyLimit<TBLD_PLAYER_GUILDINFO, TBLD_PLAYER_GUILDINFO::ID>(idMember, 1);
     if(db_query_ptr)
     {
         auto row = db_query_ptr->fetch_row();

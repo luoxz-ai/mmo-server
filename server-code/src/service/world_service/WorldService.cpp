@@ -111,7 +111,7 @@ bool CWorldService::Init(const ServerPort& nServerPort)
     auto pGlobalDB = ConnectGlobalDB();
     //通过globaldb查询localdb
 
-    auto result = pGlobalDB->QueryTLimit<TBLD_DBINFO, TBLD_DBINFO::WORLDID>(GetWorldID(), 1);
+    auto result = pGlobalDB->QueryKeyLimit<TBLD_DBINFO, TBLD_DBINFO::WORLDID>(GetWorldID(), 1);
     if(result == nullptr || result->get_num_row() == 0)
     {
         LOGFATAL("CWorldService::Create fail:gamedb info error");

@@ -19,7 +19,7 @@ bool CPlayerAchievement::Init(CPlayer* pPlayer)
     m_pOwner = pPlayer;
     auto pDB = ZoneService()->GetGameDB(m_pOwner->GetWorldID());
     CHECKF(pDB);
-    auto pResult = pDB->QueryT<TBLD_ACHIEVEMENT, TBLD_ACHIEVEMENT::USERID>(m_pOwner->GetID());
+    auto pResult = pDB->QueryKey<TBLD_ACHIEVEMENT, TBLD_ACHIEVEMENT::USERID>(m_pOwner->GetID());
     if(pResult)
     {
         for(size_t i = 0; i < pResult->get_num_row(); i++)

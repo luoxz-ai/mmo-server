@@ -453,7 +453,7 @@ CMysqlConnection* CZoneService::_ConnectGameDB(uint16_t nWorldID, CMysqlConnecti
     __ENTER_FUNCTION
     CHECKF(pGlobalDB);
     //通过globaldb查询localdb
-    auto result = pGlobalDB->QueryTLimit<TBLD_DBINFO, TBLD_DBINFO::WORLDID>(nWorldID, 1);
+    auto result = pGlobalDB->QueryKeyLimit<TBLD_DBINFO, TBLD_DBINFO::WORLDID>(nWorldID, 1);
     if(result)
     {
         auto row = result->fetch_row(false);

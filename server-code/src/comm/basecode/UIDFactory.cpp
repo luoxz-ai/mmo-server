@@ -6,7 +6,7 @@ void CUIDFactory::Init(uint64_t world_id, uint64_t func_id)
 {
     world_id_  = world_id;
     func_id_   = func_id;
-    self_time_ = time(NULL);
+    self_time_ = _TimeGetSecond();
     seq_       = 0;
 }
 
@@ -17,7 +17,7 @@ uint64_t CUIDFactory::CreateID()
     uid.world_id    = world_id_;
     uid.func_id     = func_id_;
 
-    time_t cur_time = TimeGetSecond();
+    time_t cur_time = _TimeGetSecond();
     if(self_time_ < cur_time)
     {
         self_time_ = cur_time;

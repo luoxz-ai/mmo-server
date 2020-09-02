@@ -10,7 +10,7 @@ bool CZoneGuild::Init(CDBRecordPtr&& pDBRecord)
     m_pDBRecord = std::move(pDBRecord);
     // query member info
     auto pDB        = ZoneService()->GetGameDB(ZoneService()->GetWorldID());
-    auto result_ptr = pDB->QueryT<TBLD_PLAYER_GUILDINFO, TBLD_PLAYER_GUILDINFO::GUILDID>(GetGuildID());
+    auto result_ptr = pDB->QueryKey<TBLD_PLAYER_GUILDINFO, TBLD_PLAYER_GUILDINFO::GUILDID>(GetGuildID());
 
     if(result_ptr)
     {

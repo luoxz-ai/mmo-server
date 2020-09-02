@@ -46,7 +46,7 @@ bool CItemData::Init(CMysqlConnection* pDB, OBJID idItem)
     CHECKF(pDB);
     CHECKF(idItem);
 
-    auto pResult = pDB->QueryTLimit<TBLD_ITEM, TBLD_ITEM::ID>(idItem, 1);
+    auto pResult = pDB->QueryKeyLimit<TBLD_ITEM, TBLD_ITEM::ID>(idItem, 1);
     if(pResult == nullptr)
         return false;
 

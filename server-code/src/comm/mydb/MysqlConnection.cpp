@@ -527,6 +527,12 @@ void CMysqlConnection::_AddFieldInfo(const std::string& s, CDBFieldInfoListPtr p
     }
 }
 
+bool CMysqlConnection::EscapeString(std::string& strDst, const std::string& strSrc)
+{
+    strDst.resize(strSrc.size() * 2 + 1);
+    return mysql_real_escape_string(m_pHandle.get(), strDst.data(), strSrc.c_str(), strSrc.size());
+}
+
 bool CMysqlConnection::EscapeString(char* pszDst, const char* pszSrc, int32_t nLen)
 {
     return mysql_real_escape_string(m_pHandle.get(), pszDst, pszSrc, nLen);
