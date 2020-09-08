@@ -1,4 +1,6 @@
-#pragma once
+
+#ifndef globaldb_H
+#define globaldb_H
 #include <string>
 
 #include "BaseCode.h"
@@ -154,3 +156,7 @@ struct TBLD_SERVICEDETAIL
 
     static constexpr size_t field_count() { return 9; }
 };
+
+using GLOBALDB_TABLE_LIST = type_list<TBLD_DBINFO, TBLD_GLOBALVAR, TBLD_GMLIST, TBLD_SERVERLIST, TBLD_SERVICEDETAIL>;
+
+#endif

@@ -3,8 +3,8 @@
 
 enum GameEventType
 {
-    EVENTID_DELACTOR           = 100,
-    EVENTID_FLYMAP             = 101,
+    EVENTID_DEL_ACTOR          = 100,
+    EVENTID_FLY_MAP            = 101,
     EVENTID_BROCAST_SHOW       = 102,
     EVENTID_SEND_ATTRIB_CHANGE = 103,
 

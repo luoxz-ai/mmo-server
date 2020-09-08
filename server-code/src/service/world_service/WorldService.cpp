@@ -2,6 +2,7 @@
 
 #include <functional>
 
+#include "MysqlTableCheck.h"
 #include "AccountManager.h"
 #include "BornPos.h"
 #include "EventManager.h"
@@ -109,6 +110,8 @@ bool CWorldService::Init(const ServerPort& nServerPort)
     RegisterWorldMessageHandler();
 
     auto pGlobalDB = ConnectGlobalDB();
+    CHECKF(pGlobalDB.get());
+    CHECKF(MysqlTableCheck::CheckAllTable<GLOBALDB_TABLE_LIST>(pGlobalDB.get()));
     //通过globaldb查询localdb
 
     auto result = pGlobalDB->QueryKeyLimit<TBLD_DBINFO, TBLD_DBINFO::WORLDID>(GetWorldID(), 1);
@@ -121,11 +124,11 @@ bool CWorldService::Init(const ServerPort& nServerPort)
     auto row = result->fetch_row(false);
     if(row)
     {
-        std::string host   = (const char*)row->Field(TBLD_DBINFO::DB_IP);
+        std::string host   = row->Field(TBLD_DBINFO::DB_IP).get<std::string>();
         uint16_t    port   = row->Field(TBLD_DBINFO::DB_PORT);
-        std::string user   = (const char*)row->Field(TBLD_DBINFO::DB_USER);
-        std::string passwd = (const char*)row->Field(TBLD_DBINFO::DB_PASSWD);
-        std::string dbname = (const char*)row->Field(TBLD_DBINFO::DB_NAME);
+        std::string user   = row->Field(TBLD_DBINFO::DB_USER).get<std::string>();
+        std::string passwd = row->Field(TBLD_DBINFO::DB_PASSWD).get<std::string>();
+        std::string dbname = row->Field(TBLD_DBINFO::DB_NAME).get<std::string>();
 
         auto pDB = std::make_unique<CMysqlConnection>();
         if(pDB->Connect(host, user, passwd, dbname, port) == false)
@@ -135,15 +138,8 @@ bool CWorldService::Init(const ServerPort& nServerPort)
         }
         m_pGameDB.reset(pDB.release());
 
-        {
-            CHECKF(m_pGameDB->CheckTable<TBLD_PLAYER>());
-            CHECKF(m_pGameDB->CheckTable<TBLD_ITEM>());
-            CHECKF(m_pGameDB->CheckTable<TBLD_SKILL>());
-            CHECKF(m_pGameDB->CheckTable<TBLD_STATUS>());
-            CHECKF(m_pGameDB->CheckTable<TBLD_GUILD>());
-            CHECKF(m_pGameDB->CheckTable<TBLD_MAIL>());
-            CHECKF(m_pGameDB->CheckTable<TBLD_PET>());
-        }
+        
+        CHECKF(MysqlTableCheck::CheckAllTable<GAMEDB_TABLE_LIST>(m_pGameDB.get()));
 
         m_nCurPlayerMaxID       = GetDefaultPlayerID(GetWorldID());
         auto result_playercount = m_pGameDB->UnionQuery(
@@ -153,7 +149,7 @@ bool CWorldService::Init(const ServerPort& nServerPort)
             auto row_result = result_playercount->fetch_row(false);
             if(row_result)
             {
-                m_nCurPlayerMaxID = (int64_t)row_result->Field(TBLD_PLAYER::ID);
+                m_nCurPlayerMaxID = row_result->Field(0).get<int64_t>();
                 m_nCurPlayerMaxID++;
             }
         }

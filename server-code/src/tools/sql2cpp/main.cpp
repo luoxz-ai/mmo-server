@@ -35,6 +35,8 @@ int main(int argc, char** argv)
     //将输入按;进行分割
     std::string output_header;
     std::string output_cpp;
+     
+    std::vector<std::string> table_name_list;
     auto        vecString = split_string(input_string, ";");
     for(auto& v: vecString)
     {
@@ -248,7 +250,7 @@ struct {0}
                            field_types_str,
                            field_type_cpp_list.size()
                            );
-            
+            table_name_list.push_back(table_name_UP);
             output_header += szBuf;
             if(bDebug)
             {
@@ -259,13 +261,27 @@ struct {0}
         }
     }
 
+    std::string table_list_str;
     {
+        std::string out_file_name_UP = out_file_name;
+        std::transform(out_file_name_UP.begin(), out_file_name_UP.end(), out_file_name_UP.begin(), ::toupper);
+        std::string table_name_tuple_str = string_concat(table_name_list, ",", "", "");
+        table_list_str = fmt::format("\nusing {}_TABLE_LIST = type_list<{}>;\n", out_file_name_UP, table_name_tuple_str);
+    }
+    {
+        static std::string output_format =  R"(
+            #ifndef {0}_H
+            #define {0}_H
+            #include <string>
+            #include "BaseCode.h"
+            #include "DBField.h"
+            {1}
+            {2}
+            #endif
+            )";
+        
         std::ofstream output_file(out_dir + out_file_name + ".h");
-        output_file << "#pragma once\n";
-        output_file << "#include <string>\n";
-        output_file << "#include \"BaseCode.h\"\n";
-        output_file << "#include \"DBField.h\"\n";
-        output_file << output_header;
+        output_file << fmt::format(output_format, out_file_name, output_header, table_list_str);
         output_file.close();
         if(opt.has("--format"))
         {

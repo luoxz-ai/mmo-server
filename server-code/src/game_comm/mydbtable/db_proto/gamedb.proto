@@ -13,8 +13,8 @@ message tbld_commondata
     uint64 data1    = 6;                             //数据2
     uint64 data2    = 7;                             //数据3
     uint64 data3    = 8;                             //数据4
-}
-
+} 
+ 
 message tbld_cooldown
 {
 

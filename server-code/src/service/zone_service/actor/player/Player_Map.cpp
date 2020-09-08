@@ -30,7 +30,7 @@ bool CPlayer::FlyMap(uint16_t idMap, int32_t idPhase, float fPosX, float fPosY, 
         //场景在本地
         //延迟调用真正的FlyMap
         CEventEntryCreateParam param;
-        param.evType    = EVENTID_FLYMAP;
+        param.evType    = EVENTID_FLY_MAP;
         param.cb        = std::bind(&CPlayer::_FlyMap, this, idTargetScene, fPosX, fPosY, fRange, fFace);
         param.tWaitTime = 0;
         param.bPersist  = false;
@@ -42,7 +42,7 @@ bool CPlayer::FlyMap(uint16_t idMap, int32_t idPhase, float fPosX, float fPosY, 
     {
         //切换zone
         CEventEntryCreateParam param;
-        param.evType    = EVENTID_FLYMAP;
+        param.evType    = EVENTID_FLY_MAP;
         param.cb        = std::bind(&CPlayer::_ChangeZone, this, idTargetScene, fPosX, fPosY, fRange, fFace);
         param.tWaitTime = 0;
         param.bPersist  = false;

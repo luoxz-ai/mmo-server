@@ -86,43 +86,6 @@ public:
     bool                EscapeString(char* pszDst, const char* pszSrc, int32_t nLen);
     bool                EscapeString(std::string& strDst, const std::string& strSrc);
 
-    template<class T>
-    bool CheckTable()
-    {
-        __ENTER_FUNCTION
-        auto ptr              = MakeRecord(T::table_name());
-        auto pFieldInfo_MYSQL = QueryFieldInfo(T::table_name());
-        if(pFieldInfo_MYSQL == nullptr)
-        {
-            LOGFATAL("GameDB Check Error, table:{} not find in MYSQL", T::table_name());
-            return false;
-        }
-        auto pFieldInfo_DDL = std::make_unique<CDDLFieldInfoList<T>>();
-        for(size_t i = 0; i < pFieldInfo_DDL->size_fields; i++)
-        {
-            const CDBFieldInfo* pInfo_DDL   = pFieldInfo_DDL->get(i);
-            const CDBFieldInfo* pInfo_MYSQL = pFieldInfo_MYSQL->get(i);
-            if(pInfo_DDL == nullptr || pInfo_MYSQL == nullptr)
-            {
-                LOGFATAL("GameDB Check Error, table:{}, field:{}", T::table_name(), i);
-            }
-            else if(pInfo_DDL->GetFieldType() != pInfo_MYSQL->GetFieldType())
-            {
-                LOGFATAL("GameDB Check Error, table:{}, field:{} ddl_field:{}  mysql_field:{} ddl_fieldt:{}  mysql_fieldt:{}",
-                         T::table_name(),
-                         i,
-                         pInfo_DDL->GetFieldName(),
-                         pInfo_MYSQL->GetFieldName(),
-                         pInfo_DDL->GetFieldType(),
-                         pInfo_MYSQL->GetFieldType());
-                return false;
-            }
-        }
-        return true;
-        __LEAVE_FUNCTION
-        return false;
-    }
-
     template<class TABLE_T, class DB_COND_T>
     CMysqlResultPtr QueryCond(DB_COND_T&& cond)
     {

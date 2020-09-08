@@ -141,48 +141,48 @@ bool CAccount::CreateActor(const std::string& name, uint32_t dwProf, uint32_t dw
     SceneIdx bornScene(pMap->GetZoneID(), pBornPos->GetMapID(), 0);
 
     {
-        auto  db_record_ptr                               = pDB->MakeRecord(TBLD_PLAYER::table_name());
-        OBJID idPlayer                                    = WorldService()->CreatePlayerID();
-        db_record_ptr->Field(TBLD_PLAYER::ID)             = idPlayer;
-        db_record_ptr->Field(TBLD_PLAYER::WORLDID)        = WorldService()->GetServerPort().GetWorldID();
-        db_record_ptr->Field(TBLD_PLAYER::ORIWORLDID)     = WorldService()->GetServerPort().GetWorldID();
-        db_record_ptr->Field(TBLD_PLAYER::OPENID)         = m_openid;
-        db_record_ptr->Field(TBLD_PLAYER::NAME)           = szName;
-        db_record_ptr->Field(TBLD_PLAYER::PROF)           = dwProf;
-        db_record_ptr->Field(TBLD_PLAYER::BASELOOK)       = (uint32_t)0;
-        db_record_ptr->Field(TBLD_PLAYER::LEV)            = (uint32_t)1;
-        db_record_ptr->Field(TBLD_PLAYER::VIPLEV)         = (uint32_t)0;
+        auto  db_record_ptr = pDB->MakeRecord(TBLD_PLAYER::table_name());
+        OBJID idPlayer      = WorldService()->CreatePlayerID();
+        db_record_ptr->Field(TBLD_PLAYER::ID).set(idPlayer);
+        db_record_ptr->Field(TBLD_PLAYER::WORLDID).set(WorldService()->GetServerPort().GetWorldID());
+        db_record_ptr->Field(TBLD_PLAYER::ORIWORLDID).set(WorldService()->GetServerPort().GetWorldID());
+        db_record_ptr->Field(TBLD_PLAYER::OPENID).set(m_openid);
+        db_record_ptr->Field(TBLD_PLAYER::NAME).set(szName);
+        db_record_ptr->Field(TBLD_PLAYER::PROF).set(dwProf);
+        db_record_ptr->Field(TBLD_PLAYER::BASELOOK).set<uint32_t>(0);
+        db_record_ptr->Field(TBLD_PLAYER::LEV).set<uint32_t>(1);
+        db_record_ptr->Field(TBLD_PLAYER::VIPLEV).set<uint32_t>(0);
 
-        db_record_ptr->Field(TBLD_PLAYER::RECORD_SCENEID) = bornScene.data64;
-        db_record_ptr->Field(TBLD_PLAYER::RECORD_X)       = bornPos.x;
-        db_record_ptr->Field(TBLD_PLAYER::RECORD_Y)       = bornPos.y;
-        db_record_ptr->Field(TBLD_PLAYER::RECORD_FACE)    = pBornPos->GetFace();
-        db_record_ptr->Field(TBLD_PLAYER::HOME_SCENEID)   = bornScene.data64;
-        db_record_ptr->Field(TBLD_PLAYER::HOME_X)         = bornPos.x;
-        db_record_ptr->Field(TBLD_PLAYER::HOME_Y)         = bornPos.y;
-        db_record_ptr->Field(TBLD_PLAYER::HOME_FACE)      = pBornPos->GetFace();
+        db_record_ptr->Field(TBLD_PLAYER::RECORD_SCENEID).set(bornScene.data64);
+        db_record_ptr->Field(TBLD_PLAYER::RECORD_X).set(bornPos.x);
+        db_record_ptr->Field(TBLD_PLAYER::RECORD_Y).set(bornPos.y);
+        db_record_ptr->Field(TBLD_PLAYER::RECORD_FACE).set(pBornPos->GetFace());
+        db_record_ptr->Field(TBLD_PLAYER::HOME_SCENEID).set(bornScene.data64);
+        db_record_ptr->Field(TBLD_PLAYER::HOME_X).set(bornPos.x);
+        db_record_ptr->Field(TBLD_PLAYER::HOME_Y).set(bornPos.y);
+        db_record_ptr->Field(TBLD_PLAYER::HOME_FACE).set(pBornPos->GetFace());
 
         if(GMManager()->GetGMLevel(m_openid) != 0)
         {
-            db_record_ptr->Field(TBLD_PLAYER::MONEY)      = (uint64_t)10000;
-            db_record_ptr->Field(TBLD_PLAYER::MONEY_BIND) = (uint64_t)10000;
-            db_record_ptr->Field(TBLD_PLAYER::GOLD)       = (uint64_t)10000;
-            db_record_ptr->Field(TBLD_PLAYER::GOLD_BIND)  = (uint64_t)10000;
+            db_record_ptr->Field(TBLD_PLAYER::MONEY).set<uint64_t>(10000);
+            db_record_ptr->Field(TBLD_PLAYER::MONEY_BIND).set<uint64_t>(10000);
+            db_record_ptr->Field(TBLD_PLAYER::GOLD).set<uint64_t>(10000);
+            db_record_ptr->Field(TBLD_PLAYER::GOLD_BIND).set<uint64_t>(10000);
         }
         else
         {
-            db_record_ptr->Field(TBLD_PLAYER::MONEY)      = (uint64_t)0;
-            db_record_ptr->Field(TBLD_PLAYER::MONEY_BIND) = (uint64_t)0;
-            db_record_ptr->Field(TBLD_PLAYER::GOLD)       = (uint64_t)0;
-            db_record_ptr->Field(TBLD_PLAYER::GOLD_BIND)  = (uint64_t)0;
+            db_record_ptr->Field(TBLD_PLAYER::MONEY).set<uint64_t>(0);
+            db_record_ptr->Field(TBLD_PLAYER::MONEY_BIND).set<uint64_t>(0);
+            db_record_ptr->Field(TBLD_PLAYER::GOLD).set<uint64_t>(0);
+            db_record_ptr->Field(TBLD_PLAYER::GOLD_BIND).set<uint64_t>(0);
         }
-        db_record_ptr->Field(TBLD_PLAYER::HP)              = AbilityLevel[ATTRIB_HP_MAX];
-        db_record_ptr->Field(TBLD_PLAYER::MP)              = AbilityLevel[ATTRIB_MP_MAX];
-        
-        uint32_t now                                       = TimeGetSecond();
-        db_record_ptr->Field(TBLD_PLAYER::CREATE_TIME)     = now;
-        db_record_ptr->Field(TBLD_PLAYER::LAST_LOGINTIME)  = now;
-        db_record_ptr->Field(TBLD_PLAYER::LAST_LOGOUTTIME) = now;
+        db_record_ptr->Field(TBLD_PLAYER::HP).set(AbilityLevel[ATTRIB_HP_MAX]);
+        db_record_ptr->Field(TBLD_PLAYER::MP).set(AbilityLevel[ATTRIB_MP_MAX]);
+
+        uint32_t now = TimeGetSecond();
+        db_record_ptr->Field(TBLD_PLAYER::CREATE_TIME).set(now);
+        db_record_ptr->Field(TBLD_PLAYER::LAST_LOGINTIME).set(now);
+        db_record_ptr->Field(TBLD_PLAYER::LAST_LOGOUTTIME).set(now);
 
         if(db_record_ptr->Update(true) == true)
         {

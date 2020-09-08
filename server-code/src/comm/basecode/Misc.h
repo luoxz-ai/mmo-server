@@ -67,8 +67,11 @@ inline void array_setzero(std::array<T,N>& array)
 template<class... Args>
 struct type_list
 {
+    using tuple_type = std::tuple<Args...>;
     template<std::size_t N>
-    using type = typename std::tuple_element<N, std::tuple<Args...>>::type;
+    using type = typename std::tuple_element<N, tuple_type>::type;
+
+    static constexpr size_t size = std::tuple_size<tuple_type>::value;
 };
 
 class scope_guards

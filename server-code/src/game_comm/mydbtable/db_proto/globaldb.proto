@@ -13,8 +13,8 @@ message tbld_dbinfo
     string db_name   = 4 [(sql).size = 255];    //游戏数据mysql表名
     string db_user   = 5 [(sql).size = 255];    //游戏数据mysql用户
     string db_passwd = 6 [(sql).size = 255];    //游戏数据mysql密码
-}
-
+} 
+ 
 message tbld_globalvar
 {
     uint32 key        = 1 [(sql).primary_key = "idx_id"]; // key

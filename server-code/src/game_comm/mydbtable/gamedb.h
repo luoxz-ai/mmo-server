@@ -1,4 +1,6 @@
-#pragma once
+
+#ifndef gamedb_H
+#define gamedb_H
 #include <string>
 
 #include "BaseCode.h"
@@ -623,3 +625,21 @@ struct TBLD_SYSTEMVAR
 
     static constexpr size_t field_count() { return 10; }
 };
+
+using GAMEDB_TABLE_LIST = type_list<TBLD_COMMONDATA,
+                                    TBLD_COOLDOWN,
+                                    TBLD_DATACOUNT,
+                                    TBLD_GUILD,
+                                    TBLD_ITEM,
+                                    TBLD_MAIL,
+                                    TBLD_MAIL_ATTACHMENT,
+                                    TBLD_PET,
+                                    TBLD_PLAYER,
+                                    TBLD_PLAYER_GUILDINFO,
+                                    TBLD_SKILL,
+                                    TBLD_TASK,
+                                    TBLD_ACHIEVEMENT,
+                                    TBLD_STATUS,
+                                    TBLD_SYSTEMVAR>;
+
+#endif

@@ -29,7 +29,7 @@ void CActor::DelThis()
     __ENTER_FUNCTION
     m_bDelThis = true;
     CEventEntryCreateParam param;
-    param.evType = EVENTID_DELACTOR;
+    param.evType = EVENTID_DEL_ACTOR;
     param.cb     = [idActor = GetID()]() {
         ActorManager()->DelActorByID(idActor);
     };
