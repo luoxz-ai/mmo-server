@@ -47,8 +47,8 @@ int main(int argc, char** argv)
     }
 
     std::string execl_full_path = opt["--excel"];
-    std::string execl_file_name = GetFileNameFromFullPath(execl_full_path);
-    std::string execl_name      = GetFileNameWithoutExt(execl_file_name);
+    std::string execl_file_name = get_filename_from_fullpath(execl_full_path);
+    std::string execl_name      = get_filename_without_ext(execl_file_name);
     std::string pb_file_name    = opt["--inputpb"];
     std::string pb_dir_name     = opt["--inputpbdir"];
     std::string out_file_name   = opt["--out"];

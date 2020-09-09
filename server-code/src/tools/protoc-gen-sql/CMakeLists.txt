@@ -1,4 +1,4 @@
-
+MESSAGE(STATUS "cmake: protoc-gen-sql")
 
 # 搜索当前目录下所有文件
 file(GLOB_RECURSE SRCS FOLLOW_SYMLINKS "*.cc" "*.cpp" "*.c" "*.h" "*.hpp")

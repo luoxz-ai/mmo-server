@@ -111,7 +111,7 @@ bool CWorldService::Init(const ServerPort& nServerPort)
 
     auto pGlobalDB = ConnectGlobalDB();
     CHECKF(pGlobalDB.get());
-    CHECKF(MysqlTableCheck::CheckAllTable<GLOBALDB_TABLE_LIST>(pGlobalDB.get()));
+    CHECKF(MysqlTableCheck::CheckAllTableAndFix<GLOBALDB_TABLE_LIST>(pGlobalDB.get()));
     //通过globaldb查询localdb
 
     auto result = pGlobalDB->QueryKeyLimit<TBLD_DBINFO, TBLD_DBINFO::WORLDID>(GetWorldID(), 1);
@@ -139,7 +139,7 @@ bool CWorldService::Init(const ServerPort& nServerPort)
         m_pGameDB.reset(pDB.release());
 
         
-        CHECKF(MysqlTableCheck::CheckAllTable<GAMEDB_TABLE_LIST>(m_pGameDB.get()));
+        CHECKF(MysqlTableCheck::CheckAllTableAndFix<GAMEDB_TABLE_LIST>(m_pGameDB.get()));
 
         m_nCurPlayerMaxID       = GetDefaultPlayerID(GetWorldID());
         auto result_playercount = m_pGameDB->UnionQuery(

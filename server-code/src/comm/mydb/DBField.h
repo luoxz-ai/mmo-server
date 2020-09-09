@@ -81,7 +81,7 @@ public:
             {
                 return std::get<uint8_t>(m_Val) == 1;
             }
-            else 
+            else
             {
                 return T();
             }
@@ -153,15 +153,19 @@ public:
 
         __LEAVE_FUNCTION
 
-        LOGDBERROR("Field {}.{} get/set type error.", 
-                    m_pFieldInfo->GetTableName(), 
-                    m_pFieldInfo->GetFieldName());
-        LOGDBERROR("CallStack：{}", GetStackTraceString(CallFrameMap(3,5)));
+        LOGDBERROR("Field {}.{} get/set type error.", m_pFieldInfo->GetTableName(), m_pFieldInfo->GetFieldName());
+        LOGDBERROR("CallStack：{}", GetStackTraceString(CallFrameMap(3, 5)));
         return false;
     }
 
-    std::string         GetValString() const;
-    void                SetGetValStringFunc(std::function<std::string()> func) { m_funcGetValString = func; }
+    std::string GetValString() const;
+
+    template<class Func>
+    void BindGetValString(Func&& func)
+    {
+        m_funcGetValString = std::forward<Func>(func);
+    }
+
     bool                CanModify() const;
     bool                IsDirty() const;
     void                MakeDirty();
@@ -177,8 +181,7 @@ private:
         {
             case DB_FIELD_TYPE_TINY_UNSIGNED:
             {
-                if constexpr (std::is_same<typename std::decay<T>::type, uint8_t>::value ||
-                                std::is_same<typename std::decay<T>::type, bool>::value)
+                if constexpr(std::is_same<typename std::decay<T>::type, uint8_t>::value || std::is_same<typename std::decay<T>::type, bool>::value)
                     return true;
             }
             break;
@@ -240,8 +243,8 @@ private:
             case DB_FIELD_TYPE_BLOB:
             {
                 if constexpr(std::is_same<typename std::decay<T>::type, std::string>::value ||
-                   std::is_same<typename std::decay<T>::type, const char*>::value ||
-                   std::is_same<typename std::decay<T>::type, char*>::value)
+                             std::is_same<typename std::decay<T>::type, const char*>::value ||
+                             std::is_same<typename std::decay<T>::type, char*>::value)
                     return true;
             }
             break;
@@ -257,12 +260,13 @@ public:
     OBJECTHEAP_DECLARATION(s_Heap);
 
 private:
-    CDBRecord*          m_pDBRecord;
-    const CDBFieldInfo* m_pFieldInfo;
-    std::variant<int8_t, uint8_t, int16_t, uint16_t, int32_t, uint32_t, int64_t, uint64_t, float, double, std::string>
-                                 m_Val;
-    bool                         m_bDirty;
-    std::function<std::string()> m_funcGetValString;
+    CDBRecord*          m_pDBRecord = nullptr;
+    const CDBFieldInfo* m_pFieldInfo = nullptr;
+    using value_store_t = std::variant<int8_t, uint8_t, int16_t, uint16_t, int32_t, uint32_t, int64_t, uint64_t, float, double, std::string>;
+    value_store_t m_Val;
+    bool          m_bDirty = false;
+    using GetValStringCallBack_t = std::function<std::string()>;
+    GetValStringCallBack_t m_funcGetValString;
 };
 
 #endif /* DBFIELD_H */

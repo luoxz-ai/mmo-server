@@ -11,14 +11,14 @@ export_lua void skip_utf8_bom(FILE* fp);
 //获取utf8文字长度
 export_lua size_t utf8_length(const char* pUTF8, size_t nLen = 0);
 //编码转换
-export_lua char* ConvertEnc(const char* encFrom,
+export_lua char* convert_enc(const char* encFrom,
                             const char* encTo,
                             char*       pszBuffIn,
                             size_t      lenin,
                             char*       pszBuffout,
                             size_t      lenout);
 //检查控制字符
-export_lua bool IsUTF8_NoneControl(const char* pszString, long nSize);
+export_lua bool is_utf8_none_control(const char* pszString, long nSize);
 
 export_lua inline std::string& ltrim(std::string& ss);
 export_lua inline std::string& rtrim(std::string& ss);
@@ -37,11 +37,30 @@ export_lua inline std::vector<std::string>      split_string(const std::string& 
 export_lua inline std::vector<std::string_view> split_string_view(const std::string& str,
                                                                   const std::string& delimiters);
 
-export_lua inline std::string ReplaceStr(std::string& strSource, const std::string& strRepl, const std::string& strNew);
-export_lua std::string URLDecode(const char* pszStr);
-export_lua std::string URLEncode(const char* pszStr);
+export_lua inline std::string replace_str(std::string& strSource, const std::string& strRepl, const std::string& strNew);
+export_lua inline std::string replace_str_copy(std::string strSource, const std::string& strRepl, const std::string& strNew);
 
-export_lua inline std::string GetFileNameFromFullPath(const std::string& szFullPath)
+export_lua std::string url_decode(const char* pszStr);
+export_lua std::string url_encode(const char* pszStr);
+
+export_lua bool replace_illegawords(std::wstring& wstr);
+export_lua bool replace_illegawords(std::string& utf8);
+export_lua bool find_name_error(const std::wstring& wstr);
+export_lua bool find_name_error(const std::string& utf8);
+
+export_lua bool regex_str_check(const std::string& str);
+export_lua bool regex_str_reload();
+
+export_lua inline std::string string_concat(const std::vector<std::string>& vecStr,
+                          const std::string&       delimiters,
+                          const std::string&       pre,
+                          const std::string&       post);
+
+
+////////////////////////////////////////////////////////
+//filepath process                          
+
+export_lua inline std::string get_filename_from_fullpath(const std::string& szFullPath)
 {
     std::string::size_type pos = szFullPath.find_last_of("\\/");
     std::string            szName;
@@ -54,7 +73,7 @@ export_lua inline std::string GetFileNameFromFullPath(const std::string& szFullP
     return szName;
 }
 
-export_lua inline std::string GetFileNameWithoutExt(const std::string& szFile)
+export_lua inline std::string get_filename_without_ext(const std::string& szFile)
 {
     std::string::size_type pos1 = szFile.find_last_of("/\\");
     std::string::size_type pos2 = szFile.rfind('.');
@@ -66,9 +85,9 @@ export_lua inline std::string GetFileNameWithoutExt(const std::string& szFile)
     return szFile.substr(pos1, pos2 - pos1);
 }
 
-export_lua inline std::string GetFileExt(const std::string& szFile)
+export_lua inline std::string get_file_ext(const std::string& szFile)
 {
-    std::string            szName = GetFileNameFromFullPath(szFile);
+    std::string            szName = get_filename_from_fullpath(szFile);
     std::string::size_type nPos   = szName.rfind('.');
     if(nPos != std::string::npos)
         ++nPos;
@@ -78,7 +97,7 @@ export_lua inline std::string GetFileExt(const std::string& szFile)
     return szName.substr(nPos);
 }
 
-export_lua inline std::string GetBasePath(const std::string& szFullPath)
+export_lua inline std::string get_basepath(const std::string& szFullPath)
 {
     std::string::size_type pos = szFullPath.find_last_of("/\\");
     std::string            szName;
@@ -110,7 +129,7 @@ OI remove_sub_sequence(OI first1, OI last1, II first2, II last2)
     return w;
 }
 
-export_lua inline void TrimPath(std::string& szPath)
+export_lua inline void trim_path(std::string& szPath)
 {
     char c1 = '\\', c2 = '/';
     std::replace(szPath.begin(), szPath.end(), c1, c2);
@@ -126,18 +145,23 @@ export_lua inline void TrimPath(std::string& szPath)
     szPath.erase(remove_sub_sequence(szPath.begin(), szPath.end(), szDS.begin(), szDS.end()), szPath.end());
 }
 
-export_lua std::string GetFullPath(const std::string& szPath);
+export_lua std::string get_fullpath(const std::string& szPath);
 
-export_lua bool ReplaceIllegaWords(std::wstring& wstr);
-export_lua bool ReplaceIllegaWords(std::string& utf8);
-export_lua bool FindNameError(const std::wstring& wstr);
-export_lua bool FindNameError(const std::string& utf8);
 
-export_lua bool RegexStrCheck(const std::string& str);
-export_lua bool RegexStrReload();
 
 //////////////////////////////////////////////////////////////////////////
-inline std::string ReplaceStr(std::string& strSource, const std::string& strRepl, const std::string& strNew)
+inline std::string replace_str(std::string& strSource, const std::string& strRepl, const std::string& strNew)
+{
+    std::string::size_type pos = 0;
+    while((pos = strSource.find(strRepl, pos)) != std::string::npos)
+    {
+        strSource.replace(pos, strRepl.length(), strNew);
+        pos += strNew.length();
+    }
+    return strSource;
+}
+
+inline std::string replace_str_copy(std::string strSource, const std::string& strRepl, const std::string& strNew)
 {
     std::string::size_type pos = 0;
     while((pos = strSource.find(strRepl, pos)) != std::string::npos)
@@ -248,8 +272,8 @@ inline std::vector<std::string_view> split_string_view(const std::string& str, c
     return v;
 }
 
-
-inline std::string string_concat(const std::vector<std::string>& vecStr,
+template<class T>
+inline std::string string_concat_impl(const T& vecStr,
                           const std::string&       delimiters,
                           const std::string&       pre,
                           const std::string&       post)
@@ -264,6 +288,14 @@ inline std::string string_concat(const std::vector<std::string>& vecStr,
         result += pre + v + post;
     }
     return result;
+}
+
+inline std::string string_concat(const std::vector<std::string>& vecStr,
+                          const std::string&       delimiters,
+                          const std::string&       pre,
+                          const std::string&       post)
+{
+    return string_concat_impl(vecStr, delimiters, pre, post);
 }
 
 #endif /* STRINGALGO_H */

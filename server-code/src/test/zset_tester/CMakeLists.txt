@@ -1,3 +1,4 @@
+MESSAGE(STATUS "cmake: zset_tester")
 
 # 搜索当前目录下所有文件
 file(GLOB_RECURSE SRCS "*.cc" "*.cpp" "*.c" "*.h" "*.hpp")

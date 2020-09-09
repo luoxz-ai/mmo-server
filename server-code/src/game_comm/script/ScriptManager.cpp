@@ -164,11 +164,11 @@ void CLUAScriptManager::LoadFilesInDir(const std::string& dir, bool bRecursive)
 {
     //遍历文件夹
     scan_dir(m_search_path, dir, bRecursive, [pThis = this](const std::string& dirname, const std::string& filename) {
-        if(GetFileExt(filename) != "lua")
+        if(get_file_ext(filename) != "lua")
             return;
         try
         {
-            uint64_t id = std::stoull(GetFileNameWithoutExt(filename));
+            uint64_t id = std::stoull(get_filename_without_ext(filename));
             pThis->LoadFile(id, dirname + "/" + filename);
         }
         catch(...)

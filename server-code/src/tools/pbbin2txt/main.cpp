@@ -24,7 +24,7 @@ int main(int argc, char** argv)
     std::string in_file_name = opt["--input"];
     std::string pbdirname    = opt["--pbdir"];
     std::string pbname       = opt["--pb"];
-    std::string cfgname      = GetFileNameWithoutExt(GetFileNameFromFullPath(pbname));
+    std::string cfgname      = get_filename_without_ext(get_filename_from_fullpath(pbname));
     if(opt.has("--cfg"))
         cfgname = opt["--cfg"];
 

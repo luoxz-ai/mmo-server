@@ -1,3 +1,4 @@
+MESSAGE(STATUS "cmake: tools-")
 
 set(PCH_INCLUDE_PATH "${COTIRE_PREFIX_HEADER_INCLUDE_PATH}" "${PROJECT_SOURCE_DIR}/src/comm" "${PROJECT_SOURCE_DIR}/src/game_comm")
 

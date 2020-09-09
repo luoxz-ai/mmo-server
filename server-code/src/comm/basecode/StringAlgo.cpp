@@ -46,7 +46,7 @@ size_t utf8_length(const char* pUTF8, size_t nLen)
     return nRet;
 }
 
-char* ConvertEnc(const char* encFrom, const char* encTo, char* pszBuffIn, size_t lenin, char* pszBuffout, size_t lenout)
+char* convert_enc(const char* encFrom, const char* encTo, char* pszBuffIn, size_t lenin, char* pszBuffout, size_t lenout)
 {
     iconv_t c_pt;
 
@@ -66,7 +66,7 @@ char* ConvertEnc(const char* encFrom, const char* encTo, char* pszBuffIn, size_t
     return pszBuffout;
 }
 
-bool IsUTF8_NoneControl(const char* pszString, long nSize)
+bool is_utf8_none_control(const char* pszString, long nSize)
 {
     bool        bIsUTF8 = true;
     const char* pStart  = pszString;
@@ -114,7 +114,7 @@ bool IsUTF8_NoneControl(const char* pszString, long nSize)
 }
 
 //////////////////////////////////////////////////////////////////////
-std::string URLEncode(const char* pszStr)
+std::string url_encode(const char* pszStr)
 {
     if(pszStr == nullptr)
         return "";
@@ -151,7 +151,7 @@ std::string URLEncode(const char* pszStr)
 }
 
 //////////////////////////////////////////////////////////////////////
-std::string URLDecode(const char* pszStr)
+std::string url_decode(const char* pszStr)
 {
     std::string strOut = "";
     if(!pszStr)
@@ -188,7 +188,7 @@ std::string URLDecode(const char* pszStr)
     return strOut;
 }
 
-std::string GetFullPath(const std::string& szPath)
+std::string get_fullpath(const std::string& szPath)
 {
     if(szPath.empty())
         return "";
@@ -208,7 +208,7 @@ std::string GetFullPath(const std::string& szPath)
         ::strcat(szFull + len, "/");
     ::strcat(szFull + len, szPath.c_str());
     std::string s = szFull;
-    TrimPath(s);
+    trim_path(s);
     return s;
 }
 
@@ -308,7 +308,7 @@ public:
                 {
                     wchar_t wszLine[2048] = {0};
 
-                    if(0 == ConvertEnc("UTF-8", "UTF-32LE//IGNORE", (char*)szLine, nLineSize, (char*)wszLine, 2048 * sizeof(wchar_t)))
+                    if(0 == convert_enc("UTF-8", "UTF-32LE//IGNORE", (char*)szLine, nLineSize, (char*)wszLine, 2048 * sizeof(wchar_t)))
                     {
                     }
                     else
@@ -541,16 +541,16 @@ public:
 };
 
 //////////////////////////////////////////////////////////////////////
-bool FindNameError(const std::string& utf8)
+bool find_name_error(const std::string& utf8)
 {
     if(utf8.empty())
         return true;
 
     // 逐个字节过滤部分特殊字符，取ascii码33-126,128-254为合法字符
-    if(IsUTF8_NoneControl(utf8.c_str(), utf8.size()) == false)
+    if(is_utf8_none_control(utf8.c_str(), utf8.size()) == false)
         return true;
 
-    if(RegexStrCheck(utf8) == true)
+    if(regex_str_check(utf8) == true)
         return true;
 
     bool                                             bResult = true;
@@ -558,7 +558,7 @@ bool FindNameError(const std::string& utf8)
     try
     {
         std::wstring wstr = conv1.from_bytes(utf8);
-        bResult           = FindNameError(wstr);
+        bResult           = find_name_error(wstr);
     }
     catch(const std::range_error& e)
     {
@@ -574,7 +574,7 @@ bool my_str_comp(const std::string str1, const std::string str2)
     return (str1 > str2);
 }
 
-bool ReplaceIllegaWords(std::string& utf8)
+bool replace_illegawords(std::string& utf8)
 {
     if(utf8.empty())
         return false;
@@ -583,7 +583,7 @@ bool ReplaceIllegaWords(std::string& utf8)
     try
     {
         std::wstring wstr = conv1.from_bytes(utf8);
-        bResult           = ReplaceIllegaWords(wstr);
+        bResult           = replace_illegawords(wstr);
         if(bResult)
         {
             utf8 = conv1.to_bytes(wstr);
@@ -597,7 +597,7 @@ bool ReplaceIllegaWords(std::string& utf8)
     return bResult;
 }
 
-bool FindNameError(const std::wstring& wstr)
+bool find_name_error(const std::wstring& wstr)
 {
     if(wstr.empty())
         return true;
@@ -608,7 +608,7 @@ bool FindNameError(const std::wstring& wstr)
     return bResult;
 }
 
-bool ReplaceIllegaWords(std::wstring& wstr)
+bool replace_illegawords(std::wstring& wstr)
 {
     if(wstr.empty())
         return false;
@@ -695,7 +695,7 @@ protected:
 /**
  * 基于正则表达式的名字合法性检查
  */
-bool RegexStrCheck(const std::string& str)
+bool regex_str_check(const std::string& str)
 {
     __ENTER_FUNCTION
     if(str.empty())
@@ -708,7 +708,7 @@ bool RegexStrCheck(const std::string& str)
     return true;
 }
 
-bool RegexStrReload()
+bool regex_str_reload()
 {
     __ENTER_FUNCTION
     static CRegexIllegalStr s_regexIllegalStr;

@@ -114,8 +114,6 @@ CDBField::CDBField(CDBRecord* pDBRecord, const CDBFieldInfo* pFieldInfo, char* p
 }
 
 CDBField::CDBField()
-    : m_pDBRecord(nullptr)
-    , m_pFieldInfo(nullptr)
 {
 }
 

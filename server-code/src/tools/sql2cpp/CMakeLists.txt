@@ -1,4 +1,4 @@
-
+MESSAGE(STATUS "cmake: sql2cpp")
 # 搜索当前目录下所有文件
 file(GLOB_RECURSE SRCS "*.cc" "*.cpp" "*.c" "*.h" "*.hpp")
 IF(TIDY)

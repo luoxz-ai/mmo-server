@@ -398,13 +398,17 @@ bool CMysqlConnection::SyncExec(const std::string& query)
     __ENTER_FUNCTION
     std::lock_guard<std::mutex> lock(m_Mutex);
     LOGDBDEBUG("SyncExec:{}", query.c_str());
-
+    while(MoreResults())
+    {
+        NextResult();
+    }
     for(int32_t i = 0; i < MAX_PING_TIMES_PER_QUERY; i++)
     {
         int32_t nError = 0;
         nError         = mysql_real_query(m_pHandle.get(), query.c_str(), query.size());
         if(nError == 0)
         {
+            mysql_free_result(mysql_use_result(m_pHandle.get()));
             return true;
         }
         else
@@ -507,14 +511,11 @@ CDBFieldInfoListPtr CMysqlConnection::QueryFieldInfo(const std::string& s)
 {
     __ENTER_FUNCTION
     auto itFind = m_MysqlFieldInfoCache.find(s);
-    if(itFind == m_MysqlFieldInfoCache.end())
-    {
-        return nullptr;
-    }
-    else
+    if(itFind != m_MysqlFieldInfoCache.end())
     {
         return itFind->second;
     }
+
     __LEAVE_FUNCTION
     return nullptr;
 }

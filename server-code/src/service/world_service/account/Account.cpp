@@ -112,7 +112,7 @@ bool CAccount::CreateActor(const std::string& name, uint32_t dwProf, uint32_t dw
     //敏感字检验
     if(GMManager()->GetGMLevel(m_openid) == 0)
     {
-        if(FindNameError(szName) == true)
+        if(find_name_error(szName) == true)
         {
             SC_CREATEACTOR msg;
             msg.set_result_code(SC_CREATEACTOR::EC_NAME_ILLEGAL);

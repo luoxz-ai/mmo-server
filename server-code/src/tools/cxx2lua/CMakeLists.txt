@@ -1,3 +1,4 @@
+MESSAGE(STATUS "cmake: cxx2lua")
 
 include(FindLibClang)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LIBCLANG_CXXFLAGS}")

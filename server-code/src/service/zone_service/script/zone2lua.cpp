@@ -1354,27 +1354,16 @@ void zone2lua(lua_State* L)
     lua_tinker::def(L, "ActorManager", &ActorManager);
     lua_tinker::def(L, "BulletTypeSet", &BulletTypeSet);
     lua_tinker::def(L, "CheckSameDay", &CheckSameDay);
-    lua_tinker::def(L, "ConvertEnc", &ConvertEnc);
     lua_tinker::def(L, "DataCountLimitSet", &DataCountLimitSet);
     lua_tinker::def(L, "DayDiffLocal", &DayDiffLocal);
     lua_tinker::def(L, "EventManager", &EventManager);
-    lua_tinker::def(L,
-                    "FindNameError",
-                    lua_tinker::args_type_overload_functor(lua_tinker::make_functor_ptr((bool (*)(const std::string&))(&FindNameError)),
-                                                           lua_tinker::make_functor_ptr((bool (*)(const std::wstring&))(&FindNameError))));
     lua_tinker::def(L, "GMManager", &GMManager);
-    lua_tinker::def(L, "GetBasePath", &GetBasePath);
-    lua_tinker::def(L, "GetFileExt", &GetFileExt);
-    lua_tinker::def(L, "GetFileNameFromFullPath", &GetFileNameFromFullPath);
-    lua_tinker::def(L, "GetFileNameWithoutExt", &GetFileNameWithoutExt);
-    lua_tinker::def(L, "GetFullPath", &GetFullPath);
     lua_tinker::def(L, "GetHighFromU64", &GetHighFromU64);
     lua_tinker::def(L, "GetLowFromU64", &GetLowFromU64);
     lua_tinker::def(L, "GetNextDayBeginTime", &GetNextDayBeginTime);
     lua_tinker::def(L, "GetServiceName", &GetServiceName);
     lua_tinker::def(L, "GetTimeFromString", &GetTimeFromString);
     lua_tinker::def(L, "HasFlag", &HasFlag);
-    lua_tinker::def(L, "IsUTF8_NoneControl", &IsUTF8_NoneControl);
     lua_tinker::def(L, "ItemAdditionSet", &ItemAdditionSet);
     lua_tinker::def(L, "ItemFormulaDataSet", &ItemFormulaDataSet);
     lua_tinker::def(L, "ItemTypeSet", &ItemTypeSet);
@@ -1395,13 +1384,6 @@ void zone2lua(lua_State* L)
     lua_tinker::def(L, "NextWeekBeginTimeStamp", &NextWeekBeginTimeStamp);
     lua_tinker::def(L, "NpcTypeSet", &NpcTypeSet);
     lua_tinker::def(L, "PetTypeSet", &PetTypeSet);
-    lua_tinker::def(L, "RegexStrCheck", &RegexStrCheck);
-    lua_tinker::def(L, "RegexStrReload", &RegexStrReload);
-    lua_tinker::def(L,
-                    "ReplaceIllegaWords",
-                    lua_tinker::args_type_overload_functor(lua_tinker::make_functor_ptr((bool (*)(std::string&))(&ReplaceIllegaWords)),
-                                                           lua_tinker::make_functor_ptr((bool (*)(std::wstring&))(&ReplaceIllegaWords))));
-    lua_tinker::def(L, "ReplaceStr", &ReplaceStr);
     lua_tinker::def(L, "SceneManager", &SceneManager);
     lua_tinker::def(L, "ScriptManager", &ScriptManager);
     lua_tinker::def(L, "SkillTypeSet", &SkillTypeSet);
@@ -1414,9 +1396,6 @@ void zone2lua(lua_State* L)
     lua_tinker::def(L, "TimeGetMonotonic", &TimeGetMonotonic);
     lua_tinker::def(L, "TimeGetSecond", &TimeGetSecond);
     lua_tinker::def(L, "TimeGetSecondLocal", &TimeGetSecondLocal);
-    lua_tinker::def(L, "TrimPath", &TrimPath);
-    lua_tinker::def(L, "URLDecode", &URLDecode);
-    lua_tinker::def(L, "URLEncode", &URLEncode);
     lua_tinker::def(L, "UserAttrSet", &UserAttrSet);
     lua_tinker::def(L, "WeekDiffLocal", &WeekDiffLocal);
     lua_tinker::def(L, "ZoneService", &ZoneService);
@@ -1427,9 +1406,20 @@ void zone2lua(lua_State* L)
     lua_tinker::def(L, "bit_flip", &bit_flip);
     lua_tinker::def(L, "bit_set", &bit_set);
     lua_tinker::def(L, "bit_test", &bit_test);
+    lua_tinker::def(L, "convert_enc", &convert_enc);
+    lua_tinker::def(L,
+                    "find_name_error",
+                    lua_tinker::args_type_overload_functor(lua_tinker::make_functor_ptr((bool (*)(const std::string&))(&find_name_error)),
+                                                           lua_tinker::make_functor_ptr((bool (*)(const std::wstring&))(&find_name_error))));
+    lua_tinker::def(L, "get_basepath", &get_basepath);
+    lua_tinker::def(L, "get_file_ext", &get_file_ext);
+    lua_tinker::def(L, "get_filename_from_fullpath", &get_filename_from_fullpath);
+    lua_tinker::def(L, "get_filename_without_ext", &get_filename_without_ext);
+    lua_tinker::def(L, "get_fullpath", &get_fullpath);
     lua_tinker::def(L, "gmt2local", &gmt2local);
     lua_tinker::def(L, "hex_get", &hex_get);
     lua_tinker::def(L, "hex_set", &hex_set);
+    lua_tinker::def(L, "is_utf8_none_control", &is_utf8_none_control);
     lua_tinker::def(L, "isleap", &isleap);
     lua_tinker::def(L, "local2gmt", &local2gmt);
     lua_tinker::def(L, "lower_cast", &lower_cast);
@@ -1441,17 +1431,29 @@ void zone2lua(lua_State* L)
     lua_tinker::def(L, "random_hit", &random_hit);
     lua_tinker::def(L, "random_uint32", &random_uint32);
     lua_tinker::def(L, "random_uint32_range", &random_uint32_range);
+    lua_tinker::def(L, "regex_str_check", &regex_str_check);
+    lua_tinker::def(L, "regex_str_reload", &regex_str_reload);
+    lua_tinker::def(L,
+                    "replace_illegawords",
+                    lua_tinker::args_type_overload_functor(lua_tinker::make_functor_ptr((bool (*)(std::string&))(&replace_illegawords)),
+                                                           lua_tinker::make_functor_ptr((bool (*)(std::wstring&))(&replace_illegawords))));
+    lua_tinker::def(L, "replace_str", &replace_str);
+    lua_tinker::def(L, "replace_str_copy", &replace_str_copy);
     lua_tinker::def(L, "rtrim", &rtrim);
     lua_tinker::def(L, "rtrim_copy", &rtrim_copy);
     lua_tinker::def(L, "skip_utf8_bom", &skip_utf8_bom);
     lua_tinker::def(L, "split_string", &split_string);
     lua_tinker::def(L, "split_string_view", &split_string_view);
+    lua_tinker::def(L, "string_concat", &string_concat);
     lua_tinker::def(L, "timeToLocalTime", &timeToLocalTime);
     lua_tinker::def(L, "toHex", &toHex);
     lua_tinker::def(L, "trim", &trim);
     lua_tinker::def(L, "trim_copy", &trim_copy);
+    lua_tinker::def(L, "trim_path", &trim_path);
     lua_tinker::def(L, "upper_cast", &upper_cast);
     lua_tinker::def(L, "upper_cast_copy", &upper_cast_copy);
+    lua_tinker::def(L, "url_decode", &url_decode);
+    lua_tinker::def(L, "url_encode", &url_encode);
     lua_tinker::def(L, "utf8_length", &utf8_length, 0);
     lua_tinker::set(L, "AI_SERICE_COUNT", AI_SERICE_COUNT);
     lua_tinker::set(L, "DEFAULT_BAG_SIZE", DEFAULT_BAG_SIZE);

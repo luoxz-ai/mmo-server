@@ -49,7 +49,7 @@ ON_PLAYERMSG(CS_TALK)
     if(nGMLev == 0)
     {
         // 屏蔽字过滤
-        ReplaceIllegaWords(send_txt);
+        replace_illegawords(send_txt);
     }
     SC_TALK send_msg;
     send_msg.set_words(std::move(send_txt));

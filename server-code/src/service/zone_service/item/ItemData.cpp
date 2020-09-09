@@ -54,7 +54,7 @@ bool CItemData::Init(CMysqlConnection* pDB, OBJID idItem)
     CHECKF(m_pRecord != nullptr);
     std::string jsonTxt = m_pRecord->Field(TBLD_ITEM::EXTRA);
     pb_util::LoadFromJsonTxt(jsonTxt, m_ExtraData);
-    m_pRecord->Field(TBLD_ITEM::EXTRA).SetGetValStringFunc(std::bind(&SaveItemExtraToJson, std::cref(m_ExtraData)));
+    m_pRecord->Field(TBLD_ITEM::EXTRA).BindGetValString(std::bind(&SaveItemExtraToJson, std::cref(m_ExtraData)));
 
     m_pType = ItemTypeSet()->QueryObj(GetType());
     if(!m_pType)
@@ -103,7 +103,7 @@ bool CItemData::Init(CMysqlConnection* pDB, ST_ITEMINFO& info)
 
     if(m_pRecord->Update() == false)
         return false;
-    m_pRecord->Field(TBLD_ITEM::EXTRA).SetGetValStringFunc(std::bind(&SaveItemExtraToJson, std::cref(m_ExtraData)));
+    m_pRecord->Field(TBLD_ITEM::EXTRA).BindGetValString(std::bind(&SaveItemExtraToJson, std::cref(m_ExtraData)));
     uint32_t nAddition = GetAddition();
     if(nAddition > 0)
     {
@@ -138,7 +138,7 @@ bool CItemData::Init(CMysqlConnection* pDB,
     m_pRecord->Field(TBLD_ITEM::PILENUM)  = nNum;
     m_pRecord->Field(TBLD_ITEM::POSITION) = nPosition;
     m_pRecord->Field(TBLD_ITEM::FLAG)     = dwFlag;
-    m_pRecord->Field(TBLD_ITEM::EXTRA).SetGetValStringFunc(std::bind(&SaveItemExtraToJson, std::cref(m_ExtraData)));
+    m_pRecord->Field(TBLD_ITEM::EXTRA).BindGetValString(std::bind(&SaveItemExtraToJson, std::cref(m_ExtraData)));
     return true;
     __LEAVE_FUNCTION
     return false;

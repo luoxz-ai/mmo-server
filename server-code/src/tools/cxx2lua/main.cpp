@@ -1919,7 +1919,7 @@ int main(int argc, char** argv)
     std::fstream temp_file(temp_filename.c_str(), std::ios_base::in | std::ios_base::out | std::ios_base::trunc);
     for(const auto& cpp: szCppFiles)
     {
-        temp_file << "#include \"" << GetFileNameFromFullPath(cpp) << "\"\n";
+        temp_file << "#include \"" << get_filename_from_fullpath(cpp) << "\"\n";
         temp_file.flush();
     }
 

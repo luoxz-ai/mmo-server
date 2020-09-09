@@ -6,15 +6,17 @@
 #include "MysqlConnection.h"
 #include "UIDFactory.h"
 #include "gamedb.h"
+#include "MysqlTableCheck.h"
 int main()
 {
+    
     __ENTER_FUNCTION
     BaseCode::SetNdc("test_ndc");
     CMysqlConnection mysql_conn;
     mysql_conn.Connect("127.0.0.1", "root", "123456", "zone_1001", 3306, 0, true);
     mysql_conn._AddFieldInfo(TBLD_PLAYER::table_name(), std::make_shared<CDDLFieldInfoList<TBLD_PLAYER>>());
     mysql_conn._AddFieldInfo(TBLD_ITEM::table_name(), std::make_shared<CDDLFieldInfoList<TBLD_ITEM>>());
-
+    MysqlTableCheck::CheckAllTableAndFix<GAMEDB_TABLE_LIST>(&mysql_conn);
     {
         auto result_ptr = mysql_conn.UnionQuery("SELECT * FROM tbld_player");
         if(result_ptr)

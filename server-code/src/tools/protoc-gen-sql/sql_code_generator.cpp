@@ -44,7 +44,8 @@ inline std::vector<std::string> split_string(const std::string& str, const std::
     return v;
 }
 
-std::string string_concat(const std::vector<std::string>& vecStr,
+template<class T>
+std::string string_concat(const T& vecStr,
                           const std::string&       delimiters,
                           const std::string&       pre,
                           const std::string&       post)

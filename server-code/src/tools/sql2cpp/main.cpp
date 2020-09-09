@@ -38,20 +38,20 @@ int main(int argc, char** argv)
      
     std::vector<std::string> table_name_list;
     auto        vecString = split_string(input_string, ";");
-    for(auto& v: vecString)
+    for(auto& create_sql: vecString)
     {
         if(bDebug)
         {
-            std::cout << "string1:" << v << std::endl;
+            std::cout << "string1:" << create_sql << std::endl;
         }
 
         std::string regextxt = R"(CREATE TABLE `(.*)` \(([\s\S]*)\) ENGINE=InnoDB (.*))";
         std::smatch base_match;
-        if(std::regex_search(v, base_match, std::regex(regextxt)))
+        if(std::regex_search(create_sql, base_match, std::regex(regextxt)))
         {
             std::string table_name = base_match[1];
             std::string content    = base_match[2];
-            auto        vecStr     = split_string(content, "\n");
+            auto        vec_field_sql     = split_string(content, "\n");
 
             struct field_type_t
             {
@@ -61,33 +61,53 @@ int main(int argc, char** argv)
             };
             std::vector<field_type_t>       vecFieldType;
             std::unordered_set<std::string> PriKeys;
+            std::vector<std::string>        vec_match_field_sql;
+            std::unordered_map<std::string, std::string > Keys;
 
-            for(auto& v: vecStr)
+            for(auto& field_sql : vec_field_sql)
             {
+                rtrim(field_sql);
                 std::smatch field_match;
-                if(std::regex_search(v, field_match, std::regex{R"(.*PRIMARY KEY \((.*)\).*)"}))
+                if(std::regex_search(field_sql, field_match, std::regex{R"(.*PRIMARY KEY \((.*)\).*)"}))
                 {
                     std::string prikey_str = field_match[1];
-                    ReplaceStr(prikey_str, "`", "");
+                    replace_str(prikey_str, "`", "");
                     auto prikeys = split_string(prikey_str, ",");
                     for(auto v: prikeys)
                     {
                         PriKeys.insert(v);
                     }
+                    Keys["PRIMARY"] = prikey_str;
                 }
-                else if(std::regex_search(v, field_match, std::regex{R"(.*`(.*)` (.*) NOT NULL.*COMMENT ('.*').*)"}))
+                else if(std::regex_search(field_sql, field_match, std::regex{R"(.*UNIQUE KEY `(.*)`\((.*)\).*)"}))
+                {
+                    std::string keyname_str = field_match[1];
+                    std::string keyfield_str = field_match[2];
+                    replace_str(keyfield_str, "`", "");
+                    Keys[keyname_str] = keyfield_str;
+                }
+                else if(std::regex_search(field_sql, field_match, std::regex{R"(.*KEY `(.*)`\((.*)\).*)"}))
+                {
+                    std::string keyname_str = field_match[1];
+                    std::string keyfield_str = field_match[2];
+                    replace_str(keyfield_str, "`", "");
+                    Keys[keyname_str] = keyfield_str;
+                }
+                else if(std::regex_search(field_sql, field_match, std::regex{R"(.*`(.*)` (.*) NOT NULL.*COMMENT ('.*').*)"}))
                 {
                     std::string field_name    = field_match[1];
                     std::string field_type    = field_match[2];
                     std::string field_comment = field_match[3];
                     vecFieldType.push_back({field_name, field_type, field_comment});
+                    vec_match_field_sql.push_back(replace_str(field_sql,",", ""));
                 }
-                else if(std::regex_search(v, field_match, std::regex{R"(.*`(.*)` (.*) COMMENT ('.*').*)"}))
+                else if(std::regex_search(field_sql, field_match, std::regex{R"(.*`(.*)` (.*) COMMENT ('.*').*)"}))
                 {
                     std::string field_name    = field_match[1];
                     std::string field_type    = field_match[2];
                     std::string field_comment = field_match[3];
                     vecFieldType.push_back({field_name, field_type, field_comment});
+                    vec_match_field_sql.push_back(replace_str(field_sql,",", ""));
                 }
             }
 
@@ -99,22 +119,21 @@ int main(int argc, char** argv)
 
             for(uint32_t i = 0; i < vecFieldType.size(); i++)
             {
-                const auto& v = vecFieldType[i];
+                const auto& field_type_data = vecFieldType[i];
                 std::smatch field_match;
-                if(v.field_name.empty() == false)
+                if(field_type_data.field_name.empty() == false)
                 {
                     std::string& field_tuple = fields_tuple[i];
                    
                     if(fields_enum_list.empty() == false)
                         fields_enum_list += "\t\t";
                     
-                    field_tuple = "\"" + v.field_name + "\"";
+                    field_tuple = "\"" + field_type_data.field_name + "\"";
 
-                    std::string field_name_UP = v.field_name;
-                    std::transform(field_name_UP.begin(), field_name_UP.end(), field_name_UP.begin(), ::toupper);
-                    fields_enum_list += field_name_UP + ",//" + v.field_comment + "\n";
+                    std::string field_name_UP = upper_cast_copy(field_type_data.field_name);
+                    fields_enum_list += field_name_UP + ",//" + field_type_data.field_comment + "\n";
 
-                    if(std::regex_search(v.field_type, field_match, std::regex{R"((.*)\((.*)\)(.*))"}))
+                    if(std::regex_search(field_type_data.field_type, field_match, std::regex{R"((.*)\((.*)\)(.*))"}))
                     {
                         std::string field_type = field_match[1];
                         std::string field_bits = field_match[2];
@@ -206,15 +225,17 @@ int main(int argc, char** argv)
                         field_type_cpp_list.push_back(field_type_cpp);
                         field_tuple += "," + field_type_enum;
 
-                        if(PriKeys.find(v.field_name) != PriKeys.end())
+                        if(PriKeys.find(field_type_data.field_name) != PriKeys.end())
                             field_tuple += ",true";
                         else
                             field_tuple += ",false";
+                        
+                        field_tuple += ",\"" + vec_match_field_sql[i] + "\"";
                     }
                 }
             }
 
-            std::string output_format = R"(
+            std::string field_output_format = R"---(
 struct {0}
 {{
 	static constexpr const char* table_name() {{ return "{1}";}} 
@@ -231,24 +252,47 @@ struct {0}
 	using field_type_t = type_list<{4}>;
 
     static constexpr size_t field_count() {{return {5};}}
+
+    static constexpr auto keys_info()
+    {{ 
+        return std::make_tuple({6});
+    }}
+
+    static constexpr size_t keys_size() {{ return {7}; }}
+
+    static constexpr const char* create_sql() 
+    {{ 
+        return "{8}";
+    }};
+
 }};
     
 
-		)";
+		)---";
 
             
-            std::string table_name_UP = table_name;
-            std::transform(table_name_UP.begin(), table_name_UP.end(), table_name_UP.begin(), ::toupper);
+            std::string table_name_UP = upper_cast_copy(table_name);
+            
             std::string field_tuple_str = string_concat(fields_tuple, ",", "std::make_tuple(", ")");
             std::string field_types_str = string_concat(field_type_cpp_list, ",", "", "");
+            std::string field_sql_str = string_concat(vec_match_field_sql, ",", "\"", "\"");
+            std::vector<std::string> vec_key_typle_str;
+            for(const auto& [key, value] : Keys)
+            {
+                vec_key_typle_str.push_back( fmt::format("std::make_tuple(\"{}\", \"{}\")", key, value));                
+            }
+            
             std::string szBuf = fmt::format(
-                           output_format,
+                           field_output_format,
                            table_name_UP,
                            table_name,
                            fields_enum_list,
                            field_tuple_str,
                            field_types_str,
-                           field_type_cpp_list.size()
+                           field_type_cpp_list.size(),
+                           vec_key_typle_str.empty()?"\"\"":string_concat(vec_key_typle_str,",", "", ""), 
+                           Keys.size(),
+                           replace_str_copy(trim_copy(create_sql), "\n", "\"\n\"")
                            );
             table_name_list.push_back(table_name_UP);
             output_header += szBuf;
@@ -263,8 +307,7 @@ struct {0}
 
     std::string table_list_str;
     {
-        std::string out_file_name_UP = out_file_name;
-        std::transform(out_file_name_UP.begin(), out_file_name_UP.end(), out_file_name_UP.begin(), ::toupper);
+        std::string out_file_name_UP = upper_cast_copy(out_file_name);
         std::string table_name_tuple_str = string_concat(table_name_list, ",", "", "");
         table_list_str = fmt::format("\nusing {}_TABLE_LIST = type_list<{}>;\n", out_file_name_UP, table_name_tuple_str);
     }
@@ -279,10 +322,11 @@ struct {0}
             {2}
             #endif
             )";
-        
-        std::ofstream output_file(out_dir + out_file_name + ".h");
+        std::string output_file_name = out_dir + out_file_name + ".h";
+        std::ofstream output_file(output_file_name);
         output_file << fmt::format(output_format, out_file_name, output_header, table_list_str);
         output_file.close();
+        std::cout << output_file_name << " write succ." << std::endl;
         if(opt.has("--format"))
         {
             system(fmt::format("{} -i {}", opt["--format"], out_dir + out_file_name + ".h").c_str());

@@ -1,4 +1,4 @@
-
+MESSAGE(STATUS "cmake: excel2pb")
 
 
 # 搜索当前目录下所有文件
