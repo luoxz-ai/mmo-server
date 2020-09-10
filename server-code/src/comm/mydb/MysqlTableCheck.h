@@ -9,26 +9,35 @@ struct MysqlTableCheck
     static bool CheckTable(CMysqlConnection* pDB)
     {
         __ENTER_FUNCTION
-        auto result = pDB->UnionQuery(fmt::format("SHOW CREATE TABLE {}", T::table_name));
+        auto result = pDB->UnionQuery(fmt::format("SHOW CREATE TABLE {}", T::table_name()));
         if(result == nullptr)
         {
-            LOGFATAL("GameDB Check Error, table:{} not find in mysql", T::table_name());
+            LOGDBFATAL("GameDB Check Error, table:{} not find in mysql", T::table_name());
             return false;
         }
         else
         {
             //0 = table_name, 1= table_sql
             auto record = result->fetch_row();
-            auto& field = record->Field(1);
-            auto sql_create_table = field.template get<std::string>();
-            if(sql_create_table == T::create_sql())
+            
+            std::string sql_create_table = record->Field(1).template get<std::string>();
+            std::string sql_ddl = T::create_sql();
+            trim_if(sql_create_table , [](unsigned char c)->bool
+            {
+                return c == '\n';
+            });
+            trim_if(sql_ddl , [](unsigned char c)->bool
+            {
+                return c == '\n';
+            });
+            if(sql_create_table == sql_ddl)
                 return true;
         }
 
         auto pFieldInfo_DDL = std::make_unique<CDDLFieldInfoList<T>>();
         if(pFieldInfo_DDL->size_fields == 0)
         {
-            LOGFATAL("GameDB Check Error, table:{} not find in ddl", T::table_name());
+            LOGDBFATAL("GameDB Check Error, table:{} not find in ddl", T::table_name());
             return false;
         }
 
@@ -36,13 +45,13 @@ struct MysqlTableCheck
         auto pFieldInfo_MYSQL = pDB->QueryFieldInfo(T::table_name());
         if(pFieldInfo_MYSQL == nullptr)
         {
-            LOGFATAL("GameDB Check Error, table:{} not find in MYSQL", T::table_name());
+            LOGDBFATAL("GameDB Check Error, table:{} not find in MYSQL", T::table_name());
             return false;
         }
 
         if(pFieldInfo_MYSQL->size() != pFieldInfo_DDL->size_fields)
         {
-            LOGFATAL("GameDB Check Error, table:{} in MYSQL size:{} not equal then DDL size:{}.", T::table_name(), pFieldInfo_MYSQL->size(), pFieldInfo_DDL->size_fields);
+            LOGDBFATAL("GameDB Check Error, table:{} in MYSQL size:{} not equal then DDL size:{}.", T::table_name(), pFieldInfo_MYSQL->size(), pFieldInfo_DDL->size_fields);
             return false;
         }
 
@@ -52,12 +61,12 @@ struct MysqlTableCheck
             const CDBFieldInfo* pInfo_MYSQL = pFieldInfo_MYSQL->get(i);
             if(pInfo_DDL == nullptr || pInfo_MYSQL == nullptr)
             {
-                LOGFATAL("GameDB Check Error, table:{}, field:{}", T::table_name(), i);
+                LOGDBFATAL("GameDB Check Error, table:{}, field:{}", T::table_name(), i);
                 return false;
             }
             else if(pInfo_DDL->GetFieldType() != pInfo_MYSQL->GetFieldType())
             {
-                LOGFATAL("GameDB Check Error, table:{}, field:{} ddl_field:{}  mysql_field:{} ddl_fieldt:{}  mysql_fieldt:{}",
+                LOGDBFATAL("GameDB Check Error, table:{}, field:{} ddl_field:{}  mysql_field:{} ddl_fieldt:{}  mysql_fieldt:{}",
                          T::table_name(),
                          i,
                          pInfo_DDL->GetFieldName(),
@@ -108,7 +117,7 @@ struct MysqlTableCheck
         if(result == nullptr)
         {
             //add
-            auto sql = fmt::format("ALERT TABLE {} ADD INDEX {}({})", TableType::table_name(), key_name, key_field_str);
+            auto sql = fmt::format("ALTER TABLE {} ADD INDEX {}({})", TableType::table_name(), key_name, key_field_str);
             CHECKF(pDB->SyncExec(sql));
         }
         else
@@ -129,7 +138,7 @@ struct MysqlTableCheck
             if(check_fail)
             {
                 //modify
-                LOGERROR("GameDB Check Error, table:{} key:{} is not same with DDL, Need Fix!!!!!!.", TableType::table_name(), key_name);
+                LOGDBERROR("GameDB Check Error, table:{} key:{} is not same with DDL, Need Fix!!!!!!.", TableType::table_name(), key_name);
                 return false;
             }
         }
@@ -162,7 +171,7 @@ struct MysqlTableCheck
     static bool CheckTableAndFix(CMysqlConnection* pDB)
     {
         __ENTER_FUNCTION
-        auto result = pDB->UnionQuery(fmt::format("SHOW CREATE TABLE {}", T::table_name));
+        auto result = pDB->UnionQuery(fmt::format("SHOW CREATE TABLE {}", T::table_name()));
         if(result == nullptr)
         {
             CHECKF(pDB->SyncExec(T::create_sql()));
@@ -173,15 +182,26 @@ struct MysqlTableCheck
             //0 = table_name, 1= table_sql
             auto record = result->fetch_row();
             
-            auto sql_create_table = record->Field(1).template get<std::string>();
-            if(sql_create_table == T::create_sql())
+            std::string sql_create_table = record->Field(1).template get<std::string>();
+            std::string sql_ddl = T::create_sql();
+            trim_if(sql_create_table , [](unsigned char c)->bool
+            {
+                return c == '\n';
+            });
+            trim_if(sql_ddl , [](unsigned char c)->bool
+            {
+                return c == '\n';
+            });
+            if(sql_create_table == sql_ddl)
                 return true;
+
+            LOGDBDEBUG("\nDDL:\n{}\nMYSQL:\n{}\n", sql_ddl,sql_create_table);
         }
 
         auto pFieldInfo_DDL = std::make_unique<CDDLFieldInfoList<T>>();
         if(pFieldInfo_DDL->size_fields == 0)
         {
-            LOGFATAL("GameDB Check Error, table:{} not find in ddl", T::table_name());
+            LOGDBFATAL("GameDB Check Error, table:{} not find in ddl", T::table_name());
             return false;
         }
 
@@ -189,7 +209,7 @@ struct MysqlTableCheck
         auto pFieldInfo_MYSQL = pDB->QueryFieldInfo(T::table_name());
         if(pFieldInfo_MYSQL == nullptr)
         {
-            LOGERROR("GameDB Check Error, table:{} not find in MYSQL.  Auto Fix.", T::table_name());
+            LOGDBERROR("GameDB Check Error, table:{} not find in MYSQL.  Auto Fix.", T::table_name());
             //auto create table, and query again
             CHECKF(pDB->SyncExec(T::create_sql()));
             ptr              = pDB->MakeRecord(T::table_name());
@@ -199,11 +219,11 @@ struct MysqlTableCheck
 
         if(pFieldInfo_MYSQL->size() > pFieldInfo_DDL->size_fields)
         {
-            LOGERROR("GameDB Check Error, table:{} in MYSQL size:{} greaterthen DDL size:{}. Auto Fix.", T::table_name(), pFieldInfo_MYSQL->size(), pFieldInfo_DDL->size_fields);
+            LOGDBERROR("GameDB Check Error, table:{} in MYSQL size:{} greaterthen DDL size:{}. Auto Fix.", T::table_name(), pFieldInfo_MYSQL->size(), pFieldInfo_DDL->size_fields);
         }
         else if(pFieldInfo_MYSQL->size() < pFieldInfo_DDL->size_fields)
         {
-            LOGERROR("GameDB Check Error, table:{} in MYSQL less then DDL, Auto Fix.", T::table_name());
+            LOGDBERROR("GameDB Check Error, table:{} in MYSQL less then DDL, Auto Fix.", T::table_name());
         }
 
         //find need remove
@@ -213,18 +233,18 @@ struct MysqlTableCheck
             const CDBFieldInfo* pInfo_MYSQL   = pFieldInfo_MYSQL->get(i);
             if(pInfo_MYSQL == nullptr)
             {
-                LOGFATAL("GameDB Check Error, table:{}, field:{}", T::table_name(), i);
+                LOGDBFATAL("GameDB Check Error, table:{}, field:{}", T::table_name(), i);
                 return false;
             }
             auto pInfo_DDL = pFieldInfo_DDL->find_field(pInfo_MYSQL->GetFieldName());
             if(pInfo_DDL == nullptr)
             {
-                auto sql = fmt::format("ALERT TABLE {} DROP COLUMN {}", T::table_name(), pInfo_MYSQL->GetFieldName());
+                auto sql = fmt::format("ALTER TABLE {} DROP COLUMN {}", T::table_name(), pInfo_MYSQL->GetFieldName());
                 CHECKF(pDB->SyncExec(sql));
             }
             else if(pInfo_DDL->GetFieldType() != pInfo_MYSQL->GetFieldType())
             {
-                auto sql = fmt::format("ALERT TABLE {} MODIFY COLUMN {}", T::table_name(), pInfo_MYSQL->GetFieldSql());
+                auto sql = fmt::format("ALTER TABLE {} MODIFY COLUMN {}", T::table_name(), pInfo_DDL->GetFieldSql());
                 CHECKF(pDB->SyncExec(sql));
             }
         }
@@ -235,7 +255,7 @@ struct MysqlTableCheck
             const CDBFieldInfo* pInfo_DDL   = pFieldInfo_DDL->get(i);
             if(pInfo_DDL == nullptr)
             {
-                LOGFATAL("GameDB Check Error, table:{}, field:{}", T::table_name(), i);
+                LOGDBFATAL("GameDB Check Error, table:{}, field:{}", T::table_name(), i);
                 return false;
             }
             auto pInfo_MYSQL = pFieldInfo_MYSQL->find_field(pInfo_DDL->GetFieldName());
@@ -243,16 +263,16 @@ struct MysqlTableCheck
             {
                 if(i == 0)
                 {
-                    auto sql = fmt::format("ALERT TABLE {} ADD COLUMN {} FIRST", T::table_name(), pInfo_DDL->GetFieldSql());
+                    auto sql = fmt::format("ALTER TABLE {} ADD COLUMN {} FIRST", T::table_name(), pInfo_DDL->GetFieldSql());
                     CHECKF(pDB->SyncExec(sql));
                 }
                 const CDBFieldInfo* pInfo_DDL_before = pFieldInfo_DDL->get(i-1);
                 if(pInfo_DDL_before == nullptr)
                 {
-                    LOGFATAL("GameDB Check Error, table:{}, field:{} can't find before field", T::table_name(), i);
+                    LOGDBFATAL("GameDB Check Error, table:{}, field:{} can't find before field", T::table_name(), i);
                     return false;
                 }
-                auto sql = fmt::format("ALERT TABLE {} ADD COLUMN {} AFTER {}", T::table_name(), pInfo_DDL->GetFieldSql(), pInfo_DDL_before->GetFieldName());
+                auto sql = fmt::format("ALTER TABLE {} ADD COLUMN {} AFTER {}", T::table_name(), pInfo_DDL->GetFieldSql(), pInfo_DDL_before->GetFieldName());
                 CHECKF(pDB->SyncExec(sql));
             }               
         }

@@ -23,7 +23,7 @@ struct TBLD_DBINFO
     static constexpr auto field_info()
     {
         return std::make_tuple(
-            std::make_tuple("worldid", DB_FIELD_TYPE_LONG_UNSIGNED, true, "  `worldid` int(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '游戏服编号'"),
+            std::make_tuple("worldid", DB_FIELD_TYPE_LONG_UNSIGNED, true, "  `worldid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '游戏服编号'"),
             std::make_tuple("db_ip",
                             DB_FIELD_TYPE_VARCHAR,
                             false,
@@ -31,7 +31,7 @@ struct TBLD_DBINFO
             std::make_tuple("db_port",
                             DB_FIELD_TYPE_SHORT_UNSIGNED,
                             false,
-                            "  `db_port` smallint(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '游戏数据mysql端口'"),
+                            "  `db_port` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '游戏数据mysql端口'"),
             std::make_tuple("db_name",
                             DB_FIELD_TYPE_VARCHAR,
                             false,
@@ -56,15 +56,15 @@ struct TBLD_DBINFO
 
     static constexpr const char* create_sql()
     {
-        return "CREATE TABLE `tbld_dbinfo` ("
-               "  `worldid` int(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '游戏服编号',"
-               "  `db_ip` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '游戏数据mysql地址',"
-               "  `db_port` smallint(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '游戏数据mysql端口',"
-               "  `db_name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '游戏数据mysql表名',"
-               "  `db_user` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '游戏数据mysql用户',"
-               "  `db_passwd` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '游戏数据mysql密码',"
-               "  PRIMARY KEY (`worldid`)"
-               ") ENGINE=InnoDB DEFAULT CHARSET=latin1";
+        return R"##(CREATE TABLE `tbld_dbinfo` (
+  `worldid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '游戏服编号',
+  `db_ip` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '游戏数据mysql地址',
+  `db_port` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '游戏数据mysql端口',
+  `db_name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '游戏数据mysql表名',
+  `db_user` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '游戏数据mysql用户',
+  `db_passwd` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '游戏数据mysql密码',
+  PRIMARY KEY (`worldid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1)##";
     };
 };
 
@@ -88,11 +88,11 @@ struct TBLD_GLOBALVAR
     static constexpr auto field_info()
     {
         return std::make_tuple(
-            std::make_tuple("key", DB_FIELD_TYPE_LONG_UNSIGNED, true, "  `key` int(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'key'"),
-            std::make_tuple("value0", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false, "  `value0` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'value'"),
-            std::make_tuple("value1", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false, "  `value1` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'value'"),
-            std::make_tuple("value2", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false, "  `value2` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'value'"),
-            std::make_tuple("value3", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false, "  `value3` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'value'"),
+            std::make_tuple("key", DB_FIELD_TYPE_LONG_UNSIGNED, true, "  `key` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'key'"),
+            std::make_tuple("value0", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false, "  `value0` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'value'"),
+            std::make_tuple("value1", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false, "  `value1` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'value'"),
+            std::make_tuple("value2", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false, "  `value2` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'value'"),
+            std::make_tuple("value3", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false, "  `value3` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'value'"),
             std::make_tuple("value_str0",
                             DB_FIELD_TYPE_VARCHAR,
                             false,
@@ -121,18 +121,18 @@ struct TBLD_GLOBALVAR
 
     static constexpr const char* create_sql()
     {
-        return "CREATE TABLE `tbld_globalvar` ("
-               "  `key` int(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'key',"
-               "  `value0` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'value',"
-               "  `value1` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'value',"
-               "  `value2` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'value',"
-               "  `value3` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'value',"
-               "  `value_str0` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT 'value_str',"
-               "  `value_str1` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT 'value_str',"
-               "  `value_str2` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT 'value_str',"
-               "  `value_str3` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT 'value_str',"
-               "  PRIMARY KEY (`key`)"
-               ") ENGINE=InnoDB DEFAULT CHARSET=latin1";
+        return R"##(CREATE TABLE `tbld_globalvar` (
+  `key` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'key',
+  `value0` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'value',
+  `value1` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'value',
+  `value2` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'value',
+  `value3` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'value',
+  `value_str0` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT 'value_str',
+  `value_str1` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT 'value_str',
+  `value_str2` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT 'value_str',
+  `value_str3` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT 'value_str',
+  PRIMARY KEY (`key`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1)##";
     };
 };
 
@@ -141,7 +141,7 @@ struct TBLD_GMLIST
     static constexpr const char* table_name() { return "tbld_gmlist"; }
     enum FIELD_ENUMS
     {
-        ID,     //''
+        ID,     //'id'
         OPENID, //'openid'
         GMLEV,  //'gm等级'
 
@@ -150,12 +150,12 @@ struct TBLD_GMLIST
     static constexpr auto field_info()
     {
         return std::make_tuple(
-            std::make_tuple("id", DB_FIELD_TYPE_LONGLONG_UNSIGNED, true, "  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT ''"),
+            std::make_tuple("id", DB_FIELD_TYPE_LONGLONG_UNSIGNED, true, "  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id'"),
             std::make_tuple("openid",
                             DB_FIELD_TYPE_VARCHAR,
                             false,
                             "  `openid` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT 'openid'"),
-            std::make_tuple("gmlev", DB_FIELD_TYPE_LONG_UNSIGNED, false, "  `gmlev` int(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'gm等级'"));
+            std::make_tuple("gmlev", DB_FIELD_TYPE_LONG_UNSIGNED, false, "  `gmlev` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'gm等级'"));
     }
 
     using field_type_t = type_list<uint64_t, char[255], uint32_t>;
@@ -168,12 +168,12 @@ struct TBLD_GMLIST
 
     static constexpr const char* create_sql()
     {
-        return "CREATE TABLE `tbld_gmlist` ("
-               "  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '',"
-               "  `openid` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT 'openid',"
-               "  `gmlev` int(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'gm等级',"
-               "  PRIMARY KEY (`id`)"
-               ") ENGINE=InnoDB DEFAULT CHARSET=latin1";
+        return R"##(CREATE TABLE `tbld_gmlist` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `openid` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT 'openid',
+  `gmlev` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'gm等级',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1)##";
     };
 };
 
@@ -196,7 +196,7 @@ struct TBLD_SERVERLIST
         return std::make_tuple(std::make_tuple("worldid",
                                                DB_FIELD_TYPE_SHORT_UNSIGNED,
                                                true,
-                                               "  `worldid` smallint(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '游戏服编号'"),
+                                               "  `worldid` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '游戏服编号'"),
                                std::make_tuple("server_name",
                                                DB_FIELD_TYPE_VARCHAR,
                                                false,
@@ -204,11 +204,11 @@ struct TBLD_SERVERLIST
                                std::make_tuple("open_time",
                                                DB_FIELD_TYPE_LONG_UNSIGNED,
                                                false,
-                                               "  `open_time` int(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '开服时间戳'"),
+                                               "  `open_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '开服时间戳'"),
                                std::make_tuple("open_status",
                                                DB_FIELD_TYPE_LONG_UNSIGNED,
                                                false,
-                                               "  `open_status` int(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '开放状态'"),
+                                               "  `open_status` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '开放状态'"),
                                std::make_tuple("publish_addr",
                                                DB_FIELD_TYPE_VARCHAR,
                                                false,
@@ -216,7 +216,7 @@ struct TBLD_SERVERLIST
                                std::make_tuple("mergeto",
                                                DB_FIELD_TYPE_SHORT_UNSIGNED,
                                                false,
-                                               "  `mergeto` smallint(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '已经被合服到哪个服了'"));
+                                               "  `mergeto` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '已经被合服到哪个服了'"));
     }
 
     using field_type_t = type_list<uint16_t, char[255], uint32_t, uint32_t, char[255], uint16_t>;
@@ -229,15 +229,15 @@ struct TBLD_SERVERLIST
 
     static constexpr const char* create_sql()
     {
-        return "CREATE TABLE `tbld_serverlist` ("
-               "  `worldid` smallint(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '游戏服编号',"
-               "  `server_name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '服务器名',"
-               "  `open_time` int(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '开服时间戳',"
-               "  `open_status` int(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '开放状态',"
-               "  `publish_addr` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '入口地址',"
-               "  `mergeto` smallint(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '已经被合服到哪个服了',"
-               "  PRIMARY KEY (`worldid`)"
-               ") ENGINE=InnoDB DEFAULT CHARSET=latin1";
+        return R"##(CREATE TABLE `tbld_serverlist` (
+  `worldid` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '游戏服编号',
+  `server_name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '服务器名',
+  `open_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '开服时间戳',
+  `open_status` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '开放状态',
+  `publish_addr` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '入口地址',
+  `mergeto` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '已经被合服到哪个服了',
+  PRIMARY KEY (`worldid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1)##";
     };
 };
 
@@ -263,11 +263,11 @@ struct TBLD_SERVICEDETAIL
         return std::make_tuple(std::make_tuple("worldid",
                                                DB_FIELD_TYPE_SHORT_UNSIGNED,
                                                true,
-                                               "  `worldid` smallint(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '游戏服编号'"),
+                                               "  `worldid` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '游戏服编号'"),
                                std::make_tuple("serviceid",
                                                DB_FIELD_TYPE_SHORT_UNSIGNED,
                                                true,
-                                               "  `serviceid` smallint(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '服务编号'"),
+                                               "  `serviceid` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '服务编号'"),
                                std::make_tuple("service_type",
                                                DB_FIELD_TYPE_VARCHAR,
                                                false,
@@ -279,7 +279,7 @@ struct TBLD_SERVICEDETAIL
                                std::make_tuple("route_port",
                                                DB_FIELD_TYPE_SHORT_UNSIGNED,
                                                false,
-                                               "  `route_port` smallint(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '内网通讯端口'"),
+                                               "  `route_port` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '内网通讯端口'"),
                                std::make_tuple("publish_addr",
                                                DB_FIELD_TYPE_VARCHAR,
                                                false,
@@ -287,11 +287,11 @@ struct TBLD_SERVICEDETAIL
                                std::make_tuple("publish_port",
                                                DB_FIELD_TYPE_SHORT_UNSIGNED,
                                                false,
-                                               "  `publish_port` smallint(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '外网端口'"),
+                                               "  `publish_port` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '外网端口'"),
                                std::make_tuple("debug_port",
                                                DB_FIELD_TYPE_SHORT_UNSIGNED,
                                                false,
-                                               "  `debug_port` smallint(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'debug端口'"),
+                                               "  `debug_port` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT 'debug端口'"),
                                std::make_tuple("bind_addr",
                                                DB_FIELD_TYPE_VARCHAR,
                                                false,
@@ -308,18 +308,18 @@ struct TBLD_SERVICEDETAIL
 
     static constexpr const char* create_sql()
     {
-        return "CREATE TABLE `tbld_servicedetail` ("
-               "  `worldid` smallint(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '游戏服编号',"
-               "  `serviceid` smallint(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '服务编号',"
-               "  `service_type` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT 'lib库名',"
-               "  `route_addr` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '内网通讯地址',"
-               "  `route_port` smallint(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '内网通讯端口',"
-               "  `publish_addr` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '外网地址',"
-               "  `publish_port` smallint(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT '外网端口',"
-               "  `debug_port` smallint(11) UNSIGNED NOT NULL DEFAULT '0' COMMENT 'debug端口',"
-               "  `bind_addr` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '监听绑定地址',"
-               "  PRIMARY KEY (`worldid`,`serviceid`)"
-               ") ENGINE=InnoDB DEFAULT CHARSET=latin1";
+        return R"##(CREATE TABLE `tbld_servicedetail` (
+  `worldid` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '游戏服编号',
+  `serviceid` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '服务编号',
+  `service_type` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT 'lib库名',
+  `route_addr` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '内网通讯地址',
+  `route_port` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '内网通讯端口',
+  `publish_addr` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '外网地址',
+  `publish_port` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '外网端口',
+  `debug_port` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT 'debug端口',
+  `bind_addr` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '监听绑定地址',
+  PRIMARY KEY (`worldid`,`serviceid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1)##";
     };
 };
 

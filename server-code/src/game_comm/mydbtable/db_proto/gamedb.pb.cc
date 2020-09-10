@@ -605,95 +605,95 @@ const char descriptor_table_protodef_db_5fproto_2fgamedb_2eproto[] PROTOBUF_SECT
   "_player_idx\022$\n\007keytype\030\003 \001(\rB\023\222\?\020\"\016idx_p"
   "layer_idx\022#\n\006keyidx\030\004 \001(\rB\023\222\?\020\"\016idx_play"
   "er_idx\022\020\n\010data_num\030\005 \001(\004\022\027\n\017next_reset_t"
-  "ime\030\006 \001(\r\"\241\002\n\020tbld_global_mail\022\034\n\002id\030\001 \001"
+  "ime\030\006 \001(\r\"\231\002\n\020tbld_global_mail\022\034\n\002id\030\001 \001"
   "(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022!\n\010senderid\030\002 \001(\004B\017"
   "\222\?\014\"\nidx_sendid\022\032\n\nsendername\030\003 \001(\tB\006\222\?\003"
   "\010\377\001\022)\n\013create_time\030\004 \001(\rB\024\222\?\021\"\017idx_creat"
   "e_time\022\014\n\004flag\030\005 \001(\004\022\027\n\007subject\030\006 \001(\tB\006\222"
   "\?\003\010\377\001\022\027\n\007content\030\007 \001(\tB\006\222\?\003\010\200\010\022\023\n\013filter"
-  "_type\030\010 \001(\004\022\023\n\013filter_data\030\t \001(\004\022\033\n\013atta"
-  "ch_data\030\n \001(\014B\006\222\?\003\010\200 \"\306\002\n\ntbld_guild\022\034\n\002"
-  "id\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022\013\n\003lev\030\002 \001(\004\022"
-  "\024\n\004name\030\003 \001(\tB\006\222\?\003\010\377\001\022\021\n\tleader_id\030\004 \001(\004"
-  "\022\032\n\013leader_name\030\005 \001(\tB\005\222\?\002\010 \022\031\n\ncreator_"
-  "id\030\006 \001(\004B\005\222\?\002\010 \022\033\n\014creator_name\030\007 \001(\tB\005\222"
-  "\?\002\010 \022\023\n\013create_time\030\010 \001(\r\022\020\n\010del_time\030\t "
-  "\001(\r\022\026\n\006slogan\030\n \001(\tB\006\222\?\003\010\377\001\022\025\n\005info1\030\013 \001"
-  "(\tB\006\222\?\003\010\200\010\022\025\n\005info2\030\014 \001(\tB\006\222\?\003\010\200\010\022\025\n\005inf"
-  "o3\030\r \001(\tB\006\222\?\003\010\200\010\022\014\n\004flag\030\016 \001(\004\"\267\002\n\ttbld_"
-  "item\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022/\n\010ow"
-  "ner_id\030\002 \001(\004B\035\222\?\032\"\030idx_owner,idx_owner_p"
-  "ack\022#\n\010itemtype\030\003 \001(\rB\021\222\?\016\"\014idx_itemtype"
-  "\022%\n\010position\030\004 \001(\rB\023\222\?\020\"\016idx_owner_pack\022"
-  "\014\n\004grid\030\005 \001(\r\022\014\n\004flag\030\006 \001(\r\022\017\n\007pilenum\030\007"
-  " \001(\r\022\023\n\013expire_time\030\010 \001(\r\022\014\n\004dura\030\t \001(\r\022"
-  "\022\n\ndura_limit\030\n \001(\r\022\024\n\014addition_lev\030\013 \001("
-  "\r\022\025\n\005extra\030\014 \001(\014B\006\222\?\003\010\200 \"\366\001\n\ttbld_mail\022\034"
-  "\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022!\n\007ownerid\030"
-  "\002 \001(\004B\020\222\?\r\"\013idx_ownerid\022!\n\010senderid\030\004 \001("
-  "\004B\017\222\?\014\"\nidx_sendid\022\032\n\nsendername\030\005 \001(\tB\006"
-  "\222\?\003\010\377\001\022)\n\013create_time\030\006 \001(\rB\024\222\?\021\"\017idx_cr"
-  "eate_time\022\014\n\004flag\030\007 \001(\004\022\027\n\007subject\030\010 \001(\t"
-  "B\006\222\?\003\010\377\001\022\027\n\007content\030\t \001(\tB\006\222\?\003\010\200\010\"\177\n\024tbl"
-  "d_mail_attachment\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx_"
-  "id\222\?\002\020\001\022\037\n\006mailid\030\002 \001(\004B\017\222\?\014\"\nidx_mailid"
-  "\022\023\n\013attach_type\030\003 \001(\r\022\023\n\013attach_data\030\004 \001"
-  "(\004\"\211\001\n\010tbld_pet\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx_id"
-  "\222\?\002\020\001\022!\n\007ownerid\030\002 \001(\004B\020\222\?\r\"\013idx_ownerid"
-  "\022#\n\010pet_type\030\003 \001(\rB\021\222\?\016\"\014idx_pet_type\022\n\n"
-  "\002hp\030\004 \001(\r\022\013\n\003exp\030\005 \001(\004\"\204\007\n\013tbld_player\022\034"
-  "\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022&\n\007worldid\030"
-  "\002 \001(\rB\025\222\?\0028\020\222\?\r\"\013idx_worldid\022\031\n\noriworld"
-  "id\030\003 \001(\rB\005\222\?\0028\020\022%\n\006openid\030\004 \001(\tB\025\222\?\003\010\377\001\222"
-  "\?\014\"\nidx_openid\022 \n\004name\030\005 \001(\tB\022\222\?\002\010 \222\?\n2\010"
-  "idx_name\022\033\n\004prof\030\006 \001(\rB\r\222\?\n\"\010idx_prof\022\020\n"
-  "\010baselook\030\007 \001(\r\022)\n\013create_time\030\010 \001(\rB\024\222\?"
-  "\021\"\017idx_create_time\022/\n\016last_logintime\030\t \001"
-  "(\rB\027\222\?\024\"\022idx_last_logintime\0221\n\017last_logo"
-  "uttime\030\n \001(\rB\030\222\?\025\"\023idx_last_logouttime\022#"
-  "\n\010del_time\030\013 \001(\rB\021\222\?\016\"\014idx_del_time\022\031\n\003l"
-  "ev\030\014 \001(\rB\014\222\?\t\"\007idx_lev\022\016\n\006viplev\030\r \001(\r\022\026"
-  "\n\016record_sceneid\030\016 \001(\004\022\020\n\010record_x\030\017 \001(\002"
-  "\022\020\n\010record_y\030\020 \001(\002\022\023\n\013record_face\030\021 \001(\002\022"
-  "\024\n\014home_sceneid\030\022 \001(\004\022\016\n\006home_x\030\023 \001(\002\022\016\n"
-  "\006home_y\030\024 \001(\002\022\021\n\thome_face\030\025 \001(\002\022\017\n\007mate"
-  "_id\030\026 \001(\004\022\030\n\tmate_name\030\027 \001(\tB\005\222\?\002\010 \022\016\n\006t"
-  "eamid\030\030 \001(\004\022\017\n\007guildid\030\031 \001(\004\022\013\n\003exp\030\032 \001("
-  "\004\022\r\n\005money\030\033 \001(\004\022\022\n\nmoney_bind\030\034 \001(\004\022\014\n\004"
-  "gold\030\035 \001(\004\022\021\n\tgold_bind\030\036 \001(\004\022\n\n\002hp\030\037 \001("
-  "\r\022\n\n\002mp\030  \001(\r\022\n\n\002fp\030! \001(\r\022\n\n\002np\030\" \001(\r\022\r\n"
-  "\005pkval\030# \001(\r\022\r\n\005honor\030$ \001(\r\022\021\n\tachipoint"
-  "\030% \001(\r\022\020\n\010bag_size\030& \001(\r\022\023\n\013stroge_size\030"
-  "\' \001(\r\"\213\001\n\025tbld_player_guildinfo\022\034\n\002id\030\001 "
-  "\001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022\017\n\007guildid\030\002 \001(\004\022\014"
-  "\n\004rank\030\003 \001(\r\022\r\n\005score\030\004 \001(\r\022\023\n\013total_sco"
-  "re\030\005 \001(\r\022\021\n\tjoin_time\030\006 \001(\r\"k\n\ntbld_skil"
-  "l\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022\037\n\006useri"
-  "d\030\002 \001(\004B\017\222\?\014\"\nidx_userid\022\021\n\tskilltype\030\003 "
-  "\001(\r\022\013\n\003lev\030\004 \001(\r\"\261\002\n\ttbld_task\022\034\n\002id\030\001 \001"
-  "(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022\037\n\006userid\030\002 \001(\004B\017\222\?"
-  "\014\"\nidx_userid\022\037\n\006taskid\030\003 \001(\rB\017\222\?\014\"\nidx_"
-  "taskid\022\014\n\004num0\030\004 \001(\r\022\014\n\004num1\030\005 \001(\r\022\014\n\004nu"
-  "m2\030\006 \001(\r\022\014\n\004num3\030\007 \001(\r\022\026\n\016accept_userlev"
-  "\030\010 \001(\r\022\023\n\013accept_time\030\t \001(\r\022\023\n\013finish_ti"
-  "me\030\n \001(\r\022\023\n\013expire_time\030\013 \001(\r\022\020\n\010daycoun"
-  "t\030\014 \001(\r\022\024\n\014daycount_max\030\r \001(\r\022\r\n\005state\030\016"
-  " \001(\r\"\200\001\n\020tbld_achievement\022\034\n\002id\030\001 \001(\004B\020\222"
+  "_type\030\010 \001(\004\022\023\n\013filter_data\030\t \001(\004\022\023\n\013atta"
+  "ch_data\030\n \001(\014\"\306\002\n\ntbld_guild\022\034\n\002id\030\001 \001(\004"
+  "B\020\222\?\010\032\006idx_id\222\?\002\020\001\022\013\n\003lev\030\002 \001(\004\022\024\n\004name\030"
+  "\003 \001(\tB\006\222\?\003\010\377\001\022\021\n\tleader_id\030\004 \001(\004\022\032\n\013lead"
+  "er_name\030\005 \001(\tB\005\222\?\002\010 \022\031\n\ncreator_id\030\006 \001(\004"
+  "B\005\222\?\002\010 \022\033\n\014creator_name\030\007 \001(\tB\005\222\?\002\010 \022\023\n\013"
+  "create_time\030\010 \001(\r\022\020\n\010del_time\030\t \001(\r\022\026\n\006s"
+  "logan\030\n \001(\tB\006\222\?\003\010\377\001\022\025\n\005info1\030\013 \001(\tB\006\222\?\003\010"
+  "\200\010\022\025\n\005info2\030\014 \001(\tB\006\222\?\003\010\200\010\022\025\n\005info3\030\r \001(\t"
+  "B\006\222\?\003\010\200\010\022\014\n\004flag\030\016 \001(\004\"\257\002\n\ttbld_item\022\034\n\002"
+  "id\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022/\n\010owner_id\030\002"
+  " \001(\004B\035\222\?\032\"\030idx_owner,idx_owner_pack\022#\n\010i"
+  "temtype\030\003 \001(\rB\021\222\?\016\"\014idx_itemtype\022%\n\010posi"
+  "tion\030\004 \001(\rB\023\222\?\020\"\016idx_owner_pack\022\014\n\004grid\030"
+  "\005 \001(\r\022\014\n\004flag\030\006 \001(\r\022\017\n\007pilenum\030\007 \001(\r\022\023\n\013"
+  "expire_time\030\010 \001(\r\022\014\n\004dura\030\t \001(\r\022\022\n\ndura_"
+  "limit\030\n \001(\r\022\024\n\014addition_lev\030\013 \001(\r\022\r\n\005ext"
+  "ra\030\014 \001(\014\"\366\001\n\ttbld_mail\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032"
+  "\006idx_id\222\?\002\020\001\022!\n\007ownerid\030\002 \001(\004B\020\222\?\r\"\013idx_"
+  "ownerid\022!\n\010senderid\030\004 \001(\004B\017\222\?\014\"\nidx_send"
+  "id\022\032\n\nsendername\030\005 \001(\tB\006\222\?\003\010\377\001\022)\n\013create"
+  "_time\030\006 \001(\rB\024\222\?\021\"\017idx_create_time\022\014\n\004fla"
+  "g\030\007 \001(\004\022\027\n\007subject\030\010 \001(\tB\006\222\?\003\010\377\001\022\027\n\007cont"
+  "ent\030\t \001(\tB\006\222\?\003\010\200\010\"\177\n\024tbld_mail_attachmen"
+  "t\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022\037\n\006maili"
+  "d\030\002 \001(\004B\017\222\?\014\"\nidx_mailid\022\023\n\013attach_type\030"
+  "\003 \001(\r\022\023\n\013attach_data\030\004 \001(\004\"\211\001\n\010tbld_pet\022"
+  "\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022!\n\007ownerid"
+  "\030\002 \001(\004B\020\222\?\r\"\013idx_ownerid\022#\n\010pet_type\030\003 \001"
+  "(\rB\021\222\?\016\"\014idx_pet_type\022\n\n\002hp\030\004 \001(\r\022\013\n\003exp"
+  "\030\005 \001(\004\"\204\007\n\013tbld_player\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032"
+  "\006idx_id\222\?\002\020\001\022&\n\007worldid\030\002 \001(\rB\025\222\?\0028\020\222\?\r\""
+  "\013idx_worldid\022\031\n\noriworldid\030\003 \001(\rB\005\222\?\0028\020\022"
+  "%\n\006openid\030\004 \001(\tB\025\222\?\003\010\377\001\222\?\014\"\nidx_openid\022 "
+  "\n\004name\030\005 \001(\tB\022\222\?\002\010 \222\?\n2\010idx_name\022\033\n\004prof"
+  "\030\006 \001(\rB\r\222\?\n\"\010idx_prof\022\020\n\010baselook\030\007 \001(\r\022"
+  ")\n\013create_time\030\010 \001(\rB\024\222\?\021\"\017idx_create_ti"
+  "me\022/\n\016last_logintime\030\t \001(\rB\027\222\?\024\"\022idx_las"
+  "t_logintime\0221\n\017last_logouttime\030\n \001(\rB\030\222\?"
+  "\025\"\023idx_last_logouttime\022#\n\010del_time\030\013 \001(\r"
+  "B\021\222\?\016\"\014idx_del_time\022\031\n\003lev\030\014 \001(\rB\014\222\?\t\"\007i"
+  "dx_lev\022\016\n\006viplev\030\r \001(\r\022\026\n\016record_sceneid"
+  "\030\016 \001(\004\022\020\n\010record_x\030\017 \001(\002\022\020\n\010record_y\030\020 \001"
+  "(\002\022\023\n\013record_face\030\021 \001(\002\022\024\n\014home_sceneid\030"
+  "\022 \001(\004\022\016\n\006home_x\030\023 \001(\002\022\016\n\006home_y\030\024 \001(\002\022\021\n"
+  "\thome_face\030\025 \001(\002\022\017\n\007mate_id\030\026 \001(\004\022\030\n\tmat"
+  "e_name\030\027 \001(\tB\005\222\?\002\010 \022\016\n\006teamid\030\030 \001(\004\022\017\n\007g"
+  "uildid\030\031 \001(\004\022\013\n\003exp\030\032 \001(\004\022\r\n\005money\030\033 \001(\004"
+  "\022\022\n\nmoney_bind\030\034 \001(\004\022\014\n\004gold\030\035 \001(\004\022\021\n\tgo"
+  "ld_bind\030\036 \001(\004\022\n\n\002hp\030\037 \001(\r\022\n\n\002mp\030  \001(\r\022\n\n"
+  "\002fp\030! \001(\r\022\n\n\002np\030\" \001(\r\022\r\n\005pkval\030# \001(\r\022\r\n\005"
+  "honor\030$ \001(\r\022\021\n\tachipoint\030% \001(\r\022\020\n\010bag_si"
+  "ze\030& \001(\r\022\023\n\013stroge_size\030\' \001(\r\"\213\001\n\025tbld_p"
+  "layer_guildinfo\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx_id"
+  "\222\?\002\020\001\022\017\n\007guildid\030\002 \001(\004\022\014\n\004rank\030\003 \001(\r\022\r\n\005"
+  "score\030\004 \001(\r\022\023\n\013total_score\030\005 \001(\r\022\021\n\tjoin"
+  "_time\030\006 \001(\r\"k\n\ntbld_skill\022\034\n\002id\030\001 \001(\004B\020\222"
   "\?\010\032\006idx_id\222\?\002\020\001\022\037\n\006userid\030\002 \001(\004B\017\222\?\014\"\nid"
-  "x_userid\022\037\n\006achiid\030\003 \001(\rB\017\222\?\014\"\nidx_achii"
-  "d\022\014\n\004take\030\004 \001(\r\"\210\002\n\013tbld_status\022\034\n\002id\030\001 "
-  "\001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022\037\n\006userid\030\002 \001(\004B\017\222"
-  "\?\014\"\nidx_userid\022!\n\006typeid\030\003 \001(\rB\021\222\?\016\"\014idx"
-  "_statusid\022\036\n\003lev\030\004 \001(\rB\021\222\?\016\"\014idx_statusi"
-  "d\022\r\n\005power\030\005 \001(\r\022\014\n\004secs\030\006 \001(\r\022\r\n\005times\030"
-  "\007 \001(\r\022\021\n\tlaststamp\030\010 \001(\r\022\020\n\010casterid\030\t \001"
-  "(\004\022\024\n\005pause\030\n \001(\rB\005\222\?\0028\010\022\020\n\010statusid\030\013 \001"
-  "(\r\"\334\001\n\016tbld_systemvar\022 \n\006keyidx\030\001 \001(\004B\020\222"
-  "\?\010\032\006idx_id\222\?\002\020\001\022\024\n\004name\030\002 \001(\tB\006\222\?\003\010\377\001\022\r\n"
-  "\005data0\030\003 \001(\004\022\r\n\005data1\030\004 \001(\004\022\r\n\005data2\030\005 \001"
-  "(\004\022\r\n\005data3\030\006 \001(\004\022\024\n\004str0\030\007 \001(\tB\006\222\?\003\010\377\001\022"
-  "\024\n\004str1\030\010 \001(\tB\006\222\?\003\010\377\001\022\024\n\004str2\030\t \001(\tB\006\222\?\003"
-  "\010\377\001\022\024\n\004str3\030\n \001(\tB\006\222\?\003\010\377\001b\006proto3"
+  "x_userid\022\021\n\tskilltype\030\003 \001(\r\022\013\n\003lev\030\004 \001(\r"
+  "\"\261\002\n\ttbld_task\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx_id\222"
+  "\?\002\020\001\022\037\n\006userid\030\002 \001(\004B\017\222\?\014\"\nidx_userid\022\037\n"
+  "\006taskid\030\003 \001(\rB\017\222\?\014\"\nidx_taskid\022\014\n\004num0\030\004"
+  " \001(\r\022\014\n\004num1\030\005 \001(\r\022\014\n\004num2\030\006 \001(\r\022\014\n\004num3"
+  "\030\007 \001(\r\022\026\n\016accept_userlev\030\010 \001(\r\022\023\n\013accept"
+  "_time\030\t \001(\r\022\023\n\013finish_time\030\n \001(\r\022\023\n\013expi"
+  "re_time\030\013 \001(\r\022\020\n\010daycount\030\014 \001(\r\022\024\n\014dayco"
+  "unt_max\030\r \001(\r\022\r\n\005state\030\016 \001(\r\"\200\001\n\020tbld_ac"
+  "hievement\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022"
+  "\037\n\006userid\030\002 \001(\004B\017\222\?\014\"\nidx_userid\022\037\n\006achi"
+  "id\030\003 \001(\rB\017\222\?\014\"\nidx_achiid\022\014\n\004take\030\004 \001(\r\""
+  "\210\002\n\013tbld_status\022\034\n\002id\030\001 \001(\004B\020\222\?\010\032\006idx_id"
+  "\222\?\002\020\001\022\037\n\006userid\030\002 \001(\004B\017\222\?\014\"\nidx_userid\022!"
+  "\n\006typeid\030\003 \001(\rB\021\222\?\016\"\014idx_statusid\022\036\n\003lev"
+  "\030\004 \001(\rB\021\222\?\016\"\014idx_statusid\022\r\n\005power\030\005 \001(\r"
+  "\022\014\n\004secs\030\006 \001(\r\022\r\n\005times\030\007 \001(\r\022\021\n\tlaststa"
+  "mp\030\010 \001(\r\022\020\n\010casterid\030\t \001(\004\022\024\n\005pause\030\n \001("
+  "\rB\005\222\?\0028\010\022\020\n\010statusid\030\013 \001(\r\"\334\001\n\016tbld_syst"
+  "emvar\022 \n\006keyidx\030\001 \001(\004B\020\222\?\010\032\006idx_id\222\?\002\020\001\022"
+  "\024\n\004name\030\002 \001(\tB\006\222\?\003\010\377\001\022\r\n\005data0\030\003 \001(\004\022\r\n\005"
+  "data1\030\004 \001(\004\022\r\n\005data2\030\005 \001(\004\022\r\n\005data3\030\006 \001("
+  "\004\022\024\n\004str0\030\007 \001(\tB\006\222\?\003\010\377\001\022\024\n\004str1\030\010 \001(\tB\006\222"
+  "\?\003\010\377\001\022\024\n\004str2\030\t \001(\tB\006\222\?\003\010\377\001\022\024\n\004str3\030\n \001("
+  "\tB\006\222\?\003\010\377\001b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_db_5fproto_2fgamedb_2eproto_deps[1] = {
   &::descriptor_table_sql_5foptions_2fsql_5foptions_2eproto,
@@ -719,7 +719,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_db_
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_db_5fproto_2fgamedb_2eproto_once;
 static bool descriptor_table_db_5fproto_2fgamedb_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_db_5fproto_2fgamedb_2eproto = {
-  &descriptor_table_db_5fproto_2fgamedb_2eproto_initialized, descriptor_table_protodef_db_5fproto_2fgamedb_2eproto, "db_proto/gamedb.proto", 4193,
+  &descriptor_table_db_5fproto_2fgamedb_2eproto_initialized, descriptor_table_protodef_db_5fproto_2fgamedb_2eproto, "db_proto/gamedb.proto", 4177,
   &descriptor_table_db_5fproto_2fgamedb_2eproto_once, descriptor_table_db_5fproto_2fgamedb_2eproto_sccs, descriptor_table_db_5fproto_2fgamedb_2eproto_deps, 16, 1,
   schemas, file_default_instances, TableStruct_db_5fproto_2fgamedb_2eproto::offsets,
   file_level_metadata_db_5fproto_2fgamedb_2eproto, 16, file_level_enum_descriptors_db_5fproto_2fgamedb_2eproto, file_level_service_descriptors_db_5fproto_2fgamedb_2eproto,
@@ -1852,7 +1852,7 @@ const char* tbld_global_mail::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPA
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // bytes attach_data = 10 [(.sql) = {
+      // bytes attach_data = 10;
       case 10:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 82)) {
           auto str = _internal_mutable_attach_data();
@@ -1952,7 +1952,7 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(9, this->_internal_filter_data(), target);
   }
 
-  // bytes attach_data = 10 [(.sql) = {
+  // bytes attach_data = 10;
   if (this->attach_data().size() > 0) {
     target = stream->WriteBytesMaybeAliased(
         10, this->_internal_attach_data(), target);
@@ -1995,7 +1995,7 @@ size_t tbld_global_mail::ByteSizeLong() const {
         this->_internal_content());
   }
 
-  // bytes attach_data = 10 [(.sql) = {
+  // bytes attach_data = 10;
   if (this->attach_data().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
@@ -2913,7 +2913,7 @@ const char* tbld_item::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // bytes extra = 12 [(.sql) = {
+      // bytes extra = 12;
       case 12:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 98)) {
           auto str = _internal_mutable_extra();
@@ -3013,7 +3013,7 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(11, this->_internal_addition_lev(), target);
   }
 
-  // bytes extra = 12 [(.sql) = {
+  // bytes extra = 12;
   if (this->extra().size() > 0) {
     target = stream->WriteBytesMaybeAliased(
         12, this->_internal_extra(), target);
@@ -3035,7 +3035,7 @@ size_t tbld_item::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // bytes extra = 12 [(.sql) = {
+  // bytes extra = 12;
   if (this->extra().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(

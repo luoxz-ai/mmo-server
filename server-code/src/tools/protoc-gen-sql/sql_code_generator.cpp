@@ -130,7 +130,7 @@ std::string FieldUnsigned(google::protobuf::FieldDescriptor::Type type)
         case FieldDescriptor::TYPE_UINT32:
         case FieldDescriptor::TYPE_FIXED64:
         case FieldDescriptor::TYPE_FIXED32:
-            return "UNSIGNED ";
+            return " unsigned";
             break;
         default:
             return "";
@@ -189,7 +189,7 @@ std::string FieldUTF8(google::protobuf::FieldDescriptor::Type type)
 {
     if(type == google::protobuf::FieldDescriptor::TYPE_STRING)
     {
-        return "CHARACTER SET utf8mb4 ";
+        return " CHARACTER SET utf8mb4";
     }
     return "";
 }
@@ -200,7 +200,7 @@ std::string AutoIncrement(const google::protobuf::FieldDescriptor* field)
     auto extension = options.GetExtension(sql);
     if(extension.auto_increment())
     {
-        return "AUTO_INCREMENT ";
+        return " AUTO_INCREMENT";
     }
     return "";
 }
@@ -232,7 +232,7 @@ std::string DefaultVal(const google::protobuf::FieldDescriptor* field)
     auto extension = options.GetExtension(sql);
     if(extension.default_val().empty() == false)
     {
-        return "DEFAULT '" + extension.default_val() + "' ";
+        return " DEFAULT '" + extension.default_val() + "'";
     }
     else
     {
@@ -241,7 +241,7 @@ std::string DefaultVal(const google::protobuf::FieldDescriptor* field)
         {
             case FieldDescriptor::TYPE_DOUBLE:
             case FieldDescriptor::TYPE_FLOAT:
-                return "DEFAULT '0.0' ";
+                return " DEFAULT '0.000000'";
             case FieldDescriptor::TYPE_FIXED64:
             case FieldDescriptor::TYPE_SFIXED64:
             case FieldDescriptor::TYPE_INT64:
@@ -254,9 +254,9 @@ std::string DefaultVal(const google::protobuf::FieldDescriptor* field)
             case FieldDescriptor::TYPE_SINT32:
             case FieldDescriptor::TYPE_BOOL:
             case FieldDescriptor::TYPE_ENUM:
-                return "DEFAULT '0' ";
+                return " DEFAULT '0'";
             case FieldDescriptor::TYPE_STRING:
-                return "DEFAULT '' ";
+                return " DEFAULT ''";
             case FieldDescriptor::TYPE_BYTES:
             default:
                 return "";
@@ -290,9 +290,9 @@ std::string Notnull(const google::protobuf::FieldDescriptor* field)
         case FieldDescriptor::TYPE_ENUM:
         case FieldDescriptor::TYPE_STRING:
         default:
-            return "NOT NULL ";
+            return " NOT NULL";
     }
-    return "NOT NULL ";
+    return " NOT NULL";
 }
 
 std::string Comment(const google::protobuf::FieldDescriptor* field)
@@ -303,6 +303,8 @@ std::string Comment(const google::protobuf::FieldDescriptor* field)
     google::protobuf::ReplaceCharacters(&comments, "\n", ' ');
     google::protobuf::ReplaceCharacters(&comments, "\r", ' ');
     google::protobuf::StripWhitespace(&comments);
+    if(comments.empty() == false)
+        return fmt::format(" COMMENT '{}'", comments);
     return comments;
 }
 
@@ -353,7 +355,7 @@ void PrintMessage(const google::protobuf::Descriptor& message_descriptor, google
             unique_list[k].push_back(name_str);
         }
 
-        std::string str = fmt::format("  `{name}` {type}{size} {unsigned}{utf8}{notnull}{default}{auto_inc}COMMENT '{comment}',\n",
+        std::string str = fmt::format("  `{name}` {type}{size}{unsigned}{utf8}{notnull}{default}{auto_inc}{comment},\n",
                                       fmt::arg("name",name_str),
                                       fmt::arg("type",type_str),
                                       fmt::arg("size",size_str),
@@ -371,16 +373,17 @@ void PrintMessage(const google::protobuf::Descriptor& message_descriptor, google
         std::string key_str = fmt::format("  PRIMARY KEY ({})", string_concat(primary_key_list, ",", "`", "`"));
         key_str_list.emplace_back(std::move(key_str));
     }
-    for(const auto& [k, vecList]: keys_list)
-    {
-        std::string key_str = fmt::format("  KEY `{}`({})", k, string_concat(vecList, ",", "`", "`"));
-        key_str_list.emplace_back(std::move(key_str));
-    }
     for(const auto& [k, vecList]: unique_list)
     {
-        std::string key_str = fmt::format("  UNIQUE KEY `{}`({})", k, string_concat(vecList, ",", "`", "`"));
+        std::string key_str = fmt::format("  UNIQUE KEY `{}` ({})", k, string_concat(vecList, ",", "`", "`"));
         key_str_list.emplace_back(std::move(key_str));
     }
+    for(const auto& [k, vecList]: keys_list)
+    {
+        std::string key_str = fmt::format("  KEY `{}` ({})", k, string_concat(vecList, ",", "`", "`"));
+        key_str_list.emplace_back(std::move(key_str));
+    }
+
     std::string keys_str = string_concat(key_str_list, ",\n", "", "");
     printer.PrintRaw(keys_str);
 

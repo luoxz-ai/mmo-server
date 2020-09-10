@@ -2,7 +2,7 @@ syntax = "proto3";
 import "sql_options/sql_options.proto";
 
 package db;
- 
+
 message tbld_dbinfo
 {
 
@@ -14,7 +14,7 @@ message tbld_dbinfo
     string db_user   = 5 [(sql).size = 255];    //游戏数据mysql用户
     string db_passwd = 6 [(sql).size = 255];    //游戏数据mysql密码
 } 
- 
+
 message tbld_globalvar
 {
     uint32 key        = 1 [(sql).primary_key = "idx_id"]; // key
@@ -30,9 +30,9 @@ message tbld_globalvar
 
 message tbld_gmlist
 {
-    uint64 id     = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true];
-    string openid = 2 [(sql).size = 255]; // openid
-    uint32 gmlev  = 3;                    // gm等级
+    uint64 id     = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true]; // id
+    string openid = 2 [(sql).size = 255];                                          // openid
+    uint32 gmlev  = 3;                                                             // gm等级
 }
 
 message tbld_serverlist
@@ -49,7 +49,6 @@ message tbld_serverlist
 
 message tbld_servicedetail
 {
-
     uint32 worldid      = 1 [(sql).int_size = 16, (sql).primary_key = "idx_worldid"]; //游戏服编号
     uint32 serviceid    = 2 [(sql).int_size = 16, (sql).primary_key = "idx_worldid"]; //服务编号
     string service_type = 3 [(sql).size = 255];                                       // lib库名

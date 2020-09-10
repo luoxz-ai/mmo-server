@@ -239,6 +239,34 @@ std::string CDBRecord::BuildUpdateSQL()
     return std::string();
 }
 
+std::string CDBRecord::DumpInsertSQL() const
+{
+    __ENTER_FUNCTION
+    std::string szKeyNameBuf;
+    std::string szKeyValBuf;
+    for(size_t i = 0; i < m_FieldsByIdx.size(); i++)
+    {
+        CDBField* pField             = m_FieldsByIdx[i].get();
+        auto      ref_field_info_ptr = (*m_pDBFieldInfo)[i];
+        
+        if(szKeyNameBuf.empty() == false)
+        {
+            szKeyNameBuf += ",";
+            szKeyValBuf += ",";
+        }
+
+        szKeyNameBuf += ref_field_info_ptr->GetFieldName();
+        szKeyValBuf += pField->GetValString();
+        
+    }
+    if(szKeyNameBuf.empty() || szKeyValBuf.empty() || m_TableName.empty())
+        return std::string();
+    else
+        return fmt::format(FMT_STRING("INSERT INTO {} ({}) VALUES ({}) ") , m_TableName, szKeyNameBuf, szKeyValBuf);
+    __LEAVE_FUNCTION
+    return std::string();
+}
+
 std::string CDBRecord::BuildInsertSQL()
 {
     __ENTER_FUNCTION

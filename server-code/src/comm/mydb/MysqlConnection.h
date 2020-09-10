@@ -138,6 +138,7 @@ private:
 
     std::mutex m_Mutex;
 };
+using CMysqlConnectionPtr = std::unique_ptr<CMysqlConnection>;
 
 class CMysqlStmt
 {

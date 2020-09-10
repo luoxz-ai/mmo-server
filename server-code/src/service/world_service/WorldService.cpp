@@ -111,7 +111,7 @@ bool CWorldService::Init(const ServerPort& nServerPort)
 
     auto pGlobalDB = ConnectGlobalDB();
     CHECKF(pGlobalDB.get());
-    CHECKF(MysqlTableCheck::CheckAllTableAndFix<GLOBALDB_TABLE_LIST>(pGlobalDB.get()));
+    CHECKF(MysqlTableCheck::CheckAllTable<GLOBALDB_TABLE_LIST>(pGlobalDB.get()));
     //通过globaldb查询localdb
 
     auto result = pGlobalDB->QueryKeyLimit<TBLD_DBINFO, TBLD_DBINFO::WORLDID>(GetWorldID(), 1);

@@ -10,7 +10,7 @@
         if(!(expr))                                                              \
         {                                                                        \
             LOGASSERT("ASSERT:" #expr);                                          \
-            LOGASSERT("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7))); \
+            LOGASSERT("CallStack: {}", GetStackTraceString(CallFrameMap(2, 7))); \
             return;                                                              \
         }                                                                        \
     }
@@ -19,7 +19,7 @@
         if(!(expr))                                                              \
         {                                                                        \
             LOGASSERT("ASSERT:" #expr);                                          \
-            LOGASSERT("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7))); \
+            LOGASSERT("CallStack: {}", GetStackTraceString(CallFrameMap(2, 7))); \
             return 0;                                                            \
         }                                                                        \
     }
@@ -28,7 +28,7 @@
         if(!(expr))                                                              \
         {                                                                        \
             LOGASSERT("ASSERT:" #expr);                                          \
-            LOGASSERT("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7))); \
+            LOGASSERT("CallStack: {}", GetStackTraceString(CallFrameMap(2, 7))); \
             return r;                                                            \
         }                                                                        \
     }
@@ -38,7 +38,7 @@
         if(!(expr))                                                              \
         {                                                                        \
             LOGASSERT("ASSERT:" #expr);                                          \
-            LOGASSERT("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7))); \
+            LOGASSERT("CallStack: {}", GetStackTraceString(CallFrameMap(2, 7))); \
             static R r;                                                          \
             return r;                                                            \
         }                                                                        \
@@ -49,7 +49,7 @@
         if(!(expr))                                                              \
         {                                                                        \
             LOGASSERT("ASSERT:" #expr " msg:{}", msg);                           \
-            LOGASSERT("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7))); \
+            LOGASSERT("CallStack: {}", GetStackTraceString(CallFrameMap(2, 7))); \
             return;                                                              \
         }                                                                        \
     }
@@ -58,7 +58,7 @@
         if(!(expr))                                                              \
         {                                                                        \
             LOGASSERT("ASSERT:" #expr " msg:{}", msg);                           \
-            LOGASSERT("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7))); \
+            LOGASSERT("CallStack: {}", GetStackTraceString(CallFrameMap(2, 7))); \
             return 0;                                                            \
         }                                                                        \
     }
@@ -67,7 +67,7 @@
         if(!(expr))                                                              \
         {                                                                        \
             LOGASSERT("ASSERT:" #expr " msg:{}", msg);                           \
-            LOGASSERT("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7))); \
+            LOGASSERT("CallStack: {}", GetStackTraceString(CallFrameMap(2, 7))); \
             return r;                                                            \
         }                                                                        \
     }
@@ -76,7 +76,7 @@
         if(!(expr))                                                              \
         {                                                                        \
             LOGASSERT("ASSERT:" #expr " msg:{}", msg);                           \
-            LOGASSERT("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7))); \
+            LOGASSERT("CallStack: {}", GetStackTraceString(CallFrameMap(2, 7))); \
             static R r;                                                          \
             return r;                                                            \
         }                                                                        \
@@ -87,7 +87,7 @@
         if(!(expr))                                                              \
         {                                                                        \
             LOGASSERT("ASSERT:" #expr " " #v ":{}", v);                          \
-            LOGASSERT("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7))); \
+            LOGASSERT("CallStack: {}", GetStackTraceString(CallFrameMap(2, 7))); \
             return;                                                              \
         }                                                                        \
     }
@@ -96,7 +96,7 @@
         if(!(expr))                                                              \
         {                                                                        \
             LOGASSERT("ASSERT:" #expr " " #v ":{}", v);                          \
-            LOGASSERT("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7))); \
+            LOGASSERT("CallStack: {}", GetStackTraceString(CallFrameMap(2, 7))); \
             return 0;                                                            \
         }                                                                        \
     }
@@ -105,7 +105,7 @@
         if(!(expr))                                                              \
         {                                                                        \
             LOGASSERT("ASSERT:" #expr " " #v ":{}", v);                          \
-            LOGASSERT("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7))); \
+            LOGASSERT("CallStack: {}", GetStackTraceString(CallFrameMap(2, 7))); \
             return r;                                                            \
         }                                                                        \
     }
@@ -114,7 +114,7 @@
         if(!(expr))                                                              \
         {                                                                        \
             LOGASSERT("ASSERT:" #expr " " #v ":{}", v);                          \
-            LOGASSERT("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7))); \
+            LOGASSERT("CallStack: {}", GetStackTraceString(CallFrameMap(2, 7))); \
             static R r;                                                          \
             return r;                                                            \
         }                                                                        \
@@ -125,7 +125,7 @@
         if(!(expr))                                                              \
         {                                                                        \
             LOGASSERT("ASSERT:" #expr " msg:" fmt_msg, ##__VA_ARGS__);           \
-            LOGASSERT("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7))); \
+            LOGASSERT("CallStack: {}", GetStackTraceString(CallFrameMap(2, 7))); \
             return;                                                              \
         }                                                                        \
     }
@@ -134,7 +134,7 @@
         if(!(expr))                                                              \
         {                                                                        \
             LOGASSERT("ASSERT:" #expr " msg:" fmt_msg, ##__VA_ARGS__);           \
-            LOGASSERT("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7))); \
+            LOGASSERT("CallStack: {}", GetStackTraceString(CallFrameMap(2, 7))); \
             return 0;                                                            \
         }                                                                        \
     }
@@ -143,7 +143,7 @@
         if(!(expr))                                                              \
         {                                                                        \
             LOGASSERT("ASSERT:" #expr " msg:" fmt_msg, ##__VA_ARGS__);           \
-            LOGASSERT("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7))); \
+            LOGASSERT("CallStack: {}", GetStackTraceString(CallFrameMap(2, 7))); \
             return r;                                                            \
         }                                                                        \
     }
@@ -152,7 +152,7 @@
         if(!(expr))                                                              \
         {                                                                        \
             LOGASSERT("ASSERT:" #expr " msg:" fmt_msg, ##__VA_ARGS__);           \
-            LOGASSERT("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7))); \
+            LOGASSERT("CallStack: {}", GetStackTraceString(CallFrameMap(2, 7))); \
             static R r;                                                          \
             return r;                                                            \
         }                                                                        \
@@ -167,12 +167,12 @@
     catch(const std::runtime_error& e)                                     \
     {                                                                      \
         LOGERROR("catch_execpetion:{}", e.what());                         \
-        LOGERROR("CallStack:{}", GetStackTraceString(CallFrameMap(1, 6))); \
+        LOGERROR("CallStack: {}", GetStackTraceString(CallFrameMap(1, 6))); \
     }                                                                      \
     catch(const std::exception& e)                                         \
     {                                                                      \
         LOGERROR("catch_execpetion:{}", e.what());                         \
-        LOGERROR("CallStack:{}", GetStackTraceString(CallFrameMap(1, 6))); \
+        LOGERROR("CallStack: {}", GetStackTraceString(CallFrameMap(1, 6))); \
     }                                                                      \
     catch(...) { LOGSTACK("catch_error"); }                                \
     }
@@ -200,12 +200,12 @@ static inline std::optional<std::string> attempt(Func&& func, Args&&... args)
         catch(const std::runtime_error& e)                                     \
         {                                                                      \
             LOGERROR("catch_execpetion:{}", e.what());                         \
-            LOGERROR("CallStack:{}", GetStackTraceString(CallFrameMap(1, 6))); \
+            LOGERROR("CallStack: {}", GetStackTraceString(CallFrameMap(1, 6))); \
         }                                                                      \
         catch(const std::exception& e)                                         \
         {                                                                      \
             LOGERROR("catch_execpetion:{}", e.what());                         \
-            LOGERROR("CallStack:{}", GetStackTraceString(CallFrameMap(1, 6))); \
+            LOGERROR("CallStack: {}", GetStackTraceString(CallFrameMap(1, 6))); \
         }                                                                      \
         catch(...)                                                             \
         {                                                                      \

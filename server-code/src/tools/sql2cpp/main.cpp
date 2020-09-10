@@ -79,14 +79,14 @@ int main(int argc, char** argv)
                     }
                     Keys["PRIMARY"] = prikey_str;
                 }
-                else if(std::regex_search(field_sql, field_match, std::regex{R"(.*UNIQUE KEY `(.*)`\((.*)\).*)"}))
+                else if(std::regex_search(field_sql, field_match, std::regex{R"(.*UNIQUE KEY `(.*)` \((.*)\).*)"}))
                 {
                     std::string keyname_str = field_match[1];
                     std::string keyfield_str = field_match[2];
                     replace_str(keyfield_str, "`", "");
                     Keys[keyname_str] = keyfield_str;
                 }
-                else if(std::regex_search(field_sql, field_match, std::regex{R"(.*KEY `(.*)`\((.*)\).*)"}))
+                else if(std::regex_search(field_sql, field_match, std::regex{R"(.*KEY `(.*)` \((.*)\).*)"}))
                 {
                     std::string keyname_str = field_match[1];
                     std::string keyfield_str = field_match[2];
@@ -107,6 +107,13 @@ int main(int argc, char** argv)
                     std::string field_type    = field_match[2];
                     std::string field_comment = field_match[3];
                     vecFieldType.push_back({field_name, field_type, field_comment});
+                    vec_match_field_sql.push_back(replace_str(field_sql,",", ""));
+                }
+                else if(std::regex_search(field_sql, field_match, std::regex{R"(.*`(.*)` (.*) NOT NULL.*)"}))
+                {
+                    std::string field_name    = field_match[1];
+                    std::string field_type    = field_match[2];
+                    vecFieldType.push_back({field_name, field_type, ""});
                     vec_match_field_sql.push_back(replace_str(field_sql,",", ""));
                 }
             }
@@ -262,7 +269,7 @@ struct {0}
 
     static constexpr const char* create_sql() 
     {{ 
-        return "{8}";
+        return R"##({8})##";
     }};
 
 }};
@@ -292,7 +299,7 @@ struct {0}
                            field_type_cpp_list.size(),
                            vec_key_typle_str.empty()?"\"\"":string_concat(vec_key_typle_str,",", "", ""), 
                            Keys.size(),
-                           replace_str_copy(trim_copy(create_sql), "\n", "\"\n\"")
+                           trim_copy(create_sql)
                            );
             table_name_list.push_back(table_name_UP);
             output_header += szBuf;

@@ -313,8 +313,8 @@ std::string GetStackTraceString(const CallFrameMap& data)
     std::string result;
     Dl_info     dlinfo;
     time_t      t = _TimeGetSecond();
-    result = fmt::format("%Y/%m/%d %H:%M:%S", timeToLocalTime(t));
-    result += fmt::format("{}\n====================start=============================\n", BaseCode::getNdcStr());
+    result = fmt::format("\n{:%Y-%m-%d %H:%M:%S}", timeToLocalTime(t));
+    result += fmt::format(" {}\n====================start=============================\n", BaseCode::getNdcStr());
     for(const auto& pair_v: data.m_Addr)
     {
         //尝试输出基址差
@@ -345,8 +345,8 @@ std::string GetStackTraceString(const CALLFRAME_NODE* pFrame)
     std::string result;
     Dl_info     dlinfo;
     time_t      t = _TimeGetSecond();
-    result = fmt::format("%Y/%m/%d %H:%M:%S", timeToLocalTime(t));
-    result += fmt::format("{}\n====================start=============================\n", BaseCode::getNdcStr());
+    result = fmt::format("\n{:%Y-%m-%d %H:%M:%S}", timeToLocalTime(t));
+    result += fmt::format(" {}\n====================start=============================\n", BaseCode::getNdcStr());
     while(pFrame->m_pParent != nullptr)
     {
         //尝试输出基址差

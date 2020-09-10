@@ -214,6 +214,28 @@ inline std::string trim_copy(std::string st)
     return st;
 }
 
+
+
+inline std::string& ltrim_if(std::string& ss, std::function<bool (unsigned char)> func)
+{
+    std::string::iterator p = std::find_if(ss.begin(), ss.end(), func);
+    ss.erase(ss.begin(), p);
+    return ss;
+}
+
+inline std::string& rtrim_if(std::string& ss, std::function<bool (unsigned char)> func)
+{
+    std::string::reverse_iterator p = std::find_if(ss.rbegin(), ss.rend(), func);
+    ss.erase(p.base(), ss.end());
+    return ss;
+}
+
+inline std::string& trim_if(std::string& st, std::function<bool (unsigned char)> func)
+{
+    ltrim_if(rtrim_if(st,func), func);
+    return st;
+}
+
 inline std::string& lower_cast(std::string& st)
 {
     std::transform(st.begin(), st.end(), st.begin(), [](unsigned char c) { return std::tolower(c); });

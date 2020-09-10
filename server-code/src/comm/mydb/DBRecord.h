@@ -65,6 +65,8 @@ private:
     std::string BuildUpdateSQL();
     std::string BuildInsertSQL();
 
+public: 
+    std::string DumpInsertSQL() const;
 public:
     OBJECTHEAP_DECLARATION(s_Heap);
 

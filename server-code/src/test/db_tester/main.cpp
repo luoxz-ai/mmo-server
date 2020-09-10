@@ -4,19 +4,20 @@
 #include <sys/types.h>
 
 #include "MysqlConnection.h"
+#include "MysqlTableCheck.h"
 #include "UIDFactory.h"
 #include "gamedb.h"
-#include "MysqlTableCheck.h"
 int main()
 {
-    
+
     __ENTER_FUNCTION
+    BaseCode::InitLog("/data/log/db_tester");
     BaseCode::SetNdc("test_ndc");
     CMysqlConnection mysql_conn;
-    mysql_conn.Connect("127.0.0.1", "root", "123456", "zone_1001", 3306, 0, true);
+    mysql_conn.Connect("172.28.2.2", "root", "test12345", "zone_1", 3306, 0, true);
     mysql_conn._AddFieldInfo(TBLD_PLAYER::table_name(), std::make_shared<CDDLFieldInfoList<TBLD_PLAYER>>());
     mysql_conn._AddFieldInfo(TBLD_ITEM::table_name(), std::make_shared<CDDLFieldInfoList<TBLD_ITEM>>());
-    MysqlTableCheck::CheckAllTableAndFix<GAMEDB_TABLE_LIST>(&mysql_conn);
+    CHECKF(MysqlTableCheck::CheckAllTableAndFix<GAMEDB_TABLE_LIST>(&mysql_conn));
     {
         auto result_ptr = mysql_conn.UnionQuery("SELECT * FROM tbld_player");
         if(result_ptr)
@@ -26,9 +27,9 @@ int main()
                 auto        db_record_ptr = result_ptr->fetch_row(true);
                 uint64_t    id            = db_record_ptr->Field("id");
                 std::string name          = db_record_ptr->Field("name");
-                int8_t      dwProf        = db_record_ptr->Field(TBLD_PLAYER::PROF);
+                uint32_t    dwProf        = db_record_ptr->Field(TBLD_PLAYER::PROF);
 
-                db_record_ptr->Field(TBLD_PLAYER::PROF) = (int8_t)(dwProf + 1);
+                db_record_ptr->Field(TBLD_PLAYER::PROF) = (uint32_t)(dwProf + 1);
                 db_record_ptr->Update(false);
             }
         }
@@ -42,9 +43,9 @@ int main()
                 auto        db_record_ptr = result_ptr->fetch_row(true);
                 uint64_t    id            = db_record_ptr->Field("id");
                 std::string name          = db_record_ptr->Field("name");
-                int8_t      dwProf        = db_record_ptr->Field(TBLD_PLAYER::PROF);
+                uint32_t    dwProf        = db_record_ptr->Field(TBLD_PLAYER::PROF);
 
-                db_record_ptr->Field(TBLD_PLAYER::PROF) = (int8_t)(dwProf + 1);
+                db_record_ptr->Field(TBLD_PLAYER::PROF) = (uint32_t)(dwProf + 1);
                 db_record_ptr->Update(false);
             }
         }
@@ -67,33 +68,18 @@ int main()
         fmt::format_to_n(szBuf, 1024, "test{}", idPlayer);
         db_record_ptr->Field(DBFieldHelp<TBLD_PLAYER, TBLD_PLAYER::NAME>::GetFieldName()) = szBuf;
 
-        try
-        {
-            db_record_ptr->Field("prof") = 1; // type check error, not exec
-        }
-        catch(...)
-        {
-        }
-        db_record_ptr->Field(TBLD_PLAYER::PROF) = (int8_t)2;
 
-        try
-        {
-            db_record_ptr->Field("lev") = 1; // type check error, not exec
-        }
-        catch(...)
-        {
-        }
-        db_record_ptr->Field(TBLD_PLAYER::LEV) = (int16_t)2;
+        db_record_ptr->Field("prof") = (int8_t)1; // type check error, not exec
+        db_record_ptr->Field(TBLD_PLAYER::PROF) = (uint32_t)2;
 
-        try
-        {
-            db_record_ptr->Field("exp") = 1; // type check error, not exec
-        }
-        catch(...)
-        {
-        }
-        db_record_ptr->Field(TBLD_PLAYER::EXP) = (uint32_t)2;
-        db_record_ptr->Field(TBLD_PLAYER::EXP) = 0xF0000FFF;
+
+        db_record_ptr->Field("lev") = (int16_t)1; // type check error, not exec
+        db_record_ptr->Field(TBLD_PLAYER::LEV) = (uint32_t)2;
+
+
+        db_record_ptr->Field("exp") = (uint32_t)1; // type check error, not exec
+        db_record_ptr->Field(TBLD_PLAYER::EXP) = (uint32_t)2;// type check error, not exec
+        db_record_ptr->Field(TBLD_PLAYER::EXP) = (uint64_t)0xF0000FFF;
 
         db_record_ptr->Update(true);
         uint64_t id = db_record_ptr->Field(TBLD_PLAYER::ID);

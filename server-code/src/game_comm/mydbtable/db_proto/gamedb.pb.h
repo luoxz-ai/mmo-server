@@ -852,7 +852,7 @@ class tbld_global_mail :
   std::string* _internal_mutable_content();
   public:
 
-  // bytes attach_data = 10 [(.sql) = {
+  // bytes attach_data = 10;
   void clear_attach_data();
   const std::string& attach_data() const;
   void set_attach_data(const std::string& value);
@@ -1381,7 +1381,7 @@ class tbld_item :
     kDuraLimitFieldNumber = 10,
     kAdditionLevFieldNumber = 11,
   };
-  // bytes extra = 12 [(.sql) = {
+  // bytes extra = 12;
   void clear_extra();
   const std::string& extra() const;
   void set_extra(const std::string& value);
@@ -4621,7 +4621,7 @@ inline void tbld_global_mail::set_filter_data(::PROTOBUF_NAMESPACE_ID::uint64 va
   // @@protoc_insertion_point(field_set:db.tbld_global_mail.filter_data)
 }
 
-// bytes attach_data = 10 [(.sql) = {
+// bytes attach_data = 10;
 inline void tbld_global_mail::clear_attach_data() {
   attach_data_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
@@ -5469,7 +5469,7 @@ inline void tbld_item::set_addition_lev(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   // @@protoc_insertion_point(field_set:db.tbld_item.addition_lev)
 }
 
-// bytes extra = 12 [(.sql) = {
+// bytes extra = 12;
 inline void tbld_item::clear_extra() {
   extra_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }

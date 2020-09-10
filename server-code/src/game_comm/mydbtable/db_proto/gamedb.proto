@@ -4,8 +4,8 @@ import "sql_options/sql_options.proto";
 package db;
 message tbld_commondata
 {
+    uint64 id = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true]; // id
 
-    uint64 id       = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true];
     uint64 playerid = 2 [(sql).keys = "idx_player"]; //玩家id
     uint32 keytype  = 3;                             //数据类型
     uint32 keyidx   = 4;                             //数据编号
@@ -13,12 +13,13 @@ message tbld_commondata
     uint64 data1    = 6;                             //数据2
     uint64 data2    = 7;                             //数据3
     uint64 data3    = 8;                             //数据4
-} 
- 
+}
+
 message tbld_cooldown
 {
 
-    uint64 id          = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true];
+    uint64 id = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true]; // id
+
     uint64 playerid    = 2 [(sql).keys = "idx_player, idx_player_idx"]; //玩家id
     uint32 keytype     = 3 [(sql).keys = "idx_player_idx"];             // CD类型
     uint32 keyidx      = 4 [(sql).keys = "idx_player_idx"];             // CD编号
@@ -28,7 +29,8 @@ message tbld_cooldown
 message tbld_datacount
 {
 
-    uint64 id              = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true];
+    uint64 id = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true]; // id
+
     uint64 playerid        = 2 [(sql).keys = "idx_player, idx_player_idx"]; //玩家id
     uint32 keytype         = 3 [(sql).keys = "idx_player_idx"];             // data类型
     uint32 keyidx          = 4 [(sql).keys = "idx_player_idx"];             // data编号
@@ -38,7 +40,8 @@ message tbld_datacount
 
 message tbld_global_mail
 {
-    uint64 id          = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true];
+    uint64 id = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true]; // id
+
     uint64 senderid    = 2 [(sql).keys = "idx_sendid"];      //发送者id
     string sendername  = 3 [(sql).size = 255];               //发送者名字
     uint32 create_time = 4 [(sql).keys = "idx_create_time"]; //发送时间戳
@@ -47,12 +50,13 @@ message tbld_global_mail
     string content     = 7 [(sql).size = 1024];              //邮件内容
     uint64 filter_type = 8;                                  //玩家过滤条件
     uint64 filter_data = 9;                                  //玩家过滤条件
-    bytes  attach_data = 10 [(sql).size = 4096];             //附件数据json
+    bytes  attach_data = 10;                                 //附件数据json
 }
 
 message tbld_guild
 {
-    uint64 id   = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true];
+    uint64 id = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true]; // id
+
     uint64 lev  = 2;                    //帮派等级
     string name = 3 [(sql).size = 255]; //帮派名称
 
@@ -71,26 +75,26 @@ message tbld_guild
 
 message tbld_item
 {
-    uint64 id       = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true];
+    uint64 id = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true]; // id
+
     uint64 owner_id = 2 [(sql).keys = "idx_owner,idx_owner_pack"]; //所有者id
     uint32 itemtype = 3 [(sql).keys = "idx_itemtype"];             //道具类型编号
-    uint32 position = 4
-        [(sql).keys =
-             "idx_owner_pack"]; //所属包裹类型0:包裹 1:装备槽 100:仓库 101:帮派仓库 102:回购列表 103:邮箱 104:拍卖行
+    uint32 position = 4 [(sql).keys = "idx_owner_pack"]; //所属包裹类型0:包裹 1:装备槽 100:仓库 101:帮派仓库 102:回购列表 103:邮箱 104:拍卖行
 
-    uint32 grid         = 5;                      //所属包裹位置
-    uint32 flag         = 6;                      //物品掩码
-    uint32 pilenum      = 7;                      //堆叠数量
-    uint32 expire_time  = 8;                      //过期时间戳秒
-    uint32 dura         = 9;                      //当前耐久
-    uint32 dura_limit   = 10;                     //耐久上限
-    uint32 addition_lev = 11;                     //强化等级
-    bytes  extra        = 12 [(sql).size = 4096]; //额外信息
-} 
+    uint32 grid         = 5;  //所属包裹位置
+    uint32 flag         = 6;  //物品掩码
+    uint32 pilenum      = 7;  //堆叠数量
+    uint32 expire_time  = 8;  //过期时间戳秒
+    uint32 dura         = 9;  //当前耐久
+    uint32 dura_limit   = 10; //耐久上限
+    uint32 addition_lev = 11; //强化等级
+    bytes  extra        = 12; //额外信息
+}
 
 message tbld_mail
 {
-    uint64 id          = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true];
+    uint64 id = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true]; // id
+
     uint64 ownerid     = 2 [(sql).keys = "idx_ownerid"];     //拥有者id
     uint64 senderid    = 4 [(sql).keys = "idx_sendid"];      //拥有者id
     string sendername  = 5 [(sql).size = 255];               //发送者名字
@@ -102,7 +106,8 @@ message tbld_mail
 
 message tbld_mail_attachment
 {
-    uint64 id          = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true];
+    uint64 id = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true]; // id
+
     uint64 mailid      = 2 [(sql).keys = "idx_mailid"]; //邮件id
     uint32 attach_type = 3;                             //附件类型
     uint64 attach_data = 4;                             //数量/具体道具实例ID
@@ -110,7 +115,8 @@ message tbld_mail_attachment
 
 message tbld_pet
 {
-    uint64 id       = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true];
+    uint64 id = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true]; // id
+
     uint64 ownerid  = 2 [(sql).keys = "idx_ownerid"];  //所有者玩家id
     uint32 pet_type = 3 [(sql).keys = "idx_pet_type"]; //宠物类型
     uint32 hp       = 4;                               //当前血量
@@ -119,7 +125,8 @@ message tbld_pet
 
 message tbld_player
 {
-    uint64 id         = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true];
+    uint64 id = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true]; // id
+
     uint32 worldid    = 2 [(sql).int_size = 16, (sql).keys = "idx_worldid"]; //服务器编号
     uint32 oriworldid = 3 [(sql).int_size = 16];                             //创建角色时的服务器编号
     string openid     = 4 [(sql).size = 255, (sql).keys = "idx_openid"];     //玩家账号
@@ -167,7 +174,8 @@ message tbld_player
 
 message tbld_player_guildinfo
 {
-    uint64 id          = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true];
+    uint64 id = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true]; // id
+
     uint64 guildid     = 2; // guildid
     uint32 rank        = 3; //帮派职位
     uint32 score       = 4; //帮派贡献
@@ -177,7 +185,8 @@ message tbld_player_guildinfo
 
 message tbld_skill
 {
-    uint64 id        = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true];
+    uint64 id = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true]; // id
+
     uint64 userid    = 2 [(sql).keys = "idx_userid"]; //玩家id
     uint32 skilltype = 3;                             //技能编号
     uint32 lev       = 4;                             //技能等级
@@ -185,7 +194,8 @@ message tbld_skill
 
 message tbld_task
 {
-    uint64 id     = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true];
+    uint64 id = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true]; // id
+
     uint64 userid = 2 [(sql).keys = "idx_userid"]; //玩家id
     uint32 taskid = 3 [(sql).keys = "idx_taskid"]; //任务id
 
@@ -205,16 +215,18 @@ message tbld_task
 
 message tbld_achievement
 {
-    uint64 id     = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true];
+    uint64 id = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true]; // id
+
     uint64 userid = 2 [(sql).keys = "idx_userid"]; //玩家id
     uint32 achiid = 3 [(sql).keys = "idx_achiid"]; //成就id
     uint32 take   = 4;                             //成就id
-}
+} 
 
 message tbld_status
 {
-    uint64 id     = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true];
-    uint64 userid = 2 [(sql).keys = "idx_userid"]; //玩家id
+    uint64 id = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true]; // id
+
+    uint64 userid = 2 [(sql).keys = "idx_userid"];   //玩家id
     uint32 typeid = 3 [(sql).keys = "idx_statusid"]; //状态类型编号
     uint32 lev    = 4 [(sql).keys = "idx_statusid"]; //状态等级
 
@@ -222,22 +234,23 @@ message tbld_status
     uint32 secs  = 6; //持续时间
     uint32 times = 7; //作用次数
 
-    uint32 laststamp = 8;  //最后一次作用的时间戳
-    uint64 casterid  = 9;  //施加此状态的角色id
+    uint32 laststamp = 8;                       //最后一次作用的时间戳
+    uint64 casterid  = 9;                       //施加此状态的角色id
     uint32 pause     = 10 [(sql).int_size = 8]; //是否暂停
-    uint32 statusid  = 11; //状态等级
+    uint32 statusid  = 11;                      //状态等级
 }
 
 message tbld_systemvar
 {
-    uint64 keyidx = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true];
-    string name   = 2 [(sql).size = 255];  //系统变量名
-    uint64 data0  = 3;                     //数据1
-    uint64 data1  = 4;                     //数据2
-    uint64 data2  = 5;                     //数据3
-    uint64 data3  = 6;                     //数据4
-    string str0   = 7 [(sql).size = 255];  //文字1
-    string str1   = 8 [(sql).size = 255];  //文字2
-    string str2   = 9 [(sql).size = 255];  //文字3
-    string str3   = 10 [(sql).size = 255]; //文字4
+    uint64 keyidx = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true]; // id
+
+    string name  = 2 [(sql).size = 255];  //系统变量名
+    uint64 data0 = 3;                     //数据1
+    uint64 data1 = 4;                     //数据2
+    uint64 data2 = 5;                     //数据3
+    uint64 data3 = 6;                     //数据4
+    string str0  = 7 [(sql).size = 255];  //文字1
+    string str1  = 8 [(sql).size = 255];  //文字2
+    string str2  = 9 [(sql).size = 255];  //文字3
+    string str3  = 10 [(sql).size = 255]; //文字4
 }
