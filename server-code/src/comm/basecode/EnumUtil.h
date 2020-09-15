@@ -103,6 +103,7 @@ public:
      */
     constexpr operator Type() const noexcept { return flags; }
 
+    constexpr bool test(E flag) const noexcept { return Flags{flags & toInnerType(flag)} ; }
 private:
     InnerType flags;
 };

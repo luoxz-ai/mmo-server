@@ -414,7 +414,7 @@ void CMessagePort::_SendAllMsg()
     __LEAVE_FUNCTION
 }
 
-bool CMessagePort::SendPortMsg(const CNetworkMessage& msg)
+bool CMessagePort::SendMsgToPort(const CNetworkMessage& msg)
 {
     __ENTER_FUNCTION
     CNetworkMessage* pMsg = new CNetworkMessage(msg);

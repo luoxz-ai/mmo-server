@@ -5,6 +5,7 @@
 #include "NetMSGProcess.h"
 #include "NetworkService.h"
 #include "UIDFactory.h"
+#include "ServiceDefine.h"
 
 class CMessageRoute;
 class CMessagePort;
@@ -35,7 +36,7 @@ public:
     uint32_t                      GetMessageProcess() const { return m_nMessageProcess; }
     void                          SetMessageProcess(uint32_t val) { m_nMessageProcess = val; }
 
-    export_lua uint64_t CreateUID();
+
 
 public:
     bool CreateNetworkService();
@@ -54,23 +55,23 @@ public:
     bool ListenMessagePort(const std::string& service_name, class CMessagePortEventHandler* pEventHandler = nullptr);
 
 public:
-    bool SendPortMsg(const CNetworkMessage& msg) const;
-    bool SendToVirtualSocket(const VirtualSocket& vsTo, const google::protobuf::Message& msg) const;
-    bool SendToVirtualSocket(const VirtualSocket& vsTo, uint16_t usCmd, const google::protobuf::Message& msg) const;
+    bool SendMsgToPort(const CNetworkMessage& msg) const;
+    bool SendMsgToVirtualSocket(const VirtualSocket& vsTo, const google::protobuf::Message& msg) const;
+    bool SendMsgToVirtualSocket(const VirtualSocket& vsTo, uint16_t usCmd, const google::protobuf::Message& msg) const;
     bool SendBroadcastMsg(const CNetworkMessage& msg) const;
     //发送消息给MessagePort
-    bool SendPortMsg(const ServerPort& nServerPort, const google::protobuf::Message& msg) const;
-    bool SendPortMsg(const ServerPort& nServerPort, uint16_t usCmd, const google::protobuf::Message& msg) const;
-    bool TransmitPortMsg(const ServerPort& nServerPort, CNetworkMessage* pMsg) const;
-    bool SendPortBroadcastMsg(const ServerPort& nServerPort, const google::protobuf::Message& msg) const;
-    bool SendPortBroadcastMsg(const ServerPort&                nServerPort,
+    bool SendMsgToPort(const ServerPort& nServerPort, const google::protobuf::Message& msg) const;
+    bool SendMsgToPort(const ServerPort& nServerPort, uint16_t usCmd, const google::protobuf::Message& msg) const;
+    bool TransmitMsgToPort(const ServerPort& nServerPort, CNetworkMessage* pMsg) const;
+    bool SendBroadcastMsgToPort(const ServerPort& nServerPort, const google::protobuf::Message& msg) const;
+    bool SendBroadcastMsgToPort(const ServerPort&                nServerPort,
                               uint16_t                         usCmd,
                               const google::protobuf::Message& msg) const;
     //发送多播的消息给MessagePort
-    bool SendPortMultiMsg(const ServerPort&                 nServerPort,
+    bool SendMultiMsgToPort(const ServerPort&                 nServerPort,
                           const std::vector<VirtualSocket>& setVS,
                           const CNetworkMessage&            msg) const;
-    bool SendPortMultiIDMsg(const ServerPort&         nServerPort,
+    bool SendMultiIDMsgToPort(const ServerPort&         nServerPort,
                             const std::vector<OBJID>& setVS,
                             const CNetworkMessage&    msg) const;
 
@@ -123,7 +124,6 @@ protected:
     std::unique_ptr<CNormalThread>  m_pLogicThread;
     std::unique_ptr<CEventManager>  m_pEventManager;
     std::unique_ptr<CNetMSGProcess> m_pNetMsgProcess;
-    CUIDFactory                     m_UIDFactory;
     std::string                     m_ServiceName;
     uint32_t                        m_nMessageProcess = 0;
     std::unique_ptr<CMonitorMgr>    m_pMonitorMgr;

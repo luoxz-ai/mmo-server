@@ -21,6 +21,7 @@ enum OMsgID
     MsgID_SocketAuth        = 20015; // other->sck 设置socket的认证信息
     MsgID_SocketStartAccept = 20016; // world->sck 开始监听
     MsgID_SocketStopAccept  = 20017; // world->sck 关闭监听
+    MsgID_SocketLogin       = 20018; // auth->world login
 
     MsgID_PlayerEnterZone       = 20021;
     MsgID_PlayerChangeZone      = 20022;
@@ -129,6 +130,12 @@ message SocketChangeDest
 message SocketAuth
 {
     uint64 vs = 1;
+}
+
+message SocketLogin
+{
+    uint64 vs = 1;
+    bytes openid = 2;
 }
 
 message SocketStartAccept {}

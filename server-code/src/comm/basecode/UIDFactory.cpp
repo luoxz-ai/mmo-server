@@ -2,7 +2,7 @@
 #include "TimeUtil.h"
 const int32_t MAX_SEQ = (2 << 12) - 1;
 
-void CUIDFactory::Init(uint64_t world_id, uint64_t func_id)
+void CUIDFactory::Init(uint16_t world_id, uint8_t func_id)
 {
     world_id_  = world_id;
     func_id_   = func_id;
@@ -33,7 +33,7 @@ uint64_t CUIDFactory::CreateID()
         seq_++;
     }
 
-    uid.time_data = (self_time_ & 0xffffffff);
+    uid.time_data = (self_time_ & 0x7FFFFFF);
     uid.seq_data  = seq_;
 
     return uid._uin64_data;

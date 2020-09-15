@@ -25,9 +25,7 @@ const unsigned char PL_utf8skip[] = {
     7, 13, /** Perl extended (not UTF-8).  Up to 72bit allowed (64-bit + reserved). */
 };
 
-#define UTF8_IS_INVARIANT(c) ((unsigned char)c < 0x80)
-
-#define UTF8SKIP(c) PL_utf8skip[(unsigned char)c]
+bool UTF8_IS_INVARIANT(unsigned char c) { return ((unsigned char)c < 0x80); }
 
 size_t utf8_length(const char* pUTF8, size_t nLen)
 {
@@ -38,7 +36,7 @@ size_t utf8_length(const char* pUTF8, size_t nLen)
     {
         unsigned char ucUTF8 = *(pUTF8 + i);
         if(!UTF8_IS_INVARIANT(ucUTF8))
-            i += UTF8SKIP(ucUTF8);
+            i += PL_utf8skip[ucUTF8];
         else
             i++;
         nRet++;

@@ -36,7 +36,7 @@ public:
     //从配置文件读取数据库地址,并重读配置
     bool LoadServiceSetting(const std::string& filename, uint16_t nWorldID);
     //创建所有本地端口
-    bool CreateAllMessagePort(uint16_t nWorldID, const std::set<uint16_t>& create_service_set);
+    bool CreateAllMessagePort(uint16_t nWorldID, const std::set<ServiceID>& create_service_set);
     //从数据库读取Service配置
     void ReloadServiceInfo(uint32_t update_time, uint16_t nNewWorldID);
     //查询服务地址

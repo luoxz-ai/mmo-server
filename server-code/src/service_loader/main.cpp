@@ -212,7 +212,7 @@ int32_t main(int32_t argc, char* argv[])
     }
 
     auto               vec_start_service = split_string(start_service_set, ",");
-    std::set<uint16_t> create_service_set;
+    std::set<ServiceID> create_service_set;
     for(const auto& v: vec_start_service)
     {
         if(v.empty() == false && v != "" && v != "\001")

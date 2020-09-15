@@ -15,10 +15,10 @@ struct UID_TYPE
     union {
         struct
         {
-            uint64_t seq_data : 13;  // 0~0x1FFF
-            uint64_t time_data : 32; // 0~0xFFFFFFFF
-            uint64_t func_id : 6;    // 0~0x3F
-            uint64_t world_id : 13;  // 0~0x1FFF
+            uint64_t seq_data  : 13;  // 0~0x1FFF   0~17777
+            uint64_t time_data : 27;  // 0~0x7FFFFFF 
+            uint64_t func_id   : 8;   // 0~0xFF
+            uint64_t world_id  : 16;  // 0~0xFFFF
         };
         uint64_t _uin64_data;
     };
@@ -27,14 +27,14 @@ struct UID_TYPE
 class CUIDFactory
 {
 public:
-    void Init(uint64_t world_id, uint64_t func_id);
+    void Init(uint16_t world_id, uint8_t func_id);
     void Uninit() {}
 
     uint64_t CreateID();
 
 private:
-    uint64_t world_id_;  //大区ID
-    uint64_t func_id_;   //功能ID
+    uint16_t world_id_;  //大区ID
+    uint8_t func_id_;   //功能ID
     time_t   self_time_; //自适应时间
     int32_t  seq_;       //序号
 };

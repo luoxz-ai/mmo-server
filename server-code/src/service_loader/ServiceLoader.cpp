@@ -58,7 +58,7 @@ void ServiceLoader::Destory()
     __LEAVE_FUNCTION
 }
 
-bool ServiceLoader::_StartService(const std::string& dll_name, uint16_t idWorld, uint16_t idService)
+bool ServiceLoader::_StartService(const std::string& dll_name, uint16_t idWorld, uint8_t idServiceType, uint8_t idServiceIdx)
 {
     __ENTER_FUNCTION
     if(dll_name.empty())
@@ -86,17 +86,17 @@ bool ServiceLoader::_StartService(const std::string& dll_name, uint16_t idWorld,
         hService = it_moudle->second;
     }
 
-    typedef IService* (*ServiceCreateFunc)(uint16_t, uint16_t);
+    typedef IService* (*ServiceCreateFunc)(uint16_t, uint8_t, uint8_t);
 
     ServiceCreateFunc func = (ServiceCreateFunc)dlsym(hService, "ServiceCreate");
     if(func == nullptr)
     {
         // log err
-        LOGFATAL("ServiceCreateFunc null {} fail:{}", idService, dll_name.c_str());
+        LOGFATAL("ServiceCreateFunc null {} fail:{}", idServiceType, dll_name.c_str());
         return false;
     }
 
-    IService* pService = func(idWorld, idService);
+    IService* pService = func(idWorld, idServiceType, idServiceIdx);
     if(pService)
     {
         m_setService.push_back(pService);
@@ -117,7 +117,7 @@ bool ServiceLoader::_StartService(const std::string& dll_name, uint16_t idWorld,
 
 bool ServiceLoader::Load(const std::string&        setting_filename,
                          uint16_t                  nWorldID,
-                         const std::set<uint16_t>& create_service_set)
+                         const std::set<ServiceID>& create_service_set)
 {
     __ENTER_FUNCTION
 
@@ -139,7 +139,7 @@ bool ServiceLoader::Load(const std::string&        setting_filename,
                 nWorldID,
                 false,
                 [&bSucc, nWorldID, pThis = this](const ServerAddrInfo* pServerAddrInfo) {
-                    bSucc = pThis->_StartService(pServerAddrInfo->lib_name, nWorldID, pServerAddrInfo->idService);
+                    bSucc = pThis->_StartService(pServerAddrInfo->lib_name, nWorldID, pServerAddrInfo->idServiceType, pServerAddrInfo->idServiceIdx);
                     if(bSucc == false)
                         return false;
                     return true;
@@ -149,15 +149,15 @@ bool ServiceLoader::Load(const std::string&        setting_filename,
         }
         else
         {
-            for(uint16_t idService: create_service_set)
+            for(const auto& service_id : create_service_set)
             {
-                auto pServerAddrInfo = GetMessageRoute()->QueryServiceInfo(ServerPort(nWorldID, idService));
+                auto pServerAddrInfo = GetMessageRoute()->QueryServiceInfo(ServerPort(nWorldID, service_id.GetServiceType(), service_id.GetServiceIdx()));
                 if(pServerAddrInfo == nullptr)
                 {
-                    LOGFATAL("World:{} Service:{} QueryServiceInfo Error", nWorldID, idService);
+                    LOGFATAL("World:{} Service:{} {} QueryServiceInfo Error", nWorldID, service_id.GetServiceType(), service_id.GetServiceIdx());
                     continue;
                 }
-                bool bSucc = _StartService(pServerAddrInfo->lib_name, nWorldID, idService);
+                bool bSucc = _StartService(pServerAddrInfo->lib_name, nWorldID, service_id.GetServiceType(), service_id.GetServiceIdx());
                 if(bSucc == false)
                     return false;
             }

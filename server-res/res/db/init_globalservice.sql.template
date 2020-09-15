@@ -1,20 +1,20 @@
 #共享组
-REPLACE INTO `tbld_servicedetail` VALUES (0, 60, 'libroute_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+60, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (0, 16, 'libzone_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+16, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (0, 17, 'libzone_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+17, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (0, 18, 'libzone_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+18, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (0, 19, 'libzone_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+19, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (0, 20, 'libzone_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+20, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (0, 26, 'libai_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+26, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (0, 27, 'libai_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+27, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (0, 28, 'libai_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+28, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (0, 29, 'libai_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+29, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (0, 30, 'libai_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+30, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (0, 10, 1, 'libroute_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+10, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (0, 3, 1, 'libzone_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+31, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (0, 3, 2, 'libzone_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+32, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (0, 3, 3, 'libzone_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+33, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (0, 3, 4, 'libzone_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+34, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (0, 3, 5, 'libzone_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+35, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (0, 4, 1, 'libai_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+41, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (0, 4, 2, 'libai_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+42, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (0, 4, 3, 'libai_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+43, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (0, 4, 4, 'libai_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+44, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (0, 4, 5, 'libai_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+45, '', 0, 0, '0.0.0.0');
 
 
 #后台访问/充值接口
-REPLACE INTO `tbld_servicedetail` VALUES (0, 41, 'libgmproxy_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+41, '${GLOBAL_OUT_IP}', 18041, 30041, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (0, 42, 'libgmproxy_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+42, '${GLOBAL_OUT_IP}', 18042, 30042, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (0, 43, 'libgmproxy_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+43, '${GLOBAL_OUT_IP}', 18043, 30043, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (0, 44, 'libgmproxy_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+44, '${GLOBAL_OUT_IP}', 18044, 30044, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (0, 45, 'libgmproxy_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+45, '${GLOBAL_OUT_IP}', 18045, 30045, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (0, 11, 1, 'libgmproxy_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+111, '${GLOBAL_OUT_IP}', 18111, 30111, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (0, 11, 2, 'libgmproxy_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+112, '${GLOBAL_OUT_IP}', 18112, 30112, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (0, 11, 3, 'libgmproxy_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+113, '${GLOBAL_OUT_IP}', 18113, 30113, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (0, 11, 4, 'libgmproxy_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+114, '${GLOBAL_OUT_IP}', 18114, 30114, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (0, 11, 5, 'libgmproxy_service.so', '${GLOBAL_IP}', ${GLOBAL_PORT_START}+115, '${GLOBAL_OUT_IP}', 18115, 30115, '0.0.0.0');

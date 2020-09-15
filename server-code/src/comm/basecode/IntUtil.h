@@ -5,14 +5,37 @@
 
 #define UNUSED(var) (void)((var) = (var))
 
-export_lua inline int64_t MakeINT64(int32_t left, int32_t right)
-{
-    return static_cast<int64_t>(left) << 32 | static_cast<int64_t>(right);
-}
-
 export_lua inline uint64_t MakeUINT64(uint32_t left, uint32_t right)
 {
     return static_cast<uint64_t>(left) << 32 | static_cast<uint64_t>(right);
+}
+
+export_lua inline void SplitUINT64(uint64_t val, uint32_t& left, uint32_t& right)
+{
+    right = val & 0xFFFFFFFF;
+    left  = (val >> 32) & 0xFFFFFFFF;
+}
+
+export_lua inline uint32_t MakeUINT32(uint16_t left, uint16_t right)
+{
+    return static_cast<uint32_t>(left) << 16 | static_cast<uint32_t>(right);
+}
+
+export_lua inline void SplitUINT32(uint32_t val, uint16_t& left, uint16_t& right)
+{
+    right = val & 0xFFFF;
+    left  = (val >> 16) & 0xFFF;
+}
+
+export_lua inline uint16_t MakeUINT16(uint8_t left, uint8_t right)
+{
+    return static_cast<uint16_t>(left) << 8 | static_cast<uint16_t>(right);
+}
+
+export_lua inline void SplitUINT16(uint16_t val, uint8_t& left, uint8_t& right)
+{
+    right = val & 0xFF;
+    left  = (val >> 8) & 0xFF;
 }
 
 // a*b/c

@@ -214,14 +214,17 @@ void CMessageRoute::ReloadServiceInfo(uint32_t update_time, uint16_t nNewWorldID
             if(row)
             {
                 uint16_t    idWorld      = row->Field(TBLD_SERVICEDETAIL::WORLDID);
-                uint16_t    idService    = row->Field(TBLD_SERVICEDETAIL::SERVICEID);
+                uint8_t    idServiceType = row->Field(TBLD_SERVICEDETAIL::SERVICETYPE);
+                uint8_t    idServiceIdx  = row->Field(TBLD_SERVICEDETAIL::SERVICEIDX);
+                
                 std::string oldRouteAddr = row->Field(TBLD_SERVICEDETAIL::ROUTE_ADDR).get<std::string>();
                 uint16_t    oldRoutePort = row->Field(TBLD_SERVICEDETAIL::ROUTE_PORT).get<uint16_t>();
-                ServerPort  serverport(idWorld, idService);
+                ServerPort  serverport(idWorld, idServiceType, idServiceIdx);
                 //写入ServerInfo
                 auto& refInfo     = m_setServerInfo[serverport];
                 refInfo.idWorld   = idWorld;
-                refInfo.idService = idService;
+                refInfo.idServiceType = idServiceType;
+                refInfo.idServiceIdx  = idServiceIdx;
 
                 refInfo.lib_name     = row->Field(TBLD_SERVICEDETAIL::SERVICE_TYPE).get<std::string>();
                 refInfo.route_addr   = row->Field(TBLD_SERVICEDETAIL::ROUTE_ADDR).get<std::string>();
@@ -237,7 +240,7 @@ void CMessageRoute::ReloadServiceInfo(uint32_t update_time, uint16_t nNewWorldID
                          refInfo.route_addr,
                          refInfo.route_port);
 
-                m_setServerInfoByWorldID[idWorld][ServerPort(idWorld, idService)] = refInfo;
+                m_setServerInfoByWorldID[idWorld][ServerPort(idWorld, idServiceType, idServiceIdx)] = refInfo;
 
                 auto itPort = m_setMessagePort.find(serverport);
                 if(itPort != m_setMessagePort.end())
@@ -448,7 +451,7 @@ CMessagePort* CMessageRoute::_ConnectRemoteServer(const ServerPort& nServerPort,
     return nullptr;
 }
 
-bool CMessageRoute::CreateAllMessagePort(uint16_t nWorldID, const std::set<uint16_t>& create_service_set)
+bool CMessageRoute::CreateAllMessagePort(uint16_t nWorldID, const std::set<ServiceID>& create_service_set)
 {
     __ENTER_FUNCTION
 

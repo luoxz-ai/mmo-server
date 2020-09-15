@@ -237,7 +237,7 @@ void InitRegisterFunction(lua_State* L)
    lua_tinker::def(L, "InitFreeFunc", &InitFreeFunc);
    lua_tinker::def(L, "InitUser", &InitUser);
    lua_tinker::def(L, "InitNpc", &InitNpc);
-   lua_tinker::def(L, "InitZoneService", &InitZoneService);
+   lua_tinker::def(L, "InitSceneService", &InitSceneService);
 }
 
 LUAScriptManager::CreateNew(&InitRegisterFunction);

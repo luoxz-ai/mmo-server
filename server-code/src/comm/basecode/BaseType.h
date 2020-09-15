@@ -53,18 +53,14 @@ using SOCKET = uint32_t;
 const OBJID ID_NONE = static_cast<OBJID>(0);
 
 ///////////////////////////////////////////////////////////////////////
-#define TRUE     1
-#define FALSE    0
-#define INFINITE 0xFFFFFFFF // Infinite timeout
+constexpr uint32_t TRUE = 1;
+constexpr uint32_t FALSE = 0;
+constexpr uint32_t INFINITE = 0xFFFFFFFF; // Infinite timeout
 
-#define INVALID_SOCKET static_cast<SOCKET>(-1)
-#define SOCKET_ERROR   static_cast<SOCKET>(-1)
+constexpr SOCKET INVALID_SOCKET =  static_cast<SOCKET>(-1)
+constexpr SOCKET SOCKET_ERROR =  static_cast<SOCKET>(-1)
 
 #define LINEEND "\n"
-
-#define FAR
-#define NEAR
-#define STDCALL
 
 #define __max(a, b) (((a) > (b)) ? (a) : (b))
 #define __min(a, b) (((a) < (b)) ? (a) : (b))

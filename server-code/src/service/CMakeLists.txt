@@ -6,15 +6,16 @@ set_directory_properties(PROPERTIES COTIRE_PREFIX_HEADER_INCLUDE_PATH "${PCH_INC
 ADD_SUBDIRECTORY(service_comm)
 ADD_SUBDIRECTORY(rpcservice_comm)
 
-ADD_SUBDIRECTORY(socket_service)
-ADD_SUBDIRECTORY(world_service)
-ADD_SUBDIRECTORY(zone_service)
-ADD_SUBDIRECTORY(ai_service)
-ADD_SUBDIRECTORY(market_service)
-ADD_SUBDIRECTORY(gm_service)
+ADD_SUBDIRECTORY(zone/socket_service)
+ADD_SUBDIRECTORY(zone/world_service)
+ADD_SUBDIRECTORY(zone/scene_service)
+ADD_SUBDIRECTORY(zone/ai_service)
+ADD_SUBDIRECTORY(zone/market_service)
+ADD_SUBDIRECTORY(zone/gm_service)
+ADD_SUBDIRECTORY(zone/auth_service)
 
-ADD_SUBDIRECTORY(gmproxy_service)
-ADD_SUBDIRECTORY(route_service)
+ADD_SUBDIRECTORY(global/gmproxy_service)
+ADD_SUBDIRECTORY(global/route_service)
 
 
 

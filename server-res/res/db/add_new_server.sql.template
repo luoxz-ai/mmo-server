@@ -1,18 +1,21 @@
-REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 1, 'libworld_service.so', '${ZONE_IP}', ${PORT_START}+01, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 3, 'libmarket_service.so', '${ZONE_IP}', ${PORT_START}+03, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 4, 'libgm_service.so', '${ZONE_IP}', ${PORT_START}+04, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 11, 'libzone_service.so', '${ZONE_IP}', ${PORT_START}+11, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 12, 'libzone_service.so', '${ZONE_IP}', ${PORT_START}+12, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 13, 'libzone_service.so', '${ZONE_IP}', ${PORT_START}+13, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 14, 'libzone_service.so', '${ZONE_IP}', ${PORT_START}+14, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 15, 'libzone_service.so', '${ZONE_IP}', ${PORT_START}+15, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 21, 'libai_service.so', '${ZONE_IP}', ${PORT_START}+21, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 22, 'libai_service.so', '${ZONE_IP}', ${PORT_START}+22, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 23, 'libai_service.so', '${ZONE_IP}', ${PORT_START}+23, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 24, 'libai_service.so', '${ZONE_IP}', ${PORT_START}+24, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 25, 'libai_service.so', '${ZONE_IP}', ${PORT_START}+25, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 31, 'libsocket_service.so', '${ZONE_IP}', ${PORT_START}+31, '${ZONE_OUT_IP}', ${OUT_PORT_START}, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 32, 'libsocket_service.so', '${ZONE_IP}', ${PORT_START}+32, '${ZONE_OUT_IP}', ${OUT_PORT_END}, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 1, 1, 'libworld_service.so', '${ZONE_IP}', ${PORT_START}+1, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 5, 1, 'libmarket_service.so', '${ZONE_IP}', ${PORT_START}+5, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 6, 1, 'libgm_service.so', '${ZONE_IP}', ${PORT_START}+6, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 2, 1, 'libzone_service.so', '${ZONE_IP}', ${PORT_START}+21, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 2, 2, 'libzone_service.so', '${ZONE_IP}', ${PORT_START}+22, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 2, 3, 'libzone_service.so', '${ZONE_IP}', ${PORT_START}+23, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 2, 4, 'libzone_service.so', '${ZONE_IP}', ${PORT_START}+24, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 2, 5, 'libzone_service.so', '${ZONE_IP}', ${PORT_START}+25, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 4, 1, 'libai_service.so', '${ZONE_IP}', ${PORT_START}+41, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 4, 2, 'libai_service.so', '${ZONE_IP}', ${PORT_START}+42, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 4, 3, 'libai_service.so', '${ZONE_IP}', ${PORT_START}+43, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 4, 4, 'libai_service.so', '${ZONE_IP}', ${PORT_START}+44, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 4, 5, 'libai_service.so', '${ZONE_IP}', ${PORT_START}+45, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 8, 1, 'libauth_service.so', '${ZONE_IP}', ${PORT_START}+81, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 8, 2, 'libauth_service.so', '${ZONE_IP}', ${PORT_START}+82, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 6, 1, 'libsocket_service.so', '${ZONE_IP}', ${PORT_START}+61, '${ZONE_OUT_IP}', ${OUT_PORT_START}, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (${ZONE_ID}, 6, 2, 'libsocket_service.so', '${ZONE_IP}', ${PORT_START}+62, '${ZONE_OUT_IP}', ${OUT_PORT_END}, 0, '0.0.0.0');
+
 
 REPLACE INTO `tbld_dbinfo` VALUES (${ZONE_ID}, '${ZONE_MYSQL_IP}', 3306, '${ZONE_NAME}', 'root', '${MYSQL_PASSWD}');
 REPLACE INTO `tbld_serverlist` VALUES (${ZONE_ID}, '${ZONE_ID}区', ${ZONE_OPEN_TIME}, 4, '${ZONE_OUT_IP}:${OUT_PORT_START};${ZONE_OUT_IP}:${OUT_PORT_END}', 0);

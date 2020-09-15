@@ -12,68 +12,52 @@
 
 const int32_t _MAX_MSGSIZE = 1024 * 4;
 
-export_lua enum SERVICE_TYPE {
-    SOCKET_SERVICE = 1, //单服多个, 连接服务, 网关, 广播, 组播
-    WORLD_SERVICE  = 2, //单服单个, 重要节点,奔溃需重启整组服务, 登录服务, 单服内全局事件, 排行榜, 公会, 组队
-    ZONE_SERVICE   = 3, //单服多个, 游戏服务,负载场景
-    AI_SERVICE     = 4, //单服多个, 与zone联动, ai服务,每个ai服务对应一个zone
-    MARKET_SERVICE = 5, //单服单个, 拍卖行
-    GM_SERVICE     = 6, //单服单个, 无状态, 后台调用, 充值调用
+export_lua class ServiceID
+{
+public:
+    export_lua ServiceID(uint16_t nServerID = 0)
+        : m_Data16(nServerID)
+    {
+    }
 
-    GLOBAL_ROUTE_SERVICE = 8, //全局单个, 无状态, 所有服务均会连接该服务,用来同步特殊的消息
-    
-    GM_PROXY_SERVICE = 9, //全局多个, 无状态, 充值回调, 后台回调, http服务, 收到后进行验证,验证后,转发给对应服的GM_SERVICE
+    export_lua ServiceID(uint8_t idServiceType, uint8_t idServiceIdx)
+        : m_Data{idServiceType, idServiceIdx}
+    {
+    }
+
+    export_lua ServiceID(const ServiceID& rht)
+        : m_Data(rht.m_Data)
+    {
+    }
+
+    export_lua bool IsVaild() const { return m_Data16 != 0; }
+
+    operator uint32_t() const { return m_Data16; }
+
+    export_lua bool operator==(const ServiceID& rht) const { return m_Data16 == rht.m_Data16; }
+
+    export_lua bool operator<(const ServiceID& rht) const { return m_Data16 < rht.m_Data16; }
+
+    export_lua uint16_t GetServiceID() const { return m_Data16; }
+    export_lua void     SetServiceID(uint16_t idService) { m_Data16 = idService; }
+    export_lua uint8_t GetServiceType() const { return m_Data.idServiceType; }
+    export_lua void     SetServiceType(uint8_t idServiceType) { m_Data.idServiceType = idServiceType; }
+    export_lua uint8_t GetServiceIdx() const { return m_Data.idServiceIdx; }
+    export_lua void     SetServiceIdx(uint8_t idServiceIdx) { m_Data.idServiceIdx = idServiceIdx; }
+    export_lua uint32_t GetData() const { return m_Data16; }
+    export_lua void     SetData(uint32_t _Data16) { m_Data16 = _Data16; }
+
+private:
+    struct ST_SERVERID
+    {
+        uint8_t  m_idServiceType  = 0; //实际取值范围0~0xFF 255
+        uint8_t  m_idServiceIdx   = 0; //实际取值范围0~0xFF 255
+    };
+    union {
+        ST_SERVERID m_Data;
+        uint16_t      m_Data16 = 0;
+    };
 };
-
-export_lua enum {
-    WORLD_SERVICE_ID  = 1,
-    MARKET_SERVICE_ID = 3,
-    GM_SERVICE_ID     = 4,
-
-    MIN_ZONE_SERVICE_ID      = 11,
-    MAX_ZONE_SERVICE_ID      = 15,
-    MIN_SHAREZONE_SERVICE_ID = 16,
-    MAX_SHAREZONE_SERVICE_ID = 20,
-
-    MIN_AI_SERVICE_ID = 21,
-    MAX_AI_SERVICE_ID = 30,
-
-    MIN_SOCKET_SERVICE_ID = 31,
-    MAX_SOCKET_SERVICE_ID = 35,
-
-    MIN_GM_PROYX_SERVICE_ID = 41,
-    MAX_GM_PROYX_SERVICE_ID = 45,
-
-    ROUTE_SERVICE_ID = 60,
-    MAX_SERVICE_ID   = 63,
-};
-export_lua constexpr size_t ZONE_SERICE_COUNT = 10;
-export_lua constexpr size_t AI_SERICE_COUNT = 10;
-
-inline uint16_t ZoneID2ServiceID(uint16_t idZone)
-{
-    CHECKF_V(idZone > 0 && idZone <= ZONE_SERICE_COUNT, idZone);
-    return MIN_ZONE_SERVICE_ID + idZone - 1;
-}
-
-inline uint16_t ServiceID2ZoneID(uint16_t idService)
-{
-    CHECKF_V(idService >= MIN_ZONE_SERVICE_ID && idService <= MAX_SHAREZONE_SERVICE_ID, idService);
-    return idService - MIN_ZONE_SERVICE_ID + 1;
-}
-
-struct ServiceNameRegister
-{
-    ServiceNameRegister();
-    std::string                               GetServiceName(uint32_t nServiceID) const;
-    std::unordered_map<uint32_t, std::string> s_ServiceName;
-};
-
-export_lua inline std::string GetServiceName(uint32_t nServiceID)
-{
-    static ServiceNameRegister s_instance;
-    return s_instance.GetServiceName(nServiceID);
-}
 
 export_lua class ServerPort
 {
@@ -83,10 +67,11 @@ public:
     {
     }
 
-    export_lua ServerPort(uint16_t idWorld, uint16_t idService)
-        : m_Data{idWorld, idService}
+    export_lua ServerPort(uint16_t idWorld, uint8_t idServiceType, uint8_t idServiceIdx)
+        : m_Data{idWorld, idServiceType, idServiceIdx}
     {
     }
+
     export_lua ServerPort(const ServerPort& rht)
         : m_Data(rht.m_Data)
     {
@@ -102,16 +87,21 @@ public:
 
     export_lua uint16_t GetWorldID() const { return m_Data.idWorld; }
     export_lua void     SetWorldID(uint16_t idWorld) { m_Data.idWorld = idWorld; }
-    export_lua uint16_t GetServiceID() const { return m_Data.idService; }
-    export_lua void     SetServiceID(uint16_t idService) { m_Data.idService = idService; }
+    export_lua uint16_t GetServiceID() const { return MakeUINT16(m_Data.m_idServiceType,m_Data.m_idServiceIdx); }
+    export_lua void     SetServiceID(uint16_t idService) { SplitUINT16(idService, m_Data.idServiceType, m_Data.idServiceIdx); }
+    export_lua uint8_t GetServiceType() const { return m_Data.idServiceType; }
+    export_lua void     SetServiceType(uint8_t idServiceType) { m_Data.idServiceType = idServiceType; }
+    export_lua uint8_t GetServiceIdx() const { return m_Data.idServiceIdx; }
+    export_lua void     SetServiceIdx(uint8_t idServiceIdx) { m_Data.idServiceIdx = idServiceIdx; }
     export_lua uint32_t GetData() const { return m_Data32; }
     export_lua void     SetData(uint32_t _Data32) { m_Data32 = _Data32; }
 
 private:
     struct ST_SERVERPORT
     {
-        uint16_t idWorld   = 0; //实际取值范围0~0x1FFF 8191
-        uint16_t idService = 0; //实际取值范围0~0x3F 63
+        uint16_t m_idWorld        = 0; //实际取值范围0~0xFFFF 65535
+        uint8_t  m_idServiceType  = 0; //实际取值范围0~0xFF 255
+        uint8_t  m_idServiceIdx   = 0; //实际取值范围0~0xFF 255
     };
     union {
         ST_SERVERPORT m_Data;
@@ -155,12 +145,12 @@ public:
     }
 
     export_lua VirtualSocket(const ServerPort& nServerPort)
-        : m_Data{nServerPort.GetWorldID(), nServerPort.GetServiceID(), 0, 0}
+        : m_Data{nServerPort.GetWorldID(), nServerPort.GetServiceType(), nServerPort.GetServiceIdx(), 0, 0}
     {
     }
 
     export_lua VirtualSocket(const ServerPort& nServerPort, uint16_t nSocketIdx)
-        : m_Data{nServerPort.GetWorldID(), nServerPort.GetServiceID(), nSocketIdx, 0}
+        : m_Data{nServerPort.GetWorldID(), nServerPort.GetServiceType(), nServerPort.GetServiceIdx(), nSocketIdx, 0}
     {
     }
     export_lua VirtualSocket(const VirtualSocket& rht)
@@ -181,14 +171,17 @@ public:
 
     export_lua bool operator<(const VirtualSocket& rht) const { return m_Data64 < rht.m_Data64; }
 
-    export_lua ServerPort GetServerPort() const { return ServerPort{m_Data.m_idWorld, m_Data.m_idService}; }
+    export_lua ServerPort GetServerPort() const { return ServerPort{m_Data.m_idWorld, m_Data.m_idServiceType, m_Data.m_idService}; }
     export_lua void       SetServerPort(const ServerPort& val)
     {
         m_Data.m_idWorld   = val.GetWorldID();
-        m_Data.m_idService = val.GetServiceID();
+        m_Data.m_idServiceType = val.GetServiceType();
+        m_Data.m_idServiceIdx = val.GetServiceIdx();
     }
     export_lua uint16_t GetWorldID() const { return m_Data.m_idWorld; }
-    export_lua uint16_t GetServiceID() const { return m_Data.m_idService; }
+    export_lua uint16_t GetServiceID() const { return MakeUINT16(m_Data.m_idServiceType,m_Data.m_idServiceIdx); }
+    export_lua uint8_t GetServiceType() const { return m_Data.m_idServiceType; }
+    export_lua uint8_t GetServiceIdx() const { return m_Data.m_idServiceIdx; }
 
     export_lua uint16_t GetSocketIdx() const { return m_Data.m_nSocketIdx; }
     export_lua void     SetSocketIdx(uint16_t val) { m_Data.m_nSocketIdx = val; }
@@ -197,8 +190,9 @@ public:
 private:
     struct ST_VIRTUALSOCKET
     {
-        uint16_t m_idWorld    = 0; //实际取值范围0~0x1FFF 8191
-        uint16_t m_idService  = 0; //实际取值范围0~0x3F 63
+        uint16_t m_idWorld        = 0; //实际取值范围0~0xFFFF 65535
+        uint8_t  m_idServiceType  = 0; //实际取值范围0~0xFF 255
+        uint8_t  m_idServiceIdx   = 0; //实际取值范围0~0xFF 255
         uint16_t m_nSocketIdx = 0; //实际取值范围1~0xFFFF 65535
         uint16_t nRevert      = 0;
     };
@@ -241,7 +235,8 @@ struct ServerAddrInfo
     ServerAddrInfo& operator=(const ServerAddrInfo&) = default;
 
     uint16_t    idWorld;
-    uint16_t    idService;
+    uint8_t     idServiceType;
+    uint8_t     idServiceIdx;
     std::string lib_name;
     std::string bind_addr;
     std::string route_addr;
