@@ -1,11 +1,15 @@
+SET(CMAKE_BUILD_TYPE Release)
+
 IF (CMAKE_BUILD_TYPE MATCHES "Debug")
 MESSAGE(STATUS "cmake_type: (debug)")
 ELSE()
 MESSAGE(STATUS "cmake_type: (release)")
 ENDIF()
 
-ADD_SUBDIRECTORY(game_comm)
+ADD_SUBDIRECTORY(comm)
 ADD_SUBDIRECTORY(service)
+ADD_SUBDIRECTORY(service_loader)
+
 ADD_SUBDIRECTORY(tools)
 #ADD_SUBDIRECTORY(test)
 

@@ -3,9 +3,6 @@ set_directory_properties(PROPERTIES COTIRE_PREFIX_HEADER_INCLUDE_PATH "${PCH_INC
 
 
 
-ADD_SUBDIRECTORY(service_comm)
-ADD_SUBDIRECTORY(rpcservice_comm)
-
 ADD_SUBDIRECTORY(zone/socket_service)
 ADD_SUBDIRECTORY(zone/world_service)
 ADD_SUBDIRECTORY(zone/scene_service)

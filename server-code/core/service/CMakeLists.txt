@@ -1,9 +1,12 @@
-MESSAGE(STATUS "cmake: tools-")
-
 set(PCH_INCLUDE_PATH "${COTIRE_PREFIX_HEADER_INCLUDE_PATH}" "${PROJECT_SOURCE_DIR}/src/comm" "${PROJECT_SOURCE_DIR}/src/game_comm")
-
 set_directory_properties(PROPERTIES COTIRE_PREFIX_HEADER_INCLUDE_PATH "${PCH_INCLUDE_PATH}")
 
 
-ADD_SUBDIRECTORY(robotclient)
-ADD_SUBDIRECTORY(merge-server)
+
+ADD_SUBDIRECTORY(service_comm)
+ADD_SUBDIRECTORY(rpcservice_comm)
+
+
+
+
+

@@ -30,7 +30,7 @@ set_target_properties(scene_service PROPERTIES CXX_VISIBILITY_PRESET hidden)
 if(AUTO_GEN_EXPORT_LUA)
 GET_DIRECTORY_PROPERTY(includes INCLUDE_DIRECTORIES)
 add_custom_target(scene2lua ALL
-  COMMAND echo ${SRCS} > /tmp/scene_cpps.txt && echo ${includes} > /tmp/scene_includes.txt && ${BINARIES}/cxx2lua --cpps=/tmp/scene_cpps.txt --include=/tmp/scene_includes.txt --output=${PROJECT_SOURCE_DIR}/src/service/zone/scene_service/script/scene2lua.cpp --output_functionname=scene2lua --skip_cpp --format=clang-format-9
+  COMMAND echo ${SRCS} > /tmp/scene_cpps.txt && echo ${includes} > /tmp/scene_includes.txt && ${BINARIES_CORE}/cxx2lua --cpps=/tmp/scene_cpps.txt --include=/tmp/scene_includes.txt --output=${PROJECT_SOURCE_DIR}/src/service/zone/scene_service/script/scene2lua.cpp --output_functionname=scene2lua --skip_cpp --format=clang-format-9
   DEPENDS cxx2lua
   COMMENT "gen scene2lua for export_lua"
  )

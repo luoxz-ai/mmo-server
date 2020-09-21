@@ -4,13 +4,13 @@ IF(WIN32)
 ELSE()
 
 add_custom_target(mydbtable_protoc-gen-sql ALL
- COMMAND ${PROJECT_SOURCE_DIR}/src/game_comm/mydbtable/gen_proto.sh gamedb ${BINARIES} && ${PROJECT_SOURCE_DIR}/src/game_comm/mydbtable/gen_proto.sh globaldb ${BINARIES}
+ COMMAND ${PROJECT_SOURCE_DIR}/src/game_comm/mydbtable/gen_proto.sh gamedb ${BINARIES_CORE} && ${PROJECT_SOURCE_DIR}/src/game_comm/mydbtable/gen_proto.sh globaldb ${BINARIES_CORE}
  DEPENDS protoc-gen-sql
  COMMENT "gen sql from proto"
 ) 
 
 add_custom_target(mydbtable_sql2cpp ALL
-  COMMAND ${PROJECT_SOURCE_DIR}/src/game_comm/mydbtable/gen_sql_def.sh ${BINARIES} gamedb && ${PROJECT_SOURCE_DIR}/src/game_comm/mydbtable/gen_sql_def.sh  ${BINARIES} globaldb
+  COMMAND ${PROJECT_SOURCE_DIR}/src/game_comm/mydbtable/gen_sql_def.sh ${BINARIES_CORE} gamedb && ${PROJECT_SOURCE_DIR}/src/game_comm/mydbtable/gen_sql_def.sh  ${BINARIES_CORE} globaldb
   DEPENDS sql2cpp mydbtable_protoc-gen-sql
   COMMENT "gen dbdefine from sql"
  )

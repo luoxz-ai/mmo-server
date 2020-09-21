@@ -24,7 +24,7 @@ set_directory_properties(PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
 PROJECT(Framework C CXX)
 
 
-set (CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/src/CMake")
+set (CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/core/CMake")
 include(cotire)
 set_directory_properties(PROPERTIES
     COTIRE_PREFIX_HEADER_INCLUDE_PATH "${PROJECT_SOURCE_DIR}/depends")
@@ -168,20 +168,23 @@ include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/depends/src/recastnavigation/De
 include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/depends/src/spy/include)
 include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/depends/src/)
 
+
+include_directories(${PROJECT_SOURCE_DIR}/core/comm/basecode/)
+include_directories(${PROJECT_SOURCE_DIR}/core/comm/basecode/math)
+include_directories(${PROJECT_SOURCE_DIR}/core/comm/network/)
+include_directories(${PROJECT_SOURCE_DIR}/core/comm/message_route/)
+include_directories(${PROJECT_SOURCE_DIR}/core/comm/mydb/)
+include_directories(${PROJECT_SOURCE_DIR}/core/service/service_comm/)
+include_directories(${PROJECT_SOURCE_DIR}/core/service/rpcservice_comm/)
+
 include_directories(${PROJECT_SOURCE_DIR}/src/server_share/)
-include_directories(${PROJECT_SOURCE_DIR}/src/comm/basecode/)
-include_directories(${PROJECT_SOURCE_DIR}/src/comm/basecode/math)
-include_directories(${PROJECT_SOURCE_DIR}/src/comm/network/)
-include_directories(${PROJECT_SOURCE_DIR}/src/comm/message_route/)
-include_directories(${PROJECT_SOURCE_DIR}/src/comm/mydb/)
 include_directories(${PROJECT_SOURCE_DIR}/src/game_comm/proto/)
 include_directories(${PROJECT_SOURCE_DIR}/src/game_comm/proto/config/)
 include_directories(${PROJECT_SOURCE_DIR}/src/game_comm/proto/common/)
 include_directories(${PROJECT_SOURCE_DIR}/src/game_comm/mydbtable/)
 include_directories(${PROJECT_SOURCE_DIR}/src/game_comm/script/)
 include_directories(${PROJECT_SOURCE_DIR}/src/game_comm/gamemap/)
-include_directories(${PROJECT_SOURCE_DIR}/src/service/service_comm/)
-include_directories(${PROJECT_SOURCE_DIR}/src/service/rpcservice_comm/)
+
 include_directories(${PROJECT_SOURCE_DIR}/src/)
 
 macro(source_group_by_dir source_files)
@@ -215,28 +218,36 @@ macro(source_group_by_files sgbd_group_name source_files)
 endmacro(source_group_by_files)
 
 
+
+
+SET(LIBRARIES_CORE ${PROJECT_BINARY_DIR}/lib/core)
+SET(BINARIES_CORE ${PROJECT_BINARY_DIR}/bin/core)
+
+
 IF(DEBUG)
-MESSAGE(STATUS "Build Debug...")
-SET(CMAKE_BUILD_TYPE Debug)
 SET(LIBRARIES ${PROJECT_BINARY_DIR}/lib/debug)
 SET(BINARIES ${PROJECT_BINARY_DIR}/bin/debug)
 ELSE()
-MESSAGE(STATUS "Build Release...")
-SET(CMAKE_BUILD_TYPE Release)
 SET(LIBRARIES ${PROJECT_BINARY_DIR}/lib/release)
 SET(BINARIES ${PROJECT_BINARY_DIR}/bin/release)
 ENDIF()
 
-
 LINK_DIRECTORIES(
  ${PROJECT_SOURCE_DIR}/depends/lib/
+ ${LIBRARIES_CORE}
  ${LIBRARIES}
 )
 
+MESSAGE(STATUS "Build Core...")
+ADD_SUBDIRECTORY(core obj/core/)
 
 IF(DEBUG)
+MESSAGE(STATUS "Build Debug...")
+SET(CMAKE_BUILD_TYPE Debug)
 ADD_SUBDIRECTORY(src obj/debug)
 ELSE()
+MESSAGE(STATUS "Build Release...")
+SET(CMAKE_BUILD_TYPE Release)
 ADD_SUBDIRECTORY(src obj/release)
 ENDIF()
 
