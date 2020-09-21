@@ -19,7 +19,7 @@ namespace DB2PB
         const Reflection* reflect  = PROTO_T::GetReflection();
         for(int32_t i = 0; i < msg_desc->field_count(); i++)
         {
-            const auto& field  = pDBRecord->Field(i);
+            const auto& field      = pDBRecord->Field(i);
             auto        field_desc = msg_desc->field(i);
             if(field_desc == nullptr)
                 continue;
@@ -64,7 +64,7 @@ namespace DB2PB
         const Reflection* reflect  = PROTO_T::GetReflection();
         for(int32_t i = 0; i < msg_desc->field_count(); i++)
         {
-            auto& field  = pDBRecord->Field(i);
+            auto& field      = pDBRecord->Field(i);
             auto  field_desc = msg_desc->field(i);
             if(field_desc == nullptr)
                 continue;
@@ -100,45 +100,36 @@ namespace DB2PB
             }
         }
     }
-};
-
-
+}; // namespace DB2PB
 
 template<class PROTO_T>
 class TDBObj
 {
 public:
     TDBObj(CDBRecordPtr&& pDBRecordPtr)
-    :m_pDBRecordPtr(std::move(pDBRecordPtr))
-    ,m_pPBMsg(PROTO_T::default_instance().New())
+        : m_pDBRecordPtr(std::move(pDBRecordPtr))
+        , m_pPBMsg(PROTO_T::default_instance().New())
     {
         DB2PB();
     }
-    
+
     TDBObj(CDBRecord* pDBRecordPtr, PROTO_T* pPBMsg)
-    :m_pDBRecordPtr(pDBRecordPtr)
-    ,m_pPBMsg(pPBMsg)
+        : m_pDBRecordPtr(pDBRecordPtr)
+        , m_pPBMsg(pPBMsg)
     {
         DB2PB();
     }
 
-    void DB2PB()
-    {
-        DB2PB::DBField2PB(m_pDBRecordPtr.get(), m_pPBMsg.get());
-    }
+    void DB2PB() { DB2PB::DBField2PB(m_pDBRecordPtr.get(), m_pPBMsg.get()); }
 
-    void PB2DB()
-    {
-        DB2PB::PB2DBField(m_pPBMsg.get(), m_pDBRecordPtr.get());
-    }
+    void PB2DB() { DB2PB::PB2DBField(m_pPBMsg.get(), m_pDBRecordPtr.get()); }
 
-    CDBRecordPtr m_pDBRecordPtr;
+    CDBRecordPtr             m_pDBRecordPtr;
     std::unique_ptr<PROTO_T> m_pPBMsg;
 };
 
 template<class PROTO_T>
 using TDBObjPtr = std::unique_ptr<TDBObj<PROTO_T>>;
-
 
 namespace DB2PB
 {
@@ -177,9 +168,9 @@ namespace DB2PB
     }
 
     template<class TABLE_T, class PROTO_T, uint32_t nKeyID, class DB_T, class KEY_T>
-    std::vector<std::unique_ptr<PROTO_T> > QueryVectorConst(DB_T* pDB, KEY_T key)
+    std::vector<std::unique_ptr<PROTO_T>> QueryVectorConst(DB_T* pDB, KEY_T key)
     {
-        std::vector<std::unique_ptr<PROTO_T> > result;
+        std::vector<std::unique_ptr<PROTO_T>> result;
 
         auto result_ptr = pDB->template QueryKey<TABLE_T, nKeyID>(key);
         if(result_ptr)
@@ -200,9 +191,9 @@ namespace DB2PB
     }
 
     template<class TABLE_T, class PROTO_T, uint32_t nKeyID, class DB_T, class KEY_T>
-    std::vector<TDBObjPtr<PROTO_T> > QueryVector(DB_T* pDB, KEY_T key)
+    std::vector<TDBObjPtr<PROTO_T>> QueryVector(DB_T* pDB, KEY_T key)
     {
-        std::vector<TDBObjPtr<PROTO_T> > result;
+        std::vector<TDBObjPtr<PROTO_T>> result;
 
         auto result_ptr = pDB->template QueryKey<TABLE_T, nKeyID>(key);
         if(result_ptr)
@@ -220,6 +211,6 @@ namespace DB2PB
 
         return result;
     }
-}
+} // namespace DB2PB
 
 #endif /* DBORM_H */

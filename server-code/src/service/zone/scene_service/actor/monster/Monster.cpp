@@ -4,10 +4,10 @@
 #include "Phase.h"
 #include "Player.h"
 #include "Scene.h"
-#include "TeamInfoManager.h"
 #include "SceneService.h"
+#include "TeamInfoManager.h"
 #include "server_msg/server_side.pb.h"
-
+#include "protomsg_to_cmd.h"
 OBJECTHEAP_IMPLEMENTATION(CMonster, s_heap);
 
 CMonster::CMonster() {}
@@ -58,21 +58,13 @@ bool CMonster::Init(uint32_t idMonsterType, OBJID idOwner, uint32_t idGen, uint6
     return false;
 }
 
-bool CMonster::SendMsg(const google::protobuf::Message& msg) const
-{
-    return SendMsg(to_sc_cmd(msg), msg);
-}
-
-bool CMonster::SendMsg(uint16_t cmd, const google::protobuf::Message& msg) const
+bool CMonster::SendMsg(const proto_msg_t& msg) const
 {
     __ENTER_FUNCTION
+    auto cmd = to_cmd(msg);
     if(cmd == CMD_SC_SKILL_STUN || cmd == CMD_SC_AOI_UPDATE || cmd == CMD_SC_ATTRIB_CHANGE)
     {
-        CNetworkMessage _msg(cmd,
-                             msg,
-                             SceneService()->GetServerVirtualSocket(),
-                             SceneService()->GetAIServerVirtualSocket());
-        return SceneService()->SendMsgToPort(_msg);
+        return SceneService()->SendProtoMsgToAIService(cmd, msg);
     }
     return true;
     __LEAVE_FUNCTION

@@ -53,12 +53,12 @@ using SOCKET = uint32_t;
 const OBJID ID_NONE = static_cast<OBJID>(0);
 
 ///////////////////////////////////////////////////////////////////////
-constexpr uint32_t TRUE = 1;
-constexpr uint32_t FALSE = 0;
+#define TRUE  1
+#define FALSE 0
 constexpr uint32_t INFINITE = 0xFFFFFFFF; // Infinite timeout
 
-constexpr SOCKET INVALID_SOCKET =  static_cast<SOCKET>(-1)
-constexpr SOCKET SOCKET_ERROR =  static_cast<SOCKET>(-1)
+constexpr SOCKET INVALID_SOCKET = static_cast<SOCKET>(-1);
+constexpr SOCKET SOCKET_ERROR   = static_cast<SOCKET>(-1);
 
 #define LINEEND "\n"
 
@@ -66,11 +66,11 @@ constexpr SOCKET SOCKET_ERROR =  static_cast<SOCKET>(-1)
 #define __min(a, b) (((a) < (b)) ? (a) : (b))
 
 #define MAGIC_ENUM_RANGE_MIN 0
-#define MAGIC_ENUM_RANGE_MAX INT16_MAX - 1
+#define MAGIC_ENUM_RANGE_MAX 256
 #include "magic_enum.h"
 
 #define NAMEOF_ENUM_RANGE_MIN 0
-#define NAMEOF_ENUM_RANGE_MAX INT16_MAX - 1
+#define NAMEOF_ENUM_RANGE_MAX 256
 #include "nameof.h"
 
 #endif //__BASETYPE_H__

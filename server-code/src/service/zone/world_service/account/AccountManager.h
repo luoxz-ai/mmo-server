@@ -26,7 +26,7 @@ public:
     ~CAccountManager();
 
     //将Account加入列表,通知前端登录成功,并下发角色信息
-    void Login(const std::string& openid, CAccount* pAccount);
+    void Login(const VirtualSocket& vs, const std::string& openid);
     void Logout(const VirtualSocket& vs);
 
     void OnTimer();
@@ -38,14 +38,9 @@ public:
     CAccount* QueryAccountBySocket(const VirtualSocket& vs) const;
 
 private:
-    
-
     //已经认证的Account
     std::unordered_map<std::string, CAccount*>   m_setAccount;
     std::unordered_map<VirtualSocket, CAccount*> m_setAccountBySocket;
     std::deque<CAccount*>                        m_setWaitAccount;
-    std::unique_ptr<CWorkerThread>               m_threadAuth;
-
-    std::unique_ptr<brpc::Channel> m_pAuthChannel;
 };
 #endif /* ACCOUNTMANAGER_H */

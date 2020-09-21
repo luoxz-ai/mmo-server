@@ -9,7 +9,7 @@
 
 CTeamManager::CTeamManager() {}
 
-CTeamManager::~CTeamManager() 
+CTeamManager::~CTeamManager()
 {
     Destory();
 }
@@ -43,7 +43,7 @@ CTeam* CTeamManager::CreateTeam(uint64_t idTeam, OBJID idLeader)
     ServerMSG::TeamCreate msg;
     msg.set_team_id(idTeam);
     msg.set_leader_id(idLeader);
-    WorldService()->SendMsgToAllScene(msg);
+    WorldService()->SendProtoMsgToAllScene(msg);
 
     pTeam->_AddMember(pUser);
     return pTeam;
@@ -65,7 +65,7 @@ bool CTeamManager::DestoryTeam(uint64_t idTeam)
 
     ServerMSG::TeamCreate msg;
     msg.set_team_id(idTeam);
-    WorldService()->SendMsgToAllScene(msg);
+    WorldService()->SendProtoMsgToAllScene(msg);
     CTeam* pTeam = it->second;
     pTeam->SendTeamAction(SC_TEAMMEMBER_ACTION::TEAM_DESTORY, 0, 0);
 
@@ -172,7 +172,7 @@ ON_SERVERMSG(CWorldService, TeamAcceptApply)
     }
     else
     {
-        //auto create team
+        // auto create team
         CTeam* pTeam = TeamManager()->CreateTeam(WorldService()->CreateUID(), pUser->GetID());
         CHECK(pTeam);
         pTeam->AddMember(msg.applicant_id());

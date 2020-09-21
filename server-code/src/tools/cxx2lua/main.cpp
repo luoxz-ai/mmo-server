@@ -75,10 +75,7 @@ enum ContentType
 };
 struct Visitor_Content
 {
-    Visitor_Content(std::string      name       = "",
-                    Visitor_Content* pParent    = nullptr,
-                    std::string      accessname = "",
-                    ContentType      ct         = CT_GLOBAL)
+    Visitor_Content(std::string name = "", Visitor_Content* pParent = nullptr, std::string accessname = "", ContentType ct = CT_GLOBAL)
         : m_name(name)
         , m_pParent(pParent)
         , m_accessname(accessname)
@@ -116,10 +113,7 @@ struct Visitor_Content
     }
 
     bool hasChildClass(const std::string& name) const { return m_setChildClass.find(name) != m_setChildClass.end(); }
-    bool hasChildNameSpace(const std::string& name) const
-    {
-        return m_setChildNameSpace.find(name) != m_setChildNameSpace.end();
-    }
+    bool hasChildNameSpace(const std::string& name) const { return m_setChildNameSpace.find(name) != m_setChildNameSpace.end(); }
 
     ContentType                             m_ContentType;
     std::string                             m_name;
@@ -233,9 +227,7 @@ std::string function_name_conver(const std::string& name)
     };
 
     std::string remove_space_name = name;
-    remove_space_name.erase(std::remove_if(remove_space_name.begin(),
-                                           remove_space_name.end(),
-                                           [](unsigned char x) { return std::isspace(x); }),
+    remove_space_name.erase(std::remove_if(remove_space_name.begin(), remove_space_name.end(), [](unsigned char x) { return std::isspace(x); }),
                             remove_space_name.end());
 
     auto itfind = map_name.find(remove_space_name);
@@ -264,8 +256,7 @@ void visit_function(CXCursor cursor, Visitor_Content* pContent)
     overload_data.is_static = clang_CXXMethod_isStatic(cursor) != 0;
 
     {
-        overload_data.funcptr_type =
-            getClangString(clang_getTypeSpelling(clang_getResultType(clang_getCursorType(cursor))));
+        overload_data.funcptr_type = getClangString(clang_getTypeSpelling(clang_getResultType(clang_getCursorType(cursor))));
 
         if(pContent->m_ContentType == CT_CLASS && overload_data.is_static == false)
         {
@@ -573,14 +564,12 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
 
             std::string nsname = getClangString(clang_getCursorSpelling(cursor));
 
-            if(g_strExportNamespaceName.empty() == false &&
-               g_strExportNamespaceName.find(nsname) == g_strExportNamespaceName.end())
+            if(g_strExportNamespaceName.empty() == false && g_strExportNamespaceName.find(nsname) == g_strExportNamespaceName.end())
                 return CXChildVisit_Continue;
             // reg class
             if(pContent->hasChildNameSpace(nsname) == false)
             {
-                Visitor_Content* pNewContent =
-                    new Visitor_Content(nsname, pContent, pContent->getAccessPrifix() + nsname, CT_NAMESPACE);
+                Visitor_Content* pNewContent = new Visitor_Content(nsname, pContent, pContent->getAccessPrifix() + nsname, CT_NAMESPACE);
 
                 clang_visitChildren(cursor, &TU_visitor, pNewContent);
             }
@@ -947,8 +936,7 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
             {
                 std::string nsname = getClangString(clang_getCursorSpelling(cursor));
 
-                Visitor_Content* pNewContent =
-                    new Visitor_Content(nsname, pContent, pContent->getAccessPrifix() + nsname, CT_NAMESPACE);
+                Visitor_Content* pNewContent = new Visitor_Content(nsname, pContent, pContent->getAccessPrifix() + nsname, CT_NAMESPACE);
 
                 clang_visitChildren(cursor, &visit_enum, pNewContent);
             }
@@ -1091,10 +1079,9 @@ enum CXChildVisitResult TU_visitor(CXCursor cursor, CXCursor parent, CXClientDat
                 }
             }
 
-            std::string nsname = getClangString(clang_getCursorSpelling(cursor));
-            std::string tname  = getClangString(clang_getTypeSpelling(clang_getCursorType(cursor)));
-            std::string canon_name =
-                getClangString(clang_getTypeSpelling(clang_getCanonicalType(clang_getCursorType(cursor))));
+            std::string nsname     = getClangString(clang_getCursorSpelling(cursor));
+            std::string tname      = getClangString(clang_getTypeSpelling(clang_getCursorType(cursor)));
+            std::string canon_name = getClangString(clang_getTypeSpelling(clang_getCanonicalType(clang_getCursorType(cursor))));
 
             debug_printf("do:class_alias\n");
             if(pContent)
@@ -1121,15 +1108,13 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
     if(pContent->m_ContentType == CT_CLASS)
     {
         // should export this?
-        if(g_strExportClassName.empty() == false &&
-           g_strExportClassName.find(pContent->m_name) == g_strExportClassName.end())
+        if(g_strExportClassName.empty() == false && g_strExportClassName.find(pContent->m_name) == g_strExportClassName.end())
             return;
     }
     else if(pContent->m_ContentType == CT_NAMESPACE)
     {
         // should export this
-        if(g_strExportNamespaceName.empty() == false &&
-           g_strExportNamespaceName.find(pContent->m_name) == g_strExportNamespaceName.end())
+        if(g_strExportNamespaceName.empty() == false && g_strExportNamespaceName.find(pContent->m_name) == g_strExportNamespaceName.end())
             return;
     }
     else if(pContent->m_pParent == NULL)
@@ -1211,9 +1196,7 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
     }
     else if(pContent->m_ContentType == CT_NAMESPACE)
     {
-        snprintf(szBuf,
-                 4096,
-                 "lua_tinker::namespace_add(L, \"%s\");\n",
+        snprintf(szBuf, 4096, "lua_tinker::namespace_add(L, \"%s\");\n",
                  pContent->getAccessName().c_str()); // namespace_add
         os += szBuf;
     }
@@ -1229,12 +1212,7 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 
     for(const auto& v: pContent->m_aliasname_list)
     {
-        snprintf(szBuf,
-                 4096,
-                 "lua_tinker::class_alias<%s,%s>(L, \"%s\");\n",
-                 pContent->getAccessName().c_str(),
-                 v.c_str(),
-                 v.c_str());
+        snprintf(szBuf, 4096, "lua_tinker::class_alias<%s,%s>(L, \"%s\");\n", pContent->getAccessName().c_str(), v.c_str(), v.c_str());
         os_second += szBuf;
     }
 
@@ -1328,25 +1306,23 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 
                 if(bStatic)
                 {
-                    snprintf(
-                        szBuf,
-                        4096,
-                        "lua_tinker::class_def_static<%s>(L, \"%s\", lua_tinker::args_type_overload_functor(%s)%s);\n",
-                        pContent->getAccessName().c_str(),
-                        function_name_conver(v.first).c_str(),
-                        overload_params.c_str(),
-                        def_params.c_str());
+                    snprintf(szBuf,
+                             4096,
+                             "lua_tinker::class_def_static<%s>(L, \"%s\", lua_tinker::args_type_overload_functor(%s)%s);\n",
+                             pContent->getAccessName().c_str(),
+                             function_name_conver(v.first).c_str(),
+                             overload_params.c_str(),
+                             def_params.c_str());
                 }
                 else
                 {
-                    snprintf(
-                        szBuf,
-                        4096,
-                        "lua_tinker::class_def<%s>(L, \"%s\", lua_tinker::args_type_overload_member_functor(%s)%s);\n",
-                        pContent->getAccessName().c_str(),
-                        function_name_conver(v.first).c_str(),
-                        overload_params.c_str(),
-                        def_params.c_str());
+                    snprintf(szBuf,
+                             4096,
+                             "lua_tinker::class_def<%s>(L, \"%s\", lua_tinker::args_type_overload_member_functor(%s)%s);\n",
+                             pContent->getAccessName().c_str(),
+                             function_name_conver(v.first).c_str(),
+                             overload_params.c_str(),
+                             def_params.c_str());
                 }
 
                 os += szBuf;
@@ -1414,14 +1390,13 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
                     overload_params += szBuf;
                 }
 
-                snprintf(
-                    szBuf,
-                    4096,
-                    "lua_tinker::namespace_def(L, \"%s\", \"%s\", lua_tinker::args_type_overload_functor(%s)%s);\n",
-                    pContent->getAccessName().c_str(),
-                    v.first.c_str(),
-                    overload_params.c_str(),
-                    def_params.c_str());
+                snprintf(szBuf,
+                         4096,
+                         "lua_tinker::namespace_def(L, \"%s\", \"%s\", lua_tinker::args_type_overload_functor(%s)%s);\n",
+                         pContent->getAccessName().c_str(),
+                         v.first.c_str(),
+                         overload_params.c_str(),
+                         def_params.c_str());
                 os += szBuf;
             }
         }
@@ -1536,11 +1511,7 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
                 }
                 if(refData.default_val.empty() == false)
                 {
-                    snprintf(szBuf,
-                             4096,
-                             "%lu /*default_args_count*/, %lu /*default_args_start*/ ",
-                             refData.default_val.size(),
-                             nDefaultParamsStart);
+                    snprintf(szBuf, 4096, "%lu /*default_args_count*/, %lu /*default_args_start*/ ", refData.default_val.size(), nDefaultParamsStart);
                     nDefaultParamsStart += refData.default_val.size();
                     def_params_decl = szBuf;
                 }
@@ -1624,11 +1595,7 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
 
         for(const auto& v: pContent->m_vecValName)
         {
-            snprintf(szBuf,
-                     4096,
-                     "lua_tinker::set(L,\"%s\",%s);\n",
-                     v.first.c_str(),
-                     (pContent->getAccessPrifix() + v.first).c_str());
+            snprintf(szBuf, 4096, "lua_tinker::set(L,\"%s\",%s);\n", v.first.c_str(), (pContent->getAccessPrifix() + v.first).c_str());
             os += szBuf;
         }
     }
@@ -1663,11 +1630,7 @@ void visit_contnet(Visitor_Content* pContent, std::string& os, std::string& os_s
     {
         for(const auto& v: pContent->m_vecEnumName)
         {
-            snprintf(szBuf,
-                     4096,
-                     "lua_tinker::set(L, \"%s\",%s);\n",
-                     v.c_str(),
-                     (pContent->getAccessPrifix() + v).c_str());
+            snprintf(szBuf, 4096, "lua_tinker::set(L, \"%s\",%s);\n", v.c_str(), (pContent->getAccessPrifix() + v).c_str());
             os += szBuf;
         }
     }
@@ -1723,10 +1686,7 @@ void Tokenize(const std::string& str, std::vector<std::string>& tokens, const st
     }
 }
 
-void visit_includes(CXFile            included_file,
-                    CXSourceLocation* inclusion_stack,
-                    unsigned          include_len,
-                    CXClientData      client_data)
+void visit_includes(CXFile included_file, CXSourceLocation* inclusion_stack, unsigned include_len, CXClientData client_data)
 {
     CXFileUniqueID id;
     clang_getFileUniqueID(included_file, &id);
@@ -1976,9 +1936,7 @@ int main(int argc, char** argv)
     visit_contnet(&content, os, os_second);
     if(g_bDebug)
     {
-        printf("global:func:%lu, child:%lu\n",
-               content.m_vecFuncName.size(),
-               content.m_setChildClass.size() + content.m_setChildNameSpace.size());
+        printf("global:func:%lu, child:%lu\n", content.m_vecFuncName.size(), content.m_setChildClass.size() + content.m_setChildNameSpace.size());
         printf("press any key to start output\n");
         getchar();
     }

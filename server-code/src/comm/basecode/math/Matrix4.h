@@ -145,10 +145,7 @@ struct TransformBasefloat : public TransformBase<4>
 
     /** Extracts the rotation / scaling part of the Matrix as a 3x3 matrix.
      */
-    Matrix3 linear() const
-    {
-        return Matrix3(m[0][0], m[0][1], m[0][2], m[1][0], m[1][1], m[1][2], m[2][0], m[2][1], m[2][2]);
-    }
+    Matrix3 linear() const { return Matrix3(m[0][0], m[0][1], m[0][2], m[1][0], m[1][1], m[1][2], m[2][0], m[2][1], m[2][2]); }
 
     void       extract3x3Matrix(Matrix3& m3x3) const { m3x3 = linear(); }
     Quaternion extractQuaternion() const { return Quaternion(linear()); }
@@ -249,10 +246,10 @@ public:
      */
     inline bool operator==(const Matrix4& m2) const
     {
-        if(m[0][0] != m2.m[0][0] || m[0][1] != m2.m[0][1] || m[0][2] != m2.m[0][2] || m[0][3] != m2.m[0][3] ||
-           m[1][0] != m2.m[1][0] || m[1][1] != m2.m[1][1] || m[1][2] != m2.m[1][2] || m[1][3] != m2.m[1][3] ||
-           m[2][0] != m2.m[2][0] || m[2][1] != m2.m[2][1] || m[2][2] != m2.m[2][2] || m[2][3] != m2.m[2][3] ||
-           m[3][0] != m2.m[3][0] || m[3][1] != m2.m[3][1] || m[3][2] != m2.m[3][2] || m[3][3] != m2.m[3][3])
+        if(m[0][0] != m2.m[0][0] || m[0][1] != m2.m[0][1] || m[0][2] != m2.m[0][2] || m[0][3] != m2.m[0][3] || m[1][0] != m2.m[1][0] ||
+           m[1][1] != m2.m[1][1] || m[1][2] != m2.m[1][2] || m[1][3] != m2.m[1][3] || m[2][0] != m2.m[2][0] || m[2][1] != m2.m[2][1] ||
+           m[2][2] != m2.m[2][2] || m[2][3] != m2.m[2][3] || m[3][0] != m2.m[3][0] || m[3][1] != m2.m[3][1] || m[3][2] != m2.m[3][2] ||
+           m[3][3] != m2.m[3][3])
             return false;
         return true;
     }
@@ -261,19 +258,19 @@ public:
      */
     inline bool operator!=(const Matrix4& m2) const
     {
-        if(m[0][0] != m2.m[0][0] || m[0][1] != m2.m[0][1] || m[0][2] != m2.m[0][2] || m[0][3] != m2.m[0][3] ||
-           m[1][0] != m2.m[1][0] || m[1][1] != m2.m[1][1] || m[1][2] != m2.m[1][2] || m[1][3] != m2.m[1][3] ||
-           m[2][0] != m2.m[2][0] || m[2][1] != m2.m[2][1] || m[2][2] != m2.m[2][2] || m[2][3] != m2.m[2][3] ||
-           m[3][0] != m2.m[3][0] || m[3][1] != m2.m[3][1] || m[3][2] != m2.m[3][2] || m[3][3] != m2.m[3][3])
+        if(m[0][0] != m2.m[0][0] || m[0][1] != m2.m[0][1] || m[0][2] != m2.m[0][2] || m[0][3] != m2.m[0][3] || m[1][0] != m2.m[1][0] ||
+           m[1][1] != m2.m[1][1] || m[1][2] != m2.m[1][2] || m[1][3] != m2.m[1][3] || m[2][0] != m2.m[2][0] || m[2][1] != m2.m[2][1] ||
+           m[2][2] != m2.m[2][2] || m[2][3] != m2.m[2][3] || m[3][0] != m2.m[3][0] || m[3][1] != m2.m[3][1] || m[3][2] != m2.m[3][2] ||
+           m[3][3] != m2.m[3][3])
             return true;
         return false;
     }
 
-    static inline Matrix4 ZERO() {return {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};}
-    static inline Matrix4 IDENTITY() {return {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1};}
+    static inline Matrix4 ZERO() { return {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; }
+    static inline Matrix4 IDENTITY() { return {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1}; }
     /** Useful little matrix which takes 2D clipspace {-1, 1} to {0,1}
         and inverts the Y. */
-    static inline Matrix4 CLIPSPACE2DTOIMAGESPACE() {return {0.5, 0, 0, 0.5, 0, -0.5, 0, 0.5, 0, 0, 1, 0, 0, 0, 0, 1};}
+    static inline Matrix4 CLIPSPACE2DTOIMAGESPACE() { return {0.5, 0, 0, 0.5, 0, -0.5, 0, 0.5, 0, 0, 1, 0, 0, 0, 0, 1}; }
 
     inline Matrix4 operator*(float scalar) const
     {
@@ -318,18 +315,7 @@ public:
         m[3][0] = 0, m[3][1] = 0, m[3][2] = 0, m[3][3] = 1;
     }
 
-    Affine3(float m00,
-            float m01,
-            float m02,
-            float m03,
-            float m10,
-            float m11,
-            float m12,
-            float m13,
-            float m20,
-            float m21,
-            float m22,
-            float m23)
+    Affine3(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20, float m21, float m22, float m23)
     {
         m[0][0] = m00;
         m[0][1] = m01;
@@ -380,9 +366,9 @@ public:
      */
     bool operator==(const Affine3& m2) const
     {
-        if(m[0][0] != m2.m[0][0] || m[0][1] != m2.m[0][1] || m[0][2] != m2.m[0][2] || m[0][3] != m2.m[0][3] ||
-           m[1][0] != m2.m[1][0] || m[1][1] != m2.m[1][1] || m[1][2] != m2.m[1][2] || m[1][3] != m2.m[1][3] ||
-           m[2][0] != m2.m[2][0] || m[2][1] != m2.m[2][1] || m[2][2] != m2.m[2][2] || m[2][3] != m2.m[2][3])
+        if(m[0][0] != m2.m[0][0] || m[0][1] != m2.m[0][1] || m[0][2] != m2.m[0][2] || m[0][3] != m2.m[0][3] || m[1][0] != m2.m[1][0] ||
+           m[1][1] != m2.m[1][1] || m[1][2] != m2.m[1][2] || m[1][3] != m2.m[1][3] || m[2][0] != m2.m[2][0] || m[2][1] != m2.m[2][1] ||
+           m[2][2] != m2.m[2][2] || m[2][3] != m2.m[2][3])
             return false;
         return true;
     }
@@ -406,10 +392,7 @@ public:
 
     /** Gets a translation matrix - variation for not using a vector.
      */
-    static Affine3 getTrans(float t_x, float t_y, float t_z)
-    {
-        return Affine3(1, 0, 0, t_x, 0, 1, 0, t_y, 0, 0, 1, t_z);
-    }
+    static Affine3 getTrans(float t_x, float t_y, float t_z) { return Affine3(1, 0, 0, t_x, 0, 1, 0, t_y, 0, 0, 1, t_z); }
 
     /** Gets a scale matrix.
      */
@@ -417,14 +400,10 @@ public:
 
     /** Gets a scale matrix - variation for not using a vector.
      */
-    static Affine3 getScale(float s_x, float s_y, float s_z)
-    {
-        return Affine3(s_x, 0, 0, 0, 0, s_y, 0, 0, 0, 0, s_z, 0);
-    }
+    static Affine3 getScale(float s_x, float s_y, float s_z) { return Affine3(s_x, 0, 0, 0, 0, s_y, 0, 0, 0, 0, s_z, 0); }
 
-
-    static inline Affine3 ZERO(){ return {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};}
-    static inline Affine3 IDENTITY(){return {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0};}
+    static inline Affine3 ZERO() { return {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}; }
+    static inline Affine3 IDENTITY() { return {1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0}; }
 };
 
 inline Matrix4 TransformBasefloat::transpose() const

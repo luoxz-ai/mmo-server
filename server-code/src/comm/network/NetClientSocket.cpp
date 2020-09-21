@@ -14,15 +14,12 @@ CClientSocket::CClientSocket(CNetworkService* pService, CNetEventHandler* pEvent
 {
 }
 
-CClientSocket::~CClientSocket()
-{
-
-}
+CClientSocket::~CClientSocket() {}
 
 bool CClientSocket::Init(bufferevent* pBufferEvent)
 {
     __ENTER_FUNCTION
-    
+
     if(pBufferEvent)
     {
         bufferevent_setcb(pBufferEvent, _OnSocketRead, _OnSendOK, _OnSocketEvent, (void*)this);

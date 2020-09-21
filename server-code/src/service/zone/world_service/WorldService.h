@@ -3,10 +3,10 @@
 
 #include "IService.h"
 #include "MyTimer.h"
+#include "MysqlConnection.h"
 #include "NetMSGProcess.h"
 #include "NetSocket.h"
 #include "ServiceComm.h"
-#include "MysqlConnection.h"
 
 class CAccountManager;
 class CUserManager;
@@ -30,6 +30,7 @@ public:
     export_lua const std::string& GetServiceName() const override { return CServiceCommon::GetServiceName(); }
     CreateNewRealeaseImpl(CWorldService);
     export_lua uint64_t CreateUID();
+
 public:
     virtual void OnLogicThreadProc() override;
     virtual void OnLogicThreadCreate() override;
@@ -42,11 +43,10 @@ public:
     void     RecyclePlayerID(OBJID idPlayer);
     void     SetServiceReady(uint16_t idService);
 
-    bool CheckProgVer(const std::string& prog_ver) const;
-    bool SendMsgToAllScene(const google::protobuf::Message& msg) const;
-    bool SendMsgToAllScene(uint16_t nCmd, const google::protobuf::Message& msg) const;
-    bool SendMsgToAllPlayer(const google::protobuf::Message& msg) const;
-    bool SendMsgToAllPlayer(uint16_t nCmd, const google::protobuf::Message& msg) const;
+    
+    bool SendProtoMsgToAllScene(const proto_msg_t& msg) const;
+    bool SendProtoMsgToAllPlayer(const proto_msg_t& msg) const;
+    
     //发送广播包给玩家
     void _ID2VS(OBJID id, VirtualSocketMap_t& VSMap) const override;
 
@@ -65,7 +65,7 @@ private:
     CUIDFactory                  m_UIDFactory;
     uint64_t                     m_nCurPlayerMaxID;
     std::deque<OBJID>            m_setPlayerIDPool;
-    std::unordered_set<uint16_t> m_setServiceNeedReady;
+    std::unordered_set<ServiceID> m_setServiceNeedReady;
 
     std::unique_ptr<CMysqlConnection> m_pGameDB;
 
@@ -133,6 +133,5 @@ inline auto GuildManager()
 {
     return WorldService()->GetGuildManager();
 }
-
 
 #endif // WorldService_h__

@@ -39,6 +39,7 @@
 #include <algorithm>
 #include <list>
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -48,13 +49,12 @@
 #include <string.h>
 #include <time.h>
 
+#include "FileUtil.h"
+#include "LockfreeQueue.h"
 #include "LoggingMgr.h"
 #include "Thread.h"
-#include "fmt/printf.h"
 #include "fmt/chrono.h"
-#include "LockfreeQueue.h"
-#include "FileUtil.h"
-#include <memory>
+#include "fmt/printf.h"
 
 #ifdef WIN32
 #include <io.h>
@@ -104,13 +104,8 @@ constexpr const char* LOG_STRING[] = {
 };
 
 #ifdef WIN32
-const static WORD LOG_COLOR[LOG_LEVEL_FATAL + 1] = {0,
-                                                    0,
-                                                    FOREGROUND_BLUE | FOREGROUND_GREEN,
-                                                    FOREGROUND_GREEN | FOREGROUND_RED,
-                                                    FOREGROUND_RED,
-                                                    FOREGROUND_GREEN,
-                                                    FOREGROUND_RED | FOREGROUND_BLUE};
+const static WORD LOG_COLOR[LOG_LEVEL_FATAL + 1] =
+    {0, 0, FOREGROUND_BLUE | FOREGROUND_GREEN, FOREGROUND_GREEN | FOREGROUND_RED, FOREGROUND_RED, FOREGROUND_GREEN, FOREGROUND_RED | FOREGROUND_BLUE};
 #else
 
 const static char LOG_COLOR[LOG_LEVEL_FATAL + 1][50] = {"\e[0m",
@@ -188,10 +183,8 @@ static void sleepMillisecond(uint32_t ms);
 static tm   timeToTm(time_t t);
 static bool isSameDay(time_t t1, time_t t2);
 
-
 static void                                trimLogConfig(std::string& str, std::string extIgnore = std::string());
 static std::pair<std::string, std::string> splitPairString(const std::string& str, const std::string& delimiter);
-
 
 static std::string getProcessID();
 static std::string getProcessName();
@@ -283,7 +276,6 @@ private:
     std::unique_ptr<std::thread> m_pThread;
 };
 
-
 //////////////////////////////////////////////////////////////////////////
 //! LogData
 //////////////////////////////////////////////////////////////////////////
@@ -312,7 +304,7 @@ struct LoggerInfo
     std::string _key;            // logger key
     std::string _name;           // one logger one name.
     std::string _path;           // path for log file.
-    int32_t         _level;          // filter level
+    int32_t     _level;          // filter level
     bool        _display;        // display to screen
     bool        _outfile;        // output to file
     bool        _monthdir;       // create directory per month
@@ -368,26 +360,26 @@ public:
     virtual bool     prePushLog(LoggerId id, int32_t level);
     virtual bool     pushLog(LogData* pLog, const char* file, int32_t line);
     //! 查找ID
-    virtual LoggerId           findLogger(const char* key);
-    bool                       hotChange(LoggerId id, LogDataType ldt, int32_t num, const std::string& text);
-    virtual bool               enableLogger(LoggerId id, bool enable);
-    virtual bool               setLoggerName(LoggerId id, const char* name);
-    virtual bool               setLoggerPath(LoggerId id, const char* path);
-    virtual bool               setLoggerLevel(LoggerId id, int32_t nLevel);
-    virtual bool               setLoggerFileLine(LoggerId id, bool enable);
-    virtual bool               setLoggerDisplay(LoggerId id, bool enable);
-    virtual bool               setLoggerOutFile(LoggerId id, bool enable);
-    virtual bool               setLoggerLimitsize(LoggerId id, uint32_t limitsize);
-    virtual bool               setLoggerMonthdir(LoggerId id, bool enable);
-    virtual bool               setLoggerReserveTime(LoggerId id, time_t sec);
-    virtual bool               setAutoUpdate(int32_t interval);
-    virtual bool               updateConfig();
-    virtual bool               isLoggerEnable(LoggerId id);
+    virtual LoggerId findLogger(const char* key);
+    bool             hotChange(LoggerId id, LogDataType ldt, int32_t num, const std::string& text);
+    virtual bool     enableLogger(LoggerId id, bool enable);
+    virtual bool     setLoggerName(LoggerId id, const char* name);
+    virtual bool     setLoggerPath(LoggerId id, const char* path);
+    virtual bool     setLoggerLevel(LoggerId id, int32_t nLevel);
+    virtual bool     setLoggerFileLine(LoggerId id, bool enable);
+    virtual bool     setLoggerDisplay(LoggerId id, bool enable);
+    virtual bool     setLoggerOutFile(LoggerId id, bool enable);
+    virtual bool     setLoggerLimitsize(LoggerId id, uint32_t limitsize);
+    virtual bool     setLoggerMonthdir(LoggerId id, bool enable);
+    virtual bool     setLoggerReserveTime(LoggerId id, time_t sec);
+    virtual bool     setAutoUpdate(int32_t interval);
+    virtual bool     updateConfig();
+    virtual bool     isLoggerEnable(LoggerId id);
     virtual uint64_t getStatusTotalWriteCount() { return _ullStatusTotalWriteFileCount; }
     virtual uint64_t getStatusTotalWriteBytes() { return _ullStatusTotalWriteFileBytes; }
     virtual uint64_t getStatusTotalPushQueue() { return _ullStatusTotalPushLog; }
     virtual uint64_t getStatusTotalPopQueue() { return _ullStatusTotalPopLog; }
-    virtual uint32_t           getStatusActiveLoggers();
+    virtual uint32_t getStatusActiveLoggers();
 
 protected:
     virtual LogData* makeLogData(LoggerId id, int32_t level);
@@ -406,7 +398,7 @@ private:
     SemHelper _semaphore;
 
     //! hot change name or path for one logger
-    int32_t      _hotUpdateInterval;
+    int32_t  _hotUpdateInterval;
     uint32_t _checksum;
 
     //! the process info.
@@ -419,11 +411,11 @@ private:
     //! logger id manager, [logger name]:[logger id].
     std::map<std::string, LoggerId> _ids;
     // the last used id of _loggers
-    std::atomic<LoggerId>   _lastId;
-    LoggerInfo _loggers[LOG4Z_LOGGER_MAX];
+    std::atomic<LoggerId> _lastId;
+    LoggerInfo            _loggers[LOG4Z_LOGGER_MAX];
 
     //! log queue
-    MPSCQueue<LogData*>  _logs;
+    MPSCQueue<LogData*> _logs;
 
     // show color lock
     LockHelper _scLock;
@@ -501,7 +493,6 @@ bool isSameDay(time_t t1, time_t t2)
     return false;
 }
 
-
 static void trimLogConfig(std::string& str, std::string extIgnore)
 {
     if(str.empty())
@@ -514,8 +505,7 @@ static void trimLogConfig(std::string& str, std::string extIgnore)
     int32_t posEnd   = 0;
 
     // trim utf8 file bom
-    if(str.length() >= 3 && (unsigned char)str[0] == 0xef && (unsigned char)str[1] == 0xbb &&
-       (unsigned char)str[2] == 0xbf)
+    if(str.length() >= 3 && (unsigned char)str[0] == 0xef && (unsigned char)str[1] == 0xbb && (unsigned char)str[2] == 0xbf)
     {
         posBegin = 3;
     }
@@ -564,10 +554,7 @@ static std::pair<std::string, std::string> splitPairString(const std::string& st
     return std::make_pair(str.substr(0, pos), str.substr(pos + delimiter.length()));
 }
 
-static bool parseConfigLine(const std::string&                 line,
-                            int32_t                                curLineNum,
-                            std::string&                       key,
-                            std::map<std::string, LoggerInfo>& outInfo)
+static bool parseConfigLine(const std::string& line, int32_t curLineNum, std::string& key, std::map<std::string, LoggerInfo>& outInfo)
 {
     std::pair<std::string, std::string> kv = splitPairString(line, "=");
     if(kv.first.empty())
@@ -743,7 +730,7 @@ static bool parseConfigFromString(std::string content, std::map<std::string, Log
 {
 
     std::string            key;
-    int32_t                    curLine = 1;
+    int32_t                curLine = 1;
     std::string            line;
     std::string::size_type curPos = 0;
     if(content.empty())
@@ -1023,10 +1010,7 @@ bool ThreadHelper::start()
     if(m_pThread)
         return false;
 
-    m_pThread = std::make_unique<std::thread>([this]()
-    {
-        this->run();
-    });
+    m_pThread = std::make_unique<std::thread>([this]() { this->run(); });
     return true;
 }
 
@@ -1075,10 +1059,10 @@ LogData* LogerManager::makeLogData(LoggerId id, int32_t level)
     // append precise time to log
     if(true)
     {
-        pLog->_id         = id;
-        pLog->_level      = level;
-        pLog->_type       = LDT_GENERAL;
-        pLog->_typeval    = 0;
+        pLog->_id      = id;
+        pLog->_level   = level;
+        pLog->_type    = LDT_GENERAL;
+        pLog->_typeval = 0;
 #ifdef WIN32
         FILETIME ft;
         GetSystemTimeAsFileTime(&ft);
@@ -1104,18 +1088,18 @@ LogData* LogerManager::makeLogData(LoggerId id, int32_t level)
         tm   tt   = timeToTm(pLog->_time);
         NDC* pNdc = BaseCode::getNdc();
 
-        try                                                                                                
-        { 
+        try
+        {
             pLog->_content = fmt::format("{:%Y-%m-%d %H:%M:%S}.{:03} {}[{}] ",
-                                    tt,
-                                    pLog->_precise,
-                                    (pLog->_level < sizeOfArray(LOG_STRING)) ? LOG_STRING[pLog->_level] : "",
-                                    (pNdc) ? pNdc->ndc.c_str() : "");
-        }                                                                                                  
-        catch(fmt::format_error & e)                                                                       
-        {                                                                                                  
-            pLog->_content = fmt::format("format_error:{}",  e.what());                                         
-        }      
+                                         tt,
+                                         pLog->_precise,
+                                         (pLog->_level < sizeOfArray(LOG_STRING)) ? LOG_STRING[pLog->_level] : "",
+                                         (pNdc) ? pNdc->ndc.c_str() : "");
+        }
+        catch(fmt::format_error& e)
+        {
+            pLog->_content = fmt::format("format_error:{}", e.what());
+        }
     }
     return pLog;
 }
@@ -1276,8 +1260,7 @@ LoggerId LogerManager::createLogger(const char* key)
     {
         if(_lastId + 1 >= LOG4Z_LOGGER_MAX)
         {
-            showColorText("log4z: CreateLogger can not create|writeover, because loggerid need < LOGGER_MAX! \r\n",
-                          LOG_LEVEL_FATAL);
+            showColorText("log4z: CreateLogger can not create|writeover, because loggerid need < LOGGER_MAX! \r\n", LOG_LEVEL_FATAL);
             return LOG4Z_INVALID_LOGGER_ID;
         }
         newID                   = ++_lastId;
@@ -1307,7 +1290,7 @@ bool LogerManager::stop()
     {
         // showColorText("log4z stopping \r\n", LOG_LEVEL_FATAL);
         _runing = false;
-        wait();       
+        wait();
         return true;
     }
     return false;
@@ -1333,7 +1316,7 @@ bool LogerManager::prePushLog(LoggerId id, int32_t level)
         delay        = delay / LOG4Z_LOG_QUEUE_LIMIT_SIZE * 50;
         delay        = delay > 50 ? 50 : delay;
         delay        = delay < 5 ? 5 : delay;
-        int32_t r        = rand() % 5000;
+        int32_t r    = rand() % 5000;
         if(r < 1000 || r < delay * 100)
         {
             sleepMillisecond((uint32_t)(delay));
@@ -1373,18 +1356,18 @@ bool LogerManager::pushLog(LogData* pLog, const char* file, int32_t line)
             }
             pNameBegin--;
         } while(true);
-        try                                                                                                
-        { 
+        try
+        {
             pLog->_content += fmt::format("[{}:{}]", pNameBegin, line);
         }
-        catch(fmt::format_error & e)                                                                       
+        catch(fmt::format_error& e)
         {
-            pLog->_content += fmt::format("format_line_error:{}",  e.what());     
+            pLog->_content += fmt::format("format_line_error:{}", e.what());
         }
     }
-    
+
     pLog->_content += "\r\n";
-    
+
     _logs.push(pLog);
     _ullStatusTotalPushLog++;
     return true;
@@ -1417,7 +1400,7 @@ bool LogerManager::hotChange(LoggerId id, LogDataType ldt, int32_t num, const st
     pLog->_type    = ldt;
     pLog->_typeval = num;
     pLog->_content = text;
-    
+
     _logs.push(pLog);
     return true;
 }
@@ -1624,7 +1607,7 @@ bool LogerManager::openLogger(LogData* pLog)
         char buf[500] = {0};
         if(pLogger->_monthdir)
         {
-            fmt::format_to_n(buf,500, "{:%Y_/%m/}", t);
+            fmt::format_to_n(buf, 500, "{:%Y_/%m/}", t);
             path += buf;
         }
 
@@ -1636,15 +1619,12 @@ bool LogerManager::openLogger(LogData* pLog)
         // sprintf(buf, "%s_%s_%04d%02d%02d%02d%02d_%s_%03u.log",
         //    _proName.c_str(), name.c_str(), t.tm_year + 1900, t.tm_mon + 1, t.tm_mday,
         //    t.tm_hour, t.tm_min, _pid.c_str(), pLogger->_curFileIndex);
-        path += fmt::format("{}_{:%Y%m%d}_{:03}.log",
-                name.c_str(),
-                t,
-                pLogger->_curFileIndex);
+        path += fmt::format("{}_{:%Y%m%d}_{:03}.log", name.c_str(), t, pLogger->_curFileIndex);
 
         pLogger->_handle.open(path.c_str(), "ab");
         if(!pLogger->_handle.isOpen())
         {
-            
+
             showColorText("!!!!!!!!!!!!!!!!!!!!!!!!!! \r\n", LOG_LEVEL_FATAL);
             showColorText(fmt::format("log4z: can not open log file {}. \r\n", path.c_str()).c_str(), LOG_LEVEL_FATAL);
             showColorText("!!!!!!!!!!!!!!!!!!!!!!!!!! \r\n", LOG_LEVEL_FATAL);
@@ -1655,8 +1635,7 @@ bool LogerManager::openLogger(LogData* pLog)
         {
             if(pLogger->_historyLogs.size() > LOG4Z_FORCE_RESERVE_FILE_COUNT)
             {
-                while(!pLogger->_historyLogs.empty() &&
-                      pLogger->_historyLogs.front().first < time(NULL) - pLogger->_logReserveTime)
+                while(!pLogger->_historyLogs.empty() && pLogger->_historyLogs.front().first < time(NULL) - pLogger->_logReserveTime)
                 {
                     pLogger->_handle.removeFile(pLogger->_historyLogs.front().second.c_str());
                     pLogger->_historyLogs.pop_front();
@@ -1696,15 +1675,20 @@ void LogerManager::run()
     {
         if(_loggers[i]._enable)
         {
-            ZLOGA( fmt::format("logger id={} key={} name= {} path={} level={} display={}",
-                            i, _loggers[i]._key, _loggers[i]._name, _loggers[i]._path, _loggers[i]._level, _loggers[i]._display) );
+            ZLOGA(fmt::format("logger id={} key={} name= {} path={} level={} display={}",
+                              i,
+                              _loggers[i]._key,
+                              _loggers[i]._name,
+                              _loggers[i]._path,
+                              _loggers[i]._level,
+                              _loggers[i]._display));
         }
     }
 
     _semaphore.post();
 
     LogData* pLog                        = NULL;
-    int32_t      needFlush[LOG4Z_LOGGER_MAX] = {0};
+    int32_t  needFlush[LOG4Z_LOGGER_MAX] = {0};
     time_t   lastCheckUpdate             = time(NULL);
     while(true)
     {
@@ -1719,10 +1703,7 @@ void LogerManager::run()
 
             if(pLog->_type != LDT_GENERAL)
             {
-                onHotChange(pLog->_id,
-                            (LogDataType)pLog->_type,
-                            pLog->_typeval,
-                            pLog->_content);
+                onHotChange(pLog->_id, (LogDataType)pLog->_type, pLog->_typeval, pLog->_content);
                 curLogger._handle.close();
                 freeLogData(pLog);
                 continue;
@@ -1738,18 +1719,18 @@ void LogerManager::run()
                 continue;
             }
 
-            if(curLogger._display )
+            if(curLogger._display)
             {
                 showColorText(pLog->_content.c_str(), pLog->_level);
             }
-            if(LOG4Z_ALL_DEBUGOUTPUT_DISPLAY )
+            if(LOG4Z_ALL_DEBUGOUTPUT_DISPLAY)
             {
 #ifdef WIN32
                 OutputDebugStringA(pLog->_content.c_str());
 #endif
             }
 
-            if(curLogger._outfile )
+            if(curLogger._outfile)
             {
                 if(!openLogger(pLog))
                 {

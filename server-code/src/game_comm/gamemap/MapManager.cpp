@@ -25,7 +25,7 @@ bool CMapManager::Init(uint16_t idZone)
             //只有本zone需要用到的map，才会加载mapdata
             if(idZone == 0 || iter.idzone() == 0 || iter.idzone() == idZone)
             {
-                auto      itFind   = m_vecMapData.find(iter.idmapdata());
+                auto itFind = m_vecMapData.find(iter.idmapdata());
                 if(itFind != m_vecMapData.end())
                 {
                     pMapData = itFind->second.get();
@@ -35,9 +35,9 @@ bool CMapManager::Init(uint16_t idZone)
                     pMapData = CMapData::CreateNew(iter.idmapdata());
                     CHECKF(pMapData);
                     m_vecMapData[pMapData->GetMapTemplateID()].reset(pMapData);
-                }    
+                }
             }
-    
+
             CGameMap* pGameMap = CGameMap::CreateNew(this, iter, pMapData);
             if(pGameMap == nullptr)
             {

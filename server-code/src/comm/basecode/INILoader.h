@@ -45,7 +45,7 @@ struct IniParse : std::map<std::string, std::string>
                 {
                     auto at                                                 = line.find_first_of('=');
                     numlines[symbol = trim(tag + "." + line.substr(0, at))] = L + 1;
-                    (*this)[symbol] = at == std::string::npos ? std::string() : trim(line.substr(at + 1));
+                    (*this)[symbol]                                         = at == std::string::npos ? std::string() : trim(line.substr(at + 1));
                 }
             }
             // std::cout << "L" << L << " " << line << std::endl; // debug
@@ -73,10 +73,7 @@ struct IniParse : std::map<std::string, std::string>
             return false;
     }
 
-    bool read_str(const std::string  section,
-                  const std::string& name,
-                  std::string&       output,
-                  const std::string& default_value) const
+    bool read_str(const std::string section, const std::string& name, std::string& output, const std::string& default_value) const
     {
         std::string txt;
         if(read_str(section, name, txt) == false)

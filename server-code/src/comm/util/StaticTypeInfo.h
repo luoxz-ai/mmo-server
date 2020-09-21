@@ -34,8 +34,7 @@ namespace static_type_info
     constexpr TypeName getTypeName()
     {
         std::string_view name = rawTypeName<T>();
-        return std::string_view(name.data() + probe::prefixLength,
-                                name.size() - probe::prefixLength - probe::suffixLength);
+        return std::string_view(name.data() + probe::prefixLength, name.size() - probe::prefixLength - probe::suffixLength);
     }
 
 } // namespace static_type_info
@@ -58,15 +57,13 @@ namespace static_type_info
     inline constexpr uint32_t hash_32_fnv1a_const(std::string_view str, const uint32_t value = val_32_const) noexcept
     {
         return (str.size() == 0) ? value
-                                 : hash_32_fnv1a_const(std::string_view(str.data() + 1, str.size() - 1),
-                                                       (value ^ uint32_t(str[0])) * prime_32_const);
+                                 : hash_32_fnv1a_const(std::string_view(str.data() + 1, str.size() - 1), (value ^ uint32_t(str[0])) * prime_32_const);
     }
 
     inline constexpr uint64_t hash_64_fnv1a_const(std::string_view str, const uint64_t value = val_64_const) noexcept
     {
         return (str.size() == 0) ? value
-                                 : hash_64_fnv1a_const(std::string_view(str.data() + 1, str.size() - 1),
-                                                       (value ^ uint64_t(str[0])) * prime_64_const);
+                                 : hash_64_fnv1a_const(std::string_view(str.data() + 1, str.size() - 1), (value ^ uint64_t(str[0])) * prime_64_const);
     }
 
 } // namespace static_type_info
@@ -150,7 +147,7 @@ namespace std
     struct hash<static_type_info::TypeID>
     {
         hash<static_type_info::TypeIndex> hasher;
-        size_t operator()(const static_type_info::TypeID& id) const { return hasher(id.index); }
+        size_t                            operator()(const static_type_info::TypeID& id) const { return hasher(id.index); }
     };
 } // namespace std
 

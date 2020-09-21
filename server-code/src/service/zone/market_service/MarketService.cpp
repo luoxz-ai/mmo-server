@@ -12,7 +12,6 @@
 #include "SettingMap.h"
 #include "server_msg/server_side.pb.h"
 
-
 static thread_local CMarketService* tls_pService = nullptr;
 CMarketService*                     MarketService()
 {
@@ -76,7 +75,7 @@ bool CMarketService::Init(const ServerPort& nServerPort)
     ServerMSG::ServiceReady msg;
     msg.set_serverport(GetServerPort());
 
-    SendMsgToPort(ServerPort(GetWorldID(), WORLD_SERVICE_ID), ServerMSG::MsgID_ServiceReady, msg);
+    SendProtoMsgToZonePort(ServerPort(GetWorldID(), WORLD_SERVICE, 0),  msg);
     return true;
 }
 
@@ -84,11 +83,11 @@ void CMarketService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 {
     if(m_pNetMsgProcess->Process(pNetworkMsg) == false)
     {
-        LOGERROR("CMD {} from {} to {} forward {} didn't have ProcessHandler", 
-                pNetworkMsg->GetCmd(),
-                pNetworkMsg->GetFrom(),
-                pNetworkMsg->GetTo(),
-                pNetworkMsg->GetForward());
+        LOGERROR("CMD {} from {} to {} forward {} didn't have ProcessHandler",
+                 pNetworkMsg->GetCmd(),
+                 pNetworkMsg->GetFrom(),
+                 pNetworkMsg->GetTo(),
+                 pNetworkMsg->GetForward());
     }
 }
 

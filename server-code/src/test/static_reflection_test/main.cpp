@@ -48,9 +48,7 @@ struct TestNodeB
     TestNodeA TestNodeB_b;
 };
 
-DEFINE_STRUCT_SCHEMA(TestNodeB,
-                     DEFINE_STRUCT_FIELD(TestNodeB_a, "TestNodeB_a"),
-                     DEFINE_STRUCT_FIELD(TestNodeB_b, "TestNodeB_b"));
+DEFINE_STRUCT_SCHEMA(TestNodeB, DEFINE_STRUCT_FIELD(TestNodeB_a, "TestNodeB_a"), DEFINE_STRUCT_FIELD(TestNodeB_b, "TestNodeB_b"));
 
 struct AllNode
 {
@@ -67,8 +65,7 @@ inline void xmlElement_to_struct(tinyxml2::XMLElement* pE, T& refStruct);
 template<class FieldType>
 inline void xml_value_to_field(tinyxml2::XMLElement* pVarE, FieldType* field)
 {
-    if constexpr(std::is_integral<FieldType>::value || std::is_floating_point<FieldType>::value ||
-                 std::is_same<bool, FieldType>::value)
+    if constexpr(std::is_integral<FieldType>::value || std::is_floating_point<FieldType>::value || std::is_same<bool, FieldType>::value)
     {
         pVarE->QueryAttribute("val", field);
     }
@@ -87,9 +84,7 @@ inline void xml_value_to_field(tinyxml2::XMLElement* pVarE, FieldType* field)
 }
 
 template<class FieldType>
-inline void xml_value_to_field(tinyxml2::XMLElement*                                   pVarE,
-                               FieldType*                                              field,
-                               std::function<void(tinyxml2::XMLElement*, FieldType*)>& after_func)
+inline void xml_value_to_field(tinyxml2::XMLElement* pVarE, FieldType* field, std::function<void(tinyxml2::XMLElement*, FieldType*)>& after_func)
 {
     xml_value_to_field(pVarE, field);
     after_func(pVarE, field);
@@ -134,9 +129,7 @@ inline void xmlElement_to_struct(tinyxml2::XMLElement* pE, T& refStruct)
         {
             std::string field_name      = pStrName;
             std::size_t field_name_hash = hash::MurmurHash3::shash(field_name.c_str(), field_name.size(), 0);
-            static_reflection::FindInField_Index(refStruct,
-                                                 field_name_hash,
-                                                 ForEachXMLLambda{pVarE, field_name.c_str(), field_name_hash});
+            static_reflection::FindInField_Index(refStruct, field_name_hash, ForEachXMLLambda{pVarE, field_name.c_str(), field_name_hash});
         }
 
         pVarE = pVarE->NextSiblingElement();

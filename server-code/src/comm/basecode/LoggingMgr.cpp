@@ -4,8 +4,8 @@
 #include <fmt/format.h>
 #include <fmt/printf.h>
 
-#include "Thread.h"
 #include "FileUtil.h"
+#include "Thread.h"
 #include "TimeUtil.h"
 
 namespace BaseCode
@@ -116,7 +116,7 @@ void BaseCode::InitLog(const std::string& path)
     ILog4zManager::getRef().setLoggerFileLine(BaseCode::s_lua_logger, false);
     ILog4zManager::getRef().setLoggerFileLine(BaseCode::s_gm_logger, false);
 
-    createRecursionDir(g_logPath+"/aidebug");
+    createRecursionDir(g_logPath + "/aidebug");
 
     ILog4zManager::getRef().start();
 }

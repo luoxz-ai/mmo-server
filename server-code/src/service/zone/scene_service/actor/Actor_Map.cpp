@@ -5,10 +5,10 @@
 #include "Player.h"
 #include "Scene.h"
 #include "SceneManager.h"
-#include "SceneTree.h"
 #include "SceneService.h"
+#include "SceneTree.h"
 #include "server_msg/server_side.pb.h"
-
+#include "protomsg_to_cmd.h"
 void CActor::FlyTo(const Vector2& pos)
 {
     __ENTER_FUNCTION
@@ -16,10 +16,9 @@ void CActor::FlyTo(const Vector2& pos)
     CHECK(GetCurrentScene());
     CPhase* pPhase = static_cast<CPhase*>(GetCurrentScene());
     pPhase->LeaveMap(this, pPhase->GetMapID());
-    m_pScene = nullptr;
+    m_pScene     = nullptr;
     auto findPos = pPhase->FindPosNearby(pos, 2.0f);
     pPhase->EnterMap(this, findPos.x, findPos.y, GetFace());
-
 
     __LEAVE_FUNCTION
 }
@@ -81,7 +80,6 @@ uint32_t CActor::GetMapID() const
     if(m_pScene)
         return m_pScene->GetMapID();
 
-
     __LEAVE_FUNCTION
     return 0;
 }
@@ -92,41 +90,33 @@ uint64_t CActor::GetSceneIdx() const
     if(m_pScene)
         return m_pScene->GetSceneIdx();
 
-
     __LEAVE_FUNCTION
     return 0;
 }
 
-void CActor::SendRoomMessage(const google::protobuf::Message& msg, bool bIncludeSelf /*= true*/)
-{
-    __ENTER_FUNCTION
-    SendRoomMessage(to_sc_cmd(msg), msg, bIncludeSelf);
-    __LEAVE_FUNCTION
-}
-
-void CActor::SendRoomMessage(uint16_t cmd, const google::protobuf::Message& msg, bool bIncludeSelf /*= true*/)
+void CActor::SendRoomMessage(const proto_msg_t& msg, bool bIncludeSelf /*= true*/)
 {
     __ENTER_FUNCTION
     SendShowToDealyList();
-    auto setSocketMap = SceneService()->IDList2VSMap(m_ViewActorsByType[ACT_PLAYER], (bIncludeSelf) ?  GetID() : 0 );
-    SceneService()->SendMsgTo(setSocketMap, cmd, msg);
+    auto setSocketMap = SceneService()->IDList2VSMap(m_ViewActorsByType[ACT_PLAYER], (bIncludeSelf) ? GetID() : 0);
+    SceneService()->SendProtoMsgTo(setSocketMap, msg);
+    auto cmd = to_cmd(msg);
     // send message to ai_service
-    if((IsMonster() || IsPlayer()) &&
-       (cmd == CMD_SC_AOI_UPDATE || cmd == CMD_SC_CASTSKILL || cmd == CMD_SC_ATTRIB_CHANGE))
+    if((IsMonster() || IsPlayer()) && (cmd == CMD_SC_AOI_UPDATE || cmd == CMD_SC_CASTSKILL || cmd == CMD_SC_ATTRIB_CHANGE))
     {
-        SceneService()->SendMsgToAIService(cmd, msg);
+        SceneService()->SendProtoMsgToAIService(cmd, msg);
     }
 
     __LEAVE_FUNCTION
 }
 
-void CActor::SendWorldMessage(uint16_t cmd, const google::protobuf::Message& msg)
+void CActor::SendWorldMessage(const proto_msg_t& msg)
 {
     __ENTER_FUNCTION
-    
+
     if(GetWorldID() != 0)
     {
-        SceneService()->SendMsgToWorld(GetWorldID(), cmd, msg);
+        SceneService()->SendProtoMsgToWorld(GetWorldID(),  msg);
     }
 
     __LEAVE_FUNCTION

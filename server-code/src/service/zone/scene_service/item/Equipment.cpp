@@ -3,8 +3,8 @@
 #include "Item.h"
 #include "ItemAddition.h"
 #include "Player.h"
-#include "SuitEquip.h"
 #include "SceneService.h"
+#include "SuitEquip.h"
 CEquipment::CEquipment() {}
 
 CEquipment::~CEquipment()
@@ -25,9 +25,8 @@ bool CEquipment::Init(CPlayer* pPlayer)
     m_pOwner = pPlayer;
     auto pDB = SceneService()->GetGameDB(m_pOwner->GetWorldID());
     CHECKF(pDB);
-    auto pResult = pDB->QueryMultiCond<TBLD_ITEM>(
-            DBCond<TBLD_ITEM,TBLD_ITEM::OWNER_ID, OBJID>{pPlayer->GetID()},
-            DBCond<TBLD_ITEM,TBLD_ITEM::POSITION, uint32_t>{ITEMPOSITION_EQUIP});
+    auto pResult = pDB->QueryMultiCond<TBLD_ITEM>(DBCond<TBLD_ITEM, TBLD_ITEM::OWNER_ID, OBJID>{pPlayer->GetID()},
+                                                  DBCond<TBLD_ITEM, TBLD_ITEM::POSITION, uint32_t>{ITEMPOSITION_EQUIP});
 
     if(pResult)
     {
@@ -41,10 +40,7 @@ bool CEquipment::Init(CPlayer* pPlayer)
                 if(it_find != m_setItem.end())
                 {
                     // logerror
-                    LOGERROR("PlayerID:{} Pakcage:{} PackageIdx:{} Have SameItem!!!!!",
-                             m_pOwner->GetID(),
-                             ITEMPOSITION_EQUIP,
-                             pItem->GetGrid());
+                    LOGERROR("PlayerID:{} Pakcage:{} PackageIdx:{} Have SameItem!!!!!", m_pOwner->GetID(), ITEMPOSITION_EQUIP, pItem->GetGrid());
                     SAFE_DELETE(pItem);
                     continue;
                 }
@@ -140,10 +136,7 @@ bool CEquipment::EquipItem(uint32_t nGridInPackage, uint32_t nGrid, bool bSync /
     return false;
 }
 
-CItem* CEquipment::UnequipItem(uint32_t nGrid,
-                               bool     bSync /*=true*/,
-                               bool     bRecalcAbility /*=true*/,
-                               bool     bRemoveItemExpire /*= true*/)
+CItem* CEquipment::UnequipItem(uint32_t nGrid, bool bSync /*=true*/, bool bRecalcAbility /*=true*/, bool bRemoveItemExpire /*= true*/)
 {
     __ENTER_FUNCTION
     auto it = m_setItem.find(nGrid);
@@ -412,10 +405,7 @@ void CEquipment::CheckItemExpire(uint32_t dwTimeNow)
             if(m_pOwner->GetBag()->IsFull() == false)
             {
                 UnequipItem(nGrid, SYNC_TRUE, false, false);
-                ScriptManager()->TryExecScript<void>(pItem->ItemTypePtr()->GetScriptID(),
-                                                     SCB_ITEM_ONTIMEOUT,
-                                                     pItem,
-                                                     m_pOwner);
+                ScriptManager()->TryExecScript<void>(pItem->ItemTypePtr()->GetScriptID(), SCB_ITEM_ONTIMEOUT, pItem, m_pOwner);
             }
             else
             {
@@ -476,15 +466,11 @@ void CEquipment::OnItemEquiped(CItem* pItem, bool bRepair)
     m_pOwner->GetAchievement()->CheckAchiCondition(CONDITION_EQUIPMENT, pItem->GetType(), pItem->GetGrid());
     if(pItem->ItemTypePtr()->GetQuility() > 0)
     {
-        m_pOwner->GetAchievement()->CheckAchiCondition(CONDITION_EQUIPMENT_QUILITY,
-                                                       pItem->ItemTypePtr()->GetQuility(),
-                                                       pItem->GetGrid());
+        m_pOwner->GetAchievement()->CheckAchiCondition(CONDITION_EQUIPMENT_QUILITY, pItem->ItemTypePtr()->GetQuility(), pItem->GetGrid());
     }
     if(pItem->GetAddition() > 0)
     {
-        m_pOwner->GetAchievement()->CheckAchiCondition(CONDITION_EQUIPMENT_ADDITION,
-                                                       pItem->GetAddition(),
-                                                       pItem->GetGrid());
+        m_pOwner->GetAchievement()->CheckAchiCondition(CONDITION_EQUIPMENT_ADDITION, pItem->GetAddition(), pItem->GetGrid());
     }
     __LEAVE_FUNCTION
 }

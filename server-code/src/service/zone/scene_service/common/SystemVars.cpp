@@ -35,7 +35,7 @@ uint64_t CSystemVar::GetData(uint32_t nIdx) const
 const std::string& CSystemVar::GetStr(uint32_t nIdx) const
 {
     static const std::string s_Empty;
-    CHECKFR(0 > nIdx && nIdx < 4, s_Empty);
+    CHECK_RET(0 > nIdx && nIdx < 4, s_Empty);
     return m_szStrData[nIdx];
 }
 
@@ -58,8 +58,8 @@ void CSystemVar::AddData(uint32_t nIdx, int64_t nVal, bool bUpdate /*= false*/, 
         msg.set_idx(nIdx);
         msg.set_val(nVal);
         msg.set_type(ServerMSG::SystemVarChange::SVCT_ADD_DATA);
-        SceneService()->SendMsgToAllScene(to_server_msgid(msg), msg);
-        SceneService()->SendMsgToWorld(SceneService()->GetWorldID(), to_server_msgid(msg), msg);
+        SceneService()->SendProtoMsgToAllScene(msg);
+        SceneService()->SendProtoMsgToWorld(SceneService()->GetWorldID(), msg);
     }
 }
 
@@ -81,8 +81,8 @@ void CSystemVar::SetData(uint32_t nIdx, uint64_t nVal, bool bUpdate /*= false*/,
         msg.set_idx(nIdx);
         msg.set_val(nVal);
         msg.set_type(ServerMSG::SystemVarChange::SVCT_SET_DATA);
-        SceneService()->SendMsgToAllScene(to_server_msgid(msg), msg);
-        SceneService()->SendMsgToWorld(SceneService()->GetWorldID(), to_server_msgid(msg), msg);
+        SceneService()->SendProtoMsgToAllScene(msg);
+        SceneService()->SendProtoMsgToWorld(SceneService()->GetWorldID(), msg);
     }
 }
 
@@ -103,8 +103,8 @@ void CSystemVar::SetStr(uint32_t nIdx, const std::string& strVal, bool bUpdate /
         msg.set_idx(nIdx);
         msg.set_str(strVal);
         msg.set_type(ServerMSG::SystemVarChange::SVCT_SET_STR);
-        SceneService()->SendMsgToAllScene(to_server_msgid(msg), msg);
-        SceneService()->SendMsgToWorld(SceneService()->GetWorldID(), to_server_msgid(msg), msg);
+        SceneService()->SendProtoMsgToAllScene(msg);
+        SceneService()->SendProtoMsgToWorld(SceneService()->GetWorldID(), msg);
     }
 }
 
@@ -132,7 +132,7 @@ void CSystemVar::Broadcast()
     if(GetStr(3).empty() == false)
         pData->set_str3(GetStr(3));
 
-    SceneService()->SendMsgToAllPlayer(msg);
+    SceneService()->SendProtoMsgToAllPlayer(msg);
 }
 
 void CSystemVar::SendToPlayer(CPlayer* pPlayer)
@@ -270,8 +270,8 @@ CSystemVar* CSystemVarSet::CreateVar(uint32_t nIdx)
     ServerMSG::SystemVarChange msg;
     msg.set_keyidx(nIdx);
     msg.set_type(ServerMSG::SystemVarChange::SVCT_CREATE);
-    SceneService()->SendMsgToAllScene(to_server_msgid(msg), msg);
-    SceneService()->SendMsgToWorld(SceneService()->GetWorldID(), to_server_msgid(msg), msg);
+    SceneService()->SendProtoMsgToAllScene(msg);
+    SceneService()->SendProtoMsgToWorld(SceneService()->GetWorldID(), msg);
 
     return m_setData[nIdx].get();
 }

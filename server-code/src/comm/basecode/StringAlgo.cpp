@@ -25,7 +25,10 @@ const unsigned char PL_utf8skip[] = {
     7, 13, /** Perl extended (not UTF-8).  Up to 72bit allowed (64-bit + reserved). */
 };
 
-bool UTF8_IS_INVARIANT(unsigned char c) { return ((unsigned char)c < 0x80); }
+bool UTF8_IS_INVARIANT(unsigned char c)
+{
+    return ((unsigned char)c < 0x80);
+}
 
 size_t utf8_length(const char* pUTF8, size_t nLen)
 {
@@ -201,7 +204,7 @@ std::string get_fullpath(const std::string& szPath)
 
     int32_t len = ::strlen(szFull);
 
-    char c = szFull[len - 1]={};
+    char c = szFull[len - 1] = {};
     if(c != '/')
         ::strcat(szFull + len, "/");
     ::strcat(szFull + len, szPath.c_str());

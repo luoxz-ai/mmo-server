@@ -25,8 +25,7 @@
 // VV
 // ATT_ESCAPE
 
-export_lua enum AITaskType
-{
+export_lua enum AITaskType {
     ATT_IDLE = 0,   // idle
     ATT_ATTACK,     //攻击决策
     ATT_APPROACH,   //移动到距离目标N米处
@@ -75,7 +74,7 @@ public:
 
     export_lua bool FindEnemyInHateList();
     export_lua bool ForEachInHateList(std::function<bool(ST_HATE_DATA*)> func);
-    void Process();
+    void            Process();
 
     export_lua uint32_t GetState() const;
     export_lua void     ChangeState(uint32_t val);
@@ -129,12 +128,12 @@ protected:
 
 public:
 public:
-    export_lua OBJID          GetMainTarget() const;
-    export_lua void           SetMainTarget(OBJID val);
-    export_lua CAIActor*      GetActor() const;
+    export_lua OBJID GetMainTarget() const;
+    export_lua void  SetMainTarget(OBJID val);
+    export_lua CAIActor* GetActor() const;
     export_lua const CAIType* GetAIType() const;
     export_lua CAIPathFinder* PathFind() const { return m_pAIPathFinder.get(); }
-    export_lua CAIGroup*      GetAIGroup() const {return m_pAIGroup;}
+    export_lua CAIGroup* GetAIGroup() const { return m_pAIGroup; }
 
     const Cfg_AIType_Row&                   GetAIData() const;
     const Cfg_Scene_Patrol_Row_patrol_data* GetCurPratolData();
@@ -150,9 +149,7 @@ private:
     {
         if(GetAIData().script_id() != 0)
         {
-            return ScriptManager()->TryExecScript<R>(GetAIData().script_id(),
-                                                     idxCallBackType,
-                                                     std::forward<Args>(args)...);
+            return ScriptManager()->TryExecScript<R>(GetAIData().script_id(), idxCallBackType, std::forward<Args>(args)...);
         }
         return R{};
     }
@@ -177,7 +174,7 @@ private:
 
     CHateList m_HateList;
 
-    bool      m_bSleep = false;
+    bool m_bSleep = false;
 
     CAIGroup* m_pAIGroup = nullptr;
 };

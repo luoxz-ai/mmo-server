@@ -107,7 +107,7 @@ void CGuild::SendGuildAction(uint32_t nAction, OBJID idOperator, OBJID idMember)
     msg.set_member_id(idMember);
 
     auto setSocketMap = WorldService()->IDList2VSMap(m_setMemberInfo, 0);
-    WorldService()->SendMsgTo(setSocketMap, msg);
+    WorldService()->SendProtoMsgTo(setSocketMap, msg);
 
     __LEAVE_FUNCTION
 }
@@ -121,7 +121,7 @@ void CGuild::SendGuildMemberInfoToAll(CGuildMemberInfo* pMemberInfo) const
     pMemberInfo->to_pb(*pInfo);
 
     auto setSocketMap = WorldService()->IDList2VSMap(m_setMemberInfo, 0);
-    WorldService()->SendMsgTo(setSocketMap, msg);
+    WorldService()->SendProtoMsgTo(setSocketMap, msg);
     __LEAVE_FUNCTION
 }
 
@@ -164,7 +164,7 @@ void CGuild::SetLeader(OBJID idOperator, OBJID idLeader, const std::string& strL
     msg.set_guild_id(GetGuildID());
     msg.set_operator_id(idOperator);
     msg.set_new_leader_id(GetLeaderID());
-    WorldService()->SendMsgToAllScene(msg);
+    WorldService()->SendProtoMsgToAllScene(msg);
 
     SendGuildAction(SC_GUILDMEMBER_ACTION::GUILD_CHANGE_LEADER, idOperator, idLeader);
     __LEAVE_FUNCTION
@@ -195,7 +195,7 @@ void CGuild::AddMember(OBJID idMember, uint32_t nRank)
     ServerMSG::GuildAddMember msg;
     msg.set_guild_id(GetGuildID());
     msg.set_member_id(idMember);
-    WorldService()->SendMsgToAllScene(msg);
+    WorldService()->SendProtoMsgToAllScene(msg);
 
     // send to all member,exclude pUser;
     SendGuildMemberInfoToAll(pMemberInfo);
@@ -280,7 +280,7 @@ bool CGuild::AddMemberOffline(OBJID idMember, uint32_t nRank)
     ServerMSG::GuildAddMember msg;
     msg.set_guild_id(GetGuildID());
     msg.set_member_id(idMember);
-    WorldService()->SendMsgToAllScene(msg);
+    WorldService()->SendProtoMsgToAllScene(msg);
 
     // send to all member,exclude pUser;
     SendGuildMemberInfoToAll(pMemberInfo);
@@ -309,7 +309,7 @@ bool CGuild::KickMember(OBJID idOperator, OBJID idMember)
         msg.set_guild_id(GetGuildID());
         msg.set_operator_id(idOperator);
         msg.set_kick_id(idMember);
-        WorldService()->SendMsgToAllScene(msg);
+        WorldService()->SendProtoMsgToAllScene(msg);
     }
 
     CUser* pUser = UserManager()->QueryUser(idMember);
@@ -453,7 +453,7 @@ void CGuild::QuitGuild(OBJID idOperator)
     ServerMSG::GuildQuit msg;
     msg.set_guild_id(GetGuildID());
     msg.set_operator_id(idOperator);
-    WorldService()->SendMsgToAllScene(msg);
+    WorldService()->SendProtoMsgToAllScene(msg);
 
     SendGuildAction(SC_GUILDMEMBER_ACTION::GUILD_QUIT, idOperator, idOperator);
 

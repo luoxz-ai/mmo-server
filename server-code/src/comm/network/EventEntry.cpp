@@ -5,9 +5,7 @@
 
 OBJECTHEAP_IMPLEMENTATION(CEventEntry, s_heap);
 
-CEventEntry::CEventEntry(CEventManager*      pManager,
-                         const CEventEntryCreateParam& param,
-                         uint32_t nManagerType)
+CEventEntry::CEventEntry(CEventManager* pManager, const CEventEntryCreateParam& param, uint32_t nManagerType)
     : m_pManager(pManager)
     , m_tWaitTime(param.tWaitTime)
     , m_evType(param.evType)
@@ -103,11 +101,11 @@ void CEventEntry::Clear()
 
 void CEventEntry::Set(const CEventEntryCreateParam& param, uint32_t nManagerType)
 {
-    m_evType    = param.evType;
-    m_pCallBack = param.cb;
-    m_tWaitTime = param.tWaitTime;
-    m_bPersist  = param.bPersist;
-    m_bRunning  = true;
+    m_evType        = param.evType;
+    m_pCallBack     = param.cb;
+    m_tWaitTime     = param.tWaitTime;
+    m_bPersist      = param.bPersist;
+    m_bRunning      = true;
     m_evManagerType = nManagerType;
 }
 
@@ -136,10 +134,10 @@ bool CEventEntry::CreateEvTimer(event_base* base)
                 CEventEntry* pEntry = (CEventEntry*)ctx;
                 if(pEntry == nullptr || pEntry->m_pCallBack == nullptr)
                     return;
-                
+
                 int32_t nEventType   = pEntry->GetEventType();
                 int32_t nManagerType = pEntry->GetManagerType();
-                bool bPersist = pEntry->m_bPersist;
+                bool    bPersist     = pEntry->m_bPersist;
                 pEntry->Trigger();
 
                 if(bPersist == false)
@@ -147,7 +145,7 @@ bool CEventEntry::CreateEvTimer(event_base* base)
                     if(nManagerType == EMT_EVMANAGER)
                     {
                         pEntry->ReleaseFromManager();
-                        //pEntry is deleted
+                        // pEntry is deleted
                     }
                 }
             },
@@ -172,7 +170,7 @@ void CEventEntry::Trigger()
     {
         m_pCallBack();
     }
-    
+
     __LEAVE_FUNCTION
 }
 

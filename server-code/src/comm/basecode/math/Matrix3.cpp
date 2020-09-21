@@ -50,8 +50,7 @@ Matrix3 Matrix3::operator*(const Matrix3& rkMatrix) const
     {
         for(size_t iCol = 0; iCol < 3; iCol++)
         {
-            kProd.m[iRow][iCol] =
-                m[iRow][0] * rkMatrix.m[0][iCol] + m[iRow][1] * rkMatrix.m[1][iCol] + m[iRow][2] * rkMatrix.m[2][iCol];
+            kProd.m[iRow][iCol] = m[iRow][0] * rkMatrix.m[0][iCol] + m[iRow][1] * rkMatrix.m[1][iCol] + m[iRow][2] * rkMatrix.m[2][iCol];
         }
     }
     return kProd;
@@ -62,8 +61,7 @@ Vector3 operator*(const Vector3& rkPoint, const Matrix3& rkMatrix)
     Vector3 kProd;
     for(size_t iRow = 0; iRow < 3; iRow++)
     {
-        kProd[iRow] =
-            rkPoint[0] * rkMatrix.m[0][iRow] + rkPoint[1] * rkMatrix.m[1][iRow] + rkPoint[2] * rkMatrix.m[2][iRow];
+        kProd[iRow] = rkPoint[0] * rkMatrix.m[0][iRow] + rkPoint[1] * rkMatrix.m[1][iRow] + rkPoint[2] * rkMatrix.m[2][iRow];
     }
     return kProd;
 }
@@ -377,8 +375,7 @@ void Matrix3::SingularValueDecomposition(Matrix3& kL, Vector3& kS, Matrix3& kR) 
     // Compute 'threshold = multiplier*epsilon*|kA|' as the threshold for
     // diagonal entries effectively zero; that is, |d| <= |threshold|
     // implies that d is (effectively) zero. We will use the L2-norm |kA|.
-    float norm = Math::Sqrt(kA[0][0] * kA[0][0] + kA[0][1] * kA[0][1] + kA[1][1] * kA[1][1] + kA[1][2] * kA[1][2] +
-                            kA[2][2] * kA[2][2]);
+    float       norm       = Math::Sqrt(kA[0][0] * kA[0][0] + kA[0][1] * kA[0][1] + kA[1][1] * kA[1][1] + kA[1][2] * kA[1][2] + kA[2][2] * kA[2][2]);
     float const multiplier = (float)8;
     float const epsilon    = std::numeric_limits<float>::epsilon();
     float const threshold  = multiplier * epsilon * norm;
@@ -653,11 +650,9 @@ float Matrix3::SpectralNorm() const
     }
 
     float afCoeff[3];
-    afCoeff[0] = -(kP[0][0] * (kP[1][1] * kP[2][2] - kP[1][2] * kP[2][1]) +
-                   kP[0][1] * (kP[2][0] * kP[1][2] - kP[1][0] * kP[2][2]) +
+    afCoeff[0] = -(kP[0][0] * (kP[1][1] * kP[2][2] - kP[1][2] * kP[2][1]) + kP[0][1] * (kP[2][0] * kP[1][2] - kP[1][0] * kP[2][2]) +
                    kP[0][2] * (kP[1][0] * kP[2][1] - kP[2][0] * kP[1][1]));
-    afCoeff[1] = kP[0][0] * kP[1][1] - kP[0][1] * kP[1][0] + kP[0][0] * kP[2][2] - kP[0][2] * kP[2][0] +
-                 kP[1][1] * kP[2][2] - kP[1][2] * kP[2][1];
+    afCoeff[1] = kP[0][0] * kP[1][1] - kP[0][1] * kP[1][0] + kP[0][0] * kP[2][2] - kP[0][2] * kP[2][0] + kP[1][1] * kP[2][2] - kP[1][2] * kP[2][1];
     afCoeff[2] = -(kP[0][0] + kP[1][1] + kP[2][2]);
 
     float fRoot = MaxCubicRoot(afCoeff);

@@ -172,9 +172,7 @@ bool CEventManager::ScheduleEvent(const CEventEntryCreateParam& param)
     return true;
 }
 
-CEventEntry* CEventManager::_ScheduleEvent(const CEventEntryCreateParam& param,
-                                           CEventEntry*                  pEntry,
-                                           uint32_t                      nManagerType)
+CEventEntry* CEventManager::_ScheduleEvent(const CEventEntryCreateParam& param, CEventEntry* pEntry, uint32_t nManagerType)
 {
     CHECKF(param.cb);
     CHECKF(param.tWaitTime >= 0);

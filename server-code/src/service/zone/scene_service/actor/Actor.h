@@ -7,8 +7,8 @@
 #include "GameLog.h"
 #include "MyTimer.h"
 #include "SceneObject.h"
-#include "SkillFSM.h"
 #include "SceneService.h"
+#include "SkillFSM.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"
 #include "server_share/game_common_def.h"
@@ -74,13 +74,11 @@ public:
 
 public:
     // AOI相关
-    export_lua void SendRoomMessage(const google::protobuf::Message& msg, bool bIncludeSelf = true);
-    export_lua void SendRoomMessage(uint16_t cmd, const google::protobuf::Message& msg, bool bIncludeSelf = true);
-    export_lua void SendWorldMessage(uint16_t cmd, const google::protobuf::Message& msg);
-    export_lua bool SendMsg(const google::protobuf::Message& msg) const;
-    export_lua virtual bool SendMsg(uint16_t cmd, const google::protobuf::Message& msg) const { return false; }
-
-    void BroadcastMessageTo(uint32_t cmd, const google::protobuf::Message& msg, const VirtualSocketMap_t& setSocketMap);
+    export_lua void         SendRoomMessage(const proto_msg_t& msg, bool bIncludeSelf = true);
+    export_lua void         SendWorldMessage(const proto_msg_t& msg);
+    export_lua virtual bool SendMsg(const proto_msg_t& msg) const {return false;}
+    
+    void         BroadcastMessageTo(const proto_msg_t& msg, const VirtualSocketMap_t& setSocketMap);
     virtual void MakeShowData(SC_AOI_NEW& msg) {}
 
     export_lua void SendShowToDealyList();

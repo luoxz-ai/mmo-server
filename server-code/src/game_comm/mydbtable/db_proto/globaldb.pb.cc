@@ -161,8 +161,9 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_db_5fproto_2fglobaldb_2eproto:
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::db::tbld_servicedetail, worldid_),
-  PROTOBUF_FIELD_OFFSET(::db::tbld_servicedetail, serviceid_),
   PROTOBUF_FIELD_OFFSET(::db::tbld_servicedetail, service_type_),
+  PROTOBUF_FIELD_OFFSET(::db::tbld_servicedetail, service_idx_),
+  PROTOBUF_FIELD_OFFSET(::db::tbld_servicedetail, lib_name_),
   PROTOBUF_FIELD_OFFSET(::db::tbld_servicedetail, route_addr_),
   PROTOBUF_FIELD_OFFSET(::db::tbld_servicedetail, route_port_),
   PROTOBUF_FIELD_OFFSET(::db::tbld_servicedetail, publish_addr_),
@@ -204,15 +205,16 @@ const char descriptor_table_protodef_db_5fproto_2fglobaldb_2eproto[] PROTOBUF_SE
   "orldid\030\001 \001(\rB\020\222\?\0028\020\222\?\010\032\006idx_id\022\033\n\013server"
   "_name\030\002 \001(\tB\006\222\?\003\010\377\001\022\021\n\topen_time\030\003 \001(\r\022\023"
   "\n\013open_status\030\004 \001(\r\022\034\n\014publish_addr\030\005 \001("
-  "\tB\006\222\?\003\010\377\001\022\026\n\007mergeto\030\006 \001(\rB\005\222\?\0028\020\"\254\002\n\022tb"
+  "\tB\006\222\?\003\010\377\001\022\026\n\007mergeto\030\006 \001(\rB\005\222\?\0028\020\"\327\002\n\022tb"
   "ld_servicedetail\022&\n\007worldid\030\001 \001(\rB\025\222\?\0028\020"
-  "\222\?\r\032\013idx_worldid\022(\n\tserviceid\030\002 \001(\rB\025\222\?\002"
-  "8\020\222\?\r\032\013idx_worldid\022\034\n\014service_type\030\003 \001(\t"
-  "B\006\222\?\003\010\377\001\022\032\n\nroute_addr\030\004 \001(\tB\006\222\?\003\010\377\001\022\031\n\n"
-  "route_port\030\005 \001(\rB\005\222\?\0028\020\022\034\n\014publish_addr\030"
-  "\006 \001(\tB\006\222\?\003\010\377\001\022\033\n\014publish_port\030\007 \001(\rB\005\222\?\002"
-  "8\020\022\031\n\ndebug_port\030\010 \001(\rB\005\222\?\0028\020\022\031\n\tbind_ad"
-  "dr\030\t \001(\tB\006\222\?\003\010\377\001b\006proto3"
+  "\222\?\r\032\013idx_worldid\022+\n\014service_type\030\002 \001(\rB\025"
+  "\222\?\0028\010\222\?\r\032\013idx_worldid\022*\n\013service_idx\030\003 \001"
+  "(\rB\025\222\?\0028\010\222\?\r\032\013idx_worldid\022\030\n\010lib_name\030\004 "
+  "\001(\tB\006\222\?\003\010\377\001\022\032\n\nroute_addr\030\005 \001(\tB\006\222\?\003\010\377\001\022"
+  "\031\n\nroute_port\030\006 \001(\rB\005\222\?\0028\020\022\034\n\014publish_ad"
+  "dr\030\007 \001(\tB\006\222\?\003\010\377\001\022\033\n\014publish_port\030\010 \001(\rB\005"
+  "\222\?\0028\020\022\031\n\ndebug_port\030\t \001(\rB\005\222\?\0028\020\022\031\n\tbind"
+  "_addr\030\n \001(\tB\006\222\?\003\010\377\001b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_db_5fproto_2fglobaldb_2eproto_deps[1] = {
   &::descriptor_table_sql_5foptions_2fsql_5foptions_2eproto,
@@ -227,7 +229,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_db_
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_db_5fproto_2fglobaldb_2eproto_once;
 static bool descriptor_table_db_5fproto_2fglobaldb_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_db_5fproto_2fglobaldb_2eproto = {
-  &descriptor_table_db_5fproto_2fglobaldb_2eproto_initialized, descriptor_table_protodef_db_5fproto_2fglobaldb_2eproto, "db_proto/globaldb.proto", 1024,
+  &descriptor_table_db_5fproto_2fglobaldb_2eproto_initialized, descriptor_table_protodef_db_5fproto_2fglobaldb_2eproto, "db_proto/globaldb.proto", 1067,
   &descriptor_table_db_5fproto_2fglobaldb_2eproto_once, descriptor_table_db_5fproto_2fglobaldb_2eproto_sccs, descriptor_table_db_5fproto_2fglobaldb_2eproto_deps, 5, 1,
   schemas, file_default_instances, TableStruct_db_5fproto_2fglobaldb_2eproto::offsets,
   file_level_metadata_db_5fproto_2fglobaldb_2eproto, 5, file_level_enum_descriptors_db_5fproto_2fglobaldb_2eproto, file_level_service_descriptors_db_5fproto_2fglobaldb_2eproto,
@@ -1671,9 +1673,9 @@ tbld_servicedetail::tbld_servicedetail(const tbld_servicedetail& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
-  service_type_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (!from._internal_service_type().empty()) {
-    service_type_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.service_type_);
+  lib_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_lib_name().empty()) {
+    lib_name_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.lib_name_);
   }
   route_addr_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   if (!from._internal_route_addr().empty()) {
@@ -1695,7 +1697,7 @@ tbld_servicedetail::tbld_servicedetail(const tbld_servicedetail& from)
 
 void tbld_servicedetail::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_tbld_servicedetail_db_5fproto_2fglobaldb_2eproto.base);
-  service_type_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  lib_name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   route_addr_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   publish_addr_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   bind_addr_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
@@ -1710,7 +1712,7 @@ tbld_servicedetail::~tbld_servicedetail() {
 }
 
 void tbld_servicedetail::SharedDtor() {
-  service_type_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  lib_name_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   route_addr_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   publish_addr_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   bind_addr_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
@@ -1731,7 +1733,7 @@ void tbld_servicedetail::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  service_type_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  lib_name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   route_addr_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   publish_addr_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   bind_addr_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
@@ -1755,64 +1757,71 @@ const char* tbld_servicedetail::_InternalParse(const char* ptr, ::PROTOBUF_NAMES
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint32 serviceid = 2 [(.sql) = {
+      // uint32 service_type = 2 [(.sql) = {
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
-          serviceid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          service_type_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // string service_type = 3 [(.sql) = {
+      // uint32 service_idx = 3 [(.sql) = {
       case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
-          auto str = _internal_mutable_service_type();
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "db.tbld_servicedetail.service_type"));
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          service_idx_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // string route_addr = 4 [(.sql) = {
+      // string lib_name = 4 [(.sql) = {
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 34)) {
+          auto str = _internal_mutable_lib_name();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "db.tbld_servicedetail.lib_name"));
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // string route_addr = 5 [(.sql) = {
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 42)) {
           auto str = _internal_mutable_route_addr();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "db.tbld_servicedetail.route_addr"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint32 route_port = 5 [(.sql) = {
-      case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
+      // uint32 route_port = 6 [(.sql) = {
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48)) {
           route_port_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // string publish_addr = 6 [(.sql) = {
-      case 6:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 50)) {
+      // string publish_addr = 7 [(.sql) = {
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 58)) {
           auto str = _internal_mutable_publish_addr();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "db.tbld_servicedetail.publish_addr"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint32 publish_port = 7 [(.sql) = {
-      case 7:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 56)) {
+      // uint32 publish_port = 8 [(.sql) = {
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 64)) {
           publish_port_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // uint32 debug_port = 8 [(.sql) = {
-      case 8:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 64)) {
+      // uint32 debug_port = 9 [(.sql) = {
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 72)) {
           debug_port_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // string bind_addr = 9 [(.sql) = {
-      case 9:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 74)) {
+      // string bind_addr = 10 [(.sql) = {
+      case 10:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 82)) {
           auto str = _internal_mutable_bind_addr();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "db.tbld_servicedetail.bind_addr"));
@@ -1851,68 +1860,74 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(1, this->_internal_worldid(), target);
   }
 
-  // uint32 serviceid = 2 [(.sql) = {
-  if (this->serviceid() != 0) {
+  // uint32 service_type = 2 [(.sql) = {
+  if (this->service_type() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->_internal_serviceid(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->_internal_service_type(), target);
   }
 
-  // string service_type = 3 [(.sql) = {
-  if (this->service_type().size() > 0) {
+  // uint32 service_idx = 3 [(.sql) = {
+  if (this->service_idx() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(3, this->_internal_service_idx(), target);
+  }
+
+  // string lib_name = 4 [(.sql) = {
+  if (this->lib_name().size() > 0) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_service_type().data(), static_cast<int>(this->_internal_service_type().length()),
+      this->_internal_lib_name().data(), static_cast<int>(this->_internal_lib_name().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "db.tbld_servicedetail.service_type");
+      "db.tbld_servicedetail.lib_name");
     target = stream->WriteStringMaybeAliased(
-        3, this->_internal_service_type(), target);
+        4, this->_internal_lib_name(), target);
   }
 
-  // string route_addr = 4 [(.sql) = {
+  // string route_addr = 5 [(.sql) = {
   if (this->route_addr().size() > 0) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_route_addr().data(), static_cast<int>(this->_internal_route_addr().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "db.tbld_servicedetail.route_addr");
     target = stream->WriteStringMaybeAliased(
-        4, this->_internal_route_addr(), target);
+        5, this->_internal_route_addr(), target);
   }
 
-  // uint32 route_port = 5 [(.sql) = {
+  // uint32 route_port = 6 [(.sql) = {
   if (this->route_port() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(5, this->_internal_route_port(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(6, this->_internal_route_port(), target);
   }
 
-  // string publish_addr = 6 [(.sql) = {
+  // string publish_addr = 7 [(.sql) = {
   if (this->publish_addr().size() > 0) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_publish_addr().data(), static_cast<int>(this->_internal_publish_addr().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "db.tbld_servicedetail.publish_addr");
     target = stream->WriteStringMaybeAliased(
-        6, this->_internal_publish_addr(), target);
+        7, this->_internal_publish_addr(), target);
   }
 
-  // uint32 publish_port = 7 [(.sql) = {
+  // uint32 publish_port = 8 [(.sql) = {
   if (this->publish_port() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(7, this->_internal_publish_port(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(8, this->_internal_publish_port(), target);
   }
 
-  // uint32 debug_port = 8 [(.sql) = {
+  // uint32 debug_port = 9 [(.sql) = {
   if (this->debug_port() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(8, this->_internal_debug_port(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(9, this->_internal_debug_port(), target);
   }
 
-  // string bind_addr = 9 [(.sql) = {
+  // string bind_addr = 10 [(.sql) = {
   if (this->bind_addr().size() > 0) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_bind_addr().data(), static_cast<int>(this->_internal_bind_addr().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "db.tbld_servicedetail.bind_addr");
     target = stream->WriteStringMaybeAliased(
-        9, this->_internal_bind_addr(), target);
+        10, this->_internal_bind_addr(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1931,28 +1946,28 @@ size_t tbld_servicedetail::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string service_type = 3 [(.sql) = {
-  if (this->service_type().size() > 0) {
+  // string lib_name = 4 [(.sql) = {
+  if (this->lib_name().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_service_type());
+        this->_internal_lib_name());
   }
 
-  // string route_addr = 4 [(.sql) = {
+  // string route_addr = 5 [(.sql) = {
   if (this->route_addr().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_route_addr());
   }
 
-  // string publish_addr = 6 [(.sql) = {
+  // string publish_addr = 7 [(.sql) = {
   if (this->publish_addr().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_publish_addr());
   }
 
-  // string bind_addr = 9 [(.sql) = {
+  // string bind_addr = 10 [(.sql) = {
   if (this->bind_addr().size() > 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
@@ -1966,28 +1981,35 @@ size_t tbld_servicedetail::ByteSizeLong() const {
         this->_internal_worldid());
   }
 
-  // uint32 serviceid = 2 [(.sql) = {
-  if (this->serviceid() != 0) {
+  // uint32 service_type = 2 [(.sql) = {
+  if (this->service_type() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
-        this->_internal_serviceid());
+        this->_internal_service_type());
   }
 
-  // uint32 route_port = 5 [(.sql) = {
+  // uint32 service_idx = 3 [(.sql) = {
+  if (this->service_idx() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
+        this->_internal_service_idx());
+  }
+
+  // uint32 route_port = 6 [(.sql) = {
   if (this->route_port() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_route_port());
   }
 
-  // uint32 publish_port = 7 [(.sql) = {
+  // uint32 publish_port = 8 [(.sql) = {
   if (this->publish_port() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_publish_port());
   }
 
-  // uint32 debug_port = 8 [(.sql) = {
+  // uint32 debug_port = 9 [(.sql) = {
   if (this->debug_port() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
@@ -2025,9 +2047,9 @@ void tbld_servicedetail::MergeFrom(const tbld_servicedetail& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.service_type().size() > 0) {
+  if (from.lib_name().size() > 0) {
 
-    service_type_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.service_type_);
+    lib_name_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.lib_name_);
   }
   if (from.route_addr().size() > 0) {
 
@@ -2044,8 +2066,11 @@ void tbld_servicedetail::MergeFrom(const tbld_servicedetail& from) {
   if (from.worldid() != 0) {
     _internal_set_worldid(from._internal_worldid());
   }
-  if (from.serviceid() != 0) {
-    _internal_set_serviceid(from._internal_serviceid());
+  if (from.service_type() != 0) {
+    _internal_set_service_type(from._internal_service_type());
+  }
+  if (from.service_idx() != 0) {
+    _internal_set_service_idx(from._internal_service_idx());
   }
   if (from.route_port() != 0) {
     _internal_set_route_port(from._internal_route_port());
@@ -2079,7 +2104,7 @@ bool tbld_servicedetail::IsInitialized() const {
 void tbld_servicedetail::InternalSwap(tbld_servicedetail* other) {
   using std::swap;
   _internal_metadata_.Swap(&other->_internal_metadata_);
-  service_type_.Swap(&other->service_type_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+  lib_name_.Swap(&other->lib_name_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
   route_addr_.Swap(&other->route_addr_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
@@ -2088,7 +2113,8 @@ void tbld_servicedetail::InternalSwap(tbld_servicedetail* other) {
   bind_addr_.Swap(&other->bind_addr_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
     GetArenaNoVirtual());
   swap(worldid_, other->worldid_);
-  swap(serviceid_, other->serviceid_);
+  swap(service_type_, other->service_type_);
+  swap(service_idx_, other->service_idx_);
   swap(route_port_, other->route_port_);
   swap(publish_port_, other->publish_port_);
   swap(debug_port_, other->debug_port_);

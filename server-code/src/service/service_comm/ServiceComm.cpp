@@ -2,12 +2,14 @@
 
 #include <iostream>
 
+#include "CheckUtil.h"
 #include "EventManager.h"
 #include "MessagePort.h"
 #include "MessageRoute.h"
 #include "MonitorMgr.h"
 #include "msg/ts_cmd.pb.h"
 #include "server_msg/server_side.pb.h"
+#include "protomsg_to_cmd.h"
 
 CServiceCommon::CServiceCommon()
     : m_pNetworkService(nullptr)
@@ -15,10 +17,7 @@ CServiceCommon::CServiceCommon()
 {
 }
 
-CServiceCommon::~CServiceCommon()
-{
-
-}
+CServiceCommon::~CServiceCommon() {}
 
 void CServiceCommon::DestoryServiceCommon()
 {
@@ -54,6 +53,7 @@ void CServiceCommon::DestoryServiceCommon()
 
 bool CServiceCommon::Init(const ServerPort& nServerPort)
 {
+    __ENTER_FUNCTION
     m_nServerPort    = nServerPort;
     m_ServiceName    = ::GetServiceName(nServerPort.GetServiceID());
     m_pNetMsgProcess = std::make_unique<CNetMSGProcess>();
@@ -62,18 +62,22 @@ bool CServiceCommon::Init(const ServerPort& nServerPort)
     m_pMonitorMgr.reset(CMonitorMgr::CreateNew());
     CHECKF(m_pMonitorMgr.get());
     return true;
+    __LEAVE_FUNCTION
+    return true;
 }
 
 bool CServiceCommon::CreateNetworkService()
 {
+    __ENTER_FUNCTION
     if(m_pNetworkService)
         return false;
     m_pNetworkService = std::make_unique<CNetworkService>();
     return true;
+    __LEAVE_FUNCTION
+    return true;
 }
 
-bool CServiceCommon::CreateService(int32_t                         nWorkInterval /*= 100*/,
-                                   class CMessagePortEventHandler* pEventHandler /*= nullptr*/)
+bool CServiceCommon::CreateService(int32_t nWorkInterval /*= 100*/, class CMessagePortEventHandler* pEventHandler /*= nullptr*/)
 {
     __ENTER_FUNCTION
     if(ListenMessagePort(GetServiceName(), pEventHandler) == false)
@@ -86,8 +90,7 @@ bool CServiceCommon::CreateService(int32_t                         nWorkInterval
     return true;
 }
 
-bool CServiceCommon::ListenMessagePort(const std::string&        service_name,
-                                       CMessagePortEventHandler* pEventHandler /*= nullptr*/)
+bool CServiceCommon::ListenMessagePort(const std::string& service_name, CMessagePortEventHandler* pEventHandler /*= nullptr*/)
 {
     __ENTER_FUNCTION
     m_pMessagePort = GetMessageRoute()->QueryMessagePort(GetServerPort(), false);
@@ -100,6 +103,7 @@ bool CServiceCommon::ListenMessagePort(const std::string&        service_name,
 
 void CServiceCommon::StartLogicThread(int32_t nWorkInterval, const std::string& name)
 {
+    __ENTER_FUNCTION
     if(m_pLogicThread)
     {
         return;
@@ -109,15 +113,18 @@ void CServiceCommon::StartLogicThread(int32_t nWorkInterval, const std::string& 
                                                      std::bind(&CServiceCommon::OnLogicThreadProc, this),
                                                      std::bind(&CServiceCommon::OnLogicThreadCreate, this),
                                                      std::bind(&CServiceCommon::OnLogicThreadExit, this));
+    __LEAVE_FUNCTION
 }
 
 void CServiceCommon::StopLogicThread()
 {
+    __ENTER_FUNCTION
     if(m_pLogicThread)
     {
         m_pLogicThread->Stop();
         m_pLogicThread->Join();
     }
+    __LEAVE_FUNCTION
 }
 
 void CServiceCommon::OnProcessMessage(CNetworkMessage*) {}
@@ -168,150 +175,171 @@ void CServiceCommon::OnLogicThreadProc()
 
 void CServiceCommon::OnLogicThreadCreate()
 {
+    __ENTER_FUNCTION
     BaseCode::InitMonitorLog(m_ServiceName);
+    __LEAVE_FUNCTION
 }
 
 void CServiceCommon::OnLogicThreadExit() {}
 
-bool CServiceCommon::SendBroadcastMsgToPort(const ServerPort& nServerPort, const google::protobuf::Message& msg) const
-{
-    return SendBroadcastMsgToPort(nServerPort, to_server_msgid(msg), msg);
-}
-
-bool CServiceCommon::SendBroadcastMsgToPort(const ServerPort&                nServerPort,
-                                          uint16_t                         usCmd,
-                                          const google::protobuf::Message& msg) const
+bool CServiceCommon::SendBroadcastMsgToPort(const ServerPort& nServerPort, const proto_msg_t& msg) const
 {
     __ENTER_FUNCTION
-    if(GetMessageRoute() && nServerPort.IsVaild())
-    {
-        CMessagePort* pMessagePort = GetMessageRoute()->QueryMessagePort(nServerPort);
-        if(pMessagePort)
-        {
-            CNetworkMessage _msg(usCmd, msg, GetServerVirtualSocket(), VirtualSocket(nServerPort));
-            _msg.SetBroadcast();
-            return pMessagePort->SendBroadcastMsg(_msg);
-        }
-        else
-        {
-            LOGWARNING("SendMsgToPort To ServerPort:{}, not find", nServerPort);
-            LOGWARNING("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7)));
-        }
-    }
+    CNetworkMessage _msg(to_cmd(msg), msg, GetServerVirtualSocket(), nServerPort);
+    _msg.SetBroadcast();
+    return _SendMsgToZonePort(_msg);
     __LEAVE_FUNCTION
     return false;
 }
 
-bool CServiceCommon::SendMultiMsgToPort(const ServerPort&                 nServerPort,
-                                      const std::vector<VirtualSocket>& setVS,
-                                      const CNetworkMessage&            msg) const
+bool CServiceCommon::SendProtoMsgToZonePort(const ServerPort& nServerPort, const proto_msg_t& msg) const
 {
     __ENTER_FUNCTION
-    if(GetMessageRoute() && nServerPort.IsVaild())
-    {
-        CMessagePort* pMessagePort = GetMessageRoute()->QueryMessagePort(nServerPort);
-        if(pMessagePort)
-        {
-            return pMessagePort->SendMultiMsg(setVS, msg);
-        }
-        else
-        {
-            LOGWARNING("SendMsgToPort To ServerPort:{}, not find", nServerPort);
-            LOGWARNING("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7)));
-        }
-    }
+    CNetworkMessage _msg(to_cmd(msg), msg, GetServerVirtualSocket(), nServerPort);
+    return _SendMsgToZonePort(_msg);
     __LEAVE_FUNCTION
     return false;
 }
 
-bool CServiceCommon::SendMultiIDMsgToPort(const ServerPort&         nServerPort,
-                                        const std::vector<OBJID>& setVS,
-                                        const CNetworkMessage&    msg) const
+bool CServiceCommon::SendMsgToVirtualSocket(const VirtualSocket& vsTo, const proto_msg_t& msg) const
 {
     __ENTER_FUNCTION
-    if(GetMessageRoute() && nServerPort.IsVaild())
-    {
-        CMessagePort* pMessagePort = GetMessageRoute()->QueryMessagePort(nServerPort);
-        if(pMessagePort)
-        {
-            return pMessagePort->SendMultiIDMsg(setVS, msg);
-        }
-        else
-        {
-            LOGWARNING("SendMsgToPort To ServerPort:{}, not find", nServerPort);
-            LOGWARNING("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7)));
-        }
-    }
+    CNetworkMessage _msg(to_cmd(msg), msg, GetServerVirtualSocket(), vsTo);
+    return _SendMsgToZonePort(_msg);
     __LEAVE_FUNCTION
     return false;
 }
 
-bool CServiceCommon::SendMsgToPort(const ServerPort& nServerPort, const google::protobuf::Message& msg) const
+bool CServiceCommon::TransmitMsgToPort(const ServerPort& nServerPort, const CNetworkMessage* pMsg) const
 {
-    return SendMsgToPort(nServerPort, to_server_msgid(msg), msg);
-}
-
-bool CServiceCommon::SendMsgToPort(const ServerPort&                nServerPort,
-                                 uint16_t                         usCmd,
-                                 const google::protobuf::Message& msg) const
-{
-    CNetworkMessage _msg(usCmd, msg, GetServerVirtualSocket(), nServerPort);
-    return SendMsgToPort(_msg);
-}
-
-bool CServiceCommon::SendMsgToVirtualSocket(const VirtualSocket& vsTo, const google::protobuf::Message& msg) const
-{
-    return SendMsgToVirtualSocket(vsTo, to_sc_cmd(msg), msg);
-}
-
-bool CServiceCommon::SendMsgToVirtualSocket(const VirtualSocket&             vsTo,
-                                         uint16_t                         usCmd,
-                                         const google::protobuf::Message& msg) const
-{
-    CNetworkMessage _msg(usCmd, msg, GetServerVirtualSocket(), vsTo);
-    return SendMsgToPort(_msg);
-}
-
-bool CServiceCommon::TransmitMsgToPort(const ServerPort& nServerPort, CNetworkMessage* pMsg) const
-{
+    __ENTER_FUNCTION
     CNetworkMessage _msg(*pMsg);
     _msg.SetTo(nServerPort);
     _msg.CopyBuffer();
 
-    return SendMsgToPort(_msg);
+    return _SendMsgToZonePort(_msg);
+    __LEAVE_FUNCTION
+    return false;
 }
 
+bool CServiceCommon::TransmitMsgToThisZoneAllPort(const CNetworkMessage* pMsg) const
+{
+    __ENTER_FUNCTION
+    auto serverport_list = GetMessageRoute()->GetServerPortListByWorldID(GetWorldID(), false);
+    for(const auto& server_port: serverport_list)
+    {
+        CNetworkMessage _msg(*pMsg);
+        _msg.SetTo(server_port);
+        _msg.CopyBuffer();
+        _SendMsgToZonePort(_msg);
+    }
+    return serverport_list.empty() == false;
+    __LEAVE_FUNCTION
+    return false;
+}
 
-bool CServiceCommon::SendMsgToPort(const CNetworkMessage& msg) const
+bool CServiceCommon::TransmitMsgToThisZoneAllPortExcept(const CNetworkMessage* pMsg, uint8_t idServiceType) const
+{
+    __ENTER_FUNCTION
+    auto serverport_list = GetMessageRoute()->GetServerPortListByWorldIDExcept(GetWorldID(), idServiceType, false);
+    for(const auto& server_port: serverport_list)
+    {
+        CNetworkMessage _msg(*pMsg);
+        _msg.SetTo(server_port);
+        _msg.CopyBuffer();
+        _SendMsgToZonePort(_msg);
+    }
+    return serverport_list.empty() == false;
+    __LEAVE_FUNCTION
+    return false;
+}
+
+bool CServiceCommon::TransmitMsgToAllRoute(const CNetworkMessage* pMsg) const
+{
+    __ENTER_FUNCTION
+    auto serverport_list = GetMessageRoute()->GetServerPortListByServiceType(ROUTE_SERVICE);
+    for(const auto& server_port: serverport_list)
+    {
+        CNetworkMessage _msg(*pMsg);
+        _msg.SetTo(server_port);
+        _msg.CopyBuffer();
+        _SendMsgToZonePort(_msg);
+    }
+    return serverport_list.empty() == false;
+    __LEAVE_FUNCTION
+    return false;
+}
+
+bool CServiceCommon::TransmitMsgToAllRouteExcept(const CNetworkMessage* pMsg, uint16_t idWorld) const
+{
+    __ENTER_FUNCTION
+    auto serverport_list = GetMessageRoute()->GetServerPortListByServiceType(ROUTE_SERVICE);
+    for(const auto& server_port: serverport_list)
+    {
+        if(server_port.GetWorldID() == idWorld)
+            continue;
+        CNetworkMessage _msg(*pMsg);
+        _msg.SetTo(server_port);
+        _msg.CopyBuffer();
+        _SendMsgToZonePort(_msg);
+    }
+    return serverport_list.empty() == false;
+    __LEAVE_FUNCTION
+    return false;
+}
+
+bool CServiceCommon::_SendMsgToZonePort(const CNetworkMessage& msg) const
 {
     __ENTER_FUNCTION
     VirtualSocket vs(msg.GetTo());
-    if(GetMessageRoute() && vs.GetServerPort() != 0)
+    if(GetMessageRoute() && vs.GetServerPort() != m_nServerPort)
     {
         m_pMonitorMgr->AddSendInfo(msg.GetCmd(), msg.GetSize());
-        CMessagePort* pMessagePort = GetMessageRoute()->QueryMessagePort(vs.GetServerPort());
-        if(pMessagePort)
+        if(vs.GetServerPort().GetWorldID() == GetWorldID() ||
+           ((GetServiceID().GetServiceType() == ROUTE_SERVICE) && (vs.GetServerPort().GetServiceType() == ROUTE_SERVICE)) )
         {
-            return pMessagePort->SendMsgToPort(msg);
+            CMessagePort* pMessagePort = GetMessageRoute()->QueryMessagePort(vs.GetServerPort());
+            if(pMessagePort)
+            {
+                return pMessagePort->SendMsgToPort(msg);
+            }
+            else
+            {
+                LOGWARNING("SendMsgToZonePort To ServerPort:{}, not find", vs);
+                LOGWARNING("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7)));
+            }
         }
         else
         {
-            LOGWARNING("SendMsgToPort To ServerPort:{}, not find", vs);
-            LOGWARNING("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7)));
+            //通过route转发
+            CNetworkMessage newmsg(msg);
+            newmsg.SetForward(msg.GetTo());
+            return TransmitMsgToPort(ServerPort(GetWorldID(), ROUTE_SERVICE, 0), &newmsg);
         }
         return false;
     }
-    else if(vs.GetServerPort() == m_nServerPort && vs.GetSocketIdx() != 0)
+    else if((vs.GetServerPort() == m_nServerPort || vs.GetServerPort().IsVaild() == false) && vs.GetSocketIdx() != 0)
     {
-        m_pMonitorMgr->AddSendInfo(msg.GetCmd(), msg.GetSize());
         // direct send message
         if(m_pNetworkService)
-            return m_pNetworkService->SendSocketMsgByIdx(msg.GetTo().GetSocketIdx(), msg.GetBuf(), msg.GetSize());
+        {
+            if(msg.IsBroadcast())
+            {
+                m_pMonitorMgr->AddSendInfo_broad(msg.GetCmd(), msg.GetSize());
+                m_pNetworkService->BrocastMsg(msg.GetBuf(), msg.GetSize());
+            }
+            else
+            {
+                m_pMonitorMgr->AddSendInfo(msg.GetCmd(), msg.GetSize());
+                return m_pNetworkService->SendSocketMsgByIdx(msg.GetTo().GetSocketIdx(), msg.GetBuf(), msg.GetSize());
+            }
+        }
+
         return false;
     }
     else
     {
-        LOGWARNING("Message Want Send To Worng: {}", msg.GetTo() );
+        LOGWARNING("Message Want Send To Worng: {}", msg.GetTo());
         LOGWARNING("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7)));
         return false;
     }
@@ -319,57 +347,10 @@ bool CServiceCommon::SendMsgToPort(const CNetworkMessage& msg) const
     return false;
 }
 
-bool CServiceCommon::SendBroadcastMsg(const CNetworkMessage& msg) const
+bool CServiceCommon::SendProtoMsgTo(const VirtualSocketMap_t& setSocketMap, const proto_msg_t& msg) const
 {
     __ENTER_FUNCTION
-    VirtualSocket vs(msg.GetTo());
-    if(GetMessageRoute() && vs.GetServerPort() != 0)
-    {
-        m_pMonitorMgr->AddSendInfo_broad(msg.GetCmd(), msg.GetSize());
-        CMessagePort* pMessagePort = GetMessageRoute()->QueryMessagePort(vs.GetServerPort());
-        if(pMessagePort)
-        {
-            return pMessagePort->SendBroadcastMsg(msg);
-        }
-        else
-        {
-            LOGWARNING("SendBroadcastMsg:{}, not find", vs);
-            LOGWARNING("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7)));
-        }
-        return false;
-    }
-    else if(vs.GetServerPort() == m_nServerPort)
-    {
-        m_pMonitorMgr->AddSendInfo_broad(msg.GetCmd(), msg.GetSize());
-        // direct send message
-        if(m_pNetworkService)
-        {
-            m_pNetworkService->BrocastMsg(msg.GetBuf(), msg.GetSize());
-            return true;
-        }
-        return false;
-    }
-    else
-    {
-        LOGWARNING("Message Want Send To Worng:{}", msg.GetTo());
-        LOGWARNING("CallStack：{}", GetStackTraceString(CallFrameMap(2, 7)));
-        return false;
-    }
-    __LEAVE_FUNCTION
-    return false;
-}
-
-bool CServiceCommon::SendMsgTo(const VirtualSocketMap_t& setSocketMap, const google::protobuf::Message& msg) const
-{
-    return SendMsgTo(setSocketMap, to_sc_cmd(msg), msg);
-}
-
-bool CServiceCommon::SendMsgTo(const VirtualSocketMap_t&        setSocketMap,
-                               uint16_t                         nCmd,
-                               const google::protobuf::Message& msg) const
-{
-    __ENTER_FUNCTION
-
+    auto nCmd = to_cmd(msg);
     CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket());
     for(auto& [nServerPort, socket_list]: setSocketMap)
     {
@@ -377,12 +358,13 @@ bool CServiceCommon::SendMsgTo(const VirtualSocketMap_t&        setSocketMap,
         {
             _msg.SetTo(socket_list.front());
             m_pMonitorMgr->AddSendInfo(nCmd, _msg.GetSize());
-            SendMsgToPort(_msg);
+            _SendMsgToZonePort(_msg);
         }
         else
         {
             m_pMonitorMgr->AddSendInfo_some(nCmd, _msg.GetSize(), socket_list.size());
-            SendMultiMsgToPort(nServerPort, socket_list, _msg);
+            _msg.SetMultiTo(socket_list);
+            _SendMsgToZonePort(_msg);
         }
     }
     return true;

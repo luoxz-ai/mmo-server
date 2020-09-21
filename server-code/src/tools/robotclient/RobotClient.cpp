@@ -89,10 +89,7 @@ void RobotClient::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
             if(func_name.empty() == false)
             {
                 LOGDEBUG("process net_msg:{}", pHeader->usCmd);
-                m_pManager->ExecScript<void>(func_name.c_str(),
-                                             this,
-                                             pBuffer + sizeof(MSG_HEAD),
-                                             len - sizeof(MSG_HEAD));
+                m_pManager->ExecScript<void>(func_name.c_str(), this, pBuffer + sizeof(MSG_HEAD), len - sizeof(MSG_HEAD));
                 // m_pManager->GetScriptManager()->FullGC();
             }
             else
@@ -145,10 +142,38 @@ void RobotClient::SendToServer(byte* buf, size_t len)
         m_pServerSocket->SendSocketMsg(buf, len);
 }
 
-void RobotClient::SendProtobufToServer(uint16_t cmd, google::protobuf::Message* pMsg)
+
+
+inline uint32_t to_cmd(const proto_msg_t& msg)
 {
-    CHECK(cmd != 0);
+    __ENTER_FUNCTION
+    auto msg_desc = msg.GetDescriptor();
+    auto options   = msg_desc->options();
+    auto cmd_extension = options.GetExtension(cmd);
+    if(cmd_extension.ts_cmd() != 0)
+    {
+        CHECK_DEBUG( "CMD_" + msg_desc->name() == TS_CMD_Name(cmd_extension.ts_cmd()) );
+        return cmd_extension.ts_cmd();
+    }
+    if(cmd_extension.sc_cmd() != 0)
+    {
+        CHECK_DEBUG( "CMD_" + msg_desc->name() ==  SC_CMD_Name(cmd_extension.sc_cmd()) );
+        return cmd_extension.sc_cmd();
+    }   
+    if(cmd_extension.cs_cmd() != 0)
+    {
+        CHECK_DEBUG( "CMD_" + msg_desc->name() == CS_CMD_Name(cmd_extension.cs_cmd())  );
+        return cmd_extension.cs_cmd();
+    } 
+    
+
+    __LEAVE_FUNCTION
+    return 0;
+}
+
+void RobotClient::SendProtobufToServer(proto_msg_t* pMsg)
+{
     CHECK(pMsg);
-    CNetworkMessage _msg(cmd, *pMsg);
+    CNetworkMessage _msg(to_cmd(*pMsg), *pMsg);
     SendToServer(_msg);
 }

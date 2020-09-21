@@ -8,8 +8,8 @@
 
 #include "BaseCode.h"
 #include "LoggingMgr.h"
-#include "fmt/chrono.h"
 #include "TimeUtil.h"
+#include "fmt/chrono.h"
 
 std::string demangle(const char* name)
 {
@@ -75,10 +75,8 @@ namespace
             }
             std::string mangled_symbol = symbol.substr(mangled_start, mangled_end - mangled_start);
             // Try to demangle the mangled symbol candidate
-            int32_t status = -4; // some arbitrary value to eliminate the compiler warning
-            std::unique_ptr<char, void (*)(void*)> demangled_symbol(
-                abi::__cxa_demangle(mangled_symbol.c_str(), nullptr, 0, &status),
-                std::free);
+            int32_t                                status = -4; // some arbitrary value to eliminate the compiler warning
+            std::unique_ptr<char, void (*)(void*)> demangled_symbol(abi::__cxa_demangle(mangled_symbol.c_str(), nullptr, 0, &status), std::free);
             // 0 Demangling is success
             if(0 == status)
             {
@@ -105,7 +103,7 @@ namespace
         char        buf[260] = {0};
 #ifdef WIN32
         uint32_t winPID = GetCurrentProcessId();
-        pid = fmt::format("{:06u}", winPID);
+        pid             = fmt::format("{:06u}", winPID);
 #else
         pid = fmt::format("{:06u}", getpid());
 #endif
@@ -114,7 +112,7 @@ namespace
 
     std::string getProcessName()
     {
-        std::string name     = "process";
+        std::string name      = "process";
         char        buf[1024] = {0};
 #ifdef WIN32
         if(GetModuleFileNameA(NULL, buf, 259) > 0)
@@ -207,8 +205,7 @@ void process_section(bfd* abfd, asection* section, void* _data)
 
     const char* filename      = NULL;
     const char* function_name = NULL;
-    data->line_found =
-        bfd_find_nearest_line(abfd, section, data->symbol_table, offset, &filename, &function_name, &data->line);
+    data->line_found          = bfd_find_nearest_line(abfd, section, data->symbol_table, offset, &filename, &function_name, &data->line);
 
     if(filename == NULL)
     {
@@ -313,7 +310,7 @@ std::string GetStackTraceString(const CallFrameMap& data)
     std::string result;
     Dl_info     dlinfo;
     time_t      t = _TimeGetSecond();
-    result = fmt::format("\n{:%Y-%m-%d %H:%M:%S}", timeToLocalTime(t));
+    result        = fmt::format("\n{:%Y-%m-%d %H:%M:%S}", timeToLocalTime(t));
     result += fmt::format(" {}\n====================start=============================\n", BaseCode::getNdcStr());
     for(const auto& pair_v: data.m_Addr)
     {
@@ -345,7 +342,7 @@ std::string GetStackTraceString(const CALLFRAME_NODE* pFrame)
     std::string result;
     Dl_info     dlinfo;
     time_t      t = _TimeGetSecond();
-    result = fmt::format("\n{:%Y-%m-%d %H:%M:%S}", timeToLocalTime(t));
+    result        = fmt::format("\n{:%Y-%m-%d %H:%M:%S}", timeToLocalTime(t));
     result += fmt::format(" {}\n====================start=============================\n", BaseCode::getNdcStr());
     while(pFrame->m_pParent != nullptr)
     {

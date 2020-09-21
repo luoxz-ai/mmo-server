@@ -37,6 +37,7 @@
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 #include "common/Common.pb.h"
+#include <google/protobuf/descriptor.pb.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 #define PROTOBUF_INTERNAL_EXPORT_server_5fmsg_2fserver_5fside_2eproto
@@ -52,7 +53,7 @@ struct TableStruct_server_5fmsg_2fserver_5fside_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[60]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[63]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -126,6 +127,9 @@ extern GuildQuitDefaultTypeInternal _GuildQuit_default_instance_;
 class KillGen;
 class KillGenDefaultTypeInternal;
 extern KillGenDefaultTypeInternal _KillGen_default_instance_;
+class MessageTransmit;
+class MessageTransmitDefaultTypeInternal;
+extern MessageTransmitDefaultTypeInternal _MessageTransmit_default_instance_;
 class MonsterDestory;
 class MonsterDestoryDefaultTypeInternal;
 extern MonsterDestoryDefaultTypeInternal _MonsterDestory_default_instance_;
@@ -162,6 +166,9 @@ extern RemoveTaskPhaseDefaultTypeInternal _RemoveTaskPhase_default_instance_;
 class SceneCreate;
 class SceneCreateDefaultTypeInternal;
 extern SceneCreateDefaultTypeInternal _SceneCreate_default_instance_;
+class ServerSideMessageOptions;
+class ServerSideMessageOptionsDefaultTypeInternal;
+extern ServerSideMessageOptionsDefaultTypeInternal _ServerSideMessageOptions_default_instance_;
 class ServiceCmd;
 class ServiceCmdDefaultTypeInternal;
 extern ServiceCmdDefaultTypeInternal _ServiceCmd_default_instance_;
@@ -192,6 +199,9 @@ extern SocketCloseDefaultTypeInternal _SocketClose_default_instance_;
 class SocketConnect;
 class SocketConnectDefaultTypeInternal;
 extern SocketConnectDefaultTypeInternal _SocketConnect_default_instance_;
+class SocketLogin;
+class SocketLoginDefaultTypeInternal;
+extern SocketLoginDefaultTypeInternal _SocketLogin_default_instance_;
 class SocketStartAccept;
 class SocketStartAcceptDefaultTypeInternal;
 extern SocketStartAcceptDefaultTypeInternal _SocketStartAccept_default_instance_;
@@ -264,6 +274,7 @@ template<> ::ServerMSG::GuildMemberInfoList* Arena::CreateMaybeMessage<::ServerM
 template<> ::ServerMSG::GuildNewLeader* Arena::CreateMaybeMessage<::ServerMSG::GuildNewLeader>(Arena*);
 template<> ::ServerMSG::GuildQuit* Arena::CreateMaybeMessage<::ServerMSG::GuildQuit>(Arena*);
 template<> ::ServerMSG::KillGen* Arena::CreateMaybeMessage<::ServerMSG::KillGen>(Arena*);
+template<> ::ServerMSG::MessageTransmit* Arena::CreateMaybeMessage<::ServerMSG::MessageTransmit>(Arena*);
 template<> ::ServerMSG::MonsterDestory* Arena::CreateMaybeMessage<::ServerMSG::MonsterDestory>(Arena*);
 template<> ::ServerMSG::MonsterGen* Arena::CreateMaybeMessage<::ServerMSG::MonsterGen>(Arena*);
 template<> ::ServerMSG::MonsterGenMulti* Arena::CreateMaybeMessage<::ServerMSG::MonsterGenMulti>(Arena*);
@@ -276,6 +287,7 @@ template<> ::ServerMSG::PlayerEnterZone* Arena::CreateMaybeMessage<::ServerMSG::
 template<> ::ServerMSG::PlayerLogout* Arena::CreateMaybeMessage<::ServerMSG::PlayerLogout>(Arena*);
 template<> ::ServerMSG::RemoveTaskPhase* Arena::CreateMaybeMessage<::ServerMSG::RemoveTaskPhase>(Arena*);
 template<> ::ServerMSG::SceneCreate* Arena::CreateMaybeMessage<::ServerMSG::SceneCreate>(Arena*);
+template<> ::ServerMSG::ServerSideMessageOptions* Arena::CreateMaybeMessage<::ServerMSG::ServerSideMessageOptions>(Arena*);
 template<> ::ServerMSG::ServiceCmd* Arena::CreateMaybeMessage<::ServerMSG::ServiceCmd>(Arena*);
 template<> ::ServerMSG::ServiceHttpRequest* Arena::CreateMaybeMessage<::ServerMSG::ServiceHttpRequest>(Arena*);
 template<> ::ServerMSG::ServiceHttpRequest_KvmapEntry_DoNotUse* Arena::CreateMaybeMessage<::ServerMSG::ServiceHttpRequest_KvmapEntry_DoNotUse>(Arena*);
@@ -286,6 +298,7 @@ template<> ::ServerMSG::SocketAuth* Arena::CreateMaybeMessage<::ServerMSG::Socke
 template<> ::ServerMSG::SocketChangeDest* Arena::CreateMaybeMessage<::ServerMSG::SocketChangeDest>(Arena*);
 template<> ::ServerMSG::SocketClose* Arena::CreateMaybeMessage<::ServerMSG::SocketClose>(Arena*);
 template<> ::ServerMSG::SocketConnect* Arena::CreateMaybeMessage<::ServerMSG::SocketConnect>(Arena*);
+template<> ::ServerMSG::SocketLogin* Arena::CreateMaybeMessage<::ServerMSG::SocketLogin>(Arena*);
 template<> ::ServerMSG::SocketStartAccept* Arena::CreateMaybeMessage<::ServerMSG::SocketStartAccept>(Arena*);
 template<> ::ServerMSG::SocketStopAccept* Arena::CreateMaybeMessage<::ServerMSG::SocketStopAccept>(Arena*);
 template<> ::ServerMSG::SyncTaskPhase* Arena::CreateMaybeMessage<::ServerMSG::SyncTaskPhase>(Arena*);
@@ -338,6 +351,7 @@ enum OMsgID : int {
   MsgID_ServiceCmd = 20001,
   MsgID_ServiceHttpRequest = 20002,
   MsgID_ServiceHttpResponse = 20003,
+  MsgID_MessageTransmit = 20007,
   MsgID_ServiceReady = 20010,
   MsgID_ServiceRegister = 20011,
   MsgID_SocketConnect = 20012,
@@ -346,6 +360,7 @@ enum OMsgID : int {
   MsgID_SocketAuth = 20015,
   MsgID_SocketStartAccept = 20016,
   MsgID_SocketStopAccept = 20017,
+  MsgID_SocketLogin = 20018,
   MsgID_PlayerEnterZone = 20021,
   MsgID_PlayerChangeZone = 20022,
   MsgID_PlayerChangeZone_Data = 20023,
@@ -419,6 +434,134 @@ inline bool OMsgID_Parse(
 }
 // ===================================================================
 
+class ServerSideMessageOptions :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.ServerSideMessageOptions) */ {
+ public:
+  ServerSideMessageOptions();
+  virtual ~ServerSideMessageOptions();
+
+  ServerSideMessageOptions(const ServerSideMessageOptions& from);
+  ServerSideMessageOptions(ServerSideMessageOptions&& from) noexcept
+    : ServerSideMessageOptions() {
+    *this = ::std::move(from);
+  }
+
+  inline ServerSideMessageOptions& operator=(const ServerSideMessageOptions& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ServerSideMessageOptions& operator=(ServerSideMessageOptions&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const ServerSideMessageOptions& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const ServerSideMessageOptions* internal_default_instance() {
+    return reinterpret_cast<const ServerSideMessageOptions*>(
+               &_ServerSideMessageOptions_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    0;
+
+  friend void swap(ServerSideMessageOptions& a, ServerSideMessageOptions& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(ServerSideMessageOptions* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline ServerSideMessageOptions* New() const final {
+    return CreateMaybeMessage<ServerSideMessageOptions>(nullptr);
+  }
+
+  ServerSideMessageOptions* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<ServerSideMessageOptions>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const ServerSideMessageOptions& from);
+  void MergeFrom(const ServerSideMessageOptions& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ServerSideMessageOptions* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.ServerSideMessageOptions";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kIdFieldNumber = 1,
+  };
+  // .ServerMSG.OMsgID id = 1;
+  void clear_id();
+  ::ServerMSG::OMsgID id() const;
+  void set_id(::ServerMSG::OMsgID value);
+  private:
+  ::ServerMSG::OMsgID _internal_id() const;
+  void _internal_set_id(::ServerMSG::OMsgID value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.ServerSideMessageOptions)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  int id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
 class ServiceCmd :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.ServiceCmd) */ {
  public:
@@ -461,7 +604,7 @@ class ServiceCmd :
                &_ServiceCmd_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    0;
+    1;
 
   friend void swap(ServiceCmd& a, ServiceCmd& b) {
     a.Swap(&b);
@@ -588,7 +731,7 @@ public:
   private:
   static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
     ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
-    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[1];
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[2];
   }
 
   public:
@@ -638,7 +781,7 @@ class ServiceHttpRequest :
                &_ServiceHttpRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    3;
 
   friend void swap(ServiceHttpRequest& a, ServiceHttpRequest& b) {
     a.Swap(&b);
@@ -791,7 +934,7 @@ class ServiceHttpResponse :
                &_ServiceHttpResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    4;
 
   friend void swap(ServiceHttpResponse& a, ServiceHttpResponse& b) {
     a.Swap(&b);
@@ -924,6 +1067,159 @@ class ServiceHttpResponse :
 };
 // -------------------------------------------------------------------
 
+class MessageTransmit :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.MessageTransmit) */ {
+ public:
+  MessageTransmit();
+  virtual ~MessageTransmit();
+
+  MessageTransmit(const MessageTransmit& from);
+  MessageTransmit(MessageTransmit&& from) noexcept
+    : MessageTransmit() {
+    *this = ::std::move(from);
+  }
+
+  inline MessageTransmit& operator=(const MessageTransmit& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline MessageTransmit& operator=(MessageTransmit&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const MessageTransmit& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const MessageTransmit* internal_default_instance() {
+    return reinterpret_cast<const MessageTransmit*>(
+               &_MessageTransmit_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  friend void swap(MessageTransmit& a, MessageTransmit& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(MessageTransmit* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline MessageTransmit* New() const final {
+    return CreateMaybeMessage<MessageTransmit>(nullptr);
+  }
+
+  MessageTransmit* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<MessageTransmit>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const MessageTransmit& from);
+  void MergeFrom(const MessageTransmit& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(MessageTransmit* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.MessageTransmit";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRawMessageHeadFieldNumber = 3,
+    kRawMessageFieldNumber = 4,
+  };
+  // bytes raw_message_head = 3;
+  void clear_raw_message_head();
+  const std::string& raw_message_head() const;
+  void set_raw_message_head(const std::string& value);
+  void set_raw_message_head(std::string&& value);
+  void set_raw_message_head(const char* value);
+  void set_raw_message_head(const void* value, size_t size);
+  std::string* mutable_raw_message_head();
+  std::string* release_raw_message_head();
+  void set_allocated_raw_message_head(std::string* raw_message_head);
+  private:
+  const std::string& _internal_raw_message_head() const;
+  void _internal_set_raw_message_head(const std::string& value);
+  std::string* _internal_mutable_raw_message_head();
+  public:
+
+  // bytes raw_message = 4;
+  void clear_raw_message();
+  const std::string& raw_message() const;
+  void set_raw_message(const std::string& value);
+  void set_raw_message(std::string&& value);
+  void set_raw_message(const char* value);
+  void set_raw_message(const void* value, size_t size);
+  std::string* mutable_raw_message();
+  std::string* release_raw_message();
+  void set_allocated_raw_message(std::string* raw_message);
+  private:
+  const std::string& _internal_raw_message() const;
+  void _internal_set_raw_message(const std::string& value);
+  std::string* _internal_mutable_raw_message();
+  public:
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.MessageTransmit)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr raw_message_head_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr raw_message_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
 class ServiceReady :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.ServiceReady) */ {
  public:
@@ -966,7 +1262,7 @@ class ServiceReady :
                &_ServiceReady_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    6;
 
   friend void swap(ServiceReady& a, ServiceReady& b) {
     a.Swap(&b);
@@ -1105,7 +1401,7 @@ class ServiceRegister :
                &_ServiceRegister_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    7;
 
   friend void swap(ServiceRegister& a, ServiceRegister& b) {
     a.Swap(&b);
@@ -1244,7 +1540,7 @@ class SocketConnect :
                &_SocketConnect_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    8;
 
   friend void swap(SocketConnect& a, SocketConnect& b) {
     a.Swap(&b);
@@ -1372,7 +1668,7 @@ class SocketClose :
                &_SocketClose_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    9;
 
   friend void swap(SocketClose& a, SocketClose& b) {
     a.Swap(&b);
@@ -1500,7 +1796,7 @@ class SocketChangeDest :
                &_SocketChangeDest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    8;
+    10;
 
   friend void swap(SocketChangeDest& a, SocketChangeDest& b) {
     a.Swap(&b);
@@ -1639,7 +1935,7 @@ class SocketAuth :
                &_SocketAuth_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    9;
+    11;
 
   friend void swap(SocketAuth& a, SocketAuth& b) {
     a.Swap(&b);
@@ -1725,6 +2021,152 @@ class SocketAuth :
 };
 // -------------------------------------------------------------------
 
+class SocketLogin :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.SocketLogin) */ {
+ public:
+  SocketLogin();
+  virtual ~SocketLogin();
+
+  SocketLogin(const SocketLogin& from);
+  SocketLogin(SocketLogin&& from) noexcept
+    : SocketLogin() {
+    *this = ::std::move(from);
+  }
+
+  inline SocketLogin& operator=(const SocketLogin& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SocketLogin& operator=(SocketLogin&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const SocketLogin& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const SocketLogin* internal_default_instance() {
+    return reinterpret_cast<const SocketLogin*>(
+               &_SocketLogin_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    12;
+
+  friend void swap(SocketLogin& a, SocketLogin& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SocketLogin* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline SocketLogin* New() const final {
+    return CreateMaybeMessage<SocketLogin>(nullptr);
+  }
+
+  SocketLogin* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<SocketLogin>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const SocketLogin& from);
+  void MergeFrom(const SocketLogin& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SocketLogin* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "ServerMSG.SocketLogin";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_server_5fmsg_2fserver_5fside_2eproto);
+    return ::descriptor_table_server_5fmsg_2fserver_5fside_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kOpenIdFieldNumber = 2,
+    kVsFieldNumber = 1,
+  };
+  // bytes open_id = 2;
+  void clear_open_id();
+  const std::string& open_id() const;
+  void set_open_id(const std::string& value);
+  void set_open_id(std::string&& value);
+  void set_open_id(const char* value);
+  void set_open_id(const void* value, size_t size);
+  std::string* mutable_open_id();
+  std::string* release_open_id();
+  void set_allocated_open_id(std::string* open_id);
+  private:
+  const std::string& _internal_open_id() const;
+  void _internal_set_open_id(const std::string& value);
+  std::string* _internal_mutable_open_id();
+  public:
+
+  // uint64 vs = 1;
+  void clear_vs();
+  ::PROTOBUF_NAMESPACE_ID::uint64 vs() const;
+  void set_vs(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_vs() const;
+  void _internal_set_vs(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:ServerMSG.SocketLogin)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr open_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 vs_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
+};
+// -------------------------------------------------------------------
+
 class SocketStartAccept :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ServerMSG.SocketStartAccept) */ {
  public:
@@ -1767,7 +2209,7 @@ class SocketStartAccept :
                &_SocketStartAccept_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    10;
+    13;
 
   friend void swap(SocketStartAccept& a, SocketStartAccept& b) {
     a.Swap(&b);
@@ -1882,7 +2324,7 @@ class SocketStopAccept :
                &_SocketStopAccept_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    11;
+    14;
 
   friend void swap(SocketStopAccept& a, SocketStopAccept& b) {
     a.Swap(&b);
@@ -1997,7 +2439,7 @@ class PlayerEnterZone :
                &_PlayerEnterZone_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    12;
+    15;
 
   friend void swap(PlayerEnterZone& a, PlayerEnterZone& b) {
     a.Swap(&b);
@@ -2180,7 +2622,7 @@ class PlayerChangeZone :
                &_PlayerChangeZone_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    13;
+    16;
 
   friend void swap(PlayerChangeZone& a, PlayerChangeZone& b) {
     a.Swap(&b);
@@ -2385,7 +2827,7 @@ class PlayerChangeZone_Data :
                &_PlayerChangeZone_Data_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    14;
+    17;
 
   friend void swap(PlayerChangeZone_Data& a, PlayerChangeZone_Data& b) {
     a.Swap(&b);
@@ -2524,7 +2966,7 @@ class PlayerLogout :
                &_PlayerLogout_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    15;
+    18;
 
   friend void swap(PlayerLogout& a, PlayerLogout& b) {
     a.Swap(&b);
@@ -2663,7 +3105,7 @@ class SystemVarChange :
                &_SystemVarChange_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    16;
+    19;
 
   friend void swap(SystemVarChange& a, SystemVarChange& b) {
     a.Swap(&b);
@@ -2876,7 +3318,7 @@ class SceneCreate :
                &_SceneCreate_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    17;
+    20;
 
   friend void swap(SceneCreate& a, SceneCreate& b) {
     a.Swap(&b);
@@ -3004,7 +3446,7 @@ class PhaseCreate :
                &_PhaseCreate_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    18;
+    21;
 
   friend void swap(PhaseCreate& a, PhaseCreate& b) {
     a.Swap(&b);
@@ -3143,7 +3585,7 @@ class PhaseDestory :
                &_PhaseDestory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    19;
+    22;
 
   friend void swap(PhaseDestory& a, PhaseDestory& b) {
     a.Swap(&b);
@@ -3282,7 +3724,7 @@ class MonsterGen :
                &_MonsterGen_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    20;
+    23;
 
   friend void swap(MonsterGen& a, MonsterGen& b) {
     a.Swap(&b);
@@ -3487,7 +3929,7 @@ class MonsterGenMulti :
                &_MonsterGenMulti_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    21;
+    24;
 
   friend void swap(MonsterGenMulti& a, MonsterGenMulti& b) {
     a.Swap(&b);
@@ -3714,7 +4156,7 @@ class MonsterDestory :
                &_MonsterDestory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    22;
+    25;
 
   friend void swap(MonsterDestory& a, MonsterDestory& b) {
     a.Swap(&b);
@@ -3856,7 +4298,7 @@ class MonsterGenOnce :
                &_MonsterGenOnce_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    23;
+    26;
 
   friend void swap(MonsterGenOnce& a, MonsterGenOnce& b) {
     a.Swap(&b);
@@ -4006,7 +4448,7 @@ class ActiveGen :
                &_ActiveGen_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    24;
+    27;
 
   friend void swap(ActiveGen& a, ActiveGen& b) {
     a.Swap(&b);
@@ -4156,7 +4598,7 @@ class KillGen :
                &_KillGen_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    25;
+    28;
 
   friend void swap(KillGen& a, KillGen& b) {
     a.Swap(&b);
@@ -4295,7 +4737,7 @@ class ActorCreate :
                &_ActorCreate_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    26;
+    29;
 
   friend void swap(ActorCreate& a, ActorCreate& b) {
     a.Swap(&b);
@@ -4628,7 +5070,7 @@ class ActorDestory :
                &_ActorDestory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    27;
+    30;
 
   friend void swap(ActorDestory& a, ActorDestory& b) {
     a.Swap(&b);
@@ -4767,7 +5209,7 @@ class ActorMove :
                &_ActorMove_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    28;
+    31;
 
   friend void swap(ActorMove& a, ActorMove& b) {
     a.Swap(&b);
@@ -4917,7 +5359,7 @@ class ActorFlyTo :
                &_ActorFlyTo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    29;
+    32;
 
   friend void swap(ActorFlyTo& a, ActorFlyTo& b) {
     a.Swap(&b);
@@ -5067,7 +5509,7 @@ class ActorCastSkill :
                &_ActorCastSkill_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    30;
+    33;
 
   friend void swap(ActorCastSkill& a, ActorCastSkill& b) {
     a.Swap(&b);
@@ -5217,7 +5659,7 @@ class ActorCastSkill_Fail :
                &_ActorCastSkill_Fail_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    31;
+    34;
 
   friend void swap(ActorCastSkill_Fail& a, ActorCastSkill_Fail& b) {
     a.Swap(&b);
@@ -5345,7 +5787,7 @@ class ActorSetHide :
                &_ActorSetHide_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    32;
+    35;
 
   friend void swap(ActorSetHide& a, ActorSetHide& b) {
     a.Swap(&b);
@@ -5484,7 +5926,7 @@ class TeamCreate :
                &_TeamCreate_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    33;
+    36;
 
   friend void swap(TeamCreate& a, TeamCreate& b) {
     a.Swap(&b);
@@ -5623,7 +6065,7 @@ class TeamDestory :
                &_TeamDestory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    34;
+    37;
 
   friend void swap(TeamDestory& a, TeamDestory& b) {
     a.Swap(&b);
@@ -5751,7 +6193,7 @@ class TeamQuit :
                &_TeamQuit_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    35;
+    38;
 
   friend void swap(TeamQuit& a, TeamQuit& b) {
     a.Swap(&b);
@@ -5890,7 +6332,7 @@ class TeamKickMember :
                &_TeamKickMember_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    36;
+    39;
 
   friend void swap(TeamKickMember& a, TeamKickMember& b) {
     a.Swap(&b);
@@ -6040,7 +6482,7 @@ class TeamInviteMember :
                &_TeamInviteMember_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    37;
+    40;
 
   friend void swap(TeamInviteMember& a, TeamInviteMember& b) {
     a.Swap(&b);
@@ -6190,7 +6632,7 @@ class TeamAcceptInvite :
                &_TeamAcceptInvite_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    38;
+    41;
 
   friend void swap(TeamAcceptInvite& a, TeamAcceptInvite& b) {
     a.Swap(&b);
@@ -6351,7 +6793,7 @@ class TeamApplyMember :
                &_TeamApplyMember_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    39;
+    42;
 
   friend void swap(TeamApplyMember& a, TeamApplyMember& b) {
     a.Swap(&b);
@@ -6490,7 +6932,7 @@ class TeamAcceptApply :
                &_TeamAcceptApply_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    40;
+    43;
 
   friend void swap(TeamAcceptApply& a, TeamAcceptApply& b) {
     a.Swap(&b);
@@ -6640,7 +7082,7 @@ class TeamNewLeader :
                &_TeamNewLeader_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    41;
+    44;
 
   friend void swap(TeamNewLeader& a, TeamNewLeader& b) {
     a.Swap(&b);
@@ -6790,7 +7232,7 @@ class TeamAddMember :
                &_TeamAddMember_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    42;
+    45;
 
   friend void swap(TeamAddMember& a, TeamAddMember& b) {
     a.Swap(&b);
@@ -6929,7 +7371,7 @@ class TeamDelMember :
                &_TeamDelMember_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    43;
+    46;
 
   friend void swap(TeamDelMember& a, TeamDelMember& b) {
     a.Swap(&b);
@@ -7068,7 +7510,7 @@ class TeamMemberInfoList :
                &_TeamMemberInfoList_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    44;
+    47;
 
   friend void swap(TeamMemberInfoList& a, TeamMemberInfoList& b) {
     a.Swap(&b);
@@ -7205,7 +7647,7 @@ class GuildCreate :
                &_GuildCreate_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    45;
+    48;
 
   friend void swap(GuildCreate& a, GuildCreate& b) {
     a.Swap(&b);
@@ -7391,7 +7833,7 @@ class GuildDestory :
                &_GuildDestory_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    46;
+    49;
 
   friend void swap(GuildDestory& a, GuildDestory& b) {
     a.Swap(&b);
@@ -7519,7 +7961,7 @@ class GuildQuit :
                &_GuildQuit_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    47;
+    50;
 
   friend void swap(GuildQuit& a, GuildQuit& b) {
     a.Swap(&b);
@@ -7658,7 +8100,7 @@ class GuildKickMember :
                &_GuildKickMember_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    48;
+    51;
 
   friend void swap(GuildKickMember& a, GuildKickMember& b) {
     a.Swap(&b);
@@ -7808,7 +8250,7 @@ class GuildInviteMember :
                &_GuildInviteMember_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    49;
+    52;
 
   friend void swap(GuildInviteMember& a, GuildInviteMember& b) {
     a.Swap(&b);
@@ -7958,7 +8400,7 @@ class GuildAcceptInvite :
                &_GuildAcceptInvite_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    50;
+    53;
 
   friend void swap(GuildAcceptInvite& a, GuildAcceptInvite& b) {
     a.Swap(&b);
@@ -8119,7 +8561,7 @@ class GuildApplyMember :
                &_GuildApplyMember_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    51;
+    54;
 
   friend void swap(GuildApplyMember& a, GuildApplyMember& b) {
     a.Swap(&b);
@@ -8258,7 +8700,7 @@ class GuildAcceptApply :
                &_GuildAcceptApply_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    52;
+    55;
 
   friend void swap(GuildAcceptApply& a, GuildAcceptApply& b) {
     a.Swap(&b);
@@ -8408,7 +8850,7 @@ class GuildNewLeader :
                &_GuildNewLeader_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    53;
+    56;
 
   friend void swap(GuildNewLeader& a, GuildNewLeader& b) {
     a.Swap(&b);
@@ -8576,7 +9018,7 @@ class GuildAddMember :
                &_GuildAddMember_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    54;
+    57;
 
   friend void swap(GuildAddMember& a, GuildAddMember& b) {
     a.Swap(&b);
@@ -8715,7 +9157,7 @@ class GuildDelMember :
                &_GuildDelMember_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    55;
+    58;
 
   friend void swap(GuildDelMember& a, GuildDelMember& b) {
     a.Swap(&b);
@@ -8854,7 +9296,7 @@ class GuildMemberInfoList :
                &_GuildMemberInfoList_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    56;
+    59;
 
   friend void swap(GuildMemberInfoList& a, GuildMemberInfoList& b) {
     a.Swap(&b);
@@ -8991,7 +9433,7 @@ class SyncTaskPhase :
                &_SyncTaskPhase_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    57;
+    60;
 
   friend void swap(SyncTaskPhase& a, SyncTaskPhase& b) {
     a.Swap(&b);
@@ -9144,7 +9586,7 @@ class AddTaskPhase :
                &_AddTaskPhase_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    58;
+    61;
 
   friend void swap(AddTaskPhase& a, AddTaskPhase& b) {
     a.Swap(&b);
@@ -9283,7 +9725,7 @@ class RemoveTaskPhase :
                &_RemoveTaskPhase_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    59;
+    62;
 
   friend void swap(RemoveTaskPhase& a, RemoveTaskPhase& b) {
     a.Swap(&b);
@@ -9380,6 +9822,10 @@ class RemoveTaskPhase :
 };
 // ===================================================================
 
+static const int kServerCmdFieldNumber = 1012;
+extern ::PROTOBUF_NAMESPACE_ID::internal::ExtensionIdentifier< ::google::protobuf::MessageOptions,
+    ::PROTOBUF_NAMESPACE_ID::internal::MessageTypeTraits< ::ServerMSG::ServerSideMessageOptions >, 11, false >
+  server_cmd;
 
 // ===================================================================
 
@@ -9387,6 +9833,30 @@ class RemoveTaskPhase :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
+// ServerSideMessageOptions
+
+// .ServerMSG.OMsgID id = 1;
+inline void ServerSideMessageOptions::clear_id() {
+  id_ = 0;
+}
+inline ::ServerMSG::OMsgID ServerSideMessageOptions::_internal_id() const {
+  return static_cast< ::ServerMSG::OMsgID >(id_);
+}
+inline ::ServerMSG::OMsgID ServerSideMessageOptions::id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.ServerSideMessageOptions.id)
+  return _internal_id();
+}
+inline void ServerSideMessageOptions::_internal_set_id(::ServerMSG::OMsgID value) {
+  
+  id_ = value;
+}
+inline void ServerSideMessageOptions::set_id(::ServerMSG::OMsgID value) {
+  _internal_set_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.ServerSideMessageOptions.id)
+}
+
+// -------------------------------------------------------------------
+
 // ServiceCmd
 
 // repeated string cmds = 1;
@@ -9684,6 +10154,130 @@ inline void ServiceHttpResponse::set_allocated_response_txt(std::string* respons
 
 // -------------------------------------------------------------------
 
+// MessageTransmit
+
+// bytes raw_message_head = 3;
+inline void MessageTransmit::clear_raw_message_head() {
+  raw_message_head_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& MessageTransmit::raw_message_head() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.MessageTransmit.raw_message_head)
+  return _internal_raw_message_head();
+}
+inline void MessageTransmit::set_raw_message_head(const std::string& value) {
+  _internal_set_raw_message_head(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.MessageTransmit.raw_message_head)
+}
+inline std::string* MessageTransmit::mutable_raw_message_head() {
+  // @@protoc_insertion_point(field_mutable:ServerMSG.MessageTransmit.raw_message_head)
+  return _internal_mutable_raw_message_head();
+}
+inline const std::string& MessageTransmit::_internal_raw_message_head() const {
+  return raw_message_head_.GetNoArena();
+}
+inline void MessageTransmit::_internal_set_raw_message_head(const std::string& value) {
+  
+  raw_message_head_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void MessageTransmit::set_raw_message_head(std::string&& value) {
+  
+  raw_message_head_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:ServerMSG.MessageTransmit.raw_message_head)
+}
+inline void MessageTransmit::set_raw_message_head(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  raw_message_head_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:ServerMSG.MessageTransmit.raw_message_head)
+}
+inline void MessageTransmit::set_raw_message_head(const void* value, size_t size) {
+  
+  raw_message_head_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:ServerMSG.MessageTransmit.raw_message_head)
+}
+inline std::string* MessageTransmit::_internal_mutable_raw_message_head() {
+  
+  return raw_message_head_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* MessageTransmit::release_raw_message_head() {
+  // @@protoc_insertion_point(field_release:ServerMSG.MessageTransmit.raw_message_head)
+  
+  return raw_message_head_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void MessageTransmit::set_allocated_raw_message_head(std::string* raw_message_head) {
+  if (raw_message_head != nullptr) {
+    
+  } else {
+    
+  }
+  raw_message_head_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), raw_message_head);
+  // @@protoc_insertion_point(field_set_allocated:ServerMSG.MessageTransmit.raw_message_head)
+}
+
+// bytes raw_message = 4;
+inline void MessageTransmit::clear_raw_message() {
+  raw_message_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& MessageTransmit::raw_message() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.MessageTransmit.raw_message)
+  return _internal_raw_message();
+}
+inline void MessageTransmit::set_raw_message(const std::string& value) {
+  _internal_set_raw_message(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.MessageTransmit.raw_message)
+}
+inline std::string* MessageTransmit::mutable_raw_message() {
+  // @@protoc_insertion_point(field_mutable:ServerMSG.MessageTransmit.raw_message)
+  return _internal_mutable_raw_message();
+}
+inline const std::string& MessageTransmit::_internal_raw_message() const {
+  return raw_message_.GetNoArena();
+}
+inline void MessageTransmit::_internal_set_raw_message(const std::string& value) {
+  
+  raw_message_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void MessageTransmit::set_raw_message(std::string&& value) {
+  
+  raw_message_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:ServerMSG.MessageTransmit.raw_message)
+}
+inline void MessageTransmit::set_raw_message(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  raw_message_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:ServerMSG.MessageTransmit.raw_message)
+}
+inline void MessageTransmit::set_raw_message(const void* value, size_t size) {
+  
+  raw_message_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:ServerMSG.MessageTransmit.raw_message)
+}
+inline std::string* MessageTransmit::_internal_mutable_raw_message() {
+  
+  return raw_message_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* MessageTransmit::release_raw_message() {
+  // @@protoc_insertion_point(field_release:ServerMSG.MessageTransmit.raw_message)
+  
+  return raw_message_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void MessageTransmit::set_allocated_raw_message(std::string* raw_message) {
+  if (raw_message != nullptr) {
+    
+  } else {
+    
+  }
+  raw_message_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), raw_message);
+  // @@protoc_insertion_point(field_set_allocated:ServerMSG.MessageTransmit.raw_message)
+}
+
+// -------------------------------------------------------------------
+
 // ServiceReady
 
 // uint32 serverport = 1;
@@ -9884,6 +10478,90 @@ inline void SocketAuth::_internal_set_vs(::PROTOBUF_NAMESPACE_ID::uint64 value) 
 inline void SocketAuth::set_vs(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   _internal_set_vs(value);
   // @@protoc_insertion_point(field_set:ServerMSG.SocketAuth.vs)
+}
+
+// -------------------------------------------------------------------
+
+// SocketLogin
+
+// uint64 vs = 1;
+inline void SocketLogin::clear_vs() {
+  vs_ = PROTOBUF_ULONGLONG(0);
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 SocketLogin::_internal_vs() const {
+  return vs_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 SocketLogin::vs() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.SocketLogin.vs)
+  return _internal_vs();
+}
+inline void SocketLogin::_internal_set_vs(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  
+  vs_ = value;
+}
+inline void SocketLogin::set_vs(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_vs(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.SocketLogin.vs)
+}
+
+// bytes open_id = 2;
+inline void SocketLogin::clear_open_id() {
+  open_id_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& SocketLogin::open_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.SocketLogin.open_id)
+  return _internal_open_id();
+}
+inline void SocketLogin::set_open_id(const std::string& value) {
+  _internal_set_open_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.SocketLogin.open_id)
+}
+inline std::string* SocketLogin::mutable_open_id() {
+  // @@protoc_insertion_point(field_mutable:ServerMSG.SocketLogin.open_id)
+  return _internal_mutable_open_id();
+}
+inline const std::string& SocketLogin::_internal_open_id() const {
+  return open_id_.GetNoArena();
+}
+inline void SocketLogin::_internal_set_open_id(const std::string& value) {
+  
+  open_id_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void SocketLogin::set_open_id(std::string&& value) {
+  
+  open_id_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:ServerMSG.SocketLogin.open_id)
+}
+inline void SocketLogin::set_open_id(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  open_id_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:ServerMSG.SocketLogin.open_id)
+}
+inline void SocketLogin::set_open_id(const void* value, size_t size) {
+  
+  open_id_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:ServerMSG.SocketLogin.open_id)
+}
+inline std::string* SocketLogin::_internal_mutable_open_id() {
+  
+  return open_id_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* SocketLogin::release_open_id() {
+  // @@protoc_insertion_point(field_release:ServerMSG.SocketLogin.open_id)
+  
+  return open_id_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void SocketLogin::set_allocated_open_id(std::string* open_id) {
+  if (open_id != nullptr) {
+    
+  } else {
+    
+  }
+  open_id_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), open_id);
+  // @@protoc_insertion_point(field_set_allocated:ServerMSG.SocketLogin.open_id)
 }
 
 // -------------------------------------------------------------------
@@ -13455,6 +14133,12 @@ inline void RemoveTaskPhase::set_task_phase_id(::PROTOBUF_NAMESPACE_ID::uint64 v
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

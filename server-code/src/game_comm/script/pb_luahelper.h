@@ -10,9 +10,7 @@ namespace pb_luahelper
     struct ConstProtobufMessageWarp;
     struct ProtobufMessageWarp;
 
-    inline int32_t PushMessageDataToLua(lua_State*                       L,
-                                        const google::protobuf::Message* pPBMessage,
-                                        const std::string&               field_name);
+    inline int32_t PushMessageDataToLua(lua_State* L, const google::protobuf::Message* pPBMessage, const std::string& field_name);
     struct ProtobufMessageWarp
     {
         static std::atomic<uint32_t> s_nCount;
@@ -64,10 +62,7 @@ namespace pb_luahelper
             return 0;
         }
 
-        static google::protobuf::Message* GetProtobufMessagePtr(ProtobufMessageWarp* pWarp)
-        {
-            return pWarp->m_pMessage;
-        }
+        static google::protobuf::Message* GetProtobufMessagePtr(ProtobufMessageWarp* pWarp) { return pWarp->m_pMessage; }
 
         static size_t GetProtobufFieldSize(ProtobufMessageWarp* pWarp, const std::string& key)
         {
@@ -132,8 +127,7 @@ namespace pb_luahelper
     struct ConstRepeatedProtobufMessageWarp
     {
         static std::atomic<uint32_t> s_nCount;
-        ConstRepeatedProtobufMessageWarp(const google::protobuf::Message*         pMessage,
-                                         const google::protobuf::FieldDescriptor* pFieldDesc)
+        ConstRepeatedProtobufMessageWarp(const google::protobuf::Message* pMessage, const google::protobuf::FieldDescriptor* pFieldDesc)
             : m_pMessage(pMessage)
             , m_pFieldDesc(pFieldDesc)
         {
@@ -182,18 +176,14 @@ namespace pb_luahelper
                     {
                         lua_tinker::detail::push(
                             L,
-                            pWarp->m_pMessage->GetReflection()->GetRepeatedDouble(*(pWarp->m_pMessage),
-                                                                                  pWarp->m_pFieldDesc,
-                                                                                  idx));
+                            pWarp->m_pMessage->GetReflection()->GetRepeatedDouble(*(pWarp->m_pMessage), pWarp->m_pFieldDesc, idx));
                     }
                     break;
                     case FieldDescriptor::TYPE_FLOAT:
                     {
                         lua_tinker::detail::push(
                             L,
-                            pWarp->m_pMessage->GetReflection()->GetRepeatedFloat(*(pWarp->m_pMessage),
-                                                                                 pWarp->m_pFieldDesc,
-                                                                                 idx));
+                            pWarp->m_pMessage->GetReflection()->GetRepeatedFloat(*(pWarp->m_pMessage), pWarp->m_pFieldDesc, idx));
                     }
                     break;
                     case FieldDescriptor::TYPE_INT32:
@@ -202,9 +192,7 @@ namespace pb_luahelper
                     {
                         lua_tinker::detail::push(
                             L,
-                            pWarp->m_pMessage->GetReflection()->GetRepeatedInt32(*(pWarp->m_pMessage),
-                                                                                 pWarp->m_pFieldDesc,
-                                                                                 idx));
+                            pWarp->m_pMessage->GetReflection()->GetRepeatedInt32(*(pWarp->m_pMessage), pWarp->m_pFieldDesc, idx));
                     }
                     break;
                     case FieldDescriptor::TYPE_UINT32:
@@ -212,9 +200,7 @@ namespace pb_luahelper
                     {
                         lua_tinker::detail::push(
                             L,
-                            pWarp->m_pMessage->GetReflection()->GetRepeatedUInt32(*(pWarp->m_pMessage),
-                                                                                  pWarp->m_pFieldDesc,
-                                                                                  idx));
+                            pWarp->m_pMessage->GetReflection()->GetRepeatedUInt32(*(pWarp->m_pMessage), pWarp->m_pFieldDesc, idx));
                     }
                     break;
                     case FieldDescriptor::TYPE_INT64:
@@ -223,9 +209,7 @@ namespace pb_luahelper
                     {
                         lua_tinker::detail::push(
                             L,
-                            pWarp->m_pMessage->GetReflection()->GetRepeatedInt64(*(pWarp->m_pMessage),
-                                                                                 pWarp->m_pFieldDesc,
-                                                                                 idx));
+                            pWarp->m_pMessage->GetReflection()->GetRepeatedInt64(*(pWarp->m_pMessage), pWarp->m_pFieldDesc, idx));
                     }
                     break;
                     case FieldDescriptor::TYPE_UINT64:
@@ -233,25 +217,20 @@ namespace pb_luahelper
                     {
                         lua_tinker::detail::push(
                             L,
-                            pWarp->m_pMessage->GetReflection()->GetRepeatedUInt64(*(pWarp->m_pMessage),
-                                                                                  pWarp->m_pFieldDesc,
-                                                                                  idx));
+                            pWarp->m_pMessage->GetReflection()->GetRepeatedUInt64(*(pWarp->m_pMessage), pWarp->m_pFieldDesc, idx));
                     }
                     break;
                     case FieldDescriptor::TYPE_ENUM:
                     {
                         lua_tinker::detail::push(
                             L,
-                            pWarp->m_pMessage->GetReflection()->GetRepeatedEnumValue(*(pWarp->m_pMessage),
-                                                                                     pWarp->m_pFieldDesc,
-                                                                                     idx));
+                            pWarp->m_pMessage->GetReflection()->GetRepeatedEnumValue(*(pWarp->m_pMessage), pWarp->m_pFieldDesc, idx));
                     }
                     break;
                     case FieldDescriptor::TYPE_BOOL:
                     {
                         lua_tinker::detail::push(L,
-                                                 pWarp->m_pMessage->GetReflection()
-                                                     ->GetRepeatedBool(*(pWarp->m_pMessage), pWarp->m_pFieldDesc, idx));
+                                                 pWarp->m_pMessage->GetReflection()->GetRepeatedBool(*(pWarp->m_pMessage), pWarp->m_pFieldDesc, idx));
                     }
                     break;
                     case FieldDescriptor::TYPE_STRING:
@@ -259,17 +238,13 @@ namespace pb_luahelper
                     {
                         lua_tinker::detail::push(
                             L,
-                            pWarp->m_pMessage->GetReflection()->GetRepeatedString(*(pWarp->m_pMessage),
-                                                                                  pWarp->m_pFieldDesc,
-                                                                                  idx));
+                            pWarp->m_pMessage->GetReflection()->GetRepeatedString(*(pWarp->m_pMessage), pWarp->m_pFieldDesc, idx));
                     }
                     break;
                     case FieldDescriptor::TYPE_MESSAGE:
                     {
                         const Message& sub_message =
-                            pWarp->m_pMessage->GetReflection()->GetRepeatedMessage(*(pWarp->m_pMessage),
-                                                                                   pWarp->m_pFieldDesc,
-                                                                                   idx);
+                            pWarp->m_pMessage->GetReflection()->GetRepeatedMessage(*(pWarp->m_pMessage), pWarp->m_pFieldDesc, idx);
                         lua_tinker::detail::push(L, ConstProtobufMessageWarp(sub_message));
                     }
                     break;
@@ -286,9 +261,7 @@ namespace pb_luahelper
         const google::protobuf::FieldDescriptor* m_pFieldDesc = nullptr;
     };
 
-    inline int32_t PushMessageDataToLua(lua_State*                       L,
-                                        const google::protobuf::Message* pPBMessage,
-                                        const std::string&               field_name)
+    inline int32_t PushMessageDataToLua(lua_State* L, const google::protobuf::Message* pPBMessage, const std::string& field_name)
     {
         using namespace google::protobuf;
         const FieldDescriptor* pFieldDesc = pPBMessage->GetDescriptor()->FindFieldByName(field_name);
@@ -386,14 +359,10 @@ namespace pb_luahelper
     inline void init_lua(lua_State* L)
     {
         lua_tinker::class_add<google::protobuf::Message>(L, "google::protobuf::Message");
-        lua_tinker::class_def<google::protobuf::Message>(L,
-                                                         "ParseFromArray",
-                                                         &google::protobuf::Message::ParseFromArray);
+        lua_tinker::class_def<google::protobuf::Message>(L, "ParseFromArray", &google::protobuf::Message::ParseFromArray);
 
         lua_tinker::class_add<ProtobufMessageWarp>(L, "ProtobufMessageWarp");
-        lua_tinker::class_con<ProtobufMessageWarp>(
-            L,
-            lua_tinker::constructor<ProtobufMessageWarp, const std::string&>::invoke);
+        lua_tinker::class_con<ProtobufMessageWarp>(L, lua_tinker::constructor<ProtobufMessageWarp, const std::string&>::invoke);
         lua_tinker::class_def<ProtobufMessageWarp>(L, "__index", &ProtobufMessageWarp::meta_get);
         lua_tinker::class_def<ProtobufMessageWarp>(L, "__newindex", &ProtobufMessageWarp::set);
         lua_tinker::def(L, "GetProtobufMessagePtr", &ProtobufMessageWarp::GetProtobufMessagePtr);
@@ -405,9 +374,7 @@ namespace pb_luahelper
 
         lua_tinker::class_add<ConstRepeatedProtobufMessageWarp>(L, "ConstRepeatedProtobufMessageWarp", false);
         lua_tinker::class_def<ConstRepeatedProtobufMessageWarp>(L, "size", &ConstRepeatedProtobufMessageWarp::size);
-        lua_tinker::class_def<ConstRepeatedProtobufMessageWarp>(L,
-                                                                "__index",
-                                                                &ConstRepeatedProtobufMessageWarp::meta_get);
+        lua_tinker::class_def<ConstRepeatedProtobufMessageWarp>(L, "__index", &ConstRepeatedProtobufMessageWarp::meta_get);
 
         lua_tinker::namespace_add(L, "pb_util");
         lua_tinker::namespace_def(L, "pb_util", "NewProtoMessage", pb_util::NewProtoMessage);

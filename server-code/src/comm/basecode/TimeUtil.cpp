@@ -41,6 +41,20 @@ time_t _TimeGetSecond()
     return ::time(NULL);
 }
 
+time_t _TimeGetSecondFrom2K2K()
+{
+    static struct tm tm2020
+    {
+        .tm_year = 2020
+    };
+    static const time_t time_2020 = mktime(&tm2020);
+    auto                cur_time  = _TimeGetSecond();
+    if(cur_time > time_2020)
+        return 0;
+    else
+        return cur_time - time_2020;
+}
+
 time_t _TimeGetMillisecond()
 {
     timespec _ts;
@@ -109,7 +123,6 @@ time_t now()
 {
     return TimeGetSecond();
 }
-
 
 time_t TimeGetSecond()
 {
@@ -204,15 +217,15 @@ int32_t DayDiffLocal(time_t time1, time_t time2)
     int32_t nTmpYear = tm1.tm_year + 1900;
 
     if(tm2.tm_year != tm1.tm_year)
-    { 
+    {
         //不同一年
         int32_t nDayDiffYear = 0;
-        int32_t year1 = std::min<int32_t>(tm1.tm_year,tm2.tm_year);
-        int32_t year2 = std::max<int32_t>(tm1.tm_year,tm2.tm_year);
+        int32_t year1        = std::min<int32_t>(tm1.tm_year, tm2.tm_year);
+        int32_t year2        = std::max<int32_t>(tm1.tm_year, tm2.tm_year);
         for(int32_t i = year1; i < year2; i++)
         {
-            if(isleap(1900+i))
-            { 
+            if(isleap(1900 + i))
+            {
                 //闰年
                 nDayDiffYear += 366;
             }
@@ -225,7 +238,7 @@ int32_t DayDiffLocal(time_t time1, time_t time2)
         return nDayDiffYear + (nDays);
     }
     else
-    { 
+    {
         //同年
         return nDays;
     }
@@ -238,7 +251,7 @@ int32_t DayDiffLocal(time_t time1, time_t time2)
 int32_t WeekDiffLocal(time_t time1, time_t time2)
 {
     __ENTER_FUNCTION
-    
+
     struct tm tm1;
     if(0 != localtime_r(&time1, &tm1)) /* Convert to local time. */
         return false;
@@ -246,11 +259,9 @@ int32_t WeekDiffLocal(time_t time1, time_t time2)
     struct tm tm2;
     if(0 != localtime_r(&time2, &tm2)) /* Convert to local time. */
         return false;
-    
-	
-	time_t time1_weekstart_time = time1 - (tm1.tm_wday * 86400);
+
+    time_t time1_weekstart_time = time1 - (tm1.tm_wday * 86400);
     time_t time2_weekstart_time = time2 - (tm2.tm_wday * 86400);
-    
 
     int32_t daydiff = DayDiffLocal(time1_weekstart_time, time2_weekstart_time);
 
@@ -264,7 +275,7 @@ int32_t WeekDiffLocal(time_t time1, time_t time2)
 int32_t MonthDiffLocal(time_t time1, time_t time2)
 {
     __ENTER_FUNCTION
-    
+
     struct tm tm1;
     if(0 != localtime_r(&time1, &tm1)) /* Convert to local time. */
         return false;
@@ -272,13 +283,12 @@ int32_t MonthDiffLocal(time_t time1, time_t time2)
     struct tm tm2;
     if(0 != localtime_r(&time2, &tm2)) /* Convert to local time. */
         return false;
-    
-	int32_t nYears = tm2.tm_year - tm1.tm_year;
-    int32_t nMonths  = tm2.tm_mon - tm1.tm_mon;
+
+    int32_t nYears  = tm2.tm_year - tm1.tm_year;
+    int32_t nMonths = tm2.tm_mon - tm1.tm_mon;
 
     return nYears * 12 + nMonths;
 
-	
     __LEAVE_FUNCTION
 
     return 0;
@@ -290,12 +300,12 @@ time_t NextDayBeginTimeStamp(time_t time1, int32_t nDays)
     struct tm tm1;
     if(0 != localtime_r(&time1, &tm1)) /* Convert to local time. */
     {
-        tm1.tm_hour    = 0;
-        tm1.tm_min     = 0;
-        tm1.tm_sec     = 0;
+        tm1.tm_hour = 0;
+        tm1.tm_min  = 0;
+        tm1.tm_sec  = 0;
         return mktime(&tm1) + nDays * ONE_DAY_SEC; // 得到次日0点时间戳
     }
-    
+
     __LEAVE_FUNCTION
     return time1 + nDays * ONE_DAY_SEC;
 }
@@ -319,11 +329,11 @@ time_t NextMonthBeginTimeStamp(time_t time1, int32_t nMonths)
     struct tm tm1;
     if(0 != localtime_r(&time1, &tm1)) /* Convert to local time. */
     {
-        tm1.tm_hour    = 0;
-        tm1.tm_min     = 0;
-        tm1.tm_sec     = 0;
-        tm1.tm_mday    = 1;     
-        tm1.tm_mon     += nMonths;
+        tm1.tm_hour = 0;
+        tm1.tm_min  = 0;
+        tm1.tm_sec  = 0;
+        tm1.tm_mday = 1;
+        tm1.tm_mon += nMonths;
         return mktime(&tm1); // 得到次日0点时间戳
     }
     __LEAVE_FUNCTION

@@ -4,8 +4,8 @@
 #include "EventEntry.h"
 #include "MapVal.h"
 #include "SceneBase.h"
-#include "ScriptManager.h"
 #include "SceneService.h"
+#include "ScriptManager.h"
 
 export_lua enum SceneState {
     SCENESTATE_NORMAL       = 0,
@@ -61,9 +61,8 @@ public:
     export_lua uint32_t    GetPhaseIdx() const { return GetSceneIdx().GetPhaseIdx(); }
 
 public:
-    export_lua bool SendSceneMessage(const google::protobuf::Message& msg) const;
-    export_lua bool SendSceneMessage(uint16_t cmd, const google::protobuf::Message& msg) const;
-
+    export_lua bool SendSceneMessage(const proto_msg_t& msg) const;
+    
     //增加一个延时回调脚本
     export_lua void AddTimedCallback(uint32_t tIntervalMS, const std::string& func_name);
     export_lua void ClearAllCllback();
@@ -75,9 +74,7 @@ public:
         if(m_pMap->GetScriptID() == 0)
             return RVal();
         else
-            return ScriptManager()->TryExecScript<RVal>(m_pMap->GetScriptID(),
-                                                        idxCallBackType,
-                                                        std::forward<Args>(args)...);
+            return ScriptManager()->TryExecScript<RVal>(m_pMap->GetScriptID(), idxCallBackType, std::forward<Args>(args)...);
         __LEAVE_FUNCTION
         return RVal();
     }

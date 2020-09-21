@@ -1,12 +1,13 @@
 #include "UIDFactory.h"
-#include "TimeUtil.h"
-const int32_t MAX_SEQ = (2 << 12) - 1;
 
-void CUIDFactory::Init(uint16_t world_id, uint8_t func_id)
+#include "TimeUtil.h"
+const int32_t MAX_SEQ = (2 << 10) - 1;
+
+void CUIDFactory::Init(uint64_t world_id, uint64_t func_id)
 {
     world_id_  = world_id;
     func_id_   = func_id;
-    self_time_ = _TimeGetSecond();
+    self_time_ = _TimeGetSecondFrom2K2K();
     seq_       = 0;
 }
 
@@ -17,7 +18,7 @@ uint64_t CUIDFactory::CreateID()
     uid.world_id    = world_id_;
     uid.func_id     = func_id_;
 
-    time_t cur_time = _TimeGetSecond();
+    time_t cur_time = _TimeGetSecondFrom2K2K();
     if(self_time_ < cur_time)
     {
         self_time_ = cur_time;
@@ -33,7 +34,7 @@ uint64_t CUIDFactory::CreateID()
         seq_++;
     }
 
-    uid.time_data = (self_time_ & 0x7FFFFFF);
+    uid.time_data = (self_time_ & 0x1FFFFFFF);
     uid.seq_data  = seq_;
 
     return uid._uin64_data;

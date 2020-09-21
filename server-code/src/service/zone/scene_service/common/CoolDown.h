@@ -87,11 +87,7 @@ public:
 
     export_lua virtual bool IsCoolDown(uint32_t nType, uint32_t nIdx);
     export_lua virtual bool IsCoolDown(uint32_t nType, uint32_t nIdx, uint32_t now);
-    export_lua virtual bool StartCoolDown(uint32_t nType,
-                                          uint32_t nIdx,
-                                          uint32_t nMSec,
-                                          bool     bUpdate = false,
-                                          bool     bSync   = true);
+    export_lua virtual bool StartCoolDown(uint32_t nType, uint32_t nIdx, uint32_t nMSec, bool bUpdate = false, bool bSync = true);
     export_lua virtual bool ClearCoolDown(uint32_t nType, uint32_t nIdx, bool bUpdate = false, bool bSync = true);
 
 protected:

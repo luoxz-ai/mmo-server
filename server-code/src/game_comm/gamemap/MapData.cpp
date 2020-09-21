@@ -116,30 +116,25 @@ Vector2 CMapData::LineFindCanStand(const Vector2& src, const Vector2& dest) cons
     Vector2 result = src;
     int32_t last_x = xWidth;
     int32_t last_y = yHeight;
-    GameMath::DDALineForeach(xWidth,
-                             yHeight,
-                             xDestWidth,
-                             yDestHeight,
-                             [this, src, dest, &last_x, &last_y, &result](int32_t x, int32_t y) -> bool {
-                                 if(_getGridData(x, y).bPassDisable == true)
-                                 {
-                                     Vector2 pos((float(last_x) + 0.5f) * m_fGirdWidth,
-                                                 (float(last_y) + 0.5f) * m_fGirdHeight);
-                                     if((pos - src).squaredLength() > (dest - src).squaredLength())
-                                     {
-                                         result = dest;
-                                         return false;
-                                     }
-                                     else
-                                     {
-                                         result = pos;
-                                         return false;
-                                     }
-                                 }
-                                 last_x = x;
-                                 last_y = y;
-                                 return true;
-                             });
+    GameMath::DDALineForeach(xWidth, yHeight, xDestWidth, yDestHeight, [this, src, dest, &last_x, &last_y, &result](int32_t x, int32_t y) -> bool {
+        if(_getGridData(x, y).bPassDisable == true)
+        {
+            Vector2 pos((float(last_x) + 0.5f) * m_fGirdWidth, (float(last_y) + 0.5f) * m_fGirdHeight);
+            if((pos - src).squaredLength() > (dest - src).squaredLength())
+            {
+                result = dest;
+                return false;
+            }
+            else
+            {
+                result = pos;
+                return false;
+            }
+        }
+        last_x = x;
+        last_y = y;
+        return true;
+    });
 
     return result;
 }
@@ -155,9 +150,9 @@ Vector2         CMapData::LineFindCanJump(const Vector2& src, const Vector2& des
     std::tie(xWidth, yHeight)         = Pos2Grid(src.x, src.y);
     std::tie(xDestWidth, yDestHeight) = Pos2Grid(dest.x, dest.y);
     float fSrcHigh                    = (float(_getGridData(xWidth, yHeight).nHigh) / 255.0f) * m_fGridHighFactor;
-    float fDestHigh = (float(_getGridData(xDestWidth, yDestHeight).nHigh) / 255.0f) * m_fGridHighFactor;
-    float fHighDiff = fabs(fSrcHigh - fDestHigh);
-    float fSlope    = 0.0f;
+    float fDestHigh                   = (float(_getGridData(xDestWidth, yDestHeight).nHigh) / 255.0f) * m_fGridHighFactor;
+    float fHighDiff                   = fabs(fSrcHigh - fDestHigh);
+    float fSlope                      = 0.0f;
     if(fHighDiff != 0.0f)
         fSlope = m_fGirdWidth / fHighDiff;
     if(fSlope < SLOPE_MAX)
@@ -169,53 +164,52 @@ Vector2         CMapData::LineFindCanJump(const Vector2& src, const Vector2& des
     int32_t last_x    = xWidth;
     int32_t last_y    = yHeight;
     float   last_high = fSrcHigh;
-    GameMath::DDALineForeach(
-        xWidth,
-        yHeight,
-        xDestWidth,
-        yDestHeight,
-        [this, src, dest, &result, &last_x, &last_y, &last_high](int32_t x, int32_t y) -> bool {
-            if(_getGridData(x, y).bPassDisable == true || _getGridData(x, y).bJumpDisable == true)
-            {
-                Vector2 pos((float(last_x) + 0.5f) * m_fGirdWidth, (float(last_y) + 0.5f) * m_fGirdHeight);
-                if((pos - src).squaredLength() > (dest - src).squaredLength())
-                {
-                    result = dest;
-                    return false;
-                }
-                else
-                {
-                    result = pos;
-                    return false;
-                }
-            }
+    GameMath::DDALineForeach(xWidth,
+                             yHeight,
+                             xDestWidth,
+                             yDestHeight,
+                             [this, src, dest, &result, &last_x, &last_y, &last_high](int32_t x, int32_t y) -> bool {
+                                 if(_getGridData(x, y).bPassDisable == true || _getGridData(x, y).bJumpDisable == true)
+                                 {
+                                     Vector2 pos((float(last_x) + 0.5f) * m_fGirdWidth, (float(last_y) + 0.5f) * m_fGirdHeight);
+                                     if((pos - src).squaredLength() > (dest - src).squaredLength())
+                                     {
+                                         result = dest;
+                                         return false;
+                                     }
+                                     else
+                                     {
+                                         result = pos;
+                                         return false;
+                                     }
+                                 }
 
-            float fTileHigh = (float(_getGridData(x, y).nHigh) / 255.0f) * m_fGridHighFactor;
-            float fHighDiff = fabs(last_high - fTileHigh);
-            float fSlope    = 0.0f;
-            if(fHighDiff != 0.0f)
-                fSlope = m_fGirdWidth / fHighDiff;
-            if(fSlope < SLOPE_MAX)
-            {
-                Vector2 pos((float(last_x) + 0.5f) * m_fGirdWidth, (float(last_y) + 0.5f) * m_fGirdHeight);
-                if((pos - src).squaredLength() > (dest - src).squaredLength())
-                {
-                    result = dest;
-                    return false;
-                }
-                else
-                {
-                    result = pos;
-                    return false;
-                }
-            }
+                                 float fTileHigh = (float(_getGridData(x, y).nHigh) / 255.0f) * m_fGridHighFactor;
+                                 float fHighDiff = fabs(last_high - fTileHigh);
+                                 float fSlope    = 0.0f;
+                                 if(fHighDiff != 0.0f)
+                                     fSlope = m_fGirdWidth / fHighDiff;
+                                 if(fSlope < SLOPE_MAX)
+                                 {
+                                     Vector2 pos((float(last_x) + 0.5f) * m_fGirdWidth, (float(last_y) + 0.5f) * m_fGirdHeight);
+                                     if((pos - src).squaredLength() > (dest - src).squaredLength())
+                                     {
+                                         result = dest;
+                                         return false;
+                                     }
+                                     else
+                                     {
+                                         result = pos;
+                                         return false;
+                                     }
+                                 }
 
-            last_high = fTileHigh;
-            last_x    = x;
-            last_y    = y;
+                                 last_high = fTileHigh;
+                                 last_x    = x;
+                                 last_y    = y;
 
-            return true;
-        });
+                                 return true;
+                             });
 
     return result;
 }

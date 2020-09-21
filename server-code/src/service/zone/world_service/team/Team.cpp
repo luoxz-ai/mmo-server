@@ -77,7 +77,7 @@ void CTeam::SetLeader(OBJID idOperator, OBJID idLeader)
     msg.set_team_id(m_idTeam);
     msg.set_operator_id(idOperator);
     msg.set_new_leader_id(m_idLeader);
-    WorldService()->SendMsgToAllScene(msg);
+    WorldService()->SendProtoMsgToAllScene(msg);
 
     SendTeamAction(SC_TEAMMEMBER_ACTION::TEAM_CHANGE_LEADER, idOperator, idLeader);
 }
@@ -101,7 +101,7 @@ void CTeam::_AddMember(CUser* pUser)
     ServerMSG::TeamAddMember msg;
     msg.set_team_id(m_idTeam);
     msg.set_team_id(pUser->GetID());
-    WorldService()->SendMsgToAllScene(msg);
+    WorldService()->SendProtoMsgToAllScene(msg);
     // send to all member,exclude pUser;
     SendTeamMemberInfo(info);
     // send all member info to pUser
@@ -126,7 +126,7 @@ void CTeam::KickMember(OBJID idOperator, OBJID idMember)
                 msg.set_team_id(m_idTeam);
                 msg.set_operator_id(idOperator);
                 msg.set_kick_id(idMember);
-                WorldService()->SendMsgToAllScene(msg);
+                WorldService()->SendProtoMsgToAllScene(msg);
             }
 
             CUser* pUser = UserManager()->QueryUser(idMember);
@@ -163,7 +163,7 @@ void CTeam::QuitTeam(OBJID idOperator)
                 ServerMSG::TeamQuit msg;
                 msg.set_team_id(m_idTeam);
                 msg.set_operator_id(idOperator);
-                WorldService()->SendMsgToAllScene(msg);
+                WorldService()->SendProtoMsgToAllScene(msg);
 
                 SendTeamAction(SC_TEAMMEMBER_ACTION::TEAM_QUIT, idOperator, idOperator);
                 m_setMember.erase(it);
@@ -183,7 +183,7 @@ void CTeam::QuitTeam(OBJID idOperator)
                 ServerMSG::TeamQuit msg;
                 msg.set_team_id(m_idTeam);
                 msg.set_operator_id(idOperator);
-                WorldService()->SendMsgToAllScene(msg);
+                WorldService()->SendProtoMsgToAllScene(msg);
                 SendTeamAction(SC_TEAMMEMBER_ACTION::TEAM_QUIT, idOperator, idOperator);
                 m_setMember.erase(it);
                 return;

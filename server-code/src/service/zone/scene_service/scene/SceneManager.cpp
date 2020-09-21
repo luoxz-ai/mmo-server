@@ -49,7 +49,7 @@ CPhase* CSceneManager::CreatePhase(uint16_t idMap, uint64_t idMainPhase)
     else
     {
         SceneIdx idxScene(SceneService()->GetZoneID(), idMap, 0);
-        CScene* pScene = CScene::CreateNew(idxScene, idMainPhase);
+        CScene*  pScene = CScene::CreateNew(idxScene, idMainPhase);
 
         m_mapScene[idMap] = pScene;
 

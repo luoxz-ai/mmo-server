@@ -6,8 +6,12 @@
 #include "ServiceComm.h"
 #include "UIDFactory.h"
 
+
 struct event;
 class CNetMSGProcess;
+class CGMManager;
+class CAuthManager;
+
 class CAuthService : public IService, public CServiceCommon
 {
     CAuthService();
@@ -27,27 +31,35 @@ public:
 
     virtual void OnProcessMessage(CNetworkMessage*) override;
 
-
 public:
     std::unique_ptr<CMysqlConnection> ConnectGlobalDB();
 
-    CGMManager*                       GetGMManager() const { return m_pGMManager.get(); }
+    CGMManager*   GetGMManager() const { return m_pGMManager.get(); }
+    CAuthManager* GetAuthManager() const { return m_pAuthManager.get(); }
+
 private:
-    std::unique_ptr<CGMManager>      m_pGMManager;
+    std::unique_ptr<CGMManager>   m_pGMManager;
+    std::unique_ptr<CAuthManager> m_pAuthManager;
 };
 
 CAuthService* AuthService();
-inline auto     EventManager()
+void          SetAuthServicePtr(CAuthService* ptr);
+
+inline auto   EventManager()
 {
-    return MarketService()->GetEventManager();
+    return AuthService()->GetEventManager();
 }
 inline auto NetMsgProcess()
 {
-    return MarketService()->GetNetMsgProcess();
+    return AuthService()->GetNetMsgProcess();
 }
 inline auto GMManager()
 {
-    return WorldService()->GetGMManager();
+    return AuthService()->GetGMManager();
+}
+inline auto AuthManager()
+{
+    return AuthService()->GetAuthManager();
 }
 
 #endif // MarketService_h__

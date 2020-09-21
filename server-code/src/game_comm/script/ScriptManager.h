@@ -69,11 +69,7 @@ public:
 
 private:
     CLUAScriptManager();
-    bool Init(const std::string& name,
-              InitRegisterFunc   func,
-              void*              pInitParam,
-              const char*        search_path = "script",
-              bool               bExecMain   = true);
+    bool Init(const std::string& name, InitRegisterFunc func, void* pInitParam, const char* search_path = "script", bool bExecMain = true);
 
 public:
     CreateNewImpl(CLUAScriptManager);
@@ -107,9 +103,7 @@ public:
         if(itFindMap == m_Data.end())
             return RVal();
 
-        return lua_tinker::call<RVal>(m_pLua,
-                                      fmt::format(FMT_STRING("x{}_{}"), idScript, pszFuncName).c_str(),
-                                      std::forward<Args>(args)...);
+        return lua_tinker::call<RVal>(m_pLua, fmt::format(FMT_STRING("x{}_{}"), idScript, pszFuncName).c_str(), std::forward<Args>(args)...);
         __LEAVE_FUNCTION
         return RVal();
     }

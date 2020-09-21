@@ -74,16 +74,16 @@ void CPlayer::_ChangeZone(TargetSceneID idTargetScene, float fPosX, float fPosY,
     m_pEventOnTimer.Clear();
 
     ST_LOADINGTHREAD_PROCESS_DATA data;
-    data.nPorcessType = LPT_SAVE;
-    data.idPlayer     = GetID();
-    data.bChangeZone  = true;
-    data.socket       = GetSocket();
-    data.idTargetScene      = idTargetScene;
-    data.fPosX        = fPosX;
-    data.fPosY        = fPosY;
-    data.fRange       = 0.0f;
-    data.fFace        = fFace;
-    data.pPlayer      = this;
+    data.nPorcessType  = LPT_SAVE;
+    data.idPlayer      = GetID();
+    data.bChangeZone   = true;
+    data.socket        = GetSocket();
+    data.idTargetScene = idTargetScene;
+    data.fPosX         = fPosX;
+    data.fPosY         = fPosY;
+    data.fRange        = 0.0f;
+    data.fFace         = fFace;
+    data.pPlayer       = this;
     SceneService()->GetLoadingThread()->AddClosePlayer(std::move(data));
     __LEAVE_FUNCTION
 }
@@ -102,10 +102,10 @@ void CPlayer::OnChangeZoneSaveFinish(const TargetSceneID& idTargetScene, float f
     msg.set_range(fRange);
     msg.set_face(fFace);
 
-    SceneService()->SendMsgToWorld(GetWorldID(), to_server_msgid(msg), msg);
+    SceneService()->SendProtoMsgToWorld(GetWorldID(), msg);
 
     SendGameData(idTargetScene);
-    //maybe 需要把当前未处理的消息转发到新zone上
+    // maybe 需要把当前未处理的消息转发到新zone上
     SceneService()->DelSocketMessagePool(GetSocket());
     __LEAVE_FUNCTION
 }
@@ -129,7 +129,7 @@ void CPlayer::SendGameData(const TargetSceneID& idTargetScene)
     ServerMSG::PlayerChangeZone_Data msg;
 
     //通过World发送
-    SceneService()->SendMsgToWorld(GetWorldID(), to_server_msgid(msg), msg);
+    SceneService()->SendProtoMsgToWorld(GetWorldID(), msg);
     __LEAVE_FUNCTION
 }
 void CPlayer::OnRecvGameData(CNetworkMessage* pMsg)
@@ -238,12 +238,7 @@ void CPlayer::_FlyMap(TargetSceneID idTargetScene, float fPosX, float fPosY, flo
     //查询是否有对应地图
     CHECK(GetCurrentScene());
     CPhase* pOldPhase = static_cast<CPhase*>(GetCurrentScene());
-    LOGLOGIN("Player FlyMap:{} {} pos:{:.2f} {:.2f} {:.2f}",
-                GetID(),
-                idTargetScene.GetMapID(),
-                fPosX,
-                fPosY,
-                fRange);
+    LOGLOGIN("Player FlyMap:{} {} pos:{:.2f} {:.2f} {:.2f}", GetID(), idTargetScene.GetMapID(), fPosX, fPosY, fRange);
     uint64_t idPhase = idTargetScene.GetPhaseID();
     if(idTargetScene.IsSelfPhaseID())
     {

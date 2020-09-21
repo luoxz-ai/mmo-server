@@ -5,8 +5,8 @@
 #include "Phase.h"
 #include "Player.h"
 #include "Scene.h"
-#include "SceneTree.h"
 #include "SceneService.h"
+#include "SceneTree.h"
 
 //玩家 主位面id = X 时 可以看到 主位面id = X的all， 可以看到 主位面id=自己ID 的all, 可以看到 inTaskList(主位面id)的NPC
 
@@ -366,7 +366,7 @@ void CActor::OnAOIProcess_ActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
             ntc_aoiInfo.add_idlist(GetID());
 
             auto setSocketMap = SceneService()->IDList2VSMap(setBCActorDelPlayer, 0);
-            SceneService()->SendMsgTo(setSocketMap, ntc_aoiInfo);
+            SceneService()->SendProtoMsgTo(setSocketMap, ntc_aoiInfo);
         }
     }
     //通知自己删除del列表

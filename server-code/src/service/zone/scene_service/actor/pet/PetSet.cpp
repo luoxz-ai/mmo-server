@@ -27,7 +27,7 @@ bool CPetSet::Init(CPlayer* pOwner)
 
     auto* pDB = SceneService()->GetGameDB(m_pOwner->GetWorldID());
     CHECKF(pDB);
-    auto result_ptr = pDB->QueryKey<TBLD_PET,TBLD_PET::OWNERID>(m_pOwner->GetOwnerID());
+    auto result_ptr = pDB->QueryKey<TBLD_PET, TBLD_PET::OWNERID>(m_pOwner->GetOwnerID());
     if(result_ptr)
     {
         for(size_t i = 0; i < result_ptr->get_num_row(); i++)

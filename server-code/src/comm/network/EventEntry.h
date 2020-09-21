@@ -23,15 +23,16 @@ class CEventManager;
 
 struct CEventEntryCreateParam
 {
-    uint32_t evType = 0;
+    uint32_t          evType = 0;
     EventCallBackFunc cb;
-    time_t tWaitTime = 0;
-    bool bPersist = false;
+    time_t            tWaitTime = 0;
+    bool              bPersist  = false;
 };
 
 class CEventEntry
 {
     CEventEntry(CEventManager* pManager, const CEventEntryCreateParam& param, uint32_t nManagerType);
+
 public:
     ~CEventEntry();
 

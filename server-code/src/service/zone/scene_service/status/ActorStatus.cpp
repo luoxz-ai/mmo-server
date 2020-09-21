@@ -183,7 +183,6 @@ bool CActorStatus::AttachStatus(const AttachStatusInfo& info)
     return false;
 }
 
-
 bool CActorStatus::AttachStatus(uint32_t idStatus, OBJID idCaster)
 {
     __ENTER_FUNCTION
@@ -195,7 +194,6 @@ bool CActorStatus::AttachStatus(uint32_t idStatus, OBJID idCaster)
     __LEAVE_FUNCTION
     return false;
 }
-
 
 bool CActorStatus::DetachStatus(uint16_t idStatusType)
 {

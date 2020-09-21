@@ -1,8 +1,9 @@
-#include "MarketService.h"
+#include "AuthService.h"
 
 #include <functional>
 
 #include "EventManager.h"
+#include "GMManager.h"
 #include "MessagePort.h"
 #include "MessageRoute.h"
 #include "MsgProcessRegister.h"
@@ -10,14 +11,17 @@
 #include "NetSocket.h"
 #include "NetworkMessage.h"
 #include "SettingMap.h"
+#include "AuthManager.h"
 #include "server_msg/server_side.pb.h"
-#include "GMManager.h"
-
 
 static thread_local CAuthService* tls_pService = nullptr;
-CAuthService*                     MarketService()
+CAuthService*                     AuthService()
 {
     return tls_pService;
+}
+void SetAuthServicePtr(CAuthService* ptr)
+{
+    tls_pService = ptr;
 }
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint8_t idServiceType, uint8_t idServiceIdx)
@@ -62,12 +66,10 @@ bool CAuthService::Init(const ServerPort& nServerPort)
         BaseCode::SetNdc(oldNdc);
     };
 
-
     auto pGlobalDB = ConnectGlobalDB();
     CHECKF(pGlobalDB.get());
     m_pGMManager.reset(CGMManager::CreateNew(pGlobalDB.get()));
     CHECKF(m_pGMManager.get());
-
 
     if(CreateService(100) == false)
         return false;
@@ -80,12 +82,10 @@ bool CAuthService::Init(const ServerPort& nServerPort)
         }
     }
 
-    
-
     ServerMSG::ServiceReady msg;
     msg.set_serverport(GetServerPort());
 
-    SendMsgToPort(ServerPort(GetWorldID(), WORLD_SERVICE_ID), ServerMSG::MsgID_ServiceReady, msg);
+    SendProtoMsgToZonePort(ServerPort(GetWorldID(), SOCKET_SERVICE, 0),  msg);
     return true;
 }
 
@@ -93,11 +93,11 @@ void CAuthService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 {
     if(m_pNetMsgProcess->Process(pNetworkMsg) == false)
     {
-        LOGERROR("CMD {} from {} to {} forward {} didn't have ProcessHandler", 
-                pNetworkMsg->GetCmd(),
-                pNetworkMsg->GetFrom(),
-                pNetworkMsg->GetTo(),
-                pNetworkMsg->GetForward());
+        LOGERROR("CMD {} from {} to {} forward {} didn't have ProcessHandler",
+                 pNetworkMsg->GetCmd(),
+                 pNetworkMsg->GetFrom(),
+                 pNetworkMsg->GetTo(),
+                 pNetworkMsg->GetForward());
     }
 }
 
@@ -117,8 +117,7 @@ void CAuthService::OnLogicThreadExit()
     CServiceCommon::OnLogicThreadExit();
 }
 
-
-std::unique_ptr<CMysqlConnection> CWorldService::ConnectGlobalDB()
+std::unique_ptr<CMysqlConnection> CAuthService::ConnectGlobalDB()
 {
     const auto& settings        = GetMessageRoute()->GetSettingMap();
     const auto& settingGlobalDB = settings["GlobalMYSQL"][0];
@@ -133,4 +132,3 @@ std::unique_ptr<CMysqlConnection> CWorldService::ConnectGlobalDB()
     }
     return pGlobalDB;
 }
-

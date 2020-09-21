@@ -67,8 +67,8 @@ public:
     CServerSocket* ConnectTo(const char* addr, int32_t port, CNetEventHandler* pEventHandler);
     //异步连接到一个目标地址
     CServerSocket* AsyncConnectTo(const char* addr, int32_t port, CNetEventHandler* pEventHandler);
-    bool        _Reconnect(CServerSocket* pSocket);
-    bool        _AsyncReconnect(CServerSocket* pSocket);
+    bool           _Reconnect(CServerSocket* pSocket);
+    bool           _AsyncReconnect(CServerSocket* pSocket);
 
     void Stop();
     //开启独立的IO线程

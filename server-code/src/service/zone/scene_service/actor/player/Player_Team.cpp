@@ -1,6 +1,6 @@
 #include "Player.h"
-#include "TeamInfoManager.h"
 #include "SceneService.h"
+#include "TeamInfoManager.h"
 #include "server_msg/server_side.pb.h"
 
 void CPlayer::TeamCreate()
@@ -11,7 +11,7 @@ void CPlayer::TeamCreate()
     ServerMSG::TeamCreate msg;
     msg.set_team_id(SceneService()->CreateUID());
     msg.set_leader_id(GetID());
-    SceneService()->SendMsgToWorld(GetWorldID(), to_server_msgid(msg), msg);
+    SceneService()->SendProtoMsgToWorld(GetWorldID(), msg);
 }
 
 void CPlayer::TeamInviteMember(OBJID idTarget)
@@ -23,7 +23,7 @@ void CPlayer::TeamInviteMember(OBJID idTarget)
     msg.set_team_id(GetTeamID());
     msg.set_operator_id(GetID());
     msg.set_invitee_id(idTarget);
-    SceneService()->SendMsgToPort(GetWorldID(), msg);
+    SceneService()->SendProtoMsgToWorld(GetWorldID(), msg);
 }
 
 void CPlayer::TeamAcceptInvite(uint64_t idTeam, OBJID idInviter, bool bResult)
@@ -36,7 +36,7 @@ void CPlayer::TeamAcceptInvite(uint64_t idTeam, OBJID idInviter, bool bResult)
     msg.set_inviter_id(idInviter);
     msg.set_invitee_id(GetID());
     msg.set_result(bResult);
-    SceneService()->SendMsgToPort(GetWorldID(), msg);
+    SceneService()->SendProtoMsgToWorld(GetWorldID(), msg);
 }
 
 void CPlayer::TeamApplyMember(OBJID idTarget)
@@ -47,7 +47,7 @@ void CPlayer::TeamApplyMember(OBJID idTarget)
     ServerMSG::TeamApplyMember msg;
     msg.set_applicant_id(GetID());
     msg.set_respondent_id(idTarget);
-    SceneService()->SendMsgToPort(GetWorldID(), msg);
+    SceneService()->SendProtoMsgToWorld(GetWorldID(), msg);
 }
 
 void CPlayer::TeamAcceptApply(OBJID idApplicant, bool bResult)
@@ -56,7 +56,7 @@ void CPlayer::TeamAcceptApply(OBJID idApplicant, bool bResult)
     msg.set_applicant_id(idApplicant);
     msg.set_respondent_id(GetID());
     msg.set_result(bResult);
-    SceneService()->SendMsgToPort(GetWorldID(), msg);
+    SceneService()->SendProtoMsgToWorld(GetWorldID(), msg);
 }
 
 void CPlayer::TeamQuit()
@@ -67,7 +67,7 @@ void CPlayer::TeamQuit()
     ServerMSG::TeamQuit msg;
     msg.set_team_id(GetTeamID());
     msg.set_operator_id(GetID());
-    SceneService()->SendMsgToPort(GetWorldID(), msg);
+    SceneService()->SendProtoMsgToWorld(GetWorldID(), msg);
 }
 
 void CPlayer::TeamKickMember(OBJID idMember)
@@ -86,7 +86,7 @@ void CPlayer::TeamKickMember(OBJID idMember)
     msg.set_team_id(GetTeamID());
     msg.set_operator_id(GetID());
     msg.set_kick_id(idMember);
-    SceneService()->SendMsgToPort(GetWorldID(), msg);
+    SceneService()->SendProtoMsgToWorld(GetWorldID(), msg);
 }
 
 void CPlayer::TeamChangeLeader(OBJID idMember)
@@ -105,5 +105,5 @@ void CPlayer::TeamChangeLeader(OBJID idMember)
     msg.set_team_id(GetTeamID());
     msg.set_operator_id(GetID());
     msg.set_new_leader_id(idMember);
-    SceneService()->SendMsgToPort(GetWorldID(), msg);
+    SceneService()->SendProtoMsgToWorld(GetWorldID(), msg);
 }

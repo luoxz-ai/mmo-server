@@ -35,8 +35,8 @@ export_lua enum SkillDamageTargetFlag {
 
 //伤害目标选取范围
 export_lua enum SkillDamageShapeType {
-    STF_TARGET_SINGLE = 0, //单体
-    STF_TARGET_RECT = 1, //矩形 以目标/目标点为中心,range为长,width为宽, 垂直于地图坐标系的矩形
+    STF_TARGET_SINGLE   = 0, //单体
+    STF_TARGET_RECT     = 1, //矩形 以目标/目标点为中心,range为长,width为宽, 垂直于地图坐标系的矩形
     STF_TARGET_RECT_DIR = 2, //矩形 已自己为中心，面向目标点,range为长,width为宽
     STF_TARGET_ROUND    = 3, //圆形 以目标/目标点为中心,range为半径的圆
     STF_TARGET_FAN      = 4, //根据目标点计算朝向, 以自身为中心, range为半径, width为(0-360)的扇形
@@ -51,8 +51,8 @@ export_lua enum SkillFlag {
     SKILLFLAG_INTONE_CANMOVE    = 0x0004, // 吟唱时是否可移动
     SKILLFLAG_LAUNCH_CANMOVE    = 0x0008, // 释放时是否可移动
 
-    SKILLFLAG_DAMAGE_BY_DIST = 0x0010, // 根据距离调整伤害(当前距离/range)
-    SKILLFLAG_SPENDITEM = 0x0020, // 消耗useitem字段指定的物品类型（不消耗则仅仅表示需要有这个道具）
+    SKILLFLAG_DAMAGE_BY_DIST       = 0x0010, // 根据距离调整伤害(当前距离/range)
+    SKILLFLAG_SPENDITEM            = 0x0020, // 消耗useitem字段指定的物品类型（不消耗则仅仅表示需要有这个道具）
     SKILLFLAG_DAMAGE_BEFORE_LAUNCH = 0x0040, // 该技能在launch开始的时候强行apply1次
     SKILLFLAG_DAMAGE_AFTER_LAUNCH  = 0x0080, // 该技能在launch结束的时候强行apply1次
 
@@ -119,8 +119,11 @@ public:
     uint32_t GetApplyMS() const { return m_Data.apply_ms(); }
     uint32_t GetApplyAdjMS() const { return m_Data.apply_adj_ms(); }
     uint32_t GetStunMS() const { return m_Data.stun_ms(); }
-    uint32_t GetApplyTotalMS() const { return GetApplyMS() * GetApplyTimes() + GetApplyAdjMS() * (GetApplyTimes()*(GetApplyTimes()+1)*(GetApplyTimes()+2)/6); }
-    uint32_t GetTotalMS() const { return GetIntoneMS() + GetApplyTotalMS() + GetStunMS();}
+    uint32_t GetApplyTotalMS() const
+    {
+        return GetApplyMS() * GetApplyTimes() + GetApplyAdjMS() * (GetApplyTimes() * (GetApplyTimes() + 1) * (GetApplyTimes() + 2) / 6);
+    }
+    uint32_t GetTotalMS() const { return GetIntoneMS() + GetApplyTotalMS() + GetStunMS(); }
     uint32_t GetCDSec() const { return m_Data.cd_sec(); }
     uint32_t GetCDType() const { return m_Data.cd_type(); }
 
@@ -149,6 +152,5 @@ private:
 };
 
 DEFINE_GAMEMAPDATA(CSkillTypeSet, CSkillType);
-
 
 #endif /* SKILLTYPE_H */

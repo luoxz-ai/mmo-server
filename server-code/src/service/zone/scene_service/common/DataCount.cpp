@@ -35,36 +35,34 @@ void CDataCount::CheckReset(uint32_t nNextTime)
     auto pType = DataCountLimitSet()->QueryObj(CDataCountLimit::MakeID(GetType(), GetIdx()));
     if(pType == nullptr)
         return;
-    
+
     uint32_t now = TimeGetSecond();
     if(now > nNextTime)
     {
         switch(pType->GetResetType())
         {
-        case DATA_COUNT_RESET_BY_DAY:
+            case DATA_COUNT_RESET_BY_DAY:
             {
                 m_pRecord->Field(TBLD_DATACOUNT::DATA_NUM)        = 0;
-                m_pRecord->Field(TBLD_DATACOUNT::NEXT_RESET_TIME) = NextDayBeginTimeStamp(nNextTime, pType->GetResetTime() );
+                m_pRecord->Field(TBLD_DATACOUNT::NEXT_RESET_TIME) = NextDayBeginTimeStamp(nNextTime, pType->GetResetTime());
             }
             break;
-        case DATA_COUNT_RESET_BY_WEEK:
+            case DATA_COUNT_RESET_BY_WEEK:
             {
                 m_pRecord->Field(TBLD_DATACOUNT::DATA_NUM)        = 0;
-                m_pRecord->Field(TBLD_DATACOUNT::NEXT_RESET_TIME) = NextWeekBeginTimeStamp(nNextTime, pType->GetResetTime() );     
+                m_pRecord->Field(TBLD_DATACOUNT::NEXT_RESET_TIME) = NextWeekBeginTimeStamp(nNextTime, pType->GetResetTime());
             }
             break;
-        case DATA_COUNT_RESET_BY_MONTH:
+            case DATA_COUNT_RESET_BY_MONTH:
             {
                 m_pRecord->Field(TBLD_DATACOUNT::DATA_NUM)        = 0;
-                m_pRecord->Field(TBLD_DATACOUNT::NEXT_RESET_TIME) = NextMonthBeginTimeStamp(nNextTime, pType->GetResetTime() );     
+                m_pRecord->Field(TBLD_DATACOUNT::NEXT_RESET_TIME) = NextMonthBeginTimeStamp(nNextTime, pType->GetResetTime());
             }
             break;
-        default:
-            break;
+            default:
+                break;
         }
     }
-    
-
 
     __LEAVE_FUNCTION
 }
@@ -76,7 +74,7 @@ uint64_t CDataCount::GetDataNum()
     {
         return m_pRecord->Field(TBLD_DATACOUNT::DATA_NUM);
     }
-    
+
     // check need reset
     CheckReset(nNextTime);
     return m_pRecord->Field(TBLD_DATACOUNT::DATA_NUM);

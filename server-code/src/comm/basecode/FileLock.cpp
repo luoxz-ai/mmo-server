@@ -70,11 +70,7 @@ bool file_lock::lock()
     m_fd = open(m_pid_file.c_str(), O_CREAT | O_RDWR | O_TRUNC, S_IRUSR | S_IWUSR);
     if(m_fd < 0)
     {
-        BaseCode::PrintfError("file_lock::lock fail m_fd = {},{}({}), {}",
-                              m_fd,
-                              strerror(errno),
-                              errno,
-                              m_pid_file.c_str());
+        BaseCode::PrintfError("file_lock::lock fail m_fd = {},{}({}), {}", m_fd, strerror(errno), errno, m_pid_file.c_str());
         return false;
     }
     int32_t lock_result = lockf(m_fd, F_TLOCK, 0);

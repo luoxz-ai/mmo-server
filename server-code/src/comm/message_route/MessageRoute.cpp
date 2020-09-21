@@ -2,9 +2,9 @@
 
 #include "EventManager.h"
 #include "MessagePort.h"
-#include "NetSocket.h"
 #include "NetClientSocket.h"
 #include "NetServerSocket.h"
+#include "NetSocket.h"
 #include "globaldb.h"
 #include "server_msg/server_side.pb.h"
 #include "tinyxml2/tinyxml2.h"
@@ -203,8 +203,7 @@ void CMessageRoute::ReloadServiceInfo(uint32_t update_time, uint16_t nNewWorldID
         }
         else
         {
-            SQL =
-                fmt::format(FMT_STRING("SELECT * FROM tbld_servicedetail WHERE worldid={} OR worldid=0"), GetWorldID());
+            SQL = fmt::format(FMT_STRING("SELECT * FROM tbld_servicedetail WHERE worldid={} OR worldid=0"), GetWorldID());
         }
         auto result = m_pGlobalDB->Query(TBLD_SERVICEDETAIL::table_name(), SQL);
         CHECK_M(result, "GlobalDB can't query tbld_servicedetail");
@@ -213,20 +212,20 @@ void CMessageRoute::ReloadServiceInfo(uint32_t update_time, uint16_t nNewWorldID
             auto row = result->fetch_row(false);
             if(row)
             {
-                uint16_t    idWorld      = row->Field(TBLD_SERVICEDETAIL::WORLDID);
-                uint8_t    idServiceType = row->Field(TBLD_SERVICEDETAIL::SERVICETYPE);
-                uint8_t    idServiceIdx  = row->Field(TBLD_SERVICEDETAIL::SERVICEIDX);
-                
+                uint16_t idWorld       = row->Field(TBLD_SERVICEDETAIL::WORLDID);
+                uint8_t  idServiceType = row->Field(TBLD_SERVICEDETAIL::SERVICE_TYPE);
+                uint8_t  idServiceIdx  = row->Field(TBLD_SERVICEDETAIL::SERVICE_IDX);
+
                 std::string oldRouteAddr = row->Field(TBLD_SERVICEDETAIL::ROUTE_ADDR).get<std::string>();
                 uint16_t    oldRoutePort = row->Field(TBLD_SERVICEDETAIL::ROUTE_PORT).get<uint16_t>();
                 ServerPort  serverport(idWorld, idServiceType, idServiceIdx);
                 //写入ServerInfo
-                auto& refInfo     = m_setServerInfo[serverport];
-                refInfo.idWorld   = idWorld;
+                auto& refInfo         = m_setServerInfo[serverport];
+                refInfo.idWorld       = idWorld;
                 refInfo.idServiceType = idServiceType;
                 refInfo.idServiceIdx  = idServiceIdx;
 
-                refInfo.lib_name     = row->Field(TBLD_SERVICEDETAIL::SERVICE_TYPE).get<std::string>();
+                refInfo.lib_name     = row->Field(TBLD_SERVICEDETAIL::LIB_NAME).get<std::string>();
                 refInfo.route_addr   = row->Field(TBLD_SERVICEDETAIL::ROUTE_ADDR).get<std::string>();
                 refInfo.route_port   = row->Field(TBLD_SERVICEDETAIL::ROUTE_PORT);
                 refInfo.bind_addr    = row->Field(TBLD_SERVICEDETAIL::BIND_ADDR).get<std::string>();
@@ -234,9 +233,10 @@ void CMessageRoute::ReloadServiceInfo(uint32_t update_time, uint16_t nNewWorldID
                 refInfo.publish_port = row->Field(TBLD_SERVICEDETAIL::PUBLISH_PORT);
                 refInfo.debug_port   = row->Field(TBLD_SERVICEDETAIL::DEBUG_PORT);
 
-                LOGDEBUG("ServerInfo Load WORLD:{} Service:{} route_addr:{} route_port:{}",
+                LOGDEBUG("ServerInfo Load WORLD:{} Service:{}-{} route_addr:{} route_port:{}",
                          idWorld,
-                         idService,
+                         idServiceType,
+                         idServiceIdx,
                          refInfo.route_addr,
                          refInfo.route_port);
 
@@ -325,9 +325,7 @@ void CMessageRoute::SetWorldReady(uint16_t idWorld, bool bReady)
     __LEAVE_FUNCTION
 }
 
-void CMessageRoute::ForeachServiceInfoByWorldID(uint16_t                                     idWorld,
-                                                bool                                         bIncludeShare,
-                                                std::function<bool(const ServerAddrInfo*)>&& func)
+void CMessageRoute::ForeachServiceInfoByWorldID(uint16_t idWorld, bool bIncludeShare, ForeachServiceInfoFunc&& func)
 {
     __ENTER_FUNCTION
     std::unique_lock<std::mutex> locker(m_mutex);
@@ -353,6 +351,110 @@ void CMessageRoute::ForeachServiceInfoByWorldID(uint16_t                        
         }
     }
     __LEAVE_FUNCTION
+}
+
+ServerPortList CMessageRoute::GetServerPortListByWorldID(uint16_t idWorld, bool bIncludeShare)
+{
+    ServerPortList service_list;
+    __ENTER_FUNCTION
+    std::unique_lock<std::mutex> locker(m_mutex);
+
+    for(const auto& [server_port, server_info]: m_setServerInfoByWorldID[idWorld])
+    {
+        service_list.push_back(server_port);
+    }
+    if(bIncludeShare)
+    {
+        for(const auto& [server_port, server_info]: m_setServerInfoByWorldID[0])
+        {
+            service_list.push_back(server_port);
+        }
+    }
+    locker.unlock();
+
+    __LEAVE_FUNCTION
+    return service_list;
+}
+
+ServerPortList CMessageRoute::GetServerPortListByWorldIDAndServiceType(uint16_t idWorld, uint8_t idServiceType, bool bIncludeShare)
+{
+    ServerPortList service_list;
+    __ENTER_FUNCTION
+
+    std::unique_lock<std::mutex> locker(m_mutex);
+
+    for(const auto& [server_port, server_info]: m_setServerInfoByWorldID[idWorld])
+    {
+        if(server_port.GetServiceType() != idServiceType)
+            continue;
+        service_list.push_back(server_port);
+    }
+    if(bIncludeShare)
+    {
+        for(const auto& [server_port, server_info]: m_setServerInfoByWorldID[0])
+        {
+            if(server_port.GetServiceType() != idServiceType)
+                continue;
+            service_list.push_back(server_port);
+        }
+    }
+    locker.unlock();
+
+    __LEAVE_FUNCTION
+
+    return service_list;
+}
+
+
+ServerPortList CMessageRoute::GetServerPortListByWorldIDExcept(uint16_t idWorld, uint8_t idExceptServiceType, bool bIncludeShare)
+{
+    ServerPortList service_list;
+    __ENTER_FUNCTION
+
+    std::unique_lock<std::mutex> locker(m_mutex);
+
+    for(const auto& [server_port, server_info]: m_setServerInfoByWorldID[idWorld])
+    {
+        if(server_port.GetServiceType() == idExceptServiceType)
+            continue;
+        service_list.push_back(server_port);
+    }
+    if(bIncludeShare)
+    {
+        for(const auto& [server_port, server_info]: m_setServerInfoByWorldID[0])
+        {
+            if(server_port.GetServiceType() == idExceptServiceType)
+                continue;
+            service_list.push_back(server_port);
+        }
+    }
+    locker.unlock();
+
+    __LEAVE_FUNCTION
+
+    return service_list;
+}
+
+ServerPortList CMessageRoute::GetServerPortListByServiceType(uint8_t idServiceType)
+{
+    ServerPortList service_list;
+    __ENTER_FUNCTION
+
+    std::unique_lock<std::mutex> locker(m_mutex);
+
+    for(const auto& [idWorldID, info_list]: m_setServerInfoByWorldID)
+    {
+        for(const auto& [server_port, server_info]: info_list)
+        {
+            if(server_port.GetServiceType() != idServiceType)
+                continue;
+            service_list.push_back(server_port);
+        }
+    }
+    locker.unlock();
+
+    __LEAVE_FUNCTION
+    return service_list;
 }
 
 bool CMessageRoute::IsConnected(const ServerPort& nServerPort)
@@ -432,19 +534,14 @@ CMessagePort* CMessageRoute::_ConnectRemoteServer(const ServerPort& nServerPort,
     auto pRemoteSocket = m_pNetworkService->AsyncConnectTo(info.route_addr.c_str(), info.route_port, pMessagePort);
     if(pRemoteSocket == nullptr)
     {
-        LOGFATAL("CMessageRoute::ConnectRemoteServer AsyncConnectTo {}:{} fail",
-                 info.route_addr.c_str(),
-                 info.route_port);
+        LOGFATAL("CMessageRoute::ConnectRemoteServer AsyncConnectTo {}:{} fail", info.route_addr.c_str(), info.route_port);
         return nullptr;
     }
     pRemoteSocket->SetReconnect(true);
     pRemoteSocket->SetLogWriteHighWateMark(100 * 1024 * 1024);
     pMessagePort->SetRemoteSocket(pRemoteSocket);
 
-    LOGMESSAGE("CMessageRoute::ConnectRemoteServer:{}, {}:{}",
-               nServerPort.GetServiceID(),
-               info.route_addr.c_str(),
-               info.route_port);
+    LOGMESSAGE("CMessageRoute::ConnectRemoteServer:{}, {}:{}", nServerPort.GetServiceID(), info.route_addr.c_str(), info.route_port);
 
     return pMessagePort;
     __LEAVE_FUNCTION
@@ -521,8 +618,7 @@ void CMessageRoute::_CloseRemoteServer(const ServerPort& nServerPort)
         {
             pRemoteSocket->Interrupt();
         }
-        
-        
+
         SAFE_DELETE(pPort);
     }
     m_setMessagePort.erase(itPort);
@@ -563,9 +659,10 @@ CMessagePort* CMessageRoute::_ListenMessagePort(const ServerPort& nServerPort, c
         SAFE_DELETE(pMessagePort);
         return nullptr;
     }
-    LOGMESSAGE("CMessageRoute::ListenMessagePort:{}-{}, {}:{}",
+    LOGMESSAGE("CMessageRoute::ListenMessagePort:{}-{}-{}, {}:{}",
                nServerPort.GetWorldID(),
-               GetServiceName(nServerPort.GetServiceID()),
+               nServerPort.GetServiceID().GetServiceType(),
+               nServerPort.GetServiceID().GetServiceIdx(),
                info.route_addr.c_str(),
                info.route_port);
     m_setMessagePort[nServerPort] = pMessagePort;

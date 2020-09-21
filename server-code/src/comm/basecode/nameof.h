@@ -92,15 +92,12 @@ namespace nameof
     };
 
     static_assert(NAMEOF_ENUM_RANGE_MIN <= 0, "NAMEOF_ENUM_RANGE_MIN must be less or equals than 0.");
-    static_assert(NAMEOF_ENUM_RANGE_MIN > (std::numeric_limits<std::int16_t>::min)(),
-                  "NAMEOF_ENUM_RANGE_MIN must be greater than INT16_MIN.");
+    static_assert(NAMEOF_ENUM_RANGE_MIN > (std::numeric_limits<std::int16_t>::min)(), "NAMEOF_ENUM_RANGE_MIN must be greater than INT16_MIN.");
 
     static_assert(NAMEOF_ENUM_RANGE_MAX > 0, "NAMEOF_ENUM_RANGE_MAX must be greater than 0.");
-    static_assert(NAMEOF_ENUM_RANGE_MAX < (std::numeric_limits<std::int16_t>::max)(),
-                  "NAMEOF_ENUM_RANGE_MAX must be less than INT16_MAX.");
+    static_assert(NAMEOF_ENUM_RANGE_MAX < (std::numeric_limits<std::int16_t>::max)(), "NAMEOF_ENUM_RANGE_MAX must be less than INT16_MAX.");
 
-    static_assert(NAMEOF_ENUM_RANGE_MAX > NAMEOF_ENUM_RANGE_MIN,
-                  "NAMEOF_ENUM_RANGE_MAX must be greater than NAMEOF_ENUM_RANGE_MIN.");
+    static_assert(NAMEOF_ENUM_RANGE_MAX > NAMEOF_ENUM_RANGE_MIN, "NAMEOF_ENUM_RANGE_MAX must be greater than NAMEOF_ENUM_RANGE_MIN.");
 
     template<std::size_t N>
     class [[nodiscard]] cstring
@@ -168,10 +165,7 @@ namespace nameof
 
         [[nodiscard]] constexpr const_reverse_iterator crend() const noexcept { return rend(); }
 
-        [[nodiscard]] constexpr const_reference operator[](std::size_t i) const noexcept
-        {
-            return assert(i < size()), chars_[i];
-        }
+        [[nodiscard]] constexpr const_reference operator[](std::size_t i) const noexcept { return assert(i < size()), chars_[i]; }
 
         [[nodiscard]] constexpr const_reference at(std::size_t i) const { return assert(i < size()), chars_.at(i); }
 
@@ -183,16 +177,11 @@ namespace nameof
 
         [[nodiscard]] constexpr bool empty() const noexcept { return false; }
 
-        [[nodiscard]] constexpr int compare(std::string_view str) const noexcept
-        {
-            return std::string_view{data(), size()}.compare(str);
-        }
+        [[nodiscard]] constexpr int compare(std::string_view str) const noexcept { return std::string_view{data(), size()}.compare(str); }
 
         [[nodiscard]] constexpr const char* c_str() const noexcept { return data(); }
 
-        template<typename Char      = char,
-                 typename Traits    = std::char_traits<Char>,
-                 typename Allocator = std::allocator<Char>>
+        template<typename Char = char, typename Traits = std::char_traits<Char>, typename Allocator = std::allocator<Char>>
         [[nodiscard]] std::basic_string<Char, Traits, Allocator> str() const
         {
             return {begin(), end()};
@@ -202,9 +191,7 @@ namespace nameof
 
         [[nodiscard]] constexpr explicit operator const char*() const noexcept { return data(); }
 
-        template<typename Char      = char,
-                 typename Traits    = std::char_traits<Char>,
-                 typename Allocator = std::allocator<Char>>
+        template<typename Char = char, typename Traits = std::char_traits<Char>, typename Allocator = std::allocator<Char>>
         [[nodiscard]] explicit operator std::basic_string<Char, Traits, Allocator>() const
         {
             return {begin(), end()};
@@ -435,8 +422,8 @@ namespace nameof
                 name.remove_suffix(s);
             }
 
-            if(name.size() > 0 && ((name.front() >= 'a' && name.front() <= 'z') ||
-                                   (name.front() >= 'A' && name.front() <= 'Z') || (name.front() == '_')))
+            if(name.size() > 0 &&
+               ((name.front() >= 'a' && name.front() <= 'z') || (name.front() >= 'A' && name.front() <= 'Z') || (name.front() == '_')))
             {
                 return name;
             }
@@ -476,8 +463,7 @@ namespace nameof
             template<typename L, typename R>
             constexpr bool mixed_sign_less(L lhs, R rhs) noexcept
             {
-                static_assert(std::is_integral_v<L> && std::is_integral_v<R>,
-                              "nameof::detail::mixed_sign_less requires integral type.");
+                static_assert(std::is_integral_v<L> && std::is_integral_v<R>, "nameof::detail::mixed_sign_less requires integral type.");
 
                 if constexpr(std::is_signed_v<L> && std::is_unsigned_v<R>)
                 {
@@ -501,8 +487,7 @@ namespace nameof
             {
                 static_assert(is_enum_v<E>, "nameof::detail::reflected_min requires enum type.");
                 constexpr auto lhs = enum_range<E>::min;
-                static_assert(lhs > (std::numeric_limits<std::int16_t>::min)(),
-                              "nameof::enum_range requires min must be greater than INT16_MIN.");
+                static_assert(lhs > (std::numeric_limits<std::int16_t>::min)(), "nameof::enum_range requires min must be greater than INT16_MIN.");
                 constexpr auto rhs = (std::numeric_limits<std::underlying_type_t<E>>::min)();
 
                 return mixed_sign_less(lhs, rhs) ? rhs : lhs;
@@ -513,8 +498,7 @@ namespace nameof
             {
                 static_assert(is_enum_v<E>, "nameof::detail::reflected_max requires enum type.");
                 constexpr auto lhs = enum_range<E>::max;
-                static_assert(lhs < (std::numeric_limits<std::int16_t>::max)(),
-                              "nameof::enum_range requires max must be less than INT16_MAX.");
+                static_assert(lhs < (std::numeric_limits<std::int16_t>::max)(), "nameof::enum_range requires max must be less than INT16_MAX.");
                 constexpr auto rhs = (std::numeric_limits<std::underlying_type_t<E>>::max)();
 
                 return mixed_sign_less(lhs, rhs) ? lhs : rhs;
@@ -533,8 +517,7 @@ namespace nameof
                 static_assert(reflected_max_v<E>> reflected_min_v<E>, "nameof::enum_range requires max > min.");
                 constexpr auto size = reflected_max_v<E> - reflected_min_v<E> + 1;
                 static_assert(size > 0, "nameof::enum_range requires valid size.");
-                static_assert(size < (std::numeric_limits<std::uint16_t>::max)(),
-                              "nameof::enum_range requires valid size.");
+                static_assert(size < (std::numeric_limits<std::uint16_t>::max)(), "nameof::enum_range requires valid size.");
 
                 return static_cast<std::size_t>(size);
             }
@@ -543,9 +526,8 @@ namespace nameof
             constexpr auto values(std::integer_sequence<int, I...>) noexcept
             {
                 static_assert(is_enum_v<E>, "nameof::detail::values requires enum type.");
-                constexpr std::array<bool, sizeof...(I)> valid{
-                    {(n<E, static_cast<E>(I + reflected_min_v<E>)>().size() != 0)...}};
-                constexpr int count = ((valid[I] ? 1 : 0) + ...);
+                constexpr std::array<bool, sizeof...(I)> valid{{(n<E, static_cast<E>(I + reflected_min_v<E>)>().size() != 0)...}};
+                constexpr int                            count = ((valid[I] ? 1 : 0) + ...);
 
                 std::array<E, count> values{};
                 for(int i = 0, v = 0; v < count; ++i)
@@ -577,8 +559,7 @@ namespace nameof
                 static_assert(is_enum_v<E>, "nameof::detail::range_size requires enum type.");
                 constexpr auto size = max_v<E> - min_v<E> + 1;
                 static_assert(size > 0, "nameof::enum_range requires valid size.");
-                static_assert(size < (std::numeric_limits<std::uint16_t>::max)(),
-                              "nameof::enum_range requires valid size.");
+                static_assert(size < (std::numeric_limits<std::uint16_t>::max)(), "nameof::enum_range requires valid size.");
 
                 return static_cast<std::size_t>(size);
             }
@@ -587,8 +568,7 @@ namespace nameof
             inline constexpr std::size_t range_size_v = range_size<E>();
 
             template<typename E>
-            using index_t = std::conditional_t < range_size_v<E>
-                            <(std::numeric_limits<std::uint8_t>::max)(), std::uint8_t, std::uint16_t>;
+            using index_t = std::conditional_t < range_size_v<E><(std::numeric_limits<std::uint8_t>::max)(), std::uint8_t, std::uint16_t>;
 
             template<typename E>
             inline constexpr auto invalid_index_v = (std::numeric_limits<index_t<E>>::max)();
@@ -599,14 +579,12 @@ namespace nameof
                 static_assert(is_enum_v<E>, "nameof::detail::indexes requires enum type.");
                 index_t<E> i = 0;
 
-                return std::array<index_t<E>, sizeof...(I)>{
-                    {((n<E, static_cast<E>(I + min_v<E>)>().size() != 0) ? i++ : invalid_index_v<E>)...}};
+                return std::array<index_t<E>, sizeof...(I)>{{((n<E, static_cast<E>(I + min_v<E>)>().size() != 0) ? i++ : invalid_index_v<E>)...}};
             }
 
             template<typename E>
             inline constexpr bool sparsity_v = (sizeof(const char*) * range_size_v<E>) >
-                                               (sizeof(index_t<E>) * range_size_v<E> +
-                                                sizeof(const char*) * count_v<E>);
+                                               (sizeof(index_t<E>) * range_size_v<E> + sizeof(const char*) * count_v<E>);
 
             template<typename E, int... I>
             constexpr auto strings(std::integer_sequence<int, I...>) noexcept
@@ -651,8 +629,7 @@ namespace nameof
             public:
                 static constexpr std::string_view name(E value) noexcept
                 {
-                    if(static_cast<U>(value) >= static_cast<U>(min_v<E>) &&
-                       static_cast<U>(value) <= static_cast<U>(max_v<E>))
+                    if(static_cast<U>(value) >= static_cast<U>(min_v<E>) && static_cast<U>(value) <= static_cast<U>(max_v<E>))
                     {
                         if constexpr(sparsity_v<E>)
                         {
@@ -682,9 +659,7 @@ namespace nameof
 #elif defined(__GNUC__)
             constexpr std::string_view name{__PRETTY_FUNCTION__ + 46, sizeof(__PRETTY_FUNCTION__) - 49};
 #elif defined(_MSC_VER)
-            constexpr std::string_view name{__FUNCSIG__ + 63,
-                                            sizeof(__FUNCSIG__) - 81 -
-                                                (__FUNCSIG__[sizeof(__FUNCSIG__) - 19] == ' ' ? 1 : 0)};
+            constexpr std::string_view name{__FUNCSIG__ + 63, sizeof(__FUNCSIG__) - 81 - (__FUNCSIG__[sizeof(__FUNCSIG__) - 19] == ' ' ? 1 : 0)};
 #endif
 
             return cstring<name.size()>{name};
@@ -708,9 +683,8 @@ namespace nameof
     template<typename E>
     [[nodiscard]] constexpr auto nameof_enum(E value) noexcept -> detail::enable_if_enum_t<E, std::string_view>
     {
-        static_assert(
-            detail::nameof_enum_supported<E>::value,
-            "nameof::nameof_enum unsupported compiler (https://github.com/Neargye/nameof#compiler-compatibility).");
+        static_assert(detail::nameof_enum_supported<E>::value,
+                      "nameof::nameof_enum unsupported compiler (https://github.com/Neargye/nameof#compiler-compatibility).");
         return detail::enums::enum_traits<detail::remove_cvref_t<E>>::name(value);
     }
 
@@ -720,9 +694,8 @@ namespace nameof
     [[nodiscard]] constexpr auto nameof_enum() noexcept -> detail::enable_if_enum_t<decltype(V), std::string_view>
     {
         using E = detail::remove_cvref_t<decltype(V)>;
-        static_assert(
-            detail::nameof_enum_supported<E>::value,
-            "nameof::nameof_enum unsupported compiler (https://github.com/Neargye/nameof#compiler-compatibility).");
+        static_assert(detail::nameof_enum_supported<E>::value,
+                      "nameof::nameof_enum unsupported compiler (https://github.com/Neargye/nameof#compiler-compatibility).");
         constexpr std::string_view name = detail::enum_name_v<E, V>;
         static_assert(name.size() > 0, "Enum value does not have a name.");
 
@@ -733,9 +706,8 @@ namespace nameof
     template<typename T>
     [[nodiscard]] constexpr std::string_view nameof_type() noexcept
     {
-        static_assert(
-            detail::nameof_type_supported<T>::value,
-            "nameof::nameof_type unsupported compiler (https://github.com/Neargye/nameof#compiler-compatibility).");
+        static_assert(detail::nameof_type_supported<T>::value,
+                      "nameof::nameof_type unsupported compiler (https://github.com/Neargye/nameof#compiler-compatibility).");
 #if defined(_MSC_VER)
         using U = detail::identity<detail::remove_cvref_t<T>>;
 #else
@@ -751,9 +723,8 @@ namespace nameof
     template<typename T>
     [[nodiscard]] constexpr std::string_view nameof_full_type() noexcept
     {
-        static_assert(
-            detail::nameof_type_supported<T>::value,
-            "nameof::nameof_type unsupported compiler (https://github.com/Neargye/nameof#compiler-compatibility).");
+        static_assert(detail::nameof_type_supported<T>::value,
+                      "nameof::nameof_type unsupported compiler (https://github.com/Neargye/nameof#compiler-compatibility).");
 #if defined(_MSC_VER)
         using U = detail::identity<T>;
 #else

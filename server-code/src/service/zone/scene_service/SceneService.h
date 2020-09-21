@@ -3,11 +3,11 @@
 
 #include "IService.h"
 #include "MyTimer.h"
+#include "MysqlConnection.h"
 #include "NetSocket.h"
 #include "ScriptManager.h"
 #include "ServiceComm.h"
 #include "game_common_def.h"
-#include "MysqlConnection.h"
 
 class CMapManager;
 class CSystemVarSet;
@@ -31,14 +31,11 @@ public:
     export_lua const std::string& GetServiceName() const override { return CServiceCommon::GetServiceName(); }
 
 public:
-    export_lua uint16_t      GetZoneID() const { return ServiceID2ZoneID(GetServiceID()); }
-    export_lua uint16_t      GetAIServiceID() const { return MIN_AI_SERVICE_ID + GetZoneID() - 1; }
-    export_lua VirtualSocket GetAIServerVirtualSocket() const
-    {
-        return VirtualSocket(ServerPort(GetWorldID(), GetServiceID() + (MIN_AI_SERVICE_ID-MIN_ZONE_SERVICE_ID)), 0);
-    }
-    export_lua bool IsSharedZone() const { return GetWorldID() == 0; }
-    export_lua uint64_t CreateUID();
+    export_lua uint16_t   GetZoneID() const { return GetServiceID().GetServiceIdx(); }
+    export_lua ServerPort GetAIServerPort() const { return ServerPort(GetWorldID(), AI_SERVICE, GetServiceID().GetServiceIdx()); }
+    export_lua bool       IsSharedZone() const { return GetWorldID() == 0; }
+    export_lua uint64_t   CreateUID();
+
 public:
     virtual void OnLogicThreadProc() override;
     virtual void OnLogicThreadCreate() override;
@@ -53,23 +50,18 @@ public:
     std::deque<CNetworkMessage*>& GetMessagePoolRef(const VirtualSocket& vs);
     bool                          PopMsgFromMessagePool(const VirtualSocket& vs, CNetworkMessage*& pMsg);
     //发送消息给World
-    export_lua bool SendMsgToWorld(uint16_t idWorld, uint16_t nCmd, const google::protobuf::Message& msg) const;
-    //通过World转发消息
-    export_lua bool TransmiteMsgFromWorldToOther(uint16_t                         idWorld,
-                                                 uint16_t                         idService,
-                                                 uint16_t                         nCmd,
-                                                 const google::protobuf::Message& msg) const;
+    export_lua bool SendProtoMsgToWorld(uint16_t idWorld, const proto_msg_t& msg) const;
     //转发消息给其他的zone
-    export_lua bool SendMsgToAllScene(uint16_t nCmd, const google::protobuf::Message& msg) const;
+    export_lua bool SendProtoMsgToAllScene(const proto_msg_t& msg) const;
     //广播消息给所有的玩家
-    export_lua bool SendMsgToAllPlayer(const google::protobuf::Message& msg) const;
-    export_lua bool SendMsgToAllPlayer(uint16_t nCmd, const google::protobuf::Message& msg) const;
+    export_lua bool SendProtoMsgToAllPlayer(const proto_msg_t& msg) const;
+    
     //发送消息给玩家
-    export_lua bool SendMsgToPlayer(const VirtualSocket& vs, const google::protobuf::Message& msg) const;
-    export_lua bool SendMsgToPlayer(const VirtualSocket& vs, uint16_t nCmd, const google::protobuf::Message& msg) const;
+    export_lua bool SendProtoMsgToPlayer(const VirtualSocket& vs, const proto_msg_t& msg) const;
+    
     //发送消息给AIService
-    export_lua bool SendServerMsgToAIService(const google::protobuf::Message& msg) const;
-    export_lua bool SendMsgToAIService(uint16_t nCmd, const google::protobuf::Message& msg) const;
+    export_lua bool SendProtoMsgToAIService(const proto_msg_t& msg) const;
+    
 
     //发送广播包给玩家
     void _ID2VS(OBJID id, VirtualSocketMap_t& VSMap) const override;
@@ -97,7 +89,7 @@ private:
     void ProcessPortMessage();
 
 private:
-    CUIDFactory                     m_UIDFactory;
+    CUIDFactory                                                     m_UIDFactory;
     std::unique_ptr<CMysqlConnection>                               m_pGlobalDB;
     std::unordered_map<uint16_t, std::unique_ptr<CMysqlConnection>> m_GameDBMap;
 
@@ -137,7 +129,7 @@ public:
 };
 
 export_lua CSceneService* SceneService();
-void                     SetSceneServicePtr(CSceneService*);
+void                      SetSceneServicePtr(CSceneService*);
 
 export_lua inline auto EventManager()
 {

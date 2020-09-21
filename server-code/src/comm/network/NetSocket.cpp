@@ -10,9 +10,9 @@
 #include "event2/util.h"
 
 #ifdef __linux
-#include <netinet/tcp.h> 
+#include <netinet/tcp.h>
 #else
-#include <ws2def.h> 
+#include <ws2def.h>
 #endif
 
 OBJECTHEAP_IMPLEMENTATION(CNetSocket, s_Heap);
@@ -95,7 +95,7 @@ bool CNetSocket::SendSocketMsg(byte* pBuffer, size_t len, bool bFlush)
     return false;
 }
 
-bool CNetSocket::SendSocketMsg(byte* pHeaderBuffer, size_t head_len, CNetworkMessage* pMsg, bool bFlush)
+bool CNetSocket::SendSocketCombineMsg(byte* pHeaderBuffer, size_t head_len, CNetworkMessage* pMsg, bool bFlush)
 {
     __ENTER_FUNCTION
 
@@ -156,7 +156,7 @@ bool CNetSocket::_SendMsg(byte* pBuffer, size_t len, bool bFlush)
     if(GetStatus() == NSS_CONNECTING || GetStatus() == NSS_WAIT_RECONNECT)
     {
         // hold msg
-        int32_t result = evbuffer_add(m_Sendbuf, pBuffer, len); 
+        int32_t result   = evbuffer_add(m_Sendbuf, pBuffer, len);
         m_nWaitWriteSize = evbuffer_get_length(m_Sendbuf);
         return result == 0;
     }
@@ -167,7 +167,7 @@ bool CNetSocket::_SendMsg(byte* pBuffer, size_t len, bool bFlush)
         if(bFlush)
             bufferevent_flush(m_pBufferevent, EV_WRITE, BEV_FLUSH);
         size_t nNeedWrite = evbuffer_get_length(bufferevent_get_output(m_pBufferevent));
-        m_nWaitWriteSize = nNeedWrite;
+        m_nWaitWriteSize  = nNeedWrite;
         if(nNeedWrite > m_nLogWriteHighWateMark)
         {
             LOGNETERROR("Write Buffer {}:{} oversize:{}", GetAddrString().c_str(), GetPort(), nNeedWrite);
@@ -266,16 +266,15 @@ void CNetSocket::_OnSocketRead(bufferevent* b, void* ctx)
 void CNetSocket::_OnSendOK(bufferevent* b, void* ctx)
 {
     __ENTER_FUNCTION
-    CNetSocket* pSocket = (CNetSocket*)ctx;
+    CNetSocket* pSocket       = (CNetSocket*)ctx;
     pSocket->m_nWaitWriteSize = evbuffer_get_length(bufferevent_get_output(b));
     __LEAVE_FUNCTION
 }
 
-
 void CNetSocket::_OnCheckAllSendOK(bufferevent* b, void* ctx)
 {
     __ENTER_FUNCTION
-    CNetSocket* pSocket = (CNetSocket*)ctx;
+    CNetSocket* pSocket       = (CNetSocket*)ctx;
     pSocket->m_nWaitWriteSize = evbuffer_get_length(bufferevent_get_output(b));
     if(pSocket->GetStatus() == NSS_CLOSEING && pSocket->m_nWaitWriteSize == 0)
     {
@@ -313,19 +312,11 @@ void CNetSocket::_OnSocketEvent(bufferevent* b, short what, void* ctx)
         const char* errstr = evutil_socket_error_to_string(err);
         if(err == 10054 || err == 104 || err == 32)
         {
-            LOGNETDEBUG("CNetSocket error{}: {}, {}:{}",
-                        err,
-                        errstr,
-                        pSocket->GetAddrString().c_str(),
-                        pSocket->GetPort());
+            LOGNETDEBUG("CNetSocket error{}: {}, {}:{}", err, errstr, pSocket->GetAddrString().c_str(), pSocket->GetPort());
         }
         else
         {
-            LOGERROR("CNetSocket error{}: {}, {}:{}",
-                     err,
-                     errstr,
-                     pSocket->GetAddrString().c_str(),
-                     pSocket->GetPort());
+            LOGERROR("CNetSocket error{}: {}, {}:{}", err, errstr, pSocket->GetAddrString().c_str(), pSocket->GetPort());
         }
         bClose = true;
     }
@@ -439,15 +430,15 @@ void CNetSocket::OnRecvTimeout(bool& bReconnect)
 
     __LEAVE_FUNCTION
 }
-       
-void CNetSocket::set_sock_nodely()        
+
+void CNetSocket::set_sock_nodely()
 {
-    bool option_true = true;
+    bool option_true  = true;
     bool option_false = true;
     setsockopt(m_socket, IPPROTO_TCP, TCP_NODELAY, (const char*)&option_true, sizeof(option_true));
     setsockopt(m_socket, IPPROTO_TCP, TCP_CORK, (const char*)&option_false, sizeof(option_false));
 
-     // turn off SIGPIPE signal
+    // turn off SIGPIPE signal
 #ifdef __linux__
     setsockopt(m_socket, SOL_SOCKET, MSG_NOSIGNAL, (const char*)&option_true, sizeof(option_true));
 #else
@@ -456,7 +447,7 @@ void CNetSocket::set_sock_nodely()
 
     // set SO_LINGER so socket closes gracefully
     struct linger ling;
-    ling.l_onoff = 1;
+    ling.l_onoff  = 1;
     ling.l_linger = 0;
     setsockopt(m_socket, SOL_SOCKET, SO_LINGER, &ling, sizeof(ling));
 }

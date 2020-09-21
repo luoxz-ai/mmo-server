@@ -3,7 +3,7 @@
 #include "ActorManager.h"
 #include "GMManager.h"
 #include "Item.h"
-#include "MsgZoneProcess.h"
+#include "MsgSceneProcess.h"
 #include "Phase.h"
 #include "Player.h"
 #include "Scene.h"
@@ -115,21 +115,21 @@ ON_PLAYERMSG(CS_TALK)
         {
             //发送给reciver所在的world，
             auto target_worldid = GetWorldIDFromPlayerID(msg.reciver_id());
-            SceneService()->TransmiteMsgFromWorldToOther(target_worldid, WORLD_SERVICE_ID, CMD_SC_TALK, send_msg);
+            SceneService()->SendProtoMsgToZonePort(ServerPort(target_worldid, WORLD_SERVICE, 0),  send_msg);
         }
         break;
         case CHANNEL_TEAM: //组队
         {
             //发送给自己当前的World来处理
             auto target_worldid = pPlayer->GetWorldID();
-            SceneService()->TransmiteMsgFromWorldToOther(target_worldid, WORLD_SERVICE_ID, CMD_SC_TALK, send_msg);
+            SceneService()->SendProtoMsgToZonePort(ServerPort(target_worldid, WORLD_SERVICE, 0),  send_msg);
         }
         break;
         case CHANNEL_GUILD: //公会
         {
             //发送给自己当前的World来处理
             auto target_worldid = pPlayer->GetWorldID();
-            SceneService()->TransmiteMsgFromWorldToOther(target_worldid, WORLD_SERVICE_ID, CMD_SC_TALK, send_msg);
+            SceneService()->SendProtoMsgToZonePort(ServerPort(target_worldid, WORLD_SERVICE, 0),  send_msg);
         }
         break;
         case CHANNEL_WORLD: //世界
@@ -138,7 +138,7 @@ ON_PLAYERMSG(CS_TALK)
 
             //发送给自己当前的World来处理
             auto target_worldid = pPlayer->GetWorldID();
-            SceneService()->TransmiteMsgFromWorldToOther(target_worldid, WORLD_SERVICE_ID, CMD_SC_TALK, send_msg);
+            SceneService()->SendProtoMsgToZonePort(ServerPort(target_worldid, WORLD_SERVICE, 0),  send_msg);
         }
         break;
         case CHANNEL_TRUMPET: //小喇叭
@@ -147,7 +147,7 @@ ON_PLAYERMSG(CS_TALK)
 
             //发送给自己当前的World来处理
             auto target_worldid = pPlayer->GetWorldID();
-            SceneService()->TransmiteMsgFromWorldToOther(target_worldid, WORLD_SERVICE_ID, CMD_SC_TALK, send_msg);
+            SceneService()->SendProtoMsgToZonePort(ServerPort(target_worldid, WORLD_SERVICE, 0),  send_msg);
         }
         break;
         case CHANNEL_GLOBAL: //全游戏

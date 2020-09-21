@@ -8,8 +8,8 @@
 #include "AttribChangeDataProto.pb.h"
 #include "BaseCode.h"
 #include "Common.pb.h"
-#include "game_common_def.h"
 #include "Misc.h"
+#include "game_common_def.h"
 
 constexpr uint32_t MAX_ATTR_LAYER = 50;
 
@@ -86,7 +86,7 @@ public:
     }
     uint32_t& get(size_t nIdx)
     {
-        CHECKFR_V(nIdx < ATTRIB_MAX, m_setAttrib[nIdx], nIdx);
+        CHECK_RET_V(nIdx < ATTRIB_MAX, m_setAttrib[nIdx], nIdx);
         return m_setAttrib[nIdx];
     }
     uint32_t get_base(size_t nIdx) const
@@ -96,7 +96,7 @@ public:
     }
     uint32_t& get_base(size_t nIdx)
     {
-        CHECKFR_V(nIdx < ATTRIB_MAX, m_setAttribBase[nIdx], nIdx);
+        CHECK_RET_V(nIdx < ATTRIB_MAX, m_setAttribBase[nIdx], nIdx);
         return m_setAttribBase[nIdx];
     }
 
@@ -218,8 +218,7 @@ private:
             }
             else
             {
-                m_setAttrib[nAttribIdx] =
-                    MulDiv(m_setAttrib[nAttribIdx] + stValChange.nValModify, 100 + stValChange.nValFactor, 100);
+                m_setAttrib[nAttribIdx] = MulDiv(m_setAttrib[nAttribIdx] + stValChange.nValModify, 100 + stValChange.nValFactor, 100);
             }
         }
 
@@ -239,10 +238,7 @@ private:
         return -1;
     }
 
-    static bool NeedCacheLayer(uint32_t nLayer)
-    {
-        return std::binary_search(NEED_CACHE_LAYER.begin(), NEED_CACHE_LAYER.end(), nLayer);
-    }
+    static bool NeedCacheLayer(uint32_t nLayer) { return std::binary_search(NEED_CACHE_LAYER.begin(), NEED_CACHE_LAYER.end(), nLayer); }
 
     static constexpr std::array<uint32_t, 4> NEED_CACHE_LAYER = {1, 5, 8, 10};
 

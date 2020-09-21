@@ -62,7 +62,7 @@ void CMapItem::OnEnterMap(CSceneBase* pScene)
     // ai_msg.set_posy(GetPosY());
     // ai_msg.set_ownerid(GetOwnerID());
 
-    // SceneService()->SendMsgToAIService(ai_msg);
+    // SceneService()->SendProtoMsgToAIService(ai_msg);
 }
 
 void CMapItem::OnLeaveMap(uint16_t idTargetMap)

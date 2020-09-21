@@ -30,10 +30,7 @@ public:
 
 public:
     // 是否可叠加的
-    export_lua bool IsPileEnable()
-    {
-        return ItemTypePtr()->IsPileEnable() && GetPileNum() < ItemTypePtr()->GetPileLimit();
-    }
+    export_lua bool IsPileEnable() { return ItemTypePtr()->IsPileEnable() && GetPileNum() < ItemTypePtr()->GetPileLimit(); }
     // 是否过期
     export_lua bool IsExpire();
     // 是否可交易

@@ -63,10 +63,7 @@ public:
 
     export_lua AxisAlignedBox(const Vector3& min, const Vector3& max) { setExtents(min, max); }
 
-    export_lua AxisAlignedBox(float mx, float my, float mz, float Mx, float My, float Mz)
-    {
-        setExtents(mx, my, mz, Mx, My, Mz);
-    }
+    export_lua AxisAlignedBox(float mx, float my, float mz, float Mx, float My, float Mz) { setExtents(mx, my, mz, Mx, My, Mz); }
 
     /** Gets the minimum corner of the box.
      */
@@ -140,8 +137,7 @@ public:
      */
     export_lua inline void setExtents(const Vector3& min, const Vector3& max)
     {
-        assert((min.x <= max.x && min.y <= max.y && min.z <= max.z) &&
-               "The minimum corner of the box must be less than or equal to maximum corner");
+        assert((min.x <= max.x && min.y <= max.y && min.z <= max.z) && "The minimum corner of the box must be less than or equal to maximum corner");
 
         mExtent  = EXTENT_FINITE;
         mMinimum = min;
@@ -150,8 +146,7 @@ public:
 
     export_lua inline void setExtents(float mx, float my, float mz, float Mx, float My, float Mz)
     {
-        assert((mx <= Mx && my <= My && mz <= Mz) &&
-               "The minimum corner of the box must be less than or equal to maximum corner");
+        assert((mx <= Mx && my <= My && mz <= Mz) && "The minimum corner of the box must be less than or equal to maximum corner");
 
         mExtent = EXTENT_FINITE;
 
@@ -377,10 +372,9 @@ public:
         Vector3 halfSize = getHalfSize();
 
         Vector3 newCentre = m * centre;
-        Vector3 newHalfSize(
-            Math::Abs(m[0][0]) * halfSize.x + Math::Abs(m[0][1]) * halfSize.y + Math::Abs(m[0][2]) * halfSize.z,
-            Math::Abs(m[1][0]) * halfSize.x + Math::Abs(m[1][1]) * halfSize.y + Math::Abs(m[1][2]) * halfSize.z,
-            Math::Abs(m[2][0]) * halfSize.x + Math::Abs(m[2][1]) * halfSize.y + Math::Abs(m[2][2]) * halfSize.z);
+        Vector3 newHalfSize(Math::Abs(m[0][0]) * halfSize.x + Math::Abs(m[0][1]) * halfSize.y + Math::Abs(m[0][2]) * halfSize.z,
+                            Math::Abs(m[1][0]) * halfSize.x + Math::Abs(m[1][1]) * halfSize.y + Math::Abs(m[1][2]) * halfSize.z,
+                            Math::Abs(m[2][0]) * halfSize.x + Math::Abs(m[2][1]) * halfSize.y + Math::Abs(m[2][2]) * halfSize.z);
 
         setExtents(newCentre - newHalfSize, newCentre + newHalfSize);
     }
@@ -511,8 +505,7 @@ public:
                 return false;
 
             case EXTENT_FINITE:
-                return (v.x >= mMinimum.x && v.x <= mMaximum.x && v.y >= mMinimum.y && v.y <= mMaximum.y &&
-                        v.z >= mMinimum.z && v.z <= mMaximum.z);
+                return (v.x >= mMinimum.x && v.x <= mMaximum.x && v.y >= mMinimum.y && v.y <= mMaximum.y && v.z >= mMinimum.z && v.z <= mMaximum.z);
 
             case EXTENT_INFINITE:
                 return true;
@@ -527,9 +520,7 @@ public:
     {
         assert((mExtent == EXTENT_FINITE) && "Can't get center of a null or infinite AAB");
 
-        return Vector3((mMaximum.x + mMinimum.x) * 0.5f,
-                       (mMaximum.y + mMinimum.y) * 0.5f,
-                       (mMaximum.z + mMinimum.z) * 0.5f);
+        return Vector3((mMaximum.x + mMinimum.x) * 0.5f, (mMaximum.y + mMinimum.y) * 0.5f, (mMaximum.z + mMinimum.z) * 0.5f);
     }
     /// Gets the size of the box
     export_lua Vector3 getSize(void) const
@@ -579,8 +570,7 @@ public:
         if(isInfinite())
             return true;
 
-        return mMinimum.x <= v.x && v.x <= mMaximum.x && mMinimum.y <= v.y && v.y <= mMaximum.y && mMinimum.z <= v.z &&
-               v.z <= mMaximum.z;
+        return mMinimum.x <= v.x && v.x <= mMaximum.x && mMinimum.y <= v.y && v.y <= mMaximum.y && mMinimum.z <= v.z && v.z <= mMaximum.z;
     }
 
     /** Returns the squared minimum distance between a given point and any part of the box.
@@ -626,9 +616,8 @@ public:
         if(this->isNull() || other.isInfinite())
             return false;
 
-        return this->mMinimum.x <= other.mMinimum.x && this->mMinimum.y <= other.mMinimum.y &&
-               this->mMinimum.z <= other.mMinimum.z && other.mMaximum.x <= this->mMaximum.x &&
-               other.mMaximum.y <= this->mMaximum.y && other.mMaximum.z <= this->mMaximum.z;
+        return this->mMinimum.x <= other.mMinimum.x && this->mMinimum.y <= other.mMinimum.y && this->mMinimum.z <= other.mMinimum.z &&
+               other.mMaximum.x <= this->mMaximum.x && other.mMaximum.y <= this->mMaximum.y && other.mMaximum.z <= this->mMaximum.z;
     }
 
     /** Tests 2 boxes for equality.
@@ -650,8 +639,8 @@ public:
 
     // special values
 
-    export_lua static inline AxisAlignedBox BOX_NULL() {return AxisAlignedBox();}
-    export_lua static inline  AxisAlignedBox BOX_INFINITE() {return AxisAlignedBox(AxisAlignedBox::EXTENT_INFINITE);}
+    export_lua static inline AxisAlignedBox BOX_NULL() { return AxisAlignedBox(); }
+    export_lua static inline AxisAlignedBox BOX_INFINITE() { return AxisAlignedBox(AxisAlignedBox::EXTENT_INFINITE); }
 };
 
 #endif

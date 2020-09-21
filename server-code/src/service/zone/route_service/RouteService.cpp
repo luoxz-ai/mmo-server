@@ -13,11 +13,14 @@
 #include "SettingMap.h"
 #include "server_msg/server_side.pb.h"
 
-
 static thread_local CRouteService* tls_pService = nullptr;
 CRouteService*                     RouteService()
 {
     return tls_pService;
+}
+void SetRouteServicePtr(CRouteService* ptr)
+{
+    tls_pService = ptr;
 }
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint8_t idServiceType, uint8_t idServiceIdx)
@@ -93,15 +96,55 @@ ON_SERVERMSG(CRouteService, ServiceRegister)
     ServerPort server_port{msg.serverport()};
     LOGMESSAGE("World:{} start", server_port.GetWorldID());
     GetMessageRoute()->SetWorldReady(server_port.GetWorldID(), true);
-    for(int32_t i = MIN_GM_PROYX_SERVICE_ID; i <= MAX_GM_PROYX_SERVICE_ID; i++)
+    
+    if(server_port.GetWorldID() == RouteService()->GetWorldID())//本区
     {
-        RouteService()->TransmitMsgToPort(ServerPort(0, i), pMsg);
+        //转发给0区
+        CNetworkMessage send_msg(*pMsg);
+        send_msg.SetFrom(RouteService()->GetServerPort());
+        send_msg.SetTo(ServerPort(0, ROUTE_SERVICE, 0));
+        RouteService()->_SendMsgToZonePort(send_msg);
+        //注册30秒发送一次ready
+        CEventEntryCreateParam param;
+        param.cb = []() {
+            RouteService()->SendServiceReady();
+        }; 
+        param.tWaitTime = 30 * 1000;
+        param.bPersist  = true;
+        EventManager()->ScheduleEvent(param);
     }
+    else if(RouteService()->GetWorldID() == 0) // 0区
+    {
+        //worldid == 0
+        GetMessageRoute()->ReloadServiceInfo(msg.update_time(), server_port.GetWorldID());
+        //通知0区所有服
+        RouteService()->TransmitMsgToThisZoneAllPortExcept(pMsg, ROUTE_SERVICE);
+        //通知所有Route,除了当前这个0区的Route
+        RouteService()->TransmitMsgToAllRouteExcept(pMsg, 0);
+    }
+    else //其他区
+    {
+        
+        GetMessageRoute()->ReloadServiceInfo(msg.update_time(), server_port.GetWorldID());
+    }
+}
 
-    for(int32_t i = MIN_SHAREZONE_SERVICE_ID; i <= MAX_SHAREZONE_SERVICE_ID; i++)
-    {
-        RouteService()->TransmitMsgToPort(ServerPort(0, i), pMsg);
-    }
+
+
+void CRouteService::SendServiceReady()
+{
+    ServerMSG::ServiceReady send_msg;
+    send_msg.set_serverport(GetServerPort());
+    send_msg.set_ready(true);
+    SendProtoMsgToZonePort(ServerPort(0, ROUTE_SERVICE, 0), send_msg);
+}
+
+void CRouteService::SendServiceUnReady()
+{
+    ServerMSG::ServiceReady send_msg;
+    send_msg.set_serverport(GetServerPort());
+    send_msg.set_ready(false);
+    SendProtoMsgToZonePort(ServerPort(0, ROUTE_SERVICE, 0), send_msg);
 }
 
 ON_SERVERMSG(CRouteService, ServiceReady)
@@ -116,17 +159,24 @@ ON_SERVERMSG(CRouteService, ServiceReady)
         LOGDEBUG("World:{} Ready", server_port.GetWorldID());
     }
 
-    //通知所有的global_route更新
     GetMessageRoute()->SetWorldReady(server_port.GetWorldID(), msg.ready());
 
-    for(int32_t i = MIN_GM_PROYX_SERVICE_ID; i <= MAX_GM_PROYX_SERVICE_ID; i++)
+    if(server_port.GetWorldID() == RouteService()->GetWorldID())//本区
     {
-        RouteService()->TransmitMsgToPort(ServerPort(0, i), pMsg);
+        //转发给0区
+        RouteService()->TransmitMsgToPort(ServerPort(0, ROUTE_SERVICE, 0), pMsg);
     }
-
-    for(int32_t i = MIN_SHAREZONE_SERVICE_ID; i <= MAX_SHAREZONE_SERVICE_ID; i++)
+    else if(RouteService()->GetWorldID() == 0) // 0区
     {
-        RouteService()->TransmitMsgToPort(ServerPort(0, i), pMsg);
+        //world == 0
+        //通知0区所有服
+        RouteService()->TransmitMsgToThisZoneAllPortExcept(pMsg, ROUTE_SERVICE);
+        //通知所有Route,除了当前这个0区的Route
+        RouteService()->TransmitMsgToAllRouteExcept(pMsg, 0);
+    }
+    else //其他区
+    {
+        
     }
 }
 
@@ -142,7 +192,7 @@ void CRouteService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
     if(pNetworkMsg->GetForward().IsVaild())
     {
         pNetworkMsg->SetTo(pNetworkMsg->GetForward());
-        SendMsgToPort(*pNetworkMsg);
+        _SendMsgToZonePort(*pNetworkMsg);
         return;
     }
 
@@ -156,7 +206,7 @@ void CRouteService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
             {
                 if(now < v)
                 {
-                    TransmitMsgToPort(ServerPort(k, WORLD_SERVICE_ID), pNetworkMsg);
+                    TransmitMsgToPort(ServerPort(k, WORLD_SERVICE, 0), pNetworkMsg);
                 }
             }
         }
@@ -170,7 +220,7 @@ void CRouteService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
             {
                 const auto& vs = *it;
                 send_msg.SetTo(vs);
-                SendMsgToPort(send_msg);
+                _SendMsgToZonePort(send_msg);
             }
         }
         break;

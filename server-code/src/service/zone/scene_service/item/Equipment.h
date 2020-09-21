@@ -27,10 +27,7 @@ public:
     export_lua CItem* QueryEquipmentById(OBJID idItem) const;
 
     export_lua bool EquipItem(uint32_t nGridInPackage, uint32_t nGrid, bool bSync = true);
-    export_lua CItem* UnequipItem(uint32_t nGrid,
-                                  bool     bSync             = true,
-                                  bool     bRecalcAbility    = true,
-                                  bool     bRemoveItemExpire = true);
+    export_lua CItem* UnequipItem(uint32_t nGrid, bool bSync = true, bool bRecalcAbility = true, bool bRemoveItemExpire = true);
 
     export_lua uint32_t GetWeaponTypeID() const;
     export_lua uint32_t GetArmorTypeID() const;

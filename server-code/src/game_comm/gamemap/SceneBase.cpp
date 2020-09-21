@@ -9,9 +9,9 @@ CSceneBase::~CSceneBase() {}
 bool CSceneBase::Init(const SceneIdx& idxScene, CMapManager* pMapManager)
 {
     m_idxScene = idxScene;
-    m_pMap    = pMapManager->QueryMap(idxScene.GetMapID());
-    CHECKF_FMT(m_pMap, "FIND Map Fail:{}",  idxScene.GetMapID());
-    CHECKF_FMT(m_pMap->GetMapData(),  "FIND MapData Fail:{}",  idxScene.GetMapID());
+    m_pMap     = pMapManager->QueryMap(idxScene.GetMapID());
+    CHECKF_FMT(m_pMap, "FIND Map Fail:{}", idxScene.GetMapID());
+    CHECKF_FMT(m_pMap->GetMapData(), "FIND MapData Fail:{}", idxScene.GetMapID());
 
     return true;
 }

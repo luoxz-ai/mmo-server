@@ -56,7 +56,7 @@ void CAIActor::CastSkill(uint32_t idSkill, OBJID idTarget)
     msg.set_target_id(idTarget);
     msg.set_skill_id(idSkill);
 
-    AIService()->SendMsgToZone(msg);
+    AIService()->SendProtoMsgToScene(msg);
     __LEAVE_FUNCTION
 }
 
@@ -76,7 +76,7 @@ void CAIActor::FlyTo(const Vector2& posTarget)
     msg.set_actor_id(GetID());
     msg.set_x(posTarget.x);
     msg.set_y(posTarget.y);
-    AIService()->SendMsgToZone(msg);
+    AIService()->SendProtoMsgToScene(msg);
     LOGAIDEBUG(true, GetID(), "Actor: {} From {} {} FlyTo {} {}", GetID(), m_Pos.x, m_Pos.y, msg.x(), msg.y());
 
     __LEAVE_FUNCTION
@@ -93,14 +93,8 @@ void CAIActor::MoveToTarget(const Vector2& posTarget)
         msg.set_actor_id(GetID());
         msg.set_x(posTarget.x);
         msg.set_y(posTarget.y);
-        AIService()->SendMsgToZone(msg);
-        LOGAIDEBUG(true,GetID(),
-                   "Actor: {} From {} {} MoveToTargetE {} {}",
-                   GetID(),
-                   m_Pos.x,
-                   m_Pos.y,
-                   posTarget.x,
-                   posTarget.y);
+        AIService()->SendProtoMsgToScene(msg);
+        LOGAIDEBUG(true, GetID(), "Actor: {} From {} {} MoveToTargetE {} {}", GetID(), m_Pos.x, m_Pos.y, posTarget.x, posTarget.y);
         SetLastMoveTime(TimeGetMonotonic());
     }
     else
@@ -110,7 +104,7 @@ void CAIActor::MoveToTarget(const Vector2& posTarget)
         msg.set_actor_id(GetID());
         msg.set_x(GetPos().x + dir.x);
         msg.set_y(GetPos().y + dir.y);
-        AIService()->SendMsgToZone(msg);
+        AIService()->SendProtoMsgToScene(msg);
         LOGAIDEBUG(true, GetID(), "Actor: {} From {} {} MoveToTarget {} {}", GetID(), m_Pos.x, m_Pos.y, msg.x(), msg.y());
         SetLastMoveTime(TimeGetMonotonic());
     }

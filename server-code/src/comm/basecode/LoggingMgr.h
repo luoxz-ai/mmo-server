@@ -60,9 +60,9 @@ namespace BaseCode
 #define LOGDEBUG(...)  ZLOGFMT_DEBUG(BaseCode::s_debug_logger, ##__VA_ARGS__)
 #define LOGASSERT(...) ZLOGFMT_DEBUG(BaseCode::s_debug_logger, ##__VA_ARGS__)
 
-#define LOGAIDEBUG(expr, role_id, fmtr, ...)                                              \
-    if(expr)                                                                             \
-    {                                                                                    \
+#define LOGAIDEBUG(expr, role_id, fmtr, ...)                                                      \
+    if(expr)                                                                                      \
+    {                                                                                             \
         BaseCode::MyLogMsg(fmt::format("aidebug/role_{}", role_id).c_str(), fmtr, ##__VA_ARGS__); \
     }
 

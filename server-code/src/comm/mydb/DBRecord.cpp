@@ -7,11 +7,7 @@ OBJECTHEAP_IMPLEMENTATION(CDBRecord, s_Heap);
 
 //////////////////////////////////////////////////////////////////////////
 
-CDBRecord::CDBRecord(CMysqlConnection*   pMysqlConnection,
-                     CDBFieldInfoListPtr pDBFieldInfo,
-                     bool                bCanModify,
-                     MYSQL_ROW           row,
-                     unsigned long*      lengths)
+CDBRecord::CDBRecord(CMysqlConnection* pMysqlConnection, CDBFieldInfoListPtr pDBFieldInfo, bool bCanModify, MYSQL_ROW row, unsigned long* lengths)
     : m_pMysqlConnection(pMysqlConnection)
     , m_pDBFieldInfo(pDBFieldInfo)
     , m_bCanModify(bCanModify)
@@ -22,28 +18,27 @@ CDBRecord::CDBRecord(CMysqlConnection*   pMysqlConnection,
     m_FieldsByIdx.reserve(m_pDBFieldInfo->size());
     for(size_t i = 0; i < m_pDBFieldInfo->size(); i++)
     {
-        auto      ref_field_info_ptr = m_pDBFieldInfo->get(i);
+        auto ref_field_info_ptr = m_pDBFieldInfo->get(i);
         if(row == nullptr)
         {
             //没有数据的,那就是Make出来的
-            m_bNeedCreateFirst = true;
-            auto pMysqlField = std::make_unique<CDBField>(this, ref_field_info_ptr, nullptr, 0);
+            m_bNeedCreateFirst                                 = true;
+            auto pMysqlField                                   = std::make_unique<CDBField>(this, ref_field_info_ptr, nullptr, 0);
             m_FieldsByName[ref_field_info_ptr->GetFieldName()] = pMysqlField.get();
             m_FieldsByIdx.push_back(std::move(pMysqlField));
-            
+
             if(ref_field_info_ptr->IsPriKey())
             {
                 m_nPriKeyIdx.insert(i);
-                m_TableName  = ref_field_info_ptr->GetTableName();
+                m_TableName = ref_field_info_ptr->GetTableName();
             }
         }
         else
         {
             //有数据
-            auto pMysqlField = std::make_unique<CDBField>(this, ref_field_info_ptr, row[i], lengths[i]);
+            auto pMysqlField                                   = std::make_unique<CDBField>(this, ref_field_info_ptr, row[i], lengths[i]);
             m_FieldsByName[ref_field_info_ptr->GetFieldName()] = pMysqlField.get();
-            
-            
+
             if(CanModify())
             {
                 if(ref_field_info_ptr->IsPriKey())
@@ -98,8 +93,8 @@ bool CDBRecord::Update(bool bSync)
         }
         if(m_nPriKeyIdx.size() == 1)
         {
-            uint32_t idx = *m_nPriKeyIdx.begin();
-            auto& field = *(m_FieldsByIdx[idx]);
+            uint32_t idx   = *m_nPriKeyIdx.begin();
+            auto&    field = *(m_FieldsByIdx[idx]);
             if(insert_id != 0)
             {
                 if(field.GetType() == DB_FIELD_TYPE_LONG)
@@ -116,7 +111,7 @@ bool CDBRecord::Update(bool bSync)
         {
             // rebuildPriKeyBuf
             m_strPriKeyBuf.clear();
-            for(uint32_t idx : m_nPriKeyIdx)
+            for(uint32_t idx: m_nPriKeyIdx)
             {
                 auto&       pField     = m_FieldsByIdx[idx];
                 const auto& pFieldInfo = pField->GetFieldInfo();
@@ -200,7 +195,7 @@ void CDBRecord::DeleteRecord(bool bSync)
 
 std::string CDBRecord::BuildDeleteSQL()
 {
-    __ENTER_FUNCTION  
+    __ENTER_FUNCTION
     if(m_strPriKeyBuf.empty() || m_TableName.empty())
         return std::string();
     else
@@ -248,7 +243,7 @@ std::string CDBRecord::DumpInsertSQL() const
     {
         CDBField* pField             = m_FieldsByIdx[i].get();
         auto      ref_field_info_ptr = (*m_pDBFieldInfo)[i];
-        
+
         if(szKeyNameBuf.empty() == false)
         {
             szKeyNameBuf += ",";
@@ -257,12 +252,11 @@ std::string CDBRecord::DumpInsertSQL() const
 
         szKeyNameBuf += ref_field_info_ptr->GetFieldName();
         szKeyValBuf += pField->GetValString();
-        
     }
     if(szKeyNameBuf.empty() || szKeyValBuf.empty() || m_TableName.empty())
         return std::string();
     else
-        return fmt::format(FMT_STRING("INSERT INTO {} ({}) VALUES ({}) ") , m_TableName, szKeyNameBuf, szKeyValBuf);
+        return fmt::format(FMT_STRING("INSERT INTO {} ({}) VALUES ({}) "), m_TableName, szKeyNameBuf, szKeyValBuf);
     __LEAVE_FUNCTION
     return std::string();
 }
@@ -295,7 +289,7 @@ std::string CDBRecord::BuildInsertSQL()
     if(szKeyNameBuf.empty() || szKeyValBuf.empty() || m_TableName.empty())
         return std::string();
     else
-        return fmt::format(FMT_STRING("INSERT INTO {} ({}) VALUES ({}) ") , m_TableName, szKeyNameBuf, szKeyValBuf);
+        return fmt::format(FMT_STRING("INSERT INTO {} ({}) VALUES ({}) "), m_TableName, szKeyNameBuf, szKeyValBuf);
     __LEAVE_FUNCTION
     return std::string();
 }

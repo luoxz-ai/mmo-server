@@ -82,23 +82,23 @@ export_lua enum EQUIPPOSITION {
 };
 
 export_lua enum ITEMFLAG_MASK {
-    ITEMFLAG_EXCHANGE_DISABLE          = 0x0001, // 是否禁止交易
-    ITEMFLAG_STORAGE_DISABLE           = 0x0002, // 是否禁止存入仓库
-    ITEMFLAG_SELL_DISABLE              = 0x0004, // 是否禁止出售
-    ITEMFLAG_DROP_DISABLE              = 0x0008, // 是否禁止丢弃
-    ITEMFLAG_REPAIR_DISABLE            = 0x0010, // 是否禁止修理
-    ITEMFLAG_DEL_DISABLE               = 0x0020, // 是否禁止销毁
-    ITEMFLAG_FORGING_DISABLE           = 0x00400, // 不可进行武器装备锻造的所有操作（升级品质，熔炼，打孔，镶嵌宝石，拆除宝石）
+    ITEMFLAG_EXCHANGE_DISABLE = 0x0001, // 是否禁止交易
+    ITEMFLAG_STORAGE_DISABLE  = 0x0002, // 是否禁止存入仓库
+    ITEMFLAG_SELL_DISABLE     = 0x0004, // 是否禁止出售
+    ITEMFLAG_DROP_DISABLE     = 0x0008, // 是否禁止丢弃
+    ITEMFLAG_REPAIR_DISABLE   = 0x0010, // 是否禁止修理
+    ITEMFLAG_DEL_DISABLE      = 0x0020, // 是否禁止销毁
+    ITEMFLAG_FORGING_DISABLE = 0x00400, // 不可进行武器装备锻造的所有操作（升级品质，熔炼，打孔，镶嵌宝石，拆除宝石）
     ITEMFLAG_EQUIPEED_DISABLE_EXCHANGE = 0x0080, // 装备后禁止交易
 
-    ITEMFLAG_TRACE_ITEM = 0x0100, // 是否任务追踪物品（任务物品或者带这个掩码的物品都是任务追踪物品）
-    ITEMFLAG_DELITEM_EXPIRE  = 0x0200, // 带此掩码的物品，当时间过期后，将自动删除
-    ITEMFLAG_SPEND_DURA      = 0x0400, // 使用物品消耗耐久度——实现类似叠加物品消耗数量的功能，不能与可叠加物品共存
+    ITEMFLAG_TRACE_ITEM     = 0x0100, // 是否任务追踪物品（任务物品或者带这个掩码的物品都是任务追踪物品）
+    ITEMFLAG_DELITEM_EXPIRE = 0x0200, // 带此掩码的物品，当时间过期后，将自动删除
+    ITEMFLAG_SPEND_DURA = 0x0400, // 使用物品消耗耐久度——实现类似叠加物品消耗数量的功能，不能与可叠加物品共存
     ITEMFLAG_BATCH_USE_CHECK = 0x0800, // 批量使用时是否需要检查
 
-    ITEMFLAG_PICK_RUMOR = 0x1000, // 带此掩码的物品在：配方合成、拾取怪物掉落 的时候会广播传闻
-    ITEMFLAG_DROP_RUMOR = 0x2000, // 广播掉落物品传闻
-    ITEMFLAG_BUY_RUMOR  = 0x4000, // 带此掩码的物品在 商城购买、帮派商店购买 的时候会广播传闻
+    ITEMFLAG_PICK_RUMOR     = 0x1000, // 带此掩码的物品在：配方合成、拾取怪物掉落 的时候会广播传闻
+    ITEMFLAG_DROP_RUMOR     = 0x2000, // 广播掉落物品传闻
+    ITEMFLAG_BUY_RUMOR      = 0x4000, // 带此掩码的物品在 商城购买、帮派商店购买 的时候会广播传闻
     ITEMFLAG_GAMBLING_RUMOR = 0x8000, // 带此掩码的物品在 赌博产出 的时候会广播传闻
 
 };

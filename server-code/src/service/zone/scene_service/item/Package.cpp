@@ -29,9 +29,8 @@ bool CPackage::Init(CPlayer* pOwner, uint32_t nPackageType, uint32_t nMaxSize)
     m_nMaxSize  = nMaxSize;
     auto pDB    = SceneService()->GetGameDB(m_pOwner->GetWorldID());
     CHECKF(pDB);
-    auto pResult = pDB->QueryMultiCond<TBLD_ITEM>(
-            DBCond<TBLD_ITEM,TBLD_ITEM::OWNER_ID, OBJID>{pOwner->GetID()},
-            DBCond<TBLD_ITEM,TBLD_ITEM::POSITION, uint32_t>{m_nPosition});
+    auto pResult = pDB->QueryMultiCond<TBLD_ITEM>(DBCond<TBLD_ITEM, TBLD_ITEM::OWNER_ID, OBJID>{pOwner->GetID()},
+                                                  DBCond<TBLD_ITEM, TBLD_ITEM::POSITION, uint32_t>{m_nPosition});
 
     if(pResult)
     {
@@ -45,10 +44,7 @@ bool CPackage::Init(CPlayer* pOwner, uint32_t nPackageType, uint32_t nMaxSize)
                 if(it_find != m_setItem.end())
                 {
                     // logerror
-                    LOGERROR("PlayerID:{} Pakcage:{} PackageIdx:{} Have SameItem!!!!!",
-                             m_pOwner->GetID(),
-                             m_nPosition,
-                             pItem->GetGrid());
+                    LOGERROR("PlayerID:{} Pakcage:{} PackageIdx:{} Have SameItem!!!!!", m_pOwner->GetID(), m_nPosition, pItem->GetGrid());
                     SAFE_DELETE(pItem);
                     continue;
                 }
@@ -139,10 +135,7 @@ bool CPackage::IsFull(uint32_t idType, uint32_t nAmount, uint32_t dwFlag /*= 0*/
     return false;
 }
 
-uint32_t CPackage::GetSpareSpace(uint32_t idType /*=ID_NONE*/,
-                                 uint32_t nAmount /*=0*/,
-                                 uint32_t nFillSpace /*=0*/,
-                                 uint32_t dwFlag /*= 0*/)
+uint32_t CPackage::GetSpareSpace(uint32_t idType /*=ID_NONE*/, uint32_t nAmount /*=0*/, uint32_t nFillSpace /*=0*/, uint32_t dwFlag /*= 0*/)
 {
     __ENTER_FUNCTION
     if(idType == ID_NONE)
@@ -199,12 +192,8 @@ bool CPackage::AwardItem(uint32_t idItemType, uint32_t nAmount, uint32_t dwFlag 
         {
             if(nAmount < pItemType->GetPileLimit())
             {
-                CItem* pItem = CItem::CreateNew(SceneService()->GetGameDB(m_pOwner->GetWorldID()),
-                                                m_pOwner->GetID(),
-                                                idItemType,
-                                                nAmount,
-                                                dwFlag,
-                                                m_nPosition);
+                CItem* pItem =
+                    CItem::CreateNew(SceneService()->GetGameDB(m_pOwner->GetWorldID()), m_pOwner->GetID(), idItemType, nAmount, dwFlag, m_nPosition);
                 AddItem(pItem, SYNC_TRUE, false, true);
                 break;
             }
@@ -779,8 +768,7 @@ CItem* CPackage::FindCombineItem(uint32_t idType, uint32_t dwFlag, uint32_t nAmo
     for(auto it = m_setItem.begin(); it != m_setItem.end(); it++)
     {
         CItem* pItem = it->second;
-        if(pItem && pItem->IsCombineEnable(idType, dwFlag) &&
-           (pItem->GetPileNum() + nAmount) <= pItem->ItemTypePtr()->GetPileLimit())
+        if(pItem && pItem->IsCombineEnable(idType, dwFlag) && (pItem->GetPileNum() + nAmount) <= pItem->ItemTypePtr()->GetPileLimit())
         {
             return pItem;
         }

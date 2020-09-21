@@ -3,6 +3,7 @@
 
 #include <functional>
 #include <optional>
+
 #include "LoggingMgr.h"
 
 #define CHECK(expr)                                                              \
@@ -23,7 +24,7 @@
             return 0;                                                            \
         }                                                                        \
     }
-#define CHECKFR(expr, r)                                                         \
+#define CHECK_RET(expr, r)                                                         \
     {                                                                            \
         if(!(expr))                                                              \
         {                                                                        \
@@ -33,7 +34,7 @@
         }                                                                        \
     }
 
-#define CHECKFSR(expr, R)                                                        \
+#define CHECK_RETTYPE(expr, R)                                                        \
     {                                                                            \
         if(!(expr))                                                              \
         {                                                                        \
@@ -62,7 +63,7 @@
             return 0;                                                            \
         }                                                                        \
     }
-#define CHECKFR_M(expr, r, msg)                                                  \
+#define CHECK_RET_M(expr, r, msg)                                                  \
     {                                                                            \
         if(!(expr))                                                              \
         {                                                                        \
@@ -71,7 +72,7 @@
             return r;                                                            \
         }                                                                        \
     }
-#define CHECKFSR_M(expr, R, msg)                                                 \
+#define CHECK_RETTYPE_M(expr, R, msg)                                                 \
     {                                                                            \
         if(!(expr))                                                              \
         {                                                                        \
@@ -100,7 +101,7 @@
             return 0;                                                            \
         }                                                                        \
     }
-#define CHECKFR_V(expr, r, v)                                                    \
+#define CHECK_RET_V(expr, r, v)                                                    \
     {                                                                            \
         if(!(expr))                                                              \
         {                                                                        \
@@ -109,7 +110,7 @@
             return r;                                                            \
         }                                                                        \
     }
-#define CHECKFSR_V(expr, R, v)                                                   \
+#define CHECK_RETTYPE_V(expr, R, v)                                                   \
     {                                                                            \
         if(!(expr))                                                              \
         {                                                                        \
@@ -138,7 +139,7 @@
             return 0;                                                            \
         }                                                                        \
     }
-#define CHECKFR_FMT(expr, r, fmt_msg, ...)                                       \
+#define CHECK_RET_FMT(expr, r, fmt_msg, ...)                                       \
     {                                                                            \
         if(!(expr))                                                              \
         {                                                                        \
@@ -147,7 +148,7 @@
             return r;                                                            \
         }                                                                        \
     }
-#define CHECKFSR_FMT(expr, R, fmt_msg, ...)                                      \
+#define CHECK_RETTYPE_FMT(expr, R, fmt_msg, ...)                                      \
     {                                                                            \
         if(!(expr))                                                              \
         {                                                                        \
@@ -162,20 +163,37 @@
     {                    \
         try              \
         {
-#define __LEAVE_FUNCTION                                                   \
-    }                                                                      \
-    catch(const std::runtime_error& e)                                     \
-    {                                                                      \
-        LOGERROR("catch_execpetion:{}", e.what());                         \
+#define __LEAVE_FUNCTION                                                    \
+    }                                                                       \
+    catch(const std::runtime_error& e)                                      \
+    {                                                                       \
+        LOGERROR("catch_execpetion:{}", e.what());                          \
         LOGERROR("CallStack: {}", GetStackTraceString(CallFrameMap(1, 6))); \
-    }                                                                      \
-    catch(const std::exception& e)                                         \
-    {                                                                      \
-        LOGERROR("catch_execpetion:{}", e.what());                         \
+    }                                                                       \
+    catch(const std::exception& e)                                          \
+    {                                                                       \
+        LOGERROR("catch_execpetion:{}", e.what());                          \
         LOGERROR("CallStack: {}", GetStackTraceString(CallFrameMap(1, 6))); \
-    }                                                                      \
-    catch(...) { LOGSTACK("catch_error"); }                                \
+    }                                                                       \
+    catch(...) { LOGSTACK("catch_error"); }                                 \
     }
+
+
+#ifdef _DEBUG
+
+#define CHECK_DEBUG(expr) \
+    {                                                                            \
+        if(!(expr))                                                              \
+        {                                                                        \
+            LOGASSERT("ASSERT:" #expr " msg:" fmt_msg, ##__VA_ARGS__);           \
+            LOGASSERT("CallStack: {}", GetStackTraceString(CallFrameMap(2, 7))); \
+            return 0;                                                            \
+        }                                                                        \
+    }
+
+#else
+#define CHECK_DEBUG(expr)
+#endif
 
 template<class Func, class... Args>
 static inline std::optional<std::string> attempt(Func&& func, Args&&... args)
@@ -191,26 +209,26 @@ static inline std::optional<std::string> attempt(Func&& func, Args&&... args)
     return {};
 }
 
-#define attempt_call(x)                                                        \
-    {                                                                          \
-        try                                                                    \
-        {                                                                      \
-            x;                                                                 \
-        }                                                                      \
-        catch(const std::runtime_error& e)                                     \
-        {                                                                      \
-            LOGERROR("catch_execpetion:{}", e.what());                         \
+#define attempt_call(x)                                                         \
+    {                                                                           \
+        try                                                                     \
+        {                                                                       \
+            x;                                                                  \
+        }                                                                       \
+        catch(const std::runtime_error& e)                                      \
+        {                                                                       \
+            LOGERROR("catch_execpetion:{}", e.what());                          \
             LOGERROR("CallStack: {}", GetStackTraceString(CallFrameMap(1, 6))); \
-        }                                                                      \
-        catch(const std::exception& e)                                         \
-        {                                                                      \
-            LOGERROR("catch_execpetion:{}", e.what());                         \
+        }                                                                       \
+        catch(const std::exception& e)                                          \
+        {                                                                       \
+            LOGERROR("catch_execpetion:{}", e.what());                          \
             LOGERROR("CallStack: {}", GetStackTraceString(CallFrameMap(1, 6))); \
-        }                                                                      \
-        catch(...)                                                             \
-        {                                                                      \
-            LOGSTACK("catch_error");                                           \
-        }                                                                      \
+        }                                                                       \
+        catch(...)                                                              \
+        {                                                                       \
+            LOGSTACK("catch_error");                                            \
+        }                                                                       \
     }
 
 #endif /* CHECKUTIL_H */

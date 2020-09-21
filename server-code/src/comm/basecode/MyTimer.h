@@ -76,9 +76,7 @@ public: // get
      */
     export_lua int32_t GetRemain()
     {
-        return (int32_t)(m_tUpdateTime
-                             ? __min(__max(m_tInterval - (::TimeGetSecond() - (int32_t)m_tUpdateTime), 0), m_tInterval)
-                             : 0);
+        return (int32_t)(m_tUpdateTime ? __min(__max(m_tInterval - (::TimeGetSecond() - (int32_t)m_tUpdateTime), 0), m_tInterval) : 0);
     }
     /**
      * 返回timeout时刻时间戳
@@ -138,10 +136,7 @@ public:
         m_tUpdateTime = 0;
     }
     bool IsActive() { return m_tUpdateTime != 0; }
-    void IncInterval(int32_t nMilliSecs, int32_t nLimit)
-    {
-        m_tInterval = __min(m_tInterval + nMilliSecs, (uint32_t)nLimit);
-    }
+    void IncInterval(int32_t nMilliSecs, int32_t nLimit) { m_tInterval = __min(m_tInterval + nMilliSecs, (uint32_t)nLimit); }
     void DecInterval(int32_t nMilliSecs) { m_tInterval = __max(m_tInterval - nMilliSecs, 0); }
 
     bool IsTimeOut(int32_t nMilliSecs) { return ::TimeGetMonotonic() >= m_tUpdateTime + nMilliSecs; }
@@ -159,12 +154,8 @@ public:
 public: // get
     int32_t  GetInterval() { return (int32_t)m_tInterval; }
     time_t   GetUpdateTime() { return m_tUpdateTime; }
-    uint32_t GetRemain()
-    {
-        return uint32_t(
-            m_tUpdateTime ? __min(__max(m_tInterval - (::TimeGetMonotonic() - m_tUpdateTime), 0), m_tInterval) : 0);
-    }
-    time_t GetTimeOut()
+    uint32_t GetRemain() { return uint32_t(m_tUpdateTime ? __min(__max(m_tInterval - (::TimeGetMonotonic() - m_tUpdateTime), 0), m_tInterval) : 0); }
+    time_t   GetTimeOut()
     {
         if(m_tUpdateTime)
             return m_tUpdateTime + m_tInterval;

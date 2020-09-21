@@ -22,7 +22,7 @@ void export_to_lua(lua_State* L, void*)
 
     pb_luahelper::export_protobuf_enum_to_lua(L, CS_CMD_descriptor());
     pb_luahelper::export_protobuf_enum_to_lua(L, SC_CMD_descriptor());
-    
+
     scene2lua(L);
 
     //注册各种辅助函数

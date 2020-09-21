@@ -29,7 +29,7 @@ bool CScene::Init(uint16_t idMap, uint64_t idMainPhase)
     __ENTER_FUNCTION
     auto pMap = MapManager()->QueryMap(idMap);
     CHECKF(pMap);
-    m_pMap = pMap;
+    m_pMap  = pMap;
     m_idMap = idMap;
     m_DynaIDPool.start(0, 0xFFFFFFFF);
     //通知AI服务器,创建场景
@@ -69,7 +69,7 @@ CPhase* CScene::CreatePhase(uint64_t idPhase, const PhaseData* pPhaseData)
     {
         return pPhase;
     }
-    auto    idxPhase = m_DynaIDPool.get();
+    auto     idxPhase = m_DynaIDPool.get();
     SceneIdx newSceneIdx(SceneService()->GetZoneID(), m_idMap, idxPhase);
     pPhase = CPhase::CreateNew(this, newSceneIdx, idPhase, pPhaseData);
     CHECKF(pPhase);
@@ -138,7 +138,7 @@ bool CScene::DestoryPhase(uint64_t idPhase)
 
     pPhase->KickAllPlayer();
     auto idxSceneIdx = pPhase->GetSceneIdx();
-    auto idxPhase  = pPhase->GetSceneIdx().GetPhaseIdx();
+    auto idxPhase    = pPhase->GetSceneIdx().GetPhaseIdx();
     CHECKF(pPhase->CanDestory() == true);
     m_setPhaseByIdx.erase(idxPhase);
     m_setPhase.erase(idPhase);

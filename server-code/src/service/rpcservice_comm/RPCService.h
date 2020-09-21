@@ -27,7 +27,7 @@ public:
     CreateNewImpl(CRPCService);
 
 public:
-    bool AddRPCService(google::protobuf::Service* pService, const std::string& restful_map = std::string());
+    bool                       AddRPCService(google::protobuf::Service* pService, const std::string& restful_map = std::string());
     google::protobuf::Service* RemoveRPCService(const std::string& name);
     void                       ClearRPCServices();
 

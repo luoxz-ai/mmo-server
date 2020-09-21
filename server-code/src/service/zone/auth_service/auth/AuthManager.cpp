@@ -1,15 +1,15 @@
 #include "AuthManager.h"
+
 #include <brpc/channel.h>
 
-#include "MD5.h"
 #include "AuthService.h"
 #include "GMManager.h"
+#include "MD5.h"
 #include "msg/world_service.pb.h"
 #include "server_msg/server_side.pb.h"
+#include "MsgProcessRegister.h"
 
 const char* AUTH_URL = "https://example.com";
-
-
 
 CAuthManager::CAuthManager() {}
 
@@ -25,11 +25,11 @@ void CAuthManager::Destory()
     m_threadAuth->Join();
 }
 
-bool CAuthManager::Init(class CAuthService* pWorld)
+bool CAuthManager::Init(CAuthService* pService)
 {
     m_threadAuth = std::make_unique<CWorkerThread>(
         "AuthThread",
-        [pWorld]() { SetAuthServicePtr(pWorld); },
+        [pService]() { SetAuthServicePtr(pService); },
         []() { SetAuthServicePtr(nullptr); });
 
     m_pAuthChannel = std::make_unique<brpc::Channel>();
@@ -48,7 +48,6 @@ bool CAuthManager::Init(class CAuthService* pWorld)
 
     return true;
 }
-
 
 bool CAuthManager::IsAuthing(const std::string& openid) const
 {
@@ -103,7 +102,6 @@ bool CAuthManager::Auth(const std::string& openid, const std::string& auth, cons
     return false;
 }
 
-
 void CAuthManager::_AddResult(std::function<void()>&& result_func)
 {
     // call by worker thread
@@ -120,8 +118,6 @@ void CAuthManager::PorcessResult()
         result_func();
     }
 }
-
-
 
 void CAuthManager::_OnAuthFail(uint64_t call_id, std::string str_detail)
 {
@@ -151,30 +147,29 @@ void CAuthManager::_OnAuthSucc(uint64_t call_id)
 
     ServerMSG::SocketAuth auth_msg;
     auth_msg.set_vs(auth_data.from);
-    AuthService()->SendMsgToPort(auth_data.from.GetServerPort(), auth_msg);
+    auth_msg.set_open_id(auth_data.open_id);
+    AuthService()->SendProtoMsgToZonePort(auth_data.from.GetServerPort(), auth_msg);
 
     SC_LOGIN result_msg;
     result_msg.set_result_code(SC_LOGIN::EC_SUCC);
-    std::string md5str =
-        md5(auth_data.open_id + std::to_string(TimeGetSecond() / AUTH_KEY_CANUSE_SECS) + AUTH_SERVER_SIGNATURE);
+    std::string md5str = md5(auth_data.open_id + std::to_string(TimeGetSecond() / AUTH_KEY_CANUSE_SECS) + AUTH_SERVER_SIGNATURE);
     result_msg.set_last_succ_key(md5str);
     AuthService()->SendMsgToVirtualSocket(auth_data.from, result_msg);
 
-    ServerMSG::SocketLogin login_msg;
-    login_msg.set_vs(auth_data.from);
-    login_msg.set_open_id(auth_data.open_id);
-    AuthService()->SendMsgToPort(ServerPort(AuthService()->GetWorldID(), WORLD_SERVICE, 0), login_msg);
+
 
     m_AuthList.erase(auth_data.open_id);
     m_AuthDataList.erase(it);
 }
 
-
 void CAuthManager::OnAuthThreadCreate() {}
 
 void CAuthManager::OnAuthThreadFinish() {}
 
-
+bool CAuthManager::CheckProgVer(const std::string& prog_ver) const
+{
+    return true;
+}
 
 ON_MSG(CAuthService, CS_LOGIN)
 {
@@ -191,7 +186,7 @@ ON_MSG(CAuthService, CS_LOGIN)
     }
     auto nGMLev = GMManager()->GetGMLevel(msg.openid());
     //校验程序版本号
-    if(nGMLev == 0 && (msg.prog_ver().empty() || AuthService()->CheckProgVer(msg.prog_ver()) == false))
+    if(nGMLev == 0 && (msg.prog_ver().empty() || AuthManager()->CheckProgVer(msg.prog_ver()) == false))
     {
         //发送错误给前端
         LOGLOGIN("Actor:{} CheckProgVerFail.", msg.openid().c_str());
@@ -204,8 +199,7 @@ ON_MSG(CAuthService, CS_LOGIN)
     if(msg.last_succ_key().empty() == false)
     {
         //曾经验证成功过， 检查2次校验串
-        std::string md5str =
-            md5(msg.openid() + std::to_string(TimeGetSecond() / AUTH_KEY_CANUSE_SECS) + AUTH_SERVER_SIGNATURE);
+        std::string md5str = md5(msg.openid() + std::to_string(TimeGetSecond() / AUTH_KEY_CANUSE_SECS) + AUTH_SERVER_SIGNATURE);
         if(nGMLev == 0 && msg.last_succ_key() != md5str)
         {
             //发送错误给前端
@@ -222,17 +216,13 @@ ON_MSG(CAuthService, CS_LOGIN)
             //可以直接登陆了
             ServerMSG::SocketAuth auth_msg;
             auth_msg.set_vs(pMsg->GetFrom());
-            AuthService()->SendMsgToPort(pMsg->GetFrom().GetServerPort(), auth_msg);
+            auth_msg.set_open_id(msg.openid());
+            AuthService()->SendProtoMsgToZonePort(pMsg->GetFrom().GetServerPort(), auth_msg);
 
             SC_LOGIN result_msg;
             result_msg.set_result_code(SC_LOGIN::EC_SUCC);
             result_msg.set_last_succ_key(md5str);
             AuthService()->SendMsgToVirtualSocket(pMsg->GetFrom(), result_msg);
-
-            ServerMSG::SocketLogin login_msg;
-            login_msg.set_vs(auth_data.from);
-            login_msg.set_open_id(auth_data.open_id);
-            AuthService()->SendMsgToPort(ServerPort(AuthService()->GetWorldID(), WORLD_SERVICE, 0), login_msg);
 
             return;
         }
@@ -248,3 +238,5 @@ ON_MSG(CAuthService, CS_LOGIN)
     LOGLOGIN("Actor:{} StartAuth.", msg.openid().c_str());
     AuthManager()->Auth(msg.openid(), msg.auth(), pMsg->GetFrom());
 }
+
+

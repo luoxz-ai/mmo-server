@@ -8,11 +8,9 @@
 #include "export_lua.h"
 
 constexpr time_t ONE_MINUS_SEC = 60;
-constexpr time_t ONE_HOUR_SEC = 60 * ONE_MINUS_SEC;
-constexpr time_t ONE_DAY_SEC = 24 * ONE_HOUR_SEC;
-constexpr time_t ONE_WEEK_SEC = 7 * ONE_DAY_SEC;
-
-
+constexpr time_t ONE_HOUR_SEC  = 60 * ONE_MINUS_SEC;
+constexpr time_t ONE_DAY_SEC   = 24 * ONE_HOUR_SEC;
+constexpr time_t ONE_WEEK_SEC  = 7 * ONE_DAY_SEC;
 
 void TimeGetCacheCreate();
 void TimeGetCacheUpdate();
@@ -28,8 +26,10 @@ export_lua time_t _TimeGetSecond();
 export_lua time_t _TimeGetMillisecond();
 export_lua time_t _TimeGetSecondLocal();
 
-export_lua time_t gmt2local(time_t tNow);
-export_lua time_t local2gmt(time_t tNow);
+export_lua time_t _TimeGetSecondFrom2K2K();
+
+export_lua time_t    gmt2local(time_t tNow);
+export_lua time_t    local2gmt(time_t tNow);
 export_lua struct tm timeToLocalTime(time_t t);
 //检查是否是同一天,loclatime
 export_lua bool CheckSameDay(time_t time1, time_t time2);

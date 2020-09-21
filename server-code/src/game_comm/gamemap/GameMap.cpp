@@ -58,11 +58,7 @@ bool CGameMap::IsNearLeavePoint(float x, float y, uint32_t& destMapID, uint32_t&
     return false;
 }
 
-bool CGameMap::IsNearLeavePointX(uint32_t  nLeavePointIdx,
-                                 float     x,
-                                 float     y,
-                                 uint32_t& destMapID,
-                                 uint32_t& destEnterPointIdx) const
+bool CGameMap::IsNearLeavePointX(uint32_t nLeavePointIdx, float x, float y, uint32_t& destMapID, uint32_t& destEnterPointIdx) const
 {
     __ENTER_FUNCTION
     auto pLeavePoint = GetLeavePointByIdx(nLeavePointIdx);

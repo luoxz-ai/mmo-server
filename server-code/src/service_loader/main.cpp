@@ -14,10 +14,12 @@
 #include "MemoryHelp.h"
 #include "ObjectHeap.h"
 #include "SegvCatch.h"
+#include "ServiceDefine.h"
 #include "ServiceLoader.h"
 #include "StringAlgo.h"
 #include "fmt/format.h"
 #include "get_opt.h"
+
 #ifdef USE_JEMALLOC
 extern "C"
 {
@@ -73,8 +75,7 @@ public:
 
 void print_help()
 {
-    std::cout << " [-h|--help] [--config=service.xml] [--worldid=0] [--start] [--start=1,2,3,4,5,6] [--stop] [--daemon]"
-              << std::endl;
+    std::cout << " [-h|--help] [--config=service.xml] [--worldid=0] [--start] [--start=1,2,3,4,5,6] [--stop] [--daemon]" << std::endl;
 }
 
 #ifndef STDIN_FILENO
@@ -87,8 +88,8 @@ void print_help()
 ServiceLoader*             g_pLoader;
 std::unique_ptr<file_lock> plock;
 std::mutex                 g_tem_mutex;
-int32_t                        savefd_out = -1;
-int32_t                        savefd_err = -1;
+int32_t                    savefd_out = -1;
+int32_t                    savefd_err = -1;
 std::string                start_service_set;
 //////////////////////////////////////////////////////////////////////////
 void sig_term(int32_t signo)
@@ -211,12 +212,20 @@ int32_t main(int32_t argc, char* argv[])
         exit(-1);
     }
 
-    auto               vec_start_service = split_string(start_service_set, ",");
+    auto                vec_start_service = split_string(start_service_set, ",");
     std::set<ServiceID> create_service_set;
-    for(const auto& v: vec_start_service)
+    for(const auto& serviceid_str: vec_start_service)
     {
-        if(v.empty() == false && v != "" && v != "\001")
-            create_service_set.insert(std::stol(v));
+        if(serviceid_str.empty() == false && serviceid_str != "" && serviceid_str != "\001")
+        {
+            auto vec_servicetype = split_string(serviceid_str, "-");
+            if(vec_servicetype.size() == 2)
+            {
+                uint8_t service_type = GetServiceTypeFromName(vec_servicetype[0]);
+                uint8_t service_idx  = std::stol(vec_servicetype[1]);
+                create_service_set.insert({service_type, service_idx});
+            }
+        }
     }
 
     if(g_pLoader->Load(setting_filename, nWorldID, create_service_set) == false)

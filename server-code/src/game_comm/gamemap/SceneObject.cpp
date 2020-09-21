@@ -50,8 +50,7 @@ void CSceneObject::SetHideCoude(int32_t nHideCount)
     {
         m_nHideCount = nHideCount;
         SetSceneTile(GetCurrentScene()->GetSceneTree()->GetSceneTileByPos(GetPosX(), GetPosY()));
-        SetCollisionTile(
-            GetCurrentScene()->GetSceneTree()->GetCollisionTileByPos(GetPosX(), GetPosY(), GetActorType()));
+        SetCollisionTile(GetCurrentScene()->GetSceneTree()->GetCollisionTileByPos(GetPosX(), GetPosY(), GetActorType()));
     }
     else
     {
@@ -230,12 +229,8 @@ bool CSceneObject::UpdateViewList()
         GetCurrentScene()->GetSceneTree()->foreach_SceneTileInSight(
             GetPosX(),
             GetPosY(),
-            [thisActor = this,
-             &setBCActor,
-             &mapAllViewActor,
-             &sortedAllViewActorByDist,
-             view_range_in_square,
-             viewcount_max](CSceneTile* pSceneTile) {
+            [thisActor = this, &setBCActor, &mapAllViewActor, &sortedAllViewActorByDist, view_range_in_square, viewcount_max](
+                CSceneTile* pSceneTile) {
                 const auto& actor_list = *pSceneTile;
                 for(CSceneObject* pActor: actor_list)
                 {
@@ -298,10 +293,7 @@ bool CSceneObject::UpdateViewList()
 
                 bool operator()(uint32_t lft, const ACTOR_MAP_BY_DIS_DATA& rht) const { return lft < rht.dis; }
 
-                bool operator()(const ACTOR_MAP_BY_DIS_DATA& lft, const ACTOR_MAP_BY_DIS_DATA& rht) const
-                {
-                    return lft.dis < rht.dis;
-                }
+                bool operator()(const ACTOR_MAP_BY_DIS_DATA& lft, const ACTOR_MAP_BY_DIS_DATA& rht) const { return lft.dis < rht.dis; }
             };
             std::nth_element(sortedAllViewActorByDist.begin(),
                              sortedAllViewActorByDist.begin() + nCanInsert - 1,
@@ -309,8 +301,7 @@ bool CSceneObject::UpdateViewList()
                              comp());
 
             int32_t i = 0;
-            for(auto it = sortedAllViewActorByDist.begin(); i < nCanInsert && it != sortedAllViewActorByDist.end();
-                it++, i++)
+            for(auto it = sortedAllViewActorByDist.begin(); i < nCanInsert && it != sortedAllViewActorByDist.end(); it++, i++)
             {
                 CSceneObject* pActor = it->pActor;
                 uint64_t      id     = pActor->GetID();

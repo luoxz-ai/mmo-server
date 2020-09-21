@@ -91,7 +91,6 @@ public:
     CGameClient* QueryClientByUserID(OBJID idUser);
     bool         DelClientByUserID(OBJID idUser);
 
-    CAuthManager& GetAuthManager() {return m_AuthManager;}
 private:
     std::mutex                            m_mutex;
     std::map<VirtualSocket, CGameClient*> m_setVirtualSocket;
@@ -105,10 +104,8 @@ private:
     uint64_t m_nWebSocketMessageProcess = 0;
 
     CMyTimer m_tLastDisplayTime;
-
-    CAuthManager m_AuthManager;
 };
 
 CSocketService* SocketService();
-
+void        SetSocketServicePtr(CSocketService* ptr);
 #endif // SocketService_h__

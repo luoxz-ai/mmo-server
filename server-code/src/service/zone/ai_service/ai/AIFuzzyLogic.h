@@ -14,9 +14,7 @@ enum distance_fuzzy_type
     disft_medium,
     disft_far,
 };
-const fuzzy::Trapezoid distance_fuzzy[] = {fuzzy::Trapezoid{-15, -2.5, 2.5, 15},
-                                           fuzzy::Trapezoid{2.5, 15, 15, 30},
-                                           fuzzy::Trapezoid{15, 30, 50, 65}};
+const fuzzy::Trapezoid distance_fuzzy[] = {fuzzy::Trapezoid{-15, -2.5, 2.5, 15}, fuzzy::Trapezoid{2.5, 15, 15, 30}, fuzzy::Trapezoid{15, 30, 50, 65}};
 
 enum mp_fuzzy_type
 {
@@ -24,9 +22,7 @@ enum mp_fuzzy_type
     mpft_ok,
     mpft_lots,
 };
-const fuzzy::Trapezoid mp_fuzzy[] = {fuzzy::Trapezoid(0, 0, 0.10, 0.20),
-                                     fuzzy::Trapezoid(0, 0.20, 0.40, 0.60),
-                                     fuzzy::Trapezoid(0.20, 0.60, 1, 1)};
+const fuzzy::Trapezoid mp_fuzzy[] = {fuzzy::Trapezoid(0, 0, 0.10, 0.20), fuzzy::Trapezoid(0, 0.20, 0.40, 0.60), fuzzy::Trapezoid(0.20, 0.60, 1, 1)};
 
 enum hp_fuzzy_type
 {
@@ -34,9 +30,7 @@ enum hp_fuzzy_type
     hpft_ok,
     hpft_lots,
 };
-const fuzzy::Trapezoid hp_fuzzy[] = {fuzzy::Trapezoid(0, 0, 0.10, 0.20),
-                                     fuzzy::Trapezoid(0, 0.20, 0.40, 0.60),
-                                     fuzzy::Trapezoid(0.20, 0.60, 1, 1)};
+const fuzzy::Trapezoid hp_fuzzy[] = {fuzzy::Trapezoid(0, 0, 0.10, 0.20), fuzzy::Trapezoid(0, 0.20, 0.40, 0.60), fuzzy::Trapezoid(0.20, 0.60, 1, 1)};
 
 enum skill_dis_fuzzy_type
 {
@@ -54,9 +48,7 @@ enum skill_pow_fuzzy_type
     skillpow_f_normal,
     skillpow_ft_high,
 };
-const fuzzy::Trapezoid skill_pow_fuzzy[] = {fuzzy::Trapezoid{0, 0, 20, 50},
-                                            fuzzy::Trapezoid(30, 50, 70, 90),
-                                            fuzzy::Trapezoid(50, 80, 100, 100)};
+const fuzzy::Trapezoid skill_pow_fuzzy[] = {fuzzy::Trapezoid{0, 0, 20, 50}, fuzzy::Trapezoid(30, 50, 70, 90), fuzzy::Trapezoid(50, 80, 100, 100)};
 
 enum skill_usetime_fuzzy_type
 {
@@ -64,9 +56,7 @@ enum skill_usetime_fuzzy_type
     skillusetime_f_normal,
     skillusetime_ft_high,
 };
-const fuzzy::Trapezoid skill_usetime_fuzzy[] = {fuzzy::Trapezoid{0, 0, 1, 2},
-                                                fuzzy::Trapezoid(3, 5, 7, 9),
-                                                fuzzy::Trapezoid(5, 8, 100, 100)};
+const fuzzy::Trapezoid skill_usetime_fuzzy[] = {fuzzy::Trapezoid{0, 0, 1, 2}, fuzzy::Trapezoid(3, 5, 7, 9), fuzzy::Trapezoid(5, 8, 100, 100)};
 
 enum skill_cd_fuzzy_type
 {
@@ -74,9 +64,7 @@ enum skill_cd_fuzzy_type
     skillcd_f_normal,
     skillcd_ft_high,
 };
-const fuzzy::Trapezoid skill_cd_fuzzy[] = {fuzzy::Trapezoid{0, 0, 1, 2},
-                                           fuzzy::Trapezoid(3, 5, 7, 9),
-                                           fuzzy::Trapezoid(5, 8, 100, 100)};
+const fuzzy::Trapezoid skill_cd_fuzzy[] = {fuzzy::Trapezoid{0, 0, 1, 2}, fuzzy::Trapezoid(3, 5, 7, 9), fuzzy::Trapezoid(5, 8, 100, 100)};
 
 enum skill_usemp_fuzzy_type
 {
@@ -84,9 +72,7 @@ enum skill_usemp_fuzzy_type
     skillusemp_f_normal,
     skillusemp_ft_high,
 };
-const fuzzy::Trapezoid skill_usemp_fuzzy[] = {fuzzy::Trapezoid{0, 0, 1, 2},
-                                              fuzzy::Trapezoid(3, 5, 7, 9),
-                                              fuzzy::Trapezoid(5, 8, 100, 100)};
+const fuzzy::Trapezoid skill_usemp_fuzzy[] = {fuzzy::Trapezoid{0, 0, 1, 2}, fuzzy::Trapezoid(3, 5, 7, 9), fuzzy::Trapezoid(5, 8, 100, 100)};
 
 enum like_fuzzy_type
 {
@@ -94,9 +80,7 @@ enum like_fuzzy_type
     likeft_like,
     likeft_verylike,
 };
-const fuzzy::Trapezoid like_fuzzy[] = {fuzzy::Trapezoid(0, 0, 20, 50),
-                                       fuzzy::Trapezoid(30, 50, 70, 90),
-                                       fuzzy::Trapezoid(50, 80, 100, 100)};
+const fuzzy::Trapezoid like_fuzzy[] = {fuzzy::Trapezoid(0, 0, 20, 50), fuzzy::Trapezoid(30, 50, 70, 90), fuzzy::Trapezoid(50, 80, 100, 100)};
 
 class SkillFAM : public NoncopyableT<SkillFAM>
 {
@@ -148,7 +132,7 @@ public:
     static uint32_t GetKey(const Cfg_SkillFAM_Row& row) { return row.id(); }
     uint32_t        GetID() { return m_ID; }
 
-    template<class ... Args>
+    template<class... Args>
     double calculate(Args&&... args) const
     {
         return m_rule_set.calculate(std::vector<double>{std::forward<Args>(args)...});
@@ -179,10 +163,9 @@ class TargetFAM : public NoncopyableT<TargetFAM>
         uint32_t like_idx      = row.like();
 
         fuzzy::Conjunction oper_type = (fuzzy::Conjunction)(row.oper_type());
-        m_rule_set.add(fuzzy::Rule{
-            std::vector<fuzzy::Trapezoid>{distance_fuzzy[dis_idx], hp_fuzzy[hp_idx], hp_fuzzy[target_hp_idx]},
-            oper_type,
-            like_fuzzy[like_idx]});
+        m_rule_set.add(fuzzy::Rule{std::vector<fuzzy::Trapezoid>{distance_fuzzy[dis_idx], hp_fuzzy[hp_idx], hp_fuzzy[target_hp_idx]},
+                                   oper_type,
+                                   like_fuzzy[like_idx]});
         return true;
     }
 
@@ -198,8 +181,7 @@ public:
     static uint32_t GetKey(const Cfg_TargetFAM_Row& row) { return row.id(); }
     uint32_t        GetID() { return m_ID; }
 
-
-    template<class ... Args>
+    template<class... Args>
     double calculate(Args&&... args) const
     {
         return m_rule_set.calculate(std::vector<double>{std::forward<Args>(args)...});

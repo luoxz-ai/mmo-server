@@ -104,20 +104,18 @@ bool ServiceLoader::_StartService(const std::string& dll_name, uint16_t idWorld,
     else
     {
         // log err
-        LOGFATAL("ServiceCreate {} fail:{}", idService, dll_name.c_str());
+        LOGFATAL("ServiceCreate {}-{} fail:{}", idServiceType, idServiceIdx, dll_name.c_str());
         return false;
     }
     float alloced = get_memory_status().allocted / 1024.0f / 1024.0f;
-    LOGDEBUG("after {}[{}] memory allocated: {:.2f}M", dll_name.c_str(), idService, alloced);
+    LOGDEBUG("after {}[{}-{}] memory allocated: {:.2f}M", dll_name.c_str(), idServiceType, idServiceIdx, alloced);
     return true;
 
     __LEAVE_FUNCTION
     return false;
 }
 
-bool ServiceLoader::Load(const std::string&        setting_filename,
-                         uint16_t                  nWorldID,
-                         const std::set<ServiceID>& create_service_set)
+bool ServiceLoader::Load(const std::string& setting_filename, uint16_t nWorldID, const std::set<ServiceID>& create_service_set)
 {
     __ENTER_FUNCTION
 
@@ -135,23 +133,21 @@ bool ServiceLoader::Load(const std::string&        setting_filename,
         {
             //全部启动在本loader上
             bool bSucc = false;
-            GetMessageRoute()->ForeachServiceInfoByWorldID(
-                nWorldID,
-                false,
-                [&bSucc, nWorldID, pThis = this](const ServerAddrInfo* pServerAddrInfo) {
-                    bSucc = pThis->_StartService(pServerAddrInfo->lib_name, nWorldID, pServerAddrInfo->idServiceType, pServerAddrInfo->idServiceIdx);
-                    if(bSucc == false)
-                        return false;
-                    return true;
-                });
+            GetMessageRoute()->ForeachServiceInfoByWorldID(nWorldID, false, [&bSucc, nWorldID, pThis = this](const ServerAddrInfo* pServerAddrInfo) {
+                bSucc = pThis->_StartService(pServerAddrInfo->lib_name, nWorldID, pServerAddrInfo->idServiceType, pServerAddrInfo->idServiceIdx);
+                if(bSucc == false)
+                    return false;
+                return true;
+            });
             if(bSucc == false)
                 return false;
         }
         else
         {
-            for(const auto& service_id : create_service_set)
+            for(const auto& service_id: create_service_set)
             {
-                auto pServerAddrInfo = GetMessageRoute()->QueryServiceInfo(ServerPort(nWorldID, service_id.GetServiceType(), service_id.GetServiceIdx()));
+                auto pServerAddrInfo =
+                    GetMessageRoute()->QueryServiceInfo(ServerPort(nWorldID, service_id.GetServiceType(), service_id.GetServiceIdx()));
                 if(pServerAddrInfo == nullptr)
                 {
                     LOGFATAL("World:{} Service:{} {} QueryServiceInfo Error", nWorldID, service_id.GetServiceType(), service_id.GetServiceIdx());

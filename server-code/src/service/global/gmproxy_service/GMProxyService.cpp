@@ -26,11 +26,8 @@
 #include "server_msg/server_side.pb.h"
 #include "tinyxml2/tinyxml2.h"
 
-
 // handle HTTP response of accessing builtin services of the target server.
-static void handle_response(brpc::Controller*          client_cntl,
-                            brpc::Controller*          server_cntl,
-                            google::protobuf::Closure* server_done)
+static void handle_response(brpc::Controller* client_cntl, brpc::Controller* server_cntl, google::protobuf::Closure* server_done)
 {
     // Copy all headers. The "Content-Length" will be overwriteen.
     server_cntl->http_response() = client_cntl->http_response();
@@ -61,10 +58,7 @@ public:
     }
     virtual ~ProxyServiceImpl(){};
 
-    bool TransToTarget(const char*                server_addr,
-                       int32_t                    port,
-                       brpc::Controller*          server_cntl,
-                       google::protobuf::Closure* done)
+    bool TransToTarget(const char* server_addr, int32_t port, brpc::Controller* server_cntl, google::protobuf::Closure* done)
     {
         if(server_addr == nullptr)
             return false;
@@ -113,21 +107,14 @@ public:
         // Keep content as it is.
         client_cntl->request_attachment() = server_cntl->request_attachment();
 
-        http_chan.CallMethod(NULL,
-                             client_cntl,
-                             NULL,
-                             NULL,
-                             brpc::NewCallback(&handle_response, client_cntl, server_cntl, done));
+        http_chan.CallMethod(NULL, client_cntl, NULL, NULL, brpc::NewCallback(&handle_response, client_cntl, server_cntl, done));
 
         UNUSED(m_pService);
         UNUSED(m_internal_port);
         return true;
     }
 
-    virtual void default_method(google::protobuf::RpcController* cntl_base,
-                                const HttpRequest*,
-                                HttpResponse*,
-                                google::protobuf::Closure* done)
+    virtual void default_method(google::protobuf::RpcController* cntl_base, const HttpRequest*, HttpResponse*, google::protobuf::Closure* done)
     {
         brpc::ClosureGuard done_guard(done);
         brpc::Controller*  server_cntl = static_cast<brpc::Controller*>(cntl_base);
@@ -143,7 +130,7 @@ public:
 
         if(server_id != 0)
         {
-            auto pInfo = GetMessageRoute()->QueryServiceInfo(ServerPort(server_id, GM_SERVICE_ID));
+            auto pInfo = GetMessageRoute()->QueryServiceInfo(ServerPort(server_id, GM_SERVICE, 0));
             if(pInfo == nullptr)
             {
                 server_cntl->SetFailed(brpc::EINTERNAL, "Fail to connect to server:%d", server_id);
@@ -168,6 +155,10 @@ static thread_local CGMProxyService* tls_pService;
 CGMProxyService*                     GMProxyService()
 {
     return tls_pService;
+}
+void SetGMProxyServicePtr(CGMProxyService* ptr)
+{
+    tls_pService = ptr;
 }
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint8_t idServiceType, uint8_t idServiceIdx)
@@ -242,10 +233,8 @@ bool CGMProxyService::Init(const ServerPort& nServerPort)
         }
         m_pRPCService.reset(CRPCService::CreateNew(GetServerPort().GetServiceID()));
         CHECKF(m_pRPCService.get());
-        CHECKF(m_pRPCService->StartRPCServer(pAddrInfo->publish_port,
-                                             pAddrInfo->debug_port,
-                                             true,
-                                             new ProxyServiceImpl(this, pAddrInfo->debug_port)));
+        CHECKF(
+            m_pRPCService->StartRPCServer(pAddrInfo->publish_port, pAddrInfo->debug_port, true, new ProxyServiceImpl(this, pAddrInfo->debug_port)));
     }
 
     return true;
@@ -292,22 +281,18 @@ ON_SERVERMSG(CGMProxyService, ServiceHttpResponse)
             evbuffer_free(pbuf);
     }
 
-    LOGMESSAGE("response_send:{} code:{} res:{} tt:{}",
-               msg.uid(),
-               msg.response_code(),
-               msg.response_reason().c_str(),
-               msg.response_txt().c_str());
+    LOGMESSAGE("response_send:{} code:{} res:{} tt:{}", msg.uid(), msg.response_code(), msg.response_reason().c_str(), msg.response_txt().c_str());
 }
 
 void CGMProxyService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 {
     if(m_pNetMsgProcess->Process(pNetworkMsg) == false)
     {
-       LOGERROR("CMD {} from {} to {} forward {} didn't have ProcessHandler", 
-                pNetworkMsg->GetCmd(),
-                pNetworkMsg->GetFrom(),
-                pNetworkMsg->GetTo(),
-                pNetworkMsg->GetForward());
+        LOGERROR("CMD {} from {} to {} forward {} didn't have ProcessHandler",
+                 pNetworkMsg->GetCmd(),
+                 pNetworkMsg->GetFrom(),
+                 pNetworkMsg->GetTo(),
+                 pNetworkMsg->GetForward());
     }
 }
 
@@ -469,7 +454,7 @@ bool CheckKVMap(const std::unordered_map<std::string, std::string>& kvmap)
 //	}
 //	else
 //	{
-//		SendMsgToPort(ServerPort(idWorld, GM_SERVICE_ID), MsgID_ServiceHttpRequest, msg);
+//		SendProtoMsgToZonePort(ServerPort(idWorld, GM_SERVICE, 0), MsgID_ServiceHttpRequest, msg);
 //	}
 //	evhttp_request_own(req);
 //	GMProxyService()->AddDelayResponse(uid, req);

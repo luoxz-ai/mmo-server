@@ -42,11 +42,7 @@ public:
     export_lua void ClearSkillCoolDown(uint32_t cdType);
     export_lua bool IsSkillCoolDown(uint32_t cdType) const;
 
-    export_lua static void SkillEffectInRange(OBJID          idCaster,
-                                              uint32_t       idSkillType,
-                                              OBJID          idTarget,
-                                              const Vector2& posTarget,
-                                              uint32_t       nApplyTimes);
+    export_lua static void SkillEffectInRange(OBJID idCaster, uint32_t idSkillType, OBJID idTarget, const Vector2& posTarget, uint32_t nApplyTimes);
 
     export_lua static void FindTarget(CActor*               pOwner,
                                       const CSkillType*     pSkillType,
@@ -60,15 +56,9 @@ public:
                                          const Vector2&              posTarget,
                                          const std::vector<CActor*>& vecTarget);
 
-    export_lua static int32_t DoDamage(CActor*           pOwner,
-                                       const CSkillType* pSkillType,
-                                       CActor*           pTarget,
-                                       OBJID             idTarget,
-                                       const Vector2&    posTarget);
+    export_lua static int32_t DoDamage(CActor* pOwner, const CSkillType* pSkillType, CActor* pTarget, OBJID idTarget, const Vector2& posTarget);
 
-    export_lua static void AttachStatus(CActor*                     pOwner,
-                                        const CSkillType*           pSkillType,
-                                        const std::vector<CActor*>& vecTarget);
+    export_lua static void AttachStatus(CActor* pOwner, const CSkillType* pSkillType, const std::vector<CActor*>& vecTarget);
 
     export_lua static void AddBullet(CActor*                     pOwner,
                                      uint32_t                    idBulletType,

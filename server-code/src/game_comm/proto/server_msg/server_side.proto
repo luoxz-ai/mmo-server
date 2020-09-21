@@ -2,16 +2,31 @@ syntax = "proto3";
 
 import "common/Common.proto";
 
+
+import "google/protobuf/descriptor.proto";
+
+message ServerSideMessageOptions {  
+	OMsgID id = 1;
+}
+
+extend google.protobuf.MessageOptions {
+    ServerSideMessageOptions server_cmd = 1012;
+}
+
 package ServerMSG;
+
 
 enum OMsgID
 {
     OMSGID_NONE = 0;
     MsgID_BEGIN = 20000;
+    
     //内部消息id
     MsgID_ServiceCmd          = 20001;
     MsgID_ServiceHttpRequest  = 20002;
     MsgID_ServiceHttpResponse = 20003;
+
+    MsgID_MessageTransmit     = 20007; // 转发消息
     MsgID_ServiceReady        = 20010;
     MsgID_ServiceRegister     = 20011;
 
@@ -22,6 +37,8 @@ enum OMsgID
     MsgID_SocketStartAccept = 20016; // world->sck 开始监听
     MsgID_SocketStopAccept  = 20017; // world->sck 关闭监听
     MsgID_SocketLogin       = 20018; // auth->world login
+
+    
 
     MsgID_PlayerEnterZone       = 20021;
     MsgID_PlayerChangeZone      = 20022;
@@ -82,68 +99,92 @@ enum OMsgID
 
 message ServiceCmd
 {
+    option (server_cmd).id = MsgID_ServiceCmd;
     repeated string cmds = 1;
 };
 
 message ServiceHttpRequest
 {
+    option (server_cmd).id = MsgID_ServiceHttpRequest;
     uint64              uid   = 1;
     map<string, string> kvmap = 2;
 };
 
 message ServiceHttpResponse
 {
+    option (server_cmd).id = MsgID_ServiceHttpResponse;
     uint64 uid             = 1;
     int32  response_code   = 2;
     string response_reason = 3;
     bytes  response_txt    = 4;
 };
 
+message MessageTransmit
+{
+    option (server_cmd).id = MsgID_MessageTransmit;
+    bytes raw_message_head = 3;
+    bytes raw_message = 4;
+};
+
 message ServiceReady
 {
+    option (server_cmd).id = MsgID_ServiceReady;
     uint32 serverport = 1;
     bool   ready      = 2;
 };
 
 message ServiceRegister
 {
+    option (server_cmd).id = MsgID_ServiceRegister;
     uint32 serverport  = 1;
     uint64 update_time = 2;
 }
 
 message SocketConnect
 {
+    option (server_cmd).id = MsgID_SocketConnect;
     uint64 vs = 1;
 }
 
 message SocketClose
 {
+    option (server_cmd).id = MsgID_SocketClose;
     uint64 vs = 1;
 }
 
 message SocketChangeDest
 {
+    option (server_cmd).id = MsgID_SocketChangeDest;
     uint64 vs       = 1;
     uint32 destport = 2;
 }
 
 message SocketAuth
 {
+    option (server_cmd).id = MsgID_SocketAuth;
     uint64 vs = 1;
 }
 
 message SocketLogin
 {
+    option (server_cmd).id = MsgID_SocketLogin;
     uint64 vs = 1;
-    bytes openid = 2;
+    bytes open_id = 2;
 }
 
-message SocketStartAccept {}
+message SocketStartAccept 
+{
+    option (server_cmd).id = MsgID_SocketStartAccept;
+}
 
-message SocketStopAccept {}
+message SocketStopAccept 
+{
+    option (server_cmd).id = MsgID_SocketStopAccept;
+}
 
 message PlayerEnterZone
 {
+    option (server_cmd).id = MsgID_PlayerEnterZone;
     uint64 idplayer = 1;
     uint64 socket   = 2;
     uint64 target_scene_idx = 4;
@@ -154,6 +195,7 @@ message PlayerEnterZone
 
 message PlayerChangeZone
 {
+    option (server_cmd).id = MsgID_PlayerChangeZone;
     uint64 idplayer = 1;
     uint64 socket   = 2;
     uint32 idzone   = 3;
@@ -167,6 +209,7 @@ message PlayerChangeZone
 
 message PlayerChangeZone_Data
 {
+    option (server_cmd).id = MsgID_PlayerChangeZone_Data;
     uint64 idplayer = 1;
     uint64 socket   = 2;
     //其他的内存数据
@@ -174,12 +217,14 @@ message PlayerChangeZone_Data
 
 message PlayerLogout
 {
+    option (server_cmd).id = MsgID_PlayerLogout;
     uint64 idplayer = 1;
     uint64 socket   = 2;
 }
 
 message SystemVarChange
 {
+    option (server_cmd).id = MsgID_SystemVarChange;
     uint32 keyidx = 1;
     uint32 idx    = 2;
     uint32 val    = 3;
@@ -196,23 +241,27 @@ message SystemVarChange
 
 message SceneCreate
 {
+    option (server_cmd).id = MsgID_SceneCreate;
     uint64 scene_id = 1;
 };
 
 message PhaseCreate
 {
+    option (server_cmd).id = MsgID_PhaseCreate;
     uint64 scene_id = 1;
     uint64 phase_id = 2;
 };
 
 message PhaseDestory
 {
+    option (server_cmd).id = MsgID_PhaseDestory;
     uint64 scene_id = 1;
     uint64 phase_id = 2;
 };
 
 message MonsterGen
 {
+    option (server_cmd).id = MsgID_MonsterGen;
     uint64 scene_id     = 1;
     uint64 phase_id     = 2;
     uint32 gen_id       = 3;
@@ -225,6 +274,7 @@ message MonsterGen
 
 message MonsterGenMulti
 {
+    option (server_cmd).id = MsgID_MonsterGenMulti;
     uint64 scene_id     = 1;
     uint64 phase_id     = 2;
     uint32 gen_id       = 3;
@@ -239,11 +289,13 @@ message MonsterGenMulti
 
 message MonsterDestory
 {
+    option (server_cmd).id = MsgID_MonsterDestory;
     repeated uint64 monster_id = 1;
 };
 
 message MonsterGenOnce
 {
+    option (server_cmd).id = MsgID_MonsterGenOnce;
     uint64 scene_id = 1;
     uint32 gen_id   = 2;
     uint64 phase_id = 3;
@@ -251,6 +303,7 @@ message MonsterGenOnce
 
 message ActiveGen
 {
+    option (server_cmd).id = MsgID_ActiveGen;
     uint64 scene_id = 1;
     uint32 gen_id   = 2;
     bool   active   = 3;
@@ -258,12 +311,14 @@ message ActiveGen
 
 message KillGen
 {
+    option (server_cmd).id = MsgID_KillGen;
     uint64 scene_id = 1;
     uint32 gen_id   = 2;
 };
 
 message ActorCreate
 {
+    option (server_cmd).id = MsgID_ActorCreate;
     uint64 actor_id  = 1;
     uint64 scene_id  = 2;
     string name      = 4;
@@ -289,12 +344,14 @@ message ActorCreate
 
 message ActorDestory
 {
+    option (server_cmd).id = MsgID_ActorDestory;
     uint64 actor_id = 1;
     bool dead = 2;
 };
 
 message ActorMove
 {
+    option (server_cmd).id = MsgID_ActorMove;
     uint64 actor_id = 1;
     float  x        = 2;
     float  y        = 3;
@@ -302,6 +359,7 @@ message ActorMove
 
 message ActorFlyTo
 {
+    option (server_cmd).id = MsgID_ActorFlyTo;
     uint64 actor_id = 1;
     float  x        = 2;
     float  y        = 3;
@@ -309,6 +367,7 @@ message ActorFlyTo
 
 message ActorCastSkill
 {
+    option (server_cmd).id = MsgID_ActorCastSkill;
     uint64 actor_id  = 1;
     uint64 target_id = 2;
     uint32 skill_id  = 3;
@@ -316,11 +375,13 @@ message ActorCastSkill
 
 message ActorCastSkill_Fail
 {
+    option (server_cmd).id = MsgID_ActorCastSkill_Fail;
     uint64 actor_id = 1;
 };
 
 message ActorSetHide
 {
+    option (server_cmd).id = MsgID_ActorSetHide;
     uint64 actor_id   = 1;
     int32  hide_count = 2;
 };
@@ -329,22 +390,26 @@ message ActorSetHide
 
 message TeamCreate
 {
+    option (server_cmd).id = MsgID_TeamCreate;
     uint64 team_id   = 1;
     uint64 leader_id = 2;
 };
 
 message TeamDestory
 {
+    option (server_cmd).id = MsgID_TeamDestory;
     uint64 team_id = 1;
 };
 
 message TeamQuit
 {
+    option (server_cmd).id = MsgID_TeamQuit;
     uint64 team_id     = 1;
     uint64 operator_id = 2;
 };
 message TeamKickMember
 {
+    option (server_cmd).id = MsgID_TeamKickMember;
     uint64 team_id     = 1;
     uint64 operator_id = 2;
     uint64 kick_id     = 3;
@@ -352,12 +417,14 @@ message TeamKickMember
 
 message TeamInviteMember
 {
+    option (server_cmd).id = MsgID_TeamInviteMember;
     uint64 team_id     = 1;
     uint64 operator_id = 2;
     uint64 invitee_id  = 3;
 };
 message TeamAcceptInvite
 {
+    option (server_cmd).id = MsgID_TeamAcceptInvite;
     uint64 team_id    = 1;
     uint64 inviter_id = 2;
     uint64 invitee_id = 3;
@@ -366,11 +433,13 @@ message TeamAcceptInvite
 
 message TeamApplyMember
 {
+    option (server_cmd).id = MsgID_TeamApplyMember;
     uint64 applicant_id  = 1;
     uint64 respondent_id = 2;
 };
 message TeamAcceptApply
 {
+    option (server_cmd).id = MsgID_TeamAcceptApply;
     uint64 applicant_id  = 1;
     uint64 respondent_id = 2;
     bool   result        = 3;
@@ -378,6 +447,7 @@ message TeamAcceptApply
 
 message TeamNewLeader
 {
+    option (server_cmd).id = MsgID_TeamNewLeader;
     uint64 team_id       = 1;
     uint64 operator_id   = 2;
     uint64 new_leader_id = 3;
@@ -385,18 +455,21 @@ message TeamNewLeader
 
 message TeamAddMember
 {
+    option (server_cmd).id = MsgID_TeamAddMember;
     uint64 team_id   = 1;
     uint64 member_id = 2;
 };
 
 message TeamDelMember
 {
+    option (server_cmd).id = MsgID_TeamDelMember;
     uint64 team_id   = 1;
     uint64 member_id = 2;
 };
 
 message TeamMemberInfoList
 {
+    option (server_cmd).id = MsgID_TeamMemberInfoList;
     repeated TeamMemberInfo member_list = 1;
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -404,6 +477,7 @@ message TeamMemberInfoList
 
 message GuildCreate
 {
+    option (server_cmd).id = MsgID_GuildCreate;
     uint64 guild_id   = 1;
     uint64 leader_id = 2;
     string guild_name = 3;
@@ -413,16 +487,19 @@ message GuildCreate
 
 message GuildDestory
 {
+    option (server_cmd).id = MsgID_GuildDestory;
     uint64 guild_id = 1;
 };
 
 message GuildQuit
 {
+    option (server_cmd).id = MsgID_GuildQuit;
     uint64 guild_id     = 1;
     uint64 operator_id = 2;
 };
 message GuildKickMember
 {
+    option (server_cmd).id = MsgID_GuildKickMember;
     uint64 guild_id     = 1;
     uint64 operator_id = 2;
     uint64 kick_id     = 3;
@@ -430,12 +507,14 @@ message GuildKickMember
 
 message GuildInviteMember
 {
+    option (server_cmd).id = MsgID_GuildInviteMember;
     uint64 guild_id     = 1;
     uint64 operator_id = 2;
     uint64 invitee_id  = 3;
 };
 message GuildAcceptInvite
 {
+    option (server_cmd).id = MsgID_GuildAcceptInvite;
     uint64 guild_id    = 1;
     uint64 inviter_id = 2;
     uint64 invitee_id = 3;
@@ -444,11 +523,13 @@ message GuildAcceptInvite
 
 message GuildApplyMember
 {
+    option (server_cmd).id = MsgID_GuildApplyMember;
     uint64 applicant_id  = 1;
     uint64 respondent_id = 2;
 };
 message GuildAcceptApply
 {
+    option (server_cmd).id = MsgID_GuildAcceptApply;
     uint64 applicant_id  = 1;
     uint64 respondent_id = 2;
     bool   result        = 3;
@@ -456,6 +537,7 @@ message GuildAcceptApply
 
 message GuildNewLeader
 {
+    option (server_cmd).id = MsgID_GuildNewLeader;
     uint64 guild_id       = 1;
     uint64 operator_id   = 2;
     uint64 new_leader_id = 3;
@@ -464,36 +546,42 @@ message GuildNewLeader
 
 message GuildAddMember
 {
+    option (server_cmd).id = MsgID_GuildAddMember;
     uint64 guild_id   = 1;
     uint64 member_id = 2;
 };
 
 message GuildDelMember
 {
+    option (server_cmd).id = MsgID_GuildDelMember;
     uint64 guild_id   = 1;
     uint64 member_id = 2;
 };
 
 message GuildMemberInfoList
 {
+    option (server_cmd).id = MsgID_GuildMemberInfoList;
     repeated GuildMemberInfo member_list = 1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 message SyncTaskPhase
 {
+    option (server_cmd).id = MsgID_SyncTaskPhase;
     uint64          player_id     = 1;
     repeated uint64 task_phase_id = 2;
 }
 
 message AddTaskPhase
 {
+    option (server_cmd).id = MsgID_AddTaskPhase;
     uint64 player_id     = 1;
     uint64 task_phase_id = 2;
 }
 
 message RemoveTaskPhase
 {
+    option (server_cmd).id = MsgID_RemoveTaskPhase;
     uint64 player_id     = 1;
     uint64 task_phase_id = 2;
 }

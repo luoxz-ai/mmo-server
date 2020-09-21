@@ -17,14 +17,16 @@ namespace brpc
 
 constexpr const char* AUTH_SERVER_SIGNATURE = "test";
 constexpr int32_t     AUTH_KEY_CANUSE_SECS  = 180;
+class CAuthService;
 
-class CAuthManager: public NoncopyableT<CAuthManager>
+class CAuthManager : public NoncopyableT<CAuthManager>
 {
     CAuthManager();
-    bool Init(class CSocketService* pWorld);
+    bool Init(CAuthService* pService);
 
 public:
     CreateNewImpl(CAuthManager);
+    void Destory();
 
 public:
     ~CAuthManager();
@@ -40,6 +42,7 @@ public:
     void OnAuthThreadCreate();
     void OnAuthThreadFinish();
 
+    bool CheckProgVer(const std::string& prog_ver) const;
 private:
     //等待认证列表
     std::unordered_map<std::string, uint64_t> m_AuthList;
@@ -52,6 +55,9 @@ private:
     MPSCQueue<std::function<void()>>           m_ResultList;
     uint64_t                                   m_CallIdx = 0;
 
+    std::unique_ptr<CWorkerThread> m_threadAuth;
+
+    std::unique_ptr<brpc::Channel> m_pAuthChannel;
 };
 
 #endif /* AUTHMANAGER_H */

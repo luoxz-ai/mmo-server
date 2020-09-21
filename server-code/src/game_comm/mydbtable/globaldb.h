@@ -247,8 +247,9 @@ struct TBLD_SERVICEDETAIL
     enum FIELD_ENUMS
     {
         WORLDID,      //'游戏服编号'
-        SERVICEID,    //'服务编号'
-        SERVICE_TYPE, //'lib库名'
+        SERVICE_TYPE, //'服务类型'
+        SERVICE_IDX,  //'服务编号'
+        LIB_NAME,     //'lib库名'
         ROUTE_ADDR,   //'内网通讯地址'
         ROUTE_PORT,   //'内网通讯端口'
         PUBLISH_ADDR, //'外网地址'
@@ -264,14 +265,18 @@ struct TBLD_SERVICEDETAIL
                                                DB_FIELD_TYPE_SHORT_UNSIGNED,
                                                true,
                                                "  `worldid` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '游戏服编号'"),
-                               std::make_tuple("serviceid",
-                                               DB_FIELD_TYPE_SHORT_UNSIGNED,
-                                               true,
-                                               "  `serviceid` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '服务编号'"),
                                std::make_tuple("service_type",
+                                               DB_FIELD_TYPE_TINY_UNSIGNED,
+                                               true,
+                                               "  `service_type` tinyint(11) unsigned NOT NULL DEFAULT '0' COMMENT '服务类型'"),
+                               std::make_tuple("service_idx",
+                                               DB_FIELD_TYPE_TINY_UNSIGNED,
+                                               true,
+                                               "  `service_idx` tinyint(11) unsigned NOT NULL DEFAULT '0' COMMENT '服务编号'"),
+                               std::make_tuple("lib_name",
                                                DB_FIELD_TYPE_VARCHAR,
                                                false,
-                                               "  `service_type` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT 'lib库名'"),
+                                               "  `lib_name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT 'lib库名'"),
                                std::make_tuple("route_addr",
                                                DB_FIELD_TYPE_VARCHAR,
                                                false,
@@ -298,11 +303,11 @@ struct TBLD_SERVICEDETAIL
                                                "  `bind_addr` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '监听绑定地址'"));
     }
 
-    using field_type_t = type_list<uint16_t, uint16_t, char[255], char[255], uint16_t, char[255], uint16_t, uint16_t, char[255]>;
+    using field_type_t = type_list<uint16_t, uint8_t, uint8_t, char[255], char[255], uint16_t, char[255], uint16_t, uint16_t, char[255]>;
 
-    static constexpr size_t field_count() { return 9; }
+    static constexpr size_t field_count() { return 10; }
 
-    static constexpr auto keys_info() { return std::make_tuple(std::make_tuple("PRIMARY", "worldid,serviceid")); }
+    static constexpr auto keys_info() { return std::make_tuple(std::make_tuple("PRIMARY", "worldid,service_type,service_idx")); }
 
     static constexpr size_t keys_size() { return 1; }
 
@@ -310,15 +315,16 @@ struct TBLD_SERVICEDETAIL
     {
         return R"##(CREATE TABLE `tbld_servicedetail` (
   `worldid` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '游戏服编号',
-  `serviceid` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '服务编号',
-  `service_type` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT 'lib库名',
+  `service_type` tinyint(11) unsigned NOT NULL DEFAULT '0' COMMENT '服务类型',
+  `service_idx` tinyint(11) unsigned NOT NULL DEFAULT '0' COMMENT '服务编号',
+  `lib_name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT 'lib库名',
   `route_addr` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '内网通讯地址',
   `route_port` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '内网通讯端口',
   `publish_addr` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '外网地址',
   `publish_port` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '外网端口',
   `debug_port` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT 'debug端口',
   `bind_addr` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '监听绑定地址',
-  PRIMARY KEY (`worldid`,`serviceid`)
+  PRIMARY KEY (`worldid`,`service_type`,`service_idx`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1)##";
     };
 };

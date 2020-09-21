@@ -42,9 +42,9 @@ public:
     OBJECTHEAP_DECLARATION(s_heap);
 
 private:
-    uint16_t m_idMap = 0;
-    const CGameMap* m_pMap = nullptr;
-    
+    uint16_t        m_idMap = 0;
+    const CGameMap* m_pMap  = nullptr;
+
     std::unordered_map<uint64_t, std::unique_ptr<CPhase>> m_setPhase;
     std::unordered_map<uint64_t, CPhase*>                 m_setPhaseByIdx;
 

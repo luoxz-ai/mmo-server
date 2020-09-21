@@ -45,13 +45,10 @@ inline std::vector<std::string> split_string(const std::string& str, const std::
 }
 
 template<class T>
-std::string string_concat(const T& vecStr,
-                          const std::string&       delimiters,
-                          const std::string&       pre,
-                          const std::string&       post)
+std::string string_concat(const T& vecStr, const std::string& delimiters, const std::string& pre, const std::string& post)
 {
     std::string result;
-    int32_t         i = 0;
+    int32_t     i = 0;
     for(const auto& v: vecStr)
     {
         if(result.empty() == false)
@@ -264,7 +261,6 @@ std::string DefaultVal(const google::protobuf::FieldDescriptor* field)
 
         return "";
     }
-    
 }
 
 std::string Notnull(const google::protobuf::FieldDescriptor* field)
@@ -336,7 +332,7 @@ void PrintMessage(const google::protobuf::Descriptor& message_descriptor, google
 
         if(auto_increment.empty() == false)
             default_str.clear();
-            
+
         if(primary_key.empty() == false)
         {
             primary_key_list.push_back(name_str);
@@ -356,15 +352,15 @@ void PrintMessage(const google::protobuf::Descriptor& message_descriptor, google
         }
 
         std::string str = fmt::format("  `{name}` {type}{size}{unsigned}{utf8}{notnull}{default}{auto_inc}{comment},\n",
-                                      fmt::arg("name",name_str),
-                                      fmt::arg("type",type_str),
-                                      fmt::arg("size",size_str),
-                                      fmt::arg("unsigned",unsigned_str),
-                                      fmt::arg("utf8",utf8_str),
-                                      fmt::arg("notnull",notnull_str),
-                                      fmt::arg("default",default_str),
-                                      fmt::arg("auto_inc",auto_increment),
-                                      fmt::arg("comment",comment));
+                                      fmt::arg("name", name_str),
+                                      fmt::arg("type", type_str),
+                                      fmt::arg("size", size_str),
+                                      fmt::arg("unsigned", unsigned_str),
+                                      fmt::arg("utf8", utf8_str),
+                                      fmt::arg("notnull", notnull_str),
+                                      fmt::arg("default", default_str),
+                                      fmt::arg("auto_inc", auto_increment),
+                                      fmt::arg("comment", comment));
         printer.PrintRaw(str);
     }
 

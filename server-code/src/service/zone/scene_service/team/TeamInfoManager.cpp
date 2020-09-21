@@ -1,7 +1,7 @@
 #include "TeamInfoManager.h"
 
 #include "Actor.h"
-#include "MsgZoneProcess.h"
+#include "MsgSceneProcess.h"
 #include "Player.h"
 #include "SceneService.h"
 #include "server_msg/server_side.pb.h"
@@ -118,38 +118,38 @@ CTeamInfo* CTeamInfoManager::QueryTeam(uint64_t idTeam)
     return nullptr;
 }
 
-ON_SERVERMSG(CSceneService, TeamCreate) 
+ON_SERVERMSG(CSceneService, TeamCreate)
 {
     TeamManager()->OnCreateTeam(msg.team_id(), msg.leader_id());
 }
 
-ON_SERVERMSG(CSceneService, TeamDestory) 
+ON_SERVERMSG(CSceneService, TeamDestory)
 {
     TeamManager()->OnDestoryTeam(msg.team_id());
 }
 
-ON_SERVERMSG(CSceneService, TeamQuit) 
+ON_SERVERMSG(CSceneService, TeamQuit)
 {
     auto pTeam = TeamManager()->QueryTeam(msg.team_id());
     CHECK(pTeam);
     pTeam->OnDelMember(msg.operator_id());
 }
 
-ON_SERVERMSG(CSceneService, TeamKickMember) 
+ON_SERVERMSG(CSceneService, TeamKickMember)
 {
     auto pTeam = TeamManager()->QueryTeam(msg.team_id());
     CHECK(pTeam);
     pTeam->OnDelMember(msg.kick_id());
 }
 
-ON_SERVERMSG(CSceneService, TeamNewLeader) 
+ON_SERVERMSG(CSceneService, TeamNewLeader)
 {
     auto pTeam = TeamManager()->QueryTeam(msg.team_id());
     CHECK(pTeam);
     pTeam->OnSetLeader(msg.new_leader_id());
 }
 
-ON_SERVERMSG(CSceneService, TeamAddMember) 
+ON_SERVERMSG(CSceneService, TeamAddMember)
 {
     auto pTeam = TeamManager()->QueryTeam(msg.team_id());
     CHECK(pTeam);

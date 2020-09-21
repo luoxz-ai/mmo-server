@@ -46,7 +46,7 @@ inline void array_set(T (&array)[N], const T& v)
 }
 
 template<class T, size_t N>
-inline void array_set(std::array<T,N>& array, const T& v)
+inline void array_set(std::array<T, N>& array, const T& v)
 {
     memset(&array, 0, sizeof(T) * N);
 }
@@ -58,11 +58,10 @@ inline void array_setzero(T (&array)[N])
 }
 
 template<class T, size_t N>
-inline void array_setzero(std::array<T,N>& array)
+inline void array_setzero(std::array<T, N>& array)
 {
     memset(&array, 0, sizeof(T) * N);
 }
-
 
 template<class... Args>
 struct type_list

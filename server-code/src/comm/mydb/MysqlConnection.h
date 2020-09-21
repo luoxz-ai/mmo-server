@@ -44,8 +44,8 @@ using CMysqlResultPtr = std::unique_ptr<CMysqlResult>;
 template<class TABLE_T, uint32_t KEY_IDX, class KEY_T>
 struct DBCond
 {
-    KEY_T       key;
-    operator std::string() const
+    KEY_T key;
+          operator std::string() const
     {
         std::string result = fmt::format(FMT_STRING("{}={}"), DBFieldHelp<TABLE_T, KEY_IDX>::GetFieldName(), key);
         return result;

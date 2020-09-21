@@ -4,19 +4,16 @@
 #include "SceneService.h"
 #include "gamedb.h"
 
-
 AttachStatusInfo CStatusType::CloneInfo() const
 {
-    return {
-        .id_status_type = GetTypeID(),
-        .lev            = GetLevel(),
-        .power          = GetPower(),
-        .secs           = GetSecs(),
-        .times          = GetTimes(),
-        .flag           = GetFlag(),
-        .id_status      = GetID(),
-        .expire_type    = GetExpireType()
-    };
+    return {.id_status_type = GetTypeID(),
+            .lev            = GetLevel(),
+            .power          = GetPower(),
+            .secs           = GetSecs(),
+            .times          = GetTimes(),
+            .flag           = GetFlag(),
+            .id_status      = GetID(),
+            .expire_type    = GetExpireType()};
 }
 
 OBJECTHEAP_IMPLEMENTATION(CStatus, s_heap);
@@ -24,18 +21,18 @@ CStatus::CStatus() {}
 
 CStatus::~CStatus() {}
 
-bool CStatus::Init(CActor*  pOwner, const AttachStatusInfo& info)
+bool CStatus::Init(CActor* pOwner, const AttachStatusInfo& info)
 {
     __ENTER_FUNCTION
-    m_info = info;    
+    m_info = info;
     if(info.id_status != 0)
     {
         m_pType = StatusTypeSet()->QueryObj(info.id_status);
         CHECKF(m_pType);
     }
 
-    m_pOwner            = pOwner;
-  
+    m_pOwner = pOwner;
+
     if(info.expire_type == STATUSEXPIRETYPE_TIME)
         m_info.last_timestamp = TimeGetSecond();
     else
@@ -138,7 +135,7 @@ void CStatus::AddSecs(int32_t nSecs)
     __ENTER_FUNCTION
     Pause(false);
 
-    if(m_pType && ((m_pType->GetMaxSecs() - m_info.secs) > nSecs) )
+    if(m_pType && ((m_pType->GetMaxSecs() - m_info.secs) > nSecs))
     {
         m_info.secs = m_pType->GetMaxSecs();
     }
@@ -178,7 +175,7 @@ bool CStatus::ChangeData(const AttachStatusInfo& info)
     {
         m_pType = nullptr;
     }
-    
+
     Pause(false);
     Resume(false);
 
@@ -243,7 +240,7 @@ void CStatus::SaveInfo()
     else
     {
         //创建
-        m_pRecord = SceneService()->GetGameDB(m_pOwner->GetWorldID())->MakeRecord(TBLD_STATUS::table_name());
+        m_pRecord                                = SceneService()->GetGameDB(m_pOwner->GetWorldID())->MakeRecord(TBLD_STATUS::table_name());
         m_pRecord->Field(TBLD_STATUS::ID)        = SceneService()->CreateUID();
         m_pRecord->Field(TBLD_STATUS::USERID)    = m_pOwner->GetID();
         m_pRecord->Field(TBLD_STATUS::STATUSID)  = m_info.id_status;
@@ -413,12 +410,7 @@ bool CStatus::OnAttack(CActor* pTarget, uint32_t idSkill, int32_t nDamage)
     bool bNeedDestory = false;
     if(m_pType && m_pType->GetScirptID() != 0)
     {
-        bNeedDestory = ScriptManager()->TryExecScript<bool>(m_pType->GetScirptID(),
-                                                            SCB_STATUS_ONATTACK,
-                                                            this,
-                                                            pTarget,
-                                                            idSkill,
-                                                            nDamage);
+        bNeedDestory = ScriptManager()->TryExecScript<bool>(m_pType->GetScirptID(), SCB_STATUS_ONATTACK, this, pTarget, idSkill, nDamage);
     }
 
     return bNeedDestory;
@@ -434,11 +426,7 @@ bool CStatus::OnBeAttack(CActor* pAttacker, int32_t nDamage)
     bool bNeedDestory = false;
     if(m_pType && m_pType->GetScirptID() != 0)
     {
-        bNeedDestory = ScriptManager()->TryExecScript<bool>(m_pType->GetScirptID(),
-                                                            SCB_STATUS_ONBEATTACK,
-                                                            this,
-                                                            pAttacker,
-                                                            nDamage);
+        bNeedDestory = ScriptManager()->TryExecScript<bool>(m_pType->GetScirptID(), SCB_STATUS_ONBEATTACK, this, pAttacker, nDamage);
     }
 
     return bNeedDestory;

@@ -289,12 +289,12 @@ _ZSUMMER_LOG4Z_BEGIN
 struct LogData
 {
     LoggerId _id;   // dest logger id
-    int32_t      _type; // type.
-    int32_t      _typeval;
-    int32_t      _level;   // log level
+    int32_t  _type; // type.
+    int32_t  _typeval;
+    int32_t  _level;   // log level
     time_t   _time;    // create time
     uint32_t _precise; // create time
-    
+
     std::string _content; // content
 
     OBJECTHEAP_DECLARATION(s_heap);
@@ -338,31 +338,31 @@ public:
     virtual bool pushLog(LogData* pLog, const char* file = NULL, int32_t line = 0) = 0;
 
     //! set logger's attribute, thread safe.
-    virtual bool enableLogger(LoggerId id, bool enable) = 0; // immediately when enable, and queue up when disable.
-    virtual bool setLoggerName(LoggerId id, const char* name) = 0;
-    virtual bool setLoggerPath(LoggerId id, const char* path) = 0;
-    virtual bool setLoggerLevel(LoggerId id, int32_t nLevel)     = 0; // immediately when enable, and queue up when disable.
-    virtual bool setLoggerFileLine(LoggerId id, bool enable) = 0;
-    virtual bool setLoggerDisplay(LoggerId id, bool enable)  = 0;
-    virtual bool setLoggerOutFile(LoggerId id, bool enable)  = 0;
+    virtual bool enableLogger(LoggerId id, bool enable)              = 0; // immediately when enable, and queue up when disable.
+    virtual bool setLoggerName(LoggerId id, const char* name)        = 0;
+    virtual bool setLoggerPath(LoggerId id, const char* path)        = 0;
+    virtual bool setLoggerLevel(LoggerId id, int32_t nLevel)         = 0; // immediately when enable, and queue up when disable.
+    virtual bool setLoggerFileLine(LoggerId id, bool enable)         = 0;
+    virtual bool setLoggerDisplay(LoggerId id, bool enable)          = 0;
+    virtual bool setLoggerOutFile(LoggerId id, bool enable)          = 0;
     virtual bool setLoggerLimitsize(LoggerId id, uint32_t limitsize) = 0;
     virtual bool setLoggerMonthdir(LoggerId id, bool enable)         = 0;
     virtual bool setLoggerReserveTime(LoggerId id, time_t sec)       = 0;
 
     //! Update logger's attribute from config file, thread safe.
     virtual bool setAutoUpdate(int32_t interval /*per second, 0 is disable auto update*/) = 0;
-    virtual bool updateConfig()                                                       = 0;
+    virtual bool updateConfig()                                                           = 0;
 
     //! Log4z status statistics, thread safe.
-    virtual bool               isLoggerEnable(LoggerId id) = 0;
+    virtual bool     isLoggerEnable(LoggerId id) = 0;
     virtual uint64_t getStatusTotalWriteCount()  = 0;
     virtual uint64_t getStatusTotalWriteBytes()  = 0;
     virtual uint64_t getStatusTotalPushQueue()   = 0;
     virtual uint64_t getStatusTotalPopQueue()    = 0;
-    virtual uint32_t           getStatusActiveLoggers()    = 0;
+    virtual uint32_t getStatusActiveLoggers()    = 0;
 
     virtual LogData* makeLogData(LoggerId id, int32_t level) = 0;
-    virtual void     freeLogData(LogData* log)           = 0;
+    virtual void     freeLogData(LogData* log)               = 0;
 };
 
 class Log4zStream;
@@ -379,15 +379,15 @@ _ZSUMMER_LOG4Z_END
 _ZSUMMER_END
 
 //! base macro.
-#define ZLOG_STREAM(id, level, file, line, log)                                                                   \
-    do                                                                                                            \
-    {                                                                                                             \
-        if(zsummer::log4z::ILog4zManager::getPtr()->prePushLog(id, level))                                        \
-        {                                                                                                         \
-            zsummer::log4z::LogData*    __pLog = zsummer::log4z::ILog4zManager::getPtr()->makeLogData(id, level); \
-            __pLog->_content  += log;                                                                                          \
-            zsummer::log4z::ILog4zManager::getPtr()->pushLog(__pLog, file, line);                                 \
-        }                                                                                                         \
+#define ZLOG_STREAM(id, level, file, line, log)                                                                \
+    do                                                                                                         \
+    {                                                                                                          \
+        if(zsummer::log4z::ILog4zManager::getPtr()->prePushLog(id, level))                                     \
+        {                                                                                                      \
+            zsummer::log4z::LogData* __pLog = zsummer::log4z::ILog4zManager::getPtr()->makeLogData(id, level); \
+            __pLog->_content += log;                                                                           \
+            zsummer::log4z::ILog4zManager::getPtr()->pushLog(__pLog, file, line);                              \
+        }                                                                                                      \
     } while(0)
 
 //! fast macro
@@ -424,12 +424,11 @@ _ZSUMMER_END
             }                                                                                                  \
             catch(fmt::format_error & e)                                                                       \
             {                                                                                                  \
-                __pLog->_content += fmt::format("format_error:%s",  e.what());                                 \
+                __pLog->_content += fmt::format("format_error:%s", e.what());                                  \
                 zsummer::log4z::ILog4zManager::getPtr()->pushLog(__pLog, file, line);                          \
             }                                                                                                  \
         }                                                                                                      \
     } while(0)
-
 
 //! format string
 #define ZLOGFMT_TRACE(id, fmt, ...) ZLOG_FORMAT(id, LOG_LEVEL_TRACE, __FILE__, __LINE__, fmt, ##__VA_ARGS__)
@@ -482,7 +481,7 @@ public:
         _len = len;
     }
     const char* _buf;
-    int32_t         _len;
+    int32_t     _len;
 };
 class Log4zStream
 {

@@ -21,11 +21,14 @@
 #include "SettingMap.h"
 #include "tinyxml2/tinyxml2.h"
 
-
 static thread_local CAIService* tls_pService;
 CAIService*                     AIService()
 {
     return tls_pService;
+}
+void SetAIServicePtr(CAIService* ptr)
+{
+    tls_pService = ptr;
 }
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint8_t idServiceType, uint8_t idServiceIdx)
@@ -90,12 +93,11 @@ bool CAIService::Init(const ServerPort& nServerPort)
     };
 
     extern void export_to_lua(lua_State*, void*);
-    m_pScriptManager.reset(
-        CLUAScriptManager::CreateNew(std::string("AIScript") + std::to_string(GetServerPort().GetServiceID()),
-                                     &export_to_lua,
-                                     (void*)this,
-                                     "res/script/ai_service",
-                                     true));
+    m_pScriptManager.reset(CLUAScriptManager::CreateNew(std::string("AIScript") + std::to_string(GetServerPort().GetServiceID()),
+                                                        &export_to_lua,
+                                                        (void*)this,
+                                                        "res/script/ai_service",
+                                                        true));
 
     m_pMapManager.reset(CMapManager::CreateNew(GetZoneID()));
     CHECKF(m_pMapManager.get());
@@ -122,7 +124,7 @@ bool CAIService::Init(const ServerPort& nServerPort)
     ServerMSG::ServiceReady msg;
     msg.set_serverport(GetServerPort());
 
-    SendMsgToZone(ServerMSG::MsgID_ServiceReady, msg);
+    SendProtoMsgToScene( msg);
 
     return true;
 
@@ -134,23 +136,17 @@ void CAIService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 {
     if(m_pNetMsgProcess->Process(pNetworkMsg) == false)
     {
-        LOGERROR("CMD {} from {} to {} forward {} didn't have ProcessHandler", 
-                pNetworkMsg->GetCmd(),
-                pNetworkMsg->GetFrom(),
-                pNetworkMsg->GetTo(),
-                pNetworkMsg->GetForward());
+        LOGERROR("CMD {} from {} to {} forward {} didn't have ProcessHandler",
+                 pNetworkMsg->GetCmd(),
+                 pNetworkMsg->GetFrom(),
+                 pNetworkMsg->GetTo(),
+                 pNetworkMsg->GetForward());
     }
 }
 
-bool CAIService::SendMsgToZone(const google::protobuf::Message& msg)
+bool CAIService::SendProtoMsgToScene(const proto_msg_t& msg)
 {
-    return SendMsgToZone(to_server_msgid(msg), msg);
-}
-
-bool CAIService::SendMsgToZone(uint16_t nCmd, const google::protobuf::Message& msg)
-{
-    CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), GetSceneServiceVirtualSocket());
-    return SendMsgToPort(_msg);
+    return SendProtoMsgToZonePort(GetSceneServerPort(), msg);
 }
 
 void CAIService::OnLogicThreadProc()
@@ -167,11 +163,10 @@ void CAIService::OnLogicThreadProc()
                                       EventManager()->GetEventCount(),
                                       EventManager()->GetRunningEventCount(),
                                       get_thread_memory_allocted());
-        auto pMessagePort = GetMessageRoute()->QueryMessagePort(GetSceneServiceVirtualSocket().GetServerPort(), false);
+        auto pMessagePort = GetMessageRoute()->QueryMessagePort(GetSceneServerPort(), false);
         if(pMessagePort)
         {
-            buf +=
-                fmt::format(FMT_STRING("\nMsgPort:{}\tSendBuff:{}"), GetZoneID(), pMessagePort->GetWriteBufferSize());
+            buf += fmt::format(FMT_STRING("\nMsgPort:{}\tSendBuff:{}"), GetZoneID(), pMessagePort->GetWriteBufferSize());
         }
         LOGMONITOR("{}", buf.c_str());
         m_pMonitorMgr->Print();

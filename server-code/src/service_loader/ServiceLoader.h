@@ -9,6 +9,7 @@
 #include <dlfcn.h>
 
 #include "BaseType.h"
+#include "NetworkDefine.h"
 class IService;
 class ServiceLoader
 {
@@ -18,7 +19,7 @@ public:
 
     bool Load(const std::string& setting_filename, uint16_t nWorldID, const std::set<ServiceID>& create_service_set);
     void Destory();
-    bool _StartService(const std::string& dll_name, uint16_t idWorld, uint16_t idService);
+    bool _StartService(const std::string& dll_name, uint16_t idWorld, uint8_t idServiceType, uint8_t idServiceIdx);
 
 private:
     std::vector<IService*>         m_setService;

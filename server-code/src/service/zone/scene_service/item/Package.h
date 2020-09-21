@@ -33,28 +33,16 @@ public:
     }
     export_lua virtual uint32_t GetAmount() { return m_setItem.size(); }
 
-    export_lua virtual bool IsFull(uint32_t nAmount = 1)
-    {
-        return (m_nMaxSize > 0 && m_setItem.size() + nAmount > m_nMaxSize);
-    }
+    export_lua virtual bool     IsFull(uint32_t nAmount = 1) { return (m_nMaxSize > 0 && m_setItem.size() + nAmount > m_nMaxSize); }
     export_lua virtual bool     IsFull(uint32_t idType, uint32_t nAmount, uint32_t dwFlag = 0);
     export_lua virtual bool     IsFull(CItem* pItem);
-    export_lua virtual uint32_t GetSpareSpace(uint32_t idType     = ID_NONE,
-                                              uint32_t nAmount    = 0,
-                                              uint32_t nFillSpace = 0,
-                                              uint32_t dwFlag     = 0);
+    export_lua virtual uint32_t GetSpareSpace(uint32_t idType = ID_NONE, uint32_t nAmount = 0, uint32_t nFillSpace = 0, uint32_t dwFlag = 0);
 
     export_lua virtual bool AwardItem(uint32_t idItemType, uint32_t nAmount, uint32_t dwFlag = 0);
 
-    export_lua virtual CItem*   AddItem(CItem* pItem,
-                                        bool   bSync          = false,
-                                        bool   bCheckFull     = true,
-                                        bool   bTrackTaskItem = true);
+    export_lua virtual CItem*   AddItem(CItem* pItem, bool bSync = false, bool bCheckFull = true, bool bTrackTaskItem = true);
     export_lua virtual bool     CombineAddItem(CItem* pItem, bool bSync = true);
-    export_lua virtual uint32_t CombineAddItem(uint32_t idItemType,
-                                               uint32_t nNum,
-                                               uint32_t dwFlag,
-                                               bool     bSync /*=true*/);
+    export_lua virtual uint32_t CombineAddItem(uint32_t idItemType, uint32_t nNum, uint32_t dwFlag, bool bSync /*=true*/);
     export_lua virtual bool     DelItem(OBJID idItem, bool bSync = false, bool bTraceTaskItem = true);
     export_lua virtual bool     DelItemByGrid(uint32_t nGrid, bool bSync = false, bool bTraceTaskItem = true);
     export_lua virtual CItem*   PopItem(OBJID idItem, bool bSync = false);
@@ -81,10 +69,7 @@ public:
 
 public:
     export_lua virtual bool     HaveSoManyItem(uint32_t idType, uint32_t nNum, uint32_t dwFlag = 0);
-    export_lua virtual uint32_t DelItemByType(uint32_t idType,
-                                              uint32_t nNum,
-                                              uint32_t dwFlag         = 0,
-                                              bool     bTraceTaskItem = true);
+    export_lua virtual uint32_t DelItemByType(uint32_t idType, uint32_t nNum, uint32_t dwFlag = 0, bool bTraceTaskItem = true);
     export_lua virtual uint32_t GetItemTypeAmount(uint32_t idType, uint32_t dwFlag = 0);
 
 protected:

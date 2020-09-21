@@ -54,7 +54,7 @@ public:
 
 protected:
     const CGameMap*                          m_pMap = nullptr;
-    SceneIdx                                  m_idxScene;
+    SceneIdx                                 m_idxScene;
     std::shared_ptr<CSceneTree>              m_pSceneTree;
     std::unordered_map<OBJID, CSceneObject*> m_setPlayer;
     std::unordered_map<OBJID, CSceneObject*> m_setActor;

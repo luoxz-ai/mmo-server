@@ -21,7 +21,6 @@
 #include "gm_service.pb.h"
 #include "server_msg/server_side.pb.h"
 
-
 namespace Game
 {
     // Service with static path.
@@ -63,15 +62,13 @@ namespace Game
 
             brpc::Controller* cntl = static_cast<brpc::Controller*>(cntl_base);
 
-            LOGMESSAGE_NOFMT(fmt::format(
-                FMT_STRING(
-                    "Received BlockLogin[log_id={}]: server_id={} open_id={} actor_id={} block_timestamp={} sign={}"),
-                cntl->log_id(),
-                request->server_id(),
-                request->open_id(),
-                request->actor_id(),
-                request->block_timestamp(),
-                request->sign()));
+            LOGMESSAGE_NOFMT(fmt::format(FMT_STRING("Received BlockLogin[log_id={}]: server_id={} open_id={} actor_id={} block_timestamp={} sign={}"),
+                                         cntl->log_id(),
+                                         request->server_id(),
+                                         request->open_id(),
+                                         request->actor_id(),
+                                         request->block_timestamp(),
+                                         request->sign()));
 
             // send to server_x:gm_service
 
@@ -88,15 +85,13 @@ namespace Game
 
             brpc::Controller* cntl = static_cast<brpc::Controller*>(cntl_base);
 
-            LOGMESSAGE_NOFMT(fmt::format(
-                FMT_STRING(
-                    "Received MuteChat[log_id={}]: server_id={} open_id={} actor_id={} mute_timestamp={} sign={}"),
-                cntl->log_id(),
-                request->server_id(),
-                request->open_id(),
-                request->actor_id(),
-                request->mute_timestamp(),
-                request->sign()));
+            LOGMESSAGE_NOFMT(fmt::format(FMT_STRING("Received MuteChat[log_id={}]: server_id={} open_id={} actor_id={} mute_timestamp={} sign={}"),
+                                         cntl->log_id(),
+                                         request->server_id(),
+                                         request->open_id(),
+                                         request->actor_id(),
+                                         request->mute_timestamp(),
+                                         request->sign()));
         }
     };
 } // namespace Game
@@ -105,6 +100,10 @@ static thread_local CGMService* tls_pService = nullptr;
 CGMService*                     GMService()
 {
     return tls_pService;
+}
+void SetGMServicePtr(CGMService* ptr)
+{
+    tls_pService = ptr;
 }
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint8_t idServiceType, uint8_t idServiceIdx)
@@ -189,43 +188,11 @@ bool CGMService::Init(const ServerPort& nServerPort)
     ServerMSG::ServiceReady msg;
     msg.set_serverport(GetServerPort());
 
-    SendMsgToPort(ServerPort(GetWorldID(), WORLD_SERVICE_ID), ServerMSG::MsgID_ServiceReady, msg);
+    SendProtoMsgToZonePort(ServerPort(GetWorldID(), WORLD_SERVICE, 0),  msg);
 
     return true;
 }
 
-void CGMService::SendServiceReady()
-{
-    ServerMSG::ServiceReady send_msg;
-    send_msg.set_serverport(GMService()->GetServerPort());
-    send_msg.set_ready(true);
-    SendMsgToPort(ServerPort(0, ROUTE_SERVICE_ID), send_msg);
-}
-
-void CGMService::SendServiceUnReady()
-{
-    ServerMSG::ServiceReady send_msg;
-    send_msg.set_serverport(GMService()->GetServerPort());
-    send_msg.set_ready(false);
-    SendMsgToPort(ServerPort(0, ROUTE_SERVICE_ID), send_msg);
-}
-
-ON_SERVERMSG(CGMService, ServiceReady)
-{
-    //发送一条消息给ServiceCtrl,通知有一个新的服被开启了, 要求ServiceCtrl通知所有GlobalRoute服,更新路由信息
-    ServerMSG::ServiceRegister send_msg;
-    send_msg.set_serverport(GMService()->GetServerPort());
-    send_msg.set_update_time(TimeGetSecond());
-    GMService()->SendMsgToPort(ServerPort(0, ROUTE_SERVICE_ID), send_msg);
-
-    LOGMESSAGE("WorldReady: {}", GMService()->GetServerPort().GetWorldID());
-
-    CEventEntryCreateParam param;
-    param.cb = []() { GMService()->SendServiceReady(); };
-    param.tWaitTime = 30 * 1000;
-    param.bPersist = true;
-    EventManager()->ScheduleEvent(param);
-}
 
 ON_SERVERMSG(CGMService, ServiceHttpRequest)
 {
@@ -242,7 +209,7 @@ ON_SERVERMSG(CGMService, ServiceHttpRequest)
         ServerMSG::ServiceHttpResponse send_msg;
         send_msg.set_uid(msg.uid());
         send_msg.set_response_code(HTTP_BADMETHOD);
-        GMService()->SendMsgToPort(pMsg->GetFrom().GetServerPort(), send_msg);
+        GMService()->SendProtoMsgToZonePort(pMsg->GetFrom().GetServerPort(), send_msg);
     }
 }
 
@@ -261,11 +228,11 @@ void CGMService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 {
     if(m_pNetMsgProcess->Process(pNetworkMsg) == false)
     {
-        LOGERROR("CMD {} from {} to {} forward {} didn't have ProcessHandler", 
-                pNetworkMsg->GetCmd(),
-                pNetworkMsg->GetFrom(),
-                pNetworkMsg->GetTo(),
-                pNetworkMsg->GetForward());
+        LOGERROR("CMD {} from {} to {} forward {} didn't have ProcessHandler",
+                 pNetworkMsg->GetCmd(),
+                 pNetworkMsg->GetFrom(),
+                 pNetworkMsg->GetTo(),
+                 pNetworkMsg->GetForward());
     }
 }
 

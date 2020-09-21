@@ -9,7 +9,6 @@
 #include "msg/world_service.pb.h"
 #include "server_msg/server_side.pb.h"
 
-
 CAccountManager::CAccountManager() {}
 
 CAccountManager::~CAccountManager()
@@ -19,9 +18,6 @@ CAccountManager::~CAccountManager()
 
 void CAccountManager::Destory()
 {
-    m_pAuthChannel.reset();
-    m_threadAuth->Stop();
-    m_threadAuth->Join();
     for(auto& pair_v: m_setAccount)
     {
         SAFE_DELETE(pair_v.second);
@@ -46,12 +42,12 @@ CAccount* CAccountManager::QueryAccountBySocket(const VirtualSocket& vs) const
     return nullptr;
 }
 
-void CAccountManager::Login(const std::string& openid, CAccount* pAccount)
+void CAccountManager::Login(const VirtualSocket& vs, const std::string& openid)
 {
     __ENTER_FUNCTION
     //判断当前是否已经有账号登陆了？ 如果已经有账号登陆了， 先将前一个Account踢下线
     bool bKicked = false;
-    auto itFind  = m_setAccount.find(pAccount->GetOpenID());
+    auto itFind  = m_setAccount.find(openid);
     if(itFind != m_setAccount.end())
     {
         // kick out
@@ -72,11 +68,14 @@ void CAccountManager::Login(const std::string& openid, CAccount* pAccount)
         bKicked = true;
     }
 
+    CAccount* pAccount = CAccount::CreateNew(openid, vs);
+    CHECK(pAccount);
+    LOGLOGIN("Actor:{} StartLogin", open_id.c_str());
+
     m_setAccount[pAccount->GetOpenID()]         = pAccount;
     m_setAccountBySocket[pAccount->GetSocket()] = pAccount;
 
-    if(bKicked || GMManager()->GetGMLevel(pAccount->GetOpenID()) > 0 ||
-       m_setAccount.size() - m_setWaitAccount.size() < _START_WAITING_ACCOUNT_COUNT)
+    if(bKicked || GMManager()->GetGMLevel(pAccount->GetOpenID()) > 0 || m_setAccount.size() - m_setWaitAccount.size() < _START_WAITING_ACCOUNT_COUNT)
     {
         //通知前端，登陆成功
         LOGLOGIN("ActorSucc:{}.", pAccount->GetOpenID().c_str());
@@ -125,7 +124,6 @@ void CAccountManager::Logout(const VirtualSocket& vs)
     SAFE_DELETE(pAccount);
     __LEAVE_FUNCTION
 }
-
 
 void CAccountManager::OnTimer()
 {

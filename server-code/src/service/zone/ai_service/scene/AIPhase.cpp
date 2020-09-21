@@ -2,10 +2,10 @@
 
 #include "AIActor.h"
 #include "AIActorManager.h"
+#include "AIGroup.h"
 #include "AIScene.h"
 #include "AIService.h"
 #include "MapManager.h"
-#include "AIGroup.h"
 
 CAIPhase::CAIPhase() {}
 
@@ -25,7 +25,7 @@ bool CAIPhase::Init(CAIScene* pScene, const SceneIdx& idxScene, uint64_t idPhase
     __ENTER_FUNCTION
     m_idPhase = idPhase;
     CHECKF(CSceneBase::Init(idxScene, MapManager()));
-    
+
     m_MonsterGen.Init(this);
     m_pAIGroupManager.reset(CAIGroupManager::CreateNew(this));
     if(pPhaseData)

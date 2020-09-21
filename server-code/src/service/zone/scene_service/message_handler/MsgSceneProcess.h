@@ -7,7 +7,7 @@
 #include "Player.h"
 #include "SceneService.h"
 
-void ZoneMessageHandlerRegister();
+void SceneMessageHandlerRegister();
 
 template<class MsgType, class FuncType>
 void ProcPlayerMsg(CNetworkMessage* pMsg, FuncType func)
@@ -29,9 +29,9 @@ void ProcPlayerMsg(CNetworkMessage* pMsg, FuncType func)
 #define ON_PLAYERMSG(MsgType)                                                                                    \
     void OnMsg_##MsgType(CPlayer* pPlayer, const MsgType& msg, CNetworkMessage* pMsg);                           \
                                                                                                                  \
-    MsgProcRegister<CSceneService> register_##MsgType(                                                            \
+    MsgProcRegister<CSceneService> register_##MsgType(                                                           \
         CMD_##MsgType,                                                                                           \
-        TO_CSTR(CMD_##MsgType),                                                                                         \
+        TO_CSTR(CMD_##MsgType),                                                                                  \
         std::bind(&ProcPlayerMsg<MsgType, decltype(OnMsg_##MsgType)>, std::placeholders::_1, &OnMsg_##MsgType)); \
                                                                                                                  \
     void OnMsg_##MsgType(CPlayer* pPlayer, const MsgType& msg, CNetworkMessage* pMsg)

@@ -1,8 +1,8 @@
 #include "AIActorManager.h"
 
 #include "AIActor.h"
-#include "AIPlayer.h"
 #include "AIPhase.h"
+#include "AIPlayer.h"
 
 CAIActorManager::CAIActorManager() {}
 
@@ -90,7 +90,7 @@ bool CAIActorManager::DelActor(CAIActor* pActor, bool bDelete /* = true*/)
     if(bDelete)
         SAFE_DELETE(pActor);
     return true;
-    
+
     __LEAVE_FUNCTION
     return false;
 }

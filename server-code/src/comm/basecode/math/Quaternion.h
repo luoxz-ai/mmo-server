@@ -43,10 +43,7 @@ public:
     /// Construct a quaternion from an angle/axis
     inline Quaternion(const Radian& rfAngle, const Vector3& rkAxis) { this->FromAngleAxis(rfAngle, rkAxis); }
     /// Construct a quaternion from 3 orthonormal local axes
-    inline Quaternion(const Vector3& xaxis, const Vector3& yaxis, const Vector3& zaxis)
-    {
-        this->FromAxes(xaxis, yaxis, zaxis);
-    }
+    inline Quaternion(const Vector3& xaxis, const Vector3& yaxis, const Vector3& zaxis) { this->FromAxes(xaxis, yaxis, zaxis); }
     /// Construct a quaternion from 3 orthonormal local axes
     inline Quaternion(const Vector3* akAxis) { this->FromAxes(akAxis); }
     /// Construct a quaternion from 4 manual w/x/y/z values
@@ -135,11 +132,8 @@ public:
     Quaternion        operator*(float s) const { return Quaternion(s * w, s * x, s * y, s * z); }
     friend Quaternion operator*(float s, const Quaternion& q) { return q * s; }
     Quaternion        operator-() const { return Quaternion(-w, -x, -y, -z); }
-    inline bool       operator==(const Quaternion& rhs) const
-    {
-        return (rhs.x == x) && (rhs.y == y) && (rhs.z == z) && (rhs.w == w);
-    }
-    inline bool operator!=(const Quaternion& rhs) const { return !operator==(rhs); }
+    inline bool       operator==(const Quaternion& rhs) const { return (rhs.x == x) && (rhs.y == y) && (rhs.z == z) && (rhs.w == w); }
+    inline bool       operator!=(const Quaternion& rhs) const { return !operator==(rhs); }
     // functions of a quaternion
     /// Returns the dot product of the quaternion
     float Dot(const Quaternion& rkQ) const { return w * rkQ.w + x * rkQ.x + y * rkQ.y + z * rkQ.z; }
@@ -241,11 +235,7 @@ public:
     static Quaternion SlerpExtraSpins(float fT, const Quaternion& rkP, const Quaternion& rkQ, int32_t iExtraSpins);
 
     /// Setup for spherical quadratic interpolation
-    static void Intermediate(const Quaternion& rkQ0,
-                             const Quaternion& rkQ1,
-                             const Quaternion& rkQ2,
-                             Quaternion&       rka,
-                             Quaternion&       rkB);
+    static void Intermediate(const Quaternion& rkQ0, const Quaternion& rkQ1, const Quaternion& rkQ2, Quaternion& rka, Quaternion& rkB);
 
     /// Spherical quadratic interpolation
     static Quaternion Squad(float             fT,
@@ -275,8 +265,8 @@ public:
     static constexpr float msEpsilon = 1e-03;
 
     // special values
-    static inline Quaternion ZERO() {return {0, 0, 0, 0};}
-    static inline Quaternion IDENTITY()  {return {1, 0, 0, 0};}
+    static inline Quaternion ZERO() { return {0, 0, 0, 0}; }
+    static inline Quaternion IDENTITY() { return {1, 0, 0, 0}; }
 
     float w, x, y, z;
 

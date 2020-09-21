@@ -57,11 +57,10 @@ CGuild* CGuildManager::CreateGuild(uint64_t idGuild, const std::string& strGuild
     CHECKF(pUser->GetGuildID() == 0);
 
     CHECKF(QueryGuild(idGuild) == nullptr);
-    
-    auto pDB       = WorldService()->GetGameDB();
+
+    auto        pDB = WorldService()->GetGameDB();
     std::string strGuildName;
     CHECKF(pDB->EscapeString(strGuildName, strGuildNamenNeedEscape));
-    
 
     auto pDBRecord = pDB->MakeRecord(TBLD_GUILD::table_name());
     auto now       = TimeGetSecond();
@@ -94,7 +93,7 @@ CGuild* CGuildManager::CreateGuild(uint64_t idGuild, const std::string& strGuild
     msg.set_leader_id(idLeader);
     msg.set_leader_name(strLeaderName);
     msg.set_create_time(now);
-    WorldService()->SendMsgToAllScene(msg);
+    WorldService()->SendProtoMsgToAllScene(msg);
 
     pGuild->AddMember(pUser->GetID(), GUILD_RANK_LEADER);
     return pGuild;
@@ -122,7 +121,7 @@ bool CGuildManager::DestoryGuild(uint64_t idGuild)
 
     ServerMSG::GuildCreate msg;
     msg.set_guild_id(idGuild);
-    WorldService()->SendMsgToAllScene(msg);
+    WorldService()->SendProtoMsgToAllScene(msg);
     CGuild* pGuild = it->second;
     pGuild->SendGuildAction(SC_GUILDMEMBER_ACTION::GUILD_DESTORY, 0, 0);
 

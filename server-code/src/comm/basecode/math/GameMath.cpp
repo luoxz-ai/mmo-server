@@ -1,11 +1,5 @@
 #include "GameMath.h"
 
-
-
-
-
-
-
 //-----------------------------------------------------------------------
 bool GameMath::Intersection2D::pointInTri2D(const Vector2& p, const Vector2& a, const Vector2& b, const Vector2& c)
 {
@@ -50,11 +44,7 @@ bool GameMath::Intersection2D::pointInTri2D(const Vector2& p, const Vector2& a, 
 }
 
 //-----------------------------------------------------------------------
-bool GameMath::Intersection::pointInTri3D(const Vector3& p,
-                                          const Vector3& a,
-                                          const Vector3& b,
-                                          const Vector3& c,
-                                          const Vector3& normal)
+bool GameMath::Intersection::pointInTri3D(const Vector3& p, const Vector3& a, const Vector3& b, const Vector3& c, const Vector3& normal)
 {
     // Winding must be consistent from all edges for point to be inside
     Vector3 v1, v2;
@@ -127,8 +117,7 @@ std::optional<float> GameMath::Intersection::intersects(const Ray& ray, const Ax
 
         // Substitute t back into ray and check bounds and dist
         hitpoint = rayorig + raydir * t;
-        if(hitpoint.y >= min.y && hitpoint.y <= max.y && hitpoint.z >= min.z && hitpoint.z <= max.z &&
-           (!hit || t < lowt))
+        if(hitpoint.y >= min.y && hitpoint.y <= max.y && hitpoint.z >= min.z && hitpoint.z <= max.z && (!hit || t < lowt))
         {
             hit  = true;
             lowt = t;
@@ -141,8 +130,7 @@ std::optional<float> GameMath::Intersection::intersects(const Ray& ray, const Ax
 
         // Substitute t back into ray and check bounds and dist
         hitpoint = rayorig + raydir * t;
-        if(hitpoint.y >= min.y && hitpoint.y <= max.y && hitpoint.z >= min.z && hitpoint.z <= max.z &&
-           (!hit || t < lowt))
+        if(hitpoint.y >= min.y && hitpoint.y <= max.y && hitpoint.z >= min.z && hitpoint.z <= max.z && (!hit || t < lowt))
         {
             hit  = true;
             lowt = t;
@@ -155,8 +143,7 @@ std::optional<float> GameMath::Intersection::intersects(const Ray& ray, const Ax
 
         // Substitute t back into ray and check bounds and dist
         hitpoint = rayorig + raydir * t;
-        if(hitpoint.x >= min.x && hitpoint.x <= max.x && hitpoint.z >= min.z && hitpoint.z <= max.z &&
-           (!hit || t < lowt))
+        if(hitpoint.x >= min.x && hitpoint.x <= max.x && hitpoint.z >= min.z && hitpoint.z <= max.z && (!hit || t < lowt))
         {
             hit  = true;
             lowt = t;
@@ -169,8 +156,7 @@ std::optional<float> GameMath::Intersection::intersects(const Ray& ray, const Ax
 
         // Substitute t back into ray and check bounds and dist
         hitpoint = rayorig + raydir * t;
-        if(hitpoint.x >= min.x && hitpoint.x <= max.x && hitpoint.z >= min.z && hitpoint.z <= max.z &&
-           (!hit || t < lowt))
+        if(hitpoint.x >= min.x && hitpoint.x <= max.x && hitpoint.z >= min.z && hitpoint.z <= max.z && (!hit || t < lowt))
         {
             hit  = true;
             lowt = t;
@@ -183,8 +169,7 @@ std::optional<float> GameMath::Intersection::intersects(const Ray& ray, const Ax
 
         // Substitute t back into ray and check bounds and dist
         hitpoint = rayorig + raydir * t;
-        if(hitpoint.x >= min.x && hitpoint.x <= max.x && hitpoint.y >= min.y && hitpoint.y <= max.y &&
-           (!hit || t < lowt))
+        if(hitpoint.x >= min.x && hitpoint.x <= max.x && hitpoint.y >= min.y && hitpoint.y <= max.y && (!hit || t < lowt))
         {
             hit  = true;
             lowt = t;
@@ -197,8 +182,7 @@ std::optional<float> GameMath::Intersection::intersects(const Ray& ray, const Ax
 
         // Substitute t back into ray and check bounds and dist
         hitpoint = rayorig + raydir * t;
-        if(hitpoint.x >= min.x && hitpoint.x <= max.x && hitpoint.y >= min.y && hitpoint.y <= max.y &&
-           (!hit || t < lowt))
+        if(hitpoint.x >= min.x && hitpoint.x <= max.x && hitpoint.y >= min.y && hitpoint.y <= max.y && (!hit || t < lowt))
         {
             hit  = true;
             lowt = t;
@@ -282,8 +266,7 @@ bool GameMath::Intersection::intersects(const Ray& ray, const AxisAlignedBox& bo
     if(absDir[imid] < std::numeric_limits<float>::epsilon())
     {
         // Parallel with middle and minimise axis, check bounds only
-        if(rayorig[imid] < min[imid] || rayorig[imid] > max[imid] || rayorig[imin] < min[imin] ||
-           rayorig[imin] > max[imin])
+        if(rayorig[imid] < min[imid] || rayorig[imid] > max[imid] || rayorig[imin] < min[imin] || rayorig[imin] > max[imin])
             return false;
     }
     else

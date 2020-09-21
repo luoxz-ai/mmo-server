@@ -18,8 +18,7 @@ public:
     virtual ~CMonster();
 
 public:
-    export_lua bool         SendMsg(const google::protobuf::Message& msg) const;
-    export_lua virtual bool SendMsg(uint16_t cmd, const google::protobuf::Message& msg) const override;
+    export_lua bool         SendMsg(const proto_msg_t& msg) const override;
 
     export_lua virtual ActorType GetActorType() const override { return ActorType::ACT_MONSTER; }
     export_lua static ActorType  GetActorTypeStatic() { return ActorType::ACT_MONSTER; }
@@ -53,9 +52,7 @@ public:
         if(m_pType->GetScirptID() == 0)
             return RVal();
         else
-            return ScriptManager()->TryExecScript<RVal>(m_pType->GetScirptID(),
-                                                        idxCallBackType,
-                                                        std::forward<Args>(args)...);
+            return ScriptManager()->TryExecScript<RVal>(m_pType->GetScirptID(), idxCallBackType, std::forward<Args>(args)...);
     }
 
 public:

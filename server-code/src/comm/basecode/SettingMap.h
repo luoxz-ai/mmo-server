@@ -140,7 +140,7 @@ public:
         if(it != m_setAttrib.end())
         {
             const std::string& result = it->second;
-            val = (result == std::string("TRUE") || result == std::string("true") || result == std::string("1"));
+            val                       = (result == std::string("TRUE") || result == std::string("true") || result == std::string("1"));
             return true;
         }
         return false;
@@ -197,7 +197,7 @@ public:
     uint32_t QueryULong(const std::string& AttName, int32_t _base = 10) const
     {
         uint32_t val = 0;
-        auto          it  = m_setAttrib.find(AttName);
+        auto     it  = m_setAttrib.find(AttName);
         if(it != m_setAttrib.end() && it->second.empty() == false)
         {
             val = std::stoul(it->second, 0, _base);
@@ -237,7 +237,7 @@ public:
         if(it != m_setAttrib.end() && it->second.empty() == false)
         {
             const std::string& result = it->second;
-            val = (result == std::string("TRUE") || result == std::string("true") || result == std::string("1"));
+            val                       = (result == std::string("TRUE") || result == std::string("true") || result == std::string("1"));
             return val;
         }
         return val;

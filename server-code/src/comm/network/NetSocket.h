@@ -39,7 +39,7 @@ public:
     virtual ~CNetSocket();
 
     virtual bool Init(bufferevent* pBufferEvent) = 0;
-    virtual void Interrupt()                         = 0;
+    virtual void Interrupt()                     = 0;
     virtual bool CreateByListener() const { return true; }
     template<class T>
     bool SendSocketMsg(T* pBuffer, bool bFlush = true)
@@ -49,7 +49,7 @@ public:
     }
 
     bool SendSocketMsg(byte* pBuffer, size_t len, bool bFlush = true);
-    bool SendSocketMsg(byte* pHeaderBuffer, size_t head_len, CNetworkMessage* pMsg, bool bFlush = true);
+    bool SendSocketCombineMsg(byte* pHeaderBuffer, size_t head_len, CNetworkMessage* pMsg, bool bFlush = true);
 
     void InitDecryptor(uint32_t seed)
     {
@@ -106,6 +106,7 @@ public:
 
     void set_sock_nodely();
     void set_sock_quickack();
+
 public:
     OBJECTHEAP_DECLARATION(s_Heap);
 
@@ -152,6 +153,6 @@ protected:
     unsigned short              m_nLastProcessMsgCMD = 0;
     unsigned short              m_nLastCMDSize       = 0;
 
-    std::atomic<uint64_t>       m_nWaitWriteSize = 0;
+    std::atomic<uint64_t> m_nWaitWriteSize = 0;
 };
 #endif // NetSocket_h__

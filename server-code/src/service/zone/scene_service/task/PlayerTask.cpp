@@ -2,8 +2,8 @@
 
 #include "Package.h"
 #include "Player.h"
-#include "ScriptManager.h"
 #include "SceneService.h"
+#include "ScriptManager.h"
 #include "msg/zone_service.pb.h"
 
 CPlayerTask::CPlayerTask() {}
@@ -315,11 +315,7 @@ bool CPlayerTask::SubmitTask(uint32_t idTask, uint32_t nSubmitMultiple)
     }
 
     if(pType->GetScriptID() != 0)
-        ScriptManager()->TryExecScript<void>(pType->GetScriptID(),
-                                             SCB_TASK_ON_COMMIT,
-                                             m_pOwner,
-                                             pData,
-                                             nSubmitMultiple);
+        ScriptManager()->TryExecScript<void>(pType->GetScriptID(), SCB_TASK_ON_COMMIT, m_pOwner, pData, nSubmitMultiple);
 
     //给予奖励
     if(pType->GetAwardExp() > 0)
@@ -377,7 +373,7 @@ bool CPlayerTask::GiveupTask(uint32_t idTask)
     auto pTaskType = TaskTypeSet()->QueryObj(idTask);
     CHECKF_V(pTaskType, idTask);
 
-    CHECKF_V(pData->GetState() == TASKSTATE_ACCEPTED, pData->GetState() );
+    CHECKF_V(pData->GetState() == TASKSTATE_ACCEPTED, pData->GetState());
     CHECKF_V(pTaskType->HasFlag(TASKFLAG_CAN_GIVEUP), idTask);
 
     pData->SetFinishTime(TimeGetSecond(), UPDATE_FALSE);
@@ -518,7 +514,7 @@ bool CPlayerTask::CanSubmit(uint32_t idTask)
 {
     __ENTER_FUNCTION
     auto pType = TaskTypeSet()->QueryObj(idTask);
-    CHECKF_V(pType,idTask);
+    CHECKF_V(pType, idTask);
     return CanSubmit(pType);
 
     __LEAVE_FUNCTION
@@ -529,9 +525,9 @@ int32_t CPlayerTask::GetLeftTimes(uint32_t idTask)
 {
     __ENTER_FUNCTION
     CPlayerTaskData* pData = QueryTaskData(idTask);
-    CHECKF_V(pData,idTask);
+    CHECKF_V(pData, idTask);
     auto pType = TaskTypeSet()->QueryObj(idTask);
-    CHECKF_V(pType,idTask);
+    CHECKF_V(pType, idTask);
 
     if(pType->HasFlag(TASKFLAG_REPEATABLE))
     {
@@ -667,8 +663,7 @@ void CPlayerTask::OnKillMonster(uint32_t idMonster, bool bKillBySelf)
         {
             const auto& v = pType->GetDataRef().finish_data_list(i);
             if(v.finish_type() == TFTYPE_MONSTER && v.finish_data() == idMonster &&
-               (bKillBySelf == true || (bKillBySelf == false && v.share() == false)) &&
-               (v.rate() != 0 && random_hit(v.rate()) == true))
+               (bKillBySelf == true || (bKillBySelf == false && v.share() == false)) && (v.rate() != 0 && random_hit(v.rate()) == true))
             {
                 pTaskData->SetNum(i, pTaskData->GetNum(i) + 1, UPDATE_TRUE);
                 SendTaskDataChange(pTaskData, i);

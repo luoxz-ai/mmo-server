@@ -31,7 +31,7 @@ void CAISceneManager::Destory()
 CAIScene* CAISceneManager::CreateScene(uint16_t idMap)
 {
     __ENTER_FUNCTION
-    auto     pMap  = MapManager()->QueryMap(idMap);
+    auto pMap = MapManager()->QueryMap(idMap);
     CHECKF(pMap);
 
     CAIScene* pScene = CAIScene::CreateNew(idMap);

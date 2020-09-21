@@ -6,12 +6,10 @@
 #include "GameMap.h"
 #include "export_lua.h"
 
-
-
 export_lua struct SceneIdx
 {
     export_lua SceneIdx(uint16_t _idZone, uint16_t _idMap, uint32_t _idxPhase)
-        : m_Data{_idZone,_idMap,_idxPhase}
+        : m_Data{_idZone, _idMap, _idxPhase}
     {
         if(m_Data._idZone == 0 || m_Data._idZone > 10)
         {
@@ -34,14 +32,12 @@ export_lua struct SceneIdx
         uint32_t _idxPhase;
     };
 
-    union
-    {
+    union {
         SceneIdxData m_Data;
-        uint64_t data64;
+        uint64_t     data64;
     };
-    
-    
-    operator uint64_t() const { return data64; }
+
+                    operator uint64_t() const { return data64; }
     export_lua bool operator==(const SceneIdx& rht) const { return data64 == rht.data64; }
     export_lua bool operator<(const SceneIdx& rht) const { return data64 < rht.data64; }
 
@@ -49,9 +45,8 @@ export_lua struct SceneIdx
 
     export_lua uint16_t GetZoneID() const { return m_Data._idZone; }
     export_lua uint16_t GetMapID() const { return m_Data._idMap; }
-    SceneIdx GetStaticPhaseSceneIdx() const {return SceneIdx(m_Data._idZone, m_Data._idMap, 0);}
+    SceneIdx            GetStaticPhaseSceneIdx() const { return SceneIdx(m_Data._idZone, m_Data._idMap, 0); }
 };
-
 
 // custom specialization of std::hash can be injected in namespace std
 namespace std
@@ -59,7 +54,7 @@ namespace std
     template<>
     struct hash<SceneIdx>
     {
-        typedef SceneIdx     argument_type;
+        typedef SceneIdx    argument_type;
         typedef std::size_t result_type;
         result_type         operator()(argument_type const& s) const
         {
@@ -83,7 +78,7 @@ struct fmt::formatter<SceneIdx> : public fmt::formatter<uint64_t>
 export_lua struct TargetSceneID
 {
     export_lua TargetSceneID(uint16_t _idZone, uint16_t _idMap, int32_t _idPhase)
-        : m_Data{_idZone,_idMap,_idPhase}
+        : m_Data{_idZone, _idMap, _idPhase}
     {
         if(m_Data._idZone == 0 || m_Data._idZone > 10)
         {
@@ -103,24 +98,22 @@ export_lua struct TargetSceneID
     {
         uint16_t _idZone;
         uint16_t _idMap;
-        int32_t _idPhase;
+        int32_t  _idPhase;
     };
 
-    union
-    {
+    union {
         TargetSceneIDData m_Data;
-        uint64_t data64;
+        uint64_t          data64;
     };
-    
-    
+
     enum
     {
-        SelfPhase = -1,
-        TeamPhase = -2,
+        SelfPhase  = -1,
+        TeamPhase  = -2,
         GuildPhase = -3,
     };
-    
-    operator uint64_t() const { return data64; }
+
+                    operator uint64_t() const { return data64; }
     export_lua bool operator==(const TargetSceneID& rht) const { return data64 == rht.data64; }
     export_lua bool operator<(const TargetSceneID& rht) const { return data64 < rht.data64; }
 
@@ -132,9 +125,7 @@ export_lua struct TargetSceneID
 
     export_lua uint16_t GetZoneID() const { return m_Data._idZone; }
     export_lua uint16_t GetMapID() const { return m_Data._idMap; }
-
 };
-
 
 // custom specialization of std::hash can be injected in namespace std
 namespace std
@@ -142,9 +133,9 @@ namespace std
     template<>
     struct hash<TargetSceneID>
     {
-        typedef TargetSceneID     argument_type;
-        typedef std::size_t result_type;
-        result_type         operator()(argument_type const& s) const
+        typedef TargetSceneID argument_type;
+        typedef std::size_t   result_type;
+        result_type           operator()(argument_type const& s) const
         {
             std::hash<uint64_t> hasher;
             return hasher(s.data64);
@@ -162,8 +153,6 @@ struct fmt::formatter<TargetSceneID> : public fmt::formatter<uint64_t>
         return fmt::format_to(ctx.out(), "({}:{}:{})", sceneid.GetZoneID(), sceneid.GetMapID(), sceneid.GetPhaseID());
     }
 };
-
-
 
 export_lua class CMapManager : public NoncopyableT<CMapManager>
 {

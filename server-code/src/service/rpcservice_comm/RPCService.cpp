@@ -133,10 +133,7 @@ void CRPCService::StopRPCServer()
     }
 }
 
-bool CRPCService::StartRPCServer(uint16_t                   publish_port,
-                                 uint16_t                   internal_port,
-                                 bool                       bEnableSSL,
-                                 google::protobuf::Service* pHttpMasterService)
+bool CRPCService::StartRPCServer(uint16_t publish_port, uint16_t internal_port, bool bEnableSSL, google::protobuf::Service* pHttpMasterService)
 {
     if(m_pBRPCServer == nullptr)
         return false;

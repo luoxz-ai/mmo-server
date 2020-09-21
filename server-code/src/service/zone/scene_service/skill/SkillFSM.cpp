@@ -257,7 +257,6 @@ bool CanSkillAttackActor(const CSkillType* pSkillType, CActor* pAttacker, CActor
     return true;
 }
 
-
 void CSkillFSM::FindTarget(CActor* pOwner, const CSkillType* pSkillType, OBJID idTarget, const Vector2& posTarget, std::vector<CActor*>& vecTarget)
 {
     CHECK(pSkillType);
@@ -551,9 +550,9 @@ void CSkillFSM::DoMultiDamage(CActor*                     pOwner,
 
 int32_t CSkillFSM::DoDamage(CActor* pOwner, const CSkillType* pSkillType, CActor* pTarget, OBJID idTarget, const Vector2& posTarget)
 {
-    CHECKFR(pOwner, DR_NOTARGET);
-    CHECKFR(pSkillType, DR_NOTARGET);
-    CHECKFR(pTarget, DR_NOTARGET)
+    CHECK_RET(pOwner, DR_NOTARGET);
+    CHECK_RET(pSkillType, DR_NOTARGET);
+    CHECK_RET(pTarget, DR_NOTARGET)
 
     if(HasFlag(pSkillType->GetFlag(), SKILLFLAG_IGNORE_HITRATE) == false && pOwner->HitTest(pTarget, pSkillType->GetHitType()) == false)
     {
@@ -606,7 +605,7 @@ int32_t CSkillFSM::DoDamage(CActor* pOwner, const CSkillType* pSkillType, CActor
 
 void CSkillFSM::AttachStatus(CActor* pOwner, const CSkillType* pSkillType, const std::vector<CActor*>& vecTarget)
 {
-    const auto& rowData               = pSkillType->GetDataRef();
+    const auto& rowData = pSkillType->GetDataRef();
     for(int i = 0; i < rowData.detach_status_id_size(); i++)
     {
         const auto& status_id = rowData.detach_status_id(i);

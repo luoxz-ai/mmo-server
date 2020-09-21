@@ -42,9 +42,14 @@ public:
     //查询服务地址
     const ServerAddrInfo* QueryServiceInfo(const ServerPort& nServerPort);
     //遍历服务
-    void ForeachServiceInfoByWorldID(uint16_t                                     idWorld,
-                                     bool                                         bIncludeShare,
-                                     std::function<bool(const ServerAddrInfo*)>&& func);
+    using ForeachServiceInfoFunc = std::function<bool(const ServerAddrInfo*)>;
+    using ForeachServerPortFunc  = std::function<bool(const ServerPort&)>;
+    void           ForeachServiceInfoByWorldID(uint16_t idWorld, bool bIncludeShare, ForeachServiceInfoFunc&& func);
+    ServerPortList GetServerPortListByWorldID(uint16_t idWorld, bool bIncludeShare);
+    ServerPortList GetServerPortListByWorldIDAndServiceType(uint16_t idWorld, uint8_t idServiceType, bool bIncludeShare);
+    ServerPortList GetServerPortListByWorldIDExcept(uint16_t idWorld, uint8_t idExceptServiceType, bool bIncludeShare);
+    ServerPortList GetServerPortListByServiceType(uint8_t idServiceType);
+
     //判断是否连接
     bool IsConnected(const ServerPort& nServerPort);
     //返回服务器被合并到哪里了
@@ -78,11 +83,7 @@ public:
     CEventManager*     GetEventManager() const { return m_pEventManager.get(); }
 
 private:
-    bool          ConnectGlobalDB(const std::string& host,
-                                  const std::string& user,
-                                  const std::string& password,
-                                  const std::string& db,
-                                  uint32_t           port);
+    bool ConnectGlobalDB(const std::string& host, const std::string& user, const std::string& password, const std::string& db, uint32_t port);
     CMessagePort* _ConnectRemoteServer(const ServerPort& nServerPort, const ServerAddrInfo& info);
     //监听本地,一般无需手动调用, CreateAllMessagePort时已经调用了
     CMessagePort*         _ListenMessagePort(const ServerPort& nServerPort, const ServerAddrInfo& info);

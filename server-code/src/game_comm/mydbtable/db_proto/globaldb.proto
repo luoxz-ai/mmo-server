@@ -50,13 +50,13 @@ message tbld_serverlist
 message tbld_servicedetail
 {
     uint32 worldid      = 1 [(sql).int_size = 16, (sql).primary_key = "idx_worldid"]; //游戏服编号
-    uint32 servicetype  = 2 [(sql).int_size = 8, (sql).primary_key = "idx_worldid"];  //服务类型
-    uint32 serviceidx   = 3 [(sql).int_size = 8, (sql).primary_key = "idx_worldid"];  //服务编号
-    string service_type = 4 [(sql).size = 255];                                       //lib库名
+    uint32 service_type = 2 [(sql).int_size = 8, (sql).primary_key = "idx_worldid"];  //服务类型
+    uint32 service_idx  = 3 [(sql).int_size = 8, (sql).primary_key = "idx_worldid"];  //服务编号
+    string lib_name     = 4 [(sql).size = 255];                                       // lib库名
     string route_addr   = 5 [(sql).size = 255];                                       //内网通讯地址
     uint32 route_port   = 6 [(sql).int_size = 16];                                    //内网通讯端口
     string publish_addr = 7 [(sql).size = 255];                                       //外网地址
     uint32 publish_port = 8 [(sql).int_size = 16];                                    //外网端口
     uint32 debug_port   = 9 [(sql).int_size = 16];                                    // debug端口
-    string bind_addr    = 10[(sql).size = 255];                                       //监听绑定地址
+    string bind_addr    = 10 [(sql).size = 255];                                      //监听绑定地址
 }

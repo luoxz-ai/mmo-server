@@ -29,11 +29,7 @@ CNetworkMessage::CNetworkMessage(const CNetworkMessage& rht)
 {
 }
 
-CNetworkMessage::CNetworkMessage(byte*         buf,
-                                 size_t        len,
-                                 VirtualSocket from /*= 0*/,
-                                 VirtualSocket to /*= 0*/,
-                                 VirtualSocket forward /*= 0*/)
+CNetworkMessage::CNetworkMessage(byte* buf, size_t len, VirtualSocket from /*= 0*/, VirtualSocket to /*= 0*/, VirtualSocket forward /*= 0*/)
     : m_nFrom(from)
     , m_nTo(to)
     , m_nForward(forward)
@@ -42,11 +38,11 @@ CNetworkMessage::CNetworkMessage(byte*         buf,
 {
 }
 
-CNetworkMessage::CNetworkMessage(uint16_t                           usCmd,
-                                 const ::google::protobuf::Message& msg,
-                                 VirtualSocket                      from /*= 0*/,
-                                 VirtualSocket                      to /*= 0*/,
-                                 VirtualSocket                      forward /*= 0*/)
+CNetworkMessage::CNetworkMessage(uint16_t           usCmd,
+                                 const proto_msg_t& msg,
+                                 VirtualSocket      from /*= 0*/,
+                                 VirtualSocket      to /*= 0*/,
+                                 VirtualSocket      forward /*= 0*/)
     : m_nFrom(from)
     , m_nTo(to)
     , m_nForward(forward)

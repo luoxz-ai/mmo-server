@@ -11,12 +11,7 @@ export_lua void skip_utf8_bom(FILE* fp);
 //获取utf8文字长度
 export_lua size_t utf8_length(const char* pUTF8, size_t nLen = 0);
 //编码转换
-export_lua char* convert_enc(const char* encFrom,
-                            const char* encTo,
-                            char*       pszBuffIn,
-                            size_t      lenin,
-                            char*       pszBuffout,
-                            size_t      lenout);
+export_lua char* convert_enc(const char* encFrom, const char* encTo, char* pszBuffIn, size_t lenin, char* pszBuffout, size_t lenout);
 //检查控制字符
 export_lua bool is_utf8_none_control(const char* pszString, long nSize);
 
@@ -34,8 +29,7 @@ export_lua inline std::string& upper_cast(std::string& st);
 export_lua inline std::string  upper_cast_copy(std::string st);
 
 export_lua inline std::vector<std::string>      split_string(const std::string& str, const std::string& delimiters);
-export_lua inline std::vector<std::string_view> split_string_view(const std::string& str,
-                                                                  const std::string& delimiters);
+export_lua inline std::vector<std::string_view> split_string_view(const std::string& str, const std::string& delimiters);
 
 export_lua inline std::string replace_str(std::string& strSource, const std::string& strRepl, const std::string& strNew);
 export_lua inline std::string replace_str_copy(std::string strSource, const std::string& strRepl, const std::string& strNew);
@@ -52,13 +46,12 @@ export_lua bool regex_str_check(const std::string& str);
 export_lua bool regex_str_reload();
 
 export_lua inline std::string string_concat(const std::vector<std::string>& vecStr,
-                          const std::string&       delimiters,
-                          const std::string&       pre,
-                          const std::string&       post);
-
+                                            const std::string&              delimiters,
+                                            const std::string&              pre,
+                                            const std::string&              post);
 
 ////////////////////////////////////////////////////////
-//filepath process                          
+// filepath process
 
 export_lua inline std::string get_filename_from_fullpath(const std::string& szFullPath)
 {
@@ -147,8 +140,6 @@ export_lua inline void trim_path(std::string& szPath)
 
 export_lua std::string get_fullpath(const std::string& szPath);
 
-
-
 //////////////////////////////////////////////////////////////////////////
 inline std::string replace_str(std::string& strSource, const std::string& strRepl, const std::string& strNew)
 {
@@ -181,8 +172,7 @@ inline std::string& ltrim(std::string& ss)
 
 inline std::string& rtrim(std::string& ss)
 {
-    std::string::reverse_iterator p =
-        std::find_if_not(ss.rbegin(), ss.rend(), [](unsigned char c) { return std::isspace(c); });
+    std::string::reverse_iterator p = std::find_if_not(ss.rbegin(), ss.rend(), [](unsigned char c) { return std::isspace(c); });
     ss.erase(p.base(), ss.end());
     return ss;
 }
@@ -202,8 +192,7 @@ inline std::string ltrim_copy(std::string ss)
 
 inline std::string rtrim_copy(std::string ss)
 {
-    std::string::reverse_iterator p =
-        std::find_if_not(ss.rbegin(), ss.rend(), [](unsigned char c) { return std::isspace(c); });
+    std::string::reverse_iterator p = std::find_if_not(ss.rbegin(), ss.rend(), [](unsigned char c) { return std::isspace(c); });
     ss.erase(p.base(), ss.end());
     return ss;
 }
@@ -214,25 +203,23 @@ inline std::string trim_copy(std::string st)
     return st;
 }
 
-
-
-inline std::string& ltrim_if(std::string& ss, std::function<bool (unsigned char)> func)
+inline std::string& ltrim_if(std::string& ss, std::function<bool(unsigned char)> func)
 {
     std::string::iterator p = std::find_if(ss.begin(), ss.end(), func);
     ss.erase(ss.begin(), p);
     return ss;
 }
 
-inline std::string& rtrim_if(std::string& ss, std::function<bool (unsigned char)> func)
+inline std::string& rtrim_if(std::string& ss, std::function<bool(unsigned char)> func)
 {
     std::string::reverse_iterator p = std::find_if(ss.rbegin(), ss.rend(), func);
     ss.erase(p.base(), ss.end());
     return ss;
 }
 
-inline std::string& trim_if(std::string& st, std::function<bool (unsigned char)> func)
+inline std::string& trim_if(std::string& st, std::function<bool(unsigned char)> func)
 {
-    ltrim_if(rtrim_if(st,func), func);
+    ltrim_if(rtrim_if(st, func), func);
     return st;
 }
 
@@ -295,13 +282,10 @@ inline std::vector<std::string_view> split_string_view(const std::string& str, c
 }
 
 template<class T>
-inline std::string string_concat_impl(const T& vecStr,
-                          const std::string&       delimiters,
-                          const std::string&       pre,
-                          const std::string&       post)
+inline std::string string_concat_impl(const T& vecStr, const std::string& delimiters, const std::string& pre, const std::string& post)
 {
     std::string result;
-    int32_t         i = 0;
+    int32_t     i = 0;
     for(const auto& v: vecStr)
     {
         if(result.empty() == false)
@@ -313,9 +297,9 @@ inline std::string string_concat_impl(const T& vecStr,
 }
 
 inline std::string string_concat(const std::vector<std::string>& vecStr,
-                          const std::string&       delimiters,
-                          const std::string&       pre,
-                          const std::string&       post)
+                                 const std::string&              delimiters,
+                                 const std::string&              pre,
+                                 const std::string&              post)
 {
     return string_concat_impl(vecStr, delimiters, pre, post);
 }

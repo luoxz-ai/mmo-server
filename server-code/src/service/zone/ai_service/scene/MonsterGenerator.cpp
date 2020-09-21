@@ -21,7 +21,7 @@ void CMonsterGenerator::Init(CAIPhase* pPhase)
 {
     __ENTER_FUNCTION
     m_pMap               = pPhase->GetMap();
-    m_idxScene            = pPhase->GetSceneIdx();
+    m_idxScene           = pPhase->GetSceneIdx();
     const auto& gen_list = m_pMap->GetGeneratorData();
     for(const auto& pair_val: gen_list)
     {
@@ -90,7 +90,7 @@ void CMonsterGenerator::_GenMonster(MonsterGenData* pData, uint64_t idPhase)
         {
             msg.set_phase_id(idPhase);
         }
-        AIService()->SendMsgToZone(msg);
+        AIService()->SendProtoMsgToScene(msg);
         pData->nCurGen++;
     }
     LOGDEBUG("MonsterGen:{} {} - {} GenOnce", m_idxScene.GetMapID(), m_idxScene.GetPhaseIdx(), pData->nIdxGen);
@@ -107,7 +107,7 @@ void CMonsterGenerator::StartGen(MonsterGenData* pData, bool bCheckRunning)
         if(bCheckRunning == false || pData->m_pEvent.IsRunning() == false)
         {
             CEventEntryCreateParam param;
-            param.cb = std::bind(&CMonsterGenerator::OnGenTimer, this, pData);
+            param.cb        = std::bind(&CMonsterGenerator::OnGenTimer, this, pData);
             param.tWaitTime = pData->gen_data.wait_time();
             EventManager()->ScheduleEvent(param, pData->m_pEvent);
         }
@@ -185,7 +185,7 @@ void CMonsterGenerator::KillAllGen()
             AIActorManager()->DelActor(pMonster);
         }
         if(msg.monster_id_size() > 0)
-            AIService()->SendMsgToZone(msg);
+            AIService()->SendProtoMsgToScene(msg);
 
         pData->nCurGen = 0;
         pData->m_pEvent.Clear();
@@ -213,7 +213,7 @@ void CMonsterGenerator::KillGen(uint32_t idGen)
         AIActorManager()->DelActor(pMonster);
     }
     if(msg.monster_id_size() > 0)
-        AIService()->SendMsgToZone(msg);
+        AIService()->SendProtoMsgToScene(msg);
 
     pData->nCurGen = 0;
     pData->m_pEvent.Clear();

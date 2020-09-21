@@ -29,6 +29,7 @@ public:
 
     void OnConnected();
     void OnConnectFailed();
+
 private:
     bool   m_bReconnect;
     event* m_pReconnectEvent;

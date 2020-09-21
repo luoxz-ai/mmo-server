@@ -1,13 +1,12 @@
 #include "MsgWorldProcess.h"
 
+#include "AccountManager.h"
 #include "User.h"
 #include "UserManager.h"
-#include "AccountManager.h"
 #include "WorldService.h"
 #include "msg/world_service.pb.h"
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
-
 
 ON_MSG(CWorldService, SC_TALK)
 {
@@ -45,14 +44,14 @@ ON_MSG(CWorldService, SC_TALK)
         case CHANNEL_WORLD:   //世界
         case CHANNEL_TRUMPET: //小喇叭
         {
-            WorldService()->SendMsgToAllPlayer(msg);
+            WorldService()->SendProtoMsgToAllPlayer(msg);
         }
         break;
         case CHANNEL_GLOBAL: //全游戏
         case CHANNEL_SYSTEM: //系统
         case CHANNEL_RUMOR:  //广播
         {
-            WorldService()->SendMsgToAllPlayer(msg);
+            WorldService()->SendProtoMsgToAllPlayer(msg);
         }
         break;
         default:
@@ -71,8 +70,7 @@ ON_SERVERMSG(CWorldService, PlayerChangeZone)
     pUser->OnChangeZone(msg.idzone());
 
     //将消息直接转发给对应的zone
-    pMsg->SetTo(ServerPort(WorldService()->GetWorldID(), msg.idzone()));
-    WorldService()->SendMsgToPort(*pMsg);
+    WorldService()->TransmitMsgToPort(ServerPort(WorldService()->GetWorldID(), msg.idzone()), pMsg);
 }
 
 ON_SERVERMSG(CWorldService, PlayerChangeZone_Data)
@@ -84,9 +82,9 @@ ON_SERVERMSG(CWorldService, PlayerChangeZone_Data)
     }
 
     //将消息直接转发给对应的zone
-    pMsg->SetTo(ServerPort(WorldService()->GetWorldID(), pUser->GetZoneID()));
-    WorldService()->SendMsgToPort(*pMsg);
+    WorldService()->TransmitMsgToPort(ServerPort(WorldService()->GetWorldID(), pUser->GetZoneID()), pMsg);
 }
+
 
 ON_SERVERMSG(CWorldService, ServiceReady)
 {
@@ -100,7 +98,7 @@ ON_SERVERMSG(CWorldService, ServiceCmd)
 
 ON_SERVERMSG(CWorldService, SocketConnect) {}
 
-ON_SERVERMSG(CWorldService, SocketClose) 
+ON_SERVERMSG(CWorldService, SocketClose)
 {
     AccountManager()->Logout(msg.vs());
 }

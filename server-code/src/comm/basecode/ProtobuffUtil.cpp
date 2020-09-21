@@ -136,17 +136,15 @@ namespace pb_util
         return MessageToJsonString(pbm, &jsonTxt, options).ok();
     }
 
-    bool FindFieldInMessage(const std::string&                        field_name,
-                            google::protobuf::Message*&               pThisRow,
-                            const google::protobuf::FieldDescriptor*& pFieldDesc)
+    bool FindFieldInMessage(const std::string& field_name, google::protobuf::Message*& pThisRow, const google::protobuf::FieldDescriptor*& pFieldDesc)
     {
         __ENTER_FUNCTION
 
         auto vecName = split_string(field_name, ".");
         while(vecName.empty() == false)
         {
-            int32_t  array_idx = -1;
-            auto name      = std::move(vecName.front());
+            int32_t array_idx = -1;
+            auto    name      = std::move(vecName.front());
             vecName.erase(vecName.begin());
             if(name.empty())
                 continue;
@@ -161,16 +159,13 @@ namespace pb_util
                     pFieldDesc = pThisRow->GetDescriptor()->FindFieldByName(real_name.data());
                     if(pFieldDesc == nullptr)
                     {
-                        throw std::runtime_error{
-                            fmt::format("realname:{} not find in {}", real_name, pThisRow->GetDescriptor()->name())};
+                        throw std::runtime_error{fmt::format("realname:{} not find in {}", real_name, pThisRow->GetDescriptor()->name())};
                         return false;
                     }
-                    if(pFieldDesc->is_repeated() &&
-                       pFieldDesc->type() != google::protobuf::FieldDescriptor::TYPE_MESSAGE)
+                    if(pFieldDesc->is_repeated() && pFieldDesc->type() != google::protobuf::FieldDescriptor::TYPE_MESSAGE)
                     {
-                        throw std::runtime_error{fmt::format("realname:{} in {} is repeated and not a message\n",
-                                                             real_name,
-                                                             pThisRow->GetDescriptor()->name())};
+                        throw std::runtime_error{
+                            fmt::format("realname:{} in {} is repeated and not a message\n", real_name, pThisRow->GetDescriptor()->name())};
                         return false;
                     }
                     auto array_idx = atoi(array_str.data());
@@ -212,9 +207,7 @@ namespace pb_util
         return false;
     }
 
-    void AddFieldData(google::protobuf::Message*               pThisRow,
-                      const google::protobuf::FieldDescriptor* pFieldDesc,
-                      const std::string&                       data)
+    void AddFieldData(google::protobuf::Message* pThisRow, const google::protobuf::FieldDescriptor* pFieldDesc, const std::string& data)
     {
         using namespace google::protobuf;
         switch(pFieldDesc->type())
@@ -277,9 +270,7 @@ namespace pb_util
         }
     }
 
-    bool JoinFieldData(google::protobuf::Message*               pThisRow,
-                      const google::protobuf::FieldDescriptor* pFieldDesc,
-                      const std::string&                       data)
+    bool JoinFieldData(google::protobuf::Message* pThisRow, const google::protobuf::FieldDescriptor* pFieldDesc, const std::string& data)
     {
         using namespace google::protobuf;
         switch(pFieldDesc->type())
@@ -320,7 +311,6 @@ namespace pb_util
         }
         return true;
     }
-
 
     bool SetFieldData(google::protobuf::Message*               pThisRow,
                       const google::protobuf::FieldDescriptor* pFieldDesc,
@@ -517,8 +507,7 @@ namespace pb_util
         return true;
     }
 
-    google::protobuf::Message* AddMessageSubMessage(google::protobuf::Message* pPBMessage,
-                                                    const std::string&         field_name)
+    google::protobuf::Message* AddMessageSubMessage(google::protobuf::Message* pPBMessage, const std::string& field_name)
     {
         using namespace google::protobuf;
         Message*               pThisRow   = pPBMessage;

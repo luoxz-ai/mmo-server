@@ -1,9 +1,9 @@
 #ifndef AIGROUP_H
 #define AIGROUP_H
 
-#include <unordered_set>
 #include <functional>
 #include <memory>
+#include <unordered_set>
 
 #include "BaseCode.h"
 #include "export_lua.h"
@@ -11,7 +11,7 @@
 class CAIActor;
 class CAIPhase;
 
-export_lua class CAIGroup  : public NoncopyableT<CAIGroup>
+export_lua class CAIGroup : public NoncopyableT<CAIGroup>
 {
     CAIGroup();
 
@@ -26,14 +26,14 @@ public:
     export_lua void RemoveMember(CAIActor* pActor);
     export_lua void Foreach(std::function<void(CAIActor*)> func);
     export_lua void FindIF(std::function<bool(CAIActor*)> func);
+
 private:
-    uint32_t m_GroupID = 0;
-    CAIPhase* m_pScene = nullptr;
+    uint32_t                      m_GroupID = 0;
+    CAIPhase*                     m_pScene  = nullptr;
     std::unordered_set<CAIActor*> m_setMember;
 };
 
-
-export_lua class CAIGroupManager: public NoncopyableT<CAIGroupManager>
+export_lua class CAIGroupManager : public NoncopyableT<CAIGroupManager>
 {
     CAIGroupManager();
 
@@ -45,8 +45,9 @@ public:
 
 public:
     export_lua CAIGroup* GetGroup(uint32_t group_id);
+
 private:
-    CAIPhase* m_pScene = nullptr;
+    CAIPhase*                                                m_pScene = nullptr;
     std::unordered_map<uint32_t, std::unique_ptr<CAIGroup> > m_setGroup;
 };
 

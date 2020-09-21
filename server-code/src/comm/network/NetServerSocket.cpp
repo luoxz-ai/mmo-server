@@ -149,10 +149,7 @@ void CServerSocket::_OnSocketConnectorEvent(bufferevent* b, short what, void* ct
     {
         int32_t     err    = evutil_socket_geterror(bufferevent_getfd(b));
         const char* errstr = evutil_socket_error_to_string(err);
-        LOGNETDEBUG("CServerSocket::SocketConnectFail:{}:{} {}",
-                    pSocket->GetAddrString().c_str(),
-                    pSocket->GetPort(),
-                    errstr);
+        LOGNETDEBUG("CServerSocket::SocketConnectFail:{}:{} {}", pSocket->GetAddrString().c_str(), pSocket->GetPort(), errstr);
 
         pSocket->OnConnectFailed();
     }

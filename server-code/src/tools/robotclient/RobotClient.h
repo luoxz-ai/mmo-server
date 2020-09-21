@@ -36,7 +36,7 @@ public:
     uint32_t GetClientID() const { return m_idClient; }
     void     SetClientID(uint32_t val) { m_idClient = val; }
 
-    void SendProtobufToServer(uint16_t cmd, google::protobuf::Message* pMsg);
+    void SendProtobufToServer(proto_msg_t* pMsg);
 
 private:
     void SendToServer(byte* buf, size_t len);

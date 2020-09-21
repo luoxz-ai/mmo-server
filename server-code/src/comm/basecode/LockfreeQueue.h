@@ -11,8 +11,8 @@ class MPSCQueue
 public:
     MPSCQueue();
     ~MPSCQueue();
-    size_t size() const {return m_nCount;}
-    bool empty() const {return size() == 0;}
+    size_t size() const { return m_nCount; }
+    bool   empty() const { return size() == 0; }
     template<class _T>
     void put(_T&& item)
     {
@@ -69,10 +69,8 @@ public:
             return true;
         }
     }
-    inline bool pop(T& item)
-    {
-        return get(item);
-    }
+    inline bool pop(T& item) { return get(item); }
+
 private:
     struct Node
     {

@@ -441,7 +441,8 @@ void basecode2lua(lua_State* L)
     lua_tinker::def(L, "HasFlag", &HasFlag);
     lua_tinker::def(L, "MAKE32", &MAKE32);
     lua_tinker::def(L, "MAKE64", &MAKE64);
-    lua_tinker::def(L, "MakeINT64", &MakeINT64);
+    lua_tinker::def(L, "MakeUINT16", &MakeUINT16);
+    lua_tinker::def(L, "MakeUINT32", &MakeUINT32);
     lua_tinker::def(L, "MakeUINT64", &MakeUINT64);
     lua_tinker::def(L, "MonthDiffLocal", &MonthDiffLocal);
     lua_tinker::def(L, "MulDiv", &MulDiv);
@@ -449,6 +450,9 @@ void basecode2lua(lua_State* L)
     lua_tinker::def(L, "NextDayBeginTimeStamp", &NextDayBeginTimeStamp);
     lua_tinker::def(L, "NextMonthBeginTimeStamp", &NextMonthBeginTimeStamp);
     lua_tinker::def(L, "NextWeekBeginTimeStamp", &NextWeekBeginTimeStamp);
+    lua_tinker::def(L, "SplitUINT16", &SplitUINT16);
+    lua_tinker::def(L, "SplitUINT32", &SplitUINT32);
+    lua_tinker::def(L, "SplitUINT64", &SplitUINT64);
     lua_tinker::def(L, "TimeGetMillisecond", &TimeGetMillisecond);
     lua_tinker::def(L, "TimeGetMonotonic", &TimeGetMonotonic);
     lua_tinker::def(L, "TimeGetSecond", &TimeGetSecond);
@@ -457,6 +461,7 @@ void basecode2lua(lua_State* L)
     lua_tinker::def(L, "_TimeGetMillisecond", &_TimeGetMillisecond);
     lua_tinker::def(L, "_TimeGetMonotonic", &_TimeGetMonotonic);
     lua_tinker::def(L, "_TimeGetSecond", &_TimeGetSecond);
+    lua_tinker::def(L, "_TimeGetSecondFrom2K2K", &_TimeGetSecondFrom2K2K);
     lua_tinker::def(L, "_TimeGetSecondLocal", &_TimeGetSecondLocal);
     lua_tinker::def(L, "bit_flip", &bit_flip);
     lua_tinker::def(L, "bit_set", &bit_set);

@@ -108,8 +108,8 @@ public:
     export_lua OBJID    GetScirptID() const { return m_Data.scriptid(); }
 
     export_lua const std::vector<CActorAttribChange>& GetAttribChangeList() const { return m_AttribChangeList; }
-    
-    export_lua AttachStatusInfo                       CloneInfo() const;
+
+    export_lua AttachStatusInfo CloneInfo() const;
 
 private:
     Cfg_Status_Row                  m_Data;

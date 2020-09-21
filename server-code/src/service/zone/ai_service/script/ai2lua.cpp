@@ -312,7 +312,7 @@ void ai2lua(lua_State* L)
             new lua_tinker::constructor<CNetworkMessage, uint16_t, byte*, size_t, VirtualSocket, VirtualSocket, VirtualSocket>(
                 3 /*default_args_count*/,
                 4 /*default_args_start*/),
-            new lua_tinker::constructor<CNetworkMessage, uint16_t, const ::google::protobuf::Message&, VirtualSocket, VirtualSocket, VirtualSocket>(
+            new lua_tinker::constructor<CNetworkMessage, uint16_t, const proto_msg_t&, VirtualSocket, VirtualSocket, VirtualSocket>(
                 3 /*default_args_count*/,
                 7 /*default_args_start*/)),
         0,
@@ -325,7 +325,6 @@ void ai2lua(lua_State* L)
         0,
         0);
     lua_tinker::class_add<CServiceCommon>(L, "CServiceCommon", false);
-    lua_tinker::class_def<CServiceCommon>(L, "CreateUID", &CServiceCommon::CreateUID);
     lua_tinker::class_def<CServiceCommon>(L, "GetEventManager", &CServiceCommon::GetEventManager);
     lua_tinker::class_def<CServiceCommon>(L, "GetMonitorMgr", &CServiceCommon::GetMonitorMgr);
     lua_tinker::class_def<CServiceCommon>(L, "GetNetMsgProcess", &CServiceCommon::GetNetMsgProcess);
@@ -506,19 +505,40 @@ void ai2lua(lua_State* L)
     lua_tinker::class_add<ServerPort>(L, "ServerPort", false);
     lua_tinker::class_def<ServerPort>(L, "GetData", &ServerPort::GetData);
     lua_tinker::class_def<ServerPort>(L, "GetServiceID", &ServerPort::GetServiceID);
+    lua_tinker::class_def<ServerPort>(L, "GetServiceIdx", &ServerPort::GetServiceIdx);
+    lua_tinker::class_def<ServerPort>(L, "GetServiceType", &ServerPort::GetServiceType);
     lua_tinker::class_def<ServerPort>(L, "GetWorldID", &ServerPort::GetWorldID);
     lua_tinker::class_def<ServerPort>(L, "IsVaild", &ServerPort::IsVaild);
     lua_tinker::class_def<ServerPort>(L, "SetData", &ServerPort::SetData);
     lua_tinker::class_def<ServerPort>(L, "SetServiceID", &ServerPort::SetServiceID);
+    lua_tinker::class_def<ServerPort>(L, "SetServiceIdx", &ServerPort::SetServiceIdx);
+    lua_tinker::class_def<ServerPort>(L, "SetServiceType", &ServerPort::SetServiceType);
     lua_tinker::class_def<ServerPort>(L, "SetWorldID", &ServerPort::SetWorldID);
     lua_tinker::class_def<ServerPort>(L, "__lt", &ServerPort::operator<);
     lua_tinker::class_def<ServerPort>(L, "__eq", &ServerPort::operator==);
     lua_tinker::class_con<ServerPort>(L,
                                       lua_tinker::args_type_overload_constructor(
                                           new lua_tinker::constructor<ServerPort, const ServerPort&>(),
-                                          new lua_tinker::constructor<ServerPort, uint16_t, uint16_t>(),
+                                          new lua_tinker::constructor<ServerPort, uint16_t, const ServiceID&>(),
+                                          new lua_tinker::constructor<ServerPort, uint16_t, uint8_t, uint8_t>(),
                                           new lua_tinker::constructor<ServerPort, uint32_t>(1 /*default_args_count*/, 1 /*default_args_start*/)),
                                       0);
+    lua_tinker::class_add<ServiceID>(L, "ServiceID", false);
+    lua_tinker::class_def<ServiceID>(L, "GetData", &ServiceID::GetData);
+    lua_tinker::class_def<ServiceID>(L, "GetServiceIdx", &ServiceID::GetServiceIdx);
+    lua_tinker::class_def<ServiceID>(L, "GetServiceType", &ServiceID::GetServiceType);
+    lua_tinker::class_def<ServiceID>(L, "IsVaild", &ServiceID::IsVaild);
+    lua_tinker::class_def<ServiceID>(L, "SetData", &ServiceID::SetData);
+    lua_tinker::class_def<ServiceID>(L, "SetServiceIdx", &ServiceID::SetServiceIdx);
+    lua_tinker::class_def<ServiceID>(L, "SetServiceType", &ServiceID::SetServiceType);
+    lua_tinker::class_def<ServiceID>(L, "__lt", &ServiceID::operator<);
+    lua_tinker::class_def<ServiceID>(L, "__eq", &ServiceID::operator==);
+    lua_tinker::class_con<ServiceID>(L,
+                                     lua_tinker::args_type_overload_constructor(
+                                         new lua_tinker::constructor<ServiceID, const ServiceID&>(),
+                                         new lua_tinker::constructor<ServiceID, uint16_t>(1 /*default_args_count*/, 1 /*default_args_start*/),
+                                         new lua_tinker::constructor<ServiceID, uint8_t, uint8_t>()),
+                                     0);
     lua_tinker::class_add<TargetSceneID>(L, "TargetSceneID", false);
     lua_tinker::class_def<TargetSceneID>(L, "GetMapID", &TargetSceneID::GetMapID);
     lua_tinker::class_def<TargetSceneID>(L, "GetPhaseID", &TargetSceneID::GetPhaseID);
@@ -614,6 +634,8 @@ void ai2lua(lua_State* L)
     lua_tinker::class_def<VirtualSocket>(L, "GetData64", &VirtualSocket::GetData64);
     lua_tinker::class_def<VirtualSocket>(L, "GetServerPort", &VirtualSocket::GetServerPort);
     lua_tinker::class_def<VirtualSocket>(L, "GetServiceID", &VirtualSocket::GetServiceID);
+    lua_tinker::class_def<VirtualSocket>(L, "GetServiceIdx", &VirtualSocket::GetServiceIdx);
+    lua_tinker::class_def<VirtualSocket>(L, "GetServiceType", &VirtualSocket::GetServiceType);
     lua_tinker::class_def<VirtualSocket>(L, "GetSocketIdx", &VirtualSocket::GetSocketIdx);
     lua_tinker::class_def<VirtualSocket>(L, "GetWorldID", &VirtualSocket::GetWorldID);
     lua_tinker::class_def<VirtualSocket>(L, "IsVaild", &VirtualSocket::IsVaild);
@@ -663,12 +685,12 @@ void ai2lua(lua_State* L)
     lua_tinker::def(L, "GetHighFromU64", &GetHighFromU64);
     lua_tinker::def(L, "GetLowFromU64", &GetLowFromU64);
     lua_tinker::def(L, "GetNextDayBeginTime", &GetNextDayBeginTime);
-    lua_tinker::def(L, "GetServiceName", &GetServiceName);
     lua_tinker::def(L, "GetTimeFromString", &GetTimeFromString);
     lua_tinker::def(L, "HasFlag", &HasFlag);
     lua_tinker::def(L, "MAKE32", &MAKE32);
     lua_tinker::def(L, "MAKE64", &MAKE64);
-    lua_tinker::def(L, "MakeINT64", &MakeINT64);
+    lua_tinker::def(L, "MakeUINT16", &MakeUINT16);
+    lua_tinker::def(L, "MakeUINT32", &MakeUINT32);
     lua_tinker::def(L, "MakeUINT64", &MakeUINT64);
     lua_tinker::def(L, "MonthDiffLocal", &MonthDiffLocal);
     lua_tinker::def(L, "MulDiv", &MulDiv);
@@ -676,6 +698,9 @@ void ai2lua(lua_State* L)
     lua_tinker::def(L, "NextDayBeginTimeStamp", &NextDayBeginTimeStamp);
     lua_tinker::def(L, "NextMonthBeginTimeStamp", &NextMonthBeginTimeStamp);
     lua_tinker::def(L, "NextWeekBeginTimeStamp", &NextWeekBeginTimeStamp);
+    lua_tinker::def(L, "SplitUINT16", &SplitUINT16);
+    lua_tinker::def(L, "SplitUINT32", &SplitUINT32);
+    lua_tinker::def(L, "SplitUINT64", &SplitUINT64);
     lua_tinker::def(L, "TimeGetMillisecond", &TimeGetMillisecond);
     lua_tinker::def(L, "TimeGetMonotonic", &TimeGetMonotonic);
     lua_tinker::def(L, "TimeGetSecond", &TimeGetSecond);
@@ -684,6 +709,7 @@ void ai2lua(lua_State* L)
     lua_tinker::def(L, "_TimeGetMillisecond", &_TimeGetMillisecond);
     lua_tinker::def(L, "_TimeGetMonotonic", &_TimeGetMonotonic);
     lua_tinker::def(L, "_TimeGetSecond", &_TimeGetSecond);
+    lua_tinker::def(L, "_TimeGetSecondFrom2K2K", &_TimeGetSecondFrom2K2K);
     lua_tinker::def(L, "_TimeGetSecondLocal", &_TimeGetSecondLocal);
     lua_tinker::def(L, "bit_flip", &bit_flip);
     lua_tinker::def(L, "bit_set", &bit_set);
@@ -737,10 +763,8 @@ void ai2lua(lua_State* L)
     lua_tinker::def(L, "url_decode", &url_decode);
     lua_tinker::def(L, "url_encode", &url_encode);
     lua_tinker::def(L, "utf8_length", &utf8_length, 0);
-    lua_tinker::set(L, "AI_SERICE_COUNT", AI_SERICE_COUNT);
     lua_tinker::set(L, "UPDATE_FALSE", UPDATE_FALSE);
     lua_tinker::set(L, "UPDATE_TRUE", UPDATE_TRUE);
-    lua_tinker::set(L, "ZONE_SERICE_COUNT", ZONE_SERICE_COUNT);
     lua_tinker::set(L, "AI_SERVICE", AI_SERVICE);
     lua_tinker::set(L, "ATT_APPROACH", ATT_APPROACH);
     lua_tinker::set(L, "ATT_ATTACK", ATT_ATTACK);
@@ -753,23 +777,10 @@ void ai2lua(lua_State* L)
     lua_tinker::set(L, "ATT_RANDMOVE", ATT_RANDMOVE);
     lua_tinker::set(L, "ATT_SKILL", ATT_SKILL);
     lua_tinker::set(L, "ATT_SKILLWAIT", ATT_SKILLWAIT);
-    lua_tinker::set(L, "GLOBAL_ROUTE_SERVICE", GLOBAL_ROUTE_SERVICE);
+    lua_tinker::set(L, "AUTH_SERVICE", AUTH_SERVICE);
     lua_tinker::set(L, "GM_PROXY_SERVICE", GM_PROXY_SERVICE);
     lua_tinker::set(L, "GM_SERVICE", GM_SERVICE);
-    lua_tinker::set(L, "GM_SERVICE_ID", GM_SERVICE_ID);
     lua_tinker::set(L, "MARKET_SERVICE", MARKET_SERVICE);
-    lua_tinker::set(L, "MARKET_SERVICE_ID", MARKET_SERVICE_ID);
-    lua_tinker::set(L, "MAX_AI_SERVICE_ID", MAX_AI_SERVICE_ID);
-    lua_tinker::set(L, "MAX_GM_PROYX_SERVICE_ID", MAX_GM_PROYX_SERVICE_ID);
-    lua_tinker::set(L, "MAX_SERVICE_ID", MAX_SERVICE_ID);
-    lua_tinker::set(L, "MAX_SHAREZONE_SERVICE_ID", MAX_SHAREZONE_SERVICE_ID);
-    lua_tinker::set(L, "MAX_SOCKET_SERVICE_ID", MAX_SOCKET_SERVICE_ID);
-    lua_tinker::set(L, "MAX_ZONE_SERVICE_ID", MAX_ZONE_SERVICE_ID);
-    lua_tinker::set(L, "MIN_AI_SERVICE_ID", MIN_AI_SERVICE_ID);
-    lua_tinker::set(L, "MIN_GM_PROYX_SERVICE_ID", MIN_GM_PROYX_SERVICE_ID);
-    lua_tinker::set(L, "MIN_SHAREZONE_SERVICE_ID", MIN_SHAREZONE_SERVICE_ID);
-    lua_tinker::set(L, "MIN_SOCKET_SERVICE_ID", MIN_SOCKET_SERVICE_ID);
-    lua_tinker::set(L, "MIN_ZONE_SERVICE_ID", MIN_ZONE_SERVICE_ID);
     lua_tinker::set(L, "MULTITYPE_BROADCAST", MULTITYPE_BROADCAST);
     lua_tinker::set(L, "MULTITYPE_GROUPID", MULTITYPE_GROUPID);
     lua_tinker::set(L, "MULTITYPE_NONE", MULTITYPE_NONE);
@@ -784,7 +795,7 @@ void ai2lua(lua_State* L)
     lua_tinker::set(L, "REGION_PVP_FREE", REGION_PVP_FREE);
     lua_tinker::set(L, "REGION_RECORD_DISABLE", REGION_RECORD_DISABLE);
     lua_tinker::set(L, "REGION_STALL_DISABLE", REGION_STALL_DISABLE);
-    lua_tinker::set(L, "ROUTE_SERVICE_ID", ROUTE_SERVICE_ID);
+    lua_tinker::set(L, "ROUTE_SERVICE", ROUTE_SERVICE);
     lua_tinker::set(L, "SCB_AI_FINDNEXTENEMY", SCB_AI_FINDNEXTENEMY);
     lua_tinker::set(L, "SCB_AI_ONUNDERATTACK", SCB_AI_ONUNDERATTACK);
     lua_tinker::set(L, "SCB_AI_PROCESS_ATTACK", SCB_AI_PROCESS_ATTACK);
@@ -827,6 +838,7 @@ void ai2lua(lua_State* L)
     lua_tinker::set(L, "SCB_TASK_ON_COMMIT", SCB_TASK_ON_COMMIT);
     lua_tinker::set(L, "SCB_TASK_ON_GIVEUP", SCB_TASK_ON_GIVEUP);
     lua_tinker::set(L, "SCB_TASK_SHOW_TASKDIALOG", SCB_TASK_SHOW_TASKDIALOG);
+    lua_tinker::set(L, "SCENE_SERVICE", SCENE_SERVICE);
     lua_tinker::set(L, "SCT_TARGET_OTHER", SCT_TARGET_OTHER);
     lua_tinker::set(L, "SCT_TARGET_POS", SCT_TARGET_POS);
     lua_tinker::set(L, "SCT_TARGET_SELF", SCT_TARGET_SELF);
@@ -875,9 +887,8 @@ void ai2lua(lua_State* L)
     lua_tinker::set(L, "SYNC_ALL_DELAY", SYNC_ALL_DELAY);
     lua_tinker::set(L, "SYNC_FALSE", SYNC_FALSE);
     lua_tinker::set(L, "SYNC_TRUE", SYNC_TRUE);
+    lua_tinker::set(L, "UNKNOW_SERVICE", UNKNOW_SERVICE);
     lua_tinker::set(L, "WORLD_SERVICE", WORLD_SERVICE);
-    lua_tinker::set(L, "WORLD_SERVICE_ID", WORLD_SERVICE_ID);
-    lua_tinker::set(L, "ZONE_SERVICE", ZONE_SERVICE);
     lua_tinker::class_alias<Vector2, CPos2D>(L, "CPos2D");
     lua_tinker::class_alias<Vector3, CPos3D>(L, "CPos3D");
 }

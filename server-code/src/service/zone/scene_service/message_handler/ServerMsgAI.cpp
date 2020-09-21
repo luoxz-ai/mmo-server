@@ -1,5 +1,5 @@
 #include "Monster.h"
-#include "MsgZoneProcess.h"
+#include "MsgSceneProcess.h"
 #include "Phase.h"
 #include "Player.h"
 #include "SceneManager.h"
@@ -73,7 +73,6 @@ ON_SERVERMSG(CSceneService, ActorMove)
         return;
     pActor->FaceTo(Vector2(msg.x(), msg.y()));
     pActor->MoveTo(Vector2(msg.x(), msg.y()));
-    
 
     __LEAVE_FUNCTION
 }
@@ -110,16 +109,17 @@ ON_SERVERMSG(CSceneService, ActorCastSkill)
 ON_SERVERMSG(CSceneService, ServiceReady)
 {
     __ENTER_FUNCTION
-
+    ServerPort ready_server_port(msg.serverport());
     // send message to world, notify zone ready
-    if(SceneService()->IsSharedZone() == false)
+    if(ready_server_port.GetServiceType() == AI_SERVICE)
     {
-        ServerMSG::ServiceReady msg;
-        msg.set_serverport(SceneService()->GetServerPort());
-
-        SceneService()->SendMsgToWorld(SceneService()->GetWorldID(), ServerMSG::MsgID_ServiceReady, msg);
+        if(SceneService()->IsSharedZone() == false)
+        {
+            ServerMSG::ServiceReady send;
+            send.set_serverport(SceneService()->GetServerPort());
+            SceneService()->SendProtoMsgToWorld(SceneService()->GetWorldID(),  send);
+        }
     }
-
 
     __LEAVE_FUNCTION
 }

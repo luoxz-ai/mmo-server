@@ -4,8 +4,8 @@
 #include "GameEventDef.h"
 #include "Phase.h"
 #include "Scene.h"
-#include "SkillFSM.h"
 #include "SceneService.h"
+#include "SkillFSM.h"
 
 OBJECTHEAP_IMPLEMENTATION(CBullet, s_heap);
 CBullet::CBullet()
@@ -91,7 +91,7 @@ void CBullet::OnEnterMap(CSceneBase* pScene)
     // ai_msg.set_posy(GetPosY());
     // ai_msg.set_ownerid(GetOwnerID());
 
-    // SceneService()->SendMsgToAIService(ai_msg);
+    // SceneService()->SendProtoMsgToAIService(ai_msg);
 }
 
 void CBullet::OnLeaveMap(uint16_t idTargetMap)

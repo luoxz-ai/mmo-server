@@ -52,9 +52,6 @@ public:
 
     bool   TakePortMsg(CNetworkMessage*& msg);
     bool   SendMsgToPort(const CNetworkMessage& msg);
-    bool   SendBroadcastMsg(const CNetworkMessage& msg);
-    bool   SendMultiMsg(const std::vector<VirtualSocket>& setVS, const CNetworkMessage& msg);
-    bool   SendMultiIDMsg(const std::vector<OBJID>& setID, const CNetworkMessage& msg);
     size_t GetWriteBufferSize();
 
 private:

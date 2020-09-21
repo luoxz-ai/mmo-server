@@ -1,19 +1,13 @@
 #include "AIGroup.h"
 
-CAIGroup::CAIGroup()
-{
+CAIGroup::CAIGroup() {}
 
-}
-
-CAIGroup::~CAIGroup()
-{
-
-}
+CAIGroup::~CAIGroup() {}
 
 bool CAIGroup::Init(uint32_t group_id, CAIPhase* pScene)
 {
     m_GroupID = group_id;
-    m_pScene = pScene;
+    m_pScene  = pScene;
     return true;
 }
 
@@ -30,7 +24,7 @@ void CAIGroup::RemoveMember(CAIActor* pActor)
 void CAIGroup::Foreach(std::function<void(CAIActor*)> func)
 {
     __ENTER_FUNCTION
-    for(const auto& v : m_setMember)
+    for(const auto& v: m_setMember)
     {
         func(v);
     }
@@ -40,7 +34,7 @@ void CAIGroup::Foreach(std::function<void(CAIActor*)> func)
 void CAIGroup::FindIF(std::function<bool(CAIActor*)> func)
 {
     __ENTER_FUNCTION
-    for(const auto& v : m_setMember)
+    for(const auto& v: m_setMember)
     {
         if(func(v) == true)
         {
@@ -48,21 +42,13 @@ void CAIGroup::FindIF(std::function<bool(CAIActor*)> func)
         }
     }
     __LEAVE_FUNCTION
-
 }
-
-
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
-CAIGroupManager::CAIGroupManager()
-{}
+CAIGroupManager::CAIGroupManager() {}
 
-CAIGroupManager::~CAIGroupManager()
-{
-    
-}
+CAIGroupManager::~CAIGroupManager() {}
 
 bool CAIGroupManager::Init(CAIPhase* pScene)
 {

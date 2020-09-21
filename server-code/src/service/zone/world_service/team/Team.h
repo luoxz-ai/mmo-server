@@ -42,11 +42,11 @@ public:
     bool IsFull() const { return m_setMember.size() > _MAX_TEAM_MEMBER; }
 
 private:
-    uint64_t                                    m_idTeam;
-    uint64_t                                    m_idLeader;
-    std::vector<TeamMemberInfo> m_setMember;
-    std::unordered_set<uint64_t>                m_setInvite;
-    std::unordered_set<uint64_t>                m_setApply;
+    uint64_t                     m_idTeam;
+    uint64_t                     m_idLeader;
+    std::vector<TeamMemberInfo>  m_setMember;
+    std::unordered_set<uint64_t> m_setInvite;
+    std::unordered_set<uint64_t> m_setApply;
 
 public:
     OBJECTHEAP_DECLARATION(s_heap);

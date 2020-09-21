@@ -53,7 +53,7 @@ void CAISkillSet::AddSkill(uint32_t idSkill)
     auto pSkilLData = CAISkillData::CreateNew(idSkill);
     if(pSkilLData)
         m_setSkill[idSkill] = pSkilLData;
-        
+
     __LEAVE_FUNCTION
 }
 
@@ -84,20 +84,20 @@ CAISkillData* CAISkillSet::ChooseSkill(const SkillFAM* pSkillFAM, double dist, d
     {
         if(pData->IsCoolDown())
             continue;
-        
+
         double util_value = 0.0f;
-        if(pSkillFAM) 
+        if(pSkillFAM)
         {
-            double skill_dis = pData->GetSkillType()->GetDistance();
-            double skill_pow = pData->GetSkillType()->GetPower();
-            double skill_mp = pData->GetSkillType()->GetUseMP();
+            double skill_dis     = pData->GetSkillType()->GetDistance();
+            double skill_pow     = pData->GetSkillType()->GetPower();
+            double skill_mp      = pData->GetSkillType()->GetUseMP();
             double skill_usetime = pData->GetSkillType()->GetTotalMS();
-            double skill_cdtime = pData->GetSkillType()->GetCDSec();
+            double skill_cdtime  = pData->GetSkillType()->GetCDSec();
             util_value = pSkillFAM->calculate(dist, self_hp, self_mp, target_hp, skill_dis, skill_pow, skill_usetime, skill_cdtime, skill_mp);
         }
         else
         {
-            util_value = random_float(0.0f,1.0f);
+            util_value = random_float(0.0f, 1.0f);
         }
         if(pCurData == nullptr || cur_val < util_value)
         {

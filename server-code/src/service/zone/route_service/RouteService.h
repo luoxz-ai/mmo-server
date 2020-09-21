@@ -39,9 +39,13 @@ public:
     virtual void OnLogicThreadExit() override;
 
     virtual void OnProcessMessage(CNetworkMessage*) override;
+
+    void SendServiceReady();
+    void SendServiceUnReady();
 };
 
 CRouteService* RouteService();
+void        SetRouteServicePtr(CRouteService* ptr);
 inline auto    EventManager()
 {
     return RouteService()->GetEventManager();

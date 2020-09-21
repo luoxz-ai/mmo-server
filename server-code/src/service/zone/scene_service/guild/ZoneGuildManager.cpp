@@ -1,8 +1,8 @@
 #include "ZoneGuildManager.h"
 
 #include "MysqlConnection.h"
-#include "ZoneGuild.h"
 #include "SceneService.h"
+#include "ZoneGuild.h"
 
 CZoneGuildManager::CZoneGuildManager() {}
 CZoneGuildManager::~CZoneGuildManager()
@@ -49,7 +49,7 @@ void CZoneGuildManager::CreateGuild(const std::string& strGuildName, OBJID idLea
     msg.set_guild_name(strGuildName);
     msg.set_leader_id(idLeader);
     msg.set_leader_name(strLeaderName);
-    SceneService()->SendMsgToWorld(SceneService()->GetWorldID(), to_server_msgid(msg), msg);
+    SceneService()->SendProtoMsgToWorld(SceneService()->GetWorldID(), msg);
 }
 
 CZoneGuild* CZoneGuildManager::QueryGuild(uint64_t idGuild)

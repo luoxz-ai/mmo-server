@@ -22,7 +22,7 @@
 
 namespace lua_tinker
 {
-    void set_error_callback(lua_State* L, error_call_back_fn fn) 
+    void set_error_callback(lua_State* L, error_call_back_fn fn)
     {
         lua_pushcclosure(L, fn, 0);
         lua_setglobal(L, ERROR_CALLBACK_NAME);
@@ -285,20 +285,9 @@ static void call_stack(lua_State* L, int32_t n)
         }
 
         if(ar.name)
-            lua_tinker::print_error(L,
-                                    "%s%s() : line %d [%s : line %d]",
-                                    indent,
-                                    ar.name,
-                                    ar.currentline,
-                                    ar.source,
-                                    ar.linedefined);
+            lua_tinker::print_error(L, "%s%s() : line %d [%s : line %d]", indent, ar.name, ar.currentline, ar.source, ar.linedefined);
         else
-            lua_tinker::print_error(L,
-                                    "%sunknown : line %d [%s : line %d]",
-                                    indent,
-                                    ar.currentline,
-                                    ar.source,
-                                    ar.linedefined);
+            lua_tinker::print_error(L, "%sunknown : line %d [%s : line %d]", indent, ar.currentline, ar.source, ar.linedefined);
 
         call_stack(L, n + 1);
     }
@@ -369,11 +358,7 @@ void lua_tinker::enum_stack(lua_State* L)
                 {
                     name.assign(lua_tostring(L, -1));
                     lua_remove(L, -1);
-                    print_error(L,
-                                "\t%s    0x%08p [%s]",
-                                lua_typename(L, lua_type(L, i)),
-                                lua_topointer(L, i),
-                                name.c_str());
+                    print_error(L, "\t%s    0x%08p [%s]", lua_typename(L, lua_type(L, i)), lua_topointer(L, i), name.c_str());
                 }
                 else
                 {
@@ -481,8 +466,7 @@ lua_tinker::table_onstack lua_tinker::detail::_stack_help<lua_tinker::table_onst
     return lua_tinker::table_onstack(L, index);
 }
 
-void lua_tinker::detail::_stack_help<lua_tinker::table_onstack>::_push(lua_State*                       L,
-                                                                       const lua_tinker::table_onstack& ret)
+void lua_tinker::detail::_stack_help<lua_tinker::table_onstack>::_push(lua_State* L, const lua_tinker::table_onstack& ret)
 {
     lua_pushvalue(L, ret.m_obj->m_index);
 }
@@ -524,8 +508,6 @@ void lua_tinker::detail::_stack_help<std::string_view>::_push(lua_State* L, std:
 {
     lua_pushlstring(L, ret.data(), ret.size());
 }
-
-
 
 /*---------------------------------------------------------------------------*/
 /* pop                                                                       */
@@ -738,10 +720,7 @@ bool lua_tinker::detail::CheckSameMetaTable(lua_State* L, int32_t nIndex, const 
     return false;
 }
 
-bool lua_tinker::detail::push_upval_to_stack(lua_State* L,
-                                             int32_t    nArgsCount,
-                                             int32_t    nArgsNeed,
-                                             int32_t    default_upval_start)
+bool lua_tinker::detail::push_upval_to_stack(lua_State* L, int32_t nArgsCount, int32_t nArgsNeed, int32_t default_upval_start)
 {
     if(nArgsCount < nArgsNeed)
     {
@@ -761,11 +740,7 @@ bool lua_tinker::detail::push_upval_to_stack(lua_State* L,
     return true;
 }
 
-bool lua_tinker::detail::push_upval_to_stack(lua_State* L,
-                                             int32_t    nArgsCount,
-                                             int32_t    nArgsNeed,
-                                             int32_t    nUpvalCount,
-                                             int32_t    UpvalStart)
+bool lua_tinker::detail::push_upval_to_stack(lua_State* L, int32_t nArgsCount, int32_t nArgsNeed, int32_t nUpvalCount, int32_t UpvalStart)
 {
     if(nArgsCount < nArgsNeed)
     {

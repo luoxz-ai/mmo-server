@@ -16,8 +16,7 @@ namespace xml2struct
     template<class FieldType>
     inline void xml_value_to_field(tinyxml2::XMLElement* pVarE, FieldType* field)
     {
-        if constexpr(std::is_integral<FieldType>::value || std::is_floating_point<FieldType>::value ||
-                     std::is_same<bool, FieldType>::value)
+        if constexpr(std::is_integral<FieldType>::value || std::is_floating_point<FieldType>::value || std::is_same<bool, FieldType>::value)
         {
             pVarE->QueryAttribute("val", field);
         }
@@ -36,9 +35,7 @@ namespace xml2struct
     }
 
     template<class FieldType>
-    inline void xml_value_to_field(tinyxml2::XMLElement*                                   pVarE,
-                                   FieldType*                                              field,
-                                   std::function<void(tinyxml2::XMLElement*, FieldType*)>& after_func)
+    inline void xml_value_to_field(tinyxml2::XMLElement* pVarE, FieldType* field, std::function<void(tinyxml2::XMLElement*, FieldType*)>& after_func)
     {
         xml_value_to_field(pVarE, field);
         after_func(pVarE, field);

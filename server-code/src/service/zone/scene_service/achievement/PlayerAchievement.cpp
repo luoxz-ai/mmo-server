@@ -232,10 +232,7 @@ bool CPlayerAchievement::IsFinish(uint32_t idAchiType)
     return m_setFinish.find(idAchiType) != m_setFinish.end();
 }
 
-bool CPlayerAchievement::_CheckAchiCondition(const CAchievementType* pType,
-                                             uint32_t                nVal0,
-                                             uint32_t                nVal1,
-                                             uint32_t                nVal2)
+bool CPlayerAchievement::_CheckAchiCondition(const CAchievementType* pType, uint32_t nVal0, uint32_t nVal1, uint32_t nVal2)
 {
     switch(pType->GetCheckData().check_type())
     {
@@ -281,7 +278,7 @@ bool CPlayerAchievement::_CheckAchiCondition(const CAchievementType* pType,
             return nVal1 >= pType->GetCheckData().val1();
         }
         break;
-        case CONDITION_EQUIPMENT_QUILITY: //装备上一件品质>=val0的装备,在装备位置val1(为0=任意)位置
+        case CONDITION_EQUIPMENT_QUILITY:  //装备上一件品质>=val0的装备,在装备位置val1(为0=任意)位置
         case CONDITION_EQUIPMENT_ADDITION: //装备上一件强化等级>=val0的装备,在装备位置val1(为0=任意)位置
         {
             if(pType->GetCheckData().val1() == 0)

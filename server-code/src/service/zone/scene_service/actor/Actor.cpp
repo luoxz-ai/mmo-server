@@ -6,8 +6,8 @@
 #include "Phase.h"
 #include "Player.h"
 #include "Scene.h"
-#include "SceneTree.h"
 #include "SceneService.h"
+#include "SceneTree.h"
 #include "server_msg/server_side.pb.h"
 
 CActor::CActor()
@@ -544,21 +544,14 @@ void CActor::BeKillBy(CActor* pAttacker)
         static_cast<CPhase*>(m_pScene)->TryExecScript<void>(SCB_MAP_ONACTORBEKILL, this, pAttacker);
 
     GetStatus()->OnDead(pAttacker);
-    GetStatus()->AttachStatus(
-        {
-            .id_status_type = STATUSTYPE_DEAD,
-            .lev = 1,
-            .id_caster = GetID(),
-            .expire_type = STATUSEXPIRETYPE_NEVER
-        }
-        );
+    GetStatus()->AttachStatus({.id_status_type = STATUSTYPE_DEAD, .lev = 1, .id_caster = GetID(), .expire_type = STATUSEXPIRETYPE_NEVER});
 
     __LEAVE_FUNCTION
 }
 
-bool CActor::SendMsg(const google::protobuf::Message& msg) const
+bool CActor::SendMsg(const proto_msg_t& msg) const
 {
-    return SendMsg(to_sc_cmd(msg), msg);
+    return false;
 }
 
 void CActor::BroadcastShowTo(const VirtualSocketMap_t& VSMap)
@@ -566,24 +559,22 @@ void CActor::BroadcastShowTo(const VirtualSocketMap_t& VSMap)
     __ENTER_FUNCTION
     SC_AOI_NEW msg;
     MakeShowData(msg);
-    SceneService()->SendMsgTo(VSMap, msg);
+    SceneService()->SendProtoMsgTo(VSMap, msg);
     if(m_pStatus->size() > 0)
     {
         SC_STATUS_LIST status_msg;
         m_pStatus->FillStatusMsg(status_msg);
-        SceneService()->SendMsgTo(VSMap, msg);
+        SceneService()->SendProtoMsgTo(VSMap, msg);
     }
 
     __LEAVE_FUNCTION
 }
 
-void CActor::BroadcastMessageTo(uint32_t                         cmd,
-                                const google::protobuf::Message& msg,
-                                const VirtualSocketMap_t&        setSocketMap)
+void CActor::BroadcastMessageTo(const proto_msg_t& msg, const VirtualSocketMap_t& setSocketMap)
 {
     __ENTER_FUNCTION
     //如果有需要发送new数据的,这里要优先发送一次
     SendShowToDealyList();
-    SceneService()->SendMsgTo(setSocketMap, cmd, msg);
+    SceneService()->SendProtoMsgTo(setSocketMap, msg);
     __LEAVE_FUNCTION
 }

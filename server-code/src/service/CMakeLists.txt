@@ -13,9 +13,10 @@ ADD_SUBDIRECTORY(zone/ai_service)
 ADD_SUBDIRECTORY(zone/market_service)
 ADD_SUBDIRECTORY(zone/gm_service)
 ADD_SUBDIRECTORY(zone/auth_service)
+ADD_SUBDIRECTORY(zone/route_service)
 
 ADD_SUBDIRECTORY(global/gmproxy_service)
-ADD_SUBDIRECTORY(global/route_service)
+
 
 
 

@@ -20,11 +20,7 @@ class CMysqlConnection;
 class CDBRecord
 {
 public:
-    CDBRecord(CMysqlConnection*   pMysqlConnection,
-              CDBFieldInfoListPtr pMysqlFieldInfo,
-              bool                bCanModify,
-              MYSQL_ROW           row,
-              unsigned long*      lengths);
+    CDBRecord(CMysqlConnection* pMysqlConnection, CDBFieldInfoListPtr pMysqlFieldInfo, bool bCanModify, MYSQL_ROW row, unsigned long* lengths);
     ~CDBRecord();
 
     CDBField& Field(size_t n)
@@ -65,8 +61,9 @@ private:
     std::string BuildUpdateSQL();
     std::string BuildInsertSQL();
 
-public: 
+public:
     std::string DumpInsertSQL() const;
+
 public:
     OBJECTHEAP_DECLARATION(s_Heap);
 
@@ -84,6 +81,5 @@ private:
 };
 
 using CDBRecordPtr = std::unique_ptr<CDBRecord>;
-
 
 #endif /* DBRECORD_H */

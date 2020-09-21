@@ -38,11 +38,10 @@ int main(int argc, char** argv)
 {
     get_opt opt(argc, (const char**)argv);
 
-    if(opt.has("--excel") == false || opt.has("--inputpbdir") == false || opt.has("--inputpb") == false ||
-       opt.has("--out") == false || opt.has("--help") == true)
+    if(opt.has("--excel") == false || opt.has("--inputpbdir") == false || opt.has("--inputpb") == false || opt.has("--out") == false ||
+       opt.has("--help") == true)
     {
-        std::cout << "execl2pb [--excel=xxx.xlsx] [--inputpbdir=input.pb] [--inputpb=input.pb] [--out=output.txt]"
-                  << std::endl;
+        std::cout << "execl2pb [--excel=xxx.xlsx] [--inputpbdir=input.pb] [--inputpb=input.pb] [--out=output.txt]" << std::endl;
         return 0;
     }
 
@@ -149,7 +148,7 @@ int main(int argc, char** argv)
                     {
                         //特殊处理
                         auto vecData = split_string(name, "|");
-                        if(data == "1" )
+                        if(data == "1")
                         {
                             if(pb_util::JoinMessageData(pPBRow, trim_copy(vecData[0]), trim_copy(vecData[1])) == false)
                             {
@@ -164,21 +163,15 @@ int main(int argc, char** argv)
                             bError = true;
                         }
                     }
-                    
                 }
                 catch(...)
                 {
-                   bError = true;
+                    bError = true;
                 }
 
                 if(bError)
                 {
-                     fmt::print("process fail: sheet={} y={} x={} cell:{} data:{} \n",
-                               ws.title(),
-                               y + 1,
-                               x + 1,
-                               name,
-                               data);
+                    fmt::print("process fail: sheet={} y={} x={} cell:{} data:{} \n", ws.title(), y + 1, x + 1, name, data);
                 }
                 else
                 {
@@ -197,8 +190,7 @@ int main(int argc, char** argv)
                 if(debug_txt.empty() == false)
                     debug_txt += ",\n";
                 debug_txt += std::string_view{json_txt.c_str(), json_txt.size() - 2};
-                debug_txt +=
-                    fmt::format(",\"__debug\":\"file:{} sheet:{} line:{}  \"\n}} ", execl_file_name, ws.title(), y + 1);
+                debug_txt += fmt::format(",\"__debug\":\"file:{} sheet:{} line:{}  \"\n}} ", execl_file_name, ws.title(), y + 1);
             }
             else
             {

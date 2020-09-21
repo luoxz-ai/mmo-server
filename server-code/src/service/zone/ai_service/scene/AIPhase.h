@@ -1,11 +1,11 @@
 #ifndef AIPHASE_H
 #define AIPHASE_H
 
+#include <memory>
+
 #include "MonsterGenerator.h"
 #include "NetworkMessage.h"
 #include "SceneBase.h"
-
-#include <memory>
 
 class CAIScene;
 class CAIGroupManager;
@@ -25,10 +25,11 @@ public:
 public:
     CMonsterGenerator&  GetMonsterGen() { return m_MonsterGen; }
     export_lua uint64_t GetPhaseID() const { return m_idPhase; }
-    export_lua CAIGroupManager* GetAIGroupMgr() const {return m_pAIGroupManager.get();}
+    export_lua CAIGroupManager* GetAIGroupMgr() const { return m_pAIGroupManager.get(); }
+
 private:
-    uint64_t          m_idPhase;
-    CMonsterGenerator m_MonsterGen;
+    uint64_t                         m_idPhase;
+    CMonsterGenerator                m_MonsterGen;
     std::unique_ptr<CAIGroupManager> m_pAIGroupManager;
 };
 

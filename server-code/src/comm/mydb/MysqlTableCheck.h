@@ -17,19 +17,13 @@ struct MysqlTableCheck
         }
         else
         {
-            //0 = table_name, 1= table_sql
+            // 0 = table_name, 1= table_sql
             auto record = result->fetch_row();
-            
+
             std::string sql_create_table = record->Field(1).template get<std::string>();
-            std::string sql_ddl = T::create_sql();
-            trim_if(sql_create_table , [](unsigned char c)->bool
-            {
-                return c == '\n';
-            });
-            trim_if(sql_ddl , [](unsigned char c)->bool
-            {
-                return c == '\n';
-            });
+            std::string sql_ddl          = T::create_sql();
+            trim_if(sql_create_table, [](unsigned char c) -> bool { return c == '\n'; });
+            trim_if(sql_ddl, [](unsigned char c) -> bool { return c == '\n'; });
             if(sql_create_table == sql_ddl)
                 return true;
         }
@@ -51,7 +45,10 @@ struct MysqlTableCheck
 
         if(pFieldInfo_MYSQL->size() != pFieldInfo_DDL->size_fields)
         {
-            LOGDBFATAL("GameDB Check Error, table:{} in MYSQL size:{} not equal then DDL size:{}.", T::table_name(), pFieldInfo_MYSQL->size(), pFieldInfo_DDL->size_fields);
+            LOGDBFATAL("GameDB Check Error, table:{} in MYSQL size:{} not equal then DDL size:{}.",
+                       T::table_name(),
+                       pFieldInfo_MYSQL->size(),
+                       pFieldInfo_DDL->size_fields);
             return false;
         }
 
@@ -67,12 +64,12 @@ struct MysqlTableCheck
             else if(pInfo_DDL->GetFieldType() != pInfo_MYSQL->GetFieldType())
             {
                 LOGDBFATAL("GameDB Check Error, table:{}, field:{} ddl_field:{}  mysql_field:{} ddl_fieldt:{}  mysql_fieldt:{}",
-                         T::table_name(),
-                         i,
-                         pInfo_DDL->GetFieldName(),
-                         pInfo_MYSQL->GetFieldName(),
-                         pInfo_DDL->GetFieldType(),
-                         pInfo_MYSQL->GetFieldType());
+                           T::table_name(),
+                           i,
+                           pInfo_DDL->GetFieldName(),
+                           pInfo_MYSQL->GetFieldName(),
+                           pInfo_DDL->GetFieldType(),
+                           pInfo_MYSQL->GetFieldType());
                 return false;
             }
         }
@@ -80,7 +77,6 @@ struct MysqlTableCheck
         __LEAVE_FUNCTION
         return false;
     }
-
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
     template<typename TupleType>
@@ -94,39 +90,36 @@ struct MysqlTableCheck
         using TableType = typename std::tuple_element<first, TupleType>::type;
         return CheckTable<TableType>(pDB) && CheckAllTableImpl<TupleType>(pDB, std::index_sequence<is...>{});
     }
-    
- 
+
     template<class type_list_Table>
     static inline bool CheckAllTable(CMysqlConnection* pDB)
     {
-        using TupleType = typename type_list_Table::tuple_type;
+        using TupleType             = typename type_list_Table::tuple_type;
         constexpr size_t tuple_size = type_list_Table::size;
         return CheckAllTableImpl<TupleType>(pDB, std::make_index_sequence<tuple_size>{});
     }
 
-
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
 
     template<class TableType, class KeyType>
     static inline bool CheckKeysAndFix(CMysqlConnection* pDB, KeyType&& key_info)
     {
-        auto key_name = std::get<0>(key_info);
+        auto key_name      = std::get<0>(key_info);
         auto key_field_str = std::get<1>(key_info);
-        auto result = pDB->UnionQuery(fmt::format("SHOW INDEX FROM {} WHERE Key_name='{}'", TableType::table_name(), key_name));
+        auto result        = pDB->UnionQuery(fmt::format("SHOW INDEX FROM {} WHERE Key_name='{}'", TableType::table_name(), key_name));
         if(result == nullptr)
         {
-            //add
+            // add
             auto sql = fmt::format("ALTER TABLE {} ADD INDEX {}({})", TableType::table_name(), key_name, key_field_str);
             CHECKF(pDB->SyncExec(sql));
         }
         else
         {
             auto vec_key_field = split_string(key_field_str, ",");
-            bool check_fail = false;
-            for(int i  = 0; i < result->get_num_row(); i++)
+            bool check_fail    = false;
+            for(int i = 0; i < result->get_num_row(); i++)
             {
-                auto record = result->fetch_row(false);
+                auto record      = result->fetch_row(false);
                 auto column_name = record->Field("Column_name").template get<std::string>();
                 if(column_name != vec_key_field[i])
                 {
@@ -134,10 +127,10 @@ struct MysqlTableCheck
                     break;
                 }
             }
-            
+
             if(check_fail)
             {
-                //modify
+                // modify
                 LOGDBERROR("GameDB Check Error, table:{} key:{} is not same with DDL, Need Fix!!!!!!.", TableType::table_name(), key_name);
                 return false;
             }
@@ -155,13 +148,13 @@ struct MysqlTableCheck
     static inline bool CheckAllKeysAndFixImpl(CMysqlConnection* pDB, KeysTupleType&& KeysInfo, std::index_sequence<first, is...>)
     {
         auto key_info = std::get<first>(KeysInfo);
-        return CheckKeysAndFix<TableType>(pDB, key_info) && 
-                CheckAllKeysAndFixImpl<TableType,KeysTupleType>(pDB, KeysInfo, std::index_sequence<is...>{});
+        return CheckKeysAndFix<TableType>(pDB, key_info) &&
+               CheckAllKeysAndFixImpl<TableType, KeysTupleType>(pDB, KeysInfo, std::index_sequence<is...>{});
     }
     template<typename TableType>
     static inline bool CheckAllKeysAndFix(CMysqlConnection* pDB)
     {
-        constexpr auto keys_info = TableType::keys_info();
+        constexpr auto   keys_info = TableType::keys_info();
         constexpr size_t keys_size = TableType::keys_size();
         return CheckAllKeysAndFixImpl<TableType>(pDB, keys_info, std::make_index_sequence<keys_size>{});
     }
@@ -179,23 +172,17 @@ struct MysqlTableCheck
         }
         else
         {
-            //0 = table_name, 1= table_sql
+            // 0 = table_name, 1= table_sql
             auto record = result->fetch_row();
-            
+
             std::string sql_create_table = record->Field(1).template get<std::string>();
-            std::string sql_ddl = T::create_sql();
-            trim_if(sql_create_table , [](unsigned char c)->bool
-            {
-                return c == '\n';
-            });
-            trim_if(sql_ddl , [](unsigned char c)->bool
-            {
-                return c == '\n';
-            });
+            std::string sql_ddl          = T::create_sql();
+            trim_if(sql_create_table, [](unsigned char c) -> bool { return c == '\n'; });
+            trim_if(sql_ddl, [](unsigned char c) -> bool { return c == '\n'; });
             if(sql_create_table == sql_ddl)
                 return true;
 
-            LOGDBDEBUG("\nDDL:\n{}\nMYSQL:\n{}\n", sql_ddl,sql_create_table);
+            LOGDBDEBUG("\nDDL:\n{}\nMYSQL:\n{}\n", sql_ddl, sql_create_table);
         }
 
         auto pFieldInfo_DDL = std::make_unique<CDDLFieldInfoList<T>>();
@@ -210,7 +197,7 @@ struct MysqlTableCheck
         if(pFieldInfo_MYSQL == nullptr)
         {
             LOGDBERROR("GameDB Check Error, table:{} not find in MYSQL.  Auto Fix.", T::table_name());
-            //auto create table, and query again
+            // auto create table, and query again
             CHECKF(pDB->SyncExec(T::create_sql()));
             ptr              = pDB->MakeRecord(T::table_name());
             pFieldInfo_MYSQL = pDB->QueryFieldInfo(T::table_name());
@@ -219,18 +206,21 @@ struct MysqlTableCheck
 
         if(pFieldInfo_MYSQL->size() > pFieldInfo_DDL->size_fields)
         {
-            LOGDBERROR("GameDB Check Error, table:{} in MYSQL size:{} greaterthen DDL size:{}. Auto Fix.", T::table_name(), pFieldInfo_MYSQL->size(), pFieldInfo_DDL->size_fields);
+            LOGDBERROR("GameDB Check Error, table:{} in MYSQL size:{} greaterthen DDL size:{}. Auto Fix.",
+                       T::table_name(),
+                       pFieldInfo_MYSQL->size(),
+                       pFieldInfo_DDL->size_fields);
         }
         else if(pFieldInfo_MYSQL->size() < pFieldInfo_DDL->size_fields)
         {
             LOGDBERROR("GameDB Check Error, table:{} in MYSQL less then DDL, Auto Fix.", T::table_name());
         }
 
-        //find need remove
+        // find need remove
         std::vector<size_t> vecRemoves;
         for(size_t i = 0; i < pFieldInfo_MYSQL->size(); i++)
         {
-            const CDBFieldInfo* pInfo_MYSQL   = pFieldInfo_MYSQL->get(i);
+            const CDBFieldInfo* pInfo_MYSQL = pFieldInfo_MYSQL->get(i);
             if(pInfo_MYSQL == nullptr)
             {
                 LOGDBFATAL("GameDB Check Error, table:{}, field:{}", T::table_name(), i);
@@ -248,11 +238,11 @@ struct MysqlTableCheck
                 CHECKF(pDB->SyncExec(sql));
             }
         }
-        
-        //find need add
+
+        // find need add
         for(size_t i = 0; i < pFieldInfo_DDL->size_fields; i++)
         {
-            const CDBFieldInfo* pInfo_DDL   = pFieldInfo_DDL->get(i);
+            const CDBFieldInfo* pInfo_DDL = pFieldInfo_DDL->get(i);
             if(pInfo_DDL == nullptr)
             {
                 LOGDBFATAL("GameDB Check Error, table:{}, field:{}", T::table_name(), i);
@@ -266,28 +256,25 @@ struct MysqlTableCheck
                     auto sql = fmt::format("ALTER TABLE {} ADD COLUMN {} FIRST", T::table_name(), pInfo_DDL->GetFieldSql());
                     CHECKF(pDB->SyncExec(sql));
                 }
-                const CDBFieldInfo* pInfo_DDL_before = pFieldInfo_DDL->get(i-1);
+                const CDBFieldInfo* pInfo_DDL_before = pFieldInfo_DDL->get(i - 1);
                 if(pInfo_DDL_before == nullptr)
                 {
                     LOGDBFATAL("GameDB Check Error, table:{}, field:{} can't find before field", T::table_name(), i);
                     return false;
                 }
-                auto sql = fmt::format("ALTER TABLE {} ADD COLUMN {} AFTER {}", T::table_name(), pInfo_DDL->GetFieldSql(), pInfo_DDL_before->GetFieldName());
+                auto sql =
+                    fmt::format("ALTER TABLE {} ADD COLUMN {} AFTER {}", T::table_name(), pInfo_DDL->GetFieldSql(), pInfo_DDL_before->GetFieldName());
                 CHECKF(pDB->SyncExec(sql));
-            }               
+            }
         }
 
-        //fix keys.
+        // fix keys.
         CheckAllKeysAndFix<T>(pDB);
-        
-
-
 
         return true;
         __LEAVE_FUNCTION
         return false;
     }
-
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
     template<typename TupleType>
@@ -301,12 +288,11 @@ struct MysqlTableCheck
         using TableType = typename std::tuple_element<first, TupleType>::type;
         return CheckTableAndFix<TableType>(pDB) && CheckAllTableAndFixImpl<TupleType>(pDB, std::index_sequence<is...>{});
     }
-    
- 
+
     template<class type_list_Table>
     static inline bool CheckAllTableAndFix(CMysqlConnection* pDB)
     {
-        using TupleType = typename type_list_Table::tuple_type;
+        using TupleType             = typename type_list_Table::tuple_type;
         constexpr size_t tuple_size = type_list_Table::size;
         return CheckAllTableAndFixImpl<TupleType>(pDB, std::make_index_sequence<tuple_size>{});
     }

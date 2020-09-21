@@ -27,8 +27,6 @@ public:
     CreateNewRealeaseImpl(CGMService);
 
 public:
-    void SendServiceReady();
-    void SendServiceUnReady();
     using HttpRequestHandleFunc = std::function<void(const ServerPort&, const ServerMSG::ServiceHttpRequest&)>;
     const CGMService::HttpRequestHandleFunc* QueryHttpRequestHandler(const std::string& mothed) const;
 
@@ -45,6 +43,7 @@ public:
 };
 
 CGMService* GMService();
+void        SetGMServicePtr(CGMService* ptr);
 inline auto EventManager()
 {
     return GMService()->GetEventManager();

@@ -24,6 +24,7 @@
 #include "MonitorMgr.h"
 #include "Monster.h"
 #include "MonsterType.h"
+#include "MsgSceneProcess.h"
 #include "MysqlConnection.h"
 #include "NetMSGProcess.h"
 #include "NetSocket.h"
@@ -43,11 +44,10 @@
 #include "TeamInfoManager.h"
 #include "UserAttr.h"
 #include "globaldb.h"
-#include "MsgZoneProcess.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
-
+#include "protomsg_to_cmd.h"
 
 static thread_local CSceneService* tls_pService = nullptr;
 CSceneService*                     SceneService()
@@ -127,7 +127,7 @@ bool CSceneService::Init(const ServerPort& nServerPort)
     scope_exit += [oldNdc]() {
         BaseCode::SetNdc(oldNdc);
     };
-    m_UIDFactory.Init(GetServerPort().GetWorldID(), ZONE_SERVICE_UID, GetZoneID() );
+    m_UIDFactory.Init(GetServerPort().GetWorldID(), SCENE_SERVICE_UID_START + GetZoneID());
     m_MessagePoolBySocket.reserve(GUESS_MAX_PLAYER_COUNT);
     m_tLastDisplayTime.Startup(20);
     auto pGlobalDB = ConnectGlobalDB();
@@ -164,17 +164,16 @@ bool CSceneService::Init(const ServerPort& nServerPort)
 
     //脚本加载
     extern void export_to_lua(lua_State*, void*);
-    m_pScriptManager.reset(
-        CLUAScriptManager::CreateNew(std::string("ZoneScript") + std::to_string(GetZoneID()),
-                                     &export_to_lua,
-                                     (void*)this,
-                                     "res/script/zone_service"));
+    m_pScriptManager.reset(CLUAScriptManager::CreateNew(std::string("ZoneScript") + std::to_string(GetZoneID()),
+                                                        &export_to_lua,
+                                                        (void*)this,
+                                                        "res/script/zone_service"));
 
     //必须要晚于MapManger和ActorManager
     m_pSceneManager.reset(CSceneManager::CreateNew(GetZoneID()));
     CHECKF(m_pSceneManager.get());
 
-    ZoneMessageHandlerRegister();
+    SceneMessageHandlerRegister();
 
     if(IsSharedZone() == false)
     {
@@ -223,11 +222,11 @@ void CSceneService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
         //服务器间的消息，现在就可以处理了
         if(m_pNetMsgProcess->Process(pNetworkMsg) == false)
         {
-            LOGERROR("CMD {} from {} to {} forward {} didn't have ProcessHandler", 
-                pNetworkMsg->GetCmd(),
-                pNetworkMsg->GetFrom(),
-                pNetworkMsg->GetTo(),
-                pNetworkMsg->GetForward());
+            LOGERROR("CMD {} from {} to {} forward {} didn't have ProcessHandler",
+                     pNetworkMsg->GetCmd(),
+                     pNetworkMsg->GetFrom(),
+                     pNetworkMsg->GetTo(),
+                     pNetworkMsg->GetForward());
             return;
         }
     }
@@ -268,7 +267,7 @@ void CSceneService::PushMsgToMessagePool(const VirtualSocket& vs, CNetworkMessag
 
         ServerMSG::SocketClose kick_msg;
         kick_msg.set_vs(vs);
-        SendMsgToPort(vs.GetServerPort(), kick_msg);
+        SendProtoMsgToZonePort(vs.GetServerPort(), kick_msg);
     }
 
     __LEAVE_FUNCTION
@@ -297,79 +296,38 @@ bool CSceneService::PopMsgFromMessagePool(const VirtualSocket& vs, CNetworkMessa
     return false;
 }
 
-bool CSceneService::SendMsgToWorld(uint16_t idWorld, uint16_t nCmd, const google::protobuf::Message& msg) const
+bool CSceneService::SendProtoMsgToWorld(uint16_t idWorld, const proto_msg_t& msg) const
 {
-    auto server_port = ServerPort(idWorld, WORLD_SERVICE_ID);
-    if(GetMessageRoute()->IsConnected(server_port) == true)
-    {
-        CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), ServerPort(idWorld, WORLD_SERVICE_ID), 0);
-        return SendMsgToPort(_msg);
-    }
-    else
-    {
-        //通过Route转发
-        return TransmiteMsgFromWorldToOther(idWorld, WORLD_SERVICE_ID, nCmd, msg);
-    }
+    auto server_port = ServerPort(idWorld, WORLD_SERVICE, 0);
+    return SendProtoMsgToZonePort(server_port, msg);
 }
 
-bool CSceneService::TransmiteMsgFromWorldToOther(uint16_t                         idWorld,
-                                                uint16_t                         idService,
-                                                uint16_t                         nCmd,
-                                                const google::protobuf::Message& msg) const
-{
-    if(IsSharedZone() == false)
-    {
-        CNetworkMessage _msg(nCmd,
-                             msg,
-                             GetServerVirtualSocket(),
-                             ServerPort(GetWorldID(), WORLD_SERVICE_ID),
-                             ServerPort(idWorld, idService));
-        return SendMsgToPort(_msg);
-    }
-    else
-    {
-        CNetworkMessage _msg(nCmd,
-                             msg,
-                             GetServerVirtualSocket(),
-                             ServerPort(idWorld, WORLD_SERVICE_ID),
-                             ServerPort(idWorld, idService));
-        return SendMsgToPort(_msg);
-    }
-}
-
-bool CSceneService::SendMsgToAllScene(uint16_t nCmd, const google::protobuf::Message& msg) const
+bool CSceneService::SendProtoMsgToAllScene(const proto_msg_t& msg) const
 {
     __ENTER_FUNCTION
+    auto serverport_list = GetMessageRoute()->GetServerPortListByWorldIDAndServiceType(GetWorldID(), SCENE_SERVICE, false);
 
-    for(uint32_t i = MIN_ZONE_SERVICE_ID; i <= MAX_ZONE_SERVICE_ID; i++)
+    for(const auto& serverport: serverport_list)
     {
-        if(i == GetServiceID())
+        if(serverport == GetServerPort())
             continue;
-
-        CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), VirtualSocket(ServerPort(GetWorldID(), i), 0));
-        SendMsgToPort(_msg);
+        SendProtoMsgToZonePort(serverport,msg);
     }
+
     return true;
     __LEAVE_FUNCTION
     return false;
 }
 
-bool CSceneService::SendMsgToAllPlayer(const google::protobuf::Message& msg) const
-{
-    return SendMsgToAllPlayer(to_sc_cmd(msg), msg);
-}
-
-bool CSceneService::SendMsgToAllPlayer(uint16_t nCmd, const google::protobuf::Message& msg) const
+bool CSceneService::SendProtoMsgToAllPlayer(const proto_msg_t& msg) const
 {
     __ENTER_FUNCTION
-    CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), 0);
-
     if(IsSharedZone() == false)
     {
-        for(uint32_t i = MIN_SOCKET_SERVICE_ID; i <= MAX_SOCKET_SERVICE_ID; i++)
+        auto serverport_list = GetMessageRoute()->GetServerPortListByWorldIDAndServiceType(GetWorldID(), SOCKET_SERVICE, false);
+        for(const auto& serverport: serverport_list)
         {
-            _msg.SetTo(VirtualSocket(ServerPort(GetWorldID(), i), 0));
-            SendBroadcastMsg(_msg);
+            SendBroadcastMsgToPort(serverport);
         }
     }
     else
@@ -383,8 +341,8 @@ bool CSceneService::SendMsgToAllPlayer(uint16_t nCmd, const google::protobuf::Me
         };
         auto func = std::bind(&CActorManager::ForeachPlayer, GetActorManager(), std::move(func_callback));
 
-        auto setSocketMap = SceneService()->IDList2VSMap(func, 0);
-        SceneService()->SendMsgTo(setSocketMap, nCmd, msg);
+        auto setSocketMap = IDList2VSMap(func, 0);
+        SendProtoMsgTo(setSocketMap, msg);
     }
 
     return true;
@@ -392,26 +350,14 @@ bool CSceneService::SendMsgToAllPlayer(uint16_t nCmd, const google::protobuf::Me
     return false;
 }
 
-bool CSceneService::SendMsgToPlayer(const VirtualSocket& vs, const google::protobuf::Message& msg) const
+bool CSceneService::SendProtoMsgToPlayer(const VirtualSocket& vs, const proto_msg_t& msg) const
 {
-    return SendMsgToPlayer(vs, to_sc_cmd(msg), msg);
+    return SendMsgToVirtualSocket(vs, msg);
 }
 
-bool CSceneService::SendMsgToPlayer(const VirtualSocket& vs, uint16_t nCmd, const google::protobuf::Message& msg) const
+bool CSceneService::SendProtoMsgToAIService(const proto_msg_t& msg) const
 {
-    CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), vs);
-    return SendMsgToPort(_msg);
-}
-
-bool CSceneService::SendServerMsgToAIService(const google::protobuf::Message& msg) const
-{
-    return SendMsgToAIService(to_server_msgid(msg), msg);
-}
-
-bool CSceneService::SendMsgToAIService(uint16_t nCmd, const google::protobuf::Message& msg) const
-{
-    CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), GetAIServerVirtualSocket());
-    return SendMsgToPort(_msg);
+    return SendProtoMsgToZonePort(GetAIServerPort(), msg);
 }
 
 void CSceneService::_ID2VS(OBJID id, VirtualSocketMap_t& VSMap) const
@@ -527,16 +473,12 @@ void CSceneService::OnLogicThreadProc()
                                       EventManager()->GetEventCount(),
                                       EventManager()->GetRunningEventCount(),
                                       get_thread_memory_allocted()) +
-                          fmt::format(FMT_STRING("\nUser:{}\tMonster:{}"),
-                                      ActorManager()->GetUserCount(),
-                                      ActorManager()->GetMonsterCount()) +
+                          fmt::format(FMT_STRING("\nUser:{}\tMonster:{}"), ActorManager()->GetUserCount(), ActorManager()->GetMonsterCount()) +
                           fmt::format(FMT_STRING("\nLoading:{}\tSaveing:{}\tReady:{}"),
                                       GetLoadingThread()->GetLoadingCount(),
                                       GetLoadingThread()->GetSaveingCount(),
                                       GetLoadingThread()->GetReadyCount()) +
-                          fmt::format(FMT_STRING("\nScene:{}\tDynaScene:{}"),
-                                      SceneManager()->GetSceneCount(),
-                                      SceneManager()->GetDynaSceneCount());
+                          fmt::format(FMT_STRING("\nScene:{}\tDynaScene:{}"), SceneManager()->GetSceneCount(), SceneManager()->GetDynaSceneCount());
         SceneManager()->ForEach([&buf](CScene* pScene) {
             size_t player_count = 0;
             size_t actor_count  = 0;
@@ -556,8 +498,8 @@ void CSceneService::OnLogicThreadProc()
         });
 
         //检查ai,world,socket1-5如果是源端socket的话,有多少缓冲区堆积
-        auto check_func = [this, &buf](uint16_t idService) {
-            auto pMessagePort = GetMessageRoute()->QueryMessagePort(ServerPort(GetWorldID(), idService), false);
+        auto check_func = [&buf](const ServerPort& serverport) {
+            auto pMessagePort = GetMessageRoute()->QueryMessagePort(serverport, false);
             if(pMessagePort && pMessagePort->GetWriteBufferSize() > 0)
             {
                 buf += fmt::format(FMT_STRING("\nMsgPort:{}-{}\tSendBuff:{}"),
@@ -566,13 +508,14 @@ void CSceneService::OnLogicThreadProc()
                                    pMessagePort->GetWriteBufferSize());
             }
         };
-        check_func(GetAIServiceID());
+        check_func(GetAIServerPort());
         if(IsSharedZone() == false)
         {
-            check_func(WORLD_SERVICE_ID);
-            for(int32_t i = MIN_SOCKET_SERVICE_ID; i <= MAX_SOCKET_SERVICE_ID; i++)
+            check_func(ServerPort(GetWorldID(), WORLD_SERVICE, 0));
+            auto serverport_list = GetMessageRoute()->GetServerPortListByWorldIDAndServiceType(GetWorldID(), SOCKET_SERVICE, false);
+            for(const auto& serverport: serverport_list)
             {
-                check_func(i);
+                check_func(serverport);
             }
         }
 

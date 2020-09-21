@@ -1,8 +1,7 @@
 #include "MsgProcessRegister.h"
 #include "SceneService.h"
 
-
-void ZoneMessageHandlerRegister()
+void SceneMessageHandlerRegister()
 {
     __ENTER_FUNCTION
 

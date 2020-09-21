@@ -7,7 +7,6 @@
 
 class CActor;
 
-
 export_lua class CActorStatus : public NoncopyableT<CActorStatus>
 {
     CActorStatus();
@@ -20,14 +19,14 @@ public:
     ~CActorStatus();
 
     export_lua CStatus* QueryStatusByType(uint16_t idStatusType) const;
-    
-    export_lua bool     AttachStatus(const AttachStatusInfo& info);
-    export_lua bool     AttachStatus(uint32_t idStatus, OBJID idCaster);
-    export_lua bool     DetachStatus(uint16_t idStatusType);
-    export_lua bool     DetachStatusByType(uint32_t nStatusType);
-    export_lua bool     DetachStatusByFlag(uint32_t nStatusFlag, bool bHave = true);
-    export_lua bool     TestStatusByType(uint32_t nStatusType) const;
-    export_lua bool     TestStatusByFlag(uint32_t nFlag) const;
+
+    export_lua bool AttachStatus(const AttachStatusInfo& info);
+    export_lua bool AttachStatus(uint32_t idStatus, OBJID idCaster);
+    export_lua bool DetachStatus(uint16_t idStatusType);
+    export_lua bool DetachStatusByType(uint32_t nStatusType);
+    export_lua bool DetachStatusByFlag(uint32_t nStatusFlag, bool bHave = true);
+    export_lua bool TestStatusByType(uint32_t nStatusType) const;
+    export_lua bool TestStatusByFlag(uint32_t nFlag) const;
     template<typename Func>
     void for_each(Func func) const
     {

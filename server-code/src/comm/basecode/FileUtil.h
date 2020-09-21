@@ -44,8 +44,8 @@ export_lua inline bool scan_dir(const std::string&                              
         return false;
     }
 
-    struct dirent entry;
-	struct dirent * result = NULL;
+    struct dirent  entry;
+    struct dirent* result = NULL;
 
     readdir_r(dp, &entry, &result);
     while(result != nullptr)
@@ -53,7 +53,7 @@ export_lua inline bool scan_dir(const std::string&                              
         struct stat statbuf;
         memset(&statbuf, 0, sizeof(statbuf));
         lstat(entry.d_name, &statbuf); // 获取下一级成员属性
-        if(S_IFDIR & statbuf.st_mode)   // 判断下一级成员是否是目录
+        if(S_IFDIR & statbuf.st_mode)  // 判断下一级成员是否是目录
         {
             if(std::string(".") == entry.d_name || std::string("..") == entry.d_name)
             {
@@ -71,14 +71,12 @@ export_lua inline bool scan_dir(const std::string&                              
             func(cur_dir, entry.d_name);
         }
 
-       readdir_r(dp, &entry, &result);
+        readdir_r(dp, &entry, &result);
     }
     closedir(dp);
-    
+
     return true;
 }
-
-
 
 inline void fixPath(std::string& path)
 {

@@ -12,7 +12,6 @@
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
 
-
 ON_MSG(CAIService, SC_AOI_NEW) {}
 
 ON_MSG(CAIService, SC_AOI_REMOVE) {}
@@ -27,7 +26,8 @@ ON_MSG(CAIService, SC_AOI_UPDATE)
 
     pActor->SetPos(Vector2(msg.posx(), msg.posy()));
     pActor->UpdateViewList();
-    LOGAIDEBUG(true,  pActor->GetID(),
+    LOGAIDEBUG(true,
+               pActor->GetID(),
                "Actor:{} MoveTo {} {:.2f}, {:.2f}",
                pActor->GetID(),
                pActor->GetCurrentScene()->GetMapID(),
@@ -142,7 +142,8 @@ ON_SERVERMSG(CAIService, ActorCreate)
     __ENTER_FUNCTION
     CAIPhase* pScene = AISceneManager()->QueryPhase(msg.scene_id());
     CHECK(pScene);
-    CAIActor* pActor = AIActorManager()->QueryActor(msg.actor_id());;
+    CAIActor* pActor = AIActorManager()->QueryActor(msg.actor_id());
+    ;
     CHECK(pActor == nullptr);
     switch(msg.actortype())
     {
@@ -187,7 +188,7 @@ ON_SERVERMSG(CAIService, ActorDestory)
     {
         pActor->OnDead();
     }
-    
+
     if(pActor->GetCurrentScene())
         pActor->GetCurrentScene()->LeaveMap(pActor);
 

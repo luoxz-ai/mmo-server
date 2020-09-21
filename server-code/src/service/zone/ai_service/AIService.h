@@ -25,11 +25,8 @@ public:
     export_lua const std::string& GetServiceName() const override { return CServiceCommon::GetServiceName(); }
     CreateNewRealeaseImpl(CAIService);
 
-    VirtualSocket GetSceneServiceVirtualSocket() const
-    {
-        return VirtualSocket(ServerPort(GetWorldID(), ZoneID2ServiceID(GetZoneID())), 0);
-    }
-    uint16_t GetZoneID() const { return GetServiceID() - MIN_AI_SERVICE_ID + 1; }
+    ServerPort GetSceneServerPort() const { return ServerPort(GetWorldID(), SCENE_SERVICE, GetZoneID()); }
+    uint16_t   GetZoneID() const { return GetServiceID().GetServiceIdx(); }
 
 public:
     virtual void OnLogicThreadProc() override;
@@ -39,8 +36,7 @@ public:
     virtual void OnProcessMessage(CNetworkMessage*) override;
 
     //发送消息给AIService
-    bool SendMsgToZone(const google::protobuf::Message& msg);
-    bool SendMsgToZone(uint16_t nCmd, const google::protobuf::Message& msg);
+    bool SendProtoMsgToScene(const proto_msg_t& msg);
 
 public:
     CLUAScriptManager* GetScriptManager() const { return m_pScriptManager.get(); }
@@ -67,7 +63,7 @@ public:
 };
 
 CAIService* AIService();
-
+void        SetAIServicePtr(CAIService* ptr);
 inline auto EventManager()
 {
     return AIService()->GetEventManager();

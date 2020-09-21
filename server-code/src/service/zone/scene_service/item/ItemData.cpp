@@ -115,12 +115,7 @@ bool CItemData::Init(CMysqlConnection* pDB, ST_ITEMINFO& info)
     return false;
 }
 
-bool CItemData::Init(CMysqlConnection* pDB,
-                     uint64_t          idPlayer,
-                     uint32_t          idItemType,
-                     uint32_t          nNum,
-                     uint32_t          dwFlag,
-                     uint32_t          nPosition)
+bool CItemData::Init(CMysqlConnection* pDB, uint64_t idPlayer, uint32_t idItemType, uint32_t nNum, uint32_t dwFlag, uint32_t nPosition)
 {
     __ENTER_FUNCTION
     m_pType = ItemTypeSet()->QueryObj(idItemType);

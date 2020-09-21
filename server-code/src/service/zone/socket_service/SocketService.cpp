@@ -13,7 +13,7 @@
 #include "msg/ts_cmd.pb.h"
 #include "msg/world_service.pb.h"
 #include "server_msg/server_side.pb.h"
-
+#include "protomsg_to_cmd.h"
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint8_t idServiceType, uint8_t idServiceIdx)
 {
@@ -21,7 +21,7 @@ extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16
 }
 
 CGameClient::CGameClient()
-    : m_nDestServerPort(AUTH_SERVICE_ID)
+    : m_nDestServerPort(0, AUTH_SERVICE, 0)
     , m_nMessageAllowBegin(CMD_CS_LOGIN) // only accept CS_AUTH
     , m_nMessageAllowEnd(CMD_CS_LOGIN)   // only accept CS_AUTH
     , m_idUser(0)
@@ -57,10 +57,17 @@ bool CGameClient::IsVaild() const
 }
 
 static thread_local CSocketService* tls_pService = nullptr;
-CSocketService*                     SocketService()
+
+CSocketService* SocketService()
 {
     return tls_pService;
 }
+
+void SetSocketServicePtr(CSocketService* ptr)
+{
+    tls_pService = ptr;
+}
+
 //////////////////////////////////////////////////////////////////////////
 CSocketService::CSocketService()
 {
@@ -85,7 +92,7 @@ void CSocketService::Destory()
     };
     DestoryServiceCommon();
 
-    for(auto& [k,v] : m_setVirtualSocket)
+    for(auto& [k, v]: m_setVirtualSocket)
     {
         SAFE_DELETE(v);
     }
@@ -144,7 +151,7 @@ bool CSocketService::Init(const ServerPort& nServerPort)
 
     ServerMSG::ServiceReady msg;
     msg.set_serverport(GetServerPort());
-    SendMsgToPort(ServerPort(GetWorldID(), WORLD_SERVICE_ID), ServerMSG::MsgID_ServiceReady, msg);
+    SendProtoMsgToZonePort(ServerPort(GetWorldID(), WORLD_SERVICE, 0),  msg);
 
     return true;
 
@@ -212,10 +219,17 @@ void CSocketService::RemoveClient(const VirtualSocket& vs)
     if(it != m_setVirtualSocket.end())
     {
         CGameClient* pClient = it->second;
+        if(pClient->IsAuth())
         {
             ServerMSG::SocketClose msg;
             msg.set_vs(vs);
-            SendMsgToPort(ServerPort(GetServerPort().GetWorldID(), WORLD_SERVICE_ID), msg);
+            SendProtoMsgToZonePort(ServerPort(GetServerPort().GetWorldID(), WORLD_SERVICE, 0), msg);
+        }
+        else
+        {
+            ServerMSG::SocketClose msg;
+            msg.set_vs(vs);
+            SendProtoMsgToZonePort(ServerPort(GetServerPort().GetWorldID(), AUTH_SERVICE, 0), msg);
         }
 
         SAFE_DELETE(pClient);
@@ -240,7 +254,7 @@ void CSocketService::OnAccepted(CNetSocket* pSocket)
 
     CGameClient* pClient = new CGameClient();
     pClient->SetService(this);
-    pClient->SetDestServerPort(ServerPort(GetServerPort().GetWorldID(), WORLD_SERVICE_ID));
+    pClient->SetDestServerPort(ServerPort(GetServerPort().GetWorldID(), AUTH_SERVICE, 0));
     pClient->SetVirtualSocket(VirtualSocket::CreateVirtualSocket(GetServerPort(), pSocket->GetSocketIdx()));
     pClient->SetSocketAddr(pSocket->GetAddrString());
     pClient->SetSocketPort(pSocket->GetPort());
@@ -251,7 +265,7 @@ void CSocketService::OnAccepted(CNetSocket* pSocket)
     pSocket->InitDecryptor(seed);
     SC_KEY msg;
     msg.set_key(seed);
-    CNetworkMessage _msg(CMD_SC_KEY, msg);
+    CNetworkMessage _msg(to_cmd(msg), msg);
     pSocket->SendSocketMsg(_msg.GetBuf(), _msg.GetSize());
     __LEAVE_FUNCTION
 }
@@ -271,10 +285,7 @@ void CSocketService::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
     MSG_HEAD* pHead = (MSG_HEAD*)pBuffer;
     if(pHead->usCmd < pClient->GetMessageAllowBegin() || pHead->usCmd > pClient->GetMessageAllowEnd())
     {
-        LOGWARNING("RECV ClientMsg:{} not Allow {}.{}",
-                   pHead->usCmd,
-                   pSocket->GetAddrString().c_str(),
-                   pSocket->GetPort());
+        LOGWARNING("RECV ClientMsg:{} not Allow {}.{}", pHead->usCmd, pSocket->GetAddrString().c_str(), pSocket->GetPort());
         pSocket->Interrupt();
         return;
     }
@@ -286,22 +297,16 @@ void CSocketService::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
             if(pClient->GetDestServerPort().IsVaild() == false)
                 return;
             // send to other server
-            CNetworkMessage msg(pBuffer,
-                                len,
-                                pClient->GetVirtualSocket(),
-                                VirtualSocket(pClient->GetDestServerPort(), 0));
-            SendMsgToPort(msg);
+            CNetworkMessage msg(pBuffer, len, pClient->GetVirtualSocket(), VirtualSocket(pClient->GetDestServerPort(), 0));
+            _SendMsgToZonePort(msg);
         }
         break;
     }
     __LEAVE_FUNCTION
 }
 
-
 ON_SERVERMSG(CSocketService, ServiceReady)
 {
-    LOGMESSAGE("START_ACCEPT");
-    SocketService()->GetNetworkService()->EnableListener(nullptr, true);
 }
 
 ON_SERVERMSG(CSocketService, SocketStartAccept)
@@ -337,9 +342,7 @@ ON_SERVERMSG(CSocketService, SocketClose)
     CGameClient* pClient = SocketService()->QueryClient(msg.vs());
     if(pClient && pClient->IsVaild())
     {
-        LOGDEBUG("CLOSE CLIENT BYVS:{}:{} FROM OTHER SERVER",
-                 pClient->GetSocketAddr().c_str(),
-                 pClient->GetSocketPort());
+        LOGDEBUG("CLOSE CLIENT BYVS:{}:{} FROM OTHER SERVER", pClient->GetSocketAddr().c_str(), pClient->GetSocketPort());
         //主动关闭客户端连接，需要通知客户端不要重连
         pClient->Interrupt();
     }
@@ -354,6 +357,12 @@ ON_SERVERMSG(CSocketService, SocketAuth)
         LOGDEBUG("AuthSucc BYVS:{}:{} ", pClient->GetSocketAddr().c_str(), pClient->GetSocketPort());
         pClient->SetAuth(true);
         pClient->SetMessageAllow(CLIENT_MSG_ID_BEGIN, CLIENT_MSG_ID_END);
+        pClient->SetDestServerPort(ServerPort(GetWorldID(), WORLD_SERVICE,0));
+
+        ServerMSG::SocketLogin login_msg;
+        login_msg.set_vs(msg.vs());
+        login_msg.set_open_id(msg.open_id());
+        SocketService()->SendProtoMsgToZonePort(ServerPort(GetWorldID(), WORLD_SERVICE,0), login_msg);
     }
 }
 

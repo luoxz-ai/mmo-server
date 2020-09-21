@@ -1,7 +1,9 @@
 #include "Player.h"
 
+#include "ActorManager.h"
 #include "GameEventDef.h"
 #include "ItemType.h"
+#include "LoadingThread.h"
 #include "MapManager.h"
 #include "MonitorMgr.h"
 #include "NetMSGProcess.h"
@@ -9,10 +11,8 @@
 #include "Phase.h"
 #include "Scene.h"
 #include "SceneManager.h"
-#include "ActorManager.h"
-#include "LoadingThread.h"
-#include "SystemVars.h"
 #include "SceneService.h"
+#include "SystemVars.h"
 
 OBJECTHEAP_IMPLEMENTATION(CPlayer, s_heap);
 
@@ -45,7 +45,7 @@ bool CPlayer::Init(OBJID idPlayer, const VirtualSocket& socket)
 
     auto pDB = SceneService()->GetGameDB(GetWorldIDFromPlayerID(idPlayer));
     CHECKF(pDB);
-    auto result_ptr = pDB->QueryKeyLimit<TBLD_PLAYER, TBLD_PLAYER::ID>(idPlayer,1);
+    auto result_ptr = pDB->QueryKeyLimit<TBLD_PLAYER, TBLD_PLAYER::ID>(idPlayer, 1);
     CHECKF(result_ptr);
 
     m_pRecord = result_ptr->fetch_row(true);
@@ -86,17 +86,10 @@ bool CPlayer::Init(OBJID idPlayer, const VirtualSocket& socket)
     return false;
 }
 
-bool CPlayer::SendMsg(const google::protobuf::Message& msg) const
-{
-    return SendMsg(to_sc_cmd(msg), msg);
-}
-
-bool CPlayer::SendMsg(uint16_t cmd, const google::protobuf::Message& msg) const
+bool CPlayer::SendMsg(const proto_msg_t& msg) const
 {
     __ENTER_FUNCTION
-    CNetworkMessage _msg(cmd, msg, SceneService()->GetServerVirtualSocket(), GetSocket());
-    MonitorMgr()->AddSendInfo(cmd, _msg.GetSize());
-    return SceneService()->SendMsgToPort(_msg);
+    return SceneService()->SendProtoMsgToPlayer(GetSocket(), msg);
     __LEAVE_FUNCTION
     return false;
 }
@@ -123,7 +116,6 @@ void CPlayer::OnTimer()
     __LEAVE_FUNCTION
 }
 
-
 void CPlayer::OnLogout()
 {
     __ENTER_FUNCTION
@@ -135,9 +127,8 @@ void CPlayer::OnLogout()
         m_pScene->LeaveMap(this);
     }
 
-    uint32_t now = TimeGetSecond();
+    uint32_t now                                   = TimeGetSecond();
     m_pRecord->Field(TBLD_PLAYER::LAST_LOGOUTTIME) = now;
-
 
     SceneService()->DelSocketMessagePool(GetSocket());
     //处理好数据
@@ -146,21 +137,20 @@ void CPlayer::OnLogout()
     m_pEventOnTimer.Clear();
 
     ST_LOADINGTHREAD_PROCESS_DATA data;
-    data.nPorcessType = LPT_SAVE;
-    data.idPlayer     = GetID();
-    data.bChangeZone  = false;
-    data.socket       = GetSocket();
-    data.idTargetScene= 0;
-    data.fPosX        = 0.0f;
-    data.fPosY        = 0.0f;
-    data.fRange       = 0.0f;
-    data.fFace        = 0.0f;
-    data.pPlayer      = this;
+    data.nPorcessType  = LPT_SAVE;
+    data.idPlayer      = GetID();
+    data.bChangeZone   = false;
+    data.socket        = GetSocket();
+    data.idTargetScene = 0;
+    data.fPosX         = 0.0f;
+    data.fPosY         = 0.0f;
+    data.fRange        = 0.0f;
+    data.fFace         = 0.0f;
+    data.pPlayer       = this;
     SceneService()->GetLoadingThread()->AddClosePlayer(std::move(data));
 
     __LEAVE_FUNCTION
 }
-
 
 void CPlayer::OnLogin(bool bLogin, const SceneIdx& idxScene, float fPosX, float fPosY, float fRange, float fFace)
 {
@@ -173,16 +163,15 @@ void CPlayer::OnLogin(bool bLogin, const SceneIdx& idxScene, float fPosX, float 
 
     if(bLogin)
     {
-        uint32_t now = TimeGetSecond();
+        uint32_t now                                  = TimeGetSecond();
         m_pRecord->Field(TBLD_PLAYER::LAST_LOGINTIME) = now;
         m_pRecord->Update();
         //登陆相关的操作， 只需要做1次
         SystemVarSet()->SyncToClient(this);
 
-        
         uint32_t lastLogoutTime = m_pRecord->Field(TBLD_PLAYER::LAST_LOGOUTTIME);
 
-        uint32_t offline_time   = 0;
+        uint32_t offline_time = 0;
         if(lastLogoutTime < now)
             offline_time = now - lastLogoutTime;
         CCommonData* pCommonData = GetCommonDataSet()->QueryData(COMMON_DATA_CONTINUELOGIN);
@@ -219,8 +208,6 @@ void CPlayer::OnLogin(bool bLogin, const SceneIdx& idxScene, float fPosX, float 
         // 组队信息
         // if (GetTeamID() != ID_NONE)
         //	QueryTeamMember()->OnLogin();
-
-        
     }
     m_pStatus->OnLogin();
     m_pStatus->SyncTo(this);
@@ -241,7 +228,11 @@ void CPlayer::OnLogin(bool bLogin, const SceneIdx& idxScene, float fPosX, float 
                 if(pCurScene == nullptr)
                 {
                     // log error, notify client
-                    LOGERROR("CPlayer[{}]::OnLogin FindMap Error: id:{} record:{} home{} ", GetID(), idxScene, GetRecordSceneIdx(), GetHomeSceneIdx());
+                    LOGERROR("CPlayer[{}]::OnLogin FindMap Error: id:{} record:{} home{} ",
+                             GetID(),
+                             idxScene,
+                             GetRecordSceneIdx(),
+                             GetHomeSceneIdx());
                     return;
                 }
                 else
@@ -279,8 +270,8 @@ void CPlayer::OnLogin(bool bLogin, const SceneIdx& idxScene, float fPosX, float 
     SendMsg(msg);
 
     CEventEntryCreateParam param;
-    param.evType = 0;
-    param.cb     = std::bind(&CPlayer::OnTimer, this);
+    param.evType    = 0;
+    param.cb        = std::bind(&CPlayer::OnTimer, this);
     param.tWaitTime = 100;
     param.bPersist  = true;
     EventManager()->ScheduleEvent(param, m_pEventOnTimer);
@@ -356,11 +347,7 @@ bool CPlayer::TryChangeMap(uint32_t nLeavePointIdx)
     CHECKF(GetPos().distance(Vector2(pLeaveData->x(), pLeaveData->y())) > pLeaveData->range());
 
     auto pGameMap = MapManager()->QueryMap(pLeaveData->dest_map_id());
-    CHECKF_FMT(pGameMap,
-               "Can't Find Map {} When LeaveMap {} On Map {}",
-               pLeaveData->dest_map_id(),
-               GetMapID(),
-               nLeavePointIdx);
+    CHECKF_FMT(pGameMap, "Can't Find Map {} When LeaveMap {} On Map {}", pLeaveData->dest_map_id(), GetMapID(), nLeavePointIdx);
 
     //检查所有通行检查
     auto pEnterData = pGameMap->GetEnterPointByIdx(pLeaveData->dest_enter_point_idx());
@@ -393,12 +380,7 @@ bool CPlayer::TryChangeMap(uint32_t nLeavePointIdx)
         return false;
     }
 
-    return FlyMap(pEnterData->idmap(),
-                  pEnterData->idphase(),
-                  pEnterData->x(),
-                  pEnterData->y(),
-                  pEnterData->range(),
-                  pEnterData->face());
+    return FlyMap(pEnterData->idmap(), pEnterData->idphase(), pEnterData->x(), pEnterData->y(), pEnterData->range(), pEnterData->face());
     __LEAVE_FUNCTION
     return false;
 }

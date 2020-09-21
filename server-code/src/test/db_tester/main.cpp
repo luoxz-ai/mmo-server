@@ -68,17 +68,14 @@ int main()
         fmt::format_to_n(szBuf, 1024, "test{}", idPlayer);
         db_record_ptr->Field(DBFieldHelp<TBLD_PLAYER, TBLD_PLAYER::NAME>::GetFieldName()) = szBuf;
 
-
-        db_record_ptr->Field("prof") = (int8_t)1; // type check error, not exec
+        db_record_ptr->Field("prof")            = (int8_t)1; // type check error, not exec
         db_record_ptr->Field(TBLD_PLAYER::PROF) = (uint32_t)2;
 
-
-        db_record_ptr->Field("lev") = (int16_t)1; // type check error, not exec
+        db_record_ptr->Field("lev")            = (int16_t)1; // type check error, not exec
         db_record_ptr->Field(TBLD_PLAYER::LEV) = (uint32_t)2;
 
-
-        db_record_ptr->Field("exp") = (uint32_t)1; // type check error, not exec
-        db_record_ptr->Field(TBLD_PLAYER::EXP) = (uint32_t)2;// type check error, not exec
+        db_record_ptr->Field("exp")            = (uint32_t)1; // type check error, not exec
+        db_record_ptr->Field(TBLD_PLAYER::EXP) = (uint32_t)2; // type check error, not exec
         db_record_ptr->Field(TBLD_PLAYER::EXP) = (uint64_t)0xF0000FFF;
 
         db_record_ptr->Update(true);

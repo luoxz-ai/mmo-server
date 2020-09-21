@@ -2,16 +2,18 @@
 
 #include <functional>
 
-#include "MysqlTableCheck.h"
 #include "AccountManager.h"
 #include "BornPos.h"
 #include "EventManager.h"
 #include "GMManager.h"
+#include "GuildManager.h"
 #include "MapManager.h"
 #include "MemoryHelp.h"
 #include "MessagePort.h"
 #include "MessageRoute.h"
 #include "MonitorMgr.h"
+#include "MsgWorldProcess.h"
+#include "MysqlTableCheck.h"
 #include "NetMSGProcess.h"
 #include "NetSocket.h"
 #include "NetworkMessage.h"
@@ -24,9 +26,6 @@
 #include "UserManager.h"
 #include "gamedb.h"
 #include "globaldb.h"
-#include "MsgWorldProcess.h"
-#include "GuildManager.h"
-
 
 static thread_local CWorldService* tls_pService = nullptr;
 CWorldService*                     WorldService()
@@ -98,7 +97,7 @@ bool CWorldService::Init(const ServerPort& nServerPort)
         BaseCode::SetNdc(oldNdc);
     };
 
-    m_UIDFactory.Init(GetServerPort().GetWorldID(), WORLD_SERVICE_UID, 0);
+    m_UIDFactory.Init(GetServerPort().GetWorldID(), WORLD_SERVICE_UID);
     m_pAccountManager.reset(CAccountManager::CreateNew(this));
     CHECKF(m_pAccountManager.get());
     m_pUserManager.reset(CUserManager::CreateNew());
@@ -106,8 +105,6 @@ bool CWorldService::Init(const ServerPort& nServerPort)
     m_pTeamManager.reset(CTeamManager::CreateNew());
     CHECKF(m_pTeamManager.get());
 
-
-    
     RegisterWorldMessageHandler();
 
     auto pGlobalDB = ConnectGlobalDB();
@@ -139,12 +136,11 @@ bool CWorldService::Init(const ServerPort& nServerPort)
         }
         m_pGameDB.reset(pDB.release());
 
-        
         CHECKF(MysqlTableCheck::CheckAllTableAndFix<GAMEDB_TABLE_LIST>(m_pGameDB.get()));
 
-        m_nCurPlayerMaxID       = GetDefaultPlayerID(GetWorldID());
-        auto result_playercount = m_pGameDB->UnionQuery(
-            fmt::format(FMT_STRING("SELECT ifnull(max(id),{}) as id FROM tbld_player"), m_nCurPlayerMaxID));
+        m_nCurPlayerMaxID = GetDefaultPlayerID(GetWorldID());
+        auto result_playercount =
+            m_pGameDB->UnionQuery(fmt::format(FMT_STRING("SELECT ifnull(max(id),{}) as id FROM tbld_player"), m_nCurPlayerMaxID));
         if(result_playercount && result_playercount->get_num_row() == 1)
         {
             auto row_result = result_playercount->fetch_row(false);
@@ -181,13 +177,12 @@ bool CWorldService::Init(const ServerPort& nServerPort)
 
     //设置等待哪些服ready
     GetMessageRoute()->ForeachServiceInfoByWorldID(GetWorldID(), false, [this](const ServerAddrInfo* info) {
-        if(info->idService == WORLD_SERVICE_ID ||
-           (info->idService >= MIN_AI_SERVICE_ID && info->idService <= MAX_AI_SERVICE_ID))
+        if(info->idServiceType == WORLD_SERVICE || info->idServiceType == AI_SERVICE || info->idServiceType == AUTH_SERVICE)
         {
             return true;
         }
 
-        m_setServiceNeedReady.emplace(info->idService);
+        m_setServiceNeedReady.emplace(info->idServiceType, info->idServiceIdx);
         return true;
     });
 
@@ -214,24 +209,24 @@ void CWorldService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
         if(GetMessageRoute()->IsConnected(pNetworkMsg->GetForward().GetServerPort()) == true)
         {
             pNetworkMsg->SetTo(pNetworkMsg->GetForward());
-            SendMsgToPort(*pNetworkMsg);
+            _SendMsgToZonePort(*pNetworkMsg);
         }
         else
         {
             //尝试使用route来中转
-            pNetworkMsg->SetTo(ServerPort(0, ROUTE_SERVICE_ID));
-            SendMsgToPort(*pNetworkMsg);
+            pNetworkMsg->SetTo(ServerPort(GetWorldID(), ROUTE_SERVICE, 0));
+            _SendMsgToZonePort(*pNetworkMsg);
         }
         return;
     }
 
     if(m_pNetMsgProcess->Process(pNetworkMsg) == false)
     {
-        LOGERROR("CMD {} from {} to {} forward {} didn't have ProcessHandler", 
-                pNetworkMsg->GetCmd(),
-                pNetworkMsg->GetFrom(),
-                pNetworkMsg->GetTo(),
-                pNetworkMsg->GetForward());
+        LOGERROR("CMD {} from {} to {} forward {} didn't have ProcessHandler",
+                 pNetworkMsg->GetCmd(),
+                 pNetworkMsg->GetFrom(),
+                 pNetworkMsg->GetTo(),
+                 pNetworkMsg->GetForward());
         return;
     }
 
@@ -268,10 +263,6 @@ void CWorldService::RecyclePlayerID(OBJID idPlayer)
     m_setPlayerIDPool.push_back(idPlayer);
 }
 
-bool CWorldService::CheckProgVer(const std::string& prog_ver) const
-{
-    return true;
-}
 
 std::unique_ptr<CMysqlConnection> CWorldService::ConnectGlobalDB()
 {
@@ -304,53 +295,50 @@ void CWorldService::SetServiceReady(uint16_t idService)
         LOGMESSAGE("AllServiceReady");
 
         {
-            ServerMSG::ServiceReady msg;
-            msg.set_serverport(GetServerPort());
-            msg.set_ready(true);
-            // send notify to socket
-            for(uint32_t i = MIN_SOCKET_SERVICE_ID; i <= MAX_SOCKET_SERVICE_ID; i++)
+
             {
-                SendMsgToPort(ServerPort(GetWorldID(), i), msg);
+                ServerMSG::ServiceRegister send_msg;
+                send_msg.set_serverport(GetServerPort());
+                send_msg.set_update_time(TimeGetSecond());
+                WorldService()->SendProtoMsgToZonePort(ServerPort(0, ROUTE_SERVICE, 0), send_msg);
             }
-            SendMsgToPort(ServerPort(GetWorldID(), GM_SERVICE_ID), msg);
+
+            {
+                ServerMSG::SocketStartAccept send_msg;
+                // send notify to socket
+                auto serverport_list = GetMessageRoute()->GetServerPortListByWorldIDAndServiceType(GetWorldID(), SOCKET_SERVICE, false);
+                for(const auto& serverport: serverport_list)
+                {
+                    SendProtoMsgToZonePort(serverport, send_msg);
+                }
+            }
+            
         }
     }
 
     __LEAVE_FUNCTION
 }
 
-bool CWorldService::SendMsgToAllPlayer(const google::protobuf::Message& msg) const
-{
-    return SendMsgToAllPlayer(to_sc_cmd(msg), msg);
-}
-
-bool CWorldService::SendMsgToAllPlayer(uint16_t nCmd, const google::protobuf::Message& msg) const
+bool CWorldService::SendProtoMsgToAllPlayer(const proto_msg_t& msg) const
 {
     __ENTER_FUNCTION
-    CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket(), 0);
-    for(uint32_t i = MIN_SOCKET_SERVICE_ID; i <= MAX_SOCKET_SERVICE_ID; i++)
+    auto serverport_list = GetMessageRoute()->GetServerPortListByWorldIDAndServiceType(GetWorldID(), SOCKET_SERVICE, false);
+    for(const auto& serverport: serverport_list)
     {
-        _msg.SetTo(VirtualSocket(ServerPort(GetWorldID(), i), 0));
-        SendBroadcastMsg(_msg);
+        SendBroadcastMsgToPort(serverport, msg);
     }
     return true;
     __LEAVE_FUNCTION
     return false;
 }
 
-bool CWorldService::SendMsgToAllScene(const google::protobuf::Message& msg) const
-{
-    return SendMsgToAllScene(to_server_msgid(msg), msg);
-}
-
-bool CWorldService::SendMsgToAllScene(uint16_t nCmd, const google::protobuf::Message& msg) const
+bool CWorldService::SendProtoMsgToAllScene(const proto_msg_t& msg) const
 {
     __ENTER_FUNCTION
-    for(uint32_t i = MIN_ZONE_SERVICE_ID; i <= MAX_ZONE_SERVICE_ID; i++)
+    auto serverport_list = GetMessageRoute()->GetServerPortListByWorldIDAndServiceType(GetWorldID(), SOCKET_SERVICE, false);
+    for(const auto& serverport: serverport_list)
     {
-        if(i == GetServiceID())
-            continue;
-        SendMsgToPort(ServerPort(GetWorldID(), i), nCmd, msg);
+        SendProtoMsgToZonePort(serverport, msg);
     }
     return true;
     __LEAVE_FUNCTION
@@ -368,18 +356,17 @@ void CWorldService::OnLogicThreadProc()
 
     if(m_tLastDisplayTime.ToNextTime())
     {
-        std::string buf = std::string("\n======================================================================") +
-                          fmt::format(FMT_STRING("\nMessageProcess:{}"), GetMessageProcess()) +
-                          fmt::format(FMT_STRING("\nEvent:{}\tActive:{}\tMem:{}"),
-                                      EventManager()->GetEventCount(),
-                                      EventManager()->GetRunningEventCount(),
-                                      get_thread_memory_allocted()) +
-                          fmt::format(FMT_STRING("\nAccount:{}\tWait:{}"),
-                                      AccountManager()->GetAccountSize(),
-                                      AccountManager()->GetWaitAccountSize());
+        std::string buf =
+            std::string("\n======================================================================") +
+            fmt::format(FMT_STRING("\nMessageProcess:{}"), GetMessageProcess()) +
+            fmt::format(FMT_STRING("\nEvent:{}\tActive:{}\tMem:{}"),
+                        EventManager()->GetEventCount(),
+                        EventManager()->GetRunningEventCount(),
+                        get_thread_memory_allocted()) +
+            fmt::format(FMT_STRING("\nAccount:{}\tWait:{}"), AccountManager()->GetAccountSize(), AccountManager()->GetWaitAccountSize());
 
-        auto check_func = [this, &buf](uint16_t idService) {
-            auto pMessagePort = GetMessageRoute()->QueryMessagePort(ServerPort(GetWorldID(), idService), false);
+        auto check_func = [&buf](const ServerPort& serverport) {
+            auto pMessagePort = GetMessageRoute()->QueryMessagePort(serverport, false);
             if(pMessagePort && pMessagePort->GetWriteBufferSize() > 0)
             {
                 buf += fmt::format(FMT_STRING("\nMsgPort:{}-{}\tSendBuff:{}"),
@@ -388,14 +375,19 @@ void CWorldService::OnLogicThreadProc()
                                    pMessagePort->GetWriteBufferSize());
             }
         };
-
-        for(int32_t i = MIN_SOCKET_SERVICE_ID; i <= MAX_SOCKET_SERVICE_ID; i++)
         {
-            check_func(i);
+            auto serverport_list = GetMessageRoute()->GetServerPortListByWorldIDAndServiceType(GetWorldID(), SOCKET_SERVICE, false);
+            for(const auto& serverport: serverport_list)
+            {
+                check_func(serverport);
+            }
         }
-        for(int32_t i = MIN_ZONE_SERVICE_ID; i <= MAX_SHAREZONE_SERVICE_ID; i++)
         {
-            check_func(i);
+            auto serverport_list = GetMessageRoute()->GetServerPortListByWorldIDAndServiceType(GetWorldID(), SCENE_SERVICE, true);
+            for(const auto& serverport: serverport_list)
+            {
+                check_func(serverport);
+            }
         }
 
         LOGMONITOR("{}", buf.c_str());

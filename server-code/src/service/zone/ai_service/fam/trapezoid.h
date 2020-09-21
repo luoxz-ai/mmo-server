@@ -45,8 +45,8 @@ namespace fuzzy
 
         void print(std::ostream& strm) const
         {
-            strm << "Trapezoid {" << this << ", " << this->_left << "/" << this->_top_left << "/" << this->_top_right
-                 << "/" << this->_right << " (" << this->_height << ")}";
+            strm << "Trapezoid {" << this << ", " << this->_left << "/" << this->_top_left << "/" << this->_top_right << "/" << this->_right << " ("
+                 << this->_height << ")}";
         }
 
     public:

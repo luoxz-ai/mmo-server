@@ -37,10 +37,7 @@ public:
     uint32_t            GetLevUpNeedExp() const { return m_nLevUpExp; }
 
 public:
-    static uint32_t MakeID(uint16_t dwProfession, uint32_t ucLevel)
-    {
-        return ((uint32_t)(dwProfession) << 16) | (uint32_t)(ucLevel & 0xFFFF);
-    }
+    static uint32_t MakeID(uint16_t dwProfession, uint32_t ucLevel) { return ((uint32_t)(dwProfession) << 16) | (uint32_t)(ucLevel & 0xFFFF); }
 
 protected:
     uint16_t m_dwProfession;

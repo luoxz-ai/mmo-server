@@ -8,7 +8,6 @@
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
 
-
 ON_MSG(CWorldService, CS_CREATEACTOR)
 {
     __ENTER_FUNCTION
@@ -29,4 +28,10 @@ ON_MSG(CWorldService, CS_SELECTACTOR)
     CHECK(pAccount->IsWait() == false);
     pAccount->SelectActor(msg.actor_idx());
     __LEAVE_FUNCTION
+}
+
+
+ON_SERVERMSG(CWorldService, SocketLogin)
+{
+    AccountManager()->Login(msg.vs(), msg.open_id());
 }

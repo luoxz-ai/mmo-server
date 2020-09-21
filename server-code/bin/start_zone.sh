@@ -4,7 +4,7 @@ DIR_file=`pwd`
 
 serverid=$1
 if [ ! -n "$1" ] ;then  
-    serverid=1001
+    serverid=1
 fi 
 
 mkdir -p binary

@@ -1,7 +1,5 @@
 #include "Quaternion.h"
 
-
-
 //-----------------------------------------------------------------------
 void Quaternion::FromRotationMatrix(const Matrix3& kRot)
 {
@@ -384,11 +382,7 @@ Quaternion Quaternion::SlerpExtraSpins(float fT, const Quaternion& rkP, const Qu
     return fCoeff0 * rkP + fCoeff1 * rkQ;
 }
 //-----------------------------------------------------------------------
-void Quaternion::Intermediate(const Quaternion& rkQ0,
-                              const Quaternion& rkQ1,
-                              const Quaternion& rkQ2,
-                              Quaternion&       rkA,
-                              Quaternion&       rkB)
+void Quaternion::Intermediate(const Quaternion& rkQ0, const Quaternion& rkQ1, const Quaternion& rkQ2, Quaternion& rkA, Quaternion& rkB)
 {
     // assert:  q0, q1, q2 are unit quaternions
 
@@ -403,12 +397,7 @@ void Quaternion::Intermediate(const Quaternion& rkQ0,
     rkB = rkQ1 * kMinusArg.Exp();
 }
 //-----------------------------------------------------------------------
-Quaternion Quaternion::Squad(float             fT,
-                             const Quaternion& rkP,
-                             const Quaternion& rkA,
-                             const Quaternion& rkB,
-                             const Quaternion& rkQ,
-                             bool              shortestPath)
+Quaternion Quaternion::Squad(float fT, const Quaternion& rkP, const Quaternion& rkA, const Quaternion& rkB, const Quaternion& rkQ, bool shortestPath)
 {
     float      fSlerpT = 2.0f * fT * (1.0f - fT);
     Quaternion kSlerpP = Slerp(fT, rkP, rkQ, shortestPath);

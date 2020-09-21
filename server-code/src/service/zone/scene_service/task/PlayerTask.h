@@ -5,8 +5,8 @@
 #include "PlayerTaskData.h"
 #include "TaskType.h"
 
-export_lua constexpr const char* STR_TASK_ACCEPT   = "接受任务";
-export_lua constexpr const char* STR_TASK_SUBMIT[] = {"领取奖励", "一倍奖励", "两倍奖励", "三倍奖励"};
+export_lua constexpr const char* STR_TASK_ACCEPT       = "接受任务";
+export_lua constexpr const char* STR_TASK_SUBMIT[]     = {"领取奖励", "一倍奖励", "两倍奖励", "三倍奖励"};
 export_lua constexpr const char* STR_TASK_QUICK_FINISH = "快速完成";
 
 export_lua constexpr uint32_t MAX_ACCEPT_TASK = 20;

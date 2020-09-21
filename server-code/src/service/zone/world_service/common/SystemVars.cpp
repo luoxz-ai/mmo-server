@@ -31,7 +31,7 @@ uint64_t CSystemVar::GetData(uint32_t nIdx) const
 const std::string& CSystemVar::GetStr(uint32_t nIdx) const
 {
     static const std::string s_Empty;
-    CHECKFR_V(0 > nIdx && nIdx < 4, s_Empty, nIdx);
+    CHECK_RET_V(0 > nIdx && nIdx < 4, s_Empty, nIdx);
     return m_szStrData[nIdx];
 }
 
@@ -54,7 +54,7 @@ void CSystemVar::AddData(uint32_t nIdx, int64_t nVal, bool bUpdate /*= false*/, 
         msg.set_idx(nIdx);
         msg.set_val(nVal);
         msg.set_type(ServerMSG::SystemVarChange::SVCT_ADD_DATA);
-        WorldService()->SendMsgToAllScene(msg);
+        WorldService()->SendProtoMsgToAllScene(msg);
     }
 }
 
@@ -76,7 +76,7 @@ void CSystemVar::SetData(uint32_t nIdx, uint64_t nVal, bool bUpdate /*= false*/,
         msg.set_idx(nIdx);
         msg.set_val(nVal);
         msg.set_type(ServerMSG::SystemVarChange::SVCT_SET_DATA);
-        WorldService()->SendMsgToAllScene(msg);
+        WorldService()->SendProtoMsgToAllScene(msg);
     }
 }
 
@@ -97,7 +97,7 @@ void CSystemVar::SetStr(uint32_t nIdx, const std::string& strVal, bool bUpdate /
         msg.set_idx(nIdx);
         msg.set_str(strVal);
         msg.set_type(ServerMSG::SystemVarChange::SVCT_SET_STR);
-        WorldService()->SendMsgToAllScene(msg);
+        WorldService()->SendProtoMsgToAllScene(msg);
     }
 }
 
@@ -125,7 +125,7 @@ void CSystemVar::Broadcast()
     if(GetStr(3).empty() == false)
         pData->set_str3(GetStr(3));
 
-    WorldService()->SendMsgToAllPlayer(msg);
+    WorldService()->SendProtoMsgToAllPlayer(msg);
 }
 
 void CSystemVar::Save()
@@ -236,7 +236,7 @@ CSystemVar* CSystemVarSet::CreateVar(uint32_t nIdx)
     ServerMSG::SystemVarChange msg;
     msg.set_keyidx(nIdx);
     msg.set_type(ServerMSG::SystemVarChange::SVCT_CREATE);
-    WorldService()->SendMsgToAllScene(msg);
+    WorldService()->SendProtoMsgToAllScene(msg);
 
     return m_setData[nIdx].get();
 }

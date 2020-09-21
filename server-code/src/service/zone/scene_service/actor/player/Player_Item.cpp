@@ -29,10 +29,7 @@ CStoragePackage* CPlayer::GetStroagePackage()
     return nullptr;
 }
 
-bool CPlayer::SpendItem(uint32_t nItemLogType,
-                        uint32_t idItemType,
-                        uint32_t nCount /*= 1*/,
-                        bool     bUseBindFirst /*= true*/)
+bool CPlayer::SpendItem(uint32_t nItemLogType, uint32_t idItemType, uint32_t nCount /*= 1*/, bool bUseBindFirst /*= true*/)
 {
     __ENTER_FUNCTION
     CHECKF(idItemType > 0);
@@ -128,8 +125,7 @@ bool CPlayer::UseItem(uint32_t nGridInBag, uint32_t nCount /* = 1*/)
         auto check_func_name = ScriptManager()->QueryFunc(pItemType->GetScriptID(), SCB_ITEM_ONBATCHUSECHECK);
         if(check_func_name.empty() == false)
         {
-            nCount =
-                ScriptManager()->_ExecScript<uint32_t>(check_func_name.c_str(), check_func_name, pItem, nCount, this);
+            nCount = ScriptManager()->_ExecScript<uint32_t>(check_func_name.c_str(), check_func_name, pItem, nCount, this);
             if(nCount == 0)
                 return false;
         }

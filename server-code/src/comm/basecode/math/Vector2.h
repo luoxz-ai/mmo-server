@@ -124,15 +124,9 @@ public:
     inline Vector2 operator-() const { return Vector2(-x, -y); }
 
     // overloaded operators to help Vector2
-    inline friend Vector2 operator*(const float fScalar, const Vector2& rkVector)
-    {
-        return Vector2(fScalar * rkVector.x, fScalar * rkVector.y);
-    }
+    inline friend Vector2 operator*(const float fScalar, const Vector2& rkVector) { return Vector2(fScalar * rkVector.x, fScalar * rkVector.y); }
 
-    inline friend Vector2 operator/(const float fScalar, const Vector2& rkVector)
-    {
-        return Vector2(fScalar / rkVector.x, fScalar / rkVector.y);
-    }
+    inline friend Vector2 operator/(const float fScalar, const Vector2& rkVector) { return Vector2(fScalar / rkVector.x, fScalar / rkVector.y); }
 
     inline friend Vector2 operator+(const Vector2& lhs, const float rhs) { return Vector2(lhs.x + rhs, lhs.y + rhs); }
 
@@ -294,10 +288,7 @@ public:
     /** Returns a vector at a point half way between this and the passed
         in vector.
     */
-    export_lua inline Vector2 midPoint(const Vector2& vec) const
-    {
-        return Vector2((x + vec.x) * 0.5f, (y + vec.y) * 0.5f);
-    }
+    export_lua inline Vector2 midPoint(const Vector2& vec) const { return Vector2((x + vec.x) * 0.5f, (y + vec.y) * 0.5f); }
 
     /** Returns true if the vector's scalar components are all greater
         that the ones of the vector it is compared against.
@@ -408,20 +399,17 @@ public:
     /** Calculates a reflection vector to the plane with the given normal .
     @remarks NB assumes 'this' is pointing AWAY FROM the plane, invert if it is not.
     */
-    export_lua inline Vector2 reflect(const Vector2& normal) const
-    {
-        return Vector2(*this - (2 * this->dotProduct(normal) * normal));
-    }
+    export_lua inline Vector2 reflect(const Vector2& normal) const { return Vector2(*this - (2 * this->dotProduct(normal) * normal)); }
     /// Check whether this vector contains valid values
     export_lua inline bool isNaN() const { return Math::isNaN(x) || Math::isNaN(y); }
 
     // special points
-    export_lua static inline Vector2 ZERO() {return {0, 0};}
-    export_lua static inline Vector2 UNIT_X() {return {1, 0};}
-    export_lua static inline Vector2 UNIT_Y() {return {0, 1};}
-    export_lua static inline Vector2 NEGATIVE_UNIT_X() {return {-1, 0};}
-    export_lua static inline Vector2 NEGATIVE_UNIT_Y() {return{0, -1};}
-    export_lua static inline Vector2 UNIT_SCALE() {return {1, 1};}
+    export_lua static inline Vector2 ZERO() { return {0, 0}; }
+    export_lua static inline Vector2 UNIT_X() { return {1, 0}; }
+    export_lua static inline Vector2 UNIT_Y() { return {0, 1}; }
+    export_lua static inline Vector2 NEGATIVE_UNIT_X() { return {-1, 0}; }
+    export_lua static inline Vector2 NEGATIVE_UNIT_Y() { return {0, -1}; }
+    export_lua static inline Vector2 UNIT_SCALE() { return {1, 1}; }
 };
 
 export_lua using CPos2D = Vector2;

@@ -99,26 +99,14 @@ public:
         return *this;
     }
 
-    export_lua inline bool operator==(const Vector3& rkVector) const
-    {
-        return (x == rkVector.x && y == rkVector.y && z == rkVector.z);
-    }
+    export_lua inline bool operator==(const Vector3& rkVector) const { return (x == rkVector.x && y == rkVector.y && z == rkVector.z); }
 
-    export_lua inline bool operator!=(const Vector3& rkVector) const
-    {
-        return (x != rkVector.x || y != rkVector.y || z != rkVector.z);
-    }
+    export_lua inline bool operator!=(const Vector3& rkVector) const { return (x != rkVector.x || y != rkVector.y || z != rkVector.z); }
 
     // arithmetic operations
-    inline Vector3 operator+(const Vector3& rkVector) const
-    {
-        return Vector3(x + rkVector.x, y + rkVector.y, z + rkVector.z);
-    }
+    inline Vector3 operator+(const Vector3& rkVector) const { return Vector3(x + rkVector.x, y + rkVector.y, z + rkVector.z); }
 
-    inline Vector3 operator-(const Vector3& rkVector) const
-    {
-        return Vector3(x - rkVector.x, y - rkVector.y, z - rkVector.z);
-    }
+    inline Vector3 operator-(const Vector3& rkVector) const { return Vector3(x - rkVector.x, y - rkVector.y, z - rkVector.z); }
 
     inline Vector3 operator*(const float fScalar) const { return Vector3(x * fScalar, y * fScalar, z * fScalar); }
 
@@ -150,25 +138,13 @@ public:
         return Vector3(fScalar / rkVector.x, fScalar / rkVector.y, fScalar / rkVector.z);
     }
 
-    inline friend Vector3 operator+(const Vector3& lhs, const float rhs)
-    {
-        return Vector3(lhs.x + rhs, lhs.y + rhs, lhs.z + rhs);
-    }
+    inline friend Vector3 operator+(const Vector3& lhs, const float rhs) { return Vector3(lhs.x + rhs, lhs.y + rhs, lhs.z + rhs); }
 
-    inline friend Vector3 operator+(const float lhs, const Vector3& rhs)
-    {
-        return Vector3(lhs + rhs.x, lhs + rhs.y, lhs + rhs.z);
-    }
+    inline friend Vector3 operator+(const float lhs, const Vector3& rhs) { return Vector3(lhs + rhs.x, lhs + rhs.y, lhs + rhs.z); }
 
-    inline friend Vector3 operator-(const Vector3& lhs, const float rhs)
-    {
-        return Vector3(lhs.x - rhs, lhs.y - rhs, lhs.z - rhs);
-    }
+    inline friend Vector3 operator-(const Vector3& lhs, const float rhs) { return Vector3(lhs.x - rhs, lhs.y - rhs, lhs.z - rhs); }
 
-    inline friend Vector3 operator-(const float lhs, const Vector3& rhs)
-    {
-        return Vector3(lhs - rhs.x, lhs - rhs.y, lhs - rhs.z);
-    }
+    inline friend Vector3 operator-(const float lhs, const Vector3& rhs) { return Vector3(lhs - rhs.x, lhs - rhs.y, lhs - rhs.z); }
 
     // arithmetic updates
     inline Vector3& operator+=(const Vector3& rkVector)
@@ -312,10 +288,7 @@ public:
         @returns
             A float representing the absolute dot product value.
     */
-    export_lua inline float absDotProduct(const Vector3& vec) const
-    {
-        return fabs(x * vec.x) + fabs(y * vec.y) + fabs(z * vec.z);
-    }
+    export_lua inline float absDotProduct(const Vector3& vec) const { return fabs(x * vec.x) + fabs(y * vec.y) + fabs(z * vec.z); }
 
     /** Normalises the vector.
         @remarks
@@ -372,18 +345,13 @@ public:
     */
     export_lua inline Vector3 crossProduct(const Vector3& rkVector) const
     {
-        return Vector3(y * rkVector.z - z * rkVector.y,
-                       z * rkVector.x - x * rkVector.z,
-                       x * rkVector.y - y * rkVector.x);
+        return Vector3(y * rkVector.z - z * rkVector.y, z * rkVector.x - x * rkVector.z, x * rkVector.y - y * rkVector.x);
     }
 
     /** Returns a vector at a point half way between this and the passed
         in vector.
     */
-    export_lua inline Vector3 midPoint(const Vector3& vec) const
-    {
-        return Vector3((x + vec.x) * 0.5f, (y + vec.y) * 0.5f, (z + vec.z) * 0.5f);
-    }
+    export_lua inline Vector3 midPoint(const Vector3& vec) const { return Vector3((x + vec.x) * 0.5f, (y + vec.y) * 0.5f, (z + vec.z) * 0.5f); }
 
     /** Returns true if the vector's scalar components are all greater
         that the ones of the vector it is compared against.
@@ -484,10 +452,7 @@ public:
     /** Calculates a reflection vector to the plane with the given normal .
     @remarks NB assumes 'this' is pointing AWAY FROM the plane, invert if it is not.
     */
-    export_lua inline Vector3 reflect(const Vector3& normal) const
-    {
-        return Vector3(*this - (2 * this->dotProduct(normal) * normal));
-    }
+    export_lua inline Vector3 reflect(const Vector3& normal) const { return Vector3(*this - (2 * this->dotProduct(normal) * normal)); }
 
     /** Returns whether this vector is within a positional tolerance
         of another vector.
@@ -497,8 +462,7 @@ public:
     */
     export_lua inline bool positionEquals(const Vector3& rhs, float tolerance = 1e-03) const
     {
-        return Math::FloatEqual(x, rhs.x, tolerance) && Math::FloatEqual(y, rhs.y, tolerance) &&
-               Math::FloatEqual(z, rhs.z, tolerance);
+        return Math::FloatEqual(x, rhs.x, tolerance) && Math::FloatEqual(y, rhs.y, tolerance) && Math::FloatEqual(z, rhs.z, tolerance);
     }
 
     /** Returns whether this vector is within a positional tolerance
@@ -534,14 +498,14 @@ public:
     }
 
     // special points
-    export_lua static inline Vector3 ZERO() {return {0, 0, 0};};
-    export_lua static inline Vector3 UNIT_X() {return {1, 0, 0};}
-    export_lua static inline Vector3 UNIT_Y() {return {0, 1, 0};}
-    export_lua static inline Vector3 UNIT_Z() {return {0, 0, 1};}
-    export_lua static inline Vector3 NEGATIVE_UNIT_X() {return {-1, 0, 0};}
-    export_lua static inline Vector3 NEGATIVE_UNIT_Y() {return {0, -1, 0};}
-    export_lua static inline Vector3 NEGATIVE_UNIT_Z() {return {0, 0, -1};}
-    export_lua static inline Vector3 UNIT_SCALE() {return{1, 1, 1};}
+    export_lua static inline Vector3 ZERO() { return {0, 0, 0}; };
+    export_lua static inline Vector3 UNIT_X() { return {1, 0, 0}; }
+    export_lua static inline Vector3 UNIT_Y() { return {0, 1, 0}; }
+    export_lua static inline Vector3 UNIT_Z() { return {0, 0, 1}; }
+    export_lua static inline Vector3 NEGATIVE_UNIT_X() { return {-1, 0, 0}; }
+    export_lua static inline Vector3 NEGATIVE_UNIT_Y() { return {0, -1, 0}; }
+    export_lua static inline Vector3 NEGATIVE_UNIT_Z() { return {0, 0, -1}; }
+    export_lua static inline Vector3 UNIT_SCALE() { return {1, 1, 1}; }
 };
 
 export_lua using CPos3D = Vector3;

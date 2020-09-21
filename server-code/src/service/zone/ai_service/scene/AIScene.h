@@ -35,7 +35,7 @@ public:
 
 private:
     uint16_t m_idMap = 0;
-    
+
     std::unordered_map<uint64_t, std::unique_ptr<CAIPhase>> m_pPhaseSet;
     std::unordered_map<uint32_t, CAIPhase*>                 m_pPhaseSetByIdx;
 };

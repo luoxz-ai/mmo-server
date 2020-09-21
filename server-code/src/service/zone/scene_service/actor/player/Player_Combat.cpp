@@ -39,8 +39,7 @@ bool CPlayer::CanDamage(CActor* pTarget) const
 
         //新手保护
         constexpr uint32_t NEWIBLE_PK_PROTECTED_LEV = 40;
-        if(GetCurrentScene()->GetMap()->HasMapFlag(MAPFLAG_DISABLE_PKPROTECTED) == false &&
-           pTargetPlayer->GetLev() < NEWIBLE_PK_PROTECTED_LEV)
+        if(GetCurrentScene()->GetMap()->HasMapFlag(MAPFLAG_DISABLE_PKPROTECTED) == false && pTargetPlayer->GetLev() < NEWIBLE_PK_PROTECTED_LEV)
             return false;
 
         switch(GetPKMode())
@@ -52,8 +51,7 @@ bool CPlayer::CanDamage(CActor* pTarget) const
             break;
             case PKMODE_REDNAME:
             {
-                return pTargetPlayer->GetStatus()->TestStatusByType(STATUSTYPE_CRIME) ||
-                       pTargetPlayer->GetPKVal() >= RED_NAME_PKVAL;
+                return pTargetPlayer->GetStatus()->TestStatusByType(STATUSTYPE_CRIME) || pTargetPlayer->GetPKVal() >= RED_NAME_PKVAL;
             }
             break;
             case PKMODE_TEAM:

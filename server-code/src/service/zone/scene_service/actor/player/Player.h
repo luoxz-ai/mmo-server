@@ -53,8 +53,7 @@ public:
     export_lua bool FlyMap(uint16_t idMap, int32_t idxPhase, float fPosX, float fPosY, float fRange, float fFace);
 
 public:
-    export_lua bool         SendMsg(const google::protobuf::Message& msg) const;
-    export_lua virtual bool SendMsg(uint16_t cmd, const google::protobuf::Message& msg) const override;
+    export_lua bool         SendMsg(const proto_msg_t& msg) const override;
 
 public:
     export_lua virtual ActorType GetActorType() const override { return ActorType::ACT_PLAYER; }
@@ -71,29 +70,29 @@ public:
     export_lua uint32_t                   GetVipLev() const { return m_pRecord->Field(TBLD_PLAYER::VIPLEV); }
     export_lua uint32_t                   GetPKVal() const { return m_pRecord->Field(TBLD_PLAYER::PKVAL); }
     export_lua uint32_t                   GetHonor() const { return m_pRecord->Field(TBLD_PLAYER::HONOR); }
-    export_lua SceneIdx         GetRecordSceneIdx() const { return m_pRecord->Field(TBLD_PLAYER::RECORD_SCENEID).get<uint64_t>(); }
-    export_lua SceneIdx         GetHomeSceneIdx() const { return m_pRecord->Field(TBLD_PLAYER::HOME_SCENEID).get<uint64_t>(); }
-    export_lua virtual uint32_t GetLev() const override { return m_pRecord->Field(TBLD_PLAYER::LEV); }
-    export_lua uint64_t         GetExp() const { return m_pRecord->Field(TBLD_PLAYER::EXP); }
-    export_lua uint64_t         GetMoney() const { return m_pRecord->Field(TBLD_PLAYER::MONEY); }
-    export_lua uint64_t         GetMoneyBind() const { return m_pRecord->Field(TBLD_PLAYER::MONEY_BIND); }
-    export_lua uint64_t         GetGold() const { return m_pRecord->Field(TBLD_PLAYER::GOLD); }
-    export_lua uint64_t         GetGoldBind() const { return m_pRecord->Field(TBLD_PLAYER::GOLD_BIND); }
-    export_lua uint32_t         GetBagMaxSize() const;
-    export_lua uint32_t         GetStrogeMaxSize() const;
-    export_lua uint32_t         GetAchiPoint() const { return m_pRecord->Field(TBLD_PLAYER::ACHIPOINT); }
-    export_lua virtual uint32_t GetHP() const override { return m_pRecord->Field(TBLD_PLAYER::HP); }
-    export_lua virtual uint32_t GetMP() const override { return m_pRecord->Field(TBLD_PLAYER::MP); }
-    export_lua virtual uint32_t GetFP() const override { return m_pRecord->Field(TBLD_PLAYER::FP); }
-    export_lua virtual uint32_t GetNP() const override { return m_pRecord->Field(TBLD_PLAYER::NP); }
-    export_lua virtual uint32_t GetHPMax() const override { return m_ActorAttrib[ATTRIB_HP_MAX]; }
-    export_lua virtual uint32_t GetMPMax() const override { return m_ActorAttrib[ATTRIB_MP_MAX]; }
-    export_lua virtual uint32_t GetFPMax() const override { return m_ActorAttrib[ATTRIB_FP_MAX]; }
-    export_lua virtual uint32_t GetNPMax() const override { return m_ActorAttrib[ATTRIB_NP_MAX]; }
-    export_lua virtual void     _SetHP(uint32_t v) override { m_pRecord->Field(TBLD_PLAYER::HP) = v; };
-    export_lua virtual void     _SetMP(uint32_t v) override { m_pRecord->Field(TBLD_PLAYER::MP) = v; };
-    export_lua virtual void     _SetFP(uint32_t v) override { m_pRecord->Field(TBLD_PLAYER::FP) = v; };
-    export_lua virtual void     _SetNP(uint32_t v) override { m_pRecord->Field(TBLD_PLAYER::NP) = v; };
+    export_lua SceneIdx                   GetRecordSceneIdx() const { return m_pRecord->Field(TBLD_PLAYER::RECORD_SCENEID).get<uint64_t>(); }
+    export_lua SceneIdx                   GetHomeSceneIdx() const { return m_pRecord->Field(TBLD_PLAYER::HOME_SCENEID).get<uint64_t>(); }
+    export_lua virtual uint32_t           GetLev() const override { return m_pRecord->Field(TBLD_PLAYER::LEV); }
+    export_lua uint64_t                   GetExp() const { return m_pRecord->Field(TBLD_PLAYER::EXP); }
+    export_lua uint64_t                   GetMoney() const { return m_pRecord->Field(TBLD_PLAYER::MONEY); }
+    export_lua uint64_t                   GetMoneyBind() const { return m_pRecord->Field(TBLD_PLAYER::MONEY_BIND); }
+    export_lua uint64_t                   GetGold() const { return m_pRecord->Field(TBLD_PLAYER::GOLD); }
+    export_lua uint64_t                   GetGoldBind() const { return m_pRecord->Field(TBLD_PLAYER::GOLD_BIND); }
+    export_lua uint32_t                   GetBagMaxSize() const;
+    export_lua uint32_t                   GetStrogeMaxSize() const;
+    export_lua uint32_t                   GetAchiPoint() const { return m_pRecord->Field(TBLD_PLAYER::ACHIPOINT); }
+    export_lua virtual uint32_t           GetHP() const override { return m_pRecord->Field(TBLD_PLAYER::HP); }
+    export_lua virtual uint32_t           GetMP() const override { return m_pRecord->Field(TBLD_PLAYER::MP); }
+    export_lua virtual uint32_t           GetFP() const override { return m_pRecord->Field(TBLD_PLAYER::FP); }
+    export_lua virtual uint32_t           GetNP() const override { return m_pRecord->Field(TBLD_PLAYER::NP); }
+    export_lua virtual uint32_t           GetHPMax() const override { return m_ActorAttrib[ATTRIB_HP_MAX]; }
+    export_lua virtual uint32_t           GetMPMax() const override { return m_ActorAttrib[ATTRIB_MP_MAX]; }
+    export_lua virtual uint32_t           GetFPMax() const override { return m_ActorAttrib[ATTRIB_FP_MAX]; }
+    export_lua virtual uint32_t           GetNPMax() const override { return m_ActorAttrib[ATTRIB_NP_MAX]; }
+    export_lua virtual void               _SetHP(uint32_t v) override { m_pRecord->Field(TBLD_PLAYER::HP) = v; };
+    export_lua virtual void               _SetMP(uint32_t v) override { m_pRecord->Field(TBLD_PLAYER::MP) = v; };
+    export_lua virtual void               _SetFP(uint32_t v) override { m_pRecord->Field(TBLD_PLAYER::FP) = v; };
+    export_lua virtual void               _SetNP(uint32_t v) override { m_pRecord->Field(TBLD_PLAYER::NP) = v; };
 
     export_lua float GetRecordPosX() const { return m_pRecord->Field(TBLD_PLAYER::RECORD_X); }
     export_lua float GetRecordPosY() const { return m_pRecord->Field(TBLD_PLAYER::RECORD_Y); }
@@ -160,10 +159,7 @@ public:
 
 public:
     export_lua bool CheckItem(uint32_t idItemType, uint32_t nCount = 1, uint32_t dwFlag = 0);
-    export_lua bool SpendItem(uint32_t nItemLogType,
-                              uint32_t idItemType,
-                              uint32_t nCount        = 1,
-                              bool     bUseBindFirst = true);
+    export_lua bool SpendItem(uint32_t nItemLogType, uint32_t idItemType, uint32_t nCount = 1, bool bUseBindFirst = true);
     export_lua bool AwardItem(uint32_t nItemLogType, uint32_t idItemType, uint32_t nCount, uint32_t dwFlag);
     export_lua bool UseItem(uint32_t nGridInBag, uint32_t nCount = 1);
 

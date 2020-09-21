@@ -18,17 +18,17 @@ enum LOADING_PROCESS_TYPE
 
 struct ST_LOADINGTHREAD_PROCESS_DATA
 {
-    uint32_t      nPorcessType = LPT_LOADING;
-    OBJID         idPlayer     = 0;
-    bool          bChangeZone  = false;
-    VirtualSocket socket       = 0;
-    uint64_t      idTargetScene      = 0;
+    uint32_t      nPorcessType  = LPT_LOADING;
+    OBJID         idPlayer      = 0;
+    bool          bChangeZone   = false;
+    VirtualSocket socket        = 0;
+    uint64_t      idTargetScene = 0;
     uint64_t      idxScene      = 0;
-    float         fPosX        = 0.0f;
-    float         fPosY        = 0.0f;
-    float         fRange       = 0.0f;
-    float         fFace        = 0.0f;
-    CPlayer*      pPlayer      = nullptr;
+    float         fPosX         = 0.0f;
+    float         fPosY         = 0.0f;
+    float         fRange        = 0.0f;
+    float         fFace         = 0.0f;
+    CPlayer*      pPlayer       = nullptr;
 };
 
 class CSceneService;
@@ -64,7 +64,7 @@ private:
     void CancleOnWaitList(OBJID idPlayer);
 
 private:
-    CSceneService*           m_pZone = nullptr;
+    CSceneService*          m_pZone = nullptr;
     std::atomic<bool>       m_bStop = false;
     std::condition_variable m_cv;
 

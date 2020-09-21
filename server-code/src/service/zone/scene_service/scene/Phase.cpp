@@ -10,8 +10,8 @@
 #include "Player.h"
 #include "Scene.h"
 #include "SceneManager.h"
-#include "ScriptManager.h"
 #include "SceneService.h"
+#include "ScriptManager.h"
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
 
@@ -112,16 +112,11 @@ export_lua void CPhase::ClearDynaRegion(uint32_t nRegionType)
     CSceneBase::ClearDynaRegion(nRegionType);
 }
 
-bool CPhase::SendSceneMessage(const google::protobuf::Message& msg) const
-{
-    return SendSceneMessage(to_sc_cmd(msg), msg);
-}
-
-bool CPhase::SendSceneMessage(uint16_t cmd, const google::protobuf::Message& msg) const
+bool CPhase::SendSceneMessage(const proto_msg_t& msg) const
 {
     __ENTER_FUNCTION
     auto setSocketMap = SceneService()->IDList2VSMap(m_setPlayer, 0);
-    return SceneService()->SendMsgTo(setSocketMap, cmd, msg);
+    return SceneService()->SendMsgTo(setSocketMap, msg);
     __LEAVE_FUNCTION
     return false;
 }
@@ -131,12 +126,12 @@ void CPhase::AddTimedCallback(uint32_t tIntervalMS, const std::string& func_name
     __ENTER_FUNCTION
     if(m_pMap->GetScriptID() == 0)
         return;
-    
+
     CEventEntryCreateParam param;
     param.evType = 0;
-    param.cb     =  [pThis = this, _func_name = func_name]() {
-            ScriptManager()->ExecScript<void>(pThis->m_pMap->GetScriptID(), _func_name.c_str(), pThis);
-        };
+    param.cb     = [pThis = this, _func_name = func_name]() {
+        ScriptManager()->ExecScript<void>(pThis->m_pMap->GetScriptID(), _func_name.c_str(), pThis);
+    };
     param.tWaitTime = tIntervalMS;
     param.bPersist  = false;
     EventManager()->ScheduleEvent(param, m_StatusEventList);
@@ -166,8 +161,7 @@ CNpc* CPhase::CreateNpc(uint32_t idNpcType, const CPos2D& pos, float face)
 CMonster* CPhase::CreateMonster(const CreateMonsterParam& param)
 {
     __ENTER_FUNCTION
-    CMonster* pMonster =
-        CMonster::CreateNew(param.idMonsterType, param.idOwner, param.idGen, param.idPhase, param.idCamp);
+    CMonster* pMonster = CMonster::CreateNew(param.idMonsterType, param.idOwner, param.idGen, param.idPhase, param.idCamp);
     if(pMonster)
     {
         // notify ai
@@ -231,12 +225,8 @@ void CPhase::_KickPlayer(const char* pszReason, CPlayer* pPlayer)
         uint16_t idNewMap = refRebornData.reborn_map();
         if(idNewMap != 0 && idNewMap != GetID())
         {
-            pPlayer->FlyMap(idNewMap,
-                            0,
-                            refRebornData.reborn_x(),
-                            refRebornData.reborn_y(),
-                            refRebornData.reborn_range(),
-                            refRebornData.reborn_face());
+            pPlayer
+                ->FlyMap(idNewMap, 0, refRebornData.reborn_x(), refRebornData.reborn_y(), refRebornData.reborn_range(), refRebornData.reborn_face());
             return;
         }
     }
@@ -265,9 +255,7 @@ void CPhase::_KickPlayer(const char* pszReason, CPlayer* pPlayer)
     }
     else
     {
-        LOGWARNING("Error User:{} HomeMap/RebornMap is ThisMap{}. In CPhase::KickAllPlayer",
-                   pPlayer->GetID(),
-                   GetMapID());
+        LOGWARNING("Error User:{} HomeMap/RebornMap is ThisMap{}. In CPhase::KickAllPlayer", pPlayer->GetID(), GetMapID());
         pPlayer->OnLogout();
     }
 }
@@ -331,8 +319,8 @@ void CPhase::ScheduleDelPhase(uint32_t wait_ms)
     };
 
     CEventEntryCreateParam param;
-    param.evType = 0;
-    param.cb     =  std::move(del_func);
+    param.evType    = 0;
+    param.cb        = std::move(del_func);
     param.tWaitTime = wait_ms;
     param.bPersist  = false;
 

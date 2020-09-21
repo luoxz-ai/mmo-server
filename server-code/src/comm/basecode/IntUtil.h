@@ -2,6 +2,7 @@
 #define INTUTIL_H
 
 #include "CheckUtil.h"
+#include "export_lua.h"
 
 #define UNUSED(var) (void)((var) = (var))
 

@@ -80,16 +80,10 @@ public:
     export_lua bool    IsDropDisable(float x, float y) const { return _getGridData(x, y).bDropDisable == TRUE; }
     export_lua bool    IsPvPFree(float x, float y) const { return _getGridData(x, y).bPvPFree == TRUE; }
     export_lua bool    IsDeadNoDrop(float x, float y) const { return _getGridData(x, y).bDeadNoDrop == TRUE; }
-    export_lua bool    CanCollision(uint32_t self_type, uint32_t other_type) const
-    {
-        return HasFlag(m_CollisionMask[self_type], (1 << other_type));
-    }
+    export_lua bool    CanCollision(uint32_t self_type, uint32_t other_type) const { return HasFlag(m_CollisionMask[self_type], (1 << other_type)); }
 
     export_lua uint32_t GetSPRegionIdx(float x, float y) const { return _getGridData(x, y).nSPRegionIdx; }
-    export_lua float    GetHigh(float x, float y) const
-    {
-        return (float(_getGridData(x, y).nHigh) / 255.0f) * m_fGridHighFactor;
-    }
+    export_lua float    GetHigh(float x, float y) const { return (float(_getGridData(x, y).nHigh) / 255.0f) * m_fGridHighFactor; }
 
     export_lua const MapGridData& _getGridData(float x, float y) const;
     export_lua std::tuple<uint32_t, uint32_t> Pos2Grid(float x, float y) const;

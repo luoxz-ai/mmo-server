@@ -1,7 +1,6 @@
 #ifndef ENUMUTIL_H
 #define ENUMUTIL_H
 
-
 /**
  * @brief Utility class to handle flags.
  *
@@ -13,7 +12,8 @@
  * type), thus converted to the underlying type when needed.
  */
 template<typename E>
-class Flags final {
+class Flags final
+{
     using InnerType = std::underlying_type_t<E>;
 
     constexpr InnerType toInnerType(E flag) const noexcept { return static_cast<InnerType>(flag); }
@@ -26,7 +26,8 @@ public:
      * @return A valid instance of Flags instantiated from values `V`.
      */
     template<E... V>
-    static constexpr Flags<E> from() {
+    static constexpr Flags<E> from()
+    {
         return (Flags<E>{} | ... | V);
     }
 
@@ -34,31 +35,48 @@ public:
      * @brief Constructs a Flags object from a value of the enum `E`.
      * @param flag A value of the enum `E`.
      */
-    constexpr Flags(E flag) noexcept: flags{toInnerType(flag)} {}
+    constexpr Flags(E flag) noexcept
+        : flags{toInnerType(flag)}
+    {
+    }
 
     /**
      * @brief Constructs a Flags object from an instance of the underlying type
      * of the enum `E`.
      * @param f An instance of the underlying type of the enum `E`.
      */
-    constexpr Flags(Type f): flags{f} {}
+    constexpr Flags(Type f)
+        : flags{f}
+    {
+    }
 
     /**
      * @brief Constructs an uninitialized Flags object.
      */
-    constexpr Flags(): flags{} {}
+    constexpr Flags()
+        : flags{}
+    {
+    }
 
-    constexpr Flags(const Flags &f) noexcept: flags{f.flags} {  }
-    constexpr Flags(Flags &&f) noexcept: flags{std::move(f.flags)} {  }
+    constexpr Flags(const Flags& f) noexcept
+        : flags{f.flags}
+    {
+    }
+    constexpr Flags(Flags&& f) noexcept
+        : flags{std::move(f.flags)}
+    {
+    }
 
     ~Flags() noexcept { static_assert(std::is_enum_v<E>); }
 
-    constexpr Flags & operator=(const Flags &f) noexcept {
+    constexpr Flags& operator=(const Flags& f) noexcept
+    {
         flags = f.flags;
         return *this;
     }
 
-    constexpr Flags & operator=(Flags &&f) noexcept {
+    constexpr Flags& operator=(Flags&& f) noexcept
+    {
         flags = std::move(f.flags);
         return *this;
     }
@@ -68,7 +86,7 @@ public:
      * @param f A valid instance of Flags.
      * @return This instance _or-ed_ with `f`.
      */
-    constexpr Flags operator|(const Flags &f) const noexcept { return Flags{flags | f.flags}; }
+    constexpr Flags operator|(const Flags& f) const noexcept { return Flags{flags | f.flags}; }
 
     /**
      * @brief Or operator.
@@ -82,7 +100,7 @@ public:
      * @param f A valid instance of Flags.
      * @return This instance _and-ed_ with `f`.
      */
-    constexpr Flags operator&(const Flags &f) const noexcept { return Flags{flags & f.flags}; }
+    constexpr Flags operator&(const Flags& f) const noexcept { return Flags{flags & f.flags}; }
 
     /**
      * @brief And operator.
@@ -103,7 +121,8 @@ public:
      */
     constexpr operator Type() const noexcept { return flags; }
 
-    constexpr bool test(E flag) const noexcept { return Flags{flags & toInnerType(flag)} ; }
+    constexpr bool test(E flag) const noexcept { return Flags{flags & toInnerType(flag)}; }
+
 private:
     InnerType flags;
 };

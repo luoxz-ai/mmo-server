@@ -1,7 +1,7 @@
 #include "GMManager.h"
 
-#include "MysqlConnection.h"
 #include "AuthService.h"
+#include "MysqlConnection.h"
 #include "globaldb.h"
 
 CGMManager::CGMManager() {}

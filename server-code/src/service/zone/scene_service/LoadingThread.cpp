@@ -312,21 +312,12 @@ void CLoadingThread::OnMainThreadExec()
             if(pData->pPlayer)
             {
                 ActorManager()->AddActor(pData->pPlayer);
-                pData->pPlayer->OnLogin(!pData->bChangeZone,
-                                        pData->idTargetScene,
-                                        pData->fPosX,
-                                        pData->fPosY,
-                                        pData->fRange,
-                                        pData->fFace);
+                pData->pPlayer->OnLogin(!pData->bChangeZone, pData->idTargetScene, pData->fPosX, pData->fPosY, pData->fRange, pData->fFace);
             }
         }
         else // save ready
         {
-            pData->pPlayer->OnChangeZoneSaveFinish(pData->idTargetScene,
-                                                   pData->fPosX,
-                                                   pData->fPosY,
-                                                   pData->fRange,
-                                                   pData->fFace);
+            pData->pPlayer->OnChangeZoneSaveFinish(pData->idTargetScene, pData->fPosX, pData->fPosY, pData->fRange, pData->fFace);
             SAFE_DELETE(pData->pPlayer);
         }
         m_nReadyCount--;

@@ -260,11 +260,11 @@ public:
     OBJECTHEAP_DECLARATION(s_Heap);
 
 private:
-    CDBRecord*          m_pDBRecord = nullptr;
+    CDBRecord*          m_pDBRecord  = nullptr;
     const CDBFieldInfo* m_pFieldInfo = nullptr;
     using value_store_t = std::variant<int8_t, uint8_t, int16_t, uint16_t, int32_t, uint32_t, int64_t, uint64_t, float, double, std::string>;
     value_store_t m_Val;
-    bool          m_bDirty = false;
+    bool          m_bDirty       = false;
     using GetValStringCallBack_t = std::function<std::string()>;
     GetValStringCallBack_t m_funcGetValString;
 };

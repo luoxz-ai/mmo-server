@@ -26,15 +26,14 @@ public:
     void OnChangeZone(uint16_t idZone);
     //退出游戏
     void Logout();
-    bool SendMsg(const google::protobuf::Message& msg);
-    bool SendMsg(uint16_t usCmd, const google::protobuf::Message& msg);
+    bool SendMsg(const proto_msg_t& msg);
 
     uint32_t           GetLev() const;
     const std::string& GetName() const;
     uint64_t           GetTeamID() const;
     uint64_t           GetGuildID() const;
-    void SetTeamID(uint64_t v) {m_idTeam = v;}
-    void SetGuildID(uint64_t v) {m_idGuild = v;}
+    void               SetTeamID(uint64_t v) { m_idTeam = v; }
+    void               SetGuildID(uint64_t v) { m_idGuild = v; }
 
     bool ChangeName(const std::string& new_name);
     void OnLevChg(uint32_t v);
@@ -55,6 +54,6 @@ private:
     uint32_t m_nLev;
 
     uint64_t m_idGuild = 0;
-    uint64_t m_idTeam = 0;
+    uint64_t m_idTeam  = 0;
 };
 #endif /* USER_H */

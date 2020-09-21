@@ -18,11 +18,7 @@ CSceneTree::~CSceneTree()
     m_pMap = nullptr;
 }
 
-bool CSceneTree::Init(const CGameMap* pMap,
-                      const CPos2D&   vBasePos,
-                      float           fWidth,
-                      float           fHeight,
-                      uint32_t        nTileGridRange)
+bool CSceneTree::Init(const CGameMap* pMap, const CPos2D& vBasePos, float fWidth, float fHeight, uint32_t nTileGridRange)
 {
     CHECKF(pMap);
     m_pMap        = pMap;

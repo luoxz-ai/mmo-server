@@ -27,7 +27,7 @@ public:
 
     struct CSkipListNode* m_header = nullptr;
     struct CSkipListNode* m_tail   = nullptr;
-    uint32_t         m_length = 0;
+    uint32_t              m_length = 0;
     int32_t               m_level  = 1;
 
 public:
@@ -63,9 +63,9 @@ public:
         {
             /* store rank that is crossed to reach the insert position */
             rank[i] = i == (m_level - 1) ? 0 : rank[i + 1];
-            while(x->m_level[i].m_forward && (x->m_level[i].m_forward->m_score > score ||
-                                              (x->m_level[i].m_forward->m_score == score &&
-                                               compareslObj(x->m_level[i].m_forward->m_member, member) > 0)))
+            while(x->m_level[i].m_forward &&
+                  (x->m_level[i].m_forward->m_score > score ||
+                   (x->m_level[i].m_forward->m_score == score && compareslObj(x->m_level[i].m_forward->m_member, member) > 0)))
             {
                 rank[i] += x->m_level[i].m_span;
                 x = x->m_level[i].m_forward;
@@ -119,9 +119,9 @@ public:
         CSkipListNode* x = m_header;
         for(int32_t i = m_level - 1; i >= 0; i--)
         {
-            while(x->m_level[i].m_forward && (x->m_level[i].m_forward->m_score > score ||
-                                              (x->m_level[i].m_forward->m_score == score &&
-                                               compareslObj(x->m_level[i].m_forward->m_member, member) > 0)))
+            while(x->m_level[i].m_forward &&
+                  (x->m_level[i].m_forward->m_score > score ||
+                   (x->m_level[i].m_forward->m_score == score && compareslObj(x->m_level[i].m_forward->m_member, member) > 0)))
                 x = x->m_level[i].m_forward;
             update[i] = x;
         }
@@ -146,7 +146,7 @@ public:
     uint32_t DeleteByRank(uint32_t start, uint32_t end, std::function<void(uint64_t member, uint64_t score)> cb)
     {
         CSkipListNode* update[SKIPLIST_MAXLEVEL];
-        uint32_t  traversed = 0, removed = 0;
+        uint32_t       traversed = 0, removed = 0;
         CSkipListNode* x = m_header;
         for(int32_t i = m_level - 1; i >= 0; i--)
         {
@@ -180,12 +180,12 @@ public:
     uint32_t GetRank(uint64_t score, uint64_t member) const
     {
         CSkipListNode* x    = m_header;
-        uint32_t  rank = 0;
+        uint32_t       rank = 0;
         for(int32_t i = m_level - 1; i >= 0; i--)
         {
-            while(x->m_level[i].m_forward && (x->m_level[i].m_forward->m_score > score ||
-                                              (x->m_level[i].m_forward->m_score == score &&
-                                               compareslObj(x->m_level[i].m_forward->m_member, member) >= 0)))
+            while(x->m_level[i].m_forward &&
+                  (x->m_level[i].m_forward->m_score > score ||
+                   (x->m_level[i].m_forward->m_score == score && compareslObj(x->m_level[i].m_forward->m_member, member) >= 0)))
             {
                 rank += x->m_level[i].m_span;
                 x = x->m_level[i].m_forward;
@@ -209,7 +209,7 @@ public:
         }
 
         CSkipListNode* x         = m_header;
-        uint32_t  traversed = 0;
+        uint32_t       traversed = 0;
         for(int32_t i = m_level - 1; i >= 0; i--)
         {
             while(x->m_level[i].m_forward && (traversed + x->m_level[i].m_span) <= rank)
