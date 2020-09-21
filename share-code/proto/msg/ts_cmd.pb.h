@@ -33,6 +33,7 @@
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
+#include <google/protobuf/descriptor.pb.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 #define PROTOBUF_INTERNAL_EXPORT_msg_2fts_5fcmd_2eproto
@@ -48,17 +49,21 @@ struct TableStruct_msg_2fts_5fcmd_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[1]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[2]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
   static const ::PROTOBUF_NAMESPACE_ID::uint32 offsets[];
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_msg_2fts_5fcmd_2eproto;
+class CmdOptions;
+class CmdOptionsDefaultTypeInternal;
+extern CmdOptionsDefaultTypeInternal _CmdOptions_default_instance_;
 class SC_KEY;
 class SC_KEYDefaultTypeInternal;
 extern SC_KEYDefaultTypeInternal _SC_KEY_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
+template<> ::CmdOptions* Arena::CreateMaybeMessage<::CmdOptions>(Arena*);
 template<> ::SC_KEY* Arena::CreateMaybeMessage<::SC_KEY>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 
@@ -131,12 +136,20 @@ enum CS_CMD : int {
   CMD_CS_TEAMNEWLEADER = 1055,
   CMD_CS_TEAMAPPLYMEMBER = 1056,
   CMD_CS_TEAMACCEPTAPPLY = 1057,
+  CMD_CS_GUILDCREATE = 1070,
+  CMD_CS_GUILDQUIT = 1071,
+  CMD_CS_GUILDKICKMEMBER = 1072,
+  CMD_CS_GUILDINVITEMEMBER = 1073,
+  CMD_CS_GUILDACCEPTINVITE = 1074,
+  CMD_CS_GUILDNEWLEADER = 1075,
+  CMD_CS_GUILDAPPLYMEMBER = 1076,
+  CMD_CS_GUILDACCEPTAPPLY = 1077,
   CS_CMD_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   CS_CMD_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
 bool CS_CMD_IsValid(int value);
 constexpr CS_CMD CS_CMD_MIN = CS_CMD_NONE;
-constexpr CS_CMD CS_CMD_MAX = CMD_CS_TEAMACCEPTAPPLY;
+constexpr CS_CMD CS_CMD_MAX = CMD_CS_GUILDACCEPTAPPLY;
 constexpr int CS_CMD_ARRAYSIZE = CS_CMD_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* CS_CMD_descriptor();
@@ -196,12 +209,16 @@ enum SC_CMD : int {
   CMD_SC_TEAMMEMBER_ACTION = 1071,
   CMD_SC_TEAMINVITEMEMBER = 1072,
   CMD_SC_TEAMAPPLYMEMBER = 1073,
+  CMD_SC_GUILDINVITEMEMBER = 1080,
+  CMD_SC_GUILDMEMBER_INFO = 1081,
+  CMD_SC_GUILDMEMBER_ACTION = 1082,
+  CMD_SC_GUILDAPPLYMEMBER = 1083,
   SC_CMD_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   SC_CMD_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
 bool SC_CMD_IsValid(int value);
 constexpr SC_CMD SC_CMD_MIN = SC_CMD_NONE;
-constexpr SC_CMD SC_CMD_MAX = CMD_SC_TEAMAPPLYMEMBER;
+constexpr SC_CMD SC_CMD_MAX = CMD_SC_GUILDAPPLYMEMBER;
 constexpr int SC_CMD_ARRAYSIZE = SC_CMD_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* SC_CMD_descriptor();
@@ -219,6 +236,156 @@ inline bool SC_CMD_Parse(
     SC_CMD_descriptor(), name, value);
 }
 // ===================================================================
+
+class CmdOptions :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:CmdOptions) */ {
+ public:
+  CmdOptions();
+  virtual ~CmdOptions();
+
+  CmdOptions(const CmdOptions& from);
+  CmdOptions(CmdOptions&& from) noexcept
+    : CmdOptions() {
+    *this = ::std::move(from);
+  }
+
+  inline CmdOptions& operator=(const CmdOptions& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CmdOptions& operator=(CmdOptions&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const CmdOptions& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const CmdOptions* internal_default_instance() {
+    return reinterpret_cast<const CmdOptions*>(
+               &_CmdOptions_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    0;
+
+  friend void swap(CmdOptions& a, CmdOptions& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(CmdOptions* other) {
+    if (other == this) return;
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline CmdOptions* New() const final {
+    return CreateMaybeMessage<CmdOptions>(nullptr);
+  }
+
+  CmdOptions* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<CmdOptions>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const CmdOptions& from);
+  void MergeFrom(const CmdOptions& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CmdOptions* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "CmdOptions";
+  }
+  private:
+  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
+    return nullptr;
+  }
+  inline void* MaybeArenaPtr() const {
+    return nullptr;
+  }
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_msg_2fts_5fcmd_2eproto);
+    return ::descriptor_table_msg_2fts_5fcmd_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kTsCmdFieldNumber = 1,
+    kCsCmdFieldNumber = 2,
+    kScCmdFieldNumber = 3,
+  };
+  // .TS_CMD ts_cmd = 1;
+  void clear_ts_cmd();
+  ::TS_CMD ts_cmd() const;
+  void set_ts_cmd(::TS_CMD value);
+  private:
+  ::TS_CMD _internal_ts_cmd() const;
+  void _internal_set_ts_cmd(::TS_CMD value);
+  public:
+
+  // .CS_CMD cs_cmd = 2;
+  void clear_cs_cmd();
+  ::CS_CMD cs_cmd() const;
+  void set_cs_cmd(::CS_CMD value);
+  private:
+  ::CS_CMD _internal_cs_cmd() const;
+  void _internal_set_cs_cmd(::CS_CMD value);
+  public:
+
+  // .SC_CMD sc_cmd = 3;
+  void clear_sc_cmd();
+  ::SC_CMD sc_cmd() const;
+  void set_sc_cmd(::SC_CMD value);
+  private:
+  ::SC_CMD _internal_sc_cmd() const;
+  void _internal_set_sc_cmd(::SC_CMD value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:CmdOptions)
+ private:
+  class _Internal;
+
+  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  int ts_cmd_;
+  int cs_cmd_;
+  int sc_cmd_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_msg_2fts_5fcmd_2eproto;
+};
+// -------------------------------------------------------------------
 
 class SC_KEY :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:SC_KEY) */ {
@@ -262,7 +429,7 @@ class SC_KEY :
                &_SC_KEY_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    0;
+    1;
 
   friend void swap(SC_KEY& a, SC_KEY& b) {
     a.Swap(&b);
@@ -348,6 +515,10 @@ class SC_KEY :
 };
 // ===================================================================
 
+static const int kCmdFieldNumber = 1011;
+extern ::PROTOBUF_NAMESPACE_ID::internal::ExtensionIdentifier< ::google::protobuf::MessageOptions,
+    ::PROTOBUF_NAMESPACE_ID::internal::MessageTypeTraits< ::CmdOptions >, 11, false >
+  cmd;
 
 // ===================================================================
 
@@ -355,6 +526,70 @@ class SC_KEY :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
+// CmdOptions
+
+// .TS_CMD ts_cmd = 1;
+inline void CmdOptions::clear_ts_cmd() {
+  ts_cmd_ = 0;
+}
+inline ::TS_CMD CmdOptions::_internal_ts_cmd() const {
+  return static_cast< ::TS_CMD >(ts_cmd_);
+}
+inline ::TS_CMD CmdOptions::ts_cmd() const {
+  // @@protoc_insertion_point(field_get:CmdOptions.ts_cmd)
+  return _internal_ts_cmd();
+}
+inline void CmdOptions::_internal_set_ts_cmd(::TS_CMD value) {
+  
+  ts_cmd_ = value;
+}
+inline void CmdOptions::set_ts_cmd(::TS_CMD value) {
+  _internal_set_ts_cmd(value);
+  // @@protoc_insertion_point(field_set:CmdOptions.ts_cmd)
+}
+
+// .CS_CMD cs_cmd = 2;
+inline void CmdOptions::clear_cs_cmd() {
+  cs_cmd_ = 0;
+}
+inline ::CS_CMD CmdOptions::_internal_cs_cmd() const {
+  return static_cast< ::CS_CMD >(cs_cmd_);
+}
+inline ::CS_CMD CmdOptions::cs_cmd() const {
+  // @@protoc_insertion_point(field_get:CmdOptions.cs_cmd)
+  return _internal_cs_cmd();
+}
+inline void CmdOptions::_internal_set_cs_cmd(::CS_CMD value) {
+  
+  cs_cmd_ = value;
+}
+inline void CmdOptions::set_cs_cmd(::CS_CMD value) {
+  _internal_set_cs_cmd(value);
+  // @@protoc_insertion_point(field_set:CmdOptions.cs_cmd)
+}
+
+// .SC_CMD sc_cmd = 3;
+inline void CmdOptions::clear_sc_cmd() {
+  sc_cmd_ = 0;
+}
+inline ::SC_CMD CmdOptions::_internal_sc_cmd() const {
+  return static_cast< ::SC_CMD >(sc_cmd_);
+}
+inline ::SC_CMD CmdOptions::sc_cmd() const {
+  // @@protoc_insertion_point(field_get:CmdOptions.sc_cmd)
+  return _internal_sc_cmd();
+}
+inline void CmdOptions::_internal_set_sc_cmd(::SC_CMD value) {
+  
+  sc_cmd_ = value;
+}
+inline void CmdOptions::set_sc_cmd(::SC_CMD value) {
+  _internal_set_sc_cmd(value);
+  // @@protoc_insertion_point(field_set:CmdOptions.sc_cmd)
+}
+
+// -------------------------------------------------------------------
+
 // SC_KEY
 
 // uint32 key = 1;
@@ -380,6 +615,8 @@ inline void SC_KEY::set_key(::PROTOBUF_NAMESPACE_ID::uint32 value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 

@@ -1,5 +1,17 @@
 syntax = "proto3";
 
+import "google/protobuf/descriptor.proto";
+
+message CmdOptions {  
+	TS_CMD ts_cmd = 1;
+    CS_CMD cs_cmd = 2;
+    SC_CMD sc_cmd = 3;
+}
+
+extend google.protobuf.MessageOptions {
+    CmdOptions cmd = 1011;
+}
+
 enum TS_CMD
 {
 	CMD_BEGIN  = 0;
@@ -72,6 +84,16 @@ enum CS_CMD
 	CMD_CS_TEAMNEWLEADER	= 1055; //提升为队长
 	CMD_CS_TEAMAPPLYMEMBER	= 1056; //申请加入
 	CMD_CS_TEAMACCEPTAPPLY	= 1057; //同意申请
+
+
+	CMD_CS_GUILDCREATE			= 1070; //创建公会
+	CMD_CS_GUILDQUIT			= 1071; //退出公会
+	CMD_CS_GUILDKICKMEMBER		= 1072; //踢出公会
+	CMD_CS_GUILDINVITEMEMBER	= 1073; //邀请入会
+	CMD_CS_GUILDACCEPTINVITE	= 1074; //同意邀请
+	CMD_CS_GUILDNEWLEADER		= 1075; //新会长
+	CMD_CS_GUILDAPPLYMEMBER		= 1076; //申请入会
+	CMD_CS_GUILDACCEPTAPPLY		= 1077; //同意申请
 };
 
 enum SC_CMD
@@ -125,10 +147,16 @@ enum SC_CMD
 	CMD_SC_TEAMMEMBER_ACTION = 1071; //成员加入/离开/被kick
 	CMD_SC_TEAMINVITEMEMBER	 = 1072; //邀请队员
 	CMD_SC_TEAMAPPLYMEMBER	 = 1073; //申请加入
+
+	CMD_SC_GUILDINVITEMEMBER	= 1080; //邀请入会
+	CMD_SC_GUILDMEMBER_INFO		= 1081; //成员信息
+	CMD_SC_GUILDMEMBER_ACTION	= 1082;	//操作
+	CMD_SC_GUILDAPPLYMEMBER		= 1083;	//申请入会
 };
 
 
 message SC_KEY
 {
+	option (cmd).ts_cmd = CMD_SC_KEY;
 	uint32 key = 1;
 };

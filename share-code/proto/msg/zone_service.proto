@@ -4,6 +4,7 @@ import "common/Common.proto";
 //通知前端读取地图
 message SC_LOADMAP
 {
+	option (cmd).sc_cmd = CMD_SC_LOADMAP;
 	uint32 mapid = 1;
 	float  posx	 = 3;
 	float  posy	 = 4;
@@ -11,11 +12,15 @@ message SC_LOADMAP
 };
 
 //前端通知服务器读取地图完成,可以准备进入地图了
-message CS_LOADMAP_SUCC {};
+message CS_LOADMAP_SUCC 
+{
+	option (cmd).cs_cmd = CMD_CS_LOADMAP_SUCC;
+};
 
 //玩家基础数据
 message SC_PLAYERINFO
 {
+	option (cmd).sc_cmd = CMD_SC_PLAYERINFO;
 	uint64 playerid = 1;
 	uint32 worldid	= 2;
 	string name		= 3;
@@ -45,12 +50,14 @@ message SC_PLAYERINFO
 
 message SC_ACTORATTRIB
 {
+	option (cmd).sc_cmd = CMD_SC_ACTORATTRIB;
 	repeated uint32 attrib_list = 1;
 }
 
 //其他的数据
 message SC_COMMONDATA
 {
+	option (cmd).sc_cmd = CMD_SC_COMMONDATA;
 	message Data
 	{
 		uint32 keyidx = 1;
@@ -64,6 +71,7 @@ message SC_COMMONDATA
 
 message SC_DATACOUNT
 {
+	option (cmd).sc_cmd = CMD_SC_DATACOUNT;
 	message Data
 	{
 		uint32 type			   = 1;
@@ -76,6 +84,7 @@ message SC_DATACOUNT
 
 message SC_COOLDOWN
 {
+	option (cmd).sc_cmd = CMD_SC_COOLDOWN;
 	message Data
 	{
 		uint32 type		  = 1;
@@ -87,6 +96,7 @@ message SC_COOLDOWN
 
 message SC_SYSVAR
 {
+	option (cmd).sc_cmd = CMD_SC_SYSVAR;
 	message Data
 	{
 		uint32 keyidx = 1;
@@ -109,6 +119,7 @@ message SC_SYSVAR
 //正式进入地图
 message SC_ENTERMAP
 {
+	option (cmd).sc_cmd = CMD_SC_ENTERMAP;
 	float x	   = 1;
 	float y	   = 2;
 	float face = 3;
@@ -117,6 +128,7 @@ message SC_ENTERMAP
 //角色进入视野
 message SC_AOI_NEW
 {
+	option (cmd).sc_cmd = CMD_SC_AOI_NEW;
 	uint32 mapid = 1;
 
 	//其他用于显示的数据
@@ -146,12 +158,14 @@ message SC_AOI_NEW
 //角色离开视野
 message SC_AOI_REMOVE
 {
+	option (cmd).sc_cmd = CMD_SC_AOI_REMOVE;
 	uint32			mapid  = 1;
 	repeated uint64 idlist = 2;
 }
 //角色移动
 message SC_AOI_UPDATE
 {
+	option (cmd).sc_cmd = CMD_SC_AOI_UPDATE;
 	uint32 mapid	= 1;
 	uint64 actor_id = 2;
 	float  posx		= 3;
@@ -161,6 +175,7 @@ message SC_AOI_UPDATE
 //sync mapval
 message SC_MAPVAL
 {
+	option (cmd).sc_cmd = CMD_SC_MAPVAL;
 	message MapVal
 	{
 		uint32 key = 1;
@@ -183,6 +198,7 @@ message SC_MAPVAL
 //属性变化通知
 message SC_ATTRIB_CHANGE
 {
+	option (cmd).sc_cmd = CMD_SC_ATTRIB_CHANGE;
 	message Data
 	{
 		uint32 actype = 1;
@@ -196,6 +212,7 @@ message SC_ATTRIB_CHANGE
 //当前身上的状态列表
 message SC_STATUS_LIST
 {
+	option (cmd).sc_cmd = CMD_SC_STATUS_LIST;
 	uint64			actor_id		   = 1;
 	message Data
 	{
@@ -211,6 +228,7 @@ message SC_STATUS_LIST
 //状态详细信息
 message SC_STATUS_INFO
 {
+	option (cmd).sc_cmd = CMD_SC_STATUS_INFO;
 	uint64	actor_id = 1;
 	message Data
 	{
@@ -229,6 +247,7 @@ message SC_STATUS_INFO
 
 message SC_STATUS_ACTION
 {
+	option (cmd).sc_cmd = CMD_SC_STATUS_ACTION;
 	enum ACTION
 	{
 		STATUS_ATTACH = 0; //挂上了一个新状态
@@ -245,6 +264,7 @@ message SC_STATUS_ACTION
 
 message CS_MOVE
 {
+	option (cmd).cs_cmd = CMD_CS_MOVE;
 	uint64 mapid = 1;
 	float  x	 = 2;
 	float  y	 = 3;
@@ -253,12 +273,14 @@ message CS_MOVE
 
 message CS_CHANGEMAP
 {
+	option (cmd).cs_cmd = CMD_CS_CHANGEMAP;
 	uint64 mapid		  = 1;
 	uint32 leavepoint_idx = 2;
 }
 
 message CS_CASTSKILL
 {
+	option (cmd).cs_cmd = CMD_CS_CASTSKILL;
 	uint64 mapid	 = 1;
 	uint32 skill_id	 = 2;
 	uint64 target_id = 3;
@@ -268,6 +290,7 @@ message CS_CASTSKILL
 
 message SC_CASTSKILL
 {
+	option (cmd).sc_cmd = CMD_SC_CASTSKILL;
 	uint64 mapid	 = 1;
 	uint64 actor_id	 = 2;
 	uint32 skill_id	 = 3;
@@ -278,6 +301,7 @@ message SC_CASTSKILL
 
 message SC_SKILL_DAMAGE
 {
+	option (cmd).sc_cmd = CMD_SC_SKILL_DAMAGE;
 	uint64	mapid	 = 1;
 	uint64	actor_id = 2;
 	uint32	skill_id = 3;
@@ -291,23 +315,27 @@ message SC_SKILL_DAMAGE
 
 message CS_SKILL_BREAK
 {
+	option (cmd).cs_cmd = CMD_CS_SKILL_BREAK;
 	uint64 mapid = 1;
 };
 
 message SC_SKILL_BREAK
 {
+	option (cmd).sc_cmd = CMD_SC_SKILL_BREAK;
 	uint64 mapid	= 1;
 	uint64 actor_id = 2;
 };
 
 message CS_SKILL_CHGTARGETPOS
 {
+	option (cmd).cs_cmd = CMD_CS_SKILL_CHGTARGETPOS;
 	float x = 1;
 	float y = 2;
 };
 
 message SC_SKILL_STUN
 {
+	option (cmd).sc_cmd = CMD_SC_SKILL_STUN;
 	uint64 mapid	= 1;
 	uint64 actor_id = 2;
 	uint32 skill_id = 3;
@@ -316,6 +344,7 @@ message SC_SKILL_STUN
 
 message SC_SKILL_EFFACT
 {
+	option (cmd).sc_cmd = CMD_SC_SKILL_EFFACT;
 	uint64 mapid	= 1;
 	uint64 actor_id = 2;
 	uint32 skill_id = 3;
@@ -323,6 +352,7 @@ message SC_SKILL_EFFACT
 
 message SC_DAMAGE
 {
+	option (cmd).sc_cmd = CMD_SC_DAMAGE;
 	uint64 actor_id	   = 1;
 	uint64 attacker_id = 2; //攻击者
 	uint32 damage	   = 3; //伤害
@@ -332,27 +362,32 @@ message SC_DAMAGE
 
 message SC_DEAD
 {
+	option (cmd).sc_cmd = CMD_SC_DEAD;
 	uint64 actor_id	   = 1;
 	uint64 attacker_id = 2; //攻击者
 }
 
 message CS_CHANGE_PKMODE
 {
+	option (cmd).cs_cmd = CMD_CS_CHANGE_PKMODE;
 	uint32 pkmode = 1;
 };
 
 message SC_CHANGE_PKMODE
 {
+	option (cmd).sc_cmd = CMD_SC_CHANGE_PKMODE;
 	uint32 pkmode = 1;
 };
 
 message CS_REBORN
 {
+	option (cmd).cs_cmd = CMD_CS_REBORN;
 	uint32 reborn_type = 1;
 };
 
 message SC_ITEM_INFO
 {
+	option (cmd).sc_cmd = CMD_SC_ITEM_INFO;
 	uint64 actor_id		= 1; //有可能，是其他人的物品，通过这个消息传输给前端，用来显示
 	uint64 item_id		= 2;
 	uint32 position		= 3;
@@ -367,6 +402,7 @@ message SC_ITEM_INFO
 
 message SC_ITEM_CHANGE
 {
+	option (cmd).sc_cmd = CMD_SC_ITEM_CHANGE;
 	enum ChangeType
 	{
 		ChangeGrid		 = 0;
@@ -388,6 +424,7 @@ message SC_ITEM_CHANGE
 
 message SC_ITEM_DELETE
 {
+	option (cmd).sc_cmd = CMD_SC_ITEM_DELETE;
 	uint64 item_id	= 1;
 	uint32 position = 2;
 	uint32 grid		= 3;
@@ -395,6 +432,7 @@ message SC_ITEM_DELETE
 
 message CS_ITEM_SWAP
 {
+	option (cmd).cs_cmd = CMD_CS_ITEM_SWAP;
 	uint32 position = 1;
 	uint32 grid1	= 2;
 	uint32 grid2	= 3;
@@ -402,6 +440,7 @@ message CS_ITEM_SWAP
 
 message CS_ITEM_SPLIT
 {
+	option (cmd).cs_cmd = CMD_CS_ITEM_SPLIT;
 	uint32 position	 = 1;
 	uint32 grid1	 = 2;
 	uint32 grid2	 = 3;
@@ -410,6 +449,7 @@ message CS_ITEM_SPLIT
 
 message CS_ITEM_COMBINE
 {
+	option (cmd).cs_cmd = CMD_CS_ITEM_COMBINE;
 	uint32 position = 1;
 	uint32 grid1	= 2;
 	uint32 grid2	= 3;
@@ -417,35 +457,45 @@ message CS_ITEM_COMBINE
 
 message CS_ITEM_TIDY
 {
+	option (cmd).cs_cmd = CMD_CS_ITEM_TIDY;
 	uint32 position = 1;
 }
 
 message CS_ITEM_USE
 {
+	option (cmd).cs_cmd = CMD_CS_ITEM_USE;
 	uint32 grid	 = 1;
 	uint32 count = 2;
 }
 
-message CS_ITEM_STORAGE_OPEN {}
+message CS_ITEM_STORAGE_OPEN 
+{
+	option (cmd).cs_cmd = CMD_CS_ITEM_STORAGE_OPEN;
+}
+
 
 message CS_ITEM_STORAGE_CHECKOUT
 {
+	option (cmd).cs_cmd = CMD_CS_ITEM_STORAGE_CHECKOUT;
 	uint32 grid_in_storage = 1;
 }
 
 message CS_ITEM_STORAGE_CHECKIN
 {
+	option (cmd).cs_cmd = CMD_CS_ITEM_STORAGE_CHECKIN;
 	uint32 grid_in_package = 1;
 }
 
 message CS_EQUIP
 {
+	option (cmd).cs_cmd = CMD_CS_EQUIP;
 	uint32 grid_in_package = 1;
 	uint32 grid_in_equip   = 2;
 }
 
 message CS_UNEQUIP
 {
+	option (cmd).cs_cmd = CMD_CS_UNEQUIP;
 	uint32 grid_in_equip = 1;
 }
 
@@ -468,6 +518,7 @@ enum TalkChannel
 
 message CS_TALK
 {
+	option (cmd).cs_cmd = CMD_CS_TALK;
 	TalkChannel channel	   = 1;
 	string		words	   = 2;
 	uint64		reciver_id = 3;
@@ -475,6 +526,7 @@ message CS_TALK
 
 message SC_TALK
 {
+	option (cmd).sc_cmd = CMD_SC_TALK;
 	TalkChannel			  channel		= 1; //频道
 	string				  words			= 2; //内容
 	uint64				  sender_id		= 4; //发送者id
@@ -488,6 +540,7 @@ message SC_TALK
 
 message SC_TASK_INFO
 {
+	option (cmd).sc_cmd = CMD_SC_TASK_INFO;
 	message Info
 	{
 		uint64 task_id		= 1;
@@ -507,6 +560,7 @@ message SC_TASK_INFO
 
 message SC_TASK_DATA
 {
+	option (cmd).sc_cmd = CMD_SC_TASK_DATA;
 	uint64 task_id = 1;
 	uint32 idx	   = 2;
 	uint32 num	   = 3;
@@ -514,17 +568,20 @@ message SC_TASK_DATA
 
 message CS_TASK_SUBMIT
 {
+	option (cmd).cs_cmd = CMD_CS_TASK_SUBMIT;
 	uint64 task_id		   = 1;
 	uint32 submit_multiple = 2;
 }
 
 message CS_ACTIVE_NPC
 {
+	option (cmd).cs_cmd = CMD_CS_ACTIVE_NPC;
 	uint64 npc_id = 1;
 }
 
 message SC_DIALOG
 {
+	option (cmd).sc_cmd = CMD_SC_DIALOG;
 	uint64			dialog_id	 = 1;
 	uint32			dialog_type	 = 2;
 	string			dialog_title = 3;
@@ -539,12 +596,14 @@ message SC_DIALOG
 
 message CS_DIALOG_CLICK
 {
+	option (cmd).cs_cmd = CMD_CS_DIALOG_CLICK;
 	uint64 dialog_id		 = 1;
 	uint32 dialog_button_idx = 2;
 }
 
 message SC_ACHI_INFO
 {
+	option (cmd).sc_cmd = CMD_SC_ACHI_INFO;
 	message Info
 	{
 		uint32 achi_id = 1;
@@ -555,25 +614,35 @@ message SC_ACHI_INFO
 
 message CS_ACHI_TAKE
 {
+	option (cmd).cs_cmd = CMD_CS_ACHI_TAKE;
 	uint32 achi_id = 1;
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-message CS_TEAMCREATE {}
+message CS_TEAMCREATE 
+{
+	option (cmd).cs_cmd = CMD_CS_TEAMCREATE;
+}
 
-message CS_TEAMQUIT {}
+message CS_TEAMQUIT 
+{
+	option (cmd).cs_cmd = CMD_CS_TEAMQUIT;
+}
 
 message CS_TEAMKICKMEMBER
 {
+	option (cmd).cs_cmd = CMD_CS_TEAMKICKMEMBER;
 	uint64 member_id = 1;
 }
 
 message CS_TEAMINVITEMEMBER
 {
+	option (cmd).cs_cmd = CMD_CS_TEAMINVITEMEMBER;
 	uint64 invitee_id = 1; //被邀请者id
 }
 
 message SC_TEAMINVITEMEMBER
 {
+	option (cmd).sc_cmd = CMD_SC_TEAMINVITEMEMBER;
 	uint64 team_id		= 1; //队伍id
 	uint64 inviter_id	= 2; //邀请者
 	string inviter_name = 3; //邀请者名字
@@ -581,6 +650,7 @@ message SC_TEAMINVITEMEMBER
 
 message CS_TEAMACCEPTINVITE
 {
+	option (cmd).cs_cmd = CMD_CS_TEAMACCEPTINVITE;
 	uint64 team_id	  = 1; //队伍id
 	uint64 inviter_id = 2; //邀请者
 	bool   result	  = 3; //是否同意
@@ -588,16 +658,19 @@ message CS_TEAMACCEPTINVITE
 
 message CS_TEAMNEWLEADER
 {
+	option (cmd).cs_cmd = CMD_CS_TEAMNEWLEADER;
 	uint64 new_leader_id = 2; //邀请者
 }
 
 message SC_TEAMMEMBER_INFO
 {
+	option (cmd).sc_cmd = CMD_SC_TEAMMEMBER_INFO;
 	repeated TeamMemberInfo member_list = 1;
 }
 
 message SC_TEAMMEMBER_ACTION
 {
+	option (cmd).sc_cmd = CMD_SC_TEAMMEMBER_ACTION;
 	enum Action
 	{
 		TEAM_CREATE			   = 0; // member_id=team_id;
@@ -620,17 +693,20 @@ message SC_TEAMMEMBER_ACTION
 
 message CS_TEAMAPPLYMEMBER
 {
+	option (cmd).cs_cmd = CMD_CS_TEAMAPPLYMEMBER;
 	uint64 respondent_id = 1; //被申请人id
 }
 
 message SC_TEAMAPPLYMEMBER
 {
+	option (cmd).sc_cmd = CMD_SC_TEAMAPPLYMEMBER;
 	uint64 applicant_id	  = 1; //申请者id
 	string applicant_name = 2; //申请者名字
 }
 
 message CS_TEAMACCEPTAPPLY
 {
+	option (cmd).cs_cmd = CMD_CS_TEAMACCEPTAPPLY;
 	uint64 applicant_id = 1; //申请者id
 	bool   result		= 2; //是否同意
 }
@@ -638,22 +714,31 @@ message CS_TEAMACCEPTAPPLY
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-message CS_GUILDCREATE {}
+message CS_GUILDCREATE 
+{
+	option (cmd).cs_cmd = CMD_CS_GUILDCREATE;
+}
 
-message CS_GUILDQUIT {}
+message CS_GUILDQUIT 
+{
+	option (cmd).cs_cmd = CMD_CS_GUILDQUIT;
+}
 
 message CS_GUILDKICKMEMBER
 {
+	option (cmd).cs_cmd = CMD_CS_GUILDKICKMEMBER;
 	uint64 member_id = 1;
 }
 
 message CS_GUILDINVITEMEMBER
 {
+	option (cmd).cs_cmd = CMD_CS_GUILDINVITEMEMBER;
 	uint64 invitee_id = 1; //被邀请者id
 }
 
 message SC_GUILDINVITEMEMBER
 {
+	option (cmd).sc_cmd = CMD_SC_GUILDINVITEMEMBER;
 	uint64 guild_id		= 1; //队伍id
 	uint64 inviter_id	= 2; //邀请者
 	string inviter_name = 3; //邀请者名字
@@ -661,6 +746,7 @@ message SC_GUILDINVITEMEMBER
 
 message CS_GUILDACCEPTINVITE
 {
+	option (cmd).cs_cmd = CMD_CS_GUILDACCEPTINVITE;
 	uint64 guild_id	  = 1; //队伍id
 	uint64 inviter_id = 2; //邀请者
 	bool   result	  = 3; //是否同意
@@ -668,16 +754,19 @@ message CS_GUILDACCEPTINVITE
 
 message CS_GUILDNEWLEADER
 {
+	option (cmd).cs_cmd = CMD_CS_GUILDNEWLEADER;
 	uint64 new_leader_id = 2; //邀请者
 }
 
 message SC_GUILDMEMBER_INFO
 {
+	option (cmd).sc_cmd = CMD_SC_GUILDMEMBER_INFO;
 	repeated GuildMemberInfo member_list = 1;
 }
 
 message SC_GUILDMEMBER_ACTION
 {
+	option (cmd).sc_cmd = CMD_SC_GUILDMEMBER_ACTION;
 	enum Action
 	{
         GUILD_CREATE            = 0; // member_id=guild_id;
@@ -707,17 +796,20 @@ message SC_GUILDMEMBER_ACTION
 
 message CS_GUILDAPPLYMEMBER
 {
+	option (cmd).cs_cmd = CMD_CS_GUILDAPPLYMEMBER;
 	uint64 respondent_id = 1; //被申请人id
 }
 
 message SC_GUILDAPPLYMEMBER
 {
+	option (cmd).sc_cmd = CMD_SC_GUILDAPPLYMEMBER;
 	uint64 applicant_id	  = 1; //申请者id
 	string applicant_name = 2; //申请者名字
 }
 
 message CS_GUILDACCEPTAPPLY
 {
+	option (cmd).cs_cmd = CMD_CS_GUILDACCEPTAPPLY;
 	uint64 applicant_id = 1; //申请者id
 	bool   result		= 2; //是否同意
 }

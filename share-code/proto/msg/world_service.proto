@@ -1,9 +1,12 @@
 syntax = "proto3";
 import "msg/ts_cmd.proto";
 import "common/Common.proto";
+
+
 //登录消息
 message CS_LOGIN
 {
+	option (cmd).cs_cmd = CMD_CS_LOGIN;
 	string openid		 = 1; // openid
 	string auth			 = 2; // sdk发下来的校验串
 	string last_succ_key = 3; //上一次成功登陆后服务器发下来的校验串(一次登陆成功后,可以凭此串无限次登陆任意服务器)
@@ -13,6 +16,7 @@ message CS_LOGIN
 //登录反馈
 message SC_LOGIN
 {
+	option (cmd).sc_cmd = CMD_SC_LOGIN;
 	enum ErrorCode
 	{
 		EC_SUCC		 = 0;
@@ -28,11 +32,15 @@ message SC_LOGIN
 };
 
 //等待列表
-message SC_WAITINFO {};
+message SC_WAITINFO 
+{
+	option (cmd).sc_cmd = CMD_SC_WAITINFO;
+};
 
 //角色列表
 message SC_ACTORINFOLIST
 {
+	option (cmd).sc_cmd = CMD_SC_ACTORINFOLIST;
 	message SC_ACTOR_INFO
 	{
 		string name		= 1; //名字
@@ -47,6 +55,7 @@ message SC_ACTORINFOLIST
 //创建角色
 message CS_CREATEACTOR
 {
+	option (cmd).cs_cmd = CMD_CS_CREATEACTOR;
 	string name		= 1; //名字
 	uint32 prof		= 2; //职业
 	uint32 baselook = 3; //显示
@@ -56,6 +65,7 @@ message CS_CREATEACTOR
 //创建角色反馈
 message SC_CREATEACTOR
 {
+	option (cmd).sc_cmd = CMD_SC_CREATEACTOR;
 	enum ErrorCode
 	{
 		EC_SUCC			  = 0;
@@ -71,12 +81,14 @@ message SC_CREATEACTOR
 //选择角色进入游戏
 message CS_SELECTACTOR
 {
+	option (cmd).cs_cmd = CMD_CS_SELECTACTOR;
 	uint32 actor_idx = 1; //选择第几个角色从0开始
 };
 
 //进入游戏反馈
 message SC_SELECTACTOR
 {
+	option (cmd).sc_cmd = CMD_SC_SELECTACTOR;
 	enum ErrorCode
 	{
 		EC_SUCC = 0;

@@ -49,15 +49,16 @@ CREATE TABLE `tbld_serverlist` (
 DROP TABLE IF EXISTS `tbld_servicedetail`;
 CREATE TABLE `tbld_servicedetail` (
   `worldid` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '游戏服编号',
-  `serviceid` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '服务编号',
-  `service_type` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT 'lib库名',
+  `service_type` tinyint(11) unsigned NOT NULL DEFAULT '0' COMMENT '服务类型',
+  `service_idx` tinyint(11) unsigned NOT NULL DEFAULT '0' COMMENT '服务编号',
+  `lib_name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT 'lib库名',
   `route_addr` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '内网通讯地址',
   `route_port` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '内网通讯端口',
   `publish_addr` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '外网地址',
   `publish_port` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '外网端口',
   `debug_port` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT 'debug端口',
   `bind_addr` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '监听绑定地址',
-  PRIMARY KEY (`worldid`,`serviceid`)
+  PRIMARY KEY (`worldid`,`service_type`,`service_idx`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 

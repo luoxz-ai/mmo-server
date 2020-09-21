@@ -357,12 +357,12 @@ ON_SERVERMSG(CSocketService, SocketAuth)
         LOGDEBUG("AuthSucc BYVS:{}:{} ", pClient->GetSocketAddr().c_str(), pClient->GetSocketPort());
         pClient->SetAuth(true);
         pClient->SetMessageAllow(CLIENT_MSG_ID_BEGIN, CLIENT_MSG_ID_END);
-        pClient->SetDestServerPort(ServerPort(GetWorldID(), WORLD_SERVICE,0));
+        pClient->SetDestServerPort(ServerPort(SocketService()->GetWorldID(), WORLD_SERVICE,0));
 
         ServerMSG::SocketLogin login_msg;
         login_msg.set_vs(msg.vs());
         login_msg.set_open_id(msg.open_id());
-        SocketService()->SendProtoMsgToZonePort(ServerPort(GetWorldID(), WORLD_SERVICE,0), login_msg);
+        SocketService()->SendProtoMsgToZonePort(ServerPort(SocketService()->GetWorldID(), WORLD_SERVICE,0), login_msg);
     }
 }
 

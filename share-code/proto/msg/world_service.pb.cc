@@ -273,28 +273,29 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_msg_2fworld_5fservice_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\027msg/world_service.proto\032\020msg/ts_cmd.pr"
-  "oto\032\023common/Common.proto\"Q\n\010CS_LOGIN\022\016\n\006"
+  "oto\032\023common/Common.proto\"X\n\010CS_LOGIN\022\016\n\006"
   "openid\030\001 \001(\t\022\014\n\004auth\030\002 \001(\t\022\025\n\rlast_succ_"
-  "key\030\003 \001(\t\022\020\n\010prog_ver\030\004 \001(\t\"\266\001\n\010SC_LOGIN"
-  "\022(\n\013result_code\030\001 \001(\0162\023.SC_LOGIN.ErrorCo"
-  "de\022\016\n\006detail\030\002 \001(\t\022\025\n\rlast_succ_key\030\003 \001("
-  "\t\"Y\n\tErrorCode\022\013\n\007EC_SUCC\020\000\022\017\n\013EC_PROG_V"
-  "ER\020\001\022\017\n\013EC_LAST_KEY\020\002\022\013\n\007EC_AUTH\020\003\022\020\n\014EC"
-  "_WAIT_AUTH\020\004\"\r\n\013SC_WAITINFO\"\215\001\n\020SC_ACTOR"
-  "INFOLIST\022-\n\004list\030\001 \003(\0132\037.SC_ACTORINFOLIS"
-  "T.SC_ACTOR_INFO\032J\n\rSC_ACTOR_INFO\022\014\n\004name"
-  "\030\001 \001(\t\022\014\n\004prof\030\002 \001(\r\022\020\n\010baselook\030\003 \001(\r\022\013"
-  "\n\003lev\030\004 \001(\r\">\n\016CS_CREATEACTOR\022\014\n\004name\030\001 "
-  "\001(\t\022\014\n\004prof\030\002 \001(\r\022\020\n\010baselook\030\003 \001(\r\"\300\001\n\016"
-  "SC_CREATEACTOR\022.\n\013result_code\030\001 \001(\0162\031.SC"
-  "_CREATEACTOR.ErrorCode\"~\n\tErrorCode\022\013\n\007E"
-  "C_SUCC\020\000\022\020\n\014EC_SAME_NAME\020\001\022\024\n\020EC_NAME_TO"
-  "O_LONG\020\002\022\025\n\021EC_NAME_TOO_SHORT\020\003\022\023\n\017EC_NA"
-  "ME_ILLEGAL\020\004\022\020\n\014EC_MAX_ACTOR\020\005\"#\n\016CS_SEL"
-  "ECTACTOR\022\021\n\tactor_idx\030\001 \001(\r\"Z\n\016SC_SELECT"
-  "ACTOR\022.\n\013result_code\030\001 \001(\0162\031.SC_SELECTAC"
-  "TOR.ErrorCode\"\030\n\tErrorCode\022\013\n\007EC_SUCC\020\000b"
-  "\006proto3"
+  "key\030\003 \001(\t\022\020\n\010prog_ver\030\004 \001(\t:\005\222\?\002\020\n\"\275\001\n\010S"
+  "C_LOGIN\022(\n\013result_code\030\001 \001(\0162\023.SC_LOGIN."
+  "ErrorCode\022\016\n\006detail\030\002 \001(\t\022\025\n\rlast_succ_k"
+  "ey\030\003 \001(\t\"Y\n\tErrorCode\022\013\n\007EC_SUCC\020\000\022\017\n\013EC"
+  "_PROG_VER\020\001\022\017\n\013EC_LAST_KEY\020\002\022\013\n\007EC_AUTH\020"
+  "\003\022\020\n\014EC_WAIT_AUTH\020\004:\005\222\?\002\030\n\"\024\n\013SC_WAITINF"
+  "O:\005\222\?\002\030\014\"\224\001\n\020SC_ACTORINFOLIST\022-\n\004list\030\001 "
+  "\003(\0132\037.SC_ACTORINFOLIST.SC_ACTOR_INFO\032J\n\r"
+  "SC_ACTOR_INFO\022\014\n\004name\030\001 \001(\t\022\014\n\004prof\030\002 \001("
+  "\r\022\020\n\010baselook\030\003 \001(\r\022\013\n\003lev\030\004 \001(\r:\005\222\?\002\030\013\""
+  "E\n\016CS_CREATEACTOR\022\014\n\004name\030\001 \001(\t\022\014\n\004prof\030"
+  "\002 \001(\r\022\020\n\010baselook\030\003 \001(\r:\005\222\?\002\020\013\"\307\001\n\016SC_CR"
+  "EATEACTOR\022.\n\013result_code\030\001 \001(\0162\031.SC_CREA"
+  "TEACTOR.ErrorCode\"~\n\tErrorCode\022\013\n\007EC_SUC"
+  "C\020\000\022\020\n\014EC_SAME_NAME\020\001\022\024\n\020EC_NAME_TOO_LON"
+  "G\020\002\022\025\n\021EC_NAME_TOO_SHORT\020\003\022\023\n\017EC_NAME_IL"
+  "LEGAL\020\004\022\020\n\014EC_MAX_ACTOR\020\005:\005\222\?\002\030\r\"*\n\016CS_S"
+  "ELECTACTOR\022\021\n\tactor_idx\030\001 \001(\r:\005\222\?\002\020\014\"a\n\016"
+  "SC_SELECTACTOR\022.\n\013result_code\030\001 \001(\0162\031.SC"
+  "_SELECTACTOR.ErrorCode\"\030\n\tErrorCode\022\013\n\007E"
+  "C_SUCC\020\000:\005\222\?\002\030\016b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_msg_2fworld_5fservice_2eproto_deps[2] = {
   &::descriptor_table_common_2fCommon_2eproto,
@@ -314,7 +315,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_msg
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_msg_2fworld_5fservice_2eproto_once;
 static bool descriptor_table_msg_2fworld_5fservice_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_msg_2fworld_5fservice_2eproto = {
-  &descriptor_table_msg_2fworld_5fservice_2eproto_initialized, descriptor_table_protodef_msg_2fworld_5fservice_2eproto, "msg/world_service.proto", 887,
+  &descriptor_table_msg_2fworld_5fservice_2eproto_initialized, descriptor_table_protodef_msg_2fworld_5fservice_2eproto, "msg/world_service.proto", 943,
   &descriptor_table_msg_2fworld_5fservice_2eproto_once, descriptor_table_msg_2fworld_5fservice_2eproto_sccs, descriptor_table_msg_2fworld_5fservice_2eproto_deps, 9, 2,
   schemas, file_default_instances, TableStruct_msg_2fworld_5fservice_2eproto::offsets,
   file_level_metadata_msg_2fworld_5fservice_2eproto, 9, file_level_enum_descriptors_msg_2fworld_5fservice_2eproto, file_level_service_descriptors_msg_2fworld_5fservice_2eproto,
