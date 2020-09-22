@@ -60,7 +60,7 @@ void CActor::OnLeaveMap(uint16_t idTargetMap)
         ServerMSG::ActorDestory ai_msg;
         ai_msg.set_actor_id(GetID());
         ai_msg.set_dead(IsDead());
-        SceneService()->SendServerMsgToAIService(ai_msg);
+        SceneService()->SendProtoMsgToAIService(ai_msg);
     }
 
     if(m_pScene)
@@ -104,7 +104,7 @@ void CActor::SendRoomMessage(const proto_msg_t& msg, bool bIncludeSelf /*= true*
     // send message to ai_service
     if((IsMonster() || IsPlayer()) && (cmd == CMD_SC_AOI_UPDATE || cmd == CMD_SC_CASTSKILL || cmd == CMD_SC_ATTRIB_CHANGE))
     {
-        SceneService()->SendProtoMsgToAIService(cmd, msg);
+        SceneService()->SendProtoMsgToAIService(msg);
     }
 
     __LEAVE_FUNCTION

@@ -327,7 +327,7 @@ bool CSceneService::SendProtoMsgToAllPlayer(const proto_msg_t& msg) const
         auto serverport_list = GetMessageRoute()->GetServerPortListByWorldIDAndServiceType(GetWorldID(), SOCKET_SERVICE, false);
         for(const auto& serverport: serverport_list)
         {
-            SendBroadcastMsgToPort(serverport);
+            SendBroadcastMsgToPort(serverport, msg);
         }
     }
     else

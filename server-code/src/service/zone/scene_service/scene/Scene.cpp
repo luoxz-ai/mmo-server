@@ -35,7 +35,7 @@ bool CScene::Init(uint16_t idMap, uint64_t idMainPhase)
     //通知AI服务器,创建场景
     ServerMSG::SceneCreate msg;
     msg.set_scene_id(idMap);
-    SceneService()->SendServerMsgToAIService(msg);
+    SceneService()->SendProtoMsgToAIService(msg);
 
     //创建静态位面
     const auto& phaseDataSet = pMap->GetPhaseData();
@@ -147,7 +147,7 @@ bool CScene::DestoryPhase(uint64_t idPhase)
     ServerMSG::PhaseDestory msg;
     msg.set_scene_id(idxSceneIdx);
     msg.set_phase_id(idPhase);
-    SceneService()->SendServerMsgToAIService(msg);
+    SceneService()->SendProtoMsgToAIService(msg);
 
     return true;
 }

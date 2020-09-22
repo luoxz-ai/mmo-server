@@ -401,6 +401,7 @@ void basecode2lua(lua_State* L)
     lua_tinker::class_mem<Vector3>(L, "x", &Vector3::x);
     lua_tinker::class_mem<Vector3>(L, "y", &Vector3::y);
     lua_tinker::class_mem<Vector3>(L, "z", &Vector3::z);
+    lua_tinker::class_add<file_lock>(L, "file_lock", false);
     lua_tinker::namespace_add(L, "GameMath");
     lua_tinker::namespace_def(L, "GameMath", "DDALineEx", &GameMath::DDALineEx);
     lua_tinker::namespace_def(L, "GameMath", "DDALineForeach", &GameMath::DDALineForeach);

@@ -12,6 +12,7 @@
 #include "NetworkMessage.h"
 #include "SettingMap.h"
 #include "AuthManager.h"
+#include "MysqlConnection.h"
 #include "server_msg/server_side.pb.h"
 
 static thread_local CAuthService* tls_pService = nullptr;

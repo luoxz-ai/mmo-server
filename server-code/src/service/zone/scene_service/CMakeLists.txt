@@ -21,7 +21,7 @@ ENDIF()
 link_libraries("-Wl,--no-allow-shlib-undefined")
 
 # 生成库文件
-ADD_LIBRARY(scene_service SHARED ${SRCS})
+ADD_LIBRARY(scene_service SHARED ${SRCS} ${PROJECT_SOURCE_DIR}/src/service/zone/scene_service/script/scene2lua.cpp)
 #SET_TARGET_PROPERTIES(scene_service PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 #SET_TARGET_PROPERTIES(scene_service PROPERTIES VERSION 0.1 SOVERSION 1)
 set_target_properties(scene_service PROPERTIES CXX_VISIBILITY_PRESET hidden)
@@ -29,12 +29,12 @@ set_target_properties(scene_service PROPERTIES CXX_VISIBILITY_PRESET hidden)
 
 if(AUTO_GEN_EXPORT_LUA)
 GET_DIRECTORY_PROPERTY(includes INCLUDE_DIRECTORIES)
-add_custom_target(scene2lua ALL
-  COMMAND echo ${SRCS} > /tmp/scene_cpps.txt && echo ${includes} > /tmp/scene_includes.txt && ${BINARIES_CORE}/cxx2lua --cpps=/tmp/scene_cpps.txt --include=/tmp/scene_includes.txt --output=${PROJECT_SOURCE_DIR}/src/service/zone/scene_service/script/scene2lua.cpp --output_functionname=scene2lua --skip_cpp --format=clang-format-9
-  DEPENDS cxx2lua
+add_custom_command(OUTPUT ${PROJECT_SOURCE_DIR}/src/service/zone/scene_service/script/scene2lua.cpp
+  COMMAND echo ${SRCS} > /tmp/scene_cpps.txt && echo ${includes} > /tmp/scene_includes.txt 
+  COMMAND ${BINARIES_CORE}/cxx2lua --cpps=/tmp/scene_cpps.txt --include=/tmp/scene_includes.txt --output=${PROJECT_SOURCE_DIR}/src/service/zone/scene_service/script/scene2lua.cpp --output_functionname=scene2lua --skip_cpp --format=clang-format-9
   COMMENT "gen scene2lua for export_lua"
  )
-ADD_DEPENDENCIES(scene_service scene2lua)
+ADD_DEPENDENCIES(scene_service cxx2lua)
 else()
 endif()
 

@@ -70,7 +70,7 @@ void CAccountManager::Login(const VirtualSocket& vs, const std::string& openid)
 
     CAccount* pAccount = CAccount::CreateNew(openid, vs);
     CHECK(pAccount);
-    LOGLOGIN("Actor:{} StartLogin", open_id.c_str());
+    LOGLOGIN("Actor:{} StartLogin", openid.c_str());
 
     m_setAccount[pAccount->GetOpenID()]         = pAccount;
     m_setAccountBySocket[pAccount->GetSocket()] = pAccount;

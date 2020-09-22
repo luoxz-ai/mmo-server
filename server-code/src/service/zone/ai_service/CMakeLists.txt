@@ -19,7 +19,7 @@ ELSE()
 ENDIF()
 
 # 生成库文件
-ADD_LIBRARY(ai_service SHARED ${SRCS})
+ADD_LIBRARY(ai_service SHARED ${SRCS} ${PROJECT_SOURCE_DIR}/src/service/zone/ai_service/script/ai2lua.cpp)
 #SET_TARGET_PROPERTIES(ai_service PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 #SET_TARGET_PROPERTIES(ai_service PROPERTIES VERSION 0.1 SOVERSION 1)
 set_target_properties(ai_service PROPERTIES CXX_VISIBILITY_PRESET hidden)
@@ -27,12 +27,12 @@ set_target_properties(ai_service PROPERTIES CXX_VISIBILITY_PRESET hidden)
 
 if(AUTO_GEN_EXPORT_LUA)
 GET_DIRECTORY_PROPERTY(includes INCLUDE_DIRECTORIES)
-add_custom_target(ai2lua ALL
-  COMMAND echo ${SRCS} > /tmp/ai_cpps.txt && echo ${includes} > /tmp/ai_includes.txt && ${BINARIES_CORE}/cxx2lua --cpps=/tmp/ai_cpps.txt --include=/tmp/ai_includes.txt --output=${PROJECT_SOURCE_DIR}/src/service/zone/ai_service/script/ai2lua.cpp --output_functionname=ai2lua --skip_cpp  --format=clang-format-9
-  DEPENDS cxx2lua
+add_custom_command(OUTPUT ${PROJECT_SOURCE_DIR}/src/service/zone/ai_service/script/ai2lua.cpp
+  COMMAND echo ${SRCS} > /tmp/ai_cpps.txt && echo ${includes} > /tmp/ai_includes.txt 
+  COMMAND ${BINARIES_CORE}/cxx2lua --cpps=/tmp/ai_cpps.txt --include=/tmp/ai_includes.txt --output=${PROJECT_SOURCE_DIR}/src/service/zone/ai_service/script/ai2lua.cpp --output_functionname=ai2lua --skip_cpp  --format=clang-format-9
   COMMENT "gen ai2lua for export_lua"
  )
-ADD_DEPENDENCIES(ai_service ai2lua)
+ADD_DEPENDENCIES(ai_service cxx2lua)
 else()
 endif()
 

@@ -15,6 +15,7 @@
             return;                                                              \
         }                                                                        \
     }
+
 #define CHECKF(expr)                                                             \
     {                                                                            \
         if(!(expr))                                                              \
@@ -24,7 +25,8 @@
             return 0;                                                            \
         }                                                                        \
     }
-#define CHECK_RET(expr, r)                                                         \
+
+#define CHECK_RET(expr, r)                                                       \
     {                                                                            \
         if(!(expr))                                                              \
         {                                                                        \
@@ -34,7 +36,7 @@
         }                                                                        \
     }
 
-#define CHECK_RETTYPE(expr, R)                                                        \
+#define CHECK_RETTYPE(expr, R)                                                   \
     {                                                                            \
         if(!(expr))                                                              \
         {                                                                        \
@@ -54,6 +56,7 @@
             return;                                                              \
         }                                                                        \
     }
+
 #define CHECKF_M(expr, msg)                                                      \
     {                                                                            \
         if(!(expr))                                                              \
@@ -63,7 +66,7 @@
             return 0;                                                            \
         }                                                                        \
     }
-#define CHECK_RET_M(expr, r, msg)                                                  \
+#define CHECK_RET_M(expr, r, msg)                                                \
     {                                                                            \
         if(!(expr))                                                              \
         {                                                                        \
@@ -72,7 +75,8 @@
             return r;                                                            \
         }                                                                        \
     }
-#define CHECK_RETTYPE_M(expr, R, msg)                                                 \
+
+#define CHECK_RETTYPE_M(expr, R, msg)                                            \
     {                                                                            \
         if(!(expr))                                                              \
         {                                                                        \
@@ -92,6 +96,7 @@
             return;                                                              \
         }                                                                        \
     }
+
 #define CHECKF_V(expr, v)                                                        \
     {                                                                            \
         if(!(expr))                                                              \
@@ -101,7 +106,8 @@
             return 0;                                                            \
         }                                                                        \
     }
-#define CHECK_RET_V(expr, r, v)                                                    \
+
+#define CHECK_RET_V(expr, r, v)                                                  \
     {                                                                            \
         if(!(expr))                                                              \
         {                                                                        \
@@ -110,7 +116,8 @@
             return r;                                                            \
         }                                                                        \
     }
-#define CHECK_RETTYPE_V(expr, R, v)                                                   \
+
+#define CHECK_RETTYPE_V(expr, R, v)                                              \
     {                                                                            \
         if(!(expr))                                                              \
         {                                                                        \
@@ -130,6 +137,7 @@
             return;                                                              \
         }                                                                        \
     }
+
 #define CHECKF_FMT(expr, fmt_msg, ...)                                           \
     {                                                                            \
         if(!(expr))                                                              \
@@ -139,7 +147,8 @@
             return 0;                                                            \
         }                                                                        \
     }
-#define CHECK_RET_FMT(expr, r, fmt_msg, ...)                                       \
+
+#define CHECK_RET_FMT(expr, r, fmt_msg, ...)                                     \
     {                                                                            \
         if(!(expr))                                                              \
         {                                                                        \
@@ -148,7 +157,8 @@
             return r;                                                            \
         }                                                                        \
     }
-#define CHECK_RETTYPE_FMT(expr, R, fmt_msg, ...)                                      \
+
+#define CHECK_RETTYPE_FMT(expr, R, fmt_msg, ...)                                 \
     {                                                                            \
         if(!(expr))                                                              \
         {                                                                        \
@@ -163,6 +173,7 @@
     {                    \
         try              \
         {
+            
 #define __LEAVE_FUNCTION                                                    \
     }                                                                       \
     catch(const std::runtime_error& e)                                      \
@@ -178,10 +189,8 @@
     catch(...) { LOGSTACK("catch_error"); }                                 \
     }
 
-
 #ifdef _DEBUG
-
-#define CHECK_DEBUG(expr) \
+#define CHECK_DEBUG(expr)                                                        \
     {                                                                            \
         if(!(expr))                                                              \
         {                                                                        \

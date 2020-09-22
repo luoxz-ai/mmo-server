@@ -15,18 +15,23 @@ ENDIF()
 # 搜索当前目录下所有文件
 file(GLOB_RECURSE LIBBASECODE_SRC "*.cc" "*.cpp" "*.c" "*.h" "*.hpp")
 
-if(AUTO_GEN_EXPORT_LUA)
-GET_DIRECTORY_PROPERTY(includes INCLUDE_DIRECTORIES)
-add_custom_target(basecode2lua ALL
-  COMMAND echo ${LIBBASECODE_SRC} > /tmp/basecode_cpps.txt && echo ${includes} > /tmp/basecode_includes.txt && ${BINARIES_CORE}/cxx2lua --cpps=/tmp/basecode_cpps.txt --include=/tmp/basecode_includes.txt  --output=${PROJECT_SOURCE_DIR}/src/game_comm/script/basecode2lua.cpp --output_functionname=basecode2lua --skip_cpp --format=clang-format-9
-  DEPENDS cxx2lua
-  COMMENT "gen code for export_lua"
- )
-else()
-endif()
+
+GET_DIRECTORY_PROPERTY(LIBBASECODE_INCLUDES INCLUDE_DIRECTORIES)
+SET_PROPERTY(GLOBAL PROPERTY LIBBASECODE_INCLUDES ${LIBBASECODE_INCLUDES})
+SET_PROPERTY(GLOBAL PROPERTY LIBBASECODE_SRC ${LIBBASECODE_SRC})
+
+
 
 # 生成库文件
 ADD_LIBRARY(basecode SHARED ${LIBBASECODE_SRC})
+
+add_dependencies(basecode cxx2lua)
+add_custom_command(TARGET basecode
+PRE_LINK
+COMMAND echo ${LIBBASECODE_SRC} > /tmp/basecode_cpps.txt && echo ${LIBBASECODE_INCLUDES} > /tmp/basecode_includes.txt 
+COMMAND ${BINARIES_CORE}/cxx2lua --cpps=/tmp/basecode_cpps.txt --include=/tmp/basecode_includes.txt  --output=${PROJECT_SOURCE_DIR}/core/comm/script/basecode2lua.cpp --output_functionname=basecode2lua --skip_cpp --format=clang-format-9
+COMMENT "gen basecode for export_lua"
+)
 
 #指定库输出路径
 SET(LIBRARY_OUTPUT_PATH ${LIBRARIES_CORE})

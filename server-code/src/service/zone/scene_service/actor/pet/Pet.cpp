@@ -118,7 +118,7 @@ void CPet::OnEnterMap(CSceneBase* pScene)
     ai_msg.set_posx(GetPosX());
     ai_msg.set_posy(GetPosY());
     ai_msg.set_ownerid(GetOwnerID());
-    SceneService()->SendServerMsgToAIService(ai_msg);
+    SceneService()->SendProtoMsgToAIService(ai_msg);
     __LEAVE_FUNCTION
 }
 

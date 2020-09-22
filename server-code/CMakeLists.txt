@@ -45,10 +45,10 @@ SET(CMAKE_CXX_ERROR_FLAGS
 
 add_compile_options("-D__FILENAME__='\"$(subst ${CMAKE_SOURCE_DIR}/,,$(abspath $<))\"'")
 
-SET(CMAKE_C_FLAGS_DEBUG "$ENV{CFLAGS} -g -pipe -DDEBUG -pthread")
-SET(CMAKE_C_FLAGS_RELEASE "$ENV{CFLAGS} -g -pipe -O3 -DNDEBUG -pthread")
-SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -std=c++17 -g -pipe -DDEBUG ${CMAKE_CXX_ERROR_FLAGS} -pthread")
-SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -std=c++17 -g -pipe -O3 -DNDEBUG ${CMAKE_CXX_ERROR_FLAGS} -pthread")
+SET(CMAKE_C_FLAGS_DEBUG "$ENV{CFLAGS} -g -pipe -D__DEBUG -DDEBUG -pthread")
+SET(CMAKE_C_FLAGS_RELEASE "$ENV{CFLAGS} -g -pipe -O2 -DNDEBUG -pthread")
+SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -std=c++17 -g -pipe -D__DEBUG -DDEBUG ${CMAKE_CXX_ERROR_FLAGS} -pthread")
+SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -std=c++17 -g -pipe -O2 -DNDEBUG ${CMAKE_CXX_ERROR_FLAGS} -pthread")
 
 add_compile_options("-fPIC")
 
@@ -122,17 +122,12 @@ set(CMAKE_INCLUDE_PATH ${CMAKE_INCLUDE_PATH} ${PROJECT_SOURCE_DIR}/depends/src/p
 set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH} ${PROJECT_SOURCE_DIR}/depends/lib)
 SET(PROTOBUF_PROTOC_EXECUTABLE ${PROJECT_SOURCE_DIR}/depends/bin/protoc) 
 include(FindProtobuf)
+include(protobuf_gen)
 
 set (MY_CLANG_TIDY_STR "clang-tidy-4.0;-style=file;-checks=-*,clang-analyzer-core*,clang-analyzer-cplusplus*,clang-analyzer-nullability*")
 
+message(STATUS "CMAKE_CXX_COMPILER:" ${CMAKE_CXX_COMPILER})
 
-
-message("CMAKE_CXX_COMPILER:" ${CMAKE_CXX_COMPILER})
-IF(DEBUG)
-message("CMAKE_CXX_FLAGS:" ${CMAKE_CXX_FLAGS_DEBUG})
-ELSE()
-message("CMAKE_CXX_FLAGS:" ${CMAKE_CXX_FLAGS_RELEASE})
-ENDIF()
 
 
 SET(CMAKE_SKIP_RPATH  FALSE)
@@ -173,6 +168,7 @@ include_directories(${PROJECT_SOURCE_DIR}/core/comm/basecode/)
 include_directories(${PROJECT_SOURCE_DIR}/core/comm/basecode/math)
 include_directories(${PROJECT_SOURCE_DIR}/core/comm/network/)
 include_directories(${PROJECT_SOURCE_DIR}/core/comm/message_route/)
+include_directories(${PROJECT_SOURCE_DIR}/core/comm/script/)
 include_directories(${PROJECT_SOURCE_DIR}/core/comm/mydb/)
 include_directories(${PROJECT_SOURCE_DIR}/core/service/service_comm/)
 include_directories(${PROJECT_SOURCE_DIR}/core/service/rpcservice_comm/)
@@ -182,7 +178,6 @@ include_directories(${PROJECT_SOURCE_DIR}/src/game_comm/proto/)
 include_directories(${PROJECT_SOURCE_DIR}/src/game_comm/proto/config/)
 include_directories(${PROJECT_SOURCE_DIR}/src/game_comm/proto/common/)
 include_directories(${PROJECT_SOURCE_DIR}/src/game_comm/mydbtable/)
-include_directories(${PROJECT_SOURCE_DIR}/src/game_comm/script/)
 include_directories(${PROJECT_SOURCE_DIR}/src/game_comm/gamemap/)
 
 include_directories(${PROJECT_SOURCE_DIR}/src/)
@@ -244,10 +239,12 @@ ADD_SUBDIRECTORY(core obj/core/)
 IF(DEBUG)
 MESSAGE(STATUS "Build Debug...")
 SET(CMAKE_BUILD_TYPE Debug)
+message(STATUS "CMAKE_CXX_FLAGS:" ${CMAKE_CXX_FLAGS_DEBUG})
 ADD_SUBDIRECTORY(src obj/debug)
 ELSE()
 MESSAGE(STATUS "Build Release...")
 SET(CMAKE_BUILD_TYPE Release)
+message(STATUS "CMAKE_CXX_FLAGS:" ${CMAKE_CXX_FLAGS_RELEASE})
 ADD_SUBDIRECTORY(src obj/release)
 ENDIF()
 

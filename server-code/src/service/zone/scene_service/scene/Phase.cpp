@@ -69,7 +69,7 @@ bool CPhase::Init(CScene* pScene, const SceneIdx& idxScene, uint64_t idPhase, co
     ServerMSG::PhaseCreate msg;
     msg.set_scene_id(idxScene);
     msg.set_phase_id(idPhase);
-    SceneService()->SendServerMsgToAIService(msg);
+    SceneService()->SendProtoMsgToAIService(msg);
 
     TryExecScript<void>(SCB_MAP_ONCREATE, this);
 
@@ -116,7 +116,7 @@ bool CPhase::SendSceneMessage(const proto_msg_t& msg) const
 {
     __ENTER_FUNCTION
     auto setSocketMap = SceneService()->IDList2VSMap(m_setPlayer, 0);
-    return SceneService()->SendMsgTo(setSocketMap, msg);
+    return SceneService()->SendProtoMsgTo(setSocketMap, msg);
     __LEAVE_FUNCTION
     return false;
 }

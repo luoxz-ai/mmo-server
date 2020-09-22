@@ -11,6 +11,7 @@ struct event;
 class CNetMSGProcess;
 class CGMManager;
 class CAuthManager;
+class CMysqlConnection;
 
 class CAuthService : public IService, public CServiceCommon
 {

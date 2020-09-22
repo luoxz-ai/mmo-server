@@ -181,7 +181,7 @@ void CPlayer::OnEnterMap(CSceneBase* pScene)
         ai_msg.set_posx(GetPosX());
         ai_msg.set_posy(GetPosY());
 
-        SceneService()->SendServerMsgToAIService(ai_msg);
+        SceneService()->SendProtoMsgToAIService(ai_msg);
     }
 
     {
@@ -191,7 +191,7 @@ void CPlayer::OnEnterMap(CSceneBase* pScene)
         {
             send.add_task_phase_id(k);
         }
-        SceneService()->SendServerMsgToAIService(send);
+        SceneService()->SendProtoMsgToAIService(send);
     }
 
     LOGLOGIN("CPlayer::OnEnterMapEnd: {} mapid: {}", GetID(), GetSceneIdx());

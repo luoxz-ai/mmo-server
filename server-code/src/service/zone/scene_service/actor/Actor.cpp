@@ -46,7 +46,7 @@ void CActor::AddHide()
     ServerMSG::ActorSetHide msg;
     msg.set_actor_id(GetID());
     msg.set_hide_count(m_nHideCount);
-    SceneService()->SendServerMsgToAIService(msg);
+    SceneService()->SendProtoMsgToAIService(msg);
 }
 
 void CActor::RemoveHide()
@@ -56,7 +56,7 @@ void CActor::RemoveHide()
     ServerMSG::ActorSetHide msg;
     msg.set_actor_id(GetID());
     msg.set_hide_count(m_nHideCount);
-    SceneService()->SendServerMsgToAIService(msg);
+    SceneService()->SendProtoMsgToAIService(msg);
 }
 
 void CActor::SetCampID(uint32_t id, uint32_t nSync)
@@ -549,10 +549,6 @@ void CActor::BeKillBy(CActor* pAttacker)
     __LEAVE_FUNCTION
 }
 
-bool CActor::SendMsg(const proto_msg_t& msg) const
-{
-    return false;
-}
 
 void CActor::BroadcastShowTo(const VirtualSocketMap_t& VSMap)
 {

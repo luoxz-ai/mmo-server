@@ -43,4 +43,5 @@ private:
     std::unordered_map<VirtualSocket, CAccount*> m_setAccountBySocket;
     std::deque<CAccount*>                        m_setWaitAccount;
 };
+
 #endif /* ACCOUNTMANAGER_H */

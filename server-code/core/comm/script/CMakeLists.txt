@@ -16,19 +16,15 @@ set(JEMALLOC_LIB_NAME "libjemalloc.so")
 ELSE()
 ENDIF()
 
-
 # 生成库文件
-ADD_LIBRARY(script SHARED ${SRCS})
+ADD_LIBRARY(script SHARED ${SRCS} ${PROJECT_SOURCE_DIR}/core/comm/script/basecode2lua.cpp)
+
 
 
 #指定库输出路径
 SET(LIBRARY_OUTPUT_PATH ${LIBRARIES})
 
-if(AUTO_GEN_EXPORT_LUA)
-add_dependencies(script basecode basecode2lua)
-else()
 add_dependencies(script basecode)
-endif()
 
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(script

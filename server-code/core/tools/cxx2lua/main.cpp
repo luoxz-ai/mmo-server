@@ -1887,7 +1887,7 @@ int main(int argc, char** argv)
         std::chrono::high_resolution_clock clock;
 
         auto     _startTime = clock.now();
-        unsigned flag       = CXTranslationUnit_SkipFunctionBodies | CXTranslationUnit_KeepGoing | g_extTUFlag;
+        unsigned flag       = CXTranslationUnit_SkipFunctionBodies | CXTranslationUnit_KeepGoing | CXTranslationUnit_Incomplete | CXTranslationUnit_IgnoreNonErrorsFromIncludedFiles  | g_extTUFlag;
         if(g_strKeyword.empty() == false)
         {
             flag |= CXTranslationUnit_DetailedPreprocessingRecord;
@@ -1916,10 +1916,12 @@ int main(int argc, char** argv)
         auto _stopTime2 = clock.now();
         if(temp_filename.empty() == false)
         {
-            printf("file:%s processed use %ld %ld\n",
+            std::chrono::duration<double> parse_ms = _stopTime1 - _startTime;
+            std::chrono::duration<double> visit_ms = _stopTime2 - _stopTime1;
+            printf("file:%s parse hpp: %f vist hpp: %f\n",
                    temp_filename.c_str(),
-                   std::chrono::duration_cast<std::chrono::milliseconds>(_stopTime1 - _startTime).count(),
-                   std::chrono::duration_cast<std::chrono::milliseconds>(_stopTime2 - _stopTime1).count());
+                   parse_ms.count(),
+                   visit_ms.count());
         }
     }
 

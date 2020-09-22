@@ -5,7 +5,7 @@ set_directory_properties(PROPERTIES
 ADD_SUBDIRECTORY(gamemap)
 ADD_SUBDIRECTORY(mydbtable)
 ADD_SUBDIRECTORY(proto)
-ADD_SUBDIRECTORY(script)
+
 
 
 
