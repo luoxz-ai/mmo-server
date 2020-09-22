@@ -1,6 +1,6 @@
 syntax = "proto3";
 import "sql_options/sql_options.proto";
-
+ 
 package db;
 message tbld_commondata
 {
