@@ -6,6 +6,7 @@
 
 #include "LoggingMgr.h"
 
+#ifndef CHECK
 #define CHECK(expr)                                                              \
     {                                                                            \
         if(!(expr))                                                              \
@@ -15,7 +16,9 @@
             return;                                                              \
         }                                                                        \
     }
+#endif
 
+#ifndef CHECKF
 #define CHECKF(expr)                                                             \
     {                                                                            \
         if(!(expr))                                                              \
@@ -25,7 +28,9 @@
             return 0;                                                            \
         }                                                                        \
     }
+#endif
 
+#ifndef CHECK_RET
 #define CHECK_RET(expr, r)                                                       \
     {                                                                            \
         if(!(expr))                                                              \
@@ -35,7 +40,9 @@
             return r;                                                            \
         }                                                                        \
     }
+#endif
 
+#ifndef CHECK_RETTYPE
 #define CHECK_RETTYPE(expr, R)                                                   \
     {                                                                            \
         if(!(expr))                                                              \
@@ -46,7 +53,9 @@
             return r;                                                            \
         }                                                                        \
     }
+#endif
 
+#ifndef CHECK_M
 #define CHECK_M(expr, msg)                                                       \
     {                                                                            \
         if(!(expr))                                                              \
@@ -56,7 +65,9 @@
             return;                                                              \
         }                                                                        \
     }
+#endif
 
+#ifndef CHECKF_M
 #define CHECKF_M(expr, msg)                                                      \
     {                                                                            \
         if(!(expr))                                                              \
@@ -66,6 +77,10 @@
             return 0;                                                            \
         }                                                                        \
     }
+#endif
+
+
+#ifndef CHECK_RET_M
 #define CHECK_RET_M(expr, r, msg)                                                \
     {                                                                            \
         if(!(expr))                                                              \
@@ -75,7 +90,10 @@
             return r;                                                            \
         }                                                                        \
     }
+#endif
 
+
+#ifndef CHECK_RETTYPE_M
 #define CHECK_RETTYPE_M(expr, R, msg)                                            \
     {                                                                            \
         if(!(expr))                                                              \
@@ -86,7 +104,10 @@
             return r;                                                            \
         }                                                                        \
     }
+#endif
 
+
+#ifndef CHECK_V
 #define CHECK_V(expr, v)                                                         \
     {                                                                            \
         if(!(expr))                                                              \
@@ -96,7 +117,9 @@
             return;                                                              \
         }                                                                        \
     }
+#endif 
 
+#ifndef CHECKF_V
 #define CHECKF_V(expr, v)                                                        \
     {                                                                            \
         if(!(expr))                                                              \
@@ -106,7 +129,9 @@
             return 0;                                                            \
         }                                                                        \
     }
+#endif
 
+#ifndef CHECK_RET_V
 #define CHECK_RET_V(expr, r, v)                                                  \
     {                                                                            \
         if(!(expr))                                                              \
@@ -116,7 +141,9 @@
             return r;                                                            \
         }                                                                        \
     }
+#endif
 
+#ifndef CHECK_RETTYPE_V
 #define CHECK_RETTYPE_V(expr, R, v)                                              \
     {                                                                            \
         if(!(expr))                                                              \
@@ -127,7 +154,9 @@
             return r;                                                            \
         }                                                                        \
     }
+#endif
 
+#ifndef CHECK_FMT
 #define CHECK_FMT(expr, fmt_msg, ...)                                            \
     {                                                                            \
         if(!(expr))                                                              \
@@ -137,7 +166,9 @@
             return;                                                              \
         }                                                                        \
     }
+#endif
 
+#ifndef CHECKF_FMT
 #define CHECKF_FMT(expr, fmt_msg, ...)                                           \
     {                                                                            \
         if(!(expr))                                                              \
@@ -147,7 +178,9 @@
             return 0;                                                            \
         }                                                                        \
     }
+#endif
 
+#ifndef CHECK_RET_FMT
 #define CHECK_RET_FMT(expr, r, fmt_msg, ...)                                     \
     {                                                                            \
         if(!(expr))                                                              \
@@ -157,7 +190,9 @@
             return r;                                                            \
         }                                                                        \
     }
+#endif
 
+#ifndef CHECK_RETTYPE_FMT
 #define CHECK_RETTYPE_FMT(expr, R, fmt_msg, ...)                                 \
     {                                                                            \
         if(!(expr))                                                              \
@@ -168,12 +203,16 @@
             return r;                                                            \
         }                                                                        \
     }
+#endif
 
+#ifndef __ENTER_FUNCTION
 #define __ENTER_FUNCTION \
     {                    \
         try              \
         {
-            
+#endif 
+       
+#ifndef __LEAVE_FUNCTION
 #define __LEAVE_FUNCTION                                                    \
     }                                                                       \
     catch(const std::runtime_error& e)                                      \
@@ -188,8 +227,12 @@
     }                                                                       \
     catch(...) { LOGSTACK("catch_error"); }                                 \
     }
+#endif
+
 
 #ifdef _DEBUG
+
+#ifndef CHECK_DEBUG
 #define CHECK_DEBUG(expr)                                                        \
     {                                                                            \
         if(!(expr))                                                              \
@@ -199,9 +242,14 @@
             return 0;                                                            \
         }                                                                        \
     }
+#endif
 
 #else
+
+#ifndef CHECK_DEBUG
 #define CHECK_DEBUG(expr)
+#endif
+
 #endif
 
 template<class Func, class... Args>
@@ -218,6 +266,7 @@ static inline std::optional<std::string> attempt(Func&& func, Args&&... args)
     return {};
 }
 
+#ifndef attempt_call
 #define attempt_call(x)                                                         \
     {                                                                           \
         try                                                                     \
@@ -239,5 +288,6 @@ static inline std::optional<std::string> attempt(Func&& func, Args&&... args)
             LOGSTACK("catch_error");                                            \
         }                                                                       \
     }
+#endif
 
 #endif /* CHECKUTIL_H */

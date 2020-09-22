@@ -4,7 +4,9 @@
 #include "CheckUtil.h"
 #include "export_lua.h"
 
+#ifndef UNUSED
 #define UNUSED(var) (void)((var) = (var))
+#endif
 
 export_lua inline uint64_t MakeUINT64(uint32_t left, uint32_t right)
 {
