@@ -1,6 +1,8 @@
 #ifndef PROTOMSG_TO_CMD_H
 #define PROTOMSG_TO_CMD_H
 
+#include "BaseCode.h"
+
 #include "google/protobuf/message.h"
 #include "google/protobuf/descriptor.h"
 #include "google/protobuf/descriptor.pb.h"

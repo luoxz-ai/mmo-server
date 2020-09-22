@@ -163,6 +163,7 @@ message SocketAuth
 {
     option (server_cmd).id = MsgID_SocketAuth;
     uint64 vs = 1;
+    bytes open_id = 2;
 }
 
 message SocketLogin

@@ -1244,6 +1244,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_server_5fmsg_2fserver_5fside_2
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::ServerMSG::SocketAuth, vs_),
+  PROTOBUF_FIELD_OFFSET(::ServerMSG::SocketAuth, open_id_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::ServerMSG::SocketLogin, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -1669,57 +1670,57 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 64, -1, sizeof(::ServerMSG::SocketClose)},
   { 70, -1, sizeof(::ServerMSG::SocketChangeDest)},
   { 77, -1, sizeof(::ServerMSG::SocketAuth)},
-  { 83, -1, sizeof(::ServerMSG::SocketLogin)},
-  { 90, -1, sizeof(::ServerMSG::SocketStartAccept)},
-  { 95, -1, sizeof(::ServerMSG::SocketStopAccept)},
-  { 100, -1, sizeof(::ServerMSG::PlayerEnterZone)},
-  { 111, -1, sizeof(::ServerMSG::PlayerChangeZone)},
-  { 124, -1, sizeof(::ServerMSG::PlayerChangeZone_Data)},
-  { 131, -1, sizeof(::ServerMSG::PlayerLogout)},
-  { 138, -1, sizeof(::ServerMSG::SystemVarChange)},
-  { 148, -1, sizeof(::ServerMSG::SceneCreate)},
-  { 154, -1, sizeof(::ServerMSG::PhaseCreate)},
-  { 161, -1, sizeof(::ServerMSG::PhaseDestory)},
-  { 168, -1, sizeof(::ServerMSG::MonsterGen)},
-  { 181, -1, sizeof(::ServerMSG::MonsterGenMulti)},
-  { 196, -1, sizeof(::ServerMSG::MonsterDestory)},
-  { 202, -1, sizeof(::ServerMSG::MonsterGenOnce)},
-  { 210, -1, sizeof(::ServerMSG::ActiveGen)},
-  { 218, -1, sizeof(::ServerMSG::KillGen)},
-  { 225, -1, sizeof(::ServerMSG::ActorCreate)},
-  { 249, -1, sizeof(::ServerMSG::ActorDestory)},
-  { 256, -1, sizeof(::ServerMSG::ActorMove)},
-  { 264, -1, sizeof(::ServerMSG::ActorFlyTo)},
-  { 272, -1, sizeof(::ServerMSG::ActorCastSkill)},
-  { 280, -1, sizeof(::ServerMSG::ActorCastSkill_Fail)},
-  { 286, -1, sizeof(::ServerMSG::ActorSetHide)},
-  { 293, -1, sizeof(::ServerMSG::TeamCreate)},
-  { 300, -1, sizeof(::ServerMSG::TeamDestory)},
-  { 306, -1, sizeof(::ServerMSG::TeamQuit)},
-  { 313, -1, sizeof(::ServerMSG::TeamKickMember)},
-  { 321, -1, sizeof(::ServerMSG::TeamInviteMember)},
-  { 329, -1, sizeof(::ServerMSG::TeamAcceptInvite)},
-  { 338, -1, sizeof(::ServerMSG::TeamApplyMember)},
-  { 345, -1, sizeof(::ServerMSG::TeamAcceptApply)},
-  { 353, -1, sizeof(::ServerMSG::TeamNewLeader)},
-  { 361, -1, sizeof(::ServerMSG::TeamAddMember)},
-  { 368, -1, sizeof(::ServerMSG::TeamDelMember)},
-  { 375, -1, sizeof(::ServerMSG::TeamMemberInfoList)},
-  { 381, -1, sizeof(::ServerMSG::GuildCreate)},
-  { 391, -1, sizeof(::ServerMSG::GuildDestory)},
-  { 397, -1, sizeof(::ServerMSG::GuildQuit)},
-  { 404, -1, sizeof(::ServerMSG::GuildKickMember)},
-  { 412, -1, sizeof(::ServerMSG::GuildInviteMember)},
-  { 420, -1, sizeof(::ServerMSG::GuildAcceptInvite)},
-  { 429, -1, sizeof(::ServerMSG::GuildApplyMember)},
-  { 436, -1, sizeof(::ServerMSG::GuildAcceptApply)},
-  { 444, -1, sizeof(::ServerMSG::GuildNewLeader)},
-  { 453, -1, sizeof(::ServerMSG::GuildAddMember)},
-  { 460, -1, sizeof(::ServerMSG::GuildDelMember)},
-  { 467, -1, sizeof(::ServerMSG::GuildMemberInfoList)},
-  { 473, -1, sizeof(::ServerMSG::SyncTaskPhase)},
-  { 480, -1, sizeof(::ServerMSG::AddTaskPhase)},
-  { 487, -1, sizeof(::ServerMSG::RemoveTaskPhase)},
+  { 84, -1, sizeof(::ServerMSG::SocketLogin)},
+  { 91, -1, sizeof(::ServerMSG::SocketStartAccept)},
+  { 96, -1, sizeof(::ServerMSG::SocketStopAccept)},
+  { 101, -1, sizeof(::ServerMSG::PlayerEnterZone)},
+  { 112, -1, sizeof(::ServerMSG::PlayerChangeZone)},
+  { 125, -1, sizeof(::ServerMSG::PlayerChangeZone_Data)},
+  { 132, -1, sizeof(::ServerMSG::PlayerLogout)},
+  { 139, -1, sizeof(::ServerMSG::SystemVarChange)},
+  { 149, -1, sizeof(::ServerMSG::SceneCreate)},
+  { 155, -1, sizeof(::ServerMSG::PhaseCreate)},
+  { 162, -1, sizeof(::ServerMSG::PhaseDestory)},
+  { 169, -1, sizeof(::ServerMSG::MonsterGen)},
+  { 182, -1, sizeof(::ServerMSG::MonsterGenMulti)},
+  { 197, -1, sizeof(::ServerMSG::MonsterDestory)},
+  { 203, -1, sizeof(::ServerMSG::MonsterGenOnce)},
+  { 211, -1, sizeof(::ServerMSG::ActiveGen)},
+  { 219, -1, sizeof(::ServerMSG::KillGen)},
+  { 226, -1, sizeof(::ServerMSG::ActorCreate)},
+  { 250, -1, sizeof(::ServerMSG::ActorDestory)},
+  { 257, -1, sizeof(::ServerMSG::ActorMove)},
+  { 265, -1, sizeof(::ServerMSG::ActorFlyTo)},
+  { 273, -1, sizeof(::ServerMSG::ActorCastSkill)},
+  { 281, -1, sizeof(::ServerMSG::ActorCastSkill_Fail)},
+  { 287, -1, sizeof(::ServerMSG::ActorSetHide)},
+  { 294, -1, sizeof(::ServerMSG::TeamCreate)},
+  { 301, -1, sizeof(::ServerMSG::TeamDestory)},
+  { 307, -1, sizeof(::ServerMSG::TeamQuit)},
+  { 314, -1, sizeof(::ServerMSG::TeamKickMember)},
+  { 322, -1, sizeof(::ServerMSG::TeamInviteMember)},
+  { 330, -1, sizeof(::ServerMSG::TeamAcceptInvite)},
+  { 339, -1, sizeof(::ServerMSG::TeamApplyMember)},
+  { 346, -1, sizeof(::ServerMSG::TeamAcceptApply)},
+  { 354, -1, sizeof(::ServerMSG::TeamNewLeader)},
+  { 362, -1, sizeof(::ServerMSG::TeamAddMember)},
+  { 369, -1, sizeof(::ServerMSG::TeamDelMember)},
+  { 376, -1, sizeof(::ServerMSG::TeamMemberInfoList)},
+  { 382, -1, sizeof(::ServerMSG::GuildCreate)},
+  { 392, -1, sizeof(::ServerMSG::GuildDestory)},
+  { 398, -1, sizeof(::ServerMSG::GuildQuit)},
+  { 405, -1, sizeof(::ServerMSG::GuildKickMember)},
+  { 413, -1, sizeof(::ServerMSG::GuildInviteMember)},
+  { 421, -1, sizeof(::ServerMSG::GuildAcceptInvite)},
+  { 430, -1, sizeof(::ServerMSG::GuildApplyMember)},
+  { 437, -1, sizeof(::ServerMSG::GuildAcceptApply)},
+  { 445, -1, sizeof(::ServerMSG::GuildNewLeader)},
+  { 454, -1, sizeof(::ServerMSG::GuildAddMember)},
+  { 461, -1, sizeof(::ServerMSG::GuildDelMember)},
+  { 468, -1, sizeof(::ServerMSG::GuildMemberInfoList)},
+  { 474, -1, sizeof(::ServerMSG::SyncTaskPhase)},
+  { 481, -1, sizeof(::ServerMSG::AddTaskPhase)},
+  { 488, -1, sizeof(::ServerMSG::RemoveTaskPhase)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -1808,162 +1809,162 @@ const char descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto[] PROT
   "time\030\002 \001(\004:\007\242\?\004\010\253\234\001\"$\n\rSocketConnect\022\n\n\002"
   "vs\030\001 \001(\004:\007\242\?\004\010\254\234\001\"\"\n\013SocketClose\022\n\n\002vs\030\001"
   " \001(\004:\007\242\?\004\010\255\234\001\"9\n\020SocketChangeDest\022\n\n\002vs\030"
-  "\001 \001(\004\022\020\n\010destport\030\002 \001(\r:\007\242\?\004\010\256\234\001\"!\n\nSock"
-  "etAuth\022\n\n\002vs\030\001 \001(\004:\007\242\?\004\010\257\234\001\"3\n\013SocketLog"
-  "in\022\n\n\002vs\030\001 \001(\004\022\017\n\007open_id\030\002 \001(\014:\007\242\?\004\010\262\234\001"
-  "\"\034\n\021SocketStartAccept:\007\242\?\004\010\260\234\001\"\033\n\020Socket"
-  "StopAccept:\007\242\?\004\010\261\234\001\"\200\001\n\017PlayerEnterZone\022"
-  "\020\n\010idplayer\030\001 \001(\004\022\016\n\006socket\030\002 \001(\004\022\030\n\020tar"
-  "get_scene_idx\030\004 \001(\004\022\014\n\004posx\030\005 \001(\002\022\014\n\004pos"
-  "y\030\006 \001(\002\022\014\n\004face\030\007 \001(\002:\007\242\?\004\010\265\234\001\"\234\001\n\020Playe"
-  "rChangeZone\022\020\n\010idplayer\030\001 \001(\004\022\016\n\006socket\030"
-  "\002 \001(\004\022\016\n\006idzone\030\003 \001(\r\022\024\n\014target_scene\030\004 "
-  "\001(\004\022\014\n\004posx\030\006 \001(\002\022\014\n\004posy\030\007 \001(\002\022\r\n\005range"
-  "\030\010 \001(\002\022\014\n\004face\030\t \001(\002:\007\242\?\004\010\266\234\001\"B\n\025PlayerC"
-  "hangeZone_Data\022\020\n\010idplayer\030\001 \001(\004\022\016\n\006sock"
-  "et\030\002 \001(\004:\007\242\?\004\010\267\234\001\"9\n\014PlayerLogout\022\020\n\010idp"
-  "layer\030\001 \001(\004\022\016\n\006socket\030\002 \001(\004:\007\242\?\004\010\270\234\001\"\357\001\n"
-  "\017SystemVarChange\022\016\n\006keyidx\030\001 \001(\r\022\013\n\003idx\030"
-  "\002 \001(\r\022\013\n\003val\030\003 \001(\r\022\013\n\003str\030\004 \001(\t\022<\n\004type\030"
-  "\005 \001(\0162..ServerMSG.SystemVarChange.System"
-  "VarChangeType\"^\n\023SystemVarChangeType\022\017\n\013"
-  "SVCT_CREATE\020\000\022\021\n\rSVCT_SET_DATA\020\001\022\021\n\rSVCT"
-  "_ADD_DATA\020\002\022\020\n\014SVCT_SET_STR\020\003:\007\242\?\004\010\276\234\001\"("
-  "\n\013SceneCreate\022\020\n\010scene_id\030\001 \001(\004:\007\242\?\004\010\277\234\001"
-  "\":\n\013PhaseCreate\022\020\n\010scene_id\030\001 \001(\004\022\020\n\010pha"
-  "se_id\030\002 \001(\004:\007\242\?\004\010\300\234\001\";\n\014PhaseDestory\022\020\n\010"
-  "scene_id\030\001 \001(\004\022\020\n\010phase_id\030\002 \001(\004:\007\242\?\004\010\301\234"
-  "\001\"\240\001\n\nMonsterGen\022\020\n\010scene_id\030\001 \001(\004\022\020\n\010ph"
-  "ase_id\030\002 \001(\004\022\016\n\006gen_id\030\003 \001(\r\022\024\n\014monster_"
-  "type\030\004 \001(\r\022\014\n\004posx\030\005 \001(\002\022\014\n\004posy\030\006 \001(\002\022\017"
-  "\n\007camp_id\030\007 \001(\r\022\022\n\nmonster_id\030\010 \001(\r:\007\242\?\004"
-  "\010\311\234\001\"\301\001\n\017MonsterGenMulti\022\020\n\010scene_id\030\001 \001"
-  "(\004\022\020\n\010phase_id\030\002 \001(\004\022\016\n\006gen_id\030\003 \001(\r\022\024\n\014"
-  "monster_type\030\004 \001(\r\022\014\n\004posx\030\005 \001(\002\022\014\n\004posy"
-  "\030\006 \001(\002\022\017\n\007camp_id\030\007 \001(\r\022\022\n\nmonster_id\030\010 "
-  "\001(\r\022\013\n\003num\030\t \001(\r\022\r\n\005range\030\n \001(\002:\007\242\?\004\010\316\234\001"
-  "\"-\n\016MonsterDestory\022\022\n\nmonster_id\030\001 \003(\004:\007"
-  "\242\?\004\010\312\234\001\"M\n\016MonsterGenOnce\022\020\n\010scene_id\030\001 "
-  "\001(\004\022\016\n\006gen_id\030\002 \001(\r\022\020\n\010phase_id\030\003 \001(\004:\007\242"
-  "\?\004\010\315\234\001\"F\n\tActiveGen\022\020\n\010scene_id\030\001 \001(\004\022\016\n"
-  "\006gen_id\030\002 \001(\r\022\016\n\006active\030\003 \001(\010:\007\242\?\004\010\313\234\001\"4"
-  "\n\007KillGen\022\020\n\010scene_id\030\001 \001(\004\022\016\n\006gen_id\030\002 "
-  "\001(\r:\007\242\?\004\010\314\234\001\"\304\002\n\013ActorCreate\022\020\n\010actor_id"
-  "\030\001 \001(\004\022\020\n\010scene_id\030\002 \001(\004\022\014\n\004name\030\004 \001(\t\022\021"
-  "\n\tactortype\030\005 \001(\r\022\020\n\010baselook\030\006 \001(\r\022\014\n\004p"
-  "rof\030\007 \001(\r\022\013\n\003lev\030\010 \001(\r\022\016\n\006campid\030\t \001(\r\022\n"
-  "\n\002hp\030\n \001(\r\022\r\n\005hpmax\030\013 \001(\r\022\n\n\002mp\030\014 \001(\r\022\r\n"
-  "\005mpmax\030\r \001(\r\022\017\n\007movespd\030\016 \001(\r\022\017\n\007ownerid"
-  "\030\017 \001(\004\022\014\n\004posx\030\020 \001(\002\022\014\n\004posy\030\021 \001(\002\022\014\n\004fa"
-  "ce\030\022 \001(\002\022\026\n\016monster_gen_id\030\024 \001(\r\022\020\n\010phas"
-  "e_id\030\025 \001(\004:\007\242\?\004\010\204\235\001\"7\n\014ActorDestory\022\020\n\010a"
-  "ctor_id\030\001 \001(\004\022\014\n\004dead\030\002 \001(\010:\007\242\?\004\010\205\235\001\"<\n\t"
-  "ActorMove\022\020\n\010actor_id\030\001 \001(\004\022\t\n\001x\030\002 \001(\002\022\t"
-  "\n\001y\030\003 \001(\002:\007\242\?\004\010\206\235\001\"=\n\nActorFlyTo\022\020\n\010acto"
-  "r_id\030\001 \001(\004\022\t\n\001x\030\002 \001(\002\022\t\n\001y\030\003 \001(\002:\007\242\?\004\010\215\235"
-  "\001\"P\n\016ActorCastSkill\022\020\n\010actor_id\030\001 \001(\004\022\021\n"
-  "\ttarget_id\030\002 \001(\004\022\020\n\010skill_id\030\003 \001(\r:\007\242\?\004\010"
-  "\207\235\001\"0\n\023ActorCastSkill_Fail\022\020\n\010actor_id\030\001"
-  " \001(\004:\007\242\?\004\010\210\235\001\"=\n\014ActorSetHide\022\020\n\010actor_i"
-  "d\030\001 \001(\004\022\022\n\nhide_count\030\002 \001(\005:\007\242\?\004\010\211\235\001\"9\n\n"
-  "TeamCreate\022\017\n\007team_id\030\001 \001(\004\022\021\n\tleader_id"
-  "\030\002 \001(\004:\007\242\?\004\010\216\235\001\"\'\n\013TeamDestory\022\017\n\007team_i"
-  "d\030\001 \001(\004:\007\242\?\004\010\217\235\001\"9\n\010TeamQuit\022\017\n\007team_id\030"
-  "\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004:\007\242\?\004\010\220\235\001\"P\n\016T"
-  "eamKickMember\022\017\n\007team_id\030\001 \001(\004\022\023\n\013operat"
-  "or_id\030\002 \001(\004\022\017\n\007kick_id\030\003 \001(\004:\007\242\?\004\010\221\235\001\"U\n"
-  "\020TeamInviteMember\022\017\n\007team_id\030\001 \001(\004\022\023\n\013op"
-  "erator_id\030\002 \001(\004\022\022\n\ninvitee_id\030\003 \001(\004:\007\242\?\004"
-  "\010\222\235\001\"d\n\020TeamAcceptInvite\022\017\n\007team_id\030\001 \001("
-  "\004\022\022\n\ninviter_id\030\002 \001(\004\022\022\n\ninvitee_id\030\003 \001("
-  "\004\022\016\n\006result\030\004 \001(\010:\007\242\?\004\010\223\235\001\"G\n\017TeamApplyM"
-  "ember\022\024\n\014applicant_id\030\001 \001(\004\022\025\n\rresponden"
-  "t_id\030\002 \001(\004:\007\242\?\004\010\224\235\001\"W\n\017TeamAcceptApply\022\024"
-  "\n\014applicant_id\030\001 \001(\004\022\025\n\rrespondent_id\030\002 "
-  "\001(\004\022\016\n\006result\030\003 \001(\010:\007\242\?\004\010\225\235\001\"U\n\rTeamNewL"
-  "eader\022\017\n\007team_id\030\001 \001(\004\022\023\n\013operator_id\030\002 "
-  "\001(\004\022\025\n\rnew_leader_id\030\003 \001(\004:\007\242\?\004\010\226\235\001\"<\n\rT"
-  "eamAddMember\022\017\n\007team_id\030\001 \001(\004\022\021\n\tmember_"
-  "id\030\002 \001(\004:\007\242\?\004\010\230\235\001\"<\n\rTeamDelMember\022\017\n\007te"
-  "am_id\030\001 \001(\004\022\021\n\tmember_id\030\002 \001(\004:\007\242\?\004\010\231\235\001\""
-  "C\n\022TeamMemberInfoList\022$\n\013member_list\030\001 \003"
-  "(\0132\017.TeamMemberInfo:\007\242\?\004\010\227\235\001\"y\n\013GuildCre"
-  "ate\022\020\n\010guild_id\030\001 \001(\004\022\021\n\tleader_id\030\002 \001(\004"
-  "\022\022\n\nguild_name\030\003 \001(\t\022\023\n\013leader_name\030\004 \001("
-  "\t\022\023\n\013create_time\030\005 \001(\r:\007\242\?\004\010\254\235\001\")\n\014Guild"
-  "Destory\022\020\n\010guild_id\030\001 \001(\004:\007\242\?\004\010\255\235\001\";\n\tGu"
-  "ildQuit\022\020\n\010guild_id\030\001 \001(\004\022\023\n\013operator_id"
-  "\030\002 \001(\004:\007\242\?\004\010\256\235\001\"R\n\017GuildKickMember\022\020\n\010gu"
-  "ild_id\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\022\017\n\007kic"
-  "k_id\030\003 \001(\004:\007\242\?\004\010\257\235\001\"W\n\021GuildInviteMember"
-  "\022\020\n\010guild_id\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\022"
-  "\022\n\ninvitee_id\030\003 \001(\004:\007\242\?\004\010\260\235\001\"f\n\021GuildAcc"
-  "eptInvite\022\020\n\010guild_id\030\001 \001(\004\022\022\n\ninviter_i"
-  "d\030\002 \001(\004\022\022\n\ninvitee_id\030\003 \001(\004\022\016\n\006result\030\004 "
-  "\001(\010:\007\242\?\004\010\261\235\001\"H\n\020GuildApplyMember\022\024\n\014appl"
-  "icant_id\030\001 \001(\004\022\025\n\rrespondent_id\030\002 \001(\004:\007\242"
-  "\?\004\010\262\235\001\"X\n\020GuildAcceptApply\022\024\n\014applicant_"
-  "id\030\001 \001(\004\022\025\n\rrespondent_id\030\002 \001(\004\022\016\n\006resul"
-  "t\030\003 \001(\010:\007\242\?\004\010\263\235\001\"p\n\016GuildNewLeader\022\020\n\010gu"
-  "ild_id\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\022\025\n\rnew"
-  "_leader_id\030\003 \001(\004\022\027\n\017new_leader_name\030\004 \001("
-  "\t:\007\242\?\004\010\264\235\001\">\n\016GuildAddMember\022\020\n\010guild_id"
-  "\030\001 \001(\004\022\021\n\tmember_id\030\002 \001(\004:\007\242\?\004\010\266\235\001\">\n\016Gu"
-  "ildDelMember\022\020\n\010guild_id\030\001 \001(\004\022\021\n\tmember"
-  "_id\030\002 \001(\004:\007\242\?\004\010\267\235\001\"E\n\023GuildMemberInfoLis"
-  "t\022%\n\013member_list\030\001 \003(\0132\020.GuildMemberInfo"
-  ":\007\242\?\004\010\265\235\001\"B\n\rSyncTaskPhase\022\021\n\tplayer_id\030"
-  "\001 \001(\004\022\025\n\rtask_phase_id\030\002 \003(\004:\007\242\?\004\010\212\235\001\"A\n"
-  "\014AddTaskPhase\022\021\n\tplayer_id\030\001 \001(\004\022\025\n\rtask"
-  "_phase_id\030\002 \001(\004:\007\242\?\004\010\213\235\001\"D\n\017RemoveTaskPh"
+  "\001 \001(\004\022\020\n\010destport\030\002 \001(\r:\007\242\?\004\010\256\234\001\"2\n\nSock"
+  "etAuth\022\n\n\002vs\030\001 \001(\004\022\017\n\007open_id\030\002 \001(\014:\007\242\?\004"
+  "\010\257\234\001\"3\n\013SocketLogin\022\n\n\002vs\030\001 \001(\004\022\017\n\007open_"
+  "id\030\002 \001(\014:\007\242\?\004\010\262\234\001\"\034\n\021SocketStartAccept:\007"
+  "\242\?\004\010\260\234\001\"\033\n\020SocketStopAccept:\007\242\?\004\010\261\234\001\"\200\001\n"
+  "\017PlayerEnterZone\022\020\n\010idplayer\030\001 \001(\004\022\016\n\006so"
+  "cket\030\002 \001(\004\022\030\n\020target_scene_idx\030\004 \001(\004\022\014\n\004"
+  "posx\030\005 \001(\002\022\014\n\004posy\030\006 \001(\002\022\014\n\004face\030\007 \001(\002:\007"
+  "\242\?\004\010\265\234\001\"\234\001\n\020PlayerChangeZone\022\020\n\010idplayer"
+  "\030\001 \001(\004\022\016\n\006socket\030\002 \001(\004\022\016\n\006idzone\030\003 \001(\r\022\024"
+  "\n\014target_scene\030\004 \001(\004\022\014\n\004posx\030\006 \001(\002\022\014\n\004po"
+  "sy\030\007 \001(\002\022\r\n\005range\030\010 \001(\002\022\014\n\004face\030\t \001(\002:\007\242"
+  "\?\004\010\266\234\001\"B\n\025PlayerChangeZone_Data\022\020\n\010idpla"
+  "yer\030\001 \001(\004\022\016\n\006socket\030\002 \001(\004:\007\242\?\004\010\267\234\001\"9\n\014Pl"
+  "ayerLogout\022\020\n\010idplayer\030\001 \001(\004\022\016\n\006socket\030\002"
+  " \001(\004:\007\242\?\004\010\270\234\001\"\357\001\n\017SystemVarChange\022\016\n\006key"
+  "idx\030\001 \001(\r\022\013\n\003idx\030\002 \001(\r\022\013\n\003val\030\003 \001(\r\022\013\n\003s"
+  "tr\030\004 \001(\t\022<\n\004type\030\005 \001(\0162..ServerMSG.Syste"
+  "mVarChange.SystemVarChangeType\"^\n\023System"
+  "VarChangeType\022\017\n\013SVCT_CREATE\020\000\022\021\n\rSVCT_S"
+  "ET_DATA\020\001\022\021\n\rSVCT_ADD_DATA\020\002\022\020\n\014SVCT_SET"
+  "_STR\020\003:\007\242\?\004\010\276\234\001\"(\n\013SceneCreate\022\020\n\010scene_"
+  "id\030\001 \001(\004:\007\242\?\004\010\277\234\001\":\n\013PhaseCreate\022\020\n\010scen"
+  "e_id\030\001 \001(\004\022\020\n\010phase_id\030\002 \001(\004:\007\242\?\004\010\300\234\001\";\n"
+  "\014PhaseDestory\022\020\n\010scene_id\030\001 \001(\004\022\020\n\010phase"
+  "_id\030\002 \001(\004:\007\242\?\004\010\301\234\001\"\240\001\n\nMonsterGen\022\020\n\010sce"
+  "ne_id\030\001 \001(\004\022\020\n\010phase_id\030\002 \001(\004\022\016\n\006gen_id\030"
+  "\003 \001(\r\022\024\n\014monster_type\030\004 \001(\r\022\014\n\004posx\030\005 \001("
+  "\002\022\014\n\004posy\030\006 \001(\002\022\017\n\007camp_id\030\007 \001(\r\022\022\n\nmons"
+  "ter_id\030\010 \001(\r:\007\242\?\004\010\311\234\001\"\301\001\n\017MonsterGenMult"
+  "i\022\020\n\010scene_id\030\001 \001(\004\022\020\n\010phase_id\030\002 \001(\004\022\016\n"
+  "\006gen_id\030\003 \001(\r\022\024\n\014monster_type\030\004 \001(\r\022\014\n\004p"
+  "osx\030\005 \001(\002\022\014\n\004posy\030\006 \001(\002\022\017\n\007camp_id\030\007 \001(\r"
+  "\022\022\n\nmonster_id\030\010 \001(\r\022\013\n\003num\030\t \001(\r\022\r\n\005ran"
+  "ge\030\n \001(\002:\007\242\?\004\010\316\234\001\"-\n\016MonsterDestory\022\022\n\nm"
+  "onster_id\030\001 \003(\004:\007\242\?\004\010\312\234\001\"M\n\016MonsterGenOn"
+  "ce\022\020\n\010scene_id\030\001 \001(\004\022\016\n\006gen_id\030\002 \001(\r\022\020\n\010"
+  "phase_id\030\003 \001(\004:\007\242\?\004\010\315\234\001\"F\n\tActiveGen\022\020\n\010"
+  "scene_id\030\001 \001(\004\022\016\n\006gen_id\030\002 \001(\r\022\016\n\006active"
+  "\030\003 \001(\010:\007\242\?\004\010\313\234\001\"4\n\007KillGen\022\020\n\010scene_id\030\001"
+  " \001(\004\022\016\n\006gen_id\030\002 \001(\r:\007\242\?\004\010\314\234\001\"\304\002\n\013ActorC"
+  "reate\022\020\n\010actor_id\030\001 \001(\004\022\020\n\010scene_id\030\002 \001("
+  "\004\022\014\n\004name\030\004 \001(\t\022\021\n\tactortype\030\005 \001(\r\022\020\n\010ba"
+  "selook\030\006 \001(\r\022\014\n\004prof\030\007 \001(\r\022\013\n\003lev\030\010 \001(\r\022"
+  "\016\n\006campid\030\t \001(\r\022\n\n\002hp\030\n \001(\r\022\r\n\005hpmax\030\013 \001"
+  "(\r\022\n\n\002mp\030\014 \001(\r\022\r\n\005mpmax\030\r \001(\r\022\017\n\007movespd"
+  "\030\016 \001(\r\022\017\n\007ownerid\030\017 \001(\004\022\014\n\004posx\030\020 \001(\002\022\014\n"
+  "\004posy\030\021 \001(\002\022\014\n\004face\030\022 \001(\002\022\026\n\016monster_gen"
+  "_id\030\024 \001(\r\022\020\n\010phase_id\030\025 \001(\004:\007\242\?\004\010\204\235\001\"7\n\014"
+  "ActorDestory\022\020\n\010actor_id\030\001 \001(\004\022\014\n\004dead\030\002"
+  " \001(\010:\007\242\?\004\010\205\235\001\"<\n\tActorMove\022\020\n\010actor_id\030\001"
+  " \001(\004\022\t\n\001x\030\002 \001(\002\022\t\n\001y\030\003 \001(\002:\007\242\?\004\010\206\235\001\"=\n\nA"
+  "ctorFlyTo\022\020\n\010actor_id\030\001 \001(\004\022\t\n\001x\030\002 \001(\002\022\t"
+  "\n\001y\030\003 \001(\002:\007\242\?\004\010\215\235\001\"P\n\016ActorCastSkill\022\020\n\010"
+  "actor_id\030\001 \001(\004\022\021\n\ttarget_id\030\002 \001(\004\022\020\n\010ski"
+  "ll_id\030\003 \001(\r:\007\242\?\004\010\207\235\001\"0\n\023ActorCastSkill_F"
+  "ail\022\020\n\010actor_id\030\001 \001(\004:\007\242\?\004\010\210\235\001\"=\n\014ActorS"
+  "etHide\022\020\n\010actor_id\030\001 \001(\004\022\022\n\nhide_count\030\002"
+  " \001(\005:\007\242\?\004\010\211\235\001\"9\n\nTeamCreate\022\017\n\007team_id\030\001"
+  " \001(\004\022\021\n\tleader_id\030\002 \001(\004:\007\242\?\004\010\216\235\001\"\'\n\013Team"
+  "Destory\022\017\n\007team_id\030\001 \001(\004:\007\242\?\004\010\217\235\001\"9\n\010Tea"
+  "mQuit\022\017\n\007team_id\030\001 \001(\004\022\023\n\013operator_id\030\002 "
+  "\001(\004:\007\242\?\004\010\220\235\001\"P\n\016TeamKickMember\022\017\n\007team_i"
+  "d\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\022\017\n\007kick_id\030"
+  "\003 \001(\004:\007\242\?\004\010\221\235\001\"U\n\020TeamInviteMember\022\017\n\007te"
+  "am_id\030\001 \001(\004\022\023\n\013operator_id\030\002 \001(\004\022\022\n\ninvi"
+  "tee_id\030\003 \001(\004:\007\242\?\004\010\222\235\001\"d\n\020TeamAcceptInvit"
+  "e\022\017\n\007team_id\030\001 \001(\004\022\022\n\ninviter_id\030\002 \001(\004\022\022"
+  "\n\ninvitee_id\030\003 \001(\004\022\016\n\006result\030\004 \001(\010:\007\242\?\004\010"
+  "\223\235\001\"G\n\017TeamApplyMember\022\024\n\014applicant_id\030\001"
+  " \001(\004\022\025\n\rrespondent_id\030\002 \001(\004:\007\242\?\004\010\224\235\001\"W\n\017"
+  "TeamAcceptApply\022\024\n\014applicant_id\030\001 \001(\004\022\025\n"
+  "\rrespondent_id\030\002 \001(\004\022\016\n\006result\030\003 \001(\010:\007\242\?"
+  "\004\010\225\235\001\"U\n\rTeamNewLeader\022\017\n\007team_id\030\001 \001(\004\022"
+  "\023\n\013operator_id\030\002 \001(\004\022\025\n\rnew_leader_id\030\003 "
+  "\001(\004:\007\242\?\004\010\226\235\001\"<\n\rTeamAddMember\022\017\n\007team_id"
+  "\030\001 \001(\004\022\021\n\tmember_id\030\002 \001(\004:\007\242\?\004\010\230\235\001\"<\n\rTe"
+  "amDelMember\022\017\n\007team_id\030\001 \001(\004\022\021\n\tmember_i"
+  "d\030\002 \001(\004:\007\242\?\004\010\231\235\001\"C\n\022TeamMemberInfoList\022$"
+  "\n\013member_list\030\001 \003(\0132\017.TeamMemberInfo:\007\242\?"
+  "\004\010\227\235\001\"y\n\013GuildCreate\022\020\n\010guild_id\030\001 \001(\004\022\021"
+  "\n\tleader_id\030\002 \001(\004\022\022\n\nguild_name\030\003 \001(\t\022\023\n"
+  "\013leader_name\030\004 \001(\t\022\023\n\013create_time\030\005 \001(\r:"
+  "\007\242\?\004\010\254\235\001\")\n\014GuildDestory\022\020\n\010guild_id\030\001 \001"
+  "(\004:\007\242\?\004\010\255\235\001\";\n\tGuildQuit\022\020\n\010guild_id\030\001 \001"
+  "(\004\022\023\n\013operator_id\030\002 \001(\004:\007\242\?\004\010\256\235\001\"R\n\017Guil"
+  "dKickMember\022\020\n\010guild_id\030\001 \001(\004\022\023\n\013operato"
+  "r_id\030\002 \001(\004\022\017\n\007kick_id\030\003 \001(\004:\007\242\?\004\010\257\235\001\"W\n\021"
+  "GuildInviteMember\022\020\n\010guild_id\030\001 \001(\004\022\023\n\013o"
+  "perator_id\030\002 \001(\004\022\022\n\ninvitee_id\030\003 \001(\004:\007\242\?"
+  "\004\010\260\235\001\"f\n\021GuildAcceptInvite\022\020\n\010guild_id\030\001"
+  " \001(\004\022\022\n\ninviter_id\030\002 \001(\004\022\022\n\ninvitee_id\030\003"
+  " \001(\004\022\016\n\006result\030\004 \001(\010:\007\242\?\004\010\261\235\001\"H\n\020GuildAp"
+  "plyMember\022\024\n\014applicant_id\030\001 \001(\004\022\025\n\rrespo"
+  "ndent_id\030\002 \001(\004:\007\242\?\004\010\262\235\001\"X\n\020GuildAcceptAp"
+  "ply\022\024\n\014applicant_id\030\001 \001(\004\022\025\n\rrespondent_"
+  "id\030\002 \001(\004\022\016\n\006result\030\003 \001(\010:\007\242\?\004\010\263\235\001\"p\n\016Gui"
+  "ldNewLeader\022\020\n\010guild_id\030\001 \001(\004\022\023\n\013operato"
+  "r_id\030\002 \001(\004\022\025\n\rnew_leader_id\030\003 \001(\004\022\027\n\017new"
+  "_leader_name\030\004 \001(\t:\007\242\?\004\010\264\235\001\">\n\016GuildAddM"
+  "ember\022\020\n\010guild_id\030\001 \001(\004\022\021\n\tmember_id\030\002 \001"
+  "(\004:\007\242\?\004\010\266\235\001\">\n\016GuildDelMember\022\020\n\010guild_i"
+  "d\030\001 \001(\004\022\021\n\tmember_id\030\002 \001(\004:\007\242\?\004\010\267\235\001\"E\n\023G"
+  "uildMemberInfoList\022%\n\013member_list\030\001 \003(\0132"
+  "\020.GuildMemberInfo:\007\242\?\004\010\265\235\001\"B\n\rSyncTaskPh"
   "ase\022\021\n\tplayer_id\030\001 \001(\004\022\025\n\rtask_phase_id\030"
-  "\002 \001(\004:\007\242\?\004\010\214\235\001*\317\r\n\006OMsgID\022\017\n\013OMSGID_NONE"
-  "\020\000\022\021\n\013MsgID_BEGIN\020\240\234\001\022\026\n\020MsgID_ServiceCm"
-  "d\020\241\234\001\022\036\n\030MsgID_ServiceHttpRequest\020\242\234\001\022\037\n"
-  "\031MsgID_ServiceHttpResponse\020\243\234\001\022\033\n\025MsgID_"
-  "MessageTransmit\020\247\234\001\022\030\n\022MsgID_ServiceRead"
-  "y\020\252\234\001\022\033\n\025MsgID_ServiceRegister\020\253\234\001\022\031\n\023Ms"
-  "gID_SocketConnect\020\254\234\001\022\027\n\021MsgID_SocketClo"
-  "se\020\255\234\001\022\034\n\026MsgID_SocketChangeDest\020\256\234\001\022\026\n\020"
-  "MsgID_SocketAuth\020\257\234\001\022\035\n\027MsgID_SocketStar"
-  "tAccept\020\260\234\001\022\034\n\026MsgID_SocketStopAccept\020\261\234"
-  "\001\022\027\n\021MsgID_SocketLogin\020\262\234\001\022\033\n\025MsgID_Play"
-  "erEnterZone\020\265\234\001\022\034\n\026MsgID_PlayerChangeZon"
-  "e\020\266\234\001\022!\n\033MsgID_PlayerChangeZone_Data\020\267\234\001"
-  "\022\030\n\022MsgID_PlayerLogout\020\270\234\001\022\033\n\025MsgID_Syst"
-  "emVarChange\020\276\234\001\022\027\n\021MsgID_SceneCreate\020\277\234\001"
-  "\022\027\n\021MsgID_PhaseCreate\020\300\234\001\022\030\n\022MsgID_Phase"
-  "Destory\020\301\234\001\022\026\n\020MsgID_MonsterGen\020\311\234\001\022\032\n\024M"
-  "sgID_MonsterDestory\020\312\234\001\022\025\n\017MsgID_ActiveG"
-  "en\020\313\234\001\022\023\n\rMsgID_KillGen\020\314\234\001\022\032\n\024MsgID_Mon"
-  "sterGenOnce\020\315\234\001\022\033\n\025MsgID_MonsterGenMulti"
-  "\020\316\234\001\022\027\n\021MsgID_ActorCreate\020\204\235\001\022\030\n\022MsgID_A"
-  "ctorDestory\020\205\235\001\022\025\n\017MsgID_ActorMove\020\206\235\001\022\032"
-  "\n\024MsgID_ActorCastSkill\020\207\235\001\022\037\n\031MsgID_Acto"
-  "rCastSkill_Fail\020\210\235\001\022\030\n\022MsgID_ActorSetHid"
-  "e\020\211\235\001\022\031\n\023MsgID_SyncTaskPhase\020\212\235\001\022\030\n\022MsgI"
-  "D_AddTaskPhase\020\213\235\001\022\033\n\025MsgID_RemoveTaskPh"
-  "ase\020\214\235\001\022\026\n\020MsgID_ActorFlyTo\020\215\235\001\022\026\n\020MsgID"
-  "_TeamCreate\020\216\235\001\022\027\n\021MsgID_TeamDestory\020\217\235\001"
-  "\022\024\n\016MsgID_TeamQuit\020\220\235\001\022\032\n\024MsgID_TeamKick"
-  "Member\020\221\235\001\022\034\n\026MsgID_TeamInviteMember\020\222\235\001"
-  "\022\034\n\026MsgID_TeamAcceptInvite\020\223\235\001\022\033\n\025MsgID_"
-  "TeamApplyMember\020\224\235\001\022\033\n\025MsgID_TeamAcceptA"
-  "pply\020\225\235\001\022\031\n\023MsgID_TeamNewLeader\020\226\235\001\022\036\n\030M"
-  "sgID_TeamMemberInfoList\020\227\235\001\022\031\n\023MsgID_Tea"
-  "mAddMember\020\230\235\001\022\031\n\023MsgID_TeamDelMember\020\231\235"
-  "\001\022\027\n\021MsgID_GuildCreate\020\254\235\001\022\030\n\022MsgID_Guil"
-  "dDestory\020\255\235\001\022\025\n\017MsgID_GuildQuit\020\256\235\001\022\033\n\025M"
-  "sgID_GuildKickMember\020\257\235\001\022\035\n\027MsgID_GuildI"
-  "nviteMember\020\260\235\001\022\035\n\027MsgID_GuildAcceptInvi"
-  "te\020\261\235\001\022\034\n\026MsgID_GuildApplyMember\020\262\235\001\022\034\n\026"
-  "MsgID_GuildAcceptApply\020\263\235\001\022\032\n\024MsgID_Guil"
-  "dNewLeader\020\264\235\001\022\037\n\031MsgID_GuildMemberInfoL"
-  "ist\020\265\235\001\022\032\n\024MsgID_GuildAddMember\020\266\235\001\022\032\n\024M"
-  "sgID_GuildDelMember\020\267\235\001\022\017\n\tMsgID_END\020\260\352\001"
-  ":Y\n\nserver_cmd\022\037.google.protobuf.Message"
-  "Options\030\364\007 \001(\0132#.ServerMSG.ServerSideMes"
-  "sageOptionsb\006proto3"
+  "\002 \003(\004:\007\242\?\004\010\212\235\001\"A\n\014AddTaskPhase\022\021\n\tplayer"
+  "_id\030\001 \001(\004\022\025\n\rtask_phase_id\030\002 \001(\004:\007\242\?\004\010\213\235"
+  "\001\"D\n\017RemoveTaskPhase\022\021\n\tplayer_id\030\001 \001(\004\022"
+  "\025\n\rtask_phase_id\030\002 \001(\004:\007\242\?\004\010\214\235\001*\317\r\n\006OMsg"
+  "ID\022\017\n\013OMSGID_NONE\020\000\022\021\n\013MsgID_BEGIN\020\240\234\001\022\026"
+  "\n\020MsgID_ServiceCmd\020\241\234\001\022\036\n\030MsgID_ServiceH"
+  "ttpRequest\020\242\234\001\022\037\n\031MsgID_ServiceHttpRespo"
+  "nse\020\243\234\001\022\033\n\025MsgID_MessageTransmit\020\247\234\001\022\030\n\022"
+  "MsgID_ServiceReady\020\252\234\001\022\033\n\025MsgID_ServiceR"
+  "egister\020\253\234\001\022\031\n\023MsgID_SocketConnect\020\254\234\001\022\027"
+  "\n\021MsgID_SocketClose\020\255\234\001\022\034\n\026MsgID_SocketC"
+  "hangeDest\020\256\234\001\022\026\n\020MsgID_SocketAuth\020\257\234\001\022\035\n"
+  "\027MsgID_SocketStartAccept\020\260\234\001\022\034\n\026MsgID_So"
+  "cketStopAccept\020\261\234\001\022\027\n\021MsgID_SocketLogin\020"
+  "\262\234\001\022\033\n\025MsgID_PlayerEnterZone\020\265\234\001\022\034\n\026MsgI"
+  "D_PlayerChangeZone\020\266\234\001\022!\n\033MsgID_PlayerCh"
+  "angeZone_Data\020\267\234\001\022\030\n\022MsgID_PlayerLogout\020"
+  "\270\234\001\022\033\n\025MsgID_SystemVarChange\020\276\234\001\022\027\n\021MsgI"
+  "D_SceneCreate\020\277\234\001\022\027\n\021MsgID_PhaseCreate\020\300"
+  "\234\001\022\030\n\022MsgID_PhaseDestory\020\301\234\001\022\026\n\020MsgID_Mo"
+  "nsterGen\020\311\234\001\022\032\n\024MsgID_MonsterDestory\020\312\234\001"
+  "\022\025\n\017MsgID_ActiveGen\020\313\234\001\022\023\n\rMsgID_KillGen"
+  "\020\314\234\001\022\032\n\024MsgID_MonsterGenOnce\020\315\234\001\022\033\n\025MsgI"
+  "D_MonsterGenMulti\020\316\234\001\022\027\n\021MsgID_ActorCrea"
+  "te\020\204\235\001\022\030\n\022MsgID_ActorDestory\020\205\235\001\022\025\n\017MsgI"
+  "D_ActorMove\020\206\235\001\022\032\n\024MsgID_ActorCastSkill\020"
+  "\207\235\001\022\037\n\031MsgID_ActorCastSkill_Fail\020\210\235\001\022\030\n\022"
+  "MsgID_ActorSetHide\020\211\235\001\022\031\n\023MsgID_SyncTask"
+  "Phase\020\212\235\001\022\030\n\022MsgID_AddTaskPhase\020\213\235\001\022\033\n\025M"
+  "sgID_RemoveTaskPhase\020\214\235\001\022\026\n\020MsgID_ActorF"
+  "lyTo\020\215\235\001\022\026\n\020MsgID_TeamCreate\020\216\235\001\022\027\n\021MsgI"
+  "D_TeamDestory\020\217\235\001\022\024\n\016MsgID_TeamQuit\020\220\235\001\022"
+  "\032\n\024MsgID_TeamKickMember\020\221\235\001\022\034\n\026MsgID_Tea"
+  "mInviteMember\020\222\235\001\022\034\n\026MsgID_TeamAcceptInv"
+  "ite\020\223\235\001\022\033\n\025MsgID_TeamApplyMember\020\224\235\001\022\033\n\025"
+  "MsgID_TeamAcceptApply\020\225\235\001\022\031\n\023MsgID_TeamN"
+  "ewLeader\020\226\235\001\022\036\n\030MsgID_TeamMemberInfoList"
+  "\020\227\235\001\022\031\n\023MsgID_TeamAddMember\020\230\235\001\022\031\n\023MsgID"
+  "_TeamDelMember\020\231\235\001\022\027\n\021MsgID_GuildCreate\020"
+  "\254\235\001\022\030\n\022MsgID_GuildDestory\020\255\235\001\022\025\n\017MsgID_G"
+  "uildQuit\020\256\235\001\022\033\n\025MsgID_GuildKickMember\020\257\235"
+  "\001\022\035\n\027MsgID_GuildInviteMember\020\260\235\001\022\035\n\027MsgI"
+  "D_GuildAcceptInvite\020\261\235\001\022\034\n\026MsgID_GuildAp"
+  "plyMember\020\262\235\001\022\034\n\026MsgID_GuildAcceptApply\020"
+  "\263\235\001\022\032\n\024MsgID_GuildNewLeader\020\264\235\001\022\037\n\031MsgID"
+  "_GuildMemberInfoList\020\265\235\001\022\032\n\024MsgID_GuildA"
+  "ddMember\020\266\235\001\022\032\n\024MsgID_GuildDelMember\020\267\235\001"
+  "\022\017\n\tMsgID_END\020\260\352\001:Y\n\nserver_cmd\022\037.google"
+  ".protobuf.MessageOptions\030\364\007 \001(\0132#.Server"
+  "MSG.ServerSideMessageOptionsb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_server_5fmsg_2fserver_5fside_2eproto_deps[2] = {
   &::descriptor_table_common_2fCommon_2eproto,
@@ -2037,7 +2038,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_ser
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_server_5fmsg_2fserver_5fside_2eproto_once;
 static bool descriptor_table_server_5fmsg_2fserver_5fside_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_server_5fmsg_2fserver_5fside_2eproto = {
-  &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_initialized, descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto, "server_msg/server_side.proto", 6979,
+  &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_initialized, descriptor_table_protodef_server_5fmsg_2fserver_5fside_2eproto, "server_msg/server_side.proto", 6996,
   &descriptor_table_server_5fmsg_2fserver_5fside_2eproto_once, descriptor_table_server_5fmsg_2fserver_5fside_2eproto_sccs, descriptor_table_server_5fmsg_2fserver_5fside_2eproto_deps, 63, 2,
   schemas, file_default_instances, TableStruct_server_5fmsg_2fserver_5fside_2eproto::offsets,
   file_level_metadata_server_5fmsg_2fserver_5fside_2eproto, 63, file_level_enum_descriptors_server_5fmsg_2fserver_5fside_2eproto, file_level_service_descriptors_server_5fmsg_2fserver_5fside_2eproto,
@@ -4358,11 +4359,17 @@ SocketAuth::SocketAuth(const SocketAuth& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
+  open_id_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (!from._internal_open_id().empty()) {
+    open_id_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.open_id_);
+  }
   vs_ = from.vs_;
   // @@protoc_insertion_point(copy_constructor:ServerMSG.SocketAuth)
 }
 
 void SocketAuth::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_SocketAuth_server_5fmsg_2fserver_5fside_2eproto.base);
+  open_id_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   vs_ = PROTOBUF_ULONGLONG(0);
 }
 
@@ -4372,6 +4379,7 @@ SocketAuth::~SocketAuth() {
 }
 
 void SocketAuth::SharedDtor() {
+  open_id_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 void SocketAuth::SetCachedSize(int size) const {
@@ -4389,6 +4397,7 @@ void SocketAuth::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  open_id_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   vs_ = PROTOBUF_ULONGLONG(0);
   _internal_metadata_.Clear();
 }
@@ -4404,6 +4413,14 @@ const char* SocketAuth::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
           vs_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // bytes open_id = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          auto str = _internal_mutable_open_id();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -4439,6 +4456,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_vs(), target);
   }
 
+  // bytes open_id = 2;
+  if (this->open_id().size() > 0) {
+    target = stream->WriteBytesMaybeAliased(
+        2, this->_internal_open_id(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields(), target, stream);
@@ -4454,6 +4477,13 @@ size_t SocketAuth::ByteSizeLong() const {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
+
+  // bytes open_id = 2;
+  if (this->open_id().size() > 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::BytesSize(
+        this->_internal_open_id());
+  }
 
   // uint64 vs = 1;
   if (this->vs() != 0) {
@@ -4493,6 +4523,10 @@ void SocketAuth::MergeFrom(const SocketAuth& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from.open_id().size() > 0) {
+
+    open_id_.AssignWithDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from.open_id_);
+  }
   if (from.vs() != 0) {
     _internal_set_vs(from._internal_vs());
   }
@@ -4519,6 +4553,8 @@ bool SocketAuth::IsInitialized() const {
 void SocketAuth::InternalSwap(SocketAuth* other) {
   using std::swap;
   _internal_metadata_.Swap(&other->_internal_metadata_);
+  open_id_.Swap(&other->open_id_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+    GetArenaNoVirtual());
   swap(vs_, other->vs_);
 }
 

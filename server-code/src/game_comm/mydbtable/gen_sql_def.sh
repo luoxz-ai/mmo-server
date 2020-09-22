@@ -11,8 +11,10 @@ t1=`date -d "$date1" +%s`
 t2=`date -d "$date2" +%s`
 
 if [ ! "$date2" ]; then
+   set -x 
    ${BINARIES}/sql2cpp --input=db/db_proto/${sql_name}.pb.sql --outdir=./ --output=${sql_name} --format=clang-format-9
 elif [ $t1 -gt $t2 ]; then
+   set -x 
    ${BINARIES}/sql2cpp --input=db/db_proto/${sql_name}.pb.sql --outdir=./ --output=${sql_name} --format=clang-format-9
 fi
 

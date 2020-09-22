@@ -1999,8 +1999,25 @@ class SocketAuth :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kOpenIdFieldNumber = 2,
     kVsFieldNumber = 1,
   };
+  // bytes open_id = 2;
+  void clear_open_id();
+  const std::string& open_id() const;
+  void set_open_id(const std::string& value);
+  void set_open_id(std::string&& value);
+  void set_open_id(const char* value);
+  void set_open_id(const void* value, size_t size);
+  std::string* mutable_open_id();
+  std::string* release_open_id();
+  void set_allocated_open_id(std::string* open_id);
+  private:
+  const std::string& _internal_open_id() const;
+  void _internal_set_open_id(const std::string& value);
+  std::string* _internal_mutable_open_id();
+  public:
+
   // uint64 vs = 1;
   void clear_vs();
   ::PROTOBUF_NAMESPACE_ID::uint64 vs() const;
@@ -2015,6 +2032,7 @@ class SocketAuth :
   class _Internal;
 
   ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr open_id_;
   ::PROTOBUF_NAMESPACE_ID::uint64 vs_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_server_5fmsg_2fserver_5fside_2eproto;
@@ -10478,6 +10496,66 @@ inline void SocketAuth::_internal_set_vs(::PROTOBUF_NAMESPACE_ID::uint64 value) 
 inline void SocketAuth::set_vs(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   _internal_set_vs(value);
   // @@protoc_insertion_point(field_set:ServerMSG.SocketAuth.vs)
+}
+
+// bytes open_id = 2;
+inline void SocketAuth::clear_open_id() {
+  open_id_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline const std::string& SocketAuth::open_id() const {
+  // @@protoc_insertion_point(field_get:ServerMSG.SocketAuth.open_id)
+  return _internal_open_id();
+}
+inline void SocketAuth::set_open_id(const std::string& value) {
+  _internal_set_open_id(value);
+  // @@protoc_insertion_point(field_set:ServerMSG.SocketAuth.open_id)
+}
+inline std::string* SocketAuth::mutable_open_id() {
+  // @@protoc_insertion_point(field_mutable:ServerMSG.SocketAuth.open_id)
+  return _internal_mutable_open_id();
+}
+inline const std::string& SocketAuth::_internal_open_id() const {
+  return open_id_.GetNoArena();
+}
+inline void SocketAuth::_internal_set_open_id(const std::string& value) {
+  
+  open_id_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
+}
+inline void SocketAuth::set_open_id(std::string&& value) {
+  
+  open_id_.SetNoArena(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:ServerMSG.SocketAuth.open_id)
+}
+inline void SocketAuth::set_open_id(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  open_id_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:ServerMSG.SocketAuth.open_id)
+}
+inline void SocketAuth::set_open_id(const void* value, size_t size) {
+  
+  open_id_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:ServerMSG.SocketAuth.open_id)
+}
+inline std::string* SocketAuth::_internal_mutable_open_id() {
+  
+  return open_id_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline std::string* SocketAuth::release_open_id() {
+  // @@protoc_insertion_point(field_release:ServerMSG.SocketAuth.open_id)
+  
+  return open_id_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+}
+inline void SocketAuth::set_allocated_open_id(std::string* open_id) {
+  if (open_id != nullptr) {
+    
+  } else {
+    
+  }
+  open_id_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), open_id);
+  // @@protoc_insertion_point(field_set_allocated:ServerMSG.SocketAuth.open_id)
 }
 
 // -------------------------------------------------------------------
