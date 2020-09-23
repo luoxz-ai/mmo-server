@@ -183,120 +183,6 @@ struct TBLD_DATACOUNT
     };
 };
 
-struct TBLD_GUILD
-{
-    static constexpr const char* table_name() { return "tbld_guild"; }
-    enum FIELD_ENUMS
-    {
-        ID,           //'id'
-        LEV,          //'帮派等级'
-        NAME,         //'帮派名称'
-        LEADER_ID,    //'帮主id'
-        LEADER_NAME,  //'帮主名称'
-        CREATOR_ID,   //'创建人ID'
-        CREATOR_NAME, //'创建人名称'
-        CREATE_TIME,  //'创帮时间'
-        DEL_TIME,     //'删除时间'
-        SLOGAN,       //'口号'
-        INFO1,        //'信息'
-        INFO2,        //'信息'
-        INFO3,        //'信息'
-        FLAG,         //'设置掩码'
-
-    };
-
-    static constexpr auto field_info()
-    {
-        return std::make_tuple(
-            std::make_tuple("id", DB_FIELD_TYPE_LONGLONG_UNSIGNED, true, "  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id'"),
-            std::make_tuple("lev", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false, "  `lev` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '帮派等级'"),
-            std::make_tuple("name",
-                            DB_FIELD_TYPE_VARCHAR,
-                            false,
-                            "  `name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '帮派名称'"),
-            std::make_tuple("leader_id",
-                            DB_FIELD_TYPE_LONGLONG_UNSIGNED,
-                            false,
-                            "  `leader_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '帮主id'"),
-            std::make_tuple("leader_name",
-                            DB_FIELD_TYPE_VARCHAR,
-                            false,
-                            "  `leader_name` varchar(32) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '帮主名称'"),
-            std::make_tuple("creator_id",
-                            DB_FIELD_TYPE_LONGLONG_UNSIGNED,
-                            false,
-                            "  `creator_id` bigint(32) unsigned NOT NULL DEFAULT '0' COMMENT '创建人ID'"),
-            std::make_tuple("creator_name",
-                            DB_FIELD_TYPE_VARCHAR,
-                            false,
-                            "  `creator_name` varchar(32) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '创建人名称'"),
-            std::make_tuple("create_time",
-                            DB_FIELD_TYPE_LONG_UNSIGNED,
-                            false,
-                            "  `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创帮时间'"),
-            std::make_tuple("del_time", DB_FIELD_TYPE_LONG_UNSIGNED, false, "  `del_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间'"),
-            std::make_tuple("slogan",
-                            DB_FIELD_TYPE_VARCHAR,
-                            false,
-                            "  `slogan` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '口号'"),
-            std::make_tuple("info1",
-                            DB_FIELD_TYPE_VARCHAR,
-                            false,
-                            "  `info1` varchar(1024) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '信息'"),
-            std::make_tuple("info2",
-                            DB_FIELD_TYPE_VARCHAR,
-                            false,
-                            "  `info2` varchar(1024) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '信息'"),
-            std::make_tuple("info3",
-                            DB_FIELD_TYPE_VARCHAR,
-                            false,
-                            "  `info3` varchar(1024) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '信息'"),
-            std::make_tuple("flag", DB_FIELD_TYPE_LONGLONG_UNSIGNED, false, "  `flag` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '设置掩码'"));
-    }
-
-    using field_type_t = type_list<uint64_t,
-                                   uint64_t,
-                                   char[255],
-                                   uint64_t,
-                                   char[32],
-                                   uint64_t,
-                                   char[32],
-                                   uint32_t,
-                                   uint32_t,
-                                   char[255],
-                                   char[1024],
-                                   char[1024],
-                                   char[1024],
-                                   uint64_t>;
-
-    static constexpr size_t field_count() { return 14; }
-
-    static constexpr auto keys_info() { return std::make_tuple(std::make_tuple("PRIMARY", "id")); }
-
-    static constexpr size_t keys_size() { return 1; }
-
-    static constexpr const char* create_sql()
-    {
-        return R"##(CREATE TABLE `tbld_guild` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `lev` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '帮派等级',
-  `name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '帮派名称',
-  `leader_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '帮主id',
-  `leader_name` varchar(32) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '帮主名称',
-  `creator_id` bigint(32) unsigned NOT NULL DEFAULT '0' COMMENT '创建人ID',
-  `creator_name` varchar(32) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '创建人名称',
-  `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创帮时间',
-  `del_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
-  `slogan` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '口号',
-  `info1` varchar(1024) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '信息',
-  `info2` varchar(1024) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '信息',
-  `info3` varchar(1024) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '信息',
-  `flag` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '设置掩码',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1)##";
-    };
-};
-
 struct TBLD_ITEM
 {
     static constexpr const char* table_name() { return "tbld_item"; }
@@ -846,62 +732,6 @@ struct TBLD_PLAYER
     };
 };
 
-struct TBLD_PLAYER_GUILDINFO
-{
-    static constexpr const char* table_name() { return "tbld_player_guildinfo"; }
-    enum FIELD_ENUMS
-    {
-        ID,          //'id'
-        GUILDID,     //'guildid'
-        RANK,        //'帮派职位'
-        SCORE,       //'帮派贡献'
-        TOTAL_SCORE, //'帮派贡献累计'
-        JOIN_TIME,   //'入帮时间'
-
-    };
-
-    static constexpr auto field_info()
-    {
-        return std::make_tuple(
-            std::make_tuple("id", DB_FIELD_TYPE_LONGLONG_UNSIGNED, true, "  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id'"),
-            std::make_tuple("guildid",
-                            DB_FIELD_TYPE_LONGLONG_UNSIGNED,
-                            false,
-                            "  `guildid` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'guildid'"),
-            std::make_tuple("rank", DB_FIELD_TYPE_LONG_UNSIGNED, false, "  `rank` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '帮派职位'"),
-            std::make_tuple("score", DB_FIELD_TYPE_LONG_UNSIGNED, false, "  `score` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '帮派贡献'"),
-            std::make_tuple("total_score",
-                            DB_FIELD_TYPE_LONG_UNSIGNED,
-                            false,
-                            "  `total_score` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '帮派贡献累计'"),
-            std::make_tuple("join_time",
-                            DB_FIELD_TYPE_LONG_UNSIGNED,
-                            false,
-                            "  `join_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '入帮时间'"));
-    }
-
-    using field_type_t = type_list<uint64_t, uint64_t, uint32_t, uint32_t, uint32_t, uint32_t>;
-
-    static constexpr size_t field_count() { return 6; }
-
-    static constexpr auto keys_info() { return std::make_tuple(std::make_tuple("PRIMARY", "id")); }
-
-    static constexpr size_t keys_size() { return 1; }
-
-    static constexpr const char* create_sql()
-    {
-        return R"##(CREATE TABLE `tbld_player_guildinfo` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `guildid` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'guildid',
-  `rank` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '帮派职位',
-  `score` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '帮派贡献',
-  `total_score` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '帮派贡献累计',
-  `join_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '入帮时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1)##";
-    };
-};
-
 struct TBLD_SKILL
 {
     static constexpr const char* table_name() { return "tbld_skill"; }
@@ -1240,13 +1070,11 @@ struct TBLD_SYSTEMVAR
 using GAMEDB_TABLE_LIST = type_list<TBLD_COMMONDATA,
                                     TBLD_COOLDOWN,
                                     TBLD_DATACOUNT,
-                                    TBLD_GUILD,
                                     TBLD_ITEM,
                                     TBLD_MAIL,
                                     TBLD_MAIL_ATTACHMENT,
                                     TBLD_PET,
                                     TBLD_PLAYER,
-                                    TBLD_PLAYER_GUILDINFO,
                                     TBLD_SKILL,
                                     TBLD_TASK,
                                     TBLD_ACHIEVEMENT,

@@ -13,7 +13,7 @@ class CUserManager;
 class CSystemVarSet;
 class CGMManager;
 class CTeamManager;
-class CGuildManager;
+
 class CMapManager;
 class CUserAttrSet;
 class CBornPosSet;
@@ -58,7 +58,7 @@ public:
     CSystemVarSet*                    GetSystemVarSet() const { return m_pSystemVarSet.get(); }
     CGMManager*                       GetGMManager() const { return m_pGMManager.get(); }
     CTeamManager*                     GetTeamManager() const { return m_pTeamManager.get(); }
-    CGuildManager*                    GetGuildManager() const { return m_pGuildManager.get(); }
+
     std::unique_ptr<CMysqlConnection> ConnectGlobalDB();
 
 private:
@@ -78,7 +78,7 @@ private:
     std::unique_ptr<CMapManager>   m_pMapManager;
     std::unique_ptr<CSystemVarSet> m_pSystemVarSet;
     std::unique_ptr<CTeamManager>  m_pTeamManager;
-    std::unique_ptr<CGuildManager> m_pGuildManager;
+    
 
     CMyTimer m_tLastDisplayTime;
 
@@ -128,10 +128,6 @@ inline auto SystemVarSet()
 inline auto TeamManager()
 {
     return WorldService()->GetTeamManager();
-}
-inline auto GuildManager()
-{
-    return WorldService()->GetGuildManager();
 }
 
 #endif // WorldService_h__

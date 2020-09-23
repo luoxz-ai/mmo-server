@@ -21,32 +21,32 @@ export TSAN_OPTIONS=include_if_exists=${DIR_file}/options_tsan
 
 route()
 {
-   ${DIR_file}/binary/route --worldid=0 --start=GLOBAL_ROUTE_SERVICE-0 --logpath=/data/log/route -d 
+   ${DIR_file}/binary/route --worldid=0 --start=ROUTE_SERVICE-0 --logpath=/data/log/global/route -d 
 }
 
 gmproxy_1()
 {
-    ${DIR_file}/binary/gmproxy_1 --worldid=0 --start=GM_PROXY_SERVICE-1 --logpath=/data/log/gmproxy1 -d 
+    ${DIR_file}/binary/gmproxy_1 --worldid=0 --start=GM_PROXY_SERVICE-1 --logpath=/data/log/global/gmproxy1 -d 
 }
 
 gmproxy_2()
 {
-    ${DIR_file}/binary/gmproxy_2 --worldid=0 --start=GM_PROXY_SERVICE-2 --logpath=/data/log/gmproxy2 -d 
+    ${DIR_file}/binary/gmproxy_2 --worldid=0 --start=GM_PROXY_SERVICE-2 --logpath=/data/log/global/gmproxy2 -d 
 }
 
 gmproxy_3()
 {
-${DIR_file}/binary/gmproxy_3 --worldid=0 --start=GM_PROXY_SERVICE-3 --logpath=/data/log/gmproxy3 -d 
+${DIR_file}/binary/gmproxy_3 --worldid=0 --start=GM_PROXY_SERVICE-3 --logpath=/data/log/global/gmproxy3 -d 
 }
 
 gmproxy_4()
 {
-${DIR_file}/binary/gmproxy_4 --worldid=0 --start=GM_PROXY_SERVICE-4 --logpath=/data/log/gmproxy4 -d 
+${DIR_file}/binary/gmproxy_4 --worldid=0 --start=GM_PROXY_SERVICE-4 --logpath=/data/log/global/gmproxy4 -d 
 }
 
 gmproxy_5()
 {
-${DIR_file}/binary/gmproxy_5 --worldid=0 --start=GM_PROXY_SERVICE-5 --logpath=/data/log/gmproxy5 -d 
+${DIR_file}/binary/gmproxy_5 --worldid=0 --start=GM_PROXY_SERVICE-5 --logpath=/data/log/global/gmproxy5 -d 
 }
 
 if [ $1 ];

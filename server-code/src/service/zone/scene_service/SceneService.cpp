@@ -226,7 +226,7 @@ void CSceneService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
                      pNetworkMsg->GetCmd(),
                      pNetworkMsg->GetFrom(),
                      pNetworkMsg->GetTo(),
-                     pNetworkMsg->GetForward());
+                     pNetworkMsg->GetForward().size());
             return;
         }
     }
@@ -305,6 +305,7 @@ bool CSceneService::SendProtoMsgToWorld(uint16_t idWorld, const proto_msg_t& msg
 bool CSceneService::SendProtoMsgToAllScene(const proto_msg_t& msg) const
 {
     __ENTER_FUNCTION
+    CHECKF(IsSharedZone() == false);
     auto serverport_list = GetMessageRoute()->GetServerPortListByWorldIDAndServiceType(GetWorldID(), SCENE_SERVICE, false);
 
     for(const auto& serverport: serverport_list)

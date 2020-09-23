@@ -60,34 +60,25 @@ CNetSocket::~CNetSocket()
     __LEAVE_FUNCTION
 }
 
-CNetSocket::SendMsgData::SendMsgData(byte* _pBuffer, size_t _len, CNetworkMessage* _pMsg, bool _bFlush)
-    : len(_len)
-    , bFlush(_bFlush)
+CNetSocket::SendMsgData::SendMsgData(CNetworkMessage&& msg, bool _bFlush)
+:send_msg(std::move(msg))
+,bFlush(_bFlush)
 {
-    if(_pBuffer && len > 0)
-    {
-        pBuffer = new byte[len];
-        memcpy(pBuffer, _pBuffer, len);
-    }
-
-    if(_pMsg)
-    {
-        pMsg = new CNetworkMessage(*_pMsg);
-        pMsg->CopyBuffer();
-    }
+    send_msg.CopyBuffer();
 }
 
-CNetSocket::SendMsgData::~SendMsgData()
+CNetSocket::SendMsgData::SendMsgData(const CNetworkMessage& msg, bool _bFlush)
+:send_msg(msg)
+,bFlush(_bFlush)
 {
-    SAFE_DELETE_ARRAY(pBuffer);
-    SAFE_DELETE(pMsg);
+    send_msg.CopyBuffer();
 }
 
-bool CNetSocket::SendSocketMsg(byte* pBuffer, size_t len, bool bFlush)
+bool CNetSocket::SendNetworkMessage(CNetworkMessage&& msg, bool bFlush)
 {
     __ENTER_FUNCTION
 
-    SendMsgData* pData = new SendMsgData{pBuffer, len, nullptr, bFlush};
+    SendMsgData* pData = new SendMsgData{std::move(msg), bFlush};
     m_SendMsgQueue.push(pData);
     PostSend();
     return true;
@@ -95,11 +86,11 @@ bool CNetSocket::SendSocketMsg(byte* pBuffer, size_t len, bool bFlush)
     return false;
 }
 
-bool CNetSocket::SendSocketCombineMsg(byte* pHeaderBuffer, size_t head_len, CNetworkMessage* pMsg, bool bFlush)
+bool CNetSocket::SendNetworkMessage(const CNetworkMessage& msg, bool bFlush)
 {
     __ENTER_FUNCTION
 
-    SendMsgData* pData = new SendMsgData{pHeaderBuffer, head_len, pMsg, bFlush};
+    SendMsgData* pData = new SendMsgData{msg, bFlush};
     m_SendMsgQueue.push(pData);
     PostSend();
     return true;
@@ -126,14 +117,7 @@ void CNetSocket::_SendAllMsg()
     while(m_SendMsgQueue.get(pData))
     {
         __ENTER_FUNCTION
-        if(pData->pBuffer)
-        {
-            _SendMsg(pData->pBuffer, pData->len, pData->bFlush);
-        }
-        if(pData->pMsg)
-        {
-            _SendMsg(pData->pMsg->GetBuf(), pData->pMsg->GetSize(), pData->bFlush);
-        }
+        _SendMsg(pData->send_msg.GetBuf(), pData->send_msg.GetSize(), pData->bFlush);
         SAFE_DELETE(pData);
         __LEAVE_FUNCTION
     }
@@ -297,7 +281,7 @@ void CNetSocket::_OnSocketEvent(bufferevent* b, short what, void* ctx)
             MSG_HEAD msg;
             msg.usCmd  = COMMON_CMD_PING;
             msg.usSize = sizeof(MSG_HEAD);
-            pSocket->SendSocketMsg(&msg);
+            pSocket->_SendMsg((byte*)&msg, sizeof(msg));
             bufferevent_enable(b, EV_READ);
         }
         else if(what & BEV_EVENT_WRITING)
@@ -402,7 +386,7 @@ void CNetSocket::OnRecvData(byte* pBuffer, size_t len)
             MSG_HEAD msg;
             msg.usCmd  = COMMON_CMD_PONG;
             msg.usSize = sizeof(MSG_HEAD);
-            SendSocketMsg((byte*)&msg, sizeof(msg));
+            _SendMsg((byte*)&msg, sizeof(msg));
             // LOGNETDEBUG("MSG_PING_RECV:{}:{}", GetAddrString().c_str(), GetPort());
             return;
         }

@@ -20,8 +20,8 @@ export_lua enum SERVICE_TYPE {
     GM_SERVICE     = 6,  //单服单个, 无状态, 后台调用, 充值调用
     SOCKET_SERVICE = 6,  //单服多个, 连接服务, 网关, 广播, 组播
     AUTH_SERVICE   = 8,  //单服多个/单个, 无状态, 验证登录
+    GUILD_SERVICE  = 9,  //单服单个
     ROUTE_SERVICE  = 10, //单服单个, 无状态, 用来转发连接多个zone
-
     GM_PROXY_SERVICE = 11, //全局多个, 无状态, 充值回调, 后台回调, http服务, 收到后进行验证,验证后,转发给对应服的GM_SERVICE
 };
 
@@ -30,15 +30,22 @@ enum SERVICE_UID_TYPE
     WORLD_SERVICE_UID       = 1,
     MARKET_SERVICE_UID      = 2,
     GM_SERVICE_UID          = 3,
+    GUILD_SERIVE_UID        = 4,
     SCENE_SERVICE_UID_START = 100,
     SCENE_SERVICE_UID_END   = 200,
 };
 
 inline std::string GetServiceName(const ServiceID& service_id)
 {
-    auto        service_type         = magic_enum::enum_value<SERVICE_TYPE>(service_id.GetServiceType());
-    auto        service_type_strview = magic_enum::enum_name(service_type);
+    auto service_type = service_id.GetServiceType();
+    if(magic_enum::enum_contains<SERVICE_TYPE>(service_type) == false)
+    {
+        return "UNKNOWN";
+    }
+    auto service_type_strview = magic_enum::enum_name<SERVICE_TYPE>(static_cast<SERVICE_TYPE>(service_type));
+
     std::string service_type_str{service_type_strview.data(), service_type_strview.size()};
+
     if(service_id.GetServiceIdx() == 0)
     {
 

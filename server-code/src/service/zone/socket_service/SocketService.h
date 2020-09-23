@@ -28,8 +28,7 @@ public:
     }
 
     void Interrupt();
-    bool SendSocketMsg(byte* pBuffer, size_t len);
-    bool SendSocketMsg(CNetworkMessage* pMsg);
+    bool SendSocketMsg(const CNetworkMessage& msg);
 
     CSocketService* GetService() const { return m_pService; }
     void            SetService(CSocketService* val) { m_pService = val; }

@@ -223,7 +223,7 @@ int32_t main(int32_t argc, char* argv[])
             {
                 uint8_t service_type = GetServiceTypeFromName(vec_servicetype[0]);
                 uint8_t service_idx  = std::stol(vec_servicetype[1]);
-                create_service_set.insert({service_type, service_idx});
+                create_service_set.emplace(service_type, service_idx);
             }
         }
     }

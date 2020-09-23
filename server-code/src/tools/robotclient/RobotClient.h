@@ -39,8 +39,7 @@ public:
     void SendProtobufToServer(proto_msg_t* pMsg);
 
 private:
-    void SendToServer(byte* buf, size_t len);
-    void SendToServer(CNetworkMessage& msg);
+    void SendToServer(const CNetworkMessage& msg);
 
 private:
     RobotClientManager* m_pManager;

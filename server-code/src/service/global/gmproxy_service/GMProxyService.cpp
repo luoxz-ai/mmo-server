@@ -288,11 +288,11 @@ void CGMProxyService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
 {
     if(m_pNetMsgProcess->Process(pNetworkMsg) == false)
     {
-        LOGERROR("CMD {} from {} to {} forward {} didn't have ProcessHandler",
+        LOGERROR("CMD {} from {} to {} forward_count {} didn't have ProcessHandler",
                  pNetworkMsg->GetCmd(),
                  pNetworkMsg->GetFrom(),
                  pNetworkMsg->GetTo(),
-                 pNetworkMsg->GetForward());
+                 pNetworkMsg->GetForward().size());
     }
 }
 

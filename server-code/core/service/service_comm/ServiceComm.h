@@ -63,7 +63,7 @@ public:
     bool SendMsgToVirtualSocket(const VirtualSocket& vsTo, const proto_msg_t& msg) const;
     bool SendProtoMsgToZonePort(const ServerPort& nServerPort, const proto_msg_t& msg) const;
     bool SendBroadcastMsgToPort(const ServerPort& nServerPort, const proto_msg_t& msg) const;
-
+    bool ForwardProtoMsgToPlayer(const ServerPort& nServerPort, uint64_t id_player, const proto_msg_t& msg) const;
 
     template<class T>
     VirtualSocketMap_t IDList2VSMap(const T& idList, OBJID idExtInclude = 0) const

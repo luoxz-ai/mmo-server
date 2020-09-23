@@ -102,12 +102,10 @@ public:
     CEventManager* GetEventManager() const { return m_pEventManager.get(); }
     size_t         GetSocketAmount();
     // socket广播消息
-    void BrocastMsg(byte* buf, size_t len, SOCKET execpt_this = 0);
+    void BrocastMsg(const CNetworkMessage& msg, SOCKET execpt_this);
     //直接发送Socket消息
-    bool SendSocketMsg(SOCKET _socket, byte* buf, size_t len);
-    bool SendSocketMsg(SOCKET _socket, CNetworkMessage* pMsg);
-    bool SendSocketMsgByIdx(uint16_t nSocketIdx, byte* buf, size_t len);
-    bool SendSocketMsgByIdx(uint16_t nSocketIdx, CNetworkMessage* pMsg);
+    bool SendSocketMsg(SOCKET _socket, const CNetworkMessage& msg);
+    bool SendSocketMsgByIdx(uint16_t nSocketIdx, const CNetworkMessage& msg);
     //主动关闭一个连接
     bool KickSocket(SOCKET _socket);
 

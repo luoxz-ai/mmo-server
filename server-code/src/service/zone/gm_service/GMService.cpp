@@ -232,7 +232,7 @@ void CGMService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
                  pNetworkMsg->GetCmd(),
                  pNetworkMsg->GetFrom(),
                  pNetworkMsg->GetTo(),
-                 pNetworkMsg->GetForward());
+                 pNetworkMsg->GetForward().size());
     }
 }
 

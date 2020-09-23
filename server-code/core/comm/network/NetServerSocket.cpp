@@ -56,7 +56,7 @@ void CServerSocket::Interrupt()
         MSG_HEAD msg;
         msg.usCmd  = COMMON_CMD_INTERRUPT;
         msg.usSize = sizeof(MSG_HEAD);
-        SendSocketMsg((byte*)&msg, sizeof(msg), true);
+        _SendMsg((byte*)&msg, sizeof(msg), true);
         SetStatus(NSS_CLOSEING);
     }
     __LEAVE_FUNCTION

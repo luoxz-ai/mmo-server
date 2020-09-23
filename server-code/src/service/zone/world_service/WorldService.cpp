@@ -6,7 +6,7 @@
 #include "BornPos.h"
 #include "EventManager.h"
 #include "GMManager.h"
-#include "GuildManager.h"
+
 #include "MapManager.h"
 #include "MemoryHelp.h"
 #include "MessagePort.h"
@@ -160,8 +160,6 @@ bool CWorldService::Init(const ServerPort& nServerPort)
     DEFINE_CONFIG_LOAD(CUserAttrSet);
     DEFINE_CONFIG_LOAD(CBornPosSet);
 
-    m_pGuildManager.reset(CGuildManager::CreateNew());
-    CHECKF(m_pGuildManager.get());
 
     m_pMapManager.reset(CMapManager::CreateNew(0));
     CHECKF(m_pMapManager.get());
@@ -204,11 +202,12 @@ void CWorldService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
     MSG_HEAD* pHead = pNetworkMsg->GetMsgHead();
 
     //需要转发的，直接转发
-    if(pNetworkMsg->GetForward().IsVaild() && pNetworkMsg->GetForward().GetServerPort() != GetServerPort())
+    if(pNetworkMsg->GetForward().empty() == false && pNetworkMsg->GetForward().front().GetServerPort() != GetServerPort())
     {
-        if(GetMessageRoute()->IsConnected(pNetworkMsg->GetForward().GetServerPort()) == true)
+        if(GetMessageRoute()->IsConnected(pNetworkMsg->GetForward().front().GetServerPort()) == true)
         {
-            pNetworkMsg->SetTo(pNetworkMsg->GetForward());
+            pNetworkMsg->SetTo(pNetworkMsg->GetForward().front());
+            pNetworkMsg->PopForward();
             _SendMsgToZonePort(*pNetworkMsg);
         }
         else
@@ -220,13 +219,37 @@ void CWorldService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
         return;
     }
 
+    //转发消息给对应ID的玩家
+    if(pNetworkMsg->GetMultiIDTo().empty() == false)
+    {
+        CNetworkMessage send_msg;
+        send_msg.CopyRawMessage(*pNetworkMsg);
+        auto setSocketMap = IDList2VSMap(pNetworkMsg->GetMultiIDTo(), 0);
+        for(auto& [nServerPort, socket_list]: setSocketMap)
+        {
+            if(socket_list.size() == 1)
+            {
+                send_msg.SetTo(socket_list.front());
+                
+                _SendMsgToZonePort(send_msg);
+            }
+            else
+            {
+                send_msg.SetMultiTo(socket_list);
+                _SendMsgToZonePort(send_msg);
+            }
+        }  
+        
+        return;
+    }
+
     if(m_pNetMsgProcess->Process(pNetworkMsg) == false)
     {
         LOGERROR("CMD {} from {} to {} forward {} didn't have ProcessHandler",
                  pNetworkMsg->GetCmd(),
                  pNetworkMsg->GetFrom(),
                  pNetworkMsg->GetTo(),
-                 pNetworkMsg->GetForward());
+                 pNetworkMsg->GetForward().size());
         return;
     }
 
@@ -335,7 +358,7 @@ bool CWorldService::SendProtoMsgToAllPlayer(const proto_msg_t& msg) const
 bool CWorldService::SendProtoMsgToAllScene(const proto_msg_t& msg) const
 {
     __ENTER_FUNCTION
-    auto serverport_list = GetMessageRoute()->GetServerPortListByWorldIDAndServiceType(GetWorldID(), SOCKET_SERVICE, false);
+    auto serverport_list = GetMessageRoute()->GetServerPortListByWorldIDAndServiceType(GetWorldID(), SCENE_SERVICE, false);
     for(const auto& serverport: serverport_list)
     {
         SendProtoMsgToZonePort(serverport, msg);

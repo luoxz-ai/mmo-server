@@ -99,14 +99,22 @@ enum GuildRank
 
 message GuildMemberInfo
 {
-	uint64 member_id     = 1;
-	uint32 member_lev    = 2;
-	bool   member_online = 3;
-	string member_name   = 4;
-	uint32 member_rank   = 5;
-	uint32 member_score  = 6;
-	uint32 member_last_logout  = 7;
-	uint32 member_jointime  = 8;
+    uint64 member_id          = 1;
+    uint32 member_lev         = 2;
+	string member_name        = 3;
+};
+
+message GuildMemberInfoDetail
+{
+    uint64 member_id          = 1;
+    uint32 member_lev         = 2;
+    string member_name        = 3;
+    uint32 member_rank        = 4;
+    uint32 member_jointime    = 5;
+    uint32 member_score       = 6;
+    uint32 member_total_score = 7;
+    uint32 member_last_login  = 8;
+    uint32 member_last_logout = 9;
 };
 
 message TeamMemberInfo

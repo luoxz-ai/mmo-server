@@ -41,7 +41,6 @@
 #include "Phase.h"
 #include "Player.h"
 #include "PlayerAchievement.h"
-#include "PlayerGuildAttr.h"
 #include "PlayerTask.h"
 #include "PlayerTaskData.h"
 #include "Scene.h"
@@ -55,8 +54,6 @@
 #include "SystemVars.h"
 #include "TaskType.h"
 #include "TeamInfoManager.h"
-#include "ZoneGuild.h"
-#include "ZoneGuildManager.h"
 #include "lua_tinker.h"
 void scene2lua(lua_State* L)
 {
@@ -505,7 +502,15 @@ void scene2lua(lua_State* L)
     lua_tinker::class_def<CMyTimer>(L, "Update", &CMyTimer::Update);
     lua_tinker::class_con<CMyTimer>(L, lua_tinker::constructor<CMyTimer, int32_t>::invoke, 0);
     lua_tinker::class_add<CNetworkMessage>(L, "CNetworkMessage", false);
+    lua_tinker::class_def<CNetworkMessage>(L, "AddForward", &CNetworkMessage::AddForward);
+    lua_tinker::class_def<CNetworkMessage>(L, "AddMultiIDTo", &CNetworkMessage::AddMultiIDTo);
+    lua_tinker::class_def<CNetworkMessage>(L, "AddMultiTo", &CNetworkMessage::AddMultiTo);
+    lua_tinker::class_def<CNetworkMessage>(L, "ClearBroadcast", &CNetworkMessage::ClearBroadcast);
+    lua_tinker::class_def<CNetworkMessage>(L, "ClearForward", &CNetworkMessage::ClearForward);
+    lua_tinker::class_def<CNetworkMessage>(L, "ClearMultiIDTo", &CNetworkMessage::ClearMultiIDTo);
+    lua_tinker::class_def<CNetworkMessage>(L, "ClearMultiTo", &CNetworkMessage::ClearMultiTo);
     lua_tinker::class_def<CNetworkMessage>(L, "CopyBuffer", &CNetworkMessage::CopyBuffer);
+    lua_tinker::class_def<CNetworkMessage>(L, "CopyRawMessage", &CNetworkMessage::CopyRawMessage);
     lua_tinker::class_def<CNetworkMessage>(L, "GetBodySize", &CNetworkMessage::GetBodySize);
     lua_tinker::class_def<CNetworkMessage>(L, "GetBuf", &CNetworkMessage::GetBuf);
     lua_tinker::class_def<CNetworkMessage>(L, "GetCmd", &CNetworkMessage::GetCmd);
@@ -525,14 +530,19 @@ void scene2lua(lua_State* L)
             lua_tinker::make_member_functor_ptr((const MSG_HEAD* (CNetworkMessage::*)() const)(&CNetworkMessage::GetMsgHead))));
     lua_tinker::class_def<CNetworkMessage>(L, "GetMultiIDTo", &CNetworkMessage::GetMultiIDTo);
     lua_tinker::class_def<CNetworkMessage>(L, "GetMultiTo", &CNetworkMessage::GetMultiTo);
-    lua_tinker::class_def<CNetworkMessage>(L, "GetMultiType", &CNetworkMessage::GetMultiType);
     lua_tinker::class_def<CNetworkMessage>(L, "GetSize", &CNetworkMessage::GetSize);
     lua_tinker::class_def<CNetworkMessage>(L, "GetTo", &CNetworkMessage::GetTo);
     lua_tinker::class_def<CNetworkMessage>(L, "IsBroadcast", &CNetworkMessage::IsBroadcast);
     lua_tinker::class_def<CNetworkMessage>(L, "IsMultiIDTo", &CNetworkMessage::IsMultiIDTo);
     lua_tinker::class_def<CNetworkMessage>(L, "IsMultiTo", &CNetworkMessage::IsMultiTo);
+    lua_tinker::class_def<CNetworkMessage>(L, "PopForward", &CNetworkMessage::PopForward);
     lua_tinker::class_def<CNetworkMessage>(L, "SetBroadcast", &CNetworkMessage::SetBroadcast);
-    lua_tinker::class_def<CNetworkMessage>(L, "SetForward", &CNetworkMessage::SetForward);
+    lua_tinker::class_def<CNetworkMessage>(
+        L,
+        "SetForward",
+        lua_tinker::args_type_overload_member_functor(
+            lua_tinker::make_member_functor_ptr((void (CNetworkMessage::*)(const std::deque<VirtualSocket>&))(&CNetworkMessage::SetForward)),
+            lua_tinker::make_member_functor_ptr((void (CNetworkMessage::*)(const uint64_t*, size_t))(&CNetworkMessage::SetForward))));
     lua_tinker::class_def<CNetworkMessage>(L, "SetFrom", &CNetworkMessage::SetFrom);
     lua_tinker::class_def<CNetworkMessage>(
         L,
@@ -546,23 +556,17 @@ void scene2lua(lua_State* L)
         lua_tinker::args_type_overload_member_functor(
             lua_tinker::make_member_functor_ptr((void (CNetworkMessage::*)(const std::vector<VirtualSocket>&))(&CNetworkMessage::SetMultiTo)),
             lua_tinker::make_member_functor_ptr((void (CNetworkMessage::*)(const uint64_t*, size_t))(&CNetworkMessage::SetMultiTo))));
-    lua_tinker::class_def<CNetworkMessage>(L, "SetMultiType", &CNetworkMessage::SetMultiType);
     lua_tinker::class_def<CNetworkMessage>(L, "SetTo", &CNetworkMessage::SetTo);
     lua_tinker::class_con<CNetworkMessage>(
         L,
         lua_tinker::args_type_overload_constructor(
-            new lua_tinker::constructor<CNetworkMessage, byte*, size_t, VirtualSocket, VirtualSocket, VirtualSocket>(3 /*default_args_count*/,
-                                                                                                                     1 /*default_args_start*/),
+            new lua_tinker::constructor<CNetworkMessage, byte*, size_t, VirtualSocket, VirtualSocket>(2 /*default_args_count*/,
+                                                                                                      1 /*default_args_start*/),
             new lua_tinker::constructor<CNetworkMessage, const CNetworkMessage&>(),
-            new lua_tinker::constructor<CNetworkMessage, uint16_t, byte*, size_t, VirtualSocket, VirtualSocket, VirtualSocket>(
-                3 /*default_args_count*/,
-                4 /*default_args_start*/),
-            new lua_tinker::constructor<CNetworkMessage, uint16_t, const proto_msg_t&, VirtualSocket, VirtualSocket, VirtualSocket>(
-                3 /*default_args_count*/,
-                7 /*default_args_start*/)),
-        0,
-        0,
-        0,
+            new lua_tinker::constructor<CNetworkMessage, uint16_t, byte*, size_t, VirtualSocket, VirtualSocket>(2 /*default_args_count*/,
+                                                                                                                3 /*default_args_start*/),
+            new lua_tinker::constructor<CNetworkMessage, uint16_t, const proto_msg_t&, VirtualSocket, VirtualSocket>(2 /*default_args_count*/,
+                                                                                                                     5 /*default_args_start*/)),
         0,
         0,
         0,
@@ -1502,6 +1506,7 @@ void scene2lua(lua_State* L)
     lua_tinker::set(L, "EQUIPPOSITION_WING", EQUIPPOSITION_WING);
     lua_tinker::set(L, "GM_PROXY_SERVICE", GM_PROXY_SERVICE);
     lua_tinker::set(L, "GM_SERVICE", GM_SERVICE);
+    lua_tinker::set(L, "GUILD_SERVICE", GUILD_SERVICE);
     lua_tinker::set(L, "ITEMFLAG_BATCH_USE_CHECK", ITEMFLAG_BATCH_USE_CHECK);
     lua_tinker::set(L, "ITEMFLAG_BUY_RUMOR", ITEMFLAG_BUY_RUMOR);
     lua_tinker::set(L, "ITEMFLAG_DELITEM_EXPIRE", ITEMFLAG_DELITEM_EXPIRE);

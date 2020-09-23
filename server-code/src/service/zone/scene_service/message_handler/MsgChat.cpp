@@ -59,7 +59,7 @@ ON_PLAYERMSG(CS_TALK)
     send_msg.set_sender_viplev(pPlayer->GetVipLev());
     send_msg.set_sender_sign(0); //发送者标志（是否新手辅导员，或者其他的特殊标志)
     send_msg.set_send_time(TimeGetSecond());
-
+    send_msg.set_reciver_id(msg.reciver_id());
     // 物品展示信息替换
     // Extraction of a sub-match
     static std::regex base_regex("\\[#i ([0-9]+)\\]", std::regex::optimize);
@@ -113,13 +113,17 @@ ON_PLAYERMSG(CS_TALK)
         break;
         case CHANNEL_PRIVATE: //私聊
         {
-            //发送给reciver所在的world，
+            //发送给reciver所在的world来转发
             auto target_worldid = GetWorldIDFromPlayerID(msg.reciver_id());
             SceneService()->SendProtoMsgToZonePort(ServerPort(target_worldid, WORLD_SERVICE, 0),  send_msg);
         }
         break;
         case CHANNEL_TEAM: //组队
         {
+            if(pPlayer->GetTeamID() == 0)
+            {
+                return;
+            }
             //发送给自己当前的World来处理
             auto target_worldid = pPlayer->GetWorldID();
             SceneService()->SendProtoMsgToZonePort(ServerPort(target_worldid, WORLD_SERVICE, 0),  send_msg);
@@ -127,27 +131,32 @@ ON_PLAYERMSG(CS_TALK)
         break;
         case CHANNEL_GUILD: //公会
         {
-            //发送给自己当前的World来处理
-            auto target_worldid = pPlayer->GetWorldID();
-            SceneService()->SendProtoMsgToZonePort(ServerPort(target_worldid, WORLD_SERVICE, 0),  send_msg);
+            if(pPlayer->GetGuildID() == 0)
+            {
+                return;
+            }
+            //发送给GuildServer来转发
+            SceneService()->SendProtoMsgToZonePort(ServerPort(0, GUILD_SERVICE, 0),  send_msg);
         }
         break;
         case CHANNEL_WORLD: //世界
         {
+            if(SceneService()->IsSharedZone() == true)
+                return;
             //扣除消费道具
 
-            //发送给自己当前的World来处理
-            auto target_worldid = pPlayer->GetWorldID();
-            SceneService()->SendProtoMsgToZonePort(ServerPort(target_worldid, WORLD_SERVICE, 0),  send_msg);
+            //直接通过gate广播
+            SceneService()->SendProtoMsgToAllPlayer(send_msg);
         }
         break;
         case CHANNEL_TRUMPET: //小喇叭
         {
+            if(SceneService()->IsSharedZone() == true)
+                return;
             //扣除消费道具
 
-            //发送给自己当前的World来处理
-            auto target_worldid = pPlayer->GetWorldID();
-            SceneService()->SendProtoMsgToZonePort(ServerPort(target_worldid, WORLD_SERVICE, 0),  send_msg);
+            //直接通过gate广播
+            SceneService()->SendProtoMsgToAllPlayer(send_msg);   
         }
         break;
         case CHANNEL_GLOBAL: //全游戏

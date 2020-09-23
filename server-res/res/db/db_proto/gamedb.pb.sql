@@ -58,26 +58,6 @@ CREATE TABLE `tbld_global_mail` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
-DROP TABLE IF EXISTS `tbld_guild`;
-CREATE TABLE `tbld_guild` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `lev` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '帮派等级',
-  `name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '帮派名称',
-  `leader_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '帮主id',
-  `leader_name` varchar(32) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '帮主名称',
-  `creator_id` bigint(32) unsigned NOT NULL DEFAULT '0' COMMENT '创建人ID',
-  `creator_name` varchar(32) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '创建人名称',
-  `create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创帮时间',
-  `del_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '删除时间',
-  `slogan` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '口号',
-  `info1` varchar(1024) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '信息',
-  `info2` varchar(1024) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '信息',
-  `info3` varchar(1024) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '信息',
-  `flag` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '设置掩码',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-
 DROP TABLE IF EXISTS `tbld_item`;
 CREATE TABLE `tbld_item` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
@@ -191,18 +171,6 @@ CREATE TABLE `tbld_player` (
   KEY `idx_last_logouttime` (`last_logouttime`),
   KEY `idx_worldid` (`worldid`),
   KEY `idx_create_time` (`create_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-
-DROP TABLE IF EXISTS `tbld_player_guildinfo`;
-CREATE TABLE `tbld_player_guildinfo` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `guildid` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'guildid',
-  `rank` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '帮派职位',
-  `score` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '帮派贡献',
-  `total_score` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '帮派贡献累计',
-  `join_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '入帮时间',
-  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 

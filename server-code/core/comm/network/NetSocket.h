@@ -14,6 +14,7 @@
 #include "LockfreeQueue.h"
 #include "NetworkDefine.h"
 #include "ObjectHeap.h"
+#include "NetworkMessage.h"
 
 class CNetworkService;
 class CNetEventHandler;
@@ -30,7 +31,7 @@ enum NET_SOCKET_STATUS
 
 struct bufferevent;
 struct event;
-class CNetworkMessage;
+
 
 class CNetSocket
 {
@@ -41,16 +42,9 @@ public:
     virtual bool Init(bufferevent* pBufferEvent) = 0;
     virtual void Interrupt()                     = 0;
     virtual bool CreateByListener() const { return true; }
-    template<class T>
-    bool SendSocketMsg(T* pBuffer, bool bFlush = true)
-    {
-        static_assert(std::is_base_of<MSG_HEAD, T>::value, "Only Can Send Data inherit of MSG_HEAD");
-        return SendSocketMsg((byte*)pBuffer, sizeof(*pBuffer), bFlush);
-    }
 
-    bool SendSocketMsg(byte* pBuffer, size_t len, bool bFlush = true);
-    bool SendSocketCombineMsg(byte* pHeaderBuffer, size_t head_len, CNetworkMessage* pMsg, bool bFlush = true);
-
+    bool SendNetworkMessage(CNetworkMessage&& msg, bool bFlush = true);
+    bool SendNetworkMessage(const CNetworkMessage& msg, bool bFlush = true);
     void InitDecryptor(uint32_t seed)
     {
         m_pDecryptor = std::make_unique<CDecryptor>();
@@ -107,21 +101,21 @@ public:
     void set_sock_nodely();
     void set_sock_quickack();
 
+
+    bool _SendMsg(byte* pBuffer, size_t len, bool bFlush = true);
 public:
     OBJECTHEAP_DECLARATION(s_Heap);
 
 protected:
     struct SendMsgData
     {
-        SendMsgData(byte* _pBuffer, size_t _len, CNetworkMessage* _pMsg, bool _bFlush);
-        ~SendMsgData();
+        SendMsgData(CNetworkMessage&& msg, bool _bFlush);
+        SendMsgData(const CNetworkMessage& msg, bool _bFlush);
 
-        byte*            pBuffer = nullptr;
-        size_t           len     = 0;
-        CNetworkMessage* pMsg    = nullptr;
-        bool             bFlush  = false;
+        CNetworkMessage  send_msg;
+        bool             bFlush;
     };
-    bool _SendMsg(byte* pBuffer, size_t len, bool bFlush);
+    
     void _SendAllMsg();
     void PostSend();
 

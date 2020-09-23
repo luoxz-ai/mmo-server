@@ -39,16 +39,10 @@ void CGameClient::Interrupt()
     m_VirtualSocket.SetSocketIdx(0);
 }
 
-bool CGameClient::SendSocketMsg(byte* pBuffer, size_t len)
+bool CGameClient::SendSocketMsg(const CNetworkMessage& msg)
 {
     CHECKF(m_pService);
-    return m_pService->GetNetworkService()->SendSocketMsgByIdx(m_VirtualSocket.GetSocketIdx(), pBuffer, len);
-}
-
-bool CGameClient::SendSocketMsg(CNetworkMessage* pMsg)
-{
-    CHECKF(m_pService);
-    return m_pService->GetNetworkService()->SendSocketMsgByIdx(m_VirtualSocket.GetSocketIdx(), pMsg);
+    return m_pService->GetNetworkService()->SendSocketMsgByIdx(m_VirtualSocket.GetSocketIdx(), msg);
 }
 
 bool CGameClient::IsVaild() const
@@ -266,7 +260,7 @@ void CSocketService::OnAccepted(CNetSocket* pSocket)
     SC_KEY msg;
     msg.set_key(seed);
     CNetworkMessage _msg(to_cmd(msg), msg);
-    pSocket->SendSocketMsg(_msg.GetBuf(), _msg.GetSize());
+    pSocket->SendNetworkMessage(_msg);
     __LEAVE_FUNCTION
 }
 
@@ -376,58 +370,40 @@ void CSocketService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
     {
         return;
     }
-    // send to socket
-    switch(pNetworkMsg->GetMultiType())
+
     {
-        case MULTITYPE_NONE:
+        CGameClient* pClient = QueryClient(pNetworkMsg->GetTo());
+        if(pClient && pClient->IsVaild())
         {
-            CGameClient* pClient = QueryClient(pNetworkMsg->GetTo());
-            if(pClient && pClient->IsVaild())
+            pClient->SendSocketMsg(*pNetworkMsg);
+        }
+    }
+    for(const auto vs : pNetworkMsg->GetMultiTo())
+    {
+        CGameClient* pClient = QueryClient(vs);
+        if(pClient && pClient->IsVaild()&& pClient->IsAuth())
+        {
+            pClient->SendSocketMsg(*pNetworkMsg);
+        }
+    }
+    for(const auto id : pNetworkMsg->GetMultiIDTo())
+    {
+        CGameClient* pClient = QueryClientByUserID(id);
+        if(pClient && pClient->IsVaild() && pClient->IsAuth())
+        {
+            pClient->SendSocketMsg(*pNetworkMsg);
+        }
+    }
+    if(pNetworkMsg->IsBroadcast())
+    {
+        for(const auto& v: m_setVirtualSocket)
+        {
+            CGameClient* pClient = v.second;
+            if(pClient && pClient->IsVaild() && pClient->IsAuth())
             {
-                pClient->SendSocketMsg(pNetworkMsg);
+                pClient->SendSocketMsg(*pNetworkMsg);
             }
-            return;
         }
-        break;
-        case MULTITYPE_BROADCAST:
-        {
-            for(const auto& v: m_setVirtualSocket)
-            {
-                CGameClient* pClient = v.second;
-                if(pClient && pClient->IsVaild() && pClient->IsAuth())
-                {
-                    pClient->SendSocketMsg(pNetworkMsg);
-                }
-            }
-            return;
-        }
-        break;
-        case MULTITYPE_VIRTUALSOCKET:
-        {
-            const auto& refSet = pNetworkMsg->GetMultiTo();
-            for(auto it = refSet.begin(); it != refSet.end(); it++)
-            {
-                CGameClient* pClient = QueryClient(*it);
-                if(pClient && pClient->IsVaild())
-                {
-                    pClient->SendSocketMsg(pNetworkMsg);
-                }
-            }
-            return;
-        }
-        break;
-        case MULTITYPE_USERID:
-        {
-        }
-        break;
-        case MULTITYPE_GROUPID:
-        {
-        }
-        break;
-        default:
-        {
-        }
-        break;
     }
 
     __LEAVE_FUNCTION

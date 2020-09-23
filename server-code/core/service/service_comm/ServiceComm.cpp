@@ -182,6 +182,16 @@ void CServiceCommon::OnLogicThreadCreate()
 
 void CServiceCommon::OnLogicThreadExit() {}
 
+bool CServiceCommon::ForwardProtoMsgToPlayer(const ServerPort& nServerPort, uint64_t id_player, const proto_msg_t& msg) const
+{
+    __ENTER_FUNCTION
+    CNetworkMessage _msg(to_cmd(msg), msg, GetServerVirtualSocket(), nServerPort);
+    _msg.AddMultiIDTo(id_player);
+    return _SendMsgToZonePort(_msg);
+    __LEAVE_FUNCTION
+    return false;
+}
+
 bool CServiceCommon::SendBroadcastMsgToPort(const ServerPort& nServerPort, const proto_msg_t& msg) const
 {
     __ENTER_FUNCTION
@@ -313,7 +323,7 @@ bool CServiceCommon::_SendMsgToZonePort(const CNetworkMessage& msg) const
         {
             //通过route转发
             CNetworkMessage newmsg(msg);
-            newmsg.SetForward(msg.GetTo());
+            newmsg.AddForward(msg.GetTo());
             return TransmitMsgToPort(ServerPort(GetWorldID(), ROUTE_SERVICE, 0), &newmsg);
         }
         return false;
@@ -326,12 +336,12 @@ bool CServiceCommon::_SendMsgToZonePort(const CNetworkMessage& msg) const
             if(msg.IsBroadcast())
             {
                 m_pMonitorMgr->AddSendInfo_broad(msg.GetCmd(), msg.GetSize());
-                m_pNetworkService->BrocastMsg(msg.GetBuf(), msg.GetSize());
+                m_pNetworkService->BrocastMsg(msg, 0);
             }
             else
             {
                 m_pMonitorMgr->AddSendInfo(msg.GetCmd(), msg.GetSize());
-                return m_pNetworkService->SendSocketMsgByIdx(msg.GetTo().GetSocketIdx(), msg.GetBuf(), msg.GetSize());
+                return m_pNetworkService->SendSocketMsgByIdx(msg.GetTo().GetSocketIdx(), msg);
             }
         }
 

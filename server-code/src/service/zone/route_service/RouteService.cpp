@@ -189,9 +189,10 @@ void CRouteService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
     }
 
     //需要转发的，直接转发
-    if(pNetworkMsg->GetForward().IsVaild())
+    if(pNetworkMsg->GetForward().empty() == false)
     {
-        pNetworkMsg->SetTo(pNetworkMsg->GetForward());
+        pNetworkMsg->SetTo(pNetworkMsg->GetForward().front());
+        pNetworkMsg->GetForward().pop_front();
         _SendMsgToZonePort(*pNetworkMsg);
         return;
     }

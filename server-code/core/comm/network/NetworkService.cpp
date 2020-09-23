@@ -663,11 +663,9 @@ size_t CNetworkService::GetSocketAmount()
     return 0;
 }
 
-void CNetworkService::BrocastMsg(byte* buf, size_t len, SOCKET execpt_this)
+void CNetworkService::BrocastMsg(const CNetworkMessage& msg, SOCKET execpt_this)
 {
     __ENTER_FUNCTION
-    CHECK(buf != nullptr)
-    CHECK(len != 0);
     std::lock_guard<std::mutex> lock(m_mutex);
 
     for(auto it = m_setSocket.begin(); it != m_setSocket.end(); it++)
@@ -675,7 +673,7 @@ void CNetworkService::BrocastMsg(byte* buf, size_t len, SOCKET execpt_this)
         if(execpt_this != 0 && it->first == execpt_this)
             continue;
 
-        it->second->SendSocketMsg(buf, len);
+        it->second->SendNetworkMessage(msg);
     }
     __LEAVE_FUNCTION
 }
@@ -708,53 +706,29 @@ bool CNetworkService::KickSocket(SOCKET _socket)
     return false;
 }
 
-bool CNetworkService::SendSocketMsg(SOCKET _socket, byte* buf, size_t len)
+
+bool CNetworkService::SendSocketMsg(SOCKET _socket, const CNetworkMessage& msg)
 {
     __ENTER_FUNCTION
     std::lock_guard<std::mutex> lock(m_mutex);
     auto                        it = m_setSocket.find(_socket);
     if(it != m_setSocket.end())
     {
-        return it->second->SendSocketMsg(buf, len);
+        return it->second->SendNetworkMessage(msg);
     }
     __LEAVE_FUNCTION
     return false;
 }
 
-bool CNetworkService::SendSocketMsg(SOCKET _socket, CNetworkMessage* pMsg)
+bool CNetworkService::SendSocketMsgByIdx(uint16_t nSocketIdx, const CNetworkMessage& msg)
 {
     __ENTER_FUNCTION
     std::lock_guard<std::mutex> lock(m_mutex);
-    auto                        it = m_setSocket.find(_socket);
-    if(it != m_setSocket.end())
-    {
-        return it->second->SendSocketMsg(0, 0, pMsg);
-    }
-    __LEAVE_FUNCTION
-    return false;
-}
 
-bool CNetworkService::SendSocketMsgByIdx(uint16_t nSocketIdx, byte* buf, size_t len)
-{
-    __ENTER_FUNCTION
-    std::lock_guard<std::mutex> lock(m_mutex);
-    auto                        pSocket = m_setSocketByIdx[nSocketIdx];
+    auto pSocket = m_setSocketByIdx[nSocketIdx];
     if(pSocket)
     {
-        return pSocket->SendSocketMsg(buf, len);
-    }
-    __LEAVE_FUNCTION
-    return false;
-}
-
-bool CNetworkService::SendSocketMsgByIdx(uint16_t nSocketIdx, CNetworkMessage* pMsg)
-{
-    __ENTER_FUNCTION
-    std::lock_guard<std::mutex> lock(m_mutex);
-    auto                        pSocket = m_setSocketByIdx[nSocketIdx];
-    if(pSocket)
-    {
-        return pSocket->SendSocketMsg(0, 0, pMsg);
+        return pSocket->SendNetworkMessage(msg);
     }
     __LEAVE_FUNCTION
     return false;

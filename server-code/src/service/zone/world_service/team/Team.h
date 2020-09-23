@@ -5,6 +5,7 @@
 #include "game_common_def.h"
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
+#include "NetworkDefine.h"
 
 class CUser;
 class CTeam : public NoncopyableT<CTeam>
@@ -18,6 +19,7 @@ public:
 public:
     ~CTeam();
 
+    void SendMsgToAllMember(const proto_msg_t& msg);
     void SendTeamAction(uint32_t nAction, OBJID idOperator, OBJID idMember);
     void SendTeamMemberInfo(const TeamMemberInfo& info);
     void SendAllTeamMemberInfo(CUser* pUser);

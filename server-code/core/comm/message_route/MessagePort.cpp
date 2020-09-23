@@ -4,6 +4,7 @@
 #include "NetSocket.h"
 #include "NetworkMessage.h"
 #include "CheckUtil.h"
+#include "msg_internal.pb.h"
 
 CMessagePort::CMessagePort(const ServerPort& nServerPort, CMessageRoute* pRoute)
     : m_nServerPort(nServerPort)
@@ -52,8 +53,9 @@ void CMessagePort::OnConnected(CNetSocket* pSocket)
     MSG_HEAD msg;
     msg.usCmd  = COMMON_CMD_PING;
     msg.usSize = sizeof(MSG_HEAD);
-    pSocket->SendSocketMsg((byte*)&msg, sizeof(msg));
-    pSocket->SetPacketSizeMax(_MAX_MSGSIZE * 2);
+    pSocket->_SendMsg((byte*)&msg, sizeof(msg));
+    //服务器间通信扩充recv缓冲区大小
+    pSocket->SetPacketSizeMax(_MAX_MSGSIZE * 10);
     LOGNETDEBUG("MessagePort:{}-{} OnConnected {}:{}",
                 GetServerPort().GetServiceID().GetServiceType(),
                 GetServerPort().GetServiceID().GetServiceIdx(),
@@ -104,7 +106,8 @@ void CMessagePort::OnAccepted(CNetSocket* pSocket)
                 GetServerPort().GetServiceID().GetServiceIdx(),
                 pSocket->GetAddrString().c_str(),
                 pSocket->GetPort());
-    pSocket->SetPacketSizeMax(_MAX_MSGSIZE * 2);
+    //服务器间通信扩充recv缓冲区大小
+    pSocket->SetPacketSizeMax(_MAX_MSGSIZE * 10);
     if(auto pHandler = m_pPortEventHandler.load())
     {
         pHandler->OnPortAccepted(pSocket);
@@ -116,7 +119,8 @@ void CMessagePort::SetRemoteSocket(CNetSocket* pSocket)
 {
     __ENTER_FUNCTION
     m_pRemoteServerSocket = pSocket;
-    m_pRemoteServerSocket->SetPacketSizeMax(_MAX_MSGSIZE * 2);
+    //服务器间通信扩充recv缓冲区大小
+    m_pRemoteServerSocket->SetPacketSizeMax(_MAX_MSGSIZE * 10);
     __LEAVE_FUNCTION
 }
 
@@ -124,80 +128,25 @@ void CMessagePort::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
 {
     __ENTER_FUNCTION
     MSG_HEAD* pHead = (MSG_HEAD*)pBuffer;
-    switch(pHead->usCmd)
+    InternalMsg internal_msg;
+    if(internal_msg.ParseFromArray(pBuffer + sizeof(MSG_HEAD), len - sizeof(MSG_HEAD)) == false)
     {
-        case NETMSG_INTERNAL:
-        {
-            MSG_INTERNAL_MSG_HEAD* pInternal_msg_head = (MSG_INTERNAL_MSG_HEAD*)pBuffer;
-
-            CNetworkMessage* pMsg = new CNetworkMessage(pBuffer + sizeof(MSG_INTERNAL_MSG_HEAD),
-                                                        pHead->usSize - sizeof(MSG_INTERNAL_MSG_HEAD),
-                                                        pInternal_msg_head->nFrom,
-                                                        pInternal_msg_head->nTo,
-                                                        pInternal_msg_head->nForward);
-            pMsg->CopyBuffer();
-            m_RecvMsgQueue.push(pMsg);
-        }
-        break;
-        case NETMSG_INTERNAL_BROCAST_ALL:
-        {
-            MSG_INTERNAL_MSG_HEAD* pInternal_msg_head = (MSG_INTERNAL_MSG_HEAD*)pBuffer;
-
-            CNetworkMessage* pMsg = new CNetworkMessage{pBuffer + sizeof(MSG_INTERNAL_MSG_HEAD),
-                                                        pHead->usSize - sizeof(MSG_INTERNAL_MSG_HEAD),
-                                                        pInternal_msg_head->nFrom,
-                                                        pInternal_msg_head->nTo};
-            pMsg->SetBroadcast();
-            pMsg->CopyBuffer();
-            m_RecvMsgQueue.push(pMsg);
-        }
-        break;
-        case NETMSG_INTERNAL_BROCAST_BYVS:
-        {
-            MSG_INTERNAL_BROCAST_MSG_HEAD* pBrocast_msg_head = (MSG_INTERNAL_BROCAST_MSG_HEAD*)pBuffer;
-
-            CNetworkMessage* pMsg =
-                new CNetworkMessage(pBuffer + pBrocast_msg_head->GetSize(), pHead->usSize - pBrocast_msg_head->GetSize(), pBrocast_msg_head->nFrom);
-            pMsg->SetMultiTo(&pBrocast_msg_head->setTo[0], pBrocast_msg_head->nAmount);
-            pMsg->SetMultiType(MULTITYPE_VIRTUALSOCKET);
-            pMsg->CopyBuffer();
-            m_RecvMsgQueue.push(pMsg);
-        }
-        break;
-        case NETMSG_INTERNAL_BROCAST_BYID:
-        {
-            MSG_INTERNAL_BROCAST_BYID_MSG_HEAD* pBrocast_msg_head = (MSG_INTERNAL_BROCAST_BYID_MSG_HEAD*)pBuffer;
-
-            CNetworkMessage* pMsg =
-                new CNetworkMessage(pBuffer + pBrocast_msg_head->GetSize(), pHead->usSize - pBrocast_msg_head->GetSize(), pBrocast_msg_head->nFrom);
-            pMsg->SetMultiIDTo(&pBrocast_msg_head->setTo[0], pBrocast_msg_head->nAmount);
-            pMsg->SetMultiType(MULTITYPE_USERID);
-            pMsg->CopyBuffer();
-            m_RecvMsgQueue.push(pMsg);
-        }
-        break;
-        case NETMSG_INTERNAL_BROCAST_BYGROUPID:
-        {
-            MSG_INTERNAL_BROCAST_BYGROUPID_MSG_HEAD* pBrocast_msg_head = (MSG_INTERNAL_BROCAST_BYGROUPID_MSG_HEAD*)pBuffer;
-
-            CNetworkMessage* pMsg =
-                new CNetworkMessage(pBuffer + pBrocast_msg_head->GetSize(), pHead->usSize - pBrocast_msg_head->GetSize(), pBrocast_msg_head->nFrom);
-            pMsg->SetMultiIDTo(&pBrocast_msg_head->setTo[0], pBrocast_msg_head->nAmount);
-            pMsg->SetMultiType(MULTITYPE_GROUPID);
-            pMsg->CopyBuffer();
-            m_RecvMsgQueue.push(pMsg);
-        }
-        break;
-        default:
-        {
-            LOGNETERROR("MessagePort:{}-{} Recv a unknow cmd:{} size:{}",
+        LOGNETERROR("MessagePort:{}-{} Recv a unknow cmd:{} size:{}",
                         GetServerPort().GetServiceID().GetServiceType(),
                         GetServerPort().GetServiceID().GetServiceIdx(),
                         pHead->usCmd,
                         pHead->usSize);
-        }
-        break;
+        return;
     }
+
+    CNetworkMessage* pMsg = new CNetworkMessage((byte*)internal_msg.proto_msg().c_str(), internal_msg.proto_msg().size(), internal_msg.from(),  internal_msg.to());
+    pMsg->SetForward(internal_msg.forward().data(), internal_msg.forward_size());
+    pMsg->SetMultiTo(internal_msg.brocast_vs().data(), internal_msg.brocast_vs_size());
+    pMsg->SetMultiTo(internal_msg.brocast_id().data(), internal_msg.brocast_id_size());
+    if(internal_msg.brocast_all())
+        pMsg->SetBroadcast();
+    pMsg->CopyBuffer();
+    m_RecvMsgQueue.push(pMsg);
 
     auto pHandler = m_pPortEventHandler.load();
     if(pHandler)
@@ -250,119 +199,29 @@ void CMessagePort::_SendAllMsg()
     while(m_SendMsgQueue.get(pMsg))
     {
         __ENTER_FUNCTION
-        switch(pMsg->GetMultiType())
+        InternalMsg internal_msg;
+        internal_msg.set_from(pMsg->GetFrom());
+        internal_msg.set_to(pMsg->GetTo());
+        internal_msg.set_proto_msg(pMsg->GetMsgBody(), pMsg->GetBodySize());
+        
+        for(const auto& v : pMsg->GetForward())
         {
-            case MULTITYPE_NONE:
-            {
-                MSG_INTERNAL_MSG_HEAD warp_msg_header;
-                warp_msg_header.nFrom    = pMsg->GetFrom();
-                warp_msg_header.nTo      = pMsg->GetTo();
-                warp_msg_header.nForward = pMsg->GetForward();
-                warp_msg_header.usSize   = sizeof(MSG_INTERNAL_MSG_HEAD) + pMsg->GetSize();
-                warp_msg_header.usCmd    = NETMSG_INTERNAL;
-                m_pRemoteServerSocket->SendSocketCombineMsg((byte*)&warp_msg_header, sizeof(warp_msg_header), pMsg);
-            }
-            break;
-            case MULTITYPE_BROADCAST:
-            {
-                MSG_INTERNAL_MSG_HEAD warp_msg_header;
-                warp_msg_header.nFrom    = pMsg->GetFrom();
-                warp_msg_header.nTo      = pMsg->GetTo();
-                warp_msg_header.nForward = pMsg->GetForward();
-                warp_msg_header.usSize   = sizeof(MSG_INTERNAL_MSG_HEAD) + pMsg->GetSize();
-                warp_msg_header.usCmd    = NETMSG_INTERNAL_BROCAST_ALL;
-                m_pRemoteServerSocket->SendSocketCombineMsg((byte*)&warp_msg_header, sizeof(warp_msg_header), pMsg);
-            }
-            break;
-            case MULTITYPE_VIRTUALSOCKET:
-            {
-                MSG_INTERNAL_BROCAST_MSG_HEAD warp_msg_header;
-                warp_msg_header.usCmd    = NETMSG_INTERNAL_BROCAST_BYVS;
-                warp_msg_header.nAmount  = 0;
-                warp_msg_header.nFrom    = pMsg->GetFrom();
-                warp_msg_header.nForward = pMsg->GetForward();
-                for(auto it = pMsg->GetMultiTo().begin(); it != pMsg->GetMultiTo().end(); it++)
-                {
-                    warp_msg_header.setTo[warp_msg_header.nAmount++] = *it;
-                    if(warp_msg_header.nAmount >= warp_msg_header.GetMaxAmount())
-                    {
-                        warp_msg_header.usSize = warp_msg_header.GetSize() + pMsg->GetSize();
-                        {
-                            m_pRemoteServerSocket->SendSocketCombineMsg((byte*)&warp_msg_header, warp_msg_header.GetSize(), pMsg);
-                        }
-
-                        warp_msg_header.nAmount = 0;
-                    }
-                }
-                if(warp_msg_header.nAmount > 0)
-                {
-                    warp_msg_header.usSize = warp_msg_header.GetSize() + pMsg->GetSize();
-                    {
-                        m_pRemoteServerSocket->SendSocketCombineMsg((byte*)&warp_msg_header, warp_msg_header.GetSize(), pMsg);
-                    }
-                }
-            }
-            break;
-            case MULTITYPE_USERID:
-            {
-                MSG_INTERNAL_BROCAST_BYID_MSG_HEAD warp_msg_header;
-                warp_msg_header.usCmd    = NETMSG_INTERNAL_BROCAST_BYID;
-                warp_msg_header.nAmount  = 0;
-                warp_msg_header.nFrom    = pMsg->GetFrom();
-                warp_msg_header.nForward = pMsg->GetForward();
-                for(auto it = pMsg->GetMultiIDTo().begin(); it != pMsg->GetMultiIDTo().end(); it++)
-                {
-                    warp_msg_header.setTo[warp_msg_header.nAmount++] = *it;
-                    if(warp_msg_header.nAmount >= warp_msg_header.GetMaxAmount())
-                    {
-                        warp_msg_header.usSize = warp_msg_header.GetSize() + pMsg->GetSize();
-                        {
-                            m_pRemoteServerSocket->SendSocketCombineMsg((byte*)&warp_msg_header, warp_msg_header.GetSize(), pMsg);
-                        }
-
-                        warp_msg_header.nAmount = 0;
-                    }
-                }
-                if(warp_msg_header.nAmount > 0)
-                {
-                    warp_msg_header.usSize = warp_msg_header.GetSize() + pMsg->GetSize();
-                    {
-                        m_pRemoteServerSocket->SendSocketCombineMsg((byte*)&warp_msg_header, warp_msg_header.GetSize(), pMsg);
-                    }
-                }
-            }
-            break;
-            case MULTITYPE_GROUPID:
-            {
-                MSG_INTERNAL_BROCAST_BYGROUPID_MSG_HEAD warp_msg_header;
-                warp_msg_header.usCmd    = NETMSG_INTERNAL_BROCAST_BYID;
-                warp_msg_header.nAmount  = 0;
-                warp_msg_header.nFrom    = pMsg->GetFrom();
-                warp_msg_header.nForward = pMsg->GetForward();
-                for(auto it = pMsg->GetMultiIDTo().begin(); it != pMsg->GetMultiIDTo().end(); it++)
-                {
-                    warp_msg_header.setTo[warp_msg_header.nAmount++] = *it;
-                    if(warp_msg_header.nAmount >= warp_msg_header.GetMaxAmount())
-                    {
-                        warp_msg_header.usSize = warp_msg_header.GetSize() + pMsg->GetSize();
-                        {
-                            m_pRemoteServerSocket->SendSocketCombineMsg((byte*)&warp_msg_header, warp_msg_header.GetSize(), pMsg);
-                        }
-
-                        warp_msg_header.nAmount = 0;
-                    }
-                }
-                if(warp_msg_header.nAmount > 0)
-                {
-                    warp_msg_header.usSize = warp_msg_header.GetSize() + pMsg->GetSize();
-                    {
-                        m_pRemoteServerSocket->SendSocketCombineMsg((byte*)&warp_msg_header, warp_msg_header.GetSize(), pMsg);
-                    }
-                }
-            }
-            break;
+            internal_msg.add_forward(v);
         }
+        for(const auto& v : pMsg->GetMultiTo())
+        {
+            internal_msg.add_brocast_vs(v);
+        }
+        for(const auto& v : pMsg->GetMultiIDTo())
+        {
+            internal_msg.add_brocast_id(v);
+        }
+        internal_msg.set_brocast_all(pMsg->IsBroadcast());
 
+        CNetworkMessage send_msg(0xFFFF, internal_msg);
+        
+        m_pRemoteServerSocket->SendNetworkMessage(std::move(send_msg));
+        
         __LEAVE_FUNCTION
         SAFE_DELETE(pMsg);
     }

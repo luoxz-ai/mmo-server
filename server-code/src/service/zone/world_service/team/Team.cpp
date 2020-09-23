@@ -19,12 +19,8 @@ bool CTeam::Init(uint64_t idTeam, OBJID idLeader)
     return true;
 }
 
-void CTeam::SendTeamAction(uint32_t nAction, OBJID idOperator, OBJID idMember)
+void CTeam::SendMsgToAllMember(const proto_msg_t& msg)
 {
-    SC_TEAMMEMBER_ACTION msg;
-    msg.set_action(SC_TEAMMEMBER_ACTION_Action(nAction));
-    msg.set_operator_id(idOperator);
-    msg.set_member_id(idMember);
     for(const auto& v: m_setMember)
     {
         CUser* pUser = UserManager()->QueryUser(v.member_id());
@@ -35,20 +31,21 @@ void CTeam::SendTeamAction(uint32_t nAction, OBJID idOperator, OBJID idMember)
     }
 }
 
+void CTeam::SendTeamAction(uint32_t nAction, OBJID idOperator, OBJID idMember)
+{
+    SC_TEAMMEMBER_ACTION msg;
+    msg.set_action(SC_TEAMMEMBER_ACTION_Action(nAction));
+    msg.set_operator_id(idOperator);
+    msg.set_member_id(idMember);
+    SendMsgToAllMember(msg);
+}
+
 void CTeam::SendTeamMemberInfo(const TeamMemberInfo& info)
 {
     SC_TEAMMEMBER_INFO msg;
     auto               pInfo = msg.add_member_list();
     pInfo->CopyFrom(info);
-
-    for(const auto& v: m_setMember)
-    {
-        CUser* pUser = UserManager()->QueryUser(v.member_id());
-        if(pUser)
-        {
-            pUser->SendMsg(msg);
-        }
-    }
+    SendMsgToAllMember(msg);
 }
 
 void CTeam::SendAllTeamMemberInfo(CUser* pUser)

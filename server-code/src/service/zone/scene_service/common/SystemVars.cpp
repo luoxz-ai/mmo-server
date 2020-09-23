@@ -52,6 +52,8 @@ void CSystemVar::AddData(uint32_t nIdx, int64_t nVal, bool bUpdate /*= false*/, 
 
     if(bSync)
     {
+        if(SceneService()->IsSharedZone() == true)
+            return;
         // sync to other zone
         ServerMSG::SystemVarChange msg;
         msg.set_keyidx(GetIdx());
@@ -76,6 +78,9 @@ void CSystemVar::SetData(uint32_t nIdx, uint64_t nVal, bool bUpdate /*= false*/,
 
     if(bSync)
     {
+        if(SceneService()->IsSharedZone() == true)
+            return;
+
         ServerMSG::SystemVarChange msg;
         msg.set_keyidx(GetIdx());
         msg.set_idx(nIdx);
@@ -98,6 +103,8 @@ void CSystemVar::SetStr(uint32_t nIdx, const std::string& strVal, bool bUpdate /
 
     if(bSync)
     {
+        if(SceneService()->IsSharedZone() == true)
+            return;
         ServerMSG::SystemVarChange msg;
         msg.set_keyidx(GetIdx());
         msg.set_idx(nIdx);
@@ -219,6 +226,8 @@ ON_SERVERMSG(CSceneService, SystemVarChange)
 
 bool CSystemVarSet::Init()
 {
+    if(SceneService()->IsSharedZone() == true)
+        return true;
     auto* pDB = SceneService()->GetGameDB(SceneService()->GetWorldID());
     CHECKF(pDB);
 
@@ -252,6 +261,8 @@ CSystemVar* CSystemVarSet::QueryVar(uint32_t nIdx, bool bCreateNew /*= false*/)
 
 CSystemVar* CSystemVarSet::CreateVar(uint32_t nIdx)
 {
+    if(SceneService()->IsSharedZone() == true)
+        return nullptr;
     auto* pDB = SceneService()->GetGameDB(SceneService()->GetWorldID());
     CHECKF(pDB);
 

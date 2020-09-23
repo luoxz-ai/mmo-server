@@ -130,18 +130,11 @@ void RobotClient::DisconnectServer()
     m_pManager->DelClient(this);
 }
 
-void RobotClient::SendToServer(CNetworkMessage& msg)
+void RobotClient::SendToServer(const CNetworkMessage& msg)
 {
     if(m_pServerSocket)
-        m_pServerSocket->SendSocketMsg(msg.GetBuf(), msg.GetSize());
+        m_pServerSocket->SendNetworkMessage(msg);
 }
-
-void RobotClient::SendToServer(byte* buf, size_t len)
-{
-    if(m_pServerSocket)
-        m_pServerSocket->SendSocketMsg(buf, len);
-}
-
 
 
 inline uint32_t to_cmd(const proto_msg_t& msg)

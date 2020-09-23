@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+message InternalMsg
+{
+    uint64 from    = 1;     //消息从哪里发来的
+    uint64 to      = 2;     //消息发到哪里去
+    repeated uint64 forward = 3;    //消息要转发到哪里去
+    bool brocast_all = 4;           //是否要广播
+    repeated uint64 brocast_vs = 5; //广播vs列表
+    repeated uint64 brocast_id = 6; //广播id列表
+    bytes proto_msg = 7;            //原始proto数据
+}

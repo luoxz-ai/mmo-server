@@ -14,7 +14,7 @@ option(USE_ASAN "ON for use Address Sanitizer or OFF" OFF)
 option(USE_UBSAN "ON for use UB Sanitizer or OFF" OFF)
 option(USE_TSAN "ON for use Thread Sanitizer or OFF" OFF)
 option(USE_LIBCXX "ON for use libcxx or OFF" OFF)
-
+option(USE_STATIC_LINK_STD "ON for use static link gcc or OFF" OFF)
 
 set_directory_properties(PROPERTIES COTIRE_ADD_UNITY_BUILD FALSE)
 
@@ -65,6 +65,10 @@ link_libraries("-fuse-ld=lld-9")
 
 ENDIF()
 
+IF(USE_STATIC_LINK_STD)
+add_compile_options("-static-libstdc++")
+add_compile_options("-static-libgcc")
+ENDIF()
 
 # IF(USE_LIBCXX)
 # add_compile_options("-stdlib=libc++")
