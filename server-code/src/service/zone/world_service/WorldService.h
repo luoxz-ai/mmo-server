@@ -8,6 +8,7 @@
 #include "NetSocket.h"
 #include "ServiceComm.h"
 
+
 class CAccountManager;
 class CUserManager;
 class CSystemVarSet;
@@ -43,28 +44,28 @@ public:
     void     RecyclePlayerID(OBJID idPlayer);
     void     SetServiceReady(uint16_t idService);
 
-    
     bool SendProtoMsgToAllScene(const proto_msg_t& msg) const;
     bool SendProtoMsgToAllPlayer(const proto_msg_t& msg) const;
-    
+
     //发送广播包给玩家
     void _ID2VS(OBJID id, VirtualSocketMap_t& VSMap) const override;
 
 public:
-    CAccountManager*                  GetAccountManager() const { return m_pAccountManager.get(); }
-    CUserManager*                     GetUserManager() const { return m_pUserManager.get(); }
-    CMapManager*                      GetMapManager() const { return m_pMapManager.get(); }
-    CMysqlConnection*                 GetGameDB() const { return m_pGameDB.get(); }
-    CSystemVarSet*                    GetSystemVarSet() const { return m_pSystemVarSet.get(); }
-    CGMManager*                       GetGMManager() const { return m_pGMManager.get(); }
-    CTeamManager*                     GetTeamManager() const { return m_pTeamManager.get(); }
-
-    std::unique_ptr<CMysqlConnection> ConnectGlobalDB();
+    CAccountManager*  GetAccountManager() const { return m_pAccountManager.get(); }
+    CUserManager*     GetUserManager() const { return m_pUserManager.get(); }
+    CMapManager*      GetMapManager() const { return m_pMapManager.get(); }
+    CMysqlConnection* GetGameDB() const { return m_pGameDB.get(); }
+    CSystemVarSet*    GetSystemVarSet() const { return m_pSystemVarSet.get(); }
+    CGMManager*       GetGMManager() const { return m_pGMManager.get(); }
+    CTeamManager*     GetTeamManager() const { return m_pTeamManager.get(); }
 
 private:
-    CUIDFactory                  m_UIDFactory;
-    uint64_t                     m_nCurPlayerMaxID;
-    std::deque<OBJID>            m_setPlayerIDPool;
+    CMysqlConnection* _ConnectGameDB(uint16_t nWorldID, CMysqlConnection* pServerInfoDB);
+
+private:
+    CUIDFactory                   m_UIDFactory;
+    uint64_t                      m_nCurPlayerMaxID;
+    std::deque<OBJID>             m_setPlayerIDPool;
     std::unordered_set<ServiceID> m_setServiceNeedReady;
 
     std::unique_ptr<CMysqlConnection> m_pGameDB;
@@ -78,7 +79,6 @@ private:
     std::unique_ptr<CMapManager>   m_pMapManager;
     std::unique_ptr<CSystemVarSet> m_pSystemVarSet;
     std::unique_ptr<CTeamManager>  m_pTeamManager;
-    
 
     CMyTimer m_tLastDisplayTime;
 

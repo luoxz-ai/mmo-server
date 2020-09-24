@@ -706,7 +706,6 @@ bool CNetworkService::KickSocket(SOCKET _socket)
     return false;
 }
 
-
 bool CNetworkService::SendSocketMsg(SOCKET _socket, const CNetworkMessage& msg)
 {
     __ENTER_FUNCTION

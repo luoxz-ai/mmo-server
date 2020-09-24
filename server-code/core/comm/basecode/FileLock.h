@@ -2,9 +2,10 @@
 #define __FILE_LOCK_H__
 
 #include <string>
+
 #include "BaseCode.h"
 #include "export_lua.h"
- 
+
 export_lua class file_lock
 {
 public:

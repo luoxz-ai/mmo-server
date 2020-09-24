@@ -136,29 +136,27 @@ void RobotClient::SendToServer(const CNetworkMessage& msg)
         m_pServerSocket->SendNetworkMessage(msg);
 }
 
-
 inline uint32_t to_cmd(const proto_msg_t& msg)
 {
     __ENTER_FUNCTION
-    auto msg_desc = msg.GetDescriptor();
-    auto options   = msg_desc->options();
+    auto msg_desc      = msg.GetDescriptor();
+    auto options       = msg_desc->options();
     auto cmd_extension = options.GetExtension(cmd);
     if(cmd_extension.ts_cmd() != 0)
     {
-        CHECK_DEBUG( "CMD_" + msg_desc->name() == TS_CMD_Name(cmd_extension.ts_cmd()) );
+        CHECK_DEBUG("CMD_" + msg_desc->name() == TS_CMD_Name(cmd_extension.ts_cmd()));
         return cmd_extension.ts_cmd();
     }
     if(cmd_extension.sc_cmd() != 0)
     {
-        CHECK_DEBUG( "CMD_" + msg_desc->name() ==  SC_CMD_Name(cmd_extension.sc_cmd()) );
+        CHECK_DEBUG("CMD_" + msg_desc->name() == SC_CMD_Name(cmd_extension.sc_cmd()));
         return cmd_extension.sc_cmd();
-    }   
+    }
     if(cmd_extension.cs_cmd() != 0)
     {
-        CHECK_DEBUG( "CMD_" + msg_desc->name() == CS_CMD_Name(cmd_extension.cs_cmd())  );
+        CHECK_DEBUG("CMD_" + msg_desc->name() == CS_CMD_Name(cmd_extension.cs_cmd()));
         return cmd_extension.cs_cmd();
-    } 
-    
+    }
 
     __LEAVE_FUNCTION
     return 0;

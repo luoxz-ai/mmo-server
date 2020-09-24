@@ -33,7 +33,7 @@ public:
     virtual void OnProcessMessage(CNetworkMessage*) override;
 
 public:
-    std::unique_ptr<CMysqlConnection> ConnectGlobalDB();
+  
 
     CGMManager*   GetGMManager() const { return m_pGMManager.get(); }
     CAuthManager* GetAuthManager() const { return m_pAuthManager.get(); }
@@ -41,12 +41,13 @@ public:
 private:
     std::unique_ptr<CGMManager>   m_pGMManager;
     std::unique_ptr<CAuthManager> m_pAuthManager;
+    
 };
 
 CAuthService* AuthService();
 void          SetAuthServicePtr(CAuthService* ptr);
 
-inline auto   EventManager()
+inline auto EventManager()
 {
     return AuthService()->GetEventManager();
 }

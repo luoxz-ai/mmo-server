@@ -5,8 +5,8 @@
 #include "NetClientSocket.h"
 #include "NetServerSocket.h"
 #include "NetSocket.h"
-#include "tinyxml2/tinyxml2.h"
 #include "serverinfodb.h"
+#include "tinyxml2/tinyxml2.h"
 
 constexpr uint32_t SERVICE_LOAD_REDIS_TIMEOUT = 60 * 1000; // redis上的serviceload数据60秒丢弃
 constexpr uint32_t SERVICE_LOAD_TIMEOUT       = 30 * 1000; //每30秒发送1次service_load数据
@@ -57,7 +57,7 @@ void CMessageRoute::Destory()
     m_MergeList.clear();
     m_WorldReadyList.clear();
 
-    m_pGlobalDB.reset();
+    m_pServerInfoDB.reset();
     for(auto& [k, v]: m_setMessagePort)
     {
         v->Destory();
@@ -90,27 +90,27 @@ bool CMessageRoute::LoadServiceSetting(const std::string& filename, uint16_t nWo
     }
     else
     {
-        CSettingNode settingGlobalDB;
-        settingGlobalDB.SetVal("host", std::getenv("GlobalMYSQL_HOST"));
-        settingGlobalDB.SetVal("user", std::getenv("GlobalMYSQL_USER"));
-        settingGlobalDB.SetVal("passwd", std::getenv("GlobalMYSQL_PASSWD"));
-        settingGlobalDB.SetVal("port", std::getenv("GlobalMYSQL_PORT"));
-        settingGlobalDB.SetVal("dbname", std::getenv("GlobalMYSQL_DBNAME"));
-        m_setDataMap["GlobalMYSQL"].emplace_back(std::move(settingGlobalDB));
+        CSettingNode settingServerInfoDB;
+        settingServerInfoDB.SetVal("host", std::getenv("ServerInfoMYSQL_HOST"));
+        settingServerInfoDB.SetVal("user", std::getenv("ServerInfoMYSQL_USER"));
+        settingServerInfoDB.SetVal("passwd", std::getenv("ServerInfoMYSQL_PASSWD"));
+        settingServerInfoDB.SetVal("port", std::getenv("ServerInfoMYSQL_PORT"));
+        settingServerInfoDB.SetVal("dbname", std::getenv("ServerInfoMYSQL_DBNAME"));
+        m_setDataMap["ServerInfoMYSQL"].emplace_back(std::move(settingServerInfoDB));
     }
 
     SetWorldID(nWorldID);
 
     //读取全服IP表
     {
-        const auto& settingGlobalDB = m_setDataMap["GlobalMYSQL"][0];
-        if(ConnectGlobalDB(settingGlobalDB.Query("host"),
-                           settingGlobalDB.Query("user"),
-                           settingGlobalDB.Query("passwd"),
-                           settingGlobalDB.Query("dbname"),
-                           settingGlobalDB.QueryULong("port")) == false)
+        const auto& settingServerInfoDB = m_setDataMap["ServerInfoMYSQL"][0];
+        if(ConnectServerInfoDB(settingServerInfoDB.Query("host"),
+                               settingServerInfoDB.Query("user"),
+                               settingServerInfoDB.Query("passwd"),
+                               settingServerInfoDB.Query("dbname"),
+                               settingServerInfoDB.QueryULong("port")) == false)
         {
-            LOGFATAL("CMessageRoute::LoadServiceSetting ConnectGlobalDB fail");
+            LOGFATAL("CMessageRoute::LoadServiceSetting ConnectServerInfoDB fail");
             return false;
         }
     }
@@ -120,11 +120,11 @@ bool CMessageRoute::LoadServiceSetting(const std::string& filename, uint16_t nWo
     return false;
 }
 
-bool CMessageRoute::ConnectGlobalDB(const std::string& host,
-                                    const std::string& user,
-                                    const std::string& password,
-                                    const std::string& db,
-                                    uint32_t           port)
+bool CMessageRoute::ConnectServerInfoDB(const std::string& host,
+                                        const std::string& user,
+                                        const std::string& password,
+                                        const std::string& db,
+                                        uint32_t           port)
 {
     __ENTER_FUNCTION
     // connect db
@@ -133,13 +133,12 @@ bool CMessageRoute::ConnectGlobalDB(const std::string& host,
     {
         return false;
     }
-    m_pGlobalDB.reset(pDB.release());
+    m_pServerInfoDB.reset(pDB.release());
     ReloadServiceInfo(TimeGetSecond(), 0);
     return true;
     __LEAVE_FUNCTION
     return false;
 }
-
 
 void CMessageRoute::ReloadServiceInfo(uint32_t update_time, uint16_t nNewWorldID)
 {
@@ -155,20 +154,17 @@ void CMessageRoute::ReloadServiceInfo(uint32_t update_time, uint16_t nNewWorldID
     _ReadMergeList();
     //读取ip列表
     _ReadServerIPList(nNewWorldID);
-    
 
     __LEAVE_FUNCTION
 }
-
-
 
 void CMessageRoute::_ReadMergeList()
 {
     __ENTER_FUNCTION
     std::string SQL = "SELECT * FROM tbld_serverlist WHERE mergeto<>0";
 
-    auto result = m_pGlobalDB->Query(TBLD_SERVERLIST::table_name(), SQL);
-    CHECK_M(result, "GlobalDB can't query tbld_serverlist");
+    auto result = m_pServerInfoDB->Query(TBLD_SERVERLIST::table_name(), SQL);
+    CHECK_M(result, "ServerInfoDB can't query tbld_serverlist");
     std::unordered_map<uint16_t, uint16_t> MergeToList;
     for(size_t i = 0; i < result->get_num_row(); i++)
     {
@@ -219,8 +215,8 @@ void CMessageRoute::_ReadServerIPList(uint16_t nNewWorldID)
     {
         SQL = fmt::format(FMT_STRING("SELECT * FROM tbld_servicedetail WHERE worldid={} OR worldid=0"), GetWorldID());
     }
-    auto result = m_pGlobalDB->Query(TBLD_SERVICEDETAIL::table_name(), SQL);
-    CHECK_M(result, "GlobalDB can't query tbld_servicedetail");
+    auto result = m_pServerInfoDB->Query(TBLD_SERVICEDETAIL::table_name(), SQL);
+    CHECK_M(result, "ServerInfoDB can't query tbld_servicedetail");
     for(size_t i = 0; i < result->get_num_row(); i++)
     {
         auto row = result->fetch_row(false);
@@ -266,7 +262,7 @@ void CMessageRoute::OnServerAddrInfoChange(const ServerPort& serverport, const S
         auto itPort = m_setMessagePort.find(serverport);
         if(itPort != m_setMessagePort.end())
         {
-            auto pMessagePort = itPort->second;
+            auto pMessagePort  = itPort->second;
             auto pRemoteSocket = pMessagePort->GetRemoteSocket();
             if(pRemoteSocket && pRemoteSocket->CreateByListener() == false)
             {
@@ -277,7 +273,7 @@ void CMessageRoute::OnServerAddrInfoChange(const ServerPort& serverport, const S
             }
         }
     }
-    m_setServerInfo[serverport] = new_info;
+    m_setServerInfo[serverport]                                   = new_info;
     m_setServerInfoByWorldID[serverport.GetWorldID()][serverport] = new_info;
 
     __LEAVE_FUNCTION
@@ -422,7 +418,6 @@ ServerPortList CMessageRoute::GetServerPortListByWorldIDAndServiceType(uint16_t 
 
     return service_list;
 }
-
 
 ServerPortList CMessageRoute::GetServerPortListByWorldIDExcept(uint16_t idWorld, uint8_t idExceptServiceType, bool bIncludeShare)
 {
@@ -733,5 +728,3 @@ void CMessageRoute::CloseMessagePort(CMessagePort*& pMessagePort)
     }
     __LEAVE_FUNCTION
 }
-
-

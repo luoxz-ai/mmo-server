@@ -188,11 +188,10 @@ bool CGMService::Init(const ServerPort& nServerPort)
     ServerMSG::ServiceReady msg;
     msg.set_serverport(GetServerPort());
 
-    SendProtoMsgToZonePort(ServerPort(GetWorldID(), WORLD_SERVICE, 0),  msg);
+    SendProtoMsgToZonePort(ServerPort(GetWorldID(), WORLD_SERVICE, 0), msg);
 
     return true;
 }
-
 
 ON_SERVERMSG(CGMService, ServiceHttpRequest)
 {

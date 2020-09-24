@@ -28,17 +28,17 @@ link_libraries("-Wl,--no-allow-shlib-undefined")
 GET_DIRECTORY_PROPERTY(includes INCLUDE_DIRECTORIES)
 
 
-# make scene_service_gen_lua 生成 scene2lua.cpp
-add_custom_target(scene_service_gen_lua
-COMMAND echo ${SRCS} > ${CMAKE_CURRENT_BINARY_DIR}/scene_cpps.txt && echo ${includes} > ${CMAKE_CURRENT_BINARY_DIR}/scene_includes.txt 
-COMMAND cxx2lua --cpps=${CMAKE_CURRENT_BINARY_DIR}/scene_cpps.txt --include=${CMAKE_CURRENT_BINARY_DIR}/scene_includes.txt 
---output=${CMAKE_CURRENT_BINARY_DIR}/scene2lua.cpp --output_functionname=scene2lua --skip_cpp --format=clang-format-9
-COMMENT "gen scene2lua for export_lua"
-DEPENDS cxx2lua basecode network service_comm gamemap script
- )
+# # make scene_service_gen_lua 生成 scene2lua.cpp
+# add_custom_target(scene_service_gen_lua
+# COMMAND echo ${SRCS} > ${CMAKE_CURRENT_BINARY_DIR}/scene_cpps.txt && echo ${includes} > ${CMAKE_CURRENT_BINARY_DIR}/scene_includes.txt 
+# COMMAND cxx2lua --cpps=${CMAKE_CURRENT_BINARY_DIR}/scene_cpps.txt --include=${CMAKE_CURRENT_BINARY_DIR}/scene_includes.txt 
+# --output=${CMAKE_CURRENT_BINARY_DIR}/scene2lua.cpp --output_functionname=scene2lua --skip_cpp --format=clang-format-9
+# COMMENT "gen scene2lua for export_lua"
+# DEPENDS cxx2lua basecode network service_comm gamemap script
+#  )
 
-# 将scene_service_gen_lua 挂接到 make gen_all_lua
-ADD_DEPENDENCIES(gen_all_lua scene_service_gen_lua)
+# # 将scene_service_gen_lua 挂接到 make gen_all_lua
+# ADD_DEPENDENCIES(gen_all_lua scene_service_gen_lua)
 # scene2lua.cpp不存在，则自动生成 scene2lua.cpp
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/scene2lua.cpp
 COMMAND echo ${SRCS} > ${CMAKE_CURRENT_BINARY_DIR}/scene_cpps.txt && echo ${includes} > ${CMAKE_CURRENT_BINARY_DIR}/scene_includes.txt 
@@ -47,6 +47,8 @@ COMMAND cxx2lua --cpps=${CMAKE_CURRENT_BINARY_DIR}/scene_cpps.txt --include=${CM
 COMMENT "gen scene2lua for export_lua"
   DEPENDS cxx2lua basecode network service_comm gamemap script
 )
+set_property (SOURCE ${CMAKE_CURRENT_BINARY_DIR}/scene2lua.cpp PROPERTY COTIRE_EXCLUDED  "TRUE")
+
 # 生成库文件
 ADD_LIBRARY(scene_service SHARED ${SRCS} ${CMAKE_CURRENT_BINARY_DIR}/scene2lua.cpp)
 #SET_TARGET_PROPERTIES(scene_service PROPERTIES CLEAN_DIRECT_OUTPUT 1)

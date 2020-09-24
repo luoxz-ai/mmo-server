@@ -2,10 +2,10 @@
 #define TEAM_H
 
 #include "BaseCode.h"
+#include "NetworkDefine.h"
 #include "game_common_def.h"
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
-#include "NetworkDefine.h"
 
 class CUser;
 class CTeam : public NoncopyableT<CTeam>

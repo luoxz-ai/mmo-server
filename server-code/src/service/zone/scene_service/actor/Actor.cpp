@@ -549,7 +549,6 @@ void CActor::BeKillBy(CActor* pAttacker)
     __LEAVE_FUNCTION
 }
 
-
 void CActor::BroadcastShowTo(const VirtualSocketMap_t& VSMap)
 {
     __ENTER_FUNCTION

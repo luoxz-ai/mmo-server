@@ -1,9 +1,9 @@
 #include "Guild.h"
 
 #include "GuildManager.h"
+#include "GuildService.h"
 #include "User.h"
 #include "UserManager.h"
-#include "GuildService.h"
 #include "msg/zone_service.pb.h"
 
 OBJECTHEAP_IMPLEMENTATION(CGuild, s_heap);
@@ -19,7 +19,7 @@ bool CGuildMemberInfo::Init(CDBRecordPtr&& pDBRecord)
 {
     __ENTER_FUNCTION
     m_pDBRecord = std::move(pDBRecord);
-    
+
     return true;
     __LEAVE_FUNCTION
     return false;
@@ -101,14 +101,10 @@ bool CGuild::Init(CDBRecordPtr&& pDBRecord)
 
 void CGuild::OnDestory()
 {
-    ForeachMember([](const CGuildMemberInfo* pInfo)
-    {
-        GuildManager()->UnLinkGuildMember(pInfo->member_id());
-    });
+    ForeachMember([](const CGuildMemberInfo* pInfo) { GuildManager()->UnLinkGuildMember(pInfo->member_id()); });
 
     m_pDBRecord->Field(TBLD_GUILD::DEL_TIME) = TimeGetSecond();
     m_pDBRecord->Update();
-    
 }
 
 void CGuild::SendGuildAction(uint32_t nAction, OBJID idOperator, OBJID idMember) const
@@ -173,7 +169,6 @@ void CGuild::SetLeader(OBJID idOperator, OBJID idLeader, const std::string& strL
     pOldLeader->set_member_rank(GUILD_RANK_MEMBER);
     pNewLeader->set_member_rank(GUILD_RANK_LEADER);
 
-
     SendGuildAction(SC_GUILDMEMBER_ACTION::GUILD_CHANGE_LEADER, idOperator, idLeader);
     __LEAVE_FUNCTION
 }
@@ -192,7 +187,7 @@ void CGuild::AddMember(OBJID idMember, uint32_t nRank, const GuildMemberInfo& me
     __ENTER_FUNCTION
     auto pMemberInfo = CreateMemberInfo(idMember, nRank, member_info);
     CHECK(pMemberInfo);
-   
+
     // send to all member,exclude pUser;
     SendGuildMemberInfoToAll(pMemberInfo);
 
@@ -210,14 +205,14 @@ CGuildMemberInfo* CGuild::CreateMemberInfo(OBJID idMember, uint32_t nRank, const
     CHECKF(pDB);
     auto db_record_ptr = pDB->MakeRecord(TBLD_GUILD_MEMBERINFO::table_name());
     CHECKF(db_record_ptr);
-    db_record_ptr->Field(TBLD_GUILD_MEMBERINFO::ID)          = idMember;
-    db_record_ptr->Field(TBLD_GUILD_MEMBERINFO::GUILDID)     = GetGuildID();
-    db_record_ptr->Field(TBLD_GUILD_MEMBERINFO::RANK)        = nRank;
-    db_record_ptr->Field(TBLD_GUILD_MEMBERINFO::SCORE)       = 0;
-    db_record_ptr->Field(TBLD_GUILD_MEMBERINFO::TOTAL_SCORE) = 0;
-    db_record_ptr->Field(TBLD_GUILD_MEMBERINFO::NAME) = member_info.get_member_name();
-    db_record_ptr->Field(TBLD_GUILD_MEMBERINFO::LEV) = member_info.get_member_level();
-    db_record_ptr->Field(TBLD_GUILD_MEMBERINFO::LAST_LOGIN_TIME) = TimeGetSecond();
+    db_record_ptr->Field(TBLD_GUILD_MEMBERINFO::ID)               = idMember;
+    db_record_ptr->Field(TBLD_GUILD_MEMBERINFO::GUILDID)          = GetGuildID();
+    db_record_ptr->Field(TBLD_GUILD_MEMBERINFO::RANK)             = nRank;
+    db_record_ptr->Field(TBLD_GUILD_MEMBERINFO::SCORE)            = 0;
+    db_record_ptr->Field(TBLD_GUILD_MEMBERINFO::TOTAL_SCORE)      = 0;
+    db_record_ptr->Field(TBLD_GUILD_MEMBERINFO::NAME)             = member_info.get_member_name();
+    db_record_ptr->Field(TBLD_GUILD_MEMBERINFO::LEV)              = member_info.get_member_level();
+    db_record_ptr->Field(TBLD_GUILD_MEMBERINFO::LAST_LOGIN_TIME)  = TimeGetSecond();
     db_record_ptr->Field(TBLD_GUILD_MEMBERINFO::LAST_LOGOUT_TIME) = 0;
 
     db_record_ptr->Update();
@@ -249,14 +244,14 @@ bool CGuild::AddMemberOffline(OBJID idMember, uint32_t nRank, const GuildMemberI
             return false;
         }
         //修改
-        row->Field(TBLD_GUILD_MEMBERINFO::GUILDID)     = GetGuildID();
-        row->Field(TBLD_GUILD_MEMBERINFO::RANK)        = nRank;
-        row->Field(TBLD_GUILD_MEMBERINFO::SCORE)       = 0;
-        row->Field(TBLD_GUILD_MEMBERINFO::TOTAL_SCORE) = 0;
-        row->Field(TBLD_GUILD_MEMBERINFO::JOIN_TIME)   = now();
-        row->Field(TBLD_GUILD_MEMBERINFO::NAME) = member_info.get_member_name();
-        row->Field(TBLD_GUILD_MEMBERINFO::LEV) = member_info.get_member_level();
-        row->Field(TBLD_GUILD_MEMBERINFO::LAST_LOGIN_TIME) = 0;
+        row->Field(TBLD_GUILD_MEMBERINFO::GUILDID)          = GetGuildID();
+        row->Field(TBLD_GUILD_MEMBERINFO::RANK)             = nRank;
+        row->Field(TBLD_GUILD_MEMBERINFO::SCORE)            = 0;
+        row->Field(TBLD_GUILD_MEMBERINFO::TOTAL_SCORE)      = 0;
+        row->Field(TBLD_GUILD_MEMBERINFO::JOIN_TIME)        = now();
+        row->Field(TBLD_GUILD_MEMBERINFO::NAME)             = member_info.get_member_name();
+        row->Field(TBLD_GUILD_MEMBERINFO::LEV)              = member_info.get_member_level();
+        row->Field(TBLD_GUILD_MEMBERINFO::LAST_LOGIN_TIME)  = 0;
         row->Field(TBLD_GUILD_MEMBERINFO::LAST_LOGOUT_TIME) = 0;
         row->Update();
 
@@ -267,15 +262,15 @@ bool CGuild::AddMemberOffline(OBJID idMember, uint32_t nRank, const GuildMemberI
         //创建
         auto row = pDB->MakeRecord(TBLD_GUILD_MEMBERINFO::table_name());
 
-        row->Field(TBLD_GUILD_MEMBERINFO::ID)          = idMember;
-        row->Field(TBLD_GUILD_MEMBERINFO::GUILDID)     = GetGuildID();
-        row->Field(TBLD_GUILD_MEMBERINFO::RANK)        = nRank;
-        row->Field(TBLD_GUILD_MEMBERINFO::SCORE)       = 0;
-        row->Field(TBLD_GUILD_MEMBERINFO::TOTAL_SCORE) = 0;
-        row->Field(TBLD_GUILD_MEMBERINFO::JOIN_TIME)   = now();
-        row->Field(TBLD_GUILD_MEMBERINFO::NAME) = member_info.get_member_name();
-        row->Field(TBLD_GUILD_MEMBERINFO::LEV) = member_info.get_member_level();
-        row->Field(TBLD_GUILD_MEMBERINFO::LAST_LOGIN_TIME) = 0;
+        row->Field(TBLD_GUILD_MEMBERINFO::ID)               = idMember;
+        row->Field(TBLD_GUILD_MEMBERINFO::GUILDID)          = GetGuildID();
+        row->Field(TBLD_GUILD_MEMBERINFO::RANK)             = nRank;
+        row->Field(TBLD_GUILD_MEMBERINFO::SCORE)            = 0;
+        row->Field(TBLD_GUILD_MEMBERINFO::TOTAL_SCORE)      = 0;
+        row->Field(TBLD_GUILD_MEMBERINFO::JOIN_TIME)        = now();
+        row->Field(TBLD_GUILD_MEMBERINFO::NAME)             = member_info.get_member_name();
+        row->Field(TBLD_GUILD_MEMBERINFO::LEV)              = member_info.get_member_level();
+        row->Field(TBLD_GUILD_MEMBERINFO::LAST_LOGIN_TIME)  = 0;
         row->Field(TBLD_GUILD_MEMBERINFO::LAST_LOGOUT_TIME) = 0;
         row->Update();
         pMemberInfo = CGuildMemberInfo::CreateNew(std::move(row));
@@ -357,7 +352,7 @@ void CGuild::Dismiss(OBJID idOperator)
     if(m_setMemberInfo.size() == 1)
         return;
     GuildManager()->DestoryGuild(GetGuildID());
-    
+
     __LEAVE_FUNCTION
 }
 
@@ -420,13 +415,12 @@ size_t CGuild::GetRankLimit(uint32_t nRank)
     return 0;
 }
 
-void CGuild::ForeachMember(std::function<void (const CGuildMemberInfo*)> func)
+void CGuild::ForeachMember(std::function<void(const CGuildMemberInfo*)> func)
 {
-    for(const auto& [member_id, info] : m_setMemberInfo)
+    for(const auto& [member_id, info]: m_setMemberInfo)
     {
         func(info.get());
     }
-
 }
 
 void CGuild::SetMemberScore(OBJID idMember, uint32_t nScore)
@@ -506,7 +500,7 @@ void CGuild::InviteMember(OBJID idInviter, const GuildMemberInfo& invitee_info)
     msg.set_inviter_name(pInviter->get_member_name());
     auto nWorldID = GetWorldIDFromPlayerID(invitee_info.get_member_id());
     GuildService()->SendProtoMsgToZonePort(ServerPort{nWorldID, WORLD_SERVICE, 0}, msg);
-    
+
     __LEAVE_FUNCTION
 }
 

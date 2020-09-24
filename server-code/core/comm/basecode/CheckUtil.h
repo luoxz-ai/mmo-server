@@ -79,7 +79,6 @@
     }
 #endif
 
-
 #ifndef CHECK_RET_M
 #define CHECK_RET_M(expr, r, msg)                                                \
     {                                                                            \
@@ -91,7 +90,6 @@
         }                                                                        \
     }
 #endif
-
 
 #ifndef CHECK_RETTYPE_M
 #define CHECK_RETTYPE_M(expr, R, msg)                                            \
@@ -106,7 +104,6 @@
     }
 #endif
 
-
 #ifndef CHECK_V
 #define CHECK_V(expr, v)                                                         \
     {                                                                            \
@@ -117,7 +114,7 @@
             return;                                                              \
         }                                                                        \
     }
-#endif 
+#endif
 
 #ifndef CHECKF_V
 #define CHECKF_V(expr, v)                                                        \
@@ -210,8 +207,8 @@
     {                    \
         try              \
         {
-#endif 
-       
+#endif
+
 #ifndef __LEAVE_FUNCTION
 #define __LEAVE_FUNCTION                                                    \
     }                                                                       \
@@ -228,7 +225,6 @@
     catch(...) { LOGSTACK("catch_error"); }                                 \
     }
 #endif
-
 
 #ifdef _DEBUG
 

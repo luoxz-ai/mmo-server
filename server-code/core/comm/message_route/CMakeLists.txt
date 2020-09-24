@@ -71,6 +71,5 @@ TARGET_LINK_LIBRARIES(message_route
  ${JEMALLOC_LIB_NAME}
 )
 
-set_directory_properties(PROPERTIES
-    COTIRE_PREFIX_HEADER_INCLUDE_PATH ${COTIRE_PREFIX_HEADER_INCLUDE_PATH} "${PROJECT_SOURCE_DIR}/core/comm")
+
 cotire(message_route)

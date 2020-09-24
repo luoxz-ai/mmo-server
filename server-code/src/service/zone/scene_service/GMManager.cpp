@@ -7,7 +7,7 @@
 CGMManager::CGMManager() {}
 
 CGMManager::~CGMManager() {}
- 
+
 bool CGMManager::Init()
 {
     auto pGlobalDB = SceneService()->ConnectGlobalDB();

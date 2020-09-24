@@ -76,8 +76,8 @@ public:
     // AOI相关
     export_lua void         SendRoomMessage(const proto_msg_t& msg, bool bIncludeSelf = true);
     export_lua void         SendWorldMessage(const proto_msg_t& msg);
-    export_lua virtual bool SendMsg(const proto_msg_t& msg) const {return false;}
-    
+    export_lua virtual bool SendMsg(const proto_msg_t& msg) const { return false; }
+
     void         BroadcastMessageTo(const proto_msg_t& msg, const VirtualSocketMap_t& setSocketMap);
     virtual void MakeShowData(SC_AOI_NEW& msg) {}
 

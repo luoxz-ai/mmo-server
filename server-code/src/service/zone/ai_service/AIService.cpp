@@ -124,7 +124,7 @@ bool CAIService::Init(const ServerPort& nServerPort)
     ServerMSG::ServiceReady msg;
     msg.set_serverport(GetServerPort());
 
-    SendProtoMsgToScene( msg);
+    SendProtoMsgToScene(msg);
 
     return true;
 
@@ -143,11 +143,11 @@ void CAIService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
                  pNetworkMsg->GetForward().size());
     }
 }
- 
+
 bool CAIService::SendProtoMsgToScene(const proto_msg_t& msg)
 {
     return SendProtoMsgToZonePort(GetSceneServerPort(), msg);
-} 
+}
 
 void CAIService::OnLogicThreadProc()
 {

@@ -13,8 +13,8 @@
 #include "EventEntry.h"
 #include "LockfreeQueue.h"
 #include "NetworkDefine.h"
-#include "ObjectHeap.h"
 #include "NetworkMessage.h"
+#include "ObjectHeap.h"
 
 class CNetworkService;
 class CNetEventHandler;
@@ -31,7 +31,6 @@ enum NET_SOCKET_STATUS
 
 struct bufferevent;
 struct event;
-
 
 class CNetSocket
 {
@@ -101,8 +100,8 @@ public:
     void set_sock_nodely();
     void set_sock_quickack();
 
-
     bool _SendMsg(byte* pBuffer, size_t len, bool bFlush = true);
+
 public:
     OBJECTHEAP_DECLARATION(s_Heap);
 
@@ -112,10 +111,10 @@ protected:
         SendMsgData(CNetworkMessage&& msg, bool _bFlush);
         SendMsgData(const CNetworkMessage& msg, bool _bFlush);
 
-        CNetworkMessage  send_msg;
-        bool             bFlush;
+        CNetworkMessage send_msg;
+        bool            bFlush;
     };
-    
+
     void _SendAllMsg();
     void PostSend();
 

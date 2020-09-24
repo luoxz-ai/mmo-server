@@ -1,6 +1,3 @@
-set(PCH_INCLUDE_PATH "${COTIRE_PREFIX_HEADER_INCLUDE_PATH}" "${PROJECT_SOURCE_DIR}/core/comm" "${PROJECT_SOURCE_DIR}/src/game_comm")
-set_directory_properties(PROPERTIES COTIRE_PREFIX_HEADER_INCLUDE_PATH "${PCH_INCLUDE_PATH}")
-
 
 add_custom_target(gen_all_lua)
 

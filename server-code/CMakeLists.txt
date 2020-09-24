@@ -26,7 +26,7 @@ PROJECT(Framework C CXX)
 set (CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/core/CMake")
 include(cotire)
 set_directory_properties(PROPERTIES
-    COTIRE_PREFIX_HEADER_INCLUDE_PATH "${PROJECT_SOURCE_DIR}/depends")
+    COTIRE_PREFIX_HEADER_INCLUDE_PATH "${PROJECT_SOURCE_DIR}/depends" "${PROJECT_SOURCE_DIR}/core/comm" "${PROJECT_SOURCE_DIR}/src/game_comm")
 
 
 SET(CMAKE_CXX_ERROR_FLAGS 
@@ -183,6 +183,7 @@ include_directories(${PROJECT_SOURCE_DIR}/core/comm/basecode/)
 include_directories(${PROJECT_SOURCE_DIR}/core/comm/basecode/math)
 include_directories(${PROJECT_SOURCE_DIR}/core/comm/network/)
 include_directories(${PROJECT_SOURCE_DIR}/core/comm/message_route/)
+include_directories(${PROJECT_SOURCE_DIR}/core/comm/message_route/db_proto)
 include_directories(${PROJECT_SOURCE_DIR}/core/comm/script/)
 include_directories(${PROJECT_SOURCE_DIR}/core/comm/mydb/)
 include_directories(${PROJECT_SOURCE_DIR}/core/service/service_comm/)
@@ -193,6 +194,7 @@ include_directories(${PROJECT_SOURCE_DIR}/src/game_comm/proto/)
 include_directories(${PROJECT_SOURCE_DIR}/src/game_comm/proto/config/)
 include_directories(${PROJECT_SOURCE_DIR}/src/game_comm/proto/common/)
 include_directories(${PROJECT_SOURCE_DIR}/src/game_comm/mydbtable/)
+include_directories(${PROJECT_SOURCE_DIR}/src/game_comm/mydbtable/db_proto)
 include_directories(${PROJECT_SOURCE_DIR}/src/game_comm/gamemap/)
 
 include_directories(${PROJECT_SOURCE_DIR}/src/)

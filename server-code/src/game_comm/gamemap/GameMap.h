@@ -10,13 +10,11 @@
 #include "config/Cfg_Scene_Patrol.pb.h"
 #include "config/Cfg_Scene_Reborn.pb.h"
 
-export_lua enum MAP_TYPE
-{
+export_lua enum MAP_TYPE {
     MAPTYPE_NORMAL = 0, //普通地图
 };
 
-export_lua enum MAP_FLAG
-{
+export_lua enum MAP_FLAG {
     MAPFLAG_DYNAMAP = 0x0001, //副本
 
     MAPFLAG_COLLISION_ENABLE = 0x0100, // 此地图上需要进行碰撞检查
@@ -43,21 +41,14 @@ export_lua enum MAP_FLAG
 
 };
 
-export_lua enum PARTOL_TYPE
-{
-    PARTOL_ONCE,
-    PARTOL_RING,
-    PARTOL_BACK
-};
+export_lua enum PARTOL_TYPE { PARTOL_ONCE, PARTOL_RING, PARTOL_BACK };
 
-export_lua enum MonsterGeneratorShapeType
-{
+export_lua enum MonsterGeneratorShapeType {
     MONSTERGENERATOR_CIRCLE = 0, // x,z为中心range的圆形
     MONSTERGENERATOR_RECT   = 1, // x,z为左上角,width宽,range高的矩形
 };
 
-export_lua enum REBORN_TYPE
-{
+export_lua enum REBORN_TYPE {
     REBORN_HOME,
     REBORN_MAPPOS,
     REBORN_STANDPOS,

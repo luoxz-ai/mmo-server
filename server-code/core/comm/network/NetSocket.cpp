@@ -61,15 +61,15 @@ CNetSocket::~CNetSocket()
 }
 
 CNetSocket::SendMsgData::SendMsgData(CNetworkMessage&& msg, bool _bFlush)
-:send_msg(std::move(msg))
-,bFlush(_bFlush)
+    : send_msg(std::move(msg))
+    , bFlush(_bFlush)
 {
     send_msg.CopyBuffer();
 }
 
 CNetSocket::SendMsgData::SendMsgData(const CNetworkMessage& msg, bool _bFlush)
-:send_msg(msg)
-,bFlush(_bFlush)
+    : send_msg(msg)
+    , bFlush(_bFlush)
 {
     send_msg.CopyBuffer();
 }

@@ -9,6 +9,7 @@
 #include "ServiceComm.h"
 #include "game_common_def.h"
 
+
 class CMapManager;
 class CSystemVarSet;
 class CActorManager;
@@ -55,24 +56,24 @@ public:
     export_lua bool SendProtoMsgToAllScene(const proto_msg_t& msg) const;
     //广播消息给所有的玩家
     export_lua bool SendProtoMsgToAllPlayer(const proto_msg_t& msg) const;
-    
+
     //发送消息给玩家
     export_lua bool SendProtoMsgToPlayer(const VirtualSocket& vs, const proto_msg_t& msg) const;
-    
+
     //发送消息给AIService
     export_lua bool SendProtoMsgToAIService(const proto_msg_t& msg) const;
-    
 
     //发送广播包给玩家
     void _ID2VS(OBJID id, VirtualSocketMap_t& VSMap) const override;
 
 public:
+    std::unique_ptr<CMysqlConnection> ConnectGlobalDB(CMysqlConnection* pServerInfoDB);
     std::unique_ptr<CMysqlConnection> ConnectGlobalDB();
-
+    std::unique_ptr<CMysqlConnection> ConnectServerInfoDB();
     export_lua CMysqlConnection* GetGameDB(uint16_t nWorldID);
     void                         ReleaseGameDB(uint16_t nWorldID);
 
-    CMysqlConnection* _ConnectGameDB(uint16_t nWorldID, CMysqlConnection* pGlobalDB);
+    CMysqlConnection* _ConnectGameDB(uint16_t nWorldID, CMysqlConnection* pServerInfoDB);
 
     export_lua CLUAScriptManager* GetScriptManager() const { return m_pScriptManager.get(); }
     export_lua CMapManager* GetMapManager() const { return m_pMapManager.get(); }
@@ -91,6 +92,8 @@ private:
 private:
     CUIDFactory                                                     m_UIDFactory;
     std::unique_ptr<CMysqlConnection>                               m_pGlobalDB;
+    std::unique_ptr<CMysqlConnection>                               m_pServerInfoDB;
+    db::tbld_dbinfo                                                 m_globaldb_info;
     std::unordered_map<uint16_t, std::unique_ptr<CMysqlConnection>> m_GameDBMap;
 
     CMyTimer m_tLastDisplayTime;

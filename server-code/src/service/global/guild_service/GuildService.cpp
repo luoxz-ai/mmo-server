@@ -3,13 +3,13 @@
 #include <functional>
 
 #include "EventManager.h"
+#include "GuildManager.h"
 #include "MessagePort.h"
 #include "MessageRoute.h"
 #include "MsgProcessRegister.h"
 #include "NetMSGProcess.h"
 #include "NetSocket.h"
 #include "NetworkMessage.h"
-#include "GuildManager.h"
 #include "SettingMap.h"
 #include "server_msg/server_side.pb.h"
 
@@ -22,7 +22,6 @@ void SetGuildServicePtr(CGuildService* ptr)
 {
     tls_pService = ptr;
 }
-
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint8_t idServiceType, uint8_t idServiceIdx)
 {
@@ -67,11 +66,11 @@ bool CGuildService::Init(const ServerPort& nServerPort)
     };
 
     m_UIDFactory.Init(0, GUILD_SERIVE_UID);
-    
+
     {
         const auto& settings        = GetMessageRoute()->GetSettingMap();
         const auto& settingGlobalDB = settings["GlobalMYSQL"][0];
-        m_pGlobalDB     = std::make_unique<CMysqlConnection>();
+        m_pGlobalDB                 = std::make_unique<CMysqlConnection>();
         if(m_pGlobalDB->Connect(settingGlobalDB.Query("host"),
                                 settingGlobalDB.Query("user"),
                                 settingGlobalDB.Query("passwd"),
@@ -82,11 +81,8 @@ bool CGuildService::Init(const ServerPort& nServerPort)
         }
     }
 
-
-
     m_pGuildManager.reset(CGuildManager::CreateNew());
     CHECKF(m_pGuildManager.get());
-
 
     if(CreateService(100) == false)
         return false;
@@ -99,7 +95,6 @@ bool CGuildService::Init(const ServerPort& nServerPort)
             pNetMsgProcess->Register(k, std::get<0>(v), std::get<1>(v));
         }
     }
-
 
     return true;
 }

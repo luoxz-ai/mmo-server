@@ -12,8 +12,8 @@
 #include "SettingMap.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/world_service.pb.h"
-#include "server_msg/server_side.pb.h"
 #include "protomsg_to_cmd.h"
+#include "server_msg/server_side.pb.h"
 
 extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint8_t idServiceType, uint8_t idServiceIdx)
 {
@@ -145,7 +145,7 @@ bool CSocketService::Init(const ServerPort& nServerPort)
 
     ServerMSG::ServiceReady msg;
     msg.set_serverport(GetServerPort());
-    SendProtoMsgToZonePort(ServerPort(GetWorldID(), WORLD_SERVICE, 0),  msg);
+    SendProtoMsgToZonePort(ServerPort(GetWorldID(), WORLD_SERVICE, 0), msg);
 
     return true;
 
@@ -299,9 +299,7 @@ void CSocketService::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
     __LEAVE_FUNCTION
 }
 
-ON_SERVERMSG(CSocketService, ServiceReady)
-{
-}
+ON_SERVERMSG(CSocketService, ServiceReady) {}
 
 ON_SERVERMSG(CSocketService, SocketStartAccept)
 {
@@ -351,12 +349,12 @@ ON_SERVERMSG(CSocketService, SocketAuth)
         LOGDEBUG("AuthSucc BYVS:{}:{} ", pClient->GetSocketAddr().c_str(), pClient->GetSocketPort());
         pClient->SetAuth(true);
         pClient->SetMessageAllow(CLIENT_MSG_ID_BEGIN, CLIENT_MSG_ID_END);
-        pClient->SetDestServerPort(ServerPort(SocketService()->GetWorldID(), WORLD_SERVICE,0));
+        pClient->SetDestServerPort(ServerPort(SocketService()->GetWorldID(), WORLD_SERVICE, 0));
 
         ServerMSG::SocketLogin login_msg;
         login_msg.set_vs(msg.vs());
         login_msg.set_open_id(msg.open_id());
-        SocketService()->SendProtoMsgToZonePort(ServerPort(SocketService()->GetWorldID(), WORLD_SERVICE,0), login_msg);
+        SocketService()->SendProtoMsgToZonePort(ServerPort(SocketService()->GetWorldID(), WORLD_SERVICE, 0), login_msg);
     }
 }
 
@@ -378,15 +376,15 @@ void CSocketService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
             pClient->SendSocketMsg(*pNetworkMsg);
         }
     }
-    for(const auto vs : pNetworkMsg->GetMultiTo())
+    for(const auto vs: pNetworkMsg->GetMultiTo())
     {
         CGameClient* pClient = QueryClient(vs);
-        if(pClient && pClient->IsVaild()&& pClient->IsAuth())
+        if(pClient && pClient->IsVaild() && pClient->IsAuth())
         {
             pClient->SendSocketMsg(*pNetworkMsg);
         }
     }
-    for(const auto id : pNetworkMsg->GetMultiIDTo())
+    for(const auto id: pNetworkMsg->GetMultiIDTo())
     {
         CGameClient* pClient = QueryClientByUserID(id);
         if(pClient && pClient->IsVaild() && pClient->IsAuth())

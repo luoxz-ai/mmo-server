@@ -8,8 +8,11 @@
 #include "MessageRoute.h"
 #include "MonitorMgr.h"
 #include "msg/ts_cmd.pb.h"
-#include "server_msg/server_side.pb.h"
 #include "protomsg_to_cmd.h"
+#include "server_msg/server_side.pb.h"
+#include "serverinfodb.h"
+#include "DB2PB.h"
+#include "MysqlConnection.h"
 
 CServiceCommon::CServiceCommon()
     : m_pNetworkService(nullptr)
@@ -306,7 +309,7 @@ bool CServiceCommon::_SendMsgToZonePort(const CNetworkMessage& msg) const
     {
         m_pMonitorMgr->AddSendInfo(msg.GetCmd(), msg.GetSize());
         if(vs.GetServerPort().GetWorldID() == GetWorldID() ||
-           ((GetServiceID().GetServiceType() == ROUTE_SERVICE) && (vs.GetServerPort().GetServiceType() == ROUTE_SERVICE)) )
+           ((GetServiceID().GetServiceType() == ROUTE_SERVICE) && (vs.GetServerPort().GetServiceType() == ROUTE_SERVICE)))
         {
             CMessagePort* pMessagePort = GetMessageRoute()->QueryMessagePort(vs.GetServerPort());
             if(pMessagePort)
@@ -360,7 +363,7 @@ bool CServiceCommon::_SendMsgToZonePort(const CNetworkMessage& msg) const
 bool CServiceCommon::SendProtoMsgTo(const VirtualSocketMap_t& setSocketMap, const proto_msg_t& msg) const
 {
     __ENTER_FUNCTION
-    auto nCmd = to_cmd(msg);
+    auto            nCmd = to_cmd(msg);
     CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket());
     for(auto& [nServerPort, socket_list]: setSocketMap)
     {
@@ -380,4 +383,66 @@ bool CServiceCommon::SendProtoMsgTo(const VirtualSocketMap_t& setSocketMap, cons
     return true;
     __LEAVE_FUNCTION
     return false;
+}
+
+std::unique_ptr<db::tbld_dbinfo> CServiceCommon::QueryDBInfo(uint16_t nWorldID, CMysqlConnection* pServerInfoDB)
+{
+    return DB2PB::QueryOneConst<TBLD_DBINFO, db::tbld_dbinfo, TBLD_DBINFO::WORLDID>(pServerInfoDB, 1);
+}
+
+std::unique_ptr<CMysqlConnection> CServiceCommon::ConnectDB(const db::tbld_dbinfo* pInfo)
+{
+    CHECKF(pInfo);
+    auto pDB    = std::make_unique<CMysqlConnection>();
+    auto result = pDB->Connect(pInfo->db_ip(),
+                                pInfo->db_user(),
+                                pInfo->db_passwd(),
+                                pInfo->db_name(),
+                                pInfo->db_port());
+
+    if(result == false)
+    {
+        return nullptr;
+    }
+    return pDB;
+}
+
+std::unique_ptr<CMysqlConnection> CServiceCommon::ConnectGlobalDB(CMysqlConnection* pServerInfoDB)
+{
+    __ENTER_FUNCTION
+    CHECKF(pServerInfoDB);
+    //通过ServerInfodb查询localdb
+    auto db_info = QueryDBInfo(0, pServerInfoDB);
+    CHECKF(db_info);
+    m_globaldb_info.reset(db_info.release());
+    return ConnectDB(m_globaldb_info.get());
+       
+    __LEAVE_FUNCTION
+    return nullptr;
+}
+
+std::unique_ptr<CMysqlConnection> CServiceCommon::ConnectGlobalDB()
+{
+    __ENTER_FUNCTION
+
+   return ConnectDB(m_globaldb_info.get());
+
+    __LEAVE_FUNCTION
+    return nullptr;
+}
+
+std::unique_ptr<CMysqlConnection> CServiceCommon::ConnectServerInfoDB()
+{
+    const auto& settings            = GetMessageRoute()->GetSettingMap();
+    const auto& settingServerInfoDB = settings["ServerInfoMYSQL"][0];
+    auto        pServerInfoDB       = std::make_unique<CMysqlConnection>();
+    if(pServerInfoDB->Connect(settingServerInfoDB.Query("host"),
+                              settingServerInfoDB.Query("user"),
+                              settingServerInfoDB.Query("passwd"),
+                              settingServerInfoDB.Query("dbname"),
+                              settingServerInfoDB.QueryULong("port")) == false)
+    {
+        return nullptr;
+    }
+    return pServerInfoDB;
 }

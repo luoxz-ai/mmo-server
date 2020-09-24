@@ -63,7 +63,7 @@ namespace std
     template<>
     struct hash<ServiceID>
     {
-        typedef ServiceID  argument_type;
+        typedef ServiceID   argument_type;
         typedef std::size_t result_type;
         result_type         operator()(argument_type const& s) const
         {
@@ -293,7 +293,6 @@ enum MSGTYPE_INTERNAL
     COMMON_CMD_PONG      = 3,
     COMMON_CMD_INTERRUPT = 9999,
 
-   
 };
 
 #pragma pack(push) //保存对齐状态

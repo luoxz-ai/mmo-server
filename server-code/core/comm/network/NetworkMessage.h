@@ -43,26 +43,25 @@ public:
     export_lua void          SetTo(VirtualSocket val) { m_nTo = val; }
 
     export_lua const std::deque<VirtualSocket>& GetForward() const { return m_setForward; }
-    export_lua void SetForward(const uint64_t* pVS, size_t len);
-    export_lua void SetForward(const std::deque<VirtualSocket>& setForward) { m_setForward = setForward; }
-    export_lua void AddForward(const VirtualSocket& forward) { m_setForward.push_back(forward); }
-    export_lua void ClearForward() {m_setForward.clear();}
-    export_lua void PopForward() {m_setForward.pop_front();}
+    export_lua void                             SetForward(const uint64_t* pVS, size_t len);
+    export_lua void                             SetForward(const std::deque<VirtualSocket>& setForward) { m_setForward = setForward; }
+    export_lua void                             AddForward(const VirtualSocket& forward) { m_setForward.push_back(forward); }
+    export_lua void                             ClearForward() { m_setForward.clear(); }
+    export_lua void                             PopForward() { m_setForward.pop_front(); }
 
     export_lua const std::vector<VirtualSocket>& GetMultiTo() const { return m_MultiTo; }
-    export_lua bool  IsMultiTo() const { return m_MultiTo.empty() == false; }
-    export_lua void  SetMultiTo(const uint64_t* pVS, size_t len);
-    export_lua void  SetMultiTo(const std::vector<VirtualSocket>& _MultiTo);
-    export_lua void  AddMultiTo(const VirtualSocket& to);
-    export_lua void  ClearMultiTo() {m_MultiTo.clear();}
-
+    export_lua bool                              IsMultiTo() const { return m_MultiTo.empty() == false; }
+    export_lua void                              SetMultiTo(const uint64_t* pVS, size_t len);
+    export_lua void                              SetMultiTo(const std::vector<VirtualSocket>& _MultiTo);
+    export_lua void                              AddMultiTo(const VirtualSocket& to);
+    export_lua void                              ClearMultiTo() { m_MultiTo.clear(); }
 
     export_lua const std::vector<OBJID>& GetMultiIDTo() const { return m_MultiIDTo; }
-    export_lua bool IsMultiIDTo() const { return m_MultiIDTo.empty() == false; }
-    export_lua void SetMultiIDTo(const OBJID* pIDS, size_t len);
-    export_lua void SetMultiIDTo(const std::vector<OBJID>& _MultiTo);
-    export_lua void AddMultiIDTo(OBJID to);
-    export_lua void ClearMultiIDTo() {m_MultiIDTo.clear();}
+    export_lua bool                      IsMultiIDTo() const { return m_MultiIDTo.empty() == false; }
+    export_lua void                      SetMultiIDTo(const OBJID* pIDS, size_t len);
+    export_lua void                      SetMultiIDTo(const std::vector<OBJID>& _MultiTo);
+    export_lua void                      AddMultiIDTo(OBJID to);
+    export_lua void                      ClearMultiIDTo() { m_MultiIDTo.clear(); }
 
     export_lua bool IsBroadcast() const { return m_bBoradCastAll; }
     export_lua void SetBroadcast() { m_bBoradCastAll = true; }

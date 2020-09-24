@@ -44,11 +44,11 @@
 #include "TeamInfoManager.h"
 #include "UserAttr.h"
 #include "globaldb.h"
-#include "serverinfodb.h"
+#include "globaldb.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"
-#include "server_msg/server_side.pb.h"
 #include "protomsg_to_cmd.h"
+#include "server_msg/server_side.pb.h"
 
 static thread_local CSceneService* tls_pService = nullptr;
 CSceneService*                     SceneService()
@@ -131,11 +131,14 @@ bool CSceneService::Init(const ServerPort& nServerPort)
     m_UIDFactory.Init(GetServerPort().GetWorldID(), SCENE_SERVICE_UID_START + GetZoneID());
     m_MessagePoolBySocket.reserve(GUESS_MAX_PLAYER_COUNT);
     m_tLastDisplayTime.Startup(20);
-    auto pGlobalDB = ConnectGlobalDB();
+
+    auto pServerInfoDB = ConnectServerInfoDB();
+    CHECKF(pServerInfoDB.get());
+    auto pGlobalDB = ConnectGlobalDB(pServerInfoDB.get());
     CHECKF(pGlobalDB.get());
     if(IsSharedZone() == false)
     {
-        _ConnectGameDB(GetWorldID(), pGlobalDB.get());
+        _ConnectGameDB(GetWorldID(), pServerInfoDB.get());
     }
 
     //配置读取
@@ -196,6 +199,7 @@ bool CSceneService::Init(const ServerPort& nServerPort)
     {
         // share_zone store globaldb
         m_pGlobalDB.reset(pGlobalDB.release());
+        m_pServerInfoDB.reset(pServerInfoDB.release());
     }
 
     return true;
@@ -313,7 +317,7 @@ bool CSceneService::SendProtoMsgToAllScene(const proto_msg_t& msg) const
     {
         if(serverport == GetServerPort())
             continue;
-        SendProtoMsgToZonePort(serverport,msg);
+        SendProtoMsgToZonePort(serverport, msg);
     }
 
     return true;
@@ -385,47 +389,18 @@ void CSceneService::ReleaseGameDB(uint16_t nWorldID)
     __LEAVE_FUNCTION
 }
 
-std::unique_ptr<CMysqlConnection> CSceneService::ConnectGlobalDB()
-{
-    const auto& settings        = GetMessageRoute()->GetSettingMap();
-    const auto& settingGlobalDB = settings["GlobalMYSQL"][0];
-    auto        pGlobalDB       = std::make_unique<CMysqlConnection>();
-    if(pGlobalDB->Connect(settingGlobalDB.Query("host"),
-                          settingGlobalDB.Query("user"),
-                          settingGlobalDB.Query("passwd"),
-                          settingGlobalDB.Query("dbname"),
-                          settingGlobalDB.QueryULong("port")) == false)
-    {
-        return nullptr;
-    }
-    return pGlobalDB;
-}
-
-CMysqlConnection* CSceneService::_ConnectGameDB(uint16_t nWorldID, CMysqlConnection* pGlobalDB)
+CMysqlConnection* CSceneService::_ConnectGameDB(uint16_t nWorldID, CMysqlConnection* pServerInfoDB)
 {
     __ENTER_FUNCTION
-    CHECKF(pGlobalDB);
-    //通过globaldb查询localdb
-    auto result = pGlobalDB->QueryKeyLimit<TBLD_DBINFO, TBLD_DBINFO::WORLDID>(nWorldID, 1);
-    if(result)
+    CHECKF(pServerInfoDB);
+    //通过ServerInfodb查询localdb
+    auto db_info = QueryDBInfo(nWorldID, pServerInfoDB);
+    if(db_info)
     {
-        auto row = result->fetch_row(false);
-        if(row)
-        {
-            std::string host   = row->Field(TBLD_DBINFO::DB_IP);
-            uint16_t    port   = row->Field(TBLD_DBINFO::DB_PORT);
-            std::string user   = row->Field(TBLD_DBINFO::DB_USER);
-            std::string passwd = row->Field(TBLD_DBINFO::DB_PASSWD);
-            std::string dbname = row->Field(TBLD_DBINFO::DB_NAME);
-
-            auto pDB = std::make_unique<CMysqlConnection>();
-            if(pDB->Connect(host, user, passwd, dbname, port) == false)
-            {
-                return nullptr;
-            }
-            m_GameDBMap[nWorldID].reset(pDB.release());
-            return m_GameDBMap[nWorldID].get();
-        }
+        auto pDB = ConnectDB(db_info.get());
+        CHECKF(pDB);
+        m_GameDBMap[nWorldID].reset(pDB.release());
+        return m_GameDBMap[nWorldID].get();
     }
     __LEAVE_FUNCTION
     return nullptr;
@@ -441,14 +416,14 @@ CMysqlConnection* CSceneService::GetGameDB(uint16_t nWorldID)
     }
     else
     {
-        if(m_pGlobalDB)
+        if(m_pServerInfoDB)
         {
-            return _ConnectGameDB(nWorldID, m_pGlobalDB.get());
+            return _ConnectGameDB(nWorldID, m_pServerInfoDB.get());
         }
         else
         {
-            auto pGlobalDB = ConnectGlobalDB();
-            return _ConnectGameDB(nWorldID, pGlobalDB.get());
+            auto pServerInfoDB = ConnectServerInfoDB();
+            return _ConnectGameDB(nWorldID, pServerInfoDB.get());
         }
     }
     __LEAVE_FUNCTION

@@ -20,11 +20,11 @@ public:
     ~CGuildMemberInfo();
 
     GuildMemberInfoDetail to_pb() const;
-    void            to_pb(GuildMemberInfoDetail& info) const;
+    void                  to_pb(GuildMemberInfoDetail& info) const;
 
     uint64_t get_member_id() const { return m_pDBRecord->Field(TBLD_GUILD_MEMBERINFO::ID); }
     uint32_t get_member_rank() const { return m_pDBRecord->Field(TBLD_GUILD_MEMBERINFO::RANK); }
-    uint64_t get_guild_id()const { return m_pDBRecord->Field(TBLD_GUILD_MEMBERINFO::GUILD_ID); }
+    uint64_t get_guild_id() const { return m_pDBRecord->Field(TBLD_GUILD_MEMBERINFO::GUILD_ID); }
     uint32_t get_member_score() const { return m_pDBRecord->Field(TBLD_GUILD_MEMBERINFO::SCORE); }
     uint32_t get_member_total_score() const { return m_pDBRecord->Field(TBLD_GUILD_MEMBERINFO::TOTAL_SCORE); }
     uint32_t get_member_jointime() const { return m_pDBRecord->Field(TBLD_GUILD_MEMBERINFO::JOIN_TIME); }
@@ -35,9 +35,9 @@ public:
     void set_member_score(uint32_t v) { m_pDBRecord->Field(TBLD_GUILD_MEMBERINFO::SCORE) = v; }
     void set_member_total_score(uint32_t v) { m_pDBRecord->Field(TBLD_GUILD_MEMBERINFO::TOTAL_SCORE) = v; }
 
-    uint32_t           get_member_lev() const {return  m_pDBRecord->Field(TBLD_GUILD_MEMBERINFO::LEV); }
-    const std::string& get_member_name() const { return  m_pDBRecord->Field(TBLD_GUILD_MEMBERINFO::NAME); }
-    uint32_t           get_member_last_login() const { return m_pDBRecord->Field(TBLD_GUILD_MEMBERINFO::LAST_LOGIN_TIME);}
+    uint32_t           get_member_lev() const { return m_pDBRecord->Field(TBLD_GUILD_MEMBERINFO::LEV); }
+    const std::string& get_member_name() const { return m_pDBRecord->Field(TBLD_GUILD_MEMBERINFO::NAME); }
+    uint32_t           get_member_last_login() const { return m_pDBRecord->Field(TBLD_GUILD_MEMBERINFO::LAST_LOGIN_TIME); }
     uint32_t           get_member_last_logout() const { return m_pDBRecord->Field(TBLD_GUILD_MEMBERINFO::LAST_LOGOUT_TIME); }
 
     void set_member_lev(uint32_t v) { m_pDBRecord->Field(TBLD_GUILD_MEMBERINFO::LEV) = v; }
@@ -50,7 +50,8 @@ public:
 
 private:
     CDBRecordPtr m_pDBRecord;
- public:
+
+public:
     OBJECTHEAP_DECLARATION(s_heap);
 };
 
@@ -85,6 +86,7 @@ public:
     void SetMemberScore(OBJID idMember, uint32_t nScore);
     void Dismiss(OBJID idOperator);
     void OnDestory();
+
 public:
     bool                    IsLeader(OBJID idActor) const;
     bool                    IsMember(OBJID idActor) const;
@@ -109,8 +111,8 @@ public:
     size_t GetRankCount(uint32_t nRank);
     size_t GetRankLimit(uint32_t nRank);
 
+    void ForeachMember(std::function<void(const CGuildMemberInfo*)> func);
 
-    void ForeachMember(std::function<void (const CGuildMemberInfo*)> func);
 private:
     CGuildMemberInfo* CreateMemberInfo(OBJID idMember, uint32_t nRank);
 

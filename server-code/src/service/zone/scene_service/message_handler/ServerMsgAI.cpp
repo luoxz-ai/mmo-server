@@ -117,7 +117,7 @@ ON_SERVERMSG(CSceneService, ServiceReady)
         {
             ServerMSG::ServiceReady send;
             send.set_serverport(SceneService()->GetServerPort());
-            SceneService()->SendProtoMsgToWorld(SceneService()->GetWorldID(),  send);
+            SceneService()->SendProtoMsgToWorld(SceneService()->GetWorldID(), send);
         }
     }
 

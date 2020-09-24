@@ -96,8 +96,8 @@ ON_SERVERMSG(CRouteService, ServiceRegister)
     ServerPort server_port{msg.serverport()};
     LOGMESSAGE("World:{} start", server_port.GetWorldID());
     GetMessageRoute()->SetWorldReady(server_port.GetWorldID(), true);
-    
-    if(server_port.GetWorldID() == RouteService()->GetWorldID())//本区
+
+    if(server_port.GetWorldID() == RouteService()->GetWorldID()) //本区
     {
         //转发给0区
         CNetworkMessage send_msg(*pMsg);
@@ -108,14 +108,14 @@ ON_SERVERMSG(CRouteService, ServiceRegister)
         CEventEntryCreateParam param;
         param.cb = []() {
             RouteService()->SendServiceReady();
-        }; 
+        };
         param.tWaitTime = 30 * 1000;
         param.bPersist  = true;
         EventManager()->ScheduleEvent(param);
     }
     else if(RouteService()->GetWorldID() == 0) // 0区
     {
-        //worldid == 0
+        // worldid == 0
         GetMessageRoute()->ReloadServiceInfo(msg.update_time(), server_port.GetWorldID());
         //通知0区所有服
         RouteService()->TransmitMsgToThisZoneAllPortExcept(pMsg, ROUTE_SERVICE);
@@ -124,12 +124,10 @@ ON_SERVERMSG(CRouteService, ServiceRegister)
     }
     else //其他区
     {
-        
+
         GetMessageRoute()->ReloadServiceInfo(msg.update_time(), server_port.GetWorldID());
     }
 }
-
-
 
 void CRouteService::SendServiceReady()
 {
@@ -161,14 +159,14 @@ ON_SERVERMSG(CRouteService, ServiceReady)
 
     GetMessageRoute()->SetWorldReady(server_port.GetWorldID(), msg.ready());
 
-    if(server_port.GetWorldID() == RouteService()->GetWorldID())//本区
+    if(server_port.GetWorldID() == RouteService()->GetWorldID()) //本区
     {
         //转发给0区
         RouteService()->TransmitMsgToPort(ServerPort(0, ROUTE_SERVICE, 0), pMsg);
     }
     else if(RouteService()->GetWorldID() == 0) // 0区
     {
-        //world == 0
+        // world == 0
         //通知0区所有服
         RouteService()->TransmitMsgToThisZoneAllPortExcept(pMsg, ROUTE_SERVICE);
         //通知所有Route,除了当前这个0区的Route
@@ -176,7 +174,6 @@ ON_SERVERMSG(CRouteService, ServiceReady)
     }
     else //其他区
     {
-        
     }
 }
 
@@ -211,7 +208,7 @@ void CRouteService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
     }
 
     //转发给对应的Service
-    for(const auto& vs : pNetworkMsg->GetMultiTo())
+    for(const auto& vs: pNetworkMsg->GetMultiTo())
     {
         CNetworkMessage send_msg;
         send_msg.CopyRawMessage(*pNetworkMsg);
@@ -219,8 +216,6 @@ void CRouteService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
         send_msg.SetTo(vs);
         _SendMsgToZonePort(send_msg);
     }
-    
-    
 }
 
 void CRouteService::OnLogicThreadProc()

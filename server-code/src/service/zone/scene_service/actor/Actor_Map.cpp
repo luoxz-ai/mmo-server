@@ -7,8 +7,8 @@
 #include "SceneManager.h"
 #include "SceneService.h"
 #include "SceneTree.h"
-#include "server_msg/server_side.pb.h"
 #include "protomsg_to_cmd.h"
+#include "server_msg/server_side.pb.h"
 void CActor::FlyTo(const Vector2& pos)
 {
     __ENTER_FUNCTION
@@ -116,7 +116,7 @@ void CActor::SendWorldMessage(const proto_msg_t& msg)
 
     if(GetWorldID() != 0)
     {
-        SceneService()->SendProtoMsgToWorld(GetWorldID(),  msg);
+        SceneService()->SendProtoMsgToWorld(GetWorldID(), msg);
     }
 
     __LEAVE_FUNCTION

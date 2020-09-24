@@ -2,18 +2,19 @@
 
 #include <functional>
 
+#include "AuthManager.h"
 #include "EventManager.h"
 #include "GMManager.h"
 #include "MessagePort.h"
 #include "MessageRoute.h"
 #include "MsgProcessRegister.h"
+#include "MysqlConnection.h"
 #include "NetMSGProcess.h"
 #include "NetSocket.h"
 #include "NetworkMessage.h"
 #include "SettingMap.h"
-#include "AuthManager.h"
-#include "MysqlConnection.h"
 #include "server_msg/server_side.pb.h"
+
 
 static thread_local CAuthService* tls_pService = nullptr;
 CAuthService*                     AuthService()
@@ -67,8 +68,13 @@ bool CAuthService::Init(const ServerPort& nServerPort)
         BaseCode::SetNdc(oldNdc);
     };
 
-    auto pGlobalDB = ConnectGlobalDB();
+    auto pServerInfoDB = ConnectServerInfoDB();
+    CHECKF(pServerInfoDB.get());
+
+    auto pGlobalDB = ConnectGlobalDB(pServerInfoDB.get());
     CHECKF(pGlobalDB.get());
+    
+
     m_pGMManager.reset(CGMManager::CreateNew(pGlobalDB.get()));
     CHECKF(m_pGMManager.get());
 
@@ -86,7 +92,7 @@ bool CAuthService::Init(const ServerPort& nServerPort)
     ServerMSG::ServiceReady msg;
     msg.set_serverport(GetServerPort());
 
-    SendProtoMsgToZonePort(ServerPort(GetWorldID(), SOCKET_SERVICE, 0),  msg);
+    SendProtoMsgToZonePort(ServerPort(GetWorldID(), SOCKET_SERVICE, 0), msg);
     return true;
 }
 
@@ -116,20 +122,4 @@ void CAuthService::OnLogicThreadCreate()
 void CAuthService::OnLogicThreadExit()
 {
     CServiceCommon::OnLogicThreadExit();
-}
-
-std::unique_ptr<CMysqlConnection> CAuthService::ConnectGlobalDB()
-{
-    const auto& settings        = GetMessageRoute()->GetSettingMap();
-    const auto& settingGlobalDB = settings["GlobalMYSQL"][0];
-    auto        pGlobalDB       = std::make_unique<CMysqlConnection>();
-    if(pGlobalDB->Connect(settingGlobalDB.Query("host"),
-                          settingGlobalDB.Query("user"),
-                          settingGlobalDB.Query("passwd"),
-                          settingGlobalDB.Query("dbname"),
-                          settingGlobalDB.QueryULong("port")) == false)
-    {
-        return nullptr;
-    }
-    return pGlobalDB;
 }

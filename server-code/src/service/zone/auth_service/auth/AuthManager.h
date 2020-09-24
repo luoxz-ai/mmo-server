@@ -43,6 +43,7 @@ public:
     void OnAuthThreadFinish();
 
     bool CheckProgVer(const std::string& prog_ver) const;
+
 private:
     //等待认证列表
     std::unordered_map<std::string, uint64_t> m_AuthList;

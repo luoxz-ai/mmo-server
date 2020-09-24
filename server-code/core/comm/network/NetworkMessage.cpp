@@ -17,48 +17,44 @@ CNetworkMessage::CNetworkMessage()
 CNetworkMessage::~CNetworkMessage() {}
 
 CNetworkMessage::CNetworkMessage(CNetworkMessage&& rht)
-: m_nFrom(rht.m_nFrom)
-, m_nTo(rht.m_nTo)
-, m_setForward(std::move(rht.m_setForward))
-, m_pBuf(rht.m_pBuf)
-, m_pBuffer(std::move(rht.m_pBuffer))
-, m_nBufSize(rht.m_nBufSize)
-, m_MultiTo(std::move(rht.m_MultiTo))
-, m_MultiIDTo(std::move(rht.m_MultiIDTo))
-, m_bBoradCastAll(rht.m_bBoradCastAll)
+    : m_nFrom(rht.m_nFrom)
+    , m_nTo(rht.m_nTo)
+    , m_setForward(std::move(rht.m_setForward))
+    , m_pBuf(rht.m_pBuf)
+    , m_pBuffer(std::move(rht.m_pBuffer))
+    , m_nBufSize(rht.m_nBufSize)
+    , m_MultiTo(std::move(rht.m_MultiTo))
+    , m_MultiIDTo(std::move(rht.m_MultiIDTo))
+    , m_bBoradCastAll(rht.m_bBoradCastAll)
 {
-
 }
 
 CNetworkMessage::CNetworkMessage(const CNetworkMessage& rht)
-: m_nFrom(rht.m_nFrom)
-, m_nTo(rht.m_nTo)
-, m_setForward(rht.m_setForward)
-, m_pBuf(rht.m_pBuf)
-, m_pBuffer(rht.m_pBuffer)
-, m_nBufSize(rht.m_nBufSize)
-, m_MultiTo(rht.m_MultiTo)
-, m_MultiIDTo(rht.m_MultiIDTo)
-, m_bBoradCastAll(rht.m_bBoradCastAll)
+    : m_nFrom(rht.m_nFrom)
+    , m_nTo(rht.m_nTo)
+    , m_setForward(rht.m_setForward)
+    , m_pBuf(rht.m_pBuf)
+    , m_pBuffer(rht.m_pBuffer)
+    , m_nBufSize(rht.m_nBufSize)
+    , m_MultiTo(rht.m_MultiTo)
+    , m_MultiIDTo(rht.m_MultiIDTo)
+    , m_bBoradCastAll(rht.m_bBoradCastAll)
 {
 }
 
 CNetworkMessage::CNetworkMessage(byte* buf, size_t len, VirtualSocket from /*= 0*/, VirtualSocket to /*= 0*/)
-: m_nFrom(from)
-, m_nTo(to)
-, m_pBuf(buf)
-, m_nBufSize(len)
+    : m_nFrom(from)
+    , m_nTo(to)
+    , m_pBuf(buf)
+    , m_nBufSize(len)
 {
 }
 
-CNetworkMessage::CNetworkMessage(uint16_t           usCmd,
-                                 const proto_msg_t& msg,
-                                 VirtualSocket      from /*= 0*/,
-                                 VirtualSocket      to /*= 0*/)
-: m_nFrom(from)
-, m_nTo(to)
-, m_pBuf(nullptr)
-, m_nBufSize(0)
+CNetworkMessage::CNetworkMessage(uint16_t usCmd, const proto_msg_t& msg, VirtualSocket from /*= 0*/, VirtualSocket to /*= 0*/)
+    : m_nFrom(from)
+    , m_nTo(to)
+    , m_pBuf(nullptr)
+    , m_nBufSize(0)
 {
     int32_t nDataSize = msg.ByteSizeLong();
     AllocBuffer(nDataSize + sizeof(MSG_HEAD));
@@ -74,11 +70,7 @@ CNetworkMessage::CNetworkMessage(uint16_t           usCmd,
     // pHead->usCmd = evd->number();
 }
 
-CNetworkMessage::CNetworkMessage(uint16_t      usCmd,
-                                 byte*         body,
-                                 size_t        body_len,
-                                 VirtualSocket from /*= 0*/,
-                                 VirtualSocket to /*= 0*/)
+CNetworkMessage::CNetworkMessage(uint16_t usCmd, byte* body, size_t body_len, VirtualSocket from /*= 0*/, VirtualSocket to /*= 0*/)
     : m_nFrom(from)
     , m_nTo(to)
     , m_pBuf(nullptr)
@@ -93,10 +85,10 @@ CNetworkMessage::CNetworkMessage(uint16_t      usCmd,
 
 void CNetworkMessage::CopyRawMessage(const CNetworkMessage& rht)
 {
-    m_nFrom = rht.m_nFrom;
-    m_nTo = rht.m_nTo;
-    m_pBuf = rht.m_pBuf;
-    m_pBuffer = rht.m_pBuffer;
+    m_nFrom    = rht.m_nFrom;
+    m_nTo      = rht.m_nTo;
+    m_pBuf     = rht.m_pBuf;
+    m_pBuffer  = rht.m_pBuffer;
     m_nBufSize = rht.m_nBufSize;
 }
 

@@ -83,7 +83,7 @@ public:
     CEventManager*     GetEventManager() const { return m_pEventManager.get(); }
 
 protected:
-    bool ConnectGlobalDB(const std::string& host, const std::string& user, const std::string& password, const std::string& db, uint32_t port);
+    bool ConnectServerInfoDB(const std::string& host, const std::string& user, const std::string& password, const std::string& db, uint32_t port);
     CMessagePort* _ConnectRemoteServer(const ServerPort& nServerPort, const ServerAddrInfo& info);
     //监听本地,一般无需手动调用, CreateAllMessagePort时已经调用了
     CMessagePort*         _ListenMessagePort(const ServerPort& nServerPort, const ServerAddrInfo& info);
@@ -92,6 +92,7 @@ protected:
     void _ReadMergeList();
     void _ReadServerIPList(uint16_t nNewWorldID);
     void OnServerAddrInfoChange(const ServerPort& serverport, const ServerAddrInfo& new_info);
+
 protected:
     CSettingMap m_setDataMap;
     uint16_t    m_nWorldID;
@@ -101,7 +102,7 @@ protected:
 
     std::unique_ptr<CNetworkService>  m_pNetworkService;
     std::unique_ptr<CEventManager>    m_pEventManager;
-    std::unique_ptr<CMysqlConnection> m_pGlobalDB;
+    std::unique_ptr<CMysqlConnection> m_pServerInfoDB;
 
     uint32_t m_lastUpdateTime = 0;
 
@@ -113,7 +114,7 @@ protected:
 };
 
 CMessageRoute* GetMessageRoute();
-void CreateMessageRoute();
-void ReleaseMessageRoute();
+void           CreateMessageRoute();
+void           ReleaseMessageRoute();
 
 #endif // MessageRoute_h__

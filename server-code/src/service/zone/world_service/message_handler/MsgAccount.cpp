@@ -30,7 +30,6 @@ ON_MSG(CWorldService, CS_SELECTACTOR)
     __LEAVE_FUNCTION
 }
 
-
 ON_SERVERMSG(CWorldService, SocketLogin)
 {
     AccountManager()->Login(msg.vs(), msg.open_id());

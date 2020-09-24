@@ -22,6 +22,7 @@ public:
     export_lua const std::string& GetServiceName() const override { return CServiceCommon::GetServiceName(); }
     CreateNewRealeaseImpl(CGuildService);
     export_lua uint64_t CreateUID();
+
 public:
     virtual void OnLogicThreadProc() override;
     virtual void OnLogicThreadCreate() override;
@@ -29,17 +30,18 @@ public:
 
     virtual void OnProcessMessage(CNetworkMessage*) override;
 
-    CGuildManager*                    GetGuildManager() const { return m_pGuildManager.get(); }
-    CMysqlConnection*                 GetGlobalDB() const { return m_pGlobalDB.get(); }
+    CGuildManager*    GetGuildManager() const { return m_pGuildManager.get(); }
+    CMysqlConnection* GetGlobalDB() const { return m_pGlobalDB.get(); }
+
 public:
-    CUIDFactory                  m_UIDFactory;
+    CUIDFactory                       m_UIDFactory;
     std::unique_ptr<CMysqlConnection> m_pGlobalDB;
-    std::unique_ptr<CGuildManager> m_pGuildManager;
+    std::unique_ptr<CGuildManager>    m_pGuildManager;
 };
 
 CGuildService* GuildService();
 void           SetGuildServicePtr(CGuildService* ptr);
-inline auto     EventManager()
+inline auto    EventManager()
 {
     return GuildService()->GetEventManager();
 }
@@ -51,6 +53,5 @@ inline auto GuildManager()
 {
     return WorldService()->GetGuildManager();
 }
-
 
 #endif // GuildService_h__

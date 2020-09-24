@@ -71,7 +71,7 @@ void CUser::EnterZone()
         msg.set_face(m_pInfo->GetRecordFace());
 
         ServerPort zone_port(WorldService()->GetWorldID(), SCENE_SERVICE, idZone);
-        WorldService()->SendProtoMsgToZonePort(zone_port,  msg);
+        WorldService()->SendProtoMsgToZonePort(zone_port, msg);
     }
 
     //通知Socket，玩家消息指向新的Zone
@@ -116,7 +116,7 @@ void CUser::Logout()
         msg.set_idplayer(GetID());
         msg.set_socket(GetSocket());
         ServerPort zone_port(WorldService()->GetWorldID(), SCENE_SERVICE, m_idZone);
-        WorldService()->SendProtoMsgToZonePort(zone_port,  msg);
+        WorldService()->SendProtoMsgToZonePort(zone_port, msg);
     }
     //通知Socket， 玩家消息指向回World
     {

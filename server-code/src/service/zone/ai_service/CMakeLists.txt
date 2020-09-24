@@ -31,7 +31,7 @@ COMMENT "gen ai2lua for export_lua"
 DEPENDS cxx2lua
  )
 
-# 将ai_service_gen_lua 挂接到 make gen_all_lua
+# # 将ai_service_gen_lua 挂接到 make gen_all_lua
 ADD_DEPENDENCIES(gen_all_lua ai_service_gen_lua)
 # ai2lua.cpp不存在，则生成 ai2lua.cpp
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/ai2lua.cpp
@@ -42,12 +42,14 @@ COMMENT "gen ai2lua for export_lua"
   DEPENDS cxx2lua basecode network service_comm gamemap script
 )
 
+set_property (SOURCE ${CMAKE_CURRENT_BINARY_DIR}/ai2lua.cpp PROPERTY COTIRE_EXCLUDED "TRUE")
+
 # 生成库文件
-ADD_LIBRARY(ai_service SHARED ${SRCS} ${CMAKE_CURRENT_BINARY_DIR}/ai2lua.cpp)
+ADD_LIBRARY(ai_service SHARED ${SRCS})
 #SET_TARGET_PROPERTIES(ai_service PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 #SET_TARGET_PROPERTIES(ai_service PROPERTIES VERSION 0.1 SOVERSION 1)
 set_target_properties(ai_service PROPERTIES CXX_VISIBILITY_PRESET hidden)
-
+ADD_DEPENDENCIES(ai_service ai_service_gen_lua)
 
 
 

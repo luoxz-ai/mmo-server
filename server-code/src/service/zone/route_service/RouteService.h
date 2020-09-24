@@ -45,7 +45,7 @@ public:
 };
 
 CRouteService* RouteService();
-void        SetRouteServicePtr(CRouteService* ptr);
+void           SetRouteServicePtr(CRouteService* ptr);
 inline auto    EventManager()
 {
     return RouteService()->GetEventManager();

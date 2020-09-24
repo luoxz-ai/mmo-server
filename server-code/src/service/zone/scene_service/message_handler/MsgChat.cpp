@@ -115,7 +115,7 @@ ON_PLAYERMSG(CS_TALK)
         {
             //发送给reciver所在的world来转发
             auto target_worldid = GetWorldIDFromPlayerID(msg.reciver_id());
-            SceneService()->SendProtoMsgToZonePort(ServerPort(target_worldid, WORLD_SERVICE, 0),  send_msg);
+            SceneService()->SendProtoMsgToZonePort(ServerPort(target_worldid, WORLD_SERVICE, 0), send_msg);
         }
         break;
         case CHANNEL_TEAM: //组队
@@ -126,7 +126,7 @@ ON_PLAYERMSG(CS_TALK)
             }
             //发送给自己当前的World来处理
             auto target_worldid = pPlayer->GetWorldID();
-            SceneService()->SendProtoMsgToZonePort(ServerPort(target_worldid, WORLD_SERVICE, 0),  send_msg);
+            SceneService()->SendProtoMsgToZonePort(ServerPort(target_worldid, WORLD_SERVICE, 0), send_msg);
         }
         break;
         case CHANNEL_GUILD: //公会
@@ -136,7 +136,7 @@ ON_PLAYERMSG(CS_TALK)
                 return;
             }
             //发送给GuildServer来转发
-            SceneService()->SendProtoMsgToZonePort(ServerPort(0, GUILD_SERVICE, 0),  send_msg);
+            SceneService()->SendProtoMsgToZonePort(ServerPort(0, GUILD_SERVICE, 0), send_msg);
         }
         break;
         case CHANNEL_WORLD: //世界
@@ -156,7 +156,7 @@ ON_PLAYERMSG(CS_TALK)
             //扣除消费道具
 
             //直接通过gate广播
-            SceneService()->SendProtoMsgToAllPlayer(send_msg);   
+            SceneService()->SendProtoMsgToAllPlayer(send_msg);
         }
         break;
         case CHANNEL_GLOBAL: //全游戏

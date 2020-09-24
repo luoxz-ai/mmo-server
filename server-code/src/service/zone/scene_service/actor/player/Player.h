@@ -53,7 +53,7 @@ public:
     export_lua bool FlyMap(uint16_t idMap, int32_t idxPhase, float fPosX, float fPosY, float fRange, float fFace);
 
 public:
-    export_lua bool         SendMsg(const proto_msg_t& msg) const override;
+    export_lua bool SendMsg(const proto_msg_t& msg) const override;
 
 public:
     export_lua virtual ActorType GetActorType() const override { return ActorType::ACT_PLAYER; }

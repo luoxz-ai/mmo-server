@@ -1,11 +1,10 @@
 #include "MessagePort.h"
 
+#include "CheckUtil.h"
 #include "MessageRoute.h"
 #include "NetSocket.h"
 #include "NetworkMessage.h"
-#include "CheckUtil.h"
 #include "msg_internal.pb.h"
-
 
 CMessagePort::CMessagePort(const ServerPort& nServerPort, CMessageRoute* pRoute)
     : m_nServerPort(nServerPort)
@@ -128,19 +127,20 @@ void CMessagePort::SetRemoteSocket(CNetSocket* pSocket)
 void CMessagePort::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
 {
     __ENTER_FUNCTION
-    MSG_HEAD* pHead = (MSG_HEAD*)pBuffer;
+    MSG_HEAD*   pHead = (MSG_HEAD*)pBuffer;
     InternalMsg internal_msg;
     if(internal_msg.ParseFromArray(pBuffer + sizeof(MSG_HEAD), len - sizeof(MSG_HEAD)) == false)
     {
         LOGNETERROR("MessagePort:{}-{} Recv a unknow cmd:{} size:{}",
-                        GetServerPort().GetServiceID().GetServiceType(),
-                        GetServerPort().GetServiceID().GetServiceIdx(),
-                        pHead->usCmd,
-                        pHead->usSize);
+                    GetServerPort().GetServiceID().GetServiceType(),
+                    GetServerPort().GetServiceID().GetServiceIdx(),
+                    pHead->usCmd,
+                    pHead->usSize);
         return;
     }
 
-    CNetworkMessage* pMsg = new CNetworkMessage((byte*)internal_msg.proto_msg().c_str(), internal_msg.proto_msg().size(), internal_msg.from(),  internal_msg.to());
+    CNetworkMessage* pMsg =
+        new CNetworkMessage((byte*)internal_msg.proto_msg().c_str(), internal_msg.proto_msg().size(), internal_msg.from(), internal_msg.to());
     pMsg->SetForward(internal_msg.forward().data(), internal_msg.forward_size());
     pMsg->SetMultiTo(internal_msg.brocast_vs().data(), internal_msg.brocast_vs_size());
     pMsg->SetMultiTo(internal_msg.brocast_id().data(), internal_msg.brocast_id_size());
@@ -204,25 +204,25 @@ void CMessagePort::_SendAllMsg()
         internal_msg.set_from(pMsg->GetFrom());
         internal_msg.set_to(pMsg->GetTo());
         internal_msg.set_proto_msg(pMsg->GetMsgBody(), pMsg->GetBodySize());
-        
-        for(const auto& v : pMsg->GetForward())
+
+        for(const auto& v: pMsg->GetForward())
         {
             internal_msg.add_forward(v);
         }
-        for(const auto& v : pMsg->GetMultiTo())
+        for(const auto& v: pMsg->GetMultiTo())
         {
             internal_msg.add_brocast_vs(v);
         }
-        for(const auto& v : pMsg->GetMultiIDTo())
+        for(const auto& v: pMsg->GetMultiIDTo())
         {
             internal_msg.add_brocast_id(v);
         }
         internal_msg.set_brocast_all(pMsg->IsBroadcast());
 
         CNetworkMessage send_msg(0xFFFF, internal_msg);
-        
+
         m_pRemoteServerSocket->SendNetworkMessage(std::move(send_msg));
-        
+
         __LEAVE_FUNCTION
         SAFE_DELETE(pMsg);
     }
@@ -249,5 +249,3 @@ bool CMessagePort::SendMsgToPort(const CNetworkMessage& msg)
     __LEAVE_FUNCTION
     return false;
 }
-
-

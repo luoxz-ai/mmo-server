@@ -6,7 +6,6 @@
 #include "BornPos.h"
 #include "EventManager.h"
 #include "GMManager.h"
-
 #include "MapManager.h"
 #include "MemoryHelp.h"
 #include "MessagePort.h"
@@ -108,59 +107,31 @@ bool CWorldService::Init(const ServerPort& nServerPort)
 
     RegisterWorldMessageHandler();
 
-    auto pGlobalDB = ConnectGlobalDB();
+    auto pServerInfoDB = ConnectServerInfoDB();
+    CHECKF(pServerInfoDB.get());
+    CHECKF(MysqlTableCheck::CheckAllTable<SERVERINFODB_TABLE_LIST>(pServerInfoDB.get()));
+
+    auto pGlobalDB = ConnectGlobalDB(pServerInfoDB.get());
     CHECKF(pGlobalDB.get());
     CHECKF(MysqlTableCheck::CheckAllTable<GLOBALDB_TABLE_LIST>(pGlobalDB.get()));
+
     //通过globaldb查询localdb
-
-    auto result = pGlobalDB->QueryKeyLimit<TBLD_DBINFO, TBLD_DBINFO::WORLDID>(GetWorldID(), 1);
-    if(result == nullptr || result->get_num_row() == 0)
+    _ConnectGameDB(GetWorldID(), pServerInfoDB.get());
+    CHECKF(m_pGameDB.get());
+    m_nCurPlayerMaxID       = GetDefaultPlayerID(GetWorldID());
+    auto result_playercount = m_pGameDB->UnionQuery(fmt::format(FMT_STRING("SELECT ifnull(max(id),{}) as id FROM tbld_player"), m_nCurPlayerMaxID));
+    if(result_playercount && result_playercount->get_num_row() == 1)
     {
-        LOGFATAL("CWorldService::Create fail:gamedb info error");
-        return false;
-    }
-
-    auto row = result->fetch_row(false);
-    if(row)
-    {
-        std::string host   = row->Field(TBLD_DBINFO::DB_IP).get<std::string>();
-        uint16_t    port   = row->Field(TBLD_DBINFO::DB_PORT);
-        std::string user   = row->Field(TBLD_DBINFO::DB_USER).get<std::string>();
-        std::string passwd = row->Field(TBLD_DBINFO::DB_PASSWD).get<std::string>();
-        std::string dbname = row->Field(TBLD_DBINFO::DB_NAME).get<std::string>();
-
-        auto pDB = std::make_unique<CMysqlConnection>();
-        if(pDB->Connect(host, user, passwd, dbname, port) == false)
+        auto row_result = result_playercount->fetch_row(false);
+        if(row_result)
         {
-
-            return false;
+            m_nCurPlayerMaxID = row_result->Field(0).get<int64_t>();
+            m_nCurPlayerMaxID++;
         }
-        m_pGameDB.reset(pDB.release());
-
-        CHECKF(MysqlTableCheck::CheckAllTableAndFix<GAMEDB_TABLE_LIST>(m_pGameDB.get()));
-
-        m_nCurPlayerMaxID = GetDefaultPlayerID(GetWorldID());
-        auto result_playercount =
-            m_pGameDB->UnionQuery(fmt::format(FMT_STRING("SELECT ifnull(max(id),{}) as id FROM tbld_player"), m_nCurPlayerMaxID));
-        if(result_playercount && result_playercount->get_num_row() == 1)
-        {
-            auto row_result = result_playercount->fetch_row(false);
-            if(row_result)
-            {
-                m_nCurPlayerMaxID = row_result->Field(0).get<int64_t>();
-                m_nCurPlayerMaxID++;
-            }
-        }
-    }
-    else
-    {
-        LOGFATAL("CWorldService::Create fail:gamedb info error");
-        return false;
     }
 
     DEFINE_CONFIG_LOAD(CUserAttrSet);
     DEFINE_CONFIG_LOAD(CBornPosSet);
-
 
     m_pMapManager.reset(CMapManager::CreateNew(0));
     CHECKF(m_pMapManager.get());
@@ -193,6 +164,25 @@ bool CWorldService::Init(const ServerPort& nServerPort)
 uint64_t CWorldService::CreateUID()
 {
     return m_UIDFactory.CreateID();
+}
+
+CMysqlConnection* CWorldService::_ConnectGameDB(uint16_t nWorldID, CMysqlConnection* pServerInfoDB)
+{
+    __ENTER_FUNCTION
+    CHECKF(pServerInfoDB);
+    //通过ServerInfodb查询localdb
+    auto db_info = QueryDBInfo(nWorldID, pServerInfoDB);
+    if(db_info)
+    {
+        auto pDB = ConnectDB(db_info.get());
+        CHECKF(pDB);
+        CHECKF(MysqlTableCheck::CheckAllTableAndFix<GAMEDB_TABLE_LIST>(pDB.get()));
+        m_pGameDB.reset(pDB.release());
+        return m_pGameDB.get();
+        
+    }
+    __LEAVE_FUNCTION
+    return nullptr;
 }
 
 void CWorldService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
@@ -231,7 +221,7 @@ void CWorldService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
             if(socket_list.size() == 1)
             {
                 send_msg.SetTo(socket_list.front());
-                
+
                 _SendMsgToZonePort(send_msg);
             }
             else
@@ -239,8 +229,8 @@ void CWorldService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
                 send_msg.SetMultiTo(socket_list);
                 _SendMsgToZonePort(send_msg);
             }
-        }  
-        
+        }
+
         return;
     }
 
@@ -288,22 +278,6 @@ void CWorldService::RecyclePlayerID(OBJID idPlayer)
 }
 
 
-std::unique_ptr<CMysqlConnection> CWorldService::ConnectGlobalDB()
-{
-    const auto& settings        = GetMessageRoute()->GetSettingMap();
-    const auto& settingGlobalDB = settings["GlobalMYSQL"][0];
-    auto        pGlobalDB       = std::make_unique<CMysqlConnection>();
-    if(pGlobalDB->Connect(settingGlobalDB.Query("host"),
-                          settingGlobalDB.Query("user"),
-                          settingGlobalDB.Query("passwd"),
-                          settingGlobalDB.Query("dbname"),
-                          settingGlobalDB.QueryULong("port")) == false)
-    {
-        return nullptr;
-    }
-    return pGlobalDB;
-}
-
 void CWorldService::SetServiceReady(uint16_t idService)
 {
     __ENTER_FUNCTION
@@ -336,7 +310,6 @@ void CWorldService::SetServiceReady(uint16_t idService)
                     SendProtoMsgToZonePort(serverport, send_msg);
                 }
             }
-            
         }
     }
 

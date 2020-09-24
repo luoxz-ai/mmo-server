@@ -106,5 +106,5 @@ private:
 };
 
 CSocketService* SocketService();
-void        SetSocketServicePtr(CSocketService* ptr);
+void            SetSocketServicePtr(CSocketService* ptr);
 #endif // SocketService_h__

@@ -18,7 +18,7 @@ public:
     virtual ~CMonster();
 
 public:
-    export_lua bool         SendMsg(const proto_msg_t& msg) const override;
+    export_lua bool SendMsg(const proto_msg_t& msg) const override;
 
     export_lua virtual ActorType GetActorType() const override { return ActorType::ACT_MONSTER; }
     export_lua static ActorType  GetActorTypeStatic() { return ActorType::ACT_MONSTER; }

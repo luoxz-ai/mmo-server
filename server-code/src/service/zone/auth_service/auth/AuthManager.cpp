@@ -5,9 +5,9 @@
 #include "AuthService.h"
 #include "GMManager.h"
 #include "MD5.h"
+#include "MsgProcessRegister.h"
 #include "msg/world_service.pb.h"
 #include "server_msg/server_side.pb.h"
-#include "MsgProcessRegister.h"
 
 const char* AUTH_URL = "https://example.com";
 
@@ -156,8 +156,6 @@ void CAuthManager::_OnAuthSucc(uint64_t call_id)
     result_msg.set_last_succ_key(md5str);
     AuthService()->SendMsgToVirtualSocket(auth_data.from, result_msg);
 
-
-
     m_AuthList.erase(auth_data.open_id);
     m_AuthDataList.erase(it);
 }
@@ -238,5 +236,3 @@ ON_MSG(CAuthService, CS_LOGIN)
     LOGLOGIN("Actor:{} StartAuth.", msg.openid().c_str());
     AuthManager()->Auth(msg.openid(), msg.auth(), pMsg->GetFrom());
 }
-
-

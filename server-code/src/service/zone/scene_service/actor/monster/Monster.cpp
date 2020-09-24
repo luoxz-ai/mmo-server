@@ -6,8 +6,8 @@
 #include "Scene.h"
 #include "SceneService.h"
 #include "TeamInfoManager.h"
-#include "server_msg/server_side.pb.h"
 #include "protomsg_to_cmd.h"
+#include "server_msg/server_side.pb.h"
 OBJECTHEAP_IMPLEMENTATION(CMonster, s_heap);
 
 CMonster::CMonster() {}

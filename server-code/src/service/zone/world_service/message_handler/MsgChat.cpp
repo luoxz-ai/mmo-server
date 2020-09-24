@@ -1,10 +1,10 @@
 #include "GMManager.h"
-#include "UserManager.h"
-#include "User.h"
-#include "TeamManager.h"
-#include "Team.h"
 #include "MD5.h"
 #include "MsgWorldProcess.h"
+#include "Team.h"
+#include "TeamManager.h"
+#include "User.h"
+#include "UserManager.h"
 #include "WorldService.h"
 #include "msg/world_service.pb.h"
 #include "msg/zone_service.pb.h"
@@ -24,23 +24,20 @@ ON_MSG(CWorldService, SC_TALK)
                 return;
             }
             pReciver->SendMsg(msg);
-
         }
         break;
         case CHANNEL_TEAM: //组队
         {
             //发送给自己当前的World来处理
             auto pSender = UserManager()->QueryUser(msg.sender_id());
-            CHECK(pSender)
+            CHECK(pSender);
             auto pTeam = TeamManager()->QueryTeam(pSender->GetTeamID());
             CHECK(pTeam);
             pTeam->SendMsgToAllMember(msg);
-            
         }
         break;
         default:
         {
-
         }
         break;
     }

@@ -26,5 +26,5 @@ cmake -DZONE_ID=${ZONE_ID} -DZONE_NAME=${ZONE_NAME} -DZONE_IP=${ZONE_IP} \
 cat zone_init_${ZONE_ID}.sql"
 
 docker exec -i mmo-server-build sh -c "${cmd}" | 
-docker exec -i mysql-global sh -c 'exec mysql -v -uroot -p"test12345" global'
-echo "select * from tbld_servicedetail where worldid=${ZONE_ID};" | docker exec -i mysql-global sh -c 'exec mysql -uroot -p"test12345" global'
+docker exec -i mysql-global sh -c 'exec mysql -v -uroot -p"test12345" serverinfo'
+echo "select * from tbld_servicedetail where worldid=${ZONE_ID};" | docker exec -i mysql-global sh -c 'exec mysql -uroot -p"test12345" serverinfo'
