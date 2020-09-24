@@ -16,7 +16,7 @@ export_lua enum StatusType {
     STATUSTYPE_TRANSFORM = 5, //变形 power=变形后的模型ID
     STATUSTYPE_DAMAGE    = 6, //受到伤害 每隔nSecs秒受到nPower的伤害
     STATUSTYPE_HIDE      = 7, //隐形
-
+ 
 };
 
 export_lua enum StatusExpireType {

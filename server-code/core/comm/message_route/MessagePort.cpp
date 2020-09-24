@@ -6,6 +6,7 @@
 #include "CheckUtil.h"
 #include "msg_internal.pb.h"
 
+
 CMessagePort::CMessagePort(const ServerPort& nServerPort, CMessageRoute* pRoute)
     : m_nServerPort(nServerPort)
     , m_pRoute(pRoute)
@@ -248,3 +249,5 @@ bool CMessagePort::SendMsgToPort(const CNetworkMessage& msg)
     __LEAVE_FUNCTION
     return false;
 }
+
+

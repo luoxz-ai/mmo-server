@@ -143,11 +143,11 @@ void CAIService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
                  pNetworkMsg->GetForward().size());
     }
 }
-
+ 
 bool CAIService::SendProtoMsgToScene(const proto_msg_t& msg)
 {
     return SendProtoMsgToZonePort(GetSceneServerPort(), msg);
-}
+} 
 
 void CAIService::OnLogicThreadProc()
 {

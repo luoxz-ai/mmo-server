@@ -192,42 +192,35 @@ void CRouteService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
     if(pNetworkMsg->GetForward().empty() == false)
     {
         pNetworkMsg->SetTo(pNetworkMsg->GetForward().front());
-        pNetworkMsg->GetForward().pop_front();
+        pNetworkMsg->PopForward();
         _SendMsgToZonePort(*pNetworkMsg);
         return;
     }
 
-    switch(pNetworkMsg->GetMultiType())
+    //转发给所有的World
+    if(pNetworkMsg->IsBroadcast())
     {
-        case MULTITYPE_BROADCAST:
+        if(GetWorldID() == 0)
         {
-            //转发给所有的World
-            time_t now = TimeGetSecond();
-            for(const auto& [k, v]: GetMessageRoute()->GetWorldReadyList())
-            {
-                if(now < v)
-                {
-                    TransmitMsgToPort(ServerPort(k, WORLD_SERVICE, 0), pNetworkMsg);
-                }
-            }
+            TransmitMsgToAllRoute(pNetworkMsg);
         }
-        break;
-        case MULTITYPE_VIRTUALSOCKET:
+        else
         {
-            //转发给对应的Service
-            CNetworkMessage send_msg(*pNetworkMsg);
-            const auto&     refSet = pNetworkMsg->GetMultiTo();
-            for(auto it = refSet.begin(); it != refSet.end(); it++)
-            {
-                const auto& vs = *it;
-                send_msg.SetTo(vs);
-                _SendMsgToZonePort(send_msg);
-            }
+            TransmitMsgToThisZoneAllPort(pNetworkMsg);
         }
-        break;
-        default:
-            break;
     }
+
+    //转发给对应的Service
+    for(const auto& vs : pNetworkMsg->GetMultiTo())
+    {
+        CNetworkMessage send_msg;
+        send_msg.CopyRawMessage(*pNetworkMsg);
+        send_msg.SetFrom(pNetworkMsg->GetFrom());
+        send_msg.SetTo(vs);
+        _SendMsgToZonePort(send_msg);
+    }
+    
+    
 }
 
 void CRouteService::OnLogicThreadProc()

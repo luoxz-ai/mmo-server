@@ -10,12 +10,12 @@
 #include "config/Cfg_Scene_Patrol.pb.h"
 #include "config/Cfg_Scene_Reborn.pb.h"
 
-enum MAP_TYPE
+export_lua enum MAP_TYPE
 {
     MAPTYPE_NORMAL = 0, //普通地图
 };
 
-enum MAP_FLAG
+export_lua enum MAP_FLAG
 {
     MAPFLAG_DYNAMAP = 0x0001, //副本
 
@@ -43,20 +43,20 @@ enum MAP_FLAG
 
 };
 
-enum PARTOL_TYPE
+export_lua enum PARTOL_TYPE
 {
     PARTOL_ONCE,
     PARTOL_RING,
     PARTOL_BACK
 };
 
-enum MonsterGeneratorShapeType
+export_lua enum MonsterGeneratorShapeType
 {
     MONSTERGENERATOR_CIRCLE = 0, // x,z为中心range的圆形
     MONSTERGENERATOR_RECT   = 1, // x,z为左上角,width宽,range高的矩形
 };
 
-enum REBORN_TYPE
+export_lua enum REBORN_TYPE
 {
     REBORN_HOME,
     REBORN_MAPPOS,

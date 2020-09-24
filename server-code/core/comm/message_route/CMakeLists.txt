@@ -19,11 +19,37 @@ ENDIF()
 # include PROTO_HEADER
 set(Protobuf_IMPORT_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
+# msg_internal.proto
 PROTOBUF_GENERATE_CPP(PROTO_SRC PROTO_HEADER ${CMAKE_CURRENT_SOURCE_DIR}/msg_internal.proto)
+
+# 生成sql_options.proto
+PROTOBUF_GENERATE_CPP_NEW(SQL_OPTIONS_SRC SQL_OPTIONS_HEADER ${CMAKE_CURRENT_SOURCE_DIR}  ${CMAKE_CURRENT_SOURCE_DIR}/sql_options/sql_options.proto)
+
+
+add_custom_command(
+      OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/db_proto/serverinfodb.pb.cc"
+             "${CMAKE_CURRENT_SOURCE_DIR}/db_proto/serverinfodb.pb.h"
+      COMMAND protobuf::protoc
+      ARGS --plugin=${BINARIES_CORE}/protoc-gen-sql --proto_path=${CMAKE_CURRENT_SOURCE_DIR} --sql_out=${CMAKE_CURRENT_SOURCE_DIR}/db/ --cpp_out=${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/db_proto/serverinfodb.proto
+      DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/db_proto/serverinfodb.proto" protoc-gen-sql
+      COMMENT "Running C++ protocol buffer compiler on db_proto/serverinfodb.proto"
+      VERBATIM )
+
+add_custom_command(
+        OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/serverinfodb.h"
+        COMMAND ${BINARIES_CORE}/sql2cpp 
+        ARGS --input=${CMAKE_CURRENT_SOURCE_DIR}/db/db_proto/serverinfodb.pb.sql --outdir=${CMAKE_CURRENT_SOURCE_DIR}/ --output=serverinfodb --format=clang-format-9
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/db_proto/serverinfodb.pb.h sql2cpp 
+        COMMENT "gen serverinfodb.h from sql"
+        VERBATIM )
 
 
 # 生成库文件
-ADD_LIBRARY(message_route SHARED ${SRCS} ${PROTO_SRC} ${PROTO_HEADER})
+ADD_LIBRARY(message_route SHARED ${SRCS} ${PROTO_SRC} ${PROTO_HEADER}
+${SQL_OPTIONS_SRC}  ${SQL_OPTIONS_HEADER}
+"${CMAKE_CURRENT_SOURCE_DIR}/db_proto/serverinfodb.pb.cc"
+"${CMAKE_CURRENT_SOURCE_DIR}/db_proto/serverinfodb.pb.h"
+"${CMAKE_CURRENT_SOURCE_DIR}/serverinfodb.h")
 #SET_TARGET_PROPERTIES(network PROPERTIES CLEAN_DIRECT_OUTPUT 1)
 #SET_TARGET_PROPERTIES(network PROPERTIES VERSION 0.1 SOVERSION 1)
 
@@ -37,7 +63,6 @@ ADD_DEPENDENCIES(message_route network basecode myproto mydb)
 TARGET_LINK_LIBRARIES(message_route
  libnetwork.so
  libbasecode.so
- libmyproto.so
  libmydb.so
  cpp_redis
  tinyxml2
@@ -47,5 +72,5 @@ TARGET_LINK_LIBRARIES(message_route
 )
 
 set_directory_properties(PROPERTIES
-    COTIRE_PREFIX_HEADER_INCLUDE_PATH ${COTIRE_PREFIX_HEADER_INCLUDE_PATH} "${PROJECT_SOURCE_DIR}/src/comm")
+    COTIRE_PREFIX_HEADER_INCLUDE_PATH ${COTIRE_PREFIX_HEADER_INCLUDE_PATH} "${PROJECT_SOURCE_DIR}/core/comm")
 cotire(message_route)

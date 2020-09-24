@@ -9,7 +9,6 @@ option(DEBUG "ON for debug or OFF for release" OFF)
 option(TIDY "ON for use clang-tidy(cmake version 3.6+) or OFF" OFF)
 option(USE_LUADEBUGER "ON for use lua_debuger or OFF" OFF)
 option(USE_JEMALLOC "ON for use jemalloc or OFF" ON)
-option(AUTO_GEN_EXPORT_LUA "ON for AUTO_GEN_EXPORT_LUA or OFF" ON)
 option(USE_ASAN "ON for use Address Sanitizer or OFF" OFF)
 option(USE_UBSAN "ON for use UB Sanitizer or OFF" OFF)
 option(USE_TSAN "ON for use Thread Sanitizer or OFF" OFF)
@@ -55,13 +54,25 @@ add_compile_options("-fPIC")
 
 #add_compile_options(-Wl,--unresolved-symbols=ignore-in-shared-libs)
 IF(NOT CMAKE_CXX_COMPILER MATCHES "clang")
-#gcc
+#gcc/vs
 add_compile_options("-rdynamic")
 
 ELSE()
 #clang
-link_libraries("-Wl,--export-dynamic")
-link_libraries("-fuse-ld=lld-9")
+  link_libraries("-Wl,--export-dynamic")
+  find_program(LLVM_LLD_FOUND lld-9)
+  if(LLVM_LLD_FOUND)
+    link_libraries("-fuse-ld=lld-9")
+  endif(LLVM_LLD_FOUND)
+  
+  find_program(LLVM_AR_FOUND llvm-ar-9)
+  if(LLVM_AR_FOUND)
+    SET(CMAKE_AR llvm-ar-9)
+  endif(LLVM_AR_FOUND)
+  find_program(LLVM_RANLIB_FOUND llvm-ranlib-9)
+  if(LLVM_RANLIB_FOUND)
+    SET(CMAKE_RANLIB llvm-ranlib-9)
+  endif(LLVM_RANLIB_FOUND)
 
 ENDIF()
 
@@ -236,6 +247,8 @@ LINK_DIRECTORIES(
  ${LIBRARIES_CORE}
  ${LIBRARIES}
 )
+
+
 
 MESSAGE(STATUS "Build Core...")
 ADD_SUBDIRECTORY(core obj/core/)

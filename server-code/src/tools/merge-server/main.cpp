@@ -8,9 +8,11 @@
 #include "MysqlConnection.h"
 #include "MysqlTableCheck.h"
 #include "UIDFactory.h"
-#include "gamedb.h"
 #include "get_opt.h"
+
 #include "globaldb.h"
+#include "gamedb.h"
+#include "serverinfodb.h"
 
 CMysqlConnectionPtr ConnectGameDB(CMysqlConnection* pGlobalDB, uint32_t worldid)
 {

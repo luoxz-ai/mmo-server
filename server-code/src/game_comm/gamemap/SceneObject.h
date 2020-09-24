@@ -13,7 +13,7 @@ typedef std::set<OBJID>                                         BROADCAST_SET;
 typedef std::unordered_map<uint32_t, std::unordered_set<OBJID>> BROADCAST_SET_BYTYPE;
 typedef std::unordered_map<OBJID, CSceneObject*>                ACTOR_MAP;
 
-class CSceneObject : public NoncopyableT<CSceneObject>
+export_lua class CSceneObject : public NoncopyableT<CSceneObject>
 {
 protected:
     CSceneObject();

@@ -8,7 +8,7 @@
 
 class CSceneObject;
 
-class CSceneBase : NoncopyableT<CSceneBase>
+export_lua class CSceneBase : NoncopyableT<CSceneBase>
 {
 protected:
     CSceneBase();

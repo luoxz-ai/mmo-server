@@ -28,8 +28,8 @@ ADD_LIBRARY(basecode SHARED ${LIBBASECODE_SRC})
 add_dependencies(basecode cxx2lua)
 add_custom_command(TARGET basecode
 PRE_LINK
-COMMAND echo ${LIBBASECODE_SRC} > /tmp/basecode_cpps.txt && echo ${LIBBASECODE_INCLUDES} > /tmp/basecode_includes.txt 
-COMMAND ${BINARIES_CORE}/cxx2lua --cpps=/tmp/basecode_cpps.txt --include=/tmp/basecode_includes.txt  --output=${PROJECT_SOURCE_DIR}/core/comm/script/basecode2lua.cpp --output_functionname=basecode2lua --skip_cpp --format=clang-format-9
+COMMAND echo ${LIBBASECODE_SRC} > ${CMAKE_CURRENT_BINARY_DIR}/basecode_cpps.txt && echo ${LIBBASECODE_INCLUDES} > ${CMAKE_CURRENT_BINARY_DIR}/basecode_includes.txt 
+COMMAND ${BINARIES_CORE}/cxx2lua --cpps=${CMAKE_CURRENT_BINARY_DIR}/basecode_cpps.txt --include=${CMAKE_CURRENT_BINARY_DIR}/basecode_includes.txt  --output=${PROJECT_SOURCE_DIR}/core/comm/script/basecode2lua.cpp --output_functionname=basecode2lua --skip_cpp --format=clang-format-9
 COMMENT "gen basecode for export_lua"
 )
 

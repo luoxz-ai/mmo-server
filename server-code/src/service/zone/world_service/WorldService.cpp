@@ -26,6 +26,7 @@
 #include "UserManager.h"
 #include "gamedb.h"
 #include "globaldb.h"
+#include "serverinfodb.h"
 
 static thread_local CWorldService* tls_pService = nullptr;
 CWorldService*                     WorldService()

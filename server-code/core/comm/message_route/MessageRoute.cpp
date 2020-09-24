@@ -5,9 +5,8 @@
 #include "NetClientSocket.h"
 #include "NetServerSocket.h"
 #include "NetSocket.h"
-#include "globaldb.h"
-#include "server_msg/server_side.pb.h"
 #include "tinyxml2/tinyxml2.h"
+#include "serverinfodb.h"
 
 constexpr uint32_t SERVICE_LOAD_REDIS_TIMEOUT = 60 * 1000; // redis上的serviceload数据60秒丢弃
 constexpr uint32_t SERVICE_LOAD_TIMEOUT       = 30 * 1000; //每30秒发送1次service_load数据
@@ -29,8 +28,8 @@ void ReleaseMessageRoute()
     if(g_pMessageRoute)
     {
         g_pMessageRoute->Destory();
+        SAFE_DELETE(g_pMessageRoute);
     }
-    SAFE_DELETE(g_pMessageRoute);
 }
 
 CMessageRoute::CMessageRoute()
@@ -141,6 +140,7 @@ bool CMessageRoute::ConnectGlobalDB(const std::string& host,
     return false;
 }
 
+
 void CMessageRoute::ReloadServiceInfo(uint32_t update_time, uint16_t nNewWorldID)
 {
     __ENTER_FUNCTION
@@ -152,115 +152,133 @@ void CMessageRoute::ReloadServiceInfo(uint32_t update_time, uint16_t nNewWorldID
     std::lock_guard<std::mutex> locker(m_mutex);
 
     //读取合服信息
-    if(GetWorldID() == 0)
+    _ReadMergeList();
+    //读取ip列表
+    _ReadServerIPList(nNewWorldID);
+    
+
+    __LEAVE_FUNCTION
+}
+
+
+
+void CMessageRoute::_ReadMergeList()
+{
+    __ENTER_FUNCTION
+    std::string SQL = "SELECT * FROM tbld_serverlist WHERE mergeto<>0";
+
+    auto result = m_pGlobalDB->Query(TBLD_SERVERLIST::table_name(), SQL);
+    CHECK_M(result, "GlobalDB can't query tbld_serverlist");
+    std::unordered_map<uint16_t, uint16_t> MergeToList;
+    for(size_t i = 0; i < result->get_num_row(); i++)
     {
-        std::string SQL = "SELECT * FROM tbld_serverlist WHERE mergeto<>0";
-
-        auto result = m_pGlobalDB->Query(TBLD_SERVERLIST::table_name(), SQL);
-        CHECK_M(result, "GlobalDB can't query tbld_serverlist");
-        std::unordered_map<uint16_t, uint16_t> MergeToList;
-        for(size_t i = 0; i < result->get_num_row(); i++)
+        auto row = result->fetch_row(false);
+        if(row)
         {
-            auto row = result->fetch_row(false);
-            if(row)
-            {
-                uint16_t idWorld     = row->Field(TBLD_SERVERLIST::WORLDID);
-                uint16_t idMergeTo   = row->Field(TBLD_SERVERLIST::MERGETO);
-                MergeToList[idWorld] = idMergeTo;
-                _CloseRemoteServerByWorldID(idWorld);
-            }
-        }
-        m_MergeList.clear();
-        for(auto it = MergeToList.begin(); it != MergeToList.end(); it++)
-        {
-            //转换到最终合服id
-            uint16_t idMergeTo = it->second;
-            auto     itMergeTo = MergeToList.find(idMergeTo);
-            while(itMergeTo != MergeToList.end())
-            {
-                idMergeTo = itMergeTo->second;
-                itMergeTo = MergeToList.find(idMergeTo);
-            }
-
-            m_MergeList[it->first] = idMergeTo;
+            uint16_t idWorld     = row->Field(TBLD_SERVERLIST::WORLDID);
+            uint16_t idMergeTo   = row->Field(TBLD_SERVERLIST::MERGETO);
+            MergeToList[idWorld] = idMergeTo;
+            _CloseRemoteServerByWorldID(idWorld);
         }
     }
-    //读取ip列表
+    m_MergeList.clear();
+    for(auto it = MergeToList.begin(); it != MergeToList.end(); it++)
     {
-        std::string SQL;
-        if(GetWorldID() == 0)
+        //转换到最终合服id
+        uint16_t idMergeTo = it->second;
+        auto     itMergeTo = MergeToList.find(idMergeTo);
+        while(itMergeTo != MergeToList.end())
         {
-            // global服务 默认情况全读取
-            if(nNewWorldID == 0)
-            {
-                SQL = "SELECT * FROM tbld_servicedetail";
-            }
-            else
-            {
-                //某个特定World启动了, 只需要读取该World数据
-                SQL = fmt::format("SELECT * FROM tbld_servicedetail WHERE worldid={}", nNewWorldID);
-            }
+            idMergeTo = itMergeTo->second;
+            itMergeTo = MergeToList.find(idMergeTo);
+        }
+
+        m_MergeList[it->first] = idMergeTo;
+    }
+    __LEAVE_FUNCTION
+}
+
+void CMessageRoute::_ReadServerIPList(uint16_t nNewWorldID)
+{
+    __ENTER_FUNCTION
+    std::string SQL;
+    if(GetWorldID() == 0)
+    {
+        // global服务 默认情况全读取
+        if(nNewWorldID == 0)
+        {
+            SQL = "SELECT * FROM tbld_servicedetail";
         }
         else
         {
-            SQL = fmt::format(FMT_STRING("SELECT * FROM tbld_servicedetail WHERE worldid={} OR worldid=0"), GetWorldID());
+            //某个特定World启动了, 只需要读取该World数据
+            SQL = fmt::format("SELECT * FROM tbld_servicedetail WHERE worldid={}", nNewWorldID);
         }
-        auto result = m_pGlobalDB->Query(TBLD_SERVICEDETAIL::table_name(), SQL);
-        CHECK_M(result, "GlobalDB can't query tbld_servicedetail");
-        for(size_t i = 0; i < result->get_num_row(); i++)
+    }
+    else
+    {
+        SQL = fmt::format(FMT_STRING("SELECT * FROM tbld_servicedetail WHERE worldid={} OR worldid=0"), GetWorldID());
+    }
+    auto result = m_pGlobalDB->Query(TBLD_SERVICEDETAIL::table_name(), SQL);
+    CHECK_M(result, "GlobalDB can't query tbld_servicedetail");
+    for(size_t i = 0; i < result->get_num_row(); i++)
+    {
+        auto row = result->fetch_row(false);
+        if(row)
         {
-            auto row = result->fetch_row(false);
-            if(row)
+            uint16_t   idWorld       = row->Field(TBLD_SERVICEDETAIL::WORLDID);
+            uint8_t    idServiceType = row->Field(TBLD_SERVICEDETAIL::SERVICE_TYPE);
+            uint8_t    idServiceIdx  = row->Field(TBLD_SERVICEDETAIL::SERVICE_IDX);
+            ServerPort serverport(idWorld, idServiceType, idServiceIdx);
+            //写入ServerInfo
+            ServerAddrInfo refInfo;
+            refInfo.idWorld       = idWorld;
+            refInfo.idServiceType = idServiceType;
+            refInfo.idServiceIdx  = idServiceIdx;
+
+            refInfo.lib_name     = row->Field(TBLD_SERVICEDETAIL::LIB_NAME).get<std::string>();
+            refInfo.route_addr   = row->Field(TBLD_SERVICEDETAIL::ROUTE_ADDR).get<std::string>();
+            refInfo.route_port   = row->Field(TBLD_SERVICEDETAIL::ROUTE_PORT);
+            refInfo.bind_addr    = row->Field(TBLD_SERVICEDETAIL::BIND_ADDR).get<std::string>();
+            refInfo.publish_addr = row->Field(TBLD_SERVICEDETAIL::PUBLISH_ADDR).get<std::string>();
+            refInfo.publish_port = row->Field(TBLD_SERVICEDETAIL::PUBLISH_PORT);
+            refInfo.debug_port   = row->Field(TBLD_SERVICEDETAIL::DEBUG_PORT);
+
+            LOGDEBUG("ServerInfo Load WORLD:{} Service:{}-{} route_addr:{} route_port:{}",
+                     idWorld,
+                     idServiceType,
+                     idServiceIdx,
+                     refInfo.route_addr,
+                     refInfo.route_port);
+
+            OnServerAddrInfoChange(serverport, refInfo);
+        }
+    }
+    __LEAVE_FUNCTION
+}
+
+void CMessageRoute::OnServerAddrInfoChange(const ServerPort& serverport, const ServerAddrInfo& new_info)
+{
+    __ENTER_FUNCTION
+    auto& old_info = m_setServerInfo[serverport];
+    if(old_info.route_addr != new_info.route_addr || old_info.route_port != new_info.route_port)
+    {
+        auto itPort = m_setMessagePort.find(serverport);
+        if(itPort != m_setMessagePort.end())
+        {
+            auto pMessagePort = itPort->second;
+            auto pRemoteSocket = pMessagePort->GetRemoteSocket();
+            if(pRemoteSocket && pRemoteSocket->CreateByListener() == false)
             {
-                uint16_t idWorld       = row->Field(TBLD_SERVICEDETAIL::WORLDID);
-                uint8_t  idServiceType = row->Field(TBLD_SERVICEDETAIL::SERVICE_TYPE);
-                uint8_t  idServiceIdx  = row->Field(TBLD_SERVICEDETAIL::SERVICE_IDX);
-
-                std::string oldRouteAddr = row->Field(TBLD_SERVICEDETAIL::ROUTE_ADDR).get<std::string>();
-                uint16_t    oldRoutePort = row->Field(TBLD_SERVICEDETAIL::ROUTE_PORT).get<uint16_t>();
-                ServerPort  serverport(idWorld, idServiceType, idServiceIdx);
-                //写入ServerInfo
-                auto& refInfo         = m_setServerInfo[serverport];
-                refInfo.idWorld       = idWorld;
-                refInfo.idServiceType = idServiceType;
-                refInfo.idServiceIdx  = idServiceIdx;
-
-                refInfo.lib_name     = row->Field(TBLD_SERVICEDETAIL::LIB_NAME).get<std::string>();
-                refInfo.route_addr   = row->Field(TBLD_SERVICEDETAIL::ROUTE_ADDR).get<std::string>();
-                refInfo.route_port   = row->Field(TBLD_SERVICEDETAIL::ROUTE_PORT);
-                refInfo.bind_addr    = row->Field(TBLD_SERVICEDETAIL::BIND_ADDR).get<std::string>();
-                refInfo.publish_addr = row->Field(TBLD_SERVICEDETAIL::PUBLISH_ADDR).get<std::string>();
-                refInfo.publish_port = row->Field(TBLD_SERVICEDETAIL::PUBLISH_PORT);
-                refInfo.debug_port   = row->Field(TBLD_SERVICEDETAIL::DEBUG_PORT);
-
-                LOGDEBUG("ServerInfo Load WORLD:{} Service:{}-{} route_addr:{} route_port:{}",
-                         idWorld,
-                         idServiceType,
-                         idServiceIdx,
-                         refInfo.route_addr,
-                         refInfo.route_port);
-
-                m_setServerInfoByWorldID[idWorld][ServerPort(idWorld, idServiceType, idServiceIdx)] = refInfo;
-
-                auto itPort = m_setMessagePort.find(serverport);
-                if(itPort != m_setMessagePort.end())
-                {
-                    CMessagePort* pMessagePort = itPort->second;
-                    if(refInfo.route_addr != oldRouteAddr || refInfo.route_port != oldRoutePort)
-                    {
-                        //内网绑定端口修改了, 又是自己主动连接过去,就要重连
-                        //自己监听的端口，必须要重启
-                        auto pRemoteSocket = pMessagePort->GetRemoteSocket();
-                        if(pRemoteSocket && pRemoteSocket->CreateByListener() == false)
-                        {
-                            pRemoteSocket->Interrupt();
-                            _ConnectRemoteServer(serverport, refInfo);
-                        }
-                    }
-                }
+                //内网绑定端口修改了, 又是自己主动连接过去,就要重连
+                //自己监听的端口，必须要重启
+                pRemoteSocket->Interrupt();
+                _ConnectRemoteServer(serverport, new_info);
             }
         }
     }
+    m_setServerInfo[serverport] = new_info;
+    m_setServerInfoByWorldID[serverport.GetWorldID()][serverport] = new_info;
 
     __LEAVE_FUNCTION
 }
@@ -715,3 +733,5 @@ void CMessageRoute::CloseMessagePort(CMessagePort*& pMessagePort)
     }
     __LEAVE_FUNCTION
 }
+
+

@@ -22,11 +22,11 @@ class CEventManager;
 //如果MessagePort使用的是Remote端口,那么就会连接到远端并使用Socket发送到另外的Exe上
 //也就说, Service直接的连接通道是双通道的
 
-class CMessageRoute
+class CMessageRoute : NoncopyableT<CMessageRoute>
 {
 public:
     CMessageRoute();
-    ~CMessageRoute();
+    virtual ~CMessageRoute();
 
     uint16_t GetWorldID() const { return m_nWorldID; }
     void     SetWorldID(uint16_t val) { m_nWorldID = val; }
@@ -82,14 +82,17 @@ public:
     const CSettingMap& GetSettingMap() const { return m_setDataMap; }
     CEventManager*     GetEventManager() const { return m_pEventManager.get(); }
 
-private:
+protected:
     bool ConnectGlobalDB(const std::string& host, const std::string& user, const std::string& password, const std::string& db, uint32_t port);
     CMessagePort* _ConnectRemoteServer(const ServerPort& nServerPort, const ServerAddrInfo& info);
     //监听本地,一般无需手动调用, CreateAllMessagePort时已经调用了
     CMessagePort*         _ListenMessagePort(const ServerPort& nServerPort, const ServerAddrInfo& info);
     const ServerAddrInfo* _QueryServiceInfo(const ServerPort& nServerPort);
 
-private:
+    void _ReadMergeList();
+    void _ReadServerIPList(uint16_t nNewWorldID);
+    void OnServerAddrInfoChange(const ServerPort& serverport, const ServerAddrInfo& new_info);
+protected:
     CSettingMap m_setDataMap;
     uint16_t    m_nWorldID;
 
@@ -110,6 +113,7 @@ private:
 };
 
 CMessageRoute* GetMessageRoute();
-void           CreateMessageRoute();
-void           ReleaseMessageRoute();
+void CreateMessageRoute();
+void ReleaseMessageRoute();
+
 #endif // MessageRoute_h__

@@ -241,7 +241,7 @@ void CStatus::SaveInfo()
     {
         //创建
         auto pDB = SceneService()->GetGameDB(m_pOwner->GetWorldID());
-        CHECKF(pDB);
+        CHECK(pDB);
         m_pRecord                                = pDB->MakeRecord(TBLD_STATUS::table_name());
         m_pRecord->Field(TBLD_STATUS::ID)        = SceneService()->CreateUID();
         m_pRecord->Field(TBLD_STATUS::USERID)    = m_pOwner->GetID();
