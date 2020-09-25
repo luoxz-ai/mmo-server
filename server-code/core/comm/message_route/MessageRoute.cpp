@@ -224,9 +224,9 @@ void CMessageRoute::_ReadServerIPList(uint16_t nNewWorldID)
         auto row = result->fetch_row(false);
         if(row)
         {
-            uint16_t   idWorld       = row->Field(TBLD_SERVICEDETAIL::WORLDID);
-            uint8_t    idServiceType = row->Field(TBLD_SERVICEDETAIL::SERVICE_TYPE);
-            uint8_t    idServiceIdx  = row->Field(TBLD_SERVICEDETAIL::SERVICE_IDX);
+            uint32_t   idWorld       = row->Field(TBLD_SERVICEDETAIL::WORLDID);
+            uint32_t   idServiceType = row->Field(TBLD_SERVICEDETAIL::SERVICE_TYPE);
+            uint32_t   idServiceIdx  = row->Field(TBLD_SERVICEDETAIL::SERVICE_IDX);
             ServerPort serverport(idWorld, idServiceType, idServiceIdx);
             //写入ServerInfo
             ServerAddrInfo refInfo;

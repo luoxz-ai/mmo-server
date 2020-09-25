@@ -67,10 +67,7 @@ public:
             }
             return EMPTY_STR;
         }
-        else if constexpr(std::is_same<T, bool>::value || 
-                        std::is_same<T, uint8_t>::value ||
-                        std::is_same<T, uint16_t>::value ||
-                        std::is_same<T, uint32_t>::value)
+        else if constexpr(std::is_same<T, bool>::value)
         {
             if(CheckType<uint32_t>())
             {
@@ -81,14 +78,24 @@ public:
                 return T();
             }
         }
-        else if constexpr(std::is_same<T, bool>::value || 
-                        std::is_same<T, int8_t>::value ||
-                        std::is_same<T, int16_t>::value ||
-                        std::is_same<T, int32_t>::value)
+        else if constexpr(std::is_same<T, uint8_t>::value ||
+                        std::is_same<T, uint16_t>::value)
+        {
+            if(CheckType<uint32_t>())
+            {
+                return std::get<uint32_t>(m_Val);
+            }
+            else
+            {
+                return T();
+            }
+        }
+        else if constexpr(std::is_same<T, int8_t>::value ||
+                        std::is_same<T, int16_t>::value)
         {
             if(CheckType<int32_t>())
             {
-                return std::get<int32_t>(m_Val) != 0;
+                return std::get<int32_t>(m_Val);
             }
             else
             {

@@ -269,16 +269,16 @@ struct ServerAddrInfo
     ServerAddrInfo(const ServerAddrInfo&) = default;
     ServerAddrInfo& operator=(const ServerAddrInfo&) = default;
 
-    uint16_t    idWorld;
-    uint8_t     idServiceType;
-    uint8_t     idServiceIdx;
+    uint32_t    idWorld;
+    uint32_t    idServiceType;
+    uint32_t    idServiceIdx;
     std::string lib_name;
     std::string bind_addr;
     std::string route_addr;
-    uint16_t    route_port;
+    uint32_t    route_port;
     std::string publish_addr;
-    uint16_t    publish_port;
-    uint16_t    debug_port;
+    uint32_t    publish_port;
+    uint32_t    debug_port;
 };
 
 const uint16_t CLIENT_MSG_ID_BEGIN = 1;
