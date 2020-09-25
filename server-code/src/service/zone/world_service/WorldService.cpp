@@ -110,7 +110,7 @@ bool CWorldService::Init(const ServerPort& nServerPort)
 
     auto pGlobalDB = ConnectGlobalDB(GetMessageRoute()->GetServerInfoDB());
     CHECKF(pGlobalDB.get());
-    CHECKF(MysqlTableCheck::CheckAllTable<GLOBALDB_TABLE_LIST>(pGlobalDB.get()));
+    CHECKF(MysqlTableCheck::CheckAllTableAndFix<GLOBALDB_TABLE_LIST>(pGlobalDB.get()));
 
     //通过globaldb查询localdb
     _ConnectGameDB(GetWorldID(), GetMessageRoute()->GetServerInfoDB());
