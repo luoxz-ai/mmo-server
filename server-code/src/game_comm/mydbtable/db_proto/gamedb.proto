@@ -107,8 +107,8 @@ message tbld_player
 {
     uint64 id = 1 [(sql).primary_key = "idx_id", (sql).auto_increment = true]; // id
 
-    uint32 worldid    = 2 [(sql).int_size = 16, (sql).keys = "idx_worldid"]; //服务器编号
-    uint32 oriworldid = 3 [(sql).int_size = 16];                             //创建角色时的服务器编号
+    uint32 worldid    = 2 [(sql).keys = "idx_worldid"]; //服务器编号
+    uint32 oriworldid = 3 ;                             //创建角色时的服务器编号
     string openid     = 4 [(sql).size = 255, (sql).keys = "idx_openid"];     //玩家账号
     string name       = 5 [(sql).size = 32, (sql).unique = "idx_name"];      //玩家名字
     uint32 prof       = 6 [(sql).keys = "idx_prof"];                         //玩家职业
@@ -205,7 +205,7 @@ message tbld_status
 
     uint32 laststamp = 8;                       //最后一次作用的时间戳
     uint64 casterid  = 9;                       //施加此状态的角色id
-    uint32 pause     = 10 [(sql).int_size = 8]; //是否暂停
+    uint32 pause     = 10; //是否暂停
     uint32 statusid  = 11;                      //状态等级
 }
 

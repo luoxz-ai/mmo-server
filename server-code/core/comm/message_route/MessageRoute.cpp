@@ -7,6 +7,7 @@
 #include "NetSocket.h"
 #include "serverinfodb.h"
 #include "tinyxml2/tinyxml2.h"
+#include "MysqlTableCheck.h"
 
 constexpr uint32_t SERVICE_LOAD_REDIS_TIMEOUT = 60 * 1000; // redis上的serviceload数据60秒丢弃
 constexpr uint32_t SERVICE_LOAD_TIMEOUT       = 30 * 1000; //每30秒发送1次service_load数据
@@ -20,7 +21,7 @@ CMessageRoute*        GetMessageRoute()
 void CreateMessageRoute()
 {
     if(g_pMessageRoute == nullptr)
-        g_pMessageRoute = new CMessageRoute;
+        g_pMessageRoute = CMessageRoute::CreateNew();
 }
 
 void ReleaseMessageRoute()
@@ -133,6 +134,7 @@ bool CMessageRoute::ConnectServerInfoDB(const std::string& host,
     {
         return false;
     }
+    CHECKF(MysqlTableCheck::CheckAllTable<SERVERINFODB_TABLE_LIST>(pDB.get()));
     m_pServerInfoDB.reset(pDB.release());
     ReloadServiceInfo(TimeGetSecond(), 0);
     return true;
@@ -296,7 +298,7 @@ const ServerAddrInfo* CMessageRoute::_QueryServiceInfo(const ServerPort& nServer
     {
         return &(it->second);
     }
-    else
+    else if(nServerPort.GetWorldID() != 0)
     {
         //查找共享区有没有对应的ip, worldid=0 代表共享
         it = m_setServerInfo.find(ServerPort(0, nServerPort.GetServiceID()));
@@ -533,7 +535,7 @@ CMessagePort* CMessageRoute::_ConnectRemoteServer(const ServerPort& nServerPort,
     CMessagePort* pMessagePort = m_setMessagePort[nServerPort];
     if(pMessagePort == nullptr)
     {
-        pMessagePort = new CMessagePort(nServerPort, this);
+        pMessagePort = CMessagePort::CreateNew(nServerPort, this);
 
         m_setMessagePort[nServerPort] = pMessagePort;
     }
@@ -664,7 +666,7 @@ CMessagePort* CMessageRoute::_ListenMessagePort(const ServerPort& nServerPort, c
         return pMessagePort;
     }
 
-    pMessagePort = new CMessagePort(nServerPort, this);
+    pMessagePort = CMessagePort::CreateNew(nServerPort, this);
     pMessagePort->SetLocalPort(true);
     if(m_pNetworkService->Listen(info.bind_addr.c_str(), info.route_port, pMessagePort) == nullptr)
     {

@@ -9,6 +9,7 @@ MESSAGE(STATUS "cmake_type: (release)")
 ENDIF()
 
 ADD_SUBDIRECTORY(comm)
+ADD_SUBDIRECTORY(proto)
 ADD_SUBDIRECTORY(service)
 ADD_SUBDIRECTORY(service_loader)
 

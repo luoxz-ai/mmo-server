@@ -6,10 +6,14 @@
 #include "NetworkMessage.h"
 #include "msg_internal.pb.h"
 
-CMessagePort::CMessagePort(const ServerPort& nServerPort, CMessageRoute* pRoute)
-    : m_nServerPort(nServerPort)
-    , m_pRoute(pRoute)
+CMessagePort::CMessagePort()
+{}
+
+bool CMessagePort::Init(const ServerPort& nServerPort, CMessageRoute* pRoute)
 {
+    m_nServerPort = nServerPort;
+    m_pRoute = pRoute;
+    return true;
 }
 
 CMessagePort::~CMessagePort()

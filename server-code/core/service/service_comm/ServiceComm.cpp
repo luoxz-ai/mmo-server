@@ -13,6 +13,7 @@
 #include "serverinfodb.h"
 #include "DB2PB.h"
 #include "MysqlConnection.h"
+#include "serverinfodb.pb.h"
 
 CServiceCommon::CServiceCommon()
     : m_pNetworkService(nullptr)

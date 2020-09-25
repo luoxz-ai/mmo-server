@@ -123,8 +123,8 @@ CREATE TABLE `tbld_pet` (
 DROP TABLE IF EXISTS `tbld_player`;
 CREATE TABLE `tbld_player` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `worldid` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '服务器编号',
-  `oriworldid` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建角色时的服务器编号',
+  `worldid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '服务器编号',
+  `oriworldid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建角色时的服务器编号',
   `openid` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '玩家账号',
   `name` varchar(32) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '玩家名字',
   `prof` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '玩家职业',
@@ -230,7 +230,7 @@ CREATE TABLE `tbld_status` (
   `times` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '作用次数',
   `laststamp` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '最后一次作用的时间戳',
   `casterid` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '施加此状态的角色id',
-  `pause` tinyint(11) unsigned NOT NULL DEFAULT '0' COMMENT '是否暂停',
+  `pause` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '是否暂停',
   `statusid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '状态等级',
   PRIMARY KEY (`id`),
   KEY `idx_statusid` (`typeid`,`lev`),

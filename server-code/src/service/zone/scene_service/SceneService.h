@@ -67,9 +67,6 @@ public:
     void _ID2VS(OBJID id, VirtualSocketMap_t& VSMap) const override;
 
 public:
-    std::unique_ptr<CMysqlConnection> ConnectGlobalDB(CMysqlConnection* pServerInfoDB);
-    std::unique_ptr<CMysqlConnection> ConnectGlobalDB();
-    std::unique_ptr<CMysqlConnection> ConnectServerInfoDB();
     export_lua CMysqlConnection* GetGameDB(uint16_t nWorldID);
     void                         ReleaseGameDB(uint16_t nWorldID);
 
@@ -92,8 +89,8 @@ private:
 private:
     CUIDFactory                                                     m_UIDFactory;
     std::unique_ptr<CMysqlConnection>                               m_pGlobalDB;
-    std::unique_ptr<CMysqlConnection>                               m_pServerInfoDB;
-    db::tbld_dbinfo                                                 m_globaldb_info;
+    
+
     std::unordered_map<uint16_t, std::unique_ptr<CMysqlConnection>> m_GameDBMap;
 
     CMyTimer m_tLastDisplayTime;

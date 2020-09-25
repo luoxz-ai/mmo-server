@@ -54,17 +54,6 @@ add_custom_command(
 
 
 
-
-
-## 搜索当前目录下所有proto
-file(GLOB PROTOS FOLLOW_SYMLINKS "sql_options/*.proto")
-
-#message(STATUS "PROTO:" ${PROTOS} )
-# include PROTO_HEADER
-set(Protobuf_IMPORT_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
-PROTOBUF_GENERATE_CPP_NEW(PROTO_SRC PROTO_HEADER ${CMAKE_CURRENT_SOURCE_DIR} ${PROTOS})
-
-
 IF(USE_JEMALLOC)
 ADD_DEFINITIONS(-DUSE_JEMALLOC)
 set(JEMALLOC_LIB_NAME "libjemalloc.so")
@@ -74,7 +63,7 @@ ENDIF()
 
 # 搜索当前目录下所有文件
 #file(GLOB_RECURSE SRCS FOLLOW_SYMLINKS "*.cc" "*.cpp" "*.c" "*.h" "*.hpp")
-set(SRCS ${PROTO_SRC}
+set(SRCS
 "${CMAKE_CURRENT_SOURCE_DIR}/db_proto/gamedb.pb.cc"
 "${CMAKE_CURRENT_SOURCE_DIR}/db_proto/gamedb.pb.h"
 "${CMAKE_CURRENT_SOURCE_DIR}/db_proto/globaldb.pb.cc"
@@ -92,12 +81,11 @@ ADD_LIBRARY(mydbtable SHARED ${SRCS})
 
 #指定库输出路径
 SET(LIBRARY_OUTPUT_PATH ${LIBRARIES})
-
-ADD_DEPENDENCIES(mydbtable basecode mydb )
+ADD_DEPENDENCIES(mydbtable sql_options)
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(mydbtable
- libbasecode.so
- libmydb.so
+ protobuf
+ sql_options
  ${JEMALLOC_LIB_NAME}
 )
 #cotire(mydbtable)

@@ -68,10 +68,8 @@ bool CAuthService::Init(const ServerPort& nServerPort)
         BaseCode::SetNdc(oldNdc);
     };
 
-    auto pServerInfoDB = ConnectServerInfoDB();
-    CHECKF(pServerInfoDB.get());
 
-    auto pGlobalDB = ConnectGlobalDB(pServerInfoDB.get());
+    auto pGlobalDB = ConnectGlobalDB(GetMessageRoute()->GetServerInfoDB());
     CHECKF(pGlobalDB.get());
     
 

@@ -22,9 +22,6 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 # msg_internal.proto
 PROTOBUF_GENERATE_CPP(PROTO_SRC PROTO_HEADER ${CMAKE_CURRENT_SOURCE_DIR}/msg_internal.proto)
 
-# 生成sql_options.proto
-PROTOBUF_GENERATE_CPP_NEW(SQL_OPTIONS_SRC SQL_OPTIONS_HEADER ${CMAKE_CURRENT_SOURCE_DIR}  ${CMAKE_CURRENT_SOURCE_DIR}/sql_options/sql_options.proto)
-
 
 add_custom_command(
       OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/db_proto/serverinfodb.pb.cc"
@@ -46,7 +43,6 @@ add_custom_command(
 
 # 生成库文件
 ADD_LIBRARY(message_route SHARED ${SRCS} ${PROTO_SRC} ${PROTO_HEADER}
-${SQL_OPTIONS_SRC}  ${SQL_OPTIONS_HEADER}
 "${CMAKE_CURRENT_SOURCE_DIR}/db_proto/serverinfodb.pb.cc"
 "${CMAKE_CURRENT_SOURCE_DIR}/db_proto/serverinfodb.pb.h"
 "${CMAKE_CURRENT_SOURCE_DIR}/serverinfodb.h")
@@ -58,12 +54,13 @@ ${SQL_OPTIONS_SRC}  ${SQL_OPTIONS_HEADER}
 SET(LIBRARY_OUTPUT_PATH ${LIBRARIES_CORE})
 
 
-ADD_DEPENDENCIES(message_route network basecode myproto mydb)
+ADD_DEPENDENCIES(message_route network basecode mydb sql_options)
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(message_route
  libnetwork.so
  libbasecode.so
  libmydb.so
+ sql_options
  cpp_redis
  tinyxml2
  tacopie

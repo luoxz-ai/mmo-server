@@ -10,6 +10,7 @@ handle_segv=1
 handle_sigfpe=1
 allow_addr2line=true
 coverage=0
+#detect_odr_violation=0
 #report_globals=1
 #check_initialization_order=1
 #quarantine_size_mb=10

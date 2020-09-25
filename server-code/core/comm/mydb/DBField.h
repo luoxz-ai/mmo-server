@@ -39,14 +39,6 @@ public:
         static std::string s_Empty;
         return s_Empty;
     }
-    operator bool() const
-    {
-        if(CheckType<uint8_t>())
-        {
-            return std::get<uint8_t>(m_Val);
-        }
-        return false;
-    }
 
     template<class T>
     T get() const
@@ -75,11 +67,28 @@ public:
             }
             return EMPTY_STR;
         }
-        else if constexpr(std::is_same<T, bool>::value)
+        else if constexpr(std::is_same<T, bool>::value || 
+                        std::is_same<T, uint8_t>::value ||
+                        std::is_same<T, uint16_t>::value ||
+                        std::is_same<T, uint32_t>::value)
         {
-            if(CheckType<uint8_t>())
+            if(CheckType<uint32_t>())
             {
-                return std::get<uint8_t>(m_Val) == 1;
+                return std::get<uint32_t>(m_Val) != 0;
+            }
+            else
+            {
+                return T();
+            }
+        }
+        else if constexpr(std::is_same<T, bool>::value || 
+                        std::is_same<T, int8_t>::value ||
+                        std::is_same<T, int16_t>::value ||
+                        std::is_same<T, int32_t>::value)
+        {
+            if(CheckType<int32_t>())
+            {
+                return std::get<int32_t>(m_Val) != 0;
             }
             else
             {
@@ -110,11 +119,11 @@ public:
     {
         if(CanModify() == true)
         {
+            if(get<T>() == v)
+                return *this;
+
             if(CheckType<T>())
             {
-                if(std::get<T>(m_Val) == v)
-                    return *this;
-
                 m_Val = v;
                 MakeDirty();
             }
@@ -125,7 +134,8 @@ public:
 
     CDBField& set(const char* v) { return set<std::string>(v); }
     CDBField& set(char* v) { return set<std::string>(v); }
-    CDBField& set(bool v) { return set<uint8_t>(v); }
+    CDBField& set(bool v) { return set<uint32_t>(v); }
+
 
     template<class T>
     CDBField& operator=(T&& v)
@@ -154,7 +164,7 @@ public:
         __LEAVE_FUNCTION
 
         LOGDBERROR("Field {}.{} get/set type error.", m_pFieldInfo->GetTableName(), m_pFieldInfo->GetFieldName());
-        LOGDBERROR("CallStack：{}", GetStackTraceString(CallFrameMap(3, 5)));
+        LOGDBERROR("CallStack：{}", GetStackTraceString(CallFrameMap(3, 7)));
         return false;
     }
 
@@ -180,38 +190,23 @@ private:
         switch(field_type)
         {
             case DB_FIELD_TYPE_TINY_UNSIGNED:
+            case DB_FIELD_TYPE_SHORT_UNSIGNED:
+            case DB_FIELD_TYPE_LONG_UNSIGNED:
             {
-                if constexpr(std::is_same<typename std::decay<T>::type, uint8_t>::value || std::is_same<typename std::decay<T>::type, bool>::value)
+                if constexpr(std::is_same<typename std::decay<T>::type, uint8_t>::value ||
+                             std::is_same<typename std::decay<T>::type, uint16_t>::value||
+                             std::is_same<typename std::decay<T>::type, uint32_t>::value||
+                             std::is_same<typename std::decay<T>::type, bool>::value)
                     return true;
             }
             break;
             case DB_FIELD_TYPE_TINY:
-            {
-                if constexpr(std::is_same<typename std::decay<T>::type, int8_t>::value)
-                    return true;
-            }
-            break;
-            case DB_FIELD_TYPE_SHORT_UNSIGNED:
-            {
-                if constexpr(std::is_same<typename std::decay<T>::type, uint16_t>::value)
-                    return true;
-            }
-            break;
             case DB_FIELD_TYPE_SHORT:
-            {
-                if constexpr(std::is_same<typename std::decay<T>::type, int16_t>::value)
-                    return true;
-            }
-            break;
-            case DB_FIELD_TYPE_LONG_UNSIGNED:
-            {
-                if constexpr(std::is_same<typename std::decay<T>::type, uint32_t>::value)
-                    return true;
-            }
-            break;
             case DB_FIELD_TYPE_LONG:
             {
-                if constexpr(std::is_same<typename std::decay<T>::type, int32_t>::value)
+                if constexpr(std::is_same<typename std::decay<T>::type, int8_t>::value ||
+                            std::is_same<typename std::decay<T>::type, int16_t>::value ||
+                            std::is_same<typename std::decay<T>::type, int32_t>::value)
                     return true;
             }
             break;
@@ -262,7 +257,7 @@ public:
 private:
     CDBRecord*          m_pDBRecord  = nullptr;
     const CDBFieldInfo* m_pFieldInfo = nullptr;
-    using value_store_t = std::variant<int8_t, uint8_t, int16_t, uint16_t, int32_t, uint32_t, int64_t, uint64_t, float, double, std::string>;
+    using value_store_t = std::variant<int32_t, uint32_t, int64_t, uint64_t, float, double, std::string>;
     value_store_t m_Val;
     bool          m_bDirty       = false;
     using GetValStringCallBack_t = std::function<std::string()>;

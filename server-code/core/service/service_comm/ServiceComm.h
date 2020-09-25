@@ -7,12 +7,16 @@
 #include "ServiceDefine.h"
 #include "UIDFactory.h"
 #include "google/protobuf/descriptor.pb.h"
-#include "serverinfodb.pb.h"
+
 
 class CMessageRoute;
 class CMessagePort;
 class CMonitorMgr;
 class CMysqlConnection;
+namespace db
+{
+    class tbld_dbinfo;
+};
 
 export_lua class CServiceCommon : public NoncopyableT<CServiceCommon>
 {

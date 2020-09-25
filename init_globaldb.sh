@@ -11,7 +11,7 @@ GLOBAL_OUT_IP=172.28.1.3
 echo "create database serverinfo;" | docker exec -i mysql-global sh -c 'exec mysql -v -uroot -p"test12345"'
 set-e
 
-cat server-res/res/db/db_proto/severlistdb.pb.sql | docker exec -i mysql-global sh -c 'exec mysql -v -uroot -p"test12345" serverinfo'
+cat server-res/res/db/db_proto/serverinfodb.pb.sql | docker exec -i mysql-global sh -c 'exec mysql -v -uroot -p"test12345" serverinfo'
 
 
 echo "create database global;" | docker exec -i mysql-global sh -c 'exec mysql -v -uroot -p"test12345"'

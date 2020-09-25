@@ -26,6 +26,7 @@
 #include "gamedb.h"
 #include "globaldb.h"
 #include "serverinfodb.h"
+#include "serverinfodb.pb.h"
 
 static thread_local CWorldService* tls_pService = nullptr;
 CWorldService*                     WorldService()
@@ -107,16 +108,12 @@ bool CWorldService::Init(const ServerPort& nServerPort)
 
     RegisterWorldMessageHandler();
 
-    auto pServerInfoDB = ConnectServerInfoDB();
-    CHECKF(pServerInfoDB.get());
-    CHECKF(MysqlTableCheck::CheckAllTable<SERVERINFODB_TABLE_LIST>(pServerInfoDB.get()));
-
-    auto pGlobalDB = ConnectGlobalDB(pServerInfoDB.get());
+    auto pGlobalDB = ConnectGlobalDB(GetMessageRoute()->GetServerInfoDB());
     CHECKF(pGlobalDB.get());
     CHECKF(MysqlTableCheck::CheckAllTable<GLOBALDB_TABLE_LIST>(pGlobalDB.get()));
 
     //通过globaldb查询localdb
-    _ConnectGameDB(GetWorldID(), pServerInfoDB.get());
+    _ConnectGameDB(GetWorldID(), GetMessageRoute()->GetServerInfoDB());
     CHECKF(m_pGameDB.get());
     m_nCurPlayerMaxID       = GetDefaultPlayerID(GetWorldID());
     auto result_playercount = m_pGameDB->UnionQuery(fmt::format(FMT_STRING("SELECT ifnull(max(id),{}) as id FROM tbld_player"), m_nCurPlayerMaxID));

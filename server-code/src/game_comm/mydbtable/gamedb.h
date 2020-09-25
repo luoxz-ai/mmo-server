@@ -509,14 +509,11 @@ struct TBLD_PLAYER
     {
         return std::make_tuple(
             std::make_tuple("id", DB_FIELD_TYPE_LONGLONG_UNSIGNED, true, "  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id'"),
-            std::make_tuple("worldid",
-                            DB_FIELD_TYPE_SHORT_UNSIGNED,
-                            false,
-                            "  `worldid` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '服务器编号'"),
+            std::make_tuple("worldid", DB_FIELD_TYPE_LONG_UNSIGNED, false, "  `worldid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '服务器编号'"),
             std::make_tuple("oriworldid",
-                            DB_FIELD_TYPE_SHORT_UNSIGNED,
+                            DB_FIELD_TYPE_LONG_UNSIGNED,
                             false,
-                            "  `oriworldid` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建角色时的服务器编号'"),
+                            "  `oriworldid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建角色时的服务器编号'"),
             std::make_tuple("openid",
                             DB_FIELD_TYPE_VARCHAR,
                             false,
@@ -619,8 +616,8 @@ struct TBLD_PLAYER
     }
 
     using field_type_t = type_list<uint64_t,
-                                   uint16_t,
-                                   uint16_t,
+                                   uint32_t,
+                                   uint32_t,
                                    char[255],
                                    char[32],
                                    uint32_t,
@@ -680,8 +677,8 @@ struct TBLD_PLAYER
     {
         return R"##(CREATE TABLE `tbld_player` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `worldid` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '服务器编号',
-  `oriworldid` smallint(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建角色时的服务器编号',
+  `worldid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '服务器编号',
+  `oriworldid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建角色时的服务器编号',
   `openid` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '玩家账号',
   `name` varchar(32) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '玩家名字',
   `prof` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '玩家职业',
@@ -967,11 +964,11 @@ struct TBLD_STATUS
                             DB_FIELD_TYPE_LONGLONG_UNSIGNED,
                             false,
                             "  `casterid` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '施加此状态的角色id'"),
-            std::make_tuple("pause", DB_FIELD_TYPE_TINY_UNSIGNED, false, "  `pause` tinyint(11) unsigned NOT NULL DEFAULT '0' COMMENT '是否暂停'"),
+            std::make_tuple("pause", DB_FIELD_TYPE_LONG_UNSIGNED, false, "  `pause` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '是否暂停'"),
             std::make_tuple("statusid", DB_FIELD_TYPE_LONG_UNSIGNED, false, "  `statusid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '状态等级'"));
     }
 
-    using field_type_t = type_list<uint64_t, uint64_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint64_t, uint8_t, uint32_t>;
+    using field_type_t = type_list<uint64_t, uint64_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint32_t, uint64_t, uint32_t, uint32_t>;
 
     static constexpr size_t field_count() { return 11; }
 
@@ -996,7 +993,7 @@ struct TBLD_STATUS
   `times` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '作用次数',
   `laststamp` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '最后一次作用的时间戳',
   `casterid` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '施加此状态的角色id',
-  `pause` tinyint(11) unsigned NOT NULL DEFAULT '0' COMMENT '是否暂停',
+  `pause` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '是否暂停',
   `statusid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '状态等级',
   PRIMARY KEY (`id`),
   KEY `idx_statusid` (`typeid`,`lev`),

@@ -49,6 +49,7 @@
 #include "msg/zone_service.pb.h"
 #include "protomsg_to_cmd.h"
 #include "server_msg/server_side.pb.h"
+#include "serverinfodb.pb.h"
 
 static thread_local CSceneService* tls_pService = nullptr;
 CSceneService*                     SceneService()
@@ -132,13 +133,11 @@ bool CSceneService::Init(const ServerPort& nServerPort)
     m_MessagePoolBySocket.reserve(GUESS_MAX_PLAYER_COUNT);
     m_tLastDisplayTime.Startup(20);
 
-    auto pServerInfoDB = ConnectServerInfoDB();
-    CHECKF(pServerInfoDB.get());
-    auto pGlobalDB = ConnectGlobalDB(pServerInfoDB.get());
+    auto pGlobalDB = ConnectGlobalDB(GetMessageRoute()->GetServerInfoDB());
     CHECKF(pGlobalDB.get());
     if(IsSharedZone() == false)
     {
-        _ConnectGameDB(GetWorldID(), pServerInfoDB.get());
+        _ConnectGameDB(GetWorldID(), GetMessageRoute()->GetServerInfoDB());
     }
 
     //配置读取
@@ -199,7 +198,6 @@ bool CSceneService::Init(const ServerPort& nServerPort)
     {
         // share_zone store globaldb
         m_pGlobalDB.reset(pGlobalDB.release());
-        m_pServerInfoDB.reset(pServerInfoDB.release());
     }
 
     return true;
@@ -415,16 +413,8 @@ CMysqlConnection* CSceneService::GetGameDB(uint16_t nWorldID)
         return itFind->second.get();
     }
     else
-    {
-        if(m_pServerInfoDB)
-        {
-            return _ConnectGameDB(nWorldID, m_pServerInfoDB.get());
-        }
-        else
-        {
-            auto pServerInfoDB = ConnectServerInfoDB();
-            return _ConnectGameDB(nWorldID, pServerInfoDB.get());
-        }
+    {    
+        return _ConnectGameDB(nWorldID, GetMessageRoute()->GetServerInfoDB());   
     }
     __LEAVE_FUNCTION
     return nullptr;

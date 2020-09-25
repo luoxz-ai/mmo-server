@@ -12,38 +12,9 @@ CDBField::CDBField(CDBRecord* pDBRecord, const CDBFieldInfo* pFieldInfo, char* p
     {
 
         case DB_FIELD_TYPE_TINY_UNSIGNED:
-        {
-            if(pVal == nullptr || len == 0)
-                m_Val = uint8_t(0);
-            else
-                m_Val = uint8_t(std::stoul(pVal));
-        }
-        break;
-        case DB_FIELD_TYPE_TINY:
-        {
-            if(pVal == nullptr || len == 0)
-                m_Val = int8_t(0);
-            else
-                m_Val = int8_t(std::stol(pVal));
-        }
-        break;
         case DB_FIELD_TYPE_SHORT_UNSIGNED:
-        {
-            if(pVal == nullptr || len == 0)
-                m_Val = uint16_t(0);
-            else
-                m_Val = uint16_t(std::stoul(pVal));
-        }
-        break;
-        case DB_FIELD_TYPE_SHORT:
-        {
-            if(pVal == nullptr || len == 0)
-                m_Val = int16_t(0);
-            else
-                m_Val = int16_t(std::stol(pVal));
-        }
-        break;
         case DB_FIELD_TYPE_LONG_UNSIGNED:
+        
         {
             if(pVal == nullptr || len == 0)
                 m_Val = uint32_t(0);
@@ -51,6 +22,8 @@ CDBField::CDBField(CDBRecord* pDBRecord, const CDBFieldInfo* pFieldInfo, char* p
                 m_Val = uint32_t(std::stoul(pVal));
         }
         break;
+        case DB_FIELD_TYPE_TINY:
+        case DB_FIELD_TYPE_SHORT:
         case DB_FIELD_TYPE_LONG:
         {
             if(pVal == nullptr || len == 0)
@@ -135,30 +108,14 @@ std::string CDBField::GetValString() const
     switch(m_pFieldInfo->GetFieldType())
     {
         case DB_FIELD_TYPE_TINY_UNSIGNED:
-        {
-            return std::to_string(std::get<uint8_t>(m_Val));
-        }
-        break;
-        case DB_FIELD_TYPE_TINY:
-        {
-            return std::to_string(std::get<int8_t>(m_Val));
-        }
-        break;
         case DB_FIELD_TYPE_SHORT_UNSIGNED:
-        {
-            return std::to_string(std::get<uint16_t>(m_Val));
-        }
-        break;
-        case DB_FIELD_TYPE_SHORT:
-        {
-            return std::to_string(std::get<int16_t>(m_Val));
-        }
-        break;
         case DB_FIELD_TYPE_LONG_UNSIGNED:
         {
             return std::to_string(std::get<uint32_t>(m_Val));
         }
         break;
+        case DB_FIELD_TYPE_TINY:
+        case DB_FIELD_TYPE_SHORT:
         case DB_FIELD_TYPE_LONG:
         {
             return std::to_string(std::get<int32_t>(m_Val));
