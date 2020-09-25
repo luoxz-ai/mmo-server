@@ -87,7 +87,7 @@ bool CMysqlConnection::Connect(const std::string& host,
         LOGDBFATAL("mysql connect to {}:{} {} fail.", host.c_str(), port, db.c_str());
         return false;
     }
-
+    LOGDBDEBUG("mysql connect to {}:{} {} succ.", host.c_str(), port, db.c_str());
     // std::string query = "show variables like '%char%'";
     // auto result = UnionQuery(query);
     // for (uint32_t i = 0; i < result->get_num_row(); i++)
@@ -142,6 +142,7 @@ bool CMysqlConnection::Connect(const std::string& host,
                     LOGDBFATAL("mysql async connect to {}:{} {} fail.", host.c_str(), port, db.c_str());
                     // log error
                 }
+                 LOGDBDEBUG("mysql async_connect to {}:{} {} succ.", host.c_str(), port, db.c_str());
                 __LEAVE_FUNCTION
             },
             []() { BaseCode::ClearNdc(); });

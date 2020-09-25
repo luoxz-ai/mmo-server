@@ -388,7 +388,7 @@ bool CServiceCommon::SendProtoMsgTo(const VirtualSocketMap_t& setSocketMap, cons
 
 std::unique_ptr<db::tbld_dbinfo> CServiceCommon::QueryDBInfo(uint16_t nWorldID, CMysqlConnection* pServerInfoDB)
 {
-    return DB2PB::QueryOneConst<TBLD_DBINFO, db::tbld_dbinfo, TBLD_DBINFO::WORLDID>(pServerInfoDB, 1);
+    return DB2PB::QueryOneConst<TBLD_DBINFO, db::tbld_dbinfo, TBLD_DBINFO::WORLDID>(pServerInfoDB, nWorldID);
 }
 
 std::unique_ptr<CMysqlConnection> CServiceCommon::ConnectDB(const db::tbld_dbinfo* pInfo)
