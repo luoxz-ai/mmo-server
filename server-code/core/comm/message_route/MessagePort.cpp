@@ -157,10 +157,13 @@ void CMessagePort::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
     CNetworkMessage* pMsg =
         new CNetworkMessage((byte*)internal_msg.proto_msg().c_str(), internal_msg.proto_msg().size(), internal_msg.from(), internal_msg.to());
     pMsg->SetForward(internal_msg.forward().data(), internal_msg.forward_size());
-    pMsg->SetMultiTo(internal_msg.brocast_vs().data(), internal_msg.brocast_vs_size());
-    pMsg->SetMultiTo(internal_msg.brocast_id().data(), internal_msg.brocast_id_size());
-    if(internal_msg.brocast_all())
-        pMsg->SetBroadcast();
+    pMsg->SetMultiTo(internal_msg.multi_vs().data(), internal_msg.multi_vs_size());
+    pMsg->SetMultiTo(internal_msg.multi_id().data(), internal_msg.multi_id_size());
+    for(const auto& v : internal_msg.broadcast_to())
+    {
+        pMsg->AddBroadcastTo(v);
+    }
+    pMsg->SetBroadcastType(static_cast<BroadcastType>(internal_msg.brocast_type()));
     pMsg->CopyBuffer();
     m_RecvMsgQueue.push(pMsg);
 
@@ -226,13 +229,21 @@ void CMessagePort::_SendAllMsg()
         }
         for(const auto& v: pMsg->GetMultiTo())
         {
-            internal_msg.add_brocast_vs(v);
+            internal_msg.add_multi_vs(v);
         }
         for(const auto& v: pMsg->GetMultiIDTo())
         {
-            internal_msg.add_brocast_id(v);
+            internal_msg.add_multi_id(v);
         }
-        internal_msg.set_brocast_all(pMsg->IsBroadcast());
+        for(const auto& v: pMsg->GetMultiIDTo())
+        {
+            internal_msg.add_multi_id(v);
+        }
+        for(const auto& v: pMsg->GetBroadcastTo())
+        {
+            internal_msg.add_broadcast_to(v);
+        }
+        internal_msg.set_brocast_type(pMsg->GetBroadcastType());
 
         CNetworkMessage send_msg(0xFFFF, internal_msg);
 

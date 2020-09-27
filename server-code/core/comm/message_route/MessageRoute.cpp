@@ -469,6 +469,32 @@ ServerPortList CMessageRoute::GetServerPortListByServiceType(ServiceType_t idSer
     return service_list;
 }
 
+
+ServerPortList CMessageRoute::GetServerPortListByServiceTypeExcept(ServiceType_t idServiceType, const std::set<WorldID_t>& setExcept)
+{
+    ServerPortList service_list;
+    __ENTER_FUNCTION
+
+    std::unique_lock<std::mutex> locker(m_mutex);
+
+    for(const auto& [idWorldID, info_list]: m_setServerInfoByWorldID)
+    {
+        if(setExcept.count(idWorldID) != 0)
+            continue;
+            
+        for(const auto& [server_port, server_info]: info_list)
+        {
+            if(server_port.GetServiceType() != idServiceType)
+                continue;
+            service_list.push_back(server_port);
+        }
+    }
+    locker.unlock();
+
+    __LEAVE_FUNCTION
+    return service_list;
+}
+
 bool CMessageRoute::IsConnected(const ServerPort& nServerPort)
 {
     __ENTER_FUNCTION

@@ -8,12 +8,11 @@
 #include "ObjectHeap.h"
 #include "google/protobuf/message.h"
 
-export_lua enum MultiType {
-    MULTITYPE_NONE = 0,
-    MULTITYPE_BROADCAST,
-    MULTITYPE_VIRTUALSOCKET,
-    MULTITYPE_USERID,
-    MULTITYPE_GROUPID,
+export_lua enum BroadcastType {
+    BROADCAST_NONE = 0,
+    BROADCAST_ALL = 1,
+    BROADCAST_INCLUDE = 2,
+    BROADCAST_EXCLUDE = 2,
 };
 export_lua class CNetworkMessage
 {
@@ -43,6 +42,7 @@ public:
     export_lua void          SetTo(VirtualSocket val) { m_nTo = val; }
 
     export_lua const std::deque<VirtualSocket>& GetForward() const { return m_setForward; }
+    
     export_lua void                             SetForward(const uint64_t* pVS, size_t len);
     export_lua void                             SetForward(const std::deque<VirtualSocket>& setForward) { m_setForward = setForward; }
     export_lua void                             AddForward(const VirtualSocket& forward) { m_setForward.push_back(forward); }
@@ -50,22 +50,35 @@ public:
     export_lua void                             PopForward() { m_setForward.pop_front(); }
 
     export_lua const std::vector<VirtualSocket>& GetMultiTo() const { return m_MultiTo; }
+
     export_lua bool                              IsMultiTo() const { return m_MultiTo.empty() == false; }
     export_lua void                              SetMultiTo(const uint64_t* pVS, size_t len);
     export_lua void                              SetMultiTo(const std::vector<VirtualSocket>& _MultiTo);
+    export_lua void                              AddMultiTo(const std::vector<VirtualSocket>& _MultiTo);
     export_lua void                              AddMultiTo(const VirtualSocket& to);
     export_lua void                              ClearMultiTo() { m_MultiTo.clear(); }
 
     export_lua const std::vector<OBJID>& GetMultiIDTo() const { return m_MultiIDTo; }
+
     export_lua bool                      IsMultiIDTo() const { return m_MultiIDTo.empty() == false; }
     export_lua void                      SetMultiIDTo(const OBJID* pIDS, size_t len);
-    export_lua void                      SetMultiIDTo(const std::vector<OBJID>& _MultiTo);
+    export_lua void                      SetMultiIDTo(const std::vector<OBJID>& _MultiIDTo);
+    export_lua void                      AddMultiIDTo(const std::vector<OBJID>& _MultiIDTo);
     export_lua void                      AddMultiIDTo(OBJID to);
     export_lua void                      ClearMultiIDTo() { m_MultiIDTo.clear(); }
 
-    export_lua bool IsBroadcast() const { return m_bBoradCastAll; }
-    export_lua void SetBroadcast() { m_bBoradCastAll = true; }
-    export_lua void ClearBroadcast() { m_bBoradCastAll = false; }
+    export_lua const std::vector<ServiceType_t>& GetBroadcastTo() const { return m_BroadcastTo; }
+
+    export_lua void                      SetBroadcastTo(const ServiceType_t* pData, size_t len);
+    export_lua void                      SetBroadcastTo(const std::vector<ServiceType_t>& _BroadcastTo);
+    export_lua void                      AddBroadcastTo(const std::vector<ServiceType_t>& _BroadcastTo);
+    export_lua void                      AddBroadcastTo(const ServiceType_t& to);
+    export_lua void                      ClearBroadcastTo() { m_BroadcastTo.clear(); }
+
+    export_lua bool IsBroadcast() const { return m_nBroadCastType != BROADCAST_NONE; }
+    export_lua void SetBroadcastType(BroadcastType v) { m_nBroadCastType = v; }
+    export_lua BroadcastType GetBroadcastType() const { return m_nBroadCastType; }
+    export_lua void ClearBroadcast() { m_nBroadCastType = BROADCAST_NONE; }
 
     export_lua void CopyBuffer();
 
@@ -81,7 +94,8 @@ private:
     std::deque<VirtualSocket>  m_setForward;
     std::vector<VirtualSocket> m_MultiTo;
     std::vector<OBJID>         m_MultiIDTo;
-    bool                       m_bBoradCastAll = false;
+    std::vector<ServiceType_t>  m_BroadcastTo;
+    BroadcastType              m_nBroadCastType = BROADCAST_NONE;
     byte*                      m_pBuf;
     std::shared_ptr<byte>      m_pBuffer;
     size_t                     m_nBufSize;

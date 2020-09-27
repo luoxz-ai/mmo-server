@@ -199,15 +199,26 @@ void CRouteService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
         return;
     }
 
-    //转发给所有的World
+    //转发给所有的Route
     if(pNetworkMsg->IsBroadcast())
     {
         if(GetWorldID() == 0)
         {
             TransmitMsgToAllRoute(pNetworkMsg);
         }
-        else
+        else if(pNetworkMsg->GetBroadcastType() == BROADCAST_INCLUDE)
         {
+            for(const auto& server_type : pNetworkMsg->GetBroadcastTo())
+            {
+                TransmitMsgToThisZoneWithServiceType(pNetworkMsg, server_type);
+            }
+        }
+        else if(pNetworkMsg->GetBroadcastType() == BROADCAST_EXCLUDE)
+        {
+            TransmitMsgToThisZoneAllPortExcept(pNetworkMsg, pNetworkMsg->GetBroadcastTo());
+        }
+        else
+        {   
             TransmitMsgToThisZoneAllPort(pNetworkMsg);
         }
     }

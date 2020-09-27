@@ -64,6 +64,7 @@ public:
     bool TransmitMsgToPort(const ServerPort& nServerPort, const CNetworkMessage* pMsg) const;
     bool TransmitMsgToSomePort(const std::vector<ServerPort>& setServerPortList, const CNetworkMessage* pMsg) const;
     bool TransmitMsgToThisZoneAllPort(const CNetworkMessage* pMsg) const;
+    bool TransmitMsgToThisZoneWithServiceType(const CNetworkMessage* pMsg, ServiceType_t idServiceType) const;
     bool TransmitMsgToThisZoneAllPortExcept(const CNetworkMessage* pMsg, const std::set<ServiceType_t>& setExcept) const;
     bool TransmitMsgToAllRoute(const CNetworkMessage* pMsg) const;
     bool TransmitMsgToAllRouteExcept(const CNetworkMessage* pMsg, const std::set<WorldID_t>& setExcept) const;

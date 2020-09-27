@@ -51,6 +51,7 @@ public:
     ServerPortList GetServerPortListByWorldID(WorldID_t idWorld, bool bIncludeShare);
     ServerPortList GetServerPortListByWorldIDAndServiceType(WorldID_t idWorld, ServiceType_t idServiceType, bool bIncludeShare);
     ServerPortList GetServerPortListByWorldIDExcept(WorldID_t idWorld, const std::set<ServiceType_t>& setExceptServiceType, bool bIncludeShare);
+    ServerPortList GetServerPortListByServiceTypeExcept(ServiceType_t idServiceType, const std::set<WorldID_t>& setExcept);
     ServerPortList GetServerPortListByServiceType(ServiceType_t idServiceType);
 
     //判断是否连接

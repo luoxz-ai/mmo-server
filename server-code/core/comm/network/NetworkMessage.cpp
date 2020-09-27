@@ -25,7 +25,8 @@ CNetworkMessage::CNetworkMessage(CNetworkMessage&& rht)
     , m_nBufSize(rht.m_nBufSize)
     , m_MultiTo(std::move(rht.m_MultiTo))
     , m_MultiIDTo(std::move(rht.m_MultiIDTo))
-    , m_bBoradCastAll(rht.m_bBoradCastAll)
+    , m_BroadcastTo(std::move(rht.m_BroadcastTo))
+    , m_nBroadCastType(rht.m_nBroadCastType)
 {
 }
 
@@ -38,7 +39,8 @@ CNetworkMessage::CNetworkMessage(const CNetworkMessage& rht)
     , m_nBufSize(rht.m_nBufSize)
     , m_MultiTo(rht.m_MultiTo)
     , m_MultiIDTo(rht.m_MultiIDTo)
-    , m_bBoradCastAll(rht.m_bBoradCastAll)
+    , m_BroadcastTo(rht.m_BroadcastTo)
+    , m_nBroadCastType(rht.m_nBroadCastType)
 {
 }
 
@@ -106,6 +108,16 @@ void CNetworkMessage::SetForward(const uint64_t* pVS, size_t len)
         m_setForward.push_back(VirtualSocket{pVS[i]});
     }
 }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+void CNetworkMessage::AddMultiTo(const VirtualSocket& to)
+{
+    m_MultiTo.push_back(to);
+}
+
+void CNetworkMessage::AddMultiTo(const std::vector<VirtualSocket>& _MultiTo)
+{
+    m_MultiTo.insert(m_MultiTo.end(), _MultiTo.begin(), _MultiTo.end());
+}
 
 void CNetworkMessage::SetMultiTo(const uint64_t* pVS, size_t len)
 {
@@ -117,7 +129,23 @@ void CNetworkMessage::SetMultiTo(const uint64_t* pVS, size_t len)
 
 void CNetworkMessage::SetMultiTo(const std::vector<VirtualSocket>& _MultiTo)
 {
-    m_MultiTo.insert(m_MultiTo.end(), _MultiTo.begin(), _MultiTo.end());
+    m_MultiTo = _MultiTo;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+void CNetworkMessage::AddMultiIDTo(OBJID to)
+{
+    m_MultiIDTo.push_back(to);
+}
+
+void CNetworkMessage::SetMultiIDTo(const std::vector<OBJID>& _MultiIDTo)
+{
+    m_MultiIDTo = _MultiIDTo;
+}
+
+void CNetworkMessage::AddMultiIDTo(const std::vector<OBJID>& _MultiIDTo)
+{
+    m_MultiIDTo.insert(m_MultiIDTo.end(), _MultiIDTo.begin(), _MultiIDTo.end());
 }
 
 void CNetworkMessage::SetMultiIDTo(const OBJID* pIDS, size_t len)
@@ -127,22 +155,32 @@ void CNetworkMessage::SetMultiIDTo(const OBJID* pIDS, size_t len)
         m_MultiIDTo.push_back(pIDS[i]);
     }
 }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void CNetworkMessage::AddMultiTo(const VirtualSocket& to)
+void CNetworkMessage::AddBroadcastTo(const ServiceType_t& to)
 {
-    m_MultiTo.push_back(to);
+    m_BroadcastTo.push_back(to);
 }
 
-void CNetworkMessage::AddMultiIDTo(OBJID to)
+void CNetworkMessage::SetBroadcastTo(const std::vector<ServiceType_t>& _BroadcastTo)
 {
-    m_MultiIDTo.push_back(to);
+    m_BroadcastTo = _BroadcastTo;
 }
 
-void CNetworkMessage::SetMultiIDTo(const std::vector<OBJID>& _MultiTo)
+void CNetworkMessage::AddBroadcastTo(const std::vector<ServiceType_t>& _BroadcastTo)
 {
-    m_MultiIDTo.insert(m_MultiIDTo.end(), _MultiTo.begin(), _MultiTo.end());
+    m_BroadcastTo.insert(m_BroadcastTo.end(), _BroadcastTo.begin(), _BroadcastTo.end());
 }
 
+void CNetworkMessage::SetBroadcastTo(const ServiceType_t* pData, size_t len)
+{
+    for(size_t i = 0; i < len; i++)
+    {
+        m_BroadcastTo.push_back(pData[i]);
+    }
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
 void CNetworkMessage::CopyBuffer()
 {
     if(m_pBuf == nullptr)

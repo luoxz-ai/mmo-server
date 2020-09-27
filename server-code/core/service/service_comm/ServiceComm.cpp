@@ -200,7 +200,7 @@ bool CServiceCommon::SendBroadcastMsgToPort(const ServerPort& nServerPort, const
 {
     __ENTER_FUNCTION
     CNetworkMessage _msg(to_cmd(msg), msg, GetServerVirtualSocket(), nServerPort);
-    _msg.SetBroadcast();
+    _msg.SetBroadcastType(BROADCAST_ALL);
     return _SendMsgToZonePort(_msg);
     __LEAVE_FUNCTION
     return false;
@@ -260,20 +260,21 @@ bool CServiceCommon::TransmitMsgToThisZoneAllPort(const CNetworkMessage* pMsg) c
     return false;
 }
 
+
+bool CServiceCommon::TransmitMsgToThisZoneWithServiceType(const CNetworkMessage* pMsg, ServiceType_t idServiceType) const
+{
+    __ENTER_FUNCTION
+    auto serverport_list = GetMessageRoute()->GetServerPortListByWorldIDAndServiceType(GetWorldID(), idServiceType, false);
+    return TransmitMsgToSomePort(serverport_list, pMsg); 
+    __LEAVE_FUNCTION
+    return false;
+}
+
 bool CServiceCommon::TransmitMsgToThisZoneAllPortExcept(const CNetworkMessage* pMsg, const std::set<ServiceType_t>& setExcept) const
 {
     __ENTER_FUNCTION
-    auto serverport_list = GetMessageRoute()->GetServerPortListByWorldID(GetWorldID(), false);
-    for(const auto& server_port: serverport_list)
-    {
-        if(setExcept.count(server_port.GetServiceType()) != 0)
-            continue;
-        CNetworkMessage _msg(*pMsg);
-        _msg.SetTo(server_port);
-        _msg.CopyBuffer();
-        _SendMsgToZonePort(_msg);
-    }
-    return serverport_list.empty() == false;
+    auto serverport_list = GetMessageRoute()->GetServerPortListByWorldIDExcept(GetWorldID(), setExcept, false);
+    return TransmitMsgToSomePort(serverport_list, pMsg); 
     __LEAVE_FUNCTION
     return false;
 }
@@ -281,8 +282,21 @@ bool CServiceCommon::TransmitMsgToThisZoneAllPortExcept(const CNetworkMessage* p
 bool CServiceCommon::TransmitMsgToAllRoute(const CNetworkMessage* pMsg) const
 {
     __ENTER_FUNCTION
-    auto serverport_list = GetMessageRoute()->GetServerPortListByServiceType(ROUTE_SERVICE);
-    return TransmitMsgToSomePort(serverport_list, pMsg); 
+    if(GetWorldID() == 0)
+    {
+        auto serverport_list = GetMessageRoute()->GetServerPortListByServiceTypeExcept(ROUTE_SERVICE, {0});
+        return TransmitMsgToSomePort(serverport_list, pMsg); 
+    }
+    else
+    {
+        //发送给0-route,由0-route转发给所有的route,所有的route再转发给所有的server
+        CNetworkMessage _msg(*pMsg);
+        _msg.SetTo(ServerPort(0,ROUTE_SERVICE,0));
+        _msg.CopyBuffer();
+        _msg.SetBroadcastType(BROADCAST_INCLUDE);
+        _msg.AddBroadcastTo(ROUTE_SERVICE);
+        _SendMsgToZonePort(_msg);
+    }
     __LEAVE_FUNCTION
     return false;
 }
@@ -290,17 +304,15 @@ bool CServiceCommon::TransmitMsgToAllRoute(const CNetworkMessage* pMsg) const
 bool CServiceCommon::TransmitMsgToAllRouteExcept(const CNetworkMessage* pMsg, const std::set<WorldID_t>& setExcept) const
 {
     __ENTER_FUNCTION
-    auto serverport_list = GetMessageRoute()->GetServerPortListByServiceType(ROUTE_SERVICE);
-    for(const auto& server_port: serverport_list)
+    if(GetWorldID() == 0)
     {
-        if(setExcept.count(server_port.GetWorldID()) != 0)
-            continue;
-        CNetworkMessage _msg(*pMsg);
-        _msg.SetTo(server_port);
-        _msg.CopyBuffer();
-        _SendMsgToZonePort(_msg);
+        auto serverport_list = GetMessageRoute()->GetServerPortListByServiceTypeExcept(ROUTE_SERVICE, setExcept);
+        return TransmitMsgToSomePort(serverport_list, pMsg); 
     }
-    return serverport_list.empty() == false;
+    else
+    {
+        LOGWARNING("TransmitMsgToAllRouteExcept Call On WorldID != 0");
+    }
     __LEAVE_FUNCTION
     return false;
 }
