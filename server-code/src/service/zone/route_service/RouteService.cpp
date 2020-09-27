@@ -107,6 +107,7 @@ ON_SERVERMSG(CRouteService, ServiceRegister)
         send_msg.SetFrom(RouteService()->GetServerPort());
         send_msg.SetTo(ServerPort(0, ROUTE_SERVICE, 0));
         RouteService()->_SendMsgToZonePort(send_msg);
+
         //注册30秒发送一次ready
         CEventEntryCreateParam param;
         param.cb = []() {
@@ -115,17 +116,19 @@ ON_SERVERMSG(CRouteService, ServiceRegister)
         param.tWaitTime = 30 * 1000;
         param.bPersist  = true;
         EventManager()->ScheduleEvent(param);
+
     }
     else if(RouteService()->GetWorldID() == 0) // 0区
     {
         // worldid == 0
         GetMessageRoute()->ReloadServiceInfo(msg.update_time(), server_port.GetWorldID());
-        //通知0区所有服
-        RouteService()->TransmitMsgToThisZoneAllPortExcept(pMsg, ROUTE_SERVICE);
-        //通知所有Route,除了当前这个0区的Route
-        RouteService()->TransmitMsgToAllRouteExcept(pMsg, 0);
+        //通知0区所有gm_proxy服
+        auto server_list = GetMessageRoute()->GetServerPortListByWorldIDAndServiceType(0, GM_PROXY_SERVICE, false);
+        RouteService()->TransmitMsgToSomePort(server_list,pMsg);
+        //通知所有Route,除了原区和当前这个0区的Route
+        RouteService()->TransmitMsgToAllRouteExcept(pMsg, {0, server_port.GetWorldID()});
     }
-    else //其他区
+    else //其他区的route
     {
 
         GetMessageRoute()->ReloadServiceInfo(msg.update_time(), server_port.GetWorldID());
@@ -170,10 +173,9 @@ ON_SERVERMSG(CRouteService, ServiceReady)
     else if(RouteService()->GetWorldID() == 0) // 0区
     {
         // world == 0
-        //通知0区所有服
-        RouteService()->TransmitMsgToThisZoneAllPortExcept(pMsg, ROUTE_SERVICE);
+        
         //通知所有Route,除了当前这个0区的Route
-        RouteService()->TransmitMsgToAllRouteExcept(pMsg, 0);
+        //RouteService()->TransmitMsgToAllRouteExcept(pMsg, {0, server_port.GetWorldID()});
     }
     else //其他区
     {

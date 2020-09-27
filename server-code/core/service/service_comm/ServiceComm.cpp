@@ -236,18 +236,26 @@ bool CServiceCommon::TransmitMsgToPort(const ServerPort& nServerPort, const CNet
     return false;
 }
 
-bool CServiceCommon::TransmitMsgToThisZoneAllPort(const CNetworkMessage* pMsg) const
+bool CServiceCommon::TransmitMsgToSomePort(const std::vector<ServerPort>& setServerPortList, const CNetworkMessage* pMsg) const
 {
     __ENTER_FUNCTION
-    auto serverport_list = GetMessageRoute()->GetServerPortListByWorldID(GetWorldID(), false);
-    for(const auto& server_port: serverport_list)
+    for(const auto& server_port: setServerPortList)
     {
         CNetworkMessage _msg(*pMsg);
         _msg.SetTo(server_port);
         _msg.CopyBuffer();
         _SendMsgToZonePort(_msg);
     }
-    return serverport_list.empty() == false;
+    return setServerPortList.empty() == false;
+    __LEAVE_FUNCTION
+    return false;
+}
+
+bool CServiceCommon::TransmitMsgToThisZoneAllPort(const CNetworkMessage* pMsg) const
+{
+    __ENTER_FUNCTION
+    auto serverport_list = GetMessageRoute()->GetServerPortListByWorldID(GetWorldID(), false);
+    return TransmitMsgToSomePort(serverport_list, pMsg); 
     __LEAVE_FUNCTION
     return false;
 }
@@ -274,14 +282,7 @@ bool CServiceCommon::TransmitMsgToAllRoute(const CNetworkMessage* pMsg) const
 {
     __ENTER_FUNCTION
     auto serverport_list = GetMessageRoute()->GetServerPortListByServiceType(ROUTE_SERVICE);
-    for(const auto& server_port: serverport_list)
-    {
-        CNetworkMessage _msg(*pMsg);
-        _msg.SetTo(server_port);
-        _msg.CopyBuffer();
-        _SendMsgToZonePort(_msg);
-    }
-    return serverport_list.empty() == false;
+    return TransmitMsgToSomePort(serverport_list, pMsg); 
     __LEAVE_FUNCTION
     return false;
 }
