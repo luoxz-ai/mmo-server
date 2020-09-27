@@ -648,7 +648,7 @@ void CNetworkService::_CloseSocket(uint32_t nSocketIdx)
     if(pSocket)
     {
         lock.unlock();
-        pSocket->Interrupt();
+        pSocket->Interrupt(true);
     }
 
     __LEAVE_FUNCTION
@@ -698,7 +698,7 @@ bool CNetworkService::KickSocket(SOCKET _socket)
     // must do it out of lock,because it will remove self from m_setSocket;
     if(pSocket)
     {
-        pSocket->Interrupt();
+        pSocket->Interrupt(true);
         return true;
     }
 

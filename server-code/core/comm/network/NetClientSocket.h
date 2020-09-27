@@ -11,7 +11,7 @@ public:
 
     // init by accept
     virtual bool Init(bufferevent* pBufferEvent) override;
-    virtual void Interrupt() override;
+    virtual void Interrupt(bool bClearEventHandler) override;
 
 public:
     virtual void OnAccepted();

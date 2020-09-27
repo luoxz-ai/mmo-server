@@ -1,7 +1,5 @@
 #include "AccountManager.h"
 
-#include <brpc/channel.h>
-
 #include "Account.h"
 #include "GMManager.h"
 #include "MD5.h"

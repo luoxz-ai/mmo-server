@@ -1,15 +1,19 @@
-#共享组
+#全局组
+REPLACE INTO `tbld_servicedetail` VALUES (0, 9,  0, 'libguild_service.so', '$ENV{GLOBAL_IP}', $ENV{GLOBAL_PORT_START}+9, '', 0, 0, '0.0.0.0');
 REPLACE INTO `tbld_servicedetail` VALUES (0, 10, 0, 'libroute_service.so', '$ENV{GLOBAL_IP}', $ENV{GLOBAL_PORT_START}+10, '', 0, 0, '0.0.0.0');
+
+
+#共享组
 REPLACE INTO `tbld_servicedetail` VALUES (0, 2, 51, 'libscene_service.so', '$ENV{GLOBAL_IP}', $ENV{GLOBAL_PORT_START}+21, '', 0, 0, '0.0.0.0');
 REPLACE INTO `tbld_servicedetail` VALUES (0, 2, 52, 'libscene_service.so', '$ENV{GLOBAL_IP}', $ENV{GLOBAL_PORT_START}+22, '', 0, 0, '0.0.0.0');
 REPLACE INTO `tbld_servicedetail` VALUES (0, 2, 53, 'libscene_service.so', '$ENV{GLOBAL_IP}', $ENV{GLOBAL_PORT_START}+23, '', 0, 0, '0.0.0.0');
 REPLACE INTO `tbld_servicedetail` VALUES (0, 2, 54, 'libscene_service.so', '$ENV{GLOBAL_IP}', $ENV{GLOBAL_PORT_START}+24, '', 0, 0, '0.0.0.0');
 REPLACE INTO `tbld_servicedetail` VALUES (0, 2, 55, 'libscene_service.so', '$ENV{GLOBAL_IP}', $ENV{GLOBAL_PORT_START}+25, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (0, 4, 51, 'libai_service.so', '$ENV{GLOBAL_IP}', $ENV{GLOBAL_PORT_START}+41, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (0, 4, 52, 'libai_service.so', '$ENV{GLOBAL_IP}', $ENV{GLOBAL_PORT_START}+42, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (0, 4, 53, 'libai_service.so', '$ENV{GLOBAL_IP}', $ENV{GLOBAL_PORT_START}+43, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (0, 4, 54, 'libai_service.so', '$ENV{GLOBAL_IP}', $ENV{GLOBAL_PORT_START}+44, '', 0, 0, '0.0.0.0');
-REPLACE INTO `tbld_servicedetail` VALUES (0, 4, 55, 'libai_service.so', '$ENV{GLOBAL_IP}', $ENV{GLOBAL_PORT_START}+45, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (0, 3, 51, 'libai_service.so', '$ENV{GLOBAL_IP}', $ENV{GLOBAL_PORT_START}+41, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (0, 3, 52, 'libai_service.so', '$ENV{GLOBAL_IP}', $ENV{GLOBAL_PORT_START}+42, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (0, 3, 53, 'libai_service.so', '$ENV{GLOBAL_IP}', $ENV{GLOBAL_PORT_START}+43, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (0, 3, 54, 'libai_service.so', '$ENV{GLOBAL_IP}', $ENV{GLOBAL_PORT_START}+44, '', 0, 0, '0.0.0.0');
+REPLACE INTO `tbld_servicedetail` VALUES (0, 3, 55, 'libai_service.so', '$ENV{GLOBAL_IP}', $ENV{GLOBAL_PORT_START}+45, '', 0, 0, '0.0.0.0');
 
 
 #后台访问/充值接口
@@ -18,6 +22,8 @@ REPLACE INTO `tbld_servicedetail` VALUES (0, 11, 2, 'libgmproxy_service.so', '$E
 REPLACE INTO `tbld_servicedetail` VALUES (0, 11, 3, 'libgmproxy_service.so', '$ENV{GLOBAL_IP}', $ENV{GLOBAL_PORT_START}+113, '$ENV{GLOBAL_OUT_IP}', 18113, 30113, '0.0.0.0');
 REPLACE INTO `tbld_servicedetail` VALUES (0, 11, 4, 'libgmproxy_service.so', '$ENV{GLOBAL_IP}', $ENV{GLOBAL_PORT_START}+114, '$ENV{GLOBAL_OUT_IP}', 18114, 30114, '0.0.0.0');
 REPLACE INTO `tbld_servicedetail` VALUES (0, 11, 5, 'libgmproxy_service.so', '$ENV{GLOBAL_IP}', $ENV{GLOBAL_PORT_START}+115, '$ENV{GLOBAL_OUT_IP}', 18115, 30115, '0.0.0.0');
+
+
 
 #全局数据库地址
 REPLACE INTO `tbld_dbinfo` VALUES (0, '$ENV{GLOBAL_MYSQL_IP}', 3306, '$ENV{GLOBAL_MYSQL_NAME}', 'root', '$ENV{MYSQL_PASSWD}');

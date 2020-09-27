@@ -11,7 +11,7 @@ public:
 
     // init by connect to
     virtual bool Init(bufferevent* pBufferEvent) override;
-    virtual void Interrupt() override;
+    virtual void Interrupt(bool bClearEventHandler) override;
     virtual bool CreateByListener() const override { return false; }
 
 public:

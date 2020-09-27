@@ -40,7 +40,6 @@ TARGET_LINK_LIBRARIES(world_service
  libgamemap.so
  libfmt.so
  pthread
- libbrpc.so
  rt
  dl
  ${JEMALLOC_LIB_NAME}

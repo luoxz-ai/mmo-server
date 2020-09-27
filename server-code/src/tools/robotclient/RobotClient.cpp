@@ -19,7 +19,10 @@ RobotClient::RobotClient(RobotClientManager* pManager)
 RobotClient::~RobotClient()
 {
     if(m_pServerSocket)
-        m_pServerSocket->Interrupt();
+    {
+        m_pServerSocket->Interrupt(true);
+        m_pServerSocket = nullptr;
+    } 
 }
 
 void RobotClient::initInLua(struct lua_State* L)
@@ -126,7 +129,10 @@ bool RobotClient::IsConnectServer()
 void RobotClient::DisconnectServer()
 {
     if(m_pServerSocket)
-        m_pServerSocket->Interrupt();
+    {
+        m_pServerSocket->Interrupt(true);
+        m_pServerSocket = nullptr;
+    }
     m_pManager->DelClient(this);
 }
 

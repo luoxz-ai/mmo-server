@@ -49,6 +49,7 @@ public:
 
     void              SetPortEventHandler(CMessagePortEventHandler* pHandler) { m_pPortEventHandler = pHandler; }
     void              SetRemoteSocket(CNetSocket* pSocket);
+    void              DetachRemoteSocket();
     CNetSocket*       GetRemoteSocket() const { return m_pRemoteServerSocket; }
     const ServerPort& GetServerPort() const { return m_nServerPort; }
     bool              GetLocalPort() const { return m_bLocalPort; }

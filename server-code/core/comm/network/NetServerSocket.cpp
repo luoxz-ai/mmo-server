@@ -43,10 +43,13 @@ bool CServerSocket::Init(bufferevent* pBufferEvent)
     return false;
 }
 
-void CServerSocket::Interrupt()
+void CServerSocket::Interrupt(bool bClearEventHandler)
 {
     __ENTER_FUNCTION
-
+    if(bClearEventHandler)
+    {
+        m_pEventHandler = nullptr;
+    }
     if(GetStatus() == NSS_READY || GetStatus() == NSS_CONNECTING)
     {
         SetReconnect(false);

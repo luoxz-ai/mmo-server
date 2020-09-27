@@ -38,10 +38,13 @@ bool CClientSocket::Init(bufferevent* pBufferEvent)
     return false;
 }
 
-void CClientSocket::Interrupt()
+void CClientSocket::Interrupt(bool bClearEventHandler)
 {
     __ENTER_FUNCTION
-
+    if(bClearEventHandler)
+    {
+        m_pEventHandler = nullptr;
+    }
     if(GetStatus() == NSS_READY || GetStatus() == NSS_CONNECTING)
     {
         bufferevent_disable(m_pBufferevent, EV_READ);

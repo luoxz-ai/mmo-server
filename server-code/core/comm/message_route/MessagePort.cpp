@@ -37,9 +37,12 @@ void CMessagePort::Destory()
     }
     if(m_pRemoteServerSocket)
     {
-        m_pRemoteServerSocket->Interrupt();
-        m_pRemoteServerSocket = nullptr;
+        m_pRemoteServerSocket->Interrupt(true);
+        DetachRemoteSocket();
     }
+    m_pPortEventHandler = nullptr;
+    m_Event.Cancel();
+    m_Event.Clear();
     __LEAVE_FUNCTION
 }
 
@@ -126,6 +129,15 @@ void CMessagePort::SetRemoteSocket(CNetSocket* pSocket)
     //服务器间通信扩充recv缓冲区大小
     m_pRemoteServerSocket->SetPacketSizeMax(_MAX_MSGSIZE * 10);
     __LEAVE_FUNCTION
+}
+
+void CMessagePort::DetachRemoteSocket()
+{
+    if(m_pRemoteServerSocket)
+    {
+        m_pRemoteServerSocket->SetEventHandler(nullptr);
+        m_pRemoteServerSocket = nullptr;
+    }
 }
 
 void CMessagePort::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)

@@ -280,7 +280,7 @@ void CSocketService::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
     if(pHead->usCmd < pClient->GetMessageAllowBegin() || pHead->usCmd > pClient->GetMessageAllowEnd())
     {
         LOGWARNING("RECV ClientMsg:{} not Allow {}.{}", pHead->usCmd, pSocket->GetAddrString().c_str(), pSocket->GetPort());
-        pSocket->Interrupt();
+        pSocket->Interrupt(true);
         return;
     }
 

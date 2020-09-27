@@ -39,7 +39,7 @@ public:
     virtual ~CNetSocket();
 
     virtual bool Init(bufferevent* pBufferEvent) = 0;
-    virtual void Interrupt()                     = 0;
+    virtual void Interrupt(bool bClearEventHandler)= 0;
     virtual bool CreateByListener() const { return true; }
 
     bool SendNetworkMessage(CNetworkMessage&& msg, bool bFlush = true);
@@ -96,6 +96,7 @@ public:
     size_t  GetWaitWriteSize();
     size_t  GetPacketSizeMax() const { return m_nPacketSizeMax; }
     void    SetPacketSizeMax(size_t val);
+    void    SetEventHandler(CNetEventHandler* v){m_pEventHandler = v;}
 
     void set_sock_nodely();
     void set_sock_quickack();

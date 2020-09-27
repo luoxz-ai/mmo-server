@@ -34,6 +34,7 @@ TARGET_LINK_LIBRARIES(gm_service
   libmyproto.so 
   libservice_comm.so
   librpcservice_comm.so
+  libbrpc.so
   libfmt.so
   pthread
   rt

@@ -242,10 +242,8 @@ void CMessageRoute::_ReadServerIPList(uint16_t nNewWorldID)
             refInfo.publish_port = row->Field(TBLD_SERVICEDETAIL::PUBLISH_PORT);
             refInfo.debug_port   = row->Field(TBLD_SERVICEDETAIL::DEBUG_PORT);
 
-            LOGDEBUG("ServerInfo Load WORLD:{} Service:{}-{} route_addr:{} route_port:{}",
-                     idWorld,
-                     idServiceType,
-                     idServiceIdx,
+            LOGDEBUG("ServerInfo Load {} route_addr:{} route_port:{}",
+                     serverport,
                      refInfo.route_addr,
                      refInfo.route_port);
 
@@ -270,7 +268,7 @@ void CMessageRoute::OnServerAddrInfoChange(const ServerPort& serverport, const S
             {
                 //内网绑定端口修改了, 又是自己主动连接过去,就要重连
                 //自己监听的端口，必须要重启
-                pRemoteSocket->Interrupt();
+                pRemoteSocket->Interrupt(false);
                 _ConnectRemoteServer(serverport, new_info);
             }
         }
@@ -631,7 +629,8 @@ void CMessageRoute::_CloseRemoteServer(const ServerPort& nServerPort)
         auto pRemoteSocket = pPort->GetRemoteSocket();
         if(pRemoteSocket)
         {
-            pRemoteSocket->Interrupt();
+            pRemoteSocket->Interrupt(true);
+            pPort->DetachRemoteSocket();
         }
 
         SAFE_DELETE(pPort);

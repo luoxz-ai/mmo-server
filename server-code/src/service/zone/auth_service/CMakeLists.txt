@@ -35,6 +35,7 @@ TARGET_LINK_LIBRARIES(auth_service
  libmydbtable.so 
  libservice_comm.so  
  libfmt.so
+ brpc
  pthread
  rt
  dl
