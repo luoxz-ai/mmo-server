@@ -187,6 +187,7 @@ include_directories(${PROJECT_SOURCE_DIR}/core/comm/message_route/)
 include_directories(${PROJECT_SOURCE_DIR}/core/comm/message_route/db_proto)
 include_directories(${PROJECT_SOURCE_DIR}/core/comm/script/)
 include_directories(${PROJECT_SOURCE_DIR}/core/comm/mydb/)
+include_directories(${PROJECT_SOURCE_DIR}/core/service/comm/)
 include_directories(${PROJECT_SOURCE_DIR}/core/service/service_comm/)
 include_directories(${PROJECT_SOURCE_DIR}/core/service/rpcservice_comm/)
 

@@ -39,7 +39,8 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/ai2lua.cpp
 COMMAND echo ${SRCS} > ${CMAKE_CURRENT_BINARY_DIR}/ai_cpps.txt && echo ${includes} > ${CMAKE_CURRENT_BINARY_DIR}/ai_includes.txt 
 COMMAND cxx2lua --cpps=${CMAKE_CURRENT_BINARY_DIR}/ai_cpps.txt --include=${CMAKE_CURRENT_BINARY_DIR}/ai_includes.txt 
 --output=${CMAKE_CURRENT_BINARY_DIR}/ai2lua.cpp --output_functionname=ai2lua --skip_cpp --format=clang-format-9
-COMMENT "gen ai2lua for notfind ai2lua.cpp"
+IMPLICIT_DEPENDS CXX ${CMAKE_CURRENT_BINARY_DIR}/ai2lua.cpp
+COMMENT "gen ai2lua for ai2lua.cpp"
   DEPENDS cxx2lua
 )
 

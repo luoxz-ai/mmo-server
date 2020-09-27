@@ -215,7 +215,8 @@ void CRouteService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
         }
         else if(pNetworkMsg->GetBroadcastType() == BROADCAST_EXCLUDE)
         {
-            TransmitMsgToThisZoneAllPortExcept(pNetworkMsg, pNetworkMsg->GetBroadcastTo());
+            std::set<ServiceType_t> exclude_list(pNetworkMsg->GetBroadcastTo().begin(), pNetworkMsg->GetBroadcastTo().end());
+            TransmitMsgToThisZoneAllPortExcept(pNetworkMsg, exclude_list);
         }
         else
         {   

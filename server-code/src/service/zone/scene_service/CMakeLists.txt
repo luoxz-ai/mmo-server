@@ -45,7 +45,8 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/scene2lua.cpp
 COMMAND echo ${SRCS} > ${CMAKE_CURRENT_BINARY_DIR}/scene_cpps.txt && echo ${includes} > ${CMAKE_CURRENT_BINARY_DIR}/scene_includes.txt 
 COMMAND cxx2lua --cpps=${CMAKE_CURRENT_BINARY_DIR}/scene_cpps.txt --include=${CMAKE_CURRENT_BINARY_DIR}/scene_includes.txt 
 --output=${CMAKE_CURRENT_BINARY_DIR}/scene2lua.cpp --output_functionname=scene2lua --skip_cpp --format=clang-format-9
-COMMENT "gen scene2lua for notfind scene2lua.cpp"
+IMPLICIT_DEPENDS CXX ${CMAKE_CURRENT_BINARY_DIR}/scene2lua.cpp
+COMMENT "gen scene2lua for scene2lua.cpp"
   DEPENDS cxx2lua
 )
 set_property (SOURCE ${CMAKE_CURRENT_BINARY_DIR}/scene2lua.cpp PROPERTY COTIRE_EXCLUDED  "TRUE")
