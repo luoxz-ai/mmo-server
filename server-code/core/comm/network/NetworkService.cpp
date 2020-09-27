@@ -407,7 +407,7 @@ void CNetworkService::OnIOThreadTimeOut()
     __LEAVE_FUNCTION
 }
 
-static void IOThreadProc(event_base* pBase, std::string _thread_name, uint16_t idService)
+static void IOThreadProc(event_base* pBase, std::string _thread_name, const ServiceID& idService)
 {
     __ENTER_FUNCTION
     pthread_setname_np(pthread_self(), _thread_name.c_str());
@@ -431,7 +431,10 @@ static void IOThreadProc(event_base* pBase, std::string _thread_name, uint16_t i
     __LEAVE_FUNCTION
 }
 
-void CNetworkService::StartIOThread(const std::string& thread_name, std::function<void()> time_out_func, uint32_t time_out_ms, uint16_t idService)
+void CNetworkService::StartIOThread(const std::string&    thread_name,
+                                    std::function<void()> time_out_func,
+                                    uint32_t              time_out_ms,
+                                    const ServiceID&      idService)
 {
     __ENTER_FUNCTION
     if(m_pIOThread)
@@ -719,7 +722,7 @@ bool CNetworkService::SendSocketMsg(SOCKET _socket, const CNetworkMessage& msg)
     return false;
 }
 
-bool CNetworkService::SendSocketMsgByIdx(uint16_t nSocketIdx, const CNetworkMessage& msg)
+bool CNetworkService::SendSocketMsgByIdx(SocketIdx_t nSocketIdx, const CNetworkMessage& msg)
 {
     __ENTER_FUNCTION
     std::lock_guard<std::mutex> lock(m_mutex);

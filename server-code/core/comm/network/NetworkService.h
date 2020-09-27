@@ -75,7 +75,7 @@ public:
     void StartIOThread(const std::string&    thread_name,
                        std::function<void()> time_out_func = std::function<void()>(),
                        uint32_t              time_out_ms   = 60 * 60,
-                       uint16_t              idService     = 0);
+                       const ServiceID&      idService     = 0);
     void OnIOThreadTimeOut();
 
     //读取IO一次，如果开启了独立IO线程则不需调用
@@ -105,7 +105,7 @@ public:
     void BrocastMsg(const CNetworkMessage& msg, SOCKET execpt_this);
     //直接发送Socket消息
     bool SendSocketMsg(SOCKET _socket, const CNetworkMessage& msg);
-    bool SendSocketMsgByIdx(uint16_t nSocketIdx, const CNetworkMessage& msg);
+    bool SendSocketMsgByIdx(SocketIdx_t nSocketIdx, const CNetworkMessage& msg);
     //主动关闭一个连接
     bool KickSocket(SOCKET _socket);
 
@@ -135,7 +135,7 @@ protected:
     std::unique_ptr<CEventManager> m_pEventManager;
 
     std::map<SOCKET, CNetSocket*>   m_setSocket;
-    std::deque<uint16_t>            m_SocketIdxPool;
+    std::deque<SocketIdx_t>         m_SocketIdxPool;
     std::array<CNetSocket*, 0xFFFF> m_setSocketByIdx;
 
     std::unordered_set<CNetSocket*> m_setConnectingSocket;

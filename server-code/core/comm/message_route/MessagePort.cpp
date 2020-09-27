@@ -6,13 +6,12 @@
 #include "NetworkMessage.h"
 #include "msg_internal.pb.h"
 
-CMessagePort::CMessagePort()
-{}
+CMessagePort::CMessagePort() {}
 
 bool CMessagePort::Init(const ServerPort& nServerPort, CMessageRoute* pRoute)
 {
     m_nServerPort = nServerPort;
-    m_pRoute = pRoute;
+    m_pRoute      = pRoute;
     return true;
 }
 
@@ -219,7 +218,7 @@ void CMessagePort::_SendAllMsg()
         InternalMsg internal_msg;
         internal_msg.set_from(pMsg->GetFrom());
         internal_msg.set_to(pMsg->GetTo());
-        internal_msg.set_proto_msg(pMsg->GetMsgBody(), pMsg->GetBodySize());
+        internal_msg.set_proto_msg(pMsg->GetBuf(), pMsg->GetSize());
 
         for(const auto& v: pMsg->GetForward())
         {

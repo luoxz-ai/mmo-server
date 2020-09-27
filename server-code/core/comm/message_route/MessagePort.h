@@ -28,17 +28,18 @@ public:
     // recv over time
     virtual void OnPortRecvTimeout(CNetSocket*) {}
 };
-class CMessagePort : public CNetEventHandler , public NoncopyableT<CMessagePort>, public CreateNewT<CMessagePort>
+class CMessagePort : public CNetEventHandler, public NoncopyableT<CMessagePort>, public CreateNewT<CMessagePort>
 {
     friend class CreateNewT<CMessagePort>;
     CMessagePort();
+
 public:
     virtual ~CMessagePort();
     void Destory();
-   
-public:
 
-    bool     Init(const ServerPort& nServerPort, CMessageRoute* pRoute);
+public:
+    bool Init(const ServerPort& nServerPort, CMessageRoute* pRoute);
+
 public:
     virtual void OnConnected(CNetSocket* pSocket);
     virtual void OnConnectFailed(CNetSocket*);

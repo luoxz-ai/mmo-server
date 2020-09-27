@@ -9,7 +9,6 @@
 #include "ServiceComm.h"
 #include "game_common_def.h"
 
-
 class CMapManager;
 class CSystemVarSet;
 class CActorManager;
@@ -87,9 +86,8 @@ private:
     void ProcessPortMessage();
 
 private:
-    CUIDFactory                                                     m_UIDFactory;
-    std::unique_ptr<CMysqlConnection>                               m_pGlobalDB;
-    
+    CUIDFactory                       m_UIDFactory;
+    std::unique_ptr<CMysqlConnection> m_pGlobalDB;
 
     std::unordered_map<uint16_t, std::unique_ptr<CMysqlConnection>> m_GameDBMap;
 

@@ -36,7 +36,7 @@ ON_SERVERMSG(CWorldService, PlayerChangeZone_Data)
 
 ON_SERVERMSG(CWorldService, ServiceReady)
 {
-    WorldService()->SetServiceReady(ServerPort(msg.serverport()).GetServiceID());
+    WorldService()->SetServiceReady(msg.serverport());
 }
 
 ON_SERVERMSG(CWorldService, ServiceCmd)

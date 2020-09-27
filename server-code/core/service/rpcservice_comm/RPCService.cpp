@@ -57,7 +57,7 @@ CRPCService::~CRPCService()
     }
 }
 
-bool CRPCService::Init(uint16_t idServiceID)
+bool CRPCService::Init(const ServiceID& idServiceID)
 {
     if(m_pBRPCServer == nullptr)
     {

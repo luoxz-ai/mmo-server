@@ -49,14 +49,21 @@ gmproxy_5()
 ${DIR_file}/binary/gmproxy_5 --worldid=0 --start=GM_PROXY_SERVICE-5 --logpath=/data/log/global/gmproxy5 -d 
 }
 
-if [ $1 ];
-then
-    $1;
-else
-    route;
+
+gmproxy_all()
+{
     gmproxy_1;
     #gmproxy_2;
     #gmproxy_3;
     #gmproxy_4;
     #gmproxy_5;
+}
+
+if [ $1 ];
+then
+    $1;
+else
+    route;
+    gmproxy_all;
+    
 fi

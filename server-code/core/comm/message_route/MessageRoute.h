@@ -26,36 +26,37 @@ class CMessageRoute : public NoncopyableT<CMessageRoute>, public CreateNewT<CMes
 {
     friend class CreateNewT<CMessageRoute>;
     CMessageRoute();
+
 public:
     virtual ~CMessageRoute();
-    bool     Init(){return true;}
+    bool Init() { return true; }
 
-    uint16_t GetWorldID() const { return m_nWorldID; }
-    void     SetWorldID(uint16_t val) { m_nWorldID = val; }
-    void     Destory();
+    WorldID_t GetWorldID() const { return m_nWorldID; }
+    void      SetWorldID(WorldID_t val) { m_nWorldID = val; }
+    void      Destory();
 
 public:
     //从配置文件读取数据库地址,并重读配置
-    bool LoadServiceSetting(const std::string& filename, uint16_t nWorldID);
+    bool LoadServiceSetting(const std::string& filename, WorldID_t nWorldID);
     //创建所有本地端口
-    bool CreateAllMessagePort(uint16_t nWorldID, const std::set<ServiceID>& create_service_set);
+    bool CreateAllMessagePort(WorldID_t nWorldID, const std::set<ServiceID>& create_service_set);
     //从数据库读取Service配置
-    void ReloadServiceInfo(uint32_t update_time, uint16_t nNewWorldID);
+    void ReloadServiceInfo(uint32_t update_time, WorldID_t nNewWorldID);
     //查询服务地址
     const ServerAddrInfo* QueryServiceInfo(const ServerPort& nServerPort);
     //遍历服务
     using ForeachServiceInfoFunc = std::function<bool(const ServerAddrInfo*)>;
     using ForeachServerPortFunc  = std::function<bool(const ServerPort&)>;
-    void           ForeachServiceInfoByWorldID(uint16_t idWorld, bool bIncludeShare, ForeachServiceInfoFunc&& func);
-    ServerPortList GetServerPortListByWorldID(uint16_t idWorld, bool bIncludeShare);
-    ServerPortList GetServerPortListByWorldIDAndServiceType(uint16_t idWorld, uint8_t idServiceType, bool bIncludeShare);
-    ServerPortList GetServerPortListByWorldIDExcept(uint16_t idWorld, uint8_t idExceptServiceType, bool bIncludeShare);
-    ServerPortList GetServerPortListByServiceType(uint8_t idServiceType);
+    void           ForeachServiceInfoByWorldID(WorldID_t idWorld, bool bIncludeShare, ForeachServiceInfoFunc&& func);
+    ServerPortList GetServerPortListByWorldID(WorldID_t idWorld, bool bIncludeShare);
+    ServerPortList GetServerPortListByWorldIDAndServiceType(WorldID_t idWorld, ServiceType_t idServiceType, bool bIncludeShare);
+    ServerPortList GetServerPortListByWorldIDExcept(WorldID_t idWorld, const std::set<ServiceType_t>& setExceptServiceType, bool bIncludeShare);
+    ServerPortList GetServerPortListByServiceType(ServiceType_t idServiceType);
 
     //判断是否连接
     bool IsConnected(const ServerPort& nServerPort);
     //返回服务器被合并到哪里了
-    uint16_t GetMergeTo(uint16_t idWorld);
+    WorldID_t GetMergeTo(WorldID_t idWorld);
     //查询端口,如果不存在,是否自动连接远端
     CMessagePort* QueryMessagePort(const ServerPort& nServerPort, bool bAutoConnectRemote = true);
     //连接远端,一般无需手动调用
@@ -65,14 +66,14 @@ public:
     //遍历所有端口
     void ForEach(const std::function<void(CMessagePort*)>& func);
     //通过worldid连接所有远端端口
-    void ConnectAllRemoteServerWithWorldID(uint16_t nWorldID);
+    void ConnectAllRemoteServerWithWorldID(WorldID_t nWorldID);
     //关闭对应端口
-    void _CloseRemoteServerByWorldID(uint16_t idWorld);
+    void _CloseRemoteServerByWorldID(WorldID_t idWorld);
     void _CloseRemoteServer(const ServerPort& nServerPort);
 
 public:
-    bool           IsWorldReady(uint16_t idWorld);
-    void           SetWorldReady(uint16_t idWorld, bool bReady);
+    bool           IsWorldReady(WorldID_t idWorld);
+    void           SetWorldReady(WorldID_t idWorld, bool bReady);
     decltype(auto) GetWorldReadyList()
     {
         std::unique_lock<std::mutex> locker(m_mutex);
@@ -83,7 +84,8 @@ public:
     CSettingMap&       GetSettingMap() { return m_setDataMap; }
     const CSettingMap& GetSettingMap() const { return m_setDataMap; }
     CEventManager*     GetEventManager() const { return m_pEventManager.get(); }
-    CMysqlConnection*  GetServerInfoDB() const {return m_pServerInfoDB.get();}
+    CMysqlConnection*  GetServerInfoDB() const { return m_pServerInfoDB.get(); }
+
 protected:
     bool ConnectServerInfoDB(const std::string& host, const std::string& user, const std::string& password, const std::string& db, uint32_t port);
     CMessagePort* _ConnectRemoteServer(const ServerPort& nServerPort, const ServerAddrInfo& info);
@@ -92,12 +94,12 @@ protected:
     const ServerAddrInfo* _QueryServiceInfo(const ServerPort& nServerPort);
 
     void _ReadMergeList();
-    void _ReadServerIPList(uint16_t nNewWorldID);
+    void _ReadServerIPList(WorldID_t nNewWorldID);
     void OnServerAddrInfoChange(const ServerPort& serverport, const ServerAddrInfo& new_info);
 
 protected:
     CSettingMap m_setDataMap;
-    uint16_t    m_nWorldID;
+    WorldID_t   m_nWorldID;
 
     std::mutex                                    m_mutex;
     std::unordered_map<ServerPort, CMessagePort*> m_setMessagePort;
@@ -108,11 +110,11 @@ protected:
 
     uint32_t m_lastUpdateTime = 0;
 
-    std::unordered_map<ServerPort, ServerAddrInfo>                                            m_setServerInfo;
-    std::unordered_map<uint16_t, std::map<ServerPort, ServerAddrInfo, std::less<ServerPort>>> m_setServerInfoByWorldID;
+    std::unordered_map<ServerPort, ServerAddrInfo>                                             m_setServerInfo;
+    std::unordered_map<WorldID_t, std::map<ServerPort, ServerAddrInfo, std::less<ServerPort>>> m_setServerInfoByWorldID;
 
-    std::unordered_map<uint16_t, uint16_t> m_MergeList;
-    std::unordered_map<uint16_t, time_t>   m_WorldReadyList;
+    std::unordered_map<WorldID_t, WorldID_t> m_MergeList;
+    std::unordered_map<WorldID_t, time_t>    m_WorldReadyList;
 };
 
 CMessageRoute* GetMessageRoute();

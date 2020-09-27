@@ -161,7 +161,7 @@ void SetGMProxyServicePtr(CGMProxyService* ptr)
     tls_pService = ptr;
 }
 
-extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint8_t idServiceType, uint8_t idServiceIdx)
+extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(WorldID_t idWorld, ServiceType_t idServiceType, ServiceIdx_t idServiceIdx)
 {
     return CGMProxyService::CreateNew(ServerPort{idWorld, idServiceType, idServiceIdx});
 }

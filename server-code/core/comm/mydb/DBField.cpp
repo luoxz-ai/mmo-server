@@ -14,7 +14,7 @@ CDBField::CDBField(CDBRecord* pDBRecord, const CDBFieldInfo* pFieldInfo, char* p
         case DB_FIELD_TYPE_TINY_UNSIGNED:
         case DB_FIELD_TYPE_SHORT_UNSIGNED:
         case DB_FIELD_TYPE_LONG_UNSIGNED:
-        
+
         {
             if(pVal == nullptr || len == 0)
                 m_Val = uint32_t(0);

@@ -22,7 +22,7 @@ RobotClient::~RobotClient()
     {
         m_pServerSocket->Interrupt(true);
         m_pServerSocket = nullptr;
-    } 
+    }
 }
 
 void RobotClient::initInLua(struct lua_State* L)

@@ -2,7 +2,7 @@
 #define RPCSERVICE_H
 
 #include "BaseCode.h"
-
+#include "NetworkDefine.h"
 namespace brpc
 {
     class Server;
@@ -20,7 +20,7 @@ class CRPCService
 {
 protected:
     CRPCService();
-    bool Init(uint16_t idServiceID);
+    bool Init(const ServiceID& idServiceID);
 
 public:
     virtual ~CRPCService();
@@ -39,7 +39,7 @@ public:
 
 private:
     std::unique_ptr<brpc::Server> m_pBRPCServer;
-    uint16_t                      m_idServiceID = 0;
+    ServiceID                     m_idServiceID = 0;
 };
 
 #endif /* RPCSERVICE_H */

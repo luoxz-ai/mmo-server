@@ -44,7 +44,6 @@
 #include "TeamInfoManager.h"
 #include "UserAttr.h"
 #include "globaldb.h"
-#include "globaldb.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"
 #include "protomsg_to_cmd.h"
@@ -62,7 +61,7 @@ void SetSceneServicePtr(CSceneService* pZone)
     tls_pService = pZone;
 }
 
-extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint8_t idServiceType, uint8_t idServiceIdx)
+extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(WorldID_t idWorld, ServiceType_t idServiceType, ServiceIdx_t idServiceIdx)
 {
     return CSceneService::CreateNew(ServerPort{idWorld, idServiceType, idServiceIdx});
 }
@@ -413,8 +412,8 @@ CMysqlConnection* CSceneService::GetGameDB(uint16_t nWorldID)
         return itFind->second.get();
     }
     else
-    {    
-        return _ConnectGameDB(nWorldID, GetMessageRoute()->GetServerInfoDB());   
+    {
+        return _ConnectGameDB(nWorldID, GetMessageRoute()->GetServerInfoDB());
     }
     __LEAVE_FUNCTION
     return nullptr;

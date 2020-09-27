@@ -11,16 +11,21 @@
 #include "export_lua.h"
 
 const int32_t _MAX_MSGSIZE = 1024 * 4;
+using WorldID_t            = uint16_t;
 
+using ServiceType_t = uint8_t;
+using ServiceIdx_t  = uint8_t;
+
+using ServiceID_Data_t = uint16_t;
 export_lua class ServiceID
 {
 public:
-    export_lua ServiceID(uint16_t nServerID = 0)
+    export_lua ServiceID(ServiceID_Data_t nServerID = 0)
         : m_Data16(nServerID)
     {
     }
 
-    export_lua ServiceID(uint8_t idServiceType, uint8_t idServiceIdx)
+    export_lua ServiceID(ServiceType_t idServiceType, ServiceIdx_t idServiceIdx)
         : m_Data{idServiceType, idServiceIdx}
     {
     }
@@ -32,28 +37,28 @@ public:
 
     export_lua bool IsVaild() const { return m_Data16 != 0; }
 
-    operator uint16_t() const { return m_Data16; }
+    operator ServiceID_Data_t() const { return m_Data16; }
 
     export_lua bool operator==(const ServiceID& rht) const { return m_Data16 == rht.m_Data16; }
 
     export_lua bool operator<(const ServiceID& rht) const { return m_Data16 < rht.m_Data16; }
 
-    export_lua uint8_t  GetServiceType() const { return m_Data.idServiceType; }
-    export_lua void     SetServiceType(uint8_t idServiceType) { m_Data.idServiceType = idServiceType; }
-    export_lua uint8_t  GetServiceIdx() const { return m_Data.idServiceIdx; }
-    export_lua void     SetServiceIdx(uint8_t idServiceIdx) { m_Data.idServiceIdx = idServiceIdx; }
-    export_lua uint16_t GetData() const { return m_Data16; }
-    export_lua void     SetData(uint16_t _Data16) { m_Data16 = _Data16; }
+    export_lua ServiceType_t    GetServiceType() const { return m_Data.idServiceType; }
+    export_lua void             SetServiceType(ServiceType_t idServiceType) { m_Data.idServiceType = idServiceType; }
+    export_lua ServiceIdx_t     GetServiceIdx() const { return m_Data.idServiceIdx; }
+    export_lua void             SetServiceIdx(ServiceIdx_t idServiceIdx) { m_Data.idServiceIdx = idServiceIdx; }
+    export_lua ServiceID_Data_t GetData() const { return m_Data16; }
+    export_lua void             SetData(ServiceID_Data_t _Data16) { m_Data16 = _Data16; }
 
 private:
     struct ST_SERVERID
     {
-        uint8_t idServiceType = 0; //实际取值范围0~0xFF 255
-        uint8_t idServiceIdx  = 0; //实际取值范围0~0xFF 255
+        ServiceType_t idServiceType = 0; //实际取值范围0~0xFF 255
+        ServiceIdx_t  idServiceIdx  = 0; //实际取值范围0~0xFF 255
     };
     union {
-        ST_SERVERID m_Data;
-        uint16_t    m_Data16 = 0;
+        ST_SERVERID      m_Data;
+        ServiceID_Data_t m_Data16 = 0;
     };
 };
 
@@ -67,14 +72,14 @@ namespace std
         typedef std::size_t result_type;
         result_type         operator()(argument_type const& s) const
         {
-            std::hash<uint16_t> hasher;
+            std::hash<ServiceID_Data_t> hasher;
             return hasher(s.GetData());
         }
     };
 } // namespace std
 
 template<>
-struct fmt::formatter<ServiceID> : public fmt::formatter<uint16_t>
+struct fmt::formatter<ServiceID> : public fmt::formatter<ServiceID_Data_t>
 {
     template<typename FormatContext>
     auto format(const ServiceID& serviceid, FormatContext& ctx)
@@ -84,20 +89,21 @@ struct fmt::formatter<ServiceID> : public fmt::formatter<uint16_t>
     }
 };
 
+using ServerPort_Data_t = uint32_t;
 export_lua class ServerPort
 {
 public:
-    export_lua ServerPort(uint32_t nServerPort = 0)
+    export_lua ServerPort(ServerPort_Data_t nServerPort = 0)
         : m_Data32(nServerPort)
     {
     }
 
-    export_lua ServerPort(uint16_t idWorld, uint8_t idServiceType, uint8_t idServiceIdx)
+    export_lua ServerPort(WorldID_t idWorld, ServiceType_t idServiceType, ServiceIdx_t idServiceIdx)
         : m_Data{idWorld, ServiceID{idServiceType, idServiceIdx}}
     {
     }
 
-    export_lua ServerPort(uint16_t idWorld, const ServiceID& idService)
+    export_lua ServerPort(WorldID_t idWorld, const ServiceID& idService)
         : m_Data{idWorld, idService}
     {
     }
@@ -109,34 +115,34 @@ public:
 
     export_lua bool IsVaild() const { return m_Data32 != 0; }
 
-    operator uint32_t() const { return m_Data32; }
+    operator ServerPort_Data_t() const { return m_Data32; }
 
     export_lua bool operator==(const ServerPort& rht) const { return m_Data32 == rht.m_Data32; }
 
     export_lua bool operator<(const ServerPort& rht) const { return m_Data32 < rht.m_Data32; }
 
-    export_lua uint16_t GetWorldID() const { return m_Data.idWorld; }
-    export_lua void     SetWorldID(uint16_t idWorld) { m_Data.idWorld = idWorld; }
+    export_lua WorldID_t GetWorldID() const { return m_Data.idWorld; }
+    export_lua void      SetWorldID(WorldID_t idWorld) { m_Data.idWorld = idWorld; }
 
     export_lua const ServiceID& GetServiceID() const { return m_Data.idService; }
     export_lua void             SetServiceID(const ServiceID& idService) { m_Data.idService = idService; }
 
-    export_lua uint8_t  GetServiceType() const { return m_Data.idService.GetServiceType(); }
-    export_lua void     SetServiceType(uint8_t idServiceType) { m_Data.idService.SetServiceType(idServiceType); }
-    export_lua uint8_t  GetServiceIdx() const { return m_Data.idService.GetServiceIdx(); }
-    export_lua void     SetServiceIdx(uint8_t idServiceIdx) { m_Data.idService.SetServiceIdx(idServiceIdx); }
-    export_lua uint32_t GetData() const { return m_Data32; }
-    export_lua void     SetData(uint32_t _Data32) { m_Data32 = _Data32; }
+    export_lua ServiceType_t     GetServiceType() const { return m_Data.idService.GetServiceType(); }
+    export_lua void              SetServiceType(ServiceType_t idServiceType) { m_Data.idService.SetServiceType(idServiceType); }
+    export_lua ServiceIdx_t      GetServiceIdx() const { return m_Data.idService.GetServiceIdx(); }
+    export_lua void              SetServiceIdx(ServiceIdx_t idServiceIdx) { m_Data.idService.SetServiceIdx(idServiceIdx); }
+    export_lua ServerPort_Data_t GetData() const { return m_Data32; }
+    export_lua void              SetData(ServerPort_Data_t _Data32) { m_Data32 = _Data32; }
 
 private:
     struct ST_SERVERPORT
     {
-        uint16_t  idWorld = 0; //实际取值范围0~0xFFFF 65535
+        WorldID_t idWorld = 0; //实际取值范围0~0xFFFF 65535
         ServiceID idService;
     };
     union {
-        ST_SERVERPORT m_Data;
-        uint32_t      m_Data32 = 0;
+        ST_SERVERPORT     m_Data;
+        ServerPort_Data_t m_Data32 = 0;
     };
 };
 using ServerPortList = std::vector<ServerPort>;
@@ -150,14 +156,14 @@ namespace std
         typedef std::size_t result_type;
         result_type         operator()(argument_type const& s) const
         {
-            std::hash<uint32_t> hasher;
+            std::hash<ServerPort_Data_t> hasher;
             return hasher(s.GetData());
         }
     };
 } // namespace std
 
 template<>
-struct fmt::formatter<ServerPort> : public fmt::formatter<uint32_t>
+struct fmt::formatter<ServerPort> : public fmt::formatter<ServerPort_Data_t>
 {
     template<typename FormatContext>
     auto format(const ServerPort& port, FormatContext& ctx)
@@ -167,10 +173,12 @@ struct fmt::formatter<ServerPort> : public fmt::formatter<uint32_t>
     }
 };
 
+using VirtualSocket_Data_t = uint64_t;
+using SocketIdx_t          = uint16_t;
 export_lua class VirtualSocket
 {
 public:
-    export_lua VirtualSocket(uint64_t nVirtualSocket = 0)
+    export_lua VirtualSocket(VirtualSocket_Data_t nVirtualSocket = 0)
         : m_Data64(nVirtualSocket)
     {
     }
@@ -180,7 +188,7 @@ public:
     {
     }
 
-    export_lua VirtualSocket(const ServerPort& nServerPort, uint16_t nSocketIdx)
+    export_lua VirtualSocket(const ServerPort& nServerPort, SocketIdx_t nSocketIdx)
         : m_Data{nServerPort, nSocketIdx, 0}
     {
     }
@@ -189,14 +197,14 @@ public:
     {
     }
 
-    export_lua static VirtualSocket CreateVirtualSocket(const ServerPort& nServerPort, uint16_t nSocketIdx)
+    export_lua static VirtualSocket CreateVirtualSocket(const ServerPort& nServerPort, SocketIdx_t nSocketIdx)
     {
         return VirtualSocket{nServerPort, nSocketIdx};
     }
 
     export_lua bool IsVaild() const { return m_Data64 != 0; }
 
-    operator uint64_t() const { return m_Data64; }
+    operator VirtualSocket_Data_t() const { return m_Data64; }
 
     export_lua bool operator==(const VirtualSocket& rht) const { return m_Data64 == rht.m_Data64; }
 
@@ -205,25 +213,25 @@ public:
     export_lua const ServerPort& GetServerPort() const { return m_Data.stServerPort; }
     export_lua void              SetServerPort(const ServerPort& val) { m_Data.stServerPort = val; }
 
-    export_lua uint16_t GetWorldID() const { return m_Data.stServerPort.GetWorldID(); }
+    export_lua WorldID_t GetWorldID() const { return m_Data.stServerPort.GetWorldID(); }
     export_lua const ServiceID& GetServiceID() const { return m_Data.stServerPort.GetServiceID(); }
-    export_lua uint8_t          GetServiceType() const { return m_Data.stServerPort.GetServiceID().GetServiceType(); }
-    export_lua uint8_t          GetServiceIdx() const { return m_Data.stServerPort.GetServiceID().GetServiceIdx(); }
+    export_lua ServiceType_t    GetServiceType() const { return m_Data.stServerPort.GetServiceID().GetServiceType(); }
+    export_lua ServiceIdx_t     GetServiceIdx() const { return m_Data.stServerPort.GetServiceID().GetServiceIdx(); }
 
-    export_lua uint16_t GetSocketIdx() const { return m_Data.nSocketIdx; }
-    export_lua void     SetSocketIdx(uint16_t val) { m_Data.nSocketIdx = val; }
-    export_lua uint64_t GetData64() const { return m_Data64; }
+    export_lua SocketIdx_t          GetSocketIdx() const { return m_Data.nSocketIdx; }
+    export_lua void                 SetSocketIdx(SocketIdx_t val) { m_Data.nSocketIdx = val; }
+    export_lua VirtualSocket_Data_t GetData64() const { return m_Data64; }
 
 private:
     struct ST_VIRTUALSOCKET
     {
-        ServerPort stServerPort;
-        uint16_t   nSocketIdx = 0; //实际取值范围1~0xFFFF 65535
-        uint16_t   nRevert    = 0;
+        ServerPort  stServerPort;
+        SocketIdx_t nSocketIdx = 0; //实际取值范围1~0xFFFF 65535
+        uint16_t    nRevert    = 0;
     };
     union {
-        ST_VIRTUALSOCKET m_Data;
-        uint64_t         m_Data64 = 0;
+        ST_VIRTUALSOCKET     m_Data;
+        VirtualSocket_Data_t m_Data64 = 0;
     };
 };
 
@@ -236,14 +244,14 @@ namespace std
         typedef std::size_t   result_type;
         result_type           operator()(argument_type const& s) const
         {
-            std::hash<uint64_t> hasher;
+            std::hash<VirtualSocket_Data_t> hasher;
             return hasher(s.operator uint64_t());
         }
     };
 } // namespace std
 
 template<>
-struct fmt::formatter<VirtualSocket> : public fmt::formatter<uint64_t>
+struct fmt::formatter<VirtualSocket> : public fmt::formatter<VirtualSocket_Data_t>
 {
     template<typename FormatContext>
     auto format(const VirtualSocket& vs, FormatContext& ctx)

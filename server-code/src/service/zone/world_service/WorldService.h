@@ -8,7 +8,6 @@
 #include "NetSocket.h"
 #include "ServiceComm.h"
 
-
 class CAccountManager;
 class CUserManager;
 class CSystemVarSet;
@@ -42,7 +41,7 @@ public:
 public:
     uint64_t CreatePlayerID();
     void     RecyclePlayerID(OBJID idPlayer);
-    void     SetServiceReady(uint16_t idService);
+    void     SetServiceReady(const ServerPort& server_port);
 
     bool SendProtoMsgToAllScene(const proto_msg_t& msg) const;
     bool SendProtoMsgToAllPlayer(const proto_msg_t& msg) const;

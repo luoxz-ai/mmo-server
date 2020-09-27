@@ -58,9 +58,10 @@ void ServiceLoader::Destory()
     __LEAVE_FUNCTION
 }
 
-bool ServiceLoader::_StartService(const std::string& dll_name, uint16_t idWorld, uint8_t idServiceType, uint8_t idServiceIdx)
+bool ServiceLoader::_StartService(const std::string& dll_name, WorldID_t idWorld, ServiceType_t idServiceType, ServiceIdx_t idServiceIdx)
 {
     __ENTER_FUNCTION
+    LOGMESSAGE("_StartService {} World:{} Service:{} {} ", dll_name, idWorld, idServiceType, idServiceIdx);
     if(dll_name.empty())
     {
         // log error
@@ -86,7 +87,7 @@ bool ServiceLoader::_StartService(const std::string& dll_name, uint16_t idWorld,
         hService = it_moudle->second;
     }
 
-    typedef IService* (*ServiceCreateFunc)(uint16_t, uint8_t, uint8_t);
+    typedef IService* (*ServiceCreateFunc)(WorldID_t, ServiceType_t, ServiceIdx_t);
 
     ServiceCreateFunc func = (ServiceCreateFunc)dlsym(hService, "ServiceCreate");
     if(func == nullptr)
@@ -95,7 +96,7 @@ bool ServiceLoader::_StartService(const std::string& dll_name, uint16_t idWorld,
         LOGFATAL("ServiceCreateFunc null {} fail:{}", idServiceType, dll_name.c_str());
         return false;
     }
-
+    LOGDEBUG("{} : ServiceCreate start ", dll_name);
     IService* pService = func(idWorld, idServiceType, idServiceIdx);
     if(pService)
     {
@@ -115,22 +116,23 @@ bool ServiceLoader::_StartService(const std::string& dll_name, uint16_t idWorld,
     return false;
 }
 
-bool ServiceLoader::Load(const std::string& setting_filename, uint16_t nWorldID, const std::set<ServiceID>& create_service_set)
+bool ServiceLoader::Load(const std::string& setting_filename, WorldID_t nWorldID, const std::set<ServiceID>& create_service_set)
 {
     __ENTER_FUNCTION
-
+    LOGMESSAGE("LoadServiceSetting Start file:{} world:{}", setting_filename, nWorldID);
     //先将所有的Service存储到MessagePort中，这样当Service开启后，收到的ServiceMsg:service_addr如果没有收录就是新Service
     if(GetMessageRoute()->LoadServiceSetting(setting_filename, nWorldID) == false)
     {
         return false;
     }
-
+    LOGDEBUG("start CreateAllMessagePort");
     GetMessageRoute()->CreateAllMessagePort(nWorldID, create_service_set);
 
     //开启service
     {
         if(create_service_set.empty())
         {
+            LOGDEBUG("start Loader AllService");
             //全部启动在本loader上
             bool bSucc = false;
             GetMessageRoute()->ForeachServiceInfoByWorldID(nWorldID, false, [&bSucc, nWorldID, pThis = this](const ServerAddrInfo* pServerAddrInfo) {
@@ -144,6 +146,7 @@ bool ServiceLoader::Load(const std::string& setting_filename, uint16_t nWorldID,
         }
         else
         {
+            LOGDEBUG("start Loader create_service_set");
             for(const auto& service_id: create_service_set)
             {
                 auto pServerAddrInfo =
@@ -153,6 +156,7 @@ bool ServiceLoader::Load(const std::string& setting_filename, uint16_t nWorldID,
                     LOGFATAL("World:{} Service:{} {} QueryServiceInfo Error", nWorldID, service_id.GetServiceType(), service_id.GetServiceIdx());
                     continue;
                 }
+
                 bool bSucc = _StartService(pServerAddrInfo->lib_name, nWorldID, service_id.GetServiceType(), service_id.GetServiceIdx());
                 if(bSucc == false)
                     return false;

@@ -32,7 +32,7 @@ bool CGMManager::Init(CMysqlConnection* pGlobalDB)
             }
         }
     }
-     return true;
+    return true;
     __LEAVE_FUNCTION
     return false;
 }

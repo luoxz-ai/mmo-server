@@ -39,7 +39,7 @@ void SetWorldServicePtr(CWorldService* ptr)
     tls_pService = ptr;
 }
 
-extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint8_t idServiceType, uint8_t idServiceIdx)
+extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(WorldID_t idWorld, ServiceType_t idServiceType, ServiceIdx_t idServiceIdx)
 {
     return CWorldService::CreateNew(ServerPort{idWorld, idServiceType, idServiceIdx});
 }
@@ -176,7 +176,6 @@ CMysqlConnection* CWorldService::_ConnectGameDB(uint16_t nWorldID, CMysqlConnect
         CHECKF(MysqlTableCheck::CheckAllTableAndFix<GAMEDB_TABLE_LIST>(pDB.get()));
         m_pGameDB.reset(pDB.release());
         return m_pGameDB.get();
-        
     }
     __LEAVE_FUNCTION
     return nullptr;
@@ -274,28 +273,24 @@ void CWorldService::RecyclePlayerID(OBJID idPlayer)
     m_setPlayerIDPool.push_back(idPlayer);
 }
 
-
-void CWorldService::SetServiceReady(uint16_t idService)
+void CWorldService::SetServiceReady(const ServerPort& server_port)
 {
     __ENTER_FUNCTION
-
+    auto idService = server_port.GetServiceID();
     if(m_setServiceNeedReady.empty())
         return;
 
-    LOGMESSAGE("ServiceReady:{}", ::GetServiceName(idService));
-
     m_setServiceNeedReady.erase(idService);
+    LOGMESSAGE("ServiceReady:{}  left_need:{}", ::GetServiceName(idService), m_setServiceNeedReady.size());
     if(m_setServiceNeedReady.empty() == true)
     {
         LOGMESSAGE("AllServiceReady");
-
         {
-
             {
                 ServerMSG::ServiceRegister send_msg;
                 send_msg.set_serverport(GetServerPort());
                 send_msg.set_update_time(TimeGetSecond());
-                WorldService()->SendProtoMsgToZonePort(ServerPort(0, ROUTE_SERVICE, 0), send_msg);
+                WorldService()->SendProtoMsgToZonePort(ServerPort(GetWorldID(), ROUTE_SERVICE, 0), send_msg);
             }
 
             {

@@ -3,16 +3,16 @@
 #include <iostream>
 
 #include "CheckUtil.h"
+#include "DB2PB.h"
 #include "EventManager.h"
 #include "MessagePort.h"
 #include "MessageRoute.h"
 #include "MonitorMgr.h"
+#include "MysqlConnection.h"
 #include "msg/ts_cmd.pb.h"
 #include "protomsg_to_cmd.h"
 #include "server_msg/server_side.pb.h"
 #include "serverinfodb.h"
-#include "DB2PB.h"
-#include "MysqlConnection.h"
 #include "serverinfodb.pb.h"
 
 CServiceCommon::CServiceCommon()
@@ -252,12 +252,14 @@ bool CServiceCommon::TransmitMsgToThisZoneAllPort(const CNetworkMessage* pMsg) c
     return false;
 }
 
-bool CServiceCommon::TransmitMsgToThisZoneAllPortExcept(const CNetworkMessage* pMsg, uint8_t idServiceType) const
+bool CServiceCommon::TransmitMsgToThisZoneAllPortExcept(const CNetworkMessage* pMsg, const std::set<ServiceType_t>& setExcept) const
 {
     __ENTER_FUNCTION
-    auto serverport_list = GetMessageRoute()->GetServerPortListByWorldIDExcept(GetWorldID(), idServiceType, false);
+    auto serverport_list = GetMessageRoute()->GetServerPortListByWorldID(GetWorldID(), false);
     for(const auto& server_port: serverport_list)
     {
+        if(setExcept.count(server_port.GetServiceType()) != 0)
+            continue;
         CNetworkMessage _msg(*pMsg);
         _msg.SetTo(server_port);
         _msg.CopyBuffer();
@@ -284,13 +286,13 @@ bool CServiceCommon::TransmitMsgToAllRoute(const CNetworkMessage* pMsg) const
     return false;
 }
 
-bool CServiceCommon::TransmitMsgToAllRouteExcept(const CNetworkMessage* pMsg, uint16_t idWorld) const
+bool CServiceCommon::TransmitMsgToAllRouteExcept(const CNetworkMessage* pMsg, const std::set<WorldID_t>& setExcept) const
 {
     __ENTER_FUNCTION
     auto serverport_list = GetMessageRoute()->GetServerPortListByServiceType(ROUTE_SERVICE);
     for(const auto& server_port: serverport_list)
     {
-        if(server_port.GetWorldID() == idWorld)
+        if(setExcept.count(server_port.GetWorldID()) != 0)
             continue;
         CNetworkMessage _msg(*pMsg);
         _msg.SetTo(server_port);
@@ -386,7 +388,7 @@ bool CServiceCommon::SendProtoMsgTo(const VirtualSocketMap_t& setSocketMap, cons
     return false;
 }
 
-std::unique_ptr<db::tbld_dbinfo> CServiceCommon::QueryDBInfo(uint16_t nWorldID, CMysqlConnection* pServerInfoDB)
+std::unique_ptr<db::tbld_dbinfo> CServiceCommon::QueryDBInfo(WorldID_t nWorldID, CMysqlConnection* pServerInfoDB)
 {
     return DB2PB::QueryOneConst<TBLD_DBINFO, db::tbld_dbinfo, TBLD_DBINFO::WORLDID>(pServerInfoDB, nWorldID);
 }
@@ -395,11 +397,7 @@ std::unique_ptr<CMysqlConnection> CServiceCommon::ConnectDB(const db::tbld_dbinf
 {
     CHECKF(pInfo);
     auto pDB    = std::make_unique<CMysqlConnection>();
-    auto result = pDB->Connect(pInfo->db_ip(),
-                                pInfo->db_user(),
-                                pInfo->db_passwd(),
-                                pInfo->db_name(),
-                                pInfo->db_port());
+    auto result = pDB->Connect(pInfo->db_ip(), pInfo->db_user(), pInfo->db_passwd(), pInfo->db_name(), pInfo->db_port());
 
     if(result == false)
     {
@@ -417,7 +415,7 @@ std::unique_ptr<CMysqlConnection> CServiceCommon::ConnectGlobalDB(CMysqlConnecti
     CHECKF(db_info);
     m_globaldb_info.reset(db_info.release());
     return ConnectDB(m_globaldb_info.get());
-       
+
     __LEAVE_FUNCTION
     return nullptr;
 }
@@ -426,7 +424,7 @@ std::unique_ptr<CMysqlConnection> CServiceCommon::ConnectGlobalDB()
 {
     __ENTER_FUNCTION
 
-   return ConnectDB(m_globaldb_info.get());
+    return ConnectDB(m_globaldb_info.get());
 
     __LEAVE_FUNCTION
     return nullptr;

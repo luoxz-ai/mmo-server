@@ -55,25 +55,26 @@ template<class Type>
 class CreateNewT
 {
 public:
-    CreateNewT(){}
-    virtual ~CreateNewT(){}
+    CreateNewT() {}
+    virtual ~CreateNewT() {}
 
-    template<typename... Args>                                  
-    static inline Type* CreateNew(Args&&... args)               
-    {                                                           
-        Type* newT = nullptr;                                   
-        __ENTER_FUNCTION                                        
-        {                                                       
-            newT = new Type();                                  
-            if(newT && newT->Init(std::forward<Args>(args)...)) 
-            {                                                   
-                return newT;                                    
-            }                                                   
-        }                                                       
-        __LEAVE_FUNCTION                                        
-        SAFE_DELETE(newT);                                      
-        return nullptr;                                         
+    template<typename... Args>
+    static inline Type* CreateNew(Args&&... args)
+    {
+        Type* newT = nullptr;
+        __ENTER_FUNCTION
+        {
+            newT = new Type();
+            if(newT && newT->Init(std::forward<Args>(args)...))
+            {
+                return newT;
+            }
+        }
+        __LEAVE_FUNCTION
+        SAFE_DELETE(newT);
+        return nullptr;
     }
+
 private:
 };
 

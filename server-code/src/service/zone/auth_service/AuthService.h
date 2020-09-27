@@ -6,7 +6,6 @@
 #include "ServiceComm.h"
 #include "UIDFactory.h"
 
-
 struct event;
 class CNetMSGProcess;
 class CGMManager;
@@ -33,15 +32,12 @@ public:
     virtual void OnProcessMessage(CNetworkMessage*) override;
 
 public:
-  
-
     CGMManager*   GetGMManager() const { return m_pGMManager.get(); }
     CAuthManager* GetAuthManager() const { return m_pAuthManager.get(); }
 
 private:
     std::unique_ptr<CGMManager>   m_pGMManager;
     std::unique_ptr<CAuthManager> m_pAuthManager;
-    
 };
 
 CAuthService* AuthService();

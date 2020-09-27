@@ -15,7 +15,7 @@
 #include "protomsg_to_cmd.h"
 #include "server_msg/server_side.pb.h"
 
-extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint8_t idServiceType, uint8_t idServiceIdx)
+extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(WorldID_t idWorld, ServiceType_t idServiceType, ServiceIdx_t idServiceIdx)
 {
     return CSocketService::CreateNew(ServerPort{idWorld, idServiceType, idServiceIdx});
 }
@@ -142,10 +142,6 @@ bool CSocketService::Init(const ServerPort& nServerPort)
             pNetMsgProcess->Register(k, std::get<0>(v), std::get<1>(v));
         }
     }
-
-    ServerMSG::ServiceReady msg;
-    msg.set_serverport(GetServerPort());
-    SendProtoMsgToZonePort(ServerPort(GetWorldID(), WORLD_SERVICE, 0), msg);
 
     return true;
 
@@ -299,7 +295,18 @@ void CSocketService::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
     __LEAVE_FUNCTION
 }
 
-ON_SERVERMSG(CSocketService, ServiceReady) {}
+ON_SERVERMSG(CSocketService, ServiceReady)
+{
+    ServerPort ready_server_port(msg.serverport());
+    LOGDEBUG("recv service {}  is ready", ready_server_port);
+    if(ready_server_port.GetServiceType() == AUTH_SERVICE)
+    {
+        LOGDEBUG("auth_service {} is ready, send ready to world", ready_server_port);
+        ServerMSG::ServiceReady msg;
+        msg.set_serverport(SocketService()->GetServerPort());
+        SocketService()->SendProtoMsgToZonePort(ServerPort(SocketService()->GetWorldID(), WORLD_SERVICE, 0), msg);
+    }
+}
 
 ON_SERVERMSG(CSocketService, SocketStartAccept)
 {

@@ -8,7 +8,6 @@
 #include "UIDFactory.h"
 #include "google/protobuf/descriptor.pb.h"
 
-
 class CMessageRoute;
 class CMessagePort;
 class CMonitorMgr;
@@ -32,8 +31,10 @@ public:
     export_lua VirtualSocket GetServerVirtualSocket() const { return VirtualSocket(m_nServerPort, 0); }
     export_lua const ServerPort& GetServerPort() const { return m_nServerPort; }
     export_lua void              SetServerPort(const ServerPort& val) { m_nServerPort = val; }
-    export_lua uint16_t          GetWorldID() const { return m_nServerPort.GetWorldID(); }
+    export_lua WorldID_t         GetWorldID() const { return m_nServerPort.GetWorldID(); }
     export_lua const ServiceID& GetServiceID() const { return m_nServerPort.GetServiceID(); }
+    export_lua ServiceType_t    GetServiceType() const { return GetServiceID().GetServiceType(); }
+    export_lua ServiceIdx_t      GetServiceIdx() const { return GetServiceID().GetServiceIdx(); }
 
     export_lua CNetworkService* GetNetworkService() const { return m_pNetworkService.get(); }
     export_lua const std::string& GetServiceName() const { return m_ServiceName; }
@@ -62,9 +63,9 @@ public:
     //转发消息给MessagePort
     bool TransmitMsgToPort(const ServerPort& nServerPort, const CNetworkMessage* pMsg) const;
     bool TransmitMsgToThisZoneAllPort(const CNetworkMessage* pMsg) const;
-    bool TransmitMsgToThisZoneAllPortExcept(const CNetworkMessage* pMsg, uint8_t idServiceType) const;
+    bool TransmitMsgToThisZoneAllPortExcept(const CNetworkMessage* pMsg, const std::set<ServiceType_t>& setExcept) const;
     bool TransmitMsgToAllRoute(const CNetworkMessage* pMsg) const;
-    bool TransmitMsgToAllRouteExcept(const CNetworkMessage* pMsg, uint16_t idWorld) const;
+    bool TransmitMsgToAllRouteExcept(const CNetworkMessage* pMsg, const std::set<WorldID_t>& setExcept) const;
 
 public:
     bool SendMsgToVirtualSocket(const VirtualSocket& vsTo, const proto_msg_t& msg) const;
@@ -114,23 +115,24 @@ public:
     export_lua CMonitorMgr* GetMonitorMgr() const { return m_pMonitorMgr.get(); }
 
 public:
-    std::unique_ptr<CMysqlConnection> ConnectGlobalDB(CMysqlConnection* pServerInfoDB);
-    std::unique_ptr<CMysqlConnection> ConnectGlobalDB();
-    std::unique_ptr<CMysqlConnection> ConnectServerInfoDB();    
+    std::unique_ptr<CMysqlConnection>        ConnectGlobalDB(CMysqlConnection* pServerInfoDB);
+    std::unique_ptr<CMysqlConnection>        ConnectGlobalDB();
+    std::unique_ptr<CMysqlConnection>        ConnectServerInfoDB();
     static std::unique_ptr<db::tbld_dbinfo>  QueryDBInfo(uint16_t nWorldID, CMysqlConnection* pServerInfoDB);
     static std::unique_ptr<CMysqlConnection> ConnectDB(const db::tbld_dbinfo* pInfo);
+
 protected:
     std::unique_ptr<CNetworkService> m_pNetworkService;
     CMessagePort*                    m_pMessagePort;
     ServerPort                       m_nServerPort;
 
     std::unique_ptr<db::tbld_dbinfo> m_globaldb_info;
-    std::unique_ptr<CNormalThread>  m_pLogicThread;
-    std::unique_ptr<CEventManager>  m_pEventManager;
-    std::unique_ptr<CNetMSGProcess> m_pNetMsgProcess;
-    std::string                     m_ServiceName;
-    uint32_t                        m_nMessageProcess = 0;
-    std::unique_ptr<CMonitorMgr>    m_pMonitorMgr;
+    std::unique_ptr<CNormalThread>   m_pLogicThread;
+    std::unique_ptr<CEventManager>   m_pEventManager;
+    std::unique_ptr<CNetMSGProcess>  m_pNetMsgProcess;
+    std::string                      m_ServiceName;
+    uint32_t                         m_nMessageProcess = 0;
+    std::unique_ptr<CMonitorMgr>     m_pMonitorMgr;
 };
 
 #endif /* SERVICECOMM_H */

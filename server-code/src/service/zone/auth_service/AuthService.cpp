@@ -15,7 +15,6 @@
 #include "SettingMap.h"
 #include "server_msg/server_side.pb.h"
 
-
 static thread_local CAuthService* tls_pService = nullptr;
 CAuthService*                     AuthService()
 {
@@ -26,7 +25,7 @@ void SetAuthServicePtr(CAuthService* ptr)
     tls_pService = ptr;
 }
 
-extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint8_t idServiceType, uint8_t idServiceIdx)
+extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(WorldID_t idWorld, ServiceType_t idServiceType, ServiceIdx_t idServiceIdx)
 {
     return CAuthService::CreateNew(ServerPort{idWorld, idServiceType, idServiceIdx});
 }
@@ -68,10 +67,8 @@ bool CAuthService::Init(const ServerPort& nServerPort)
         BaseCode::SetNdc(oldNdc);
     };
 
-
     auto pGlobalDB = ConnectGlobalDB(GetMessageRoute()->GetServerInfoDB());
     CHECKF(pGlobalDB.get());
-    
 
     m_pGMManager.reset(CGMManager::CreateNew(pGlobalDB.get()));
     CHECKF(m_pGMManager.get());
@@ -90,7 +87,7 @@ bool CAuthService::Init(const ServerPort& nServerPort)
     ServerMSG::ServiceReady msg;
     msg.set_serverport(GetServerPort());
 
-    SendProtoMsgToZonePort(ServerPort(GetWorldID(), SOCKET_SERVICE, 0), msg);
+    SendProtoMsgToZonePort(ServerPort(GetWorldID(), SOCKET_SERVICE, GetServiceIdx()), msg);
     return true;
 }
 

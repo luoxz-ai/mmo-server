@@ -142,7 +142,7 @@ bool CMysqlConnection::Connect(const std::string& host,
                     LOGDBFATAL("mysql async connect to {}:{} {} fail.", host.c_str(), port, db.c_str());
                     // log error
                 }
-                 LOGDBDEBUG("mysql async_connect to {}:{} {} succ.", host.c_str(), port, db.c_str());
+                LOGDBDEBUG("mysql async_connect to {}:{} {} succ.", host.c_str(), port, db.c_str());
                 __LEAVE_FUNCTION
             },
             []() { BaseCode::ClearNdc(); });

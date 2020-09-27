@@ -23,7 +23,7 @@ void SetRouteServicePtr(CRouteService* ptr)
     tls_pService = ptr;
 }
 
-extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(uint16_t idWorld, uint8_t idServiceType, uint8_t idServiceIdx)
+extern "C" __attribute__((visibility("default"))) IService* ServiceCreate(WorldID_t idWorld, ServiceType_t idServiceType, ServiceIdx_t idServiceIdx)
 {
     return CRouteService::CreateNew(ServerPort{idWorld, idServiceType, idServiceIdx});
 }
@@ -76,6 +76,9 @@ bool CRouteService::Init(const ServerPort& nServerPort)
         }
     }
 
+    ServerMSG::ServiceReady msg;
+    msg.set_serverport(GetServerPort());
+    SendProtoMsgToZonePort(ServerPort(GetWorldID(), WORLD_SERVICE, 0), msg);
     return true;
 }
 
@@ -94,7 +97,7 @@ void CRouteService::OnPortRecvTimeout(CNetSocket* pSocket) {}
 ON_SERVERMSG(CRouteService, ServiceRegister)
 {
     ServerPort server_port{msg.serverport()};
-    LOGMESSAGE("World:{} start", server_port.GetWorldID());
+    LOGMESSAGE("World:{} register", server_port.GetWorldID());
     GetMessageRoute()->SetWorldReady(server_port.GetWorldID(), true);
 
     if(server_port.GetWorldID() == RouteService()->GetWorldID()) //本区
