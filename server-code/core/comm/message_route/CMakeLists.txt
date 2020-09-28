@@ -30,6 +30,7 @@ add_custom_command(
       ARGS --plugin=${BINARIES_CORE}/protoc-gen-sql --proto_path=${CMAKE_CURRENT_SOURCE_DIR} --sql_out=${CMAKE_CURRENT_SOURCE_DIR}/db/ --cpp_out=${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/db_proto/serverinfodb.proto
       DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/db_proto/serverinfodb.proto" protoc-gen-sql
       COMMENT "Running C++ protocol buffer compiler on db_proto/serverinfodb.proto"
+      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
       VERBATIM )
 
 add_custom_command(
@@ -38,6 +39,7 @@ add_custom_command(
         ARGS --input=${CMAKE_CURRENT_SOURCE_DIR}/db/db_proto/serverinfodb.pb.sql --outdir=${CMAKE_CURRENT_SOURCE_DIR}/ --output=serverinfodb --format=clang-format-9
         DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/db_proto/serverinfodb.pb.h sql2cpp 
         COMMENT "gen serverinfodb.h from sql"
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         VERBATIM )
 
 

@@ -271,4 +271,11 @@ ENDIF()
 
 
 
+add_custom_target(format 
+  COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/format-file.sh core
+  COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/format-file.sh src
+  COMMENT "clang-format all file"
+ )
+
+
 MESSAGE(STATUS ${CMAKE_BUILD_TYPE})

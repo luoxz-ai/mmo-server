@@ -24,6 +24,7 @@ add_custom_command(
       ARGS --plugin=${BINARIES_CORE}/protoc-gen-sql --proto_path=${CMAKE_CURRENT_SOURCE_DIR} --sql_out=${CMAKE_CURRENT_SOURCE_DIR}/db/ --cpp_out=${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/db_proto/gamedb.proto
       DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/db_proto/gamedb.proto" protoc-gen-sql
       COMMENT "Running C++ protocol buffer compiler on db_proto/gamedb.proto"
+      WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
       VERBATIM )
 
     
@@ -34,6 +35,7 @@ add_custom_command(
         ARGS --plugin=${BINARIES_CORE}/protoc-gen-sql --proto_path=${CMAKE_CURRENT_SOURCE_DIR} --sql_out=${CMAKE_CURRENT_SOURCE_DIR}/db/ --cpp_out=${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/db_proto/globaldb.proto
         DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/db_proto/globaldb.proto" protoc-gen-sql
         COMMENT "Running C++ protocol buffer compiler on db_proto/globaldb.proto"
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         VERBATIM )
 
 add_custom_command(
