@@ -22,25 +22,59 @@
 |depends/src/tinyxml2|xml读取库
 |depends/src/xlnt|xlsx读取库
 
-## src目录
+## core目录
 |目录|说明|
 |:-|:-|
 |CMake|cmake额外依赖
 |comm|全局公共库
-|game_comm|游戏公共库
-|server_share|服务间共享目录
-|service|服务
+|proto|公共库内的proto
+|service|服务公共库
 |service_loader|服务加载器
 |test|测试项目
 |tools|工具项目
 
-### src/comm目录
+
+### core/comm目录
 |目录|说明|
 |:-|:-|
 |basecode|基础代码库
 |mydb|封装mysql访问
 |network|网络库封装
 |message_route|服务间通信组件
+|script|脚本库
+
+
+### core/service目录
+|目录|说明|
+|:-|:-|
+|comm|公共头文件
+|service_comm|service公共库
+|rpcservice_comm|rpc服务封装
+
+### core/service_loader目录
+|目录|说明|
+|:-|:-|
+|service_loader|服务器装载器, 读取service.xml加载配置, 使用service_loader -d --start=SERVICE_NAME-X,SERVICE_NAME-Y 启动服务 service_loader --stop=SERVICE_NAME-X,SERVICE_NAME-Y 关闭服务
+
+
+### core/tools目录
+|目录|说明|
+|:-|:-|
+|cxx2lua|解析项目中头文件上的export_lua标记，自动生成lua binding代码
+|excel2pb|解析xlsx文件，转换为proto文件 
+|pbbin2txt|解析proto文件，转换为文本
+|sql2cpp|解析sql文件，转换为struct
+|robotclient|压测机器人工具 使用lua编写实例
+
+## src目录
+|目录|说明|
+|:-|:-|
+|game_comm|游戏公共库
+|server_share|服务间共享目录
+|service|具体服务
+|test|测试项目
+|tools|工具项目
+
 
 ### src/game_comm目录
 |目录|说明|
@@ -48,44 +82,34 @@
 |gamemap|地图数据封装
 |mydbtable|数据库 结构定义
 |proto|消息结构和配置文件结构
-|script|脚本管理封装
 
-### src/service_loader目录
-|目录|说明|
-|:-|:-|
-|service_loader|服务器装载器, 读取service.xml加载配置, 使用service_loader -d --start=1,11,12,13,14 启动服务 service_loader --stop=1,11,12,13,14 关闭服务
 
 ### src/service目录
-|目录|说明|
-|:-|:-|
-|service_comm|服务封装
-|rpcservice_comm|rpc服务封装
+
 #### 具体service
 |服务|说明|
 |:-|:-|
 |socket_service   |网关(玩家前端接入)|
+|auth_service     |登录验证服务，一个socket对应一个auth服务|
 |world_service    |账号登录,角色创建,角色选择, 帮派,组队,排行榜等全局唯一功能|
-|zone_service     |游戏核心服务|
-|ai_service       |一个zone对应一个ai服务|
+|scene_service    |游戏核心服务，各种场景|
+|ai_service       |一个scene对应一个ai服务|
 |market_serice    |拍卖行服务|
 |gm_serivce       |接入运营控制(一个区一个)
+|route_service    |消息转发|
 |dlog             |数据日志上报
-
 
 
 |全局服务|说明|
 |:-|:-|
 |gmproxy_service  |全局外部回调模块(根据外部http端口回调地址, 发送内部消息给对应区分的gm_service)|
-|route_service    |全局服务控制模块,全局消息转发, 区服信息推送CDN|
+|guild_serice     |公会服务|
 |toplist_service  |排行榜服务|
 
 ### src/tools目录
 |目录|说明|
 |:-|:-|
-|cxx2lua|解析项目中头文件上的export_lua标记，自动生成lua binding代码
-|excel2pb|解析xlsx文件，转换为proto文件 
-|pbbin2txt|解析proto文件，转换为文本
-|sql2cpp|解析sql文件，转换为struct
+|merge_server|合服工具
 |robotclient|压测机器人工具 使用lua编写实例
 
 
