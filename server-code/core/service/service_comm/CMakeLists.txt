@@ -31,6 +31,7 @@ TARGET_LINK_LIBRARIES(service_comm
  libmydb.so
  libmessage_route.so
  libfmt.so
+ crypto_comm
  pthread
  rt
  dl

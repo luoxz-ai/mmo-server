@@ -27,5 +27,5 @@ rm xlnt/build/* -rf
 rm fmt/build/* -rf
 rm recastnavigation/build/* -rf
 rm box2d/build/* -rf
-
+rm cryptopp/cmake_build/* -rf
 

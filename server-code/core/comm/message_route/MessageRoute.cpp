@@ -8,7 +8,7 @@
 #include "NetSocket.h"
 #include "serverinfodb.h"
 #include "tinyxml2/tinyxml2.h"
-
+#include "NormalCrypto.h"
 constexpr uint32_t SERVICE_LOAD_REDIS_TIMEOUT = 60 * 1000; // redis上的serviceload数据60秒丢弃
 constexpr uint32_t SERVICE_LOAD_TIMEOUT       = 30 * 1000; //每30秒发送1次service_load数据
 
@@ -92,11 +92,7 @@ bool CMessageRoute::LoadServiceSetting(const std::string& filename, WorldID_t nW
     else
     {
         CSettingNode settingServerInfoDB;
-        settingServerInfoDB.SetVal("host", std::getenv("ServerInfoMYSQL_HOST"));
-        settingServerInfoDB.SetVal("user", std::getenv("ServerInfoMYSQL_USER"));
-        settingServerInfoDB.SetVal("passwd", std::getenv("ServerInfoMYSQL_PASSWD"));
-        settingServerInfoDB.SetVal("port", std::getenv("ServerInfoMYSQL_PORT"));
-        settingServerInfoDB.SetVal("dbname", std::getenv("ServerInfoMYSQL_DBNAME"));
+        settingServerInfoDB.SetVal("url", std::getenv("ServerInfoMYSQL_URL"));
         m_setDataMap["ServerInfoMYSQL"].emplace_back(std::move(settingServerInfoDB));
     }
 
@@ -105,11 +101,7 @@ bool CMessageRoute::LoadServiceSetting(const std::string& filename, WorldID_t nW
     //读取全服IP表
     {
         const auto& settingServerInfoDB = m_setDataMap["ServerInfoMYSQL"][0];
-        if(ConnectServerInfoDB(settingServerInfoDB.Query("host"),
-                               settingServerInfoDB.Query("user"),
-                               settingServerInfoDB.Query("passwd"),
-                               settingServerInfoDB.Query("dbname"),
-                               settingServerInfoDB.QueryULong("port")) == false)
+        if(ConnectServerInfoDB(settingServerInfoDB.Query("url")) == false)
         {
             LOGFATAL("CMessageRoute::LoadServiceSetting ConnectServerInfoDB fail");
             return false;
@@ -121,16 +113,13 @@ bool CMessageRoute::LoadServiceSetting(const std::string& filename, WorldID_t nW
     return false;
 }
 
-bool CMessageRoute::ConnectServerInfoDB(const std::string& host,
-                                        const std::string& user,
-                                        const std::string& password,
-                                        const std::string& db,
-                                        uint32_t           port)
+bool CMessageRoute::ConnectServerInfoDB(const std::string& mysql_url)
 {
     __ENTER_FUNCTION
     // connect db
     std::unique_ptr<CMysqlConnection> pDB = std::make_unique<CMysqlConnection>();
-    if(pDB->Connect(host, user, password, db, port) == false)
+    auto real_mysql_url = NormalCrypto::default_instance().Decode(mysql_url);
+    if(pDB->Connect(real_mysql_url) == false)
     {
         return false;
     }

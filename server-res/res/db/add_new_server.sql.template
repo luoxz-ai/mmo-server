@@ -23,5 +23,5 @@ REPLACE INTO `tbld_servicedetail` VALUES ($ENV{ZONE_ID}, 7, 1, 'libsocket_servic
 REPLACE INTO `tbld_servicedetail` VALUES ($ENV{ZONE_ID}, 7, 2, 'libsocket_service.so', '$ENV{ZONE_IP}', $ENV{PORT_START}+62, '$ENV{ZONE_OUT_IP}', $ENV{OUT_PORT_END}, 0, '0.0.0.0');
 
 
-REPLACE INTO `tbld_dbinfo` VALUES ($ENV{ZONE_ID}, '$ENV{ZONE_MYSQL_IP}', 3306, '$ENV{ZONE_NAME}', 'root', '$ENV{MYSQL_PASSWD}');
+REPLACE INTO `tbld_dbinfo` VALUES ($ENV{ZONE_ID}, '$ENV{ZONE_MYSQL_URL}');
 REPLACE INTO `tbld_serverlist` VALUES ($ENV{ZONE_ID}, '$ENV{ZONE_ID}区', $ENV{ZONE_OPEN_TIME}, 4, '$ENV{ZONE_OUT_IP}:$ENV{OUT_PORT_START};$ENV{ZONE_OUT_IP}:$ENV{OUT_PORT_END}', 0);

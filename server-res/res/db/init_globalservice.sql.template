@@ -26,4 +26,4 @@ REPLACE INTO `tbld_servicedetail` VALUES (0, 11, 5, 'libgmproxy_service.so', '$E
 
 
 #全局数据库地址
-REPLACE INTO `tbld_dbinfo` VALUES (0, '$ENV{GLOBAL_MYSQL_IP}', 3306, '$ENV{GLOBAL_MYSQL_NAME}', 'root', '$ENV{MYSQL_PASSWD}');
+REPLACE INTO `tbld_dbinfo` VALUES (0, '$ENV{GLOBAL_MYSQL_URL}');

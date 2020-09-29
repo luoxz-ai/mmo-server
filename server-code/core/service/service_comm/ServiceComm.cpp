@@ -14,6 +14,7 @@
 #include "server_msg/server_side.pb.h"
 #include "serverinfodb.h"
 #include "serverinfodb.pb.h"
+#include "NormalCrypto.h"
 
 CServiceCommon::CServiceCommon()
     : m_pNetworkService(nullptr)
@@ -410,7 +411,8 @@ std::unique_ptr<CMysqlConnection> CServiceCommon::ConnectDB(const db::tbld_dbinf
 {
     CHECKF(pInfo);
     auto pDB    = std::make_unique<CMysqlConnection>();
-    auto result = pDB->Connect(pInfo->db_ip(), pInfo->db_user(), pInfo->db_passwd(), pInfo->db_name(), pInfo->db_port());
+    auto real_mysql_url = NormalCrypto::default_instance().Decode(pInfo->db_url());
+    auto result = pDB->Connect(real_mysql_url);
 
     if(result == false)
     {
@@ -448,11 +450,9 @@ std::unique_ptr<CMysqlConnection> CServiceCommon::ConnectServerInfoDB()
     const auto& settings            = GetMessageRoute()->GetSettingMap();
     const auto& settingServerInfoDB = settings["ServerInfoMYSQL"][0];
     auto        pServerInfoDB       = std::make_unique<CMysqlConnection>();
-    if(pServerInfoDB->Connect(settingServerInfoDB.Query("host"),
-                              settingServerInfoDB.Query("user"),
-                              settingServerInfoDB.Query("passwd"),
-                              settingServerInfoDB.Query("dbname"),
-                              settingServerInfoDB.QueryULong("port")) == false)
+    auto mysql_url = settingServerInfoDB.Query("url");
+    auto real_mysql_url = NormalCrypto::default_instance().Decode(mysql_url);
+    if(pServerInfoDB->Connect(real_mysql_url) == false)
     {
         return nullptr;
     }

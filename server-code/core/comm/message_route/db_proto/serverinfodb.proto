@@ -7,12 +7,7 @@ message tbld_dbinfo
 {
 
     uint32 worldid = 1 [(sql).primary_key = "idx_id"]; //游戏服编号
-
-    string db_ip     = 2 [(sql).size = 255];    //游戏数据mysql地址
-    uint32 db_port   = 3 ; //游戏数据mysql端口
-    string db_name   = 4 [(sql).size = 255];    //游戏数据mysql表名
-    string db_user   = 5 [(sql).size = 255];    //游戏数据mysql用户
-    string db_passwd = 6 [(sql).size = 255];    //游戏数据mysql密码
+    string db_url  = 2 [(sql).size = 2048];    //游戏数据mysql地址
 } 
 
 message tbld_serverlist
@@ -25,6 +20,7 @@ message tbld_serverlist
     uint32 open_status  = 4;                       //开放状态
     string publish_addr = 5 [(sql).size = 255];    //入口地址
     uint32 mergeto      = 6 [(sql).int_size = 16]; //已经被合服到哪个服了
+    
 }
 
 message tbld_servicedetail

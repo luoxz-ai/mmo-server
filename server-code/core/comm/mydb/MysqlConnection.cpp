@@ -1,7 +1,7 @@
 #include "MysqlConnection.h"
-
+#include "MysqlUrl.h"
 #include "mysql/errmsg.h"
-
+#include "MysqlUrl.h"
 constexpr int32_t MAX_PING_TIMES_PER_QUERY = 10;
 std::mutex        g_mysql_init_mutex;
 CMysqlConnection::CMysqlConnection()
@@ -39,6 +39,15 @@ CMysqlConnection::~CMysqlConnection()
 
         m_pHandle.reset();
     }
+}
+
+bool CMysqlConnection::Connect(const std::string& strUrl, uint32_t client_flag, bool bCreateAsync)
+{
+    __ENTER_FUNCTION
+    MysqlUrl url = ParseMysqlUrl(strUrl);
+    return Connect(url.host, url.user, url.password, url.db, url.port, client_flag, bCreateAsync);
+    __LEAVE_FUNCTION
+    return false;
 }
 
 bool CMysqlConnection::Connect(const std::string& host,

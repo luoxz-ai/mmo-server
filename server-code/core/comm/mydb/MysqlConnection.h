@@ -59,7 +59,7 @@ public:
     CMysqlConnection();
 
     ~CMysqlConnection();
-
+    bool            Connect(const std::string& strUrl, uint32_t client_flag = 0, bool bCreateAsync = false);
     bool            Connect(const std::string& host,
                             const std::string& user,
                             const std::string& password,

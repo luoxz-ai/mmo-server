@@ -10,12 +10,12 @@ if [ ! -n "$1" ] ;then
     exit;
 fi 
 
-
+MYSQL_PASSWD=test12345
 source $env_file
 
 create_db()
 {
-echo "create database ${ZONE_NAME};" | docker exec -i ${MYSQL_DOCKER_NAME} sh -c "exec mysql -v -uroot -p\"${MYSQL_PASSWD}\""
+echo "create database IF NOT EXISTS ${ZONE_NAME};" | docker exec -i ${MYSQL_DOCKER_NAME} sh -c "exec mysql -v -uroot -p\"${MYSQL_PASSWD}\""
 
 set -e
 sql_cmd="exec mysql -v -uroot -p\"${MYSQL_PASSWD}\" ${ZONE_NAME}"
@@ -44,9 +44,8 @@ docker exec \
 -e ZONE_OUT_IP=${ZONE_OUT_IP} \
 -e OUT_PORT_START=${OUT_PORT_START} \
 -e OUT_PORT_END=${OUT_PORT_END} \
--e ZONE_MYSQL_IP=${ZONE_MYSQL_IP} \
+-e ZONE_MYSQL_URL=${ZONE_MYSQL_URL} \
 -e ZONE_OPEN_TIME=${ZONE_OPEN_TIME} \
--e MYSQL_PASSWD=${MYSQL_PASSWD} \
  -i mmo-server-build  sh -c "${cmd}" | docker exec -i mysql-global sh -c "exec mysql -v -uroot -p\"${MYSQL_PASSWD}\" serverinfo"
 }
 

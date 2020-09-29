@@ -56,12 +56,13 @@ ADD_LIBRARY(message_route SHARED ${SRCS} ${PROTO_SRC} ${PROTO_HEADER}
 SET(LIBRARY_OUTPUT_PATH ${LIBRARIES_CORE})
 
 
-ADD_DEPENDENCIES(message_route network basecode mydb sql_options)
+ADD_DEPENDENCIES(message_route network basecode mydb sql_options crypto_comm)
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(message_route
  libnetwork.so
  libbasecode.so
  libmydb.so
+ crypto_comm
  sql_options
  cpp_redis
  tinyxml2

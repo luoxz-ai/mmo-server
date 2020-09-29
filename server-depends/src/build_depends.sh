@@ -206,9 +206,9 @@ CC=${CC_COMPILER} CXX=${CXX_COMPILER} CFLAGS=${CC_FLAGS} CXXFLAGS=${CXX_FLAGS} L
 cd ../..
 }
 
-crpytopp()
+cryptopp()
 {
-cd crpytopp
+cd cryptopp
 mkdir -p cmake_build
 cd cmake_build
 CC=${CC_COMPILER} CXX=${CXX_COMPILER} CFLAGS=${CC_FLAGS} CXXFLAGS=${CXX_FLAGS} LD_FLAG=${LINK_FLAGS} BUILD_OS=linux BUILD_MODE=native cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBUILD_TESTING=OFF -DDISABLE_ASM=ON

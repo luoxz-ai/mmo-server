@@ -11,12 +11,8 @@ struct TBLD_DBINFO
     static constexpr const char* table_name() { return "tbld_dbinfo"; }
     enum FIELD_ENUMS
     {
-        WORLDID,   //'游戏服编号'
-        DB_IP,     //'游戏数据mysql地址'
-        DB_PORT,   //'游戏数据mysql端口'
-        DB_NAME,   //'游戏数据mysql表名'
-        DB_USER,   //'游戏数据mysql用户'
-        DB_PASSWD, //'游戏数据mysql密码'
+        WORLDID, //'游戏服编号'
+        DB_URL,  //'游戏数据mysql地址'
 
     };
 
@@ -24,31 +20,15 @@ struct TBLD_DBINFO
     {
         return std::make_tuple(
             std::make_tuple("worldid", DB_FIELD_TYPE_LONG_UNSIGNED, true, "  `worldid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '游戏服编号'"),
-            std::make_tuple("db_ip",
+            std::make_tuple("db_url",
                             DB_FIELD_TYPE_VARCHAR,
                             false,
-                            "  `db_ip` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '游戏数据mysql地址'"),
-            std::make_tuple("db_port",
-                            DB_FIELD_TYPE_LONG_UNSIGNED,
-                            false,
-                            "  `db_port` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '游戏数据mysql端口'"),
-            std::make_tuple("db_name",
-                            DB_FIELD_TYPE_VARCHAR,
-                            false,
-                            "  `db_name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '游戏数据mysql表名'"),
-            std::make_tuple("db_user",
-                            DB_FIELD_TYPE_VARCHAR,
-                            false,
-                            "  `db_user` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '游戏数据mysql用户'"),
-            std::make_tuple("db_passwd",
-                            DB_FIELD_TYPE_VARCHAR,
-                            false,
-                            "  `db_passwd` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '游戏数据mysql密码'"));
+                            "  `db_url` varchar(2048) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '游戏数据mysql地址'"));
     }
 
-    using field_type_t = type_list<uint32_t, char[255], uint32_t, char[255], char[255], char[255]>;
+    using field_type_t = type_list<uint32_t, char[2048]>;
 
-    static constexpr size_t field_count() { return 6; }
+    static constexpr size_t field_count() { return 2; }
 
     static constexpr auto keys_info() { return std::make_tuple(std::make_tuple("PRIMARY", "worldid")); }
 
@@ -58,11 +38,7 @@ struct TBLD_DBINFO
     {
         return R"##(CREATE TABLE `tbld_dbinfo` (
   `worldid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '游戏服编号',
-  `db_ip` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '游戏数据mysql地址',
-  `db_port` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '游戏数据mysql端口',
-  `db_name` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '游戏数据mysql表名',
-  `db_user` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '游戏数据mysql用户',
-  `db_passwd` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '游戏数据mysql密码',
+  `db_url` varchar(2048) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '游戏数据mysql地址',
   PRIMARY KEY (`worldid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1)##";
     };

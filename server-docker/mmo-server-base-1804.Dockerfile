@@ -55,7 +55,12 @@ RUN useradd --create-home --no-log-init --shell /bin/bash ubuntu
 RUN adduser ubuntu sudo
 RUN adduser ubuntu root
 RUN passwd -d ubuntu
+RUN echo "ubuntu   ALL=(ALL)     ALL" >>/etc/sudoers
+RUN mkdir -p /data/mmorpg
+RUN chown ubuntu /data/mmorpg
 USER ubuntu
+
+
 WORKDIR /home/ubuntu
 
 

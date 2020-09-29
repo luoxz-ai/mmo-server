@@ -12,6 +12,7 @@
 #include "get_opt.h"
 #include "globaldb.h"
 #include "serverinfodb.h"
+#include "NormalCrypto.h"
 
 CMysqlConnectionPtr ConnectGameDB(CMysqlConnection* pGlobalDB, uint32_t worldid)
 {
@@ -25,14 +26,11 @@ CMysqlConnectionPtr ConnectGameDB(CMysqlConnection* pGlobalDB, uint32_t worldid)
     auto row = result->fetch_row(false);
     if(row)
     {
-        std::string host   = row->Field(TBLD_DBINFO::DB_IP).get<std::string>();
-        uint16_t    port   = row->Field(TBLD_DBINFO::DB_PORT);
-        std::string user   = row->Field(TBLD_DBINFO::DB_USER).get<std::string>();
-        std::string passwd = row->Field(TBLD_DBINFO::DB_PASSWD).get<std::string>();
-        std::string dbname = row->Field(TBLD_DBINFO::DB_NAME).get<std::string>();
-
+        std::string db_url = row->Field(TBLD_DBINFO::DB_URL).get<std::string>();
+        auto real_mysql_url = NormalCrypto::default_instance().Decode(db_url);
         auto pDB = std::make_unique<CMysqlConnection>();
-        if(pDB->Connect(host, user, passwd, dbname, port) == false)
+        
+        if(pDB->Connect(real_mysql_url) == false)
         {
             return nullptr;
         }
@@ -80,12 +78,8 @@ int main(int argc, char** argv)
     __ENTER_FUNCTION
     get_opt opt(argc, (const char**)argv);
 
-    std::string globaldb_host   = opt["--ghost"];
-    std::string globaldb_port   = opt["--gport"];
-    std::string globaldb_user   = opt["--guser"];
-    std::string globaldb_passwd = opt["--gpasswd"];
-    std::string globaldb_dbname = opt["--gdbname"];
-
+    std::string globaldb_url   = opt["--gurl"];
+    
     std::string zone_src       = opt["--zone_src"];
     uint32_t    zone_src_id    = atoi(zone_src.c_str());
     std::string zone_target    = opt["--zone_target"];
@@ -94,7 +88,7 @@ int main(int argc, char** argv)
     BaseCode::InitLog("/data/log/merge-server");
     BaseCode::SetNdc("merge-server");
     CMysqlConnection globaldb;
-    CHECKF(globaldb.Connect(globaldb_host, globaldb_user, globaldb_passwd, globaldb_dbname, atoi(globaldb_port.c_str())));
+    CHECKF(globaldb.Connect(globaldb_url));
 
     auto zonedb_src = ConnectGameDB(&globaldb, zone_src_id);
     CHECKF(zonedb_src);

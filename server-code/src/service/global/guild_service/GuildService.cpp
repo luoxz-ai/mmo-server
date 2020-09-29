@@ -67,19 +67,9 @@ bool CGuildService::Init(const ServerPort& nServerPort)
 
     m_UIDFactory.Init(0, GUILD_SERIVE_UID);
 
-    {
-        const auto& settings        = GetMessageRoute()->GetSettingMap();
-        const auto& settingGlobalDB = settings["GlobalMYSQL"][0];
-        m_pGlobalDB                 = std::make_unique<CMysqlConnection>();
-        if(m_pGlobalDB->Connect(settingGlobalDB.Query("host"),
-                                settingGlobalDB.Query("user"),
-                                settingGlobalDB.Query("passwd"),
-                                settingGlobalDB.Query("dbname"),
-                                settingGlobalDB.QueryULong("port")) == false)
-        {
-            return false;
-        }
-    }
+    auto pGlobalDB = ConnectGlobalDB();;
+    CHECKF(pGlobalDB.get());
+    m_pGlobalDB.reset(pGlobalDB.release()); 
 
     m_pGuildManager.reset(CGuildManager::CreateNew());
     CHECKF(m_pGuildManager.get());

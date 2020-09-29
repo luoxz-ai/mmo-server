@@ -20,8 +20,9 @@ RUN /data/mmorpg/server-depends/src/build_depends.sh recastnavigation;
 RUN /data/mmorpg/server-depends/src/build_depends.sh box2d;
 RUN /data/mmorpg/server-depends/src/build_depends.sh spy;
 RUN /data/mmorpg/server-depends/src/build_depends.sh cryptopp;
-
+RUN /data/mmorpg/server-depends/src/clear_build.sh;
 
 ENV CCACHE_SLOPPINESS pch_defines,time_macros
+ENV CCACHE_COMPRESS 1
 ENV CCACHE_DIR /data/mmorpg/server-code/build/.ccache
 WORKDIR /data/mmorpg/server-code/
