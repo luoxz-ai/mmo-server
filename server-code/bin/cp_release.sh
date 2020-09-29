@@ -4,7 +4,7 @@ rm -f service_loader
 mkdir -p tools_bin
 cp -vrdf ../build/bin/core/* tools_bin/
 cp -vrdf ../build/bin/release/* tools_bin/
-cp -vrdf ../build/bin/release/service_loader .
+cp -vrdf ../build/bin/core/service_loader .
 
 mkdir -p libs
 cd libs

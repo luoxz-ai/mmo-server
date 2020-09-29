@@ -16,7 +16,7 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
       
       - name: build_base
-        run: bash build_base1804_image.sh
+        run: bash build_base1804_image.sh build_base_1804_github_action
       
       - name: Push image
         run: |
