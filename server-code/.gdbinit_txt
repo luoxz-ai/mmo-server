@@ -1,0 +1,40 @@
+set solib-search-path /data/mmorpg/server-code/bin/libs:/data/mmorpg/server-code/bin/depends/
+
+
+# 保存历史命令
+set history filename ~/.gdb_history
+set history save on
+ 
+ 
+# 记录执行gdb的过程
+set logging file ~/.gdb_log.txt
+set logging on
+ 
+ 
+# 打印数组的索引下标
+set print array-indexes on
+ 
+ 
+# 每行打印一个结构体成员
+set print pretty on
+ 
+ 
+# 保存断点
+define savebp
+save breakpoints ~/.gdb_bp
+quit
+end
+document savebp
+save the breakpoint
+end
+ 
+ 
+# 加载历史工作断点
+define loadbp
+source ~/.gdb_bp
+end
+document loadbp
+Load the historical work breakpoint
+end
+
+add-auto-load-safe-path /data/mmorpg/server-code/.gdbinit
