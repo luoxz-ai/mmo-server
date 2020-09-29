@@ -88,7 +88,7 @@ public:
     CMysqlConnection*  GetServerInfoDB() const { return m_pServerInfoDB.get(); }
 
 protected:
-    bool ConnectServerInfoDB(const std::string& mysql_url);
+    bool          ConnectServerInfoDB(const std::string& mysql_url);
     CMessagePort* _ConnectRemoteServer(const ServerPort& nServerPort, const ServerAddrInfo& info);
     //监听本地,一般无需手动调用, CreateAllMessagePort时已经调用了
     CMessagePort*         _ListenMessagePort(const ServerPort& nServerPort, const ServerAddrInfo& info);

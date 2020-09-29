@@ -14,7 +14,7 @@ int main()
     BaseCode::InitLog("/data/log/db_tester");
     BaseCode::SetNdc("test_ndc");
     CMysqlConnection mysql_conn;
-    //mysql_conn.Connect("172.28.2.2", "root", "test12345", "zone_1", 3306, 0, true);
+    // mysql_conn.Connect("172.28.2.2", "root", "test12345", "zone_1", 3306, 0, true);
     mysql_conn.Connect("mysql://root:test12345@172.28.2.2:3306/");
     mysql_conn._AddFieldInfo(TBLD_PLAYER::table_name(), std::make_shared<CDDLFieldInfoList<TBLD_PLAYER>>());
     mysql_conn._AddFieldInfo(TBLD_ITEM::table_name(), std::make_shared<CDDLFieldInfoList<TBLD_ITEM>>());

@@ -9,12 +9,12 @@
 #include "MessageRoute.h"
 #include "MonitorMgr.h"
 #include "MysqlConnection.h"
+#include "NormalCrypto.h"
 #include "msg/ts_cmd.pb.h"
 #include "protomsg_to_cmd.h"
 #include "server_msg/server_side.pb.h"
 #include "serverinfodb.h"
 #include "serverinfodb.pb.h"
-#include "NormalCrypto.h"
 
 CServiceCommon::CServiceCommon()
     : m_pNetworkService(nullptr)
@@ -256,17 +256,16 @@ bool CServiceCommon::TransmitMsgToThisZoneAllPort(const CNetworkMessage* pMsg) c
 {
     __ENTER_FUNCTION
     auto serverport_list = GetMessageRoute()->GetServerPortListByWorldID(GetWorldID(), false);
-    return TransmitMsgToSomePort(serverport_list, pMsg); 
+    return TransmitMsgToSomePort(serverport_list, pMsg);
     __LEAVE_FUNCTION
     return false;
 }
-
 
 bool CServiceCommon::TransmitMsgToThisZoneWithServiceType(const CNetworkMessage* pMsg, ServiceType_t idServiceType) const
 {
     __ENTER_FUNCTION
     auto serverport_list = GetMessageRoute()->GetServerPortListByWorldIDAndServiceType(GetWorldID(), idServiceType, false);
-    return TransmitMsgToSomePort(serverport_list, pMsg); 
+    return TransmitMsgToSomePort(serverport_list, pMsg);
     __LEAVE_FUNCTION
     return false;
 }
@@ -275,7 +274,7 @@ bool CServiceCommon::TransmitMsgToThisZoneAllPortExcept(const CNetworkMessage* p
 {
     __ENTER_FUNCTION
     auto serverport_list = GetMessageRoute()->GetServerPortListByWorldIDExcept(GetWorldID(), setExcept, false);
-    return TransmitMsgToSomePort(serverport_list, pMsg); 
+    return TransmitMsgToSomePort(serverport_list, pMsg);
     __LEAVE_FUNCTION
     return false;
 }
@@ -286,13 +285,13 @@ bool CServiceCommon::TransmitMsgToAllRoute(const CNetworkMessage* pMsg) const
     if(GetWorldID() == 0)
     {
         auto serverport_list = GetMessageRoute()->GetServerPortListByServiceTypeExcept(ROUTE_SERVICE, {0});
-        return TransmitMsgToSomePort(serverport_list, pMsg); 
+        return TransmitMsgToSomePort(serverport_list, pMsg);
     }
     else
     {
         //发送给0-route,由0-route转发给所有的route,所有的route再转发给所有的server
         CNetworkMessage _msg(*pMsg);
-        _msg.SetTo(ServerPort(0,ROUTE_SERVICE,0));
+        _msg.SetTo(ServerPort(0, ROUTE_SERVICE, 0));
         _msg.CopyBuffer();
         _msg.SetBroadcastType(BROADCAST_INCLUDE);
         _msg.AddBroadcastTo(ROUTE_SERVICE);
@@ -308,7 +307,7 @@ bool CServiceCommon::TransmitMsgToAllRouteExcept(const CNetworkMessage* pMsg, co
     if(GetWorldID() == 0)
     {
         auto serverport_list = GetMessageRoute()->GetServerPortListByServiceTypeExcept(ROUTE_SERVICE, setExcept);
-        return TransmitMsgToSomePort(serverport_list, pMsg); 
+        return TransmitMsgToSomePort(serverport_list, pMsg);
     }
     else
     {
@@ -410,9 +409,9 @@ std::unique_ptr<db::tbld_dbinfo> CServiceCommon::QueryDBInfo(WorldID_t nWorldID,
 std::unique_ptr<CMysqlConnection> CServiceCommon::ConnectDB(const db::tbld_dbinfo* pInfo)
 {
     CHECKF(pInfo);
-    auto pDB    = std::make_unique<CMysqlConnection>();
+    auto pDB            = std::make_unique<CMysqlConnection>();
     auto real_mysql_url = NormalCrypto::default_instance().Decode(pInfo->db_url());
-    auto result = pDB->Connect(real_mysql_url);
+    auto result         = pDB->Connect(real_mysql_url);
 
     if(result == false)
     {
@@ -450,8 +449,8 @@ std::unique_ptr<CMysqlConnection> CServiceCommon::ConnectServerInfoDB()
     const auto& settings            = GetMessageRoute()->GetSettingMap();
     const auto& settingServerInfoDB = settings["ServerInfoMYSQL"][0];
     auto        pServerInfoDB       = std::make_unique<CMysqlConnection>();
-    auto mysql_url = settingServerInfoDB.Query("url");
-    auto real_mysql_url = NormalCrypto::default_instance().Decode(mysql_url);
+    auto        mysql_url           = settingServerInfoDB.Query("url");
+    auto        real_mysql_url      = NormalCrypto::default_instance().Decode(mysql_url);
     if(pServerInfoDB->Connect(real_mysql_url) == false)
     {
         return nullptr;

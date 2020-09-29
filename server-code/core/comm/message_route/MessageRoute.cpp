@@ -6,9 +6,9 @@
 #include "NetClientSocket.h"
 #include "NetServerSocket.h"
 #include "NetSocket.h"
+#include "NormalCrypto.h"
 #include "serverinfodb.h"
 #include "tinyxml2/tinyxml2.h"
-#include "NormalCrypto.h"
 constexpr uint32_t SERVICE_LOAD_REDIS_TIMEOUT = 60 * 1000; // redis上的serviceload数据60秒丢弃
 constexpr uint32_t SERVICE_LOAD_TIMEOUT       = 30 * 1000; //每30秒发送1次service_load数据
 
@@ -118,6 +118,7 @@ bool CMessageRoute::ConnectServerInfoDB(const std::string& mysql_url)
     __ENTER_FUNCTION
     // connect db
     std::unique_ptr<CMysqlConnection> pDB = std::make_unique<CMysqlConnection>();
+
     auto real_mysql_url = NormalCrypto::default_instance().Decode(mysql_url);
     if(pDB->Connect(real_mysql_url) == false)
     {
@@ -458,7 +459,6 @@ ServerPortList CMessageRoute::GetServerPortListByServiceType(ServiceType_t idSer
     return service_list;
 }
 
-
 ServerPortList CMessageRoute::GetServerPortListByServiceTypeExcept(ServiceType_t idServiceType, const std::set<WorldID_t>& setExcept)
 {
     ServerPortList service_list;
@@ -470,7 +470,7 @@ ServerPortList CMessageRoute::GetServerPortListByServiceTypeExcept(ServiceType_t
     {
         if(setExcept.count(idWorldID) != 0)
             continue;
-            
+
         for(const auto& [server_port, server_info]: info_list)
         {
             if(server_port.GetServiceType() != idServiceType)

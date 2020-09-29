@@ -12,16 +12,12 @@ public:
     NormalCrypto(NormalCrypto&& rht);
     ~NormalCrypto();
 
-    std::string Encode(const std::string& plain );
+    std::string Encode(const std::string& plain);
     std::string Decode(const std::string& cipher);
-
-
 
     static NormalCrypto default_instance();
 
-
     std::unique_ptr<NormalCryptoData> m_data;
 };
-
 
 #endif /* SQLURLCRYPTO_H */

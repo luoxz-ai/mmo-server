@@ -159,7 +159,7 @@ void CMessagePort::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
     pMsg->SetForward(internal_msg.forward().data(), internal_msg.forward_size());
     pMsg->SetMultiTo(internal_msg.multi_vs().data(), internal_msg.multi_vs_size());
     pMsg->SetMultiTo(internal_msg.multi_id().data(), internal_msg.multi_id_size());
-    for(const auto& v : internal_msg.broadcast_to())
+    for(const auto& v: internal_msg.broadcast_to())
     {
         pMsg->AddBroadcastTo(v);
     }

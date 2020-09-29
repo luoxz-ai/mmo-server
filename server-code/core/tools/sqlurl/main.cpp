@@ -4,22 +4,20 @@
 #include <string>
 #include <unordered_set>
 
+#include "NormalCrypto.h"
 #include "StringAlgo.h"
 #include "fmt/format.h"
 #include "fmt/printf.h"
 #include "get_opt.h"
 
-#include "NormalCrypto.h"
-
-
 int main(int argc, char** argv)
 {
-    
+
     auto crypto = NormalCrypto::default_instance();
 
-    get_opt opt(argc, (const char**)argv);
-    std::string txt = opt["--txt"];
-    bool bDecode = opt.has("--decode");
+    get_opt     opt(argc, (const char**)argv);
+    std::string txt     = opt["--txt"];
+    bool        bDecode = opt.has("--decode");
     if(bDecode)
     {
         auto str = crypto.Decode(txt);
@@ -28,7 +26,7 @@ int main(int argc, char** argv)
     else
     {
         auto str = crypto.Encode(txt);
-                
-        std::cout << "cipher text: " << str << std::endl; 
+
+        std::cout << "cipher text: " << str << std::endl;
     }
 }

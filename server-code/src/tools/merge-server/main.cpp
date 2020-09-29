@@ -7,12 +7,12 @@
 #include "CheckUtil.h"
 #include "MysqlConnection.h"
 #include "MysqlTableCheck.h"
+#include "NormalCrypto.h"
 #include "UIDFactory.h"
 #include "gamedb.h"
 #include "get_opt.h"
 #include "globaldb.h"
 #include "serverinfodb.h"
-#include "NormalCrypto.h"
 
 CMysqlConnectionPtr ConnectGameDB(CMysqlConnection* pGlobalDB, uint32_t worldid)
 {
@@ -26,10 +26,10 @@ CMysqlConnectionPtr ConnectGameDB(CMysqlConnection* pGlobalDB, uint32_t worldid)
     auto row = result->fetch_row(false);
     if(row)
     {
-        std::string db_url = row->Field(TBLD_DBINFO::DB_URL).get<std::string>();
-        auto real_mysql_url = NormalCrypto::default_instance().Decode(db_url);
-        auto pDB = std::make_unique<CMysqlConnection>();
-        
+        std::string db_url         = row->Field(TBLD_DBINFO::DB_URL).get<std::string>();
+        auto        real_mysql_url = NormalCrypto::default_instance().Decode(db_url);
+        auto        pDB            = std::make_unique<CMysqlConnection>();
+
         if(pDB->Connect(real_mysql_url) == false)
         {
             return nullptr;
@@ -78,8 +78,8 @@ int main(int argc, char** argv)
     __ENTER_FUNCTION
     get_opt opt(argc, (const char**)argv);
 
-    std::string globaldb_url   = opt["--gurl"];
-    
+    std::string globaldb_url = opt["--gurl"];
+
     std::string zone_src       = opt["--zone_src"];
     uint32_t    zone_src_id    = atoi(zone_src.c_str());
     std::string zone_target    = opt["--zone_target"];

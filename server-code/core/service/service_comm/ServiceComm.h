@@ -34,7 +34,7 @@ public:
     export_lua WorldID_t         GetWorldID() const { return m_nServerPort.GetWorldID(); }
     export_lua const ServiceID& GetServiceID() const { return m_nServerPort.GetServiceID(); }
     export_lua ServiceType_t    GetServiceType() const { return GetServiceID().GetServiceType(); }
-    export_lua ServiceIdx_t      GetServiceIdx() const { return GetServiceID().GetServiceIdx(); }
+    export_lua ServiceIdx_t     GetServiceIdx() const { return GetServiceID().GetServiceIdx(); }
 
     export_lua CNetworkService* GetNetworkService() const { return m_pNetworkService.get(); }
     export_lua const std::string& GetServiceName() const { return m_ServiceName; }
@@ -68,7 +68,7 @@ public:
     bool TransmitMsgToThisZoneAllPortExcept(const CNetworkMessage* pMsg, const std::set<ServiceType_t>& setExcept) const;
     bool TransmitMsgToAllRoute(const CNetworkMessage* pMsg) const;
     bool TransmitMsgToAllRouteExcept(const CNetworkMessage* pMsg, const std::set<WorldID_t>& setExcept) const;
- 
+
 public:
     bool SendMsgToVirtualSocket(const VirtualSocket& vsTo, const proto_msg_t& msg) const;
     bool SendProtoMsgToZonePort(const ServerPort& nServerPort, const proto_msg_t& msg) const;

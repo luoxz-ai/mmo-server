@@ -116,7 +116,6 @@ ON_SERVERMSG(CRouteService, ServiceRegister)
         param.tWaitTime = 30 * 1000;
         param.bPersist  = true;
         EventManager()->ScheduleEvent(param);
-
     }
     else if(RouteService()->GetWorldID() == 0) // 0区
     {
@@ -124,7 +123,7 @@ ON_SERVERMSG(CRouteService, ServiceRegister)
         GetMessageRoute()->ReloadServiceInfo(msg.update_time(), server_port.GetWorldID());
         //通知0区所有gm_proxy服
         auto server_list = GetMessageRoute()->GetServerPortListByWorldIDAndServiceType(0, GM_PROXY_SERVICE, false);
-        RouteService()->TransmitMsgToSomePort(server_list,pMsg);
+        RouteService()->TransmitMsgToSomePort(server_list, pMsg);
         //通知所有Route,除了原区和当前这个0区的Route
         RouteService()->TransmitMsgToAllRouteExcept(pMsg, {0, server_port.GetWorldID()});
     }
@@ -173,9 +172,9 @@ ON_SERVERMSG(CRouteService, ServiceReady)
     else if(RouteService()->GetWorldID() == 0) // 0区
     {
         // world == 0
-        
+
         //通知所有Route,除了当前这个0区的Route
-        //RouteService()->TransmitMsgToAllRouteExcept(pMsg, {0, server_port.GetWorldID()});
+        // RouteService()->TransmitMsgToAllRouteExcept(pMsg, {0, server_port.GetWorldID()});
     }
     else //其他区
     {
@@ -208,7 +207,7 @@ void CRouteService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
         }
         else if(pNetworkMsg->GetBroadcastType() == BROADCAST_INCLUDE)
         {
-            for(const auto& server_type : pNetworkMsg->GetBroadcastTo())
+            for(const auto& server_type: pNetworkMsg->GetBroadcastTo())
             {
                 TransmitMsgToThisZoneWithServiceType(pNetworkMsg, server_type);
             }
@@ -219,7 +218,7 @@ void CRouteService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
             TransmitMsgToThisZoneAllPortExcept(pNetworkMsg, exclude_list);
         }
         else
-        {   
+        {
             TransmitMsgToThisZoneAllPort(pNetworkMsg);
         }
     }

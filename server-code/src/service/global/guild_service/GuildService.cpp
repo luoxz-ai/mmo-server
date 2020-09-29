@@ -67,9 +67,10 @@ bool CGuildService::Init(const ServerPort& nServerPort)
 
     m_UIDFactory.Init(0, GUILD_SERIVE_UID);
 
-    auto pGlobalDB = ConnectGlobalDB();;
+    auto pGlobalDB = ConnectGlobalDB();
+
     CHECKF(pGlobalDB.get());
-    m_pGlobalDB.reset(pGlobalDB.release()); 
+    m_pGlobalDB.reset(pGlobalDB.release());
 
     m_pGuildManager.reset(CGuildManager::CreateNew());
     CHECKF(m_pGuildManager.get());
