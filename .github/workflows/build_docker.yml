@@ -24,7 +24,7 @@ jobs:
           docker pull docker.pkg.github.com/${{ github.repository }}/mmo-server-depends:base
           docker tag docker.pkg.github.com/${{ github.repository }}/mmo-server-depends:base mmo-server-depends:base
           
-      - name: build_depends
+      - name: build_publish
         run: |
           bash build_publish_image.sh lastest
 
