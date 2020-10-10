@@ -15,11 +15,9 @@ set(CMAKE_CXX_CLANG_TIDY "")
 
 #指定库输出路径
 SET(EXECUTABLE_OUTPUT_PATH ${BINARIES_CORE})
-ADD_DEPENDENCIES(static_reflection_test basecode)
+
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(static_reflection_test
- libbasecode.so
- libfmt.so
  tinyxml2
  ${JEMALLOC_LIB_NAME}
  dl

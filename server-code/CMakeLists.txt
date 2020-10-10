@@ -254,6 +254,7 @@ LINK_DIRECTORIES(
 )
 
 
+add_custom_target(gen_all_lua)
 
 MESSAGE(STATUS "Build Core...")
 ADD_SUBDIRECTORY(core obj/core/)

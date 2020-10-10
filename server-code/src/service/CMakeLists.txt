@@ -1,6 +1,4 @@
 
-add_custom_target(gen_all_lua)
-
 ADD_SUBDIRECTORY(zone/socket_service)
 ADD_SUBDIRECTORY(zone/world_service)
 ADD_SUBDIRECTORY(zone/scene_service)

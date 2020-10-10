@@ -3,6 +3,7 @@
 
 #include "BaseCode.h"
 #include "StaticReflection.h"
+#include "StaticReflectionV2.h"
 #include "tinyxml2/tinyxml2.h"
 
 std::string xml_txt =
@@ -42,6 +43,9 @@ DEFINE_STRUCT_SCHEMA(TestNodeA,
                      DEFINE_STRUCT_FIELD(TestNodeA_b, "TestNodeA_b"),
                      DEFINE_STRUCT_FIELD(TestNodeA_c, "TestNodeA_c"));
 
+DEFINE_META(TestNodeA,
+            DEFINE_MEMBER(META_MEMBER(TestNodeA_a, "TestNodeA_a"), META_MEMBER(TestNodeA_b, "TestNodeA_b"), META_MEMBER(TestNodeA_c, "TestNodeA_c")));
+
 struct TestNodeB
 {
     int32_t   TestNodeB_a;
@@ -49,6 +53,7 @@ struct TestNodeB
 };
 
 DEFINE_STRUCT_SCHEMA(TestNodeB, DEFINE_STRUCT_FIELD(TestNodeB_a, "TestNodeB_a"), DEFINE_STRUCT_FIELD(TestNodeB_b, "TestNodeB_b"));
+DEFINE_META(TestNodeB, DEFINE_MEMBER(META_MEMBER(TestNodeB_a, "TestNodeB_a"), META_MEMBER(TestNodeB_b, "TestNodeB_b")));
 
 struct AllNode
 {
@@ -57,6 +62,7 @@ struct AllNode
 };
 
 DEFINE_STRUCT_SCHEMA(AllNode, DEFINE_STRUCT_FIELD(AllNode_a, "AllNode_a"), DEFINE_STRUCT_FIELD(AllNode_b, "AllNode_b"));
+DEFINE_META(AllNode, DEFINE_MEMBER(META_MEMBER(AllNode_a, "AllNode_a"), META_MEMBER(AllNode_b, "AllNode_b")));
 
 // forward decal
 template<class T>
@@ -89,6 +95,8 @@ inline void xml_value_to_field(tinyxml2::XMLElement* pVarE, FieldType* field, st
     xml_value_to_field(pVarE, field);
     after_func(pVarE, field);
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 struct ForEachXMLLambda
 {
@@ -136,9 +144,88 @@ inline void xmlElement_to_struct(tinyxml2::XMLElement* pE, T& refStruct)
     }
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// forward decal
+template<class T>
+inline void xmlElement_to_struct_v2(tinyxml2::XMLElement* pE, T& refStruct);
+
+template<class FieldType>
+inline void xml_value_to_field_v2(tinyxml2::XMLElement* pVarE, FieldType* field)
+{
+    if constexpr(std::is_integral<FieldType>::value || std::is_floating_point<FieldType>::value || std::is_same<bool, FieldType>::value)
+    {
+        pVarE->QueryAttribute("val", field);
+    }
+    else if constexpr(std::is_same<std::string, FieldType>::value)
+    {
+        const char* pVal = pVarE->Attribute("val");
+        if(pVal)
+        {
+            *field = pVal;
+        }
+    }
+    else
+    {
+        xmlElement_to_struct_v2(pVarE, *field);
+    }
+}
+
+template<class FieldType>
+inline void xml_value_to_field_v2(tinyxml2::XMLElement* pVarE, FieldType* field, std::function<void(tinyxml2::XMLElement*, FieldType*)>& after_func)
+{
+    xml_value_to_field_v2(pVarE, field);
+    after_func(pVarE, field);
+}
+
+struct ForEachXMLLambda_V2
+{
+    tinyxml2::XMLElement* pVarE;
+    const char*           field_name;
+    std::size_t           field_name_hash;
+    template<typename FieldInfo, typename Field>
+    bool operator()(FieldInfo&& this_field_info, Field&& this_field) const
+    {
+        printf("v2 %s test:%s\n", field_name, this_field_info.field_name);
+        if(field_name_hash != this_field_info.field_name_hash)
+            return false;
+        printf("v2 %s vist:%s\n", field_name, this_field_info.field_name);
+        xml_value_to_field_v2(pVarE, &this_field);
+        return true;
+    }
+
+    template<typename FieldInfo, typename Field, typename Tag>
+    bool operator()(FieldInfo&& this_field_info, Field&& this_field, Tag&& tag) const
+    {
+        printf("v2 %s test:%s\n", field_name, this_field_info.field_name);
+        if(field_name_hash != this_field_info.field_name_hash)
+            return false;
+        printf("v2 %s vist:%s\n", field_name, this_field_info.field_name);
+        xml_value_to_field_v2(pVarE, &this_field, std::forward<Tag>(tag));
+        return true;
+    }
+};
+
+template<class T>
+inline void xmlElement_to_struct_v2(tinyxml2::XMLElement* pE, T& refStruct)
+{
+    tinyxml2::XMLElement* pVarE = pE->FirstChildElement();
+    while(pVarE != NULL)
+    {
+        const char* pStrName = pVarE->Attribute("name");
+        if(pStrName != NULL)
+        {
+            std::string field_name      = pStrName;
+            std::size_t field_name_hash = hash::MurmurHash3::shash(field_name.c_str(), field_name.size(), 0);
+            static_reflection_v2::FindInField(refStruct, field_name_hash, ForEachXMLLambda_V2{pVarE, field_name.c_str(), field_name_hash});
+        }
+
+        pVarE = pVarE->NextSiblingElement();
+    }
+}
+
 int main()
 {
-    __ENTER_FUNCTION
 
     tinyxml2::XMLDocument doc;
     auto                  errZ_code = doc.Parse(xml_txt.c_str(), xml_txt.size());
@@ -165,12 +252,11 @@ int main()
 
         std::string struct_name = pNodeE->Name();
         AllNode     testNode;
-        xmlElement_to_struct(pNodeE, testNode);
+        xmlElement_to_struct_v2(pNodeE, testNode);
         testNodeList.emplace_back(std::move(testNode));
         pNodeE = pNodeE->NextSiblingElement();
     }
 
     return 0;
-    __LEAVE_FUNCTION
-    return -1;
+
 }

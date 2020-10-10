@@ -1,4 +1,4 @@
 MESSAGE(STATUS "cmake: tools-")
 
-ADD_SUBDIRECTORY(robotclient)
-ADD_SUBDIRECTORY(merge-server)
+ADD_SUBDIRECTORY(robotclient EXCLUDE_FROM_ALL)
+ADD_SUBDIRECTORY(merge-server EXCLUDE_FROM_ALL)
