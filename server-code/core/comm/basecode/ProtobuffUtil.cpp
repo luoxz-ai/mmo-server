@@ -10,10 +10,7 @@
 #include <google/protobuf/util/json_util.h>
 
 #include "LoggingMgr.h"
-#include "rapidjson/document.h"
-#include "rapidjson/reader.h"
-#include "rapidjson/stringbuffer.h"
-#include "rapidjson/writer.h"
+#include "json.hpp"
 
 namespace pb_util
 {
@@ -402,7 +399,7 @@ namespace pb_util
     bool SetMessageData(google::protobuf::Message* pPBMessage, const std::string& field_name, const std::string& data)
     {
         using namespace google::protobuf;
-        using namespace rapidjson;
+        using json = nlohmann::json;
         Message*               pThisRow   = pPBMessage;
         const FieldDescriptor* pFieldDesc = nullptr;
         if(FindFieldInMessage(field_name, pThisRow, pFieldDesc) == false)
@@ -410,9 +407,11 @@ namespace pb_util
 
         if(pFieldDesc->is_repeated())
         {
-            Document document;
-            if(document.Parse(data.c_str()).HasParseError())
+            
+            auto js_doc = json::parse(data.c_str(), nullptr, false, true);
+            if( js_doc.is_discarded())
             {
+                //the input is invalid JSON, try split string
                 auto vecData = split_string(data, ",");
                 for(const std::string& str: vecData)
                 {
@@ -421,7 +420,7 @@ namespace pb_util
             }
             else
             {
-                if(document.IsArray() == false)
+                if(js_doc.is_array() == false)
                 {
                     if(pFieldDesc->type() != FieldDescriptor::TYPE_MESSAGE)
                     {
@@ -433,37 +432,32 @@ namespace pb_util
                         return false;
                     }
                 }
+
                 if(pFieldDesc->type() == FieldDescriptor::TYPE_MESSAGE)
                 {
-                    for(SizeType i = 0; i < document.Size(); i++)
+                    for(const auto& array_v : js_doc)
                     {
-                        const auto& v           = document[i];
-                        auto        pSubMessage = pThisRow->GetReflection()->AddMessage(pThisRow, pFieldDesc, nullptr);
-                        for(auto it = v.MemberBegin(); it != v.MemberEnd(); it++)
+                        auto  pSubMessage = pThisRow->GetReflection()->AddMessage(pThisRow, pFieldDesc, nullptr);
+
+                        for(const auto& [key, v] : array_v.items())
                         {
-                            if(it->value.IsString())
+                            if(v.is_string())
                             {
-                                SetMessageData(pSubMessage, it->name.GetString(), it->value.GetString());
+                                SetMessageData(pSubMessage, key, v.get<std::string>());
                             }
                             else
                             {
-                                StringBuffer         buffer;
-                                Writer<StringBuffer> writer(buffer);
-                                it->value.Accept(writer);
-
-                                const char* output = buffer.GetString();
-
-                                SetMessageData(pSubMessage, it->name.GetString(), output);
+                            
+                                SetMessageData(pSubMessage, key, v.dump());
                             }
                         }
                     }
                 }
                 else
                 {
-                    for(SizeType i = 0; i < document.Size(); i++)
+                    for(auto& array_v : js_doc)
                     {
-                        const auto& v = document[i];
-                        AddFieldData(pThisRow, pFieldDesc, v.GetString());
+                        AddFieldData(pThisRow, pFieldDesc, array_v.dump());
                     }
                 }
             }

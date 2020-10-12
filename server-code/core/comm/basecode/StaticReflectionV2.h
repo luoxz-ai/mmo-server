@@ -52,18 +52,11 @@ namespace static_reflection_v2
     };
 
     template<class T, class MemberTuple, class FuncTuple>
-    struct ClassInfoFull
+    struct ClassInfo
     {
         const char* class_name;
         MemberTuple member_info_tuple;
         FuncTuple   func_info_tuple;
-    };
-
-    template<class T, class MemberTuple>
-    struct ClassInfoMemberOnly
-    {
-        const char* class_name;
-        MemberTuple member_info_tuple;
     };
 
     template<class T, class C>
@@ -91,13 +84,13 @@ namespace static_reflection_v2
     template<class T, class MemberTuple, class FuncTuple>
     constexpr auto make_class_info(const char* class_name, MemberTuple&& member_tuple, FuncTuple&& func_tuple)
     {
-        return ClassInfoFull<T, MemberTuple, FuncTuple>{class_name, std::forward<MemberTuple>(member_tuple), std::forward<FuncTuple>(func_tuple)};
+        return ClassInfo<T, MemberTuple, FuncTuple>{class_name, std::forward<MemberTuple>(member_tuple), std::forward<FuncTuple>(func_tuple)};
     }
 
     template<class T, class MemberTuple>
     constexpr auto make_class_info(const char* class_name, MemberTuple&& member_tuple)
     {
-        return ClassInfoMemberOnly<T, MemberTuple>{class_name, std::forward<MemberTuple>(member_tuple)};
+        return ClassInfo<T, MemberTuple, std::tuple<> >{class_name, std::forward<MemberTuple>(member_tuple)};
     }
 
     template<class FieldInfo>

@@ -19,7 +19,7 @@ echo "create database IF NOT EXISTS ${ZONE_NAME};" | docker exec -i ${MYSQL_DOCK
 
 set -e
 sql_cmd="exec mysql -v -uroot -p\"${MYSQL_PASSWD}\" ${ZONE_NAME}"
-cat server-res/res/db/db_proto/gamedb.pb.sql | docker exec -i ${MYSQL_DOCKER_NAME} sh -c "${sql_cmd}"
+cat ../../server-res/res/db/db_proto/gamedb.pb.sql | docker exec -i ${MYSQL_DOCKER_NAME} sh -c "${sql_cmd}"
 }
 
 

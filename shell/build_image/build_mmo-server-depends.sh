@@ -1,5 +1,6 @@
 #!/bin/bash
 cd `dirname $0`
+cd ../..
 DIR_file=`pwd`
 
 ln -sf .dockerignore.depends .dockerignore
