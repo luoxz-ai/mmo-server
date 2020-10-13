@@ -90,7 +90,7 @@ namespace static_reflection_v2
     template<class T, class MemberTuple>
     constexpr auto make_class_info(const char* class_name, MemberTuple&& member_tuple)
     {
-        return ClassInfo<T, MemberTuple, std::tuple<> >{class_name, std::forward<MemberTuple>(member_tuple)};
+        return ClassInfo<T, MemberTuple, std::tuple<>>{class_name, std::forward<MemberTuple>(member_tuple)};
     }
 
     template<class FieldInfo>

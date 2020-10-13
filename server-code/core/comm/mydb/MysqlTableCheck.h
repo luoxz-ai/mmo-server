@@ -63,7 +63,8 @@ struct MysqlTableCheck
             }
             else if(pInfo_DDL->GetFieldType() != pInfo_MYSQL->GetFieldType())
             {
-                LOGDBFATAL("GameDB Check Error, table:{}, field:{} ddl_field:{}  mysql_field:{} ddl_fieldt:{}  mysql_fieldt:{}",
+                LOGDBFATAL("GameDB Check Error, table:{}, field:{} ddl_field:{}  "
+                           "mysql_field:{} ddl_fieldt:{} mysql_fieldt:{}",
                            T::table_name(),
                            i,
                            pInfo_DDL->GetFieldName(),

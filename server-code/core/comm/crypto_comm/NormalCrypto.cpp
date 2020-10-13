@@ -47,13 +47,11 @@ std::string NormalCrypto::Encode(const std::string& plain)
         // The StreamTransformationFilter adds padding
         //  as required. ECB and CBC Mode must be padded
         //  to the block size of the cipher. CTR does not.
-        StringSource ss1( plain , true, 
-            new StreamTransformationFilter( e,
-                new HexEncoder(
-                    new StringSink( cipher )
-                )
-            ) // StreamTransformationFilter      
-        ); // StringSource
+        StringSource ss1(plain,
+                         true,
+                         new StreamTransformationFilter(e,
+                                                        new HexEncoder(new StringSink(cipher))) // StreamTransformationFilter
+        );                                                                                      // StringSource
     }
     catch(...)
     {
@@ -74,14 +72,11 @@ std::string NormalCrypto::Decode(const std::string& cipher)
 
         // The StreamTransformationFilter removes
         //  padding as required.
-        StringSource ss3( cipher, true, 
-            new HexDecoder(
-                new StreamTransformationFilter( d,
-                    new StringSink( recovered )
-                ) // StreamTransformationFilter
-            )
-        ); // StringSource
-    
+        StringSource ss3(cipher,
+                         true,
+                         new HexDecoder(new StreamTransformationFilter(d,
+                                                                       new StringSink(recovered)) // StreamTransformationFilter
+                                        ));                                                       // StringSource
     }
     catch(...)
     {

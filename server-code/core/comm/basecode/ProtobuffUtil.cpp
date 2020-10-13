@@ -400,6 +400,7 @@ namespace pb_util
     {
         using namespace google::protobuf;
         using json = nlohmann::json;
+
         Message*               pThisRow   = pPBMessage;
         const FieldDescriptor* pFieldDesc = nullptr;
         if(FindFieldInMessage(field_name, pThisRow, pFieldDesc) == false)
@@ -407,11 +408,11 @@ namespace pb_util
 
         if(pFieldDesc->is_repeated())
         {
-            
+
             auto js_doc = json::parse(data.c_str(), nullptr, false, true);
-            if( js_doc.is_discarded())
+            if(js_doc.is_discarded())
             {
-                //the input is invalid JSON, try split string
+                // the input is invalid JSON, try split string
                 auto vecData = split_string(data, ",");
                 for(const std::string& str: vecData)
                 {
@@ -435,11 +436,11 @@ namespace pb_util
 
                 if(pFieldDesc->type() == FieldDescriptor::TYPE_MESSAGE)
                 {
-                    for(const auto& array_v : js_doc)
+                    for(const auto& array_v: js_doc)
                     {
-                        auto  pSubMessage = pThisRow->GetReflection()->AddMessage(pThisRow, pFieldDesc, nullptr);
+                        auto pSubMessage = pThisRow->GetReflection()->AddMessage(pThisRow, pFieldDesc, nullptr);
 
-                        for(const auto& [key, v] : array_v.items())
+                        for(const auto& [key, v]: array_v.items())
                         {
                             if(v.is_string())
                             {
@@ -447,7 +448,7 @@ namespace pb_util
                             }
                             else
                             {
-                            
+
                                 SetMessageData(pSubMessage, key, v.dump());
                             }
                         }
@@ -455,7 +456,7 @@ namespace pb_util
                 }
                 else
                 {
-                    for(auto& array_v : js_doc)
+                    for(auto& array_v: js_doc)
                     {
                         AddFieldData(pThisRow, pFieldDesc, array_v.dump());
                     }

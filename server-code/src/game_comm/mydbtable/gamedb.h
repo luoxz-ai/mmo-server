@@ -218,7 +218,8 @@ struct TBLD_ITEM
             std::make_tuple("position",
                             DB_FIELD_TYPE_LONG_UNSIGNED,
                             false,
-                            "  `position` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '所属包裹类型0:包裹 1:装备槽 100:仓库 101:帮派仓库 "
+                            "  `position` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '所属包裹类型0:包裹 1:装备槽 "
+                            "100:仓库 101:帮派仓库 "
                             "102:回购列表 103:邮箱 104:拍卖行'"),
             std::make_tuple("grid", DB_FIELD_TYPE_LONG_UNSIGNED, false, "  `grid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '所属包裹位置'"),
             std::make_tuple("flag", DB_FIELD_TYPE_LONG_UNSIGNED, false, "  `flag` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '物品掩码'"),

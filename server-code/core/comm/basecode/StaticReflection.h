@@ -3,8 +3,9 @@
 
 #include <tuple>
 #include <type_traits>
-#include "TupleHelper.h"
+
 #include "StaticHash.h"
+#include "TupleHelper.h"
 
 namespace static_reflection
 {
@@ -276,13 +277,13 @@ namespace static_reflection
                     constexpr auto member_ptr_tuple = ThisField::template member_ptr_tuple<TagIndex>();
 
                     overloaded_t overload{[&fn, &value, &field_name_tuple](auto member_ptr) {
-                                                      // invoke(fn, FieldName, MemberPtr);
-                                                      fn(field_name_tuple, value.*(member_ptr));
-                                                  },
-                                                  [&fn, &value, &field_name_tuple](auto member_ptr, auto tag) {
-                                                      // invoke(fn, FieldName, MemberPtr, tag);
-                                                      fn(field_name_tuple, value.*(member_ptr), tag);
-                                                  }};
+                                              // invoke(fn, FieldName, MemberPtr);
+                                              fn(field_name_tuple, value.*(member_ptr));
+                                          },
+                                          [&fn, &value, &field_name_tuple](auto member_ptr, auto tag) {
+                                              // invoke(fn, FieldName, MemberPtr, tag);
+                                              fn(field_name_tuple, value.*(member_ptr), tag);
+                                          }};
 
                     std::apply(overload, member_ptr_tuple);
                 }
@@ -337,13 +338,13 @@ namespace static_reflection
                         constexpr auto member_ptr_tuple = ThisField::template member_ptr_tuple<TagIndex>();
 
                         overloaded_t overload{[&fn, &value, &field_name_tuple](auto member_ptr) {
-                                                          // invoke(fn, FieldName, MemberPtr);
-                                                          fn(field_name_tuple, value.*(member_ptr));
-                                                      },
-                                                      [&fn, &value, &field_name_tuple](auto member_ptr, auto tag) {
-                                                          // invoke(fn, FieldName, MemberPtr, tag);
-                                                          fn(field_name_tuple, value.*(member_ptr), tag);
-                                                      }};
+                                                  // invoke(fn, FieldName, MemberPtr);
+                                                  fn(field_name_tuple, value.*(member_ptr));
+                                              },
+                                              [&fn, &value, &field_name_tuple](auto member_ptr, auto tag) {
+                                                  // invoke(fn, FieldName, MemberPtr, tag);
+                                                  fn(field_name_tuple, value.*(member_ptr), tag);
+                                              }};
 
                         std::apply(overload, member_ptr_tuple);
                     }
