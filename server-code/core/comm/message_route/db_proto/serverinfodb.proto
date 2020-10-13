@@ -2,13 +2,13 @@ syntax = "proto3";
 import "sql_options/sql_options.proto";
 
 package db;
- 
+
 message tbld_dbinfo
 {
 
     uint32 worldid = 1 [(sql).primary_key = "idx_id"]; //游戏服编号
-    string db_url  = 2 [(sql).size = 2048];    //游戏数据mysql地址
-} 
+    string db_url  = 2 [(sql).size = 2048];            //游戏数据mysql地址
+}
 
 message tbld_serverlist
 {
@@ -20,20 +20,18 @@ message tbld_serverlist
     uint32 open_status  = 4;                       //开放状态
     string publish_addr = 5 [(sql).size = 255];    //入口地址
     uint32 mergeto      = 6 [(sql).int_size = 16]; //已经被合服到哪个服了
-    
 }
 
 message tbld_servicedetail
 {
     uint32 worldid      = 1 [(sql).primary_key = "idx_worldid"]; //游戏服编号
-    uint32 service_type = 2 [(sql).primary_key = "idx_worldid"];  //服务类型
-    uint32 service_idx  = 3 [(sql).primary_key = "idx_worldid"];  //服务编号
-    string lib_name     = 4 [(sql).size = 255];                                       // lib库名
-    string route_addr   = 5 [(sql).size = 255];                                       //内网通讯地址
-    uint32 route_port   = 6 ;                                    //内网通讯端口
-    string publish_addr = 7 [(sql).size = 255];                                       //外网地址
-    uint32 publish_port = 8 ;                                    //外网端口
-    uint32 debug_port   = 9 ;                                    // debug端口
-    string bind_addr    = 10 [(sql).size = 255];                                      //监听绑定地址
+    uint32 service_type = 2 [(sql).primary_key = "idx_worldid"]; //服务类型
+    uint32 service_idx  = 3 [(sql).primary_key = "idx_worldid"]; //服务编号
+    string lib_name     = 4 [(sql).size = 255];                  // lib库名
+    string route_addr   = 5 [(sql).size = 255];                  //内网通讯地址
+    uint32 route_port   = 6;                                     //内网通讯端口
+    string publish_addr = 7 [(sql).size = 255];                  //外网地址
+    uint32 publish_port = 8;                                     //外网端口
+    uint32 debug_port   = 9;                                     // debug端口
+    string bind_addr    = 10 [(sql).size = 255];                 //监听绑定地址
 }
-
