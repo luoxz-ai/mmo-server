@@ -3,7 +3,6 @@
 
 #include <map>
 
-#include "ActorAttrib.h"
 #include "BaseCode.h"
 
 class CItem;

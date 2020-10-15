@@ -56,16 +56,16 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/basecode2lua.cpp
 COMMAND echo ${BASECODE2LUA_SRC} > ${CMAKE_CURRENT_BINARY_DIR}/basecode_cpps.txt && echo ${includes} > ${CMAKE_CURRENT_BINARY_DIR}/basecode_includes.txt 
 COMMAND cxx2lua --cpps=${CMAKE_CURRENT_BINARY_DIR}/basecode_cpps.txt --include=${CMAKE_CURRENT_BINARY_DIR}/basecode_includes.txt 
 --output=${CMAKE_CURRENT_BINARY_DIR}/basecode2lua.cpp --output_functionname=basecode2lua --skip_cpp --format=clang-format-9
-IMPLICIT_DEPENDS CXX ${CMAKE_CURRENT_BINARY_DIR}/basecode2lua.cpp
 COMMENT "gen basecode for basecode2lua.cpp"
-  DEPENDS cxx2lua
+  DEPENDS cxx2lua basecode
 )
 
+set_property (SOURCE ${CMAKE_CURRENT_BINARY_DIR}/basecode2lua.cpp PROPERTY COTIRE_EXCLUDED  "TRUE")
 
 #指定库输出路径
 SET(LIBRARY_OUTPUT_PATH ${LIBRARIES})
 # 生成库文件
-ADD_LIBRARY(script SHARED ${SRCS} ${CMAKE_CURRENT_BINARY_DIR}/basecode2lua.cpp)
+ADD_LIBRARY(script SHARED ${SRCS})
 add_dependencies(script basecode)
 
 # 指定额外的链接库
@@ -76,3 +76,4 @@ TARGET_LINK_LIBRARIES(script
 )
 
 cotire(script)
+target_sources(script PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/basecode2lua.cpp)

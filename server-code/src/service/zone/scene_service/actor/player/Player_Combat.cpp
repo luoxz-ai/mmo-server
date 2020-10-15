@@ -1,6 +1,11 @@
 #include "ActorManager.h"
+#include "ActorStatusSet.h"
+#include "DataCount.h"
+#include "GameMap.h"
+#include "GameMapDef.h"
 #include "Phase.h"
 #include "Player.h"
+#include "SceneService.h"
 
 bool CPlayer::CanDamage(CActor* pTarget) const
 {

@@ -1,9 +1,9 @@
 #include "UserManager.h"
 
 #include "Account.h"
+#include "AccountInfo.h"
 #include "User.h"
 #include "WorldService.h"
-
 CUserManager::CUserManager() {}
 
 CUserManager::~CUserManager()

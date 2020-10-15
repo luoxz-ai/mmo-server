@@ -5,9 +5,10 @@
 #include <string>
 #include <unordered_set>
 
+#include <fmt/format.h>
+#include <fmt/printf.h>
+
 #include "StringAlgo.h"
-#include "fmt/format.h"
-#include "fmt/printf.h"
 #include "get_opt.h"
 
 int main(int argc, char** argv)

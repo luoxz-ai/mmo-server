@@ -1,6 +1,16 @@
+#include "CoolDown.h"
+#include "DataCount.h"
+#include "Equipment.h"
 #include "Item.h"
+#include "ItemType.h"
+#include "Package.h"
 #include "Player.h"
+#include "SceneService.h"
+#include "ScriptCallBackType.h"
 #include "ScriptManager.h"
+#include "StoragePackage.h"
+#include "config/Cfg_Scene_LeavePoint.pb.h"
+#include "server_msg/server_side.pb.h"
 
 CPackage* CPlayer::QueryPackage(uint32_t nPosition)
 {

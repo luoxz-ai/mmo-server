@@ -1,8 +1,11 @@
 #include "ActorManager.h"
+#include "Equipment.h"
 #include "Item.h"
 #include "MsgSceneProcess.h"
+#include "Package.h"
 #include "Player.h"
 #include "SceneService.h"
+#include "StoragePackage.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"
 

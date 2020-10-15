@@ -7,6 +7,7 @@
 #include "AIScene.h"
 #include "AISceneManagr.h"
 #include "AIService.h"
+#include "MonsterGenerator.h"
 #include "NetMSGProcess.h"
 #include "msg/world_service.pb.h"
 #include "msg/zone_service.pb.h"

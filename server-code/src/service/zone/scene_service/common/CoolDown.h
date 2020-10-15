@@ -3,7 +3,6 @@
 
 #include "BaseCode.h"
 #include "DBRecord.h"
-#include "gamedb.h"
 
 //冷却
 export_lua enum COOLDOWN_TYPE {

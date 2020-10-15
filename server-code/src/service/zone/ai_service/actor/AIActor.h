@@ -1,17 +1,19 @@
 #ifndef AIACTOR_H
 #define AIACTOR_H
 
-#include "AISkill.h"
 #include "BaseCode.h"
 #include "SceneObject.h"
 
 class CAIMonster;
 class CAIPlayer;
+class CAISkillSet;
 class CAIActor : public CSceneObject
 {
 public:
     CAIActor();
     virtual ~CAIActor();
+
+    bool Init();
 
 public:
     export_lua bool IsDead() const { return GetHP() == 0; }
@@ -41,7 +43,7 @@ public:
     export_lua const std::string& GetName() const { return m_name; }
     void                          SetName(const std::string& val) { m_name = val; }
 
-    CAISkillSet& GetSkillSet() { return m_SkillSet; }
+    CAISkillSet& GetSkillSet() { return *m_SkillSet.get(); }
 
     export_lua void SetProperty(uint32_t nType, uint32_t nVal);
 
@@ -84,6 +86,6 @@ protected:
     uint32_t    m_nMPMax   = 0;
     uint32_t    m_nMoveSPD = 0;
 
-    CAISkillSet m_SkillSet;
+    std::unique_ptr<CAISkillSet> m_SkillSet;
 };
 #endif /* AIACTOR_H */

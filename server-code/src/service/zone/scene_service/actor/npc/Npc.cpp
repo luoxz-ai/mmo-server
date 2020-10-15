@@ -1,9 +1,19 @@
 #include "Npc.h"
 
+#include "ActorAttrib.h"
 #include "ActorManager.h"
+#include "GameMap.h"
+#include "NpcType.h"
 #include "Phase.h"
 #include "Player.h"
+#include "PlayerDialog.h"
+#include "PlayerTask.h"
 #include "SceneService.h"
+#include "ScriptCallBackType.h"
+#include "ScriptManager.h"
+#include "TaskType.h"
+#include "msg/zone_service.pb.h"
+#include "server_msg/server_side.pb.h"
 
 OBJECTHEAP_IMPLEMENTATION(CNpc, s_heap);
 CNpc::CNpc()
@@ -26,7 +36,7 @@ bool CNpc::Init(uint32_t idType)
     SetID(ActorManager()->GenNpcID());
     SetCampID(m_pType->GetCampID());
     _SetPhaseID(m_pType->GetPhaseID());
-    m_ActorAttrib = m_pType->GetAbility();
+    m_ActorAttrib->SetBase(m_pType->GetAbility());
     CHECKF(CActor::Init());
 
     RecalcAttrib(true);
@@ -34,6 +44,15 @@ bool CNpc::Init(uint32_t idType)
     _SetMP(GetMPMax());
 
     return true;
+}
+
+uint32_t CNpc::GetLev() const
+{
+    return m_pType->GetLevel();
+}
+const std::string& CNpc::GetName() const
+{
+    return m_pType->GetName();
 }
 
 void CNpc::MakeShowData(SC_AOI_NEW& msg)
@@ -118,8 +137,9 @@ void CNpc::_ActiveNpc(CPlayer* pPlayer)
     if(setShowTask.empty() && HasFlag(m_pType->GetTypeFlag(), NPC_TYPE_FLAG_SHOP))
     {
         //直接打开商店界面
-        pPlayer->DialogBegin("");
-        pPlayer->DialogSend(m_pType->GetShopID());
+        auto dialog = pPlayer->GetDialog();
+        dialog->DialogBegin("");
+        dialog->DialogSend(m_pType->GetShopID());
     }
     if(setShowTask.size() == 1 && HasFlag(m_pType->GetTypeFlag(), NPC_TYPE_FLAG_SHOP) == false)
     {
@@ -129,19 +149,20 @@ void CNpc::_ActiveNpc(CPlayer* pPlayer)
     }
     else
     {
-        pPlayer->DialogBegin(m_pType->GetName());
-        pPlayer->DialogAddText(m_pType->GetDialogText());
+        auto dialog = pPlayer->GetDialog();
+        dialog->DialogBegin(m_pType->GetName());
+        dialog->DialogAddText(m_pType->GetDialogText());
         if(HasFlag(m_pType->GetTypeFlag(), NPC_TYPE_FLAG_SHOP))
         {
-            pPlayer->DialogAddLink(DIALOGLINK_TYPE_LIST, m_pType->GetShopLinkName(), DIALOG_FUNC_OPENSHOP, m_pType->GetShopID(), "", GetID());
+            dialog->DialogAddLink(DIALOGLINK_TYPE_LIST, m_pType->GetShopLinkName(), DIALOG_FUNC_OPENSHOP, m_pType->GetShopID(), "", GetID());
         }
 
         for(auto pTaskType: setShowTask)
         {
-            pPlayer->DialogAddLink(DIALOGLINK_TYPE_LIST, pTaskType->GetName(), DIALOG_FUNC_SHOWTASK, pTaskType->GetScriptID(), "", GetID());
+            dialog->DialogAddLink(DIALOGLINK_TYPE_LIST, pTaskType->GetName(), DIALOG_FUNC_SHOWTASK, pTaskType->GetScriptID(), "", GetID());
         }
 
-        pPlayer->DialogSend(DIALOGTYPE_NORMAL);
+        dialog->DialogSend(DIALOGTYPE_NORMAL);
     }
     __LEAVE_FUNCTION
 }

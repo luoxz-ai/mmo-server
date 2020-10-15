@@ -14,11 +14,6 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
-extern PROTOBUF_INTERNAL_EXPORT_config_2fCfg_5fBullet_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Cfg_Bullet_Row_config_2fCfg_5fBullet_2eproto;
-class Cfg_Bullet_RowDefaultTypeInternal {
- public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<Cfg_Bullet_Row> _instance;
-} _Cfg_Bullet_Row_default_instance_;
 class Cfg_BulletDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<Cfg_Bullet> _instance;
@@ -34,147 +29,67 @@ static void InitDefaultsscc_info_Cfg_Bullet_config_2fCfg_5fBullet_2eproto() {
   ::Cfg_Bullet::InitAsDefaultInstance();
 }
 
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_Cfg_Bullet_config_2fCfg_5fBullet_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_Cfg_Bullet_config_2fCfg_5fBullet_2eproto}, {
-      &scc_info_Cfg_Bullet_Row_config_2fCfg_5fBullet_2eproto.base,}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Cfg_Bullet_config_2fCfg_5fBullet_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_Cfg_Bullet_config_2fCfg_5fBullet_2eproto}, {}};
 
-static void InitDefaultsscc_info_Cfg_Bullet_Row_config_2fCfg_5fBullet_2eproto() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::_Cfg_Bullet_Row_default_instance_;
-    new (ptr) ::Cfg_Bullet_Row();
-    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::Cfg_Bullet_Row::InitAsDefaultInstance();
-}
-
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Cfg_Bullet_Row_config_2fCfg_5fBullet_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_Cfg_Bullet_Row_config_2fCfg_5fBullet_2eproto}, {}};
-
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_config_2fCfg_5fBullet_2eproto[2];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_config_2fCfg_5fBullet_2eproto[1];
 static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_config_2fCfg_5fBullet_2eproto = nullptr;
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_config_2fCfg_5fBullet_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_config_2fCfg_5fBullet_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet_Row, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet_Row, id_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet_Row, num_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet_Row, emit_type_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet_Row, target_type_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet_Row, move_type_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet_Row, move_param_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet_Row, move_spd_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet_Row, apply_times_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet_Row, apply_ms_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet_Row, apply_adj_ms_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet_Row, expire_type_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet_Row, expire_ms_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet_Row, skill_id_),
-  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Cfg_Bullet, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet, rows_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet, id_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet, num_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet, emit_type_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet, target_type_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet, move_type_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet, move_param_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet, move_spd_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet, apply_times_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet, apply_ms_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet, apply_adj_ms_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet, expire_type_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet, expire_ms_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Bullet, skill_id_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::Cfg_Bullet_Row)},
-  { 18, -1, sizeof(::Cfg_Bullet)},
+  { 0, -1, sizeof(::Cfg_Bullet)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_Cfg_Bullet_Row_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_Cfg_Bullet_default_instance_),
 };
 
 const char descriptor_table_protodef_config_2fCfg_5fBullet_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\027config/Cfg_Bullet.proto\"\244\002\n\nCfg_Bullet"
-  "\022\035\n\004rows\030\001 \003(\0132\017.Cfg_Bullet.Row\032\366\001\n\003Row\022"
-  "\n\n\002id\030\001 \001(\r\022\013\n\003num\030\002 \001(\r\022\021\n\temit_type\030\003 "
-  "\001(\r\022\023\n\013target_type\030\004 \001(\r\022\021\n\tmove_type\030\005 "
-  "\001(\r\022\022\n\nmove_param\030\006 \001(\r\022\020\n\010move_spd\030\007 \001("
-  "\r\022\023\n\013apply_times\030\t \001(\r\022\020\n\010apply_ms\030\n \001(\r"
-  "\022\024\n\014apply_adj_ms\030\013 \001(\r\022\023\n\013expire_type\030\014 "
-  "\001(\r\022\021\n\texpire_ms\030\r \001(\r\022\020\n\010skill_id\030\016 \001(\r"
-  "B\002H\002b\006proto3"
+  "\n\027config/Cfg_Bullet.proto\"\375\001\n\nCfg_Bullet"
+  "\022\n\n\002id\030\001 \001(\r\022\013\n\003num\030\002 \001(\r\022\021\n\temit_type\030\003"
+  " \001(\r\022\023\n\013target_type\030\004 \001(\r\022\021\n\tmove_type\030\005"
+  " \001(\r\022\022\n\nmove_param\030\006 \001(\r\022\020\n\010move_spd\030\007 \001"
+  "(\r\022\023\n\013apply_times\030\t \001(\r\022\020\n\010apply_ms\030\n \001("
+  "\r\022\024\n\014apply_adj_ms\030\013 \001(\r\022\023\n\013expire_type\030\014"
+  " \001(\r\022\021\n\texpire_ms\030\r \001(\r\022\020\n\010skill_id\030\016 \001("
+  "\rB\002H\002b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_config_2fCfg_5fBullet_2eproto_deps[1] = {
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_config_2fCfg_5fBullet_2eproto_sccs[2] = {
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_config_2fCfg_5fBullet_2eproto_sccs[1] = {
   &scc_info_Cfg_Bullet_config_2fCfg_5fBullet_2eproto.base,
-  &scc_info_Cfg_Bullet_Row_config_2fCfg_5fBullet_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_config_2fCfg_5fBullet_2eproto_once;
 static bool descriptor_table_config_2fCfg_5fBullet_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_config_2fCfg_5fBullet_2eproto = {
-  &descriptor_table_config_2fCfg_5fBullet_2eproto_initialized, descriptor_table_protodef_config_2fCfg_5fBullet_2eproto, "config/Cfg_Bullet.proto", 332,
-  &descriptor_table_config_2fCfg_5fBullet_2eproto_once, descriptor_table_config_2fCfg_5fBullet_2eproto_sccs, descriptor_table_config_2fCfg_5fBullet_2eproto_deps, 2, 0,
+  &descriptor_table_config_2fCfg_5fBullet_2eproto_initialized, descriptor_table_protodef_config_2fCfg_5fBullet_2eproto, "config/Cfg_Bullet.proto", 293,
+  &descriptor_table_config_2fCfg_5fBullet_2eproto_once, descriptor_table_config_2fCfg_5fBullet_2eproto_sccs, descriptor_table_config_2fCfg_5fBullet_2eproto_deps, 1, 0,
   schemas, file_default_instances, TableStruct_config_2fCfg_5fBullet_2eproto::offsets,
-  file_level_metadata_config_2fCfg_5fBullet_2eproto, 2, file_level_enum_descriptors_config_2fCfg_5fBullet_2eproto, file_level_service_descriptors_config_2fCfg_5fBullet_2eproto,
+  file_level_metadata_config_2fCfg_5fBullet_2eproto, 1, file_level_enum_descriptors_config_2fCfg_5fBullet_2eproto, file_level_service_descriptors_config_2fCfg_5fBullet_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
 static bool dynamic_init_dummy_config_2fCfg_5fBullet_2eproto = (  ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_config_2fCfg_5fBullet_2eproto), true);
-
-// ===================================================================
-
-void Cfg_Bullet_Row::InitAsDefaultInstance() {
-}
-class Cfg_Bullet_Row::_Internal {
- public:
-};
-
-Cfg_Bullet_Row::Cfg_Bullet_Row()
-  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:Cfg_Bullet.Row)
-}
-Cfg_Bullet_Row::Cfg_Bullet_Row(const Cfg_Bullet_Row& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message(),
-      _internal_metadata_(nullptr) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::memcpy(&id_, &from.id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&skill_id_) -
-    reinterpret_cast<char*>(&id_)) + sizeof(skill_id_));
-  // @@protoc_insertion_point(copy_constructor:Cfg_Bullet.Row)
-}
-
-void Cfg_Bullet_Row::SharedCtor() {
-  ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&skill_id_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(skill_id_));
-}
-
-Cfg_Bullet_Row::~Cfg_Bullet_Row() {
-  // @@protoc_insertion_point(destructor:Cfg_Bullet.Row)
-  SharedDtor();
-}
-
-void Cfg_Bullet_Row::SharedDtor() {
-}
-
-void Cfg_Bullet_Row::SetCachedSize(int size) const {
-  _cached_size_.Set(size);
-}
-const Cfg_Bullet_Row& Cfg_Bullet_Row::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_Cfg_Bullet_Row_config_2fCfg_5fBullet_2eproto.base);
-  return *internal_default_instance();
-}
-
-
-void Cfg_Bullet_Row::InternalSwap(Cfg_Bullet_Row* other) {
-  using std::swap;
-  GetReflection()->Swap(this, other);}
-
-::PROTOBUF_NAMESPACE_ID::Metadata Cfg_Bullet_Row::GetMetadata() const {
-  return GetMetadataStatic();
-}
-
 
 // ===================================================================
 
@@ -191,14 +106,18 @@ Cfg_Bullet::Cfg_Bullet()
 }
 Cfg_Bullet::Cfg_Bullet(const Cfg_Bullet& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
-      _internal_metadata_(nullptr),
-      rows_(from.rows_) {
+      _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&id_, &from.id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&skill_id_) -
+    reinterpret_cast<char*>(&id_)) + sizeof(skill_id_));
   // @@protoc_insertion_point(copy_constructor:Cfg_Bullet)
 }
 
 void Cfg_Bullet::SharedCtor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_Cfg_Bullet_config_2fCfg_5fBullet_2eproto.base);
+  ::memset(&id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&skill_id_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(skill_id_));
 }
 
 Cfg_Bullet::~Cfg_Bullet() {
@@ -229,9 +148,6 @@ void Cfg_Bullet::InternalSwap(Cfg_Bullet* other) {
 
 // @@protoc_insertion_point(namespace_scope)
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::Cfg_Bullet_Row* Arena::CreateMaybeMessage< ::Cfg_Bullet_Row >(Arena* arena) {
-  return Arena::CreateInternal< ::Cfg_Bullet_Row >(arena);
-}
 template<> PROTOBUF_NOINLINE ::Cfg_Bullet* Arena::CreateMaybeMessage< ::Cfg_Bullet >(Arena* arena) {
   return Arena::CreateInternal< ::Cfg_Bullet >(arena);
 }

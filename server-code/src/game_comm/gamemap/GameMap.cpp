@@ -1,10 +1,18 @@
 #include "GameMap.h"
 
+#include "GameMapDef.h"
+#include "MapData.h"
+#include "config/Cfg_Scene.pb.h"
+#include "config/Cfg_Scene_EnterPoint.pb.h"
+#include "config/Cfg_Scene_LeavePoint.pb.h"
+#include "config/Cfg_Scene_MonsterGenerator.pb.h"
+#include "config/Cfg_Scene_Patrol.pb.h"
+#include "config/Cfg_Scene_Reborn.pb.h"
 CGameMap::CGameMap() {}
 
 CGameMap::~CGameMap() {}
 
-bool CGameMap::Init(CMapManager* pManager, const Cfg_Scene_Row& data, const CMapData* pMapData)
+bool CGameMap::Init(CMapManager* pManager, const Cfg_Scene& data, const CMapData* pMapData)
 {
     CHECKF(pManager);
     m_pManager      = pManager;
@@ -21,7 +29,7 @@ bool CGameMap::Init(CMapManager* pManager, const Cfg_Scene_Row& data, const CMap
         // copy
         auto phase_data = data.phase_data(i);
         auto idPhase    = phase_data.id();
-        m_PhaseDataSet.emplace(idPhase, std::move(phase_data));
+        m_PhaseDataSet.emplace(idPhase, std::make_unique<PhaseData>(std::move(phase_data)));
     }
     return true;
 }
@@ -43,15 +51,15 @@ bool CGameMap::IsNearLeavePoint(float x, float y, uint32_t& destMapID, uint32_t&
     __ENTER_FUNCTION
     for(const auto& leave_point_pair: m_LeavePointSet)
     {
-        const auto& leave_point = leave_point_pair.second;
-        if(GameMath::manhattanDistance(Vector2(x, y), Vector2(leave_point.x(), leave_point.y())) > leave_point.range())
+        const auto& pLeavePoint = leave_point_pair.second;
+        if(GameMath::manhattanDistance(Vector2(x, y), Vector2(pLeavePoint->x(), pLeavePoint->y())) > pLeavePoint->range())
             continue;
 
-        if(GameMath::distance(Vector2(x, y), Vector2(leave_point.x(), leave_point.y())) > leave_point.range())
+        if(GameMath::distance(Vector2(x, y), Vector2(pLeavePoint->x(), pLeavePoint->y())) > pLeavePoint->range())
             continue;
 
-        destMapID         = leave_point.dest_map_id();
-        destEnterPointIdx = leave_point.dest_enter_point_idx();
+        destMapID         = pLeavePoint->dest_map_id();
+        destEnterPointIdx = pLeavePoint->dest_enter_point_idx();
         return true;
     }
     __LEAVE_FUNCTION
@@ -64,18 +72,22 @@ bool CGameMap::IsNearLeavePointX(uint32_t nLeavePointIdx, float x, float y, uint
     auto pLeavePoint = GetLeavePointByIdx(nLeavePointIdx);
     CHECKF(pLeavePoint);
 
-    const auto& leave_point = *pLeavePoint;
-    if(GameMath::manhattanDistance(Vector2(x, y), Vector2(leave_point.x(), leave_point.y())) > leave_point.range())
+    if(GameMath::manhattanDistance(Vector2(x, y), Vector2(pLeavePoint->x(), pLeavePoint->y())) > pLeavePoint->range())
         return false;
 
-    if(GameMath::distance(Vector2(x, y), Vector2(leave_point.x(), leave_point.y())) > leave_point.range())
+    if(GameMath::distance(Vector2(x, y), Vector2(pLeavePoint->x(), pLeavePoint->y())) > pLeavePoint->range())
         return false;
 
-    destMapID         = leave_point.dest_map_id();
-    destEnterPointIdx = leave_point.dest_enter_point_idx();
+    destMapID         = pLeavePoint->dest_map_id();
+    destEnterPointIdx = pLeavePoint->dest_enter_point_idx();
     return true;
     __LEAVE_FUNCTION
     return false;
+}
+
+bool CGameMap::IsDynaMap() const
+{
+    return HasFlag(GetMapFlag(), MAPFLAG_DYNAMAP);
 }
 
 bool CGameMap::IsPassDisable(float x, float y) const
@@ -187,41 +199,59 @@ const PhaseData* CGameMap::GetPhaseDataById(uint64_t idPhase) const
     auto it = m_PhaseDataSet.find(idPhase);
     if(it == m_PhaseDataSet.end())
         return nullptr;
-    return &it->second;
+    return it->second.get();
     __LEAVE_FUNCTION
     return nullptr;
 }
 
-const Cfg_Scene_EnterPoint_Row* CGameMap::GetEnterPointByIdx(uint32_t idx) const
+const Cfg_Scene_EnterPoint* CGameMap::GetEnterPointByIdx(uint32_t idx) const
 {
     __ENTER_FUNCTION
     auto it = m_EnterPointSet.find(idx);
     if(it == m_EnterPointSet.end())
         return nullptr;
-    return &it->second;
+    return it->second.get();
     __LEAVE_FUNCTION
     return nullptr;
 }
 
-void CGameMap::_setEnterPoint(const Cfg_Scene_EnterPoint_Row& iter)
+void CGameMap::_setEnterPoint(const Cfg_Scene_EnterPoint& iter)
 {
-    m_EnterPointSet[iter.idx()] = iter;
+    m_EnterPointSet[iter.idx()] = std::make_unique<Cfg_Scene_EnterPoint>(iter);
 }
 
-const Cfg_Scene_LeavePoint_Row* CGameMap::GetLeavePointByIdx(uint32_t idx) const
+const Cfg_Scene_LeavePoint* CGameMap::GetLeavePointByIdx(uint32_t idx) const
 {
     __ENTER_FUNCTION
     auto it = m_LeavePointSet.find(idx);
     if(it == m_LeavePointSet.end())
         return nullptr;
-    return &it->second;
+    return it->second.get();
     __LEAVE_FUNCTION
     return nullptr;
 }
 
-void CGameMap::_setLeavePoint(const Cfg_Scene_LeavePoint_Row& iter)
+const Cfg_Scene_Reborn* CGameMap::GetRebornDataByIdx(uint32_t idx) const
 {
-    m_LeavePointSet[iter.idx()] = iter;
+    auto it = m_RebornDataSet.find(idx);
+    if(it == m_RebornDataSet.end())
+        return nullptr;
+    else
+        return it->second.get();
+}
+
+const Cfg_Scene_Patrol* CGameMap::GetPatrolDataByIdx(uint32_t idx) const
+{
+    auto it = m_PatrolSet.find(idx);
+    if(it == m_PatrolSet.end())
+        return nullptr;
+    else
+        return it->second.get();
+}
+
+void CGameMap::_setLeavePoint(const Cfg_Scene_LeavePoint& iter)
+{
+    m_LeavePointSet[iter.idx()] = std::make_unique<Cfg_Scene_LeavePoint>(iter);
 }
 
 uint32_t CGameMap::GetSPRegionIdx(float x, float y) const
@@ -288,17 +318,17 @@ Vector2 CGameMap::FindPosNearby(const Vector2& pos, float range) const
     return pos;
 }
 
-void CGameMap::_AddRebornData(const Cfg_Scene_Reborn_Row& iter)
+void CGameMap::_AddRebornData(const Cfg_Scene_Reborn& iter)
 {
-    m_RebornDataSet[iter.idx()] = iter;
+    m_RebornDataSet[iter.idx()] = std::make_unique<Cfg_Scene_Reborn>(iter);
 }
 
-void CGameMap::_AddMonsterGenerator(const Cfg_Scene_MonsterGenerator_Row& iter)
+void CGameMap::_AddMonsterGenerator(const Cfg_Scene_MonsterGenerator& iter)
 {
-    m_MonsterGeneratorList[iter.idx()] = iter;
+    m_MonsterGeneratorList[iter.idx()] = std::make_unique<Cfg_Scene_MonsterGenerator>(iter);
 }
 
-void CGameMap::_AddPatrol(const Cfg_Scene_Patrol_Row& iter)
+void CGameMap::_AddPatrol(const Cfg_Scene_Patrol& iter)
 {
-    m_PatrolSet[iter.patrol_idx()] = iter;
+    m_PatrolSet[iter.patrol_idx()] = std::make_unique<Cfg_Scene_Patrol>(iter);
 }

@@ -12,6 +12,7 @@
 #include "MessageRoute.h"
 #include "MonitorMgr.h"
 #include "MsgWorldProcess.h"
+#include "MysqlConnection.h"
 #include "MysqlTableCheck.h"
 #include "NetMSGProcess.h"
 #include "NetSocket.h"
@@ -25,6 +26,7 @@
 #include "UserManager.h"
 #include "gamedb.h"
 #include "globaldb.h"
+#include "server_msg/server_side.pb.h"
 #include "serverinfodb.h"
 #include "serverinfodb.pb.h"
 

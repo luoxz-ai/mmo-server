@@ -8,11 +8,12 @@
 #include <variant>
 #include <vector>
 
+#include <fmt/format.h>
+
 #include "BaseCode.h"
 #include "CallStackDumper.h"
 #include "DBFieldInfo.h"
 #include "ObjectHeap.h"
-#include "fmt/format.h"
 
 const char* const EMPTY_STR = "";
 

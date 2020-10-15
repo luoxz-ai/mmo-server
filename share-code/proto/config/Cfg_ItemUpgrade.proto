@@ -3,8 +3,7 @@ option optimize_for = CODE_SIZE;
 
 message Cfg_ItemUpgrade
 {
-	message Row
-	{
+
 		uint32	id			  = 1; // id
 		uint32	sort		  = 2; //合成类型
 		uint32	main_itemtype = 3; //出来的物品类型ID
@@ -18,7 +17,5 @@ message Cfg_ItemUpgrade
 		};
 
 		repeated ReqData req_data_list = 10;
-	}
 
-	repeated Row rows = 1;
 }

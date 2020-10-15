@@ -1,8 +1,11 @@
 #include "CoolDown.h"
 
+#include "DBRecord.h"
+#include "MysqlConnection.h"
 #include "Player.h"
 #include "SceneService.h"
-
+#include "gamedb.h"
+#include "msg/zone_service.pb.h"
 OBJECTHEAP_IMPLEMENTATION(ICoolDown, s_heap);
 OBJECTHEAP_IMPLEMENTATION(CCoolDownSet, s_heap);
 

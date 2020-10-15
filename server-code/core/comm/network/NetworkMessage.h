@@ -6,7 +6,7 @@
 #include "BaseCode.h"
 #include "NetworkDefine.h"
 #include "ObjectHeap.h"
-#include "google/protobuf/message.h"
+//#include <google/protobuf/message.h>
 
 export_lua enum BroadcastType {
     BROADCAST_NONE    = 0,
@@ -14,6 +14,7 @@ export_lua enum BroadcastType {
     BROADCAST_INCLUDE = 2,
     BROADCAST_EXCLUDE = 2,
 };
+
 export_lua class CNetworkMessage
 {
 public:

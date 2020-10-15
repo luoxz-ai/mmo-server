@@ -4,14 +4,23 @@
 #include "AIPlayer.h"
 #include "AIScene.h"
 #include "AIService.h"
-
+#include "AISkill.h"
 CAIActor::CAIActor() {}
 
 CAIActor::~CAIActor() {}
 
+bool CAIActor::Init()
+{
+    __ENTER_FUNCTION
+    m_SkillSet = std::make_unique<CAISkillSet>();
+    return true;
+    __LEAVE_FUNCTION
+    return false;
+}
+
 void CAIActor::OnCastSkill(uint32_t idSkill)
 {
-    m_SkillSet.OnCastSkill(idSkill);
+    m_SkillSet->OnCastSkill(idSkill);
 }
 
 void CAIActor::SetProperty(uint32_t nType, uint32_t nVal)

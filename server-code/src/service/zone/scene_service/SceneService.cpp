@@ -5,13 +5,14 @@
 #include "AchievementType.h"
 #include "Actor.h"
 #include "ActorManager.h"
+#include "ActorStatus.h"
 #include "BulletType.h"
 #include "DataCount.h"
+#include "DataCountLimit.h"
 #include "EventManager.h"
 #include "GMManager.h"
 #include "GameEventDef.h"
 #include "IService.h"
-#include "IStatus.h"
 #include "ItemAddition.h"
 #include "ItemFormula.h"
 #include "ItemType.h"
@@ -38,6 +39,7 @@
 #include "ScriptManager.h"
 #include "SettingMap.h"
 #include "SkillType.h"
+#include "StatusType.h"
 #include "SuitEquip.h"
 #include "SystemVars.h"
 #include "TaskType.h"
@@ -49,7 +51,6 @@
 #include "protomsg_to_cmd.h"
 #include "server_msg/server_side.pb.h"
 #include "serverinfodb.pb.h"
-
 static thread_local CSceneService* tls_pService = nullptr;
 CSceneService*                     SceneService()
 {

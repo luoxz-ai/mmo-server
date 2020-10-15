@@ -3,7 +3,6 @@
 
 #include "IService.h"
 #include "MyTimer.h"
-#include "MysqlConnection.h"
 #include "NetSocket.h"
 #include "ScriptManager.h"
 #include "ServiceComm.h"
@@ -17,6 +16,7 @@ class CLoadingThread;
 class CGMManager;
 class CMonitorMgr;
 class CTeamInfoManager;
+class CMysqlConnection;
 
 export_lua class CSceneService : public IService, public CServiceCommon
 {

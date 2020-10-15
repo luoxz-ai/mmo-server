@@ -3,10 +3,12 @@
 #include "Account.h"
 #include "GMManager.h"
 #include "MD5.h"
+#include "MysqlConnection.h"
+#include "Thread.h"
 #include "WorldService.h"
+#include "game_common_def.h"
 #include "msg/world_service.pb.h"
 #include "server_msg/server_side.pb.h"
-
 CAccountManager::CAccountManager() {}
 
 CAccountManager::~CAccountManager()

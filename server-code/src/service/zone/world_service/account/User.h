@@ -3,7 +3,6 @@
 
 #include "BaseCode.h"
 #include "NetworkDefine.h"
-#include "NetworkMessage.h"
 #include "ObjectHeap.h"
 class CAccount;
 struct ST_ROLE_INFO;

@@ -2,7 +2,6 @@
 #define SKILLFSM_H
 
 #include "EventManager.h"
-#include "SkillType.h"
 
 enum SkillState
 {
@@ -12,10 +11,16 @@ enum SkillState
     SKILLSTATE_STUN,   //僵直
 };
 
-export_lua class CSkillFSM
+class CSkillType;
+class CActor;
+
+export_lua class CSkillFSM : public NoncopyableT<CSkillFSM>
 {
+    CSkillFSM();
+    bool Init(CActor* pActor);
+
 public:
-    CSkillFSM(CActor* pOwner);
+    CreateNewImpl(CSkillFSM);
     ~CSkillFSM();
 
     export_lua bool CastSkill(const uint32_t idSkill, OBJID idTarget, const Vector2& pos);
@@ -74,8 +79,9 @@ private:
     OBJID             m_idTarget;
     Vector2           m_posTarget;
 
-    uint32_t                     m_nApplyTimes = 0;
-    SkillState                   m_curState    = SKILLSTATE_IDLE;
+    uint32_t   m_nApplyTimes = 0;
+    SkillState m_curState    = SKILLSTATE_IDLE;
+
     std::map<uint32_t, uint32_t> m_SkillCD;
 };
 #endif /* SKILLFSM_H */

@@ -7,6 +7,7 @@
 #include "SceneManager.h"
 #include "SceneService.h"
 #include "SceneTree.h"
+#include "ScriptCallBackType.h"
 #include "protomsg_to_cmd.h"
 #include "server_msg/server_side.pb.h"
 void CActor::FlyTo(const Vector2& pos)
@@ -45,8 +46,8 @@ void CActor::OnEnterMap(CSceneBase* pScene)
     CHECK(pScene);
     __ENTER_FUNCTION
     CSceneObject::OnEnterMap(pScene);
-
-    static_cast<CPhase*>(pScene)->TryExecScript<void>(SCB_MAP_ONENTERMAP, this);
+    if(pScene && pScene->GetScriptID())
+        ScriptManager()->TryExecScript<void>(pScene->GetScriptID(), SCB_MAP_ONENTERMAP, this);
     __LEAVE_FUNCTION
 }
 
@@ -63,13 +64,13 @@ void CActor::OnLeaveMap(uint16_t idTargetMap)
         SceneService()->SendProtoMsgToAIService(ai_msg);
     }
 
-    if(m_pScene)
-        static_cast<CPhase*>(m_pScene)->TryExecScript<void>(SCB_MAP_ONLEAVEMAP, this, idTargetMap);
+    if(m_pScene && m_pScene->GetScriptID())
+        ScriptManager()->TryExecScript<void>(m_pScene->GetScriptID(), SCB_MAP_ONLEAVEMAP, this, idTargetMap);
 
     CSceneObject::OnLeaveMap(idTargetMap);
 
-    m_EventMap.Clear();
-    m_EventQueue.Clear();
+    m_EventMap->Clear();
+    m_EventQueue->Clear();
 
     __LEAVE_FUNCTION
 }

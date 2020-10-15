@@ -15,8 +15,7 @@ message PhaseData
 
 message Cfg_Scene
 {
-	message Row
-	{
+
 		uint32 idmap	 = 1; // 地图ID
 		string name		 = 2; // 地图名
 		uint32 idmapdata = 3; // 地图数据ID
@@ -26,7 +25,5 @@ message Cfg_Scene
 		uint64 idscript	 = 7; // 脚本id
 
 		repeated PhaseData phase_data = 10; //位面设置
-	}
 
-	repeated Row rows = 1;
 }

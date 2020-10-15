@@ -6,7 +6,7 @@
 #include "NetworkService.h"
 #include "ServiceDefine.h"
 #include "UIDFactory.h"
-#include "google/protobuf/descriptor.pb.h"
+//#include <google/protobuf/descriptor.pb.h>
 
 class CMessageRoute;
 class CMessagePort;

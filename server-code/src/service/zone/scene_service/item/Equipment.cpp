@@ -1,10 +1,19 @@
 #include "Equipment.h"
 
+#include "ActorAttrib.h"
 #include "Item.h"
 #include "ItemAddition.h"
+#include "ItemType.h"
+#include "Package.h"
 #include "Player.h"
+#include "PlayerAchievement.h"
+#include "PlayerTask.h"
 #include "SceneService.h"
+#include "ScriptCallBackType.h"
 #include "SuitEquip.h"
+#include "config/Cfg_Achievement.pb.h"
+#include "gamedb.h"
+#include "msg/zone_service.pb.h"
 CEquipment::CEquipment() {}
 
 CEquipment::~CEquipment()

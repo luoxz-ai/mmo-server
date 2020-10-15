@@ -3,10 +3,12 @@
 
 #include "BaseCode.h"
 #include "DynaRegion.h"
-#include "MapManager.h"
-#include "SceneTree.h"
+#include "SceneID.h"
 
 class CSceneObject;
+class CMapManager;
+class CSceneTree;
+class CGameMap;
 
 export_lua class CSceneBase : NoncopyableT<CSceneBase>
 {
@@ -22,11 +24,12 @@ public:
     export_lua virtual bool IsStatic() const { return true; }
 
     export_lua OBJID    GetID() const { return m_idxScene; }
-    export_lua uint32_t GetMapID() const { return m_pMap->GetMapID(); }
+    export_lua uint32_t GetMapID() const;
 
     export_lua const SceneIdx& GetSceneIdx() const { return m_idxScene; }
 
     const CGameMap* GetMap() const { return m_pMap; }
+    uint64_t        GetScriptID() const;
     CSceneTree*     GetSceneTree() const { return m_pSceneTree.get(); }
     bool            InitSceneTree(const CPos2D& vBasePos, float fWidth, float fHeight, uint32_t nTileGridRange);
     bool            LinkSceneTree(CSceneBase* pLinkScene);

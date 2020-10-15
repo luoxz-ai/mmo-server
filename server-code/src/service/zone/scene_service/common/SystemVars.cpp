@@ -4,6 +4,8 @@
 #include "MysqlConnection.h"
 #include "Player.h"
 #include "SceneService.h"
+#include "gamedb.h"
+#include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
 
 constexpr uint32_t AUTO_SYNC_SYSTEMVAR_LIST[] = {

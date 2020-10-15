@@ -1,26 +1,40 @@
 #include "Actor.h"
 
+#include "ActorAttrib.h"
 #include "ActorManager.h"
+#include "ActorStatusSet.h"
+#include "CoolDown.h"
 #include "GameEventDef.h"
+#include "GameLog.h"
 #include "Monster.h"
 #include "Phase.h"
 #include "Player.h"
 #include "Scene.h"
 #include "SceneService.h"
 #include "SceneTree.h"
+#include "ScriptCallBackType.h"
+#include "SkillFSM.h"
+#include "msg/ts_cmd.pb.h"
+#include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
-
-CActor::CActor()
-    : m_SkillFSM(this)
-{
-}
+#include "server_share/game_common_def.h"
+CActor::CActor() {}
 
 CActor::~CActor() {}
 
 bool CActor::Init()
 {
-    m_pStatus.reset(CActorStatus::CreateNew(this));
-    CHECKF(m_pStatus.get());
+    m_pStatusSet.reset(CActorStatusSet::CreateNew(this));
+    CHECKF(m_pStatusSet.get());
+    m_SkillFSM.reset(CSkillFSM::CreateNew(this));
+    CHECKF(m_SkillFSM.get());
+    m_ActorAttrib = std::make_unique<CActorAttrib>();
+    CHECKF(m_ActorAttrib.get());
+    m_EventMap = std::make_unique<CEventEntryMap>();
+    CHECKF(m_EventMap.get());
+    m_EventQueue = std::make_unique<CEventEntryQueue>();
+    CHECKF(m_EventQueue.get());
+
     return true;
 }
 
@@ -166,6 +180,23 @@ void CActor::_SetProperty(uint32_t nType, uint32_t nVal, uint32_t nSync)
     __LEAVE_FUNCTION
 }
 
+uint32_t CActor::GetHPMax() const
+{
+    return GetAttrib().get(ATTRIB_HP_MAX);
+}
+uint32_t CActor::GetMPMax() const
+{
+    return GetAttrib().get(ATTRIB_MP_MAX);
+}
+uint32_t CActor::GetFPMax() const
+{
+    return GetAttrib().get(ATTRIB_FP_MAX);
+}
+uint32_t CActor::GetNPMax() const
+{
+    return GetAttrib().get(ATTRIB_NP_MAX);
+}
+
 uint32_t CActor::GetPropertyMax(uint32_t nType) const
 {
     __ENTER_FUNCTION
@@ -293,7 +324,7 @@ void CActor::RecalcAttrib(bool bClearCache /*= false*/)
     uint32_t nOldHPMax = GetHPMax();
 
     // process status
-    m_ActorAttrib.Apply(bClearCache);
+    m_ActorAttrib->Apply(bClearCache);
     //广播通知hp变化
     if(GetHPMax() != nOldHPMax)
     {
@@ -312,7 +343,7 @@ void CActor::RecalcAttrib(bool bClearCache /*= false*/)
 
 float CActor::GetMoveSpeed() const
 {
-    return (float)(m_ActorAttrib.get(ATTRIB_MOVESPD)) / (float)DEFAULT_MOVE_RADIO;
+    return (float)(m_ActorAttrib->get(ATTRIB_MOVESPD)) / (float)DEFAULT_MOVE_RADIO;
 }
 
 bool CActor::CheckCanMove(const Vector2& posTarget, bool bSet)
@@ -371,7 +402,7 @@ bool CActor::MoveTo(const Vector2& posTarget, bool bCheckMove)
     SetPos(posTarget);
     UpdateViewList();
 
-    m_pStatus->OnMove();
+    m_pStatusSet->OnMove();
     __LEAVE_FUNCTION
     return false;
 }
@@ -379,7 +410,7 @@ bool CActor::MoveTo(const Vector2& posTarget, bool bCheckMove)
 bool CActor::_CastSkill(uint32_t idSkill, OBJID idTarget, const Vector2& targetPos)
 {
     __ENTER_FUNCTION
-    return m_SkillFSM.CastSkill(idSkill, idTarget, targetPos);
+    return m_SkillFSM->CastSkill(idSkill, idTarget, targetPos);
     __LEAVE_FUNCTION
     return false;
 }
@@ -391,7 +422,7 @@ void CActor::OnBeAttack(CActor* pAttacker, int32_t nRealDamage)
 
     AddProperty(PROP_HP, -nRealDamage, SYNC_ALL_DELAY);
 
-    m_pStatus->OnBeAttack(pAttacker, nRealDamage);
+    m_pStatusSet->OnBeAttack(pAttacker, nRealDamage);
     __LEAVE_FUNCTION
 }
 
@@ -540,8 +571,10 @@ void CActor::BeKillBy(CActor* pAttacker)
     SendRoomMessage(msg);
 
     LOGDEBUG("BeKillBy:{} Attacker:{}", GetID(), pAttacker ? pAttacker->GetID() : 0);
-    if(m_pScene)
-        static_cast<CPhase*>(m_pScene)->TryExecScript<void>(SCB_MAP_ONACTORBEKILL, this, pAttacker);
+    if(m_pScene && m_pScene->GetScriptID())
+    {
+        ScriptManager()->TryExecScript<void>(m_pScene->GetScriptID(), SCB_MAP_ONACTORBEKILL, this, pAttacker);
+    }
 
     GetStatus()->OnDead(pAttacker);
     GetStatus()->AttachStatus({.id_status_type = STATUSTYPE_DEAD, .lev = 1, .id_caster = GetID(), .expire_type = STATUSEXPIRETYPE_NEVER});
@@ -555,10 +588,10 @@ void CActor::BroadcastShowTo(const VirtualSocketMap_t& VSMap)
     SC_AOI_NEW msg;
     MakeShowData(msg);
     SceneService()->SendProtoMsgTo(VSMap, msg);
-    if(m_pStatus->size() > 0)
+    if(m_pStatusSet->size() > 0)
     {
         SC_STATUS_LIST status_msg;
-        m_pStatus->FillStatusMsg(status_msg);
+        m_pStatusSet->FillStatusMsg(status_msg);
         SceneService()->SendProtoMsgTo(VSMap, msg);
     }
 

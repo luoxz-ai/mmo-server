@@ -1,20 +1,22 @@
 #ifndef ACTOR_H
 #define ACTOR_H
-#include "ActorAttrib.h"
-#include "ActorStatus.h"
-#include "BaseCode.h"
-#include "CoolDown.h"
-#include "GameLog.h"
-#include "MyTimer.h"
-#include "SceneObject.h"
-#include "SceneService.h"
-#include "SkillFSM.h"
-#include "msg/ts_cmd.pb.h"
-#include "msg/zone_service.pb.h"
-#include "server_share/game_common_def.h"
 
+#include "BaseCode.h"
+#include "MyTimer.h"
+#include "NetworkDefine.h"
+#include "SceneObject.h"
 class CMonster;
 class CPlayer;
+class SC_AOI_NEW;
+class SC_AOI_REMOVE;
+
+class CSkillFSM;
+class CActorAttrib;
+class CActorStatusSet;
+class CEventEntryMap;
+class CEventEntryQueue;
+class CCoolDownSet;
+
 export_lua class CActor : public CSceneObject
 {
 protected:
@@ -53,10 +55,10 @@ public:
     export_lua virtual uint32_t GetMP() const { return 0; }
     export_lua virtual uint32_t GetFP() const { return 0; }
     export_lua virtual uint32_t GetNP() const { return 0; }
-    export_lua virtual uint32_t GetHPMax() const { return GetAttrib().get(ATTRIB_HP_MAX); }
-    export_lua virtual uint32_t GetMPMax() const { return GetAttrib().get(ATTRIB_MP_MAX); }
-    export_lua virtual uint32_t GetFPMax() const { return GetAttrib().get(ATTRIB_FP_MAX); }
-    export_lua virtual uint32_t GetNPMax() const { return GetAttrib().get(ATTRIB_NP_MAX); }
+    export_lua virtual uint32_t GetHPMax() const;
+    export_lua virtual uint32_t GetMPMax() const;
+    export_lua virtual uint32_t GetFPMax() const;
+    export_lua virtual uint32_t GetNPMax() const;
     export_lua virtual void     _SetHP(uint32_t v) {}
     export_lua virtual void     _SetMP(uint32_t v) {}
     export_lua virtual void     _SetFP(uint32_t v) {}
@@ -111,13 +113,13 @@ private:
     void BroadcastShowTo(const VirtualSocketMap_t& VSMap);
 
 public:
-    export_lua CActorAttrib& GetAttrib() { return m_ActorAttrib; }
-    export_lua const CActorAttrib& GetAttrib() const { return m_ActorAttrib; }
+    export_lua CActorAttrib& GetAttrib() { return *m_ActorAttrib.get(); }
+    export_lua const CActorAttrib& GetAttrib() const { return *m_ActorAttrib.get(); }
 
-    export_lua CActorStatus* GetStatus() { return m_pStatus.get(); }
-    export_lua CSkillFSM& GetSkillFSM() { return m_SkillFSM; }
-    export_lua CEventEntryMap& GetEventMapRef() { return m_EventMap; }
-    export_lua CEventEntryQueue& GetEventQueueRef() { return m_EventQueue; }
+    export_lua CActorStatusSet* GetStatus() { return m_pStatusSet.get(); }
+    export_lua CSkillFSM& GetSkillFSM() { return *m_SkillFSM.get(); }
+    export_lua CEventEntryMap& GetEventMapRef() { return *m_EventMap.get(); }
+    export_lua CEventEntryQueue& GetEventQueueRef() { return *m_EventQueue.get(); }
     export_lua CCoolDownSet* GetCDSet() const { return m_pCDSet.get(); }
 
 public:
@@ -162,15 +164,15 @@ protected:
 
     bool m_bDelThis = false;
 
-    uint32_t  m_tLastMoveTime = 0;
-    CSkillFSM m_SkillFSM;
+    uint32_t                   m_tLastMoveTime = 0;
+    std::unique_ptr<CSkillFSM> m_SkillFSM;
 
-    CActorAttrib m_ActorAttrib; //属性
+    std::unique_ptr<CActorAttrib> m_ActorAttrib; //属性
 
-    std::unique_ptr<CActorStatus> m_pStatus;
+    std::unique_ptr<CActorStatusSet> m_pStatusSet;
 
-    CEventEntryMap   m_EventMap;
-    CEventEntryQueue m_EventQueue;
+    std::unique_ptr<CEventEntryMap>   m_EventMap;
+    std::unique_ptr<CEventEntryQueue> m_EventQueue;
 
     std::unordered_set<OBJID>              m_setDealySendShow;
     std::unordered_map<uint32_t, uint32_t> m_DelayAttribChangeMap;

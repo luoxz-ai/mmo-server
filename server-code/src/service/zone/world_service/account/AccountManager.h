@@ -6,9 +6,7 @@
 #include <unordered_set>
 
 #include "BaseCode.h"
-#include "MysqlConnection.h"
 #include "NetworkDefine.h"
-#include "Thread.h"
 
 class CNetworkMessage;
 class CMysqlConnection;

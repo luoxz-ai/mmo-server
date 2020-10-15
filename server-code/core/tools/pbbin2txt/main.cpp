@@ -8,6 +8,8 @@
 #include "ProtobuffParse.h"
 #include "ProtobuffUtil.h"
 #include "StringAlgo.h"
+#include "T_GameDataMap.h"
+#include "datapack/CfgDataPack.pb.h"
 #include "get_opt.h"
 
 int main(int argc, char** argv)
@@ -40,6 +42,8 @@ int main(int argc, char** argv)
         std::cerr << "find cfgname fail";
         return -1;
     }
+    google::protobuf::DynamicMessageFactory factory;
+    const google::protobuf::Message*        message_const = factory.GetPrototype(desc);
 
     std::cout << desc->DebugString() << std::endl;
     std::cout << "prass any key to start convert" << std::endl;
@@ -48,17 +52,30 @@ int main(int argc, char** argv)
         getchar();
     }
 
-    auto pData = parser.NewMessage(cfgname);
+    CfgDataPack input;
+    pb_util::LoadFromBinaryFile(in_file_name, input);
+    std::string json_txt_all;
+    for(const auto& data: input.data_set())
+    {
+        google::protobuf::Message* pRow = message_const->New();
+        pRow->ParseFromString(data);
+        std::string json_txt;
+        pb_util::SaveToJsonTxt(*pRow, json_txt);
+        delete(pRow);
+        json_txt_all += json_txt;
+    }
 
-    pb_util::LoadFromBinaryFile(in_file_name, *pData);
     if(opt.has("--output"))
     {
-        pb_util::SaveToJsonFile(*pData, opt["--output"]);
+        std::ofstream ofs(opt["--output"], std::ios::out | std::ios::trunc);
+        if(ofs.is_open())
+        {
+            ofs << json_txt_all;
+            ofs.close();
+        }
     }
     else
     {
-        std::string json_txt;
-        pb_util::SaveToJsonTxt(*pData, json_txt);
-        std::cout << json_txt << std::endl;
+        std::cout << json_txt_all << std::endl;
     }
 }

@@ -1,11 +1,11 @@
 #ifndef SKILLMANAGER_H
 #define SKILLMANAGER_H
 
-#include "SkillData.h"
-#include "SkillType.h"
-
+#include "BaseCode.h"
 //玩家的技能表
 class CPlayer;
+class CSkillType;
+class CSkillData;
 export_lua class CPlayerSkillManager : public NoncopyableT<CPlayerSkillManager>
 {
     CPlayerSkillManager();

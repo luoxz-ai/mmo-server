@@ -15,11 +15,6 @@
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 extern PROTOBUF_INTERNAL_EXPORT_common_2fAttribChangeDataProto_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_AttribChangeDataProto_common_2fAttribChangeDataProto_2eproto;
-extern PROTOBUF_INTERNAL_EXPORT_config_2fCfg_5fItem_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_Cfg_Item_Row_config_2fCfg_5fItem_2eproto;
-class Cfg_Item_RowDefaultTypeInternal {
- public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<Cfg_Item_Row> _instance;
-} _Cfg_Item_Row_default_instance_;
 class Cfg_ItemDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<Cfg_Item> _instance;
@@ -37,99 +32,74 @@ static void InitDefaultsscc_info_Cfg_Item_config_2fCfg_5fItem_2eproto() {
 
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_Cfg_Item_config_2fCfg_5fItem_2eproto =
     {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_Cfg_Item_config_2fCfg_5fItem_2eproto}, {
-      &scc_info_Cfg_Item_Row_config_2fCfg_5fItem_2eproto.base,}};
-
-static void InitDefaultsscc_info_Cfg_Item_Row_config_2fCfg_5fItem_2eproto() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::_Cfg_Item_Row_default_instance_;
-    new (ptr) ::Cfg_Item_Row();
-    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::Cfg_Item_Row::InitAsDefaultInstance();
-}
-
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_Cfg_Item_Row_config_2fCfg_5fItem_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_Cfg_Item_Row_config_2fCfg_5fItem_2eproto}, {
       &scc_info_AttribChangeDataProto_common_2fAttribChangeDataProto_2eproto.base,}};
 
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_config_2fCfg_5fItem_2eproto[2];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_config_2fCfg_5fItem_2eproto[1];
 static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_config_2fCfg_5fItem_2eproto = nullptr;
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_config_2fCfg_5fItem_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_config_2fCfg_5fItem_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::Cfg_Item_Row, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::Cfg_Item_Row, id_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Item_Row, sort_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Item_Row, name_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Item_Row, quility_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Item_Row, pile_limit_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Item_Row, expire_time_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Item_Row, dura_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Item_Row, dura_limit_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Item_Row, addition_limit_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Item_Row, lev_req_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Item_Row, prof_req_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Item_Row, value_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Item_Row, cd_type_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Item_Row, cd_msces_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Item_Row, suit_id_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Item_Row, attrib_change_list_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Item_Row, flag_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Item_Row, scriptid_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Item_Row, batchuse_count_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_Item_Row, desc_),
-  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Cfg_Item, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::Cfg_Item, rows_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Item, id_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Item, sort_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Item, name_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Item, quility_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Item, pile_limit_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Item, expire_time_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Item, dura_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Item, dura_limit_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Item, addition_limit_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Item, lev_req_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Item, prof_req_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Item, value_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Item, cd_type_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Item, cd_msces_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Item, suit_id_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Item, attrib_change_list_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Item, flag_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Item, scriptid_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Item, batchuse_count_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_Item, desc_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::Cfg_Item_Row)},
-  { 25, -1, sizeof(::Cfg_Item)},
+  { 0, -1, sizeof(::Cfg_Item)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_Cfg_Item_Row_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_Cfg_Item_default_instance_),
 };
 
 const char descriptor_table_protodef_config_2fCfg_5fItem_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\025config/Cfg_Item.proto\032\"common/AttribCh"
-  "angeDataProto.proto\"\253\003\n\010Cfg_Item\022\033\n\004rows"
-  "\030\001 \003(\0132\r.Cfg_Item.Row\032\201\003\n\003Row\022\n\n\002id\030\001 \001("
-  "\r\022\014\n\004sort\030\002 \001(\r\022\014\n\004name\030\003 \001(\t\022\017\n\007quility"
-  "\030\005 \001(\r\022\022\n\npile_limit\030\006 \001(\r\022\023\n\013expire_tim"
-  "e\030\007 \001(\r\022\014\n\004dura\030\010 \001(\r\022\022\n\ndura_limit\030\t \001("
-  "\r\022\026\n\016addition_limit\030\n \001(\r\022\017\n\007lev_req\030\013 \001"
-  "(\r\022\020\n\010prof_req\030\014 \001(\r\022\r\n\005value\030\r \001(\r\022\017\n\007c"
-  "d_type\030\017 \001(\r\022\020\n\010cd_msces\030\020 \001(\r\022\017\n\007suit_i"
-  "d\030\021 \001(\r\0222\n\022attrib_change_list\030\022 \003(\0132\026.At"
-  "tribChangeDataProto\022\014\n\004flag\030\023 \001(\r\022\020\n\010scr"
-  "iptid\030\024 \001(\004\022\026\n\016batchuse_count\030\025 \001(\r\022\014\n\004d"
-  "esc\030\026 \001(\tB\002H\002b\006proto3"
+  "angeDataProto.proto\"\206\003\n\010Cfg_Item\022\n\n\002id\030\001"
+  " \001(\r\022\014\n\004sort\030\002 \001(\r\022\014\n\004name\030\003 \001(\t\022\017\n\007quil"
+  "ity\030\005 \001(\r\022\022\n\npile_limit\030\006 \001(\r\022\023\n\013expire_"
+  "time\030\007 \001(\r\022\014\n\004dura\030\010 \001(\r\022\022\n\ndura_limit\030\t"
+  " \001(\r\022\026\n\016addition_limit\030\n \001(\r\022\017\n\007lev_req\030"
+  "\013 \001(\r\022\020\n\010prof_req\030\014 \001(\r\022\r\n\005value\030\r \001(\r\022\017"
+  "\n\007cd_type\030\017 \001(\r\022\020\n\010cd_msces\030\020 \001(\r\022\017\n\007sui"
+  "t_id\030\021 \001(\r\0222\n\022attrib_change_list\030\022 \003(\0132\026"
+  ".AttribChangeDataProto\022\014\n\004flag\030\023 \001(\r\022\020\n\010"
+  "scriptid\030\024 \001(\004\022\026\n\016batchuse_count\030\025 \001(\r\022\014"
+  "\n\004desc\030\026 \001(\tB\002H\002b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_config_2fCfg_5fItem_2eproto_deps[1] = {
   &::descriptor_table_common_2fAttribChangeDataProto_2eproto,
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_config_2fCfg_5fItem_2eproto_sccs[2] = {
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_config_2fCfg_5fItem_2eproto_sccs[1] = {
   &scc_info_Cfg_Item_config_2fCfg_5fItem_2eproto.base,
-  &scc_info_Cfg_Item_Row_config_2fCfg_5fItem_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_config_2fCfg_5fItem_2eproto_once;
 static bool descriptor_table_config_2fCfg_5fItem_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_config_2fCfg_5fItem_2eproto = {
-  &descriptor_table_config_2fCfg_5fItem_2eproto_initialized, descriptor_table_protodef_config_2fCfg_5fItem_2eproto, "config/Cfg_Item.proto", 501,
-  &descriptor_table_config_2fCfg_5fItem_2eproto_once, descriptor_table_config_2fCfg_5fItem_2eproto_sccs, descriptor_table_config_2fCfg_5fItem_2eproto_deps, 2, 1,
+  &descriptor_table_config_2fCfg_5fItem_2eproto_initialized, descriptor_table_protodef_config_2fCfg_5fItem_2eproto, "config/Cfg_Item.proto", 464,
+  &descriptor_table_config_2fCfg_5fItem_2eproto_once, descriptor_table_config_2fCfg_5fItem_2eproto_sccs, descriptor_table_config_2fCfg_5fItem_2eproto_deps, 1, 1,
   schemas, file_default_instances, TableStruct_config_2fCfg_5fItem_2eproto::offsets,
-  file_level_metadata_config_2fCfg_5fItem_2eproto, 2, file_level_enum_descriptors_config_2fCfg_5fItem_2eproto, file_level_service_descriptors_config_2fCfg_5fItem_2eproto,
+  file_level_metadata_config_2fCfg_5fItem_2eproto, 1, file_level_enum_descriptors_config_2fCfg_5fItem_2eproto, file_level_service_descriptors_config_2fCfg_5fItem_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
@@ -137,21 +107,21 @@ static bool dynamic_init_dummy_config_2fCfg_5fItem_2eproto = (  ::PROTOBUF_NAMES
 
 // ===================================================================
 
-void Cfg_Item_Row::InitAsDefaultInstance() {
+void Cfg_Item::InitAsDefaultInstance() {
 }
-class Cfg_Item_Row::_Internal {
+class Cfg_Item::_Internal {
  public:
 };
 
-void Cfg_Item_Row::clear_attrib_change_list() {
+void Cfg_Item::clear_attrib_change_list() {
   attrib_change_list_.Clear();
 }
-Cfg_Item_Row::Cfg_Item_Row()
+Cfg_Item::Cfg_Item()
   : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:Cfg_Item.Row)
+  // @@protoc_insertion_point(constructor:Cfg_Item)
 }
-Cfg_Item_Row::Cfg_Item_Row(const Cfg_Item_Row& from)
+Cfg_Item::Cfg_Item(const Cfg_Item& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       _internal_metadata_(nullptr),
       attrib_change_list_(from.attrib_change_list_) {
@@ -167,69 +137,16 @@ Cfg_Item_Row::Cfg_Item_Row(const Cfg_Item_Row& from)
   ::memcpy(&id_, &from.id_,
     static_cast<size_t>(reinterpret_cast<char*>(&batchuse_count_) -
     reinterpret_cast<char*>(&id_)) + sizeof(batchuse_count_));
-  // @@protoc_insertion_point(copy_constructor:Cfg_Item.Row)
-}
-
-void Cfg_Item_Row::SharedCtor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_Cfg_Item_Row_config_2fCfg_5fItem_2eproto.base);
-  name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  desc_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  ::memset(&id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&batchuse_count_) -
-      reinterpret_cast<char*>(&id_)) + sizeof(batchuse_count_));
-}
-
-Cfg_Item_Row::~Cfg_Item_Row() {
-  // @@protoc_insertion_point(destructor:Cfg_Item.Row)
-  SharedDtor();
-}
-
-void Cfg_Item_Row::SharedDtor() {
-  name_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  desc_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-}
-
-void Cfg_Item_Row::SetCachedSize(int size) const {
-  _cached_size_.Set(size);
-}
-const Cfg_Item_Row& Cfg_Item_Row::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_Cfg_Item_Row_config_2fCfg_5fItem_2eproto.base);
-  return *internal_default_instance();
-}
-
-
-void Cfg_Item_Row::InternalSwap(Cfg_Item_Row* other) {
-  using std::swap;
-  GetReflection()->Swap(this, other);}
-
-::PROTOBUF_NAMESPACE_ID::Metadata Cfg_Item_Row::GetMetadata() const {
-  return GetMetadataStatic();
-}
-
-
-// ===================================================================
-
-void Cfg_Item::InitAsDefaultInstance() {
-}
-class Cfg_Item::_Internal {
- public:
-};
-
-Cfg_Item::Cfg_Item()
-  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:Cfg_Item)
-}
-Cfg_Item::Cfg_Item(const Cfg_Item& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message(),
-      _internal_metadata_(nullptr),
-      rows_(from.rows_) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
   // @@protoc_insertion_point(copy_constructor:Cfg_Item)
 }
 
 void Cfg_Item::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_Cfg_Item_config_2fCfg_5fItem_2eproto.base);
+  name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  desc_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  ::memset(&id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&batchuse_count_) -
+      reinterpret_cast<char*>(&id_)) + sizeof(batchuse_count_));
 }
 
 Cfg_Item::~Cfg_Item() {
@@ -238,6 +155,8 @@ Cfg_Item::~Cfg_Item() {
 }
 
 void Cfg_Item::SharedDtor() {
+  name_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  desc_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 void Cfg_Item::SetCachedSize(int size) const {
@@ -260,9 +179,6 @@ void Cfg_Item::InternalSwap(Cfg_Item* other) {
 
 // @@protoc_insertion_point(namespace_scope)
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::Cfg_Item_Row* Arena::CreateMaybeMessage< ::Cfg_Item_Row >(Arena* arena) {
-  return Arena::CreateInternal< ::Cfg_Item_Row >(arena);
-}
 template<> PROTOBUF_NOINLINE ::Cfg_Item* Arena::CreateMaybeMessage< ::Cfg_Item >(Arena* arena) {
   return Arena::CreateInternal< ::Cfg_Item >(arena);
 }

@@ -2,41 +2,22 @@
 #define PLAYER_H
 
 #include "Actor.h"
-#include "CommonData.h"
 #include "DBRecord.h"
-#include "DataCount.h"
-#include "Equipment.h"
-#include "MapManager.h"
+#include "EventManager.h"
 #include "NetworkDefine.h"
-#include "Package.h"
-#include "PetSet.h"
-#include "PlayerAchievement.h"
-#include "PlayerTask.h"
-#include "SkillManager.h"
-#include "StoragePackage.h"
-#include "gamedb.h"
-
-export_lua enum DIALOG_FUNC_TYPE {
-    DIALOG_FUNC_ACCEPTTASK      = 1,
-    DIALOG_FUNC_SUBMITTASK      = 2,
-    DIALOG_FUNC_QUICKFINISHTASK = 3,
-    DIALOG_FUNC_SHOWTASK        = 4,
-    DIALOG_FUNC_OPENSHOP        = 5,
-    DIALOG_FUNC_SCRIPT          = 6,
-};
-export_lua enum DIALOG_TYPE {
-    DIALOGTYPE_NORMAL          = 0,
-    DIALOGTYPE_ACCEPT_TASK     = 1,
-    DIALOGTYPE_WAITFINISH_TASK = 2,
-    DIALOGTYPE_SUBMIT_TASK     = 3,
-};
-
-export_lua enum DIALOGLINK_TYPE {
-    DIALOGLINK_TYPE_BUTTON = 0, //底部按钮
-    DIALOGLINK_TYPE_LIST   = 1, //中间的列表式按钮
-};
+#include "SceneID.h"
 
 class CNetworkMessage;
+class CCommonDataSet;
+class CDataCountSet;
+class CPackage;
+class CStoragePackage;
+class CEquipment;
+class CPlayerTask;
+class CPlayerAchievement;
+class CPlayerSkillManager;
+class CPetSet;
+class CPlayerDialog;
 
 export_lua class CPlayer : public CActor
 {
@@ -62,62 +43,52 @@ public:
     export_lua virtual float GetHeight() const { return 1.0f; }
     export_lua virtual float GetVolume() const { return 0.25f; }
 
-    export_lua virtual uint16_t GetWorldID() const override { return m_pRecord->Field(TBLD_PLAYER::WORLDID); }
-    export_lua const std::string&         GetOpenID() const { return m_pRecord->Field(TBLD_PLAYER::OPENID); }
-    export_lua virtual const std::string& GetName() const override { return m_pRecord->Field(TBLD_PLAYER::NAME); }
-    export_lua uint32_t                   GetProf() const { return m_pRecord->Field(TBLD_PLAYER::PROF); }
-    export_lua uint32_t                   GetBaseLook() const { return m_pRecord->Field(TBLD_PLAYER::BASELOOK); }
-    export_lua uint32_t                   GetVipLev() const { return m_pRecord->Field(TBLD_PLAYER::VIPLEV); }
-    export_lua uint32_t                   GetPKVal() const { return m_pRecord->Field(TBLD_PLAYER::PKVAL); }
-    export_lua uint32_t                   GetHonor() const { return m_pRecord->Field(TBLD_PLAYER::HONOR); }
-    export_lua SceneIdx                   GetRecordSceneIdx() const { return m_pRecord->Field(TBLD_PLAYER::RECORD_SCENEID).get<uint64_t>(); }
-    export_lua SceneIdx                   GetHomeSceneIdx() const { return m_pRecord->Field(TBLD_PLAYER::HOME_SCENEID).get<uint64_t>(); }
-    export_lua virtual uint32_t           GetLev() const override { return m_pRecord->Field(TBLD_PLAYER::LEV); }
-    export_lua uint64_t                   GetExp() const { return m_pRecord->Field(TBLD_PLAYER::EXP); }
-    export_lua uint64_t                   GetMoney() const { return m_pRecord->Field(TBLD_PLAYER::MONEY); }
-    export_lua uint64_t                   GetMoneyBind() const { return m_pRecord->Field(TBLD_PLAYER::MONEY_BIND); }
-    export_lua uint64_t                   GetGold() const { return m_pRecord->Field(TBLD_PLAYER::GOLD); }
-    export_lua uint64_t                   GetGoldBind() const { return m_pRecord->Field(TBLD_PLAYER::GOLD_BIND); }
+    export_lua virtual uint16_t GetWorldID() const override;
+    export_lua const std::string&         GetOpenID() const;
+    export_lua virtual const std::string& GetName() const override;
+    export_lua uint32_t                   GetProf() const;
+    export_lua uint32_t                   GetBaseLook() const;
+    export_lua uint32_t                   GetVipLev() const;
+    export_lua uint32_t                   GetPKVal() const;
+    export_lua uint32_t                   GetHonor() const;
+    export_lua SceneIdx                   GetRecordSceneIdx() const;
+    export_lua SceneIdx                   GetHomeSceneIdx() const;
+    export_lua virtual uint32_t           GetLev() const override;
+    export_lua uint64_t                   GetExp() const;
+    export_lua uint64_t                   GetMoney() const;
+    export_lua uint64_t                   GetMoneyBind() const;
+    export_lua uint64_t                   GetGold() const;
+    export_lua uint64_t                   GetGoldBind() const;
     export_lua uint32_t                   GetBagMaxSize() const;
     export_lua uint32_t                   GetStrogeMaxSize() const;
-    export_lua uint32_t                   GetAchiPoint() const { return m_pRecord->Field(TBLD_PLAYER::ACHIPOINT); }
-    export_lua virtual uint32_t           GetHP() const override { return m_pRecord->Field(TBLD_PLAYER::HP); }
-    export_lua virtual uint32_t           GetMP() const override { return m_pRecord->Field(TBLD_PLAYER::MP); }
-    export_lua virtual uint32_t           GetFP() const override { return m_pRecord->Field(TBLD_PLAYER::FP); }
-    export_lua virtual uint32_t           GetNP() const override { return m_pRecord->Field(TBLD_PLAYER::NP); }
-    export_lua virtual uint32_t           GetHPMax() const override { return m_ActorAttrib[ATTRIB_HP_MAX]; }
-    export_lua virtual uint32_t           GetMPMax() const override { return m_ActorAttrib[ATTRIB_MP_MAX]; }
-    export_lua virtual uint32_t           GetFPMax() const override { return m_ActorAttrib[ATTRIB_FP_MAX]; }
-    export_lua virtual uint32_t           GetNPMax() const override { return m_ActorAttrib[ATTRIB_NP_MAX]; }
-    export_lua virtual void               _SetHP(uint32_t v) override { m_pRecord->Field(TBLD_PLAYER::HP) = v; };
-    export_lua virtual void               _SetMP(uint32_t v) override { m_pRecord->Field(TBLD_PLAYER::MP) = v; };
-    export_lua virtual void               _SetFP(uint32_t v) override { m_pRecord->Field(TBLD_PLAYER::FP) = v; };
-    export_lua virtual void               _SetNP(uint32_t v) override { m_pRecord->Field(TBLD_PLAYER::NP) = v; };
+    export_lua uint32_t                   GetAchiPoint() const;
+    export_lua virtual uint32_t           GetHP() const override;
+    export_lua virtual uint32_t           GetMP() const override;
+    export_lua virtual uint32_t           GetFP() const override;
+    export_lua virtual uint32_t           GetNP() const override;
+    export_lua virtual uint32_t           GetHPMax() const override;
+    export_lua virtual uint32_t           GetMPMax() const override;
+    export_lua virtual uint32_t           GetFPMax() const override;
+    export_lua virtual uint32_t           GetNPMax() const override;
+    export_lua virtual void               _SetHP(uint32_t v) override;
+    export_lua virtual void               _SetMP(uint32_t v) override;
+    export_lua virtual void               _SetFP(uint32_t v) override;
+    export_lua virtual void               _SetNP(uint32_t v) override;
 
-    export_lua float GetRecordPosX() const { return m_pRecord->Field(TBLD_PLAYER::RECORD_X); }
-    export_lua float GetRecordPosY() const { return m_pRecord->Field(TBLD_PLAYER::RECORD_Y); }
-    export_lua float GetRecordFace() const { return m_pRecord->Field(TBLD_PLAYER::RECORD_FACE); }
-    export_lua float GetHomePosX() const { return m_pRecord->Field(TBLD_PLAYER::HOME_X); }
-    export_lua float GetHomePosY() const { return m_pRecord->Field(TBLD_PLAYER::HOME_Y); }
-    export_lua float GetHomeFace() const { return m_pRecord->Field(TBLD_PLAYER::HOME_FACE); }
+    export_lua float GetRecordPosX() const;
+    export_lua float GetRecordPosY() const;
+    export_lua float GetRecordFace() const;
+    export_lua float GetHomePosX() const;
+    export_lua float GetHomePosY() const;
+    export_lua float GetHomeFace() const;
 
-    export_lua uint32_t GetPKMode() const { return m_nPKMode; }
+    export_lua uint32_t GetPKMode() const;
     export_lua void     SetPKMode(uint32_t val);
-    export_lua OBJID    GetTeamID() const { return m_pRecord->Field(TBLD_PLAYER::TEAMID); }
-    export_lua void     SetTeamID(OBJID val)
-    {
-        m_pRecord->Update();
-        m_pRecord->Field(TBLD_PLAYER::TEAMID) = val;
-        m_pRecord->ClearDirty();
-    }
-    export_lua bool  HasTeam() const { return GetTeamID() != 0; }
-    export_lua OBJID GetGuildID() const { return m_pRecord->Field(TBLD_PLAYER::GUILDID); }
-    export_lua void  SetGuildID(OBJID val)
-    {
-        m_pRecord->Update();
-        m_pRecord->Field(TBLD_PLAYER::GUILDID) = val;
-        m_pRecord->ClearDirty();
-    }
+    export_lua OBJID    GetTeamID() const;
+    export_lua void     SetTeamID(OBJID val);
+    export_lua bool     HasTeam() const;
+    export_lua OBJID    GetGuildID() const;
+    export_lua void     SetGuildID(OBJID val);
 
     export_lua uint32_t GetTeamMemberCount() const;
     export_lua uint32_t GetGuildLev() const;
@@ -145,6 +116,7 @@ public:
     export_lua CEquipment* GetEquipmentSet() const { return m_pEquipmentSet.get(); }
     export_lua CPlayerTask* GetTaskSet() const { return m_pTaskSet.get(); }
     export_lua CPlayerAchievement* GetAchievement() const { return m_pAchievement.get(); }
+    export_lua CPlayerDialog* GetDialog() const { return m_pPlayerDialog.get(); }
 
 public:
     //货币
@@ -201,20 +173,6 @@ public:
     bool            TryChangeMap(uint32_t nLeavePointIdx);
 
 public:
-    export_lua bool DialogBegin(const std::string& title);
-    export_lua bool DialogAddText(const std::string& txt);
-    export_lua bool DialogAddLink(uint32_t           nLinkType,
-                                  const std::string& link_txt,
-                                  uint32_t           idFuncType,
-                                  uint64_t           idData,
-                                  const std::string& callback_func,
-                                  uint64_t           idNpc = 0);
-    export_lua bool DialogSend(uint32_t nDialogType = 0);
-    bool            OnDialogClick(uint64_t idDialog, uint32_t nIdx);
-
-    export_lua bool ActiveNpc(OBJID idNpc);
-
-public:
     export_lua virtual bool CanDamage(CActor* pTarget) const override;
     export_lua virtual void BeKillBy(CActor* pAttacker) override;
     export_lua virtual bool IsEnemy(CSceneObject* pTarget) const override;
@@ -255,22 +213,12 @@ private:
     OBJID    m_idTeam  = 0;
     OBJID    m_idGuild = 0;
 
-    struct ST_CALLBACK_INFO
-    {
-        uint32_t    idFuncType;
-        uint64_t    idData;
-        std::string callback_func;
-        uint64_t    idNpc;
-    };
-    std::map<uint64_t, std::vector<ST_CALLBACK_INFO>> m_dialog_callback;
-
-    SC_DIALOG m_dialog_msg;
-
     std::unique_ptr<CPackage>           m_pBag;
     std::unique_ptr<CStoragePackage>    m_pStoragePackage;
     std::unique_ptr<CEquipment>         m_pEquipmentSet;
     std::unique_ptr<CPlayerTask>        m_pTaskSet;
     std::unique_ptr<CPlayerAchievement> m_pAchievement;
+    std::unique_ptr<CPlayerDialog>      m_pPlayerDialog;
 
     std::unordered_map<uint64_t, uint32_t> m_TaskPhase;
 };

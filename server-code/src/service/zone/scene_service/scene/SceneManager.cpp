@@ -1,9 +1,10 @@
 #include "SceneManager.h"
 
+#include "GameMap.h"
+#include "MapManager.h"
 #include "Phase.h"
 #include "Scene.h"
 #include "SceneService.h"
-
 CSceneManager::CSceneManager()
     : m_nStaticScene(0)
 {

@@ -6,7 +6,8 @@
 #include "AIScene.h"
 #include "AIService.h"
 #include "MapManager.h"
-
+#include "MonsterGenerator.h"
+#include "config/Cfg_Scene.pb.h"
 CAIPhase::CAIPhase() {}
 
 CAIPhase::~CAIPhase()
@@ -26,7 +27,7 @@ bool CAIPhase::Init(CAIScene* pScene, const SceneIdx& idxScene, uint64_t idPhase
     m_idPhase = idPhase;
     CHECKF(CSceneBase::Init(idxScene, MapManager()));
 
-    m_MonsterGen.Init(this);
+    m_MonsterGen.reset(CMonsterGenerator::CreateNew(this));
     m_pAIGroupManager.reset(CAIGroupManager::CreateNew(this));
     if(pPhaseData)
     {

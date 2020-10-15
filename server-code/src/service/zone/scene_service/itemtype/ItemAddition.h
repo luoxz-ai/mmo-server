@@ -9,7 +9,7 @@
 class CItemAdditionData : public NoncopyableT<CItemAdditionData>
 {
     CItemAdditionData() {}
-    bool Init(const Cfg_ItemAddition_Row& row)
+    bool Init(const Cfg_ItemAddition& row)
     {
         m_id = row.id();
         for(int32_t i = 0; i < row.attrib_change_list_size(); i++)

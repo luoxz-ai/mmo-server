@@ -2,8 +2,6 @@
 #define ITEMDATA_H
 
 #include "DBRecord.h"
-#include "ItemType.h"
-#include "gamedb.h"
 
 //////////////////////////////////////////////////////////////////////
 export_lua struct ST_ITEMINFO
@@ -19,6 +17,8 @@ export_lua struct ST_ITEMINFO
 };
 
 class CItemAdditionData;
+class ItemExtraData;
+class CItemType;
 export_lua class CItemData : public NoncopyableT<CItemData>
 {
 protected:
@@ -39,28 +39,28 @@ public:
     static bool     DelRecordStatic(CMysqlConnection* pDB, OBJID idItem);
 
 public: // get attr
-    export_lua OBJID    GetID() const { return m_pRecord->Field(TBLD_ITEM::ID); }
-    export_lua uint32_t GetType() const { return m_pRecord->Field(TBLD_ITEM::ITEMTYPE); }
-    export_lua OBJID    GetOwnerID() const { return m_pRecord->Field(TBLD_ITEM::OWNER_ID); }
-    export_lua uint32_t GetPosition() const { return m_pRecord->Field(TBLD_ITEM::POSITION); }
-    export_lua uint32_t GetGrid() const { return m_pRecord->Field(TBLD_ITEM::GRID); }
-    export_lua uint32_t GetPileNum() const { return m_pRecord->Field(TBLD_ITEM::PILENUM); }
-    export_lua uint32_t GetDura() const { return m_pRecord->Field(TBLD_ITEM::DURA); }
-    export_lua uint32_t GetDuraLimit() const { return m_pRecord->Field(TBLD_ITEM::DURA_LIMIT); }
-    export_lua uint32_t GetExpireTime() const { return m_pRecord->Field(TBLD_ITEM::EXPIRE_TIME); }
-    export_lua uint32_t GetAddition() const { return m_pRecord->Field(TBLD_ITEM::ADDITION_LEV); }
-    export_lua uint32_t _GetFlag() const { return m_pRecord->Field(TBLD_ITEM::FLAG); }
-    export_lua uint32_t GetFlag() const { return _GetFlag() | ItemTypePtr()->GetFlag(); }
-    export_lua bool     HasFlag(uint32_t dwFlag) const { return ::HasFlag(GetFlag(), dwFlag); }
+    export_lua OBJID    GetID() const;
+    export_lua uint32_t GetType() const;
+    export_lua OBJID    GetOwnerID() const;
+    export_lua uint32_t GetPosition() const;
+    export_lua uint32_t GetGrid() const;
+    export_lua uint32_t GetPileNum() const;
+    export_lua uint32_t GetDura() const;
+    export_lua uint32_t GetDuraLimit() const;
+    export_lua uint32_t GetExpireTime() const;
+    export_lua uint32_t GetAddition() const;
+    export_lua uint32_t _GetFlag() const;
+    export_lua uint32_t GetFlag() const;
+    export_lua bool     HasFlag(uint32_t dwFlag) const;
     export_lua uint32_t GetExtra(uint32_t nIdx) const;
 
-    export_lua const std::string& GetName() const { return m_pType->GetName(); }
-    export_lua const CItemType* ItemTypePtr() const { return m_pType; }
-    export_lua const CItemAdditionData* AdditionType() { return m_pAddition; }
-    export_lua uint32_t                 GetMainType() const { return GetMainTypeByID(GetType()); }
-    export_lua static uint32_t          GetMainTypeByID(uint32_t idType) { return idType / ITEM_MAINTYPE_MASK; }
-    export_lua uint32_t                 GetSubType() const { return GetSubTypeByID(GetType()); }
-    export_lua static uint32_t          GetSubTypeByID(uint32_t idType) { return (idType % ITEM_MAINTYPE_MASK) / ITEM_SUBTYPE_MASK; }
+    export_lua const std::string& GetName() const;
+    export_lua const CItemType* ItemTypePtr() const;
+    export_lua const CItemAdditionData* AdditionType();
+    export_lua uint32_t                 GetMainType() const;
+    export_lua static uint32_t          GetMainTypeByID(uint32_t idType);
+    export_lua uint32_t                 GetSubType() const;
+    export_lua static uint32_t          GetSubTypeByID(uint32_t idType);
 
 public: // set attr
     export_lua void SetOwnerID(OBJID idOwner, bool bUpdate = true);
@@ -84,9 +84,9 @@ public:
     OBJECTHEAP_DECLARATION(s_heap);
 
 protected:
-    CDBRecordPtr             m_pRecord; // 物品数据
-    ItemExtraData            m_ExtraData;
-    const CItemType*         m_pType     = nullptr; // 物品类型数据
-    const CItemAdditionData* m_pAddition = nullptr; // 强化数据
+    CDBRecordPtr                   m_pRecord; // 物品数据
+    std::unique_ptr<ItemExtraData> m_ExtraData;
+    const CItemType*               m_pType     = nullptr; // 物品类型数据
+    const CItemAdditionData*       m_pAddition = nullptr; // 强化数据
 };
 #endif /* ITEMDATA_H */

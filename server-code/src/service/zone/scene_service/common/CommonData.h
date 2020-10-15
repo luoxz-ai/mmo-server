@@ -3,7 +3,6 @@
 
 #include "BaseCode.h"
 #include "DBRecord.h"
-#include "gamedb.h"
 
 //一些不想单独写数据表的数据
 

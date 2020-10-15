@@ -2,6 +2,8 @@
 #define MONSTERTYPE_H
 
 #include "ActorAttrib.h"
+#include "BaseCode.h"
+#include "T_GameDataMap.h"
 #include "config/Cfg_Monster.pb.h"
 
 enum MonsterType
@@ -14,7 +16,7 @@ enum MonsterType
 class CMonsterType : public NoncopyableT<CMonsterType>
 {
     CMonsterType() {}
-    bool Init(const Cfg_Monster_Row& row)
+    bool Init(const Cfg_Monster& row)
     {
         m_Data = row;
         CActorAttrib::load_from(m_ability, row.attr_data());
@@ -40,8 +42,8 @@ public:
     const AttribList_t& GetAbility() const { return m_ability; }
 
 private:
-    Cfg_Monster_Row m_Data;
-    AttribList_t    m_ability;
+    Cfg_Monster  m_Data;
+    AttribList_t m_ability;
 };
 
 DEFINE_GAMEMAPDATA(CMonsterTypeSet, CMonsterType);

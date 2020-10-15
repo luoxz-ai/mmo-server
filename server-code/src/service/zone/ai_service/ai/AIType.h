@@ -15,7 +15,7 @@ enum AIType
 class CAIType : public NoncopyableT<CAIType>
 {
     CAIType() {}
-    bool Init(const Cfg_AIType_Row& row)
+    bool Init(const Cfg_AIType& row)
     {
         m_Data       = row;
         m_pTargetFAM = TargetFAMSet()->QueryObj(row.targetfam_id());
@@ -36,10 +36,10 @@ public:
     const SkillFAM*  GetSkillFAM() const { return m_pSkillFAM; }
 
 public:
-    const Cfg_AIType_Row& GetDataRef() const { return m_Data; }
+    const Cfg_AIType& GetDataRef() const { return m_Data; }
 
 private:
-    Cfg_AIType_Row m_Data;
+    Cfg_AIType m_Data;
 
     const TargetFAM* m_pTargetFAM = nullptr;
     const SkillFAM*  m_pSkillFAM  = nullptr;

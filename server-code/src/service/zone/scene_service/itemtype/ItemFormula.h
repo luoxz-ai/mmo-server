@@ -9,7 +9,7 @@
 class CItemFormulaData : public NoncopyableT<CItemFormulaData>
 {
     CItemFormulaData() {}
-    bool Init(const Cfg_ItemFormula_Row& row)
+    bool Init(const Cfg_ItemFormula& row)
     {
         m_Data = row;
         return true;
@@ -22,7 +22,7 @@ public:
     virtual ~CItemFormulaData() {}
     using PB_T = Cfg_ItemFormula;
 
-    static uint32_t GetKey(const Cfg_ItemFormula_Row& row) { return row.id(); }
+    static uint32_t GetKey(const Cfg_ItemFormula& row) { return row.id(); }
 
 public:
     uint32_t       GetID() const { return m_Data.id(); }
@@ -36,7 +36,7 @@ public:
     decltype(auto) GetReqData() const { return m_Data.req_data_list(); } // 需要材料itemtypeid
 
 public:
-    Cfg_ItemFormula_Row m_Data;
+    Cfg_ItemFormula m_Data;
 };
 
 DEFINE_GAMEMAPDATA(CItemFormulaDataSet, CItemFormulaData);

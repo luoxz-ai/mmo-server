@@ -1,6 +1,8 @@
 #include "SceneTree.h"
 
 #include "GameMap.h"
+#include "GameMapDef.h"
+#include "MapData.h"
 #include "SceneObject.h"
 
 OBJECTHEAP_IMPLEMENTATION(CSceneTree, s_heap);

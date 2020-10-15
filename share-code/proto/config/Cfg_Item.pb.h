@@ -48,7 +48,7 @@ struct TableStruct_config_2fCfg_5fItem_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[2]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[1]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -58,33 +58,29 @@ extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table
 class Cfg_Item;
 class Cfg_ItemDefaultTypeInternal;
 extern Cfg_ItemDefaultTypeInternal _Cfg_Item_default_instance_;
-class Cfg_Item_Row;
-class Cfg_Item_RowDefaultTypeInternal;
-extern Cfg_Item_RowDefaultTypeInternal _Cfg_Item_Row_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
 template<> ::Cfg_Item* Arena::CreateMaybeMessage<::Cfg_Item>(Arena*);
-template<> ::Cfg_Item_Row* Arena::CreateMaybeMessage<::Cfg_Item_Row>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 
 // ===================================================================
 
-class Cfg_Item_Row :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Cfg_Item.Row) */ {
+class Cfg_Item :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Cfg_Item) */ {
  public:
-  Cfg_Item_Row();
-  virtual ~Cfg_Item_Row();
+  Cfg_Item();
+  virtual ~Cfg_Item();
 
-  Cfg_Item_Row(const Cfg_Item_Row& from);
-  Cfg_Item_Row(Cfg_Item_Row&& from) noexcept
-    : Cfg_Item_Row() {
+  Cfg_Item(const Cfg_Item& from);
+  Cfg_Item(Cfg_Item&& from) noexcept
+    : Cfg_Item() {
     *this = ::std::move(from);
   }
 
-  inline Cfg_Item_Row& operator=(const Cfg_Item_Row& from) {
+  inline Cfg_Item& operator=(const Cfg_Item& from) {
     CopyFrom(from);
     return *this;
   }
-  inline Cfg_Item_Row& operator=(Cfg_Item_Row&& from) noexcept {
+  inline Cfg_Item& operator=(Cfg_Item&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -102,32 +98,32 @@ class Cfg_Item_Row :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return GetMetadataStatic().reflection;
   }
-  static const Cfg_Item_Row& default_instance();
+  static const Cfg_Item& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const Cfg_Item_Row* internal_default_instance() {
-    return reinterpret_cast<const Cfg_Item_Row*>(
-               &_Cfg_Item_Row_default_instance_);
+  static inline const Cfg_Item* internal_default_instance() {
+    return reinterpret_cast<const Cfg_Item*>(
+               &_Cfg_Item_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     0;
 
-  friend void swap(Cfg_Item_Row& a, Cfg_Item_Row& b) {
+  friend void swap(Cfg_Item& a, Cfg_Item& b) {
     a.Swap(&b);
   }
-  inline void Swap(Cfg_Item_Row* other) {
+  inline void Swap(Cfg_Item* other) {
     if (other == this) return;
     InternalSwap(other);
   }
 
   // implements Message ----------------------------------------------
 
-  inline Cfg_Item_Row* New() const final {
-    return CreateMaybeMessage<Cfg_Item_Row>(nullptr);
+  inline Cfg_Item* New() const final {
+    return CreateMaybeMessage<Cfg_Item>(nullptr);
   }
 
-  Cfg_Item_Row* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<Cfg_Item_Row>(arena);
+  Cfg_Item* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<Cfg_Item>(arena);
   }
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
@@ -135,10 +131,10 @@ class Cfg_Item_Row :
   inline void SharedCtor();
   inline void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(Cfg_Item_Row* other);
+  void InternalSwap(Cfg_Item* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "Cfg_Item.Row";
+    return "Cfg_Item";
   }
   private:
   inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
@@ -387,7 +383,7 @@ class Cfg_Item_Row :
   void _internal_set_batchuse_count(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // @@protoc_insertion_point(class_scope:Cfg_Item.Row)
+  // @@protoc_insertion_point(class_scope:Cfg_Item)
  private:
   class _Internal;
 
@@ -415,134 +411,6 @@ class Cfg_Item_Row :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_config_2fCfg_5fItem_2eproto;
 };
-// -------------------------------------------------------------------
-
-class Cfg_Item :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Cfg_Item) */ {
- public:
-  Cfg_Item();
-  virtual ~Cfg_Item();
-
-  Cfg_Item(const Cfg_Item& from);
-  Cfg_Item(Cfg_Item&& from) noexcept
-    : Cfg_Item() {
-    *this = ::std::move(from);
-  }
-
-  inline Cfg_Item& operator=(const Cfg_Item& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline Cfg_Item& operator=(Cfg_Item&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return GetMetadataStatic().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return GetMetadataStatic().reflection;
-  }
-  static const Cfg_Item& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const Cfg_Item* internal_default_instance() {
-    return reinterpret_cast<const Cfg_Item*>(
-               &_Cfg_Item_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    1;
-
-  friend void swap(Cfg_Item& a, Cfg_Item& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(Cfg_Item* other) {
-    if (other == this) return;
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline Cfg_Item* New() const final {
-    return CreateMaybeMessage<Cfg_Item>(nullptr);
-  }
-
-  Cfg_Item* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<Cfg_Item>(arena);
-  }
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  inline void SharedCtor();
-  inline void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(Cfg_Item* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "Cfg_Item";
-  }
-  private:
-  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
-    return nullptr;
-  }
-  inline void* MaybeArenaPtr() const {
-    return nullptr;
-  }
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-  private:
-  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
-    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_config_2fCfg_5fItem_2eproto);
-    return ::descriptor_table_config_2fCfg_5fItem_2eproto.file_level_metadata[kIndexInFileMessages];
-  }
-
-  public:
-
-  // nested types ----------------------------------------------------
-
-  typedef Cfg_Item_Row Row;
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kRowsFieldNumber = 1,
-  };
-  // repeated .Cfg_Item.Row rows = 1;
-  int rows_size() const;
-  private:
-  int _internal_rows_size() const;
-  public:
-  void clear_rows();
-  ::Cfg_Item_Row* mutable_rows(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Cfg_Item_Row >*
-      mutable_rows();
-  private:
-  const ::Cfg_Item_Row& _internal_rows(int index) const;
-  ::Cfg_Item_Row* _internal_add_rows();
-  public:
-  const ::Cfg_Item_Row& rows(int index) const;
-  ::Cfg_Item_Row* add_rows();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Cfg_Item_Row >&
-      rows() const;
-
-  // @@protoc_insertion_point(class_scope:Cfg_Item)
- private:
-  class _Internal;
-
-  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Cfg_Item_Row > rows_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_config_2fCfg_5fItem_2eproto;
-};
 // ===================================================================
 
 
@@ -552,552 +420,507 @@ class Cfg_Item :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// Cfg_Item_Row
+// Cfg_Item
 
 // uint32 id = 1;
-inline void Cfg_Item_Row::clear_id() {
+inline void Cfg_Item::clear_id() {
   id_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::_internal_id() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::_internal_id() const {
   return id_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::id() const {
-  // @@protoc_insertion_point(field_get:Cfg_Item.Row.id)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::id() const {
+  // @@protoc_insertion_point(field_get:Cfg_Item.id)
   return _internal_id();
 }
-inline void Cfg_Item_Row::_internal_set_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::_internal_set_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   id_ = value;
 }
-inline void Cfg_Item_Row::set_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::set_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_id(value);
-  // @@protoc_insertion_point(field_set:Cfg_Item.Row.id)
+  // @@protoc_insertion_point(field_set:Cfg_Item.id)
 }
 
 // uint32 sort = 2;
-inline void Cfg_Item_Row::clear_sort() {
+inline void Cfg_Item::clear_sort() {
   sort_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::_internal_sort() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::_internal_sort() const {
   return sort_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::sort() const {
-  // @@protoc_insertion_point(field_get:Cfg_Item.Row.sort)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::sort() const {
+  // @@protoc_insertion_point(field_get:Cfg_Item.sort)
   return _internal_sort();
 }
-inline void Cfg_Item_Row::_internal_set_sort(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::_internal_set_sort(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   sort_ = value;
 }
-inline void Cfg_Item_Row::set_sort(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::set_sort(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_sort(value);
-  // @@protoc_insertion_point(field_set:Cfg_Item.Row.sort)
+  // @@protoc_insertion_point(field_set:Cfg_Item.sort)
 }
 
 // string name = 3;
-inline void Cfg_Item_Row::clear_name() {
+inline void Cfg_Item::clear_name() {
   name_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
-inline const std::string& Cfg_Item_Row::name() const {
-  // @@protoc_insertion_point(field_get:Cfg_Item.Row.name)
+inline const std::string& Cfg_Item::name() const {
+  // @@protoc_insertion_point(field_get:Cfg_Item.name)
   return _internal_name();
 }
-inline void Cfg_Item_Row::set_name(const std::string& value) {
+inline void Cfg_Item::set_name(const std::string& value) {
   _internal_set_name(value);
-  // @@protoc_insertion_point(field_set:Cfg_Item.Row.name)
+  // @@protoc_insertion_point(field_set:Cfg_Item.name)
 }
-inline std::string* Cfg_Item_Row::mutable_name() {
-  // @@protoc_insertion_point(field_mutable:Cfg_Item.Row.name)
+inline std::string* Cfg_Item::mutable_name() {
+  // @@protoc_insertion_point(field_mutable:Cfg_Item.name)
   return _internal_mutable_name();
 }
-inline const std::string& Cfg_Item_Row::_internal_name() const {
+inline const std::string& Cfg_Item::_internal_name() const {
   return name_.GetNoArena();
 }
-inline void Cfg_Item_Row::_internal_set_name(const std::string& value) {
+inline void Cfg_Item::_internal_set_name(const std::string& value) {
   
   name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
 }
-inline void Cfg_Item_Row::set_name(std::string&& value) {
+inline void Cfg_Item::set_name(std::string&& value) {
   
   name_.SetNoArena(
     &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:Cfg_Item.Row.name)
+  // @@protoc_insertion_point(field_set_rvalue:Cfg_Item.name)
 }
-inline void Cfg_Item_Row::set_name(const char* value) {
+inline void Cfg_Item::set_name(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
   name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:Cfg_Item.Row.name)
+  // @@protoc_insertion_point(field_set_char:Cfg_Item.name)
 }
-inline void Cfg_Item_Row::set_name(const char* value, size_t size) {
+inline void Cfg_Item::set_name(const char* value, size_t size) {
   
   name_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:Cfg_Item.Row.name)
+  // @@protoc_insertion_point(field_set_pointer:Cfg_Item.name)
 }
-inline std::string* Cfg_Item_Row::_internal_mutable_name() {
+inline std::string* Cfg_Item::_internal_mutable_name() {
   
   return name_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
-inline std::string* Cfg_Item_Row::release_name() {
-  // @@protoc_insertion_point(field_release:Cfg_Item.Row.name)
+inline std::string* Cfg_Item::release_name() {
+  // @@protoc_insertion_point(field_release:Cfg_Item.name)
   
   return name_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
-inline void Cfg_Item_Row::set_allocated_name(std::string* name) {
+inline void Cfg_Item::set_allocated_name(std::string* name) {
   if (name != nullptr) {
     
   } else {
     
   }
   name_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), name);
-  // @@protoc_insertion_point(field_set_allocated:Cfg_Item.Row.name)
+  // @@protoc_insertion_point(field_set_allocated:Cfg_Item.name)
 }
 
 // uint32 quility = 5;
-inline void Cfg_Item_Row::clear_quility() {
+inline void Cfg_Item::clear_quility() {
   quility_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::_internal_quility() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::_internal_quility() const {
   return quility_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::quility() const {
-  // @@protoc_insertion_point(field_get:Cfg_Item.Row.quility)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::quility() const {
+  // @@protoc_insertion_point(field_get:Cfg_Item.quility)
   return _internal_quility();
 }
-inline void Cfg_Item_Row::_internal_set_quility(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::_internal_set_quility(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   quility_ = value;
 }
-inline void Cfg_Item_Row::set_quility(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::set_quility(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_quility(value);
-  // @@protoc_insertion_point(field_set:Cfg_Item.Row.quility)
+  // @@protoc_insertion_point(field_set:Cfg_Item.quility)
 }
 
 // uint32 pile_limit = 6;
-inline void Cfg_Item_Row::clear_pile_limit() {
+inline void Cfg_Item::clear_pile_limit() {
   pile_limit_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::_internal_pile_limit() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::_internal_pile_limit() const {
   return pile_limit_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::pile_limit() const {
-  // @@protoc_insertion_point(field_get:Cfg_Item.Row.pile_limit)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::pile_limit() const {
+  // @@protoc_insertion_point(field_get:Cfg_Item.pile_limit)
   return _internal_pile_limit();
 }
-inline void Cfg_Item_Row::_internal_set_pile_limit(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::_internal_set_pile_limit(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   pile_limit_ = value;
 }
-inline void Cfg_Item_Row::set_pile_limit(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::set_pile_limit(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_pile_limit(value);
-  // @@protoc_insertion_point(field_set:Cfg_Item.Row.pile_limit)
+  // @@protoc_insertion_point(field_set:Cfg_Item.pile_limit)
 }
 
 // uint32 expire_time = 7;
-inline void Cfg_Item_Row::clear_expire_time() {
+inline void Cfg_Item::clear_expire_time() {
   expire_time_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::_internal_expire_time() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::_internal_expire_time() const {
   return expire_time_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::expire_time() const {
-  // @@protoc_insertion_point(field_get:Cfg_Item.Row.expire_time)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::expire_time() const {
+  // @@protoc_insertion_point(field_get:Cfg_Item.expire_time)
   return _internal_expire_time();
 }
-inline void Cfg_Item_Row::_internal_set_expire_time(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::_internal_set_expire_time(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   expire_time_ = value;
 }
-inline void Cfg_Item_Row::set_expire_time(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::set_expire_time(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_expire_time(value);
-  // @@protoc_insertion_point(field_set:Cfg_Item.Row.expire_time)
+  // @@protoc_insertion_point(field_set:Cfg_Item.expire_time)
 }
 
 // uint32 dura = 8;
-inline void Cfg_Item_Row::clear_dura() {
+inline void Cfg_Item::clear_dura() {
   dura_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::_internal_dura() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::_internal_dura() const {
   return dura_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::dura() const {
-  // @@protoc_insertion_point(field_get:Cfg_Item.Row.dura)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::dura() const {
+  // @@protoc_insertion_point(field_get:Cfg_Item.dura)
   return _internal_dura();
 }
-inline void Cfg_Item_Row::_internal_set_dura(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::_internal_set_dura(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   dura_ = value;
 }
-inline void Cfg_Item_Row::set_dura(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::set_dura(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_dura(value);
-  // @@protoc_insertion_point(field_set:Cfg_Item.Row.dura)
+  // @@protoc_insertion_point(field_set:Cfg_Item.dura)
 }
 
 // uint32 dura_limit = 9;
-inline void Cfg_Item_Row::clear_dura_limit() {
+inline void Cfg_Item::clear_dura_limit() {
   dura_limit_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::_internal_dura_limit() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::_internal_dura_limit() const {
   return dura_limit_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::dura_limit() const {
-  // @@protoc_insertion_point(field_get:Cfg_Item.Row.dura_limit)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::dura_limit() const {
+  // @@protoc_insertion_point(field_get:Cfg_Item.dura_limit)
   return _internal_dura_limit();
 }
-inline void Cfg_Item_Row::_internal_set_dura_limit(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::_internal_set_dura_limit(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   dura_limit_ = value;
 }
-inline void Cfg_Item_Row::set_dura_limit(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::set_dura_limit(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_dura_limit(value);
-  // @@protoc_insertion_point(field_set:Cfg_Item.Row.dura_limit)
+  // @@protoc_insertion_point(field_set:Cfg_Item.dura_limit)
 }
 
 // uint32 addition_limit = 10;
-inline void Cfg_Item_Row::clear_addition_limit() {
+inline void Cfg_Item::clear_addition_limit() {
   addition_limit_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::_internal_addition_limit() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::_internal_addition_limit() const {
   return addition_limit_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::addition_limit() const {
-  // @@protoc_insertion_point(field_get:Cfg_Item.Row.addition_limit)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::addition_limit() const {
+  // @@protoc_insertion_point(field_get:Cfg_Item.addition_limit)
   return _internal_addition_limit();
 }
-inline void Cfg_Item_Row::_internal_set_addition_limit(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::_internal_set_addition_limit(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   addition_limit_ = value;
 }
-inline void Cfg_Item_Row::set_addition_limit(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::set_addition_limit(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_addition_limit(value);
-  // @@protoc_insertion_point(field_set:Cfg_Item.Row.addition_limit)
+  // @@protoc_insertion_point(field_set:Cfg_Item.addition_limit)
 }
 
 // uint32 lev_req = 11;
-inline void Cfg_Item_Row::clear_lev_req() {
+inline void Cfg_Item::clear_lev_req() {
   lev_req_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::_internal_lev_req() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::_internal_lev_req() const {
   return lev_req_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::lev_req() const {
-  // @@protoc_insertion_point(field_get:Cfg_Item.Row.lev_req)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::lev_req() const {
+  // @@protoc_insertion_point(field_get:Cfg_Item.lev_req)
   return _internal_lev_req();
 }
-inline void Cfg_Item_Row::_internal_set_lev_req(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::_internal_set_lev_req(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   lev_req_ = value;
 }
-inline void Cfg_Item_Row::set_lev_req(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::set_lev_req(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_lev_req(value);
-  // @@protoc_insertion_point(field_set:Cfg_Item.Row.lev_req)
+  // @@protoc_insertion_point(field_set:Cfg_Item.lev_req)
 }
 
 // uint32 prof_req = 12;
-inline void Cfg_Item_Row::clear_prof_req() {
+inline void Cfg_Item::clear_prof_req() {
   prof_req_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::_internal_prof_req() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::_internal_prof_req() const {
   return prof_req_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::prof_req() const {
-  // @@protoc_insertion_point(field_get:Cfg_Item.Row.prof_req)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::prof_req() const {
+  // @@protoc_insertion_point(field_get:Cfg_Item.prof_req)
   return _internal_prof_req();
 }
-inline void Cfg_Item_Row::_internal_set_prof_req(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::_internal_set_prof_req(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   prof_req_ = value;
 }
-inline void Cfg_Item_Row::set_prof_req(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::set_prof_req(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_prof_req(value);
-  // @@protoc_insertion_point(field_set:Cfg_Item.Row.prof_req)
+  // @@protoc_insertion_point(field_set:Cfg_Item.prof_req)
 }
 
 // uint32 value = 13;
-inline void Cfg_Item_Row::clear_value() {
+inline void Cfg_Item::clear_value() {
   value_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::_internal_value() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::_internal_value() const {
   return value_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::value() const {
-  // @@protoc_insertion_point(field_get:Cfg_Item.Row.value)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::value() const {
+  // @@protoc_insertion_point(field_get:Cfg_Item.value)
   return _internal_value();
 }
-inline void Cfg_Item_Row::_internal_set_value(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::_internal_set_value(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   value_ = value;
 }
-inline void Cfg_Item_Row::set_value(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::set_value(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_value(value);
-  // @@protoc_insertion_point(field_set:Cfg_Item.Row.value)
+  // @@protoc_insertion_point(field_set:Cfg_Item.value)
 }
 
 // uint32 cd_type = 15;
-inline void Cfg_Item_Row::clear_cd_type() {
+inline void Cfg_Item::clear_cd_type() {
   cd_type_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::_internal_cd_type() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::_internal_cd_type() const {
   return cd_type_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::cd_type() const {
-  // @@protoc_insertion_point(field_get:Cfg_Item.Row.cd_type)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::cd_type() const {
+  // @@protoc_insertion_point(field_get:Cfg_Item.cd_type)
   return _internal_cd_type();
 }
-inline void Cfg_Item_Row::_internal_set_cd_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::_internal_set_cd_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   cd_type_ = value;
 }
-inline void Cfg_Item_Row::set_cd_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::set_cd_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_cd_type(value);
-  // @@protoc_insertion_point(field_set:Cfg_Item.Row.cd_type)
+  // @@protoc_insertion_point(field_set:Cfg_Item.cd_type)
 }
 
 // uint32 cd_msces = 16;
-inline void Cfg_Item_Row::clear_cd_msces() {
+inline void Cfg_Item::clear_cd_msces() {
   cd_msces_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::_internal_cd_msces() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::_internal_cd_msces() const {
   return cd_msces_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::cd_msces() const {
-  // @@protoc_insertion_point(field_get:Cfg_Item.Row.cd_msces)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::cd_msces() const {
+  // @@protoc_insertion_point(field_get:Cfg_Item.cd_msces)
   return _internal_cd_msces();
 }
-inline void Cfg_Item_Row::_internal_set_cd_msces(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::_internal_set_cd_msces(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   cd_msces_ = value;
 }
-inline void Cfg_Item_Row::set_cd_msces(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::set_cd_msces(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_cd_msces(value);
-  // @@protoc_insertion_point(field_set:Cfg_Item.Row.cd_msces)
+  // @@protoc_insertion_point(field_set:Cfg_Item.cd_msces)
 }
 
 // uint32 suit_id = 17;
-inline void Cfg_Item_Row::clear_suit_id() {
+inline void Cfg_Item::clear_suit_id() {
   suit_id_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::_internal_suit_id() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::_internal_suit_id() const {
   return suit_id_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::suit_id() const {
-  // @@protoc_insertion_point(field_get:Cfg_Item.Row.suit_id)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::suit_id() const {
+  // @@protoc_insertion_point(field_get:Cfg_Item.suit_id)
   return _internal_suit_id();
 }
-inline void Cfg_Item_Row::_internal_set_suit_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::_internal_set_suit_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   suit_id_ = value;
 }
-inline void Cfg_Item_Row::set_suit_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::set_suit_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_suit_id(value);
-  // @@protoc_insertion_point(field_set:Cfg_Item.Row.suit_id)
+  // @@protoc_insertion_point(field_set:Cfg_Item.suit_id)
 }
 
 // repeated .AttribChangeDataProto attrib_change_list = 18;
-inline int Cfg_Item_Row::_internal_attrib_change_list_size() const {
+inline int Cfg_Item::_internal_attrib_change_list_size() const {
   return attrib_change_list_.size();
 }
-inline int Cfg_Item_Row::attrib_change_list_size() const {
+inline int Cfg_Item::attrib_change_list_size() const {
   return _internal_attrib_change_list_size();
 }
-inline ::AttribChangeDataProto* Cfg_Item_Row::mutable_attrib_change_list(int index) {
-  // @@protoc_insertion_point(field_mutable:Cfg_Item.Row.attrib_change_list)
+inline ::AttribChangeDataProto* Cfg_Item::mutable_attrib_change_list(int index) {
+  // @@protoc_insertion_point(field_mutable:Cfg_Item.attrib_change_list)
   return attrib_change_list_.Mutable(index);
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::AttribChangeDataProto >*
-Cfg_Item_Row::mutable_attrib_change_list() {
-  // @@protoc_insertion_point(field_mutable_list:Cfg_Item.Row.attrib_change_list)
+Cfg_Item::mutable_attrib_change_list() {
+  // @@protoc_insertion_point(field_mutable_list:Cfg_Item.attrib_change_list)
   return &attrib_change_list_;
 }
-inline const ::AttribChangeDataProto& Cfg_Item_Row::_internal_attrib_change_list(int index) const {
+inline const ::AttribChangeDataProto& Cfg_Item::_internal_attrib_change_list(int index) const {
   return attrib_change_list_.Get(index);
 }
-inline const ::AttribChangeDataProto& Cfg_Item_Row::attrib_change_list(int index) const {
-  // @@protoc_insertion_point(field_get:Cfg_Item.Row.attrib_change_list)
+inline const ::AttribChangeDataProto& Cfg_Item::attrib_change_list(int index) const {
+  // @@protoc_insertion_point(field_get:Cfg_Item.attrib_change_list)
   return _internal_attrib_change_list(index);
 }
-inline ::AttribChangeDataProto* Cfg_Item_Row::_internal_add_attrib_change_list() {
+inline ::AttribChangeDataProto* Cfg_Item::_internal_add_attrib_change_list() {
   return attrib_change_list_.Add();
 }
-inline ::AttribChangeDataProto* Cfg_Item_Row::add_attrib_change_list() {
-  // @@protoc_insertion_point(field_add:Cfg_Item.Row.attrib_change_list)
+inline ::AttribChangeDataProto* Cfg_Item::add_attrib_change_list() {
+  // @@protoc_insertion_point(field_add:Cfg_Item.attrib_change_list)
   return _internal_add_attrib_change_list();
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::AttribChangeDataProto >&
-Cfg_Item_Row::attrib_change_list() const {
-  // @@protoc_insertion_point(field_list:Cfg_Item.Row.attrib_change_list)
+Cfg_Item::attrib_change_list() const {
+  // @@protoc_insertion_point(field_list:Cfg_Item.attrib_change_list)
   return attrib_change_list_;
 }
 
 // uint32 flag = 19;
-inline void Cfg_Item_Row::clear_flag() {
+inline void Cfg_Item::clear_flag() {
   flag_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::_internal_flag() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::_internal_flag() const {
   return flag_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::flag() const {
-  // @@protoc_insertion_point(field_get:Cfg_Item.Row.flag)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::flag() const {
+  // @@protoc_insertion_point(field_get:Cfg_Item.flag)
   return _internal_flag();
 }
-inline void Cfg_Item_Row::_internal_set_flag(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::_internal_set_flag(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   flag_ = value;
 }
-inline void Cfg_Item_Row::set_flag(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::set_flag(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_flag(value);
-  // @@protoc_insertion_point(field_set:Cfg_Item.Row.flag)
+  // @@protoc_insertion_point(field_set:Cfg_Item.flag)
 }
 
 // uint64 scriptid = 20;
-inline void Cfg_Item_Row::clear_scriptid() {
+inline void Cfg_Item::clear_scriptid() {
   scriptid_ = PROTOBUF_ULONGLONG(0);
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint64 Cfg_Item_Row::_internal_scriptid() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint64 Cfg_Item::_internal_scriptid() const {
   return scriptid_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint64 Cfg_Item_Row::scriptid() const {
-  // @@protoc_insertion_point(field_get:Cfg_Item.Row.scriptid)
+inline ::PROTOBUF_NAMESPACE_ID::uint64 Cfg_Item::scriptid() const {
+  // @@protoc_insertion_point(field_get:Cfg_Item.scriptid)
   return _internal_scriptid();
 }
-inline void Cfg_Item_Row::_internal_set_scriptid(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+inline void Cfg_Item::_internal_set_scriptid(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   
   scriptid_ = value;
 }
-inline void Cfg_Item_Row::set_scriptid(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+inline void Cfg_Item::set_scriptid(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   _internal_set_scriptid(value);
-  // @@protoc_insertion_point(field_set:Cfg_Item.Row.scriptid)
+  // @@protoc_insertion_point(field_set:Cfg_Item.scriptid)
 }
 
 // uint32 batchuse_count = 21;
-inline void Cfg_Item_Row::clear_batchuse_count() {
+inline void Cfg_Item::clear_batchuse_count() {
   batchuse_count_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::_internal_batchuse_count() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::_internal_batchuse_count() const {
   return batchuse_count_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item_Row::batchuse_count() const {
-  // @@protoc_insertion_point(field_get:Cfg_Item.Row.batchuse_count)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Item::batchuse_count() const {
+  // @@protoc_insertion_point(field_get:Cfg_Item.batchuse_count)
   return _internal_batchuse_count();
 }
-inline void Cfg_Item_Row::_internal_set_batchuse_count(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::_internal_set_batchuse_count(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   batchuse_count_ = value;
 }
-inline void Cfg_Item_Row::set_batchuse_count(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Item::set_batchuse_count(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_batchuse_count(value);
-  // @@protoc_insertion_point(field_set:Cfg_Item.Row.batchuse_count)
+  // @@protoc_insertion_point(field_set:Cfg_Item.batchuse_count)
 }
 
 // string desc = 22;
-inline void Cfg_Item_Row::clear_desc() {
+inline void Cfg_Item::clear_desc() {
   desc_.ClearToEmptyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
-inline const std::string& Cfg_Item_Row::desc() const {
-  // @@protoc_insertion_point(field_get:Cfg_Item.Row.desc)
+inline const std::string& Cfg_Item::desc() const {
+  // @@protoc_insertion_point(field_get:Cfg_Item.desc)
   return _internal_desc();
 }
-inline void Cfg_Item_Row::set_desc(const std::string& value) {
+inline void Cfg_Item::set_desc(const std::string& value) {
   _internal_set_desc(value);
-  // @@protoc_insertion_point(field_set:Cfg_Item.Row.desc)
+  // @@protoc_insertion_point(field_set:Cfg_Item.desc)
 }
-inline std::string* Cfg_Item_Row::mutable_desc() {
-  // @@protoc_insertion_point(field_mutable:Cfg_Item.Row.desc)
+inline std::string* Cfg_Item::mutable_desc() {
+  // @@protoc_insertion_point(field_mutable:Cfg_Item.desc)
   return _internal_mutable_desc();
 }
-inline const std::string& Cfg_Item_Row::_internal_desc() const {
+inline const std::string& Cfg_Item::_internal_desc() const {
   return desc_.GetNoArena();
 }
-inline void Cfg_Item_Row::_internal_set_desc(const std::string& value) {
+inline void Cfg_Item::_internal_set_desc(const std::string& value) {
   
   desc_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value);
 }
-inline void Cfg_Item_Row::set_desc(std::string&& value) {
+inline void Cfg_Item::set_desc(std::string&& value) {
   
   desc_.SetNoArena(
     &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
-  // @@protoc_insertion_point(field_set_rvalue:Cfg_Item.Row.desc)
+  // @@protoc_insertion_point(field_set_rvalue:Cfg_Item.desc)
 }
-inline void Cfg_Item_Row::set_desc(const char* value) {
+inline void Cfg_Item::set_desc(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   
   desc_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:Cfg_Item.Row.desc)
+  // @@protoc_insertion_point(field_set_char:Cfg_Item.desc)
 }
-inline void Cfg_Item_Row::set_desc(const char* value, size_t size) {
+inline void Cfg_Item::set_desc(const char* value, size_t size) {
   
   desc_.SetNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:Cfg_Item.Row.desc)
+  // @@protoc_insertion_point(field_set_pointer:Cfg_Item.desc)
 }
-inline std::string* Cfg_Item_Row::_internal_mutable_desc() {
+inline std::string* Cfg_Item::_internal_mutable_desc() {
   
   return desc_.MutableNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
-inline std::string* Cfg_Item_Row::release_desc() {
-  // @@protoc_insertion_point(field_release:Cfg_Item.Row.desc)
+inline std::string* Cfg_Item::release_desc() {
+  // @@protoc_insertion_point(field_release:Cfg_Item.desc)
   
   return desc_.ReleaseNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
-inline void Cfg_Item_Row::set_allocated_desc(std::string* desc) {
+inline void Cfg_Item::set_allocated_desc(std::string* desc) {
   if (desc != nullptr) {
     
   } else {
     
   }
   desc_.SetAllocatedNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), desc);
-  // @@protoc_insertion_point(field_set_allocated:Cfg_Item.Row.desc)
-}
-
-// -------------------------------------------------------------------
-
-// Cfg_Item
-
-// repeated .Cfg_Item.Row rows = 1;
-inline int Cfg_Item::_internal_rows_size() const {
-  return rows_.size();
-}
-inline int Cfg_Item::rows_size() const {
-  return _internal_rows_size();
-}
-inline void Cfg_Item::clear_rows() {
-  rows_.Clear();
-}
-inline ::Cfg_Item_Row* Cfg_Item::mutable_rows(int index) {
-  // @@protoc_insertion_point(field_mutable:Cfg_Item.rows)
-  return rows_.Mutable(index);
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Cfg_Item_Row >*
-Cfg_Item::mutable_rows() {
-  // @@protoc_insertion_point(field_mutable_list:Cfg_Item.rows)
-  return &rows_;
-}
-inline const ::Cfg_Item_Row& Cfg_Item::_internal_rows(int index) const {
-  return rows_.Get(index);
-}
-inline const ::Cfg_Item_Row& Cfg_Item::rows(int index) const {
-  // @@protoc_insertion_point(field_get:Cfg_Item.rows)
-  return _internal_rows(index);
-}
-inline ::Cfg_Item_Row* Cfg_Item::_internal_add_rows() {
-  return rows_.Add();
-}
-inline ::Cfg_Item_Row* Cfg_Item::add_rows() {
-  // @@protoc_insertion_point(field_add:Cfg_Item.rows)
-  return _internal_add_rows();
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Cfg_Item_Row >&
-Cfg_Item::rows() const {
-  // @@protoc_insertion_point(field_list:Cfg_Item.rows)
-  return rows_;
+  // @@protoc_insertion_point(field_set_allocated:Cfg_Item.desc)
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
 
 // @@protoc_insertion_point(namespace_scope)
 

@@ -4,14 +4,20 @@
 #include "ActorManager.h"
 #include "EventManager.h"
 #include "GameEventDef.h"
+#include "GameMap.h"
 #include "LoadingThread.h"
+#include "MapVal.h"
 #include "Monster.h"
 #include "Npc.h"
+#include "NpcType.h"
 #include "Player.h"
 #include "Scene.h"
 #include "SceneManager.h"
 #include "SceneService.h"
+#include "ScriptCallBackType.h"
 #include "ScriptManager.h"
+#include "config/Cfg_Scene.pb.h"
+#include "config/Cfg_Scene_Reborn.pb.h"
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
 
@@ -71,7 +77,8 @@ bool CPhase::Init(CScene* pScene, const SceneIdx& idxScene, uint64_t idPhase, co
     msg.set_phase_id(idPhase);
     SceneService()->SendProtoMsgToAIService(msg);
 
-    TryExecScript<void>(SCB_MAP_ONCREATE, this);
+    if(GetScriptID() != 0)
+        ScriptManager()->TryExecScript<void>(GetScriptID(), SCB_MAP_ONCREATE, this);
 
     //刷新所有的NPC
     auto pVec = NpcTypeSet()->QueryObjByMapID(idxScene.GetMapID(), idPhase);
@@ -222,11 +229,15 @@ void CPhase::_KickPlayer(const char* pszReason, CPlayer* pPlayer)
     const auto& refRobronDataSet = m_pMap->GetRebornData();
     for(const auto& [k, refRebornData]: refRobronDataSet)
     {
-        uint16_t idNewMap = refRebornData.reborn_map();
+        uint16_t idNewMap = refRebornData->reborn_map();
         if(idNewMap != 0 && idNewMap != GetID())
         {
-            pPlayer
-                ->FlyMap(idNewMap, 0, refRebornData.reborn_x(), refRebornData.reborn_y(), refRebornData.reborn_range(), refRebornData.reborn_face());
+            pPlayer->FlyMap(idNewMap,
+                            0,
+                            refRebornData->reborn_x(),
+                            refRebornData->reborn_y(),
+                            refRebornData->reborn_range(),
+                            refRebornData->reborn_face());
             return;
         }
     }

@@ -4,8 +4,6 @@ option optimize_for = CODE_SIZE;
 message Cfg_Scene_Reborn
 {
 
-	message Row
-	{
 		uint32 idmap		= 1;  // 地图ID
 		uint32 idcamp		= 2;  // 阵营id
 		uint32 idx			= 3;  // 索引id
@@ -16,7 +14,5 @@ message Cfg_Scene_Reborn
 		float  reborn_range = 11; // 复活点range
 		float  reborn_face	= 12; // 复活点朝向
 		bool   reborn_this_phase = 13; //是否在本副本复活
-	}
 
-	repeated Row rows = 1;
 }

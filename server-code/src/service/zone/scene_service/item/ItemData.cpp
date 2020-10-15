@@ -1,19 +1,23 @@
 #include "ItemData.h"
 
 #include "ItemAddition.h"
+#include "ItemType.h"
 #include "Player.h"
 #include "SceneService.h"
-
+#include "gamedb.h"
 OBJECTHEAP_IMPLEMENTATION(CItemData, s_heap);
 
-std::string SaveItemExtraToJson(const ItemExtraData& extraData)
+std::string SaveItemExtraToJson(const std::unique_ptr<ItemExtraData>& extraData)
 {
     std::string jsonTxt;
-    pb_util::SaveToJsonTxt(extraData, jsonTxt);
+    pb_util::SaveToJsonTxt(*extraData, jsonTxt);
     return jsonTxt;
 }
 
-CItemData::CItemData() {}
+CItemData::CItemData()
+    : m_ExtraData(std::make_unique<ItemExtraData>())
+{
+}
 
 CItemData::~CItemData() {}
 
@@ -29,6 +33,10 @@ bool CItemData::Init(CDBRecordPtr&& pRes)
         LOGERROR("UNKNOW itemtype:{}", GetType());
         return false;
     }
+
+    std::string jsonTxt = m_pRecord->Field(TBLD_ITEM::EXTRA);
+    pb_util::LoadFromJsonTxt(jsonTxt, *m_ExtraData);
+    m_pRecord->Field(TBLD_ITEM::EXTRA).BindGetValString(std::bind(&SaveItemExtraToJson, std::cref(m_ExtraData)));
 
     uint32_t nAddition = GetAddition();
     if(nAddition > 0)
@@ -52,8 +60,9 @@ bool CItemData::Init(CMysqlConnection* pDB, OBJID idItem)
 
     m_pRecord = pResult->fetch_row();
     CHECKF(m_pRecord != nullptr);
+
     std::string jsonTxt = m_pRecord->Field(TBLD_ITEM::EXTRA);
-    pb_util::LoadFromJsonTxt(jsonTxt, m_ExtraData);
+    pb_util::LoadFromJsonTxt(jsonTxt, *m_ExtraData);
     m_pRecord->Field(TBLD_ITEM::EXTRA).BindGetValString(std::bind(&SaveItemExtraToJson, std::cref(m_ExtraData)));
 
     m_pType = ItemTypeSet()->QueryObj(GetType());
@@ -103,6 +112,7 @@ bool CItemData::Init(CMysqlConnection* pDB, ST_ITEMINFO& info)
 
     if(m_pRecord->Update() == false)
         return false;
+
     m_pRecord->Field(TBLD_ITEM::EXTRA).BindGetValString(std::bind(&SaveItemExtraToJson, std::cref(m_ExtraData)));
     uint32_t nAddition = GetAddition();
     if(nAddition > 0)
@@ -133,6 +143,7 @@ bool CItemData::Init(CMysqlConnection* pDB, uint64_t idPlayer, uint32_t idItemTy
     m_pRecord->Field(TBLD_ITEM::PILENUM)  = nNum;
     m_pRecord->Field(TBLD_ITEM::POSITION) = nPosition;
     m_pRecord->Field(TBLD_ITEM::FLAG)     = dwFlag;
+
     m_pRecord->Field(TBLD_ITEM::EXTRA).BindGetValString(std::bind(&SaveItemExtraToJson, std::cref(m_ExtraData)));
     return true;
     __LEAVE_FUNCTION
@@ -159,10 +170,92 @@ bool CItemData::DelRecordStatic(CMysqlConnection* pDB, OBJID idItem)
     return false;
 }
 
+OBJID CItemData::GetID() const
+{
+    return m_pRecord->Field(TBLD_ITEM::ID);
+}
+uint32_t CItemData::GetType() const
+{
+    return m_pRecord->Field(TBLD_ITEM::ITEMTYPE);
+}
+OBJID CItemData::GetOwnerID() const
+{
+    return m_pRecord->Field(TBLD_ITEM::OWNER_ID);
+}
+uint32_t CItemData::GetPosition() const
+{
+    return m_pRecord->Field(TBLD_ITEM::POSITION);
+}
+uint32_t CItemData::GetGrid() const
+{
+    return m_pRecord->Field(TBLD_ITEM::GRID);
+}
+uint32_t CItemData::CItemData::GetPileNum() const
+{
+    return m_pRecord->Field(TBLD_ITEM::PILENUM);
+}
+uint32_t CItemData::GetDura() const
+{
+    return m_pRecord->Field(TBLD_ITEM::DURA);
+}
+uint32_t CItemData::GetDuraLimit() const
+{
+    return m_pRecord->Field(TBLD_ITEM::DURA_LIMIT);
+}
+uint32_t CItemData::GetExpireTime() const
+{
+    return m_pRecord->Field(TBLD_ITEM::EXPIRE_TIME);
+}
+uint32_t CItemData::GetAddition() const
+{
+    return m_pRecord->Field(TBLD_ITEM::ADDITION_LEV);
+}
+uint32_t CItemData::_GetFlag() const
+{
+    return m_pRecord->Field(TBLD_ITEM::FLAG);
+}
+uint32_t CItemData::GetFlag() const
+{
+    return _GetFlag() | ItemTypePtr()->GetFlag();
+}
+bool CItemData::HasFlag(uint32_t dwFlag) const
+{
+    return ::HasFlag(GetFlag(), dwFlag);
+}
+
+const std::string& CItemData::GetName() const
+{
+    return m_pType->GetName();
+}
+const CItemType* CItemData::ItemTypePtr() const
+{
+    return m_pType;
+}
+const CItemAdditionData* CItemData::AdditionType()
+{
+    return m_pAddition;
+}
+uint32_t CItemData::GetMainType() const
+{
+    return GetMainTypeByID(GetType());
+}
+uint32_t CItemData::GetMainTypeByID(uint32_t idType)
+{
+    return idType / ITEM_MAINTYPE_MASK;
+}
+uint32_t CItemData::GetSubType() const
+{
+    return GetSubTypeByID(GetType());
+}
+uint32_t CItemData::GetSubTypeByID(uint32_t idType)
+{
+    return (idType % ITEM_MAINTYPE_MASK) / ITEM_SUBTYPE_MASK;
+}
+
 uint32_t CItemData::GetExtra(uint32_t nIdx) const
 {
-    CHECKF_V(nIdx >= 0 && nIdx < MAX_ITEM_EXTRDATA_NUM && nIdx < (uint32_t)m_ExtraData.data_size(), nIdx);
-    return m_ExtraData.data(nIdx);
+    CHECKF_V(nIdx >= 0 && nIdx < MAX_ITEM_EXTRDATA_NUM && nIdx < (uint32_t)m_ExtraData->data_size(), nIdx);
+    return m_ExtraData->data(nIdx);
 }
 
 void CItemData::SetOwnerID(OBJID idOwner, bool bUpdate /*=true*/)
@@ -279,11 +372,11 @@ void CItemData::SetFlag(uint32_t dwFlag, bool bUpdate /*=false*/)
 void CItemData::SetExtra(int32_t nIdx, uint32_t nExtra, bool bUpdate /*=false*/)
 {
     __ENTER_FUNCTION
-    for(int32_t i = m_ExtraData.data_size(); i < nIdx; i++)
+    for(int32_t i = m_ExtraData->data_size(); i < nIdx; i++)
     {
-        m_ExtraData.add_data(0);
+        m_ExtraData->add_data(0);
     }
-    m_ExtraData.set_data(nIdx, nExtra);
+    m_ExtraData->set_data(nIdx, nExtra);
     m_pRecord->Field(TBLD_ITEM::EXTRA).MakeDirty();
     if(bUpdate)
         m_pRecord->Update();

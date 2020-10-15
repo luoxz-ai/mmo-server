@@ -4,8 +4,6 @@ option optimize_for = CODE_SIZE;
 message Cfg_Scene_Patrol
 {
 
-	message Row
-	{
 
 		uint32	idmap		= 1;
 		uint32	patrol_idx	= 2;
@@ -18,7 +16,5 @@ message Cfg_Scene_Patrol
 			uint32 wait_ms_max = 4;
 		}
 		repeated patrol_data data = 5;
-	}
 
-	repeated Row rows = 1;
 }

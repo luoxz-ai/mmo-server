@@ -3,6 +3,7 @@
 #include "ActorManager.h"
 #include "Phase.h"
 #include "Player.h"
+#include "SceneService.h"
 #include "msg/zone_service.pb.h"
 
 CMapValSet::CMapValSet() {}

@@ -4,62 +4,11 @@
 #include <map>
 #include <unordered_map>
 
+#include <fmt/format.h>
+
 #include "BaseCode.h"
 #include "ObjectHeap.h"
-#include "fmt/format.h"
 #include "lua_tinker.h"
-
-export_lua enum ScriptCallBack {
-    SCB_MONSTER_ONBORN = 1,
-    SCB_MONSTER_ONATTACK,
-    SCB_MONSTER_ONBEATTACK,
-    SCB_MONSTER_ONBEKILL,
-
-    SCB_MAP_ONCREATE = 100,
-    SCB_MAP_ONENTERMAP,
-    SCB_MAP_ONLEAVEMAP,
-    SCB_MAP_ONACTORBEKILL,
-
-    SCB_STATUS_ONATTACH = 200,
-    SCB_STATUS_ONDETACH,
-    SCB_STATUS_ONEFFECT,
-    SCB_STATUS_ONSKILL,
-    SCB_STATUS_ONATTACK,
-    SCB_STATUS_ONBEATTACK,
-    SCB_STATUS_ONDEAD,
-    SCB_STATUS_ONMOVE,
-    SCB_STATUS_ONLEAVEMAP,
-    SCB_STATUS_ONLOGIN,
-    SCB_STATUS_ONLOGOUT,
-
-    SCB_ITEM_ONUSE           = 300,
-    SCB_ITEM_ONBATCHUSECHECK = 301,
-    SCB_ITEM_ONTIMEOUT       = 302,
-
-    SCB_SKILL_DOINTONE = 400,
-    SCB_SKILL_DOLAUNCH = 401,
-    SCB_SKILL_DOAPPLY  = 402,
-    SCB_SKILL_DOSTUN   = 403,
-    SCB_SKILL_ISTARGET = 404,
-    SCB_SKILL_DODAMAGE = 405,
-
-    SCB_TASK_CAN_ACCEPT      = 501,
-    SCB_TASK_ON_ACCEPT       = 502,
-    SCB_TASK_CAN_COMMIT      = 503,
-    SCB_TASK_ON_COMMIT       = 504,
-    SCB_TASK_ON_GIVEUP       = 505,
-    SCB_TASK_SHOW_TASKDIALOG = 506,
-
-    SCB_AI_ONUNDERATTACK  = 601,
-    SCB_AI_SEARCHENEMY    = 602,
-    SCB_AI_FINDNEXTENEMY  = 603,
-    SCB_AI_PROCESS_ATTACK = 604,
-    SCB_AI_TO_IDLE        = 605,
-    SCB_AI_TO_GOBACK      = 606,
-
-    SCB_NPC_ONBORN   = 700,
-    SCB_NPC_ONACTIVE = 701,
-};
 
 class CLUAScriptManager : public NoncopyableT<CLUAScriptManager>
 {
@@ -132,6 +81,8 @@ public:
     template<typename RVal, typename... Args>
     RVal TryExecScript(uint64_t idScript, uint32_t idxCallBackType, Args&&... args)
     {
+        if(idScript == 0)
+            return RVal();
         const std::string& funcName = QueryFunc(idScript, idxCallBackType);
         if(funcName.empty())
             return RVal();

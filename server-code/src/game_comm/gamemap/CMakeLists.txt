@@ -13,10 +13,11 @@ ADD_LIBRARY(gamemap SHARED ${SRCS})
 
 #指定库输出路径
 SET(LIBRARY_OUTPUT_PATH ${LIBRARIES})
-ADD_DEPENDENCIES(gamemap basecode myproto)
+ADD_DEPENDENCIES(gamemap basecode myproto data_pack)
 
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(gamemap
+libdata_pack.so
 libmyproto.so
 libbasecode.so
 ${JEMALLOC_LIB_NAME}

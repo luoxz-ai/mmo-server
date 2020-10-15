@@ -2,6 +2,8 @@
 
 #include <functional>
 
+#include <brpc/channel.h>
+#include <brpc/server.h>
 #include <sys/queue.h>
 
 #include "EventManager.h"
@@ -16,8 +18,6 @@
 #include "NetworkMessage.h"
 #include "RPCService.h"
 #include "SettingMap.h"
-#include "brpc/channel.h"
-#include "brpc/server.h"
 #include "event2/buffer.h"
 #include "event2/http.h"
 #include "event2/http_struct.h"

@@ -11,12 +11,12 @@
 #include <vector>
 
 #include "BaseCode.h"
+#include "DataPack.h"
 #include "MysqlConnection.h"
 #include "ProtobuffUtil.h"
 #include "Singleton.h"
 #include "nameof.h"
 #include "type_traits_ext.h"
-
 //////////////////////////////////////////////////////////////////////
 // 说明：需要GetID()函数支持    另外，还需要这种形式的函数支持：
 // void Init(CDBRecordPtr pRes);
@@ -97,16 +97,16 @@ protected:
     auto Init(const std::string& szFileName)
     {
         using PB_T = typename T::PB_T;
-        PB_T cfg;
-        if(pb_util::LoadFromBinaryFile(szFileName, cfg) == false)
+        std::vector<PB_T> vecData;
+        if(DataPack::LoadFromBinaryFile(szFileName, vecData) == false)
         {
             LOGERROR("InitFromFile {} Fail.", szFileName);
             return false;
         }
 
-        for(const auto& row: cfg.rows())
+        for(const auto& cfg: vecData)
         {
-            T* pData = T::CreateNew(row);
+            T* pData = T::CreateNew(cfg);
             if(pData == nullptr)
             {
                 return false;

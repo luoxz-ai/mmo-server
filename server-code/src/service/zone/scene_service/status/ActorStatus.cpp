@@ -1,364 +1,545 @@
 #include "ActorStatus.h"
 
 #include "Actor.h"
-#include "IStatus.h"
+#include "ActorAttrib.h"
+#include "ActorStatusSet.h"
 #include "SceneService.h"
-CActorStatus::CActorStatus() {}
-
-CActorStatus::~CActorStatus()
+#include "ScriptCallBackType.h"
+#include "SkillFSM.h"
+#include "StatusType.h"
+#include "gamedb.h"
+#include "msg/zone_service.pb.h"
+AttachStatusInfo CStatusType::CloneInfo() const
 {
-    __ENTER_FUNCTION
-    for(auto it = m_setStatusByType.begin(); it != m_setStatusByType.end(); it++)
-    {
-        SAFE_DELETE(it->second);
-    }
-    m_setStatusByType.clear();
-    __LEAVE_FUNCTION
+    return {.id_status_type = GetTypeID(),
+            .lev            = GetLevel(),
+            .power          = GetPower(),
+            .secs           = GetSecs(),
+            .times          = GetTimes(),
+            .flag           = GetFlag(),
+            .id_status      = GetID(),
+            .expire_type    = GetExpireType()};
 }
 
-bool CActorStatus::Init(CActor* pActor)
+OBJECTHEAP_IMPLEMENTATION(CActorStatus, s_heap);
+CActorStatus::CActorStatus() {}
+
+CActorStatus::~CActorStatus() {}
+
+bool CActorStatus::Init(CActor* pOwner, const AttachStatusInfo& info)
 {
     __ENTER_FUNCTION
-    CHECKF(pActor);
-    m_pOwner = pActor;
-    if(pActor->IsPlayer() == false)
-        return true;
-    auto pDB = SceneService()->GetGameDB(m_pOwner->GetWorldID());
-    CHECKF(pDB);
-    auto pResult = pDB->QueryKey<TBLD_STATUS, TBLD_STATUS::USERID>(m_pOwner->GetID());
-    if(pResult)
+    m_info = info;
+    if(info.id_status != 0)
     {
-        for(size_t i = 0; i < pResult->get_num_row(); i++)
-        {
-            auto     row     = pResult->fetch_row(true);
-            CStatus* pStatus = CStatus::CreateNew(m_pOwner, std::move(row));
-            if(pStatus)
-            {
-                _AddStatus(pStatus);
-            }
-            else
-            {
-                // logerror
-                LOGERROR("LoadStatus Error, User:{}", m_pOwner->GetID());
-            }
-        }
+        m_pType = StatusTypeSet()->QueryObj(info.id_status);
+        CHECKF(m_pType);
     }
+
+    m_pOwner = pOwner;
+
+    if(info.expire_type == STATUSEXPIRETYPE_TIME)
+        m_info.last_timestamp = TimeGetSecond();
+    else
+        m_info.last_timestamp = 0;
+
+    m_info.pause = bit_test(info.flag, STATUSFLAG_PAUSE_ATTACH) ? TRUE : FALSE;
     return true;
     __LEAVE_FUNCTION
     return false;
 }
 
-CStatus* CActorStatus::QueryStatusByType(uint16_t idStatusType) const
+bool CActorStatus::Init(CActor* pOwner, CDBRecordPtr&& pRow)
 {
     __ENTER_FUNCTION
-    auto itFind = m_setStatusByType.find(idStatusType);
-    if(itFind == m_setStatusByType.end())
-        return nullptr;
-    return itFind->second;
-    __LEAVE_FUNCTION
-    return nullptr;
-}
+    uint32_t idStatus = pRow->Field(TBLD_STATUS::STATUSID);
 
-void CActorStatus::_AddStatus(CStatus* pStatus)
-{
-    __ENTER_FUNCTION
-    m_setStatusByType[pStatus->GetTypeID()] = pStatus;
-    __LEAVE_FUNCTION
-}
-
-void CActorStatus::_RemoveStatus(CStatus* pStatus)
-{
-    __ENTER_FUNCTION
-    m_setStatusByType.erase(pStatus->GetTypeID());
-    __LEAVE_FUNCTION
-}
-
-void CActorStatus::Stop()
-{
-    __ENTER_FUNCTION
-    for(auto it = m_setStatusByType.begin(); it != m_setStatusByType.end(); it++)
+    if(idStatus != 0)
     {
-        CStatus* pStatus = it->second;
-        pStatus->ClearEvent();
-    }
-    __LEAVE_FUNCTION
-}
-
-void CActorStatus::SyncTo(CActor* pActor)
-{
-    __ENTER_FUNCTION
-    CHECK(pActor);
-    SC_STATUS_INFO msg;
-    msg.set_actor_id(m_pOwner->GetID());
-    for(auto it = m_setStatusByType.begin(); it != m_setStatusByType.end(); it++)
-    {
-        CStatus* pStatus = it->second;
-        auto     pInfo   = msg.add_statuslist();
-        pInfo->set_statusid(pStatus->GetID());
-        pInfo->set_statustype(pStatus->GetTypeID());
-        pInfo->set_statuslev(pStatus->GetLevel());
-        pInfo->set_power(pStatus->GetPower());
-        pInfo->set_sec(pStatus->GetSecs());
-        pInfo->set_times(pStatus->GetTimes());
-        pInfo->set_laststamp(pStatus->GetLastTimeStamp());
-        pInfo->set_idcaster(pStatus->GetCasterID());
-        pInfo->set_ispause(pStatus->IsPaused());
+        m_pType = StatusTypeSet()->QueryObj(idStatus);
+        CHECKF(m_pType);
     }
 
-    pActor->SendMsg(msg);
-    __LEAVE_FUNCTION
-}
+    m_pOwner = pOwner;
+    m_pRecord.reset(pRow.release());
 
-void CActorStatus::FillStatusMsg(SC_STATUS_LIST& status_msg)
-{
-    __ENTER_FUNCTION
-    for(auto it = m_setStatusByType.begin(); it != m_setStatusByType.end(); it++)
+    m_info.id_status_type = pRow->Field(TBLD_STATUS::TYPEID);
+    m_info.lev            = pRow->Field(TBLD_STATUS::LEV);
+    m_info.power          = pRow->Field(TBLD_STATUS::POWER);
+    m_info.secs           = pRow->Field(TBLD_STATUS::SECS);
+    m_info.times          = pRow->Field(TBLD_STATUS::TIMES);
+    m_info.last_timestamp = pRow->Field(TBLD_STATUS::LASTSTAMP);
+
+    m_info.id_caster = pRow->Field(TBLD_STATUS::CASTERID);
+    m_info.pause     = pRow->Field(TBLD_STATUS::PAUSE);
+    m_info.id_status = idStatus;
+
+    //如果上线自动启动的
+    if(IsPaused() && HasFlag(GetFlag(), STATUSFLAG_ONLINE_RESUME))
     {
-        CStatus* pStatus = it->second;
-        auto     pInfo   = status_msg.add_status_list();
-        pInfo->set_statusid(pStatus->GetID());
-        pInfo->set_statustype(pStatus->GetTypeID());
-        pInfo->set_statuslev(pStatus->GetLevel());
-        pInfo->set_power(pStatus->GetPower());
-        pInfo->set_idcaster(pStatus->GetCasterID());
+        Resume(false);
     }
+
+    return true;
     __LEAVE_FUNCTION
+    return false;
 }
 
-bool CActorStatus::AttachStatus(const AttachStatusInfo& info)
+bool CActorStatus::IsValid() const
 {
     __ENTER_FUNCTION
-    CStatus* pStatus = QueryStatusByType(info.id_status_type);
-    if(pStatus)
+    if(m_info.expire_type == STATUSEXPIRETYPE_TIME)
     {
-        // STATUSFLAG_OVERRIDE_LEV		= 0x0001,		//高等级可以覆盖低等级
-        // STATUSFLAG_OVERLAP = 0x0002,		//允许叠加， 时间形的叠加时间， 数值型的叠加数值
-        if(HasFlag(info.flag, STATUSFLAG_OVERLAP))
+        if(GetTimes() > 0)
         {
-            if(info.expire_type == STATUSEXPIRETYPE_TIME)
-            {
-                if(info.times > 0)
-                {
-                    //叠加次数
-                    pStatus->AddTimes(info.times);
-                }
-                else
-                {
-                    //叠加时间
-                    pStatus->AddSecs(info.secs);
-                }
-            }
-            else if(info.expire_type == STATUSEXPIRETYPE_POINT)
-            {
-                //叠加数值
-                pStatus->SetPower(pStatus->GetPower() + info.power);
-            }
-        }
-        //检查是否可以覆盖
-        else if(HasFlag(info.flag, STATUSFLAG_OVERRIDE_LEV) && info.lev >= pStatus->GetLevel())
-        {
-            pStatus->ChangeData(info);
+            return true;
         }
         else
         {
-            return false;
+            return TimeGetSecond() > GetLastTimeStamp() + GetSecs();
         }
+    }
+    else if(m_info.expire_type == STATUSEXPIRETYPE_POINT)
+    {
+        return GetPower() > 0;
     }
     else
     {
-        //创建一个新的
-        pStatus = CStatus::CreateNew(m_pOwner, info);
-        _AddStatus(pStatus);
+        return true;
     }
+    __LEAVE_FUNCTION
+    return false;
+}
 
-    pStatus->OnAttach();
-    pStatus->SendStatus();
-    if(pStatus->Type() && pStatus->Type()->GetAttribChangeList().empty() == false)
+int32_t CActorStatus::GetRemainTime() const
+{
+    __ENTER_FUNCTION
+    if(GetTimes() > 0)
     {
-        m_pOwner->RecalcAttrib(false);
-    }
-
-    return true;
-    __LEAVE_FUNCTION
-    return false;
-}
-
-bool CActorStatus::AttachStatus(uint32_t idStatus, OBJID idCaster)
-{
-    __ENTER_FUNCTION
-    const CStatusType* pType = StatusTypeSet()->QueryObj(idStatus);
-    CHECKF(pType);
-    AttachStatus(pType->CloneInfo());
-
-    return true;
-    __LEAVE_FUNCTION
-    return false;
-}
-
-bool CActorStatus::DetachStatus(uint16_t idStatusType)
-{
-    __ENTER_FUNCTION
-    auto itFind = m_setStatusByType.find(idStatusType);
-    if(itFind == m_setStatusByType.end())
-        return false;
-
-    CStatus* pStatus = itFind->second;
-    pStatus->OnDeatch();
-    _RemoveStatus(pStatus);
-
-    SAFE_DELETE(pStatus);
-    return true;
-    __LEAVE_FUNCTION
-    return false;
-}
-
-bool CActorStatus::DetachStatusByType(uint32_t nStatusType)
-{
-    __ENTER_FUNCTION
-    for(auto it = m_setStatusByType.begin(); it != m_setStatusByType.end();)
-    {
-        CStatus* pStatus = it->second;
-        if(pStatus->GetTypeID() == nStatusType)
-        {
-            pStatus->OnDeatch();
-            SAFE_DELETE(pStatus);
-            it = m_setStatusByType.erase(it);
-        }
+        time_t now       = TimeGetSecond();
+        time_t nextStamp = GetLastTimeStamp() + GetSecs();
+        if(nextStamp > now)
+            return GetTimes() * GetSecs() + (nextStamp - now);
         else
-        {
-            it++;
-        }
+            return GetTimes() * GetSecs();
     }
+    else
+    {
+        time_t now       = TimeGetSecond();
+        time_t nextStamp = GetLastTimeStamp() + GetSecs();
+        if(nextStamp > now)
+            return nextStamp - now;
+        return 0;
+    }
+    __LEAVE_FUNCTION
+    return 0;
+}
+
+void CActorStatus::AddSecs(int32_t nSecs)
+{
+    __ENTER_FUNCTION
+    Pause(false);
+
+    if(m_pType && ((m_pType->GetMaxSecs() - m_info.secs) > nSecs))
+    {
+        m_info.secs = m_pType->GetMaxSecs();
+    }
+    else
+    {
+        m_info.secs += nSecs;
+    }
+    Resume(false);
+    __LEAVE_FUNCTION
+}
+
+void CActorStatus::AddTimes(int32_t nTimes)
+{
+    __ENTER_FUNCTION
+    if(m_pType && m_pType->GetMaxTimes() - m_info.times > nTimes)
+    {
+        m_info.times = m_pType->GetMaxTimes();
+    }
+    else
+    {
+        m_info.times += nTimes;
+    }
+    __LEAVE_FUNCTION
+}
+
+bool CActorStatus::ChangeData(const AttachStatusInfo& info)
+{
+    __ENTER_FUNCTION
+    OnDeatch();
+    m_info = info;
+    if(info.id_status != 0)
+    {
+        m_pType = StatusTypeSet()->QueryObj(info.id_status);
+        CHECKF(m_pType);
+    }
+    else
+    {
+        m_pType = nullptr;
+    }
+
+    Pause(false);
+    Resume(false);
+
     return true;
     __LEAVE_FUNCTION
     return false;
 }
 
-bool CActorStatus::DetachStatusByFlag(uint32_t nStatusFlag, bool bHave)
+void CActorStatus::Pause(bool bSynchro /*= true*/)
 {
     __ENTER_FUNCTION
-    for(auto it = m_setStatusByType.begin(); it != m_setStatusByType.end();)
+    if(IsPaused() == true)
+        return;
+
+    if(m_info.last_timestamp > 0)
     {
-        CStatus* pStatus = it->second;
-        if(HasFlag(pStatus->GetFlag(), nStatusFlag) == bHave)
+        time_t now       = TimeGetSecond();
+        time_t nextStamp = GetLastTimeStamp() + GetSecs();
+        if(nextStamp > now)
         {
-            pStatus->OnDeatch();
-            SAFE_DELETE(pStatus);
-            it = m_setStatusByType.erase(it);
+            m_info.secs = nextStamp - now;
         }
-        else
-        {
-            it++;
-        }
+        m_info.last_timestamp = 0;
     }
-    return true;
-    __LEAVE_FUNCTION
-    return false;
-}
 
-bool CActorStatus::TestStatusByType(uint32_t nStatusType) const
-{
-    __ENTER_FUNCTION
-    auto it = std::find_if(m_setStatusByType.begin(), m_setStatusByType.end(), [nStatusType](const auto& pair_val) -> bool {
-        return pair_val.second->GetTypeID() == nStatusType;
-    });
-    return it != m_setStatusByType.end();
-    __LEAVE_FUNCTION
-    return false;
-}
+    if(bSynchro)
+        SendStatus();
 
-bool CActorStatus::TestStatusByFlag(uint32_t nFlag) const
-{
-    __ENTER_FUNCTION
-    auto it = std::find_if(m_setStatusByType.begin(), m_setStatusByType.end(), [nFlag](const auto& pair_val) -> bool {
-        return HasFlag(pair_val.second->GetFlag(), nFlag);
-    });
-    return it != m_setStatusByType.end();
-    __LEAVE_FUNCTION
-    return false;
-}
-
-void CActorStatus::OnMove()
-{
-    __ENTER_FUNCTION
-    OnEventDetach(&CStatus::OnMove, STATUSFLAG_DEATCH_MOVE);
     __LEAVE_FUNCTION
 }
 
-void CActorStatus::OnSkill(uint32_t idSkill)
+void CActorStatus::Resume(bool bSynchro /*= true*/)
 {
     __ENTER_FUNCTION
-    OnEventDetach(&CStatus::OnSkill, STATUSFLAG_DEATCH_SKILL, idSkill);
-    __LEAVE_FUNCTION
-}
+    if(IsPaused() == false)
+        return;
 
-void CActorStatus::OnAttack(CActor* pTarget, uint32_t idSkill, int32_t nDamage)
-{
-    __ENTER_FUNCTION
-    OnEventDetach(&CStatus::OnAttack, STATUSFLAG_DEATCH_ATTACK, pTarget, idSkill, nDamage);
-    __LEAVE_FUNCTION
-}
-
-void CActorStatus::OnDead(CActor* pKiller)
-{
-    __ENTER_FUNCTION
-    OnEventDeatchExcept(&CStatus::OnDead, STATUSFLAG_EXCEPT_DEATCH_DEAD, pKiller);
-    __LEAVE_FUNCTION
-}
-
-void CActorStatus::OnBeAttack(CActor* pAttacker, int32_t nDamage)
-{
-    __ENTER_FUNCTION
-    OnEventDetach(&CStatus::OnBeAttack, STATUSFLAG_DEATCH_BEATTACK, pAttacker, nDamage);
-    __LEAVE_FUNCTION
-}
-
-void CActorStatus::OnLeaveMap()
-{
-    __ENTER_FUNCTION
-    OnEventDetach(&CStatus::OnLeaveMap, STATUSFLAG_DEATCH_LEAVEMAP);
-    __LEAVE_FUNCTION
-}
-
-void CActorStatus::OnLogin()
-{
-    __ENTER_FUNCTION
-    for(auto it = m_setStatusByType.begin(); it != m_setStatusByType.end(); it++)
+    if(m_info.last_timestamp == 0)
     {
-        CStatus* pStatus = it->second;
-        pStatus->OnLogin();
+        ScheduleEvent(GetSecs());
     }
-    __LEAVE_FUNCTION
-}
 
-void CActorStatus::OnLogout()
-{
-    __ENTER_FUNCTION
-    for(auto it = m_setStatusByType.begin(); it != m_setStatusByType.end();)
-    {
-        CStatus* pStatus = it->second;
-        if(HasFlag(pStatus->GetFlag(), STATUSFLAG_DEATCH_OFFLINE) == true)
-        {
-            pStatus->OnDeatch();
-            SAFE_DELETE(pStatus);
-            it = m_setStatusByType.erase(it);
-        }
-        else
-        {
-            pStatus->OnLogout();
-            it++;
-        }
-    }
+    if(bSynchro)
+        SendStatus();
     __LEAVE_FUNCTION
 }
 
 void CActorStatus::SaveInfo()
 {
     __ENTER_FUNCTION
-    for(auto it = m_setStatusByType.begin(); it != m_setStatusByType.end(); it++)
+    if(m_pRecord)
     {
-        CStatus* pStatus = it->second;
-        pStatus->SaveInfo();
+        m_pRecord->Field(TBLD_STATUS::LEV)       = m_info.lev;
+        m_pRecord->Field(TBLD_STATUS::POWER)     = m_info.power;
+        m_pRecord->Field(TBLD_STATUS::SECS)      = m_info.secs;
+        m_pRecord->Field(TBLD_STATUS::TIMES)     = m_info.times;
+        m_pRecord->Field(TBLD_STATUS::LASTSTAMP) = m_info.last_timestamp;
+        m_pRecord->Field(TBLD_STATUS::CASTERID)  = m_info.id_caster;
+        m_pRecord->Field(TBLD_STATUS::PAUSE)     = m_info.pause;
+        m_pRecord->Field(TBLD_STATUS::STATUSID)  = m_info.id_status;
     }
+    else
+    {
+        //创建
+        auto pDB = SceneService()->GetGameDB(m_pOwner->GetWorldID());
+        CHECK(pDB);
+        m_pRecord                                = pDB->MakeRecord(TBLD_STATUS::table_name());
+        m_pRecord->Field(TBLD_STATUS::ID)        = SceneService()->CreateUID();
+        m_pRecord->Field(TBLD_STATUS::USERID)    = m_pOwner->GetID();
+        m_pRecord->Field(TBLD_STATUS::STATUSID)  = m_info.id_status;
+        m_pRecord->Field(TBLD_STATUS::TYPEID)    = m_info.id_status_type;
+        m_pRecord->Field(TBLD_STATUS::LEV)       = m_info.lev;
+        m_pRecord->Field(TBLD_STATUS::POWER)     = m_info.power;
+        m_pRecord->Field(TBLD_STATUS::SECS)      = m_info.secs;
+        m_pRecord->Field(TBLD_STATUS::TIMES)     = m_info.times;
+        m_pRecord->Field(TBLD_STATUS::LASTSTAMP) = m_info.last_timestamp;
+        m_pRecord->Field(TBLD_STATUS::CASTERID)  = m_info.id_caster;
+        m_pRecord->Field(TBLD_STATUS::PAUSE)     = m_info.pause;
+    }
+    CHECK(m_pRecord->Update());
+    __LEAVE_FUNCTION
+}
+
+bool CActorStatus::ScheduleEvent(time_t tIntervalMS /*= 0*/)
+{
+    __ENTER_FUNCTION
+    m_info.last_timestamp = TimeGetSecond();
+    CEventEntryCreateParam param;
+    param.evType    = 0;
+    param.cb        = std::bind(&CActorStatus::ProcessEvent, this);
+    param.tWaitTime = tIntervalMS;
+    param.bPersist  = false;
+    return EventManager()->ScheduleEvent(param, m_StatusEvent);
+    __LEAVE_FUNCTION
+    return false;
+}
+
+void CActorStatus::CancelEvent()
+{
+    __ENTER_FUNCTION
+    m_StatusEvent.Cancel();
+    __LEAVE_FUNCTION
+}
+
+void CActorStatus::ClearEvent()
+{
+    __ENTER_FUNCTION
+    m_StatusEvent.Clear();
+    __LEAVE_FUNCTION
+}
+
+void CActorStatus::ProcessEvent()
+{
+    __ENTER_FUNCTION
+    OnEffect();
+    if(GetTimes() > 0)
+    {
+        //再次激活
+        m_info.times--;
+        m_info.secs = m_pType->GetSecs();
+        ScheduleEvent(GetSecs());
+    }
+    else
+    {
+        //最后一次，要销毁了
+        m_pOwner->GetStatus()->DetachStatus(GetID());
+    }
+    __LEAVE_FUNCTION
+}
+
+void CActorStatus::OnAttach()
+{
+    __ENTER_FUNCTION
+    if(HasFlag(GetFlag(), STATUSFLAG_PAUSE_ATTACH) == true)
+    {
+        Pause(false);
+    }
+
+    if(HasFlag(GetFlag(), STATUSFLAG_BREAK_SKILL) == true)
+    {
+        m_pOwner->GetSkillFSM().BreakIntone();
+        m_pOwner->GetSkillFSM().BreakLaunch();
+    }
+
+    switch(m_info.id_status_type)
+    {
+        case STATUSTYPE_HIDE:
+        {
+            m_pOwner->AddHide();
+        }
+        break;
+        default:
+            break;
+    }
+    if(m_pType)
+        m_pOwner->GetAttrib().Store(m_pType->GetAttribChangeList());
+    //执行脚本
+    if(m_pType && m_pType->GetScirptID() != 0)
+        ScriptManager()->TryExecScript<void>(m_pType->GetScirptID(), SCB_STATUS_ONATTACH, this);
+
+    SC_STATUS_ACTION msg;
+    msg.set_actor_id(m_pOwner->GetID());
+    msg.set_action(SC_STATUS_ACTION::STATUS_ATTACH);
+    msg.set_statusid(GetID());
+    msg.set_statustype(GetTypeID());
+    msg.set_statuslev(GetLevel());
+    m_pOwner->SendRoomMessage(msg);
+    __LEAVE_FUNCTION
+}
+
+void CActorStatus::OnDeatch()
+{
+    __ENTER_FUNCTION
+    switch(m_info.id_status_type)
+    {
+        case STATUSTYPE_HIDE:
+        {
+            m_pOwner->RemoveHide();
+        }
+        break;
+        default:
+            break;
+    }
+    if(m_pType)
+        m_pOwner->GetAttrib().Remove(m_pType->GetAttribChangeList());
+    //执行脚本
+    if(m_pType && m_pType->GetScirptID() != 0)
+        ScriptManager()->TryExecScript<void>(m_pType->GetScirptID(), SCB_STATUS_ONDETACH, this);
+
+    SC_STATUS_ACTION msg;
+    msg.set_actor_id(m_pOwner->GetID());
+    msg.set_action(SC_STATUS_ACTION::STATUS_DETACH);
+    msg.set_statusid(GetID());
+    msg.set_statustype(GetTypeID());
+    msg.set_statuslev(GetLevel());
+    m_pOwner->SendRoomMessage(msg);
+    __LEAVE_FUNCTION
+}
+
+bool CActorStatus::OnMove()
+{
+    __ENTER_FUNCTION
+    //执行脚本
+    bool bNeedDestory = false;
+    if(m_pType && m_pType->GetScirptID() != 0)
+    {
+        bNeedDestory = ScriptManager()->TryExecScript<bool>(m_pType->GetScirptID(), SCB_STATUS_ONMOVE, this);
+    }
+
+    return bNeedDestory;
+    __LEAVE_FUNCTION
+    return false;
+}
+
+bool CActorStatus::OnSkill(uint32_t idSkill)
+{
+    __ENTER_FUNCTION
+    //执行脚本
+    bool bNeedDestory = false;
+    if(m_pType && m_pType->GetScirptID() != 0)
+    {
+        bNeedDestory = ScriptManager()->TryExecScript<bool>(m_pType->GetScirptID(), SCB_STATUS_ONSKILL, this, idSkill);
+    }
+
+    return bNeedDestory;
+    __LEAVE_FUNCTION
+    return false;
+}
+
+bool CActorStatus::OnAttack(CActor* pTarget, uint32_t idSkill, int32_t nDamage)
+{
+    __ENTER_FUNCTION
+    //执行脚本
+    bool bNeedDestory = false;
+    if(m_pType && m_pType->GetScirptID() != 0)
+    {
+        bNeedDestory = ScriptManager()->TryExecScript<bool>(m_pType->GetScirptID(), SCB_STATUS_ONATTACK, this, pTarget, idSkill, nDamage);
+    }
+
+    return bNeedDestory;
+
+    __LEAVE_FUNCTION
+    return false;
+}
+
+bool CActorStatus::OnBeAttack(CActor* pAttacker, int32_t nDamage)
+{
+    __ENTER_FUNCTION
+    //执行脚本
+    bool bNeedDestory = false;
+    if(m_pType && m_pType->GetScirptID() != 0)
+    {
+        bNeedDestory = ScriptManager()->TryExecScript<bool>(m_pType->GetScirptID(), SCB_STATUS_ONBEATTACK, this, pAttacker, nDamage);
+    }
+
+    return bNeedDestory;
+    __LEAVE_FUNCTION
+    return false;
+}
+
+bool CActorStatus::OnDead(CActor* pKiller)
+{
+    __ENTER_FUNCTION
+    bool bNeedDestory = true;
+    if(m_pType && m_pType->GetScirptID() != 0)
+    {
+        bNeedDestory = ScriptManager()->TryExecScript<bool>(m_pType->GetScirptID(), SCB_STATUS_ONDEAD, this, pKiller);
+    }
+
+    return bNeedDestory;
+    __LEAVE_FUNCTION
+    return true;
+}
+
+bool CActorStatus::OnLeaveMap()
+{
+    __ENTER_FUNCTION
+    //执行脚本
+    bool bNeedDestory = false;
+    if(m_pType && m_pType->GetScirptID() != 0)
+    {
+        bNeedDestory = ScriptManager()->TryExecScript<bool>(m_pType->GetScirptID(), SCB_STATUS_ONLEAVEMAP, this);
+    }
+
+    return bNeedDestory;
+    __LEAVE_FUNCTION
+    return false;
+}
+
+void CActorStatus::OnLogin()
+{
+    __ENTER_FUNCTION
+    //执行脚本
+    if(m_pType && m_pType->GetScirptID() != 0)
+    {
+        ScriptManager()->TryExecScript<void>(m_pType->GetScirptID(), SCB_STATUS_ONLOGIN, this);
+    }
+
+    if(IsPaused() == true)
+    {
+        if(HasFlag(m_info.flag, STATUSFLAG_ONLINE_RESUME))
+        {
+            Resume(false);
+        }
+    }
+
+    ScheduleEvent(GetSecs());
+    __LEAVE_FUNCTION
+}
+
+void CActorStatus::OnLogout()
+{
+    __ENTER_FUNCTION
+    //执行脚本
+    if(m_pType && m_pType->GetScirptID() != 0)
+    {
+        ScriptManager()->TryExecScript<void>(m_pType->GetScirptID(), SCB_STATUS_ONLOGOUT, this);
+    }
+
+    CancelEvent();
+    __LEAVE_FUNCTION
+}
+
+void CActorStatus::SendStatus()
+{
+    __ENTER_FUNCTION
+    // send room msg
+    SC_STATUS_INFO status_msg;
+    status_msg.set_actor_id(m_pOwner->GetID());
+    auto pInfo = status_msg.add_statuslist();
+    pInfo->set_statusid(GetID());
+    pInfo->set_statustype(GetTypeID());
+    pInfo->set_statuslev(GetLevel());
+    pInfo->set_power(GetPower());
+    pInfo->set_sec(GetSecs());
+    pInfo->set_times(GetTimes());
+    pInfo->set_laststamp(GetLastTimeStamp());
+    pInfo->set_idcaster(GetCasterID());
+    pInfo->set_ispause(IsPaused());
+    m_pOwner->SendMsg(status_msg);
+
+    __LEAVE_FUNCTION
+}
+
+void CActorStatus::OnEffect()
+{
+    __ENTER_FUNCTION
+    //执行脚本
+    if(m_pType && m_pType->GetScirptID() != 0)
+    {
+        ScriptManager()->TryExecScript<void>(m_pType->GetScirptID(), SCB_STATUS_ONEFFECT, this);
+    }
+    SC_STATUS_ACTION msg;
+    msg.set_actor_id(m_pOwner->GetID());
+    msg.set_action(SC_STATUS_ACTION::STATUS_EFFECT);
+    msg.set_statusid(GetID());
+    msg.set_statustype(GetTypeID());
+    msg.set_statuslev(GetLevel());
+    m_pOwner->SendRoomMessage(msg);
+
     __LEAVE_FUNCTION
 }

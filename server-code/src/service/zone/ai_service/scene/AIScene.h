@@ -3,9 +3,7 @@
 
 #include <unordered_map>
 
-#include "MapManager.h"
-#include "NetworkMessage.h"
-
+#include "SceneID.h"
 class CAIPhase;
 class PhaseData;
 class CAISceneManager;

@@ -5,6 +5,8 @@
 #include "Npc.h"
 #include "Phase.h"
 #include "Player.h"
+#include "PlayerDialog.h"
+#include "PlayerTask.h"
 #include "SceneService.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"
@@ -33,16 +35,8 @@ ON_PLAYERMSG(CS_ACTIVE_NPC)
 
     if(pPlayer->IsInViewActorByID(msg.npc_id()) == false)
         return;
+    pPlayer->GetDialog()->ActiveNpc(msg.npc_id());
 
-    CActor* pActor = ActorManager()->QueryActor(msg.npc_id());
-    if(pActor->IsNpc() == false)
-        return;
-
-    if(GameMath::distance(pActor->GetPos(), pPlayer->GetPos()) < MIN_INTERACT_DIS)
-        return;
-
-    CNpc* pNpc = pActor->CastTo<CNpc>();
-    pNpc->ActiveNpc(pPlayer);
     __LEAVE_FUNCTION
 }
 
@@ -55,6 +49,6 @@ ON_PLAYERMSG(CS_DIALOG_CLICK)
     if(pPlayer->IsDead() == false)
         return;
 
-    pPlayer->OnDialogClick(msg.dialog_id(), msg.dialog_button_idx());
+    pPlayer->GetDialog()->OnDialogClick(msg.dialog_id(), msg.dialog_button_idx());
     __LEAVE_FUNCTION
 }

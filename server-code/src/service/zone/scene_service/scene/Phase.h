@@ -2,11 +2,9 @@
 #define PHASE_H
 
 #include "EventEntry.h"
-#include "MapVal.h"
+#include "NetworkDefine.h"
 #include "SceneBase.h"
-#include "SceneService.h"
-#include "ScriptManager.h"
-
+#include "SceneID.h"
 export_lua enum SceneState {
     SCENESTATE_NORMAL       = 0,
     SCENESTATE_WAIT_LOADING = 1,
@@ -29,7 +27,9 @@ class CScene;
 class CNpc;
 class CMonster;
 class CPlayer;
-
+class CMapValSet;
+class PhaseData;
+class CGameMap;
 export_lua class CPhase : public CSceneBase
 {
 protected:
@@ -66,18 +66,6 @@ public:
     //增加一个延时回调脚本
     export_lua void AddTimedCallback(uint32_t tIntervalMS, const std::string& func_name);
     export_lua void ClearAllCllback();
-
-    template<typename RVal, typename... Args>
-    RVal TryExecScript(uint32_t idxCallBackType, Args&&... args)
-    {
-        __ENTER_FUNCTION
-        if(m_pMap->GetScriptID() == 0)
-            return RVal();
-        else
-            return ScriptManager()->TryExecScript<RVal>(m_pMap->GetScriptID(), idxCallBackType, std::forward<Args>(args)...);
-        __LEAVE_FUNCTION
-        return RVal();
-    }
 
 public:
     export_lua CNpc* CreateNpc(uint32_t idNpcType, const CPos2D& pos, float face);

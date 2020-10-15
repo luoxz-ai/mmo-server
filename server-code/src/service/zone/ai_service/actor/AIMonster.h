@@ -2,11 +2,10 @@
 #define AIMONSTER_H
 
 #include "AIActor.h"
-#include "AISkill.h"
-#include "AIType.h"
-#include "MonsterType.h"
 #include "server_msg/server_side.pb.h"
 class CActorAI;
+class CMonsterType;
+class CAIType;
 class CAIMonster : public CAIActor
 {
     CAIMonster();

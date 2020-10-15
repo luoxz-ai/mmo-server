@@ -3,8 +3,8 @@
 
 #include "Actor.h"
 #include "HateList.h"
-#include "MonsterType.h"
 
+class CMonsterType;
 export_lua class CMonster : public CActor
 {
 protected:
@@ -23,9 +23,9 @@ public:
     export_lua virtual ActorType GetActorType() const override { return ActorType::ACT_MONSTER; }
     export_lua static ActorType  GetActorTypeStatic() { return ActorType::ACT_MONSTER; }
 
-    export_lua virtual uint32_t           GetLev() const override { return m_pType->GetLevel(); }
-    export_lua virtual const std::string& GetName() const override { return m_pType->GetName(); }
-    export_lua uint32_t                   GetTypeID() const { return m_pType->GetID(); }
+    export_lua virtual uint32_t           GetLev() const override;
+    export_lua virtual const std::string& GetName() const override;
+    export_lua uint32_t                   GetTypeID() const;
 
     export_lua virtual uint32_t GetHP() const override { return m_nHP; };
     export_lua virtual uint32_t GetMP() const override { return m_nMP; };
@@ -40,20 +40,12 @@ public:
     virtual void OnEnterMap(CSceneBase* pScene) override;
     virtual void OnLeaveMap(uint16_t idTargetMap) override;
 
-    export_lua bool IsBoss() const { return m_pType->GetType() == MONSTER_TYPE_BOSS; }
-    export_lua bool IsElit() const { return m_pType->GetType() == MONSTER_TYPE_ELIT; }
+    export_lua bool IsBoss() const;
+    export_lua bool IsElit() const;
 
     export_lua virtual bool IsEnemy(CSceneObject* pActor) const override;
     void                    SetIsAISleep(bool bVal) {}
     virtual void            MakeShowData(SC_AOI_NEW& msg) override;
-    template<typename RVal, typename... Args>
-    RVal TryExecScript(uint32_t idxCallBackType, Args&&... args)
-    {
-        if(m_pType->GetScirptID() == 0)
-            return RVal();
-        else
-            return ScriptManager()->TryExecScript<RVal>(m_pType->GetScirptID(), idxCallBackType, std::forward<Args>(args)...);
-    }
 
 public:
     OBJECTHEAP_DECLARATION(s_heap);

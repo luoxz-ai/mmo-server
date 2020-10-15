@@ -1,7 +1,9 @@
 #include "SkillData.h"
 
 #include "Actor.h"
+#include "MysqlConnection.h"
 #include "SceneService.h"
+#include "gamedb.h"
 
 CSkillData::CSkillData() {}
 
@@ -31,7 +33,14 @@ bool CSkillData::Init(CActor* pOwner, CDBRecordPtr&& pRow)
     __LEAVE_FUNCTION
     return false;
 }
-
+uint32_t CSkillData::GetSkillSort() const
+{
+    return m_pData->Field(TBLD_SKILL::SKILLTYPE);
+}
+uint32_t CSkillData::GetSkillLev() const
+{
+    return m_pData->Field(TBLD_SKILL::LEV);
+}
 void CSkillData::SetSkillLev(uint32_t nLev, bool bUpdate /*= true*/)
 {
     __ENTER_FUNCTION

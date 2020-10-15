@@ -2,11 +2,13 @@
 
 #include "Actor.h"
 #include "ActorManager.h"
+#include "GameMap.h"
 #include "MapManager.h"
 #include "Monster.h"
 #include "Npc.h"
 #include "Phase.h"
 #include "Player.h"
+#include "SceneBase.h"
 #include "SceneService.h"
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"

@@ -28,8 +28,7 @@ enum AchiConditionType
 
 message Cfg_Achievement
 {
-	message Row
-	{
+
 		uint32	id		 = 1;
 		uint32	sort	 = 2; //排序编号
 		string	name	 = 3; //名称
@@ -55,7 +54,5 @@ message Cfg_Achievement
 		repeated AwardData award_list	   = 9;
 		uint32			   award_exp	   = 10;
 		uint32			   award_achipoint = 11;
-	}
 
-	repeated Row rows = 1;
 }

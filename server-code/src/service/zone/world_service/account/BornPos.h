@@ -12,7 +12,7 @@
 class CBornPos : public NoncopyableT<CBornPos>
 {
     CBornPos() {}
-    bool Init(const Cfg_BornPos_Row& row)
+    bool Init(const Cfg_BornPos& row)
     {
         m_row = row;
         return true;
@@ -26,7 +26,7 @@ public:
     using PB_T = Cfg_BornPos;
 
 public:
-    static uint32_t GetKey(const Cfg_BornPos_Row& row) { return row.prof(); }
+    static uint32_t GetKey(const Cfg_BornPos& row) { return row.prof(); }
     uint32_t        GetID() const { return m_row.id(); }
     uint32_t        GetProf() const { return m_row.prof(); }
     uint32_t        GetMapID() const { return m_row.mapid(); }
@@ -36,7 +36,7 @@ public:
     float           GetFace() const { return m_row.face(); }
 
 protected:
-    Cfg_BornPos::Row m_row;
+    Cfg_BornPos m_row;
 };
 
 class CBornPosSet : public CGameMultiDataMap<CBornPos>

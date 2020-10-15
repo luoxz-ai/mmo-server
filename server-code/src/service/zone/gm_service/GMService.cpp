@@ -3,6 +3,7 @@
 #include <functional>
 #include <unordered_map>
 
+#include <brpc/server.h>
 #include <sys/queue.h>
 
 #include "EventManager.h"
@@ -15,7 +16,6 @@
 #include "NetworkMessage.h"
 #include "RPCService.h"
 #include "SettingMap.h"
-#include "brpc/server.h"
 #include "event2/http.h"
 #include "event2/keyvalq_struct.h"
 #include "gm_service.pb.h"

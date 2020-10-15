@@ -1,14 +1,72 @@
+#include "ActorAttrib.h"
 #include "ActorManager.h"
+#include "ActorStatusSet.h"
 #include "GameEventDef.h"
+#include "GameMap.h"
+#include "GameMapDef.h"
 #include "LoadingThread.h"
 #include "MapManager.h"
 #include "NetMSGProcess.h"
+#include "PetSet.h"
 #include "Phase.h"
 #include "Player.h"
 #include "Scene.h"
 #include "SceneManager.h"
 #include "SceneService.h"
+#include "SkillFSM.h"
+#include "config/Cfg_Scene_EnterPoint.pb.h"
+#include "config/Cfg_Scene_LeavePoint.pb.h"
+#include "config/Cfg_Scene_Reborn.pb.h"
+#include "gamedb.h"
+#include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
+
+bool CPlayer::TryChangeMap(uint32_t nLeavePointIdx)
+{
+    __ENTER_FUNCTION
+    auto pLeaveData = GetCurrentScene()->GetMap()->GetLeavePointByIdx(nLeavePointIdx);
+    CHECKF_FMT(pLeaveData, "Can't Find LeaveMap {} On Map {}", GetMapID(), nLeavePointIdx);
+
+    CHECKF(GetPos().distance(Vector2(pLeaveData->x(), pLeaveData->y())) > pLeaveData->range());
+
+    auto pGameMap = MapManager()->QueryMap(pLeaveData->dest_map_id());
+    CHECKF_FMT(pGameMap, "Can't Find Map {} When LeaveMap {} On Map {}", pLeaveData->dest_map_id(), GetMapID(), nLeavePointIdx);
+
+    //检查所有通行检查
+    auto pEnterData = pGameMap->GetEnterPointByIdx(pLeaveData->dest_enter_point_idx());
+    CHECKF_FMT(pEnterData,
+               "Can't Find EnterPoint {} On Map {} When LeaveMap {} On Map {}",
+               pLeaveData->dest_enter_point_idx(),
+               pLeaveData->dest_map_id(),
+               GetMapID(),
+               nLeavePointIdx);
+
+    if(GetTeamMemberCount() < pEnterData->team_req())
+    {
+        // send errmsg
+        return false;
+    }
+
+    if(GetGuildLev() < pEnterData->guild_req())
+    {
+        // send errmsg
+        return false;
+    }
+
+    if(GetLev() < pEnterData->lev_req())
+    {
+        return false;
+    }
+
+    if(GetVipLev() < pEnterData->vip_lev_req())
+    {
+        return false;
+    }
+
+    return FlyMap(pEnterData->idmap(), pEnterData->idphase(), pEnterData->x(), pEnterData->y(), pEnterData->range(), pEnterData->face());
+    __LEAVE_FUNCTION
+    return false;
+}
 
 bool CPlayer::FlyMap(uint16_t idMap, int32_t idPhase, float fPosX, float fPosY, float fRange, float fFace)
 {
@@ -221,9 +279,9 @@ void CPlayer::OnLeaveMap(uint16_t idTargetMap)
         m_pRecord->Field(TBLD_PLAYER::RECORD_FACE)    = GetFace();
     }
 
-    m_SkillFSM.Stop();
-    m_pStatus->Stop();
-    m_pStatus->OnLeaveMap();
+    m_SkillFSM->Stop();
+    m_pStatusSet->Stop();
+    m_pStatusSet->OnLeaveMap();
     m_pPetSet->CallBack();
 
     CActor::OnLeaveMap(idTargetMap);

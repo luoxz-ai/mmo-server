@@ -7,6 +7,7 @@
 #include "Scene.h"
 #include "SceneService.h"
 #include "SceneTree.h"
+#include "msg/zone_service.pb.h"
 
 //玩家 主位面id = X 时 可以看到 主位面id = X的all， 可以看到 主位面id=自己ID 的all, 可以看到 inTaskList(主位面id)的NPC
 

@@ -4,8 +4,7 @@ import "common/AttribChangeDataProto.proto";
 
 message Cfg_Skill
 {
-	message Row
-	{
+
 		uint32 id		   = 1; //技能ID
 		uint32 sort		   = 2; //技能排序编号
 		uint32 level	   = 3; //技能等级
@@ -54,6 +53,5 @@ message Cfg_Skill
 		repeated uint32 detach_status_id = 38;
 		repeated uint32 detach_status_type = 39;
 		repeated uint32 detach_status_flag = 40;
-	};
-	repeated Row rows = 1;
+
 }

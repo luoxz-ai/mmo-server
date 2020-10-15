@@ -24,10 +24,11 @@ set(CMAKE_CXX_CLANG_TIDY "")
  
 #指定库输出路径
 SET(LIBRARY_OUTPUT_PATH ${LIBRARIES})
-
+ADD_DEPENDENCIES(myproto data_pack_static)
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(myproto
  protobuf
+ libdata_pack_static.a
  ${JEMALLOC_LIB_NAME}
 )
 

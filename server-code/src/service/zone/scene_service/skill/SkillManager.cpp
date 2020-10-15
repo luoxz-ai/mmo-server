@@ -1,7 +1,13 @@
 #include "SkillManager.h"
 
 #include "Player.h"
+#include "PlayerAchievement.h"
 #include "SceneService.h"
+#include "SkillData.h"
+#include "SkillType.h"
+#include "config/Cfg_Achievement.pb.h"
+#include "gamedb.h"
+
 CPlayerSkillManager::CPlayerSkillManager() {}
 
 CPlayerSkillManager::~CPlayerSkillManager()

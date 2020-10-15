@@ -1,7 +1,7 @@
 #include "NetworkMessage.h"
 
-#include "google/protobuf/descriptor.h"
-#include "google/protobuf/descriptor.pb.h"
+#include <google/protobuf/descriptor.h>
+#include <google/protobuf/descriptor.pb.h>
 //#include "proto/options.pb.h"
 
 OBJECTHEAP_IMPLEMENTATION(CNetworkMessage, s_Heap);

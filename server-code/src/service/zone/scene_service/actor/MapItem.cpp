@@ -1,9 +1,14 @@
 #include "MapItem.h"
 
+#include "ActorAttrib.h"
 #include "ActorManager.h"
+#include "GameMap.h"
 #include "Phase.h"
 #include "Scene.h"
 #include "SceneService.h"
+#include "ScriptManager.h"
+#include "msg/zone_service.pb.h"
+#include "server_msg/server_side.pb.h"
 
 OBJECTHEAP_IMPLEMENTATION(CMapItem, s_heap);
 CMapItem::CMapItem()

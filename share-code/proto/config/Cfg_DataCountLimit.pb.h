@@ -47,7 +47,7 @@ struct TableStruct_config_2fCfg_5fDataCountLimit_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[2]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[1]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -57,33 +57,29 @@ extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table
 class Cfg_DataCountLimit;
 class Cfg_DataCountLimitDefaultTypeInternal;
 extern Cfg_DataCountLimitDefaultTypeInternal _Cfg_DataCountLimit_default_instance_;
-class Cfg_DataCountLimit_Row;
-class Cfg_DataCountLimit_RowDefaultTypeInternal;
-extern Cfg_DataCountLimit_RowDefaultTypeInternal _Cfg_DataCountLimit_Row_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
 template<> ::Cfg_DataCountLimit* Arena::CreateMaybeMessage<::Cfg_DataCountLimit>(Arena*);
-template<> ::Cfg_DataCountLimit_Row* Arena::CreateMaybeMessage<::Cfg_DataCountLimit_Row>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 
 // ===================================================================
 
-class Cfg_DataCountLimit_Row :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Cfg_DataCountLimit.Row) */ {
+class Cfg_DataCountLimit :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Cfg_DataCountLimit) */ {
  public:
-  Cfg_DataCountLimit_Row();
-  virtual ~Cfg_DataCountLimit_Row();
+  Cfg_DataCountLimit();
+  virtual ~Cfg_DataCountLimit();
 
-  Cfg_DataCountLimit_Row(const Cfg_DataCountLimit_Row& from);
-  Cfg_DataCountLimit_Row(Cfg_DataCountLimit_Row&& from) noexcept
-    : Cfg_DataCountLimit_Row() {
+  Cfg_DataCountLimit(const Cfg_DataCountLimit& from);
+  Cfg_DataCountLimit(Cfg_DataCountLimit&& from) noexcept
+    : Cfg_DataCountLimit() {
     *this = ::std::move(from);
   }
 
-  inline Cfg_DataCountLimit_Row& operator=(const Cfg_DataCountLimit_Row& from) {
+  inline Cfg_DataCountLimit& operator=(const Cfg_DataCountLimit& from) {
     CopyFrom(from);
     return *this;
   }
-  inline Cfg_DataCountLimit_Row& operator=(Cfg_DataCountLimit_Row&& from) noexcept {
+  inline Cfg_DataCountLimit& operator=(Cfg_DataCountLimit&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -101,32 +97,32 @@ class Cfg_DataCountLimit_Row :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return GetMetadataStatic().reflection;
   }
-  static const Cfg_DataCountLimit_Row& default_instance();
+  static const Cfg_DataCountLimit& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const Cfg_DataCountLimit_Row* internal_default_instance() {
-    return reinterpret_cast<const Cfg_DataCountLimit_Row*>(
-               &_Cfg_DataCountLimit_Row_default_instance_);
+  static inline const Cfg_DataCountLimit* internal_default_instance() {
+    return reinterpret_cast<const Cfg_DataCountLimit*>(
+               &_Cfg_DataCountLimit_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     0;
 
-  friend void swap(Cfg_DataCountLimit_Row& a, Cfg_DataCountLimit_Row& b) {
+  friend void swap(Cfg_DataCountLimit& a, Cfg_DataCountLimit& b) {
     a.Swap(&b);
   }
-  inline void Swap(Cfg_DataCountLimit_Row* other) {
+  inline void Swap(Cfg_DataCountLimit* other) {
     if (other == this) return;
     InternalSwap(other);
   }
 
   // implements Message ----------------------------------------------
 
-  inline Cfg_DataCountLimit_Row* New() const final {
-    return CreateMaybeMessage<Cfg_DataCountLimit_Row>(nullptr);
+  inline Cfg_DataCountLimit* New() const final {
+    return CreateMaybeMessage<Cfg_DataCountLimit>(nullptr);
   }
 
-  Cfg_DataCountLimit_Row* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<Cfg_DataCountLimit_Row>(arena);
+  Cfg_DataCountLimit* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<Cfg_DataCountLimit>(arena);
   }
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
@@ -134,10 +130,10 @@ class Cfg_DataCountLimit_Row :
   inline void SharedCtor();
   inline void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(Cfg_DataCountLimit_Row* other);
+  void InternalSwap(Cfg_DataCountLimit* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "Cfg_DataCountLimit.Row";
+    return "Cfg_DataCountLimit";
   }
   private:
   inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
@@ -213,7 +209,7 @@ class Cfg_DataCountLimit_Row :
   void _internal_set_reset_time(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // @@protoc_insertion_point(class_scope:Cfg_DataCountLimit.Row)
+  // @@protoc_insertion_point(class_scope:Cfg_DataCountLimit)
  private:
   class _Internal;
 
@@ -226,134 +222,6 @@ class Cfg_DataCountLimit_Row :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_config_2fCfg_5fDataCountLimit_2eproto;
 };
-// -------------------------------------------------------------------
-
-class Cfg_DataCountLimit :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Cfg_DataCountLimit) */ {
- public:
-  Cfg_DataCountLimit();
-  virtual ~Cfg_DataCountLimit();
-
-  Cfg_DataCountLimit(const Cfg_DataCountLimit& from);
-  Cfg_DataCountLimit(Cfg_DataCountLimit&& from) noexcept
-    : Cfg_DataCountLimit() {
-    *this = ::std::move(from);
-  }
-
-  inline Cfg_DataCountLimit& operator=(const Cfg_DataCountLimit& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline Cfg_DataCountLimit& operator=(Cfg_DataCountLimit&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return GetMetadataStatic().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return GetMetadataStatic().reflection;
-  }
-  static const Cfg_DataCountLimit& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const Cfg_DataCountLimit* internal_default_instance() {
-    return reinterpret_cast<const Cfg_DataCountLimit*>(
-               &_Cfg_DataCountLimit_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    1;
-
-  friend void swap(Cfg_DataCountLimit& a, Cfg_DataCountLimit& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(Cfg_DataCountLimit* other) {
-    if (other == this) return;
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline Cfg_DataCountLimit* New() const final {
-    return CreateMaybeMessage<Cfg_DataCountLimit>(nullptr);
-  }
-
-  Cfg_DataCountLimit* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<Cfg_DataCountLimit>(arena);
-  }
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  inline void SharedCtor();
-  inline void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(Cfg_DataCountLimit* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "Cfg_DataCountLimit";
-  }
-  private:
-  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
-    return nullptr;
-  }
-  inline void* MaybeArenaPtr() const {
-    return nullptr;
-  }
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-  private:
-  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
-    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_config_2fCfg_5fDataCountLimit_2eproto);
-    return ::descriptor_table_config_2fCfg_5fDataCountLimit_2eproto.file_level_metadata[kIndexInFileMessages];
-  }
-
-  public:
-
-  // nested types ----------------------------------------------------
-
-  typedef Cfg_DataCountLimit_Row Row;
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kRowsFieldNumber = 1,
-  };
-  // repeated .Cfg_DataCountLimit.Row rows = 1;
-  int rows_size() const;
-  private:
-  int _internal_rows_size() const;
-  public:
-  void clear_rows();
-  ::Cfg_DataCountLimit_Row* mutable_rows(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Cfg_DataCountLimit_Row >*
-      mutable_rows();
-  private:
-  const ::Cfg_DataCountLimit_Row& _internal_rows(int index) const;
-  ::Cfg_DataCountLimit_Row* _internal_add_rows();
-  public:
-  const ::Cfg_DataCountLimit_Row& rows(int index) const;
-  ::Cfg_DataCountLimit_Row* add_rows();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Cfg_DataCountLimit_Row >&
-      rows() const;
-
-  // @@protoc_insertion_point(class_scope:Cfg_DataCountLimit)
- private:
-  class _Internal;
-
-  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Cfg_DataCountLimit_Row > rows_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_config_2fCfg_5fDataCountLimit_2eproto;
-};
 // ===================================================================
 
 
@@ -363,156 +231,111 @@ class Cfg_DataCountLimit :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// Cfg_DataCountLimit_Row
+// Cfg_DataCountLimit
 
 // uint32 type = 1;
-inline void Cfg_DataCountLimit_Row::clear_type() {
+inline void Cfg_DataCountLimit::clear_type() {
   type_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_DataCountLimit_Row::_internal_type() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_DataCountLimit::_internal_type() const {
   return type_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_DataCountLimit_Row::type() const {
-  // @@protoc_insertion_point(field_get:Cfg_DataCountLimit.Row.type)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_DataCountLimit::type() const {
+  // @@protoc_insertion_point(field_get:Cfg_DataCountLimit.type)
   return _internal_type();
 }
-inline void Cfg_DataCountLimit_Row::_internal_set_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_DataCountLimit::_internal_set_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   type_ = value;
 }
-inline void Cfg_DataCountLimit_Row::set_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_DataCountLimit::set_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_type(value);
-  // @@protoc_insertion_point(field_set:Cfg_DataCountLimit.Row.type)
+  // @@protoc_insertion_point(field_set:Cfg_DataCountLimit.type)
 }
 
 // uint32 keyidx = 2;
-inline void Cfg_DataCountLimit_Row::clear_keyidx() {
+inline void Cfg_DataCountLimit::clear_keyidx() {
   keyidx_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_DataCountLimit_Row::_internal_keyidx() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_DataCountLimit::_internal_keyidx() const {
   return keyidx_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_DataCountLimit_Row::keyidx() const {
-  // @@protoc_insertion_point(field_get:Cfg_DataCountLimit.Row.keyidx)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_DataCountLimit::keyidx() const {
+  // @@protoc_insertion_point(field_get:Cfg_DataCountLimit.keyidx)
   return _internal_keyidx();
 }
-inline void Cfg_DataCountLimit_Row::_internal_set_keyidx(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_DataCountLimit::_internal_set_keyidx(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   keyidx_ = value;
 }
-inline void Cfg_DataCountLimit_Row::set_keyidx(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_DataCountLimit::set_keyidx(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_keyidx(value);
-  // @@protoc_insertion_point(field_set:Cfg_DataCountLimit.Row.keyidx)
+  // @@protoc_insertion_point(field_set:Cfg_DataCountLimit.keyidx)
 }
 
 // uint32 max_count = 3;
-inline void Cfg_DataCountLimit_Row::clear_max_count() {
+inline void Cfg_DataCountLimit::clear_max_count() {
   max_count_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_DataCountLimit_Row::_internal_max_count() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_DataCountLimit::_internal_max_count() const {
   return max_count_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_DataCountLimit_Row::max_count() const {
-  // @@protoc_insertion_point(field_get:Cfg_DataCountLimit.Row.max_count)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_DataCountLimit::max_count() const {
+  // @@protoc_insertion_point(field_get:Cfg_DataCountLimit.max_count)
   return _internal_max_count();
 }
-inline void Cfg_DataCountLimit_Row::_internal_set_max_count(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_DataCountLimit::_internal_set_max_count(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   max_count_ = value;
 }
-inline void Cfg_DataCountLimit_Row::set_max_count(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_DataCountLimit::set_max_count(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_max_count(value);
-  // @@protoc_insertion_point(field_set:Cfg_DataCountLimit.Row.max_count)
+  // @@protoc_insertion_point(field_set:Cfg_DataCountLimit.max_count)
 }
 
 // uint32 reset_type = 4;
-inline void Cfg_DataCountLimit_Row::clear_reset_type() {
+inline void Cfg_DataCountLimit::clear_reset_type() {
   reset_type_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_DataCountLimit_Row::_internal_reset_type() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_DataCountLimit::_internal_reset_type() const {
   return reset_type_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_DataCountLimit_Row::reset_type() const {
-  // @@protoc_insertion_point(field_get:Cfg_DataCountLimit.Row.reset_type)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_DataCountLimit::reset_type() const {
+  // @@protoc_insertion_point(field_get:Cfg_DataCountLimit.reset_type)
   return _internal_reset_type();
 }
-inline void Cfg_DataCountLimit_Row::_internal_set_reset_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_DataCountLimit::_internal_set_reset_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   reset_type_ = value;
 }
-inline void Cfg_DataCountLimit_Row::set_reset_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_DataCountLimit::set_reset_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_reset_type(value);
-  // @@protoc_insertion_point(field_set:Cfg_DataCountLimit.Row.reset_type)
+  // @@protoc_insertion_point(field_set:Cfg_DataCountLimit.reset_type)
 }
 
 // uint32 reset_time = 5;
-inline void Cfg_DataCountLimit_Row::clear_reset_time() {
+inline void Cfg_DataCountLimit::clear_reset_time() {
   reset_time_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_DataCountLimit_Row::_internal_reset_time() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_DataCountLimit::_internal_reset_time() const {
   return reset_time_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_DataCountLimit_Row::reset_time() const {
-  // @@protoc_insertion_point(field_get:Cfg_DataCountLimit.Row.reset_time)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_DataCountLimit::reset_time() const {
+  // @@protoc_insertion_point(field_get:Cfg_DataCountLimit.reset_time)
   return _internal_reset_time();
 }
-inline void Cfg_DataCountLimit_Row::_internal_set_reset_time(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_DataCountLimit::_internal_set_reset_time(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   reset_time_ = value;
 }
-inline void Cfg_DataCountLimit_Row::set_reset_time(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_DataCountLimit::set_reset_time(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_reset_time(value);
-  // @@protoc_insertion_point(field_set:Cfg_DataCountLimit.Row.reset_time)
-}
-
-// -------------------------------------------------------------------
-
-// Cfg_DataCountLimit
-
-// repeated .Cfg_DataCountLimit.Row rows = 1;
-inline int Cfg_DataCountLimit::_internal_rows_size() const {
-  return rows_.size();
-}
-inline int Cfg_DataCountLimit::rows_size() const {
-  return _internal_rows_size();
-}
-inline void Cfg_DataCountLimit::clear_rows() {
-  rows_.Clear();
-}
-inline ::Cfg_DataCountLimit_Row* Cfg_DataCountLimit::mutable_rows(int index) {
-  // @@protoc_insertion_point(field_mutable:Cfg_DataCountLimit.rows)
-  return rows_.Mutable(index);
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Cfg_DataCountLimit_Row >*
-Cfg_DataCountLimit::mutable_rows() {
-  // @@protoc_insertion_point(field_mutable_list:Cfg_DataCountLimit.rows)
-  return &rows_;
-}
-inline const ::Cfg_DataCountLimit_Row& Cfg_DataCountLimit::_internal_rows(int index) const {
-  return rows_.Get(index);
-}
-inline const ::Cfg_DataCountLimit_Row& Cfg_DataCountLimit::rows(int index) const {
-  // @@protoc_insertion_point(field_get:Cfg_DataCountLimit.rows)
-  return _internal_rows(index);
-}
-inline ::Cfg_DataCountLimit_Row* Cfg_DataCountLimit::_internal_add_rows() {
-  return rows_.Add();
-}
-inline ::Cfg_DataCountLimit_Row* Cfg_DataCountLimit::add_rows() {
-  // @@protoc_insertion_point(field_add:Cfg_DataCountLimit.rows)
-  return _internal_add_rows();
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Cfg_DataCountLimit_Row >&
-Cfg_DataCountLimit::rows() const {
-  // @@protoc_insertion_point(field_list:Cfg_DataCountLimit.rows)
-  return rows_;
+  // @@protoc_insertion_point(field_set:Cfg_DataCountLimit.reset_time)
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
 
 // @@protoc_insertion_point(namespace_scope)
 

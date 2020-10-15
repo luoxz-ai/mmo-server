@@ -4,7 +4,12 @@
 #include "ItemData.h"
 #include "ItemType.h"
 #include "Player.h"
+#include "PlayerTask.h"
 #include "SceneService.h"
+#include "ScriptCallBackType.h"
+#include "gamedb.h"
+#include "msg/zone_service.pb.h"
+
 OBJECTHEAP_IMPLEMENTATION(CPackage, s_heap);
 
 CPackage::CPackage() {}

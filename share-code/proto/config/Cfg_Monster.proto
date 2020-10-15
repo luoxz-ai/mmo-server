@@ -5,8 +5,7 @@ import "common/AttribChangeDataProto.proto";
 
 message Cfg_Monster
 {
-	message Row
-	{
+
 		uint32			id			 = 1;  //怪物类型编号
 		uint32			level		 = 2;  //怪物等级
 		string			name		 = 3;  //名字
@@ -20,7 +19,5 @@ message Cfg_Monster
 		float			high		 = 11; //高度
 		float			volume		 = 12; //体积
 		AttribDataProto attr_data	 = 20;
-	}
 
-	repeated Row rows = 1;
 }

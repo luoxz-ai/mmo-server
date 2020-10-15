@@ -4,12 +4,8 @@
 #include <functional>
 #include <string_view>
 
-#include "AIService.h"
-#include "AIType.h"
 #include "EventManager.h"
 #include "HateList.h"
-#include "MapManager.h"
-#include "SkillType.h"
 #include "export_lua.h"
 //最后还是考虑使用最简答的单层状态机来构建AI
 //在攻击决策模块中,适量的使用模糊逻辑,来增加随机性
@@ -50,6 +46,12 @@ struct STATE_DATA
 class CAIActor;
 class CAIPathFinder;
 class CAIGroup;
+class CAIType;
+
+struct ST_HATE_DATA;
+class Cfg_AIType;
+class Cfg_Scene_Patrol;
+class Cfg_Scene_Patrol_patrol_data;
 
 export_lua class CActorAI : public NoncopyableT<CActorAI>
 {
@@ -135,24 +137,14 @@ public:
     export_lua CAIPathFinder* PathFind() const { return m_pAIPathFinder.get(); }
     export_lua CAIGroup* GetAIGroup() const { return m_pAIGroup; }
 
-    const Cfg_AIType_Row&                   GetAIData() const;
-    const Cfg_Scene_Patrol_Row_patrol_data* GetCurPratolData();
+    const Cfg_AIType&                   GetAIData() const;
+    const Cfg_Scene_Patrol_patrol_data* GetCurPratolData();
 
 private:
     void AddNextCall(uint32_t ms);
 
     void SetAutoSearchEnemy();
     void _SearchEnemy_CallBack();
-
-    template<class R, class... Args>
-    R TryExecScript(uint32_t idxCallBackType, Args... args)
-    {
-        if(GetAIData().script_id() != 0)
-        {
-            return ScriptManager()->TryExecScript<R>(GetAIData().script_id(), idxCallBackType, std::forward<Args>(args)...);
-        }
-        return R{};
-    }
 
 private:
     uint32_t                       m_nState  = 0;
@@ -165,14 +157,14 @@ private:
     Vector2                        m_posBorn;
     float                          m_fTargetDis = 0.0f;
 
-    int32_t                     m_nCurPathNode    = 0;
-    uint32_t                    m_nCurSkillTypeID = 0;
-    const Cfg_Scene_Patrol_Row* m_pPathData       = nullptr;
+    int32_t                 m_nCurPathNode    = 0;
+    uint32_t                m_nCurSkillTypeID = 0;
+    const Cfg_Scene_Patrol* m_pPathData       = nullptr;
 
     CEventEntryPtr m_Event;
     CEventEntryPtr m_SearchEnemyEvent;
 
-    CHateList m_HateList;
+    std::unique_ptr<CHateList> m_HateList;
 
     bool m_bSleep = false;
 

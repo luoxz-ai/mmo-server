@@ -13,8 +13,7 @@ enum TaskFinishType
 
 message Cfg_Task
 {
-	message Row
-	{
+
 		uint32 id	= 1; //任务ID
 		uint32 sort = 2; //任务排序编号
 
@@ -62,7 +61,5 @@ message Cfg_Task
 		string doing_txt  = 32; //正在处理时的文本
 		string submit_txt = 33; //可以提交时的文本
 		string desc		  = 34; //描述文字
-	}
 
-	repeated Row rows = 1;
 }

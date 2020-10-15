@@ -30,36 +30,36 @@ public:
 
 public:
     // 是否可叠加的
-    export_lua bool IsPileEnable() { return ItemTypePtr()->IsPileEnable() && GetPileNum() < ItemTypePtr()->GetPileLimit(); }
+    export_lua bool IsPileEnable();
     // 是否过期
     export_lua bool IsExpire();
     // 是否可交易
-    export_lua bool IsExchangeEnable() { return HasFlag(ITEMFLAG_EXCHANGE_DISABLE) == false; }
+    export_lua bool IsExchangeEnable();
     // 是否可存仓库
-    export_lua bool IsStorageEnable() { return HasFlag(ITEMFLAG_STORAGE_DISABLE) == false; }
+    export_lua bool IsStorageEnable();
     // 是否可出售
-    export_lua bool IsSellEnable() { return HasFlag(ITEMFLAG_SELL_DISABLE) == false; }
+    export_lua bool IsSellEnable();
     // 是否可丢弃
-    export_lua bool IsDropEnable() { return HasFlag(ITEMFLAG_DROP_DISABLE) == false; }
+    export_lua bool IsDropEnable();
     // 是否客户端不可销毁
-    export_lua bool IsDelEnable() { return HasFlag(ITEMFLAG_DEL_DISABLE) == false; }
+    export_lua bool IsDelEnable();
     // 是否可升级品质
-    export_lua bool IsForgingEnable() { return HasFlag(ITEMFLAG_FORGING_DISABLE) == false; }
+    export_lua bool IsForgingEnable();
     // 是否可修理
-    export_lua bool IsRepairEnable() { return (IsEquipment() && (HasFlag(ITEMFLAG_REPAIR_DISABLE)) == false); }
+    export_lua bool IsRepairEnable();
     // 配方合成、拾取怪物掉落的时候是否广播传闻
-    export_lua bool IsPickRumor() { return HasFlag(ITEMFLAG_PICK_RUMOR); }
+    export_lua bool IsPickRumor();
     // 商城购买、帮派商店购买 的时候是否广播传闻
-    export_lua bool IsBuyRumor() { return HasFlag(ITEMFLAG_BUY_RUMOR); }
+    export_lua bool IsBuyRumor();
     // 赌博产出 的时候是否广播传闻
-    export_lua bool IsGamblingRumor() { return HasFlag(ITEMFLAG_GAMBLING_RUMOR); }
+    export_lua bool IsGamblingRumor();
     // 是否任务追踪物品
-    export_lua bool IsTraceItem() { return HasFlag(ITEMFLAG_TRACE_ITEM); }
-    export_lua bool IsEquipment() { return IsEquipmentStatic(GetType()); }
-    static bool     IsEquipmentStatic(uint32_t idType);
-    export_lua bool IsSuit();
-    export_lua bool IsCombineEnable(OBJID idItemType, uint32_t dwFlag);
-    export_lua bool IsCombineEnable(CItem* pItem);
+    export_lua bool        IsTraceItem();
+    export_lua bool        IsEquipment();
+    export_lua static bool IsEquipmentStatic(uint32_t idType);
+    export_lua bool        IsSuit();
+    export_lua bool        IsCombineEnable(OBJID idItemType, uint32_t dwFlag);
+    export_lua bool        IsCombineEnable(CItem* pItem);
 
 public:
     //! 改变物品类型——主要用于装备品质变化

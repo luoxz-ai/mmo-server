@@ -1,11 +1,12 @@
 #ifndef PLAYERACHIEVEMENT_H
 #define PLAYERACHIEVEMENT_H
 
-#include "AchievementType.h"
 #include "BaseCode.h"
 #include "DBRecord.h"
 
 class CPlayer;
+class CAchievementType;
+
 export_lua class CPlayerAchievement : public NoncopyableT<CPlayerAchievement>
 {
     CPlayerAchievement();

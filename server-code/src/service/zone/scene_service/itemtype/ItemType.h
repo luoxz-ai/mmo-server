@@ -106,7 +106,7 @@ export_lua enum ITEMFLAG_MASK {
 class CItemType : public NoncopyableT<CItemType>
 {
     CItemType() {}
-    bool Init(const Cfg_Item_Row& row)
+    bool Init(const Cfg_Item& row)
     {
         m_Data = row;
         for(int32_t i = 0; i < m_Data.attrib_change_list_size(); i++)
@@ -123,7 +123,7 @@ public:
     ~CItemType() {}
     using PB_T = Cfg_Item;
 
-    static uint32_t GetKey(const Cfg_Item_Row& row) { return row.id(); }
+    static uint32_t GetKey(const Cfg_Item& row) { return row.id(); }
 
     uint32_t                               GetID() const { return m_Data.id(); }
     uint32_t                               GetSort() const { return m_Data.sort(); }
@@ -176,10 +176,10 @@ public:
     bool        IsSuit() const { return m_Data.suit_id() != 0; }
 
 public:
-    const Cfg_Item_Row& GetDataRef() const { return m_Data; }
+    const Cfg_Item& GetDataRef() const { return m_Data; }
 
 private:
-    Cfg_Item_Row                    m_Data;
+    Cfg_Item                        m_Data;
     std::vector<CActorAttribChange> m_AttribChangeList;
 };
 

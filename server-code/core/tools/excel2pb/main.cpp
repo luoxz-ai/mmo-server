@@ -16,6 +16,7 @@
 #include "BaseCode.h"
 #include "ProtobuffUtil.h"
 #include "StringAlgo.h"
+#include "datapack/CfgDataPack.pb.h"
 #include "get_opt.h"
 #include "xlnt/xlnt.hpp"
 
@@ -74,17 +75,11 @@ int main(int argc, char** argv)
 
     DynamicMessageFactory factory;
     const Message*        message_const   = factory.GetPrototype(desc);
-    Message*              pData           = message_const->New();
-    auto                  pPBRowFieldDesc = pData->GetDescriptor()->FindFieldByNumber(1);
-    auto                  sub_msg_desc    = pPBRowFieldDesc->message_type();
-    if(sub_msg_desc == nullptr)
-    {
-        fmt::print("{} field 1 is not a message", execl_name);
-        return -1;
-    }
+    auto                  pPBRowFieldDesc = message_const->GetDescriptor();
 
-    std::string    debug_txt;
-    xlnt::workbook wb;
+    std::vector<Message*> vecMessage;
+    std::string           debug_txt;
+    xlnt::workbook        wb;
     wb.load(execl_full_path);
     for(const auto& ws: wb)
     {
@@ -110,9 +105,8 @@ int main(int argc, char** argv)
             return 0;
         }
 
-        const Message* row_message_const = factory.GetPrototype(sub_msg_desc);
-        size_t         x                 = 0;
-        size_t         y                 = 0;
+        size_t x = 0;
+        size_t y = 0;
         for(auto row: rows)
         {
             if(y < 2)
@@ -120,7 +114,7 @@ int main(int argc, char** argv)
                 y++;
                 continue;
             }
-            Message* pPBRow  = row_message_const->New();
+            Message* pPBRow  = message_const->New();
             bool     bUpdate = false;
             for(auto cell: row)
             {
@@ -183,7 +177,7 @@ int main(int argc, char** argv)
 
             if(bUpdate)
             {
-                pData->GetReflection()->AddAllocatedMessage(pData, pPBRowFieldDesc, pPBRow);
+                vecMessage.push_back(pPBRow);
                 std::string json_txt;
                 pb_util::SaveToJsonTxt(*pPBRow, json_txt);
 
@@ -215,8 +209,18 @@ int main(int argc, char** argv)
         }
     }
 
-    pb_util::SaveToBinaryFile(*pData, out_file_name.c_str());
-    SAFE_DELETE(pData);
+    {
+        CfgDataPack output;
+        output.set_size(vecMessage.size());
+        for(Message* pRow: vecMessage)
+        {
+            auto data = output.add_data_set();
+            pRow->SerializeToString(data);
+            SAFE_DELETE(pRow);
+        }
+
+        pb_util::SaveToBinaryFile(output, out_file_name.c_str());
+    }
 
     fmt::printf("write to file succ.\n");
 

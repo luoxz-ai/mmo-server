@@ -21,7 +21,7 @@ export_lua enum TaskFlag {
 class CTaskType : public NoncopyableT<CTaskType>
 {
     CTaskType() {}
-    bool Init(const Cfg_Task_Row& row)
+    bool Init(const Cfg_Task& row)
     {
         m_Data = row;
         return true;
@@ -34,7 +34,7 @@ public:
     ~CTaskType() {}
 
     using PB_T = Cfg_Task;
-    static uint32_t GetKey(const Cfg_Task_Row& row) { return row.id(); }
+    static uint32_t GetKey(const Cfg_Task& row) { return row.id(); }
 
     uint32_t           GetID() const { return m_Data.id(); }
     uint32_t           GetType() const { return m_Data.type(); }
@@ -64,10 +64,10 @@ public:
     bool               HasFlag(uint32_t flag) const { return ::HasFlag(flag, GetFlag()); }
 
 public:
-    const Cfg_Task_Row& GetDataRef() const { return m_Data; }
+    const Cfg_Task& GetDataRef() const { return m_Data; }
 
 private:
-    Cfg_Task_Row m_Data;
+    Cfg_Task m_Data;
 };
 
 //////////////////////////////////////////////////////////////////////

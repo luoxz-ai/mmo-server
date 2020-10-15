@@ -1,6 +1,7 @@
 #include "RPCService.h"
 
-#include "brpc/server.h"
+#include <brpc/server.h>
+
 #include "butil/logging.h"
 
 class BRPCLogSink : public logging::LogSink

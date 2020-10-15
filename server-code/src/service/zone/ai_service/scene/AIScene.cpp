@@ -3,6 +3,7 @@
 
 #include "AIPhase.h"
 #include "AIService.h"
+#include "GameMap.h"
 #include "MapManager.h"
 #include "NetMSGProcess.h"
 #include "config/Cfg_Scene.pb.h"

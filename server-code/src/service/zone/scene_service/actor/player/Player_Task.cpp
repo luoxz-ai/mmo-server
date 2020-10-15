@@ -1,7 +1,7 @@
 #include "Player.h"
+#include "PlayerTask.h"
 #include "SceneService.h"
 #include "server_msg/server_side.pb.h"
-
 bool CPlayer::CheckTaskPhase(uint64_t idPhase)
 {
     auto it = m_TaskPhase.find(idPhase);

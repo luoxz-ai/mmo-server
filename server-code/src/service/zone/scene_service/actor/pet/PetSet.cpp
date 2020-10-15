@@ -1,6 +1,13 @@
 #include "PetSet.h"
 
+#include "DBRecord.h"
+#include "MysqlConnection.h"
+#include "Pet.h"
+#include "PetType.h"
 #include "Player.h"
+#include "SceneService.h"
+#include "gamedb.h"
+
 CPetSet::CPetSet()
     : m_pOwner(nullptr)
     , m_pCurPet(nullptr)

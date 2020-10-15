@@ -5,7 +5,7 @@
 #include "UserManager.h"
 #include "WorldService.h"
 #include "msg/zone_service.pb.h"
-
+#include "server_msg/server_side.pb.h"
 OBJECTHEAP_IMPLEMENTATION(CTeam, s_heap);
 
 CTeam::CTeam() {}
@@ -23,7 +23,7 @@ void CTeam::SendMsgToAllMember(const proto_msg_t& msg)
 {
     for(const auto& v: m_setMember)
     {
-        CUser* pUser = UserManager()->QueryUser(v.member_id());
+        CUser* pUser = UserManager()->QueryUser(v->member_id());
         if(pUser)
         {
             pUser->SendMsg(msg);
@@ -55,7 +55,7 @@ void CTeam::SendAllTeamMemberInfo(CUser* pUser)
     for(const auto& v: m_setMember)
     {
         auto pInfo = msg.add_member_list();
-        pInfo->CopyFrom(v);
+        pInfo->CopyFrom(*v);
     }
 
     pUser->SendMsg(msg);
@@ -103,7 +103,7 @@ void CTeam::_AddMember(CUser* pUser)
     SendTeamMemberInfo(info);
     // send all member info to pUser
     SendAllTeamMemberInfo(pUser);
-    m_setMember.push_back(std::move(info));
+    m_setMember.push_back(std::make_unique<TeamMemberInfo>(std::move(info)));
 }
 
 void CTeam::KickMember(OBJID idOperator, OBJID idMember)
@@ -114,29 +114,26 @@ void CTeam::KickMember(OBJID idOperator, OBJID idMember)
     if(idOperator == idMember || IsMember(idMember) == false)
         return;
 
-    for(auto it = m_setMember.begin(); it != m_setMember.end(); it++)
+    auto it = std::find_if(m_setMember.begin(), m_setMember.end(), [idOperator](const auto& v) -> bool { return v->member_id() == idOperator; });
+    if(it != m_setMember.end())
     {
-        if(it->member_id() == idMember)
         {
-            {
-                ServerMSG::TeamKickMember msg;
-                msg.set_team_id(m_idTeam);
-                msg.set_operator_id(idOperator);
-                msg.set_kick_id(idMember);
-                WorldService()->SendProtoMsgToAllScene(msg);
-            }
-
-            CUser* pUser = UserManager()->QueryUser(idMember);
-            if(pUser)
-            {
-                pUser->SetTeamID(0);
-            }
-
-            SendTeamAction(SC_TEAMMEMBER_ACTION::TEAM_KICKMEMBER, idOperator, idMember);
-
-            m_setMember.erase(it);
-            return;
+            ServerMSG::TeamKickMember msg;
+            msg.set_team_id(m_idTeam);
+            msg.set_operator_id(idOperator);
+            msg.set_kick_id(idMember);
+            WorldService()->SendProtoMsgToAllScene(msg);
         }
+
+        CUser* pUser = UserManager()->QueryUser(idMember);
+        if(pUser)
+        {
+            pUser->SetTeamID(0);
+        }
+
+        SendTeamAction(SC_TEAMMEMBER_ACTION::TEAM_KICKMEMBER, idOperator, idMember);
+
+        m_setMember.erase(it);
     }
 }
 
@@ -153,38 +150,33 @@ void CTeam::QuitTeam(OBJID idOperator)
     }
     else if(IsLeader(idOperator))
     {
-        for(auto it = m_setMember.begin(); it != m_setMember.end(); it++)
+        auto it = std::find_if(m_setMember.begin(), m_setMember.end(), [idOperator](const auto& v) -> bool { return v->member_id() == idOperator; });
+        if(it != m_setMember.end())
         {
-            if(it->member_id() == idOperator)
-            {
-                ServerMSG::TeamQuit msg;
-                msg.set_team_id(m_idTeam);
-                msg.set_operator_id(idOperator);
-                WorldService()->SendProtoMsgToAllScene(msg);
+            ServerMSG::TeamQuit msg;
+            msg.set_team_id(m_idTeam);
+            msg.set_operator_id(idOperator);
+            WorldService()->SendProtoMsgToAllScene(msg);
 
-                SendTeamAction(SC_TEAMMEMBER_ACTION::TEAM_QUIT, idOperator, idOperator);
-                m_setMember.erase(it);
-                break;
-            }
+            SendTeamAction(SC_TEAMMEMBER_ACTION::TEAM_QUIT, idOperator, idOperator);
+            m_setMember.erase(it);
         }
         //那么要制定队长
         auto& ref = m_setMember.front();
-        SetLeader(idOperator, ref.member_id());
+        SetLeader(idOperator, ref->member_id());
     }
     else
     {
-        for(auto it = m_setMember.begin(); it != m_setMember.end(); it++)
+        auto it = std::find_if(m_setMember.begin(), m_setMember.end(), [idOperator](const auto& v) -> bool { return v->member_id() == idOperator; });
+        if(it != m_setMember.end())
         {
-            if(it->member_id() == idOperator)
-            {
-                ServerMSG::TeamQuit msg;
-                msg.set_team_id(m_idTeam);
-                msg.set_operator_id(idOperator);
-                WorldService()->SendProtoMsgToAllScene(msg);
-                SendTeamAction(SC_TEAMMEMBER_ACTION::TEAM_QUIT, idOperator, idOperator);
-                m_setMember.erase(it);
-                return;
-            }
+            ServerMSG::TeamQuit msg;
+            msg.set_team_id(m_idTeam);
+            msg.set_operator_id(idOperator);
+            WorldService()->SendProtoMsgToAllScene(msg);
+            SendTeamAction(SC_TEAMMEMBER_ACTION::TEAM_QUIT, idOperator, idOperator);
+            m_setMember.erase(it);
+            return;
         }
     }
 }
@@ -338,13 +330,8 @@ bool CTeam::IsLeader(OBJID idActor)
 
 bool CTeam::IsMember(OBJID idActor)
 {
-    for(auto it = m_setMember.begin(); it != m_setMember.end(); it++)
-    {
-        if(it->member_id() == idActor)
-            return true;
-    }
-
-    return false;
+    auto it = std::find_if(m_setMember.begin(), m_setMember.end(), [idActor](const auto& v) -> bool { return v->member_id() == idActor; });
+    return it != m_setMember.end();
 }
 
 void CTeam::OnUserOnline(OBJID idActor, bool bOnline) {}

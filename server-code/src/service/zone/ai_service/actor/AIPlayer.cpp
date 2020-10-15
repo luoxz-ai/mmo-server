@@ -7,6 +7,9 @@ CAIPlayer::~CAIPlayer() {}
 
 bool CAIPlayer::Init(const ServerMSG::ActorCreate& msg)
 {
+    __ENTER_FUNCTION
+    CHECKF(CAIActor::Init());
+
     SetID(msg.actor_id());
     SetLev(msg.lev());
     SetMoveSPD(msg.movespd());
@@ -20,6 +23,8 @@ bool CAIPlayer::Init(const ServerMSG::ActorCreate& msg)
     SetPos(Vector2(msg.posx(), msg.posy()));
 
     return true;
+    __LEAVE_FUNCTION
+    return false;
 }
 
 void CAIPlayer::ClearTaskPhase()

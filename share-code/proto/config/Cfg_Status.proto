@@ -5,8 +5,7 @@ import "common/AttribChangeDataProto.proto";
 
 message Cfg_Status
 {
-	message Row
-	{
+
 		uint32						   id				  = 1;	//
 		uint32						   level			  = 2;	//状态等级
 		uint32						   status_type		  = 3;	//状态类型编号
@@ -19,7 +18,5 @@ message Cfg_Status
 		uint32						   max_secs			  = 10; //最大可叠加秒数
 		int64						   scriptid			  = 11; //脚本编号
 		repeated AttribChangeDataProto attrib_change_list = 12;
-	}
 
-	repeated Row rows = 1;
 }

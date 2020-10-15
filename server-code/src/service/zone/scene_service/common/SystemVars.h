@@ -3,7 +3,6 @@
 
 #include "BaseCode.h"
 #include "DBRecord.h"
-#include "gamedb.h"
 
 //系统全局变量
 

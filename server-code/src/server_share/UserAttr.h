@@ -13,7 +13,7 @@
 class CUserAttrData : public NoncopyableT<CUserAttrData>
 {
     CUserAttrData() {}
-    bool Init(const Cfg_UserAttr_Row& row)
+    bool Init(const Cfg_UserAttr& row)
     {
         m_dwProfession = row.prof();
         m_nLevel       = row.level();

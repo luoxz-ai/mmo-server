@@ -2,8 +2,13 @@
 
 #include "AIPhase.h"
 #include "AIService.h"
+#include "AISkill.h"
 #include "AIType.h"
 #include "ActorAI.h"
+#include "MonsterGenerator.h"
+#include "MonsterType.h"
+#include "config/Cfg_Scene_MonsterGenerator.pb.h"
+#include "server_msg/server_side.pb.h"
 
 OBJECTHEAP_IMPLEMENTATION(CAIMonster, s_heap);
 CAIMonster::CAIMonster() {}
@@ -15,6 +20,8 @@ CAIMonster::~CAIMonster()
 
 bool CAIMonster::Init(const ServerMSG::ActorCreate& msg)
 {
+    __ENTER_FUNCTION
+    CHECKF(CAIActor::Init());
 
     m_idGen = msg.monster_gen_id();
     SetID(msg.actor_id());
@@ -40,12 +47,14 @@ bool CAIMonster::Init(const ServerMSG::ActorCreate& msg)
         {
             for(int32_t i = 0; i < m_pAIType->GetDataRef().skill_id_size(); i++)
             {
-                m_SkillSet.AddSkill(m_pAIType->GetDataRef().skill_id(i));
+                m_SkillSet->AddSkill(m_pAIType->GetDataRef().skill_id(i));
             }
         }
     }
 
     return true;
+    __LEAVE_FUNCTION
+    return false;
 }
 
 void CAIMonster::SetIsAISleep(bool bSleep)

@@ -8,7 +8,7 @@
 class CAchievementType : public NoncopyableT<CAchievementType>
 {
     CAchievementType() {}
-    bool Init(const Cfg_Achievement_Row& row)
+    bool Init(const Cfg_Achievement& row)
     {
         m_Data = row;
         return true;
@@ -21,7 +21,7 @@ public:
     ~CAchievementType() {}
 
     using PB_T = Cfg_Achievement;
-    static uint32_t GetKey(const Cfg_Achievement_Row& row) { return row.id(); }
+    static uint32_t GetKey(const Cfg_Achievement& row) { return row.id(); }
 
     uint32_t           GetID() const { return m_Data.id(); }
     const std::string& GetName() const { return m_Data.name(); }
@@ -36,10 +36,10 @@ public:
     decltype(auto) GetAwardItemList() const { return m_Data.award_list(); }
 
 public:
-    const Cfg_Achievement_Row& GetDataRef() const { return m_Data; }
+    const Cfg_Achievement& GetDataRef() const { return m_Data; }
 
 private:
-    Cfg_Achievement_Row m_Data;
+    Cfg_Achievement m_Data;
 };
 
 //////////////////////////////////////////////////////////////////////

@@ -1,11 +1,17 @@
 #include "Bullet.h"
 
+#include "ActorAttrib.h"
 #include "ActorManager.h"
+#include "BulletType.h"
 #include "GameEventDef.h"
+#include "GameMap.h"
 #include "Phase.h"
 #include "Scene.h"
 #include "SceneService.h"
+#include "ScriptManager.h"
 #include "SkillFSM.h"
+#include "msg/zone_service.pb.h"
+#include "server_msg/server_side.pb.h"
 
 OBJECTHEAP_IMPLEMENTATION(CBullet, s_heap);
 CBullet::CBullet()
@@ -47,9 +53,9 @@ bool CBullet::Init(OBJID idOwner, const CBulletType* pType, OBJID idTarget, cons
         EventManager()->ScheduleEvent(param, GetEventMapRef());
     }
     _SetHP(1);
-    m_ActorAttrib.get_base(ATTRIB_HP_MAX) = 1;
+    m_ActorAttrib->get_base(ATTRIB_HP_MAX) = 1;
 
-    m_ActorAttrib.get_base(ATTRIB_MOVESPD) = pType->GetMoveSPD();
+    m_ActorAttrib->get_base(ATTRIB_MOVESPD) = pType->GetMoveSPD();
     ScheduleApply();
     return true;
 }

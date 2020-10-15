@@ -4,6 +4,7 @@
 #include <iostream>
 #include <sstream>
 
+#include <fmt/format.h>
 #include <google/protobuf/descriptor.pb.h>
 #include <google/protobuf/io/printer.h>
 #include <google/protobuf/io/zero_copy_stream.h>
@@ -11,7 +12,6 @@
 #include <google/protobuf/stubs/stl_util.h>
 #include <google/protobuf/stubs/strutil.h>
 
-#include "fmt/format.h"
 #include "sql_options/sql_options.pb.h"
 
 std::string StripProto(const std::string& filename)

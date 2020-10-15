@@ -2,8 +2,9 @@
 
 #include "Actor.h"
 #include "ItemAddition.h"
+#include "ItemType.h"
 #include "SceneService.h"
-
+#include "msg/zone_service.pb.h"
 CItem::CItem() {}
 
 CItem::~CItem() {}
@@ -100,6 +101,70 @@ void CItem::SendDeleteMsg(CActor* pActor)
     msg.set_grid(GetGrid());
     pActor->SendMsg(msg);
     __LEAVE_FUNCTION
+}
+// 是否可叠加的
+bool CItem::IsPileEnable()
+{
+    return ItemTypePtr()->IsPileEnable() && GetPileNum() < ItemTypePtr()->GetPileLimit();
+}
+// 是否可交易
+bool CItem::IsExchangeEnable()
+{
+    return HasFlag(ITEMFLAG_EXCHANGE_DISABLE) == false;
+}
+// 是否可存仓库
+bool CItem::IsStorageEnable()
+{
+    return HasFlag(ITEMFLAG_STORAGE_DISABLE) == false;
+}
+// 是否可出售
+bool CItem::IsSellEnable()
+{
+    return HasFlag(ITEMFLAG_SELL_DISABLE) == false;
+}
+// 是否可丢弃
+bool CItem::IsDropEnable()
+{
+    return HasFlag(ITEMFLAG_DROP_DISABLE) == false;
+}
+// 是否客户端不可销毁
+bool CItem::IsDelEnable()
+{
+    return HasFlag(ITEMFLAG_DEL_DISABLE) == false;
+}
+// 是否可升级品质
+bool CItem::IsForgingEnable()
+{
+    return HasFlag(ITEMFLAG_FORGING_DISABLE) == false;
+}
+// 是否可修理
+bool CItem::IsRepairEnable()
+{
+    return (IsEquipment() && (HasFlag(ITEMFLAG_REPAIR_DISABLE)) == false);
+}
+// 配方合成、拾取怪物掉落的时候是否广播传闻
+bool CItem::IsPickRumor()
+{
+    return HasFlag(ITEMFLAG_PICK_RUMOR);
+}
+// 商城购买、帮派商店购买 的时候是否广播传闻
+bool CItem::IsBuyRumor()
+{
+    return HasFlag(ITEMFLAG_BUY_RUMOR);
+}
+// 赌博产出 的时候是否广播传闻
+bool CItem::IsGamblingRumor()
+{
+    return HasFlag(ITEMFLAG_GAMBLING_RUMOR);
+}
+// 是否任务追踪物品
+bool CItem::IsTraceItem()
+{
+    return HasFlag(ITEMFLAG_TRACE_ITEM);
+}
+bool CItem::IsEquipment()
+{
+    return IsEquipmentStatic(GetType());
 }
 
 bool CItem::IsExpire()

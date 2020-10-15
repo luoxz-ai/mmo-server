@@ -4,8 +4,7 @@
 #include <unordered_map>
 
 #include "BaseCode.h"
-#include "MapManager.h"
-
+#include "SceneID.h"
 class CAIScene;
 class CAIPhase;
 

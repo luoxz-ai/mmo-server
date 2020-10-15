@@ -1,5 +1,6 @@
 #include "DynaMonster.h"
 
+#include "MonsterType.h"
 CDynaMonster::CDynaMonster() {}
 
 CDynaMonster::~CDynaMonster() {}

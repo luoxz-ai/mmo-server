@@ -1,6 +1,12 @@
 #include "SceneBase.h"
 
+#include "DynaRegion.h"
+#include "GameMap.h"
+#include "GameMapDef.h"
+#include "MapData.h"
+#include "MapManager.h"
 #include "SceneObject.h"
+#include "SceneTree.h"
 
 CSceneBase::CSceneBase() {}
 
@@ -37,6 +43,16 @@ bool CSceneBase::LinkSceneTree(CSceneBase* pLinkScene)
 
     m_pSceneTree = pLinkScene->m_pSceneTree;
     return true;
+}
+
+uint64_t CSceneBase::GetScriptID() const
+{
+    return GetMap() ? GetMap()->GetScriptID() : 0;
+}
+
+uint32_t CSceneBase::GetMapID() const
+{
+    return m_pMap->GetMapID();
 }
 
 bool CSceneBase::EnterMap(CSceneObject* pActor, float fPosX, float fPosY, float fFace)

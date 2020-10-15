@@ -5,15 +5,14 @@
 
 #include "EventEntry.h"
 #include "IDGenPool.h"
-#include "SceneBase.h"
-#include "SceneService.h"
 
 class CActor;
 class CMonster;
 class CNpc;
 class CPlayer;
 class CPhase;
-
+class PhaseData;
+class CGameMap;
 export_lua class CScene
 {
 protected:

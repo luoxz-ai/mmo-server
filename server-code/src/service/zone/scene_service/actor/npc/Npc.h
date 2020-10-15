@@ -3,8 +3,8 @@
 
 #include "Actor.h"
 #include "BaseCode.h"
-#include "NpcType.h"
 
+class CNpcType;
 export_lua class CNpc : public CActor, NoncopyableT<CNpc>
 {
 protected:
@@ -18,8 +18,8 @@ public:
 
     bool                                  Init(uint32_t idType);
     export_lua uint32_t                   GetTypeID() const { return m_idType; }
-    export_lua virtual uint32_t           GetLev() const override { return m_pType->GetLevel(); }
-    export_lua virtual const std::string& GetName() const override { return m_pType->GetName(); }
+    export_lua virtual uint32_t           GetLev() const override;
+    export_lua virtual const std::string& GetName() const override;
 
 public:
     export_lua virtual ActorType GetActorType() const override { return ActorType::ACT_NPC; }

@@ -11,7 +11,7 @@
 #include "SettingMap.h"
 #include "event2/event.h"
 #include "event2/thread.h"
-//#include "brpc/global.h"
+//#include <brpc/global.h>
 void log_cb(int32_t severity, const char* msg)
 {
     LOGNETERROR("libevent：{}", msg);

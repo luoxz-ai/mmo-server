@@ -2,8 +2,14 @@
 
 #include "Package.h"
 #include "Player.h"
+#include "PlayerAchievement.h"
+#include "PlayerDialog.h"
+#include "PlayerTaskData.h"
 #include "SceneService.h"
+#include "ScriptCallBackType.h"
 #include "ScriptManager.h"
+#include "TaskType.h"
+#include "config/Cfg_Achievement.pb.h"
 #include "msg/zone_service.pb.h"
 
 CPlayerTask::CPlayerTask() {}
@@ -713,60 +719,62 @@ bool CPlayerTask::ShowTaskDialog(uint32_t idTask, OBJID idNpc)
             return true;
         }
     }
-
+    auto dialog    = m_pOwner->GetDialog();
     auto pTaskData = QueryTaskData(idTask);
     if(pTaskData == nullptr)
     {
         //接任务对话框
-        m_pOwner->DialogBegin(pTaskType->GetName());
-        m_pOwner->DialogAddText(pTaskType->GetAcceptText());
 
-        m_pOwner->DialogAddLink(DIALOGLINK_TYPE_BUTTON,
-                                STR_TASK_ACCEPT,
-                                DIALOG_FUNC_ACCEPTTASK,
-                                MAKE64(0, idTask),
-                                "",
-                                (pTaskType->HasFlag(TASKFLAG_AUTO_ACITVE_NPC) ? idNpc : 0));
-        m_pOwner->DialogSend(DIALOGTYPE_ACCEPT_TASK);
+        dialog->DialogBegin(pTaskType->GetName());
+        dialog->DialogAddText(pTaskType->GetAcceptText());
+
+        dialog->DialogAddLink(DIALOGLINK_TYPE_BUTTON,
+                              STR_TASK_ACCEPT,
+                              DIALOG_FUNC_ACCEPTTASK,
+                              MAKE64(0, idTask),
+                              "",
+                              (pTaskType->HasFlag(TASKFLAG_AUTO_ACITVE_NPC) ? idNpc : 0));
+        dialog->DialogSend(DIALOGTYPE_ACCEPT_TASK);
         return true;
     }
 
     if(CanSubmit(idTask) == false)
     {
         //还没完成对话框
-        m_pOwner->DialogBegin(pTaskType->GetName());
-        m_pOwner->DialogAddText(pTaskType->GetDoingText());
+
+        dialog->DialogBegin(pTaskType->GetName());
+        dialog->DialogAddText(pTaskType->GetDoingText());
         //允许快速提交
         if(pTaskType->GetQuickSubmitCost() > 0)
         {
             //快速提交
-            m_pOwner->DialogAddLink(DIALOGLINK_TYPE_BUTTON,
-                                    STR_TASK_QUICK_FINISH,
-                                    DIALOG_FUNC_QUICKFINISHTASK,
-                                    MAKE64(0, idTask),
-                                    "",
-                                    (pTaskType->HasFlag(TASKFLAG_AUTO_ACITVE_NPC) ? idNpc : 0));
+            dialog->DialogAddLink(DIALOGLINK_TYPE_BUTTON,
+                                  STR_TASK_QUICK_FINISH,
+                                  DIALOG_FUNC_QUICKFINISHTASK,
+                                  MAKE64(0, idTask),
+                                  "",
+                                  (pTaskType->HasFlag(TASKFLAG_AUTO_ACITVE_NPC) ? idNpc : 0));
         }
 
-        m_pOwner->DialogSend(DIALOGTYPE_WAITFINISH_TASK);
+        dialog->DialogSend(DIALOGTYPE_WAITFINISH_TASK);
         return true;
     }
     else
     {
         //交任务对话框
-        m_pOwner->DialogBegin(pTaskType->GetName());
-        m_pOwner->DialogAddText(pTaskType->GetSubmitText());
+        dialog->DialogBegin(pTaskType->GetName());
+        dialog->DialogAddText(pTaskType->GetSubmitText());
         //多倍提交
         for(uint32_t i = 0; i <= pTaskType->GetSubmitMultipleMax(); i++)
         {
-            m_pOwner->DialogAddLink(DIALOGLINK_TYPE_BUTTON,
-                                    STR_TASK_SUBMIT[i],
-                                    DIALOG_FUNC_SUBMITTASK,
-                                    MAKE64(i, idTask),
-                                    "",
-                                    (pTaskType->HasFlag(TASKFLAG_AUTO_ACITVE_NPC) ? idNpc : 0));
+            dialog->DialogAddLink(DIALOGLINK_TYPE_BUTTON,
+                                  STR_TASK_SUBMIT[i],
+                                  DIALOG_FUNC_SUBMITTASK,
+                                  MAKE64(i, idTask),
+                                  "",
+                                  (pTaskType->HasFlag(TASKFLAG_AUTO_ACITVE_NPC) ? idNpc : 0));
         }
-        m_pOwner->DialogSend(DIALOGTYPE_SUBMIT_TASK);
+        dialog->DialogSend(DIALOGTYPE_SUBMIT_TASK);
         return true;
     }
 

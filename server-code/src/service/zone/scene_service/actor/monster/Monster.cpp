@@ -1,13 +1,23 @@
 #include "Monster.h"
 
+#include "ActorAttrib.h"
 #include "ActorManager.h"
+#include "CoolDown.h"
+#include "DataCount.h"
+#include "GameMap.h"
+#include "MonsterType.h"
 #include "Phase.h"
 #include "Player.h"
+#include "PlayerTask.h"
 #include "Scene.h"
 #include "SceneService.h"
+#include "ScriptCallBackType.h"
+#include "ScriptManager.h"
 #include "TeamInfoManager.h"
+#include "msg/zone_service.pb.h"
 #include "protomsg_to_cmd.h"
 #include "server_msg/server_side.pb.h"
+
 OBJECTHEAP_IMPLEMENTATION(CMonster, s_heap);
 
 CMonster::CMonster() {}
@@ -32,7 +42,7 @@ bool CMonster::Init(uint32_t idMonsterType, OBJID idOwner, uint32_t idGen, uint6
     _SetPhaseID(idPhase);
     CHECKF(CActor::Init());
 
-    m_ActorAttrib = m_pType->GetAbility();
+    m_ActorAttrib->SetBase(m_pType->GetAbility());
 
     if(idOwner != 0)
     {
@@ -48,7 +58,10 @@ bool CMonster::Init(uint32_t idMonsterType, OBJID idOwner, uint32_t idGen, uint6
     _SetHP(GetHPMax());
     _SetMP(GetMPMax());
 
-    TryExecScript<void>(SCB_MONSTER_ONBORN, this);
+    if(m_pType->GetScriptID())
+    {
+        ScriptManager()->TryExecScript<void>(m_pType->GetScriptID(), SCB_MONSTER_ONBORN, this);
+    }
 
     m_pCDSet.reset(CCoolDownSet::CreateNew());
     CHECKF(m_pCDSet.get());
@@ -56,6 +69,26 @@ bool CMonster::Init(uint32_t idMonsterType, OBJID idOwner, uint32_t idGen, uint6
     return true;
     __LEAVE_FUNCTION
     return false;
+}
+uint32_t CMonster::GetLev() const
+{
+    return m_pType->GetLevel();
+}
+const std::string& CMonster::GetName() const
+{
+    return m_pType->GetName();
+}
+uint32_t CMonster::GetTypeID() const
+{
+    return m_pType->GetID();
+}
+bool CMonster::IsBoss() const
+{
+    return m_pType->GetType() == MONSTER_TYPE_BOSS;
+}
+bool CMonster::IsElit() const
+{
+    return m_pType->GetType() == MONSTER_TYPE_ELIT;
 }
 
 bool CMonster::SendMsg(const proto_msg_t& msg) const
@@ -87,7 +120,10 @@ void CMonster::BeKillBy(CActor* pAttacker)
 {
     __ENTER_FUNCTION
     CActor::BeKillBy(pAttacker);
-    TryExecScript<void>(SCB_MONSTER_ONBEKILL, this);
+    if(m_pType->GetScriptID())
+    {
+        ScriptManager()->TryExecScript<void>(m_pType->GetScriptID(), SCB_MONSTER_ONBEKILL, this);
+    }
 
     CPlayer* pKillerPlayer = nullptr;
     if(pAttacker == nullptr)
@@ -194,7 +230,11 @@ void CMonster::OnBeAttack(CActor* pAttacker, int32_t nRealDamage)
         m_HateList.AddHate(pAttacker->GetID(), nRealDamage);
 
     CActor::OnBeAttack(pAttacker, nRealDamage);
-    TryExecScript<void>(SCB_MONSTER_ONBEATTACK, this, pAttacker, nRealDamage);
+    if(m_pType->GetScriptID())
+    {
+        ScriptManager()->TryExecScript<void>(m_pType->GetScriptID(), SCB_MONSTER_ONBEATTACK, this, pAttacker, nRealDamage);
+    }
+
     __LEAVE_FUNCTION
 }
 

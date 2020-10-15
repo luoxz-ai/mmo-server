@@ -5,13 +5,10 @@ import "common/AttribChangeDataProto.proto";
 
 message Cfg_UserAttr
 {
-	message Row
-	{
+
 		int32			id		  = 1;
 		int32			prof	  = 2;
 		int32			level	  = 3;
 		AttribDataProto attr_data = 4;
-	}
 
-	repeated Row rows = 1;
 }

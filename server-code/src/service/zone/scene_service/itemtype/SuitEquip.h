@@ -9,7 +9,7 @@
 class CSuitEquipData : public NoncopyableT<CSuitEquipData>
 {
     CSuitEquipData() {}
-    bool Init(const Cfg_Suit_Row& row)
+    bool Init(const Cfg_Suit& row)
     {
         m_id        = row.id();
         m_nEquipNum = row.num();

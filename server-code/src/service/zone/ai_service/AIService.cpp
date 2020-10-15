@@ -10,6 +10,7 @@
 #include "AISkill.h"
 #include "AIType.h"
 #include "EventManager.h"
+#include "MapManager.h"
 #include "MemoryHelp.h"
 #include "MessagePort.h"
 #include "MessageRoute.h"

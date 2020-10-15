@@ -1,18 +1,35 @@
 #include "Player.h"
 
 #include "ActorManager.h"
+#include "ActorStatusSet.h"
+#include "CommonData.h"
+#include "CoolDown.h"
+#include "DBRecord.h"
+#include "DataCount.h"
+#include "Equipment.h"
 #include "GameEventDef.h"
+#include "GameMap.h"
 #include "ItemType.h"
 #include "LoadingThread.h"
 #include "MapManager.h"
 #include "MonitorMgr.h"
 #include "NetMSGProcess.h"
+#include "NetworkDefine.h"
 #include "Npc.h"
+#include "Package.h"
+#include "PetSet.h"
 #include "Phase.h"
+#include "PlayerAchievement.h"
+#include "PlayerDialog.h"
+#include "PlayerTask.h"
 #include "Scene.h"
 #include "SceneManager.h"
 #include "SceneService.h"
+#include "SkillManager.h"
+#include "StoragePackage.h"
 #include "SystemVars.h"
+#include "gamedb.h"
+#include "msg/zone_service.pb.h"
 
 OBJECTHEAP_IMPLEMENTATION(CPlayer, s_heap);
 
@@ -81,9 +98,169 @@ bool CPlayer::Init(OBJID idPlayer, const VirtualSocket& socket)
     m_pAchievement.reset(CPlayerAchievement::CreateNew(this));
     CHECKF(m_pAchievement.get());
 
+    m_pPlayerDialog.reset(CPlayerDialog::CreateNew(this));
+    CHECKF(m_pPlayerDialog.get());
+
     return true;
     __LEAVE_FUNCTION
     return false;
+}
+
+uint16_t CPlayer::GetWorldID() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::WORLDID);
+}
+const std::string& CPlayer::GetOpenID() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::OPENID);
+}
+const std::string& CPlayer::GetName() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::NAME);
+}
+uint32_t CPlayer::GetProf() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::PROF);
+}
+uint32_t CPlayer::GetBaseLook() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::BASELOOK);
+}
+uint32_t CPlayer::GetVipLev() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::VIPLEV);
+}
+uint32_t CPlayer::GetPKVal() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::PKVAL);
+}
+uint32_t CPlayer::GetHonor() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::HONOR);
+}
+SceneIdx CPlayer::GetRecordSceneIdx() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::RECORD_SCENEID).get<uint64_t>();
+}
+SceneIdx CPlayer::GetHomeSceneIdx() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::HOME_SCENEID).get<uint64_t>();
+}
+uint32_t CPlayer::GetLev() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::LEV);
+}
+uint64_t CPlayer::GetExp() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::EXP);
+}
+uint64_t CPlayer::GetMoney() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::MONEY);
+}
+uint64_t CPlayer::GetMoneyBind() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::MONEY_BIND);
+}
+uint64_t CPlayer::GetGold() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::GOLD);
+}
+uint64_t CPlayer::GetGoldBind() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::GOLD_BIND);
+}
+
+uint32_t CPlayer::GetAchiPoint() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::ACHIPOINT);
+}
+uint32_t CPlayer::GetHP() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::HP);
+}
+uint32_t CPlayer::GetMP() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::MP);
+}
+uint32_t CPlayer::GetFP() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::FP);
+}
+uint32_t CPlayer::GetNP() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::NP);
+}
+void CPlayer::_SetHP(uint32_t v)
+{
+    m_pRecord->Field(TBLD_PLAYER::HP) = v;
+}
+void CPlayer::_SetMP(uint32_t v)
+{
+    m_pRecord->Field(TBLD_PLAYER::MP) = v;
+}
+void CPlayer::_SetFP(uint32_t v)
+{
+    m_pRecord->Field(TBLD_PLAYER::FP) = v;
+}
+void CPlayer::_SetNP(uint32_t v)
+{
+    m_pRecord->Field(TBLD_PLAYER::NP) = v;
+}
+
+float CPlayer::GetRecordPosX() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::RECORD_X);
+}
+float CPlayer::GetRecordPosY() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::RECORD_Y);
+}
+float CPlayer::GetRecordFace() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::RECORD_FACE);
+}
+float CPlayer::GetHomePosX() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::HOME_X);
+}
+float CPlayer::GetHomePosY() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::HOME_Y);
+}
+float CPlayer::GetHomeFace() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::HOME_FACE);
+}
+
+uint32_t CPlayer::GetPKMode() const
+{
+    return m_nPKMode;
+}
+
+OBJID CPlayer::GetTeamID() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::TEAMID);
+}
+void CPlayer::SetTeamID(OBJID val)
+{
+    m_pRecord->Update();
+    m_pRecord->Field(TBLD_PLAYER::TEAMID) = val;
+    m_pRecord->ClearDirty();
+}
+bool CPlayer::HasTeam() const
+{
+    return GetTeamID() != 0;
+}
+OBJID CPlayer::GetGuildID() const
+{
+    return m_pRecord->Field(TBLD_PLAYER::GUILDID);
+}
+void CPlayer::SetGuildID(OBJID val)
+{
+    m_pRecord->Update();
+    m_pRecord->Field(TBLD_PLAYER::GUILDID) = val;
+    m_pRecord->ClearDirty();
 }
 
 bool CPlayer::SendMsg(const proto_msg_t& msg) const
@@ -123,7 +300,7 @@ void CPlayer::OnLogout()
     if(m_pScene != nullptr)
     {
         // log error
-        m_pStatus->OnLogout();
+        m_pStatusSet->OnLogout();
         m_pScene->LeaveMap(this);
     }
 
@@ -209,8 +386,8 @@ void CPlayer::OnLogin(bool bLogin, const SceneIdx& idxScene, float fPosX, float 
         // if (GetTeamID() != ID_NONE)
         //	QueryTeamMember()->OnLogin();
     }
-    m_pStatus->OnLogin();
-    m_pStatus->SyncTo(this);
+    m_pStatusSet->OnLogin();
+    m_pStatusSet->SyncTo(this);
 
     //其他的换线操作
 
@@ -334,53 +511,6 @@ bool CPlayer::IsTalkEnable(uint32_t nTalkChannel)
         return false;
 
     return true;
-    __LEAVE_FUNCTION
-    return false;
-}
-
-bool CPlayer::TryChangeMap(uint32_t nLeavePointIdx)
-{
-    __ENTER_FUNCTION
-    auto pLeaveData = GetCurrentScene()->GetMap()->GetLeavePointByIdx(nLeavePointIdx);
-    CHECKF_FMT(pLeaveData, "Can't Find LeaveMap {} On Map {}", GetMapID(), nLeavePointIdx);
-
-    CHECKF(GetPos().distance(Vector2(pLeaveData->x(), pLeaveData->y())) > pLeaveData->range());
-
-    auto pGameMap = MapManager()->QueryMap(pLeaveData->dest_map_id());
-    CHECKF_FMT(pGameMap, "Can't Find Map {} When LeaveMap {} On Map {}", pLeaveData->dest_map_id(), GetMapID(), nLeavePointIdx);
-
-    //检查所有通行检查
-    auto pEnterData = pGameMap->GetEnterPointByIdx(pLeaveData->dest_enter_point_idx());
-    CHECKF_FMT(pEnterData,
-               "Can't Find EnterPoint {} On Map {} When LeaveMap {} On Map {}",
-               pLeaveData->dest_enter_point_idx(),
-               pLeaveData->dest_map_id(),
-               GetMapID(),
-               nLeavePointIdx);
-
-    if(GetTeamMemberCount() < pEnterData->team_req())
-    {
-        // send errmsg
-        return false;
-    }
-
-    if(GetGuildLev() < pEnterData->guild_req())
-    {
-        // send errmsg
-        return false;
-    }
-
-    if(GetLev() < pEnterData->lev_req())
-    {
-        return false;
-    }
-
-    if(GetVipLev() < pEnterData->vip_lev_req())
-    {
-        return false;
-    }
-
-    return FlyMap(pEnterData->idmap(), pEnterData->idphase(), pEnterData->x(), pEnterData->y(), pEnterData->range(), pEnterData->face());
     __LEAVE_FUNCTION
     return false;
 }

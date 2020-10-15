@@ -1,9 +1,11 @@
 #include "MapData.h"
 
+#include <fmt/format.h>
+
 #include "BaseCode.h"
 #include "Cfg_MapData.pb.h"
+#include "DataPack.h"
 #include "ProtobuffUtil.h"
-#include "fmt/format.h"
 CMapData::CMapData() {}
 
 CMapData::~CMapData() {}

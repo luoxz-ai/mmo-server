@@ -1,6 +1,7 @@
 #ifndef BULLETTYPE_H
 #define BULLETTYPE_H
 
+#include "T_GameDataMap.h"
 #include "config/Cfg_Bullet.pb.h"
 
 enum BULLET_EMIT_TYPE
@@ -33,7 +34,7 @@ class CBulletType : public NoncopyableT<CBulletType>
 {
     CBulletType() {}
 
-    bool Init(const Cfg_Bullet_Row& row)
+    bool Init(const Cfg_Bullet& row)
     {
         m_Data = row;
         return true;
@@ -61,7 +62,7 @@ public:
     uint32_t GetSkillID() const { return m_Data.skill_id(); }
 
 private:
-    Cfg_Bullet_Row m_Data;
+    Cfg_Bullet m_Data;
 };
 
 DEFINE_GAMEMAPDATA(CBulletTypeSet, CBulletType);

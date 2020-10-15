@@ -2,8 +2,7 @@
 #define SCENEMANAGER_H
 
 #include "BaseCode.h"
-#include "MapManager.h"
-
+#include "SceneID.h"
 class CScene;
 class CPhase;
 export_lua class CSceneManager : public NoncopyableT<CSceneManager>

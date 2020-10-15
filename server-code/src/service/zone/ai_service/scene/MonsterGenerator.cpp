@@ -5,6 +5,17 @@
 #include "AIPhase.h"
 #include "AIService.h"
 #include "GameMap.h"
+#include "GameMapDef.h"
+#include "MapManager.h"
+#include "MonsterType.h"
+#include "config/Cfg_Scene_MonsterGenerator.pb.h"
+
+MonsterGenData::MonsterGenData(const Cfg_Scene_MonsterGenerator& _gen_data)
+    : gen_data(_gen_data)
+    , nIdxGen(_gen_data.idx())
+    , nCurGen(0)
+{
+}
 
 CMonsterGenerator::CMonsterGenerator() {}
 
@@ -17,7 +28,7 @@ CMonsterGenerator::~CMonsterGenerator()
     m_setGen.clear();
 }
 
-void CMonsterGenerator::Init(CAIPhase* pPhase)
+bool CMonsterGenerator::Init(CAIPhase* pPhase)
 {
     __ENTER_FUNCTION
     m_pMap               = pPhase->GetMap();
@@ -25,7 +36,7 @@ void CMonsterGenerator::Init(CAIPhase* pPhase)
     const auto& gen_list = m_pMap->GetGeneratorData();
     for(const auto& pair_val: gen_list)
     {
-        auto pGenData = new MonsterGenData{pair_val.second};
+        auto pGenData = new MonsterGenData{*pair_val.second};
         if(m_setGen.find(pair_val.first) != m_setGen.end())
         {
             LOGDEBUG("CMonsterGenerator::Init Map:{} Add{} twice", m_pMap->GetMapID(), pair_val.first);
@@ -41,7 +52,9 @@ void CMonsterGenerator::Init(CAIPhase* pPhase)
             StopGen(pGenData);
         }
     }
+    return true;
     __LEAVE_FUNCTION
+    return false;
 }
 void CMonsterGenerator::OnGenTimer(MonsterGenData* pData)
 {

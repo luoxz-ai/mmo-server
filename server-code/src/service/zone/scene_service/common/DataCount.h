@@ -3,9 +3,7 @@
 
 #include "BaseCode.h"
 #include "DBRecord.h"
-#include "T_GameDataMap.h"
-#include "config/Cfg_DataCountLimit.pb.h"
-#include "gamedb.h"
+
 //计数及各种每日次数限制
 export_lua enum DATA_ACC_TYPE {
     DATA_ACC_SYSTEM      = 0, //其他的计数？？？
@@ -31,39 +29,6 @@ export_lua enum DATA_ACC_COUNT_TYPE {
     DATA_COUNT_RESET_BY_WEEK  = 2, //跨N周重置
     DATA_COUNT_RESET_BY_MONTH = 3, //跨N月重置
 };
-
-class CDataCountLimit : public NoncopyableT<CDataCountLimit>
-{
-    CDataCountLimit() {}
-    bool Init(const Cfg_DataCountLimit_Row& row)
-    {
-        m_row = row;
-        return true;
-    }
-
-public:
-    CreateNewImpl(CDataCountLimit);
-
-public:
-    using PB_T = Cfg_DataCountLimit;
-    virtual ~CDataCountLimit() {}
-
-public:
-    uint64_t GetID() const { return CDataCountLimit::MakeID(GetType(), GetKeyIdx()); }
-    uint32_t GetType() const { return m_row.type(); }
-    uint32_t GetKeyIdx() const { return m_row.keyidx(); }
-    uint32_t GetMaxCount() const { return m_row.max_count(); }
-    uint32_t GetResetType() const { return m_row.reset_type(); }
-    uint32_t GetResetTime() const { return m_row.reset_time(); }
-
-public:
-    static uint64_t MakeID(uint32_t nType, uint32_t nKeyIdx) { return ((uint64_t)(nType) << 32) | (uint64_t)(nKeyIdx); }
-
-protected:
-    Cfg_DataCountLimit_Row m_row;
-};
-
-DEFINE_GAMEMAPDATA(CDataCountLimitSet, CDataCountLimit);
 
 class CPlayer;
 

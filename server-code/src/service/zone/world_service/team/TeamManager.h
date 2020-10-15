@@ -3,8 +3,6 @@
 
 #include "BaseCode.h"
 #include "game_common_def.h"
-#include "msg/zone_service.pb.h"
-#include "server_msg/server_side.pb.h"
 
 class CUser;
 class CTeam;

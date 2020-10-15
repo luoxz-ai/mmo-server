@@ -5,35 +5,34 @@
 #include <unordered_set>
 
 #include "BaseCode.h"
-#include "Cfg_Scene_MonsterGenerator.pb.h"
 #include "EventManager.h"
-#include "MapManager.h"
+#include "SceneID.h"
 
 class CAIMonster;
+class Cfg_Scene_MonsterGenerator;
 struct MonsterGenData
 {
-    MonsterGenData(const Cfg_Scene_MonsterGenerator_Row& _gen_data)
-        : gen_data(_gen_data)
-        , nIdxGen(_gen_data.idx())
-        , nCurGen(0)
-    {
-    }
-    const Cfg_Scene_MonsterGenerator_Row& gen_data;
-    uint32_t                              nIdxGen;
-    uint32_t                              nCurGen;
-    CEventEntryPtr                        m_pEvent;
-    std::unordered_set<CAIMonster*>       m_setMonster;
+    MonsterGenData(const Cfg_Scene_MonsterGenerator& _gen_data);
+    const Cfg_Scene_MonsterGenerator& gen_data;
+    uint32_t                          nIdxGen;
+    uint32_t                          nCurGen;
+    CEventEntryPtr                    m_pEvent;
+    std::unordered_set<CAIMonster*>   m_setMonster;
 };
 
 class CAIPhase;
-class CMonsterGenerator
+class CGameMap;
+class CMonsterGenerator : public NoncopyableT<CMonsterGenerator>
 {
-public:
     CMonsterGenerator();
+
+    bool Init(CAIPhase* pScene);
+
+public:
+    CreateNewImpl(CMonsterGenerator);
     ~CMonsterGenerator();
 
 public:
-    void            Init(CAIPhase* pScene);
     void            Generator();
     void            ActiveAll(bool bActive);
     void            ActiveGen(uint32_t idGen, bool bActive);

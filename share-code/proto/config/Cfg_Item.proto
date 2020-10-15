@@ -4,8 +4,7 @@ import "common/AttribChangeDataProto.proto";
 
 message Cfg_Item
 {
-	message Row
-	{
+
 		uint32 id = 1; //物品ID  a bb ccccc
 					   //  a=类型(1:物品 2:装备 3: )
 					   //	b=子类型(01=药品
@@ -52,7 +51,5 @@ message Cfg_Item
 		uint64 scriptid		  = 20; //脚本id
 		uint32 batchuse_count = 21; //单次使用数量上限
 		string  desc			  = 22;
-	}
 
-	repeated Row rows = 1;
 }

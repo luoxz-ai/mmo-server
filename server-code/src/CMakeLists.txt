@@ -4,6 +4,8 @@ ELSE()
 MESSAGE(STATUS "cmake_type: (release)")
 ENDIF()
 
+#set(CMAKE_DEPENDS_IN_PROJECT_ONLY ON)
+
 ADD_SUBDIRECTORY(game_comm)
 ADD_SUBDIRECTORY(service)
 ADD_SUBDIRECTORY(tools)

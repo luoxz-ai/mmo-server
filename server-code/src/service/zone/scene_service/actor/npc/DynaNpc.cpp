@@ -1,5 +1,6 @@
 #include "DynaNpc.h"
 
+#include "NpcType.h"
 CDynaNpc::CDynaNpc() {}
 
 CDynaNpc::~CDynaNpc() {}

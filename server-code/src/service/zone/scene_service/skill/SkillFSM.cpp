@@ -2,14 +2,26 @@
 
 #include "Actor.h"
 #include "ActorManager.h"
+#include "ActorStatusSet.h"
 #include "Bullet.h"
+#include "BulletType.h"
+#include "CoolDown.h"
+#include "GameLog.h"
+#include "GameMap.h"
+#include "GameMapDef.h"
 #include "Player.h"
 #include "Scene.h"
+#include "SceneBase.h"
 #include "SceneService.h"
+#include "ScriptCallBackType.h"
+#include "SkillType.h"
+#include "msg/zone_service.pb.h"
+CSkillFSM::CSkillFSM() {}
 
-CSkillFSM::CSkillFSM(CActor* pOwner)
-    : m_pOwner(pOwner)
+bool CSkillFSM::Init(CActor* pActor)
 {
+    m_pOwner = pActor;
+    return true;
 }
 
 CSkillFSM::~CSkillFSM()

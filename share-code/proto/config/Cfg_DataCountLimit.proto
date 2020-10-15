@@ -3,14 +3,11 @@ option optimize_for = CODE_SIZE;
 
 message Cfg_DataCountLimit
 {
-	message Row
-	{
+
 		uint32 type		  = 1;
 		uint32 keyidx	  = 2;
 		uint32 max_count  = 3;
 		uint32 reset_type = 4;
 		uint32 reset_time = 5;
-	}
 
-	repeated Row rows = 1;
 }

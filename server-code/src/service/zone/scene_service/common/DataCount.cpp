@@ -1,8 +1,14 @@
 #include "DataCount.h"
 
+#include "DBRecord.h"
+#include "DataCountLimit.h"
+#include "MysqlConnection.h"
 #include "Player.h"
+#include "PlayerAchievement.h"
 #include "SceneService.h"
-
+#include "config/Cfg_Achievement.pb.h"
+#include "gamedb.h"
+#include "msg/zone_service.pb.h"
 OBJECTHEAP_IMPLEMENTATION(CDataCount, s_heap);
 
 CDataCount::CDataCount(CPlayer* pPlayer, CDBRecordPtr&& pRecord)

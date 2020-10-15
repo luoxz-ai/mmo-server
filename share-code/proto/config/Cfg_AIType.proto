@@ -3,8 +3,7 @@ option optimize_for = CODE_SIZE;
 
 message Cfg_AIType
 {
-	message Row
-	{
+
 		uint32 idmonster				= 1;  //怪物id
 		uint32 ai_type					= 2;  // ai类型: 0=木桩 1=被动 2=主动
 		uint32 idle_randomwalk_ms_min	= 3;  // idle时,随机移动间隔
@@ -30,7 +29,5 @@ message Cfg_AIType
 		uint32			follow_path	 = 23; //巡逻路径编号
 		uint32			script_id	 = 24; //脚本id
 		bool			ai_debug	 = 25; //是否打开调试信息输出
-	}
 
-	repeated Row rows = 1;
 }

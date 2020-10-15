@@ -9,7 +9,7 @@
 class CItemUpgradeData : public NoncopyableT<CItemUpgradeData>
 {
     CItemUpgradeData() {}
-    bool Init(const Cfg_ItemUpgrade_Row& row)
+    bool Init(const Cfg_ItemUpgrade& row)
     {
         m_Data = row;
         return true;
@@ -22,7 +22,7 @@ public:
     virtual ~CItemUpgradeData() {}
     using PB_T = Cfg_ItemUpgrade;
 
-    static uint32_t GetKey(const Cfg_Item_Row& row) { return row.id(); }
+    static uint32_t GetKey(const Cfg_Item& row) { return row.id(); }
 
 public:
     uint32_t       GetID() const { return m_Data.id(); }
@@ -34,7 +34,7 @@ public:
     decltype(auto) GetReqData() const { return m_Data.req_data_list(); } // 需要材料itemtypeid
 
 public:
-    Cfg_ItemUpgrade_Row m_Data;
+    Cfg_ItemUpgrade m_Data;
 };
 
 DEFINE_GAMEMAPDATA(CItemUpgradeDataSet, CItemUpgradeData);

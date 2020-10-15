@@ -1,9 +1,11 @@
 #include <regex>
 
 #include "ActorManager.h"
+#include "Equipment.h"
 #include "GMManager.h"
 #include "Item.h"
 #include "MsgSceneProcess.h"
+#include "Package.h"
 #include "Phase.h"
 #include "Player.h"
 #include "Scene.h"

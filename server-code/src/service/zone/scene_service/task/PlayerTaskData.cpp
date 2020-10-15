@@ -1,8 +1,10 @@
 
 #include "PlayerTaskData.h"
 
+#include "MysqlConnection.h"
 #include "Player.h"
 #include "SceneService.h"
+
 CPlayerTaskData::CPlayerTaskData() {}
 
 CPlayerTaskData::~CPlayerTaskData() {}

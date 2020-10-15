@@ -1,8 +1,13 @@
 #include "User.h"
 
 #include "Account.h"
+#include "AccountInfo.h"
+#include "GameMap.h"
 #include "MapData.h"
 #include "MapManager.h"
+#include "NetworkDefine.h"
+#include "NetworkMessage.h"
+#include "SceneID.h"
 #include "WorldService.h"
 #include "msg/world_service.pb.h"
 #include "server_msg/server_side.pb.h"

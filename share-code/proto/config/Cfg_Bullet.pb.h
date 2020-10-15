@@ -47,7 +47,7 @@ struct TableStruct_config_2fCfg_5fBullet_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[2]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[1]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -57,33 +57,29 @@ extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table
 class Cfg_Bullet;
 class Cfg_BulletDefaultTypeInternal;
 extern Cfg_BulletDefaultTypeInternal _Cfg_Bullet_default_instance_;
-class Cfg_Bullet_Row;
-class Cfg_Bullet_RowDefaultTypeInternal;
-extern Cfg_Bullet_RowDefaultTypeInternal _Cfg_Bullet_Row_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
 template<> ::Cfg_Bullet* Arena::CreateMaybeMessage<::Cfg_Bullet>(Arena*);
-template<> ::Cfg_Bullet_Row* Arena::CreateMaybeMessage<::Cfg_Bullet_Row>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 
 // ===================================================================
 
-class Cfg_Bullet_Row :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Cfg_Bullet.Row) */ {
+class Cfg_Bullet :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Cfg_Bullet) */ {
  public:
-  Cfg_Bullet_Row();
-  virtual ~Cfg_Bullet_Row();
+  Cfg_Bullet();
+  virtual ~Cfg_Bullet();
 
-  Cfg_Bullet_Row(const Cfg_Bullet_Row& from);
-  Cfg_Bullet_Row(Cfg_Bullet_Row&& from) noexcept
-    : Cfg_Bullet_Row() {
+  Cfg_Bullet(const Cfg_Bullet& from);
+  Cfg_Bullet(Cfg_Bullet&& from) noexcept
+    : Cfg_Bullet() {
     *this = ::std::move(from);
   }
 
-  inline Cfg_Bullet_Row& operator=(const Cfg_Bullet_Row& from) {
+  inline Cfg_Bullet& operator=(const Cfg_Bullet& from) {
     CopyFrom(from);
     return *this;
   }
-  inline Cfg_Bullet_Row& operator=(Cfg_Bullet_Row&& from) noexcept {
+  inline Cfg_Bullet& operator=(Cfg_Bullet&& from) noexcept {
     if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
       if (this != &from) InternalSwap(&from);
     } else {
@@ -101,32 +97,32 @@ class Cfg_Bullet_Row :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return GetMetadataStatic().reflection;
   }
-  static const Cfg_Bullet_Row& default_instance();
+  static const Cfg_Bullet& default_instance();
 
   static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const Cfg_Bullet_Row* internal_default_instance() {
-    return reinterpret_cast<const Cfg_Bullet_Row*>(
-               &_Cfg_Bullet_Row_default_instance_);
+  static inline const Cfg_Bullet* internal_default_instance() {
+    return reinterpret_cast<const Cfg_Bullet*>(
+               &_Cfg_Bullet_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     0;
 
-  friend void swap(Cfg_Bullet_Row& a, Cfg_Bullet_Row& b) {
+  friend void swap(Cfg_Bullet& a, Cfg_Bullet& b) {
     a.Swap(&b);
   }
-  inline void Swap(Cfg_Bullet_Row* other) {
+  inline void Swap(Cfg_Bullet* other) {
     if (other == this) return;
     InternalSwap(other);
   }
 
   // implements Message ----------------------------------------------
 
-  inline Cfg_Bullet_Row* New() const final {
-    return CreateMaybeMessage<Cfg_Bullet_Row>(nullptr);
+  inline Cfg_Bullet* New() const final {
+    return CreateMaybeMessage<Cfg_Bullet>(nullptr);
   }
 
-  Cfg_Bullet_Row* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<Cfg_Bullet_Row>(arena);
+  Cfg_Bullet* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<Cfg_Bullet>(arena);
   }
   int GetCachedSize() const final { return _cached_size_.Get(); }
 
@@ -134,10 +130,10 @@ class Cfg_Bullet_Row :
   inline void SharedCtor();
   inline void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(Cfg_Bullet_Row* other);
+  void InternalSwap(Cfg_Bullet* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "Cfg_Bullet.Row";
+    return "Cfg_Bullet";
   }
   private:
   inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
@@ -293,7 +289,7 @@ class Cfg_Bullet_Row :
   void _internal_set_skill_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // @@protoc_insertion_point(class_scope:Cfg_Bullet.Row)
+  // @@protoc_insertion_point(class_scope:Cfg_Bullet)
  private:
   class _Internal;
 
@@ -314,134 +310,6 @@ class Cfg_Bullet_Row :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_config_2fCfg_5fBullet_2eproto;
 };
-// -------------------------------------------------------------------
-
-class Cfg_Bullet :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Cfg_Bullet) */ {
- public:
-  Cfg_Bullet();
-  virtual ~Cfg_Bullet();
-
-  Cfg_Bullet(const Cfg_Bullet& from);
-  Cfg_Bullet(Cfg_Bullet&& from) noexcept
-    : Cfg_Bullet() {
-    *this = ::std::move(from);
-  }
-
-  inline Cfg_Bullet& operator=(const Cfg_Bullet& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline Cfg_Bullet& operator=(Cfg_Bullet&& from) noexcept {
-    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return GetMetadataStatic().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return GetMetadataStatic().reflection;
-  }
-  static const Cfg_Bullet& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const Cfg_Bullet* internal_default_instance() {
-    return reinterpret_cast<const Cfg_Bullet*>(
-               &_Cfg_Bullet_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    1;
-
-  friend void swap(Cfg_Bullet& a, Cfg_Bullet& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(Cfg_Bullet* other) {
-    if (other == this) return;
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline Cfg_Bullet* New() const final {
-    return CreateMaybeMessage<Cfg_Bullet>(nullptr);
-  }
-
-  Cfg_Bullet* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<Cfg_Bullet>(arena);
-  }
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  inline void SharedCtor();
-  inline void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(Cfg_Bullet* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "Cfg_Bullet";
-  }
-  private:
-  inline ::PROTOBUF_NAMESPACE_ID::Arena* GetArenaNoVirtual() const {
-    return nullptr;
-  }
-  inline void* MaybeArenaPtr() const {
-    return nullptr;
-  }
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-  private:
-  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
-    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_config_2fCfg_5fBullet_2eproto);
-    return ::descriptor_table_config_2fCfg_5fBullet_2eproto.file_level_metadata[kIndexInFileMessages];
-  }
-
-  public:
-
-  // nested types ----------------------------------------------------
-
-  typedef Cfg_Bullet_Row Row;
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kRowsFieldNumber = 1,
-  };
-  // repeated .Cfg_Bullet.Row rows = 1;
-  int rows_size() const;
-  private:
-  int _internal_rows_size() const;
-  public:
-  void clear_rows();
-  ::Cfg_Bullet_Row* mutable_rows(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Cfg_Bullet_Row >*
-      mutable_rows();
-  private:
-  const ::Cfg_Bullet_Row& _internal_rows(int index) const;
-  ::Cfg_Bullet_Row* _internal_add_rows();
-  public:
-  const ::Cfg_Bullet_Row& rows(int index) const;
-  ::Cfg_Bullet_Row* add_rows();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Cfg_Bullet_Row >&
-      rows() const;
-
-  // @@protoc_insertion_point(class_scope:Cfg_Bullet)
- private:
-  class _Internal;
-
-  ::PROTOBUF_NAMESPACE_ID::internal::InternalMetadataWithArena _internal_metadata_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Cfg_Bullet_Row > rows_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_config_2fCfg_5fBullet_2eproto;
-};
 // ===================================================================
 
 
@@ -451,316 +319,271 @@ class Cfg_Bullet :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// Cfg_Bullet_Row
+// Cfg_Bullet
 
 // uint32 id = 1;
-inline void Cfg_Bullet_Row::clear_id() {
+inline void Cfg_Bullet::clear_id() {
   id_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet_Row::_internal_id() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet::_internal_id() const {
   return id_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet_Row::id() const {
-  // @@protoc_insertion_point(field_get:Cfg_Bullet.Row.id)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet::id() const {
+  // @@protoc_insertion_point(field_get:Cfg_Bullet.id)
   return _internal_id();
 }
-inline void Cfg_Bullet_Row::_internal_set_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Bullet::_internal_set_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   id_ = value;
 }
-inline void Cfg_Bullet_Row::set_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Bullet::set_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_id(value);
-  // @@protoc_insertion_point(field_set:Cfg_Bullet.Row.id)
+  // @@protoc_insertion_point(field_set:Cfg_Bullet.id)
 }
 
 // uint32 num = 2;
-inline void Cfg_Bullet_Row::clear_num() {
+inline void Cfg_Bullet::clear_num() {
   num_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet_Row::_internal_num() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet::_internal_num() const {
   return num_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet_Row::num() const {
-  // @@protoc_insertion_point(field_get:Cfg_Bullet.Row.num)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet::num() const {
+  // @@protoc_insertion_point(field_get:Cfg_Bullet.num)
   return _internal_num();
 }
-inline void Cfg_Bullet_Row::_internal_set_num(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Bullet::_internal_set_num(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   num_ = value;
 }
-inline void Cfg_Bullet_Row::set_num(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Bullet::set_num(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_num(value);
-  // @@protoc_insertion_point(field_set:Cfg_Bullet.Row.num)
+  // @@protoc_insertion_point(field_set:Cfg_Bullet.num)
 }
 
 // uint32 emit_type = 3;
-inline void Cfg_Bullet_Row::clear_emit_type() {
+inline void Cfg_Bullet::clear_emit_type() {
   emit_type_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet_Row::_internal_emit_type() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet::_internal_emit_type() const {
   return emit_type_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet_Row::emit_type() const {
-  // @@protoc_insertion_point(field_get:Cfg_Bullet.Row.emit_type)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet::emit_type() const {
+  // @@protoc_insertion_point(field_get:Cfg_Bullet.emit_type)
   return _internal_emit_type();
 }
-inline void Cfg_Bullet_Row::_internal_set_emit_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Bullet::_internal_set_emit_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   emit_type_ = value;
 }
-inline void Cfg_Bullet_Row::set_emit_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Bullet::set_emit_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_emit_type(value);
-  // @@protoc_insertion_point(field_set:Cfg_Bullet.Row.emit_type)
+  // @@protoc_insertion_point(field_set:Cfg_Bullet.emit_type)
 }
 
 // uint32 target_type = 4;
-inline void Cfg_Bullet_Row::clear_target_type() {
+inline void Cfg_Bullet::clear_target_type() {
   target_type_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet_Row::_internal_target_type() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet::_internal_target_type() const {
   return target_type_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet_Row::target_type() const {
-  // @@protoc_insertion_point(field_get:Cfg_Bullet.Row.target_type)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet::target_type() const {
+  // @@protoc_insertion_point(field_get:Cfg_Bullet.target_type)
   return _internal_target_type();
 }
-inline void Cfg_Bullet_Row::_internal_set_target_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Bullet::_internal_set_target_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   target_type_ = value;
 }
-inline void Cfg_Bullet_Row::set_target_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Bullet::set_target_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_target_type(value);
-  // @@protoc_insertion_point(field_set:Cfg_Bullet.Row.target_type)
+  // @@protoc_insertion_point(field_set:Cfg_Bullet.target_type)
 }
 
 // uint32 move_type = 5;
-inline void Cfg_Bullet_Row::clear_move_type() {
+inline void Cfg_Bullet::clear_move_type() {
   move_type_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet_Row::_internal_move_type() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet::_internal_move_type() const {
   return move_type_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet_Row::move_type() const {
-  // @@protoc_insertion_point(field_get:Cfg_Bullet.Row.move_type)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet::move_type() const {
+  // @@protoc_insertion_point(field_get:Cfg_Bullet.move_type)
   return _internal_move_type();
 }
-inline void Cfg_Bullet_Row::_internal_set_move_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Bullet::_internal_set_move_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   move_type_ = value;
 }
-inline void Cfg_Bullet_Row::set_move_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Bullet::set_move_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_move_type(value);
-  // @@protoc_insertion_point(field_set:Cfg_Bullet.Row.move_type)
+  // @@protoc_insertion_point(field_set:Cfg_Bullet.move_type)
 }
 
 // uint32 move_param = 6;
-inline void Cfg_Bullet_Row::clear_move_param() {
+inline void Cfg_Bullet::clear_move_param() {
   move_param_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet_Row::_internal_move_param() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet::_internal_move_param() const {
   return move_param_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet_Row::move_param() const {
-  // @@protoc_insertion_point(field_get:Cfg_Bullet.Row.move_param)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet::move_param() const {
+  // @@protoc_insertion_point(field_get:Cfg_Bullet.move_param)
   return _internal_move_param();
 }
-inline void Cfg_Bullet_Row::_internal_set_move_param(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Bullet::_internal_set_move_param(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   move_param_ = value;
 }
-inline void Cfg_Bullet_Row::set_move_param(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Bullet::set_move_param(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_move_param(value);
-  // @@protoc_insertion_point(field_set:Cfg_Bullet.Row.move_param)
+  // @@protoc_insertion_point(field_set:Cfg_Bullet.move_param)
 }
 
 // uint32 move_spd = 7;
-inline void Cfg_Bullet_Row::clear_move_spd() {
+inline void Cfg_Bullet::clear_move_spd() {
   move_spd_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet_Row::_internal_move_spd() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet::_internal_move_spd() const {
   return move_spd_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet_Row::move_spd() const {
-  // @@protoc_insertion_point(field_get:Cfg_Bullet.Row.move_spd)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet::move_spd() const {
+  // @@protoc_insertion_point(field_get:Cfg_Bullet.move_spd)
   return _internal_move_spd();
 }
-inline void Cfg_Bullet_Row::_internal_set_move_spd(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Bullet::_internal_set_move_spd(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   move_spd_ = value;
 }
-inline void Cfg_Bullet_Row::set_move_spd(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Bullet::set_move_spd(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_move_spd(value);
-  // @@protoc_insertion_point(field_set:Cfg_Bullet.Row.move_spd)
+  // @@protoc_insertion_point(field_set:Cfg_Bullet.move_spd)
 }
 
 // uint32 apply_times = 9;
-inline void Cfg_Bullet_Row::clear_apply_times() {
+inline void Cfg_Bullet::clear_apply_times() {
   apply_times_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet_Row::_internal_apply_times() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet::_internal_apply_times() const {
   return apply_times_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet_Row::apply_times() const {
-  // @@protoc_insertion_point(field_get:Cfg_Bullet.Row.apply_times)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet::apply_times() const {
+  // @@protoc_insertion_point(field_get:Cfg_Bullet.apply_times)
   return _internal_apply_times();
 }
-inline void Cfg_Bullet_Row::_internal_set_apply_times(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Bullet::_internal_set_apply_times(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   apply_times_ = value;
 }
-inline void Cfg_Bullet_Row::set_apply_times(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Bullet::set_apply_times(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_apply_times(value);
-  // @@protoc_insertion_point(field_set:Cfg_Bullet.Row.apply_times)
+  // @@protoc_insertion_point(field_set:Cfg_Bullet.apply_times)
 }
 
 // uint32 apply_ms = 10;
-inline void Cfg_Bullet_Row::clear_apply_ms() {
+inline void Cfg_Bullet::clear_apply_ms() {
   apply_ms_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet_Row::_internal_apply_ms() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet::_internal_apply_ms() const {
   return apply_ms_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet_Row::apply_ms() const {
-  // @@protoc_insertion_point(field_get:Cfg_Bullet.Row.apply_ms)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet::apply_ms() const {
+  // @@protoc_insertion_point(field_get:Cfg_Bullet.apply_ms)
   return _internal_apply_ms();
 }
-inline void Cfg_Bullet_Row::_internal_set_apply_ms(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Bullet::_internal_set_apply_ms(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   apply_ms_ = value;
 }
-inline void Cfg_Bullet_Row::set_apply_ms(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Bullet::set_apply_ms(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_apply_ms(value);
-  // @@protoc_insertion_point(field_set:Cfg_Bullet.Row.apply_ms)
+  // @@protoc_insertion_point(field_set:Cfg_Bullet.apply_ms)
 }
 
 // uint32 apply_adj_ms = 11;
-inline void Cfg_Bullet_Row::clear_apply_adj_ms() {
+inline void Cfg_Bullet::clear_apply_adj_ms() {
   apply_adj_ms_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet_Row::_internal_apply_adj_ms() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet::_internal_apply_adj_ms() const {
   return apply_adj_ms_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet_Row::apply_adj_ms() const {
-  // @@protoc_insertion_point(field_get:Cfg_Bullet.Row.apply_adj_ms)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet::apply_adj_ms() const {
+  // @@protoc_insertion_point(field_get:Cfg_Bullet.apply_adj_ms)
   return _internal_apply_adj_ms();
 }
-inline void Cfg_Bullet_Row::_internal_set_apply_adj_ms(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Bullet::_internal_set_apply_adj_ms(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   apply_adj_ms_ = value;
 }
-inline void Cfg_Bullet_Row::set_apply_adj_ms(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Bullet::set_apply_adj_ms(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_apply_adj_ms(value);
-  // @@protoc_insertion_point(field_set:Cfg_Bullet.Row.apply_adj_ms)
+  // @@protoc_insertion_point(field_set:Cfg_Bullet.apply_adj_ms)
 }
 
 // uint32 expire_type = 12;
-inline void Cfg_Bullet_Row::clear_expire_type() {
+inline void Cfg_Bullet::clear_expire_type() {
   expire_type_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet_Row::_internal_expire_type() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet::_internal_expire_type() const {
   return expire_type_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet_Row::expire_type() const {
-  // @@protoc_insertion_point(field_get:Cfg_Bullet.Row.expire_type)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet::expire_type() const {
+  // @@protoc_insertion_point(field_get:Cfg_Bullet.expire_type)
   return _internal_expire_type();
 }
-inline void Cfg_Bullet_Row::_internal_set_expire_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Bullet::_internal_set_expire_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   expire_type_ = value;
 }
-inline void Cfg_Bullet_Row::set_expire_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Bullet::set_expire_type(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_expire_type(value);
-  // @@protoc_insertion_point(field_set:Cfg_Bullet.Row.expire_type)
+  // @@protoc_insertion_point(field_set:Cfg_Bullet.expire_type)
 }
 
 // uint32 expire_ms = 13;
-inline void Cfg_Bullet_Row::clear_expire_ms() {
+inline void Cfg_Bullet::clear_expire_ms() {
   expire_ms_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet_Row::_internal_expire_ms() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet::_internal_expire_ms() const {
   return expire_ms_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet_Row::expire_ms() const {
-  // @@protoc_insertion_point(field_get:Cfg_Bullet.Row.expire_ms)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet::expire_ms() const {
+  // @@protoc_insertion_point(field_get:Cfg_Bullet.expire_ms)
   return _internal_expire_ms();
 }
-inline void Cfg_Bullet_Row::_internal_set_expire_ms(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Bullet::_internal_set_expire_ms(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   expire_ms_ = value;
 }
-inline void Cfg_Bullet_Row::set_expire_ms(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Bullet::set_expire_ms(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_expire_ms(value);
-  // @@protoc_insertion_point(field_set:Cfg_Bullet.Row.expire_ms)
+  // @@protoc_insertion_point(field_set:Cfg_Bullet.expire_ms)
 }
 
 // uint32 skill_id = 14;
-inline void Cfg_Bullet_Row::clear_skill_id() {
+inline void Cfg_Bullet::clear_skill_id() {
   skill_id_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet_Row::_internal_skill_id() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet::_internal_skill_id() const {
   return skill_id_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet_Row::skill_id() const {
-  // @@protoc_insertion_point(field_get:Cfg_Bullet.Row.skill_id)
+inline ::PROTOBUF_NAMESPACE_ID::uint32 Cfg_Bullet::skill_id() const {
+  // @@protoc_insertion_point(field_get:Cfg_Bullet.skill_id)
   return _internal_skill_id();
 }
-inline void Cfg_Bullet_Row::_internal_set_skill_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Bullet::_internal_set_skill_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   skill_id_ = value;
 }
-inline void Cfg_Bullet_Row::set_skill_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
+inline void Cfg_Bullet::set_skill_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_skill_id(value);
-  // @@protoc_insertion_point(field_set:Cfg_Bullet.Row.skill_id)
-}
-
-// -------------------------------------------------------------------
-
-// Cfg_Bullet
-
-// repeated .Cfg_Bullet.Row rows = 1;
-inline int Cfg_Bullet::_internal_rows_size() const {
-  return rows_.size();
-}
-inline int Cfg_Bullet::rows_size() const {
-  return _internal_rows_size();
-}
-inline void Cfg_Bullet::clear_rows() {
-  rows_.Clear();
-}
-inline ::Cfg_Bullet_Row* Cfg_Bullet::mutable_rows(int index) {
-  // @@protoc_insertion_point(field_mutable:Cfg_Bullet.rows)
-  return rows_.Mutable(index);
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Cfg_Bullet_Row >*
-Cfg_Bullet::mutable_rows() {
-  // @@protoc_insertion_point(field_mutable_list:Cfg_Bullet.rows)
-  return &rows_;
-}
-inline const ::Cfg_Bullet_Row& Cfg_Bullet::_internal_rows(int index) const {
-  return rows_.Get(index);
-}
-inline const ::Cfg_Bullet_Row& Cfg_Bullet::rows(int index) const {
-  // @@protoc_insertion_point(field_get:Cfg_Bullet.rows)
-  return _internal_rows(index);
-}
-inline ::Cfg_Bullet_Row* Cfg_Bullet::_internal_add_rows() {
-  return rows_.Add();
-}
-inline ::Cfg_Bullet_Row* Cfg_Bullet::add_rows() {
-  // @@protoc_insertion_point(field_add:Cfg_Bullet.rows)
-  return _internal_add_rows();
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Cfg_Bullet_Row >&
-Cfg_Bullet::rows() const {
-  // @@protoc_insertion_point(field_list:Cfg_Bullet.rows)
-  return rows_;
+  // @@protoc_insertion_point(field_set:Cfg_Bullet.skill_id)
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
 
 // @@protoc_insertion_point(namespace_scope)
 

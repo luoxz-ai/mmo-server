@@ -3,7 +3,9 @@
 
 #include <unordered_map>
 
-#include "Pet.h"
+#include "BaseCode.h"
+class CPet;
+class CPlayer;
 class CPetSet : public NoncopyableT<CPetSet>
 {
     CPetSet();

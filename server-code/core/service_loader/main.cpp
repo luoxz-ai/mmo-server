@@ -2,6 +2,7 @@
 #include <set>
 #include <thread>
 
+#include <fmt/format.h>
 #include <google/protobuf/stubs/common.h>
 #include <google/protobuf/stubs/logging.h>
 #include <sys/stat.h>
@@ -17,7 +18,6 @@
 #include "ServiceDefine.h"
 #include "ServiceLoader.h"
 #include "StringAlgo.h"
-#include "fmt/format.h"
 #include "get_opt.h"
 
 #ifdef USE_JEMALLOC

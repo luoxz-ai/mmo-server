@@ -1,10 +1,14 @@
 #include <regex>
 
 #include "ActorManager.h"
+#include "GameMap.h"
+#include "GameMapDef.h"
 #include "MsgSceneProcess.h"
 #include "Phase.h"
 #include "Player.h"
 #include "SceneService.h"
+#include "SkillFSM.h"
+#include "SkillManager.h"
 #include "msg/ts_cmd.pb.h"
 #include "msg/zone_service.pb.h"
 

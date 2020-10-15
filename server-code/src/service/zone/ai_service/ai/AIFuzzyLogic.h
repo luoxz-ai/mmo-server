@@ -89,7 +89,7 @@ class SkillFAM : public NoncopyableT<SkillFAM>
         : m_rule_set("SkillFAM", fuzzy::Implication::MAMDANI)
     {
     }
-    bool Init(const Cfg_SkillFAM_Row& row)
+    bool Init(const Cfg_SkillFAM& row)
     {
         m_ID = row.id();
         // Set up our rules.
@@ -129,7 +129,7 @@ public:
     using PB_T = Cfg_SkillFAM;
     void Merge(SkillFAM* pData) { pData->m_rule_set.merge(m_rule_set); }
 
-    static uint32_t GetKey(const Cfg_SkillFAM_Row& row) { return row.id(); }
+    static uint32_t GetKey(const Cfg_SkillFAM& row) { return row.id(); }
     uint32_t        GetID() { return m_ID; }
 
     template<class... Args>
@@ -153,7 +153,7 @@ class TargetFAM : public NoncopyableT<TargetFAM>
         : m_rule_set("TargetFAM", fuzzy::Implication::MAMDANI)
     {
     }
-    bool Init(const Cfg_TargetFAM_Row& row)
+    bool Init(const Cfg_TargetFAM& row)
     {
         m_ID = row.id();
         // Set up our rules.
@@ -178,7 +178,7 @@ public:
     using PB_T = Cfg_TargetFAM;
     void Merge(TargetFAM* pData) const { pData->m_rule_set.merge(m_rule_set); }
 
-    static uint32_t GetKey(const Cfg_TargetFAM_Row& row) { return row.id(); }
+    static uint32_t GetKey(const Cfg_TargetFAM& row) { return row.id(); }
     uint32_t        GetID() { return m_ID; }
 
     template<class... Args>

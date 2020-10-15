@@ -3,6 +3,8 @@
 #include "AIActor.h"
 #include "AIPhase.h"
 #include "AIScene.h"
+#include "GameMap.h"
+
 CAIPathFinder_Normal::CAIPathFinder_Normal(CAIActor* pActor)
     : m_pActor(pActor)
 {

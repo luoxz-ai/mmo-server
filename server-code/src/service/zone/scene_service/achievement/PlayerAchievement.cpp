@@ -1,8 +1,12 @@
 #include "PlayerAchievement.h"
 
+#include "AchievementType.h"
 #include "Player.h"
+#include "PlayerTask.h"
 #include "SceneService.h"
+#include "config/Cfg_Achievement.pb.h"
 #include "gamedb.h"
+#include "msg/zone_service.pb.h"
 
 CPlayerAchievement::CPlayerAchievement() {}
 

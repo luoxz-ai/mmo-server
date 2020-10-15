@@ -44,6 +44,8 @@
 #include <vector>
 
 #include <errno.h>
+#include <fmt/chrono.h>
+#include <fmt/printf.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -53,8 +55,6 @@
 #include "LockfreeQueue.h"
 #include "LoggingMgr.h"
 #include "Thread.h"
-#include "fmt/chrono.h"
-#include "fmt/printf.h"
 
 #ifdef WIN32
 #include <io.h>

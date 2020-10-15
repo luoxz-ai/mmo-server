@@ -2,8 +2,8 @@
 #define BULLET_H
 #include "Actor.h"
 #include "BaseCode.h"
-#include "BulletType.h"
 
+class CBulletType;
 export_lua class CBullet : public CActor
 {
 protected:

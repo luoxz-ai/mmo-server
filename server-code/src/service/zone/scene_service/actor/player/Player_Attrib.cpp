@@ -1,13 +1,20 @@
+#include "ActorAttrib.h"
+#include "GameMap.h"
 #include "Player.h"
+#include "PlayerAchievement.h"
+#include "SceneService.h"
+#include "ScriptManager.h"
 #include "UserAttr.h"
-
+#include "config/Cfg_Achievement.pb.h"
+#include "msg/zone_service.pb.h"
+#include "server_msg/server_side.pb.h"
 void CPlayer::SendAttribToClient()
 {
     __ENTER_FUNCTION
     SC_ACTORATTRIB msg;
     for(int32_t i = 0; i < ATTRIB_MAX; i++)
     {
-        msg.add_attrib_list(m_ActorAttrib.get(i));
+        msg.add_attrib_list(m_ActorAttrib->get(i));
     }
 
     SendMsg(msg);
@@ -22,7 +29,7 @@ void CPlayer::RecalcAttrib(bool bClearCache /*= false*/)
         // lev给予的基础属性
         auto pData = UserAttrSet()->QueryObj(CUserAttrData::MakeID(GetProf(), GetLev()));
         CHECK(pData);
-        m_ActorAttrib.SetBase(pData->GetAbility());
+        m_ActorAttrib->SetBase(pData->GetAbility());
     }
 
     CActor::RecalcAttrib(bClearCache);
@@ -56,6 +63,23 @@ void CPlayer::SetPKMode(uint32_t val)
     msg.set_pkmode(m_nPKMode);
     SendMsg(msg);
     __LEAVE_FUNCTION
+}
+
+uint32_t CPlayer::GetHPMax() const
+{
+    return m_ActorAttrib->get(ATTRIB_HP_MAX);
+}
+uint32_t CPlayer::GetMPMax() const
+{
+    return m_ActorAttrib->get(ATTRIB_MP_MAX);
+}
+uint32_t CPlayer::GetFPMax() const
+{
+    return m_ActorAttrib->get(ATTRIB_FP_MAX);
+}
+uint32_t CPlayer::GetNPMax() const
+{
+    return m_ActorAttrib->get(ATTRIB_NP_MAX);
 }
 
 void CPlayer::_SetProperty(uint32_t nType, uint32_t nVal, uint32_t nSync /*= SYNC_TRUE*/)

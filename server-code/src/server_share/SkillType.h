@@ -78,7 +78,7 @@ export_lua enum SkillFlag {
 class CSkillType : public NoncopyableT<CSkillType>
 {
     CSkillType() {}
-    bool Init(const Cfg_Skill_Row& row)
+    bool Init(const Cfg_Skill& row)
     {
         m_Data = row;
         for(int32_t i = 0; i < row.attrib_change_list_size(); i++)
@@ -143,11 +143,11 @@ public:
     bool     CanAttackActor(class CActor* pAttacker, class CActor* pTarget) const;
 
 public:
-    const Cfg_Skill_Row&                   GetDataRef() const { return m_Data; }
+    const Cfg_Skill&                       GetDataRef() const { return m_Data; }
     const std::vector<CActorAttribChange>& GetAttrib() const { return m_AttribChangeList; }
 
 private:
-    Cfg_Skill_Row                   m_Data;
+    Cfg_Skill                       m_Data;
     std::vector<CActorAttribChange> m_AttribChangeList;
 };
 

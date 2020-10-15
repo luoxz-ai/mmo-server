@@ -14,11 +14,6 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
-extern PROTOBUF_INTERNAL_EXPORT_config_2fCfg_5fDataCountLimit_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Cfg_DataCountLimit_Row_config_2fCfg_5fDataCountLimit_2eproto;
-class Cfg_DataCountLimit_RowDefaultTypeInternal {
- public:
-  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<Cfg_DataCountLimit_Row> _instance;
-} _Cfg_DataCountLimit_Row_default_instance_;
 class Cfg_DataCountLimitDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<Cfg_DataCountLimit> _instance;
@@ -34,136 +29,55 @@ static void InitDefaultsscc_info_Cfg_DataCountLimit_config_2fCfg_5fDataCountLimi
   ::Cfg_DataCountLimit::InitAsDefaultInstance();
 }
 
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_Cfg_DataCountLimit_config_2fCfg_5fDataCountLimit_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_Cfg_DataCountLimit_config_2fCfg_5fDataCountLimit_2eproto}, {
-      &scc_info_Cfg_DataCountLimit_Row_config_2fCfg_5fDataCountLimit_2eproto.base,}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Cfg_DataCountLimit_config_2fCfg_5fDataCountLimit_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_Cfg_DataCountLimit_config_2fCfg_5fDataCountLimit_2eproto}, {}};
 
-static void InitDefaultsscc_info_Cfg_DataCountLimit_Row_config_2fCfg_5fDataCountLimit_2eproto() {
-  GOOGLE_PROTOBUF_VERIFY_VERSION;
-
-  {
-    void* ptr = &::_Cfg_DataCountLimit_Row_default_instance_;
-    new (ptr) ::Cfg_DataCountLimit_Row();
-    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
-  }
-  ::Cfg_DataCountLimit_Row::InitAsDefaultInstance();
-}
-
-::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Cfg_DataCountLimit_Row_config_2fCfg_5fDataCountLimit_2eproto =
-    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_Cfg_DataCountLimit_Row_config_2fCfg_5fDataCountLimit_2eproto}, {}};
-
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_config_2fCfg_5fDataCountLimit_2eproto[2];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_config_2fCfg_5fDataCountLimit_2eproto[1];
 static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_config_2fCfg_5fDataCountLimit_2eproto = nullptr;
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_config_2fCfg_5fDataCountLimit_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_config_2fCfg_5fDataCountLimit_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::Cfg_DataCountLimit_Row, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::Cfg_DataCountLimit_Row, type_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_DataCountLimit_Row, keyidx_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_DataCountLimit_Row, max_count_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_DataCountLimit_Row, reset_type_),
-  PROTOBUF_FIELD_OFFSET(::Cfg_DataCountLimit_Row, reset_time_),
-  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Cfg_DataCountLimit, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::Cfg_DataCountLimit, rows_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_DataCountLimit, type_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_DataCountLimit, keyidx_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_DataCountLimit, max_count_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_DataCountLimit, reset_type_),
+  PROTOBUF_FIELD_OFFSET(::Cfg_DataCountLimit, reset_time_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::Cfg_DataCountLimit_Row)},
-  { 10, -1, sizeof(::Cfg_DataCountLimit)},
+  { 0, -1, sizeof(::Cfg_DataCountLimit)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_Cfg_DataCountLimit_Row_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_Cfg_DataCountLimit_default_instance_),
 };
 
 const char descriptor_table_protodef_config_2fCfg_5fDataCountLimit_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\037config/Cfg_DataCountLimit.proto\"\233\001\n\022Cf"
-  "g_DataCountLimit\022%\n\004rows\030\001 \003(\0132\027.Cfg_Dat"
-  "aCountLimit.Row\032^\n\003Row\022\014\n\004type\030\001 \001(\r\022\016\n\006"
-  "keyidx\030\002 \001(\r\022\021\n\tmax_count\030\003 \001(\r\022\022\n\nreset"
-  "_type\030\004 \001(\r\022\022\n\nreset_time\030\005 \001(\rB\002H\002b\006pro"
-  "to3"
+  "\n\037config/Cfg_DataCountLimit.proto\"m\n\022Cfg"
+  "_DataCountLimit\022\014\n\004type\030\001 \001(\r\022\016\n\006keyidx\030"
+  "\002 \001(\r\022\021\n\tmax_count\030\003 \001(\r\022\022\n\nreset_type\030\004"
+  " \001(\r\022\022\n\nreset_time\030\005 \001(\rB\002H\002b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_config_2fCfg_5fDataCountLimit_2eproto_deps[1] = {
 };
-static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_config_2fCfg_5fDataCountLimit_2eproto_sccs[2] = {
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_config_2fCfg_5fDataCountLimit_2eproto_sccs[1] = {
   &scc_info_Cfg_DataCountLimit_config_2fCfg_5fDataCountLimit_2eproto.base,
-  &scc_info_Cfg_DataCountLimit_Row_config_2fCfg_5fDataCountLimit_2eproto.base,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_config_2fCfg_5fDataCountLimit_2eproto_once;
 static bool descriptor_table_config_2fCfg_5fDataCountLimit_2eproto_initialized = false;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_config_2fCfg_5fDataCountLimit_2eproto = {
-  &descriptor_table_config_2fCfg_5fDataCountLimit_2eproto_initialized, descriptor_table_protodef_config_2fCfg_5fDataCountLimit_2eproto, "config/Cfg_DataCountLimit.proto", 203,
-  &descriptor_table_config_2fCfg_5fDataCountLimit_2eproto_once, descriptor_table_config_2fCfg_5fDataCountLimit_2eproto_sccs, descriptor_table_config_2fCfg_5fDataCountLimit_2eproto_deps, 2, 0,
+  &descriptor_table_config_2fCfg_5fDataCountLimit_2eproto_initialized, descriptor_table_protodef_config_2fCfg_5fDataCountLimit_2eproto, "config/Cfg_DataCountLimit.proto", 156,
+  &descriptor_table_config_2fCfg_5fDataCountLimit_2eproto_once, descriptor_table_config_2fCfg_5fDataCountLimit_2eproto_sccs, descriptor_table_config_2fCfg_5fDataCountLimit_2eproto_deps, 1, 0,
   schemas, file_default_instances, TableStruct_config_2fCfg_5fDataCountLimit_2eproto::offsets,
-  file_level_metadata_config_2fCfg_5fDataCountLimit_2eproto, 2, file_level_enum_descriptors_config_2fCfg_5fDataCountLimit_2eproto, file_level_service_descriptors_config_2fCfg_5fDataCountLimit_2eproto,
+  file_level_metadata_config_2fCfg_5fDataCountLimit_2eproto, 1, file_level_enum_descriptors_config_2fCfg_5fDataCountLimit_2eproto, file_level_service_descriptors_config_2fCfg_5fDataCountLimit_2eproto,
 };
 
 // Force running AddDescriptors() at dynamic initialization time.
 static bool dynamic_init_dummy_config_2fCfg_5fDataCountLimit_2eproto = (  ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_config_2fCfg_5fDataCountLimit_2eproto), true);
-
-// ===================================================================
-
-void Cfg_DataCountLimit_Row::InitAsDefaultInstance() {
-}
-class Cfg_DataCountLimit_Row::_Internal {
- public:
-};
-
-Cfg_DataCountLimit_Row::Cfg_DataCountLimit_Row()
-  : ::PROTOBUF_NAMESPACE_ID::Message(), _internal_metadata_(nullptr) {
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:Cfg_DataCountLimit.Row)
-}
-Cfg_DataCountLimit_Row::Cfg_DataCountLimit_Row(const Cfg_DataCountLimit_Row& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message(),
-      _internal_metadata_(nullptr) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::memcpy(&type_, &from.type_,
-    static_cast<size_t>(reinterpret_cast<char*>(&reset_time_) -
-    reinterpret_cast<char*>(&type_)) + sizeof(reset_time_));
-  // @@protoc_insertion_point(copy_constructor:Cfg_DataCountLimit.Row)
-}
-
-void Cfg_DataCountLimit_Row::SharedCtor() {
-  ::memset(&type_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&reset_time_) -
-      reinterpret_cast<char*>(&type_)) + sizeof(reset_time_));
-}
-
-Cfg_DataCountLimit_Row::~Cfg_DataCountLimit_Row() {
-  // @@protoc_insertion_point(destructor:Cfg_DataCountLimit.Row)
-  SharedDtor();
-}
-
-void Cfg_DataCountLimit_Row::SharedDtor() {
-}
-
-void Cfg_DataCountLimit_Row::SetCachedSize(int size) const {
-  _cached_size_.Set(size);
-}
-const Cfg_DataCountLimit_Row& Cfg_DataCountLimit_Row::default_instance() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_Cfg_DataCountLimit_Row_config_2fCfg_5fDataCountLimit_2eproto.base);
-  return *internal_default_instance();
-}
-
-
-void Cfg_DataCountLimit_Row::InternalSwap(Cfg_DataCountLimit_Row* other) {
-  using std::swap;
-  GetReflection()->Swap(this, other);}
-
-::PROTOBUF_NAMESPACE_ID::Metadata Cfg_DataCountLimit_Row::GetMetadata() const {
-  return GetMetadataStatic();
-}
-
 
 // ===================================================================
 
@@ -180,14 +94,18 @@ Cfg_DataCountLimit::Cfg_DataCountLimit()
 }
 Cfg_DataCountLimit::Cfg_DataCountLimit(const Cfg_DataCountLimit& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
-      _internal_metadata_(nullptr),
-      rows_(from.rows_) {
+      _internal_metadata_(nullptr) {
   _internal_metadata_.MergeFrom(from._internal_metadata_);
+  ::memcpy(&type_, &from.type_,
+    static_cast<size_t>(reinterpret_cast<char*>(&reset_time_) -
+    reinterpret_cast<char*>(&type_)) + sizeof(reset_time_));
   // @@protoc_insertion_point(copy_constructor:Cfg_DataCountLimit)
 }
 
 void Cfg_DataCountLimit::SharedCtor() {
-  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_Cfg_DataCountLimit_config_2fCfg_5fDataCountLimit_2eproto.base);
+  ::memset(&type_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&reset_time_) -
+      reinterpret_cast<char*>(&type_)) + sizeof(reset_time_));
 }
 
 Cfg_DataCountLimit::~Cfg_DataCountLimit() {
@@ -218,9 +136,6 @@ void Cfg_DataCountLimit::InternalSwap(Cfg_DataCountLimit* other) {
 
 // @@protoc_insertion_point(namespace_scope)
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::Cfg_DataCountLimit_Row* Arena::CreateMaybeMessage< ::Cfg_DataCountLimit_Row >(Arena* arena) {
-  return Arena::CreateInternal< ::Cfg_DataCountLimit_Row >(arena);
-}
 template<> PROTOBUF_NOINLINE ::Cfg_DataCountLimit* Arena::CreateMaybeMessage< ::Cfg_DataCountLimit >(Arena* arena) {
   return Arena::CreateInternal< ::Cfg_DataCountLimit >(arena);
 }

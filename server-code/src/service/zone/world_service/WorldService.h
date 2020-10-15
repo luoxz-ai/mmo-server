@@ -3,7 +3,6 @@
 
 #include "IService.h"
 #include "MyTimer.h"
-#include "MysqlConnection.h"
 #include "NetMSGProcess.h"
 #include "NetSocket.h"
 #include "ServiceComm.h"
@@ -17,6 +16,7 @@ class CTeamManager;
 class CMapManager;
 class CUserAttrSet;
 class CBornPosSet;
+class CMysqlConnection;
 
 class CWorldService : public IService, public CServiceCommon
 {

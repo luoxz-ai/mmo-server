@@ -15,10 +15,10 @@ enum NpcTypeFlag
 class CNpcType : public NoncopyableT<CNpcType>
 {
     CNpcType() {}
-    bool Init(const Cfg_Npc_Row& row)
+    bool Init(const Cfg_Npc& row)
     {
         m_Data = row;
-        m_ability.load_from(row.attr_data());
+        CActorAttrib::load_from(m_ability, row.attr_data());
         return true;
     }
 
@@ -47,11 +47,11 @@ public:
     float               GetPosX() const { return m_Data.posx(); }
     float               GetPosY() const { return m_Data.posy(); }
     float               GetFace() const { return m_Data.face(); }
-    const CActorAttrib& GetAbility() const { return m_ability; }
+    const AttribList_t& GetAbility() const { return m_ability; }
 
 private:
-    Cfg_Npc_Row  m_Data;
-    CActorAttrib m_ability;
+    Cfg_Npc      m_Data;
+    AttribList_t m_ability;
 };
 
 //////////////////////////////////////////////////////////////////////

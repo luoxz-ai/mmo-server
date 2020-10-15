@@ -3,9 +3,9 @@
 
 #include "BaseCode.h"
 
-#include "google/protobuf/message.h"
-#include "google/protobuf/descriptor.h"
-#include "google/protobuf/descriptor.pb.h"
+#include <google/protobuf/message.h>
+#include <google/protobuf/descriptor.h>
+#include <google/protobuf/descriptor.pb.h>
 
 using proto_msg_t = google::protobuf::Message;
 

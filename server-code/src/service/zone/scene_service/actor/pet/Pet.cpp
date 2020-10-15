@@ -1,12 +1,17 @@
 #include "Pet.h"
 
+#include "ActorAttrib.h"
 #include "ActorManager.h"
+#include "CoolDown.h"
+#include "GameMap.h"
 #include "PetType.h"
 #include "Phase.h"
 #include "Player.h"
 #include "SceneService.h"
+#include "ScriptManager.h"
+#include "gamedb.h"
+#include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
-
 OBJECTHEAP_IMPLEMENTATION(CPet, s_heap);
 
 CPet::CPet()
@@ -29,7 +34,8 @@ bool CPet::Init(CPetSet* pPetSet, CDBRecordPtr&& pRecord)
     CHECKF(CActor::Init());
 
     m_pType = PetTypeSet()->QueryObj(GetPetTypeID());
-    m_ActorAttrib.load_from(m_pType->getData());
+    CHECKF(m_pType);
+    m_ActorAttrib->SetBase(m_pType->GetAbility());
 
     m_pCDSet.reset(CCoolDownSet::CreateNew());
     CHECKF(m_pCDSet.get());
@@ -39,6 +45,15 @@ bool CPet::Init(CPetSet* pPetSet, CDBRecordPtr&& pRecord)
     return true;
     __LEAVE_FUNCTION
     return false;
+}
+
+OBJID CPet::GetOwnerID() const
+{
+    return m_pRecord->Field(TBLD_PET::OWNERID);
+}
+uint32_t CPet::GetPetTypeID() const
+{
+    return m_pRecord->Field(TBLD_PET::PET_TYPE);
 }
 
 bool CPet::CanDamage(CActor* pTarget) const

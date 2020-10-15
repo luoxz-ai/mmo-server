@@ -3,7 +3,7 @@
 
 #include "BaseCode.h"
 #include "DBRecord.h"
-#include "gamedb.h"
+
 class CActor;
 
 //每一条技能记录
@@ -20,8 +20,8 @@ public:
     ~CSkillData();
 
 public:
-    export_lua uint32_t GetSkillSort() const { return m_pData->Field(TBLD_SKILL::SKILLTYPE); }
-    export_lua uint32_t GetSkillLev() const { return m_pData->Field(TBLD_SKILL::LEV); }
+    export_lua uint32_t GetSkillSort() const;
+    export_lua uint32_t GetSkillLev() const;
     export_lua void     SetSkillLev(uint32_t nLev, bool bUpdate = true);
     export_lua void     Update();
 

@@ -3,8 +3,9 @@
 
 #include <iostream>
 
+#include <fmt/format.h>
+
 #include "BaseType.h"
-#include "fmt/format.h"
 #include "log4z.h"
 
 struct NDC

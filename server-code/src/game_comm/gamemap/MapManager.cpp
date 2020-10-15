@@ -1,9 +1,18 @@
 #include "MapManager.h"
 
 #include "CallStackDumper.h"
+#include "DataPack.h"
+#include "GameMap.h"
+#include "GameMapDef.h"
+#include "MapData.h"
 #include "ProtobuffUtil.h"
+#include "config/Cfg_Scene.pb.h"
+#include "config/Cfg_Scene_EnterPoint.pb.h"
+#include "config/Cfg_Scene_LeavePoint.pb.h"
+#include "config/Cfg_Scene_MonsterGenerator.pb.h"
+#include "config/Cfg_Scene_Patrol.pb.h"
+#include "config/Cfg_Scene_Reborn.pb.h"
 #include "game_common_def.h"
-
 CMapManager::CMapManager() {}
 
 CMapManager::~CMapManager() {}
@@ -12,14 +21,14 @@ bool CMapManager::Init(uint16_t idZone)
 {
     //读取配置文件
     {
-        Cfg_Scene cfg;
-        if(pb_util::LoadFromBinaryFile(GetCfgFilePath() + "Cfg_Scene.bytes", cfg) == false)
+        std::vector<Cfg_Scene> vecCfg;
+        if(DataPack::LoadFromBinaryFile(GetCfgFilePath() + "Cfg_Scene.bytes", vecCfg) == false)
         {
             LOGERROR("InitFromFile Cfg_Scene.bytes Fail");
             return false;
         }
 
-        for(const auto& iter: cfg.rows())
+        for(const auto& iter: vecCfg)
         {
             CMapData* pMapData = nullptr;
             //只有本zone需要用到的map，才会加载mapdata
@@ -50,14 +59,14 @@ bool CMapManager::Init(uint16_t idZone)
 
     //进入点
     {
-        Cfg_Scene_EnterPoint cfg;
-        if(pb_util::LoadFromBinaryFile(GetCfgFilePath() + "Cfg_Scene_EnterPoint.bytes", cfg) == false)
+        std::vector<Cfg_Scene_EnterPoint> vecCfg;
+        if(DataPack::LoadFromBinaryFile(GetCfgFilePath() + "Cfg_Scene_EnterPoint.bytes", vecCfg) == false)
         {
             LOGERROR("InitFromFile Cfg_Scene_EnterPoint.bytes Fail");
             return false;
         }
 
-        for(const auto& iter: cfg.rows())
+        for(const auto& iter: vecCfg)
         {
             CGameMap* pGameMap = _QueryMap(iter.idmap());
             if(pGameMap == nullptr)
@@ -71,14 +80,15 @@ bool CMapManager::Init(uint16_t idZone)
 
     //进入点
     {
-        Cfg_Scene_LeavePoint cfg;
-        if(pb_util::LoadFromBinaryFile(GetCfgFilePath() + "Cfg_Scene_LeavePoint.bytes", cfg) == false)
+        std::vector<Cfg_Scene_LeavePoint> vecCfg;
+
+        if(DataPack::LoadFromBinaryFile(GetCfgFilePath() + "Cfg_Scene_LeavePoint.bytes", vecCfg) == false)
         {
             LOGERROR("InitFromFile Cfg_Scene_LeavePoint.bytes Fail");
             return false;
         }
 
-        for(const auto& iter: cfg.rows())
+        for(const auto& iter: vecCfg)
         {
             CGameMap* pGameMap = _QueryMap(iter.idmap());
             if(pGameMap == nullptr)
@@ -92,14 +102,15 @@ bool CMapManager::Init(uint16_t idZone)
 
     //刷怪点
     {
-        Cfg_Scene_MonsterGenerator cfg;
-        if(pb_util::LoadFromBinaryFile(GetCfgFilePath() + "Cfg_Scene_MonsterGenerator.bytes", cfg) == false)
+        std::vector<Cfg_Scene_MonsterGenerator> vecCfg;
+
+        if(DataPack::LoadFromBinaryFile(GetCfgFilePath() + "Cfg_Scene_MonsterGenerator.bytes", vecCfg) == false)
         {
             LOGERROR("InitFromFile Cfg_Scene_MonsterGenerator.bytes Fail");
             return false;
         }
 
-        for(const auto& iter: cfg.rows())
+        for(const auto& iter: vecCfg)
         {
             CGameMap* pGameMap = _QueryMap(iter.idmap());
             if(pGameMap == nullptr || pGameMap->GetMapData() == nullptr)
@@ -114,14 +125,15 @@ bool CMapManager::Init(uint16_t idZone)
     //巡逻路径
     if(false)
     {
-        Cfg_Scene_Patrol cfg;
-        if(pb_util::LoadFromBinaryFile(GetCfgFilePath() + "Cfg_Scene_Patrol.bytes", cfg) == false)
+        std::vector<Cfg_Scene_Patrol> vecCfg;
+
+        if(DataPack::LoadFromBinaryFile(GetCfgFilePath() + "Cfg_Scene_Patrol.bytes", vecCfg) == false)
         {
             LOGERROR("InitFromFile Cfg_Scene_Patrol.bytes Fail");
             return false;
         }
 
-        for(const auto& iter: cfg.rows())
+        for(const auto& iter: vecCfg)
         {
             CGameMap* pGameMap = _QueryMap(iter.idmap());
             if(pGameMap == nullptr || pGameMap->GetMapData() == nullptr)
@@ -135,14 +147,14 @@ bool CMapManager::Init(uint16_t idZone)
 
     // rebornData
     {
-        Cfg_Scene_Reborn cfg;
-        if(pb_util::LoadFromBinaryFile(GetCfgFilePath() + "Cfg_Scene_Reborn.bytes", cfg) == false)
+        std::vector<Cfg_Scene_Reborn> vecCfg;
+        if(DataPack::LoadFromBinaryFile(GetCfgFilePath() + "Cfg_Scene_Reborn.bytes", vecCfg) == false)
         {
             LOGERROR("InitFromFile Cfg_Scene_Reborn.bytes Fail");
             return false;
         }
 
-        for(const auto& iter: cfg.rows())
+        for(const auto& iter: vecCfg)
         {
             CGameMap* pGameMap = _QueryMap(iter.idmap());
             if(pGameMap == nullptr)
