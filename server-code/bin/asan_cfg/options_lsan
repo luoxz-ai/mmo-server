@@ -1,4 +1,4 @@
-suppressions=MyLSan.supp
+suppressions=asan_cfg/MyLSan.supp
 print_suppressions=0
 verbosity=0
 log_threads=0

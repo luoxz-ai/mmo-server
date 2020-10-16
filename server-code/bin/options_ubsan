@@ -1,2 +1,0 @@
-print_stacktrace=1
-suppressions=MyUBSan.supp

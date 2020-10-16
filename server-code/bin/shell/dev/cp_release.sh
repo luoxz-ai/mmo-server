@@ -1,3 +1,8 @@
+#!/bin/bash
+cd `dirname $0`
+cd ../..
+DIR_file=`pwd`
+
 rm -f tools_bin/*
 rm -f service_loader
 

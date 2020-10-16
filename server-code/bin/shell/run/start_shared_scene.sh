@@ -1,5 +1,6 @@
 #!/bin/bash
 cd `dirname $0`
+cd ../..
 DIR_file=`pwd`
 
 mkdir -p binary
@@ -12,10 +13,10 @@ ln -sf ../service_loader shared_scene_4
 ln -sf ../service_loader shared_scene_5
 cd -
 
-export ASAN_OPTIONS=include_if_exists=${DIR_file}/options_asan
-export LSAN_OPTIONS=include_if_exists=${DIR_file}/options_lsan
-export UBSAN_OPTIONS=include_if_exists=${DIR_file}/options_ubsan
-export TSAN_OPTIONS=include_if_exists=${DIR_file}/options_tsan
+export ASAN_OPTIONS=include_if_exists=${DIR_file}/asan_cfg/options_asan
+export LSAN_OPTIONS=include_if_exists=${DIR_file}/asan_cfg/options_lsan
+export UBSAN_OPTIONS=include_if_exists=${DIR_file}/asan_cfg/options_ubsan
+export TSAN_OPTIONS=include_if_exists=${DIR_file}/asan_cfg/options_tsan
 
 scene1()
 {
