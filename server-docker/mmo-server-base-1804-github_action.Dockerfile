@@ -1,7 +1,6 @@
 FROM ubuntu:18.04
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN cp /root/mirror.list /etc/apt/sources.list
 RUN apt-get update -y --fix-missing \
  && apt-get install -y --fix-missing \
  apt-utils \
