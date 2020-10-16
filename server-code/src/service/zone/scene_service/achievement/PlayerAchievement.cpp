@@ -285,9 +285,7 @@ bool CPlayerAchievement::_CheckAchiCondition(const CAchievementType* pType, uint
         case CONDITION_EQUIPMENT_QUILITY:  //装备上一件品质>=val0的装备,在装备位置val1(为0=任意)位置
         case CONDITION_EQUIPMENT_ADDITION: //装备上一件强化等级>=val0的装备,在装备位置val1(为0=任意)位置
         {
-            if(pType->GetCheckData().val1() == 0)
-                return nVal0 >= pType->GetCheckData().val0();
-            else if(pType->GetCheckData().val1() == nVal1)
+            if(pType->GetCheckData().val1() == 0 || pType->GetCheckData().val1() == nVal1)
                 return nVal0 >= pType->GetCheckData().val0();
             return false;
         }

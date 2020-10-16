@@ -257,7 +257,7 @@ void CEquipment::DeleteAll(bool bSync /*=true*/, bool bTraceTaskItem)
         if(pItem)
         {
             // 更新任务追踪物品数量
-            if(bTraceTaskItem && pItem->IsTraceItem() && m_pOwner)
+            if(bTraceTaskItem && pItem->IsTraceItem())
             {
                 m_pOwner->GetTaskSet()->OnDelTaskItem(pItem->GetType(), pItem->GetPileNum());
             }

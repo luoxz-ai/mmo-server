@@ -21,9 +21,9 @@ CMonsterGenerator::CMonsterGenerator() {}
 
 CMonsterGenerator::~CMonsterGenerator()
 {
-    for(auto& pair_val: m_setGen)
+    for(auto& [key, pData]: m_setGen)
     {
-        SAFE_DELETE(pair_val.second);
+        SAFE_DELETE(pData);
     }
     m_setGen.clear();
 }
@@ -34,15 +34,15 @@ bool CMonsterGenerator::Init(CAIPhase* pPhase)
     m_pMap               = pPhase->GetMap();
     m_idxScene           = pPhase->GetSceneIdx();
     const auto& gen_list = m_pMap->GetGeneratorData();
-    for(const auto& pair_val: gen_list)
+    for(const auto&[key, cfg_ptr] : gen_list)
     {
-        auto pGenData = new MonsterGenData{*pair_val.second};
-        if(m_setGen.find(pair_val.first) != m_setGen.end())
+        if(m_setGen.find(key) != m_setGen.end())
         {
-            LOGDEBUG("CMonsterGenerator::Init Map:{} Add{} twice", m_pMap->GetMapID(), pair_val.first);
+            LOGDEBUG("CMonsterGenerator::Init Map:{} Add{} twice", m_pMap->GetMapID(), key);
             continue;
         }
-        m_setGen[pair_val.first] = pGenData;
+        auto pGenData = new MonsterGenData{*cfg_ptr};
+        m_setGen[key] = pGenData;
         if(pGenData->gen_data.active())
         {
             StartGen(pGenData);

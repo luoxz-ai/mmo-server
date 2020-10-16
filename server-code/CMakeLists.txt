@@ -139,7 +139,7 @@ SET(PROTOBUF_PROTOC_EXECUTABLE ${PROJECT_SOURCE_DIR}/depends/bin/protoc)
 include(FindProtobuf)
 include(protobuf_gen)
 
-set (MY_CLANG_TIDY_STR "clang-tidy-4.0;-style=file;-checks=-*,clang-analyzer-core*,clang-analyzer-cplusplus*,clang-analyzer-nullability*")
+set (MY_CLANG_TIDY_STR "clang-tidy-9;--fix-errors;--format-style=file;-checks=-*,clang-analyzer-core*,clang-analyzer-cplusplus*,clang-analyzer-nullability*,bugprone-*,-bugprone-branch-clone,-bugprone-narrowing-conversions，-bugprone-exception-escape")
 
 message(STATUS "CMAKE_CXX_COMPILER:" ${CMAKE_CXX_COMPILER})
 
@@ -253,6 +253,8 @@ LINK_DIRECTORIES(
  ${LIBRARIES}
 )
 
+
+cmake_policy(SET CMP0058 NEW)
 
 add_custom_target(gen_all_lua)
 

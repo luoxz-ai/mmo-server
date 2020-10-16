@@ -53,20 +53,11 @@ ON_PLAYERMSG(CS_TALK)
         // 屏蔽字过滤
         replace_illegawords(send_txt);
     }
-    SC_TALK send_msg;
-    send_msg.set_words(std::move(send_txt));
-    send_msg.set_channel(msg.channel());
-    send_msg.set_sender_id(pPlayer->GetID());
-    send_msg.set_sender_name(pPlayer->GetName());
-    send_msg.set_sender_viplev(pPlayer->GetVipLev());
-    send_msg.set_sender_sign(0); //发送者标志（是否新手辅导员，或者其他的特殊标志)
-    send_msg.set_send_time(TimeGetSecond());
-    send_msg.set_reciver_id(msg.reciver_id());
     // 物品展示信息替换
+    //找到字串中[#i 0-9]，提取出来
     // Extraction of a sub-match
     static std::regex base_regex("\\[#i ([0-9]+)\\]", std::regex::optimize);
     std::smatch       base_match;
-
     std::vector<OBJID> vecIDItem;
     try
     {
@@ -81,6 +72,16 @@ ON_PLAYERMSG(CS_TALK)
     {
     }
 
+    SC_TALK send_msg;
+    send_msg.set_words(send_txt);
+    send_msg.set_channel(msg.channel());
+    send_msg.set_sender_id(pPlayer->GetID());
+    send_msg.set_sender_name(pPlayer->GetName());
+    send_msg.set_sender_viplev(pPlayer->GetVipLev());
+    send_msg.set_sender_sign(0); //发送者标志（是否新手辅导员，或者其他的特殊标志)
+    send_msg.set_send_time(TimeGetSecond());
+    send_msg.set_reciver_id(msg.reciver_id());
+    //将提取出来的itemid找到iteminfo，加入msg
     for(auto idItem: vecIDItem)
     {
         CItem* pItem = pPlayer->GetBag()->QueryItem(idItem);

@@ -101,7 +101,7 @@ bool CPlayerSkillManager::CastSkill(uint32_t idSkillSort, OBJID idTarget, const 
 {
     __ENTER_FUNCTION
     auto pSkillData = _QuerySkill(idSkillSort);
-    if(pSkillData != nullptr)
+    if(pSkillData == nullptr)
         return false;
 
     return m_pOwner->_CastSkill(CSkillType::MakeID(idSkillSort, pSkillData->GetSkillLev()), idTarget, pos);

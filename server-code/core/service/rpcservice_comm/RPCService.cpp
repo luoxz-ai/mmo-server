@@ -43,7 +43,15 @@ public:
 
 struct INIT_BRPC_LOG
 {
-    INIT_BRPC_LOG() { logging::SetLogSink(new BRPCLogSink); }
+    INIT_BRPC_LOG()
+    { 
+        logging::SetLogSink(&s_logsink); 
+    }
+    ~INIT_BRPC_LOG()
+    {
+        logging::SetLogSink(nullptr);
+    }
+    static BRPCLogSink s_logsink;
 };
 static INIT_BRPC_LOG g_INIT_BRPC_LOG;
 

@@ -1312,7 +1312,7 @@ bool LogerManager::prePushLog(LoggerId id, int32_t level)
     if(log_size > LOG4Z_LOG_QUEUE_LIMIT_SIZE)
     {
         //        return false;
-        double delay = log_size - LOG4Z_LOG_QUEUE_LIMIT_SIZE;
+        double delay = static_cast<double>(log_size - LOG4Z_LOG_QUEUE_LIMIT_SIZE);
         delay        = delay / LOG4Z_LOG_QUEUE_LIMIT_SIZE * 50;
         delay        = delay > 50 ? 50 : delay;
         delay        = delay < 5 ? 5 : delay;
