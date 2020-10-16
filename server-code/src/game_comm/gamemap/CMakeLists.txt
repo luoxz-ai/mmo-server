@@ -17,6 +17,7 @@ ADD_DEPENDENCIES(gamemap basecode myproto data_pack)
 
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(gamemap
+pb_util
 libdata_pack.so
 libmyproto.so
 libbasecode.so

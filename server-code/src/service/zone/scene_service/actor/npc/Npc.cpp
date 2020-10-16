@@ -32,12 +32,13 @@ bool CNpc::Init(uint32_t idType)
     m_idType = idType;
     m_pType  = NpcTypeSet()->QueryObj(idType);
     CHECKF(m_pType);
+    CHECKF(CActor::Init());
 
     SetID(ActorManager()->GenNpcID());
     SetCampID(m_pType->GetCampID());
     _SetPhaseID(m_pType->GetPhaseID());
     m_ActorAttrib->SetBase(m_pType->GetAbility());
-    CHECKF(CActor::Init());
+    
 
     RecalcAttrib(true);
     _SetHP(GetHPMax());

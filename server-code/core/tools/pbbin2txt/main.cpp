@@ -12,6 +12,22 @@
 #include "datapack/CfgDataPack.pb.h"
 #include "get_opt.h"
 
+
+void ProtobufLogHandler(google::protobuf::LogLevel level, const char* file, int32_t line, const std::string& msg)
+{
+    std::cerr << msg << std::endl;
+}
+struct PB_Initer
+{
+public:
+    PB_Initer()
+    {
+        GOOGLE_PROTOBUF_VERIFY_VERSION;
+        google::protobuf::SetLogHandler(ProtobufLogHandler);
+    }
+    ~PB_Initer() {}
+} const s_PB_Initer;
+
 int main(int argc, char** argv)
 {
     get_opt opt(argc, (const char**)argv);
@@ -32,14 +48,14 @@ int main(int argc, char** argv)
     parser.Init(pbdirname);
     if(parser.ParsePBFile(pbname) == false)
     {
-        std::cerr << "importer fail";
+        std::cerr << "importer fail:" << pbname;
         return -1;
     }
 
     const google::protobuf::Descriptor* desc = parser.FindDescByName(cfgname);
     if(desc == nullptr)
     {
-        std::cerr << "find cfgname fail";
+        std::cerr << "find cfgname fail:" << cfgname;
         return -1;
     }
     google::protobuf::DynamicMessageFactory factory;

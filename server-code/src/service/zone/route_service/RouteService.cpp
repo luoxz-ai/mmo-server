@@ -76,9 +76,12 @@ bool CRouteService::Init(const ServerPort& nServerPort)
         }
     }
 
-    ServerMSG::ServiceReady msg;
-    msg.set_serverport(GetServerPort());
-    SendProtoMsgToZonePort(ServerPort(GetWorldID(), WORLD_SERVICE, 0), msg);
+    if(GetWorldID() == 0)
+    {
+        ServerMSG::ServiceReady msg;
+        msg.set_serverport(GetServerPort());
+        SendProtoMsgToZonePort(ServerPort(GetWorldID(), WORLD_SERVICE, 0), msg);
+    }
     return true;
 }
 

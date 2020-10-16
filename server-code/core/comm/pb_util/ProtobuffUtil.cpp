@@ -63,13 +63,10 @@ namespace pb_util
         {
             rv = pbm.ParseFromIstream(&ifs);
             ifs.close();
-
-            if(rv != true)
-                LOGERROR("ParseFromStream failed, filename is [{}]", filename);
         }
         else
         {
-            LOGERROR("Open file failed, filename is [{}]", filename);
+            return false;
         }
         return rv;
     }
@@ -89,13 +86,11 @@ namespace pb_util
             ifs.close();
             if(LoadFromJsonTxt(str, pbm) != true)
             {
-                LOGERROR("ParseFromStream failed, filename is [{}]", filename);
                 return false;
             }
         }
         else
         {
-            LOGERROR("Open file failed, filename is [{}]", filename);
             return false;
         }
         return true;
@@ -135,8 +130,6 @@ namespace pb_util
 
     bool FindFieldInMessage(const std::string& field_name, google::protobuf::Message*& pThisRow, const google::protobuf::FieldDescriptor*& pFieldDesc)
     {
-        __ENTER_FUNCTION
-
         auto vecName = split_string(field_name, ".");
         while(vecName.empty() == false)
         {
@@ -199,9 +192,7 @@ namespace pb_util
         {
             return false;
         }
-        return true;
-        __LEAVE_FUNCTION
-        return false;
+        return true;      
     }
 
     void AddFieldData(google::protobuf::Message* pThisRow, const google::protobuf::FieldDescriptor* pFieldDesc, const std::string& data)

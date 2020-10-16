@@ -10,6 +10,8 @@
 #include "ScriptCallBackType.h"
 #include "protomsg_to_cmd.h"
 #include "server_msg/server_side.pb.h"
+#include "msg/zone_service.pb.h"
+
 void CActor::FlyTo(const Vector2& pos)
 {
     __ENTER_FUNCTION
@@ -101,7 +103,7 @@ void CActor::SendRoomMessage(const proto_msg_t& msg, bool bIncludeSelf /*= true*
     SendShowToDealyList();
     auto setSocketMap = SceneService()->IDList2VSMap(m_ViewActorsByType[ACT_PLAYER], (bIncludeSelf) ? GetID() : 0);
     SceneService()->SendProtoMsgTo(setSocketMap, msg);
-    auto cmd = to_cmd(msg);
+    auto cmd = msg_to_cmd(msg);
     // send message to ai_service
     if((IsMonster() || IsPlayer()) && (cmd == CMD_SC_AOI_UPDATE || cmd == CMD_SC_CASTSKILL || cmd == CMD_SC_ATTRIB_CHANGE))
     {

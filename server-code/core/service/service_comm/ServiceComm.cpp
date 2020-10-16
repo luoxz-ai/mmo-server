@@ -10,9 +10,6 @@
 #include "MonitorMgr.h"
 #include "MysqlConnection.h"
 #include "NormalCrypto.h"
-#include "msg/ts_cmd.pb.h"
-#include "protomsg_to_cmd.h"
-#include "server_msg/server_side.pb.h"
 #include "serverinfodb.h"
 #include "serverinfodb.pb.h"
 
@@ -187,10 +184,12 @@ void CServiceCommon::OnLogicThreadCreate()
 
 void CServiceCommon::OnLogicThreadExit() {}
 
+uint32_t msg_to_cmd(const proto_msg_t& msg);
+
 bool CServiceCommon::ForwardProtoMsgToPlayer(const ServerPort& nServerPort, uint64_t id_player, const proto_msg_t& msg) const
 {
     __ENTER_FUNCTION
-    CNetworkMessage _msg(to_cmd(msg), msg, GetServerVirtualSocket(), nServerPort);
+    CNetworkMessage _msg(msg_to_cmd(msg), msg, GetServerVirtualSocket(), nServerPort);
     _msg.AddMultiIDTo(id_player);
     return _SendMsgToZonePort(_msg);
     __LEAVE_FUNCTION
@@ -200,7 +199,7 @@ bool CServiceCommon::ForwardProtoMsgToPlayer(const ServerPort& nServerPort, uint
 bool CServiceCommon::SendBroadcastMsgToPort(const ServerPort& nServerPort, const proto_msg_t& msg) const
 {
     __ENTER_FUNCTION
-    CNetworkMessage _msg(to_cmd(msg), msg, GetServerVirtualSocket(), nServerPort);
+    CNetworkMessage _msg(msg_to_cmd(msg), msg, GetServerVirtualSocket(), nServerPort);
     _msg.SetBroadcastType(BROADCAST_ALL);
     return _SendMsgToZonePort(_msg);
     __LEAVE_FUNCTION
@@ -210,7 +209,7 @@ bool CServiceCommon::SendBroadcastMsgToPort(const ServerPort& nServerPort, const
 bool CServiceCommon::SendProtoMsgToZonePort(const ServerPort& nServerPort, const proto_msg_t& msg) const
 {
     __ENTER_FUNCTION
-    CNetworkMessage _msg(to_cmd(msg), msg, GetServerVirtualSocket(), nServerPort);
+    CNetworkMessage _msg(msg_to_cmd(msg), msg, GetServerVirtualSocket(), nServerPort);
     return _SendMsgToZonePort(_msg);
     __LEAVE_FUNCTION
     return false;
@@ -219,7 +218,7 @@ bool CServiceCommon::SendProtoMsgToZonePort(const ServerPort& nServerPort, const
 bool CServiceCommon::SendMsgToVirtualSocket(const VirtualSocket& vsTo, const proto_msg_t& msg) const
 {
     __ENTER_FUNCTION
-    CNetworkMessage _msg(to_cmd(msg), msg, GetServerVirtualSocket(), vsTo);
+    CNetworkMessage _msg(msg_to_cmd(msg), msg, GetServerVirtualSocket(), vsTo);
     return _SendMsgToZonePort(_msg);
     __LEAVE_FUNCTION
     return false;
@@ -379,7 +378,7 @@ bool CServiceCommon::_SendMsgToZonePort(const CNetworkMessage& msg) const
 bool CServiceCommon::SendProtoMsgTo(const VirtualSocketMap_t& setSocketMap, const proto_msg_t& msg) const
 {
     __ENTER_FUNCTION
-    auto            nCmd = to_cmd(msg);
+    auto            nCmd = msg_to_cmd(msg);
     CNetworkMessage _msg(nCmd, msg, GetServerVirtualSocket());
     for(auto& [nServerPort, socket_list]: setSocketMap)
     {

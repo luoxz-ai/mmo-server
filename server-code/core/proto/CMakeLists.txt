@@ -35,14 +35,12 @@ SET(LIBRARY_OUTPUT_PATH ${LIBRARIES_CORE})
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(sql_options
  protobuf
- ${JEMALLOC_LIB_NAME}
 )
 TARGET_LINK_LIBRARIES(sql_options_static
  protobuf
 )
 TARGET_LINK_LIBRARIES(data_pack
  protobuf
- ${JEMALLOC_LIB_NAME}
 )
 TARGET_LINK_LIBRARIES(data_pack_static
  protobuf

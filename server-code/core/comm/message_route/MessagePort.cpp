@@ -144,7 +144,9 @@ void CMessagePort::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
     __ENTER_FUNCTION
     MSG_HEAD*   pHead = (MSG_HEAD*)pBuffer;
     InternalMsg internal_msg;
-    if(internal_msg.ParseFromArray(pBuffer + sizeof(MSG_HEAD), len - sizeof(MSG_HEAD)) == false)
+    byte* pData = pBuffer + sizeof(MSG_HEAD);
+    size_t data_len = len - sizeof(MSG_HEAD);
+    if(internal_msg.ParseFromArray(pData, static_cast<int>(data_len)) == false)
     {
         LOGNETERROR("MessagePort:{}-{} Recv a unknow cmd:{} size:{}",
                     GetServerPort().GetServiceID().GetServiceType(),

@@ -94,7 +94,7 @@ bool CMonster::IsElit() const
 bool CMonster::SendMsg(const proto_msg_t& msg) const
 {
     __ENTER_FUNCTION
-    auto cmd = to_cmd(msg);
+    auto cmd = msg_to_cmd(msg);
     if(cmd == CMD_SC_SKILL_STUN || cmd == CMD_SC_AOI_UPDATE || cmd == CMD_SC_ATTRIB_CHANGE)
     {
         return SceneService()->SendProtoMsgToAIService(msg);

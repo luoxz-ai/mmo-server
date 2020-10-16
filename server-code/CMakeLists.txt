@@ -181,6 +181,7 @@ include_directories(SYSTEM ${PROJECT_SOURCE_DIR}/depends/src/)
 
 include_directories(${PROJECT_SOURCE_DIR}/core/comm/basecode/)
 include_directories(${PROJECT_SOURCE_DIR}/core/comm/basecode/math)
+include_directories(${PROJECT_SOURCE_DIR}/core/comm/pb_util/)
 include_directories(${PROJECT_SOURCE_DIR}/core/comm/network/)
 include_directories(${PROJECT_SOURCE_DIR}/core/comm/crypto_comm/)
 include_directories(${PROJECT_SOURCE_DIR}/core/proto/)
@@ -192,15 +193,7 @@ include_directories(${PROJECT_SOURCE_DIR}/core/service/comm/)
 include_directories(${PROJECT_SOURCE_DIR}/core/service/service_comm/)
 include_directories(${PROJECT_SOURCE_DIR}/core/service/rpcservice_comm/)
 
-include_directories(${PROJECT_SOURCE_DIR}/src/server_share/)
-include_directories(${PROJECT_SOURCE_DIR}/src/game_comm/proto/)
-include_directories(${PROJECT_SOURCE_DIR}/src/game_comm/proto/config/)
-include_directories(${PROJECT_SOURCE_DIR}/src/game_comm/proto/common/)
-include_directories(${PROJECT_SOURCE_DIR}/src/game_comm/mydbtable/)
-include_directories(${PROJECT_SOURCE_DIR}/src/game_comm/mydbtable/db_proto)
-include_directories(${PROJECT_SOURCE_DIR}/src/game_comm/gamemap/)
 
-include_directories(${PROJECT_SOURCE_DIR}/src/)
 
 macro(source_group_by_dir source_files)
     set(sgbd_cur_dir ${CMAKE_CURRENT_SOURCE_DIR})

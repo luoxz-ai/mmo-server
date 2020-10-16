@@ -153,7 +153,7 @@ Vector2         CMapData::LineFindCanJump(const Vector2& src, const Vector2& des
     std::tie(xDestWidth, yDestHeight) = Pos2Grid(dest.x, dest.y);
     float fSrcHigh                    = (float(_getGridData(xWidth, yHeight).nHigh) / 255.0f) * m_fGridHighFactor;
     float fDestHigh                   = (float(_getGridData(xDestWidth, yDestHeight).nHigh) / 255.0f) * m_fGridHighFactor;
-    float fHighDiff                   = fabs(fSrcHigh - fDestHigh);
+    float fHighDiff                   = std::fabs(fSrcHigh - fDestHigh);
     float fSlope                      = 0.0f;
     if(fHighDiff != 0.0f)
         fSlope = m_fGirdWidth / fHighDiff;
@@ -187,7 +187,7 @@ Vector2         CMapData::LineFindCanJump(const Vector2& src, const Vector2& des
                                  }
 
                                  float fTileHigh = (float(_getGridData(x, y).nHigh) / 255.0f) * m_fGridHighFactor;
-                                 float fHighDiff = fabs(last_high - fTileHigh);
+                                 float fHighDiff = std::fabs(last_high - fTileHigh);
                                  float fSlope    = 0.0f;
                                  if(fHighDiff != 0.0f)
                                      fSlope = m_fGirdWidth / fHighDiff;

@@ -255,7 +255,7 @@ void CSocketService::OnAccepted(CNetSocket* pSocket)
     pSocket->InitDecryptor(seed);
     SC_KEY msg;
     msg.set_key(seed);
-    CNetworkMessage _msg(to_cmd(msg), msg);
+    CNetworkMessage _msg(msg_to_cmd(msg), msg);
     pSocket->SendNetworkMessage(_msg);
     __LEAVE_FUNCTION
 }

@@ -41,21 +41,11 @@ public:
     }
 };
 
-struct INIT_BRPC_LOG
+static BRPCLogSink s_logsink;
+CRPCService::CRPCService() 
 {
-    INIT_BRPC_LOG()
-    { 
-        logging::SetLogSink(&s_logsink); 
-    }
-    ~INIT_BRPC_LOG()
-    {
-        logging::SetLogSink(nullptr);
-    }
-    static BRPCLogSink s_logsink;
-};
-static INIT_BRPC_LOG g_INIT_BRPC_LOG;
-
-CRPCService::CRPCService() {}
+    logging::SetLogSink(&s_logsink); 
+}
 
 CRPCService::~CRPCService()
 {

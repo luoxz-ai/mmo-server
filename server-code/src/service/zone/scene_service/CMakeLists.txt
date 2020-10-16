@@ -58,11 +58,12 @@ set_target_properties(scene_service PROPERTIES CXX_VISIBILITY_PRESET hidden)
 
  #指定库输出路径
 SET(LIBRARY_OUTPUT_PATH ${LIBRARIES})
-ADD_DEPENDENCIES(scene_service basecode network mydb myproto mydbtable service_comm gamemap script)
+ADD_DEPENDENCIES(scene_service basecode network mydb myproto mydbtable service_comm gamemap script pb_util)
 
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(scene_service
  libbasecode.so 
+ pb_util
  libnetwork.so 
  libmydb.so 
  libmyproto.so 

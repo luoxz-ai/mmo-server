@@ -286,4 +286,38 @@ static inline std::optional<std::string> attempt(Func&& func, Args&&... args)
     }
 #endif
 
+#ifndef attempt_call_printerr
+#define attempt_call_printerr(x)                         \
+    {                                                    \
+        try                                              \
+        {                                                \
+            x;                                           \
+        }                                                \
+        catch(const std::runtime_error& e)               \
+        {                                                \
+            fmt::print("catch_execpetion:{}", e.what()); \
+        }                                                \
+        catch(const std::exception& e)                   \
+        {                                                \
+            fmt::print("catch_execpetion:{}", e.what()); \
+        }                                                \
+        catch(...)                                       \
+        {                                                \
+            fmt::print("catch_execpetion:unknown");      \
+        }                                                \
+    }
+
+#define attempt_call_printerr_begin() \
+    {                                 \
+        try                           \
+        {
+
+#define attempt_call_printerr_end()                                                     \
+    }                                                                                   \
+    catch(const std::runtime_error& e) { fmt::print("catch_execpetion:{}", e.what()); } \
+    catch(const std::exception& e) { fmt::print("catch_execpetion:{}", e.what()); }     \
+    catch(...) { fmt::print("catch_execpetion:unknown"); }                              \
+    }
+#endif
+
 #endif /* CHECKUTIL_H */
