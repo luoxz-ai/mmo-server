@@ -12,6 +12,7 @@ apt-get update -y --fix-missing \
  curl \
  ccache \
  cmake \
+ ninja-build \
  libtool \
  language-pack-zh-hans \
  subversion \
