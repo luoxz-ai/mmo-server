@@ -32,7 +32,7 @@ bool CMapItem::Init(uint32_t idType)
 
 void CMapItem::MakeShowData(SC_AOI_NEW& msg)
 {
-    msg.set_mapid(GetMapID());
+    msg.set_scene_idx(GetSceneIdx());
 
     msg.set_actor_id(GetID());
     msg.set_actortype(ACT_MAPITEM);

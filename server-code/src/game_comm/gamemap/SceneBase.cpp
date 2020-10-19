@@ -55,6 +55,26 @@ uint32_t CSceneBase::GetMapID() const
     return m_pMap->GetMapID();
 }
 
+CSceneObject* CSceneBase::QueryPlayer(OBJID idObj) const
+{
+    auto it = m_setPlayer.find(idObj);
+    if(it != m_setPlayer.end())
+    {
+        return it->second;
+    }
+    return nullptr;
+}
+
+CSceneObject* CSceneBase::QuerySceneObj(OBJID idObj) const
+{
+    auto it = m_setActor.find(idObj);
+    if(it != m_setActor.end())
+    {
+        return it->second;
+    }
+    return nullptr;
+}
+
 bool CSceneBase::EnterMap(CSceneObject* pActor, float fPosX, float fPosY, float fFace)
 {
     CHECKF(m_pSceneTree->IsInsideScene(fPosX, fPosY));
@@ -65,7 +85,7 @@ bool CSceneBase::EnterMap(CSceneObject* pActor, float fPosX, float fPosY, float 
     pActor->SetPos(Vector2(fPosX, fPosY));
     pActor->SetFace(fFace);
     pActor->OnEnterMap(this);
-    pActor->UpdateViewList();
+    pActor->UpdateViewList(true);
     m_pSceneTree->CheckNeedResizeSceneTile(m_setPlayer.size());
     return true;
 }

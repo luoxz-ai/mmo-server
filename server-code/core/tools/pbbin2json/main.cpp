@@ -9,7 +9,6 @@
 #include "ProtobuffUtil.h"
 #include "StringAlgo.h"
 #include "T_GameDataMap.h"
-#include "datapack/CfgDataPack.pb.h"
 #include "get_opt.h"
 
 void ProtobufLogHandler(google::protobuf::LogLevel level, const char* file, int32_t line, const std::string& msg)
@@ -32,7 +31,7 @@ int main(int argc, char** argv)
     get_opt opt(argc, (const char**)argv);
     if(opt.has("--input") == false || opt.has("--pbdir") == false || opt.has("--pb") == false || opt.has("--help") == true)
     {
-        std::cout << "pbbin2txt [--input=xxx.bytes] [--pbdir=xxxxx] [--pb=xxx.proto] [--output=output.txt]" << std::endl;
+        std::cout << "pbbin2json [--input=xxx.json] [--pbdir=xxxxx] [--pb=xxx.proto]  [--input_json] [--output_json] [--output=output.bytes]" << std::endl;
         return 0;
     }
 
@@ -69,35 +68,62 @@ int main(int argc, char** argv)
             getchar();
         }
     }
-
-
-    CfgDataPack input;
-    pb_util::LoadFromBinaryFile(in_file_name, input);
-    std::string json_txt_all;
-    for(const auto& data: input.data_set())
+    std::unique_ptr<google::protobuf::Message> pRow(message_const->New());
+    if(opt.has("--input_json"))
     {
-        google::protobuf::Message* pRow = message_const->New();
-        pRow->ParseFromString(data);
-        std::string json_txt;
-        pb_util::SaveToJsonTxt(*pRow, json_txt);
-        delete(pRow);
-        json_txt_all += json_txt;
+        if(pb_util::LoadFromJsonFile(in_file_name, *pRow) == false)
+        {
+            std::cerr << "LoadFromJsonFile fail:" << in_file_name<< std::endl;
+            return -1;
+        }
+        
+    }
+    else
+    {
+        if(pb_util::LoadFromBinaryFile(in_file_name, *pRow) == false)
+        {
+            std::cerr << "LoadFromBinaryFile fail:" << in_file_name<< std::endl;
+            return -1;
+        }
     }
 
     if(opt.has("--debug"))
     {
+        std::string json_txt_all;
+        pb_util::SaveToJsonTxt(*pRow, json_txt_all);
         std::cout << json_txt_all << std::endl;
     }
 
+
     if(opt.has("--output"))
     {
-        std::ofstream ofs(opt["--output"], std::ios::out | std::ios::trunc);
-        if(ofs.is_open())
+        std::string output_file_name = opt["--output"];
+        if(opt.has("--output_json"))
         {
-            ofs << json_txt_all;
-            ofs.close();
+            if(pb_util::SaveToJsonFile(*pRow, output_file_name) == false)
+            {
+                std::cerr << "SaveToJsonFile fail:" << output_file_name<< std::endl;
+                return -1;
+            }
+            else
+            {
+                std::cout << "SaveToJsonFile succ:" << output_file_name<< std::endl;
+            }
         }
+        else
+        {
+            if(pb_util::SaveToBinaryFile(*pRow, output_file_name) == false)
+            {
+                std::cerr << "SaveToBinaryFile fail:" << output_file_name<< std::endl;
+                return -1;
+            }
+            else
+            {
+                std::cout << "SaveToBinaryFile succ:" << output_file_name<< std::endl;
+            }
+        }
+
+        
     }
-    
-    
+   
 }

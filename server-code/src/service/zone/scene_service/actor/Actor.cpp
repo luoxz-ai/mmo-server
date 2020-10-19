@@ -400,7 +400,7 @@ bool CActor::MoveTo(const Vector2& posTarget, bool bCheckMove)
         return false;
 
     SetPos(posTarget);
-    UpdateViewList();
+    UpdateViewList(false);
 
     m_pStatusSet->OnMove();
     __LEAVE_FUNCTION

@@ -4,6 +4,7 @@ MESSAGE(STATUS "cmake: tools-")
 
 ADD_SUBDIRECTORY(sql2cpp)
 ADD_SUBDIRECTORY(pbbin2txt)
+ADD_SUBDIRECTORY(pbbin2json)
 ADD_SUBDIRECTORY(excel2pb)
 ADD_SUBDIRECTORY(cxx2lua)
 ADD_SUBDIRECTORY(protoc-gen-sql)

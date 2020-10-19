@@ -48,6 +48,12 @@ public:
 
     bool IsInsideScene(float x, float y) const;
 
+    bool IsViewManhattanDistance() const { return m_bUseManhattanDistance; }
+    void SetViewManhattanDistance(bool val) { m_bUseManhattanDistance = val; }
+
+    float GetViewChangeMin() const { return m_fViewChangeMin; }
+    void  SetViewChangeMin(float val) { m_fViewChangeMin = val; }
+
     uint32_t GetViewRangeIn() const { return m_nViewRangeIn; }
     void     SetViewRangeIn(uint32_t val)
     {
@@ -83,7 +89,7 @@ public:
 
 private:
     void _SetSceneTileGridRange(uint32_t v);
-
+    void SetTileDynamicLev(uint32_t new_level);
 public:
     OBJECTHEAP_DECLARATION(s_heap);
 
@@ -101,8 +107,10 @@ protected:
     uint32_t m_nTileWidth            = 0; //场景x轴多少个Tile
     uint32_t m_nTileHeight           = 0; //场景y轴多少个Tile
 
-    uint32_t m_nViewRangeIn       = 0; // view in
-    uint32_t m_nViewRangeInSquare = 0;
+    bool     m_bUseManhattanDistance = false; //是否使用麦哈顿距离判断
+    float    m_fViewChangeMin        = 0.0f;  // 视野变动所需位置变化最小距离
+    uint32_t m_nViewRangeIn          = 0;     // view in
+    uint32_t m_nViewRangeInSquare    = 0;
 
     uint32_t m_nViewRangeOut       = 0; // view out
     uint32_t m_nViewRangeOutSquare = 0;

@@ -23,10 +23,9 @@ ON_MSG(CAIService, SC_AOI_UPDATE)
     CAIActor* pActor = AIActorManager()->QueryActor(msg.actor_id());
     CHECK_FMT(pActor, "actorid:{}", msg.actor_id());
     CHECK(pActor->GetCurrentScene());
-    CHECK(pActor->GetCurrentScene()->GetMapID() == msg.mapid());
+    CHECK(msg.scene_idx() == pActor->GetCurrentScene()->GetSceneIdx() );
 
     pActor->SetPos(Vector2(msg.posx(), msg.posy()));
-    pActor->UpdateViewList();
     LOGAIDEBUG(true,
                pActor->GetID(),
                "Actor:{} MoveTo {} {:.2f}, {:.2f}",
@@ -34,6 +33,40 @@ ON_MSG(CAIService, SC_AOI_UPDATE)
                pActor->GetCurrentScene()->GetMapID(),
                pActor->GetPosX(),
                pActor->GetPosY());
+    __LEAVE_FUNCTION
+}
+
+ON_SERVERMSG(CAIService, AOIChange)
+{
+    __ENTER_FUNCTION
+    CAIActor* pActor = AIActorManager()->QueryActor(msg.actor_id());
+    CHECK_FMT(pActor, "actorid:{}", msg.actor_id());
+    CHECK(pActor->GetCurrentScene());
+    CHECK(msg.scene_idx() == pActor->GetCurrentScene()->GetSceneIdx() );
+
+    for(const auto& id: msg.actor_del())
+    {
+        CAIActor* pTarget = AIActorManager()->QueryActor(id);
+        if(pTarget)
+        {
+            pTarget->RemoveFromViewList(pActor, pActor->GetID(), true);
+            pActor->RemoveFromViewList(pTarget, pTarget->GetID(), true);
+        }
+        else
+        {
+            pActor->RemoveFromViewList(nullptr, id, true);
+        }
+    }
+    for(const auto& id: msg.actor_add())
+    {
+        CAIActor* pTarget = AIActorManager()->QueryActor(id);
+        if(pTarget)
+        {
+            pActor->AddToViewList(pTarget);
+            pTarget->AddToViewList(pActor);
+        }
+    }
+
     __LEAVE_FUNCTION
 }
 

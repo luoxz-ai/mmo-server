@@ -439,6 +439,7 @@ void CPlayer::OnLogin(bool bLogin, const SceneIdx& idxScene, float fPosX, float 
     //通知前端读取场景
     //等待前端loading完成
     SC_LOADMAP msg;
+    msg.set_scene_idx(pCurScene->GetSceneIdx());
     msg.set_mapid(pCurScene->GetMapID());
     msg.set_posx(m_fLoadingPosX);
     msg.set_posy(m_fLoadingPosY);
@@ -538,7 +539,7 @@ void CPlayer::SendTalkMsg(uint32_t nTalkChannel, const std::string& txt)
 void CPlayer::MakeShowData(SC_AOI_NEW& msg)
 {
     __ENTER_FUNCTION
-    msg.set_mapid(GetMapID());
+    msg.set_scene_idx(GetSceneIdx());
 
     msg.set_actor_id(GetID());
     msg.set_actortype(ACT_PLAYER);

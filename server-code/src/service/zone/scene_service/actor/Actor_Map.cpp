@@ -36,9 +36,7 @@ void CActor::ChangePhase(uint64_t idPhaseID)
     }
     // make sure scene have this phase
     SceneManager()->CreatePhase(m_pScene->GetSceneIdx(), idPhaseID);
-
-    _SetPhaseID(idPhaseID);
-    UpdateViewList();
+    CSceneObject::ChangePhase(idPhaseID);
 
     __LEAVE_FUNCTION
 }

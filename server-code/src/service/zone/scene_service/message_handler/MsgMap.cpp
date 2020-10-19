@@ -25,7 +25,7 @@ ON_PLAYERMSG(CS_CHANGEMAP)
     if(pPlayer->GetCurrentScene() == nullptr)
         return;
 
-    if(pPlayer->GetCurrentScene()->GetMapID() != msg.mapid())
+    if(pPlayer->GetCurrentScene()->GetSceneIdx() != msg.scene_idx())
         return;
     pPlayer->TryChangeMap(msg.leavepoint_idx());
     __LEAVE_FUNCTION
@@ -37,7 +37,7 @@ ON_PLAYERMSG(CS_MOVE)
     if(pPlayer->GetCurrentScene() == nullptr)
         return;
 
-    if(pPlayer->GetCurrentScene()->GetMapID() != msg.mapid())
+    if(pPlayer->GetCurrentScene()->GetSceneIdx() != msg.scene_idx())
         return;
 
     if(pPlayer->MoveTo(Vector2(msg.x(), msg.y())) == false)

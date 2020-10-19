@@ -70,12 +70,17 @@ public:
 
 public:
     // AOI
-    export_lua virtual bool UpdateViewList();
-    export_lua virtual void ClearViewList(bool bSendMsgToSelf) = 0;
+    export_lua virtual bool UpdateViewList(bool bForce);
+    export_lua virtual void ClearViewList(bool bSendMsgToSelf);
+    virtual void            OnBeforeClearViewList(bool bSendMsgToSelf) {}
 
 public:
     // AOI
     export_lua virtual bool IsEnemy(CSceneObject* pTarget) const;
+    
+    virtual void RemoveFromViewList(CSceneObject* pActor, OBJID idActor, bool bErase);
+    virtual void AddToViewList(CSceneObject* pActor);
+    virtual void _AddToViewList(uint32_t actor_type, uint64_t id);
 
     export_lua bool IsInViewActor(CSceneObject* actor) const;
     export_lua bool IsInViewActorByID(OBJID idActor) const;
@@ -90,15 +95,9 @@ public:
     export_lua void ForeachViewActorList(const std::function<void(OBJID)>& func);
 
 protected:
+    virtual bool _UpdateViewList();
     // AOI
-    virtual void RemoveFromViewList(CSceneObject* pActor, OBJID idActor, bool bErase);
-    virtual void AddToViewList(CSceneObject* pActor);
-    virtual void OnAOIProcess_ActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_MAP& mapAllViewActor) = 0;
-    virtual void OnAOIProcess_ActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
-                                                 BROADCAST_SET&       setBCActor,
-                                                 int32_t              nCanReserveDelCount,
-                                                 uint32_t             view_range_out_square)                            = 0;
-    virtual void OnAOIProcess_PosUpdate(){};
+    virtual void OnAOIProcess(const BROADCAST_SET& setBCActorDel, const BROADCAST_SET& setBCActor, const BROADCAST_SET& setBCActorAdd);
 
     virtual bool IsNeedAddToBroadCastSet(CSceneObject* pActor) { return false; }
     virtual bool IsMustAddToBroadCastSet(CSceneObject* pActor) { return false; }
@@ -118,9 +117,10 @@ protected:
     CSceneBase*          m_pScene         = nullptr; //场景
     CSceneTile*          m_pSceneTile     = nullptr;
     CSceneCollisionTile* m_pCollisionTile = nullptr;
-    CPos2D               m_Pos;         //当前的位置
-    float                m_Face = 0.0f; //当前的朝向
-    BROADCAST_SET        m_ViewActors;  // 视野内的生物
+    CPos2D               m_Pos;               //当前的位置
+    CPos2D               m_LastUpdateViewPos; //最后一次更新viewlist时的位置
+    float                m_Face = 0.0f;       //当前的朝向
+    BROADCAST_SET        m_ViewActors;        // 视野内的生物
     BROADCAST_SET_BYTYPE m_ViewActorsByType;
     int32_t              m_nHideCount = 0;
 };

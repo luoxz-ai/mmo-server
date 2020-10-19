@@ -95,7 +95,7 @@ bool CPet::IsEnemy(CSceneObject* pTarget) const
 void CPet::MakeShowData(SC_AOI_NEW& msg)
 {
     __ENTER_FUNCTION
-    msg.set_mapid(GetMapID());
+    msg.set_scene_idx(GetSceneIdx());
 
     msg.set_actor_id(GetID());
     msg.set_actortype(ACT_PET);

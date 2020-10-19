@@ -37,7 +37,8 @@ bool CSceneTree::Init(const CGameMap* pMap, const CPos2D& vBasePos, float fWidth
     m_nTileDefaultGridRange = nTileGridRange;
     if(m_nTileDefaultGridRange == 0)
         m_nTileDefaultGridRange = CONST_SCENE_TILE_GRIDRANGE;
-    _SetSceneTileGridRange(m_nTileDefaultGridRange);
+        
+    SetTileDynamicLev(m_nCurTileDynamicLevel);
     if(m_pMap->HasMapFlag(MAPFLAG_COLLISION_ENABLE) == true)
     {
         m_setCollision.resize(pMapData->GetGirdCount());
@@ -109,20 +110,46 @@ struct TOWER_RESIZE_WATER_MARK
     uint32_t hight_water_mark;
     uint32_t tower_gridrange;
     uint32_t view_count;
+    float    view_change_min;
+    bool     use_manhattan;
     bool     view_in;
     bool     view_out;
 };
 TOWER_RESIZE_WATER_MARK TOWER_RESIZE_WATER_MARK_ARRAY[] = {
-    {0, 300, CONST_SCENE_TILE_GRIDRANGE, 0, true, true},
-    {200, 600, 25, 0, true, true},
-    {400, 1000, 20, 0, true, true},
-    {700, 1500, 18, 80, true, false},
-    {1100, 1900, 15, 80, true, false},
-    {1500, 2200, 12, 80, true, false},
-    {1800, 2500, 10, 40, true, false},
-    {2100, 30000, 8, 40, false, false},
+    {0, 300, CONST_SCENE_TILE_GRIDRANGE, 0, 0.0f, false, true, true},
+    {200, 600, 25, 0, 0.2f, false, true, true},
+    {400, 1000, 20, 0, 0.4f, false, true, true},
+    {700, 1500, 18, 80, 0.6f, false, true, false},
+    {1100, 1900, 15, 80, 0.8f, false, true, false},
+    {1500, 2200, 12, 80, 1.0f, false, true, false},
+    {1800, 2500, 10, 40, 1.5f, false, true, false},
+    {2100, 30000, 8, 40, 2.0f, true, false, false},
 };
 
+void CSceneTree::SetTileDynamicLev(uint32_t new_level)
+{
+    m_nCurTileDynamicLevel = new_level;
+    if(m_nCurTileDynamicLevel == 0)
+    {
+        _SetSceneTileGridRange(m_nTileDefaultGridRange);
+    }
+    else
+    {
+        _SetSceneTileGridRange(TOWER_RESIZE_WATER_MARK_ARRAY[m_nCurTileDynamicLevel].tower_gridrange);
+    }
+
+    SetViewCount(TOWER_RESIZE_WATER_MARK_ARRAY[m_nCurTileDynamicLevel].view_count);
+    SetViewChangeMin(TOWER_RESIZE_WATER_MARK_ARRAY[m_nCurTileDynamicLevel].view_change_min);
+    SetViewManhattanDistance(TOWER_RESIZE_WATER_MARK_ARRAY[m_nCurTileDynamicLevel].use_manhattan);
+    if(TOWER_RESIZE_WATER_MARK_ARRAY[m_nCurTileDynamicLevel].view_out == false)
+    {
+        SetViewRangeOut(0);
+    }
+    if(TOWER_RESIZE_WATER_MARK_ARRAY[m_nCurTileDynamicLevel].view_in == false)
+    {
+        SetViewRangeIn(0);
+    }
+}
 void CSceneTree::CheckNeedResizeSceneTile(uint32_t nPlayerCount)
 {
     if(m_bDynamicAdjustTileLevel == false)
@@ -130,49 +157,19 @@ void CSceneTree::CheckNeedResizeSceneTile(uint32_t nPlayerCount)
 
     if(nPlayerCount < TOWER_RESIZE_WATER_MARK_ARRAY[m_nCurTileDynamicLevel].low_water_mark)
     {
-        // dec_tower_size
-        if(m_nCurTileDynamicLevel > 0)
-        {
-            m_nCurTileDynamicLevel--;
-        }
         if(m_nCurTileDynamicLevel == 0)
-        {
-            _SetSceneTileGridRange(m_nTileDefaultGridRange);
-        }
-        else
-        {
-            _SetSceneTileGridRange(TOWER_RESIZE_WATER_MARK_ARRAY[m_nCurTileDynamicLevel].tower_gridrange);
-        }
-
-        SetViewCount(TOWER_RESIZE_WATER_MARK_ARRAY[m_nCurTileDynamicLevel].view_count);
-
-        if(TOWER_RESIZE_WATER_MARK_ARRAY[m_nCurTileDynamicLevel].view_out == false)
-        {
-            SetViewRangeOut(0);
-        }
-        if(TOWER_RESIZE_WATER_MARK_ARRAY[m_nCurTileDynamicLevel].view_in == false)
-        {
-            SetViewRangeIn(0);
-        }
+            return;
+        // dec_tower_size
+        auto new_level = m_nCurTileDynamicLevel - 1;
+        SetTileDynamicLev(new_level);
     }
     else if(nPlayerCount > TOWER_RESIZE_WATER_MARK_ARRAY[m_nCurTileDynamicLevel].hight_water_mark)
     {
         // inc_tower_size
-        if(m_nCurTileDynamicLevel < sizeOfArray(TOWER_RESIZE_WATER_MARK_ARRAY))
-        {
-            m_nCurTileDynamicLevel++;
-        }
-        _SetSceneTileGridRange(TOWER_RESIZE_WATER_MARK_ARRAY[m_nCurTileDynamicLevel].tower_gridrange);
-        SetViewCount(TOWER_RESIZE_WATER_MARK_ARRAY[m_nCurTileDynamicLevel].view_count);
-
-        if(TOWER_RESIZE_WATER_MARK_ARRAY[m_nCurTileDynamicLevel].view_out == false)
-        {
-            SetViewRangeOut(0);
-        }
-        if(TOWER_RESIZE_WATER_MARK_ARRAY[m_nCurTileDynamicLevel].view_in == false)
-        {
-            SetViewRangeIn(0);
-        }
+        if(m_nCurTileDynamicLevel >= sizeOfArray(TOWER_RESIZE_WATER_MARK_ARRAY))
+            return;
+        auto new_level = m_nCurTileDynamicLevel + 1;
+        SetTileDynamicLev(new_level);
     }
 }
 

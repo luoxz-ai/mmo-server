@@ -17,8 +17,12 @@ bool CMapData::Init(uint32_t idMapTemplate)
     Cfg_MapData cfg;
     if(pb_util::LoadFromBinaryFile(file_path, cfg) == false)
     {
-        LOGERROR("InitFromFile {} Fail.", file_path.c_str());
-        return false;
+        //try us json format
+        if(pb_util::LoadFromJsonFile(file_path + ".json", cfg) == false)
+        {
+            LOGERROR("InitFromFile {} Fail.", file_path.c_str());
+            return false;
+        }
     }
 
     m_idMapTemplate = idMapTemplate;
@@ -38,7 +42,10 @@ bool CMapData::Init(uint32_t idMapTemplate)
     {
         m_pGridData[i] = cfg.griddata().Get(i);
     }
-
+    for(size_t i = 0; i < cfg.collision().size(); i++)
+    {
+        m_pGridData[i] = cfg.collision().Get(i);
+    }
     LOGDEBUG("MapData {} LoadSucc.", file_path.c_str());
 
     return true;

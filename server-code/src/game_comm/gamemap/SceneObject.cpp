@@ -34,8 +34,10 @@ void CSceneObject::FaceTo(const Vector2& pos)
 void CSceneObject::OnEnterMap(CSceneBase* pScene)
 {
     m_pScene = pScene;
-    SetSceneTile(pScene->GetSceneTree()->GetSceneTileByPos(GetPosX(), GetPosY()));
-    SetCollisionTile(pScene->GetSceneTree()->GetCollisionTileByPos(GetPosX(), GetPosY(), GetActorType()));
+    auto scene_tree = pScene->GetSceneTree();
+    CHECK(scene_tree);
+    SetSceneTile(scene_tree->GetSceneTileByPos(GetPosX(), GetPosY()));
+    SetCollisionTile(scene_tree->GetCollisionTileByPos(GetPosX(), GetPosY(), GetActorType()));
 }
 
 void CSceneObject::OnLeaveMap(uint16_t idTargetMap)
@@ -50,8 +52,10 @@ void CSceneObject::SetHideCoude(int32_t nHideCount)
     if(nHideCount == 0)
     {
         m_nHideCount = nHideCount;
-        SetSceneTile(GetCurrentScene()->GetSceneTree()->GetSceneTileByPos(GetPosX(), GetPosY()));
-        SetCollisionTile(GetCurrentScene()->GetSceneTree()->GetCollisionTileByPos(GetPosX(), GetPosY(), GetActorType()));
+        auto scene_tree = GetCurrentScene()->GetSceneTree();
+        CHECK(scene_tree);
+        SetSceneTile(scene_tree->GetSceneTileByPos(GetPosX(), GetPosY()));
+        SetCollisionTile(scene_tree->GetCollisionTileByPos(GetPosX(), GetPosY(), GetActorType()));
     }
     else
     {
@@ -136,7 +140,7 @@ void CSceneObject::ChangePhase(uint64_t idPhaseID)
     }
 
     _SetPhaseID(idPhaseID);
-    UpdateViewList();
+    UpdateViewList(true);
 }
 
 bool CSceneObject::IsEnemy(CSceneObject* pTarget) const
@@ -170,7 +174,7 @@ void CSceneObject::RemoveFromViewList(CSceneObject* pActor, OBJID idActor, bool 
     // 通知自己对方消失
     if(pActor)
     {
-        m_ViewActorsByType[pActor->GetActorType()].erase(pActor->GetID());
+        m_ViewActorsByType[pActor->GetActorType()].erase(idActor);
     }
     else
     {
@@ -192,127 +196,171 @@ void CSceneObject::AddToViewList(CSceneObject* pActor)
     if(pActor == nullptr)
         return;
 
-    if(m_ViewActors.find(pActor->GetID()) != m_ViewActors.end())
+    _AddToViewList(pActor->GetActorType(), pActor->GetID());
+}
+
+void CSceneObject::_AddToViewList(uint32_t actor_type, uint64_t id)
+{
+    if(m_ViewActors.find(id) != m_ViewActors.end())
     {
         return;
     }
-    m_ViewActors.insert(pActor->GetID());
-    m_ViewActorsByType[pActor->GetActorType()].insert(pActor->GetID());
+    m_ViewActors.insert(id);
+    m_ViewActorsByType[actor_type].insert(id);
 }
 
 //////////////////////////////////////////////////////////////////////
-bool CSceneObject::UpdateViewList()
+void CSceneObject::ClearViewList(bool bSendMsgToSelf)
+{
+    __ENTER_FUNCTION
+    OnBeforeClearViewList(bSendMsgToSelf);
+
+    for(uint64_t id: m_ViewActors)
+    {
+        // 通知对方自己消失
+        CSceneObject* pActor = GetCurrentScene()->QuerySceneObj(id);
+        if(pActor)
+        {
+            pActor->RemoveFromViewList(this, GetID(), true);
+        }
+    }
+    //发送删除包
+
+    m_ViewActorsByType.clear();
+    m_ViewActors.clear();
+
+    __LEAVE_FUNCTION
+}
+
+//////////////////////////////////////////////////////////////////////
+bool CSceneObject::UpdateViewList(bool bForce)
+{
+    //只有当自己的位置变化大于x，才主动刷新视野列表，否则由他人触发
+    CHECKF(GetCurrentScene());
+    CHECKF(GetSceneTile());
+    float view_change_min = GetCurrentScene()->GetSceneTree()->GetViewChangeMin();
+    auto  use_manhattan   = GetCurrentScene()->GetSceneTree()->IsViewManhattanDistance();
+    if(bForce || ((use_manhattan) ? GameMath::manhattanDistance(m_LastUpdateViewPos, m_Pos) >= view_change_min
+                                  : GameMath::simpleDistance(m_LastUpdateViewPos, m_Pos) >= view_change_min))
+    {
+        m_LastUpdateViewPos = m_Pos;
+        return _UpdateViewList();
+    }
+    return true;
+}
+
+bool CSceneObject::_UpdateViewList()
 {
     CHECKF(GetCurrentScene());
     CHECKF(GetSceneTile());
     //////////////////////////////////////////////////////////////////////////
     // 为了减少重新搜索广播集的次数，这里采用的策略是划分3*3格的逻辑格子，
-    // 只有首次进入地图或逻辑格子发生变化的时候才重新进行搜索
+    // 只有首次进入地图或逻辑位置发生变化的时候才重新进行搜索
 
     // 寻找新的目标集
     BROADCAST_SET setBCActor;
-    ACTOR_MAP     mapAllViewActor;
     struct ACTOR_MAP_BY_DIS_DATA
     {
-        uint32_t      dis;
+        float         dis;
         CSceneObject* pActor;
+        bool operator<(float rht) const { return dis < rht; }
+        bool operator<(const ACTOR_MAP_BY_DIS_DATA& rht) const { return dis < rht.dis; }
     };
     typedef std::deque<ACTOR_MAP_BY_DIS_DATA> ACTOR_MAP_BY_DIS;
-    ACTOR_MAP_BY_DIS                          sortedAllViewActorByDist;
 
-    uint32_t viewcount_max         = GetCurrentScene()->GetSceneTree()->GetViewCount();
-    uint32_t view_range_in_square  = GetCurrentScene()->GetSceneTree()->GetViewRangeInSquare();
-    uint32_t view_range_out_square = GetCurrentScene()->GetSceneTree()->GetViewRangeOutSquare();
+    ACTOR_MAP_BY_DIS actor_viewin_withdis;
+    ACTOR_MAP_BY_DIS actor_viewout_withdis;
+    auto             scene_tree = GetCurrentScene()->GetSceneTree();
+
+    uint32_t viewcount_max         = scene_tree->GetViewCount();
+    uint32_t use_manhattan         = scene_tree->IsViewManhattanDistance();
+    uint32_t view_range_in_square  = scene_tree->GetViewRangeInSquare();
+    uint32_t view_range_out_square = scene_tree->GetViewRangeOutSquare();
     // 广播集算法修改测试
     //////////////////////////////////////////////////////////////////////////
     // step1: 获取当前广播集范围内的对象
     {
-        GetCurrentScene()->GetSceneTree()->foreach_SceneTileInSight(
+        scene_tree->foreach_SceneTileInSight(
             GetPosX(),
             GetPosY(),
-            [thisActor = this, &setBCActor, &mapAllViewActor, &sortedAllViewActorByDist, view_range_in_square, viewcount_max](
-                CSceneTile* pSceneTile) {
+            [thisActor = this, &setBCActor, &actor_viewin_withdis, &actor_viewout_withdis, 
+                view_range_in_square, view_range_out_square, viewcount_max, use_manhattan](CSceneTile* pSceneTile) {
                 const auto& actor_list = *pSceneTile;
                 for(CSceneObject* pActor: actor_list)
                 {
                     if(pActor == thisActor)
                         continue;
+                    if(pActor == nullptr)
+                        continue;
 
                     // 判断目标是否需要加入广播集
                     if(thisActor->IsNeedAddToBroadCastSet(pActor) == false)
                         continue;
-
-                    //! 目标进入视野，需要加入广播集
-                    uint32_t distance_square = 0;
-
-                    if(view_range_in_square > 0) //距离优先判断
+                    //不需要视野剪裁，那么就都加入
+                    if(viewcount_max <= 0)
                     {
-                        distance_square = GameMath::simpleDistance(thisActor->GetPos(), pActor->GetPos());
+                        setBCActor.insert(pActor->GetID());
+                        continue;
+                    }
+                    //! 目标进入视野，需要加入广播集
+                    if(thisActor->IsMustAddToBroadCastSet(pActor) == true)
+                    {
+                        //强制加入视野的，优先合入
+                        setBCActor.insert(pActor->GetID());
                     }
                     else
                     {
-                        // view_in == 0时,使用麦哈顿距离进行判断
-                        distance_square = GameMath::manhattanDistance(thisActor->GetPos(), pActor->GetPos());
-                    }
-
-                    if(view_range_in_square <= 0 || distance_square < view_range_in_square)
-                    {
-
-                        if(viewcount_max > 0)
+                        float distance_square = 0;
+                        if(use_manhattan)
                         {
-                            if(thisActor->IsMustAddToBroadCastSet(pActor) == true)
-                            {
-                                setBCActor.insert(pActor->GetID());
-                            }
-                            else
-                            {
-                                sortedAllViewActorByDist.emplace_back(ACTOR_MAP_BY_DIS_DATA{distance_square, pActor});
-                            }
+                            distance_square = GameMath::manhattanDistance(thisActor->GetPos(), pActor->GetPos());
                         }
                         else
                         {
-                            setBCActor.insert(pActor->GetID());
+                            distance_square = GameMath::simpleDistance(thisActor->GetPos(), pActor->GetPos());
                         }
 
-                        mapAllViewActor.emplace(std::make_pair(pActor->GetID(), pActor));
+                        if(view_range_in_square <= 0)
+                        {
+                            //如果view_in == 0,那么所有人全部根据麦哈顿距离进入视野
+                            actor_viewin_withdis.emplace_back(ACTOR_MAP_BY_DIS_DATA{distance_square, pActor});
+                        }
+                        else
+                        {
+                            if(distance_square <= view_range_in_square)
+                            {
+                                actor_viewin_withdis.emplace_back(ACTOR_MAP_BY_DIS_DATA{distance_square, pActor});
+                            }
+                            else if(distance_square <= view_range_out_square)
+                            {
+                                actor_viewout_withdis.emplace_back(ACTOR_MAP_BY_DIS_DATA{distance_square, pActor});
+                            }
+                        }
                     }
                 }
             });
     }
 
-    if(viewcount_max > 0)
+    if(viewcount_max > 0 && setBCActor.size() < viewcount_max)
     {
         //需要视野裁剪
-        //如果当前视野人数已经超过视野人数上限
-        if(setBCActor.size() < viewcount_max)
+        //如果当前视野人数还没满
+
+        //对可以进入视野集合进行排序,只取距离自己最近的N个,加入视野列表
+        uint32_t nNeedInsert = viewcount_max - setBCActor.size();
+        auto     nCanInsert  = std::min<uint32_t>(actor_viewin_withdis.size(), nNeedInsert);
+
+        std::nth_element(actor_viewin_withdis.begin(), actor_viewin_withdis.begin() + nCanInsert - 1, actor_viewin_withdis.end(), std::less<>());
+
+        int32_t i = 0;
+        for(auto it = actor_viewin_withdis.begin(); i < nCanInsert && it != actor_viewin_withdis.end(); i++)
         {
-            //对视野集合进行排序,只取距离自己最近的N个,作为最新广播集
-            int32_t nCanInsert = viewcount_max - setBCActor.size();
-            struct comp
-            {
-                bool operator()(const ACTOR_MAP_BY_DIS_DATA& lft, uint32_t rht) const { return lft.dis < rht; }
-
-                bool operator()(uint32_t lft, const ACTOR_MAP_BY_DIS_DATA& rht) const { return lft < rht.dis; }
-
-                bool operator()(const ACTOR_MAP_BY_DIS_DATA& lft, const ACTOR_MAP_BY_DIS_DATA& rht) const { return lft.dis < rht.dis; }
-            };
-            std::nth_element(sortedAllViewActorByDist.begin(),
-                             sortedAllViewActorByDist.begin() + nCanInsert - 1,
-                             sortedAllViewActorByDist.end(),
-                             comp());
-
-            int32_t i = 0;
-            for(auto it = sortedAllViewActorByDist.begin(); i < nCanInsert && it != sortedAllViewActorByDist.end(); it++, i++)
-            {
-                CSceneObject* pActor = it->pActor;
-                uint64_t      id     = pActor->GetID();
-                setBCActor.insert(id);
-            }
+            CSceneObject* pActor = it->pActor;
+            uint64_t      id     = pActor->GetID();
+            setBCActor.insert(id);
+            it++;
         }
     }
-
-    // 广播集必须先做好排序
-    // sort(setBCActor.begin(), setBCActor.end());
 
     //////////////////////////////////////////////////////////////////////////
     // setp2: 计算当前广播集与旧广播集的差集——这部分是新进入视野的
@@ -332,27 +380,34 @@ bool CSceneObject::UpdateViewList()
                    setBCActor.end(),
                    std::insert_iterator(setBCActorDel, setBCActorDel.begin()));
 
-    //计算待删除列表还可以保留多少个
-    int32_t nCanReserveDelCount = setBCActorDel.size();
-    if(viewcount_max > 0)
+    if(viewcount_max > 0 && setBCActor.size() < viewcount_max)
     {
-        //需要视野裁剪
-        //如果当前视野人数已经超过视野人数上限
-        nCanReserveDelCount = viewcount_max - ((m_ViewActors.size() - setBCActorDel.size()) + setBCActorAdd.size());
+        //计算待删除列表还可以保留多少个
+        auto nNeedReback = viewcount_max - setBCActor.size();
+        //将脱离列表中， 可以不删除的那些，放回到viewlist
+
+        auto nCanReback = std::min<uint32_t>(actor_viewout_withdis.size(), nNeedReback);
+        //对大于view_in, 小于view_out的 进行排序, 取距离自己最近的N个,重新加入视野列表
+        std::nth_element(actor_viewout_withdis.begin(), actor_viewout_withdis.begin() + nCanReback - 1, actor_viewout_withdis.end(), std::less<>());
+
+        for(auto it = actor_viewout_withdis.begin(); it != actor_viewout_withdis.end() && nCanReback > 0;)
+        {
+            CSceneObject* pActor = it->pActor;
+            uint64_t      id     = pActor->GetID();
+            nCanReback--;
+            setBCActor.insert(id);
+            setBCActorDel.erase(id);
+            it++;
+        }
     }
 
-    // step4: 需要离开视野的角色Remove
-    OnAOIProcess_ActorRemoveFromAOI(setBCActorDel, setBCActor, nCanReserveDelCount, view_range_out_square);
-
-    // 设置角色广播集=当前广播集-离开视野的差集
-    m_ViewActors = setBCActor;
-    OnAOIProcess_PosUpdate();
-
-    //////////////////////////////////////////////////////////////////////////
-    // step5: 新进入视野的角色和地图物品Add
-    OnAOIProcess_ActorAddToAOI(setBCActorAdd, mapAllViewActor);
-
+    OnAOIProcess(setBCActorDel, setBCActor, setBCActorAdd);
     return true;
+}
+
+void CSceneObject::OnAOIProcess(const BROADCAST_SET& setBCActorDel, const BROADCAST_SET& setBCActor, const BROADCAST_SET& setBCActorAdd)
+{
+    m_ViewActors = setBCActor;
 }
 
 void CSceneObject::ForeachViewActorList(const std::function<void(OBJID)>& func)

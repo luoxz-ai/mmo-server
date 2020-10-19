@@ -329,6 +329,7 @@ void CPlayer::_FlyMap(TargetSceneID idTargetScene, float fPosX, float fPosY, flo
         m_fLoadingFace   = fFace;
 
         SC_LOADMAP msg;
+        msg.set_scene_idx(pPhase->GetSceneIdx());
         msg.set_mapid(pPhase->GetMapID());
         msg.set_posx(m_fLoadingPosX);
         msg.set_posy(m_fLoadingPosY);

@@ -90,25 +90,24 @@ public:
 public:
     // AOI相关
     export_lua virtual bool IsEnemy(CSceneObject* pTarget) const override { return false; }
-    export_lua virtual void ClearViewList(bool bSendMsgToSelf) override;
-
+    
+    virtual void            OnBeforeClearViewList(bool bSendMsgToSelf) override;
+    virtual void RemoveFromViewList(CSceneObject* pActor, OBJID idActor, bool bErase) override;
+    virtual void AddToViewList(CSceneObject* pActor) override;
 protected:
     void         _AddToAOIRemoveMessage(SC_AOI_REMOVE& removeMsg, OBJID id);
     void         _TrySendAOIRemoveMessage(const SC_AOI_REMOVE& removeMsg);
     void         AddDelaySendShowTo(OBJID id);
     void         RemoveDelaySendShowTo(OBJID id);
-    virtual void RemoveFromViewList(CSceneObject* pActor, OBJID idActor, bool bErase) override;
-    virtual void AddToViewList(CSceneObject* PowerActionReserved) override;
+
     virtual bool IsNeedAddToBroadCastSet(CSceneObject* pActor) override;
     virtual bool IsMustAddToBroadCastSet(CSceneObject* pActor) override;
 
-    virtual void OnAOIProcess_ActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_MAP& mapAllViewActor) override;
-    virtual void OnAOIProcess_ActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
-                                                 BROADCAST_SET&       setBCActor,
-                                                 int32_t              nCanReserveDelCount,
-                                                 uint32_t             view_range_out_square) override;
-    virtual void OnAOIProcess_PosUpdate() override;
-
+    virtual void OnAOIProcess(const BROADCAST_SET& setBCActorDel, const BROADCAST_SET& setBCActor, const BROADCAST_SET& setBCActorAdd) override;
+    void         OnAOIProcess_ActorAddToAOI(const BROADCAST_SET& setBCActorAdd);
+    void         OnAOIProcess_ActorRemoveFromAOI(const BROADCAST_SET& setBCActorDe);
+    void         OnAOIProcess_PosUpdate();
+    void         SendAOIChangeToAI(const BROADCAST_SET& setBCActorDel, const BROADCAST_SET& setBCActorAdd);
 private:
     void BroadcastShowTo(const VirtualSocketMap_t& VSMap);
 

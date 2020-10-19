@@ -47,7 +47,7 @@ bool CSkillFSM::CastSkill(uint32_t idSkill, OBJID idTarget, const Vector2& pos)
 
     // send room_msg to client
     SC_CASTSKILL msg;
-    msg.set_mapid(m_pOwner->GetMapID());
+    msg.set_scene_idx(m_pOwner->GetSceneIdx());
     msg.set_actor_id(m_pOwner->GetID());
     msg.set_skill_id(idSkill);
     msg.set_target_id(m_idTarget);
@@ -180,7 +180,7 @@ bool CSkillFSM::_BreakIntone()
     DoIdle();
     // send room msg
     SC_SKILL_BREAK msg;
-    msg.set_mapid(m_pOwner->GetMapID());
+    msg.set_scene_idx(m_pOwner->GetSceneIdx());
     msg.set_actor_id(m_pOwner->GetID());
     m_pOwner->SendRoomMessage(msg);
     return true;
@@ -227,7 +227,7 @@ bool CSkillFSM::_BreakLaunch()
     DoIdle();
     // send room msg
     SC_SKILL_BREAK msg;
-    msg.set_mapid(m_pOwner->GetMapID());
+    msg.set_scene_idx(m_pOwner->GetSceneIdx());
     msg.set_actor_id(m_pOwner->GetID());
     m_pOwner->SendRoomMessage(msg);
     return true;
@@ -406,7 +406,7 @@ void _SkillEffectInRange(CActor* pOwner, const CSkillType* pSkillType, OBJID idT
 {
     CHECK(pOwner);
     SC_SKILL_EFFACT send_msg;
-    send_msg.set_mapid(pOwner->GetMapID());
+    send_msg.set_scene_idx(pOwner->GetSceneIdx());
     send_msg.set_actor_id(pOwner->GetID());
     send_msg.set_skill_id(pSkillType->GetSkillID());
     pOwner->SendRoomMessage(send_msg);
@@ -474,7 +474,7 @@ void CSkillFSM::DoStun()
     CHECK(m_pCurSkillType);
     LOGSKILLDEBUG(m_pCurSkillType->IsDebug(), "DoStun ID:{}", m_pOwner->GetID());
     SC_SKILL_STUN msg;
-    msg.set_mapid(m_pOwner->GetMapID());
+    msg.set_scene_idx(m_pOwner->GetSceneIdx());
     msg.set_actor_id(m_pOwner->GetID());
     msg.set_skill_id(m_pCurSkillType->GetSkillID());
     msg.set_stun_ms(m_pCurSkillType->GetStunMS());

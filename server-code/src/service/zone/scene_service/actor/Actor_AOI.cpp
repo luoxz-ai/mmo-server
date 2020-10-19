@@ -8,8 +8,9 @@
 #include "SceneService.h"
 #include "SceneTree.h"
 #include "msg/zone_service.pb.h"
+#include "server_msg/server_side.pb.h"
 
-//玩家 主位面id = X 时 可以看到 主位面id = X的all， 可以看到 主位面id=自己ID 的all, 可以看到 inTaskList(主位面id)的NPC
+//玩家 位面id = X 时 可以看到 位面id = X的all， 可以看到 位面id=自己ID 的all, 可以看到 inTaskList(位面id)的NPC
 
 class NEED_ADD_TO_BROADCASTSET_T
 {
@@ -143,33 +144,25 @@ void CActor::AddToViewList(CSceneObject* pActor)
 }
 
 //////////////////////////////////////////////////////////////////////
-void CActor::ClearViewList(bool bSendMsgToSelf)
+void CActor::OnBeforeClearViewList(bool bSendMsgToSelf)
 {
     __ENTER_FUNCTION
-    SC_AOI_REMOVE hold_info;
-    for(uint64_t id: m_ViewActors)
-    {
-        // 通知对方自己消失
-        CActor* pActor = ActorManager()->QueryActor(id);
-        if(pActor)
-        {
-            pActor->RemoveFromViewList(this, GetID(), true);
-            if(bSendMsgToSelf)
-                _AddToAOIRemoveMessage(hold_info, pActor->GetID());
-        }
-    }
     //发送删除包
-
     SC_AOI_REMOVE ntc_aoiInfo;
-    ntc_aoiInfo.set_mapid(GetMapID());
+    ntc_aoiInfo.set_scene_idx(GetSceneIdx());
     ntc_aoiInfo.add_idlist(GetID());
     SendRoomMessage(ntc_aoiInfo, false);
 
     if(bSendMsgToSelf)
+    {
+        SC_AOI_REMOVE hold_info;
+        for(uint64_t id: m_ViewActors)
+        {
+            _AddToAOIRemoveMessage(hold_info, id);
+        }
         _TrySendAOIRemoveMessage(hold_info);
+    }
 
-    m_ViewActorsByType.clear();
-    m_ViewActors.clear();
     if(m_setDealySendShow.empty() == false)
     {
         GetEventMapRef().Cancel(EVENTID_BROCAST_SHOW);
@@ -286,7 +279,8 @@ bool CActor::IsMustAddToBroadCastSet(CSceneObject* pActor)
 
         return false;
     }
-    else if(pActor->IsPlayer())
+
+    if(pActor->IsPlayer())
     {
         CPlayer* pPlayer = pActor->CastTo<CPlayer>();
         CHECKF(pPlayer);
@@ -303,55 +297,65 @@ bool CActor::IsMustAddToBroadCastSet(CSceneObject* pActor)
     return false;
 }
 
-void CActor::OnAOIProcess_ActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
-                                             BROADCAST_SET&       setBCActor,
-                                             int32_t              nCanReserveDelCount,
-                                             uint32_t             view_range_out_square)
+void CActor::OnAOIProcess(const BROADCAST_SET& setBCActorDel, const BROADCAST_SET& setBCActor, const BROADCAST_SET& setBCActorAdd)
+{
+    // step4: 需要离开视野的角色Remove
+    OnAOIProcess_ActorRemoveFromAOI(setBCActorDel);
+
+    // 设置角色广播集=当前广播集-离开视野的差集
+    m_ViewActors = setBCActor;
+    OnAOIProcess_PosUpdate();
+
+    //////////////////////////////////////////////////////////////////////////
+    // step5: 新进入视野的角色和地图物品Add
+    OnAOIProcess_ActorAddToAOI(setBCActorAdd);
+
+    SendAOIChangeToAI(setBCActorDel, setBCActorAdd);
+}
+
+void CActor::SendAOIChangeToAI(const BROADCAST_SET& setBCActorDel, const BROADCAST_SET& setBCActorAdd)
+{
+    ServerMSG::AOIChange msg;
+    msg.set_scene_idx(GetCurrentScene()->GetSceneIdx());
+    msg.set_actor_id(GetID());
+    for(const auto& v: setBCActorDel)
+    {
+        msg.add_actor_del(v);
+    }
+    for(const auto& v: setBCActorAdd)
+    {
+        msg.add_actor_add(v);
+    }
+    SceneService()->SendProtoMsgToAIService(msg);
+}
+
+void CActor::OnAOIProcess_ActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel)
 {
     __ENTER_FUNCTION
     SC_AOI_REMOVE hold_info;
-    hold_info.set_mapid(GetMapID());
+    hold_info.set_scene_idx(GetSceneIdx());
 
     //////////////////////////////////////////////////////////////////////////
     // step4: 需要离开视野的角色Remove
     {
         BROADCAST_SET setBCActorDelPlayer;
-        for(auto it = setBCActorDel.begin(); it != setBCActorDel.end(); it++)
+        for(const auto& id: setBCActorDel)
         {
-            // 如果对方还在脱离视野范围内，则不删除
-            uint64_t id     = *it;
-            CActor*  pActor = ActorManager()->QueryActor(id);
+            CActor* pActor = static_cast<CActor*>(GetCurrentScene()->QuerySceneObj(id));
             if(pActor == nullptr)
             {
-                //如果对方已经消失,则移除
-                RemoveFromViewList(nullptr, id, false);
-                _AddToAOIRemoveMessage(hold_info, id);
                 continue;
             }
-            if(nCanReserveDelCount > 0)
-            {
-                if(view_range_out_square > 0)
-                {
-                    uint32_t distance_square = GameMath::simpleDistance(GetPos(), pActor->GetPos());
-                    if(distance_square < view_range_out_square) // 在脱离视野半径内的，不需要离开广播区域)
-                    {
-                        nCanReserveDelCount--;
-                        setBCActor.insert(id);
-                        continue;
-                    }
-                }
-            }
-
-            // 对方已脱离视野
-
             // 通知自己对方消失
             //不需要从自己的m_ViewActors移除,因为等下会一次性移除,
-            //为了减少发送次数,发送给自己的移除消息一次性发送
             RemoveFromViewList(pActor, id, false);
-            _AddToAOIRemoveMessage(hold_info, pActor->GetID());
             // 通知对方自己消失,
             pActor->RemoveFromViewList(this, this->GetID(), true);
-            //不发送移除消息,等下一次性广播
+
+            //为了减少发送次数,发送给自己的移除消息一次性发送
+            _AddToAOIRemoveMessage(hold_info, id);
+
+            //如果目标是Player，需要收到删除我的广播
             if(pActor->GetActorType() == ACT_PLAYER)
             {
                 setBCActorDelPlayer.insert(id);
@@ -361,9 +365,8 @@ void CActor::OnAOIProcess_ActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
         //通知Del列表删除自己
         if(setBCActorDelPlayer.empty() == false)
         {
-
             SC_AOI_REMOVE ntc_aoiInfo;
-            ntc_aoiInfo.set_mapid(GetMapID());
+            ntc_aoiInfo.set_scene_idx(GetSceneIdx());
             ntc_aoiInfo.add_idlist(GetID());
 
             auto setSocketMap = SceneService()->IDList2VSMap(setBCActorDelPlayer, 0);
@@ -380,7 +383,7 @@ void CActor::OnAOIProcess_PosUpdate()
     __ENTER_FUNCTION
     //发送移动同步
     SC_AOI_UPDATE ntc;
-    ntc.set_mapid(GetMapID());
+    ntc.set_scene_idx(GetSceneIdx());
     ntc.set_actor_id(GetID());
     ntc.set_posx(GetPosX());
     ntc.set_posy(GetPosY());
@@ -389,49 +392,42 @@ void CActor::OnAOIProcess_PosUpdate()
     __LEAVE_FUNCTION
 }
 
-void CActor::OnAOIProcess_ActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_MAP& mapAllViewActor)
+void CActor::OnAOIProcess_ActorAddToAOI(const BROADCAST_SET& setBCActorAdd)
 {
     __ENTER_FUNCTION
-    for(auto it = setBCActorAdd.begin(); it != setBCActorAdd.end();)
+    BROADCAST_SET setBCActorAddPlayer;
+    for(const auto& id: setBCActorAdd)
     {
-        auto itr = mapAllViewActor.find(*it);
-        if(itr == mapAllViewActor.end())
+        CActor* pActor = static_cast<CActor*>(GetCurrentScene()->QuerySceneObj(id));
+        if(pActor == nullptr)
         {
-            it = setBCActorAdd.erase(it);
             continue;
         }
 
-        CActor* pActor = static_cast<CActor*>(itr->second);
-
-        // 通知自己,需要发送对方的信息给自己
         AddToViewList(pActor);
-        if(GetActorType() == ACT_PLAYER)
-        {
-            static_cast<CActor*>(pActor)->AddDelaySendShowTo(GetID());
-        }
-
-        // 通知目标,不要发送自己的信息给对方,后面会统一广播
         pActor->AddToViewList(this);
 
-        //只有Player才需要收到show广播
-        if(pActor->GetActorType() != ACT_PLAYER)
+        // 如果自己是Player， 加入我视野的对象， 需要将他们的信息发送给我
+        if(GetActorType() == ACT_PLAYER)
         {
-            it = setBCActorAdd.erase(it);
+            pActor->AddDelaySendShowTo(GetID());
         }
-        else
+
+        //如果目标是Player，需要收到我的show广播
+        if(pActor->GetActorType() == ACT_PLAYER)
         {
-            it++;
+            setBCActorAddPlayer.insert(id);
         }
     }
 
     //合并延迟发送Show的队列一起发送
-    if(setBCActorAdd.size() > 0 || m_setDealySendShow.size() > 0)
+    if(setBCActorAddPlayer.size() > 0 || m_setDealySendShow.size() > 0)
     {
         if(m_setDealySendShow.empty())
         {
-            BroadcastShowTo(SceneService()->IDList2VSMap(setBCActorAdd, 0));
+            BroadcastShowTo(SceneService()->IDList2VSMap(setBCActorAddPlayer, 0));
         }
-        else if(setBCActorAdd.empty())
+        else if(setBCActorAddPlayer.empty())
         {
             BroadcastShowTo(SceneService()->IDList2VSMap(m_setDealySendShow, 0));
             m_setDealySendShow.clear();
@@ -439,7 +435,7 @@ void CActor::OnAOIProcess_ActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTO
         }
         else
         {
-            m_setDealySendShow.insert(setBCActorAdd.begin(), setBCActorAdd.end());
+            m_setDealySendShow.insert(setBCActorAddPlayer.begin(), setBCActorAddPlayer.end());
             BroadcastShowTo(SceneService()->IDList2VSMap(m_setDealySendShow, 0));
             m_setDealySendShow.clear();
             GetEventMapRef().Cancel(EVENTID_BROCAST_SHOW);

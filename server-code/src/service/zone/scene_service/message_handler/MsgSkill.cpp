@@ -18,7 +18,7 @@ ON_PLAYERMSG(CS_CASTSKILL)
     if(pPlayer->GetCurrentScene() == nullptr)
         return;
 
-    if(pPlayer->GetCurrentScene()->GetMapID() != msg.mapid())
+    if(pPlayer->GetCurrentScene()->GetSceneIdx() != msg.scene_idx())
         return;
 
     if(pPlayer->GetCurrentScene()->GetMap()->HasMapFlag(MAPFLAG_DISABLE_ATTACK) == false)
@@ -34,7 +34,7 @@ ON_PLAYERMSG(CS_SKILL_BREAK)
     __ENTER_FUNCTION
     if(pPlayer->GetCurrentScene() == nullptr)
         return;
-    if(pPlayer->GetCurrentScene()->GetMapID() != msg.mapid())
+    if(pPlayer->GetCurrentScene()->GetSceneIdx() != msg.scene_idx())
         return;
 
     if(pPlayer->GetCurrentScene()->GetMap()->HasMapFlag(MAPFLAG_DISABLE_ATTACK) == false)

@@ -67,32 +67,34 @@ enum OMsgID
     MsgID_AddTaskPhase        = 20107;
     MsgID_RemoveTaskPhase     = 20108;
     MsgID_ActorFlyTo          = 20109;
+    MsgID_AOIChange           = 20110;
 
-    MsgID_TeamCreate       = 20110;
-    MsgID_TeamDestory      = 20111;
-    MsgID_TeamQuit         = 20112;
-    MsgID_TeamKickMember   = 20113;
-    MsgID_TeamInviteMember = 20114;
-    MsgID_TeamAcceptInvite = 20115;
-    MsgID_TeamApplyMember  = 20116;
-    MsgID_TeamAcceptApply  = 20117;
-    MsgID_TeamNewLeader    = 20118;
-    MsgID_TeamMemberInfoList   = 20119;
-    MsgID_TeamAddMember    = 20120;
-    MsgID_TeamDelMember    = 20121;
 
-    MsgID_GuildCreate       = 20140;
-    MsgID_GuildDestory      = 20141;
-    MsgID_GuildQuit         = 20142;
-    MsgID_GuildKickMember   = 20143;
-    MsgID_GuildInviteMember = 20144;
-    MsgID_GuildAcceptInvite = 20145;
-    MsgID_GuildApplyMember  = 20146;
-    MsgID_GuildAcceptApply  = 20147;
-    MsgID_GuildNewLeader    = 20148;
-    MsgID_GuildMemberInfoList   = 20149;
-    MsgID_GuildAddMember    = 20150;
-    MsgID_GuildDelMember    = 20151;
+    MsgID_TeamCreate       = 20130;
+    MsgID_TeamDestory      = 20131;
+    MsgID_TeamQuit         = 20132;
+    MsgID_TeamKickMember   = 20133;
+    MsgID_TeamInviteMember = 20134;
+    MsgID_TeamAcceptInvite = 20135;
+    MsgID_TeamApplyMember  = 20136;
+    MsgID_TeamAcceptApply  = 20137;
+    MsgID_TeamNewLeader    = 20138;
+    MsgID_TeamMemberInfoList   = 20139;
+    MsgID_TeamAddMember    = 20140;
+    MsgID_TeamDelMember    = 20141;
+
+    MsgID_GuildCreate       = 20160;
+    MsgID_GuildDestory      = 20161;
+    MsgID_GuildQuit         = 20162;
+    MsgID_GuildKickMember   = 20163;
+    MsgID_GuildInviteMember = 20164;
+    MsgID_GuildAcceptInvite = 20165;
+    MsgID_GuildApplyMember  = 20166;
+    MsgID_GuildAcceptApply  = 20167;
+    MsgID_GuildNewLeader    = 20168;
+    MsgID_GuildMemberInfoList   = 20169;
+    MsgID_GuildAddMember    = 20170;
+    MsgID_GuildDelMember    = 20171;
 
     MsgID_END = 30000;
 };
@@ -315,6 +317,15 @@ message KillGen
     option (server_cmd).id = MsgID_KillGen;
     uint64 scene_id = 1;
     uint32 gen_id   = 2;
+};
+
+message AOIChange
+{
+    option (server_cmd).id = MsgID_AOIChange;
+    uint64 actor_id  = 1;
+    uint64 scene_idx  = 2;
+    repeated uint64 actor_add = 3;
+    repeated uint64 actor_del = 4;
 };
 
 message ActorCreate

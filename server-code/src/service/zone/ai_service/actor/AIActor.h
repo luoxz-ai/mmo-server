@@ -62,17 +62,10 @@ public:
 
 public:
     export_lua virtual bool IsEnemy(CSceneObject* pTarget) const override { return false; }
-    virtual void            ClearViewList(bool bSendMsgToSelf) override;
 
-protected:
+public:
     virtual void AddToViewList(CSceneObject* pActor) override;
-    virtual void OnAOIProcess_ActorAddToAOI(BROADCAST_SET& setBCActorAdd, const ACTOR_MAP& mapAllViewActor) override;
-    virtual void OnAOIProcess_ActorRemoveFromAOI(const BROADCAST_SET& setBCActorDel,
-                                                 BROADCAST_SET&       setBCActor,
-                                                 int32_t              nCanReserveDelCount,
-                                                 uint32_t             view_range_out_square) override;
-    virtual bool IsNeedAddToBroadCastSet(CSceneObject* pActor) override;
-
+    virtual bool UpdateViewList(bool bForce)override {return true;} //不需要自动更新ViewList，由Scene通知
 protected:
     uint32_t m_idCamp = 0; //阵营ID
 

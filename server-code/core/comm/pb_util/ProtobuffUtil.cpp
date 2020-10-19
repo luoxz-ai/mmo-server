@@ -48,7 +48,7 @@ namespace pb_util
         std::ofstream ofs(filename.data(), std::ios::out | std::ios::binary);
         if(ofs.is_open())
         {
-            pbm.SerializeToOstream(&ofs);
+            rv = pbm.SerializeToOstream(&ofs);
             ofs.close();
         }
         return rv;
@@ -80,8 +80,8 @@ namespace pb_util
         std::ifstream ifs(filename.data());
         if(ifs.is_open())
         {
-            std::ifstream                  in("some.file");
-            std::istreambuf_iterator<char> beg(in), end;
+            std::istreambuf_iterator<char> beg(ifs);
+            std::istreambuf_iterator<char> end;
             std::string                    str(beg, end);
             ifs.close();
             if(LoadFromJsonTxt(str, pbm) != true)
@@ -100,7 +100,7 @@ namespace pb_util
     {
         std::string json_txt;
         SaveToJsonTxt(pbm, json_txt);
-        bool          rv = false;
+        
         std::ofstream ofs(filename.data(), std::ios::out | std::ios::trunc);
         if(ofs.is_open())
         {
