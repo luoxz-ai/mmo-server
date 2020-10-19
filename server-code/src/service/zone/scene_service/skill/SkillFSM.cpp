@@ -337,7 +337,7 @@ void CSkillFSM::FindTarget(CActor* pOwner, const CSkillType* pSkillType, OBJID i
         break;
         case STF_TARGET_ROUND:
         {
-            float fSkillRange = pSkillType->GetRange();
+            float fSkillRange  = pSkillType->GetRange();
             float fRangeSquare = fSkillRange * fSkillRange;
             pOwner->ForeachViewActorList([&vecTarget, fRangeSquare, pOwner = pOwner, pSkillType = pSkillType](OBJID idActor) {
                 CActor* pActor = ActorManager()->QueryActor(idActor);
@@ -356,7 +356,7 @@ void CSkillFSM::FindTarget(CActor* pOwner, const CSkillType* pSkillType, OBJID i
         break;
         case STF_TARGET_FAN:
         {
-            float fSkillRange = pSkillType->GetRange();
+            float fSkillRange  = pSkillType->GetRange();
             float fRangeSquare = fSkillRange * fSkillRange;
             auto  Face         = GameMath::rotate(GameMath::VECTOR2_NORTH, pOwner->GetFace());
 

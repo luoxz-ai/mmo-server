@@ -34,7 +34,7 @@ bool CMonsterGenerator::Init(CAIPhase* pPhase)
     m_pMap               = pPhase->GetMap();
     m_idxScene           = pPhase->GetSceneIdx();
     const auto& gen_list = m_pMap->GetGeneratorData();
-    for(const auto&[key, cfg_ptr] : gen_list)
+    for(const auto& [key, cfg_ptr]: gen_list)
     {
         if(m_setGen.find(key) != m_setGen.end())
         {

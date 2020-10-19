@@ -38,7 +38,6 @@ bool CNpc::Init(uint32_t idType)
     SetCampID(m_pType->GetCampID());
     _SetPhaseID(m_pType->GetPhaseID());
     m_ActorAttrib->SetBase(m_pType->GetAbility());
-    
 
     RecalcAttrib(true);
     _SetHP(GetHPMax());

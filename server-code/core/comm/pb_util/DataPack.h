@@ -1,8 +1,8 @@
 #ifndef DATAPACK_H
 #define DATAPACK_H
 
-#include "datapack/CfgDataPack.pb.h"
 #include "ProtobuffUtil.h"
+#include "datapack/CfgDataPack.pb.h"
 namespace DataPack
 {
     template<class cfg_message_t>

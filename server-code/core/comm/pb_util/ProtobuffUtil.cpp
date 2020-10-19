@@ -192,7 +192,7 @@ namespace pb_util
         {
             return false;
         }
-        return true;      
+        return true;
     }
 
     void AddFieldData(google::protobuf::Message* pThisRow, const google::protobuf::FieldDescriptor* pFieldDesc, const std::string& data)

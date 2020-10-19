@@ -56,8 +56,8 @@ ON_PLAYERMSG(CS_TALK)
     // 物品展示信息替换
     //找到字串中[#i 0-9]，提取出来
     // Extraction of a sub-match
-    static std::regex base_regex("\\[#i ([0-9]+)\\]", std::regex::optimize);
-    std::smatch       base_match;
+    static std::regex  base_regex("\\[#i ([0-9]+)\\]", std::regex::optimize);
+    std::smatch        base_match;
     std::vector<OBJID> vecIDItem;
     try
     {

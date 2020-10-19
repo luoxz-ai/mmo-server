@@ -123,8 +123,8 @@ void CAIActor::MoveToTarget(const Vector2& posTarget)
 float CAIActor::GetMovePassedTime() const
 {
     __ENTER_FUNCTION
-    auto pass_monotonic = TimeGetMonotonic() - m_LastMoveTime;
-    float pass_time = pass_monotonic / 1000.0f;
+    auto  pass_monotonic = TimeGetMonotonic() - m_LastMoveTime;
+    float pass_time      = pass_monotonic / 1000.0f;
     if(pass_time > 1.0f)
         return 1.0f;
     else

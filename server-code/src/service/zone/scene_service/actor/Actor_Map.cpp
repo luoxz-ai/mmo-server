@@ -8,9 +8,9 @@
 #include "SceneService.h"
 #include "SceneTree.h"
 #include "ScriptCallBackType.h"
+#include "msg/zone_service.pb.h"
 #include "protomsg_to_cmd.h"
 #include "server_msg/server_side.pb.h"
-#include "msg/zone_service.pb.h"
 
 void CActor::FlyTo(const Vector2& pos)
 {

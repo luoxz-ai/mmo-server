@@ -63,15 +63,15 @@ export_lua inline uint32_t GetLowFromU64(uint64_t v)
 // a*b/c
 export_lua inline int32_t MulDivSign(int32_t a, int32_t b, int32_t c)
 {
-    if(c == 0) 
-        return 0; 
+    if(c == 0)
+        return 0;
     return ((int32_t)(((int64_t)(a) * (int64_t)(b)) / (int64_t)(c)));
 }
 
 export_lua inline uint32_t MulDiv(uint32_t a, uint32_t b, uint32_t c)
 {
-    if(c == 0) 
-        return 0; 
+    if(c == 0)
+        return 0;
     return ((uint32_t)(((uint64_t)(a) * (uint64_t)(b)) / (uint64_t)(c)));
 }
 

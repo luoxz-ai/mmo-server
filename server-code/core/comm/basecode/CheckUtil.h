@@ -307,12 +307,12 @@ static inline std::optional<std::string> attempt(Func&& func, Args&&... args)
         }                                                \
     }
 
-#define attempt_call_printerr_begin() \
-    {                                 \
-        try                           \
+#define __attempt_call_printerr_begin() \
+    {                                   \
+        try                             \
         {
 
-#define attempt_call_printerr_end()                                                     \
+#define __attempt_call_printerr_end()                                                   \
     }                                                                                   \
     catch(const std::runtime_error& e) { fmt::print("catch_execpetion:{}", e.what()); } \
     catch(const std::exception& e) { fmt::print("catch_execpetion:{}", e.what()); }     \

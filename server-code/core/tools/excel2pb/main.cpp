@@ -35,8 +35,6 @@ public:
     ~PB_Initer() {}
 } const s_PB_Initer;
 
-
-
 int main(int argc, char** argv)
 {
     get_opt opt(argc, (const char**)argv);
@@ -146,22 +144,27 @@ int main(int argc, char** argv)
                         auto vecData = split_string(name, "|");
                         if(data == "1")
                         {
-                            attempt_call_printerr_begin()
-                            if(pb_util::JoinMessageData(pPBRow, trim_copy(vecData[0]), trim_copy(vecData[1])) == false)
+                            __attempt_call_printerr_begin
                             {
-                                bError = true;
+                                if(pb_util::JoinMessageData(pPBRow, trim_copy(vecData[0]), trim_copy(vecData[1])) == false)
+                                {
+                                    bError = true;
+                                }
                             }
-                            attempt_call_printerr_end()
+                            __attempt_call_printerr_end
                         }
                     }
                     else
                     {
-                        attempt_call_printerr_begin()
-                        if(pb_util::SetMessageData(pPBRow, trim_copy(name), trim_copy(data)) == false)
+                        __attempt_call_printerr_begin
                         {
-                            bError = true;
+
+                            if(pb_util::SetMessageData(pPBRow, trim_copy(name), trim_copy(data)) == false)
+                            {
+                                bError = true;
+                            }
                         }
-                        attempt_call_printerr_end()
+                        __attempt_call_printerr_end
                     }
                 }
                 catch(...)

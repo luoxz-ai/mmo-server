@@ -12,7 +12,6 @@
 #include "datapack/CfgDataPack.pb.h"
 #include "get_opt.h"
 
-
 void ProtobufLogHandler(google::protobuf::LogLevel level, const char* file, int32_t line, const std::string& msg)
 {
     std::cerr << msg << std::endl;

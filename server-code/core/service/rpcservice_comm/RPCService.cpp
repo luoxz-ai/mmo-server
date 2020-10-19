@@ -42,9 +42,9 @@ public:
 };
 
 static BRPCLogSink s_logsink;
-CRPCService::CRPCService() 
+CRPCService::CRPCService()
 {
-    logging::SetLogSink(&s_logsink); 
+    logging::SetLogSink(&s_logsink);
 }
 
 CRPCService::~CRPCService()
