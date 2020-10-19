@@ -144,19 +144,19 @@ int main(int argc, char** argv)
                         auto vecData = split_string(name, "|");
                         if(data == "1")
                         {
-                            __attempt_call_printerr_begin
+                            __attempt_call_printerr_begin()
                             {
                                 if(pb_util::JoinMessageData(pPBRow, trim_copy(vecData[0]), trim_copy(vecData[1])) == false)
                                 {
                                     bError = true;
                                 }
                             }
-                            __attempt_call_printerr_end
+                            __attempt_call_printerr_end()
                         }
                     }
                     else
                     {
-                        __attempt_call_printerr_begin
+                        __attempt_call_printerr_begin()
                         {
 
                             if(pb_util::SetMessageData(pPBRow, trim_copy(name), trim_copy(data)) == false)
@@ -164,7 +164,7 @@ int main(int argc, char** argv)
                                 bError = true;
                             }
                         }
-                        __attempt_call_printerr_end
+                        __attempt_call_printerr_end()
                     }
                 }
                 catch(...)
