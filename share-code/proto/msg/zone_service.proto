@@ -5,7 +5,8 @@ import "common/Common.proto";
 message SC_LOADMAP
 {
 	option (cmd).sc_cmd = CMD_SC_LOADMAP;
-	uint32 mapid = 1;
+	uint64 scene_idx = 1;
+	uint32 mapid = 2;
 	float  posx	 = 3;
 	float  posy	 = 4;
 	float  face	 = 5;
@@ -129,7 +130,7 @@ message SC_ENTERMAP
 message SC_AOI_NEW
 {
 	option (cmd).sc_cmd = CMD_SC_AOI_NEW;
-	uint32 mapid = 1;
+	uint64 scene_idx = 1;
 
 	//其他用于显示的数据
 	uint64 actor_id	 = 2;
@@ -159,14 +160,14 @@ message SC_AOI_NEW
 message SC_AOI_REMOVE
 {
 	option (cmd).sc_cmd = CMD_SC_AOI_REMOVE;
-	uint32			mapid  = 1;
+	uint64			scene_idx  = 1;
 	repeated uint64 idlist = 2;
 }
 //角色移动
 message SC_AOI_UPDATE
 {
 	option (cmd).sc_cmd = CMD_SC_AOI_UPDATE;
-	uint32 mapid	= 1;
+	uint64 scene_idx	= 1;
 	uint64 actor_id = 2;
 	float  posx		= 3;
 	float  posy		= 4;
@@ -265,7 +266,7 @@ message SC_STATUS_ACTION
 message CS_MOVE
 {
 	option (cmd).cs_cmd = CMD_CS_MOVE;
-	uint64 mapid = 1;
+	uint64 scene_idx = 1;
 	float  x	 = 2;
 	float  y	 = 3;
 	float  face	 = 4;
@@ -274,14 +275,14 @@ message CS_MOVE
 message CS_CHANGEMAP
 {
 	option (cmd).cs_cmd = CMD_CS_CHANGEMAP;
-	uint64 mapid		  = 1;
+	uint64 scene_idx		  = 1;
 	uint32 leavepoint_idx = 2;
 }
 
 message CS_CASTSKILL
 {
 	option (cmd).cs_cmd = CMD_CS_CASTSKILL;
-	uint64 mapid	 = 1;
+	uint64 scene_idx	 = 1;
 	uint32 skill_id	 = 2;
 	uint64 target_id = 3;
 	float  x		 = 4;
@@ -291,7 +292,7 @@ message CS_CASTSKILL
 message SC_CASTSKILL
 {
 	option (cmd).sc_cmd = CMD_SC_CASTSKILL;
-	uint64 mapid	 = 1;
+	uint64 scene_idx	 = 1;
 	uint64 actor_id	 = 2;
 	uint32 skill_id	 = 3;
 	uint64 target_id = 4;
@@ -302,7 +303,7 @@ message SC_CASTSKILL
 message SC_SKILL_DAMAGE
 {
 	option (cmd).sc_cmd = CMD_SC_SKILL_DAMAGE;
-	uint64	mapid	 = 1;
+	uint64	scene_idx	 = 1;
 	uint64	actor_id = 2;
 	uint32	skill_id = 3;
 	message DamageInfo
@@ -316,13 +317,13 @@ message SC_SKILL_DAMAGE
 message CS_SKILL_BREAK
 {
 	option (cmd).cs_cmd = CMD_CS_SKILL_BREAK;
-	uint64 mapid = 1;
+	uint64 scene_idx = 1;
 };
 
 message SC_SKILL_BREAK
 {
 	option (cmd).sc_cmd = CMD_SC_SKILL_BREAK;
-	uint64 mapid	= 1;
+	uint64 scene_idx	= 1;
 	uint64 actor_id = 2;
 };
 
@@ -336,7 +337,7 @@ message CS_SKILL_CHGTARGETPOS
 message SC_SKILL_STUN
 {
 	option (cmd).sc_cmd = CMD_SC_SKILL_STUN;
-	uint64 mapid	= 1;
+	uint64 scene_idx	= 1;
 	uint64 actor_id = 2;
 	uint32 skill_id = 3;
 	uint32 stun_ms	= 4;
@@ -345,7 +346,7 @@ message SC_SKILL_STUN
 message SC_SKILL_EFFACT
 {
 	option (cmd).sc_cmd = CMD_SC_SKILL_EFFACT;
-	uint64 mapid	= 1;
+	uint64 scene_idx	= 1;
 	uint64 actor_id = 2;
 	uint32 skill_id = 3;
 };

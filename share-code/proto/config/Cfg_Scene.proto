@@ -15,15 +15,14 @@ message PhaseData
 
 message Cfg_Scene
 {
-
-		uint32 idmap	 = 1; // 地图ID
-		string name		 = 2; // 地图名
-		uint32 idmapdata = 3; // 地图数据ID
-		uint32 idzone	 = 4; // 归属于哪个zone
-		uint32 maptype	 = 5; // 地图类型
-		uint32 mapflag	 = 6; // 地图掩码
-		uint64 idscript	 = 7; // 脚本id
-
-		repeated PhaseData phase_data = 10; //位面设置
+	uint32 idmap	 = 1; // 地图ID
+	string name		 = 2; // 地图名
+	uint32 idmapdata = 3; // 地图数据ID
+	uint32 idzone	 = 4; // 归属于哪个zone
+	uint32 maptype	 = 5; // 地图类型
+	uint32 mapflag	 = 6; // 地图掩码
+	uint64 idscript	 = 7; // 脚本id
+	
+	repeated PhaseData phase_data = 10; //位面设置
 
 }

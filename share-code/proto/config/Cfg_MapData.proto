@@ -35,7 +35,9 @@ message Cfg_MapData
 	uint32			idmaptemplate	 = 1; // 地图数据ID
 	uint32			width			 = 2; // 地图宽格子数
 	uint32			height			 = 3; // 地图高格子数
+	repeated uint32 collision = 4; // uint32_t collision[actor_type]; 每个值都代表该种类型的物体与其他物体间的碰撞关系
+	
 	repeated uint32 griddata		 = 6; // 地图掩码信息   (包括阻挡,区域等)
 	float			grid_high_factor = 7; // 地形高度缩放系数， 实际高度=地形高度值/255*地形高度缩放系数
-	repeated uint32 collision		 = 8; // uint32_t collision[actor_type]; 每个值都代表该种类型的物体与其他物体间的碰撞关系
+	repeated uint32 grid_highdata	 = 8; // 地图掩码信息   (包括阻挡,区域等)
 }
