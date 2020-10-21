@@ -211,7 +211,7 @@ public:
             length (e.g. for just comparing lengths) use squaredLength()
             instead.
     */
-    export_lua inline float length() const { return sqrt(x * x + y * y); }
+    export_lua inline float length() const { return std::sqrt(x * x + y * y); }
 
     /** Returns the square of the length(magnitude) of the vector.
         @remarks
@@ -272,7 +272,7 @@ public:
     */
     export_lua inline float normalise()
     {
-        float fLength = sqrt(x * x + y * y);
+        float fLength = std::sqrt(x * x + y * y);
 
         // Will also work for zero-sized vectors, but will change nothing
         if(fLength > 1e-08)
@@ -375,8 +375,8 @@ public:
     {
 
         angle *= random_float() * Math::TWO_PI;
-        float cosa = cos(angle);
-        float sina = sin(angle);
+        float cosa = std::cos(angle);
+        float sina = std::sin(angle);
         return Vector2(cosa * x - sina * y, sina * x + cosa * y);
     }
 

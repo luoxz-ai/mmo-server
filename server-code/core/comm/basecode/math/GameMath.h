@@ -107,18 +107,18 @@ export_lua namespace GameMath
         return x * x + y * y;
     }
 
-    export_lua inline float distance(const Vector2& src, const Vector2& dest) { return sqrt(simpleDistance(src, dest)); }
+    export_lua inline float distance(const Vector2& src, const Vector2& dest) { return std::sqrt(simpleDistance(src, dest)); }
 
     export_lua inline float distance2D(const Vector3& src, const Vector3& dest) { return distance(Vector2(src.x, src.z), Vector2(dest.x, dest.z)); }
 
-    export_lua inline float manhattanDistance(const Vector2& src, const Vector2& dest) { return fabs(src.x - dest.x) + fabs(src.y - dest.y); }
+    export_lua inline float manhattanDistance(const Vector2& src, const Vector2& dest) { return std::fabs(src.x - dest.x) + std::fabs(src.y - dest.y); }
 
     export_lua inline Vector2 random_vector2(float _min, float _max) { return Vector2::UNIT_X().randomDeviant(1.0f) * random_float(_min, _max); }
 
     export_lua inline Vector2 rotateByRadian(const Vector2& vec, float radian)
     {
-        float cosa = cos(radian);
-        float sina = sin(radian);
+        float cosa = std::cos(radian);
+        float sina = std::sin(radian);
         return Vector2(cosa * vec.x - sina * vec.y, sina * vec.x + cosa * vec.y);
     }
 
@@ -137,13 +137,13 @@ export_lua namespace GameMath
     {
         if(vec.isNaN() || vec == Vector2::ZERO())
             return 0.0f;
-        return acos(vec.dotProduct(Dir));
+        return std::acos(vec.dotProduct(Dir));
     }
     export_lua inline float getAngleFrom(const Vector2& vec, const Vector2& Dir = GameMath::VECTOR2_NORTH)
     {
         if(vec.isNaN() || vec == Vector2::ZERO())
             return 0.0f;
-        return acos(vec.dotProduct(Dir)) / Math::PI * 180.0f;
+        return std::acos(vec.dotProduct(Dir)) / Math::PI * 180.0f;
     }
 
     export_lua inline float getDirectAngleFrom(const Vector2& vec, const Vector2& Dir = GameMath::VECTOR2_NORTH, bool clockwise = true)
@@ -309,7 +309,7 @@ export_lua namespace GameMath
             Vector2 toTarget = Vector2(posSecond - posFirst).normalisedCopy();
 
             float dp = facingFirst.dotProduct(toTarget);
-            float cs = cos(fov * Math::PI);
+            float cs = std::cos(fov * Math::PI);
 
             // return dp >= cs;
             return (dp > cs) || (Math::FloatEqual(dp, cs));
@@ -328,7 +328,7 @@ export_lua namespace GameMath
                 return false;
 
             float dp2 = facingNormal.dotProduct(toTarget);
-            if(fabs(dp2) > halfWidth)
+            if(std::fabs(dp2) > halfWidth)
                 return false;
 
             return true;
@@ -353,7 +353,7 @@ export_lua namespace GameMath
                 return false;
             }
 
-            float invBot = 1.0 / Bot;
+            float invBot = 1.0f / Bot;
             float r      = rTop * invBot;
             float s      = sTop * invBot;
 

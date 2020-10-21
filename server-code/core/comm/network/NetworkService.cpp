@@ -493,7 +493,7 @@ void CNetworkService::accept_conn_cb(evconnlistener* listener, int32_t fd, socka
 void CNetworkService::accept_error_cb(struct evconnlistener* listener, void* arg)
 {
     __ENTER_FUNCTION
-    struct event_base* base   = evconnlistener_get_base(listener);
+    //struct event_base* base   = evconnlistener_get_base(listener);
     int32_t            err    = EVUTIL_SOCKET_ERROR();
     const char*        errstr = evutil_socket_error_to_string(err);
 

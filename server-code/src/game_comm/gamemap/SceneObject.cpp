@@ -215,13 +215,16 @@ void CSceneObject::ClearViewList(bool bSendMsgToSelf)
     __ENTER_FUNCTION
     OnBeforeClearViewList(bSendMsgToSelf);
 
-    for(uint64_t id: m_ViewActors)
+    if(GetCurrentScene())
     {
-        // 通知对方自己消失
-        CSceneObject* pActor = GetCurrentScene()->QuerySceneObj(id);
-        if(pActor)
+        for(uint64_t id: m_ViewActors)
         {
-            pActor->RemoveFromViewList(this, GetID(), true);
+            // 通知对方自己消失
+            CSceneObject* pActor = GetCurrentScene()->QuerySceneObj(id);
+            if(pActor)
+            {
+                pActor->RemoveFromViewList(this, GetID(), true);
+            }
         }
     }
     //发送删除包

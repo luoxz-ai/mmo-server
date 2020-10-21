@@ -3,7 +3,7 @@
 #include <fmt/format.h>
 
 #include "BaseCode.h"
-#include "Cfg_MapData.pb.h"
+#include "config/Cfg_MapData.pb.h"
 #include "DataPack.h"
 #include "ProtobuffUtil.h"
 CMapData::CMapData() {}

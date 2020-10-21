@@ -162,7 +162,7 @@ namespace pb_util
                     auto curSize   = pThisRow->GetReflection()->FieldSize(*pThisRow, pFieldDesc);
                     for(int32_t i = curSize; i < array_idx + 1; i++)
                     {
-                        auto pSubMessage = pThisRow->GetReflection()->AddMessage(pThisRow, pFieldDesc, nullptr);
+                        pThisRow->GetReflection()->AddMessage(pThisRow, pFieldDesc, nullptr);
                     }
                     pThisRow = pThisRow->GetReflection()->MutableRepeatedMessage(pThisRow, pFieldDesc, array_idx);
                     continue;

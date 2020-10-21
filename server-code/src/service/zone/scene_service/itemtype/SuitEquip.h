@@ -3,7 +3,7 @@
 
 #include "ActorAttrib.h"
 #include "BaseCode.h"
-#include "Cfg_Suit.pb.h"
+#include "config/Cfg_Suit.pb.h"
 #include "T_GameDataMap.h"
 
 class CSuitEquipData : public NoncopyableT<CSuitEquipData>

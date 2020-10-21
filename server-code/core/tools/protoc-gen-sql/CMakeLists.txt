@@ -4,10 +4,6 @@ MESSAGE(STATUS "cmake: protoc-gen-sql")
 # 搜索当前目录下所有文件
 file(GLOB SRCS "*.cc" "*.cpp" "*.c" "*.h" "*.hpp")
 
-IF(TIDY)
-set(CMAKE_CXX_CLANG_TIDY ${MY_CLANG_TIDY_STR})
-ELSE()
-ENDIF()
 
 
 # 生成库文件

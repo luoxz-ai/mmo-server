@@ -56,11 +56,6 @@ add_custom_command(
 
 
 
-IF(USE_JEMALLOC)
-ADD_DEFINITIONS(-DUSE_JEMALLOC)
-set(JEMALLOC_LIB_NAME "libjemalloc.so")
-ELSE()
-ENDIF()
 
 
 # 搜索当前目录下所有文件

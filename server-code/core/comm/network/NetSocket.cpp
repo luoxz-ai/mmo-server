@@ -147,7 +147,7 @@ bool CNetSocket::_SendMsg(byte* pBuffer, size_t len, bool bFlush)
     else if(GetStatus() == NSS_READY)
     {
         m_pService->AddSendByteCount(len);
-        int32_t nSucc = bufferevent_write(m_pBufferevent, pBuffer, len);
+        bufferevent_write(m_pBufferevent, pBuffer, len);
         if(bFlush)
             bufferevent_flush(m_pBufferevent, EV_WRITE, BEV_FLUSH);
         size_t nNeedWrite = evbuffer_get_length(bufferevent_get_output(m_pBufferevent));

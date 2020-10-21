@@ -109,7 +109,7 @@ private:
     std::deque<std::function<void()>> m_data;
 };
 
-#define unknown(p) (p ? p : "unknown")
+#define unknown(p) ((p) ? (p) : "unknown")
 
 #define DEFINE_CONFIG_SET(T)                         \
 public:                                              \

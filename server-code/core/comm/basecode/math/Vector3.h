@@ -227,7 +227,7 @@ public:
             length (e.g. for just comparing lengths) use squaredLength()
             instead.
     */
-    export_lua inline float length() const { return sqrt(x * x + y * y + z * z); }
+    export_lua inline float length() const { return std::sqrt(x * x + y * y + z * z); }
 
     /** Returns the square of the length(magnitude) of the vector.
         @remarks
@@ -288,7 +288,7 @@ public:
         @returns
             A float representing the absolute dot product value.
     */
-    export_lua inline float absDotProduct(const Vector3& vec) const { return fabs(x * vec.x) + fabs(y * vec.y) + fabs(z * vec.z); }
+    export_lua inline float absDotProduct(const Vector3& vec) const { return std::fabs(x * vec.x) + std::fabs(y * vec.y) + std::fabs(z * vec.z); }
 
     /** Normalises the vector.
         @remarks
@@ -301,7 +301,7 @@ public:
     */
     export_lua inline float normalise()
     {
-        float fLength = sqrt(x * x + y * y + z * z);
+        float fLength = std::sqrt(x * x + y * y + z * z);
 
         // Will also work for zero-sized vectors, but will change nothing
         if(fLength > 1e-08)
@@ -482,9 +482,9 @@ public:
     /// Extract the primary (dominant) axis from this direction vector
     export_lua inline Vector3 primaryAxis() const
     {
-        float absx = fabs(x);
-        float absy = fabs(y);
-        float absz = fabs(z);
+        float absx = std::fabs(x);
+        float absy = std::fabs(y);
+        float absz = std::fabs(z);
         if(absx > absy)
             if(absx > absz)
                 return x > 0 ? Vector3::UNIT_X() : Vector3::NEGATIVE_UNIT_X();

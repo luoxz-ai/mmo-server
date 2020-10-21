@@ -2,8 +2,8 @@
 #define AIFUZZYLOGIC_H
 
 #include "BaseCode.h"
-#include "Cfg_SkillFAM.pb.h"
-#include "Cfg_TargetFAM.pb.h"
+#include "config/Cfg_SkillFAM.pb.h"
+#include "config/Cfg_TargetFAM.pb.h"
 #include "T_GameDataMap.h"
 #include "fam/rule_set.h"
 #include "fam/trapezoid.h"

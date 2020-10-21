@@ -3,15 +3,7 @@ MESSAGE(STATUS "cmake: rpcservice_comm")
 # 搜索当前目录下所有文件
 file(GLOB_RECURSE SRCS "*.cc" "*.cpp" "*.c" "*.h" "*.hpp")
 
-IF(TIDY)
-set(CMAKE_CXX_CLANG_TIDY ${MY_CLANG_TIDY_STR})
-ELSE()
-ENDIF()
-IF(USE_JEMALLOC)
-ADD_DEFINITIONS(-DUSE_JEMALLOC)
-set(JEMALLOC_LIB_NAME "libjemalloc.so")
-ELSE()
-ENDIF()
+
 
 
 # 生成库文件

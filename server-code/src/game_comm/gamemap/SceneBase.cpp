@@ -104,8 +104,9 @@ void CSceneBase::_LeaveMap(CSceneObject* pActor, uint16_t idTargetMap /*= 0*/)
     m_setActor.erase(pActor->GetID());
 
     //将玩家从场景树移除
-    pActor->OnLeaveMap(idTargetMap);
     pActor->ClearViewList(true);
+    pActor->OnLeaveMap(idTargetMap);
+    
     
     m_pSceneTree->CheckNeedResizeSceneTile(m_setPlayer.size());
 }

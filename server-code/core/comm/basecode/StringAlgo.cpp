@@ -202,13 +202,11 @@ std::string get_fullpath(const std::string& szPath)
     if(NULL == ::getcwd(szFull, _PATH_MAX))
         return "";
 
-    int32_t len = ::strlen(szFull);
+    std::string full_path(szFull);
 
-    char c = szFull[len - 1] = {};
-    if(c != '/')
-        ::strcat(szFull + len, "/");
-    ::strcat(szFull + len, szPath.c_str());
-    std::string s = szFull;
+    if(full_path[full_path.size() - 1] != '/')
+        full_path+='/';
+    std::string s = full_path + szPath;
     trim_path(s);
     return s;
 }

@@ -65,18 +65,18 @@ bool CMysqlConnection::Connect(const std::string& host,
         m_pHandle.reset(mysql_init(0));
     }
 
+    constexpr int32_t nConnectTimeOut = 10;
+    constexpr int32_t nWriteTimeOut   = 5;
+    constexpr int32_t nReadTimeOut    = 5;
+    constexpr bool bReconnect         = true;
     int32_t nError = 0;
     // mysql_options(m_pHandle.get(), MYSQL_SET_CHARSET_NAME, MYSQL_AUTODETECT_CHARSET_NAME);
-    nError                  = mysql_options(m_pHandle.get(), MYSQL_SET_CHARSET_NAME, "utf8");
-    nError                  = mysql_set_character_set(m_pHandle.get(), "utf8");
-    int32_t nConnectTimeOut = 5;
-    nError                  = mysql_options(m_pHandle.get(), MYSQL_OPT_CONNECT_TIMEOUT, &nConnectTimeOut);
-    int32_t nWriteTimeOut   = 1;
-    nError                  = mysql_options(m_pHandle.get(), MYSQL_OPT_WRITE_TIMEOUT, &nWriteTimeOut);
-    int32_t nReadTimeOut    = 1;
-    nError                  = mysql_options(m_pHandle.get(), MYSQL_OPT_READ_TIMEOUT, &nReadTimeOut);
-    bool bReconnect         = true;
-    nError                  = mysql_options(m_pHandle.get(), MYSQL_OPT_RECONNECT, &bReconnect);
+    nError |= mysql_options(m_pHandle.get(), MYSQL_SET_CHARSET_NAME, "utf8");
+    nError |= mysql_set_character_set(m_pHandle.get(), "utf8");
+    nError |= mysql_options(m_pHandle.get(), MYSQL_OPT_CONNECT_TIMEOUT, &nConnectTimeOut);
+    nError |= mysql_options(m_pHandle.get(), MYSQL_OPT_WRITE_TIMEOUT, &nWriteTimeOut);
+    nError |= mysql_options(m_pHandle.get(), MYSQL_OPT_READ_TIMEOUT, &nReadTimeOut);
+    nError |= mysql_options(m_pHandle.get(), MYSQL_OPT_RECONNECT, &bReconnect);
     if(nError)
     {
         const char* error_str = mysql_error(m_pHandle.get());
@@ -116,22 +116,24 @@ bool CMysqlConnection::Connect(const std::string& host,
                 __ENTER_FUNCTION
                 LOGMESSAGE("ThreadID:{}", get_cur_thread_id());
 
-                int32_t nError = 0;
+                
                 {
                     std::unique_lock lock(g_mysql_init_mutex);
                     m_pAsyncHandle.reset(mysql_init(0));
                 }
                 // mysql_options(m_pAsyncHandle.get(), MYSQL_SET_CHARSET_NAME, MYSQL_AUTODETECT_CHARSET_NAME);
-                nError                  = mysql_options(m_pAsyncHandle.get(), MYSQL_SET_CHARSET_NAME, "utf8");
-                nError                  = mysql_set_character_set(m_pAsyncHandle.get(), "utf8");
-                int32_t nConnectTimeOut = 10;
-                nError                  = mysql_options(m_pAsyncHandle.get(), MYSQL_OPT_CONNECT_TIMEOUT, &nConnectTimeOut);
-                int32_t nWriteTimeOut   = 5;
-                nError                  = mysql_options(m_pAsyncHandle.get(), MYSQL_OPT_WRITE_TIMEOUT, &nWriteTimeOut);
-                int32_t nReadTimeOut    = 5;
-                nError                  = mysql_options(m_pAsyncHandle.get(), MYSQL_OPT_READ_TIMEOUT, &nReadTimeOut);
-                bool bReconnect         = true;
-                nError                  = mysql_options(m_pAsyncHandle.get(), MYSQL_OPT_RECONNECT, &bReconnect);
+                
+                constexpr int32_t nConnectTimeOut = 10;
+                constexpr int32_t nWriteTimeOut   = 5;
+                constexpr int32_t nReadTimeOut    = 5;
+                constexpr bool bReconnect         = true;
+                int32_t nError = 0;
+                nError |= mysql_options(m_pAsyncHandle.get(), MYSQL_SET_CHARSET_NAME, "utf8");
+                nError |= mysql_set_character_set(m_pAsyncHandle.get(), "utf8");
+                nError |= mysql_options(m_pAsyncHandle.get(), MYSQL_OPT_CONNECT_TIMEOUT, &nConnectTimeOut);
+                nError |= mysql_options(m_pAsyncHandle.get(), MYSQL_OPT_WRITE_TIMEOUT, &nWriteTimeOut);
+                nError |= mysql_options(m_pAsyncHandle.get(), MYSQL_OPT_READ_TIMEOUT, &nReadTimeOut);
+                nError |= mysql_options(m_pAsyncHandle.get(), MYSQL_OPT_RECONNECT, &bReconnect);
                 if(nError)
                 {
                     const char* error_str = mysql_error(m_pAsyncHandle.get());

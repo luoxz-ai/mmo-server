@@ -2,7 +2,7 @@
 #define ITEMFORMULA_H
 
 #include "BaseCode.h"
-#include "Cfg_ItemFormula.pb.h"
+#include "config/Cfg_ItemFormula.pb.h"
 #include "T_GameDataMap.h"
 
 //////////////////////////////////////////////////////////////////////

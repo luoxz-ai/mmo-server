@@ -140,6 +140,16 @@ include(FindProtobuf)
 include(protobuf_gen)
 
 set (MY_CLANG_TIDY_STR "clang-tidy-9")
+IF(TIDY)
+set(CMAKE_CXX_CLANG_TIDY ${MY_CLANG_TIDY_STR})
+ELSE()
+ENDIF()
+
+IF(USE_JEMALLOC)
+ADD_DEFINITIONS(-DUSE_JEMALLOC)
+set(JEMALLOC_LIB_NAME "libjemalloc.so")
+ELSE()
+ENDIF()
 
 message(STATUS "CMAKE_CXX_COMPILER:" ${CMAKE_CXX_COMPILER})
 

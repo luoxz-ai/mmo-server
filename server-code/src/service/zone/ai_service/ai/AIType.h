@@ -3,7 +3,7 @@
 
 #include "AIFuzzyLogic.h"
 #include "AIService.h"
-#include "Cfg_AIType.pb.h"
+#include "config/Cfg_AIType.pb.h"
 
 enum AIType
 {

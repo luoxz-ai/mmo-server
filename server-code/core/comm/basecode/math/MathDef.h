@@ -343,7 +343,7 @@ public:
 
     export_lua static inline bool FloatEqual(float a, float b, float tolerance = std::numeric_limits<float>::epsilon())
     {
-        if(fabs(b - a) <= tolerance)
+        if(std::fabs(b - a) <= tolerance)
             return true;
         else
             return false;
@@ -487,8 +487,8 @@ public:
             for(int32_t i = 0; i < nTrigTableSize; ++i)
             {
                 float angle   = TWO_PI * i / nTrigTableSize;
-                m_SinTable[i] = sin(angle);
-                m_TanTable[i] = tan(angle);
+                m_SinTable[i] = std::sin(angle);
+                m_TanTable[i] = std::tan(angle);
             }
         }
 
