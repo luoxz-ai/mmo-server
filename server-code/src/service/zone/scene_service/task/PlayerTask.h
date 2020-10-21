@@ -43,11 +43,12 @@ public:
     export_lua export_lua void SendTaskInfo(CPlayerTaskData* pTaskData);
     export_lua void            SendTaskDataChange(CPlayerTaskData* pTaskData, uint32_t i);
     export_lua bool            ShowTaskDialog(uint32_t idTask, OBJID idNpc);
-
+    export_lua void            EnterPhase(uint16_t idMap, uint16_t idPhaseType);
     void OnAwardTaskItem(uint32_t idItemType, uint32_t nNum);
     void OnKillMonster(uint32_t idMonster, bool bKillBySelf);
     void OnDelTaskItem(uint32_t idItemType, uint32_t nNum);
     void OnFinishAchi(uint32_t idAchi);
+
 
 private:
     void AddTaskPhase(CPlayerTaskData* pData);

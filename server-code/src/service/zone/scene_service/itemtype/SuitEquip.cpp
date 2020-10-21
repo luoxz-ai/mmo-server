@@ -5,7 +5,8 @@ CSuitEquipSet::CSuitEquipSet() {}
 
 CSuitEquipSet::~CSuitEquipSet()
 {
-    Clear();
+    m_setSuitType.clear();
+    ClearRawData();
 }
 
 void CSuitEquipSet::Clear()

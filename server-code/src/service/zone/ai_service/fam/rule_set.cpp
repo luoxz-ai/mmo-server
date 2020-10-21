@@ -25,14 +25,14 @@ fuzzy::RuleSet::RuleSet()
     // nop
 }
 
-fuzzy::RuleSet::RuleSet(string name, Implication implication)
+fuzzy::RuleSet::RuleSet(const std::string& name, Implication implication)
     : _name(name)
     , _implication(implication)
 {
     // nop
 }
 
-void fuzzy::RuleSet::populate_mu_map(const std::vector<double> inputValues, mu_map& _consequents_to_mus) const
+void fuzzy::RuleSet::populate_mu_map(const std::vector<double>& inputValues, mu_map& _consequents_to_mus) const
 {
     _consequents_to_mus.clear();
 
@@ -93,7 +93,7 @@ double fuzzy::RuleSet::calculate(const double value) const
     return calculate(std::vector<double>{value});
 }
 
-double fuzzy::RuleSet::calculate(const vector<double> inputValues) const
+double fuzzy::RuleSet::calculate(const vector<double>& inputValues) const
 {
     __ENTER_FUNCTION
     fuzzy::RuleSet::mu_map _consequents_to_mus;

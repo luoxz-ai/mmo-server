@@ -139,7 +139,7 @@ SET(PROTOBUF_PROTOC_EXECUTABLE ${PROJECT_SOURCE_DIR}/depends/bin/protoc)
 include(FindProtobuf)
 include(protobuf_gen)
 
-set (MY_CLANG_TIDY_STR "clang-tidy-9;--fix-errors;--format-style=file;-checks=-*,clang-analyzer-core*,clang-analyzer-cplusplus*,clang-analyzer-nullability*,bugprone-*,-bugprone-branch-clone,-bugprone-narrowing-conversions，-bugprone-exception-escape")
+set (MY_CLANG_TIDY_STR "clang-tidy-9")
 
 message(STATUS "CMAKE_CXX_COMPILER:" ${CMAKE_CXX_COMPILER})
 

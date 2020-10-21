@@ -283,7 +283,7 @@ bool CMonster::IsEnemy(CSceneObject* pActor) const
 
     if(m_idOwner != 0)
     {
-        CActor* pOwner = ActorManager()->QueryActor(m_idOwner);
+        CActor* pOwner = QueryOwner();
         if(pOwner)
             return pOwner->CanDamage(static_cast<CActor*>(pActor));
     }

@@ -64,8 +64,8 @@ uint32_t CSceneTree::GetSceneTileIndexByPos(float x, float y) const
     float dx = x - m_BasePos.x;
     float dy = y - m_BasePos.y;
 
-    uint32_t cellx = (dx < 0.0f) ? 0 : ceil(dx / float(m_nTileGridRange));
-    uint32_t celly = (dy < 0.0f) ? 0 : ceil(dy / float(m_nTileGridRange));
+    uint32_t cellx = (dx < 0.0f) ? 0 : std::ceil(dx / float(m_nTileGridRange));
+    uint32_t celly = (dy < 0.0f) ? 0 : std::ceil(dy / float(m_nTileGridRange));
     if(cellx >= m_nTileWidth)
         cellx = m_nTileWidth - 1;
     if(celly >= m_nTileHeight)
@@ -79,8 +79,8 @@ bool CSceneTree::foreach_SceneTileInSight(float x, float y, std::function<void(C
     float dx = x - m_BasePos.x;
     float dy = y - m_BasePos.y;
 
-    uint32_t cellx = (dx < 0.0f) ? 0 : ceil(dx / float(m_nTileGridRange));
-    uint32_t celly = (dy < 0.0f) ? 0 : ceil(dy / float(m_nTileGridRange));
+    uint32_t cellx = (dx < 0.0f) ? 0 : std::ceil(dx / float(m_nTileGridRange));
+    uint32_t celly = (dy < 0.0f) ? 0 : std::ceil(dy / float(m_nTileGridRange));
     if(cellx >= m_nTileWidth)
         cellx = m_nTileWidth - 1;
     if(celly >= m_nTileHeight)
@@ -271,7 +271,7 @@ size_t CSceneCollisionTile::size(uint32_t actor_type) const
         return it->second;
 }
 
-bool CSceneCollisionTile::find_if(std::function<bool(uint32_t, size_t)> func) const
+bool CSceneCollisionTile::find_if(const std::function<bool(uint32_t, size_t)>& func) const
 {
     for(const auto& [k, v]: m_setCount)
     {

@@ -74,7 +74,7 @@ int main(int argc, char** argv)
                     std::string prikey_str = field_match[1];
                     replace_str(prikey_str, "`", "");
                     auto prikeys = split_string(prikey_str, ",");
-                    for(auto v: prikeys)
+                    for(const auto& v: prikeys)
                     {
                         PriKeys.insert(v);
                     }
@@ -282,6 +282,7 @@ struct {0}
             std::string              field_types_str = string_concat(field_type_cpp_list, ",", "", "");
             std::string              field_sql_str   = string_concat(vec_match_field_sql, ",", "\"", "\"");
             std::vector<std::string> vec_key_typle_str;
+            vec_key_typle_str.reserve(Keys.size());
             for(const auto& [key, value]: Keys)
             {
                 vec_key_typle_str.push_back(fmt::format("std::make_tuple(\"{}\", \"{}\")", key, value));

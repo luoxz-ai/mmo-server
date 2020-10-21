@@ -99,7 +99,7 @@ public:
 public:
     void Clear();
     void ClearByType(uint32_t evType);
-    void Clear_IF(std::function<bool(CEventEntry*)> func);
+    void Clear_IF(const std::function<bool(CEventEntry*)>& func);
 
 protected:
     bool Add(CEventEntry* pEntry);

@@ -24,8 +24,8 @@ public:
 public:
     export_lua void AddMember(CAIActor* pActor);
     export_lua void RemoveMember(CAIActor* pActor);
-    export_lua void Foreach(std::function<void(CAIActor*)> func);
-    export_lua void FindIF(std::function<bool(CAIActor*)> func);
+    export_lua void Foreach(const std::function<void(CAIActor*)>& func);
+    export_lua void FindIF(const std::function<bool(CAIActor*)>& func);
 
 private:
     uint32_t                      m_GroupID = 0;

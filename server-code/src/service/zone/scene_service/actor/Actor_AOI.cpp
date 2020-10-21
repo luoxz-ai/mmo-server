@@ -10,74 +10,6 @@
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
 
-//玩家 位面id = X 时 可以看到 位面id = X的all， 可以看到 位面id=自己ID 的all, 可以看到 inTaskList(位面id)的NPC
-
-class NEED_ADD_TO_BROADCASTSET_T
-{
-public:
-    NEED_ADD_TO_BROADCASTSET_T()
-    {
-        m_DataMap[ACT_MONSTER][ACT_MONSTER] = [](auto self, auto target) {
-            bool bSamePhase = self->GetPhaseID() == target->GetPhaseID();
-            return bSamePhase && self->IsEnemy(target);
-        };
-        m_DataMap[ACT_MONSTER][ACT_PET] = [](CSceneObject* self, CSceneObject* target) {
-            return self->GetPhaseID() == target->GetPhaseID() || self->GetPhaseID() == target->GetOwnerID();
-        };
-        m_DataMap[ACT_MONSTER][ACT_BULLET] = [](auto self, auto target) {
-            return self->GetPhaseID() == target->GetPhaseID() || self->GetPhaseID() == target->GetOwnerID();
-        };
-        m_DataMap[ACT_MONSTER][ACT_PLAYER] = [](CSceneObject* self, CSceneObject* target) {
-            return self->GetPhaseID() == target->GetPhaseID() || self->GetID() == target->GetPhaseID();
-        };
-        m_DataMap[ACT_PET][ACT_PET] = [](CSceneObject* self, CSceneObject* target) {
-            return self->GetPhaseID() == target->GetPhaseID();
-        };
-        m_DataMap[ACT_PET][ACT_BULLET] = [](CSceneObject* self, CSceneObject* target) {
-            return self->GetPhaseID() == target->GetPhaseID() || self->GetOwnerID() == target->GetPhaseID();
-        };
-        m_DataMap[ACT_PET][ACT_PLAYER] = [](CSceneObject* self, CSceneObject* target) {
-            return self->GetPhaseID() == target->GetPhaseID() || self->GetID() == target->GetPhaseID();
-        };
-        m_DataMap[ACT_BULLET][ACT_BULLET] = [](CSceneObject* self, CSceneObject* target) {
-            return self->GetPhaseID() == target->GetPhaseID() || self->GetOwnerID() == target->GetPhaseID();
-        };
-        m_DataMap[ACT_NPC][ACT_PLAYER] = [](CSceneObject* self, CSceneObject* target) -> bool {
-            CPlayer* pThisPlayer = self->CastTo<CPlayer>();
-            CHECKF(pThisPlayer);
-            return self->GetPhaseID() == target->GetPhaseID() || self->GetID() == target->GetPhaseID() ||
-                   pThisPlayer->CheckTaskPhase(target->GetPhaseID());
-        };
-        m_DataMap[ACT_BULLET][ACT_PLAYER] = [](CSceneObject* self, CSceneObject* target) {
-            return self->GetPhaseID() == target->GetPhaseID() || self->GetID() == target->GetPhaseID();
-        };
-        m_DataMap[ACT_MAPITEM][ACT_PLAYER] = [](CSceneObject* self, CSceneObject* target) {
-            return self->GetPhaseID() == target->GetPhaseID() || self->GetID() == target->GetPhaseID();
-        };
-        m_DataMap[ACT_PLAYER][ACT_PLAYER] = [](CSceneObject* self, CSceneObject* target) {
-            return self->GetPhaseID() == target->GetPhaseID() || self->GetID() == target->GetPhaseID();
-        };
-    }
-    bool test(CSceneObject* pSelfActor, CSceneObject* pTargetActor) const
-    {
-        __ENTER_FUNCTION
-        uint32_t key1 = pSelfActor->GetActorType();
-        uint32_t key2 = pTargetActor->GetActorType();
-        if(pSelfActor->GetActorType() > pTargetActor->GetActorType())
-        {
-            key2 = pSelfActor->GetActorType();
-            key1 = pTargetActor->GetActorType();
-        }
-        const auto& func = m_DataMap[key1][key2];
-        if(func)
-            return func(pSelfActor, pTargetActor);
-        __LEAVE_FUNCTION
-        return false;
-    }
-
-private:
-    std::function<bool(CSceneObject*, CSceneObject*)> m_DataMap[ACT_MAX][ACT_MAX];
-} const NEED_ADD_TO_BROADCASTSET;
 
 void CActor::_AddToAOIRemoveMessage(SC_AOI_REMOVE& removeMsg, OBJID id)
 {
@@ -247,12 +179,47 @@ void CActor::SendShowTo(CPlayer* pPlayer)
     __LEAVE_FUNCTION
 }
 
-bool CActor::IsNeedAddToBroadCastSet(CSceneObject* pActor)
+bool CActor::ViewTest(CSceneObject* pActor)
 {
-    return NEED_ADD_TO_BROADCASTSET.test(this, pActor);
+    //所有actor 可以看到 位面id与自己一样的的对象
+    if(GetPhaseID() == pActor->GetPhaseID())
+    {
+        //怪物之间，额外通过敌我判断
+        if(IsMonster() && pActor->IsMonster())
+            return IsEnemy(pActor);
+        return true;
+    } 
+
+    //如果有Owner，看看Owner能不能看见对方，一般来说Owner能看见，自己就能看见
+    CActor* pThisOwner = QueryOwner();
+    if(pThisOwner)
+    {
+        return ViewTest(pActor);
+    }
+    
+    //玩家 可以看到 位面id=自己ID 的其他对象   (专属怪刷新在专属位面内)
+    //玩家 可以看到 inTaskList(位面id)的NPC/monster   (任务位面用来展开不同的NPC/monster)
+    auto fun_check_player = [](CSceneObject* pSelf, CSceneObject* pActor)->bool
+    {
+        if(pSelf->GetID() == pActor->GetPhaseID())
+            return true;
+        CPlayer* pPlayer = pSelf->CastTo<CPlayer>();
+        CHECKF(pPlayer);
+        return pPlayer->CheckTaskPhase(pActor->GetPhaseID());
+    };
+    if(IsPlayer())
+    {
+        return fun_check_player(this, pActor);
+    }
+    if(pActor->IsPlayer())
+    {
+        return fun_check_player(pActor, this);
+    }
+ 
+    return false;
 }
 
-bool CActor::IsMustAddToBroadCastSet(CSceneObject* pActor)
+bool CActor::IsMustAddToViewList(CSceneObject* pActor)
 {
     __ENTER_FUNCTION
     CHECKF(pActor);

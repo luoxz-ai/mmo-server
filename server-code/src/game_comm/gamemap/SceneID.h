@@ -72,10 +72,20 @@ struct fmt::formatter<SceneIdx> : public fmt::formatter<uint64_t>
     }
 };
 
+
+export_lua enum PhaseType
+{
+    GlobalPhase = 0,
+    SelfPhase   = 1,
+    TeamPhase   = 2,
+    GuildPhase  = 3,
+};
+
+
 export_lua struct TargetSceneID
 {
-    export_lua TargetSceneID(uint16_t _idZone, uint16_t _idMap, int32_t _idPhase)
-        : m_Data{_idZone, _idMap, _idPhase}
+    export_lua TargetSceneID(uint16_t _idZone, uint16_t _idMap, uint16_t _idPhaseTypeID, uint16_t _nPhaseType)
+        : m_Data{_idZone, _idMap, _idPhaseTypeID, _nPhaseType}
     {
         if(m_Data._idZone == 0 || m_Data._idZone > 10)
         {
@@ -95,7 +105,8 @@ export_lua struct TargetSceneID
     {
         uint16_t _idZone;
         uint16_t _idMap;
-        int32_t  _idPhase;
+        uint16_t _idPhaseTypeID;
+        uint16_t _nPhaseType;
     };
 
     union {
@@ -103,23 +114,19 @@ export_lua struct TargetSceneID
         uint64_t          data64;
     };
 
-    enum
-    {
-        SelfPhase  = -1,
-        TeamPhase  = -2,
-        GuildPhase = -3,
-    };
+
 
     operator uint64_t() const { return data64; }
 
     export_lua bool operator==(const TargetSceneID& rht) const { return data64 == rht.data64; }
     export_lua bool operator<(const TargetSceneID& rht) const { return data64 < rht.data64; }
 
-    export_lua uint32_t GetPhaseID() const { return static_cast<uint32_t>(m_Data._idPhase); }
+    export_lua uint16_t GetPhaseTypeID() const { return m_Data._idPhaseTypeID; }
+    export_lua uint16_t GetPhaseType() const { return m_Data._nPhaseType; }
 
-    export_lua bool IsSelfPhaseID() const { return m_Data._idPhase == SelfPhase; }
-    export_lua bool IsTeamPhaseID() const { return m_Data._idPhase == TeamPhase; }
-    export_lua bool IsGuildPhaseID() const { return m_Data._idPhase == GuildPhase; }
+    export_lua bool IsSelfPhaseID() const { return m_Data._nPhaseType == TeamPhase; }
+    export_lua bool IsTeamPhaseID() const { return m_Data._nPhaseType == TeamPhase; }
+    export_lua bool IsGuildPhaseID() const { return m_Data._nPhaseType == GuildPhase; }
 
     export_lua uint16_t GetZoneID() const { return m_Data._idZone; }
     export_lua uint16_t GetMapID() const { return m_Data._idMap; }
@@ -148,7 +155,7 @@ struct fmt::formatter<TargetSceneID> : public fmt::formatter<uint64_t>
     auto format(const TargetSceneID& sceneid, FormatContext& ctx)
     {
         // ctx.out() is an output iterator to write to.
-        return fmt::format_to(ctx.out(), "({}:{}:{})", sceneid.GetZoneID(), sceneid.GetMapID(), sceneid.GetPhaseID());
+        return fmt::format_to(ctx.out(), "({}:{}:{}:{})", sceneid.GetZoneID(), sceneid.GetMapID(), sceneid.GetPhaseTypeID(), sceneid.GetPhaseType());
     }
 };
 

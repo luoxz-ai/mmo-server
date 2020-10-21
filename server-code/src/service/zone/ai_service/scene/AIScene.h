@@ -5,7 +5,7 @@
 
 #include "SceneID.h"
 class CAIPhase;
-class PhaseData;
+class Cfg_Phase;
 class CAISceneManager;
 class CAIPhase;
 
@@ -23,7 +23,7 @@ public:
 
 public:
     export_lua CAIPhase* CreatePhase(const SceneIdx& idxScene, uint64_t idPhase);
-    export_lua CAIPhase* CreatePhase(const SceneIdx& idxScene, uint64_t idPhase, const PhaseData* pPhaseData);
+    export_lua CAIPhase* CreatePhase(const SceneIdx& idxScene, uint64_t idPhase, const Cfg_Phase* pPhaseData);
 
     export_lua bool DestoryPhase(uint64_t idPhase);
     export_lua bool DestoryPhaseByIdx(uint32_t idxPhase);

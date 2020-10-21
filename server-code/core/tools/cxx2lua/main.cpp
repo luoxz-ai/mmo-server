@@ -75,7 +75,7 @@ enum ContentType
 };
 struct Visitor_Content
 {
-    Visitor_Content(std::string name = "", Visitor_Content* pParent = nullptr, std::string accessname = "", ContentType ct = CT_GLOBAL)
+    Visitor_Content(const std::string& name = "", Visitor_Content* pParent = nullptr, const std::string& accessname = "", ContentType ct = CT_GLOBAL)
         : m_name(name)
         , m_pParent(pParent)
         , m_accessname(accessname)
@@ -1863,7 +1863,7 @@ int main(int argc, char** argv)
         "-fsyntax-only",
         //"-Dexport_lua="
     };
-
+    szParams.reserve(szHeaderDirs.size() + sizeofArray(ext_cxx_flag));
     for(auto& v: szHeaderDirs)
     {
         szParams.push_back(v.c_str());

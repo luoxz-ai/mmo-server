@@ -31,7 +31,7 @@ public:
 
 public:
     export_lua bool IsDead() const { return GetHP() == 0; }
-
+    export_lua CActor*  QueryOwner() const;
     export_lua uint32_t GetLastMoveTime() const { return m_tLastMoveTime; }
     export_lua void     SetLastMoveTime(uint32_t val) { m_tLastMoveTime = val; }
 
@@ -40,7 +40,7 @@ public:
 
     export_lua uint32_t GetCampID() const { return m_idCamp; }
     export_lua void     SetCampID(uint32_t id, uint32_t nSync = SYNC_FALSE);
-    export_lua uint32_t GetMapID() const;
+    export_lua uint16_t GetMapID() const;
     export_lua uint64_t GetSceneIdx() const;
 
     export_lua virtual uint16_t           GetWorldID() const { return 0; }
@@ -100,8 +100,8 @@ protected:
     void         AddDelaySendShowTo(OBJID id);
     void         RemoveDelaySendShowTo(OBJID id);
 
-    virtual bool IsNeedAddToBroadCastSet(CSceneObject* pActor) override;
-    virtual bool IsMustAddToBroadCastSet(CSceneObject* pActor) override;
+    virtual bool ViewTest(CSceneObject* pActor) override;
+    virtual bool IsMustAddToViewList(CSceneObject* pActor) override;
 
     virtual void OnAOIProcess(const BROADCAST_SET& setBCActorDel, const BROADCAST_SET& setBCActor, const BROADCAST_SET& setBCActorAdd) override;
     void         OnAOIProcess_ActorAddToAOI(const BROADCAST_SET& setBCActorAdd);
@@ -128,7 +128,7 @@ public:
 public:
     virtual void            OnEnterMap(CSceneBase* pScene) override;
     virtual void            OnLeaveMap(uint16_t idTargetMap) override;
-    export_lua virtual void ChangePhase(uint64_t idPhaseID) override;
+    
 
 public:
     export_lua int32_t BeAttack(CActor*  pAttacker,

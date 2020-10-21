@@ -98,7 +98,7 @@ void CPackage::SendAllItemInfo()
     __LEAVE_FUNCTION
 }
 
-CItem* CPackage::ForEach(std::function<bool(CItem*)> func)
+CItem* CPackage::ForEach(const std::function<bool(CItem*)>& func)
 {
     __ENTER_FUNCTION
     for(auto it = m_setItem.begin(); it != m_setItem.end(); it++)

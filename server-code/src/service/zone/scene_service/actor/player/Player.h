@@ -31,8 +31,9 @@ public:
 public:
     virtual ~CPlayer();
 
-    export_lua bool FlyMap(uint16_t idMap, int32_t idxPhase, float fPosX, float fPosY, float fRange, float fFace);
-
+    export_lua bool FlyMap(uint16_t idMap, uint16_t idPhaseType, uint16_t _nPhaseType, float fPosX, float fPosY, float fRange, float fFace);
+    export_lua bool FlyToPhase(CSceneBase* pTargetScene, float fPosX, float fPosY, float fRange, float fFace);
+    
 public:
     export_lua bool SendMsg(const proto_msg_t& msg) const override;
 
@@ -178,8 +179,9 @@ public:
     export_lua virtual bool IsEnemy(CSceneObject* pTarget) const override;
 
 private:
-    void _ChangeZone(TargetSceneID idTargetScene, float fPosX, float fPosY, float fRange, float fFace);
-    void _FlyMap(TargetSceneID idTargetScene, float fPosX, float fPosY, float fRange, float fFace);
+    void _ChangeZone(const TargetSceneID& idTargetScene, float fPosX, float fPosY, float fRange, float fFace);
+    void _FlyMap(const TargetSceneID& idTargetScene, float fPosX, float fPosY, float fRange, float fFace);
+    void _FlyPhase(CSceneBase* pTargetPhase, float fPosX, float fPosY, float fRange, float fFace);
     void SendGameData(const TargetSceneID& idTargetScene);
 
     void SendPlayerInfoToClient();

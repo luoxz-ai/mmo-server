@@ -9,7 +9,6 @@ export_lua enum SceneState {
     SCENESTATE_NORMAL       = 0,
     SCENESTATE_WAIT_LOADING = 1,
     SCENESTATE_WAIT_DESTORY = 2,
-
 };
 
 export_lua struct CreateMonsterParam
@@ -28,7 +27,7 @@ class CNpc;
 class CMonster;
 class CPlayer;
 class CMapValSet;
-class PhaseData;
+class Cfg_Phase;
 class CGameMap;
 export_lua class CPhase : public CSceneBase
 {
@@ -42,8 +41,8 @@ public:
     virtual ~CPhase();
 
 public:
-    bool Init(CScene* pScene, const SceneIdx& idxScene, uint64_t idPhase, const PhaseData* pPhaseData);
-
+    bool Init(CScene* pScene, const SceneIdx& idxScene, uint64_t idPhase, const Cfg_Phase* pPhaseData);
+    void Destory();
     export_lua bool NeedDestory() const;
     export_lua bool CanDestory();
 

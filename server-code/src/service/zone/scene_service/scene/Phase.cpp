@@ -18,6 +18,7 @@
 #include "ScriptManager.h"
 #include "config/Cfg_Scene.pb.h"
 #include "config/Cfg_Scene_Reborn.pb.h"
+#include "config/Cfg_Phase.pb.h"
 #include "msg/zone_service.pb.h"
 #include "server_msg/server_side.pb.h"
 
@@ -30,19 +31,24 @@ CPhase::CPhase() {}
 
 CPhase::~CPhase()
 {
+
+}
+
+void CPhase::Destory()
+{
     __ENTER_FUNCTION
     LOGDEBUG("PhaseDestory:{} {} idPhase:{}", GetSceneIdx().GetMapID(), GetSceneIdx().GetPhaseIdx(), m_idPhase);
     while(m_setActor.empty() == false)
     {
         CActor* pActor = static_cast<CActor*>(m_setActor.begin()->second);
-        LeaveMap(pActor);
+        _LeaveMap(pActor);
         ActorManager()->DelActor(pActor);
     }
 
     __LEAVE_FUNCTION
 }
 
-bool CPhase::Init(CScene* pScene, const SceneIdx& idxScene, uint64_t idPhase, const PhaseData* pPhaseData)
+bool CPhase::Init(CScene* pScene, const SceneIdx& idxScene, uint64_t idPhase, const Cfg_Phase* pPhaseData)
 {
     __ENTER_FUNCTION
     CHECKF(pScene);
@@ -51,7 +57,7 @@ bool CPhase::Init(CScene* pScene, const SceneIdx& idxScene, uint64_t idPhase, co
     CHECKF(CSceneBase::Init(idxScene, MapManager()));
     if(pPhaseData)
     {
-        uint64_t idPhaseLink = pPhaseData->link_phase();
+        uint16_t idPhaseLink = pPhaseData->link_phase();
         auto     pPhase      = pScene->QueryPhase(idPhaseLink);
         if(pPhase)
         {
@@ -65,8 +71,14 @@ bool CPhase::Init(CScene* pScene, const SceneIdx& idxScene, uint64_t idPhase, co
             CHECKF(InitSceneTree(vBasePos, fWidth, fHeight, pPhaseData->viewgrid_width()));
         }
     }
+    else if(idPhase == 0)
+    {
+        //创建一个默认大小的场景树
+        CHECKF(InitSceneTree({0.0f, 0.0f}, 0.0f, 0.0f, 0));
+    }
     else
     {
+        //创建一个默认大小的场景树
         CHECKF(InitSceneTree({0.0f, 0.0f}, 0.0f, 0.0f, 0));
     }
 
@@ -233,7 +245,7 @@ void CPhase::_KickPlayer(const char* pszReason, CPlayer* pPlayer)
         if(idNewMap != 0 && idNewMap != GetID())
         {
             pPlayer->FlyMap(idNewMap,
-                            0,
+                            0,0,
                             refRebornData->reborn_x(),
                             refRebornData->reborn_y(),
                             refRebornData->reborn_range(),
@@ -245,8 +257,8 @@ void CPhase::_KickPlayer(const char* pszReason, CPlayer* pPlayer)
     if(pPlayer->GetHomeSceneIdx() != GetSceneIdx())
     {
         //如果Home记录点不是本地图
-        pPlayer->FlyMap(SceneIdx(pPlayer->GetHomeSceneIdx()).GetMapID(),
-                        0,
+        pPlayer->FlyMap(pPlayer->GetHomeSceneIdx().GetMapID(),
+                        0,0,
                         pPlayer->GetHomePosX(),
                         pPlayer->GetHomePosY(),
                         0.0f,
@@ -256,8 +268,8 @@ void CPhase::_KickPlayer(const char* pszReason, CPlayer* pPlayer)
     else if(pPlayer->GetRecordSceneIdx() != GetSceneIdx())
     {
         //如果Record记录点不是本地图
-        pPlayer->FlyMap(SceneIdx(pPlayer->GetRecordSceneIdx()).GetMapID(),
-                        0,
+        pPlayer->FlyMap(pPlayer->GetRecordSceneIdx().GetMapID(),
+                        0,0,
                         pPlayer->GetRecordPosX(),
                         pPlayer->GetRecordPosY(),
                         0.0f,
@@ -308,8 +320,7 @@ bool CPhase::EnterMap(CSceneObject* pActor, float fPosX, float fPosY, float fFac
     {
         return false;
     }
-    pActor->_SetPhaseID(m_idPhase);
-
+    pActor->_SetPhaseID(GetPhaseID());
     if(IsStatic() == false)
     {
         SetSceneState(SCENESTATE_NORMAL);

@@ -25,7 +25,7 @@ public:
     void                                 AddActor(CSceneObject* pActor);
     void                                 RemoveActor(CSceneObject* pActor);
     size_t                               size(uint32_t actor_type) const;
-    bool                                 find_if(std::function<bool(uint32_t, size_t)> func) const;
+    bool                                 find_if(const std::function<bool(uint32_t, size_t)>& func) const;
     std::unordered_map<uint32_t, size_t> m_setCount;
 
 public:

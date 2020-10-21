@@ -34,7 +34,7 @@ public:
     //验证
     bool IsAuthing(const std::string& openid) const;
     bool Auth(const std::string& openid, const std::string& auth, const VirtualSocket& vs);
-    void _OnAuthFail(uint64_t call_id, std::string str_detail);
+    void _OnAuthFail(uint64_t call_id, const std::string& str_detail);
     void _OnAuthSucc(uint64_t call_id);
     void _AddResult(std::function<void()>&& result_func);
     void PorcessResult();

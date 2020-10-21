@@ -20,7 +20,7 @@ class CMysqlConnection;
 class CDBRecord
 {
 public:
-    CDBRecord(CMysqlConnection* pMysqlConnection, CDBFieldInfoListPtr pMysqlFieldInfo, bool bCanModify, MYSQL_ROW row, unsigned long* lengths);
+    CDBRecord(CMysqlConnection* pMysqlConnection, const CDBFieldInfoListPtr& pMysqlFieldInfo, bool bCanModify, MYSQL_ROW row, unsigned long* lengths);
     ~CDBRecord();
 
     CDBField& Field(size_t n)

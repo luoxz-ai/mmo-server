@@ -8,6 +8,7 @@
 #include "config/Cfg_Scene_MonsterGenerator.pb.h"
 #include "config/Cfg_Scene_Patrol.pb.h"
 #include "config/Cfg_Scene_Reborn.pb.h"
+#include "config/Cfg_Phase.pb.h"
 CGameMap::CGameMap() {}
 
 CGameMap::~CGameMap() {}
@@ -24,13 +25,6 @@ bool CGameMap::Init(CMapManager* pManager, const Cfg_Scene& data, const CMapData
     m_nMapFlag      = data.mapflag();
     m_idScript      = data.idscript();
     m_pMapData      = pMapData;
-    for(int32_t i = 0; i < data.phase_data_size(); i++)
-    {
-        // copy
-        auto phase_data = data.phase_data(i);
-        auto idPhase    = phase_data.id();
-        m_PhaseDataSet.emplace(idPhase, std::make_unique<PhaseData>(std::move(phase_data)));
-    }
     return true;
 }
 
@@ -193,7 +187,7 @@ bool CGameMap::IsDeadNoDrop(float x, float y) const
     return false;
 }
 
-const PhaseData* CGameMap::GetPhaseDataById(uint64_t idPhase) const
+const Cfg_Phase* CGameMap::GetPhaseDataById(uint64_t idPhase) const
 {
     __ENTER_FUNCTION
     auto it = m_PhaseDataSet.find(idPhase);
@@ -213,11 +207,6 @@ const Cfg_Scene_EnterPoint* CGameMap::GetEnterPointByIdx(uint32_t idx) const
     return it->second.get();
     __LEAVE_FUNCTION
     return nullptr;
-}
-
-void CGameMap::_setEnterPoint(const Cfg_Scene_EnterPoint& iter)
-{
-    m_EnterPointSet[iter.idx()] = std::make_unique<Cfg_Scene_EnterPoint>(iter);
 }
 
 const Cfg_Scene_LeavePoint* CGameMap::GetLeavePointByIdx(uint32_t idx) const
@@ -247,11 +236,6 @@ const Cfg_Scene_Patrol* CGameMap::GetPatrolDataByIdx(uint32_t idx) const
         return nullptr;
     else
         return it->second.get();
-}
-
-void CGameMap::_setLeavePoint(const Cfg_Scene_LeavePoint& iter)
-{
-    m_LeavePointSet[iter.idx()] = std::make_unique<Cfg_Scene_LeavePoint>(iter);
 }
 
 uint32_t CGameMap::GetSPRegionIdx(float x, float y) const
@@ -318,17 +302,35 @@ Vector2 CGameMap::FindPosNearby(const Vector2& pos, float range) const
     return pos;
 }
 
-void CGameMap::_AddRebornData(const Cfg_Scene_Reborn& iter)
+
+void CGameMap::_AddData(const Cfg_Scene_EnterPoint& iter)
+{
+    m_EnterPointSet[iter.idx()] = std::make_unique<Cfg_Scene_EnterPoint>(iter);
+}
+
+
+void CGameMap::_AddData(const Cfg_Scene_LeavePoint& iter)
+{
+    m_LeavePointSet[iter.idx()] = std::make_unique<Cfg_Scene_LeavePoint>(iter);
+}
+
+
+void CGameMap::_AddData(const Cfg_Scene_Reborn& iter)
 {
     m_RebornDataSet[iter.idx()] = std::make_unique<Cfg_Scene_Reborn>(iter);
 }
 
-void CGameMap::_AddMonsterGenerator(const Cfg_Scene_MonsterGenerator& iter)
+void CGameMap::_AddData(const Cfg_Scene_MonsterGenerator& iter)
 {
     m_MonsterGeneratorList[iter.idx()] = std::make_unique<Cfg_Scene_MonsterGenerator>(iter);
 }
 
-void CGameMap::_AddPatrol(const Cfg_Scene_Patrol& iter)
+void CGameMap::_AddData(const Cfg_Scene_Patrol& iter)
 {
     m_PatrolSet[iter.patrol_idx()] = std::make_unique<Cfg_Scene_Patrol>(iter);
+}
+
+void CGameMap::_AddData(const Cfg_Phase& iter)
+{
+    m_PhaseDataSet[iter.idphase()] = std::make_unique<Cfg_Phase>(iter);
 }

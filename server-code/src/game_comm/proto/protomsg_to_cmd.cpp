@@ -15,10 +15,10 @@ uint32_t msg_to_cmd(const proto_msg_t& msg)
 {
     __ENTER_FUNCTION
     auto msg_desc = msg.GetDescriptor();
-    auto options   = msg_desc->options();
+    const auto& options   = msg_desc->options();
     
     {
-        auto cmd_extension = options.GetExtension(cmd);
+        const auto& cmd_extension = options.GetExtension(cmd);
         if(cmd_extension.ts_cmd() != 0)
         {
             CHECK_DEBUG( "CMD_" + msg_desc->name() == TS_CMD_Name(cmd_extension.ts_cmd()) );
@@ -37,7 +37,7 @@ uint32_t msg_to_cmd(const proto_msg_t& msg)
     }
    
     {
-        auto server_cmd_extension = options.GetExtension(ServerMSG::server_cmd);
+        const auto& server_cmd_extension = options.GetExtension(ServerMSG::server_cmd);
         if(server_cmd_extension.id() != 0)
         {
             CHECK_DEBUG( "MsgID_" + msg_desc->name() == ServerMSG::OMsgID_Name(server_cmd_extension.id()) );

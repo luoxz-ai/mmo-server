@@ -530,7 +530,7 @@ CDBFieldInfoListPtr CMysqlConnection::QueryFieldInfo(const std::string& s)
     return nullptr;
 }
 
-void CMysqlConnection::_AddFieldInfo(const std::string& s, CDBFieldInfoListPtr ptr)
+void CMysqlConnection::_AddFieldInfo(const std::string& s, const CDBFieldInfoListPtr& ptr)
 {
     if(ptr)
     {
@@ -551,7 +551,7 @@ bool CMysqlConnection::EscapeString(char* pszDst, const char* pszSrc, int32_t nL
 
 //////////////////////////////////////////////////////////////////////////
 
-CMysqlResult::CMysqlResult(CMysqlConnection* pMysqlConnection, MYSQL_RES_PTR&& res, CDBFieldInfoListPtr infolist_ptr)
+CMysqlResult::CMysqlResult(CMysqlConnection* pMysqlConnection, MYSQL_RES_PTR&& res, const CDBFieldInfoListPtr& infolist_ptr)
     : m_pMysqlConnection(pMysqlConnection)
     , m_MySqlResult(std::move(res))
     , m_pFieldInfoList(infolist_ptr)

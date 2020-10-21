@@ -179,7 +179,7 @@ public:
         MAP_ITER_T       m_iter;
     };
 
-    ~CGameDataMap() { Clear(); }
+    virtual ~CGameDataMap() { m_setData.clear(); }
     CreateNewImpl(CGameDataMap);
 
     const T* QueryObj(KEY_T id) const
@@ -295,7 +295,7 @@ public:
     };
 
 public:
-    ~CGameMultiDataMap() { Clear(); }
+    ~CGameMultiDataMap() { m_setData.clear(); }
     CreateNewImpl(CGameMultiDataMap);
     Iterator QueryObj(KEY_T id) const
     {
@@ -314,7 +314,6 @@ public:
     {
         m_setData.clear();
         CGameDataContainer<T>::ClearRawData();
-        ;
     }
 
     virtual void BuildIndex() override

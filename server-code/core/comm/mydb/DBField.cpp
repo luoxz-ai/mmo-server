@@ -144,7 +144,7 @@ std::string CDBField::GetValString() const
         case DB_FIELD_TYPE_VARCHAR:
         case DB_FIELD_TYPE_BLOB:
         {
-            std::string             tmp    = std::get<std::string>(m_Val);
+            const std::string& tmp = std::get<std::string>(m_Val);
             std::unique_ptr<char[]> szBuff = std::make_unique<char[]>(tmp.size() * 2 + 1);
             mysql_real_escape_string(m_pDBRecord->_GetMysqlConnection()->_GetHandle(), szBuff.get(), tmp.c_str(), tmp.size());
 

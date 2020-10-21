@@ -294,7 +294,7 @@ bool CSceneObject::_UpdateViewList()
                         continue;
 
                     // 判断目标是否需要加入广播集
-                    if(thisActor->IsNeedAddToBroadCastSet(pActor) == false)
+                    if(thisActor->ViewTest(pActor) == false)
                         continue;
                     //不需要视野剪裁，那么就都加入
                     if(viewcount_max <= 0)
@@ -303,7 +303,7 @@ bool CSceneObject::_UpdateViewList()
                         continue;
                     }
                     //! 目标进入视野，需要加入广播集
-                    if(thisActor->IsMustAddToBroadCastSet(pActor) == true)
+                    if(thisActor->IsMustAddToViewList(pActor) == true)
                     {
                         //强制加入视野的，优先合入
                         setBCActor.insert(pActor->GetID());

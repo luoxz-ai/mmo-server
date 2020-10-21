@@ -19,14 +19,23 @@ CScene::CScene() {}
 
 CScene::~CScene()
 {
+
+}
+
+void CScene::Destory()
+{
     __ENTER_FUNCTION
+    for(auto& [k, v]: m_setPhase)
+    {
+        v->Destory();
+    }
     m_setPhase.clear();
     m_setPhaseByIdx.clear();
 
     __LEAVE_FUNCTION
 }
 
-bool CScene::Init(uint16_t idMap, uint64_t idMainPhase)
+bool CScene::Init(uint16_t idMap, uint16_t idMainPhaseType, uint64_t idPhase)
 {
     __ENTER_FUNCTION
     auto pMap = MapManager()->QueryMap(idMap);
@@ -40,15 +49,16 @@ bool CScene::Init(uint16_t idMap, uint64_t idMainPhase)
     SceneService()->SendProtoMsgToAIService(msg);
 
     //创建静态位面
+    CreatePhase(idMainPhaseType,idPhase);
+    //创建静态位面
     const auto& phaseDataSet = pMap->GetPhaseData();
-    for(const auto& [idPhase, v]: phaseDataSet)
+    for(const auto& [idPhaseType, v]: phaseDataSet)
     {
-        CreatePhase(idPhase);
+        CreatePhase(idPhaseType,idPhaseType);
     }
     m_nStaticPhaseCount = phaseDataSet.size();
 
-    //创建主位面,可能已经创建过了
-    CreatePhase(idMainPhase);
+   
 
     LOGINFO("Scene {} Created", idMap);
 
@@ -57,14 +67,14 @@ bool CScene::Init(uint16_t idMap, uint64_t idMainPhase)
     return false;
 }
 
-CPhase* CScene::CreatePhase(uint64_t idPhase)
+CPhase* CScene::CreatePhase(uint16_t idPhaseType, uint64_t idPhase)
 {
-    auto pPhaseData = m_pMap->GetPhaseDataById(idPhase);
-    auto pPhase     = CreatePhase(idPhase, pPhaseData);
+    auto pPhaseData = m_pMap->GetPhaseDataById(idPhaseType);
+    auto pPhase     = CreatePhase(idPhaseType, pPhaseData, idPhase);
     return pPhase;
 }
 
-CPhase* CScene::CreatePhase(uint64_t idPhase, const PhaseData* pPhaseData)
+CPhase* CScene::CreatePhase(uint16_t idPhaseType, const Cfg_Phase* pPhaseData, uint64_t idPhase)
 {
     CPhase* pPhase = _QueryPhase(idPhase);
     if(pPhase != nullptr)
@@ -80,7 +90,7 @@ CPhase* CScene::CreatePhase(uint64_t idPhase, const PhaseData* pPhaseData)
     return pPhase;
 }
 
-void CScene::ForEach(std::function<void(const CPhase*)> func) const
+void CScene::ForEach(const std::function<void(const CPhase*)>& func) const
 {
     for(const auto& [k, v]: m_setPhaseByIdx)
     {

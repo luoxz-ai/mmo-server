@@ -699,7 +699,7 @@ bool CActorAI::FindEnemyInHateList()
     return false;
 }
 
-bool CActorAI::ForEachInHateList(std::function<bool(ST_HATE_DATA*)> func)
+bool CActorAI::ForEachInHateList(const std::function<bool(ST_HATE_DATA*)>& func)
 {
     __ENTER_FUNCTION
     m_HateList->FindIF([pThis = this](ST_HATE_DATA* pHateData) {

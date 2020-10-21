@@ -50,7 +50,7 @@ uint64_t CSceneBase::GetScriptID() const
     return GetMap() ? GetMap()->GetScriptID() : 0;
 }
 
-uint32_t CSceneBase::GetMapID() const
+uint16_t CSceneBase::GetMapID() const
 {
     return m_pMap->GetMapID();
 }
@@ -84,6 +84,7 @@ bool CSceneBase::EnterMap(CSceneObject* pActor, float fPosX, float fPosY, float 
     m_setActor[pActor->GetID()] = pActor;
     pActor->SetPos(Vector2(fPosX, fPosY));
     pActor->SetFace(fFace);
+    
     pActor->OnEnterMap(this);
     pActor->UpdateViewList(true);
     m_pSceneTree->CheckNeedResizeSceneTile(m_setPlayer.size());
@@ -91,6 +92,11 @@ bool CSceneBase::EnterMap(CSceneObject* pActor, float fPosX, float fPosY, float 
 }
 
 void CSceneBase::LeaveMap(CSceneObject* pActor, uint16_t idTargetMap /*= 0*/)
+{
+    _LeaveMap(pActor, idTargetMap);
+}
+
+void CSceneBase::_LeaveMap(CSceneObject* pActor, uint16_t idTargetMap /*= 0*/)
 {
     if(pActor->IsPlayer())
         m_setPlayer.erase(pActor->GetID());
@@ -100,6 +106,7 @@ void CSceneBase::LeaveMap(CSceneObject* pActor, uint16_t idTargetMap /*= 0*/)
     //将玩家从场景树移除
     pActor->OnLeaveMap(idTargetMap);
     pActor->ClearViewList(true);
+    
     m_pSceneTree->CheckNeedResizeSceneTile(m_setPlayer.size());
 }
 

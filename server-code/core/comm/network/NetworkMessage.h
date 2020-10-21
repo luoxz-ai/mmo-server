@@ -20,11 +20,11 @@ export_lua class CNetworkMessage
 public:
     CNetworkMessage();
     ~CNetworkMessage();
-    CNetworkMessage(CNetworkMessage&& rht);
+    CNetworkMessage(CNetworkMessage&& rht)noexcept;
     export_lua CNetworkMessage(const CNetworkMessage& rht);
-    export_lua CNetworkMessage(byte* buf, size_t len, VirtualSocket from = 0, VirtualSocket to = 0);
-    export_lua CNetworkMessage(uint16_t usCmd, byte* body, size_t body_len, VirtualSocket from = 0, VirtualSocket to = 0);
-    export_lua CNetworkMessage(uint16_t usCmd, const proto_msg_t& msg, VirtualSocket from = 0, VirtualSocket to = 0);
+    export_lua CNetworkMessage(byte* buf, size_t len, const VirtualSocket& from = 0, const VirtualSocket& to = 0);
+    export_lua CNetworkMessage(uint16_t usCmd, byte* body, size_t body_len, const VirtualSocket& from = 0, const VirtualSocket& to = 0);
+    export_lua CNetworkMessage(uint16_t usCmd, const proto_msg_t& msg, const VirtualSocket& from = 0, const VirtualSocket& to = 0);
 
     export_lua void CopyRawMessage(const CNetworkMessage& rht);
 
@@ -37,10 +37,10 @@ public:
     export_lua byte* GetMsgBody() { return GetBuf() + sizeof(MSG_HEAD); }
     export_lua const byte* GetMsgBody() const { return GetBuf() + sizeof(MSG_HEAD); }
 
-    export_lua VirtualSocket GetFrom() const { return m_nFrom; }
-    export_lua void          SetFrom(VirtualSocket val) { m_nFrom = val; }
-    export_lua VirtualSocket GetTo() const { return m_nTo; }
-    export_lua void          SetTo(VirtualSocket val) { m_nTo = val; }
+    export_lua const VirtualSocket& GetFrom() const { return m_nFrom; }
+    export_lua void          SetFrom(const VirtualSocket& val) { m_nFrom = val; }
+    export_lua const VirtualSocket& GetTo() const { return m_nTo; }
+    export_lua void          SetTo(const VirtualSocket& val) { m_nTo = val; }
 
     export_lua const std::deque<VirtualSocket>& GetForward() const { return m_setForward; }
 

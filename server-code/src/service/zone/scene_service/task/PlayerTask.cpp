@@ -782,6 +782,7 @@ bool CPlayerTask::ShowTaskDialog(uint32_t idTask, OBJID idNpc)
     return false;
 }
 
+
 bool CPlayerTask::IsFinished(uint32_t idTask)
 {
     __ENTER_FUNCTION

@@ -16,7 +16,7 @@ CNetworkMessage::CNetworkMessage()
 
 CNetworkMessage::~CNetworkMessage() {}
 
-CNetworkMessage::CNetworkMessage(CNetworkMessage&& rht)
+CNetworkMessage::CNetworkMessage(CNetworkMessage&& rht) noexcept
     : m_nFrom(rht.m_nFrom)
     , m_nTo(rht.m_nTo)
     , m_setForward(std::move(rht.m_setForward))
@@ -44,7 +44,7 @@ CNetworkMessage::CNetworkMessage(const CNetworkMessage& rht)
 {
 }
 
-CNetworkMessage::CNetworkMessage(byte* buf, size_t len, VirtualSocket from /*= 0*/, VirtualSocket to /*= 0*/)
+CNetworkMessage::CNetworkMessage(byte* buf, size_t len, const VirtualSocket& from /*= 0*/, const VirtualSocket& to /*= 0*/)
     : m_nFrom(from)
     , m_nTo(to)
     , m_pBuf(buf)
@@ -52,7 +52,7 @@ CNetworkMessage::CNetworkMessage(byte* buf, size_t len, VirtualSocket from /*= 0
 {
 }
 
-CNetworkMessage::CNetworkMessage(uint16_t usCmd, const proto_msg_t& msg, VirtualSocket from /*= 0*/, VirtualSocket to /*= 0*/)
+CNetworkMessage::CNetworkMessage(uint16_t usCmd, const proto_msg_t& msg, const VirtualSocket& from /*= 0*/, const VirtualSocket& to /*= 0*/)
     : m_nFrom(from)
     , m_nTo(to)
     , m_pBuf(nullptr)
@@ -72,7 +72,7 @@ CNetworkMessage::CNetworkMessage(uint16_t usCmd, const proto_msg_t& msg, Virtual
     // pHead->usCmd = evd->number();
 }
 
-CNetworkMessage::CNetworkMessage(uint16_t usCmd, byte* body, size_t body_len, VirtualSocket from /*= 0*/, VirtualSocket to /*= 0*/)
+CNetworkMessage::CNetworkMessage(uint16_t usCmd, byte* body, size_t body_len, const VirtualSocket& from /*= 0*/, const VirtualSocket& to /*= 0*/)
     : m_nFrom(from)
     , m_nTo(to)
     , m_pBuf(nullptr)

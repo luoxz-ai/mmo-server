@@ -78,6 +78,13 @@ void CActor::SetCampID(uint32_t id, uint32_t nSync)
     SetProperty(PROP_CAMP, id, nSync);
 }
 
+CActor* CActor::QueryOwner() const
+{
+    if(GetOwnerID() == 0)
+        return nullptr;
+    return ActorManager()->QueryActor(GetOwnerID());
+}
+
 void CActor::AddProperty(uint32_t nType, int32_t nVal, uint32_t nSync)
 {
     __ENTER_FUNCTION

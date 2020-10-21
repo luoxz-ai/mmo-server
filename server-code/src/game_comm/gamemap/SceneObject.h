@@ -99,8 +99,8 @@ protected:
     // AOI
     virtual void OnAOIProcess(const BROADCAST_SET& setBCActorDel, const BROADCAST_SET& setBCActor, const BROADCAST_SET& setBCActorAdd);
 
-    virtual bool IsNeedAddToBroadCastSet(CSceneObject* pActor) { return false; }
-    virtual bool IsMustAddToBroadCastSet(CSceneObject* pActor) { return false; }
+    virtual bool ViewTest(CSceneObject* pActor) { return false; }
+    virtual bool IsMustAddToViewList(CSceneObject* pActor) { return false; }
 
 public:
     virtual void OnEnterMap(CSceneBase* pScene);

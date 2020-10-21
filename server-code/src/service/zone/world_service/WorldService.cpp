@@ -278,7 +278,7 @@ void CWorldService::RecyclePlayerID(OBJID idPlayer)
 void CWorldService::SetServiceReady(const ServerPort& server_port)
 {
     __ENTER_FUNCTION
-    auto idService = server_port.GetServiceID();
+    const auto& idService = server_port.GetServiceID();
     if(m_setServiceNeedReady.empty())
         return;
 

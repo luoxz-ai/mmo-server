@@ -54,7 +54,9 @@ std::string string_concat(const T& vecStr, const std::string& delimiters, const 
         if(result.empty() == false)
             result += delimiters;
 
-        result += pre + v + post;
+        result += pre;
+        result += v;
+        result += post;
     }
     return result;
 }
@@ -84,8 +86,8 @@ const char* PrimitiveTypeName(const google::protobuf::FieldDescriptor* field_des
         case FieldDescriptor::TYPE_FIXED32:
         case FieldDescriptor::TYPE_SFIXED32:
         {
-            auto options   = field_desc->options();
-            auto extension = options.GetExtension(sql);
+            const auto& options   = field_desc->options();
+            const auto& extension = options.GetExtension(sql);
             if(extension.int_size() > 0 && extension.int_size() < 16)
             {
                 return "tinyint";
@@ -145,8 +147,8 @@ std::string FieldName(const google::protobuf::FieldDescriptor* field)
 
 std::string FieldSize(const google::protobuf::FieldDescriptor* field)
 {
-    auto options   = field->options();
-    auto extension = options.GetExtension(sql);
+    const auto& options   = field->options();
+    const auto& extension = options.GetExtension(sql);
     if(extension.size() > 0)
     {
         return fmt::format("({})", extension.size());
@@ -193,8 +195,8 @@ std::string FieldUTF8(google::protobuf::FieldDescriptor::Type type)
 
 std::string AutoIncrement(const google::protobuf::FieldDescriptor* field)
 {
-    auto options   = field->options();
-    auto extension = options.GetExtension(sql);
+    const auto& options   = field->options();
+    const auto& extension = options.GetExtension(sql);
     if(extension.auto_increment())
     {
         return " AUTO_INCREMENT";
@@ -204,29 +206,29 @@ std::string AutoIncrement(const google::protobuf::FieldDescriptor* field)
 
 std::string PrimaryKey(const google::protobuf::FieldDescriptor* field)
 {
-    auto options   = field->options();
-    auto extension = options.GetExtension(sql);
+    const auto& options   = field->options();
+    const auto& extension = options.GetExtension(sql);
     return extension.primary_key();
 }
 
 std::string Key(const google::protobuf::FieldDescriptor* field)
 {
-    auto options   = field->options();
-    auto extension = options.GetExtension(sql);
+    const auto& options   = field->options();
+    const auto& extension = options.GetExtension(sql);
     return extension.keys();
 }
 
 std::string Unique(const google::protobuf::FieldDescriptor* field)
 {
-    auto options   = field->options();
-    auto extension = options.GetExtension(sql);
+    const auto& options   = field->options();
+    const auto& extension = options.GetExtension(sql);
     return extension.unique();
 }
 
 std::string DefaultVal(const google::protobuf::FieldDescriptor* field)
 {
-    auto options   = field->options();
-    auto extension = options.GetExtension(sql);
+    const auto& options   = field->options();
+    const auto& extension = options.GetExtension(sql);
     if(extension.default_val().empty() == false)
     {
         return " DEFAULT '" + extension.default_val() + "'";

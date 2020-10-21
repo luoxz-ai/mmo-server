@@ -7,7 +7,7 @@
 #include "MapManager.h"
 #include "NetMSGProcess.h"
 #include "config/Cfg_Scene.pb.h"
-
+#include "config/Cfg_Phase.pb.h"
 CAIScene::CAIScene() {}
 
 CAIScene::~CAIScene()
@@ -37,7 +37,7 @@ CAIPhase* CAIScene::CreatePhase(const SceneIdx& idxScene, uint64_t idPhase)
     return nullptr;
 }
 
-CAIPhase* CAIScene::CreatePhase(const SceneIdx& idxScene, uint64_t idPhase, const PhaseData* pPhaseData)
+CAIPhase* CAIScene::CreatePhase(const SceneIdx& idxScene, uint64_t idPhase, const Cfg_Phase* pPhaseData)
 {
     __ENTER_FUNCTION
     CAIPhase* pPhase = CAIPhase::CreateNew(this, idxScene, idPhase, pPhaseData);

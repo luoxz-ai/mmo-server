@@ -4,7 +4,10 @@ CAchievementTypeSet::CAchievementTypeSet() {}
 
 CAchievementTypeSet::~CAchievementTypeSet()
 {
-    Clear();
+    m_setData.clear();
+    m_setDataByGroupID.clear();
+    m_setDataByCheckType.clear();
+    ClearRawData();
 }
 
 void CAchievementTypeSet::Clear()

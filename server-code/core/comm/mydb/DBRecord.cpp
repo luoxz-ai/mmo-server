@@ -7,7 +7,7 @@ OBJECTHEAP_IMPLEMENTATION(CDBRecord, s_Heap);
 
 //////////////////////////////////////////////////////////////////////////
 
-CDBRecord::CDBRecord(CMysqlConnection* pMysqlConnection, CDBFieldInfoListPtr pDBFieldInfo, bool bCanModify, MYSQL_ROW row, unsigned long* lengths)
+CDBRecord::CDBRecord(CMysqlConnection* pMysqlConnection, const CDBFieldInfoListPtr& pDBFieldInfo, bool bCanModify, MYSQL_ROW row, unsigned long* lengths)
     : m_pMysqlConnection(pMysqlConnection)
     , m_pDBFieldInfo(pDBFieldInfo)
     , m_bCanModify(bCanModify)

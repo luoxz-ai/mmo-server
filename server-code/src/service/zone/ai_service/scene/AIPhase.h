@@ -9,12 +9,13 @@
 class CAIScene;
 class CAIGroupManager;
 class CMonsterGenerator;
-class PhaseData;
+class Cfg_Phase;
+
 export_lua class CAIPhase : public CSceneBase
 {
 protected:
     CAIPhase();
-    bool Init(CAIScene* pScene, const SceneIdx& idxScene, uint64_t idPhase, const PhaseData* pPhaseData);
+    bool Init(CAIScene* pScene, const SceneIdx& idxScene, uint64_t idPhase, const Cfg_Phase* pPhaseData);
 
 public:
     CreateNewImpl(CAIPhase);

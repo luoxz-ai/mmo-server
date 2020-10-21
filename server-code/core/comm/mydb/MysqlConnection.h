@@ -26,7 +26,7 @@ inline MYSQL_RES_PTR make_mysql_res_ptr(MYSQL_RES* res)
 class CMysqlResult
 {
 public:
-    CMysqlResult(CMysqlConnection* pMysqlConnection, MYSQL_RES_PTR&& res, CDBFieldInfoListPtr infolist_ptr);
+    CMysqlResult(CMysqlConnection* pMysqlConnection, MYSQL_RES_PTR&& res, const CDBFieldInfoListPtr& infolist_ptr);
     ~CMysqlResult();
 
     CDBFieldInfoListPtr GetFieldInfo() const;
@@ -81,7 +81,7 @@ public:
 
     CDBFieldInfoListPtr QueryFieldInfo(const std::string& s);
     CDBFieldInfoListPtr CreateFieldInfo(const std::string& s, const MYSQL_RES_PTR& res);
-    void                _AddFieldInfo(const std::string& s, CDBFieldInfoListPtr ptr);
+    void                _AddFieldInfo(const std::string& s, const CDBFieldInfoListPtr& ptr);
     MYSQL*              _GetHandle() const { return m_pHandle.get(); }
     bool                EscapeString(char* pszDst, const char* pszSrc, int32_t nLen);
     bool                EscapeString(std::string& strDst, const std::string& strSrc);

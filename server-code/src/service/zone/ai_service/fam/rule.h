@@ -61,7 +61,7 @@ namespace fuzzy
         Rule(const std::vector<Trapezoid>& antecedents,
              const Conjunction&            conjunction,
              const Trapezoid&              consequent,
-             std::string                   naturalLanguage = "");
+             const std::string&            naturalLanguage = "");
 
         /**
          Retrieve this rule's consequent.
@@ -72,7 +72,7 @@ namespace fuzzy
          Retrieve the rule's natural-language description.
          @return the description in string form
          */
-        std::string name() const { return _naturalLanguage; }
+        const std::string& name() const { return _naturalLanguage; }
 
         /**
          Given the provided input values, calculate the rule's degree of fit (µ).

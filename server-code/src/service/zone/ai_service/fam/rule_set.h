@@ -58,7 +58,7 @@ namespace fuzzy
          Put another way, keep only the highest µ for any given consequent.
          @param inputValues A vector of inputs (each a double)
          */
-        void populate_mu_map(const std::vector<double> inputValues, mu_map& _consequents_to_mus) const;
+        void populate_mu_map(const std::vector<double>& inputValues, mu_map& _consequents_to_mus) const;
 
         /**
          Using the consequents-to-µ map, we:
@@ -82,13 +82,13 @@ namespace fuzzy
 
     public:
         RuleSet();                                          // default constructor
-        RuleSet(std::string name, Implication implication); // constructor
+        RuleSet(const std::string& name, Implication implication); // constructor
 
         /**
          Retrieve the ruleset's natural-language name
          @return the name in string form
          */
-        std::string name() const { return _name; }
+        const std::string& name() const { return _name; }
 
         /**
          Add an existing rule to the ruleset.
@@ -110,7 +110,7 @@ namespace fuzzy
          @param values A vector of inputs (each a double)
          @return the result in double form
          */
-        double calculate(const std::vector<double> values) const;
+        double calculate(const std::vector<double>& values) const;
 
         /**
          Convenience function to make it easier to call single-input RuleSets.

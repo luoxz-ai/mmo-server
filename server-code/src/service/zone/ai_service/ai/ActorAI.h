@@ -75,7 +75,7 @@ public:
     export_lua void  AddHate(OBJID idTarget, int32_t nHate);
 
     export_lua bool FindEnemyInHateList();
-    export_lua bool ForEachInHateList(std::function<bool(ST_HATE_DATA*)> func);
+    export_lua bool ForEachInHateList(const std::function<bool(ST_HATE_DATA*)>& func);
     void            Process();
 
     export_lua uint32_t GetState() const;

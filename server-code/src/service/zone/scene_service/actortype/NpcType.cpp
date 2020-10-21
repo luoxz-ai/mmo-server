@@ -44,14 +44,14 @@ const CNpcType* CNpcTypeSet::QueryObj(uint32_t idType) const
     return nullptr;
 }
 
-const CNpcTypeSet::NpcTypeList* CNpcTypeSet::QueryObjByMapID(uint32_t idMap, uint64_t idPhase) const
+const CNpcTypeSet::NpcTypeList* CNpcTypeSet::QueryObjByMapID(uint16_t idMap, uint16_t idPhaseType) const
 {
     __ENTER_FUNCTION
     auto it = m_setDataByMapID.find(idMap);
     if(it != m_setDataByMapID.end())
     {
         const auto& refPhase = it->second;
-        auto        it_p     = refPhase.find(idPhase);
+        auto        it_p     = refPhase.find(idPhaseType);
         if(it_p != refPhase.end())
         {
             return &(it_p->second);

@@ -29,7 +29,7 @@ public:
     static uint32_t GetKey(const Cfg_BornPos& row) { return row.prof(); }
     uint32_t        GetID() const { return m_row.id(); }
     uint32_t        GetProf() const { return m_row.prof(); }
-    uint32_t        GetMapID() const { return m_row.mapid(); }
+    uint16_t        GetMapID() const { return m_row.mapid(); }
     float           GetPosX() const { return m_row.posx(); }
     float           GetPoxY() const { return m_row.posy(); }
     float           GetRange() const { return m_row.range(); }
@@ -47,7 +47,7 @@ public:
     CreateNewImpl(CBornPosSet);
 
 public:
-    ~CBornPosSet() { Clear(); }
+    ~CBornPosSet() {  }
 
 public:
     const CBornPos* RandGet(uint32_t dwProf) const

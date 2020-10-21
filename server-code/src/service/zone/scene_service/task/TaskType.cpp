@@ -4,7 +4,12 @@ CTaskTypeSet::CTaskTypeSet() {}
 
 CTaskTypeSet::~CTaskTypeSet()
 {
-    Clear();
+    __ENTER_FUNCTION
+    m_setData.clear();
+    m_setDataByAcceptNPCID.clear();
+    m_setDataBySubmitNPCID.clear();
+    ClearRawData();
+    __LEAVE_FUNCTION
 }
 
 void CTaskTypeSet::Clear()

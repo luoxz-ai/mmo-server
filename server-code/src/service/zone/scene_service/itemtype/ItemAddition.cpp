@@ -5,7 +5,8 @@ CItemAdditionSet::CItemAdditionSet() {}
 
 CItemAdditionSet::~CItemAdditionSet()
 {
-    Clear();
+    m_setAddition.clear();
+    ClearRawData();
 }
 
 void CItemAdditionSet::Clear()

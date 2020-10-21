@@ -918,7 +918,7 @@ namespace lua_tinker
             inc_ref();
         }
 
-        lua_ref_base::lua_ref_base(lua_ref_base&& rht)
+        lua_ref_base::lua_ref_base(lua_ref_base&& rht) noexcept
             : m_L(rht.m_L)
             , m_regidx(rht.m_regidx)
             , m_pRef(rht.m_pRef)

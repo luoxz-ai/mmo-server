@@ -119,7 +119,7 @@ void CAuthManager::PorcessResult()
     }
 }
 
-void CAuthManager::_OnAuthFail(uint64_t call_id, std::string str_detail)
+void CAuthManager::_OnAuthFail(uint64_t call_id, const std::string& str_detail)
 {
     auto it = m_AuthDataList.find(call_id);
     if(it == m_AuthDataList.end())

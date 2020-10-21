@@ -141,7 +141,7 @@ namespace pb_util
             // xxx[1].xxx
             if(name[name.size() - 1] == ']')
             {
-                auto pos = name.find_first_of("[", 0);
+                auto pos = name.find_first_of('[', 0);
                 if(pos != 0)
                 {
                     std::string array_str{name.data() + pos + 1, name.size() - 2 - pos};

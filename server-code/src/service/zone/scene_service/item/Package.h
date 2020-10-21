@@ -64,7 +64,7 @@ public:
     export_lua virtual void SendAllItemInfo();
 
 public:
-    export_lua CItem* ForEach(std::function<bool(CItem*)> func);
+    export_lua CItem* ForEach(const std::function<bool(CItem*)>& func);
     void              CheckItemExpire(uint32_t dwTimeNow);
 
 public:

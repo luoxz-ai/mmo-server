@@ -570,7 +570,7 @@ bool find_name_error(const std::string& utf8)
 }
 
 //////////////////////////////////////////////////////////////////////
-bool my_str_comp(const std::string str1, const std::string str2)
+bool my_str_comp(const std::string& str1, const std::string& str2)
 {
     return (str1 > str2);
 }

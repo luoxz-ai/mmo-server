@@ -8,6 +8,7 @@
 #include "MapManager.h"
 #include "MonsterGenerator.h"
 #include "config/Cfg_Scene.pb.h"
+#include "config/Cfg_Phase.pb.h"
 CAIPhase::CAIPhase() {}
 
 CAIPhase::~CAIPhase()
@@ -21,7 +22,7 @@ CAIPhase::~CAIPhase()
     }
 }
 
-bool CAIPhase::Init(CAIScene* pScene, const SceneIdx& idxScene, uint64_t idPhase, const PhaseData* pPhaseData)
+bool CAIPhase::Init(CAIScene* pScene, const SceneIdx& idxScene, uint64_t idPhase, const Cfg_Phase* pPhaseData)
 {
     __ENTER_FUNCTION
     m_idPhase = idPhase;
@@ -31,7 +32,7 @@ bool CAIPhase::Init(CAIScene* pScene, const SceneIdx& idxScene, uint64_t idPhase
     m_pAIGroupManager.reset(CAIGroupManager::CreateNew(this));
     if(pPhaseData)
     {
-        uint64_t idPhaseLink = pPhaseData->link_phase();
+        uint16_t idPhaseLink = pPhaseData->link_phase();
         auto     pPhase      = pScene->QueryPhaseByID(idPhaseLink);
         if(pPhase)
         {
@@ -44,6 +45,10 @@ bool CAIPhase::Init(CAIScene* pScene, const SceneIdx& idxScene, uint64_t idPhase
             float  fHeight = pPhaseData->bottom() - pPhaseData->top();
             CHECKF(InitSceneTree(vBasePos, fWidth, fHeight, pPhaseData->viewgrid_width()));
         }
+    }
+    else if(idPhase == 0)
+    {
+        CHECKF(InitSceneTree({0.0f, 0.0f}, 0.0f, 0.0f, 0));
     }
     else
     {

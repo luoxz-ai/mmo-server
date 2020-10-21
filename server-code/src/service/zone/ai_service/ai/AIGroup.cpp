@@ -21,7 +21,7 @@ void CAIGroup::RemoveMember(CAIActor* pActor)
     m_setMember.erase(pActor);
 }
 
-void CAIGroup::Foreach(std::function<void(CAIActor*)> func)
+void CAIGroup::Foreach(const std::function<void(CAIActor*)>& func)
 {
     __ENTER_FUNCTION
     for(const auto& v: m_setMember)
@@ -31,7 +31,7 @@ void CAIGroup::Foreach(std::function<void(CAIActor*)> func)
     __LEAVE_FUNCTION
 }
 
-void CAIGroup::FindIF(std::function<bool(CAIActor*)> func)
+void CAIGroup::FindIF(const std::function<bool(CAIActor*)>& func)
 {
     __ENTER_FUNCTION
     for(const auto& v: m_setMember)

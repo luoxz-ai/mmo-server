@@ -2576,7 +2576,7 @@ namespace lua_tinker
             lua_ref_base(lua_State* L, int32_t regidx);
             virtual ~lua_ref_base();
             lua_ref_base(const lua_ref_base& rht);
-            lua_ref_base(lua_ref_base&& rht);
+            lua_ref_base(lua_ref_base&& rht) noexcept;
             lua_ref_base& operator=(const lua_ref_base& rht);
         };
     } // namespace detail

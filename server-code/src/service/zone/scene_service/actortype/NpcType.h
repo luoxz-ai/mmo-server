@@ -42,7 +42,7 @@ public:
     float              GetVolume() const { return m_Data.volume(); }
 
     OBJID               GetScriptID() const { return m_Data.scriptid(); }
-    uint32_t            GetMapID() const { return m_Data.mapid(); }
+    uint16_t            GetMapID() const { return m_Data.mapid(); }
     uint64_t            GetPhaseID() const { return m_Data.phase_id(); }
     float               GetPosX() const { return m_Data.posx(); }
     float               GetPosY() const { return m_Data.posy(); }
@@ -67,16 +67,16 @@ public:
 
 public:
     using NpcTypeList     = std::vector<CNpcType*>;
-    using PhaseNpcTypeSet = std::unordered_map<uint32_t, NpcTypeList>;
+    using PhaseNpcTypeSet = std::unordered_map<uint16_t, NpcTypeList>;
     virtual void Clear() override;
     virtual void BuildIndex() override;
 
     const CNpcType*    QueryObj(uint32_t idType) const;
-    const NpcTypeList* QueryObjByMapID(uint32_t idMap, uint64_t idPhase) const;
+    const NpcTypeList* QueryObjByMapID(uint16_t idMap, uint16_t idPhaseType) const;
 
 protected:
     std::unordered_map<uint32_t, CNpcType*>       m_setData;
-    std::unordered_map<uint32_t, PhaseNpcTypeSet> m_setDataByMapID;
+    std::unordered_map<uint16_t, PhaseNpcTypeSet> m_setDataByMapID;
 };
 
 #endif /* NPCTYPE_H */

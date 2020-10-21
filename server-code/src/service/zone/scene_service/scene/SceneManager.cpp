@@ -33,30 +33,31 @@ void CSceneManager::Destory()
 {
     for(auto& [k, v]: m_mapScene)
     {
+        v->Destory();
         SAFE_DELETE(v);
     }
     m_mapScene.clear();
 }
 
-CPhase* CSceneManager::CreatePhase(uint16_t idMap, uint64_t idMainPhase)
+CPhase* CSceneManager::CreatePhase(uint16_t idMap, uint16_t idPhaseType, uint64_t idPhase)
 {
     const CGameMap* pMap = MapManager()->QueryMap(idMap);
     CHECKF(pMap && pMap->IsZoneMap(SceneService()->GetZoneID()));
     CScene* pScene = QueryScene(idMap);
     if(pScene)
     {
-        return pScene->CreatePhase(idMainPhase);
+        return pScene->CreatePhase(idPhaseType, idPhase);
     }
     else
     {
         SceneIdx idxScene(SceneService()->GetZoneID(), idMap, 0);
-        CScene*  pScene = CScene::CreateNew(idxScene, idMainPhase);
+        CScene*  pScene = CScene::CreateNew(idxScene, idPhaseType, idPhase);
 
         m_mapScene[idMap] = pScene;
 
         LOGMESSAGE("DynaScene {} Created", idMap);
 
-        return pScene->QueryPhase(idMainPhase);
+        return pScene->QueryPhase(idPhase);
     }
 }
 
@@ -67,7 +68,7 @@ CScene* CSceneManager::_CreateStaticScene(uint16_t idMap)
 
     SceneIdx idxScene(SceneService()->GetZoneID(), idMap, 0);
     CHECKF(QueryScene(idMap) == nullptr);
-    CScene* pScene = CScene::CreateNew(idMap, 0);
+    CScene* pScene = CScene::CreateNew(idMap, 0, 0);
 
     m_mapScene[idMap] = pScene;
 

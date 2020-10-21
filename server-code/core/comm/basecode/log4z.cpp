@@ -816,7 +816,7 @@ std::string getProcessName()
     name = i.readLine();
     i.close();
 
-    std::string::size_type pos = name.rfind("/");
+    std::string::size_type pos = name.rfind('/');
     if(pos != std::string::npos)
     {
         name = name.substr(pos + 1, std::string::npos);

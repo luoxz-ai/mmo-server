@@ -10,7 +10,7 @@ CEventEntry::CEventEntry(CEventManager* pManager, const CEventEntryCreateParam& 
     , m_tWaitTime(param.tWaitTime)
     , m_evType(param.evType)
     , m_evManagerType(nManagerType)
-    , m_pCallBack(std::move(param.cb))
+    , m_pCallBack(param.cb)
     , m_bPersist(param.bPersist)
 {
 }
@@ -296,7 +296,7 @@ void CEventEntryQueue::ClearByType(uint32_t evType)
     __LEAVE_FUNCTION
 }
 
-void CEventEntryQueue::Clear_IF(std::function<bool(CEventEntry*)> func)
+void CEventEntryQueue::Clear_IF(const std::function<bool(CEventEntry*)>& func)
 {
     __ENTER_FUNCTION
     for(auto it = m_setEntry.begin(); it != m_setEntry.end(); it++)

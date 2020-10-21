@@ -46,4 +46,5 @@ export_lua enum REBORN_TYPE {
     REBORN_STANDPOS,
 };
 
+
 #endif /* GAMEMAPDEF_H */

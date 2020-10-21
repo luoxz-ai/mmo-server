@@ -148,7 +148,7 @@ bool CNetworkService::ListenHttpPort(const char* addr, int32_t port, std::functi
         return false;
     }
 
-    m_funcOnReciveHttp = func;
+    m_funcOnReciveHttp = std::move(func);
     evhttp_set_gencb(m_pHttpHandle, http_process_cb, this);
     return true;
     __LEAVE_FUNCTION
@@ -407,7 +407,7 @@ void CNetworkService::OnIOThreadTimeOut()
     __LEAVE_FUNCTION
 }
 
-static void IOThreadProc(event_base* pBase, std::string _thread_name, const ServiceID& idService)
+static void IOThreadProc(event_base* pBase, const std::string& _thread_name, const ServiceID& idService)
 {
     __ENTER_FUNCTION
     pthread_setname_np(pthread_self(), _thread_name.c_str());

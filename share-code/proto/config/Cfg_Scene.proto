@@ -2,16 +2,6 @@ syntax				= "proto3";
 option optimize_for = CODE_SIZE;
 
 
-message PhaseData
-{
-	uint64 id		= 1; //位面ID
-	float  viewgrid_width = 2; //视野格子默认宽度
-	float  left     = 5; //左上角x
-	float  top      = 6; //左上角y
-	float  right    = 7; //右下角x
-	float  bottom   = 8; //右下角x
-	uint64 link_phase = 9; //与哪个位面直接相连（共享SceneTree）
-}
 
 message Cfg_Scene
 {
@@ -22,7 +12,6 @@ message Cfg_Scene
 	uint32 maptype	 = 5; // 地图类型
 	uint32 mapflag	 = 6; // 地图掩码
 	uint64 idscript	 = 7; // 脚本id
-	
-	repeated PhaseData phase_data = 10; //位面设置
-
 }
+
+

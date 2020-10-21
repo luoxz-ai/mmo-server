@@ -383,7 +383,7 @@ void CSocketService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
             pClient->SendSocketMsg(*pNetworkMsg);
         }
     }
-    for(const auto vs: pNetworkMsg->GetMultiTo())
+    for(const auto& vs: pNetworkMsg->GetMultiTo())
     {
         CGameClient* pClient = QueryClient(vs);
         if(pClient && pClient->IsVaild() && pClient->IsAuth())
@@ -391,7 +391,7 @@ void CSocketService::OnProcessMessage(CNetworkMessage* pNetworkMsg)
             pClient->SendSocketMsg(*pNetworkMsg);
         }
     }
-    for(const auto id: pNetworkMsg->GetMultiIDTo())
+    for(const auto& id: pNetworkMsg->GetMultiIDTo())
     {
         CGameClient* pClient = QueryClientByUserID(id);
         if(pClient && pClient->IsVaild() && pClient->IsAuth())

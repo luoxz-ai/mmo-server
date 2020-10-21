@@ -26,21 +26,6 @@ void CActor::FlyTo(const Vector2& pos)
     __LEAVE_FUNCTION
 }
 
-void CActor::ChangePhase(uint64_t idPhaseID)
-{
-    __ENTER_FUNCTION
-
-    if(GetPhaseID() == idPhaseID)
-    {
-        return;
-    }
-    // make sure scene have this phase
-    SceneManager()->CreatePhase(m_pScene->GetSceneIdx(), idPhaseID);
-    CSceneObject::ChangePhase(idPhaseID);
-
-    __LEAVE_FUNCTION
-}
-
 void CActor::OnEnterMap(CSceneBase* pScene)
 {
     CHECK(pScene);
@@ -75,7 +60,7 @@ void CActor::OnLeaveMap(uint16_t idTargetMap)
     __LEAVE_FUNCTION
 }
 
-uint32_t CActor::GetMapID() const
+uint16_t CActor::GetMapID() const
 {
     __ENTER_FUNCTION
     if(m_pScene)

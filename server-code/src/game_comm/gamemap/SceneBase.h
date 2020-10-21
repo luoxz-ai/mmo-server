@@ -24,7 +24,7 @@ public:
     export_lua virtual bool IsStatic() const { return true; }
 
     export_lua OBJID    GetID() const { return m_idxScene; }
-    export_lua uint32_t GetMapID() const;
+    export_lua uint16_t GetMapID() const;
 
     export_lua const SceneIdx& GetSceneIdx() const { return m_idxScene; }
 
@@ -36,6 +36,7 @@ public:
 
     virtual bool      EnterMap(CSceneObject* pActor, float fPosX, float fPosY, float fFace);
     virtual void      LeaveMap(CSceneObject* pActor, uint16_t idTargetMap = 0);
+    void _LeaveMap(CSceneObject* pActor, uint16_t idTargetMap = 0);
     export_lua size_t GetActorCount() const { return m_setActor.size(); }
     export_lua size_t GetPlayerCount() const { return m_setPlayer.size(); }
 
