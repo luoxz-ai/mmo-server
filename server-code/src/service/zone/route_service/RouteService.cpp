@@ -76,7 +76,7 @@ bool CRouteService::Init(const ServerPort& nServerPort)
         }
     }
 
-    if(GetWorldID() == 0)
+    if(GetWorldID() != 0)
     {
         ServerMSG::ServiceReady msg;
         msg.set_serverport(GetServerPort());

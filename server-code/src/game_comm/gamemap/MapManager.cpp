@@ -25,7 +25,6 @@ bool LoadCfg(const std::string& filename, CMapManager* pMapManager)
     std::vector<T> vecCfg;
     if(DataPack::LoadFromBinaryFile(GetCfgFilePath() + filename, vecCfg) == false)
     {
-        LOGERROR("InitFromFile {} Fail", filename);
         return false;
     }
 
