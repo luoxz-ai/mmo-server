@@ -89,6 +89,7 @@ struct MYSQL_FIELD_COPY : public CDBFieldInfo
             }
             break;
             case MYSQL_TYPE_LONG:
+            case MYSQL_TYPE_INT24:
             {
                 if(pField->flags & UNSIGNED_FLAG)
                 {
@@ -112,6 +113,11 @@ struct MYSQL_FIELD_COPY : public CDBFieldInfo
                 }
             }
             break;
+            case MYSQL_TYPE_BIT:
+            {
+                m_field_type = DB_FIELD_TYPE_LONGLONG_UNSIGNED;
+            }
+            break;
             case MYSQL_TYPE_FLOAT:
             {
                 m_field_type = DB_FIELD_TYPE_FLOAT;
@@ -122,6 +128,7 @@ struct MYSQL_FIELD_COPY : public CDBFieldInfo
                 m_field_type = DB_FIELD_TYPE_DOUBLE;
             }
             break;
+            case MYSQL_TYPE_VARCHAR:
             case MYSQL_TYPE_VAR_STRING:
             case MYSQL_TYPE_STRING:
             {
@@ -129,12 +136,16 @@ struct MYSQL_FIELD_COPY : public CDBFieldInfo
             }
             break;
             case MYSQL_TYPE_BLOB:
+            case MYSQL_TYPE_TINY_BLOB:
+            case MYSQL_TYPE_MEDIUM_BLOB:
+            case MYSQL_TYPE_LONG_BLOB:
             {
                 m_field_type = DB_FIELD_TYPE_BLOB;
             }
             break;
             default:
             {
+                m_field_type = DB_FIELD_TYPE_UNSUPPORED;
             }
             break;
         }
@@ -188,9 +199,9 @@ struct DBFieldHelp
     enum
     {
         IDX_FIELD_NAME   = 0,
-        IDX_FIELD_TYPE   = 1,
-        IDX_FIELD_PRIKEY = 2,
-        IDX_FIELD_SQL    = 3,
+        IDX_FIELD_SQL    = 1,
+        IDX_FIELD_TYPE   = 2,
+        IDX_FIELD_PRIKEY = 3,
     };
     static constexpr const char*    GetTableName() { return T::table_name(); }
     static constexpr const char*    GetFieldName() { return std::get<IDX_FIELD_NAME>(std::get<FIELD_IDX>(T::field_info())); }

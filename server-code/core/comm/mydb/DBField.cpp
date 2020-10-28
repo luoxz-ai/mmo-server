@@ -75,8 +75,7 @@ CDBField::CDBField(CDBRecord* pDBRecord, const CDBFieldInfo* pFieldInfo, char* p
         break;
         default:
         {
-            LOGDBERROR("mysql field:{}.{} use unknow type.", m_pFieldInfo->GetTableName(), m_pFieldInfo->GetFieldName());
-            LOGDBERROR("CallStack：{}", GetStackTraceString(CallFrameMap(3, 7)));
+            
         }
         break;
     }
@@ -197,7 +196,13 @@ CMysqlFieldInfoList::CMysqlFieldInfoList(MYSQL_RES* res)
     int32_t nFields = mysql_num_fields(res);
     for(uint32_t i = 0; i < nFields; i++)
     {
-        m_FieldInfos.push_back(std::make_unique<MYSQL_FIELD_COPY>(mysql_fetch_field(res), i));
+        auto pField = mysql_fetch_field(res);
+        if(pField == nullptr)
+        {
+            LOGDBERROR("mysql_fetch_field Error:{}", i);
+            continue;
+        }
+        m_FieldInfos.push_back(std::make_unique<MYSQL_FIELD_COPY>(pField, i));
     }
 }
 

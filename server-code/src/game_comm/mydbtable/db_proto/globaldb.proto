@@ -32,7 +32,7 @@ message tbld_guild
 
     uint64 leader_id    = 4;                      //帮主id
     string leader_name  = 5 [(sql).size = 32];    //帮主名称
-    uint64 creator_id   = 6 [(sql).size = 32];    //创建人ID
+    uint64 creator_id   = 6;                      //创建人ID
     string creator_name = 7 [(sql).size = 32];    //创建人名称
     uint32 create_time  = 8;                      //创帮时间
     uint32 del_time     = 9;                      //删除时间

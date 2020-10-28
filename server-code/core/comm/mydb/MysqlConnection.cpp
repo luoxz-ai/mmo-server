@@ -71,8 +71,8 @@ bool CMysqlConnection::Connect(const std::string& host,
     constexpr bool bReconnect         = true;
     int32_t nError = 0;
     // mysql_options(m_pHandle.get(), MYSQL_SET_CHARSET_NAME, MYSQL_AUTODETECT_CHARSET_NAME);
-    nError |= mysql_options(m_pHandle.get(), MYSQL_SET_CHARSET_NAME, "utf8");
-    nError |= mysql_set_character_set(m_pHandle.get(), "utf8");
+    nError |= mysql_options(m_pHandle.get(), MYSQL_SET_CHARSET_NAME, "utf8mb4");
+    nError |= mysql_set_character_set(m_pHandle.get(), "utf8mb4");
     nError |= mysql_options(m_pHandle.get(), MYSQL_OPT_CONNECT_TIMEOUT, &nConnectTimeOut);
     nError |= mysql_options(m_pHandle.get(), MYSQL_OPT_WRITE_TIMEOUT, &nWriteTimeOut);
     nError |= mysql_options(m_pHandle.get(), MYSQL_OPT_READ_TIMEOUT, &nReadTimeOut);
@@ -128,8 +128,8 @@ bool CMysqlConnection::Connect(const std::string& host,
                 constexpr int32_t nReadTimeOut    = 5;
                 constexpr bool bReconnect         = true;
                 int32_t nError = 0;
-                nError |= mysql_options(m_pAsyncHandle.get(), MYSQL_SET_CHARSET_NAME, "utf8");
-                nError |= mysql_set_character_set(m_pAsyncHandle.get(), "utf8");
+                nError |= mysql_options(m_pAsyncHandle.get(), MYSQL_SET_CHARSET_NAME, "utf8mb4");
+                nError |= mysql_set_character_set(m_pAsyncHandle.get(), "utf8mb4");
                 nError |= mysql_options(m_pAsyncHandle.get(), MYSQL_OPT_CONNECT_TIMEOUT, &nConnectTimeOut);
                 nError |= mysql_options(m_pAsyncHandle.get(), MYSQL_OPT_WRITE_TIMEOUT, &nWriteTimeOut);
                 nError |= mysql_options(m_pAsyncHandle.get(), MYSQL_OPT_READ_TIMEOUT, &nReadTimeOut);
@@ -504,7 +504,7 @@ CMysqlResultPtr CMysqlConnection::UseResult(const std::string& query)
     auto pFieldInfo = QueryFieldInfo(query);
     if(pFieldInfo == nullptr)
         pFieldInfo = CreateFieldInfo(query, result);
-
+    CHECKF(pFieldInfo);
     return std::make_unique<CMysqlResult>(this, std::move(result), pFieldInfo);
     __LEAVE_FUNCTION
     return nullptr;

@@ -22,6 +22,7 @@ TARGET_LINK_LIBRARIES(basecode
 	libfmt.a
 	protobuf
 	${JEMALLOC_LIB_NAME}
+	${LIB_FS}
 	bfd
 	dl
 	pthread

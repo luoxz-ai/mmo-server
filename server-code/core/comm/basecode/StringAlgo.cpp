@@ -14,20 +14,49 @@
 #include "FileUtil.h"
 
 const unsigned char PL_utf8skip[] = {
-    1, 1,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, /** ascii */
-    1, 1,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, /** ascii */
-    1, 1,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, /** ascii */
-    1, 1,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, /** ascii */
-    1, 1,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, /** bogus */
-    1, 1,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, /** bogus */
-    2, 2,  2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, /** scripts */
-    3, 3,  3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6,       /** cjk etc. */
-    7, 13, /** Perl extended (not UTF-8).  Up to 72bit allowed (64-bit + reserved). */
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,     /* ascii */
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,     /* ascii */
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,     /* ascii */
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,     /* ascii */
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,     /* ascii */
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,     /* ascii */
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,     /* ascii */
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,     /* ascii */
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,     /* bogus */
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,     /* bogus */
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,     /* bogus */
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,     /* bogus */
+    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,     /* scripts */
+    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,     /* scripts */
+    3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,     /* cjk etc. */
+    4, 4, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6      /* cjk etc. */
 };
 
-bool UTF8_IS_INVARIANT(unsigned char c)
+bool UTF8_IS_ASCII(unsigned char c)
 {
-    return ((unsigned char)c < 0x80);
+    return c < 0x80;
+}
+
+bool ASCII_IS_CTRL(unsigned char c)
+{
+    return c < 32;
+}
+
+bool UTF8_IS_START(unsigned char c)
+{
+    return c >= 0xc0 && c <= 0xfd;
+}	
+
+
+bool UTF8_IS_CONTINUATION(unsigned char c)
+{
+    return c >= 0x80 && c <= 0xbf;
+}
+
+
+bool UTF8_IS_CONTINUED(unsigned char c)
+{
+    return c & 0x80;
 }
 
 size_t utf8_length(const char* pUTF8, size_t nLen)
@@ -38,10 +67,7 @@ size_t utf8_length(const char* pUTF8, size_t nLen)
     for(size_t i = 0; i < nLen;)
     {
         unsigned char ucUTF8 = *(pUTF8 + i);
-        if(!UTF8_IS_INVARIANT(ucUTF8))
-            i += PL_utf8skip[ucUTF8];
-        else
-            i++;
+        i += PL_utf8skip[ucUTF8];
         nRet++;
     }
     return nRet;
@@ -67,6 +93,13 @@ char* convert_enc(const char* encFrom, const char* encTo, char* pszBuffIn, size_
     return pszBuffout;
 }
 
+/*
+Code Points                    1st Byte   2nd Byte  3rd Byte  4th Byte
+                    0aaaaaaa     0aaaaaaa
+            00000bbbbbaaaaaa     110bbbbb  10aaaaaa
+            ccccbbbbbbaaaaaa     1110cccc  10bbbbbb  10aaaaaa
+  00000dddccccccbbbbbbaaaaaa     11110ddd  10cccccc  10bbbbbb  10aaaaaa
+*/
 bool is_utf8_none_control(const char* pszString, long nSize)
 {
     bool        bIsUTF8 = true;
@@ -75,39 +108,31 @@ bool is_utf8_none_control(const char* pszString, long nSize)
     while(pStart < pEnd)
     {
         unsigned char n = *pStart;
-        if(n < 0x80) //小于0x80的是ASCII字符
+        if(UTF8_IS_ASCII(n)) //小于0x80的是ASCII字符
         {
-            if(n <= 32) //小于32的是控制字符
+            if(ASCII_IS_CTRL(n) ) //小于32的是控制字符
                 return false;
-            pStart++;
+            pStart += 1;
         }
-        else if(n < 0xC0) // 0x80~0xC0 之间的是无效UTF8字符
+        else if(UTF8_IS_START(n) == false) // 0x80~0xC0 之间的是无效UTF8字符
         {
             return false;
-        }
-        else if(n < 0xE0) //此范围内为2字节UTF8
-        {
-            if(pStart >= pEnd - 1)
-                return false; //字符数量不够
-            if((pStart[1] & (0xC0)) != 0x80)
-            {
-                return false;
-            }
-            pStart += 2;
-        }
-        else if(n < 0xF0) //此范围内为3字节UTF8
-        {
-            if(pStart >= pEnd - 2)
-                return false; //字符数量不够
-            if((pStart[1] & (0xC0)) != 0x80 || (pStart[2] & (0xC0)) != 0x80)
-            {
-                return false;
-            }
-            pStart += 3;
         }
         else
         {
-            return false;
+            int len_need = PL_utf8skip[n]; //总字符需求
+            int extent_len = len_need - 1; //额外需要的字符 
+            if(pStart >= pEnd - extent_len)
+                return false; //字符数量不够
+            //取每个字符前两位，必须都是0x80
+            for(int i = 1 ; i < len_need; i++)
+            {
+                if((pStart[i] & (0xC0)) != 0x80)
+                {
+                    return false;
+                }
+            }
+            pStart += len_need;
         }
     }
 

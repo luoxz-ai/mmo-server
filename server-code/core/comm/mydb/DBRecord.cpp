@@ -14,49 +14,66 @@ CDBRecord::CDBRecord(CMysqlConnection* pMysqlConnection, const CDBFieldInfoListP
     , m_bNeedCreateFirst(false)
 {
     __ENTER_FUNCTION
-    //通过row 转换为CMysqlField
-    m_FieldsByIdx.reserve(m_pDBFieldInfo->size());
-    for(size_t i = 0; i < m_pDBFieldInfo->size(); i++)
+    if(CanModify() == false && row == nullptr)
     {
-        auto ref_field_info_ptr = m_pDBFieldInfo->get(i);
+        LOGDBERROR("try to make a unmodify record");
+    }
+    else
+    {
         if(row == nullptr)
         {
             //没有数据的,那就是Make出来的
-            m_bNeedCreateFirst                                 = true;
-            auto pMysqlField                                   = std::make_unique<CDBField>(this, ref_field_info_ptr, nullptr, 0);
-            m_FieldsByName[ref_field_info_ptr->GetFieldName()] = pMysqlField.get();
-            m_FieldsByIdx.push_back(std::move(pMysqlField));
-
-            if(ref_field_info_ptr->IsPriKey())
-            {
-                m_nPriKeyIdx.insert(i);
-                m_TableName = ref_field_info_ptr->GetTableName();
-            }
+            m_bNeedCreateFirst = true;
         }
-        else
-        {
-            //有数据
-            auto pMysqlField                                   = std::make_unique<CDBField>(this, ref_field_info_ptr, row[i], lengths[i]);
-            m_FieldsByName[ref_field_info_ptr->GetFieldName()] = pMysqlField.get();
 
-            if(CanModify())
+        //通过row 转换为CMysqlField
+        m_FieldsByIdx.reserve(m_pDBFieldInfo->size());
+        for(size_t i = 0; i < m_pDBFieldInfo->size(); i++)
+        {
+            auto ref_field_info_ptr = m_pDBFieldInfo->get(i);
+            if(ref_field_info_ptr == nullptr)
             {
+                LOGDBERROR("query field_info from CDBFieldInfoListPtr Error:{}", i);
+                continue;
+            }
+            if(row == nullptr)
+            {
+                auto pMysqlField  = std::make_unique<CDBField>(this, ref_field_info_ptr, nullptr, 0);
+                m_FieldsByName[ref_field_info_ptr->GetFieldName()] = pMysqlField.get();
+                m_FieldsByIdx.push_back(std::move(pMysqlField));
+
                 if(ref_field_info_ptr->IsPriKey())
                 {
                     m_nPriKeyIdx.insert(i);
                     m_TableName = ref_field_info_ptr->GetTableName();
-                    if(m_strPriKeyBuf.empty() == false)
-                        m_strPriKeyBuf += ",";
-
-                    m_strPriKeyBuf += ref_field_info_ptr->GetFieldName();
-                    m_strPriKeyBuf += "=";
-                    m_strPriKeyBuf += pMysqlField->GetValString();
                 }
             }
+            else
+            {
+                //有数据
+                auto pMysqlField = std::make_unique<CDBField>(this, ref_field_info_ptr, row[i], lengths[i]);
+                m_FieldsByName[ref_field_info_ptr->GetFieldName()] = pMysqlField.get();
 
-            m_FieldsByIdx.push_back(std::move(pMysqlField));
+                if(CanModify())
+                {
+                    if(ref_field_info_ptr->IsPriKey())
+                    {
+                        m_nPriKeyIdx.insert(i);
+                        m_TableName = ref_field_info_ptr->GetTableName();
+                        if(m_strPriKeyBuf.empty() == false)
+                            m_strPriKeyBuf += ",";
+
+                        m_strPriKeyBuf += ref_field_info_ptr->GetFieldName();
+                        m_strPriKeyBuf += "=";
+                        m_strPriKeyBuf += pMysqlField->GetValString();
+                    }
+                }
+
+                m_FieldsByIdx.push_back(std::move(pMysqlField));
+            }
         }
     }
+    
     __LEAVE_FUNCTION
 }
 

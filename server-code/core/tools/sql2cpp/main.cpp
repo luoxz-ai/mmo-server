@@ -139,12 +139,58 @@ int main(int argc, char** argv)
 
                     std::string field_name_UP = upper_cast_copy(field_type_data.field_name);
                     fields_enum_list += field_name_UP + ",//" + field_type_data.field_comment + "\n";
-
+                    //  `id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
                     if(std::regex_search(field_type_data.field_type, field_match, std::regex{R"((.*)\((.*)\)(.*))"}))
                     {
                         std::string field_type = field_match[1];
                         std::string field_bits = field_match[2];
                         bool        bUnsigned  = field_match.size() > 2 && lower_cast_copy(trim_copy(field_match[3])) == "unsigned";
+                        std::string field_type_cpp;
+                        std::string field_type_enum;
+                        if(field_type == "float")
+                        {
+                            field_type_cpp  = "float ";
+                            field_type_enum = "DB_FIELD_TYPE_FLOAT";
+                        }
+                        else if(field_type == "double")
+                        {
+                            field_type_cpp  = "double ";
+                            field_type_enum = "DB_FIELD_TYPE_DOUBLE";
+                        }
+                        else if(field_type == "varchar")
+                        {
+                            if(field_bits.empty())
+                            {
+                                field_type_cpp  = "std::string ";
+                                field_type_enum = "DB_FIELD_TYPE_VARCHAR";
+                            }
+                            else
+                            {
+                                field_type_cpp  = "char[" + field_bits + "] ";
+                                field_type_enum = "DB_FIELD_TYPE_VARCHAR";
+                            }
+                        }
+                        else if(field_type == "blob")
+                        {
+                            field_type_cpp  = "std::string ";
+                            field_type_enum = "DB_FIELD_TYPE_BLOB";
+                        }
+
+                        field_type_cpp_list.push_back(field_type_cpp);
+                        field_tuple += ",\"" + vec_match_field_sql[i] + "\"";
+                        field_tuple += "," + field_type_enum;
+
+                        if(PriKeys.find(field_type_data.field_name) != PriKeys.end())
+                            field_tuple += ",true";
+                        else
+                            field_tuple += ",false";
+
+                        
+                    }
+                    else if(std::regex_search(field_type_data.field_type, field_match, std::regex{R"((.*) (.*))"}))
+                    {
+                        std::string field_type = field_match[1];
+                        bool        bUnsigned  = field_match.size() > 1 && lower_cast_copy(trim_copy(field_match[2])) == "unsigned";
                         std::string field_type_cpp;
                         std::string field_type_enum;
                         if(field_type == "bigint")
@@ -199,29 +245,6 @@ int main(int argc, char** argv)
                                 field_type_enum = "DB_FIELD_TYPE_TINY";
                             }
                         }
-                        else if(field_type == "float")
-                        {
-                            field_type_cpp  = "float ";
-                            field_type_enum = "DB_FIELD_TYPE_FLOAT";
-                        }
-                        else if(field_type == "double")
-                        {
-                            field_type_cpp  = "double ";
-                            field_type_enum = "DB_FIELD_TYPE_DOUBLE";
-                        }
-                        else if(field_type == "varchar")
-                        {
-                            if(field_bits.empty())
-                            {
-                                field_type_cpp  = "std::string ";
-                                field_type_enum = "DB_FIELD_TYPE_VARCHAR";
-                            }
-                            else
-                            {
-                                field_type_cpp  = "char[" + field_bits + "] ";
-                                field_type_enum = "DB_FIELD_TYPE_VARCHAR";
-                            }
-                        }
                         else if(field_type == "blob")
                         {
                             field_type_cpp  = "std::string ";
@@ -229,6 +252,7 @@ int main(int argc, char** argv)
                         }
 
                         field_type_cpp_list.push_back(field_type_cpp);
+                        field_tuple += ",\"" + vec_match_field_sql[i] + "\"";
                         field_tuple += "," + field_type_enum;
 
                         if(PriKeys.find(field_type_data.field_name) != PriKeys.end())
@@ -236,7 +260,7 @@ int main(int argc, char** argv)
                         else
                             field_tuple += ",false";
 
-                        field_tuple += ",\"" + vec_match_field_sql[i] + "\"";
+                        
                     }
                 }
             }

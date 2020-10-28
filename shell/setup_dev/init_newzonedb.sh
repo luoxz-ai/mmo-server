@@ -3,6 +3,10 @@
 cd `dirname $0`
 DIR_file=`pwd`
 
+cd ../..
+root_dir=`pwd`
+cd -
+
 
 env_file=$1
 if [ ! -n "$1" ] ;then  
@@ -32,10 +36,10 @@ insert_serverinfo()
 
 cmd="mkdir -p .cmake_zonedb && \
 cd .cmake_zonedb && \
-cmake /data/mmorpg/server-res/res/db && \
+cmake /data/mmorpg/server-res/res/db -DZONEDB=${ZONE_ID} >> /dev/null && \
 cat zone_init_${ZONE_ID}.sql"
 
-docker exec \
+docker run --rm \
 -e ZONE_ID=${ZONE_ID} \
 -e ZONE_NAME=${ZONE_NAME} \
 -e MYSQL_DOCKER_NAME=${MYSQL_DOCKER_NAME} \
@@ -46,12 +50,14 @@ docker exec \
 -e OUT_PORT_END=${OUT_PORT_END} \
 -e ZONE_MYSQL_URL=${ZONE_MYSQL_URL} \
 -e ZONE_OPEN_TIME=${ZONE_OPEN_TIME} \
- -i mmo-server-build  sh -c "${cmd}" | docker exec -i mysql-global sh -c "exec mysql -v -uroot -p\"${MYSQL_PASSWD}\" serverinfo"
+-v /${root_dir}/server-res:/data/mmorpg/server-res \
+-it mmo-server-base:18.04 sh -c "${cmd}" \
+| docker exec -i mysql-global sh -c "exec mysql --default-character-set=utf8mb4 -v -uroot -p\"${MYSQL_PASSWD}\" serverinfo"
 }
 
 show_serverinfodb()
 {
-    echo "select * from tbld_servicedetail where worldid=${ZONE_ID};" | docker exec -i mysql-global sh -c "exec mysql -uroot -p\"${MYSQL_PASSWD}\" serverinfo"
+    echo "select * from tbld_servicedetail where worldid=${ZONE_ID};" | docker exec -i mysql-global sh -c "exec mysql --default-character-set=utf8mb4 -uroot -p\"${MYSQL_PASSWD}\" serverinfo"
 }
 
 if [ $2 ];

@@ -167,7 +167,6 @@ std::string FieldSize(const google::protobuf::FieldDescriptor* field)
             case FieldDescriptor::TYPE_INT64:
             case FieldDescriptor::TYPE_UINT64:
             case FieldDescriptor::TYPE_SINT64:
-                return "(20)";
             case FieldDescriptor::TYPE_FIXED32:
             case FieldDescriptor::TYPE_SFIXED32:
             case FieldDescriptor::TYPE_INT32:
@@ -175,7 +174,6 @@ std::string FieldSize(const google::protobuf::FieldDescriptor* field)
             case FieldDescriptor::TYPE_SINT32:
             case FieldDescriptor::TYPE_BOOL:
             case FieldDescriptor::TYPE_ENUM:
-                return "(11)";
             default:
                 return "";
         }
@@ -188,7 +186,7 @@ std::string FieldUTF8(google::protobuf::FieldDescriptor::Type type)
 {
     if(type == google::protobuf::FieldDescriptor::TYPE_STRING)
     {
-        return " CHARACTER SET utf8mb4";
+        return " CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci";
     }
     return "";
 }
@@ -385,7 +383,7 @@ void PrintMessage(const google::protobuf::Descriptor& message_descriptor, google
     std::string keys_str = string_concat(key_str_list, ",\n", "", "");
     printer.PrintRaw(keys_str);
 
-    printer.Print("\n) ENGINE=InnoDB DEFAULT CHARSET=latin1;\n\n");
+    printer.Print("\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;\n\n");
 }
 
 bool SQLCodeGenerator::Generate(const google::protobuf::FileDescriptor*       file,
