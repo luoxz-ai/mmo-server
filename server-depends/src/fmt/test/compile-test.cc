@@ -5,19 +5,10 @@
 //
 // For the license information refer to format.h.
 
-#include <stdint.h>
-
-#include <cctype>
-#include <cfloat>
-#include <climits>
-#include <cmath>
-#include <cstring>
-#include <deque>
-#include <list>
-#include <memory>
 #include <string>
+#include <type_traits>
 
-// Check if fmt/compile.h compiles with windows.h included before it.
+// Check that fmt/compile.h compiles with windows.h included before it.
 #ifdef _WIN32
 #  include <windows.h>
 #endif
@@ -25,15 +16,7 @@
 #include "fmt/compile.h"
 #include "gmock.h"
 #include "gtest-extra.h"
-#include "mock-allocator.h"
 #include "util.h"
-
-#undef ERROR
-#undef min
-#undef max
-
-using testing::Return;
-using testing::StrictMock;
 
 // compiletime_prepared_parts_type_provider is useful only with relaxed
 // constexpr.
@@ -149,6 +132,10 @@ TEST(CompileTest, FormatDefault) {
   EXPECT_EQ("foo", fmt::format(FMT_COMPILE("{}"), test_formattable()));
 }
 
+TEST(CompileTest, FormatWideString) {
+  EXPECT_EQ(L"42", fmt::format(FMT_COMPILE(L"{}"), 42));
+}
+
 TEST(CompileTest, FormatSpecs) {
   EXPECT_EQ("42", fmt::format(FMT_COMPILE("{:x}"), 0x42));
 }
@@ -163,6 +150,20 @@ TEST(CompileTest, FormatTo) {
   auto end = fmt::format_to(buf, FMT_COMPILE("{}"), 42);
   *end = '\0';
   EXPECT_STREQ("42", buf);
+  end = fmt::format_to(buf, FMT_COMPILE("{:x}"), 42);
+  *end = '\0';
+  EXPECT_STREQ("2a", buf);
+}
+
+TEST(CompileTest, FormatToNWithCompileMacro) {
+  constexpr auto buffer_size = 8;
+  char buffer[buffer_size];
+  auto res = fmt::format_to_n(buffer, buffer_size, FMT_COMPILE("{}"), 42);
+  *res.out = '\0';
+  EXPECT_STREQ("42", buffer);
+  res = fmt::format_to_n(buffer, buffer_size, FMT_COMPILE("{:x}"), 42);
+  *res.out = '\0';
+  EXPECT_STREQ("2a", buffer);
 }
 
 TEST(CompileTest, TextAndArg) {

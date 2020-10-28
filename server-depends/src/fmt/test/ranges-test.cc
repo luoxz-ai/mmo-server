@@ -54,7 +54,7 @@ TEST(RangesTest, FormatTuple) {
 TEST(RangesTest, JoinTuple) {
   // Value tuple args
   std::tuple<char, int, float> t1 = std::make_tuple('a', 1, 2.0f);
-  EXPECT_EQ("(a, 1, 2.0)", fmt::format("({})", fmt::join(t1, ", ")));
+  EXPECT_EQ("(a, 1, 2)", fmt::format("({})", fmt::join(t1, ", ")));
 
   // Testing lvalue tuple args
   int x = 4;
@@ -67,7 +67,7 @@ TEST(RangesTest, JoinTuple) {
 
   // Single element tuple
   std::tuple<float> t4{4.0f};
-  EXPECT_EQ("4.0", fmt::format("{}", fmt::join(t4, "/")));
+  EXPECT_EQ("4", fmt::format("{}", fmt::join(t4, "/")));
 }
 
 TEST(RangesTest, JoinInitializerList) {
@@ -141,13 +141,16 @@ TEST(RangesTest, FormatStringLike) {
 #endif  // FMT_USE_STRING_VIEW
 
 struct zstring_sentinel {};
+
 bool operator==(const char* p, zstring_sentinel) { return *p == '\0'; }
 bool operator!=(const char* p, zstring_sentinel) { return *p != '\0'; }
+
 struct zstring {
   const char* p;
   const char* begin() const { return p; }
   zstring_sentinel end() const { return {}; }
 };
+
 TEST(RangesTest, JoinSentinel) {
   zstring hello{"hello"};
   EXPECT_EQ("{'h', 'e', 'l', 'l', 'o'}", fmt::format("{}", hello));
@@ -189,3 +192,12 @@ TEST(RangesTest, JoinRange) {
   const std::vector<int> z(3u, 0);
   EXPECT_EQ("0,0,0", fmt::format("{}", fmt::join(z, ",")));
 }
+
+#if !FMT_MSC_VER || FMT_MSC_VER >= 1927
+struct unformattable {};
+
+TEST(RangesTest, UnformattableRange) {
+  EXPECT_FALSE((fmt::has_formatter<std::vector<unformattable>,
+                                   fmt::format_context>::value));
+}
+#endif

@@ -18,7 +18,7 @@
 #include <vector>
 
 // The fmt library version in the form major * 10000 + minor * 100 + patch.
-#define FMT_VERSION 70003
+#define FMT_VERSION 70100
 
 #ifdef __clang__
 #  define FMT_CLANG_VERSION (__clang_major__ * 100 + __clang_minor__)
@@ -57,6 +57,7 @@
 #  define FMT_MSC_VER 0
 #  define FMT_SUPPRESS_MSC_WARNING(n)
 #endif
+
 #ifdef __has_feature
 #  define FMT_HAS_FEATURE(x) __has_feature(x)
 #else
@@ -64,7 +65,7 @@
 #endif
 
 #if defined(__has_include) && !defined(__INTELLISENSE__) && \
-    !(FMT_ICC_VERSION && FMT_ICC_VERSION < 1600)
+    (!FMT_ICC_VERSION || FMT_ICC_VERSION >= 1600)
 #  define FMT_HAS_INCLUDE(x) __has_include(x)
 #else
 #  define FMT_HAS_INCLUDE(x) 0
@@ -177,9 +178,17 @@
 #  endif
 #endif
 
-#ifndef FMT_BEGIN_NAMESPACE
+#ifndef FMT_USE_INLINE_NAMESPACES
 #  if FMT_HAS_FEATURE(cxx_inline_namespaces) || FMT_GCC_VERSION >= 404 || \
-      FMT_MSC_VER >= 1900
+      (FMT_MSC_VER >= 1900 && !_MANAGED)
+#    define FMT_USE_INLINE_NAMESPACES 1
+#  else
+#    define FMT_USE_INLINE_NAMESPACES 0
+#  endif
+#endif
+
+#ifndef FMT_BEGIN_NAMESPACE
+#  if FMT_USE_INLINE_NAMESPACES
 #    define FMT_INLINE_NAMESPACE inline namespace
 #    define FMT_END_NAMESPACE \
       }                       \
@@ -760,7 +769,7 @@ class fixed_buffer_traits {
 
 // A buffer that writes to an output iterator when flushed.
 template <typename OutputIt, typename T, typename Traits = buffer_traits>
-class iterator_buffer : public Traits, public buffer<T> {
+class iterator_buffer final : public Traits, public buffer<T> {
  private:
   OutputIt out_;
   enum { buffer_size = 256 };
@@ -786,7 +795,7 @@ class iterator_buffer : public Traits, public buffer<T> {
   size_t count() const { return Traits::count() + this->size(); }
 };
 
-template <typename T> class iterator_buffer<T*, T> : public buffer<T> {
+template <typename T> class iterator_buffer<T*, T> final : public buffer<T> {
  protected:
   void grow(size_t) final FMT_OVERRIDE {}
 
@@ -801,7 +810,7 @@ template <typename Container>
 class iterator_buffer<std::back_insert_iterator<Container>,
                       enable_if_t<is_contiguous<Container>::value,
                                   typename Container::value_type>>
-    : public buffer<typename Container::value_type> {
+    final : public buffer<typename Container::value_type> {
  private:
   Container& container_;
 
@@ -822,7 +831,7 @@ class iterator_buffer<std::back_insert_iterator<Container>,
 };
 
 // A buffer that counts the number of code units written discarding the output.
-template <typename T = char> class counting_buffer : public buffer<T> {
+template <typename T = char> class counting_buffer final : public buffer<T> {
  private:
   enum { buffer_size = 256 };
   T data_[buffer_size];
@@ -846,11 +855,10 @@ template <typename T = char> class counting_buffer : public buffer<T> {
 template <typename T>
 class buffer_appender : public std::back_insert_iterator<buffer<T>> {
   using base = std::back_insert_iterator<buffer<T>>;
+
  public:
-  explicit buffer_appender(buffer<T>& buf)
-      : base(buf) {}
-  buffer_appender(base it)
-      : base(it) {}
+  explicit buffer_appender(buffer<T>& buf) : base(buf) {}
+  buffer_appender(base it) : base(it) {}
 
   buffer_appender& operator++() {
     base::operator++();
@@ -910,7 +918,8 @@ template <typename Char> struct named_arg_info {
 template <typename T, typename Char, size_t NUM_ARGS, size_t NUM_NAMED_ARGS>
 struct arg_data {
   // args_[0].named_args points to named_args_ to avoid bloating format_args.
-  T args_[1 + (NUM_ARGS != 0 ? NUM_ARGS : 1)];
+  // +1 to workaround a bug in gcc 7.5 that causes duplicated-branches warning.
+  T args_[1 + (NUM_ARGS != 0 ? NUM_ARGS : +1)];
   named_arg_info<Char> named_args_[NUM_NAMED_ARGS];
 
   template <typename... U>
@@ -922,7 +931,8 @@ struct arg_data {
 
 template <typename T, typename Char, size_t NUM_ARGS>
 struct arg_data<T, Char, NUM_ARGS, 0> {
-  T args_[NUM_ARGS != 0 ? NUM_ARGS : 1];
+  // +1 to workaround a bug in gcc 7.5 that causes duplicated-branches warning.
+  T args_[NUM_ARGS != 0 ? NUM_ARGS : +1];
 
   template <typename... U>
   FMT_INLINE arg_data(const U&... init) : args_{init...} {}
@@ -1350,42 +1360,18 @@ namespace detail {
 
 // A workaround for gcc 4.8 to make void_t work in a SFINAE context.
 template <typename... Ts> struct void_t_impl { using type = void; };
-
 template <typename... Ts>
 using void_t = typename detail::void_t_impl<Ts...>::type;
 
-// Detect the iterator category of *any* given type in a SFINAE-friendly way.
-// Unfortunately, older implementations of std::iterator_traits are not safe
-// for use in a SFINAE-context.
-template <typename It, typename Enable = void>
-struct iterator_category : std::false_type {};
+template <typename It, typename T, typename Enable = void>
+struct is_output_iterator : std::false_type {};
 
-template <typename T> struct iterator_category<T*> {
-  using type = std::random_access_iterator_tag;
-};
-
-template <typename It>
-struct iterator_category<It, void_t<typename It::iterator_category>> {
-  using type = typename It::iterator_category;
-};
-
-// Detect if *any* given type models the OutputIterator concept.
-template <typename It> class is_output_iterator {
-  // Check for mutability because all iterator categories derived from
-  // std::input_iterator_tag *may* also meet the requirements of an
-  // OutputIterator, thereby falling into the category of 'mutable iterators'
-  // [iterator.requirements.general] clause 4. The compiler reveals this
-  // property only at the point of *actually dereferencing* the iterator!
-  template <typename U>
-  static decltype(*(std::declval<U>())) test(std::input_iterator_tag);
-  template <typename U> static char& test(std::output_iterator_tag);
-  template <typename U> static const char& test(...);
-
-  using type = decltype(test<It>(typename iterator_category<It>::type{}));
-
- public:
-  enum { value = !std::is_const<remove_reference_t<type>>::value };
-};
+template <typename It, typename T>
+struct is_output_iterator<
+    It, T,
+    void_t<typename std::iterator_traits<It>::iterator_category,
+           decltype(*std::declval<It>() = std::declval<T>())>>
+    : std::true_type {};
 
 template <typename OutputIt>
 struct is_back_insert_iterator : std::false_type {};
@@ -1436,7 +1422,7 @@ template <typename T> int check(unformattable) {
   static_assert(
       formattable<T>(),
       "Cannot format an argument. To make type T formattable provide a "
-      "formatter<T> specialization: https://fmt.dev/dev/api.html#udt");
+      "formatter<T> specialization: https://fmt.dev/latest/api.html#udt");
   return 0;
 }
 template <typename T, typename U> inline const U& check(const U& val) {
@@ -1963,9 +1949,10 @@ std::basic_string<Char> vformat(
 FMT_API std::string vformat(string_view format_str, format_args args);
 
 template <typename Char>
-buffer_appender<Char> vformat_to(
+void vformat_to(
     buffer<Char>& buf, basic_string_view<Char> format_str,
-    basic_format_args<FMT_BUFFER_CONTEXT(type_identity_t<Char>)> args);
+    basic_format_args<FMT_BUFFER_CONTEXT(type_identity_t<Char>)> args,
+    detail::locale_ref loc = {});
 
 template <typename Char, typename Args,
           FMT_ENABLE_IF(!std::is_same<Char, char>::value)>
@@ -1981,7 +1968,7 @@ inline void vprint_mojibake(std::FILE*, string_view, format_args) {}
 // GCC 8 and earlier cannot handle std::back_insert_iterator<Container> with
 // vformat_to<ArgFormatter>(...) overload, so SFINAE on iterator type instead.
 template <typename OutputIt, typename S, typename Char = char_t<S>,
-          FMT_ENABLE_IF(detail::is_output_iterator<OutputIt>::value)>
+          FMT_ENABLE_IF(detail::is_output_iterator<OutputIt, Char>::value)>
 OutputIt vformat_to(
     OutputIt out, const S& format_str,
     basic_format_args<buffer_context<type_identity_t<Char>>> args) {
@@ -2001,10 +1988,11 @@ OutputIt vformat_to(
    fmt::format_to(std::back_inserter(out), "{}", 42);
  \endrst
  */
+// We cannot use FMT_ENABLE_IF because of a bug in gcc 8.3.
 template <typename OutputIt, typename S, typename... Args,
-          FMT_ENABLE_IF(detail::is_output_iterator<OutputIt>::value&&
-                            detail::is_string<S>::value)>
-inline OutputIt format_to(OutputIt out, const S& format_str, Args&&... args) {
+          bool enable = detail::is_output_iterator<OutputIt, char_t<S>>::value>
+inline auto format_to(OutputIt out, const S& format_str, Args&&... args) ->
+    typename std::enable_if<enable, OutputIt>::type {
   const auto& vargs = fmt::make_args_checked<Args...>(format_str, args...);
   return vformat_to(out, to_string_view(format_str), vargs);
 }
@@ -2017,7 +2005,7 @@ template <typename OutputIt> struct format_to_n_result {
 };
 
 template <typename OutputIt, typename Char, typename... Args,
-          FMT_ENABLE_IF(detail::is_output_iterator<OutputIt>::value)>
+          FMT_ENABLE_IF(detail::is_output_iterator<OutputIt, Char>::value)>
 inline format_to_n_result<OutputIt> vformat_to_n(
     OutputIt out, size_t n, basic_string_view<Char> format_str,
     basic_format_args<buffer_context<type_identity_t<Char>>> args) {
@@ -2035,8 +2023,7 @@ inline format_to_n_result<OutputIt> vformat_to_n(
  \endrst
  */
 template <typename OutputIt, typename S, typename... Args,
-          FMT_ENABLE_IF(detail::is_string<S>::value&&
-                            detail::is_output_iterator<OutputIt>::value)>
+          FMT_ENABLE_IF(detail::is_output_iterator<OutputIt, char_t<S>>::value)>
 inline format_to_n_result<OutputIt> format_to_n(OutputIt out, size_t n,
                                                 const S& format_str,
                                                 const Args&... args) {
