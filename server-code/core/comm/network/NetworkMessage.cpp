@@ -3,6 +3,8 @@
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/descriptor.pb.h>
 //#include "proto/options.pb.h"
+#include "Decryptor.h"
+#include "Encryptor.h"
 
 OBJECTHEAP_IMPLEMENTATION(CNetworkMessage, s_Heap);
 
@@ -52,7 +54,7 @@ CNetworkMessage::CNetworkMessage(byte* buf, size_t len, const VirtualSocket& fro
 {
 }
 
-CNetworkMessage::CNetworkMessage(uint16_t usCmd, const proto_msg_t& msg, const VirtualSocket& from /*= 0*/, const VirtualSocket& to /*= 0*/)
+CNetworkMessage::CNetworkMessage(uint16_t msg_cmd, const proto_msg_t& msg, const VirtualSocket& from /*= 0*/, const VirtualSocket& to /*= 0*/)
     : m_nFrom(from)
     , m_nTo(to)
     , m_pBuf(nullptr)
@@ -63,16 +65,16 @@ CNetworkMessage::CNetworkMessage(uint16_t usCmd, const proto_msg_t& msg, const V
     msg.SerializeToArray(GetMsgBody(), nDataSize);
 
     MSG_HEAD* pHead = GetMsgHead();
-    pHead->usSize   = nDataSize + sizeof(MSG_HEAD);
-    pHead->usCmd    = usCmd;
-    // pHead->usCmd =  = msg.GetDescriptor()->options().GetExtension(NetMSG::msgid);
+    pHead->msg_size   = nDataSize + sizeof(MSG_HEAD);
+    pHead->msg_cmd    = msg_cmd;
+    // pHead->msg_cmd =  = msg.GetDescriptor()->options().GetExtension(NetMSG::msgid);
 
     // static auto desp = google::protobuf::DescriptorPool::generated_pool()->FindEnumTypeByName(std::string("MSGID"));
     // auto evd = desp->FindValueByName(msg.GetDescriptor()->full_name());
-    // pHead->usCmd = evd->number();
+    // pHead->msg_cmd = evd->number();
 }
 
-CNetworkMessage::CNetworkMessage(uint16_t usCmd, byte* body, size_t body_len, const VirtualSocket& from /*= 0*/, const VirtualSocket& to /*= 0*/)
+CNetworkMessage::CNetworkMessage(uint16_t msg_cmd, byte* body, size_t body_len, const VirtualSocket& from /*= 0*/, const VirtualSocket& to /*= 0*/)
     : m_nFrom(from)
     , m_nTo(to)
     , m_pBuf(nullptr)
@@ -81,8 +83,8 @@ CNetworkMessage::CNetworkMessage(uint16_t usCmd, byte* body, size_t body_len, co
     AllocBuffer(body_len + sizeof(MSG_HEAD));
     memcpy(GetMsgBody(), body, body_len);
     MSG_HEAD* pHead = GetMsgHead();
-    pHead->usSize   = body_len + sizeof(MSG_HEAD);
-    pHead->usCmd    = usCmd;
+    pHead->msg_size   = body_len + sizeof(MSG_HEAD);
+    pHead->msg_cmd    = msg_cmd;
 }
 
 void CNetworkMessage::CopyRawMessage(const CNetworkMessage& rht)
@@ -197,4 +199,53 @@ void CNetworkMessage::AllocBuffer(size_t len)
     CHECK(m_pBuffer == nullptr);
     m_pBuffer  = std::shared_ptr<byte>(new byte[len], [](byte* p) { delete[] p; });
     m_nBufSize = len;
+}
+
+void CNetworkMessage::DuplicateBuffer()
+{
+    if(m_pBuffer == nullptr)
+    {
+        CopyBuffer();
+    }   
+    else
+    {
+        auto new_buffer  = std::shared_ptr<byte>(new byte[m_nBufSize], [](byte* p) { delete[] p; });
+        memcpy(new_buffer.get(), m_pBuffer.get(), m_nBufSize);
+        m_pBuffer = new_buffer;
+    } 
+}
+
+bool CNetworkMessage::NeedDuplicateWhenEncryptor() const
+{
+    if(IsBroadcast())
+        return true;
+    if(m_nTo.GetSocketIdx() != 0)
+        return m_MultiTo.empty() && m_MultiIDTo.empty();
+    return m_MultiTo.size() + m_MultiIDTo.size() > 1;
+}
+
+void CNetworkMessage::Encryptor(CEncryptor* pEnc)
+{
+    if(pEnc && GetMsgHead()->is_ciper == false)
+    {
+        constexpr size_t sizeof_HEAD = sizeof(MSG_HEAD);
+        size_t buff_len = GetBodySize();
+        byte* plain_buff = GetMsgBody();
+        size_t cipher_len = pEnc->Encryptor(plain_buff, buff_len, plain_buff, buff_len);
+        GetMsgHead()->msg_size = cipher_len + sizeof_HEAD;
+        GetMsgHead()->is_ciper = true;
+    }
+}
+
+void CNetworkMessage::Decryptor(CDecryptor* pDec)
+{
+    if(pDec && GetMsgHead()->is_ciper == true)
+    {
+        constexpr size_t sizeof_HEAD = sizeof(MSG_HEAD);
+        size_t buff_len = GetBodySize();
+        byte* cipher_buff = GetMsgBody();
+        size_t plain_len = pDec->Decryptor(cipher_buff, buff_len, cipher_buff, buff_len);
+        GetMsgHead()->msg_size = plain_len + sizeof_HEAD;
+        GetMsgHead()->is_ciper = false;
+    }
 }

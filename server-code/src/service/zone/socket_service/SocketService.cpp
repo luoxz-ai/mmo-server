@@ -42,7 +42,7 @@ void CGameClient::Interrupt()
 bool CGameClient::SendSocketMsg(const CNetworkMessage& msg)
 {
     CHECKF(m_pService);
-    return m_pService->GetNetworkService()->SendSocketMsgByIdx(m_VirtualSocket.GetSocketIdx(), msg);
+    return m_pService->GetNetworkService()->SendSocketMsgByIdx(m_VirtualSocket.GetSocketIdx(), msg, msg.NeedDuplicateWhenEncryptor());
 }
 
 bool CGameClient::IsVaild() const
@@ -273,14 +273,14 @@ void CSocketService::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
     }
     // recv msg from client
     MSG_HEAD* pHead = (MSG_HEAD*)pBuffer;
-    if(pHead->usCmd < pClient->GetMessageAllowBegin() || pHead->usCmd > pClient->GetMessageAllowEnd())
+    if(pHead->msg_cmd < pClient->GetMessageAllowBegin() || pHead->msg_cmd > pClient->GetMessageAllowEnd())
     {
-        LOGWARNING("RECV ClientMsg:{} not Allow {}.{}", pHead->usCmd, pSocket->GetAddrString().c_str(), pSocket->GetPort());
+        LOGWARNING("RECV ClientMsg:{} not Allow {}.{}", pHead->msg_cmd, pSocket->GetAddrString().c_str(), pSocket->GetPort());
         pSocket->Interrupt(true);
         return;
     }
 
-    switch(pHead->usCmd)
+    switch(pHead->msg_cmd)
     {
         default:
         {
@@ -328,10 +328,9 @@ ON_SERVERMSG(CSocketService, SocketChangeDest)
         ServerPort destport{msg.destport()};
 
         pClient->SetDestServerPort(destport);
-        LOGNETDEBUG("SCK_CHG_DEST {}:{} To Service:{}-{}",
+        LOGNETDEBUG("SCK_CHG_DEST {}:{} To Service:{}",
                     pClient->GetSocketAddr().c_str(),
                     pClient->GetSocketPort(),
-                    destport.GetWorldID(),
                     destport.GetServiceID());
     }
 }
@@ -447,8 +446,7 @@ void CSocketService::OnLogicThreadProc()
         GetMessageRoute()->ForEach([&buf](auto pMessagePort) {
             if(pMessagePort && pMessagePort->GetWriteBufferSize())
             {
-                buf += fmt::format(FMT_STRING("\nMsgPort:{}-{}\tSendBuff:{}"),
-                                   pMessagePort->GetServerPort().GetWorldID(),
+                buf += fmt::format(FMT_STRING("\nMsgPort:{}\tSendBuff:{}"),                                   
                                    pMessagePort->GetServerPort().GetServiceID(),
                                    pMessagePort->GetWriteBufferSize());
             }

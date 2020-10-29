@@ -14,9 +14,10 @@ ADD_LIBRARY(network SHARED ${SRCS})
 
 #指定库输出路径
 SET(LIBRARY_OUTPUT_PATH ${LIBRARIES_CORE})
-ADD_DEPENDENCIES(network basecode myproto)
+ADD_DEPENDENCIES(network basecode myproto crypto_comm)
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(network
+ crypto_comm
  libevent.so
  libevent_core.so
  libevent_pthreads.so

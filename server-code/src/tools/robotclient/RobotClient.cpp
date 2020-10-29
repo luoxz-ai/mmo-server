@@ -62,7 +62,7 @@ void RobotClient::OnAccepted(CNetSocket*) {}
 void RobotClient::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
 {
     MSG_HEAD* pHeader = (MSG_HEAD*)pBuffer;
-    switch(pHeader->usCmd)
+    switch(pHeader->msg_cmd)
     {
         case CMD_INTERRUPT:
         {
@@ -86,19 +86,19 @@ void RobotClient::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
         break;
         default:
         {
-            // m_pManager->GetNetMessageProcess()->Process(pHeader->usCmd, pBuffer + sizeof(MSG_HEAD), len -
+            // m_pManager->GetNetMessageProcess()->Process(pHeader->msg_cmd, pBuffer + sizeof(MSG_HEAD), len -
             // sizeof(MSG_HEAD), VirtualSocket(0, pSocket->GetSocketIdx()), 0, 0);
-            std::string func_name = m_pManager->GetProcessCMD(pHeader->usCmd);
+            std::string func_name = m_pManager->GetProcessCMD(pHeader->msg_cmd);
             if(func_name.empty() == false)
             {
-                LOGDEBUG("process net_msg:{}", pHeader->usCmd);
+                LOGDEBUG("process net_msg:{}", pHeader->msg_cmd);
                 m_pManager->ExecScript<void>(func_name.c_str(), this, pBuffer + sizeof(MSG_HEAD), len - sizeof(MSG_HEAD));
                 // m_pManager->GetScriptManager()->FullGC();
             }
             else
             {
 
-                LOGDEBUG("not find processer net_msg:{}", pHeader->usCmd);
+                LOGDEBUG("not find processer net_msg:{}", pHeader->msg_cmd);
             }
         }
         break;

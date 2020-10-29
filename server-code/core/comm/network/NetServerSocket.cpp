@@ -57,9 +57,9 @@ void CServerSocket::Interrupt(bool bClearEventHandler)
         bufferevent_setcb(m_pBufferevent, nullptr, _OnCheckAllSendOK, _OnSocketEvent, this);
 
         MSG_HEAD msg;
-        msg.usCmd  = COMMON_CMD_INTERRUPT;
-        msg.usSize = sizeof(MSG_HEAD);
-        _SendMsg((byte*)&msg, sizeof(msg), true);
+        msg.msg_cmd  = COMMON_CMD_INTERRUPT;
+        msg.msg_size = sizeof(MSG_HEAD);
+        _SendMsg((byte*)&msg, sizeof(msg));
         SetStatus(NSS_CLOSEING);
     }
     __LEAVE_FUNCTION
@@ -183,7 +183,7 @@ void CServerSocket::OnConnectFailed()
     if(m_pEventHandler)
         m_pEventHandler->OnConnectFailed(this);
 
-    _OnClose(BEV_EVENT_ERROR);
+    _OnClose(BEV_EVENT_TIMEOUT | BEV_EVENT_CONNECTED);
     __LEAVE_FUNCTION
 }
 
@@ -191,7 +191,7 @@ void CServerSocket::OnRecvData(byte* pBuffer, size_t len)
 {
     __ENTER_FUNCTION
     MSG_HEAD* pHeader = (MSG_HEAD*)pBuffer;
-    if(pHeader->usCmd == COMMON_CMD_INTERRUPT)
+    if(pHeader->msg_cmd == COMMON_CMD_INTERRUPT)
     {
         //对端主动断开,不要重连了
         SetReconnectTimes(0);

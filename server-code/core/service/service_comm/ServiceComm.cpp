@@ -359,7 +359,7 @@ bool CServiceCommon::_SendMsgToZonePort(const CNetworkMessage& msg) const
             else
             {
                 m_pMonitorMgr->AddSendInfo(msg.GetCmd(), msg.GetSize());
-                return m_pNetworkService->SendSocketMsgByIdx(msg.GetTo().GetSocketIdx(), msg);
+                return m_pNetworkService->SendSocketMsgByIdx(msg.GetTo().GetSocketIdx(), msg, false);
             }
         }
 

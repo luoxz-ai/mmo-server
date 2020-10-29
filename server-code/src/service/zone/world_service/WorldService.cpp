@@ -112,7 +112,7 @@ bool CWorldService::Init(const ServerPort& nServerPort)
 
     auto pGlobalDB = ConnectGlobalDB(GetMessageRoute()->GetServerInfoDB());
     CHECKF(pGlobalDB.get());
-    CHECKF(MysqlTableCheck::CheckAllTableAndFix<GLOBALDB_TABLE_LIST>(pGlobalDB.get()));
+    CHECKF(MysqlTableCheck::CheckAllTable<GLOBALDB_TABLE_LIST>(pGlobalDB.get()));
 
     //通过globaldb查询localdb
     _ConnectGameDB(GetWorldID(), GetMessageRoute()->GetServerInfoDB());
@@ -360,8 +360,7 @@ void CWorldService::OnLogicThreadProc()
             auto pMessagePort = GetMessageRoute()->QueryMessagePort(serverport, false);
             if(pMessagePort && pMessagePort->GetWriteBufferSize() > 0)
             {
-                buf += fmt::format(FMT_STRING("\nMsgPort:{}-{}\tSendBuff:{}"),
-                                   pMessagePort->GetServerPort().GetWorldID(),
+                buf += fmt::format(FMT_STRING("\nMsgPort:{}\tSendBuff:{}"),                                   
                                    pMessagePort->GetServerPort().GetServiceID(),
                                    pMessagePort->GetWriteBufferSize());
             }

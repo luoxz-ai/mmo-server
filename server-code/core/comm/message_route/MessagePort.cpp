@@ -57,14 +57,13 @@ void CMessagePort::OnConnected(CNetSocket* pSocket)
 {
     __ENTER_FUNCTION
     MSG_HEAD msg;
-    msg.usCmd  = COMMON_CMD_PING;
-    msg.usSize = sizeof(MSG_HEAD);
+    msg.msg_cmd  = COMMON_CMD_PING;
+    msg.msg_size = sizeof(MSG_HEAD);
     pSocket->_SendMsg((byte*)&msg, sizeof(msg));
     //服务器间通信扩充recv缓冲区大小
     pSocket->SetPacketSizeMax(_MAX_MSGSIZE * 10);
-    LOGNETDEBUG("MessagePort:{}-{} OnConnected {}:{}",
-                GetServerPort().GetServiceID().GetServiceType(),
-                GetServerPort().GetServiceID().GetServiceIdx(),
+    LOGNETDEBUG("MessagePort:{} OnConnected {}:{}",
+                GetServerPort().GetServiceID(),
                 pSocket->GetAddrString().c_str(),
                 pSocket->GetPort());
     if(auto pHandler = m_pPortEventHandler.load())
@@ -77,9 +76,8 @@ void CMessagePort::OnConnected(CNetSocket* pSocket)
 void CMessagePort::OnConnectFailed(CNetSocket* pSocket)
 {
     __ENTER_FUNCTION
-    LOGNETINFO("MessagePort:{}-{} OnConnectFailed {}:{}",
-               GetServerPort().GetServiceID().GetServiceType(),
-               GetServerPort().GetServiceID().GetServiceIdx(),
+    LOGNETINFO("MessagePort:{} OnConnectFailed {}:{}",
+               GetServerPort().GetServiceID(),
                pSocket->GetAddrString().c_str(),
                pSocket->GetPort());
     if(auto pHandler = m_pPortEventHandler.load())
@@ -92,9 +90,8 @@ void CMessagePort::OnConnectFailed(CNetSocket* pSocket)
 void CMessagePort::OnDisconnected(CNetSocket* pSocket)
 {
     __ENTER_FUNCTION
-    LOGNETINFO("MessagePort:{}-{} OnDisconnected {}:{}",
-               GetServerPort().GetServiceID().GetServiceType(),
-               GetServerPort().GetServiceID().GetServiceIdx(),
+    LOGNETINFO("MessagePort:{} OnDisconnected {}:{}",
+               GetServerPort().GetServiceID(),
                pSocket->GetAddrString().c_str(),
                pSocket->GetPort());
     if(auto pHandler = m_pPortEventHandler.load())
@@ -107,9 +104,8 @@ void CMessagePort::OnDisconnected(CNetSocket* pSocket)
 void CMessagePort::OnAccepted(CNetSocket* pSocket)
 {
     __ENTER_FUNCTION
-    LOGNETDEBUG("MessagePort:{}-{} OnAccpet {}:{}",
-                GetServerPort().GetServiceID().GetServiceType(),
-                GetServerPort().GetServiceID().GetServiceIdx(),
+    LOGNETDEBUG("MessagePort:{} OnAccpet {}:{}",
+                GetServerPort().GetServiceID(),
                 pSocket->GetAddrString().c_str(),
                 pSocket->GetPort());
     //服务器间通信扩充recv缓冲区大小
@@ -148,11 +144,10 @@ void CMessagePort::OnRecvData(CNetSocket* pSocket, byte* pBuffer, size_t len)
     size_t      data_len = len - sizeof(MSG_HEAD);
     if(internal_msg.ParseFromArray(pData, static_cast<int>(data_len)) == false)
     {
-        LOGNETERROR("MessagePort:{}-{} Recv a unknow cmd:{} size:{}",
-                    GetServerPort().GetServiceID().GetServiceType(),
-                    GetServerPort().GetServiceID().GetServiceIdx(),
-                    pHead->usCmd,
-                    pHead->usSize);
+        LOGNETERROR("MessagePort:{} Recv a unknow cmd:{} size:{}",
+                    GetServerPort().GetServiceID(),
+                    pHead->msg_cmd,
+                    pHead->msg_size);
         return;
     }
 

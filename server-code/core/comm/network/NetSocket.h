@@ -7,7 +7,7 @@
 
 #include <time.h>
 
-#include "BytePerSecondCount.h"
+#include "PerSecondCount.h"
 #include "Decryptor.h"
 #include "Encryptor.h"
 #include "EventEntry.h"
@@ -42,8 +42,8 @@ public:
     virtual void Interrupt(bool bClearEventHandler) = 0;
     virtual bool CreateByListener() const { return true; }
 
-    bool SendNetworkMessage(CNetworkMessage&& msg, bool bFlush = true);
-    bool SendNetworkMessage(const CNetworkMessage& msg, bool bFlush = true);
+    bool SendNetworkMessage(CNetworkMessage&& msg);
+    bool SendNetworkMessage(const CNetworkMessage& msg , bool bNeedDuplicate = true);
     void InitDecryptor(uint32_t seed)
     {
         m_pDecryptor = std::make_unique<CDecryptor>();
@@ -101,7 +101,7 @@ public:
     void set_sock_nodely();
     void set_sock_quickack();
 
-    bool _SendMsg(byte* pBuffer, size_t len, bool bFlush = true);
+    bool _SendMsg(byte* pBuffer, size_t len);
 
 public:
     OBJECTHEAP_DECLARATION(s_Heap);
@@ -109,11 +109,10 @@ public:
 protected:
     struct SendMsgData
     {
-        SendMsgData(CNetworkMessage&& msg, bool _bFlush);
-        SendMsgData(const CNetworkMessage& msg, bool _bFlush);
+        SendMsgData(CNetworkMessage&& msg);
+        SendMsgData(const CNetworkMessage& msg);
 
         CNetworkMessage send_msg;
-        bool            bFlush;
     };
 
     void _SendAllMsg();

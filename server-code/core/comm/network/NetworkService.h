@@ -12,7 +12,7 @@
 #include <vector>
 
 #include "BaseCode.h"
-#include "BytePerSecondCount.h"
+#include "PerSecondCount.h"
 #include "LockfreeQueue.h"
 #include "NetworkDefine.h"
 #include "NetworkMessage.h"
@@ -104,15 +104,15 @@ public:
     // socket广播消息
     void BrocastMsg(const CNetworkMessage& msg, SOCKET execpt_this);
     //直接发送Socket消息
-    bool SendSocketMsg(SOCKET _socket, const CNetworkMessage& msg);
-    bool SendSocketMsgByIdx(SocketIdx_t nSocketIdx, const CNetworkMessage& msg);
+    bool SendSocketMsg(SOCKET _socket, const CNetworkMessage& msg, bool bNeedDuplicate);
+    bool SendSocketMsgByIdx(SocketIdx_t nSocketIdx, const CNetworkMessage& msg, bool bNeedDuplicate);
     //主动关闭一个连接
     bool KickSocket(SOCKET _socket);
 
     void                AddRecvByteCount(size_t len);
     void                AddSendByteCount(size_t len);
-    BytePerSecondCount& GetRecvBPS() { return m_RecvBPS; }
-    BytePerSecondCount& GetSendBPS() { return m_SendBPS; }
+    PerSecondCount& GetRecvBPS() { return m_RecvBPS; }
+    PerSecondCount& GetSendBPS() { return m_SendBPS; }
 
 public:
     void _AddSocket(CNetSocket* pSocket);
@@ -147,8 +147,8 @@ protected:
     struct event*                m_pIOTimeOutEvent                 = nullptr;
     struct event*                m_pCloseSocketEvent               = nullptr;
     std::atomic<bool>            m_bWaitingProcessCloseSocketEvent = false;
-    BytePerSecondCount           m_RecvBPS;
-    BytePerSecondCount           m_SendBPS;
+    PerSecondCount           m_RecvBPS;
+    PerSecondCount           m_SendBPS;
 
     std::atomic<bool>   m_bStop = false;
     std::vector<event*> m_setEvTimed;

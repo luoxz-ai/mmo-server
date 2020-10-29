@@ -23,19 +23,23 @@ public:
     CNetworkMessage(CNetworkMessage&& rht)noexcept;
     export_lua CNetworkMessage(const CNetworkMessage& rht);
     export_lua CNetworkMessage(byte* buf, size_t len, const VirtualSocket& from = 0, const VirtualSocket& to = 0);
-    export_lua CNetworkMessage(uint16_t usCmd, byte* body, size_t body_len, const VirtualSocket& from = 0, const VirtualSocket& to = 0);
-    export_lua CNetworkMessage(uint16_t usCmd, const proto_msg_t& msg, const VirtualSocket& from = 0, const VirtualSocket& to = 0);
+    export_lua CNetworkMessage(uint16_t msg_cmd, byte* body, size_t body_len, const VirtualSocket& from = 0, const VirtualSocket& to = 0);
+    export_lua CNetworkMessage(uint16_t msg_cmd, const proto_msg_t& msg, const VirtualSocket& from = 0, const VirtualSocket& to = 0);
 
     export_lua void CopyRawMessage(const CNetworkMessage& rht);
 
-    export_lua uint16_t GetSize() const { return GetMsgHead()->usSize; }
-    export_lua uint16_t GetCmd() const { return GetMsgHead()->usCmd; }
+    export_lua uint16_t GetSize() const { return GetMsgHead()->msg_size; }
+    export_lua uint16_t GetCmd() const { return GetMsgHead()->msg_cmd; }
     export_lua uint16_t GetBodySize() const { return GetSize() - sizeof(MSG_HEAD); }
     export_lua byte* GetBuf() const;
     export_lua MSG_HEAD* GetMsgHead() { return (MSG_HEAD*)GetBuf(); }
     export_lua const MSG_HEAD* GetMsgHead() const { return (const MSG_HEAD*)GetBuf(); }
     export_lua byte* GetMsgBody() { return GetBuf() + sizeof(MSG_HEAD); }
     export_lua const byte* GetMsgBody() const { return GetBuf() + sizeof(MSG_HEAD); }
+
+
+    void Decryptor(class CDecryptor* pDec);
+    void Encryptor(class CEncryptor* pEnc);
 
     export_lua const VirtualSocket& GetFrom() const { return m_nFrom; }
     export_lua void          SetFrom(const VirtualSocket& val) { m_nFrom = val; }
@@ -82,6 +86,8 @@ public:
     export_lua void          ClearBroadcast() { m_nBroadCastType = BROADCAST_NONE; }
 
     export_lua void CopyBuffer();
+    void DuplicateBuffer();
+    bool NeedDuplicateWhenEncryptor() const;
 
 private:
     void AllocBuffer(size_t len);

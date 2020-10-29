@@ -1,5 +1,5 @@
-#ifndef BytePerSecondCount_h__
-#define BytePerSecondCount_h__
+#ifndef PerSecondCount_h__
+#define PerSecondCount_h__
 
 #include <atomic>
 #include <chrono>
@@ -8,10 +8,10 @@
 
 #include <time.h>
 
-class BytePerSecondCount
+class PerSecondCount
 {
 public:
-    BytePerSecondCount() {}
+    PerSecondCount() {}
 
     size_t GetTotal() { return m_nTotal; }
     float  GetAvgBPS()
@@ -52,4 +52,4 @@ private:
     std::deque<float>                              m_BPSData;
 };
 
-#endif // BytePerSecondCount_h__
+#endif // PerSecondCount_h__

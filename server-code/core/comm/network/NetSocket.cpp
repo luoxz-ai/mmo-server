@@ -27,7 +27,7 @@ CNetSocket::CNetSocket(CNetworkService* pService, CNetEventHandler* pEventHandle
     , m_nSocketIdx(0xFFFF)
     , m_pDecryptor(nullptr)
     , m_pEncryptor(nullptr)
-    , m_nPacketSizeMax(_MAX_MSGSIZE * 2)
+    , m_nPacketSizeMax(_MAX_MSGSIZE)
     , m_socket(INVALID_SOCKET)
     , m_ReadBuff{std::make_unique<byte[]>(m_nPacketSizeMax)}
 {
@@ -60,25 +60,23 @@ CNetSocket::~CNetSocket()
     __LEAVE_FUNCTION
 }
 
-CNetSocket::SendMsgData::SendMsgData(CNetworkMessage&& msg, bool _bFlush)
+CNetSocket::SendMsgData::SendMsgData(CNetworkMessage&& msg)
     : send_msg(std::move(msg))
-    , bFlush(_bFlush)
 {
     send_msg.CopyBuffer();
 }
 
-CNetSocket::SendMsgData::SendMsgData(const CNetworkMessage& msg, bool _bFlush)
+CNetSocket::SendMsgData::SendMsgData(const CNetworkMessage& msg)
     : send_msg(msg)
-    , bFlush(_bFlush)
 {
     send_msg.CopyBuffer();
 }
 
-bool CNetSocket::SendNetworkMessage(CNetworkMessage&& msg, bool bFlush)
+bool CNetSocket::SendNetworkMessage(CNetworkMessage&& msg)
 {
     __ENTER_FUNCTION
-
-    SendMsgData* pData = new SendMsgData{std::move(msg), bFlush};
+    CHECKF(msg.GetSize() < GetPacketSizeMax());
+    SendMsgData* pData = new SendMsgData{std::move(msg)};
     m_SendMsgQueue.push(pData);
     PostSend();
     return true;
@@ -86,11 +84,17 @@ bool CNetSocket::SendNetworkMessage(CNetworkMessage&& msg, bool bFlush)
     return false;
 }
 
-bool CNetSocket::SendNetworkMessage(const CNetworkMessage& msg, bool bFlush)
+bool CNetSocket::SendNetworkMessage(const CNetworkMessage& msg, bool bNeedDuplicate)
 {
     __ENTER_FUNCTION
-
-    SendMsgData* pData = new SendMsgData{msg, bFlush};
+    CHECKF(msg.GetSize() < GetPacketSizeMax());
+    CNetworkMessage send_msg;
+    send_msg.CopyRawMessage(msg);
+    if(m_pEncryptor && bNeedDuplicate)
+    {
+        send_msg.DuplicateBuffer();
+    }
+    SendMsgData* pData = new SendMsgData{std::move(send_msg)};
     m_SendMsgQueue.push(pData);
     PostSend();
     return true;
@@ -117,25 +121,23 @@ void CNetSocket::_SendAllMsg()
     while(m_SendMsgQueue.get(pData))
     {
         __ENTER_FUNCTION
-        _SendMsg(pData->send_msg.GetBuf(), pData->send_msg.GetSize(), pData->bFlush);
+
+        if(m_pEncryptor)
+        {
+            pData->send_msg.Encryptor(m_pEncryptor.get());
+        }
+        _SendMsg(pData->send_msg.GetBuf(), pData->send_msg.GetSize());
         SAFE_DELETE(pData);
         __LEAVE_FUNCTION
     }
 }
 
-bool CNetSocket::_SendMsg(byte* pBuffer, size_t len, bool bFlush)
+bool CNetSocket::_SendMsg(byte* pBuffer, size_t len)
 {
     __ENTER_FUNCTION
 
     if(m_pBufferevent == nullptr)
         return false;
-
-    if(m_pEncryptor)
-    {
-        constexpr size_t sizeof_HEAD = sizeof(MSG_HEAD);
-
-        m_pEncryptor->Encryptor(pBuffer + sizeof_HEAD, len - sizeof_HEAD, pBuffer + sizeof_HEAD, len - sizeof_HEAD);
-    }
 
     if(GetStatus() == NSS_CONNECTING || GetStatus() == NSS_WAIT_RECONNECT)
     {
@@ -148,6 +150,7 @@ bool CNetSocket::_SendMsg(byte* pBuffer, size_t len, bool bFlush)
     {
         m_pService->AddSendByteCount(len);
         bufferevent_write(m_pBufferevent, pBuffer, len);
+        static constexpr bool bFlush = false;
         if(bFlush)
             bufferevent_flush(m_pBufferevent, EV_WRITE, BEV_FLUSH);
         size_t nNeedWrite = evbuffer_get_length(bufferevent_get_output(m_pBufferevent));
@@ -200,11 +203,11 @@ void CNetSocket::_OnReceive(bufferevent* b)
             return;
 
         MSG_HEAD* pHeader = (MSG_HEAD*)evbuffer_pullup(input, sizeof(MSG_HEAD));
-        if(pHeader->usSize < sizeof(MSG_HEAD) || pHeader->usSize > GetPacketSizeMax())
+        if(pHeader->msg_size < sizeof(MSG_HEAD) || pHeader->msg_size > GetPacketSizeMax())
         {
-            LOGNETDEBUG("CNetSocket _OnReceive Msg:{} size:{} > MaxSize:{}, LastProcessCMD:{}",
-                        pHeader->usCmd,
-                        pHeader->usSize,
+            LOGNETERROR("CNetSocket _OnReceive Msg:{} size:{} > MaxSize:{}, LastProcessCMD:{}",
+                        pHeader->msg_cmd,
+                        pHeader->msg_size,
                         GetPacketSizeMax(),
                         m_nLastProcessMsgCMD);
             std::string data;
@@ -214,25 +217,33 @@ void CNetSocket::_OnReceive(bufferevent* b)
                 data += fmt::format(FMT_STRING("{0:x} "), v);
             }
             LOGNETDEBUG("{}", data.c_str());
-            _OnClose(0);
+            _OnClose(BEV_EVENT_READING);
             return;
         }
-        if(nSize < pHeader->usSize)
+        if(nSize < pHeader->msg_size)
             return;
         byte* pReadBuf = m_ReadBuff.get();
-        evbuffer_remove(input, pReadBuf, pHeader->usSize);
+        evbuffer_remove(input, pReadBuf, pHeader->msg_size);
         pHeader = (MSG_HEAD*)pReadBuf;
 
         if(m_pDecryptor)
         {
+            if(pHeader->is_ciper == false)
+            {
+                LOGNETERROR("CNetSocket _OnReceive Msg:{} size:{} need decryptor, but msg is not chiper",
+                        pHeader->msg_cmd,
+                        pHeader->msg_size);
+                _OnClose(BEV_EVENT_READING);
+                return;
+            }
             byte*  pBody    = pReadBuf + sizeof(MSG_HEAD);
-            size_t nBodyLen = pHeader->usSize - sizeof(MSG_HEAD);
+            size_t nBodyLen = pHeader->msg_size - sizeof(MSG_HEAD);
             m_pDecryptor->Decryptor(pBody, nBodyLen, pBody, nBodyLen);
         }
 
-        m_nLastProcessMsgCMD = pHeader->usCmd;
-        m_nLastCMDSize       = pHeader->usSize;
-        OnRecvData(pReadBuf, pHeader->usSize);
+        m_nLastProcessMsgCMD = pHeader->msg_cmd;
+        m_nLastCMDSize       = pHeader->msg_size;
+        OnRecvData(pReadBuf, pHeader->msg_size);
     }
     __LEAVE_FUNCTION
 }
@@ -279,8 +290,8 @@ void CNetSocket::_OnSocketEvent(bufferevent* b, short what, void* ctx)
         if(what & BEV_EVENT_READING)
         {
             MSG_HEAD msg;
-            msg.usCmd  = COMMON_CMD_PING;
-            msg.usSize = sizeof(MSG_HEAD);
+            msg.msg_cmd  = COMMON_CMD_PING;
+            msg.msg_size = sizeof(MSG_HEAD);
             pSocket->_SendMsg((byte*)&msg, sizeof(msg));
             bufferevent_enable(b, EV_READ);
         }
@@ -371,7 +382,7 @@ void CNetSocket::OnRecvData(byte* pBuffer, size_t len)
     m_pService->AddRecvByteCount(len);
 
     MSG_HEAD* pHeader = (MSG_HEAD*)pBuffer;
-    switch(pHeader->usCmd)
+    switch(pHeader->msg_cmd)
     {
         case COMMON_CMD_INTERRUPT:
         {
@@ -384,8 +395,8 @@ void CNetSocket::OnRecvData(byte* pBuffer, size_t len)
         case COMMON_CMD_PING:
         {
             MSG_HEAD msg;
-            msg.usCmd  = COMMON_CMD_PONG;
-            msg.usSize = sizeof(MSG_HEAD);
+            msg.msg_cmd  = COMMON_CMD_PONG;
+            msg.msg_size = sizeof(MSG_HEAD);
             _SendMsg((byte*)&msg, sizeof(msg));
             // LOGNETDEBUG("MSG_PING_RECV:{}:{}", GetAddrString().c_str(), GetPort());
             return;

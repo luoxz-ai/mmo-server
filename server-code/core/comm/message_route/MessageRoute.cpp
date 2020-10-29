@@ -124,7 +124,7 @@ bool CMessageRoute::ConnectServerInfoDB(const std::string& mysql_url)
     {
         return false;
     }
-    CHECKF(MysqlTableCheck::CheckAllTableAndFix<SERVERINFODB_TABLE_LIST>(pDB.get()));
+    CHECKF(MysqlTableCheck::CheckAllTable<SERVERINFODB_TABLE_LIST>(pDB.get()));
     m_pServerInfoDB.reset(pDB.release());
     ReloadServiceInfo(TimeGetSecond(), 0);
     return true;

@@ -51,9 +51,9 @@ void CClientSocket::Interrupt(bool bClearEventHandler)
         bufferevent_setcb(m_pBufferevent, nullptr, _OnCheckAllSendOK, _OnSocketEvent, this);
 
         MSG_HEAD msg;
-        msg.usCmd  = COMMON_CMD_INTERRUPT;
-        msg.usSize = sizeof(MSG_HEAD);
-        _SendMsg((byte*)&msg, sizeof(msg), true);
+        msg.msg_cmd  = COMMON_CMD_INTERRUPT;
+        msg.msg_size = sizeof(MSG_HEAD);
+        _SendMsg((byte*)&msg, sizeof(msg));
         SetStatus(NSS_CLOSEING);
     }
     __LEAVE_FUNCTION

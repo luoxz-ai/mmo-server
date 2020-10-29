@@ -85,7 +85,7 @@ struct fmt::formatter<ServiceID> : public fmt::formatter<ServiceID_Data_t>
     auto format(const ServiceID& serviceid, FormatContext& ctx)
     {
         // ctx.out() is an output iterator to write to.
-        return fmt::format_to(ctx.out(), "({}:{})", serviceid.GetServiceType(), serviceid.GetServiceIdx());
+        return fmt::format_to(ctx.out(), "({}-{})", serviceid.GetServiceType(), serviceid.GetServiceIdx());
     }
 };
 
@@ -169,7 +169,7 @@ struct fmt::formatter<ServerPort> : public fmt::formatter<ServerPort_Data_t>
     auto format(const ServerPort& port, FormatContext& ctx)
     {
         // ctx.out() is an output iterator to write to.
-        return fmt::format_to(ctx.out(), "({}:{}:{})", port.GetWorldID(), port.GetServiceType(), port.GetServiceIdx());
+        return fmt::format_to(ctx.out(), "({}-{}-{})", port.GetWorldID(), port.GetServiceType(), port.GetServiceIdx());
     }
 };
 
@@ -257,7 +257,7 @@ struct fmt::formatter<VirtualSocket> : public fmt::formatter<VirtualSocket_Data_
     auto format(const VirtualSocket& vs, FormatContext& ctx)
     {
         // ctx.out() is an output iterator to write to.
-        return fmt::format_to(ctx.out(), "({}:{}:{}:{})", vs.GetWorldID(), vs.GetServiceType(), vs.GetServiceIdx(), vs.GetSocketIdx());
+        return fmt::format_to(ctx.out(), "({}-{}-{}-{})", vs.GetWorldID(), vs.GetServiceType(), vs.GetServiceIdx(), vs.GetSocketIdx());
     }
 };
 
@@ -308,16 +308,18 @@ enum MSGTYPE_INTERNAL
 
 struct MSG_HEAD
 {
-    uint16_t usSize = 0;
-    uint16_t usCmd  = 0;
+    uint32_t msg_size = 0;
+    uint16_t msg_cmd  = 0;
+    uint8_t  is_ciper = 0;
+    uint8_t  reserved = 0;
 };
 
 struct MSG_PING : public MSG_HEAD
 {
     MSG_PING()
     {
-        usCmd  = COMMON_CMD_PING;
-        usSize = sizeof(MSG_PING);
+        msg_cmd  = COMMON_CMD_PING;
+        msg_size = sizeof(MSG_PING);
     }
 };
 
@@ -325,8 +327,8 @@ struct MSG_PONG : public MSG_HEAD
 {
     MSG_PONG()
     {
-        usCmd  = COMMON_CMD_PONG;
-        usSize = sizeof(MSG_PONG);
+        msg_cmd  = COMMON_CMD_PONG;
+        msg_size = sizeof(MSG_PONG);
     }
 };
 

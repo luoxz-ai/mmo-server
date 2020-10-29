@@ -676,7 +676,7 @@ void CNetworkService::BrocastMsg(const CNetworkMessage& msg, SOCKET execpt_this)
         if(execpt_this != 0 && it->first == execpt_this)
             continue;
 
-        it->second->SendNetworkMessage(msg);
+        it->second->SendNetworkMessage(msg, true);
     }
     __LEAVE_FUNCTION
 }
@@ -709,20 +709,20 @@ bool CNetworkService::KickSocket(SOCKET _socket)
     return false;
 }
 
-bool CNetworkService::SendSocketMsg(SOCKET _socket, const CNetworkMessage& msg)
+bool CNetworkService::SendSocketMsg(SOCKET _socket, const CNetworkMessage& msg, bool bNeedDuplicate)
 {
     __ENTER_FUNCTION
     std::lock_guard<std::mutex> lock(m_mutex);
     auto                        it = m_setSocket.find(_socket);
     if(it != m_setSocket.end())
     {
-        return it->second->SendNetworkMessage(msg);
+        return it->second->SendNetworkMessage(msg, bNeedDuplicate);
     }
     __LEAVE_FUNCTION
     return false;
 }
 
-bool CNetworkService::SendSocketMsgByIdx(SocketIdx_t nSocketIdx, const CNetworkMessage& msg)
+bool CNetworkService::SendSocketMsgByIdx(SocketIdx_t nSocketIdx, const CNetworkMessage& msg, bool bNeedDuplicate)
 {
     __ENTER_FUNCTION
     std::lock_guard<std::mutex> lock(m_mutex);
@@ -730,7 +730,7 @@ bool CNetworkService::SendSocketMsgByIdx(SocketIdx_t nSocketIdx, const CNetworkM
     auto pSocket = m_setSocketByIdx[nSocketIdx];
     if(pSocket)
     {
-        return pSocket->SendNetworkMessage(msg);
+        return pSocket->SendNetworkMessage(msg, bNeedDuplicate);
     }
     __LEAVE_FUNCTION
     return false;

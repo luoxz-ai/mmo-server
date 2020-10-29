@@ -1,8 +1,8 @@
 #ifndef DECRYPTOR_H
 #define DECRYPTOR_H
 
-#include "BaseCode.h"
-
+#include <memory>
+#include "BaseType.h"
 class CDecryptorImpl;
 class CDecryptor
 {
@@ -11,7 +11,7 @@ public:
     ~CDecryptor();
 
     void Init(uint32_t key);
-    void Decryptor(byte* in_buffer, size_t in_len, byte* out_buffer, size_t out_len);
+    size_t Decryptor(byte* in_buffer, size_t in_len, byte* out_buffer, size_t out_len);
 
 private:
     std::unique_ptr<CDecryptorImpl> m_pImpl;

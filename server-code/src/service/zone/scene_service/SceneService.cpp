@@ -469,8 +469,7 @@ void CSceneService::OnLogicThreadProc()
             auto pMessagePort = GetMessageRoute()->QueryMessagePort(serverport, false);
             if(pMessagePort && pMessagePort->GetWriteBufferSize() > 0)
             {
-                buf += fmt::format(FMT_STRING("\nMsgPort:{}-{}\tSendBuff:{}"),
-                                   pMessagePort->GetServerPort().GetWorldID(),
+                buf += fmt::format(FMT_STRING("\nMsgPort:{}\tSendBuff:{}"),
                                    pMessagePort->GetServerPort().GetServiceID(),
                                    pMessagePort->GetWriteBufferSize());
             }
