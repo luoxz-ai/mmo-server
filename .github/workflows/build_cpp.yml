@@ -19,8 +19,8 @@ jobs:
       uses: actions/cache@v1
       with:
         path: server-depends
-        key: server-depends-${{ hashFiles('**/src/build_all.sh') }}
-        restore-keys: server-depends-${{ hashFiles('**/src/build_all.sh') }}
+        key: server-depends-${{ `git log -n1 --pretty=%h .` }}
+        restore-keys: server-depends-${{ `git log -n1 --pretty=%h .` }}
 
     - name: build depends
       if: steps.cache-depends.outputs.cache-hit != 'true'
