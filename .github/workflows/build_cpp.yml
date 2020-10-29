@@ -13,14 +13,19 @@ jobs:
     - uses: actions/checkout@v2
     - name: apt-all
       run: sudo bash server-depends/src/aptget_install.sh
+    - name: get-depends-key
+      id: get-depends-key
+      run: |
+        echo "git log -n1 --pretty=%h server-depends"
+      shell: bash
 
     - name: cache-depends
       id: cache-depends
       uses: actions/cache@v1
       with:
         path: server-depends
-        key: server-depends-${{ `git log -n1 --pretty=%h .` }}
-        restore-keys: server-depends-${{ `git log -n1 --pretty=%h .` }}
+        key: server-depends--${{ steps.get-depends-key.outputs.date }}
+        restore-keys: server-depends--${{ steps.get-depends-key.outputs.date }}
 
     - name: build depends
       if: steps.cache-depends.outputs.cache-hit != 'true'
