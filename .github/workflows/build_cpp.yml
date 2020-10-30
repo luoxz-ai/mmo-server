@@ -10,8 +10,9 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
+    - uses: actions/checkout@v2
+    
     - name: apt-all
-      uses: actions/checkout@v2
       run: sudo bash server-depends/src/aptget_install.sh
       
     - name: get-depends-key
