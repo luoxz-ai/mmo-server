@@ -10,21 +10,21 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
-    - uses: actions/checkout@v2
     - name: apt-all
+      uses: actions/checkout@v2
       run: sudo bash server-depends/src/aptget_install.sh
-
+      
     - name: get-depends-key
       id: get-depends-key
-      run: /usr/bin/git log -1 --format='%H' /home/runner/work/mmo-server/mmo-server/server-depends
+      run: echo "::set-output name=ver::$(/usr/bin/git log -1 --format='%H' /home/runner/work/mmo-server/mmo-server/server-depends)"
 
     - name: cache-depends
       id: cache-depends
       uses: actions/cache@v2
       with:
         path: server-depends
-        key: server-depends--${{ steps.get-depends-key.outputs.date }}
-        restore-keys: server-depends--${{ steps.get-depends-key.outputs.date }}
+        key: server-depends--${{ steps.get-depends-key.outputs.ver }}
+        restore-keys: server-depends--${{ steps.get-depends-key.outputs.ver }}
 
     - name: build depends
       if: steps.cache-depends.outputs.cache-hit != 'true'
