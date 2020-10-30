@@ -24,8 +24,8 @@ jobs:
       uses: actions/cache@v2
       with:
         path: server-depends
-        key: server-depends--${{ steps.get-depends-key.outputs }}
-        restore-keys: server-depends--${{ steps.get-depends-key.outputs }}
+        key: server-depends--${{ steps.get-depends-key.outputs.date }}
+        restore-keys: server-depends--${{ steps.get-depends-key.outputs.date }}
 
     - name: build depends
       if: steps.cache-depends.outputs.cache-hit != 'true'
