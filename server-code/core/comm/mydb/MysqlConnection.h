@@ -187,7 +187,7 @@ public:
     template<class... Args>
     void Execute(Args&&... args)
     {
-        _Execute(0, std::forward<Args>(args)...);
+        _BindParams(0, std::forward<Args>(args)...);
         mysql_stmt_bind_param(m_pMysqlStmt.get(), m_Params.get());
         //		mysql_stmt_bind_result(m_pMysqlStmt.get(), m_Result.get());
         mysql_stmt_execute(m_pMysqlStmt.get());
@@ -205,14 +205,14 @@ public:
     }*/
 
     template<class T, class... Args>
-    void _Execute(int32_t n, const T& x, Args&&... args)
+    void _BindParams(int32_t n, const T& x, Args&&... args)
     {
         BindParam(n, x);
-        _Execute(n + 1, std::forward<Args>(args)...);
+        _BindParams(n + 1, std::forward<Args>(args)...);
     }
 
     // base case
-    void _Execute(int32_t n) {}
+    void _BindParams(int32_t n) {}
 
 private:
     MYSQL_STMT_PTR                m_pMysqlStmt;

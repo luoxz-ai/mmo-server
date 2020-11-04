@@ -229,6 +229,7 @@ CMysqlStmtPtr CMysqlConnection::Prepare(const std::string& s)
     {
         return std::make_unique<CMysqlStmt>(stmt.release());
     }
+
     __LEAVE_FUNCTION
     return nullptr;
 }
@@ -236,13 +237,14 @@ CMysqlStmtPtr CMysqlConnection::Prepare(const std::string& s)
 CMysqlResultPtr CMysqlConnection::UnionQuery(const std::string& query)
 {
     __ENTER_FUNCTION
+    LOGDBDEBUG("UnionQuery:{}", query.c_str());
     std::lock_guard<std::mutex> lock(m_Mutex);
 
     while(MoreResults())
     {
         NextResult();
     }
-    LOGDBDEBUG("UnionQuery:{}", query.c_str());
+    
 
     for(int32_t i = 0; i < MAX_PING_TIMES_PER_QUERY; i++)
     {
@@ -270,19 +272,20 @@ CMysqlResultPtr CMysqlConnection::UnionQuery(const std::string& query)
         }
     }
     __LEAVE_FUNCTION
+    LOGDBERROR("UnionQuery: when query {}.", query.c_str());
     return nullptr;
 }
 
 uint64_t CMysqlConnection::Insert(const std::string& query)
 {
     __ENTER_FUNCTION
+    LOGDBDEBUG("Insert:{}", query.c_str());
     std::lock_guard<std::mutex> lock(m_Mutex);
     while(MoreResults())
     {
         NextResult();
     }
-    LOGDBDEBUG("Insert:{}", query.c_str());
-
+    
     for(int32_t i = 0; i < MAX_PING_TIMES_PER_QUERY; i++)
     {
         int32_t nError = mysql_real_query(m_pHandle.get(), query.c_str(), query.size());
@@ -310,6 +313,7 @@ uint64_t CMysqlConnection::Insert(const std::string& query)
         }
     }
     __LEAVE_FUNCTION
+    LOGDBERROR("InsertFail: when query {}.", query.c_str());
     return (uint64_t)(-1);
 }
 
@@ -352,6 +356,7 @@ uint64_t CMysqlConnection::Update(const std::string& query)
         }
     }
     __LEAVE_FUNCTION
+    LOGDBERROR("UpdateFail: when query {}.", query.c_str());
     return 0;
 }
 
@@ -366,18 +371,15 @@ CMysqlResultPtr CMysqlConnection::Query(const std::string& table_name, const std
     __ENTER_FUNCTION
     if(query.empty())
         return QueryAll(table_name);
-
-    std::lock_guard<std::mutex> lock(m_Mutex);
     LOGDBDEBUG("Table:{} Query:{}", table_name.c_str(), query.c_str());
-
+    std::lock_guard<std::mutex> lock(m_Mutex);
     while(MoreResults())
     {
         NextResult();
     }
     for(int32_t i = 0; i < MAX_PING_TIMES_PER_QUERY; i++)
     {
-        int32_t nError = 0;
-        nError         = mysql_real_query(m_pHandle.get(), query.c_str(), query.size());
+        int32_t nError = mysql_real_query(m_pHandle.get(), query.c_str(), query.size());
         if(nError == 0)
         {
             return UseResult(table_name);
@@ -402,14 +404,15 @@ CMysqlResultPtr CMysqlConnection::Query(const std::string& table_name, const std
         }
     }
     __LEAVE_FUNCTION
+    LOGDBERROR("QueryFail: when query {}.", query.c_str());
     return nullptr;
 }
 
 bool CMysqlConnection::SyncExec(const std::string& query)
 {
     __ENTER_FUNCTION
-    std::lock_guard<std::mutex> lock(m_Mutex);
     LOGDBDEBUG("SyncExec:{}", query.c_str());
+    std::lock_guard<std::mutex> lock(m_Mutex);
     while(MoreResults())
     {
         NextResult();
@@ -442,6 +445,7 @@ bool CMysqlConnection::SyncExec(const std::string& query)
         }
     }
     __LEAVE_FUNCTION
+    LOGDBERROR("SyncExecFail: when query {}.", query.c_str());
     return false;
 }
 
