@@ -446,9 +446,8 @@ std::unique_ptr<CMysqlConnection> CServiceCommon::ConnectGlobalDB()
 std::unique_ptr<CMysqlConnection> CServiceCommon::ConnectServerInfoDB()
 {
     const auto& settings            = GetMessageRoute()->GetSettingMap();
-    const auto& settingServerInfoDB = settings["ServerInfoMYSQL"][0];
     auto        pServerInfoDB       = std::make_unique<CMysqlConnection>();
-    auto        mysql_url           = settingServerInfoDB.Query("url");
+    auto        mysql_url           = settings["ServerInfoMYSQL"]["url"];
     auto        real_mysql_url      = NormalCrypto::default_instance().Decode(mysql_url);
     if(pServerInfoDB->Connect(real_mysql_url) == false)
     {

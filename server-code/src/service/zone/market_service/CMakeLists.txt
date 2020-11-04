@@ -21,7 +21,6 @@ ADD_DEPENDENCIES(market_service basecode network mydb myproto mydbtable service_
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(market_service
  libbasecode.so 
- libnetwork.so 
  libmydb.so 
  libmyproto.so 
  libmydbtable.so 

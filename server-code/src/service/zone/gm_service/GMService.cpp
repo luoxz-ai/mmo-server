@@ -15,7 +15,7 @@
 #include "NetSocket.h"
 #include "NetworkMessage.h"
 #include "RPCService.h"
-#include "SettingMap.h"
+
 #include "event2/http.h"
 #include "event2/keyvalq_struct.h"
 #include "gm_service.pb.h"

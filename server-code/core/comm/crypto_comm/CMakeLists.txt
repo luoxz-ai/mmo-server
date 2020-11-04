@@ -17,8 +17,8 @@ ADD_LIBRARY(crypto_comm SHARED ${SRCS})
 SET(LIBRARY_OUTPUT_PATH ${LIBRARIES_CORE})
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(crypto_comm_static
- libcryptopp.a
+LINK_PRIVATE libcryptopp.a
 )
 TARGET_LINK_LIBRARIES(crypto_comm
- cryptopp
+LINK_PRIVATE cryptopp
 )

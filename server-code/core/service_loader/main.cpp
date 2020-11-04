@@ -169,7 +169,7 @@ int32_t main(int32_t argc, char* argv[])
     G_INITSEGV();
     setlocale(LC_ALL, "en_US.UTF-8");
     tzset();
-    std::string setting_filename = "res/service.xml";
+    std::string setting_filename = "res/service_cfg.json";
     if(opt.has("--config"))
     {
         setting_filename = opt["--config"];

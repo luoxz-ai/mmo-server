@@ -23,7 +23,6 @@ ADD_DEPENDENCIES(gm_service basecode network myproto mydb mydbtable service_comm
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(gm_service
   libbasecode.so 
-  libnetwork.so 
   libmyproto.so 
   libservice_comm.so
   librpcservice_comm.so

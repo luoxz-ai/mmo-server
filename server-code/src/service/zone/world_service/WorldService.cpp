@@ -17,7 +17,7 @@
 #include "NetMSGProcess.h"
 #include "NetSocket.h"
 #include "NetworkMessage.h"
-#include "SettingMap.h"
+
 #include "SystemVars.h"
 #include "TeamManager.h"
 #include "Thread.h"

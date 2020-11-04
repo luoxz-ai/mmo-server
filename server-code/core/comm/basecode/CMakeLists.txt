@@ -19,13 +19,13 @@ SET(LIBRARY_OUTPUT_PATH ${LIBRARIES_CORE})
 
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(basecode
-	libfmt.a
-	protobuf
-	${JEMALLOC_LIB_NAME}
-	${LIB_FS}
-	bfd
-	dl
-	pthread
+	PUBLIC libfmt.a
+	PRIVATE protobuf
+	PRIVATE ${JEMALLOC_LIB_NAME}
+	PUBLIC ${LIB_FS}
+	PRIVATE bfd
+	PUBLIC dl
+	PUBLIC pthread
 ) 
  
 cotire(basecode)

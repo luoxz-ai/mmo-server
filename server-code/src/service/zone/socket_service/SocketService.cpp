@@ -9,7 +9,7 @@
 #include "MonitorMgr.h"
 #include "MsgProcessRegister.h"
 #include "NetSocket.h"
-#include "SettingMap.h"
+
 #include "msg/ts_cmd.pb.h"
 #include "msg/world_service.pb.h"
 #include "protomsg_to_cmd.h"

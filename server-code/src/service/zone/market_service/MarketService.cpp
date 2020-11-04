@@ -9,7 +9,7 @@
 #include "NetMSGProcess.h"
 #include "NetSocket.h"
 #include "NetworkMessage.h"
-#include "SettingMap.h"
+
 #include "server_msg/server_side.pb.h"
 
 static thread_local CMarketService* tls_pService = nullptr;

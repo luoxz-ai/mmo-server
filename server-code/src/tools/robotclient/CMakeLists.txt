@@ -16,10 +16,6 @@ ADD_DEPENDENCIES(robotclient basecode network script myproto)
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(robotclient
  libbasecode.so
- libevent.so
- libevent_core.so
- libevent_pthreads.so
- libevent_extra.so
  libnetwork.so
  libscript.so
  libmyproto.so

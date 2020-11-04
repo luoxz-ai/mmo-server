@@ -18,13 +18,13 @@ SET(LIBRARY_OUTPUT_PATH ${LIBRARIES_CORE})
 ADD_DEPENDENCIES(service_comm network basecode myproto mydb message_route)
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(service_comm
- libnetwork.so
- libbasecode.so
- libmyproto.so
- libmydb.so
- libmessage_route.so
- libfmt.so
- crypto_comm
+ PRIVATE libnetwork.so
+ PUBLIC libbasecode.so
+ PRIVATE libmyproto.so
+ PRIVATE libmydb.so
+ PRIVATE libmessage_route.so
+ PUBLIC libfmt.so
+ PRIVATE crypto_comm
  pthread
  rt
  dl

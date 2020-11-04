@@ -8,15 +8,16 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "MysqlConnection.h"
+#include "BaseCode.h"
 #include "NetworkDefine.h"
-#include "SettingMap.h"
+
+#include "json.hpp"
 
 class CMessagePort;
 class CNetworkService;
 class CServiceControl;
 class CEventManager;
-
+class CMysqlConnection;
 //每个Service会有一个自己的MessagePort, 当Service开启时会开始监听socket
 // Service与Service之间的通讯, 如果在一个Exe内, 那么可以直接找到MessagePort并放入队列,
 //如果MessagePort使用的是Remote端口,那么就会连接到远端并使用Socket发送到另外的Exe上
@@ -82,8 +83,8 @@ public:
     }
 
 public:
-    CSettingMap&       GetSettingMap() { return m_setDataMap; }
-    const CSettingMap& GetSettingMap() const { return m_setDataMap; }
+    nlohmann::json&       GetSettingMap() { return m_setDataMap; }
+    const nlohmann::json& GetSettingMap() const { return m_setDataMap; }
     CEventManager*     GetEventManager() const { return m_pEventManager.get(); }
     CMysqlConnection*  GetServerInfoDB() const { return m_pServerInfoDB.get(); }
 
@@ -99,7 +100,7 @@ protected:
     void OnServerAddrInfoChange(const ServerPort& serverport, const ServerAddrInfo& new_info);
 
 protected:
-    CSettingMap m_setDataMap;
+    nlohmann::json m_setDataMap;
     WorldID_t   m_nWorldID;
 
     std::mutex                                    m_mutex;

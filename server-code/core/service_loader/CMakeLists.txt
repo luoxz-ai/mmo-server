@@ -25,7 +25,6 @@ TARGET_LINK_LIBRARIES(service_loader
  libmydb.so
  libmyproto.so
  libfmt.so
- tinyxml2
  pthread
  ssl
  crypto

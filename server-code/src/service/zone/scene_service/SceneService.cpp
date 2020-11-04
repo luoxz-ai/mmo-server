@@ -37,7 +37,7 @@
 #include "Scene.h"
 #include "SceneManager.h"
 #include "ScriptManager.h"
-#include "SettingMap.h"
+
 #include "SkillType.h"
 #include "StatusType.h"
 #include "SuitEquip.h"

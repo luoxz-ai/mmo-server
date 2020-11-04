@@ -52,7 +52,6 @@ ADD_DEPENDENCIES(ai_service basecode network mydb myproto mydbtable service_comm
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(ai_service
  libbasecode.so
- libnetwork.so 
  libmydb.so 
  libmyproto.so 
  libmydbtable.so 

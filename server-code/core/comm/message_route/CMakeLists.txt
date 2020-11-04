@@ -52,16 +52,15 @@ SET(LIBRARY_OUTPUT_PATH ${LIBRARIES_CORE})
 ADD_DEPENDENCIES(message_route network basecode mydb sql_options crypto_comm)
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(message_route
- libnetwork.so
- libbasecode.so
- libmydb.so
- crypto_comm
- sql_options
- cpp_redis
- tinyxml2
- tacopie
- libfmt.so
- ${JEMALLOC_LIB_NAME}
+ PRIVATE libnetwork.so
+ PUBLIC libbasecode.so
+ PRIVATE libmydb.so
+ PRIVATE crypto_comm
+ PRIVATE sql_options
+ PRIVATE cpp_redis
+ PRIVATE tacopie
+ PUBLIC libfmt.so
+ PRIVATE ${JEMALLOC_LIB_NAME}
 )
 
 

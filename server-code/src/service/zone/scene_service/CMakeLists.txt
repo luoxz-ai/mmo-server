@@ -55,7 +55,6 @@ ADD_DEPENDENCIES(scene_service basecode network mydb myproto mydbtable service_c
 TARGET_LINK_LIBRARIES(scene_service
  libbasecode.so 
  pb_util
- libnetwork.so 
  libmydb.so 
  libmyproto.so 
  libmydbtable.so 

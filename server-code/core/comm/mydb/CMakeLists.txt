@@ -13,11 +13,11 @@ SET(LIBRARY_OUTPUT_PATH ${LIBRARIES_CORE})
 ADD_DEPENDENCIES(mydb basecode)
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(mydb
-	libbasecode.so
-	libmysqlclient.a
-	ssl
+	PUBLIC libbasecode.so
+	PRIVATE libmysqlclient.a
+	PRIVATE ssl
 	dl
 	pthread
-	${JEMALLOC_LIB_NAME}
+	PRIVATE ${JEMALLOC_LIB_NAME}
 )
 cotire(mydb)

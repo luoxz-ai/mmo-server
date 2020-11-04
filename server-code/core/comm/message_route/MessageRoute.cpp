@@ -8,7 +8,9 @@
 #include "NetSocket.h"
 #include "NormalCrypto.h"
 #include "serverinfodb.h"
-#include "tinyxml2/tinyxml2.h"
+#include <fstream>
+
+
 constexpr uint32_t SERVICE_LOAD_REDIS_TIMEOUT = 60 * 1000; // redis上的serviceload数据60秒丢弃
 constexpr uint32_t SERVICE_LOAD_TIMEOUT       = 30 * 1000; //每30秒发送1次service_load数据
 
@@ -79,29 +81,27 @@ bool CMessageRoute::LoadServiceSetting(const std::string& filename, WorldID_t nW
     __ENTER_FUNCTION
     if(filename.empty() == false)
     {
-        tinyxml2::XMLDocument doc;
-        doc.LoadFile(filename.c_str());
-        tinyxml2::XMLElement* pElement = doc.RootElement();
-        if(pElement == nullptr)
+        std::ifstream infile(filename);
+        infile >> m_setDataMap;
+        
+        if(m_setDataMap.is_discarded())
         {
-            LOGFATAL("CMessageRoute::LoadServiceSetting need RootElement");
+            LOGFATAL("CMessageRoute::LoadServiceSetting {} is not a json");
             return false;
         }
-        m_setDataMap.Prase(pElement);
+
     }
     else
     {
-        CSettingNode settingServerInfoDB;
-        settingServerInfoDB.SetVal("url", std::getenv("ServerInfoMYSQL_URL"));
-        m_setDataMap["ServerInfoMYSQL"].emplace_back(std::move(settingServerInfoDB));
+        m_setDataMap["ServerInfoMYSQL"]["url"] = std::getenv("ServerInfoMYSQL_URL");
     }
 
     SetWorldID(nWorldID);
 
     //读取全服IP表
     {
-        const auto& settingServerInfoDB = m_setDataMap["ServerInfoMYSQL"][0];
-        if(ConnectServerInfoDB(settingServerInfoDB.Query("url")) == false)
+        const auto& sql_url = m_setDataMap["ServerInfoMYSQL"]["url"];
+        if(ConnectServerInfoDB(sql_url) == false)
         {
             LOGFATAL("CMessageRoute::LoadServiceSetting ConnectServerInfoDB fail");
             return false;

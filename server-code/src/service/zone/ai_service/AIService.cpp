@@ -19,8 +19,7 @@
 #include "NetMSGProcess.h"
 #include "NetSocket.h"
 #include "NetworkMessage.h"
-#include "SettingMap.h"
-#include "tinyxml2/tinyxml2.h"
+
 
 static thread_local CAIService* tls_pService;
 CAIService*                     AIService()

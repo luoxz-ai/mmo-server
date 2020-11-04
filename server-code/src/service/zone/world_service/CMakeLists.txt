@@ -24,7 +24,6 @@ ADD_DEPENDENCIES(world_service basecode network mydb myproto mydbtable service_c
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(world_service
  libbasecode.so 
- libnetwork.so 
  libmydb.so 
  libmyproto.so 
  libmydbtable.so 

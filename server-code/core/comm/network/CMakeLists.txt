@@ -17,14 +17,14 @@ SET(LIBRARY_OUTPUT_PATH ${LIBRARIES_CORE})
 ADD_DEPENDENCIES(network basecode myproto crypto_comm)
 # 指定额外的链接库
 TARGET_LINK_LIBRARIES(network
- crypto_comm
- libevent.so
- libevent_core.so
- libevent_pthreads.so
- libevent_extra.so
- libbasecode.so
- protobuf
- ${JEMALLOC_LIB_NAME}
+ PRIVATE crypto_comm
+ PRIVATE libevent.so
+ PRIVATE libevent_core.so
+ PRIVATE libevent_pthreads.so
+ PRIVATE libevent_extra.so
+ PUBLIC libbasecode.so
+ PUBLIC protobuf
+ PRIVATE ${JEMALLOC_LIB_NAME}
 )
 cotire(network)
 

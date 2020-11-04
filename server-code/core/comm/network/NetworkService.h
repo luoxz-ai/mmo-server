@@ -144,9 +144,11 @@ protected:
     MPSCQueue<CNetworkMessage*> m_MessageQueue;
 
     std::unique_ptr<std::thread> m_pIOThread;
+
     struct event*                m_pIOTimeOutEvent                 = nullptr;
     struct event*                m_pCloseSocketEvent               = nullptr;
     std::atomic<bool>            m_bWaitingProcessCloseSocketEvent = false;
+    
     PerSecondCount           m_RecvBPS;
     PerSecondCount           m_SendBPS;
 

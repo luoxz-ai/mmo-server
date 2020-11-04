@@ -14,7 +14,6 @@ ADD_DEPENDENCIES(sqlurl crypto_comm_static)
 TARGET_LINK_LIBRARIES(sqlurl
  libfmt.a
  crypto_comm_static
- libcryptopp.a
  dl
  pthread
 )
