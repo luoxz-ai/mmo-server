@@ -29,18 +29,20 @@ namespace static_reflection
             Value&      value;
             const Func& fn;
 
-            template<typename Info, typename Tuple>
-            void invoke_one_impl(Info&& info, Tuple&& t, std::index_sequence<>) const
-            {
-                // invoke(FieldName, MemberPtr);
-                fn(std::forward<Info>(info), value.*(std::get<0>(std::forward<Tuple>(t))));
-            }
             template<typename Info, typename Tuple, std::size_t... Index>
             void invoke_one_impl(Info&& info, Tuple&& t, std::index_sequence<Index...>) const
             {
-                // invoke(FieldName, MemberPtr,Tag);
-                // invoke(FieldName. MemberPtr,Func);
-                fn(std::forward<Info>(info), value.*(std::get<0>(std::forward<Tuple>(t))), std::get<Index + 1>(std::forward<Tuple>(t))...);
+                if constexpr(sizeof...(Index) > 0)
+                {
+                    // invoke(FieldName, MemberPtr,Tag);
+                    // invoke(FieldName. MemberPtr,Func);
+                    fn(std::forward<Info>(info), value.*(std::get<0>(std::forward<Tuple>(t))), std::get<Index + 1>(std::forward<Tuple>(t))...);
+                }
+                else
+                {
+                    // invoke(FieldName, MemberPtr);
+                    fn(std::forward<Info>(info), value.*(std::get<0>(std::forward<Tuple>(t))));
+                }
             }
 
             template<typename Info, typename Tuple>
@@ -50,10 +52,6 @@ namespace static_reflection
                 invoke_one_impl(std::forward<Info>(info), std::forward<Tuple>(t), std::make_index_sequence<size - 1>{});
             }
 
-            template<typename Info, typename Tuple>
-            void invoke_impl(Info&& info, Tuple&& t, std::index_sequence<>) const
-            {
-            }
             template<typename Info, typename Tuple, std::size_t first, std::size_t... is>
             void invoke_impl(Info&& info, Tuple&& t, std::index_sequence<first, is...>) const
             {
@@ -61,7 +59,12 @@ namespace static_reflection
                 // invoke(FieldName, std::tuple<MemberPtr,Tag>);
                 // invoke(FieldName. std::tuple<MemberPtr,Func>);
                 invoke_one(std::forward<Info>(info), std::get<first + 1>(std::forward<Tuple>(t)));
-                invoke_impl(std::forward<Info>(info), std::forward<Tuple>(t), std::index_sequence<is...>{});
+                if constexpr(sizeof...(is) > 0)
+                {
+                    invoke_impl(std::forward<Info>(info), std::forward<Tuple>(t), std::index_sequence<is...>{});
+                }
+               
+                
             }
 
             template<typename Tuple>
@@ -84,19 +87,21 @@ namespace static_reflection
             Value&      value;
             const Func& fn;
 
-            template<typename Info, typename Tuple>
-            bool invoke_one_impl(Info&& info, Tuple&& t, std::index_sequence<>) const
-            {
-                // invoke(FieldName, MemberPtr);
-                return fn(std::forward<Info>(info), value.*(std::get<0>(std::forward<Tuple>(t))));
-            }
-
             template<typename Info, typename Tuple, std::size_t... Index>
             bool invoke_one_impl(Info&& info, Tuple&& t, std::index_sequence<Index...>) const
             {
-                // invoke(FieldName, MemberPtr,Tag);
-                // invoke(FieldName. MemberPtr,Func);
-                return fn(std::forward<Info>(info), value.*(std::get<0>(std::forward<Tuple>(t))), std::get<Index + 1>(std::forward<Tuple>(t))...);
+                if constexpr(sizeof...(Index) > 0)
+                {
+                    // invoke(FieldName, MemberPtr,Tag);
+                    // invoke(FieldName. MemberPtr,Func);
+                    return fn(std::forward<Info>(info), value.*(std::get<0>(std::forward<Tuple>(t))), std::get<Index + 1>(std::forward<Tuple>(t))...);
+                }
+                else
+                {
+                    // invoke(FieldName, MemberPtr);
+                    return fn(std::forward<Info>(info), value.*(std::get<0>(std::forward<Tuple>(t))));
+                }
+                
             }
 
             template<typename Info, typename Tuple>
@@ -106,11 +111,6 @@ namespace static_reflection
                 return invoke_one_impl(std::forward<Info>(info), std::forward<Tuple>(t), std::make_index_sequence<size - 1>{});
             }
 
-            template<typename Info, typename Tuple>
-            bool invoke_impl(Info&& info, Tuple&& t, std::index_sequence<>) const
-            {
-                return false;
-            }
             template<typename Info, typename Tuple, std::size_t first, std::size_t... is>
             bool invoke_impl(Info&& info, Tuple&& t, std::index_sequence<first, is...>) const
             {
@@ -120,7 +120,15 @@ namespace static_reflection
                 bool bInvoke = invoke_one(std::forward<Info>(info), std::get<first + 1>(std::forward<Tuple>(t)));
 
                 // first invoke all, then all result ||;
-                return invoke_impl(std::forward<Info>(info), std::forward<Tuple>(t), std::index_sequence<is...>{}) || bInvoke;
+                if constexpr(sizeof...(is) > 0)
+                {
+                    return invoke_impl(std::forward<Info>(info), std::forward<Tuple>(t), std::index_sequence<is...>{}) || bInvoke;
+                }
+                else
+                {
+                    return bInvoke;
+                }
+                
             }
 
             template<typename Tuple>

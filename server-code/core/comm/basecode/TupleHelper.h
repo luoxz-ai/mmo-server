@@ -62,16 +62,14 @@ namespace std
 #endif //#if __cplusplus != 201402L
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-template<typename Lambda, typename Tuple>
-inline constexpr void for_each_tupleImpl(Tuple&& tuple, Lambda&& lambda, std::index_sequence<>)
-{
-}
-
 template<typename Lambda, typename Tuple, std::size_t first, std::size_t... is>
 inline constexpr void for_each_tupleImpl(Tuple&& tuple, Lambda&& lambda, std::index_sequence<first, is...>)
 {
     lambda(std::get<first>(std::forward<Tuple>(tuple)));
-    for_each_tupleImpl(std::forward<Tuple>(tuple), std::forward<Lambda>(lambda), std::index_sequence<is...>{});
+    if constexpr(sizeof...(is) > 0)
+    {
+        for_each_tupleImpl(std::forward<Tuple>(tuple), std::forward<Lambda>(lambda), std::index_sequence<is...>{});
+    }
 }
 
 template<typename Lambda, typename Tuple>
@@ -82,16 +80,14 @@ inline constexpr void for_each_tuple(Tuple&& tuple, Lambda&& lambda)
                        std::make_index_sequence<std::tuple_size<std::decay_t<Tuple>>::value>{});
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-template<typename Lambda, typename Tuple>
-inline constexpr void for_each_tuple_indexImpl(Tuple&& tuple, Lambda&& lambda, std::index_sequence<>)
-{
-}
-
 template<typename Lambda, typename Tuple, std::size_t first, std::size_t... is>
 inline constexpr void for_each_tuple_indexImpl(Tuple&& tuple, Lambda&& lambda, std::index_sequence<first, is...>)
 {
     lambda(std::integral_constant<std::size_t, first>(), std::forward<Tuple>(tuple));
-    for_each_tuple_indexImpl(std::forward<Tuple>(tuple), std::forward<Lambda>(lambda), std::index_sequence<is...>{});
+    if constexpr(sizeof...(is) > 0)
+    {
+        for_each_tuple_indexImpl(std::forward<Tuple>(tuple), std::forward<Lambda>(lambda), std::index_sequence<is...>{});
+    }
 }
 
 template<typename Lambda, typename Tuple>
@@ -112,8 +108,17 @@ template<typename Lambda, typename Tuple, std::size_t first, std::size_t... is>
 inline constexpr bool find_if_tupleImpl(Tuple&& tuple, Lambda&& lambda, std::index_sequence<first, is...>)
 {
     // if any lambda return true, return turel
-    return lambda(std::get<first>(std::forward<Tuple>(tuple))) ||
-           find_if_tupleImpl(std::forward<Tuple>(tuple), std::forward<Lambda>(lambda), std::index_sequence<is...>{});
+    auto result = lambda(std::get<first>(std::forward<Tuple>(tuple)));
+    if constexpr(sizeof...(is) > 0)
+    {
+        return result || find_if_tupleImpl(std::forward<Tuple>(tuple), std::forward<Lambda>(lambda), std::index_sequence<is...>{});
+    }
+    else
+    {
+        return result;
+    }
+    
+    
 }
 
 template<typename Lambda, typename Tuple>
@@ -124,18 +129,21 @@ inline constexpr bool find_if_tuple(Tuple&& tuple, Lambda&& lambda)
                              std::make_index_sequence<std::tuple_size<std::decay_t<Tuple>>::value>{});
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////
-template<typename Lambda, typename Tuple>
-inline constexpr bool find_if_tuple_indexImpl(Tuple&& tuple, Lambda&& lambda, std::index_sequence<>)
-{
-    return false;
-}
-
 template<typename Lambda, typename Tuple, std::size_t first, std::size_t... is>
 inline constexpr bool find_if_tuple_indexImpl(Tuple&& tuple, Lambda&& lambda, std::index_sequence<first, is...>)
 {
-    // if any lambda return true, return turel
-    return lambda(std::integral_constant<std::size_t, first>(), std::forward<Tuple>(tuple)) ||
+    // if any lambda return true, return ture
+    auto result = lambda(std::integral_constant<std::size_t, first>(), std::forward<Tuple>(tuple));
+    if constexpr(sizeof...(is) > 0)
+    {
+        return result ||
            find_if_tuple_indexImpl(std::forward<Tuple>(tuple), std::forward<Lambda>(lambda), std::index_sequence<is...>{});
+    }
+    else
+    {
+        return result;
+    }
+    
 }
 
 template<typename Lambda, typename Tuple>

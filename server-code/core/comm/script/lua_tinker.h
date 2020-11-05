@@ -986,18 +986,16 @@ namespace lua_tinker
                 }
             }
 
-            template<typename Tuple>
-            static void _push_tuple_totable_helper(lua_State* L, int32_t table_stack_pos, Tuple&& tuple, std::index_sequence<>)
-            {
-            }
-
             template<typename Tuple, std::size_t first, std::size_t... is>
             static void _push_tuple_totable_helper(lua_State* L, int32_t table_stack_pos, Tuple&& tuple, std::index_sequence<first, is...>)
             {
                 push(L, first + 1); // lua table index from 1~x
                 push(L, std::get<first>(std::forward<Tuple>(tuple)));
                 lua_settable(L, table_stack_pos);
-                _push_tuple_totable_helper(L, table_stack_pos, std::forward<Tuple>(tuple), std::index_sequence<is...>{});
+                if constexpr(sizeof...(is) > 0)
+                {
+                    _push_tuple_totable_helper(L, table_stack_pos, std::forward<Tuple>(tuple), std::index_sequence<is...>{});
+                }
             }
 
             static void _push(lua_State* L, TupleType&& tuple)

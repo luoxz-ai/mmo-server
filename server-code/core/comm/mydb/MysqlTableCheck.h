@@ -80,16 +80,20 @@ struct MysqlTableCheck
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<typename TupleType>
-    static inline bool CheckAllTableImpl(CMysqlConnection* pDB, std::index_sequence<>)
-    {
-        return true;
-    }
     template<typename TupleType, std::size_t first, std::size_t... is>
     static inline bool CheckAllTableImpl(CMysqlConnection* pDB, std::index_sequence<first, is...>)
     {
         using TableType = typename std::tuple_element<first, TupleType>::type;
-        return CheckTable<TableType>(pDB) && CheckAllTableImpl<TupleType>(pDB, std::index_sequence<is...>{});
+        auto result = CheckTable<TableType>(pDB);
+        if constexpr(sizeof...(is) > 0)
+        {
+            return result && CheckAllTableImpl<TupleType>(pDB, std::index_sequence<is...>{});
+        }
+        else
+        {
+            return result;
+        }
+        
     }
 
     template<class type_list_Table>
@@ -140,17 +144,21 @@ struct MysqlTableCheck
         return true;
     }
 
-    template<typename TableType, typename KeysTupleType>
-    static inline bool CheckAllKeysAndFixImpl(CMysqlConnection* pDB, KeysTupleType&& KeysInfo, std::index_sequence<>)
-    {
-        return true;
-    }
     template<typename TableType, typename KeysTupleType, std::size_t first, std::size_t... is>
     static inline bool CheckAllKeysAndFixImpl(CMysqlConnection* pDB, KeysTupleType&& KeysInfo, std::index_sequence<first, is...>)
     {
         auto key_info = std::get<first>(KeysInfo);
-        return CheckKeysAndFix<TableType>(pDB, key_info) &&
+        auto result = CheckKeysAndFix<TableType>(pDB, key_info);
+        if constexpr(sizeof...(is) > 0)
+        {
+            return result &&
                CheckAllKeysAndFixImpl<TableType, KeysTupleType>(pDB, KeysInfo, std::index_sequence<is...>{});
+        }
+        else
+        {
+            return result;
+        }
+        
     }
     template<typename TableType>
     static inline bool CheckAllKeysAndFix(CMysqlConnection* pDB)
@@ -278,16 +286,20 @@ struct MysqlTableCheck
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////
-    template<typename TupleType>
-    static inline bool CheckAllTableAndFixImpl(CMysqlConnection* pDB, std::index_sequence<>)
-    {
-        return true;
-    }
     template<typename TupleType, std::size_t first, std::size_t... is>
     static inline bool CheckAllTableAndFixImpl(CMysqlConnection* pDB, std::index_sequence<first, is...>)
     {
         using TableType = typename std::tuple_element<first, TupleType>::type;
-        return CheckTableAndFix<TableType>(pDB) && CheckAllTableAndFixImpl<TupleType>(pDB, std::index_sequence<is...>{});
+        auto result = CheckTableAndFix<TableType>(pDB);
+        if constexpr(sizeof...(is) > 0)
+        {
+            return result && CheckAllTableAndFixImpl<TupleType>(pDB, std::index_sequence<is...>{});
+        }
+        else
+        {
+            return result;
+        }
+        
     }
 
     template<class type_list_Table>
