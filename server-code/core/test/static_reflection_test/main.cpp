@@ -25,12 +25,18 @@ std::string xml_txt =
                     <int name="TestNodeA_b" value="6"/>
                     <int name="TestNodeA_c" value="7"/>
                 </TestNodeA>
+                <float name="TestNodeB_c" value="37"/>
             </TestNodeB>
         </AllNode>
 
     </Nodes>
 </Root>
 )";
+
+struct string_to_hash_tag
+{
+};
+void after_process_TestNodeB_c(tinyxml2::XMLElement*, float* val);
 
 struct TestNodeA
 {
@@ -48,12 +54,20 @@ DEFINE_META(TestNodeA,
 
 struct TestNodeB
 {
-    int32_t   TestNodeB_a;
+    uint32_t  TestNodeB_a;
     TestNodeA TestNodeB_b;
+    float     TestNodeB_c;
 };
 
-DEFINE_STRUCT_SCHEMA(TestNodeB, DEFINE_STRUCT_FIELD(TestNodeB_a, "TestNodeB_a"), DEFINE_STRUCT_FIELD(TestNodeB_b, "TestNodeB_b"));
-DEFINE_META(TestNodeB, DEFINE_MEMBER(META_MEMBER(TestNodeB_a, "TestNodeB_a"), META_MEMBER(TestNodeB_b, "TestNodeB_b")));
+DEFINE_STRUCT_SCHEMA(TestNodeB,
+                     DEFINE_STRUCT_FIELD_TAG(TestNodeB_a, "TestNodeB_a", string_to_hash_tag()),
+                     DEFINE_STRUCT_FIELD(TestNodeB_b, "TestNodeB_b"),
+                     DEFINE_STRUCT_FIELD_FUNC(TestNodeB_c, "TestNodeB_c", after_process_TestNodeB_c));
+
+DEFINE_META(TestNodeB, DEFINE_MEMBER(
+    META_MEMBER_TAG(TestNodeB_a, "TestNodeB_a", string_to_hash_tag),
+    META_MEMBER_FUNC(TestNodeB_c, "TestNodeB_c", after_process_TestNodeB_c),
+     META_MEMBER(TestNodeB_b, "TestNodeB_b")));
 
 struct AllNode
 {
@@ -90,10 +104,21 @@ inline void xml_value_to_field(tinyxml2::XMLElement* pVarE, FieldType* field)
 }
 
 template<class FieldType>
-inline void xml_value_to_field(tinyxml2::XMLElement* pVarE, FieldType* field, std::function<void(tinyxml2::XMLElement*, FieldType*)>& after_func)
+inline void xml_value_to_field(tinyxml2::XMLElement*                                         pVarE,
+                               FieldType*                                                    field,
+                              void(*after_func)(tinyxml2::XMLElement*,FieldType*) )
 {
     xml_value_to_field(pVarE, field);
     after_func(pVarE, field);
+}
+
+inline void xml_value_to_field(tinyxml2::XMLElement* pVarE, uint32_t* field, const string_to_hash_tag&)
+{
+    const char* pVal = pVarE->Attribute("val");
+    if(pVal)
+    {
+        *field = hash::MurmurHash3::shash(pVal, strlen(pVal), 0);
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -171,8 +196,17 @@ inline void xml_value_to_field_v2(tinyxml2::XMLElement* pVarE, FieldType* field)
     }
 }
 
-template<class FieldType>
-inline void xml_value_to_field_v2(tinyxml2::XMLElement* pVarE, FieldType* field, std::function<void(tinyxml2::XMLElement*, FieldType*)>& after_func)
+inline void xml_value_to_field_v2(tinyxml2::XMLElement* pVarE, uint32_t* field, const string_to_hash_tag&)
+{
+    const char* pVal = pVarE->Attribute("val");
+    if(pVal)
+    {
+        *field = hash::MurmurHash3::shash(pVal, strlen(pVal), 0);
+    }
+}
+
+template<class FieldType, class Func>
+inline void xml_value_to_field_v2(tinyxml2::XMLElement* pVarE, FieldType* field, Func&& after_func)
 {
     xml_value_to_field_v2(pVarE, field);
     after_func(pVarE, field);
@@ -194,14 +228,14 @@ struct ForEachXMLLambda_V2
         return true;
     }
 
-    template<typename FieldInfo, typename Field, typename Tag>
-    bool operator()(FieldInfo&& this_field_info, Field&& this_field, Tag&& tag) const
+    template<typename FieldInfo, typename Field, typename TagOfFunc>
+    bool operator()(FieldInfo&& this_field_info, Field&& this_field, TagOfFunc&& tag) const
     {
         printf("v2 %s test:%s\n", field_name, this_field_info.field_name);
         if(field_name_hash != this_field_info.field_name_hash)
             return false;
         printf("v2 %s vist:%s\n", field_name, this_field_info.field_name);
-        xml_value_to_field_v2(pVarE, &this_field, std::forward<Tag>(tag));
+        xml_value_to_field_v2(pVarE, &this_field, std::forward<TagOfFunc>(tag));
         return true;
     }
 };
@@ -216,12 +250,18 @@ inline void xmlElement_to_struct_v2(tinyxml2::XMLElement* pE, T& refStruct)
         if(pStrName != NULL)
         {
             std::string field_name      = pStrName;
-            std::size_t field_name_hash = hash::MurmurHash3::shash(field_name.c_str(), field_name.size(), 0);
+            auto        field_name_hash = hash::MurmurHash3::shash(field_name.c_str(), field_name.size(), 0);
             static_reflection_v2::FindInField(refStruct, field_name_hash, ForEachXMLLambda_V2{pVarE, field_name.c_str(), field_name_hash});
         }
 
         pVarE = pVarE->NextSiblingElement();
     }
+}
+
+
+void after_process_TestNodeB_c(tinyxml2::XMLElement*,float* val)
+{
+    *val *= 100;
 }
 
 int main()

@@ -23,8 +23,9 @@ namespace static_reflection_v2
     struct FieldInfo
     {
         static constexpr FieldType this_field_type = field_type;
-        const char*                field_name;
-        size_t                     field_name_hash;
+
+        const char* field_name;
+        size_t      field_name_hash;
     };
 
     template<class T, class member_ptr, FieldType field_type = FieldType::MemberPtr>
@@ -36,7 +37,7 @@ namespace static_reflection_v2
     template<class T, class member_ptr, class Tag>
     struct MemberPtrInfoTag : public MemberPtrInfo<T, member_ptr, FieldType::MemberPtrInfoTag>
     {
-        using TagType = Tag;
+        Tag tag;
     };
 
     template<class T, class member_ptr, class Func>
@@ -65,14 +66,14 @@ namespace static_reflection_v2
         return MemberPtrInfo<T, decltype(field_ptr)>{{field_name, field_name_hash}, field_ptr};
     }
     template<class T, class C, class Tag>
-    constexpr auto make_member_ptr_tag(const char* field_name, size_t field_name_hash, C T::*field_ptr, Tag tag)
+    constexpr auto make_member_ptr_tag(const char* field_name, size_t field_name_hash, C T::*field_ptr, Tag&& tag)
     {
-        return MemberPtrInfoTag<T, decltype(field_ptr), Tag>{{field_name, field_name_hash}, field_ptr};
+        return MemberPtrInfoTag<T, decltype(field_ptr), Tag>{{{field_name, field_name_hash}, field_ptr}, std::move(tag)};
     }
     template<class T, class C, class Func>
-    constexpr auto make_member_ptr_func(const char* field_name, size_t field_name_hash, C T::*field_ptr, Func func)
+    constexpr auto make_member_ptr_func(const char* field_name, size_t field_name_hash, C T::*field_ptr, Func&& func)
     {
-        return MemberPtrInfoFunc<T, decltype(field_ptr), Func>{{field_name, field_name_hash}, field_ptr, func};
+        return MemberPtrInfoFunc<T, decltype(field_ptr), Func>{{{field_name, field_name_hash}, field_ptr}, std::forward<Func>(func)};
     }
 
     template<class T, class C>
@@ -159,14 +160,14 @@ namespace static_reflection_v2
         static_assert(std::tuple_size<decltype(meta_class.member_info_tuple)>::value != 0,
                       "MetaClass<T>() for type T should be specialized to return "
                       "FieldSchema tuples, like ((&T::field, field_name), ...)");
-        for_each_tuple(meta_class.member_info_tuple, [&fn, &value](const auto& field_info) {
+        for_each_tuple(meta_class.member_info_tuple, [&fn, &value](const auto& field_info) constexpr {
             if constexpr(is_member_ptr<decltype(field_info)>())
             {
                 fn(field_info, value.*(field_info.ptr));
             }
             else if constexpr(is_member_ptr_tag<decltype(field_info)>())
             {
-                fn(field_info, value.*(field_info.ptr), typename decltype(field_info)::TagType{});
+                fn(field_info, value.*(field_info.ptr), field_info.tag);
             }
             else if constexpr(is_member_ptr_func<decltype(field_info)>())
             {
@@ -183,24 +184,24 @@ namespace static_reflection_v2
         static_assert(std::tuple_size<decltype(meta_class.member_info_tuple)>::value != 0,
                       "MetaClass<T>() for type T should be specialized to return "
                       "FieldSchema tuples, like ((&T::field, field_name), ...)");
-        find_if_tuple(meta_class.member_info_tuple, [&fn, &value, name_hash](const auto& field_info) -> bool {
-            if(field_info.field_name_hash != name_hash)
+        find_if_tuple(meta_class.member_info_tuple, [&fn, &value, name_hash](const auto& field_info) constexpr -> bool {
+            if (field_info.field_name_hash != name_hash)
                 return false;
 
             if constexpr(is_member_ptr<decltype(field_info)>())
             {
-                fn(field_info, value.*(field_info.ptr));
+                return fn(field_info, value.*(field_info.ptr));
             }
             else if constexpr(is_member_ptr_tag<decltype(field_info)>())
             {
-                fn(field_info, value.*(field_info.ptr), typename decltype(field_info)::TagType{});
+                return fn(field_info, value.*(field_info.ptr), field_info.tag);
             }
             else if constexpr(is_member_ptr_func<decltype(field_info)>())
             {
-                field_info.func(field_info, value.*(field_info.ptr));
+                return fn(field_info, value.*(field_info.ptr), field_info.func);
             }
 
-            return true;
+            return false;
         });
     }
 
