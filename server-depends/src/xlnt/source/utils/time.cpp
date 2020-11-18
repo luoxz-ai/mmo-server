@@ -22,6 +22,7 @@
 // @author: see AUTHORS file
 #include <cmath>
 #include <ctime>
+#include <chrono>
 
 #include <xlnt/utils/time.hpp>
 
@@ -112,16 +113,15 @@ time::time(const std::string &time_string)
 
 double time::to_number() const
 {
-    std::uint64_t microseconds = static_cast<std::uint64_t>(microsecond);
-    microseconds += static_cast<std::uint64_t>(second * 1e6);
-    microseconds += static_cast<std::uint64_t>(minute * 1e6 * 60);
-    auto microseconds_per_hour = static_cast<std::uint64_t>(1e6) * 60 * 60;
-    microseconds += static_cast<std::uint64_t>(hour) * microseconds_per_hour;
-    auto number = microseconds / (24.0 * microseconds_per_hour);
-    auto hundred_billion = static_cast<std::uint64_t>(1e9) * 100;
-    number = std::floor(number * hundred_billion + 0.5) / hundred_billion;
-
-    return number;
+    std::chrono::microseconds ms{microsecond};
+    ms += std::chrono::seconds(second);
+    ms += std::chrono::minutes(minute);
+    ms += std::chrono::hours(hour);
+    auto secs = std::chrono::round<std::chrono::seconds>(ms);
+    using FpDays = std::chrono::duration<double, std::ratio<86400>>;
+    auto days = std::chrono::duration_cast<FpDays>(secs);
+ 
+    return days.count();
 }
 
 time time::now()

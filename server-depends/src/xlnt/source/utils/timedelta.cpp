@@ -22,6 +22,7 @@
 // @author: see AUTHORS file
 #include <cmath>
 #include <ctime>
+#include <chrono>
 
 #include <xlnt/utils/timedelta.hpp>
 
@@ -39,17 +40,15 @@ timedelta::timedelta(int days_, int hours_, int minutes_, int seconds_, int micr
 
 double timedelta::to_number() const
 {
-    std::uint64_t total_microseconds = static_cast<std::uint64_t>(microseconds);
-    total_microseconds += static_cast<std::uint64_t>(seconds * 1e6);
-    total_microseconds += static_cast<std::uint64_t>(minutes * 1e6 * 60);
-    auto microseconds_per_hour = static_cast<std::uint64_t>(1e6) * 60 * 60;
-    total_microseconds += static_cast<std::uint64_t>(hours) * microseconds_per_hour;
-    auto number = total_microseconds / (24.0 * microseconds_per_hour);
-    auto hundred_billion = static_cast<std::uint64_t>(1e9) * 100;
-    number = std::floor(number * hundred_billion + 0.5) / hundred_billion;
-    number += days;
-
-    return number;
+    std::chrono::microseconds ms{microseconds};
+    ms += std::chrono::seconds(seconds);
+    ms += std::chrono::minutes(minutes);
+    ms += std::chrono::hours(hours);
+    auto secs = std::chrono::round<std::chrono::seconds>(ms);
+    using FpDays = std::chrono::duration<double, std::ratio<86400>>;
+    auto number = std::chrono::duration_cast<FpDays>(secs);
+ 
+    return number.count() + days;
 }
 
 timedelta timedelta::from_number(double raw_time)

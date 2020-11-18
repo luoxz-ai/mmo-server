@@ -7,7 +7,7 @@ on:
 
 jobs:
   build_base:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     continue-on-error: true
     steps:
       - uses: actions/checkout@v2
@@ -16,7 +16,7 @@ jobs:
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
       
       - name: build_base
-        run: bash shell/build_image/build_base1804_image.sh build_base_1804_github_action
+        run: bash shell/build_image/build_base2004_image.sh build_base_2004_github_action
       
       - name: Push image
         run: |
@@ -27,13 +27,13 @@ jobs:
 
           echo IMAGE_ID=$IMAGE_ID
 
-          docker tag mmo-server-base:18.04 $IMAGE_ID:18.04
-          docker tag mmo-server-base:18.04 $IMAGE_ID:latest
+          docker tag mmo-server-base:20.04 $IMAGE_ID:20.04
+          docker tag mmo-server-base:20.04 $IMAGE_ID:latest
           docker push $IMAGE_ID
 
   build_depends:
     needs: build_base
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
 
@@ -42,8 +42,8 @@ jobs:
       
       - name: pull_base
         run: |
-          docker pull docker.pkg.github.com/${{ github.repository }}/mmo-server-base:18.04
-          docker tag docker.pkg.github.com/${{ github.repository }}/mmo-server-base:18.04 mmo-server-base:18.04
+          docker pull docker.pkg.github.com/${{ github.repository }}/mmo-server-base:20.04
+          docker tag docker.pkg.github.com/${{ github.repository }}/mmo-server-base:20.04 mmo-server-base:20.04
 
       - name: build_depends
         run: bash shell/build_image/build_mmo-server-depends.sh

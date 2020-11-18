@@ -23,5 +23,5 @@ if [ $1 ];
 then
     $1;
 else
-    use_make;
+    use_ninja;
 fi

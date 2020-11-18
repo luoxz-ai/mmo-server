@@ -1,7 +1,10 @@
 #include "MysqlConnection.h"
 
 #include "MysqlUrl.h"
+#include "MysqlStmt.h"
 #include "mysql/errmsg.h"
+
+
 constexpr int32_t MAX_PING_TIMES_PER_QUERY = 10;
 std::mutex        g_mysql_init_mutex;
 CMysqlConnection::CMysqlConnection()

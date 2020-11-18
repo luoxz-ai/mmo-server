@@ -1,4 +1,5 @@
 #sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+
 apt-get update -y --fix-missing \
  && apt-get install -y --fix-missing \
  apt-utils \
@@ -21,8 +22,8 @@ apt-get update -y --fix-missing \
  net-tools \
  linux-tools-generic \
  gdb \
- gcc-7 \
- g++-7 \
+ gcc-9 \
+ g++-9 \
  clang-9 \
  clang-format-9 \
  clang-tidy-9 \
@@ -35,5 +36,6 @@ apt-get update -y --fix-missing \
  libcurl4-openssl-dev \
  libreadline6-dev \
  libssl-dev \
- libasan5 \
- tzdata
+ libasan6 \
+ tzdata \
+ openssh-server

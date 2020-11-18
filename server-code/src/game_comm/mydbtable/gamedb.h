@@ -93,8 +93,8 @@ struct TBLD_COOLDOWN
     static constexpr auto keys_info()
     {
         return std::make_tuple(std::make_tuple("idx_player", "playerid"),
-                               std::make_tuple("PRIMARY", "id"),
-                               std::make_tuple("idx_player_idx", "playerid,keytype,keyidx"));
+                               std::make_tuple("idx_player_idx", "playerid,keytype,keyidx"),
+                               std::make_tuple("PRIMARY", "id"));
     }
 
     static constexpr size_t keys_size() { return 3; }
@@ -152,8 +152,8 @@ struct TBLD_DATACOUNT
     static constexpr auto keys_info()
     {
         return std::make_tuple(std::make_tuple("idx_player", "playerid"),
-                               std::make_tuple("PRIMARY", "id"),
-                               std::make_tuple("idx_player_idx", "playerid,keytype,keyidx"));
+                               std::make_tuple("idx_player_idx", "playerid,keytype,keyidx"),
+                               std::make_tuple("PRIMARY", "id"));
     }
 
     static constexpr size_t keys_size() { return 3; }
@@ -232,8 +232,8 @@ struct TBLD_ITEM
     {
         return std::make_tuple(std::make_tuple("idx_owner_pack", "owner_id,position"),
                                std::make_tuple("idx_itemtype", "itemtype"),
-                               std::make_tuple("PRIMARY", "id"),
-                               std::make_tuple("idx_owner", "owner_id"));
+                               std::make_tuple("idx_owner", "owner_id"),
+                               std::make_tuple("PRIMARY", "id"));
     }
 
     static constexpr size_t keys_size() { return 4; }
@@ -254,9 +254,9 @@ struct TBLD_ITEM
   `addition_lev` int unsigned NOT NULL DEFAULT '0' COMMENT '强化等级',
   `extra` blob COMMENT '额外信息',
   PRIMARY KEY (`id`),
-  KEY `idx_owner` (`owner_id`),
   KEY `idx_itemtype` (`itemtype`),
-  KEY `idx_owner_pack` (`owner_id`,`position`)
+  KEY `idx_owner_pack` (`owner_id`,`position`),
+  KEY `idx_owner` (`owner_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci)##";
     };
 };
@@ -313,8 +313,8 @@ struct TBLD_MAIL
     {
         return std::make_tuple(std::make_tuple("idx_ownerid", "ownerid"),
                                std::make_tuple("idx_sendid", "senderid"),
-                               std::make_tuple("PRIMARY", "id"),
-                               std::make_tuple("idx_create_time", "create_time"));
+                               std::make_tuple("idx_create_time", "create_time"),
+                               std::make_tuple("PRIMARY", "id"));
     }
 
     static constexpr size_t keys_size() { return 4; }
@@ -332,8 +332,8 @@ struct TBLD_MAIL
   `content` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '邮件内容',
   PRIMARY KEY (`id`),
   KEY `idx_create_time` (`create_time`),
-  KEY `idx_ownerid` (`ownerid`),
-  KEY `idx_sendid` (`senderid`)
+  KEY `idx_sendid` (`senderid`),
+  KEY `idx_ownerid` (`ownerid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci)##";
     };
 };
@@ -418,9 +418,9 @@ struct TBLD_PET
 
     static constexpr auto keys_info()
     {
-        return std::make_tuple(std::make_tuple("PRIMARY", "id"),
-                               std::make_tuple("idx_ownerid", "ownerid"),
-                               std::make_tuple("idx_pet_type", "pet_type"));
+        return std::make_tuple(std::make_tuple("idx_ownerid", "ownerid"),
+                               std::make_tuple("idx_pet_type", "pet_type"),
+                               std::make_tuple("PRIMARY", "id"));
     }
 
     static constexpr size_t keys_size() { return 3; }
@@ -629,16 +629,16 @@ struct TBLD_PLAYER
 
     static constexpr auto keys_info()
     {
-        return std::make_tuple(std::make_tuple("idx_create_time", "create_time"),
-                               std::make_tuple("idx_worldid", "worldid"),
+        return std::make_tuple(std::make_tuple("idx_worldid", "worldid"),
                                std::make_tuple("idx_last_logouttime", "last_logouttime"),
-                               std::make_tuple("idx_last_logintime", "last_logintime"),
-                               std::make_tuple("idx_name", "name"),
-                               std::make_tuple("idx_openid", "openid"),
                                std::make_tuple("idx_prof", "prof"),
-                               std::make_tuple("PRIMARY", "id"),
+                               std::make_tuple("idx_create_time", "create_time"),
+                               std::make_tuple("idx_last_logintime", "last_logintime"),
+                               std::make_tuple("idx_del_time", "del_time"),
                                std::make_tuple("idx_lev", "lev"),
-                               std::make_tuple("idx_del_time", "del_time"));
+                               std::make_tuple("idx_openid", "openid"),
+                               std::make_tuple("idx_name", "name"),
+                               std::make_tuple("PRIMARY", "id"));
     }
 
     static constexpr size_t keys_size() { return 10; }
@@ -689,12 +689,12 @@ struct TBLD_PLAYER
   UNIQUE KEY `idx_name` (`name`),
   KEY `idx_lev` (`lev`),
   KEY `idx_del_time` (`del_time`),
-  KEY `idx_openid` (`openid`),
-  KEY `idx_prof` (`prof`),
   KEY `idx_last_logintime` (`last_logintime`),
+  KEY `idx_create_time` (`create_time`),
+  KEY `idx_prof` (`prof`),
+  KEY `idx_openid` (`openid`),
   KEY `idx_last_logouttime` (`last_logouttime`),
-  KEY `idx_worldid` (`worldid`),
-  KEY `idx_create_time` (`create_time`)
+  KEY `idx_worldid` (`worldid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci)##";
     };
 };
@@ -816,7 +816,7 @@ struct TBLD_TASK
 
     static constexpr auto keys_info()
     {
-        return std::make_tuple(std::make_tuple("idx_userid", "userid"), std::make_tuple("PRIMARY", "id"), std::make_tuple("idx_taskid", "taskid"));
+        return std::make_tuple(std::make_tuple("idx_userid", "userid"), std::make_tuple("idx_taskid", "taskid"), std::make_tuple("PRIMARY", "id"));
     }
 
     static constexpr size_t keys_size() { return 3; }
@@ -872,7 +872,7 @@ struct TBLD_ACHIEVEMENT
 
     static constexpr auto keys_info()
     {
-        return std::make_tuple(std::make_tuple("idx_userid", "userid"), std::make_tuple("PRIMARY", "id"), std::make_tuple("idx_achiid", "achiid"));
+        return std::make_tuple(std::make_tuple("idx_userid", "userid"), std::make_tuple("idx_achiid", "achiid"), std::make_tuple("PRIMARY", "id"));
     }
 
     static constexpr size_t keys_size() { return 3; }
@@ -939,8 +939,8 @@ struct TBLD_STATUS
     static constexpr auto keys_info()
     {
         return std::make_tuple(std::make_tuple("idx_userid", "userid"),
-                               std::make_tuple("PRIMARY", "id"),
-                               std::make_tuple("idx_statusid", "typeid,lev"));
+                               std::make_tuple("idx_statusid", "typeid,lev"),
+                               std::make_tuple("PRIMARY", "id"));
     }
 
     static constexpr size_t keys_size() { return 3; }

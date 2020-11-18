@@ -73,9 +73,9 @@ CREATE TABLE `tbld_item` (
   `addition_lev` int unsigned NOT NULL DEFAULT '0' COMMENT '强化等级',
   `extra` blob COMMENT '额外信息',
   PRIMARY KEY (`id`),
-  KEY `idx_owner` (`owner_id`),
   KEY `idx_itemtype` (`itemtype`),
-  KEY `idx_owner_pack` (`owner_id`,`position`)
+  KEY `idx_owner_pack` (`owner_id`,`position`),
+  KEY `idx_owner` (`owner_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
@@ -91,8 +91,8 @@ CREATE TABLE `tbld_mail` (
   `content` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '邮件内容',
   PRIMARY KEY (`id`),
   KEY `idx_create_time` (`create_time`),
-  KEY `idx_ownerid` (`ownerid`),
-  KEY `idx_sendid` (`senderid`)
+  KEY `idx_sendid` (`senderid`),
+  KEY `idx_ownerid` (`ownerid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
@@ -165,12 +165,12 @@ CREATE TABLE `tbld_player` (
   UNIQUE KEY `idx_name` (`name`),
   KEY `idx_lev` (`lev`),
   KEY `idx_del_time` (`del_time`),
-  KEY `idx_openid` (`openid`),
-  KEY `idx_prof` (`prof`),
   KEY `idx_last_logintime` (`last_logintime`),
+  KEY `idx_create_time` (`create_time`),
+  KEY `idx_prof` (`prof`),
+  KEY `idx_openid` (`openid`),
   KEY `idx_last_logouttime` (`last_logouttime`),
-  KEY `idx_worldid` (`worldid`),
-  KEY `idx_create_time` (`create_time`)
+  KEY `idx_worldid` (`worldid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
